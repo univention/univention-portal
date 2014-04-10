@@ -42,7 +42,6 @@ import listener
 name = 'portal_server'
 description = 'Tell portal server to refresh when something important changed'
 filter = '(|(univentionObjectType=portals/portal)(univentionObjectType=portals/category)(univentionObjectType=portals/entry)(univentionObjectType=portals/folder)(univentionObjectType=portals/announcement))'
-attributes = []
 
 
 def handler(dn, new, old):
