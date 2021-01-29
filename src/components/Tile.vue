@@ -24,7 +24,7 @@ export default class Tile extends Vue {
   title!: string;
   link!: string;
   logo = "questionMark.svg";
-  backgroundColor = "green";
+  backgroundColor = "var(--color-grey40)";
 }
 </script>
 
