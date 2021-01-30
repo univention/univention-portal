@@ -6,6 +6,18 @@
   <router-view />
 </template>
 
+<script lang="ts">
+import { Vue } from "vue-class-component";
+import store from "@/store/index.ts";
+
+export default class App extends Vue {
+  store;
+  mounted() {
+    store.dispatch("loadPortal");
+  }
+}
+</script>
+
 <style lang="stylus">
 #app
   font-family Avenir, Helvetica, Arial, sans-serif

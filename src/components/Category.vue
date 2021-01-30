@@ -22,23 +22,11 @@ import Tile from "@/components/Tile.vue";
   props: {
     title: String,
     tiles: Array
-  },
-  mounted: function() {
-    this.tiles = [
-      new Tile({
-        title: "ownCloud",
-        link: "https://www.owncloud.com"
-      }),
-      new Tile({
-        title: "Nextcloud",
-        link: "https://www.nextcloud.com"
-      })
-    ];
   }
 })
 export default class Category extends Vue {
   title!: string;
-  tiles = [];
+  tiles!: [Tile];
 }
 </script>
 <style scoped lang="stylus">
