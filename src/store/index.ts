@@ -7,6 +7,40 @@ export default createStore({
     categories: []
   },
   mutations: {
+    devStandard: state => {
+      const categories = [
+        new Category({
+          title: "Applications",
+          tiles: [
+            new Tile({
+              title: "ownCloud",
+              link: "https://www.owncloud.com"
+            }),
+            new Tile({
+              title: "Nextcloud",
+              link: "https://www.nextcloud.com"
+            })
+          ]
+        }),
+        new Category({
+          title: "Administration",
+          tiles: [
+            new Tile({
+              title: "UMC",
+              link: "/umc/"
+            }),
+            new Tile({
+              title: "Blog",
+              link: "https://www.univention.de/blog"
+            })
+          ]
+        })
+      ];
+      state.categories = categories;
+    }
+    devEmpty: state => {
+      state.categories = [];
+    }
     replace: (state, payload) => {
       state.categories = payload.categories;
     }
@@ -15,35 +49,7 @@ export default createStore({
     loadPortal: ({ commit }) => {
       return new Promise(resolve => {
         setTimeout(() => {
-          const categories = [
-            new Category({
-              title: "Applications",
-              tiles: [
-                new Tile({
-                  title: "ownCloud",
-                  link: "https://www.owncloud.com"
-                }),
-                new Tile({
-                  title: "Nextcloud",
-                  link: "https://www.nextcloud.com"
-                })
-              ]
-            }),
-            new Category({
-              title: "Administration",
-              tiles: [
-                new Tile({
-                  title: "UMC",
-                  link: "/umc/"
-                }),
-                new Tile({
-                  title: "Blog",
-                  link: "https://www.univention.de/blog"
-                })
-              ]
-            })
-          ];
-          commit("replace", { categories });
+          commit("devStandard");
           resolve();
         }, 100);
       });
