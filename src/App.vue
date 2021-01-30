@@ -8,10 +8,10 @@
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
-import store from "@/store/index.ts";
+import { store } from "@/store/index.ts";
 
 export default class App extends Vue {
-  store;
+  store: typeof store = store;
   mounted() {
     store.dispatch("loadPortal");
   }

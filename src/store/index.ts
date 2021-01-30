@@ -1,8 +1,15 @@
-import { createStore } from "vuex";
+import { InjectionKey } from "vue";
+import { createStore, useStore as baseUseStore, Store } from "vuex";
 import Category from "@/components/Category.vue";
 import Tile from "@/components/Tile.vue";
 
-export default createStore({
+export interface State {
+  categories: Array<Category>;
+}
+
+export const key: InjectionKey<Store<State>> = Symbol();
+
+export const store = createStore<State>({
   state: {
     categories: []
   },
@@ -37,10 +44,10 @@ export default createStore({
         })
       ];
       state.categories = categories;
-    }
+    },
     devEmpty: state => {
       state.categories = [];
-    }
+    },
     replace: (state, payload) => {
       state.categories = payload.categories;
     }
@@ -57,3 +64,8 @@ export default createStore({
   },
   modules: {}
 });
+
+// define your own `useStore` composition function
+export function useStore() {
+  return baseUseStore(key);
+}
