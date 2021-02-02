@@ -1,4 +1,5 @@
 <template>
+  <Header></Header>
   <div class="about">
     <button v-on:click="devEmpty">
       <Icon icon="circle" />
@@ -23,17 +24,17 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Category from "@/components/Category.vue"; // @ is an alias to /src
-import Icon from "@/components/Icon.vue"; // @ is an alias to /src
+import Header from "@/components/Header.vue";
 
 @Options({
   components: {
     Category,
-    Icon
+    Header,
   },
   computed: {
     categories() {
       return this.$store.state.categories;
-    }
+    },
   },
   methods: {
     devEmpty() {
@@ -44,8 +45,8 @@ import Icon from "@/components/Icon.vue"; // @ is an alias to /src
     },
     devFolder() {
       this.$store.commit("devFolder");
-    }
-  }
+    },
+  },
 })
 export default class About extends Vue {}
 </script>
