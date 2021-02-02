@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-  <div class="about">
+  <div class="portal">
     <button v-on:click="devEmpty">
       <Icon icon="circle" />
       Empty
@@ -52,3 +52,8 @@ import Header from "@/components/Header.vue";
 })
 export default class About extends Vue {}
 </script>
+<style scoped lang="stylus">
+.portal
+  position: relative;
+  padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+</style>
