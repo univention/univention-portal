@@ -14,11 +14,9 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Category from "@/components/Category.vue"; // @ is an alias to /src
-import Folder from "@/components/Folder.vue"; // @ is an alias to /src
 
 @Options({
   components: {
-    Folder,
     Category
   },
   computed: {

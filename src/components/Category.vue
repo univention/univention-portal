@@ -2,18 +2,9 @@
   <div>
     <h2>{{ title }}</h2>
     <div class="tiles">
-      <template 
-        v-for="(tile, index) in tiles"
-        :key="index"
-      >
-        <Tile v-if="isTile(tile)"
-          :title="tile.title"
-          :link="tile.link"
-        />
-        <Folder v-if="isFolder(tile)"
-          :title="tile.title"
-          :tiles="tile.tiles"
-        />
+      <template v-for="(tile, index) in tiles" :key="index">
+        <Tile v-if="isTile(tile)" :title="tile.title" :link="tile.link" />
+        <Folder v-if="isFolder(tile)" :title="tile.title" :tiles="tile.tiles" />
       </template>
     </div>
   </div>
@@ -33,8 +24,12 @@ import Folder from "@/components/Folder.vue";
     tiles: Array
   },
   methods: {
-    isTile: (obj: Tile) => { return obj.title != "Favorites" },
-    isFolder: (obj: Tile) => { return obj.title == "Favorites" },
+    isTile(obj: Tile) {
+      return !this.isFolder(obj);
+    },
+    isFolder(obj: Tile) {
+      return obj instanceof Folder;
+    }
   }
 })
 export default class Category extends Vue {
