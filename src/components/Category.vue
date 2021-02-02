@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="category">
     <h2>{{ title }}</h2>
     <div class="tiles">
       <template v-for="(tile, index) in tiles" :key="index">
@@ -39,7 +39,9 @@ export default class Category extends Vue {
 </script>
 <style scoped lang="stylus">
 .tiles
-	display: grid
-	grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
-	grid-gap: calc(6 * var(--layout-spacing-unit))
+  display: grid
+  grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
+  grid-gap: calc(6 * var(--layout-spacing-unit))
+.category
+  margin-bottom: calc(10 * var(--layout-spacing-unit));
 </style>
