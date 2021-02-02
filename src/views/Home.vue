@@ -1,8 +1,17 @@
 <template>
   <div class="about">
-    <button v-on:click="devEmpty">Empty</button>
-    <button v-on:click="devStandard">Standard</button>
-    <button v-on:click="devFolder">Folder</button>
+    <button v-on:click="devEmpty">
+      <Icon icon="circle" />
+      Empty
+    </button>
+    <button v-on:click="devStandard">
+      <Icon icon="check-circle" />
+      Standard
+    </button>
+    <button v-on:click="devFolder">
+      <Icon icon="folder" />
+      Folder
+    </button>
     <Category
       v-for="(category, index) in categories"
       :key="index"
@@ -14,10 +23,12 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Category from "@/components/Category.vue"; // @ is an alias to /src
+import Icon from "@/components/Icon.vue"; // @ is an alias to /src
 
 @Options({
   components: {
-    Category
+    Category,
+    Icon
   },
   computed: {
     categories() {
