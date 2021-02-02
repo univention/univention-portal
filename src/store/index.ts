@@ -6,15 +6,23 @@ import Folder from "@/components/Folder.vue";
 
 export interface State {
   categories: Array<Category>;
+  loading: boolean;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
   state: {
-    categories: []
+    categories: [],
+    loading: false
   },
   mutations: {
+    startLoading: state => {
+      state.loading = true;
+    },
+    stopLoading: state => {
+      state.loading = false;
+    },
     devStandard: state => {
       const categories = [
         new Category({
@@ -78,9 +86,11 @@ export const store = createStore<State>({
   },
   actions: {
     loadPortal: ({ commit }) => {
+      commit("startLoading");
       return new Promise(resolve => {
         setTimeout(() => {
           commit("devStandard");
+          commit("stopLoading");
           resolve();
         }, 100);
       });

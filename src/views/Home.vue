@@ -20,22 +20,28 @@
       :tiles="category.tiles"
     />
   </div>
+  <Standby v-if="loading" />
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Category from "@/components/Category.vue"; // @ is an alias to /src
 import Icon from "@/components/Icon.vue";
 import Header from "@/components/Header.vue";
+import Standby from "@/components/Standby.vue";
 
 @Options({
   components: {
     Category,
     Header,
-    Icon
+    Icon,
+    Standby
   },
   computed: {
     categories() {
       return this.$store.state.categories;
+    },
+    loading() {
+      return this.$store.state.loading;
     }
   },
   methods: {
