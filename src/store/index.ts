@@ -2,6 +2,7 @@ import { InjectionKey } from "vue";
 import { createStore, useStore as baseUseStore, Store } from "vuex";
 import Category from "@/components/Category.vue";
 import Tile from "@/components/Tile.vue";
+import Folder from "@/components/Folder.vue";
 
 export interface State {
   categories: Array<Category>;
@@ -39,6 +40,29 @@ export const store = createStore<State>({
             new Tile({
               title: "Blog",
               link: "https://www.univention.de/blog"
+            })
+          ]
+        })
+      ];
+      state.categories = categories;
+    },
+    devFolder: state => {
+      const categories = [
+        new Category({
+          title: "Applications",
+          tiles: [
+            new Tile({
+              title: "ownCloud",
+              link: "https://www.owncloud.com"
+            }),
+            new Folder({
+              title: "Favorites",
+              tiles: [
+                new Tile({
+                  title: "Nextcloud",
+                  link: "https://www.nextcloud.com"
+                })
+              ]
             })
           ]
         })
