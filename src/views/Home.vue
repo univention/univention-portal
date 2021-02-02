@@ -31,12 +31,12 @@ import Header from "@/components/Header.vue";
   components: {
     Category,
     Header,
-    Icon,
+    Icon
   },
   computed: {
     categories() {
       return this.$store.state.categories;
-    },
+    }
   },
   methods: {
     devEmpty() {
@@ -47,8 +47,8 @@ import Header from "@/components/Header.vue";
     },
     devFolder() {
       this.$store.commit("devFolder");
-    },
-  },
+    }
+  }
 })
 export default class About extends Vue {}
 </script>

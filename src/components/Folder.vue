@@ -37,6 +37,24 @@ export default class Folder extends Tile {
 /*.folder
   background: rgba(var(--color-grey0-rgb), 0.7);
 */
+.tile
+  position: relative
+  width: var(--app-tile-side-length)
+  display: flex
+  flex-direction: column
+  align-items: center
+  cursor: pointer
+.box
+  border-radius: 15%
+  display: flex
+  align-items: center
+  justify-content: center
+  box-shadow: var(--box-shadow)
+  background: var(--color-grey0)
+  width: var(--app-tile-side-length)
+  height: @width
+  margin-bottom: calc(2 * var(--layout-spacing-unit))
+
 .thumbnail
   border-radius: 15%;
   display: flex;
@@ -52,4 +70,10 @@ export default class Folder extends Tile {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-gap: 8px;
+.name
+  text-align: center
+  width: 100%
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
 </style>
