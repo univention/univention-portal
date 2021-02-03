@@ -2,27 +2,44 @@
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
+    aria-hidden="true"
+    :width="iconWidth"
+    :height="setIconHeight"
   >
     <use v-bind:xlink:href="'feather-sprite.svg#' + icon" />
   </svg>
 </template>
 
 <script lang="ts">
-export default {
+import { Options, Vue } from "vue-class-component";
+
+@Options({
   props: {
     icon: {
       type: String,
-      required: true
-    }
-  }
-};
+      required: true,
+    },
+    iconWidth: {
+      type: String,
+      required: true,
+    },
+    iconHeight: {
+      type: String,
+      required: false,
+    },
+  },
+  computed: {
+    setIconHeight() {
+      return this.iconHeight ? this.iconHeight : this.iconWidth;
+    },
+  },
+})
+export default class Icon extends Vue {}
 </script>
 
 <style scoped lang="stylus">
 svg
   font-size: inherit
-  width: 1em
-  height: 1em
   stroke: currentColor
   stroke-width: 2
   stroke-linecap: round

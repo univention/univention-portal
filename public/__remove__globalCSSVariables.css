@@ -19,7 +19,7 @@
   --bgc-content-container: var(--color-grey0);
   --font-size-html: 20px;
   --font-size-big: 1.4rem;
-  --font-size-normal: 1rem;
+  --font-size-normal: 2rem;
   --font-size-small: 0.8rem;
   --font-size-header1: var(--font-size-big);
   --font-size-header2: var(--font-size-normal);
@@ -41,7 +41,7 @@
   --border-radius-apptile-in-folder: 12.5%;
   --border-radius-apptile-in-tab: 12.5%;
   --border-radius-portal-folder: 10%;
-  --layout-spacing-unit: 0.5rem;
+  --layout-spacing-unit: 1rem;
   --layout-spacing-unit-small: calc(var(--layout-spacing-unit) / 2);
   --g-button-size: 2rem;
   --button-font-size: var(--font-size-small);
@@ -69,7 +69,11 @@
   --inputfield-size: 3rem;
   --inputfield-bgc: var(--color-grey8);
   --inputfield-dark-bgc: var(--bgc-content-container);
-  --box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
-  --app-tile-side-length: 8rem;
-  --portal-header-height: 60px;
+  --box-shadow: 0rem 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+  --app-tile-side-length: 16rem;
+  --portal-header-height: 6rem;
+}
+
+html {
+  font-size: 10px;
 }

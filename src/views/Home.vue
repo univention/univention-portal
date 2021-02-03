@@ -2,15 +2,15 @@
   <Header></Header>
   <div class="portal">
     <button v-on:click="devEmpty">
-      <Icon icon="circle" />
+      <Icon icon="circle" iconWidth="1em" />
       Empty
     </button>
     <button v-on:click="devStandard">
-      <Icon icon="check-circle" />
+      <Icon icon="check-circle" iconWidth="1em" />
       Standard
     </button>
     <button v-on:click="devFolder">
-      <Icon icon="folder" />
+      <Icon icon="folder" iconWidth="1em" />
       Folder
     </button>
     <Category
@@ -34,7 +34,7 @@ import Standby from "@/components/Standby.vue";
     Category,
     Header,
     Icon,
-    Standby
+    Standby,
   },
   computed: {
     categories() {
@@ -42,7 +42,7 @@ import Standby from "@/components/Standby.vue";
     },
     loading() {
       return this.$store.state.loading;
-    }
+    },
   },
   methods: {
     devEmpty() {
@@ -53,8 +53,8 @@ import Standby from "@/components/Standby.vue";
     },
     devFolder() {
       this.$store.commit("devFolder");
-    }
-  }
+    },
+  },
 })
 export default class About extends Vue {}
 </script>
