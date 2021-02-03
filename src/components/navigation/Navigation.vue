@@ -1,5 +1,5 @@
 <template>
-  <nav class="navigation" :class="{ 'navigation--isVisible': isVisible }">
+  <nav class="navigation" :class="{ 'navigation--is-visible': isVisible }">
     <ul>
       <li><a href="#">Anmelden</a></li>
       <li><a href="#">Zertifikate</a></li>
@@ -12,6 +12,7 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({
+  name: "Navigation",
   props: {
     isVisible: {
       type: Boolean,
@@ -32,4 +33,12 @@ export default class Navigation extends Vue {}
   bottom:0;
   background-color: var(--bgc-content-header);
   transform: translate3d(110%, 0, 0);
+  color: #fff;
+  z-index: 100;
+  &--is-visible
+     transform: translate3d(0, 0, 0) scale(1, 1);
+    transition: transform cubic-bezier(0, 0, 0.2, 1) 0.15s;
+
+  a
+    color: #fff;
 </style>

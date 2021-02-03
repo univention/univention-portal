@@ -6,22 +6,40 @@
     </div>
     <div class="portal__header__stretch"></div>
     <div class="portal__header__right">
-      <NavigationHamburgerButton />
+      <NavigationHamburgerButton @openMenu="openMenu()" />
     </div>
   </header>
-  <Navigation></Navigation>
+  <Navigation :isVisible="burgerMenuClicked"></Navigation>
 </template>
 <script lang="ts">
+import { Options, Vue } from "vue-class-component";
 import NavigationHamburgerButton from "@/components/navigation/NavigationHamburgerButton.vue";
 import Navigation from "@/components/navigation/Navigation.vue";
 
-export default {
-  name: "Header",
+@Options({
   components: {
     NavigationHamburgerButton,
     Navigation,
   },
-};
+  data() {
+    return {
+      burgerMenuClicked: false,
+    };
+  },
+  computed: {
+    setIconHeight(): string {
+      return this.iconHeight ? this.iconHeight : this.iconWidth;
+    },
+  },
+  methods: {
+    openMenu(): boolean {
+      return this.burgerMenuClicked
+        ? (this.burgerMenuClicked = false)
+        : (this.burgerMenuClicked = true);
+    },
+  },
+})
+export default class Header extends Vue {}
 </script>
 <style lang="stylus">
 .portal
