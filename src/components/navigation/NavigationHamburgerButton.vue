@@ -12,19 +12,39 @@
         tabindex="0"
         id="umc_widgets_ToggleButton_1"
       >
-        <Icon class="navigation-hamburger-button__menu" icon="menu" />
+        <button
+          class="navigation-hamburger-button__button"
+          id="toggle"
+          aria-expanded="false"
+          aria-label="Button for Main Menu"
+          @click="openNavigation"
+        >
+          <Icon
+            class="navigation-hamburger-button__menu"
+            icon="menu"
+            iconWidth="2rem"
+          />
+        </button>
       </span>
     </span>
   </div>
 </template>
 <script lang="ts">
+import { Options, Vue } from "vue-class-component";
 import Icon from "@/components/Icon.vue";
-export default {
+
+@Options({
   name: "NavigationHamburgerButton",
   components: {
     Icon,
   },
-};
+  methods: {
+    openNavigation() {
+      console.log("lol");
+    },
+  },
+})
+export default class NavigationHamburgerButton extends Vue {}
 </script>
 <style lang="stylus">
 .navigation-hamburger-button
@@ -54,12 +74,17 @@ export default {
     top: -10000px !important;
 
   &__button
-    width: var(--button-size);
-    height: var(--button-size);
+    width: 4rem;
+    height: 4rem;
+    background: none;
+    border: none;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-  &__menu
-    width: var(--button-iconSize);
-    height: var(--button-iconSize);
+
+    &:hover,
+    &:focus
+      border-radius: 100%;
+      background-color: var(--bgc-content-body);
 </style>
