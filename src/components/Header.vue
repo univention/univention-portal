@@ -9,14 +9,17 @@
       <NavigationHamburgerButton />
     </div>
   </header>
+  <Navigation></Navigation>
 </template>
 <script lang="ts">
 import NavigationHamburgerButton from "@/components/navigation/NavigationHamburgerButton.vue";
+import Navigation from "@/components/navigation/Navigation.vue";
 
 export default {
   name: "Header",
   components: {
     NavigationHamburgerButton,
+    Navigation,
   },
 };
 </script>

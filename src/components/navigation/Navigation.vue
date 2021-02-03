@@ -1,40 +1,35 @@
 <template>
-  <nav
-    class="dijit dijitReset dijitInline ucsButton ucsIconButton dijitToggleButton"
-  >
-    <span role="presentation" widgetid="umc_widgets_ToggleButton_1"
-      ><span
-        class="dijitReset dijitInline dijitButtonNode"
-        data-dojo-attach-event="ondijitclick:__onClick"
-        role="presentation"
-        ><span
-          class="dijitReset dijitStretch dijitButtonContents"
-          data-dojo-attach-point="titleNode,focusNode"
-          role="button"
-          aria-labelledby="umc_widgets_ToggleButton_1_label"
-          tabindex="0"
-          id="umc_widgets_ToggleButton_1"
-          title=""
-          style="user-select: none;"
-        >
-          <span
-            class="dijitReset dijitInline dijitButtonText dijitDisplayNone"
-            id="umc_widgets_ToggleButton_1_label"
-            data-dojo-attach-point="containerNode"
-          ></span></span></span
-      ><input
-        type="button"
-        value=""
-        class="dijitOffScreen"
-        data-dojo-attach-event="onclick:_onClick"
-        tabindex="-1"
-        aria-hidden="true"
-        data-dojo-attach-point="valueNode"
-    /></span>
+  <nav class="navigation" :class="{ 'navigation--isVisible': isVisible }">
+    <ul>
+      <li><a href="#">Anmelden</a></li>
+      <li><a href="#">Zertifikate</a></li>
+      <li><a href="#">Sprache ändern</a></li>
+      <li><a href="#">Hilfe</a></li>
+    </ul>
   </nav>
 </template>
 <script lang="ts">
-export default {
-  name: "Navigation",
-};
+import { Options, Vue } from "vue-class-component";
+
+@Options({
+  props: {
+    isVisible: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  computed: {},
+})
+export default class Navigation extends Vue {}
 </script>
+<style lang="stylus">
+.navigation
+  height: calc(100vh - (var(--portal-header-height) + 0.5rem));
+  max-width: 36rem;
+  width: 36rem;
+  position: fixed;
+  right: 0;
+  bottom:0;
+  background-color: var(--bgc-content-header);
+  transform: translate3d(110%, 0, 0);
+</style>
