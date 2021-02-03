@@ -6,7 +6,7 @@
         id="toggle"
         aria-expanded="false"
         aria-label="Button for Main Menu"
-        @click="openNavigation"
+        @click="openMenu"
       >
         <Icon
           class="navigation-hamburger-button__menu"
@@ -27,8 +27,8 @@ import Icon from "@/components/Icon.vue";
     Icon,
   },
   methods: {
-    openNavigation() {
-      console.log("lol");
+    openMenu() {
+      this.$emit("openMenu");
     },
   },
 })
