@@ -1,31 +1,19 @@
 <template>
-  <div
-    class="navigation-hamburger-button ucsButton ucsIconButton dijitToggleButton"
-  >
-    <span
-      class="navigation-hamburger-button__inner dijitReset"
-      role="presentation"
-    >
-      <span
+  <div class="navigation-hamburger-button">
+    <span class="navigation-hamburger-button__inner" role="presentation">
+      <button
         class="navigation-hamburger-button__button"
-        role="button"
-        tabindex="0"
-        id="umc_widgets_ToggleButton_1"
+        id="toggle"
+        aria-expanded="false"
+        aria-label="Button for Main Menu"
+        @click="openNavigation"
       >
-        <button
-          class="navigation-hamburger-button__button"
-          id="toggle"
-          aria-expanded="false"
-          aria-label="Button for Main Menu"
-          @click="openNavigation"
-        >
-          <Icon
-            class="navigation-hamburger-button__menu"
-            icon="menu"
-            iconWidth="2rem"
-          />
-        </button>
-      </span>
+        <Icon
+          class="navigation-hamburger-button__menu"
+          icon="menu"
+          iconWidth="2rem"
+        />
+      </button>
     </span>
   </div>
 </template>
@@ -65,8 +53,6 @@ export default class NavigationHamburgerButton extends Vue {}
     background-color: var(--bgc-state);
     transition: opacity 250ms;
     font-size: var(--button-font-size);
-    --button-size: var(--g-button-size);
-    --button-iconSize: 1rem;
 
   &__input
     position: absolute !important;
@@ -87,4 +73,7 @@ export default class NavigationHamburgerButton extends Vue {}
     &:focus
       border-radius: 100%;
       background-color: var(--bgc-content-body);
+
+    &:hover
+      cursor: pointer;
 </style>
