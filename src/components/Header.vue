@@ -1,14 +1,23 @@
 <template>
-  <nav class="portal__header">
+  <header class="portal__header">
     <div class="portal__header__left" tabindex="0">
       <img class="portal__header__left__image" alt="Portal logo" />
       <h2>Univention Portal</h2>
     </div>
-  </nav>
+    <div class="portal__header__stretch"></div>
+    <div class="portal__header__right">
+      <NavigationHamburgerButton />
+    </div>
+  </header>
 </template>
 <script lang="ts">
+import NavigationHamburgerButton from "@/components/navigation/NavigationHamburgerButton.vue";
+
 export default {
-  name: "Header"
+  name: "Header",
+  components: {
+    NavigationHamburgerButton,
+  },
 };
 </script>
 <style lang="stylus">
@@ -33,4 +42,9 @@ export default {
 
         &__image
             display: none
+    &__header__right
+        display: flex
+        align-items: center
+    &__header__stretch
+        flex: 1 1 auto
 </style>
