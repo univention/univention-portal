@@ -30,7 +30,7 @@ import { Options, Vue } from "vue-class-component";
     },
     iconColor: {
       type: String,
-      default: "#ffffff",
+      default: "#000000",
     },
   },
   computed: {
