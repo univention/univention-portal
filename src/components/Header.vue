@@ -6,19 +6,23 @@
     </div>
     <div class="header__stretch"></div>
     <div class="header__right">
-      <NavigationHamburgerButton @openMenu="openMenu()" />
+      <HeaderButton @openFlyout="openFlyout()" />
     </div>
+    <FlyoutWrapper :isVisible="burgerMenuClicked">
+      <Navigation />
+    </FlyoutWrapper>
   </header>
-  <Navigation :isVisible="burgerMenuClicked"></Navigation>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import NavigationHamburgerButton from "@/components/navigation/NavigationHamburgerButton.vue";
+import HeaderButton from "@/components/navigation/HeaderButton.vue";
+import FlyoutWrapper from "@/components/navigation/FlyoutWrapper.vue";
 import Navigation from "@/components/navigation/Navigation.vue";
 
 @Options({
   components: {
-    NavigationHamburgerButton,
+    HeaderButton,
+    FlyoutWrapper,
     Navigation,
   },
   props: {
@@ -38,7 +42,7 @@ import Navigation from "@/components/navigation/Navigation.vue";
     },
   },
   methods: {
-    openMenu(): boolean {
+    openFlyout(): boolean {
       return this.burgerMenuClicked
         ? (this.burgerMenuClicked = false)
         : (this.burgerMenuClicked = true);
