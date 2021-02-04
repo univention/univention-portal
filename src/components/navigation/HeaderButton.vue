@@ -21,6 +21,7 @@ import Icon from "@/components/Icon.vue";
   components: {
     Icon,
   },
+  emits: ["openFlyout"],
   props: {
     icon: {
       type: String,

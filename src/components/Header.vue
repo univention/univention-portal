@@ -19,6 +19,7 @@
     </div>
     <FlyoutWrapper :isVisible="burgerMenuClicked">
       <Navigation v-if="activeFlyoutContent === 'navigation'" />
+      <h1 v-if="activeFlyoutContent === 'search'">HALLO</h1>
     </FlyoutWrapper>
   </header>
 </template>
@@ -53,10 +54,20 @@ import Navigation from "@/components/navigation/Navigation.vue";
   },
   methods: {
     openFlyout(buttonType: string): boolean {
+      console.log("buttonType", buttonType);
       this.activeFlyoutContent = buttonType;
-      return this.burgerMenuClicked
-        ? (this.burgerMenuClicked = false)
-        : (this.burgerMenuClicked = true);
+
+      if (buttonType === this.activeFlyoutContent) {
+        console.log("true");
+        this.burgerMenuClicked = this.burgerMenuClicked
+          ? (this.burgerMenuClicked = false)
+          : (this.burgerMenuClicked = true);
+      } else {
+        console.log("this.activeFlyoutContent", this.activeFlyoutContent);
+        console.log("buttonType", buttonType);
+        console.log("this.burgerMenuClicked", this.burgerMenuClicked);
+      }
+      return this.burgerMenuClicked;
     },
   },
 })
