@@ -11,6 +11,8 @@ export interface State {
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
+const dummyDescription = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.";
+
 export const store = createStore<State>({
   state: {
     categories: [],
@@ -30,11 +32,13 @@ export const store = createStore<State>({
           tiles: [
             new Tile({
               title: "ownCloud",
-              link: "https://www.owncloud.com"
+              link: "https://www.owncloud.com",
+              description: `Applications: ${dummyDescription}`,
             }),
             new Tile({
               title: "Nextcloud",
-              link: "https://www.nextcloud.com"
+              link: "https://www.nextcloud.com",
+              description: `Nextcloud: ${dummyDescription}`,
             })
           ]
         }),
@@ -43,11 +47,13 @@ export const store = createStore<State>({
           tiles: [
             new Tile({
               title: "UMC",
-              link: "/umc/"
+              link: "/umc/",
+              description: `UMC: ${dummyDescription}`,
             }),
             new Tile({
               title: "Blog",
-              link: "https://www.univention.de/blog"
+              link: "https://www.univention.de/blog",
+              description: `Blog: ${dummyDescription}`,
             })
           ]
         })
@@ -61,14 +67,16 @@ export const store = createStore<State>({
           tiles: [
             new Tile({
               title: "ownCloud",
-              link: "https://www.owncloud.com"
+              link: "https://www.owncloud.com",
+              description: `ownCloud: ${dummyDescription}`,
             }),
             new Folder({
               title: "Favorites",
               tiles: [
                 new Tile({
                   title: "Nextcloud",
-                  link: "https://www.nextcloud.com"
+                  link: "https://www.nextcloud.com",
+                  description: `Nextcloud: ${dummyDescription}`,
                 })
               ]
             })
