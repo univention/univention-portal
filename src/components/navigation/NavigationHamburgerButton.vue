@@ -24,13 +24,13 @@ import Icon from "@/components/Icon.vue";
 @Options({
   name: "NavigationHamburgerButton",
   components: {
-    Icon,
+    Icon
   },
   methods: {
     openMenu() {
       this.$emit("openMenu");
-    },
-  },
+    }
+  }
 })
 export default class NavigationHamburgerButton extends Vue {}
 </script>

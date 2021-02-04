@@ -17,22 +17,22 @@ import { Options, Vue } from "vue-class-component";
   props: {
     icon: {
       type: String,
-      required: true,
+      required: true
     },
     iconWidth: {
       type: String,
-      required: true,
+      required: true
     },
     iconHeight: {
       type: String,
-      required: false,
-    },
+      required: false
+    }
   },
   computed: {
     setIconHeight() {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
-    },
-  },
+    }
+  }
 })
 export default class Icon extends Vue {}
 </script>

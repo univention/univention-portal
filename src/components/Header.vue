@@ -19,31 +19,31 @@ import Navigation from "@/components/navigation/Navigation.vue";
 @Options({
   components: {
     NavigationHamburgerButton,
-    Navigation,
+    Navigation
   },
   props: {
     portalName: {
       type: String,
-      default: "Univention Portal",
-    },
+      default: "Univention Portal"
+    }
   },
   data() {
     return {
-      burgerMenuClicked: false,
+      burgerMenuClicked: false
     };
   },
   computed: {
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
-    },
+    }
   },
   methods: {
     openMenu(): boolean {
       return this.burgerMenuClicked
         ? (this.burgerMenuClicked = false)
         : (this.burgerMenuClicked = true);
-    },
-  },
+    }
+  }
 })
 export default class Header extends Vue {}
 </script>
