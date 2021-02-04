@@ -7,13 +7,18 @@
     <div class="header__stretch"></div>
     <div class="header__right">
       <HeaderButton
-        ariaLabel="Button for Navigation"
+        ariaLabel="Button for Seachbar"
+        icon="search"
+        @openFlyout="openFlyout('search')"
+      />
+      <HeaderButton
+        ariaLabel="Button for navigation"
         icon="menu"
-        @openFlyout="openFlyout()"
+        @openFlyout="openFlyout('navigation')"
       />
     </div>
     <FlyoutWrapper :isVisible="burgerMenuClicked">
-      <Navigation />
+      <Navigation v-if="activeFlyoutContent === 'navigation'" />
     </FlyoutWrapper>
   </header>
 </template>
@@ -38,6 +43,7 @@ import Navigation from "@/components/navigation/Navigation.vue";
   data() {
     return {
       burgerMenuClicked: false,
+      activeFlyoutContent: "",
     };
   },
   computed: {
@@ -46,7 +52,8 @@ import Navigation from "@/components/navigation/Navigation.vue";
     },
   },
   methods: {
-    openFlyout(): boolean {
+    openFlyout(buttonType: string): boolean {
+      this.activeFlyoutContent = buttonType;
       return this.burgerMenuClicked
         ? (this.burgerMenuClicked = false)
         : (this.burgerMenuClicked = true);
