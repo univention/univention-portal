@@ -1,18 +1,13 @@
 <template>
-  <div class="navigation-hamburger-button">
-    <span class="navigation-hamburger-button__inner" role="presentation">
+  <div class="header-button">
+    <span class="header-button__inner" role="presentation">
       <button
-        class="navigation-hamburger-button__button"
-        id="toggle"
+        class="header-button__button"
         aria-expanded="false"
         aria-label="Button for Main Menu"
-        @click="openMenu"
+        @click="openFlyout"
       >
-        <Icon
-          class="navigation-hamburger-button__menu"
-          icon="menu"
-          iconWidth="2rem"
-        />
+        <Icon icon="menu" iconWidth="2rem" />
       </button>
     </span>
   </div>
@@ -22,20 +17,20 @@ import { Options, Vue } from "vue-class-component";
 import Icon from "@/components/Icon.vue";
 
 @Options({
-  name: "NavigationHamburgerButton",
+  name: "HeaderButton",
   components: {
-    Icon
+    Icon,
   },
   methods: {
-    openMenu() {
-      this.$emit("openMenu");
-    }
-  }
+    openFlyout() {
+      this.$emit("openFlyout");
+    },
+  },
 })
-export default class NavigationHamburgerButton extends Vue {}
+export default class HeaderButton extends Vue {}
 </script>
 <style lang="stylus">
-.navigation-hamburger-button
+.header-button
   --font-size-button-icon: var(--font-size-big)
   margin: 0 var(--layout-spacing-unit-small)
   --bgc: transparent;
