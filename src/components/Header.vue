@@ -1,11 +1,11 @@
 <template>
-  <header class="portal__header">
-    <div class="portal__header__left" tabindex="0">
-      <img class="portal__header__left__image" alt="Portal logo" />
+  <header class="header">
+    <div class="header__left" tabindex="0">
+      <img class="header__left__image" alt="Portal logo" />
       <h2>{{ portalName }}</h2>
     </div>
-    <div class="portal__header__stretch"></div>
-    <div class="portal__header__right">
+    <div class="header__stretch"></div>
+    <div class="header__right">
       <NavigationHamburgerButton @openMenu="openMenu()" />
     </div>
   </header>
@@ -19,49 +19,48 @@ import Navigation from "@/components/navigation/Navigation.vue";
 @Options({
   components: {
     NavigationHamburgerButton,
-    Navigation
+    Navigation,
   },
   props: {
     portalName: {
       type: String,
-      default: "Univention Portal"
-    }
+      default: "Univention Portal",
+    },
   },
   data() {
     return {
-      burgerMenuClicked: false
+      burgerMenuClicked: false,
     };
   },
   computed: {
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
-    }
+    },
   },
   methods: {
     openMenu(): boolean {
       return this.burgerMenuClicked
         ? (this.burgerMenuClicked = false)
         : (this.burgerMenuClicked = true);
-    }
-  }
+    },
+  },
 })
 export default class Header extends Vue {}
 </script>
 <style lang="stylus">
-.portal
-    &__header
-        position: fixed
-        top: 0
-        left: 0
-        right: 0
-        z-index: 1
-        background-color: var(--bgc-content-header)
-        color: var(--font-color-contrast-high)
-        height: var(--portal-header-height)
-        display: flex
-        padding: 0 calc(2 * var(--layout-spacing-unit))
+.header
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    z-index: 1
+    background-color: var(--bgc-content-header)
+    color: var(--font-color-contrast-high)
+    height: var(--portal-header-height)
+    display: flex
+    padding: 0 calc(2 * var(--layout-spacing-unit))
 
-    &__header__left
+    &__left
         flex: 0 0 auto
         display: flex
         align-items: center
@@ -69,9 +68,9 @@ export default class Header extends Vue {}
 
         &__image
             display: none
-    &__header__right
+    &__right
         display: flex
         align-items: center
-    &__header__stretch
+    &__stretch
         flex: 1 1 auto
 </style>
