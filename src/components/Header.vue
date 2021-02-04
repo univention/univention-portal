@@ -2,7 +2,7 @@
   <header class="portal__header">
     <div class="portal__header__left" tabindex="0">
       <img class="portal__header__left__image" alt="Portal logo" />
-      <h2>Univention Portal</h2>
+      <h2>{{ portalName }}</h2>
     </div>
     <div class="portal__header__stretch"></div>
     <div class="portal__header__right">
@@ -20,6 +20,12 @@ import Navigation from "@/components/navigation/Navigation.vue";
   components: {
     NavigationHamburgerButton,
     Navigation,
+  },
+  props: {
+    portalName: {
+      type: String,
+      default: "Univention Portal",
+    },
   },
   data() {
     return {
