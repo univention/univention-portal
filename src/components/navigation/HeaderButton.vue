@@ -7,7 +7,7 @@
         :aria-label="ariaLabel"
         @click="openFlyout"
       >
-        <Icon :icon="icon" iconWidth="2rem" />
+        <Icon :icon="icon" iconWidth="2rem" :iconColor="setIconColor" />
       </button>
     </span>
   </div>
@@ -31,9 +31,15 @@ import Icon from "@/components/Icon.vue";
       type: String,
       required: true,
     },
-    iconHeight: {
+    activeButton: {
       type: String,
-      required: false,
+      required: true,
+    },
+  },
+
+  computed: {
+    setIconColor() {
+      return this.activeButton === this.icon ? "#7ab51d" : "#ffffff";
     },
   },
   methods: {

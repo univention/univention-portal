@@ -10,16 +10,25 @@
         ariaLabel="Button for Seachbar"
         icon="search"
         @openFlyout="openFlyout('search')"
+        :activeButton="activeFlyoutContent"
+      />
+      <HeaderButton
+        ariaLabel="Open notifications"
+        icon="bell"
+        @openFlyout="openFlyout('bell')"
+        :activeButton="activeFlyoutContent"
       />
       <HeaderButton
         ariaLabel="Button for navigation"
         icon="menu"
-        @openFlyout="openFlyout('navigation')"
+        @openFlyout="openFlyout('menu')"
+        :activeButton="activeFlyoutContent"
       />
     </div>
     <FlyoutWrapper :isVisible="burgerMenuClicked">
-      <Navigation v-if="activeFlyoutContent === 'navigation'" />
-      <h1 v-if="activeFlyoutContent === 'search'">HALLO</h1>
+      <h1 v-if="activeFlyoutContent === 'search'">Inputfield</h1>
+      <h1 v-if="activeFlyoutContent === 'bell'">notifications</h1>
+      <Navigation v-if="activeFlyoutContent === 'menu'" />
     </FlyoutWrapper>
   </header>
 </template>
@@ -54,20 +63,23 @@ import Navigation from "@/components/navigation/Navigation.vue";
   },
   methods: {
     openFlyout(buttonType: string): boolean {
-      console.log("buttonType", buttonType);
-      this.activeFlyoutContent = buttonType;
-
-      if (buttonType === this.activeFlyoutContent) {
-        console.log("true");
-        this.burgerMenuClicked = this.burgerMenuClicked
-          ? (this.burgerMenuClicked = false)
-          : (this.burgerMenuClicked = true);
+      if (buttonType === this.activeFlyoutContent || !this.burgerMenuClicked) {
+        this.changeMenuState();
+        this.activeFlyoutContent = buttonType;
       } else {
-        console.log("this.activeFlyoutContent", this.activeFlyoutContent);
-        console.log("buttonType", buttonType);
-        console.log("this.burgerMenuClicked", this.burgerMenuClicked);
+        this.changeMenuState();
+        setTimeout(() => {
+          this.changeMenuState();
+          this.activeFlyoutContent = buttonType;
+        }, 100);
       }
+
       return this.burgerMenuClicked;
+    },
+    changeMenuState(): void {
+      this.burgerMenuClicked = this.burgerMenuClicked
+        ? (this.burgerMenuClicked = false)
+        : (this.burgerMenuClicked = true);
     },
   },
 })
@@ -75,28 +87,28 @@ export default class Header extends Vue {}
 </script>
 <style lang="stylus">
 .header
-    position: fixed
-    top: 0
-    left: 0
-    right: 0
-    z-index: 1
-    background-color: var(--bgc-content-header)
-    color: var(--font-color-contrast-high)
-    height: var(--portal-header-height)
-    display: flex
-    padding: 0 calc(2 * var(--layout-spacing-unit))
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: var(--bgc-content-header);
+    color: var(--font-color-contrast-high);
+    height: var(--portal-header-height);
+    display: flex;
+    padding: 0 calc(2 * var(--layout-spacing-unit));
 
     &__left
-        flex: 0 0 auto
-        display: flex
-        align-items: center
-        cursor: pointer
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
 
         &__image
-            display: none
+            display: none;
     &__right
-        display: flex
-        align-items: center
+        display: flex;
+        align-items: center;
     &__stretch
-        flex: 1 1 auto
+        flex: 1 1 auto;
 </style>
