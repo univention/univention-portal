@@ -3,16 +3,25 @@
     <h2>{{ title }}</h2>
     <div class="tiles">
       <template v-for="(tile, index) in tiles" :key="index">
-        <Tile v-if="isTile(tile)" :title="tile.title" :link="tile.link" />
-        <Folder v-if="isFolder(tile)" :title="tile.title" :tiles="tile.tiles" />
+        <Tile
+          v-if="isTile(tile)"
+          :title="tile.title"
+          :link="tile.link"
+          :description="tile.description"
+        />
+        <Folder
+          v-if="isFolder(tile)"
+          :title="tile.title"
+          :tiles="tile.tiles"
+        />
       </template>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Tile from "@/components/Tile.vue";
-import Folder from "@/components/Folder.vue";
+import Tile from "components/Tile.vue";
+import Folder from "components/Folder.vue";
 
 @Options({
   components: {

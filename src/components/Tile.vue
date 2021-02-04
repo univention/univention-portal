@@ -1,30 +1,53 @@
 <template>
-  <a v-bind:href="link" draggable="true">
+  <a
+    :href="link"
+    draggable="true"
+  >
     <div class="tile">
-      <div class="box" v-bind:style="'background: ' + backgroundColor">
-        <img v-bind:src="logo" v-bind:alt="title + ' logo'" />
+      <div
+        :style="`background: ${backgroundColor}`"
+        class="box"
+      >
+        <img
+          :src="logo"
+          :alt="`title ${logo}`"
+        >
       </div>
-      <span class="name">{{ title }}</span>
+      <span class="name">
+        {{ title }}
+      </span>
     </div>
+    <portal-tool-tip
+      :title="title"
+      :icon="logo"
+      :description="description"
+    />
   </a>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import PortalToolTip from "@/components/PortalToolTip.vue";
 
 @Options({
+  components: {
+    PortalToolTip
+  },
   props: {
     title: String,
     link: String,
     logo: String,
-    backgroundColor: String
+    backgroundColor: String,
+    description: String
   }
 })
+
 export default class Tile extends Vue {
   title!: string;
   link!: string;
   logo = "questionMark.svg";
   backgroundColor = "var(--color-grey40)";
+  description!: string;
 }
 </script>
 
