@@ -34,7 +34,7 @@ import Standby from "@/components/Standby.vue";
     Category,
     Header,
     Icon,
-    Standby,
+    Standby
   },
   computed: {
     categories() {
@@ -42,7 +42,7 @@ import Standby from "@/components/Standby.vue";
     },
     loading() {
       return this.$store.state.loading;
-    },
+    }
   },
   methods: {
     devEmpty() {
@@ -53,10 +53,10 @@ import Standby from "@/components/Standby.vue";
     },
     devFolder() {
       this.$store.commit("devFolder");
-    },
-  },
+    }
+  }
 })
-export default class About extends Vue {}
+export default class Home extends Vue {}
 </script>
 <style scoped lang="stylus">
 .portal
