@@ -20,7 +20,6 @@ export default class FlyoutWrapper extends Vue {}
 </script>
 <style lang="stylus">
 .section
-
   max-width: 36rem;
   width: 36rem;
   position: fixed;
@@ -33,5 +32,5 @@ export default class FlyoutWrapper extends Vue {}
   z-index: 100;
   &--isVisible
      transform: translate3d(0, 0, 0) scale(1, 1);
-    transition: transform cubic-bezier(0, 0, 0.2, 1) 0.35s;
+    transition: transform cubic-bezier(0, 0, 0.2, 1) 0.5s;
 </style>
