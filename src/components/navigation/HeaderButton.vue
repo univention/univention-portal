@@ -4,10 +4,10 @@
       <button
         class="header-button__button"
         aria-expanded="false"
-        aria-label="Button for Main Menu"
+        :aria-label="ariaLabel"
         @click="openFlyout"
       >
-        <Icon icon="menu" iconWidth="2rem" />
+        <Icon :icon="icon" iconWidth="2rem" />
       </button>
     </span>
   </div>
@@ -20,6 +20,20 @@ import Icon from "@/components/Icon.vue";
   name: "HeaderButton",
   components: {
     Icon,
+  },
+  props: {
+    icon: {
+      type: String,
+      required: true,
+    },
+    ariaLabel: {
+      type: String,
+      required: true,
+    },
+    iconHeight: {
+      type: String,
+      required: false,
+    },
   },
   methods: {
     openFlyout() {

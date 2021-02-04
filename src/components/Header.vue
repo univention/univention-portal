@@ -6,7 +6,11 @@
     </div>
     <div class="header__stretch"></div>
     <div class="header__right">
-      <HeaderButton @openFlyout="openFlyout()" />
+      <HeaderButton
+        ariaLabel="Button for Navigation"
+        icon="menu"
+        @openFlyout="openFlyout()"
+      />
     </div>
     <FlyoutWrapper :isVisible="burgerMenuClicked">
       <Navigation />
