@@ -3,7 +3,7 @@
     <span class="header-button__inner" role="presentation">
       <button
         class="header-button__button"
-        aria-expanded="false"
+        :aria-expanded="isAriaExpanded"
         :aria-label="ariaLabel"
         @click="openFlyout"
       >
@@ -40,6 +40,9 @@ import Icon from "@/components/Icon.vue";
   computed: {
     setIconColor() {
       return this.activeButton === this.icon ? "#7ab51d" : "#ffffff";
+    },
+    isAriaExpanded() {
+      return this.activeButton === this.icon ? true : false;
     },
   },
   methods: {
