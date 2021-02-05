@@ -7,25 +7,30 @@ import PortalFolder from "@/components/PortalFolder.vue";
 export interface State {
   categories: Array<PortalCategory>;
   loading: boolean;
+  modalVisible: boolean;
+  modalComponent: any;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
-const dummyDescription = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.";
+const dummyDescription =
+  "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.";
 
 export const store = createStore<State>({
   state: {
     categories: [],
-    loading: false
+    loading: false,
+    modalVisible: false,
+    modalComponent: null,
   },
   mutations: {
-    startLoading: state => {
+    startLoading: (state) => {
       state.loading = true;
     },
-    stopLoading: state => {
+    stopLoading: (state) => {
       state.loading = false;
     },
-    devStandard: state => {
+    devStandard: (state) => {
       const categories = [
         new PortalCategory({
           title: "Applications",
@@ -39,8 +44,8 @@ export const store = createStore<State>({
               title: "Nextcloud",
               link: "https://www.nextcloud.com",
               description: `Nextcloud: ${dummyDescription}`,
-            })
-          ]
+            }),
+          ],
         }),
         new PortalCategory({
           title: "Administration",
@@ -54,13 +59,13 @@ export const store = createStore<State>({
               title: "Blog",
               link: "https://www.univention.de/blog",
               description: `Blog: ${dummyDescription}`,
-            })
-          ]
-        })
+            }),
+          ],
+        }),
       ];
       state.categories = categories;
     },
-    devFolder: state => {
+    devFolder: (state) => {
       const categories = [
         new PortalCategory({
           title: "Applications",
@@ -77,34 +82,43 @@ export const store = createStore<State>({
                   title: "Nextcloud",
                   link: "https://www.nextcloud.com",
                   description: `Nextcloud: ${dummyDescription}`,
-                })
-              ]
-            })
-          ]
-        })
+                }),
+              ],
+            }),
+          ],
+        }),
       ];
       state.categories = categories;
     },
-    devEmpty: state => {
+    devEmpty: (state) => {
       state.categories = [];
     },
     replace: (state, payload) => {
       state.categories = payload.categories;
-    }
+    },
+    showModal: (state, componentName) => {
+      state.modalVisible = true;
+      state.modalComponent = componentName;
+      console.log("__showmodal");
+    },
+    hideModal: (state) => {
+      state.modalVisible = false;
+      console.log("__Hidemodale");
+    },
   },
   actions: {
     loadPortal: ({ commit }) => {
       commit("startLoading");
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           commit("devStandard");
           commit("stopLoading");
           resolve();
         }, 100);
       });
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });
 
 // define your own `useStore` composition function
