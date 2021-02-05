@@ -6,6 +6,7 @@ import PortalFolder from "@/components/PortalFolder.vue";
 
 export interface State {
   categories: Array<PortalCategory>;
+  user: object;
   loading: boolean;
 }
 
@@ -16,6 +17,7 @@ const dummyDescription = "Lorem ipsum dolor sit amet, consetetur sadipscing elit
 export const store = createStore<State>({
   state: {
     categories: [],
+    user: {},
     loading: false
   },
   mutations: {
@@ -87,6 +89,15 @@ export const store = createStore<State>({
     },
     devEmpty: state => {
       state.categories = [];
+    },
+    devLogin: state => {
+      state.user = {
+        username: "Administrator",
+        isAdmin: true
+      };
+    },
+    devLogout: state => {
+      state.user = {};
     },
     replace: (state, payload) => {
       state.categories = payload.categories;
