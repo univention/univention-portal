@@ -5,8 +5,8 @@
       <div
         v-for="(tile, index) in tiles"
         :key="index"
-        @mouseover="showTooltip"
-        @mouseleave="showTooltip"
+        @mouseover="showTooltip(tile)"
+        @mouseleave="hideTooltip"
       >
         <portal-tile
           v-if="isTile(tile)"
@@ -19,14 +19,14 @@
           :title="tile.title"
           :tiles="tile.tiles"
         />
-        <portal-tool-tip
-          v-if="isActive"
-          :title="tile.title"
-          :icon="tile.logo"
-          :description="tile.description"
-        />
       </div>
     </div>
+    <portal-tool-tip
+      v-if="isActive"
+      :title="toolTip.title"
+      :icon="toolTip.icon"
+      :description="toolTip.description"
+    />
   </div>
 </template>
 
@@ -50,6 +50,7 @@ import PortalToolTip from "@/components/PortalToolTip.vue";
   data() {
     return {
       isActive: false,
+      toolTip: {},
     };
   },
   methods: {
@@ -59,15 +60,21 @@ import PortalToolTip from "@/components/PortalToolTip.vue";
     isFolder(obj: PortalTile) {
       return obj instanceof PortalFolder;
     },
-    showTooltip(): boolean {
-      const handleActive = this.isActive
-        ? (this.isActive = false)
-        : (this.isActive = true);
-
-      return handleActive;
+    showTooltip(tile): any {
+      const handleActive = true;
+      this.isActive = handleActive;
+      this.toolTip.title = tile.title;
+      this.toolTip.icon = tile.logo;
+      this.toolTip.description = tile.description;
+    },
+    hideTooltip(): void {
+      const handleActive = false;
+      this.isActive = handleActive;
+      this.toolTip = {};
     },
   }
 })
+
 export default class PortalCategory extends Vue {
   title!: string;
   tiles!: [PortalTile];
