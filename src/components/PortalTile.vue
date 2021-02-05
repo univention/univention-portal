@@ -1,5 +1,5 @@
 <template>
-  <a
+  <a data-test="tileLink"
     :href="link"
     draggable="true"
   >
