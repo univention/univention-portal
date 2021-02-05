@@ -1,13 +1,7 @@
 <template>
   <header class="portal-header">
-    <div
-      class="portal-header__left"
-      tabindex="0"
-    >
-      <img
-        class="portal-header__left__image"
-        alt="Portal logo"
-      >
+    <div class="portal-header__left" tabindex="0">
+      <img class="portal-header__left__image" alt="Portal logo" />
       <h2>{{ portalName }}</h2>
     </div>
     <div class="portal-header__stretch" />
@@ -31,16 +25,18 @@
         @openFlyout="openFlyout('menu')"
       />
     </div>
-    <flyout-wrapper :isVisible="burgerMenuClicked">
-      <!-- TODO Semantic headlines -->
-      <h1 v-if="activeFlyoutContent === 'search'">
-        Inputfield
-      </h1>
-      <h1 v-if="activeFlyoutContent === 'bell'">
-        notifications
-      </h1>
-      <side-navigation v-if="activeFlyoutContent === 'menu'" />
-    </flyout-wrapper>
+    <teleport to="body">
+      <flyout-wrapper :isVisible="burgerMenuClicked">
+        <!-- TODO Semantic headlines -->
+        <h1 v-if="activeFlyoutContent === 'search'">
+          Inputfield
+        </h1>
+        <h1 v-if="activeFlyoutContent === 'bell'">
+          notifications
+        </h1>
+        <side-navigation v-if="activeFlyoutContent === 'menu'" />
+      </flyout-wrapper>
+    </teleport>
   </header>
 </template>
 
@@ -89,9 +85,13 @@ import SideNavigation from "@/components/navigation/SideNavigation.vue";
       return this.burgerMenuClicked;
     },
     changeMenuState(): void {
-      this.burgerMenuClicked = this.burgerMenuClicked
-        ? (this.burgerMenuClicked = false)
-        : (this.burgerMenuClicked = true);
+      if (this.burgerMenuClicked) {
+        this.burgerMenuClicked = false;
+        this.$store.commit("hideModal");
+      } else {
+        this.burgerMenuClicked = true;
+        this.$store.commit("showModal");
+      }
     },
   },
 })
