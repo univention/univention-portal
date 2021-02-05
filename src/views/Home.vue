@@ -3,21 +3,21 @@
     <portal-header />
 
     <div class="portal">
-      <button :click="devEmpty">
+      <button @click="devEmpty">
         <portal-icon
           icon="circle"
           iconWidth="1em"
         />
         Empty
       </button>
-      <button :click="devStandard">
+      <button @click="devStandard">
         <portal-icon
           icon="check-circle"
           iconWidth="1em"
         />
         Standard
       </button>
-      <button :click="devFolder">
+      <button @click="devFolder">
         <portal-icon
           icon="folder"
           iconWidth="1em"
