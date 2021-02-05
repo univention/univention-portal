@@ -1,40 +1,55 @@
 <template>
-  <Header></Header>
-  <div class="portal">
-    <button v-on:click="devEmpty">
-      <Icon icon="circle" iconWidth="1em" />
-      Empty
-    </button>
-    <button v-on:click="devStandard">
-      <Icon icon="check-circle" iconWidth="1em" />
-      Standard
-    </button>
-    <button v-on:click="devFolder">
-      <Icon icon="folder" iconWidth="1em" />
-      Folder
-    </button>
-    <Category
-      v-for="(category, index) in categories"
-      :key="index"
-      :title="category.title"
-      :tiles="category.tiles"
-    />
+  <div>
+    <portal-header />
+
+    <div class="portal">
+      <button :click="devEmpty">
+        <portal-icon
+          icon="circle"
+          iconWidth="1em"
+        />
+        Empty
+      </button>
+      <button :click="devStandard">
+        <portal-icon
+          icon="check-circle"
+          iconWidth="1em"
+        />
+        Standard
+      </button>
+      <button :click="devFolder">
+        <portal-icon
+          icon="folder"
+          iconWidth="1em"
+        />
+        Folder
+      </button>
+
+      <portal-category
+        v-for="(category, index) in categories"
+        :key="index"
+        :title="category.title"
+        :tiles="category.tiles"
+      />
+    </div>
+
+    <portal-standby v-if="loading" />
   </div>
-  <Standby v-if="loading" />
 </template>
+
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Category from "@/components/Category.vue"; // @ is an alias to /src
-import Icon from "@/components/Icon.vue";
-import Header from "@/components/Header.vue";
-import Standby from "@/components/Standby.vue";
+import PortalCategory from "@/components/PortalCategory.vue"; // @ is an alias to /src
+import PortalIcon from "@/components/globals/PortalIcon.vue";
+import PortalHeader from "@/components/PortalHeader.vue";
+import PortalStandby from "@/components/PortalStandby.vue";
 
 @Options({
   components: {
-    Category,
-    Header,
-    Icon,
-    Standby
+    PortalCategory,
+    PortalHeader,
+    PortalIcon,
+    PortalStandby
   },
   computed: {
     categories() {
@@ -56,8 +71,9 @@ import Standby from "@/components/Standby.vue";
     }
   }
 })
-export default class Home extends Vue {}
+export default class PortalHome extends Vue {}
 </script>
+
 <style scoped lang="stylus">
 .portal
   position: relative;

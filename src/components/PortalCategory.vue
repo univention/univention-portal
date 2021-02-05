@@ -8,13 +8,13 @@
         @mouseover="showTooltip"
         @mouseleave="showTooltip"
       >
-        <Tile
+        <portal-tile
           v-if="isTile(tile)"
           :title="tile.title"
           :link="tile.link"
           :description="tile.description"
         />
-        <Folder
+        <portal-folder
           v-if="isFolder(tile)"
           :title="tile.title"
           :tiles="tile.tiles"
@@ -29,17 +29,18 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Tile from "@/components/Tile.vue";
-import Folder from "@/components/Folder.vue";
+import PortalTile from "@/components/PortalTile.vue";
+import PortalFolder from "@/components/PortalFolder.vue";
 
 import PortalToolTip from "@/components/PortalToolTip.vue";
 
 @Options({
   components: {
-    Tile,
-    Folder,
+    PortalTile,
+    PortalFolder,
     PortalToolTip,
   },
   props: {
@@ -52,27 +53,27 @@ import PortalToolTip from "@/components/PortalToolTip.vue";
     };
   },
   methods: {
-    isTile(obj: Tile) {
+    isTile(obj: PortalTile) {
       return !this.isFolder(obj);
     },
-    isFolder(obj: Tile) {
-      return obj instanceof Folder;
+    isFolder(obj: PortalTile) {
+      return obj instanceof PortalFolder;
     },
     showTooltip(): boolean {
       const handleActive = this.isActive
         ? (this.isActive = false)
         : (this.isActive = true);
 
-      console.log('showTooltip: ', this.isActive);
       return handleActive;
     },
   }
 })
-export default class Category extends Vue {
+export default class PortalCategory extends Vue {
   title!: string;
-  tiles!: [Tile];
+  tiles!: [PortalTile];
 }
 </script>
+
 <style scoped lang="stylus">
 .tiles
   display: grid

@@ -34,7 +34,7 @@ import { Options, Vue } from "vue-class-component";
   },
 })
 
-export default class Tile extends Vue {
+export default class PortalTile extends Vue {
   title!: string;
   link!: string;
   logo = "questionMark.svg";

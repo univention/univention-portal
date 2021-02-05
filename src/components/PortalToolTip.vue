@@ -22,6 +22,7 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({
+  name: "PortalToolTip",
   props: {
     title: String,
     link: String,

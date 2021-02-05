@@ -5,34 +5,41 @@
         <div
           v-for="tile in tiles"
           :key="tile.title"
+          :style="`background: ${tile.backgroundColor}`"
           class="thumbnail"
-          :style="'background: ' + tile.backgroundColor"
         >
-          <img :src="tile.logo" :alt="tile.title + ' logo'" />
+          <img
+            :src="tile.logo"
+            :alt="`tile.title ${logo}`"
+          >
         </div>
       </div>
     </div>
-    <span class="name">{{ title }}</span>
+    <span class="name">
+      {{ title }}
+    </span>
   </div>
 </template>
+
 <script lang="ts">
 import { Options } from "vue-class-component";
-import Tile from "@/components/Tile.vue";
+import PortalTile from "@/components/PortalTile.vue";
 
 @Options({
   components: {
-    Tile
+    PortalTile
   },
   props: {
     title: String,
     tiles: Array
   }
 })
-export default class Folder extends Tile {
+export default class PortalFolder extends PortalTile {
   title!: string;
-  tiles!: [Tile];
+  tiles!: [PortalTile];
 }
 </script>
+
 <style scoped lang="stylus">
 /*.folder
   background: rgba(var(--color-grey0-rgb), 0.7);
