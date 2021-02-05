@@ -8,6 +8,7 @@
     </div>
   </div>
 </template>
+
 <style scoped lang="stylus">
 .wrapper
   position: absolute

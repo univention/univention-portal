@@ -1,11 +1,11 @@
 import { InjectionKey } from "vue";
 import { createStore, useStore as baseUseStore, Store } from "vuex";
-import Category from "@/components/Category.vue";
-import Tile from "@/components/Tile.vue";
-import Folder from "@/components/Folder.vue";
+import PortalCategory from "@/components/PortalCategory.vue";
+import PortalTile from "@/components/PortalTile.vue";
+import PortalFolder from "@/components/PortalFolder.vue";
 
 export interface State {
-  categories: Array<Category>;
+  categories: Array<PortalCategory>;
   loading: boolean;
 }
 
@@ -27,30 +27,30 @@ export const store = createStore<State>({
     },
     devStandard: state => {
       const categories = [
-        new Category({
+        new PortalCategory({
           title: "Applications",
           tiles: [
-            new Tile({
+            new PortalTile({
               title: "ownCloud",
               link: "https://www.owncloud.com",
               description: `Applications: ${dummyDescription}`,
             }),
-            new Tile({
+            new PortalTile({
               title: "Nextcloud",
               link: "https://www.nextcloud.com",
               description: `Nextcloud: ${dummyDescription}`,
             })
           ]
         }),
-        new Category({
+        new PortalCategory({
           title: "Administration",
           tiles: [
-            new Tile({
+            new PortalTile({
               title: "UMC",
               link: "/umc/",
               description: `UMC: ${dummyDescription}`,
             }),
-            new Tile({
+            new PortalTile({
               title: "Blog",
               link: "https://www.univention.de/blog",
               description: `Blog: ${dummyDescription}`,
@@ -62,18 +62,18 @@ export const store = createStore<State>({
     },
     devFolder: state => {
       const categories = [
-        new Category({
+        new PortalCategory({
           title: "Applications",
           tiles: [
-            new Tile({
+            new PortalTile({
               title: "ownCloud",
               link: "https://www.owncloud.com",
               description: `ownCloud: ${dummyDescription}`,
             }),
-            new Folder({
+            new PortalFolder({
               title: "Favorites",
               tiles: [
-                new Tile({
+                new PortalTile({
                   title: "Nextcloud",
                   link: "https://www.nextcloud.com",
                   description: `Nextcloud: ${dummyDescription}`,
