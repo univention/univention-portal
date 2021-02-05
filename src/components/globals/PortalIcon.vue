@@ -1,13 +1,15 @@
 <template>
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    aria-hidden="true"
     :width="iconWidth"
     :height="setIconHeight"
     :color="iconColor"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    aria-hidden="true"
   >
-    <use v-bind:xlink:href="'feather-sprite.svg#' + icon" />
+    <use
+      :xlink:href="`feather-sprite.svg#${icon}`"
+    />
   </svg>
 </template>
 
@@ -39,7 +41,7 @@ import { Options, Vue } from "vue-class-component";
     },
   },
 })
-export default class Icon extends Vue {}
+export default class PortalIcon extends Vue {}
 </script>
 
 <style scoped lang="stylus">
