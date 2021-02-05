@@ -5,6 +5,7 @@
     aria-hidden="true"
     :width="iconWidth"
     :height="setIconHeight"
+    :color="iconColor"
   >
     <use v-bind:xlink:href="'feather-sprite.svg#' + icon" />
   </svg>
@@ -26,6 +27,10 @@ import { Options, Vue } from "vue-class-component";
     iconHeight: {
       type: String,
       required: false,
+    },
+    iconColor: {
+      type: String,
+      default: "#000000",
     },
   },
   computed: {
