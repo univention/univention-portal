@@ -75,5 +75,6 @@
 }
 
 html {
-  font-size: 10px;
+  /* base font size to reuse the vars */
+  font-size: 20px;
 }

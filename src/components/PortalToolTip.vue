@@ -1,19 +1,19 @@
 <template>
-  <div class="appDescription">
-    <div class="appDescription__header">
-      <div class="tile__box--thumbnail">
+  <div class="tooltip">
+    <div class="tooltip__header">
+      <div class="tooltip__thumbnail">
 				<img
           :src="icon"
           :alt="`${title} logo`"
-          class="tile__logo"
+          class="tooltip__logo"
         >
 			</div>
-      <div>
+      <div class="tooltip__title">
         {{ title }}
       </div>
     </div>
-    <div>
-      Description: {{ description }}
+    <div class="tooltip__description">
+      {{ description }}
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default class PortalToolTip extends Vue {
 </script>
 
 <style scoped lang="stylus">
-.appDescription {
+.tooltip {
   font-size: var(--font-size-small);
   position: fixed;
   bottom: calc(2 * var(--layout-spacing-unit));
@@ -57,7 +57,7 @@ export default class PortalToolTip extends Vue {
     align-items: center;
     margin-bottom: calc(2 * var(--layout-spacing-unit));
 
-    & .tile__box--thumbnail {
+    & .tooltip__thumbnail {
       width: calc(3 * var(--layout-spacing-unit));
       height: calc(3 * var(--layout-spacing-unit));
       margin-right: calc(3 * var(--layout-spacing-unit-small));
@@ -65,9 +65,7 @@ export default class PortalToolTip extends Vue {
   }
 }
 
-.tile__box,
-.tile__box--thumbnail,
-.tile__box--thumbnail--folder {
+.tooltip__thumbnail {
   border-radius: 15%;
   display: flex;
   align-items: center;
@@ -76,11 +74,7 @@ export default class PortalToolTip extends Vue {
   background: var(--color-grey40);
 }
 
-.tile__box--thumbnail {
-  background: #0000ff
-}
-
-.tile__logo {
+.tooltip__logo {
   width: 80%;
   vertical-align: middle;
   border: 0;
