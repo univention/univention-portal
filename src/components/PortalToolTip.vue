@@ -1,7 +1,7 @@
 <template>
-  <div class="appDescription" data-dojo-attach-point="hoveredAppDescriptionNode">
+  <div class="appDescription">
     <div class="appDescription__header">
-      <div class="tile__box--thumbnail" style="background: #0000ff">
+      <div class="tile__box--thumbnail">
 				<img
           :src="icon"
           :alt="`${title} logo`"
@@ -73,6 +73,10 @@ export default class PortalToolTip extends Vue {
   justify-content: center;
   box-shadow: var(--box-shadow);
   background: var(--color-grey40);
+}
+
+.tile__box--thumbnail {
+  background: #0000ff
 }
 
 .tile__logo {

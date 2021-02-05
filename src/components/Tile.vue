@@ -3,7 +3,9 @@
     :href="link"
     draggable="true"
   >
-    <div class="tile">
+    <div
+      class="tile"
+    >
       <div
         :style="`background: ${backgroundColor}`"
         class="box"
@@ -17,29 +19,19 @@
         {{ title }}
       </span>
     </div>
-    <portal-tool-tip
-      :title="title"
-      :icon="logo"
-      :description="description"
-    />
   </a>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import PortalToolTip from "@/components/PortalToolTip.vue";
 
 @Options({
-  components: {
-    PortalToolTip
-  },
   props: {
     title: String,
     link: String,
     logo: String,
     backgroundColor: String,
-    description: String
-  }
+  },
 })
 
 export default class Tile extends Vue {
@@ -47,7 +39,6 @@ export default class Tile extends Vue {
   link!: string;
   logo = "questionMark.svg";
   backgroundColor = "var(--color-grey40)";
-  description!: string;
 }
 </script>
 
