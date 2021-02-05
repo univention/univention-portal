@@ -1,25 +1,33 @@
 <template>
   <div class="header-button">
-    <span class="header-button__inner" role="presentation">
+    <span
+      class="header-button__inner"
+      role="presentation"
+    >
       <button
-        class="header-button__button"
         :aria-expanded="isAriaExpanded"
         :aria-label="ariaLabel"
+        class="header-button__button"
         @click="openFlyout"
       >
-        <Icon :icon="icon" iconWidth="2rem" :iconColor="setIconColor" />
+        <portal-icon
+          :icon="icon"
+          :iconColor="setIconColor"
+          iconWidth="2rem"
+         />
       </button>
     </span>
   </div>
 </template>
+
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Icon from "@/components/Icon.vue";
+import PortalIcon from "@/components/globals/PortalIcon.vue";
 
 @Options({
   name: "HeaderButton",
   components: {
-    Icon,
+    PortalIcon,
   },
   emits: ["openFlyout"],
   props: {
@@ -53,6 +61,7 @@ import Icon from "@/components/Icon.vue";
 })
 export default class HeaderButton extends Vue {}
 </script>
+
 <style lang="stylus">
 .header-button
   --font-size-button-icon: var(--font-size-big)

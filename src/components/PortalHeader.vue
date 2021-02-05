@@ -1,48 +1,60 @@
 <template>
-  <header class="header">
-    <div class="header__left" tabindex="0">
-      <img class="header__left__image" alt="Portal logo" />
+  <header class="portal-header">
+    <div
+      class="portal-header__left"
+      tabindex="0"
+    >
+      <img
+        class="portal-header__left__image"
+        alt="Portal logo"
+      >
       <h2>{{ portalName }}</h2>
     </div>
-    <div class="header__stretch"></div>
-    <div class="header__right">
-      <HeaderButton
+    <div class="portal-header__stretch" />
+    <div class="portal-header__right">
+      <header-button
+        :activeButton="activeFlyoutContent"
         ariaLabel="Button for Seachbar"
         icon="search"
         @openFlyout="openFlyout('search')"
-        :activeButton="activeFlyoutContent"
       />
-      <HeaderButton
+      <header-button
+        :activeButton="activeFlyoutContent"
         ariaLabel="Open notifications"
         icon="bell"
         @openFlyout="openFlyout('bell')"
-        :activeButton="activeFlyoutContent"
       />
-      <HeaderButton
+      <header-button
+        :activeButton="activeFlyoutContent"
         ariaLabel="Button for navigation"
         icon="menu"
         @openFlyout="openFlyout('menu')"
-        :activeButton="activeFlyoutContent"
       />
     </div>
-    <FlyoutWrapper :isVisible="burgerMenuClicked">
-      <h1 v-if="activeFlyoutContent === 'search'">Inputfield</h1>
-      <h1 v-if="activeFlyoutContent === 'bell'">notifications</h1>
-      <Navigation v-if="activeFlyoutContent === 'menu'" />
-    </FlyoutWrapper>
+    <flyout-wrapper :isVisible="burgerMenuClicked">
+      <!-- TODO Semantic headlines -->
+      <h1 v-if="activeFlyoutContent === 'search'">
+        Inputfield
+      </h1>
+      <h1 v-if="activeFlyoutContent === 'bell'">
+        notifications
+      </h1>
+      <side-navigation v-if="activeFlyoutContent === 'menu'" />
+    </flyout-wrapper>
   </header>
 </template>
+
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import HeaderButton from "@/components/navigation/HeaderButton.vue";
 import FlyoutWrapper from "@/components/navigation/FlyoutWrapper.vue";
-import Navigation from "@/components/navigation/Navigation.vue";
+import SideNavigation from "@/components/navigation/SideNavigation.vue";
 
 @Options({
   components: {
     HeaderButton,
     FlyoutWrapper,
-    Navigation,
+    SideNavigation,
   },
   props: {
     portalName: {
@@ -83,10 +95,11 @@ import Navigation from "@/components/navigation/Navigation.vue";
     },
   },
 })
-export default class Header extends Vue {}
+export default class PortalHeader extends Vue {}
 </script>
+
 <style lang="stylus">
-.header
+.portal-header
     position: fixed;
     top: 0;
     left: 0;
