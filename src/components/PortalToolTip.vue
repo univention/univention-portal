@@ -1,20 +1,22 @@
 <template>
-  <div class="tooltip">
-    <div class="tooltip__header">
-      <div class="tooltip__thumbnail">
+  <div class="portal-tooltip">
+    <div class="portal-tooltip__header">
+      <div class="portal-tooltip__thumbnail">
 				<img
           :src="icon"
           :alt="`${title} logo`"
-          class="tooltip__logo"
+          class="portal-tooltip__logo"
         >
 			</div>
-      <div class="tooltip__title">
+      <div class="portal-tooltip__title">
         {{ title }}
       </div>
     </div>
-    <div class="tooltip__description">
-      {{ description }}
-    </div>
+    <div
+      v-if="description"
+      class="portal-tooltip__description"
+      v-html="description"
+    />
   </div>
 </template>
 
@@ -40,7 +42,7 @@ export default class PortalToolTip extends Vue {
 </script>
 
 <style scoped lang="stylus">
-.tooltip
+.portal-tooltip
   font-size: 16px // 0.8rem
   position: fixed
   bottom: calc(2 * 1rem)
@@ -65,7 +67,7 @@ export default class PortalToolTip extends Vue {
     box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
     background: #868681
 
-    .tooltip__header &
+    .portal-tooltip__header &
       width: calc(3 * 1rem)
       height: calc(3 * 1rem)
       margin-right: calc(3 * calc(1rem / 2))
