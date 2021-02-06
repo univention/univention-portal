@@ -40,43 +40,38 @@ export default class PortalToolTip extends Vue {
 </script>
 
 <style scoped lang="stylus">
-.tooltip {
-  font-size: var(--font-size-small);
-  position: fixed;
-  bottom: calc(2 * var(--layout-spacing-unit));
-  right: calc(2 * var(--layout-spacing-unit));
-  background-color: var(--color-grey0);
-  border-radius: 16px;
-  max-width: calc(40 * var(--layout-spacing-unit));
-  padding: calc(2 * var(--layout-spacing-unit));
-  box-shadow: var(--box-shadow);
-  pointer-events: none;
+.tooltip
+  font-size: 16px // 0.8rem
+  position: fixed
+  bottom: calc(2 * 1rem)
+  right: calc(2 * 1rem)
+  background-color: #1e1e1d
+  border-radius: 16px
+  max-width: calc(40 * 1rem)
+  padding: calc(2 * 1rem)
+  box-shadow: 0rem 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
+  pointer-events: none
 
-  &__header {
-    display: flex;
-    align-items: center;
-    margin-bottom: calc(2 * var(--layout-spacing-unit));
+  &__header
+    display: flex
+    align-items: center
+    margin-bottom: calc(2 * 1rem)
 
-    & .tooltip__thumbnail {
-      width: calc(3 * var(--layout-spacing-unit));
-      height: calc(3 * var(--layout-spacing-unit));
-      margin-right: calc(3 * var(--layout-spacing-unit-small));
-    }
-  }
-}
+  &__thumbnail
+    border-radius: 15%
+    display: flex
+    align-items: center
+    justify-content: center
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
+    background: #868681
 
-.tooltip__thumbnail {
-  border-radius: 15%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--box-shadow);
-  background: var(--color-grey40);
-}
+    .tooltip__header &
+      width: calc(3 * 1rem)
+      height: calc(3 * 1rem)
+      margin-right: calc(3 * calc(1rem / 2))
 
-.tooltip__logo {
-  width: 80%;
-  vertical-align: middle;
-  border: 0;
-}
+  &__logo
+    width: 80%
+    vertical-align: middle
+    border: 0
 </style>
