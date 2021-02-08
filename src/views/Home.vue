@@ -24,6 +24,20 @@
         />
         Folder
       </button>
+      <button @click="devLogin">
+        <portal-icon
+          icon="log-in"
+          iconWidth="1em"
+        />
+        Login
+      </button>
+      <button @click="devLogout">
+        <portal-icon
+          icon="log-out"
+          iconWidth="1em"
+        />
+        Logout
+      </button>
 
       <portal-category
         v-for="(category, index) in categories"
@@ -68,6 +82,12 @@ import PortalStandby from "@/components/PortalStandby.vue";
     },
     devFolder() {
       this.$store.commit("devFolder");
+    },
+    devLogin() {
+      this.$store.commit("devLogin");
+    },
+    devLogout() {
+      this.$store.commit("devLogout");
     }
   }
 })

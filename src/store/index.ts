@@ -6,6 +6,7 @@ import PortalFolder from "@/components/PortalFolder.vue";
 
 export interface State {
   categories: Array<PortalCategory>;
+  user: object;
   loading: boolean;
   modalVisible: boolean;
   modalComponent: any;
@@ -22,6 +23,7 @@ export const store = createStore<State>({
     loading: false,
     modalVisible: false,
     modalComponent: null,
+    user: {},
   },
   mutations: {
     startLoading: (state) => {
@@ -92,6 +94,15 @@ export const store = createStore<State>({
     },
     devEmpty: (state) => {
       state.categories = [];
+    },
+    devLogin: (state) => {
+      state.user = {
+        username: "Administrator",
+        isAdmin: true,
+      };
+    },
+    devLogout: (state) => {
+      state.user = {};
     },
     replace: (state, payload) => {
       state.categories = payload.categories;
