@@ -110,11 +110,9 @@ export const store = createStore<State>({
     showModal: (state, componentName) => {
       state.modalVisible = true;
       state.modalComponent = componentName;
-      console.log("__showmodal", state.modalVisible);
     },
     hideModal: (state) => {
       state.modalVisible = false;
-      console.log("__Hidemodale", state.modalVisible);
     },
   },
   actions: {
@@ -132,7 +130,6 @@ export const store = createStore<State>({
   modules: {},
   getters: {
     modalState: (state) => {
-      console.log("GET ", state.modalVisible);
       return state.modalVisible;
     },
   },
