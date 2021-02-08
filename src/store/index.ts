@@ -8,6 +8,8 @@ export interface State {
   categories: Array<PortalCategory>;
   user: object;
   loading: boolean;
+  modalVisible: boolean;
+  modalComponent: any;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
@@ -17,8 +19,10 @@ const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elit
 export const store = createStore<State>({
   state: {
     categories: [],
-    user: {},
     loading: false,
+    modalVisible: false,
+    modalComponent: null,
+    user: {},
   },
   mutations: {
     startLoading: (state) => {
@@ -102,10 +106,17 @@ export const store = createStore<State>({
     replace: (state, payload) => {
       state.categories = payload.categories;
     },
+    showModal: (state, componentName) => {
+      state.modalVisible = true;
+      state.modalComponent = componentName;
+    },
+    hideModal: (state) => {
+      state.modalVisible = false;
+    },
   },
   actions: {
     loadPortal: ({ commit }) => {
-      commit('startLoading');
+      commit("startLoading");
       return new Promise((resolve) => {
         setTimeout(() => {
           commit('devStandard');
@@ -116,6 +127,11 @@ export const store = createStore<State>({
     },
   },
   modules: {},
+  getters: {
+    modalState: (state) => {
+      return state.modalVisible;
+    },
+  },
 });
 
 // define your own `useStore` composition function

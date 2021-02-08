@@ -75,7 +75,6 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
     },
   },
 })
-
 export default class PortalCategory extends Vue {
   title!: string;
 

@@ -27,6 +27,7 @@
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
+  name: 'PortalTile',
   props: {
     title: String,
     link: String,

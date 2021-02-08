@@ -59,6 +59,7 @@ import PortalHeader from '@/components/PortalHeader.vue';
 import PortalStandby from '@/components/PortalStandby.vue';
 
 @Options({
+  name: 'Home',
   components: {
     PortalCategory,
     PortalHeader,
@@ -91,6 +92,7 @@ import PortalStandby from '@/components/PortalStandby.vue';
     },
   },
 })
+
 export default class PortalHome extends Vue {}
 </script>
 
