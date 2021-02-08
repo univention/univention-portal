@@ -1,20 +1,15 @@
 <template>
-  <portal-modal :isActive="isVisible">
-    <section :class="{ 'section--isVisible': isVisible }" class="section">
-      <slot />
-    </section>
-  </portal-modal>
+  <section :class="{ 'section--isVisible': isVisible }" class="section">
+    <slot />
+  </section>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import PortalModal from "@/components/globals/PortalModal.vue";
 
 @Options({
   name: "FlyoutWrapper",
-  components: {
-    PortalModal,
-  },
+  components: {},
   props: {
     isVisible: {
       type: Boolean,

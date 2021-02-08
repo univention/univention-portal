@@ -25,8 +25,11 @@
         @openFlyout="openFlyout('menu')"
       />
     </div>
-    <teleport to="body">
-      <flyout-wrapper :isVisible="burgerMenuClicked">
+    <portal-modal
+      :isActive="this.$store.getters.modalState"
+      @changeMenuState="changeMenuState"
+    >
+      <flyout-wrapper :isVisible="this.$store.getters.modalState">
         <!-- TODO Semantic headlines -->
         <h1 v-if="activeFlyoutContent === 'search'">
           Inputfield
@@ -36,7 +39,7 @@
         </h1>
         <side-navigation v-if="activeFlyoutContent === 'menu'" />
       </flyout-wrapper>
-    </teleport>
+    </portal-modal>
   </header>
 </template>
 
@@ -45,12 +48,14 @@ import { Options, Vue } from "vue-class-component";
 import HeaderButton from "@/components/navigation/HeaderButton.vue";
 import FlyoutWrapper from "@/components/navigation/FlyoutWrapper.vue";
 import SideNavigation from "@/components/navigation/SideNavigation.vue";
+import PortalModal from "@/components/globals/PortalModal.vue";
 
 @Options({
   components: {
     HeaderButton,
     FlyoutWrapper,
     SideNavigation,
+    PortalModal,
   },
   props: {
     portalName: {
@@ -88,6 +93,7 @@ import SideNavigation from "@/components/navigation/SideNavigation.vue";
       if (this.burgerMenuClicked) {
         this.burgerMenuClicked = false;
         this.$store.commit("hideModal");
+        this.activeFlyoutContent = "";
       } else {
         this.burgerMenuClicked = true;
         this.$store.commit("showModal");
