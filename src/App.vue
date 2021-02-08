@@ -3,13 +3,14 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
-import { store } from "@/store/index.ts";
+import { Vue } from 'vue-class-component';
+import { store } from '@/store/index.ts';
 
 export default class App extends Vue {
   store: typeof store = store;
+
   mounted() {
-    store.dispatch("loadPortal");
+    store.dispatch('loadPortal');
   }
 }
 </script>
