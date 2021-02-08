@@ -60,18 +60,12 @@ vueConfig.chainWebpack = (config) => {
   config.resolve.alias
     // components
     .set('components', path.resolve(__dirname, 'src/components'))
-    .set('atoms', path.resolve(__dirname, 'src/components/atoms'))
-    .set('layouts', path.resolve(__dirname, 'src/components/layouts'))
-    .set('molecules', path.resolve(__dirname, 'src/components/molecules'))
-    .set('templates', path.resolve(__dirname, 'src/components/templates'))
-    .set('elements', path.resolve(__dirname, 'src/components/ui-elements'))
+    .set('globals', path.resolve(__dirname, 'src/components/globals'))
 
     // other stuff
     .set('assets', path.resolve(__dirname, 'src/assets'))
     .set('mixins', path.resolve(__dirname, 'src/mixins'))
-    .set('pages', path.resolve(__dirname, 'src/pages'))
-    .set('views', path.resolve(__dirname, 'src/views'))
-    .set('utils', path.resolve(__dirname, 'src/utils'));
+    .set('views', path.resolve(__dirname, 'src/views'));
 
   // TODO: In case that the paths will not be resolved in production we might have to install "module-alias": https://medium.com/@caludio/how-to-use-module-path-aliases-in-visual-studio-typescript-and-javascript-e7851df8eeaa
 };
