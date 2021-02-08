@@ -12,24 +12,24 @@
       >
         <portal-icon
           :icon="icon"
-          :iconColor="setIconColor"
-          iconWidth="2rem"
-         />
+          :icon-color="setIconColor"
+          icon-width="2rem"
+        />
       </button>
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import PortalIcon from "@/components/globals/PortalIcon";
+import { Options, Vue } from 'vue-class-component';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 @Options({
-  name: "HeaderButton",
+  name: 'HeaderButton',
   components: {
     PortalIcon,
   },
-  emits: ["openFlyout"],
+  emits: ['openFlyout'],
   props: {
     icon: {
       type: String,
@@ -47,15 +47,15 @@ import PortalIcon from "@/components/globals/PortalIcon";
 
   computed: {
     setIconColor() {
-      return this.activeButton === this.icon ? "#7ab51d" : "#ffffff";
+      return this.activeButton === this.icon ? '#7ab51d' : '#ffffff';
     },
     isAriaExpanded() {
-      return this.activeButton === this.icon ? true : false;
+      return this.activeButton === this.icon;
     },
   },
   methods: {
     openFlyout() {
-      this.$emit("openFlyout");
+      this.$emit('openFlyout');
     },
   },
 })

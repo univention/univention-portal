@@ -13,25 +13,25 @@
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
       <header-button
-        :activeButton="activeFlyoutContent"
-        ariaLabel="Button for Seachbar"
+        :active-button="activeFlyoutContent"
+        aria-label="Button for Seachbar"
         icon="search"
         @openFlyout="openFlyout('search')"
       />
       <header-button
-        :activeButton="activeFlyoutContent"
-        ariaLabel="Open notifications"
+        :active-button="activeFlyoutContent"
+        aria-label="Open notifications"
         icon="bell"
         @openFlyout="openFlyout('bell')"
       />
       <header-button
-        :activeButton="activeFlyoutContent"
-        ariaLabel="Button for navigation"
+        :active-button="activeFlyoutContent"
+        aria-label="Button for navigation"
         icon="menu"
         @openFlyout="openFlyout('menu')"
       />
     </div>
-    <flyout-wrapper :isVisible="burgerMenuClicked">
+    <flyout-wrapper :is-visible="burgerMenuClicked">
       <!-- TODO Semantic headlines -->
       <h1 v-if="activeFlyoutContent === 'search'">
         Inputfield
@@ -45,10 +45,10 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import HeaderButton from "@/components/navigation/HeaderButton";
-import FlyoutWrapper from "@/components/navigation/FlyoutWrapper";
-import SideNavigation from "@/components/navigation/SideNavigation";
+import { Options, Vue } from 'vue-class-component';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
+import SideNavigation from '@/components/navigation/SideNavigation.vue';
 
 @Options({
   components: {
@@ -59,13 +59,13 @@ import SideNavigation from "@/components/navigation/SideNavigation";
   props: {
     portalName: {
       type: String,
-      default: "Univention Portal",
+      default: 'Univention Portal',
     },
   },
   data() {
     return {
       burgerMenuClicked: false,
-      activeFlyoutContent: "",
+      activeFlyoutContent: '',
     };
   },
   computed: {

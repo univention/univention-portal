@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from 'vue-class-component';
 
 @Options({
   props: {
@@ -32,7 +32,7 @@ import { Options, Vue } from "vue-class-component";
     },
     iconColor: {
       type: String,
-      default: "#000000",
+      default: '#000000',
     },
   },
   computed: {
