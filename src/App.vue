@@ -8,10 +8,11 @@ import { store } from '@/store/index';
 
 export default class App extends Vue {
   store: typeof store = store;
-
+  /* eslint-disable */
   mounted() {
     store.dispatch('loadPortal');
   }
+  /* eslint-enable */
 }
 </script>
 
