@@ -26,7 +26,8 @@ module.exports = {
   ],
   rules: {
     'max-len': 'off',
-    'no-console': ['error', { allow: ['error'] }],
+    // 'no-console': ['error', { allow: ['error'] }],
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-useless-escape': 'off',
     quotes: [2, 'single', { avoidEscape: true }],
     'operator-linebreak': ['error', 'after', { overrides: { '?': 'before', ':': 'before' } }],
