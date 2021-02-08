@@ -1,8 +1,8 @@
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
-import PortalCategory from '@/components/PortalCategory';
-import PortalTile from '@/components/PortalTile';
-import PortalFolder from '@/components/PortalFolder';
+import PortalCategory from '@/components/PortalCategory.vue';
+import PortalTile from '@/components/PortalTile.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
 
 export interface State {
   categories: Array<PortalCategory>;
@@ -10,7 +10,7 @@ export interface State {
   loading: boolean;
 }
 
-export const key: InjectionKey<Store<State>> = Symbol();
+export const key: InjectionKey<Store<State>> = Symbol('some description');
 
 const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
 

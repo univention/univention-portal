@@ -22,20 +22,21 @@
 </template>
 
 <script lang="ts">
-import { Options } from "vue-class-component";
-import PortalTile from "@/components/PortalTile";
+import { Options } from 'vue-class-component';
+import PortalTile from '@/components/PortalTile.vue';
 
 @Options({
   components: {
-    PortalTile
+    PortalTile,
   },
   props: {
     title: String,
-    tiles: Array
-  }
+    tiles: Array,
+  },
 })
 export default class PortalFolder extends PortalTile {
   title!: string;
+
   tiles!: [PortalTile];
 }
 </script>

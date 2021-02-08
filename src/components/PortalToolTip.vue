@@ -2,41 +2,47 @@
   <div class="portal-tooltip">
     <div class="portal-tooltip__header">
       <div class="portal-tooltip__thumbnail">
-				<img
+        <img
           :src="icon"
           :alt="`${title} logo`"
           class="portal-tooltip__logo"
         >
-			</div>
+      </div>
       <div class="portal-tooltip__title">
         {{ title }}
       </div>
     </div>
+
+    <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="description"
       class="portal-tooltip__description"
       v-html="description"
     />
+    <!-- eslint-enable vue/no-v-html -->
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  name: "PortalToolTip",
+  name: 'PortalToolTip',
   props: {
     title: String,
     link: String,
     icon: String,
-    description: String
-  }
+    description: String,
+  },
 })
 
 export default class PortalToolTip extends Vue {
   title!: string;
+
   link!: string;
+
   icon!: string;
+
   description!: string;
 }
 </script>
