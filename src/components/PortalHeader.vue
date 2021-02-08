@@ -31,15 +31,19 @@
     >
       <flyout-wrapper :isVisible="this.$store.getters.modalState">
         <!-- TODO Semantic headlines -->
-        <h1 v-if="activeFlyoutContent === 'search'">
-          Inputfield
-        </h1>
+
         <h1 v-if="activeFlyoutContent === 'bell'">
           notifications
         </h1>
         <side-navigation v-if="activeFlyoutContent === 'menu'" />
       </flyout-wrapper>
     </portal-modal>
+    <flyout-wrapper :isVisible="this.$store.getters.modalState">
+      <!-- TODO Semantic headlines -->
+      <portal-search v-if="activeFlyoutContent === 'search'">
+        Inputfield
+      </portal-search>
+    </flyout-wrapper>
   </header>
 </template>
 
@@ -49,6 +53,7 @@ import HeaderButton from "@/components/navigation/HeaderButton.vue";
 import FlyoutWrapper from "@/components/navigation/FlyoutWrapper.vue";
 import SideNavigation from "@/components/navigation/SideNavigation.vue";
 import PortalModal from "@/components/globals/PortalModal.vue";
+import PortalSearch from "@/components/search/PortalSearch.vue";
 
 @Options({
   name: "PortalHeader",
@@ -57,6 +62,7 @@ import PortalModal from "@/components/globals/PortalModal.vue";
     FlyoutWrapper,
     SideNavigation,
     PortalModal,
+    PortalSearch,
   },
   props: {
     portalName: {
