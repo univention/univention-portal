@@ -1,11 +1,13 @@
 <template>
-  <div
-    class="portal-modal"
-    :class="{ 'portal-modal--isVisible': isActive }"
-    v-test:click="closeEvent"
-  >
-    <slot>HELLO :) </slot>
-  </div>
+  <teleport to="body">
+    <div
+      class="portal-modal"
+      :class="{ 'portal-modal--isVisible': isActive }"
+      @click="closeModal()"
+    >
+      <slot></slot>
+    </div>
+  </teleport>
 </template>
 
 <script lang="ts">
@@ -20,39 +22,20 @@ import { mapMutations } from "vuex";
       required: true,
     },
   },
-  directives: {
-    test: {
-      beforeMount(element) {
-        this.event = function(event) {
-          console.log("emitting event");
-          element.vm.$emit(element.expression, event);
-        };
-        this.el.addEventListener("click", this.stopProp);
-        document.body.addEventListener("click", this.event);
-      },
-
-      unmounted() {
-        console.log("unbind");
-        this.el.removeEventListener("click", this.stopProp);
-        document.body.removeEventListener("click", this.event);
-      },
-    },
+  data() {
+    return {
+      modalVisible: false,
+    };
   },
   computed: {},
-  mounted() {
-    console.log(this.$store.state.modalVisible);
-    console.log(this.$store.state.modalComponent);
-    this.$store.commit("hideModal", "TEst");
-  },
+
   methods: {
     ...mapMutations(["hideModal"]),
-    hide: function() {
-      console.log("hide");
-      this.showInside = false;
-    },
-    closeEvent: function() {
-      console.log("close event called");
-      this.hide();
+    closeModal: function() {
+      if (this.$store.getters.modalState) {
+        this.$emit("changeMenuState");
+        this.$store.commit("hideModal");
+      }
     },
   },
 })
