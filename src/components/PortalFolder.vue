@@ -8,10 +8,7 @@
           :style="`background: ${tile.backgroundColor}`"
           class="thumbnail"
         >
-          <img
-            :src="tile.logo"
-            :alt="`tile.title ${logo}`"
-          >
+          <img :src="tile.logo" :alt="`tile.title ${logo}`" />
         </div>
       </div>
     </div>
@@ -26,13 +23,14 @@ import { Options } from "vue-class-component";
 import PortalTile from "@/components/PortalTile.vue";
 
 @Options({
+  name: "Portalfolder",
   components: {
-    PortalTile
+    PortalTile,
   },
   props: {
     title: String,
-    tiles: Array
-  }
+    tiles: Array,
+  },
 })
 export default class PortalFolder extends PortalTile {
   title!: string;

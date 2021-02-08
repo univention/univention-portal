@@ -1,19 +1,8 @@
 <template>
-  <a data-test="tileLink"
-    :href="link"
-    draggable="true"
-  >
-    <div
-      class="tile"
-    >
-      <div
-        :style="`background: ${backgroundColor}`"
-        class="box"
-      >
-        <img
-          :src="logo"
-          :alt="`title ${logo}`"
-        >
+  <a data-test="tileLink" :href="link" draggable="true">
+    <div class="tile">
+      <div :style="`background: ${backgroundColor}`" class="box">
+        <img :src="logo" :alt="`title ${logo}`" />
       </div>
       <span class="name">
         {{ title }}
@@ -26,6 +15,7 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({
+  name: "PortalTile",
   props: {
     title: String,
     link: String,
@@ -33,7 +23,6 @@ import { Options, Vue } from "vue-class-component";
     backgroundColor: String,
   },
 })
-
 export default class PortalTile extends Vue {
   title!: string;
   link!: string;
