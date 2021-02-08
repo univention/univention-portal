@@ -22,18 +22,18 @@ import { mapMutations } from "vuex";
       required: true,
     },
   },
-  data() {
-    return {
-      modalVisible: false,
-    };
-  },
+  emits: ["changeMenuState"],
+
   computed: {},
 
   methods: {
     ...mapMutations(["hideModal"]),
     closeModal: function() {
       if (this.$store.getters.modalState) {
+        console.log("before emit");
         this.$emit("changeMenuState");
+        console.log("after emit");
+
         this.$store.commit("hideModal");
       }
     },

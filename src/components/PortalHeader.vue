@@ -10,40 +10,38 @@
         :activeButton="activeFlyoutContent"
         ariaLabel="Button for Seachbar"
         icon="search"
-        @openFlyout="openFlyout('search')"
+        @openFlyout="openFlyout('search', false)"
       />
       <header-button
         :activeButton="activeFlyoutContent"
         ariaLabel="Open notifications"
         icon="bell"
-        @openFlyout="openFlyout('bell')"
+        @openFlyout="openFlyout('bell', true)"
       />
       <header-button
         :activeButton="activeFlyoutContent"
         ariaLabel="Button for navigation"
         icon="menu"
-        @openFlyout="openFlyout('menu')"
+        @openFlyout="openFlyout('menu', true)"
       />
     </div>
+    <flyout-wrapper :isVisible="burgerMenuClicked">
+      <!-- TODO Semantic headlines -->
+      <portal-search v-if="activeFlyoutContent === 'search'"> </portal-search>
+    </flyout-wrapper>
+
     <portal-modal
       :isActive="this.$store.getters.modalState"
       @changeMenuState="changeMenuState"
     >
       <flyout-wrapper :isVisible="this.$store.getters.modalState">
         <!-- TODO Semantic headlines -->
-
         <h1 v-if="activeFlyoutContent === 'bell'">
           notifications
         </h1>
         <side-navigation v-if="activeFlyoutContent === 'menu'" />
       </flyout-wrapper>
     </portal-modal>
-    <flyout-wrapper :isVisible="this.$store.getters.modalState">
-      <!-- TODO Semantic headlines -->
-      <portal-search v-if="activeFlyoutContent === 'search'">
-        Inputfield
-      </portal-search>
-    </flyout-wrapper>
   </header>
 </template>
 
@@ -80,30 +78,35 @@ import PortalSearch from "@/components/search/PortalSearch.vue";
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
+    activeSearchButton(): boolean {
+      return this.activeFlyoutContent === "search";
+    },
   },
   methods: {
-    openFlyout(buttonType: string): boolean {
+    openFlyout(buttonType: string, hasModal): boolean {
       if (buttonType === this.activeFlyoutContent || !this.burgerMenuClicked) {
-        this.changeMenuState();
+        this.changeMenuState(hasModal);
         this.activeFlyoutContent = buttonType;
       } else {
         this.changeMenuState();
         setTimeout(() => {
-          this.changeMenuState();
+          this.changeMenuState(hasModal);
           this.activeFlyoutContent = buttonType;
         }, 100);
       }
-
+      !this.burgerMenuClicked ? (this.activeFlyoutContent = "") : null;
       return this.burgerMenuClicked;
     },
-    changeMenuState(): void {
+    changeMenuState(hasModal): void {
       if (this.burgerMenuClicked) {
-        this.burgerMenuClicked = false;
-        this.$store.commit("hideModal");
         this.activeFlyoutContent = "";
+        setTimeout(() => {
+          this.burgerMenuClicked = false;
+          hasModal ? this.$store.commit("hideModal") : null;
+        }, 50);
       } else {
         this.burgerMenuClicked = true;
-        this.$store.commit("showModal");
+        hasModal ? this.$store.commit("showModal") : null;
       }
     },
   },
