@@ -51,6 +51,7 @@ import SideNavigation from "@/components/navigation/SideNavigation.vue";
 import PortalModal from "@/components/globals/PortalModal.vue";
 
 @Options({
+  name: "PortalHeader",
   components: {
     HeaderButton,
     FlyoutWrapper,

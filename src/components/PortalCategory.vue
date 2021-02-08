@@ -38,6 +38,7 @@ import PortalFolder from "@/components/PortalFolder.vue";
 import PortalToolTip from "@/components/PortalToolTip.vue";
 
 @Options({
+  name: "PortalCategory",
   components: {
     PortalTile,
     PortalFolder,
@@ -72,9 +73,8 @@ import PortalToolTip from "@/components/PortalToolTip.vue";
       this.isActive = handleActive;
       this.toolTip = {};
     },
-  }
+  },
 })
-
 export default class PortalCategory extends Vue {
   title!: string;
   tiles!: [PortalTile];
