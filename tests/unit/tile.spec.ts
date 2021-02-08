@@ -1,6 +1,6 @@
-import { mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils';
 
-import PortalTile from "@/components/PortalTile.vue";
+import PortalTile from '@/components/PortalTile.vue';
 /*
     This is just a simple test to check if a Tile renders.
     Not terribly useful but a good starter. The most basic
@@ -9,17 +9,16 @@ import PortalTile from "@/components/PortalTile.vue";
     an edit function, this can be used to develop test driven.
 */
 test('Test tile rendering', () => {
-
   const wrapper = mount(PortalTile, {
     props: {
       title: 'Test Title',
-      link: 'https://test.com'
-    }
-  })
+      link: 'https://test.com',
+    },
+  });
 
   // Assert the rendered text of the component
-  expect(wrapper.text()).toContain('Test Title')
+  expect(wrapper.text()).toContain('Test Title');
 
   // fetch an element by a smartly placed data attribute
-  expect(wrapper.get('[data-test="tileLink"]').attributes('href')).toBe('https://test.com')
-})
+  expect(wrapper.get('[data-test="tileLink"]').attributes('href')).toBe('https://test.com');
+});
