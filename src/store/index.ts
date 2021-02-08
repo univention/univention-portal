@@ -1,8 +1,8 @@
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
-import PortalCategory from '@/components/PortalCategory.vue';
-import PortalTile from '@/components/PortalTile.vue';
-import PortalFolder from '@/components/PortalFolder.vue';
+import PortalCategory from '@/components/PortalCategory';
+import PortalTile from '@/components/PortalTile';
+import PortalFolder from '@/components/PortalFolder';
 
 export interface State {
   categories: Array<PortalCategory>;

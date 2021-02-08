@@ -53,10 +53,10 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import PortalCategory from "@/components/PortalCategory.vue"; // @ is an alias to /src
-import PortalIcon from "@/components/globals/PortalIcon.vue";
-import PortalHeader from "@/components/PortalHeader.vue";
-import PortalStandby from "@/components/PortalStandby.vue";
+import PortalCategory from "@/components/PortalCategory"; // @ is an alias to /src
+import PortalIcon from "@/components/globals/PortalIcon";
+import PortalHeader from "@/components/PortalHeader";
+import PortalStandby from "@/components/PortalStandby";
 
 @Options({
   components: {

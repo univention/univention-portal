@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Options } from "vue-class-component";
-import PortalTile from "@/components/PortalTile.vue";
+import PortalTile from "@/components/PortalTile";
 
 @Options({
   components: {
