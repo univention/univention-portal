@@ -116,7 +116,7 @@ export const store = createStore<State>({
   },
   actions: {
     loadPortal: ({ commit }) => {
-      commit("startLoading");
+      commit('startLoading');
       return new Promise((resolve) => {
         setTimeout(() => {
           commit('devStandard');
@@ -128,9 +128,7 @@ export const store = createStore<State>({
   },
   modules: {},
   getters: {
-    modalState: (state) => {
-      return state.modalVisible;
-    },
+    modalState: (state) => state.modalVisible,
   },
 });
 
