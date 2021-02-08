@@ -1,12 +1,13 @@
 <template>
   <div>
-    <input type="text" />
+    <input type="text">
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from 'vue-class-component';
+
 @Options({
-  name: "PortalSearch",
+  name: 'PortalSearch',
   props: {},
   data() {
     return {

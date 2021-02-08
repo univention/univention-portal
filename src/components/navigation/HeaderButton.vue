@@ -1,8 +1,12 @@
 <template>
   <div
-    :class="'header-button', { 'header-button--is-active': isActiveButton }"
+    :class="{ 'header-button--is-active': isActiveButton }"
+    class="header-button"
   >
-    <span class="header-button__inner" role="presentation">
+    <span
+      class="header-button__inner"
+      role="presentation"
+    >
       <button
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
@@ -49,7 +53,7 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       return this.activeButton === this.icon ? '#7ab51d' : '#ffffff';
     },
     isActiveButton() {
-      return this.activeButton === this.icon ? true : false;
+      return this.activeButton === this.icon;
     },
   },
   methods: {

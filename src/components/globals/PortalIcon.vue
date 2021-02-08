@@ -15,7 +15,7 @@
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  name: "PortalIcon",
+  name: 'PortalIcon',
   props: {
     icon: {
       type: String,
