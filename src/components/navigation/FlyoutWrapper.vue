@@ -18,8 +18,8 @@ import { Options, Vue } from 'vue-class-component';
       required: true,
     },
   },
-  computed: {},
 })
+
 export default class FlyoutWrapper extends Vue {}
 </script>
 
@@ -34,6 +34,7 @@ export default class FlyoutWrapper extends Vue {}
   transform: translate3d(110%, 0, 0);
   color: #fff;
   z-index: 100;
+  transition: transform cubic-bezier(0, 0, 0.2, 1) 0.5s;
 
   &--isVisible
     transform: translate3d(0, 0, 0) scale(1, 1);

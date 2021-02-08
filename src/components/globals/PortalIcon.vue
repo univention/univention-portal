@@ -7,9 +7,7 @@
     xmlns:xlink="http://www.w3.org/1999/xlink"
     aria-hidden="true"
   >
-    <use
-      :xlink:href="`feather-sprite.svg#${icon}`"
-    />
+    <use :xlink:href="`feather-sprite.svg#${icon}`" />
   </svg>
 </template>
 
@@ -17,6 +15,7 @@
 import { Options, Vue } from 'vue-class-component';
 
 @Options({
+  name: "PortalIcon",
   props: {
     icon: {
       type: String,

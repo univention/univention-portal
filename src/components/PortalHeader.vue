@@ -1,13 +1,7 @@
 <template>
   <header class="portal-header">
-    <div
-      class="portal-header__left"
-      tabindex="0"
-    >
-      <img
-        class="portal-header__left__image"
-        alt="Portal logo"
-      >
+    <div class="portal-header__left" tabindex="0">
+      <img class="portal-header__left__image" alt="Portal logo" />
       <h2>{{ portalName }}</h2>
     </div>
     <div class="portal-header__stretch" />
@@ -16,31 +10,38 @@
         :active-button="activeFlyoutContent"
         aria-label="Button for Seachbar"
         icon="search"
-        @openFlyout="openFlyout('search')"
+        @openFlyout="openFlyout('search', false)"
       />
       <header-button
         :active-button="activeFlyoutContent"
         aria-label="Open notifications"
         icon="bell"
-        @openFlyout="openFlyout('bell')"
+        @openFlyout="openFlyout('bell', true)"
       />
       <header-button
         :active-button="activeFlyoutContent"
         aria-label="Button for navigation"
         icon="menu"
-        @openFlyout="openFlyout('menu')"
+        @openFlyout="openFlyout('menu', true)"
       />
     </div>
     <flyout-wrapper :is-visible="burgerMenuClicked">
       <!-- TODO Semantic headlines -->
-      <h1 v-if="activeFlyoutContent === 'search'">
-        Inputfield
-      </h1>
-      <h1 v-if="activeFlyoutContent === 'bell'">
-        notifications
-      </h1>
-      <side-navigation v-if="activeFlyoutContent === 'menu'" />
+      <portal-search v-if="activeFlyoutContent === 'search'"> </portal-search>
     </flyout-wrapper>
+
+    <portal-modal
+      :isActive="this.$store.getters.modalState"
+      @changeMenuState="changeMenuState"
+    >
+      <flyout-wrapper :isVisible="this.$store.getters.modalState">
+        <!-- TODO Semantic headlines -->
+        <h1 v-if="activeFlyoutContent === 'bell'">
+          notifications
+        </h1>
+        <side-navigation v-if="activeFlyoutContent === 'menu'" />
+      </flyout-wrapper>
+    </portal-modal>
   </header>
 </template>
 
@@ -49,12 +50,17 @@ import { Options, Vue } from 'vue-class-component';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
+import PortalSearch from '@/components/search/PortalSearch.vue';
 
 @Options({
+  name: 'PortalHeader',
   components: {
     HeaderButton,
     FlyoutWrapper,
     SideNavigation,
+    PortalModal,
+    PortalSearch,
   },
   props: {
     portalName: {
@@ -72,26 +78,36 @@ import SideNavigation from '@/components/navigation/SideNavigation.vue';
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
+    activeSearchButton(): boolean {
+      return this.activeFlyoutContent === 'search';
+    },
   },
   methods: {
-    openFlyout(buttonType: string): boolean {
+    openFlyout(buttonType: string, hasModal): boolean {
       if (buttonType === this.activeFlyoutContent || !this.burgerMenuClicked) {
-        this.changeMenuState();
+        this.changeMenuState(hasModal);
         this.activeFlyoutContent = buttonType;
       } else {
         this.changeMenuState();
         setTimeout(() => {
-          this.changeMenuState();
+          this.changeMenuState(hasModal);
           this.activeFlyoutContent = buttonType;
         }, 100);
       }
-
+      !this.burgerMenuClicked ? (this.activeFlyoutContent = '') : null;
       return this.burgerMenuClicked;
     },
-    changeMenuState(): void {
-      this.burgerMenuClicked = this.burgerMenuClicked
-        ? (this.burgerMenuClicked = false)
-        : (this.burgerMenuClicked = true);
+    changeMenuState(hasModal): void {
+      if (this.burgerMenuClicked) {
+        this.activeFlyoutContent = '';
+        setTimeout(() => {
+          this.burgerMenuClicked = false;
+          hasModal ? this.$store.commit('hideModal') : null;
+        }, 50);
+      } else {
+        this.burgerMenuClicked = true;
+        hasModal ? this.$store.commit('showModal') : null;
+      }
     },
   },
 })
