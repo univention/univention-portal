@@ -1,8 +1,8 @@
 /* eslint-disable */
 declare module '*.vue' {
+  import type { defineComponent } from 'vue';
+  // const component: defineComponent<{}, {}, any>;
   // import type { defineComponent } from 'vue';
-  // const component: DefineComponent<{}, {}, any>;
-  import { defineComponent } from "vue";
   const component: ReturnType<typeof defineComponent>;
   export default component;
 }
