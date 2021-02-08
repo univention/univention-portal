@@ -46,9 +46,9 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import HeaderButton from "@/components/navigation/HeaderButton.vue";
-import FlyoutWrapper from "@/components/navigation/FlyoutWrapper.vue";
-import SideNavigation from "@/components/navigation/SideNavigation.vue";
+import HeaderButton from "@/components/navigation/HeaderButton";
+import FlyoutWrapper from "@/components/navigation/FlyoutWrapper";
+import SideNavigation from "@/components/navigation/SideNavigation";
 
 @Options({
   components: {

@@ -32,10 +32,10 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import PortalTile from "@/components/PortalTile.vue";
-import PortalFolder from "@/components/PortalFolder.vue";
+import PortalTile from "@/components/PortalTile";
+import PortalFolder from "@/components/PortalFolder";
 
-import PortalToolTip from "@/components/PortalToolTip.vue";
+import PortalToolTip from "@/components/PortalToolTip";
 
 @Options({
   components: {

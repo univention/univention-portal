@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import PortalIcon from "@/components/globals/PortalIcon.vue";
+import PortalIcon from "@/components/globals/PortalIcon";
 
 @Options({
   name: "HeaderButton",
