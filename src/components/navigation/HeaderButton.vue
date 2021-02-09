@@ -3,7 +3,10 @@
     :class="{ 'header-button--is-active': isActiveButton }"
     class="header-button"
   >
-    <span class="header-button__inner" role="presentation">
+    <span
+      class="header-button__inner"
+      role="presentation"
+    >
       <button
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
@@ -20,15 +23,15 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import PortalIcon from "@/components/globals/PortalIcon.vue";
+import { Options, Vue } from 'vue-class-component';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 @Options({
-  name: "HeaderButton",
+  name: 'HeaderButton',
   components: {
     PortalIcon,
   },
-  emits: ["openFlyout"],
+  emits: ['openFlyout'],
   props: {
     icon: {
       type: String,
@@ -46,7 +49,7 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
 
   computed: {
     setIconColor() {
-      return this.activeButton === this.icon ? "#7ab51d" : "#ffffff";
+      return this.activeButton === this.icon ? '#7ab51d' : '#ffffff';
     },
     isActiveButton() {
       return this.activeButton === this.icon;

@@ -2,7 +2,11 @@
   <div class="portal-tooltip">
     <div class="portal-tooltip__header">
       <div class="portal-tooltip__thumbnail">
-        <img :src="icon" :alt="`${title} logo`" class="portal-tooltip__logo" />
+        <img
+          :src="icon"
+          :alt="`${title} logo`"
+          class="portal-tooltip__logo"
+        >
       </div>
       <div class="portal-tooltip__title">
         {{ title }}
@@ -20,10 +24,10 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  name: "PortalToolTip",
+  name: 'PortalToolTip',
   props: {
     title: String,
     link: String,
