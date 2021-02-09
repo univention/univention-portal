@@ -12,10 +12,10 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  name: "PortalIcon",
+  name: 'PortalIcon',
   props: {
     icon: {
       type: String,
@@ -31,7 +31,7 @@ import { Options, Vue } from "vue-class-component";
     },
     iconColor: {
       type: String,
-      default: "#000000",
+      default: '#000000',
     },
   },
   computed: {

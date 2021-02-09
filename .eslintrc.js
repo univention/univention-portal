@@ -1,31 +1,70 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    browser: true,
+    node: true,
+    jest: true,
+  },
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module',
+    ecmaVersion: 2020,
+    ecmaFeatures: {
+      legacyDecorators: true,
+    },
   },
   extends: [
-    "plugin:vue/vue3-essential",
-    "eslint:recommended",
-    "@vue/typescript/recommended",
-    "@vue/prettier",
-    "@vue/prettier/@typescript-eslint"
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
+    'airbnb',
+    '@vue/eslint-config-airbnb',
   ],
-  parserOptions: {
-    ecmaVersion: 2020
-  },
+  plugins: [
+    'vue',
+    'json',
+    'jest',
+  ],
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
+    'max-len': 'off',
+    // 'no-console': ['error', { allow: ['error'] }],
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-useless-escape': 'off',
+    quotes: [2, 'single', { avoidEscape: true }],
+    'operator-linebreak': ['error', 'after', { overrides: { '?': 'before', ':': 'before' } }],
+    'comma-spacing': ['error', {
+      before: false,
+      after: true,
+    }],
+    'space-before-function-paren': ['error', 'never'],
+    'arrow-parens': ['error', 'always'],
+    'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
+    // TODO: Should be activated again once a solution is found
+    'no-unused-vars': 'off',
+    'import/extensions': 'off',
+    // "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+    // "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    // 'import/extensions': ['error', 'never'],
+    // 'import/extensions': [
+    //   'error',
+    //   'ignorePackages',
+    //   {
+    //     js: 'never',
+    //     jsx: 'never',
+    //     ts: 'never',
+    //     tsx: 'never',
+    //     vue: 'never',
+    //   },
+    // ],
   },
   overrides: [
     {
       files: [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: {
-        jest: true
-      }
-    }
-  ]
+        jest: true,
+      },
+    },
+  ],
 };
