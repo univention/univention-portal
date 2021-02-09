@@ -1,8 +1,11 @@
-import { InjectionKey } from "vue";
-import { createStore, useStore as baseUseStore, Store } from "vuex";
-import PortalCategory from "@/components/PortalCategory.vue";
-import PortalTile from "@/components/PortalTile.vue";
-import PortalFolder from "@/components/PortalFolder.vue";
+import { InjectionKey } from 'vue';
+import { createStore, useStore as baseUseStore, Store } from 'vuex';
+import PortalCategory from '@/components/PortalCategory.vue';
+import PortalTile from '@/components/PortalTile.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
+
+// modules
+import navigation from './modules/navigation';
 
 export interface State {
   categories: Array<PortalCategory>;
@@ -12,12 +15,14 @@ export interface State {
   modalComponent: any;
 }
 
-export const key: InjectionKey<Store<State>> = Symbol();
+export const key: InjectionKey<Store<State>> = Symbol('some description');
 
-const dummyDescription =
-  "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.";
+const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
 
 export const store = createStore<State>({
+  modules: {
+    navigation,
+  },
   state: {
     categories: [],
     loading: false,
@@ -35,31 +40,31 @@ export const store = createStore<State>({
     devStandard: (state) => {
       const categories = [
         new PortalCategory({
-          title: "Applications",
+          title: 'Applications',
           tiles: [
             new PortalTile({
-              title: "ownCloud",
-              link: "https://www.owncloud.com",
+              title: 'ownCloud',
+              link: 'https://www.owncloud.com',
               description: `Applications: ${dummyDescription}`,
             }),
             new PortalTile({
-              title: "Nextcloud",
-              link: "https://www.nextcloud.com",
+              title: 'Nextcloud',
+              link: 'https://www.nextcloud.com',
               description: `Nextcloud: ${dummyDescription}`,
             }),
           ],
         }),
         new PortalCategory({
-          title: "Administration",
+          title: 'Administration',
           tiles: [
             new PortalTile({
-              title: "UMC",
-              link: "/umc/",
+              title: 'UMC',
+              link: '/umc/',
               description: `UMC: ${dummyDescription}`,
             }),
             new PortalTile({
-              title: "Blog",
-              link: "https://www.univention.de/blog",
+              title: 'Blog',
+              link: 'https://www.univention.de/blog',
               description: `Blog: ${dummyDescription}`,
             }),
           ],
@@ -70,19 +75,19 @@ export const store = createStore<State>({
     devFolder: (state) => {
       const categories = [
         new PortalCategory({
-          title: "Applications",
+          title: 'Applications',
           tiles: [
             new PortalTile({
-              title: "ownCloud",
-              link: "https://www.owncloud.com",
+              title: 'ownCloud',
+              link: 'https://www.owncloud.com',
               description: `ownCloud: ${dummyDescription}`,
             }),
             new PortalFolder({
-              title: "Favorites",
+              title: 'Favorites',
               tiles: [
                 new PortalTile({
-                  title: "Nextcloud",
-                  link: "https://www.nextcloud.com",
+                  title: 'Nextcloud',
+                  link: 'https://www.nextcloud.com',
                   description: `Nextcloud: ${dummyDescription}`,
                 }),
               ],
@@ -97,7 +102,7 @@ export const store = createStore<State>({
     },
     devLogin: (state) => {
       state.user = {
-        username: "Administrator",
+        username: 'Administrator',
         isAdmin: true,
       };
     },
@@ -117,21 +122,18 @@ export const store = createStore<State>({
   },
   actions: {
     loadPortal: ({ commit }) => {
-      commit("startLoading");
+      commit('startLoading');
       return new Promise((resolve) => {
         setTimeout(() => {
-          commit("devStandard");
-          commit("stopLoading");
+          commit('devStandard');
+          commit('stopLoading');
           resolve();
         }, 100);
       });
     },
   },
-  modules: {},
   getters: {
-    modalState: (state) => {
-      return state.modalVisible;
-    },
+    modalState: (state) => state.modalVisible,
   },
 });
 

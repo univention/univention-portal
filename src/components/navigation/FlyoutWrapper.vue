@@ -1,23 +1,25 @@
 <template>
-  <section :class="{ 'section--isVisible': isVisible }" class="section">
+  <section
+    :class="{ 'section--isVisible': isVisible }"
+    class="section"
+  >
     <slot />
   </section>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  name: "FlyoutWrapper",
-  components: {},
+  name: 'FlyoutWrapper',
   props: {
     isVisible: {
       type: Boolean,
       required: true,
     },
   },
-  computed: {},
 })
+
 export default class FlyoutWrapper extends Vue {}
 </script>
 
