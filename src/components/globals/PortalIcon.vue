@@ -19,26 +19,26 @@ import { Options, Vue } from "vue-class-component";
   props: {
     icon: {
       type: String,
-      required: true,
+      required: true
     },
     iconWidth: {
       type: String,
-      required: true,
+      required: true
     },
     iconHeight: {
       type: String,
-      required: false,
+      required: false
     },
     iconColor: {
       type: String,
-      default: "#000000",
-    },
+      default: "#000000"
+    }
   },
   computed: {
     setIconHeight() {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
-    },
-  },
+    }
+  }
 })
 export default class PortalIcon extends Vue {}
 </script>

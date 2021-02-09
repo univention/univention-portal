@@ -32,7 +32,7 @@
   --font-lineheight-compact: 1.25;
   --font-lineheight-header1: 1.3;
   --cursor-disabled: not-allowed;
-  --border-radius-interactable: 0.25rem;
+  --border-radius-interactable: 0.5rem;
   --border-radius-container: 0.5rem;
   --border-radius-notification: var(--border-radius-container);
   --border-radius-tooltip: 0.25rem;

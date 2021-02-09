@@ -49,7 +49,7 @@ import PortalStandby from "@/components/PortalStandby.vue";
     PortalCategory,
     PortalHeader,
     PortalIcon,
-    PortalStandby,
+    PortalStandby
   },
   computed: {
     categories() {
@@ -57,7 +57,7 @@ import PortalStandby from "@/components/PortalStandby.vue";
     },
     loading() {
       return this.$store.state.loading;
-    },
+    }
   },
   methods: {
     devEmpty() {
@@ -74,8 +74,8 @@ import PortalStandby from "@/components/PortalStandby.vue";
     },
     devLogout() {
       this.$store.commit("devLogout");
-    },
-  },
+    }
+  }
 })
 export default class PortalHome extends Vue {}
 </script>

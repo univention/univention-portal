@@ -5,7 +5,9 @@
         <portal-icon icon="user" iconWidth="6rem" />
         <div>
           <div class="portal-sidenavigation--username">{{ username }}</div>
-          <div class="portal-sidenavigation__logout-link" @click="logout">Logout</div>
+          <div class="portal-sidenavigation__logout-link" @click="logout">
+            Logout
+          </div>
         </div>
       </div>
       <div v-else class="portal-sidenavigation__link" @click="login">
@@ -18,7 +20,10 @@
       <li>Item 3</li>
       <li>Item 4</li>
     </ul>
-    <div v-if="isAdmin" class="portal-sidenavigation__link portal-sidenavigation__edit-mode">
+    <div
+      v-if="isAdmin"
+      class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
+    >
       Portal bearbeiten
     </div>
   </nav>
@@ -31,7 +36,7 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
 @Options({
   name: "SideNavigation",
   components: {
-    PortalIcon,
+    PortalIcon
   },
   computed: {
     username(): string {
@@ -39,7 +44,7 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
     },
     isAdmin(): boolean {
       return this.$store.state.user.isAdmin;
-    },
+    }
   },
   methods: {
     login() {

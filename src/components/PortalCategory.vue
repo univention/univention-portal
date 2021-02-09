@@ -42,16 +42,16 @@ import PortalToolTip from "@/components/PortalToolTip.vue";
   components: {
     PortalTile,
     PortalFolder,
-    PortalToolTip,
+    PortalToolTip
   },
   props: {
     title: String,
-    tiles: Array,
+    tiles: Array
   },
   data() {
     return {
       isActive: false,
-      toolTip: {},
+      toolTip: {}
     };
   },
   methods: {
@@ -72,8 +72,8 @@ import PortalToolTip from "@/components/PortalToolTip.vue";
       const handleActive = false;
       this.isActive = handleActive;
       this.toolTip = {};
-    },
-  },
+    }
+  }
 })
 export default class PortalCategory extends Vue {
   title!: string;

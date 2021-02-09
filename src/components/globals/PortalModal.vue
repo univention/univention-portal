@@ -19,8 +19,8 @@ import { mapMutations } from "vuex";
   props: {
     isActive: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
   emits: ["changeMenuState"],
 
@@ -36,8 +36,8 @@ import { mapMutations } from "vuex";
 
         this.$store.commit("hideModal");
       }
-    },
-  },
+    }
+  }
 })
 export default class PortalModal extends Vue {}
 </script>
