@@ -1,17 +1,17 @@
 <template>
   <div class="portal-search">
     <input
+      ref="portal-search__input"
       type="text"
       class="portal-search__input"
-      ref="portal-search__input"
-    />
+    >
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from 'vue-class-component';
 
 @Options({
-  name: "PortalSearch",
+  name: 'PortalSearch',
   props: {},
   data() {
     return {

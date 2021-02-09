@@ -32,8 +32,8 @@ import { Options, Vue } from 'vue-class-component';
     title: String,
     link: String,
     logo: String,
-    backgroundColor: String
-  }
+    backgroundColor: String,
+  },
 })
 
 export default class PortalTile extends Vue {

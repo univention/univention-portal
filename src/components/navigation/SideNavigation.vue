@@ -1,18 +1,31 @@
 <template>
   <nav class="portal-sidenavigation">
     <div class="portal-sidenavigation__login-header">
-      <div v-if="username" class="portal-sidenavigation__user-row">
-        <portal-icon icon="user" icon-width="6rem" />
+      <div
+        v-if="username"
+        class="portal-sidenavigation__user-row"
+      >
+        <portal-icon
+          icon="user"
+          icon-width="6rem"
+        />
         <div>
           <div class="portal-sidenavigation--username">
             {{ username }}
           </div>
-          <div class="portal-sidenavigation__logout-link" @click="logout">
+          <div
+            class="portal-sidenavigation__logout-link"
+            @click="logout"
+          >
             Logout
           </div>
         </div>
       </div>
-      <div v-else class="portal-sidenavigation__link" @click="login">
+      <div
+        v-else
+        class="portal-sidenavigation__link"
+        @click="login"
+      >
         Login
       </div>
     </div>
@@ -32,11 +45,11 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import PortalIcon from "@/components/globals/PortalIcon.vue";
+import { Options, Vue } from 'vue-class-component';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 @Options({
-  name: "SideNavigation",
+  name: 'SideNavigation',
   components: {
     PortalIcon,
   },
@@ -50,10 +63,10 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
   },
   methods: {
     login() {
-      this.$store.commit("devLogin");
+      this.$store.commit('devLogin');
     },
     logout() {
-      this.$store.commit("devLogout");
+      this.$store.commit('devLogout');
     },
   },
 })

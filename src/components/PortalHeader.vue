@@ -1,7 +1,13 @@
 <template>
   <header class="portal-header">
-    <div class="portal-header__left" tabindex="0">
-      <img class="portal-header__left-image" alt="Portal logo" />
+    <div
+      class="portal-header__left"
+      tabindex="0"
+    >
+      <img
+        class="portal-header__left-image"
+        alt="Portal logo"
+      >
       <h2>{{ portalName }}</h2>
     </div>
     <div class="portal-header__stretch" />
@@ -47,17 +53,17 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { mapGetters } from "vuex";
+import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
 
-import HeaderButton from "@/components/navigation/HeaderButton.vue";
-import FlyoutWrapper from "@/components/navigation/FlyoutWrapper.vue";
-import SideNavigation from "@/components/navigation/SideNavigation.vue";
-import PortalModal from "@/components/globals/PortalModal.vue";
-import PortalSearch from "@/components/search/PortalSearch.vue";
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
+import SideNavigation from '@/components/navigation/SideNavigation.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
+import PortalSearch from '@/components/search/PortalSearch.vue';
 
 @Options({
-  name: "PortalHeader",
+  name: 'PortalHeader',
   components: {
     HeaderButton,
     FlyoutWrapper,
@@ -68,24 +74,24 @@ import PortalSearch from "@/components/search/PortalSearch.vue";
   props: {
     portalName: {
       type: String,
-      default: "Univention Portal",
+      default: 'Univention Portal',
     },
   },
   data() {
     return {
       activeFlyout: false,
-      activeFlyoutContent: "",
+      activeFlyoutContent: '',
     };
   },
   computed: {
     ...mapGetters({
-      showFlyout: "navigation/getFlyout",
+      showFlyout: 'navigation/getFlyout',
     }),
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
     activeSearchButton(): boolean {
-      return this.activeFlyoutContent === "search";
+      return this.activeFlyoutContent === 'search';
     },
   },
   methods: {
@@ -103,19 +109,19 @@ import PortalSearch from "@/components/search/PortalSearch.vue";
       }
 
       if (!this.activeFlyout) {
-        this.activeFlyoutContent = "";
+        this.activeFlyoutContent = '';
       }
       this.setFocus(buttonType);
     },
     changeMenuState(hasModal): void {
       // TODO: solve no-unused-expressions
       if (this.activeFlyout) {
-        this.activeFlyoutContent = "";
+        this.activeFlyoutContent = '';
         setTimeout(() => {
           this.activeFlyout = false;
 
           if (hasModal) {
-            this.$store.commit("hideModal");
+            this.$store.commit('hideModal');
           }
           // store flyout state
           this.setFlyoutState();
@@ -124,17 +130,17 @@ import PortalSearch from "@/components/search/PortalSearch.vue";
         this.activeFlyout = true;
 
         if (hasModal) {
-          this.$store.commit("showModal");
+          this.$store.commit('showModal');
         }
         // store flyout state
         this.setFlyoutState();
       }
     },
     setFocus(buttonType): void {
-      console.log("Setting Focus on: ", buttonType);
+      console.log('Setting Focus on: ', buttonType);
     },
     setFlyoutState() {
-      this.$store.dispatch("navigation/setShowFlyout", this.activeFlyout);
+      this.$store.dispatch('navigation/setShowFlyout', this.activeFlyout);
     },
   },
 })
