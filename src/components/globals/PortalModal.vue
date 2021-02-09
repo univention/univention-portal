@@ -5,36 +5,36 @@
       :class="{ 'portal-modal--isVisible': isActive }"
       @click="closeModal()"
     >
-      <slot></slot>
+      <slot />
     </div>
   </teleport>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { mapMutations } from "vuex";
+import { Options, Vue } from 'vue-class-component';
+import { mapMutations } from 'vuex';
 
 @Options({
-  name: "PortalModal",
+  name: 'PortalModal',
   props: {
     isActive: {
       type: Boolean,
       required: true
     }
   },
-  emits: ["changeMenuState"],
+  emits: ['changeMenuState'],
 
   computed: {},
 
   methods: {
-    ...mapMutations(["hideModal"]),
-    closeModal: function() {
+    ...mapMutations(['hideModal']),
+    closeModal() {
       if (this.$store.getters.modalState) {
-        console.log("before emit");
-        this.$emit("changeMenuState");
-        console.log("after emit");
+        console.log('before emit');
+        this.$emit('changeMenuState');
+        console.log('after emit');
 
-        this.$store.commit("hideModal");
+        this.$store.commit('hideModal');
       }
     }
   }

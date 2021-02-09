@@ -4,6 +4,9 @@ import PortalCategory from "@/components/PortalCategory.vue";
 import PortalTile from "@/components/PortalTile.vue";
 import PortalFolder from "@/components/PortalFolder.vue";
 
+// modules
+import navigation from "./modules/navigation";
+
 export interface State {
   categories: Array<PortalCategory>;
   user: object;
@@ -12,27 +15,30 @@ export interface State {
   modalComponent: any;
 }
 
-export const key: InjectionKey<Store<State>> = Symbol();
+export const key: InjectionKey<Store<State>> = Symbol("some description");
 
 const dummyDescription =
   "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.";
 
 export const store = createStore<State>({
+  modules: {
+    navigation,
+  },
   state: {
     categories: [],
     loading: false,
     modalVisible: false,
     modalComponent: null,
-    user: {}
+    user: {},
   },
   mutations: {
-    startLoading: state => {
+    startLoading: (state) => {
       state.loading = true;
     },
-    stopLoading: state => {
+    stopLoading: (state) => {
       state.loading = false;
     },
-    devStandard: state => {
+    devStandard: (state) => {
       const categories = [
         new PortalCategory({
           title: "Applications",
@@ -40,14 +46,14 @@ export const store = createStore<State>({
             new PortalTile({
               title: "ownCloud",
               link: "https://www.owncloud.com",
-              description: `Applications: ${dummyDescription}`
+              description: `Applications: ${dummyDescription}`,
             }),
             new PortalTile({
               title: "Nextcloud",
               link: "https://www.nextcloud.com",
-              description: `Nextcloud: ${dummyDescription}`
-            })
-          ]
+              description: `Nextcloud: ${dummyDescription}`,
+            }),
+          ],
         }),
         new PortalCategory({
           title: "Administration",
@@ -55,19 +61,19 @@ export const store = createStore<State>({
             new PortalTile({
               title: "UMC",
               link: "/umc/",
-              description: `UMC: ${dummyDescription}`
+              description: `UMC: ${dummyDescription}`,
             }),
             new PortalTile({
               title: "Blog",
               link: "https://www.univention.de/blog",
-              description: `Blog: ${dummyDescription}`
-            })
-          ]
-        })
+              description: `Blog: ${dummyDescription}`,
+            }),
+          ],
+        }),
       ];
       state.categories = categories;
     },
-    devFolder: state => {
+    devFolder: (state) => {
       const categories = [
         new PortalCategory({
           title: "Applications",
@@ -75,7 +81,7 @@ export const store = createStore<State>({
             new PortalTile({
               title: "ownCloud",
               link: "https://www.owncloud.com",
-              description: `ownCloud: ${dummyDescription}`
+              description: `ownCloud: ${dummyDescription}`,
             }),
             new PortalFolder({
               title: "Favorites",
@@ -83,25 +89,25 @@ export const store = createStore<State>({
                 new PortalTile({
                   title: "Nextcloud",
                   link: "https://www.nextcloud.com",
-                  description: `Nextcloud: ${dummyDescription}`
-                })
-              ]
-            })
-          ]
-        })
+                  description: `Nextcloud: ${dummyDescription}`,
+                }),
+              ],
+            }),
+          ],
+        }),
       ];
       state.categories = categories;
     },
-    devEmpty: state => {
+    devEmpty: (state) => {
       state.categories = [];
     },
-    devLogin: state => {
+    devLogin: (state) => {
       state.user = {
         username: "Administrator",
-        isAdmin: true
+        isAdmin: true,
       };
     },
-    devLogout: state => {
+    devLogout: (state) => {
       state.user = {};
     },
     replace: (state, payload) => {
@@ -111,28 +117,25 @@ export const store = createStore<State>({
       state.modalVisible = true;
       state.modalComponent = componentName;
     },
-    hideModal: state => {
+    hideModal: (state) => {
       state.modalVisible = false;
-    }
+    },
   },
   actions: {
     loadPortal: ({ commit }) => {
       commit("startLoading");
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           commit("devStandard");
           commit("stopLoading");
           resolve();
         }, 100);
       });
-    }
+    },
   },
-  modules: {},
   getters: {
-    modalState: state => {
-      return state.modalVisible;
-    }
-  }
+    modalState: (state) => state.modalVisible,
+  },
 });
 
 // define your own `useStore` composition function

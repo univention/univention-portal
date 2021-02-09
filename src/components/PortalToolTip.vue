@@ -8,11 +8,14 @@
         {{ title }}
       </div>
     </div>
+
+    <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="description"
       class="portal-tooltip__description"
       v-html="description"
     />
+    <!-- eslint-enable vue/no-v-html -->
   </div>
 </template>
 
@@ -25,13 +28,16 @@ import { Options, Vue } from "vue-class-component";
     title: String,
     link: String,
     icon: String,
-    description: String
-  }
+    description: String,
+  },
 })
 export default class PortalToolTip extends Vue {
   title!: string;
+
   link!: string;
+
   icon!: string;
+
   description!: string;
 }
 </script>
