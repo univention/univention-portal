@@ -108,8 +108,9 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
         }, 100);
       }
 
-      // eslint-disable-next-line no-unused-expressions
-      !this.activeFlyout ? (this.activeFlyoutContent = '') : null;
+      if (!this.activeFlyout) {
+        this.activeFlyoutContent = '';
+      }
     },
     changeMenuState(hasModal): void {
       // TODO: solve no-unused-expressions
@@ -117,15 +118,19 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
         this.activeFlyoutContent = '';
         setTimeout(() => {
           this.activeFlyout = false;
-          // eslint-disable-next-line no-unused-expressions
-          hasModal ? this.$store.commit('hideModal') : null;
+
+          if (hasModal) {
+            this.$store.commit('hideModal');
+          }
           // store flyout state
           this.setFlyoutState();
         }, 50);
       } else {
         this.activeFlyout = true;
-        // eslint-disable-next-line no-unused-expressions
-        hasModal ? this.$store.commit('showModal') : null;
+
+        if (hasModal) {
+          this.$store.commit('showModal');
+        }
         // store flyout state
         this.setFlyoutState();
       }
@@ -135,7 +140,6 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
     },
   },
 })
-
 export default class PortalHeader extends Vue {}
 </script>
 
