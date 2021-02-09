@@ -33,8 +33,7 @@
     </div>
 
     <flyout-wrapper :is-visible="activeFlyout">
-      <!-- TODO Semantic headlines -->
-      <portal-search v-if="activeFlyoutContent === 'search'" />
+      <portal-search v-if="activeSearchButton" />
     </flyout-wrapper>
 
     <portal-modal
@@ -42,7 +41,6 @@
       @changeMenuState="changeMenuState"
     >
       <flyout-wrapper :is-visible="this.$store.getters.modalState">
-        <!-- TODO Semantic headlines -->
         <h1 v-if="activeFlyoutContent === 'bell'">
           notifications
         </h1>
@@ -96,39 +94,30 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
   },
   methods: {
     openFlyout(buttonType: string, hasModal): void {
-      // TODO: solve no-unused-expressions
-      if (buttonType === this.activeFlyoutContent || !this.activeFlyout) {
-        this.changeMenuState(hasModal);
-        this.activeFlyoutContent = buttonType;
+      if (this.buttonIsClicked(buttonType)) {
+        this.changeMenuState(hasModal, buttonType);
+        this.setActiveButton(buttonType);
       } else {
-        this.changeMenuState();
         setTimeout(() => {
           this.changeMenuState(hasModal);
-          this.activeFlyoutContent = buttonType;
+          this.setActiveButton(buttonType);
         }, 100);
-      }
-
-      if (!this.activeFlyout) {
-        this.activeFlyoutContent = '';
       }
       this.setFocus(buttonType);
     },
-    changeMenuState(hasModal): void {
-      // TODO: solve no-unused-expressions
+    changeMenuState(hasModal, buttonType?): void {
       if (this.activeFlyout) {
-        this.activeFlyoutContent = '';
-        setTimeout(() => {
+        const anotherElementOpen = buttonType !== undefined;
+        if (anotherElementOpen) {
           this.activeFlyout = false;
-
           if (hasModal) {
             this.$store.commit('hideModal');
           }
-          // store flyout state
-          this.setFlyoutState();
-        }, 50);
+        } else {
+          console.log('backandforth');
+        }
       } else {
         this.activeFlyout = true;
-
         if (hasModal) {
           this.$store.commit('showModal');
         }
@@ -141,6 +130,12 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
     },
     setFlyoutState() {
       this.$store.dispatch('navigation/setShowFlyout', this.activeFlyout);
+    },
+    setActiveButton(buttonType) {
+      this.activeFlyoutContent = buttonType;
+    },
+    buttonIsClicked(buttonType): boolean {
+      return this.activeFlyoutContent === buttonType;
     },
   },
 })
