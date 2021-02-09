@@ -2,9 +2,11 @@
   <nav class="portal-sidenavigation">
     <div class="portal-sidenavigation__login-header">
       <div v-if="username" class="portal-sidenavigation__user-row">
-        <portal-icon icon="user" iconWidth="6rem" />
+        <portal-icon icon="user" icon-width="6rem" />
         <div>
-          <div class="portal-sidenavigation--username">{{ username }}</div>
+          <div class="portal-sidenavigation--username">
+            {{ username }}
+          </div>
           <div class="portal-sidenavigation__logout-link" @click="logout">
             Logout
           </div>
@@ -36,7 +38,7 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
 @Options({
   name: "SideNavigation",
   components: {
-    PortalIcon
+    PortalIcon,
   },
   computed: {
     username(): string {
@@ -44,7 +46,7 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
     },
     isAdmin(): boolean {
       return this.$store.state.user.isAdmin;
-    }
+    },
   },
   methods: {
     login() {
@@ -52,8 +54,8 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
     },
     logout() {
       this.$store.commit("devLogout");
-    }
-  }
+    },
+  },
 })
 export default class SideNavigation extends Vue {}
 </script>

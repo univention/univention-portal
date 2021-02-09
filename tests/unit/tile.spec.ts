@@ -12,8 +12,8 @@ test("Test tile rendering", () => {
   const wrapper = mount(PortalTile, {
     props: {
       title: "Test Title",
-      link: "https://test.com"
-    }
+      link: "https://test.com",
+    },
   });
 
   // Assert the rendered text of the component

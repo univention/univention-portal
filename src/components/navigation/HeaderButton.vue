@@ -1,16 +1,19 @@
 <template>
   <div
-    class="header-button"
     :class="{ 'header-button--is-active': isActiveButton }"
+    class="header-button"
   >
     <span class="header-button__inner" role="presentation">
       <button
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
         class="header-button__button"
-        @click="openFlyout"
       >
-        <portal-icon :icon="icon" :iconColor="setIconColor" iconWidth="2rem" />
+        <portal-icon
+          :icon="icon"
+          :icon-color="setIconColor"
+          icon-width="2rem"
+        />
       </button>
     </span>
   </div>
@@ -23,22 +26,22 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
 @Options({
   name: "HeaderButton",
   components: {
-    PortalIcon
+    PortalIcon,
   },
   emits: ["openFlyout"],
   props: {
     icon: {
       type: String,
-      required: true
+      required: true,
     },
     ariaLabel: {
       type: String,
-      required: true
+      required: true,
     },
     activeButton: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
@@ -46,14 +49,9 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
       return this.activeButton === this.icon ? "#7ab51d" : "#ffffff";
     },
     isActiveButton() {
-      return this.activeButton === this.icon ? true : false;
-    }
+      return this.activeButton === this.icon;
+    },
   },
-  methods: {
-    openFlyout() {
-      this.$emit("openFlyout");
-    }
-  }
 })
 export default class HeaderButton extends Vue {}
 </script>
