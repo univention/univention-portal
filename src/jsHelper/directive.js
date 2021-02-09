@@ -3,7 +3,7 @@ const clickOutside = {
   beforeMount() {
     const self = this;
     this.event = (event) => {
-      console.log('emitting event');
+      // console.log('emitting event');
       self.vm.$emit(self.expression, event);
     };
     this.el.addEventListener('click', this.stopProp);
@@ -11,7 +11,7 @@ const clickOutside = {
   },
 
   unmounted() {
-    console.log('unbind');
+    // console.log('unbind');
     this.el.removeEventListener('click', this.stopProp);
     document.body.removeEventListener('click', this.event);
   },
