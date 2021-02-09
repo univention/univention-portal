@@ -16,22 +16,23 @@
         :active-button="activeFlyoutContent"
         aria-label="Button for Seachbar"
         icon="search"
-        @openFlyout="openFlyout('search', false)"
+        @click="openFlyout('search', false)"
       />
       <header-button
         :active-button="activeFlyoutContent"
         aria-label="Open notifications"
         icon="bell"
-        @openFlyout="openFlyout('bell', true)"
+        @click="openFlyout('bell', true)"
       />
       <header-button
         :active-button="activeFlyoutContent"
         aria-label="Button for navigation"
         icon="menu"
-        @openFlyout="openFlyout('menu', true)"
+        @click="openFlyout('menu', true)"
       />
     </div>
-    <flyout-wrapper :is-visible="burgerMenuClicked">
+
+    <flyout-wrapper :is-visible="activeFlyout">
       <!-- TODO Semantic headlines -->
       <portal-search v-if="activeFlyoutContent === 'search'" />
     </flyout-wrapper>
@@ -53,6 +54,8 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
+
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
@@ -76,11 +79,14 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
   },
   data() {
     return {
-      burgerMenuClicked: false,
+      activeFlyout: false,
       activeFlyoutContent: '',
     };
   },
   computed: {
+    ...mapGetters({
+      showFlyout: 'navigation/getFlyout',
+    }),
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
@@ -89,8 +95,9 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
     },
   },
   methods: {
-    openFlyout(buttonType: string, hasModal): boolean {
-      if (buttonType === this.activeFlyoutContent || !this.burgerMenuClicked) {
+    openFlyout(buttonType: string, hasModal): void {
+      // TODO: solve no-unused-expressions
+      if (buttonType === this.activeFlyoutContent || !this.activeFlyout) {
         this.changeMenuState(hasModal);
         this.activeFlyoutContent = buttonType;
       } else {
@@ -101,23 +108,30 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
         }, 100);
       }
 
-      const ret = !this.burgerMenuClicked ? (this.activeFlyoutContent = false) : true;
-      return ret;
+      // eslint-disable-next-line no-unused-expressions
+      !this.activeFlyout ? (this.activeFlyoutContent = '') : null;
     },
     changeMenuState(hasModal): void {
       // TODO: solve no-unused-expressions
-      if (this.burgerMenuClicked) {
+      if (this.activeFlyout) {
         this.activeFlyoutContent = '';
         setTimeout(() => {
-          this.burgerMenuClicked = false;
+          this.activeFlyout = false;
           // eslint-disable-next-line no-unused-expressions
           hasModal ? this.$store.commit('hideModal') : null;
+          // store flyout state
+          this.setFlyoutState();
         }, 50);
       } else {
-        this.burgerMenuClicked = true;
+        this.activeFlyout = true;
         // eslint-disable-next-line no-unused-expressions
         hasModal ? this.$store.commit('showModal') : null;
+        // store flyout state
+        this.setFlyoutState();
       }
+    },
+    setFlyoutState() {
+      this.$store.dispatch('navigation/setShowFlyout', this.activeFlyout);
     },
   },
 })

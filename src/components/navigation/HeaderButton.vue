@@ -11,7 +11,6 @@
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
         class="header-button__button"
-        @click="openFlyout"
       >
         <portal-icon
           :icon="icon"
@@ -54,12 +53,6 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
     },
     isActiveButton() {
       return this.activeButton === this.icon;
-    },
-  },
-  methods: {
-    openFlyout() {
-      // TODO: move to store
-      this.$emit('openFlyout');
     },
   },
 })
