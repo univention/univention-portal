@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mount } from "@vue/test-utils";
 
 import PortalTile from "@/components/PortalTile.vue";
 /*
@@ -8,18 +8,19 @@ import PortalTile from "@/components/PortalTile.vue";
     test it's behaviour. In the future when the tile also has
     an edit function, this can be used to develop test driven.
 */
-test('Test tile rendering', () => {
-
+test("Test tile rendering", () => {
   const wrapper = mount(PortalTile, {
     props: {
-      title: 'Test Title',
-      link: 'https://test.com'
+      title: "Test Title",
+      link: "https://test.com"
     }
-  })
+  });
 
   // Assert the rendered text of the component
-  expect(wrapper.text()).toContain('Test Title')
+  expect(wrapper.text()).toContain("Test Title");
 
   // fetch an element by a smartly placed data attribute
-  expect(wrapper.get('[data-test="tileLink"]').attributes('href')).toBe('https://test.com')
-})
+  expect(wrapper.get('[data-test="tileLink"]').attributes("href")).toBe(
+    "https://test.com"
+  );
+});

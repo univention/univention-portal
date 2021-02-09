@@ -23,22 +23,22 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
 @Options({
   name: "HeaderButton",
   components: {
-    PortalIcon,
+    PortalIcon
   },
   emits: ["openFlyout"],
   props: {
     icon: {
       type: String,
-      required: true,
+      required: true
     },
     ariaLabel: {
       type: String,
-      required: true,
+      required: true
     },
     activeButton: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   computed: {
@@ -47,13 +47,13 @@ import PortalIcon from "@/components/globals/PortalIcon.vue";
     },
     isActiveButton() {
       return this.activeButton === this.icon ? true : false;
-    },
+    }
   },
   methods: {
     openFlyout() {
       this.$emit("openFlyout");
-    },
-  },
+    }
+  }
 })
 export default class HeaderButton extends Vue {}
 </script>

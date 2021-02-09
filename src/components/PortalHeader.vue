@@ -95,6 +95,8 @@ import PortalSearch from "@/components/search/PortalSearch.vue";
         }, 100);
       }
       !this.burgerMenuClicked ? (this.activeFlyoutContent = "") : null;
+
+      this.setFocus(buttonType);
       return this.burgerMenuClicked;
     },
     changeMenuState(hasModal): void {
@@ -108,6 +110,9 @@ import PortalSearch from "@/components/search/PortalSearch.vue";
         this.burgerMenuClicked = true;
         hasModal ? this.$store.commit("showModal") : null;
       }
+    },
+    setFocus(buttonType): void {
+      console.log("Setting Focus on: ", buttonType);
     },
   },
 })

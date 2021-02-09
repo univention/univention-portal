@@ -13,10 +13,10 @@ import { Options, Vue } from "vue-class-component";
   props: {
     isVisible: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
-  computed: {},
+  computed: {}
 })
 export default class FlyoutWrapper extends Vue {}
 </script>
