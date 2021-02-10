@@ -38,10 +38,9 @@
     </flyout-wrapper>
 
     <portal-modal
-      :is-active="this.$store.getters.modalState"
-      @changeMenuState="changeMenuState"
+      :is-active="modalState"
     >
-      <flyout-wrapper :is-visible="this.$store.getters.modalState">
+      <flyout-wrapper :is-visible="modalState">
         <!-- TODO Semantic headlines -->
         <h1 v-if="activeFlyoutContent === 'bell'">
           notifications
@@ -86,6 +85,7 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
   computed: {
     ...mapGetters({
       showFlyout: 'navigation/getFlyout',
+      modalState: 'modal/modalState',
     }),
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
@@ -96,7 +96,6 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
   },
   methods: {
     openFlyout(buttonType: string, hasModal): void {
-      // TODO: solve no-unused-expressions
       if (buttonType === this.activeFlyoutContent || !this.activeFlyout) {
         this.changeMenuState(hasModal);
         this.activeFlyoutContent = buttonType;
@@ -113,15 +112,16 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
       }
     },
     changeMenuState(hasModal): void {
-      // TODO: solve no-unused-expressions
       if (this.activeFlyout) {
         this.activeFlyoutContent = '';
         setTimeout(() => {
           this.activeFlyout = false;
 
           if (hasModal) {
-            this.$store.commit('hideModal');
+            // store modal state
+            this.$store.dispatch('modal/setHideModal');
           }
+
           // store flyout state
           this.setFlyoutState();
         }, 50);
@@ -129,8 +129,10 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
         this.activeFlyout = true;
 
         if (hasModal) {
-          this.$store.commit('showModal');
+          // store modal state
+          this.$store.dispatch('modal/setShowModal');
         }
+
         // store flyout state
         this.setFlyoutState();
       }
