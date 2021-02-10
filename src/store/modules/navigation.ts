@@ -1,4 +1,10 @@
-const navigation = {
+import { Module } from 'vuex';
+
+export interface State {
+  showFlyout: boolean;
+}
+
+const navigation: Module<State, any> = {
   namespaced: true,
   state: {
     showFlyout: false,

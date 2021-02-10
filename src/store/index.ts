@@ -1,140 +1,40 @@
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
-import PortalCategory from '@/components/PortalCategory.vue';
-import PortalTile from '@/components/PortalTile.vue';
-import PortalFolder from '@/components/PortalFolder.vue';
 
 // modules
+import categories from './modules/categories';
+import loading from './modules/loading';
 import navigation from './modules/navigation';
-
-export interface State {
-  categories: Array<PortalCategory>;
-  user: object;
-  loading: boolean;
-  modalVisible: boolean;
-  modalComponent: any;
-}
+import modal from './modules/modal';
+import user from './modules/user';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
-const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
+export interface State {}
 
 export const store = createStore<State>({
   modules: {
+    categories,
+    loading,
+    modal,
     navigation,
+    user,
   },
-  state: {
-    categories: [],
-    loading: false,
-    modalVisible: false,
-    modalComponent: null,
-    user: {},
-  },
-  mutations: {
-    startLoading: (state) => {
-      state.loading = true;
-    },
-    stopLoading: (state) => {
-      state.loading = false;
-    },
-    devStandard: (state) => {
-      const categories = [
-        new PortalCategory({
-          title: 'Applications',
-          tiles: [
-            new PortalTile({
-              title: 'ownCloud',
-              link: 'https://www.owncloud.com',
-              description: `Applications: ${dummyDescription}`,
-            }),
-            new PortalTile({
-              title: 'Nextcloud',
-              link: 'https://www.nextcloud.com',
-              description: `Nextcloud: ${dummyDescription}`,
-            }),
-          ],
-        }),
-        new PortalCategory({
-          title: 'Administration',
-          tiles: [
-            new PortalTile({
-              title: 'UMC',
-              link: '/umc/',
-              description: `UMC: ${dummyDescription}`,
-            }),
-            new PortalTile({
-              title: 'Blog',
-              link: 'https://www.univention.de/blog',
-              description: `Blog: ${dummyDescription}`,
-            }),
-          ],
-        }),
-      ];
-      state.categories = categories;
-    },
-    devFolder: (state) => {
-      const categories = [
-        new PortalCategory({
-          title: 'Applications',
-          tiles: [
-            new PortalTile({
-              title: 'ownCloud',
-              link: 'https://www.owncloud.com',
-              description: `ownCloud: ${dummyDescription}`,
-            }),
-            new PortalFolder({
-              title: 'Favorites',
-              tiles: [
-                new PortalTile({
-                  title: 'Nextcloud',
-                  link: 'https://www.nextcloud.com',
-                  description: `Nextcloud: ${dummyDescription}`,
-                }),
-              ],
-            }),
-          ],
-        }),
-      ];
-      state.categories = categories;
-    },
-    devEmpty: (state) => {
-      state.categories = [];
-    },
-    devLogin: (state) => {
-      state.user = {
-        username: 'Administrator',
-        isAdmin: true,
-      };
-    },
-    devLogout: (state) => {
-      state.user = {};
-    },
-    replace: (state, payload) => {
-      state.categories = payload.categories;
-    },
-    showModal: (state, componentName) => {
-      state.modalVisible = true;
-      state.modalComponent = componentName;
-    },
-    hideModal: (state) => {
-      state.modalVisible = false;
-    },
-  },
+  state: {},
+  mutations: {},
   actions: {
     loadPortal: ({ commit }) => {
-      commit('startLoading');
+      store.dispatch('loading/setStartLoading');
       return new Promise((resolve) => {
         setTimeout(() => {
-          commit('devStandard');
-          commit('stopLoading');
+          store.dispatch('categories/setDevStandard');
+          store.dispatch('loading/setStopLoading');
           resolve();
         }, 100);
       });
     },
   },
-  getters: {
-    modalState: (state) => state.modalVisible,
-  },
+  getters: {},
 });
 
 // define your own `useStore` composition function
