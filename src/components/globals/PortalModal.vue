@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalModal',
@@ -22,23 +22,23 @@ import { mapMutations } from 'vuex';
       required: true,
     },
   },
-  emits: ['changeMenuState'],
 
-  computed: {},
+  computed: {
+    ...mapGetters({
+      modalState: 'modal/modalState',
+    }),
+  },
 
   methods: {
-    ...mapMutations(['hideModal']),
     closeModal() {
-      if (this.$store.getters.modalState) {
-        console.log('before emit');
-        this.$emit('changeMenuState');
-        console.log('after emit');
-
-        this.$store.commit('hideModal');
+      if (this.modalState) {
+        // store modal state
+        this.$store.dispatch('modal/setHideModal');
       }
     },
   },
 })
+
 export default class PortalModal extends Vue {}
 </script>
 

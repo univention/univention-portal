@@ -31,7 +31,6 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
   components: {
     PortalIcon,
   },
-  emits: ['openFlyout'],
   props: {
     icon: {
       type: String,
