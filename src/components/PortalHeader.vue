@@ -26,21 +26,21 @@
       />
     </div>
 
-    <flyout-wrapper :is-visible="activeButton === 'search'">
+    <flyout-wrapper :is-visible="activeSearchButton">
       <!-- TODO Semantic headlines -->
-      <portal-search v-if="activeButton === 'search'" />
+      <portal-search v-if="activeSearchButton" />
     </flyout-wrapper>
 
     <portal-modal
-      :is-active="activeButton === 'bell' || activeButton === 'menu'"
+      :is-active="activeNotificationButton || activeMenuButton"
       @click="closeModal()"
     >
-      <flyout-wrapper :is-visible="activeButton === 'bell' || activeButton === 'menu'">
+      <flyout-wrapper :is-visible="activeNotificationButton || activeMenuButton">
         <!-- TODO Semantic headlines -->
-        <h1 v-if="activeButton === 'bell'">
+        <h1 v-if="activeNotificationButton">
           notifications
         </h1>
-        <side-navigation v-if="activeButton === 'menu'" />
+        <side-navigation v-if="activeMenuButton" />
       </flyout-wrapper>
     </portal-modal>
   </header>
@@ -85,6 +85,12 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
     },
     activeSearchButton(): boolean {
       return this.activeButton === 'search';
+    },
+    activeNotificationButton(): boolean {
+      return this.activeButton === 'bell';
+    },
+    activeMenuButton(): boolean {
+      return this.activeButton === 'menu';
     },
   },
 })
