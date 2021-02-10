@@ -24,14 +24,14 @@
         />
         Folder
       </button>
-      <button @click="devLogin">
+      <button @click="login">
         <portal-icon
           icon="log-in"
           icon-width="1em"
         />
         Login
       </button>
-      <button @click="devLogout">
+      <button @click="logout">
         <portal-icon
           icon="log-out"
           icon-width="1em"
@@ -53,10 +53,14 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
+
 import PortalCategory from 'components/PortalCategory.vue'; // @ is an alias to /src
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
 import PortalStandby from '@/components/PortalStandby.vue';
+
+import userMixin from '@/mixins/userMixin.vue';
 
 @Options({
   name: 'Home',
@@ -66,29 +70,22 @@ import PortalStandby from '@/components/PortalStandby.vue';
     PortalIcon,
     PortalStandby,
   },
+  mixins: [userMixin],
   computed: {
-    categories() {
-      return this.$store.state.categories;
-    },
-    loading() {
-      return this.$store.state.loading;
-    },
+    ...mapGetters({
+      categories: 'categories/categoryState',
+      loading: 'loading/loadingState',
+    }),
   },
   methods: {
     devEmpty() {
-      this.$store.commit('devEmpty');
-    },
-    devStandard() {
-      this.$store.commit('devStandard');
+      this.$store.dispatch('categories/setDevEmpty');
     },
     devFolder() {
-      this.$store.commit('devFolder');
+      this.$store.dispatch('categories/setDevFolder');
     },
-    devLogin() {
-      this.$store.commit('devLogin');
-    },
-    devLogout() {
-      this.$store.commit('devLogout');
+    devStandard() {
+      this.$store.dispatch('categories/setDevStandard');
     },
   },
 })
@@ -99,4 +96,6 @@ export default class PortalHome extends Vue {}
 .portal
   position: relative;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+  button svg /* just during dev anyway */
+    color: black
 </style>
