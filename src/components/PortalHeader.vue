@@ -13,39 +13,34 @@
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
       <header-button
-        :active-button="activeFlyoutContent"
-        aria-label="Button for Seachbar"
+        aria-label="Button for Searchbar"
         icon="search"
-        @click="openFlyout('search', false)"
       />
       <header-button
-        :active-button="activeFlyoutContent"
         aria-label="Open notifications"
         icon="bell"
-        @click="openFlyout('bell', true)"
       />
       <header-button
-        :active-button="activeFlyoutContent"
         aria-label="Button for navigation"
         icon="menu"
-        @click="openFlyout('menu', true)"
       />
     </div>
 
-    <flyout-wrapper :is-visible="activeFlyout">
+    <flyout-wrapper :is-visible="activeButton === 'search'">
       <!-- TODO Semantic headlines -->
-      <portal-search v-if="activeFlyoutContent === 'search'" />
+      <portal-search v-if="activeButton === 'search'" />
     </flyout-wrapper>
 
     <portal-modal
-      :is-active="modalState"
+      :is-active="activeButton === 'bell' || activeButton === 'menu'"
+      @click="closeModal()"
     >
-      <flyout-wrapper :is-visible="modalState">
+      <flyout-wrapper :is-visible="activeButton === 'bell' || activeButton === 'menu'">
         <!-- TODO Semantic headlines -->
-        <h1 v-if="activeFlyoutContent === 'bell'">
+        <h1 v-if="activeButton === 'bell'">
           notifications
         </h1>
-        <side-navigation v-if="activeFlyoutContent === 'menu'" />
+        <side-navigation v-if="activeButton === 'menu'" />
       </flyout-wrapper>
     </portal-modal>
   </header>
@@ -76,69 +71,20 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
       default: 'Univention Portal',
     },
   },
-  data() {
-    return {
-      activeFlyout: false,
-      activeFlyoutContent: '',
-    };
+  methods: {
+    closeModal() {
+      this.$store.dispatch('navigation/setActiveButton', '');
+    },
   },
   computed: {
     ...mapGetters({
-      showFlyout: 'navigation/getFlyout',
-      modalState: 'modal/modalState',
+      activeButton: 'navigation/getActiveButton',
     }),
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
     activeSearchButton(): boolean {
-      return this.activeFlyoutContent === 'search';
-    },
-  },
-  methods: {
-    openFlyout(buttonType: string, hasModal): void {
-      if (buttonType === this.activeFlyoutContent || !this.activeFlyout) {
-        this.changeMenuState(hasModal);
-        this.activeFlyoutContent = buttonType;
-      } else {
-        this.changeMenuState();
-        setTimeout(() => {
-          this.changeMenuState(hasModal);
-          this.activeFlyoutContent = buttonType;
-        }, 100);
-      }
-
-      if (!this.activeFlyout) {
-        this.activeFlyoutContent = '';
-      }
-    },
-    changeMenuState(hasModal): void {
-      if (this.activeFlyout) {
-        this.activeFlyoutContent = '';
-        setTimeout(() => {
-          this.activeFlyout = false;
-
-          if (hasModal) {
-            // store modal state
-            this.$store.dispatch('modal/setHideModal');
-          }
-
-          // store flyout state
-          this.setFlyoutState();
-        }, 50);
-      } else {
-        this.activeFlyout = true;
-
-        if (hasModal) {
-          // store modal state
-          this.$store.dispatch('modal/setShowModal');
-        }
-
-        // store flyout state
-        this.setFlyoutState();
-      }
-    },
-    setFlyoutState() {
-      this.$store.dispatch('navigation/setShowFlyout', this.activeFlyout);
+      return this.activeButton === 'search';
     },
   },
 })

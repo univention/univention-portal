@@ -97,4 +97,6 @@ export default class PortalHome extends Vue {}
 .portal
   position: relative;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+  button svg /* just during dev anyway */
+    color: black
 </style>

@@ -2,7 +2,6 @@
   <svg
     :width="iconWidth"
     :height="setIconHeight"
-    :color="iconColor"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     aria-hidden="true"
@@ -29,10 +28,6 @@ import { Options, Vue } from 'vue-class-component';
       type: String,
       required: false,
     },
-    iconColor: {
-      type: String,
-      default: '#000000',
-    },
   },
   computed: {
     setIconHeight() {
@@ -50,6 +45,7 @@ svg
   stroke-width: 2
   stroke-linecap: round
   stroke-linejoin: round
+  color: var(--font-color-contrast-high)
   fill: none
   transition: color 250ms
 </style>

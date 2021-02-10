@@ -1,28 +1,28 @@
 import { Module } from 'vuex';
 
 export interface State {
-  showFlyout: boolean;
+  activeButton: string;
 }
 
 const navigation: Module<State, any> = {
   namespaced: true,
   state: {
-    showFlyout: false,
+    activeButton: '',
   },
 
   mutations: {
-    SHOWFLYOUT(state, showFlyout) {
-      state.showFlyout = showFlyout;
+    ACTIVEBUTTON(state, id) {
+      state.activeButton = id;
     },
   },
 
   getters: {
-    getFlyout: (state) => state.showFlyout,
+    getActiveButton: (state) => state.activeButton,
   },
 
   actions: {
-    setShowFlyout({ commit }, showFlyout) {
-      commit('SHOWFLYOUT', showFlyout);
+    setActiveButton({ commit }, id) {
+      commit('ACTIVEBUTTON', id);
     },
   },
 };
