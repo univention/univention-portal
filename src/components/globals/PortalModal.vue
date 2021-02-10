@@ -3,7 +3,7 @@
     <div
       class="portal-modal"
       :class="{ 'portal-modal--isVisible': isActive }"
-      @click="closeModal()"
+      @click="clickHandler"
     >
       <slot />
     </div>
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalModal',
@@ -22,23 +22,18 @@ import { mapMutations } from 'vuex';
       required: true,
     },
   },
-  emits: ['changeMenuState'],
 
-  computed: {},
+  emits: ['click'],
 
   methods: {
-    ...mapMutations(['hideModal']),
-    closeModal() {
-      if (this.$store.getters.modalState) {
-        console.log('before emit');
-        this.$emit('changeMenuState');
-        console.log('after emit');
-
-        this.$store.commit('hideModal');
+    clickHandler(evt) {
+      if (evt.target.classList.contains('portal-modal')) {
+        this.$emit('click');
       }
     },
   },
 })
+
 export default class PortalModal extends Vue {}
 </script>
 

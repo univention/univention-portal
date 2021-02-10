@@ -13,38 +13,34 @@
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
       <header-button
-        :active-button="activeFlyoutContent"
-        aria-label="Button for Seachbar"
+        aria-label="Button for Searchbar"
         icon="search"
-        @click="openFlyout('search', false)"
       />
       <header-button
-        :active-button="activeFlyoutContent"
         aria-label="Open notifications"
         icon="bell"
-        @click="openFlyout('bell', true)"
       />
       <header-button
-        :active-button="activeFlyoutContent"
         aria-label="Button for navigation"
         icon="menu"
-        @click="openFlyout('menu', true)"
       />
     </div>
 
-    <flyout-wrapper :is-visible="activeFlyout">
+    <flyout-wrapper :is-visible="activeSearchButton">
+      <!-- TODO Semantic headlines -->
       <portal-search v-if="activeSearchButton" />
     </flyout-wrapper>
 
     <portal-modal
-      :is-active="this.$store.getters.modalState"
-      @changeMenuState="changeMenuState"
+      :is-active="activeNotificationButton || activeMenuButton"
+      @click="closeModal()"
     >
-      <flyout-wrapper :is-visible="this.$store.getters.modalState">
-        <h1 v-if="activeFlyoutContent === 'bell'">
+      <flyout-wrapper :is-visible="activeNotificationButton || activeMenuButton">
+        <!-- TODO Semantic headlines -->
+        <h1 v-if="activeNotificationButton">
           notifications
         </h1>
-        <side-navigation v-if="activeFlyoutContent === 'menu'" />
+        <side-navigation v-if="activeMenuButton" />
       </flyout-wrapper>
     </portal-modal>
   </header>
@@ -75,61 +71,26 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
       default: 'Univention Portal',
     },
   },
-  data() {
-    return {
-      activeFlyout: false,
-      activeFlyoutContent: '',
-    };
+  methods: {
+    closeModal() {
+      this.$store.dispatch('navigation/setActiveButton', '');
+    },
   },
   computed: {
     ...mapGetters({
-      showFlyout: 'navigation/getFlyout',
+      activeButton: 'navigation/getActiveButton',
     }),
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
     activeSearchButton(): boolean {
-      return this.activeFlyoutContent === 'search';
+      return this.activeButton === 'search';
     },
-  },
-  methods: {
-    openFlyout(buttonType: string, hasModal): void {
-      this.changeMenuState(buttonType, hasModal);
-      this.setFocus(buttonType);
+    activeNotificationButton(): boolean {
+      return this.activeButton === 'bell';
     },
-    changeMenuState(buttonType: string, hasModal): void {
-      if (!this.sameButtonClicked(buttonType) && this.activeFlyout) {
-        if (buttonType === 'search') {
-          this.$store.commit('hideModal');
-        } else {
-          this.$store.commit('showModal');
-        }
-        this.activeFlyoutContent = buttonType;
-      } else if (this.activeFlyout && this.activeFlyoutContent.length >= 0) {
-        this.activeFlyout = false;
-        if (hasModal) {
-          this.$store.commit('hideModal');
-        }
-        setTimeout(() => {
-          this.setActiveButton('');
-        }, 100);
-      } else {
-        this.activeFlyout = true;
-        if (hasModal) {
-          this.$store.commit('showModal');
-        }
-        // store flyout state
-        this.setFlyoutState();
-        setTimeout(() => {
-          this.setActiveButton(buttonType);
-        }, 100);
-      }
-    },
-    setFocus(buttonType): void {
-      console.log('Setting Focus on: ', buttonType);
-    },
-    setFlyoutState() {
-      this.$store.dispatch('navigation/setShowFlyout', this.activeFlyout);
+    activeMenuButton(): boolean {
+      return this.activeButton === 'menu';
     },
     setActiveButton(buttonType) {
       this.activeFlyoutContent = buttonType;

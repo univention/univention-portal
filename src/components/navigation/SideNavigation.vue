@@ -46,30 +46,18 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import userMixin from '@/mixins/userMixin.vue';
 
 @Options({
   name: 'SideNavigation',
   components: {
     PortalIcon,
   },
-  computed: {
-    username(): string {
-      return this.$store.state.user.username;
-    },
-    isAdmin(): boolean {
-      return this.$store.state.user.isAdmin;
-    },
-  },
-  methods: {
-    login() {
-      this.$store.commit('devLogin');
-    },
-    logout() {
-      this.$store.commit('devLogout');
-    },
-  },
+  mixins: [userMixin],
 })
+
 export default class SideNavigation extends Vue {}
 </script>
 
@@ -96,7 +84,6 @@ export default class SideNavigation extends Vue {}
     display: flex
 
     svg
-      color: var(--font-color-contrast-high)
       fill: currentColor
       background-color: var(--color-grey40)
       margin: 0.5rem

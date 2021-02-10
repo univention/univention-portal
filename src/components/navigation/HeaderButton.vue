@@ -2,6 +2,7 @@
   <div
     :class="{ 'header-button--is-active': isActiveButton }"
     class="header-button"
+    @click="click"
   >
     <span
       class="header-button__inner"
@@ -14,7 +15,6 @@
       >
         <portal-icon
           :icon="icon"
-          :icon-color="setIconColor"
           icon-width="2rem"
         />
       </button>
@@ -31,7 +31,6 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
   components: {
     PortalIcon,
   },
-  emits: ['openFlyout'],
   props: {
     icon: {
       type: String,
@@ -41,18 +40,21 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       type: String,
       required: true,
     },
-    activeButton: {
-      type: String,
-      required: true,
+  },
+
+  methods: {
+    click() {
+      if (this.isActiveButton) {
+        this.$store.dispatch('navigation/setActiveButton', '');
+      } else {
+        this.$store.dispatch('navigation/setActiveButton', this.icon);
+      }
     },
   },
 
   computed: {
-    setIconColor() {
-      return this.activeButton === this.icon ? '#7ab51d' : '#ffffff';
-    },
     isActiveButton() {
-      return this.activeButton === this.icon;
+      return this.$store.state.navigation.activeButton === this.icon;
     },
   },
 })
@@ -70,6 +72,9 @@ export default class HeaderButton extends Vue {}
 
   &--is-active
       z-index:1000;
+
+      svg
+        color: var(--color-primary)
 
   &__inner
     border: none;
