@@ -94,13 +94,11 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
   },
   methods: {
     openFlyout(buttonType: string, hasModal): void {
-      console.log('this.buttonIsClicked(buttonType)', this.buttonIsClicked(buttonType));
       this.changeMenuState(buttonType, hasModal);
       this.setFocus(buttonType);
     },
     changeMenuState(buttonType: string, hasModal): void {
       if (!this.sameButtonClicked(buttonType) && this.activeFlyout) {
-        console.log('TESTCHECK');
         if (buttonType === 'search') {
           this.$store.commit('hideModal');
         } else {
@@ -108,7 +106,6 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
         }
         this.activeFlyoutContent = buttonType;
       } else if (this.activeFlyout && this.activeFlyoutContent.length >= 0) {
-        console.log('test');
         this.activeFlyout = false;
         if (hasModal) {
           this.$store.commit('hideModal');
@@ -127,12 +124,6 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
           this.setActiveButton(buttonType);
         }, 100);
       }
-      console.log('buttonisClicked, changeMenuState');
-      console.log('____________________________________________');
-      console.log('activeFlyoutContent', this.activeFlyoutContent);
-      console.log('this.activeFlyout', this.activeFlyout);
-      console.log('this.buttonIsClicked', this.buttonIsClicked());
-      console.log('____________________________________________');
     },
     setFocus(buttonType): void {
       console.log('Setting Focus on: ', buttonType);
@@ -141,7 +132,6 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
       this.$store.dispatch('navigation/setShowFlyout', this.activeFlyout);
     },
     setActiveButton(buttonType) {
-      console.log(buttonType);
       this.activeFlyoutContent = buttonType;
     },
     buttonIsClicked(buttonType): boolean {
