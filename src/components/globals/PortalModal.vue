@@ -3,7 +3,7 @@
     <div
       class="portal-modal"
       :class="{ 'portal-modal--isVisible': isActive }"
-      @click="clickHandler()"
+      @click="clickHandler"
     >
       <slot />
     </div>
@@ -26,8 +26,10 @@ import { mapGetters } from 'vuex';
   emits: ['click'],
 
   methods: {
-    clickHandler() {
-      this.$emit('click');
+    clickHandler(evt) {
+      if (evt.target.classList.contains('portal-modal')) {
+        this.$emit('click');
+      }
     },
   },
 })
