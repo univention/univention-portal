@@ -84,7 +84,6 @@ export default class SideNavigation extends Vue {}
     display: flex
 
     svg
-      color: var(--font-color-contrast-high)
       fill: currentColor
       background-color: var(--color-grey40)
       margin: 0.5rem

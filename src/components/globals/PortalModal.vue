@@ -3,7 +3,7 @@
     <div
       class="portal-modal"
       :class="{ 'portal-modal--isVisible': isActive }"
-      @click="closeModal()"
+      @click="clickHandler()"
     >
       <slot />
     </div>
@@ -23,18 +23,11 @@ import { mapGetters } from 'vuex';
     },
   },
 
-  computed: {
-    ...mapGetters({
-      modalState: 'modal/modalState',
-    }),
-  },
+  emits: ['click'],
 
   methods: {
-    closeModal() {
-      if (this.modalState) {
-        // store modal state
-        this.$store.dispatch('modal/setHideModal');
-      }
+    clickHandler() {
+      this.$emit('click');
     },
   },
 })
