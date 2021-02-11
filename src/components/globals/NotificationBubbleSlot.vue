@@ -51,7 +51,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   props: {
     bubbleContainer: {
       type: String,
-      default: '',
+      default: 'standalone',
     },
   },
   computed: {
