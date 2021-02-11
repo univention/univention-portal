@@ -15,7 +15,6 @@ export interface State {}
 export const store = createStore<State>({
   modules: {
     categories,
-    loading,
     modal,
     navigation,
     user,
@@ -24,13 +23,13 @@ export const store = createStore<State>({
   mutations: {},
   actions: {
     loadPortal: ({ commit }) => {
-      store.dispatch('loading/setStartLoading');
+      store.dispatch('modal/setShowLoadingModal');
       return new Promise((resolve) => {
         setTimeout(() => {
           store.dispatch('categories/setDevStandard');
-          store.dispatch('loading/setStopLoading');
+          store.dispatch('modal/setHideModal');
           resolve();
-        }, 100);
+        }, 1000);
       });
     },
   },

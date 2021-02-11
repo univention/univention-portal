@@ -47,7 +47,15 @@
       />
     </div>
 
-    <portal-standby v-if="loading" />
+    <portal-modal
+      :is-active="modalState"
+      @click="closeModal"
+    >
+      <component
+        :is="modalComponent"
+        v-bind="modalProps"
+      />
+    </portal-modal>
   </div>
 </template>
 
@@ -59,6 +67,8 @@ import PortalCategory from 'components/PortalCategory.vue'; // @ is an alias to 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
 import PortalStandby from '@/components/PortalStandby.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
 
@@ -69,15 +79,25 @@ import userMixin from '@/mixins/userMixin.vue';
     PortalHeader,
     PortalIcon,
     PortalStandby,
+    PortalFolder,
+    PortalModal,
   },
   mixins: [userMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
-      loading: 'loading/loadingState',
+      modalState: 'modal/modalState',
+      modalComponent: 'modal/modalComponent',
+      modalProps: 'modal/modalProps',
+      modalStubborn: 'modal/modalStubborn',
     }),
   },
   methods: {
+    closeModal() {
+      if (!this.modalStubborn) {
+        this.$store.dispatch('modal/setHideModal');
+      }
+    },
     devEmpty() {
       this.$store.dispatch('categories/setDevEmpty');
     },
