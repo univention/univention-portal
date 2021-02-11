@@ -9,7 +9,7 @@ import PortalTile from '@/components/PortalTile.vue';
     https://jestjs.io/docs/en/snapshot-testing
 */
 test('Test tile rendering', () => {
-  // Assert the rendered text of the component
+  // Create a rendering of the component
   const wrapper = mount(PortalTile, {
     props: {
       title: 'Test Title',
