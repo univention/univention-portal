@@ -1,5 +1,8 @@
 <template>
-  <header class="portal-header">
+  <header
+    id="portal-header"
+    class="portal-header"
+  >
     <div
       class="portal-header__left"
       tabindex="0"
@@ -25,6 +28,10 @@
         icon="menu"
       />
     </div>
+
+    <notification-bubble
+      bubble-container="standalone"
+    />
 
     <flyout-wrapper :is-visible="activeSearchButton">
       <!-- TODO Semantic headlines -->
@@ -54,6 +61,7 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
+import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 
 @Options({
@@ -63,6 +71,7 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
     FlyoutWrapper,
     SideNavigation,
     PortalModal,
+    NotificationBubble,
     PortalSearch,
   },
   props: {
@@ -123,4 +132,6 @@ export default class PortalHeader extends Vue {}
     align-items: center;
   &__stretch
     flex: 1 1 auto;
+  &__bubble-container
+    width: 360px;
 </style>

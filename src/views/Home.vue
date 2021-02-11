@@ -110,7 +110,7 @@ import userMixin from '@/mixins/userMixin.vue';
   },
 })
 
-export default class PortalHome extends Vue {}
+export default class Home extends Vue {}
 </script>
 
 <style scoped lang="stylus">
