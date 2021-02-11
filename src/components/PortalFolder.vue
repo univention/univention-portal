@@ -1,6 +1,9 @@
 <template>
   <div class="tile">
-    <div class="folder box">
+    <div
+      class="folder box"
+      @click="openFolder"
+    >
       <div class="thumbnails">
         <div
           v-for="tile in tiles"
@@ -24,15 +27,25 @@
 <script lang="ts">
 import { Options } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
 
 @Options({
-  name: 'Portalfolder',
+  name: 'PortalFolder',
   components: {
     PortalTile,
+    PortalModal,
   },
   props: {
     title: String,
     tiles: Array,
+  },
+  methods: {
+    openFolder() {
+      this.$store.dispatch('modal/setShowModal', {
+        name: 'PortalFolder',
+        props: this.$props,
+      });
+    },
   },
 })
 export default class PortalFolder extends PortalTile {
@@ -42,10 +55,12 @@ export default class PortalFolder extends PortalTile {
 }
 </script>
 
-<style scoped lang="stylus">
-/*.folder
-  background: rgba(var(--color-grey0-rgb), 0.7);
-*/
+<style lang="stylus">
+.portal-modal--isVisible
+  .box
+    width: calc(4 * var(--app-tile-side-length))
+    height: @width
+
 .tile
   position: relative
   width: var(--app-tile-side-length)

@@ -1,11 +1,10 @@
 <template>
   <a
-    data-test="tileLink"
     :href="link"
     draggable="true"
   >
     <div
-      class="tile"
+      :class="cssClass"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -33,6 +32,10 @@ import { Options, Vue } from 'vue-class-component';
     link: String,
     logo: String,
     backgroundColor: String,
+    cssClass: {
+      type: String,
+      default: 'tile',
+    },
   },
 })
 
