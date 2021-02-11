@@ -1,26 +1,23 @@
 <template>
-  <a
-    data-test="tileLink"
+  <component
+    :is="wrapperTag"
+    class="portal-tile"
     :href="link"
     draggable="true"
   >
     <div
-      :class="cssClass"
+      :style="`background: ${backgroundColor}`"
+      class="portal-tile__box"
     >
-      <div
-        :style="`background: ${backgroundColor}`"
-        class="box"
+      <img
+        :src="logo"
+        :alt="`title ${logo}`"
       >
-        <img
-          :src="logo"
-          :alt="`title ${logo}`"
-        >
-      </div>
-      <span class="name">
-        {{ title }}
-      </span>
     </div>
-  </a>
+    <span class="portal-tile__name">
+      {{ title }}
+    </span>
+  </component>
 </template>
 
 <script lang="ts">
@@ -33,9 +30,14 @@ import { Options, Vue } from 'vue-class-component';
     link: String,
     logo: String,
     backgroundColor: String,
-    cssClass: {
-      type: String,
-      default: 'tile',
+    inFolder: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    wrapperTag() {
+      return this.inFolder ? 'div' : 'a';
     },
   },
 })
@@ -51,25 +53,23 @@ export default class PortalTile extends Vue {
 }
 </script>
 
-<style scoped lang="stylus">
-a,
-a:hover
-  color: var(--font-color-contrast-high)
-  text-decoration: none
-
-a
+<style lang="stylus">
+.portal-tile
   position: relative
   outline: 0
-
-.tile
-  position: relative
   width: var(--app-tile-side-length)
   display: flex
   flex-direction: column
   align-items: center
   cursor: pointer
+  color: var(--font-color-contrast-high)
+  text-decoration: none
 
-.box
+  &:hover
+    color: var(--font-color-contrast-high)
+    text-decoration: none
+
+.portal-tile__box
   border-radius: 15%
   display: flex
   align-items: center
@@ -80,10 +80,10 @@ a
   height: @width
   margin-bottom: calc(2 * var(--layout-spacing-unit))
 
-img
-  width: 80%
+  img
+    width: 80%
 
-.name
+.portal-tile__name
   text-align: center
   width: 100%
   overflow: hidden

@@ -38,6 +38,36 @@ const catagories: Module<State, any> = {
                   link: 'https://www.nextcloud.com',
                   description: `Nextcloud: ${dummyDescription}`,
                 }),
+                new PortalTile({
+                  title: 'Jitsi',
+                  link: 'https://www.jitsi.com',
+                  description: `Jitsi: ${dummyDescription}`,
+                }),
+                new PortalTile({
+                  title: 'Ubuntu',
+                  link: 'https://www.ubuntu.com',
+                  description: `Ubuntu: ${dummyDescription}`,
+                }),
+                new PortalTile({
+                  title: 'Relution',
+                  link: 'https://www.relution.com',
+                  description: `Relution: ${dummyDescription}`,
+                }),
+                new PortalTile({
+                  title: 'Rocketchat',
+                  link: 'https://www.rocketchat.com',
+                  description: `Rocketchat: ${dummyDescription}`,
+                }),
+                new PortalTile({
+                  title: 'Open Xchange',
+                  link: 'https://www.ox.com',
+                  description: `Open Xchange: ${dummyDescription}`,
+                }),
+                new PortalTile({
+                  title: 'UCS@school',
+                  link: 'https://www.univention.com',
+                  description: `UCS@school: ${dummyDescription}`,
+                }),
               ],
             }),
           ],
