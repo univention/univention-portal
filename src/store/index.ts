@@ -3,7 +3,6 @@ import { createStore, useStore as baseUseStore, Store } from 'vuex';
 
 // modules
 import categories from './modules/categories';
-import loading from './modules/loading';
 import navigation from './modules/navigation';
 import modal from './modules/modal';
 import user from './modules/user';
