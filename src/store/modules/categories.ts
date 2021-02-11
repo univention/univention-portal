@@ -81,6 +81,7 @@ const catagories: Module<State, any> = {
       state.categories = categories;
     },
     REPLACE(state, payload) {
+      console.log('payload', payload);
       state.categories = payload.categories;
     },
   },
@@ -101,6 +102,9 @@ const catagories: Module<State, any> = {
     },
     setReplace({ commit }, payload) {
       commit('REPLACE', payload);
+    },
+    filterTiles({ commit }, filteredList) {
+      commit('REPLACE', filteredList);
     },
   },
 };
