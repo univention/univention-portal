@@ -18,6 +18,6 @@ import { Options, Vue } from 'vue-class-component';
 
   methods: {},
 })
-export default class PortalModal extends Vue {}
+export default class PortalSearch extends Vue {}
 </script>
 <style></style>

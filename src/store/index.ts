@@ -4,6 +4,7 @@ import { createStore, useStore as baseUseStore, Store } from 'vuex';
 // modules
 import categories from './modules/categories';
 import navigation from './modules/navigation';
+import notificationBubble from './modules/notificationBubble';
 import modal from './modules/modal';
 import user from './modules/user';
 
@@ -16,6 +17,7 @@ export const store = createStore<State>({
     categories,
     modal,
     navigation,
+    notificationBubble,
     user,
   },
   state: {},
@@ -23,12 +25,18 @@ export const store = createStore<State>({
   actions: {
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
+      store.dispatch('notificationBubble/setShowBubble');
       return new Promise((resolve) => {
         setTimeout(() => {
           store.dispatch('categories/setDevStandard');
           store.dispatch('modal/setHideModal');
           resolve();
         }, 1000);
+        setTimeout(() => {
+          // hide notification bubble
+          store.dispatch('notificationBubble/setHideBubble');
+          resolve();
+        }, 4000);
       });
     },
   },
