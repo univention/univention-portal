@@ -1,55 +1,67 @@
 # UPX Portal Frontend
 
-Vue.js client to recreate the UCS5 portal for the Univention Phoenix suite.
+Vue.js client to recreate the UCS5 Portal for the new Univention Phoenix suite.
+
+## Overview
+
+Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are maintained in our xWiki:
+- [Brainstorming](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Brainstorming/) (Discussions and ideas that have not yet been decided by the team)
+- [Code Style](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Code%20Style/) (Several rules and best practices on how to style and structure our code)
+- [Git Rules](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Git%20Rules/) (Commit message style, merge strategy, feature branches and more guidelines)
+- [Tech Stack](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Tech%20Stack/) (Technical decisions about the frameworks, libraries and tools we use)
+- [Workflow](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Workflow/) (Description and suggestions on how we work together, track issues, review code...)
 
 ## Project setup
+Installs all project dependencies
 ```
-npm install
+yarn install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
-```
-
-## Unit tests
-### Run your unit tests
-```
-npm run test:unit
-```
-### Snapshot testing
-This is done for simple components, just to ensure that they keep their design while we're changing other stuff.
-Most IDEs support this in some degree, for example IDEA just puts a link to regenerate to every failed snapshot test.
-#### Update snapshots interactively
-Preferred way, all unittests run everytime when you change something, immediate feedback und regeneration with a keystroke. Not limited to snapshots...
-```
-test:unit:watch
-```
-#### Update all snapshots
-(use this with care)
-```
-test:unit:updatesnapshots
-```
-
-
-### Run your end-to-end tests
-```
-npm run test:e2e
+yarn build
 ```
 
 ### Lints and fixes files
 ```
-npm run lint
+yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Unit tests
+Runs unit tests with Jest
+```
+yarn test:unit
+```
 
-### Icons (Feather-Sprite)
-[Preview / reference](https://feathericons.com/)
+### Update tests interactively
+All unit tests run on every change for immediate feedback und regeneration with a keystroke.
+(Preferred way to update snapshots)
+```
+yarn test:unit:watch
+```
+
+### Snapshot testing
+This is done for simple components, just to ensure that they keep their design while we're changing other stuff.
+Most IDEs support this in some degree (e.g. IntelliJ just puts a link to regenerate every failed snapshot test).
+
+### Update all snapshots
+Use this command with care
+```
+yarn test:unit:updatesnapshots
+```
+
+## End-to-end tests
+Runs e2e tests with Cypress.
+```
+yarn test:e2e
+```
+
+## Links and references
+
+- Feather-Sprite Icons: [Overview](https://feathericons.com/)
 
