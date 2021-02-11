@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test tile rendering 1`] = `
+<a
+  data-test="tileLink"
+  draggable="true"
+  href="https://test.com"
+>
+  <div
+    class="tile"
+  >
+    <div
+      class="box"
+      style=""
+    >
+      <img
+        alt="title questionMark.svg"
+        src="questionMark.svg"
+      />
+    </div>
+    <span
+      class="name"
+    >
+      Test Title
+    </span>
+  </div>
+</a>
+`;

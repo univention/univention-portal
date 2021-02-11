@@ -17,10 +17,25 @@ npm run serve
 npm run build
 ```
 
+## Unit tests
 ### Run your unit tests
 ```
 npm run test:unit
 ```
+### Snapshot testing
+This is done for simple components, just to ensure that they keep their design while we're changing other stuff.
+Most IDEs support this in some degree, for example IDEA just puts a link to regenerate to every failed snapshot test.
+#### Update snapshots interactively
+Preferred way, all unittests run everytime when you change something, immediate feedback und regeneration with a keystroke. Not limited to snapshots...
+```
+test:unit:watch
+```
+#### Update all snapshots
+(use this with care)
+```
+test:unit:updatesnapshots
+```
+
 
 ### Run your end-to-end tests
 ```
@@ -37,3 +52,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Icons (Feather-Sprite)
 [Preview / reference](https://feathericons.com/)
+
