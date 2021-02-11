@@ -12,6 +12,7 @@
       <img
         :src="logo"
         :alt="`title ${logo}`"
+        class="portal-tile__img"
       >
     </div>
     <span class="portal-tile__name">
@@ -69,24 +70,24 @@ export default class PortalTile extends Vue {
     color: var(--font-color-contrast-high)
     text-decoration: none
 
-.portal-tile__box
-  border-radius: 15%
-  display: flex
-  align-items: center
-  justify-content: center
-  box-shadow: var(--box-shadow)
-  background: var(--color-grey40)
-  width: var(--app-tile-side-length)
-  height: @width
-  margin-bottom: calc(2 * var(--layout-spacing-unit))
+  &__box
+    border-radius: 15%
+    display: flex
+    align-items: center
+    justify-content: center
+    box-shadow: var(--box-shadow)
+    background: var(--color-grey40)
+    width: var(--app-tile-side-length)
+    height: @width
+    margin-bottom: calc(2 * var(--layout-spacing-unit))
 
-  img
+  &__img
     width: 80%
 
-.portal-tile__name
-  text-align: center
-  width: 100%
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
+  &__name
+    text-align: center
+    width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
 </style>
