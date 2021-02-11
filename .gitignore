@@ -12,6 +12,7 @@ lib64/
 out/
 var/ 
 downloads/
+package-lock.json
 *.egg-info/
 *.egg 
 *.manifest 
@@ -25,6 +26,8 @@ downloads/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs
+*.log
 
 # Editor directories and files
 .idea
@@ -36,10 +39,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-
-# Logs
-logs
-*.log
 
 # Runtime data
 pids
