@@ -2,7 +2,7 @@
   <nav class="portal-sidenavigation">
     <div class="portal-sidenavigation__login-header">
       <div
-        v-if="username"
+        v-if="userData && userData.username"
         class="portal-sidenavigation__user-row"
       >
         <portal-icon
@@ -11,7 +11,7 @@
         />
         <div>
           <div class="portal-sidenavigation--username">
-            {{ username }}
+            {{ userData.username }}
           </div>
           <div
             class="portal-sidenavigation__logout-link"
