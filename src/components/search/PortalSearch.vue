@@ -5,9 +5,9 @@
       v-model="portalSearch"
       type="text"
       class="portal-search__input"
+      @input="heck2"
     >
   </div>
-  <button @click="heck" />
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
@@ -24,40 +24,24 @@ import { mapGetters } from 'vuex';
       tileArray: [],
     };
   },
-  mounted() {
-    console.log('TEST', this.categories);
-  },
   computed: {
     ...mapGetters({
-      categories: 'categories/categoryState',
+      originalArray: 'categories/categoryState',
       loading: 'loading/loadingState',
     }),
     filterByTextInput() {
-      this.categories.filter((item) => item.title.includes(this.PortalSearch));
+      this.originalArray.filter((item) => item.title.includes(this.PortalSearch));
     },
   },
   methods: {
-    heck() {
-      this.categories.forEach((category, categoryIndex) => {
-        category.tiles.forEach((tile, tileIndex) => {
-          if (tile.title.toLowerCase().includes(this.portalSearch.toLowerCase())) {
-            if (!this.newList.length) {
-              this.newList.push({ title: category.title });
-            }
-            this.newList.forEach((object, index) => {
-              if (!object.title === category.title) {
-                this.newList.push({ title: category.title });
-              }
-            });
-            if (this.newList[categoryIndex] && category) {
-              if (this.newList[categoryIndex].title === category.title) {
-                this.tileArray.push(tile);
-                this.newList[categoryIndex].tiles = this.tileArray;
-              }
-            }
-          }
-        });
-      });
+    heck2() {
+      const that = this;
+      const list = this.originalArray.map((element) => ({
+        ...element,
+        tiles: element.tiles.filter((tile) => tile.title.toLowerCase().includes(that.portalSearch.toLowerCase())),
+      }));
+      this.newList = list;
+      this.$store.dispatch('categories/filterTiles', this.newList);
     },
   },
 })
