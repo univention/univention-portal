@@ -1,19 +1,8 @@
 import { ref } from 'vue';
 import { store } from '@/store/index';
 
-const catalogDE = {
-  Notifications: 'Benachrichtigungen',
-  Login: 'Anmelden',
-  Logout: 'Abmelden',
-  'Edit portal': 'Portal bearbeiten',
-};
-
-const catalogEN = {
-  Notifications: 'Notifications',
-  Login: 'Login',
-  Logout: 'Logout',
-  'Edit portal': 'Edit portal',
-};
+import catalogDE from '@/assets/dictionaries/de_DE.json';
+import catalogEN from '@/assets/dictionaries/en_US.json';
 
 const catalogs = {
   de_DE: catalogDE,
