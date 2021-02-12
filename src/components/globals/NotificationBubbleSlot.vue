@@ -10,7 +10,7 @@
           <header-button
             :aria-label="bubbleContent.bubbleLabel"
             :icon="bubbleContent.bubbleIcon"
-            @click="dismissBubble(`${localNotification}`)"
+            @click="dismissBubble(`${bubbleContainer}`)"
           />
         </div>
 

@@ -3,6 +3,8 @@ import { Module } from 'vuex';
 export interface State {
   visible: boolean;
   content: Object;
+  visibleEmbedded: boolean;
+  contentEmbedded: Object;
 }
 
 const bubble: Module<State, any> = {
@@ -10,6 +12,8 @@ const bubble: Module<State, any> = {
   state: {
     visible: true,
     content: {},
+    visibleEmbedded: true,
+    contentEmbedded: {},
   },
 
   mutations: {
@@ -22,11 +26,24 @@ const bubble: Module<State, any> = {
     WRITE_CONTENT(state, payload) {
       state.content = payload;
     },
+
+    SHOW_EMBEDDED(state) {
+      state.visible = true;
+    },
+    HIDE_EMBEDDED(state) {
+      state.visible = false;
+    },
+    WRITE_CONTENT_EMBEDDED(state, payload) {
+      state.content = payload;
+    },
   },
 
   getters: {
     bubbleState: (state) => state.visible,
     bubbleContent: (state) => state.content,
+
+    bubbleStateEmbedded: (state) => state.visible,
+    bubbleContentEmbedded: (state) => state.content,
   },
 
   actions: {
@@ -38,6 +55,16 @@ const bubble: Module<State, any> = {
     },
     setContent({ commit }, payload) {
       commit('WRITE_CONTENT', payload);
+    },
+
+    setShowBubbleEmbedded({ commit }, payload) {
+      commit('SHOW_EMBEDDED', payload);
+    },
+    setHideBubbleEmbedded({ commit }, payload) {
+      commit('HIDE_EMBEDDED', payload);
+    },
+    setContentEmbedded({ commit }, payload) {
+      commit('WRITE_CONTENT_EMBEDDED', payload);
     },
   },
 };

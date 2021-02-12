@@ -5,11 +5,24 @@ const notificationMixin = {
   computed: {
     ...mapGetters({
       bubbleState: 'notificationBubble/bubbleState',
+      bubbleStateEmbedded: 'notificationBubble/bubbleStateEmbedded',
     }),
   },
   methods: {
-    dismissBubble() {
-      if (this.bubbleState) {
+    dismissBubble(bubbleType) {
+      if ((bubbleType === 'standalone') && this.bubbleState) {
+        // store modal state
+        this.$store.dispatch('notificationBubble/setHideBubble');
+
+        // TODO: remove specific bubble content
+        // this.$store.dispatch('notificationBubble/setContent', {});
+      } else if ((bubbleType === 'embedded') && this.bubbleStateEmbedded) {
+        // store modal state
+        this.$store.dispatch('notificationBubble/setHideBubbleEmbedded');
+
+        // TODO: remove specific bubble content
+        // this.$store.dispatch('notificationBubble/setContentEmbedded', {});
+      } else if (this.bubbleState) {
         // store modal state
         this.$store.dispatch('notificationBubble/setHideBubble');
       }
