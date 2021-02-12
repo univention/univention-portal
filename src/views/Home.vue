@@ -1,7 +1,6 @@
 <template>
   <div>
     <portal-header />
-
     <div class="portal">
       <button @click="devEmpty">
         <portal-icon
@@ -99,6 +98,7 @@ import userMixin from '@/mixins/userMixin.vue';
       modalComponent: 'modal/modalComponent',
       modalProps: 'modal/modalProps',
       modalStubborn: 'modal/modalStubborn',
+      // portalData: 'portalData/getPortal', // access portal data ;)
     }),
   },
   methods: {
