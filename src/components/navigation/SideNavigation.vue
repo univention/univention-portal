@@ -2,7 +2,7 @@
   <nav class="portal-sidenavigation">
     <div class="portal-sidenavigation__login-header">
       <div
-        v-if="userData && userData.username"
+        v-if="isLoggedIn && userData.username"
         class="portal-sidenavigation__user-row"
       >
         <portal-icon

@@ -14,9 +14,36 @@ const userMixin = {
     isAdmin() {
       return this.userState.isAdmin;
     },
+    async isLoggedIn() {
+      let userDataStored = this.userData;
+      let isLoggedIn = false;
+      // use next line if local storage should be use. TODO: needs to be refactored
+      // let isLoggedIn = this.getLocalStorageData;
+
+      // get data from vuex store --> not persistent!
+      if (Object.keys(this.userState).length > 0 && !isLoggedIn) {
+        userDataStored = this.userState;
+        this.userData = userDataStored;
+        isLoggedIn = true;
+      }
+
+      return isLoggedIn;
+    },
+    getLocalStorageData() {
+      let isLoggedIn = false;
+      const userDataStored = this.handleLocalStorage('get', 'ucs-login');
+      console.log('userDataStored: ', userDataStored);
+      if (userDataStored) {
+        console.log('userDataStored.loggedIn');
+        isLoggedIn = true;
+        this.userData = userDataStored;
+      }
+      return isLoggedIn;
+    },
   },
   methods: {
     login() {
+      // store login data in vuex store
       this.$store.dispatch('user/setLogin');
 
       // store login data in local-storage
@@ -25,6 +52,7 @@ const userMixin = {
       this.userData = this.userState;
     },
     logout() {
+      // remove login data from vuex store
       this.$store.dispatch('user/setLogout');
 
       // remove login data from local-storage
@@ -51,23 +79,6 @@ const userMixin = {
           localStorage.removeItem(key);
         }
       }
-    },
-    isLoggedIn() {
-      let userDataStored = {};
-      let isLoggedIn = false;
-
-      if (this.userState) {
-        userDataStored = this.userState;
-      } else {
-        userDataStored = this.handleLocalStorage('get', 'ucs-login');
-      }
-
-      if (userDataStored.loggedIn) {
-        isLoggedIn = true;
-        this.userData = userDataStored;
-      }
-
-      return isLoggedIn;
     },
   },
 };

@@ -23,6 +23,7 @@ import { mapGetters } from 'vuex';
     },
   },
 
+  // Todo: move to vuex store, avoid emits
   emits: ['click'],
 
   methods: {
