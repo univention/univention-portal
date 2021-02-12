@@ -27,7 +27,11 @@ export const store = createStore<State>({
   actions: {
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
+
+      // TODO: Once notification API is available: set state only if notifications are present
       store.dispatch('notificationBubble/setShowBubble');
+      store.dispatch('notificationBubble/setShowBubbleEmbedded');
+
       return new Promise((resolve) => {
         setTimeout(() => {
           store.dispatch('categories/setDevStandard');
