@@ -18,6 +18,9 @@ const vueConfig = {
       },
     },
   },
+  publicPath: process.env.NODE_ENV === 'sandbox'
+    ? '/univention/phoenix'
+    : '/',
 };
 
 const existingConfigureWebpack = vueConfig.configureWebpack;
