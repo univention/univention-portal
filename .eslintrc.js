@@ -35,7 +35,8 @@ module.exports = {
       before: false,
       after: true,
     }],
-    'space-before-function-paren': ['error', 'never'],
+    'space-in-parens': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'space-before-function-paren': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'arrow-parens': ['error', 'always'],
     'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
     // TODO: Should be activated again once a solution is found
@@ -67,4 +68,14 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    react: {
+      version: '999.999.999',
+    },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'],
+      },
+    },
+  },
 };
