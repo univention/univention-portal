@@ -7,6 +7,7 @@ import navigation from './modules/navigation';
 import notificationBubble from './modules/notificationBubble';
 import modal from './modules/modal';
 import user from './modules/user';
+import locale from './modules/locale';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
@@ -19,6 +20,7 @@ export const store = createStore<State>({
     navigation,
     notificationBubble,
     user,
+    locale,
   },
   state: {},
   mutations: {},
