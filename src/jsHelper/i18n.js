@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import { store } from '@/store/index';
 
 const catalogDE = {
+  Notifications: 'Benachrichtigungen',
   Login: 'Anmelden',
   Logout: 'Abmelden',
   'Edit portal': 'Portal bearbeiten',

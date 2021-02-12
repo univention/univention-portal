@@ -56,7 +56,7 @@
           v-if="activeNotificationButton"
           class="portal-header__title"
         >
-          Notifications
+          {{ notificationsLabel }}
         </div>
         <notification-bubble
           v-if="activeNotificationButton"
@@ -83,6 +83,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
+import _ from '@/jsHelper/i18n.js';
 
 import notificationMixin from '@/mixins/notificationMixin.vue';
 
@@ -130,6 +131,9 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
     }),
+    notificationsLabel(): string {
+      return _('Notifications').value;
+    },
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
