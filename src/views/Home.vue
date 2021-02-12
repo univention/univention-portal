@@ -38,6 +38,13 @@
         />
         Logout
       </button>
+      <button @click="switchLocale">
+        <portal-icon
+          icon="flag"
+          icon-width="1em"
+        />
+        Switch Language
+      </button>
 
       <portal-category
         v-for="(category, index) in categoryArray"
@@ -47,7 +54,15 @@
       />
     </div>
 
-    <portal-standby v-if="loading" />
+    <portal-modal
+      :is-active="modalState"
+      @click="closeModal"
+    >
+      <component
+        :is="modalComponent"
+        v-bind="modalProps"
+      />
+    </portal-modal>
   </div>
 </template>
 
@@ -58,7 +73,10 @@ import { mapGetters } from 'vuex';
 import PortalCategory from 'components/PortalCategory.vue'; // @ is an alias to /src
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
+import PortalTile from '@/components/PortalTile.vue';
 import PortalStandby from '@/components/PortalStandby.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
 
@@ -67,8 +85,11 @@ import userMixin from '@/mixins/userMixin.vue';
   components: {
     PortalCategory,
     PortalHeader,
+    PortalTile,
     PortalIcon,
     PortalStandby,
+    PortalFolder,
+    PortalModal,
   },
   data() {
     return {
@@ -86,6 +107,10 @@ import userMixin from '@/mixins/userMixin.vue';
       filteredCategories: 'categories/categoryState',
       originalArray: 'categories/categoryState',
       loading: 'loading/loadingState',
+      modalState: 'modal/modalState',
+      modalComponent: 'modal/modalComponent',
+      modalProps: 'modal/modalProps',
+      modalStubborn: 'modal/modalStubborn',
     }),
     categoryArray() {
       this.$nextTick(() => {
@@ -95,6 +120,11 @@ import userMixin from '@/mixins/userMixin.vue';
     },
   },
   methods: {
+    closeModal() {
+      if (!this.modalStubborn) {
+        this.$store.dispatch('modal/setHideModal');
+      }
+    },
     devEmpty() {
       this.$store.dispatch('categories/setDevEmpty');
     },
@@ -104,9 +134,17 @@ import userMixin from '@/mixins/userMixin.vue';
     devStandard() {
       this.$store.dispatch('categories/setDevStandard');
     },
+    switchLocale() {
+      if (this.$store.state.locale.locale === 'en_US') {
+        this.$store.dispatch('locale/setLocale', { locale: 'de_DE' });
+      } else {
+        this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
+      }
+    },
   },
 })
-export default class PortalHome extends Vue {}
+
+export default class Home extends Vue {}
 </script>
 
 <style scoped lang="stylus">

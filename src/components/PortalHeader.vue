@@ -1,5 +1,8 @@
 <template>
-  <header class="portal-header">
+  <header
+    id="portal-header"
+    class="portal-header"
+  >
     <div
       class="portal-header__left"
       tabindex="0"
@@ -15,16 +18,25 @@
       <header-button
         aria-label="Button for Searchbar"
         icon="search"
+        @click="dismissBubble"
       />
       <header-button
         aria-label="Open notifications"
         icon="bell"
+        @click="dismissBubble"
       />
       <header-button
         aria-label="Button for navigation"
         icon="menu"
+        @click="dismissBubble"
       />
     </div>
+
+    <notification-bubble>
+      <template #bubble-standalone>
+        <notification-bubble-slot bubble-container="standalone" />
+      </template>
+    </notification-bubble>
 
     <flyout-wrapper :is-visible="activeSearchButton">
       <!-- TODO Semantic headlines -->
@@ -35,11 +47,25 @@
       :is-active="activeNotificationButton || activeMenuButton"
       @click="closeModal()"
     >
-      <flyout-wrapper :is-visible="activeNotificationButton || activeMenuButton">
+      <flyout-wrapper
+        :is-visible="activeNotificationButton || activeMenuButton"
+        class="flyout-wrapper__notification"
+      >
         <!-- TODO Semantic headlines -->
-        <h1 v-if="activeNotificationButton">
-          notifications
-        </h1>
+        <div
+          v-if="activeNotificationButton"
+          class="portal-header__title"
+        >
+          {{ notificationsLabel }}
+        </div>
+        <notification-bubble
+          v-if="activeNotificationButton"
+          class="flyout-wrapper__bubble"
+        >
+          <template #bubble-embedded>
+            <notification-bubble-slot bubble-container="embedded" />
+          </template>
+        </notification-bubble>
         <side-navigation v-if="activeMenuButton" />
       </flyout-wrapper>
     </portal-modal>
@@ -50,11 +76,18 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
+import Notifications from '@/assets/mocks/notifications.json';
+
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
+import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
+import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
+import _ from '@/jsHelper/i18n.js';
+
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 @Options({
   name: 'PortalHeader',
@@ -63,23 +96,38 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
     FlyoutWrapper,
     SideNavigation,
     PortalModal,
+    NotificationBubble,
+    NotificationBubbleSlot,
     PortalSearch,
   },
+  mixins: [
+    notificationMixin,
+  ],
   props: {
     portalName: {
       type: String,
       default: 'Univention Portal',
     },
   },
+  created() {
+    this.setBubbleStandaloneContent();
+  },
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
+    },
+    setBubbleStandaloneContent() {
+      // TODO: replace with dynamic content from e.g. an API
+      this.$store.dispatch('notificationBubble/setContent', Notifications);
     },
   },
   computed: {
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
     }),
+    notificationsLabel(): string {
+      return _('Notifications').value;
+    },
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
@@ -106,7 +154,7 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
 export default class PortalHeader extends Vue {}
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .portal-header
   position: fixed;
   top: 0;
@@ -132,4 +180,11 @@ export default class PortalHeader extends Vue {}
     align-items: center;
   &__stretch
     flex: 1 1 auto;
+  &__bubble-container
+    width: 360px;
+
+  &__title
+    margin: calc(2 * var(--layout-spacing-unit)) 0
+    margin-left: calc(2.5 * var(--layout-spacing-unit))
+    font-size: 20px
 </style>

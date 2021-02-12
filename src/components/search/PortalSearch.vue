@@ -45,7 +45,7 @@ import { mapGetters } from 'vuex';
     },
   },
 })
-export default class PortalModal extends Vue {}
+export default class PortalSearch extends Vue {}
 </script>
 <style lang="stylus">
 .portal-search {

@@ -1,0 +1,7 @@
+{
+  "bubbleIcon": "x",
+  "bubbleLabel": "Dismiss notification",
+  "bubbleType": "localNotification",
+  "bubbleTitle": "Login",
+  "bubbleDescription": "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you can use the full range of functions of UCS."
+}

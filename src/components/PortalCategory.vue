@@ -5,14 +5,14 @@
       <div
         v-for="(tile, index) in tiles"
         :key="index"
-        @mouseover="showTooltip(tile)"
-        @mouseleave="hideTooltip"
       >
         <portal-tile
           v-if="isTile(tile)"
           :title="tile.title"
           :link="tile.link"
           :description="tile.description"
+          @mouseover="showTooltip(tile)"
+          @mouseleave="hideTooltip"
         />
         <portal-folder
           v-if="isFolder(tile)"

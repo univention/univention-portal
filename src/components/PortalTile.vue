@@ -1,26 +1,25 @@
 <template>
-  <a
-    data-test="tileLink"
+  <component
+    :is="wrapperTag"
+    class="portal-tile"
     :href="link"
     draggable="true"
+    data-test="tileLink"
   >
     <div
-      class="tile"
+      :style="`background: ${backgroundColor}`"
+      class="portal-tile__box"
     >
-      <div
-        :style="`background: ${backgroundColor}`"
-        class="box"
+      <img
+        :src="logo"
+        :alt="`title ${logo}`"
+        class="portal-tile__img"
       >
-        <img
-          :src="logo"
-          :alt="`title ${logo}`"
-        >
-      </div>
-      <span class="name">
-        {{ title }}
-      </span>
     </div>
-  </a>
+    <span class="portal-tile__name">
+      {{ title }}
+    </span>
+  </component>
 </template>
 
 <script lang="ts">
@@ -33,6 +32,15 @@ import { Options, Vue } from 'vue-class-component';
     link: String,
     logo: String,
     backgroundColor: String,
+    inFolder: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    wrapperTag() {
+      return this.inFolder ? 'div' : 'a';
+    },
   },
 })
 
@@ -47,42 +55,40 @@ export default class PortalTile extends Vue {
 }
 </script>
 
-<style scoped lang="stylus">
-a,
-a:hover
-  color: var(--font-color-contrast-high)
-  text-decoration: none
-
-a
+<style lang="stylus">
+.portal-tile
   position: relative
   outline: 0
-
-.tile
-  position: relative
   width: var(--app-tile-side-length)
   display: flex
   flex-direction: column
   align-items: center
   cursor: pointer
+  color: var(--font-color-contrast-high)
+  text-decoration: none
 
-.box
-  border-radius: 15%
-  display: flex
-  align-items: center
-  justify-content: center
-  box-shadow: var(--box-shadow)
-  background: var(--color-grey40)
-  width: var(--app-tile-side-length)
-  height: @width
-  margin-bottom: calc(2 * var(--layout-spacing-unit))
+  &:hover
+    color: var(--font-color-contrast-high)
+    text-decoration: none
 
-img
-  width: 80%
+  &__box
+    border-radius: 15%
+    display: flex
+    align-items: center
+    justify-content: center
+    box-shadow: var(--box-shadow)
+    background: var(--color-grey40)
+    width: var(--app-tile-side-length)
+    height: @width
+    margin-bottom: calc(2 * var(--layout-spacing-unit))
 
-.name
-  text-align: center
-  width: 100%
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
+  &__img
+    width: 80%
+
+  &__name
+    text-align: center
+    width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
 </style>

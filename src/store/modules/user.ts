@@ -15,6 +15,7 @@ const user: Module<State, any> = {
       state.user = {
         username: 'Administrator',
         isAdmin: true,
+        loggedIn: true,
       };
     },
     devLogout: (state) => {

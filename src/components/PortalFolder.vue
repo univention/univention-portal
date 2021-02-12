@@ -1,21 +1,25 @@
 <template>
-  <div class="tile">
-    <div class="folder box">
-      <div class="thumbnails">
-        <div
+  <div
+    class="portal-folder"
+    :class="{ 'portal-folder__in-modal': inModal }"
+  >
+    <div
+      class="portal-tile__box"
+      @click="openFolder"
+    >
+      <div class="portal-folder__thumbnails">
+        <template
           v-for="tile in tiles"
           :key="tile.title"
-          :style="`background: ${tile.backgroundColor}`"
-          class="thumbnail"
         >
-          <img
-            :src="tile.logo"
-            :alt="`tile.title ${logo}`"
-          >
-        </div>
+          <PortalTile
+            v-bind="tile.$props"
+            :in-folder="!inModal"
+          />
+        </template>
       </div>
     </div>
-    <span class="name">
+    <span class="portal-folder__name">
       {{ title }}
     </span>
   </div>
@@ -24,62 +28,84 @@
 <script lang="ts">
 import { Options } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
 
 @Options({
-  name: 'Portalfolder',
+  name: 'PortalFolder',
   components: {
     PortalTile,
+    PortalModal,
   },
   props: {
     title: String,
     tiles: Array,
+    inModal: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    openFolder() {
+      this.$store.dispatch('modal/setShowModal', {
+        name: 'PortalFolder',
+        props: { ...this.$props, inModal: true },
+      });
+    },
   },
 })
 export default class PortalFolder extends PortalTile {
   title!: string;
 
   tiles!: [PortalTile];
+
+  inModal!: boolean;
 }
 </script>
 
-<style scoped lang="stylus">
-/*.folder
-  background: rgba(var(--color-grey0-rgb), 0.7);
-*/
-.tile
+<style lang="stylus">
+.portal-folder.portal-folder__in-modal
+  cursor: default
+  .portal-folder__thumbnails
+    grid-gap: calc(4 * var(--layout-spacing-unit))
+  &> .portal-tile__box
+    width: calc(5 * var(--app-tile-side-length))
+    height: @width
+    .portal-tile
+      width: var(--app-tile-side-length)
+    .portal-tile__box
+      width: var(--app-tile-side-length)
+      height: @width
+  .portal-tile__name
+    display: block;
+
+.portal-folder
   position: relative
   width: var(--app-tile-side-length)
   display: flex
   flex-direction: column
   align-items: center
   cursor: pointer
-.box
-  border-radius: 15%
-  display: flex
-  align-items: center
-  justify-content: center
-  box-shadow: var(--box-shadow)
-  background: var(--color-grey0)
-  width: var(--app-tile-side-length)
-  height: @width
-  margin-bottom: calc(2 * var(--layout-spacing-unit))
 
-.thumbnail
-  border-radius: 15%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--box-shadow);
-  background: var(--color-grey40);
+  .portal-tile__box
+    background: var(--color-grey0)
 
-.thumbnails
+.portal-folder__thumbnails
   width: 80%;
   height: 80%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  grid-gap: 8px;
-.name
+  grid-gap: var(--layout-spacing-unit)
+  .portal-tile
+    width: calc(0.2 * var(--app-tile-side-length))
+  .portal-tile__box
+    width: calc(0.2 * var(--app-tile-side-length))
+    height: @width
+    margin-bottom: var(--layout-spacing-unit)
+  .portal-tile__name
+    display: none;
+
+.portal-folder__name
   text-align: center
   width: 100%
   overflow: hidden
