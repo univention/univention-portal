@@ -1,0 +1,215 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "display_name": {
+            "type": "object",
+            "properties": {
+              "de_DE": {
+                "type": "string"
+              },
+              "en_US": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "de_DE",
+              "en_US"
+            ]
+          },
+          "dn": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "display_name",
+          "dn"
+        ]
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activated": {
+            "type": "boolean"
+          },
+          "allowedGroups": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "description": {
+            "type": "object",
+            "properties": {
+              "de_DE": {
+                "type": "string"
+              },
+              "en_US": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "de_DE",
+              "en_US"
+            ]
+          },
+          "dn": {
+            "type": "string"
+          },
+          "favorite": {
+            "type": "boolean"
+          },
+          "linkTarget": {
+            "type": "string"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "logo_name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "name": {
+            "type": "object",
+            "properties": {
+              "de_DE": {
+                "type": "string"
+              },
+              "en_US": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "de_DE",
+              "en_US"
+            ]
+          }
+        },
+        "required": [
+          "activated",
+          "allowedGroups",
+          "description",
+          "dn",
+          "favorite",
+          "linkTarget",
+          "links",
+          "logo_name",
+          "name"
+        ]
+      }
+    },
+    "links": {
+      "type": "object"
+    },
+    "portal": {
+      "type": "object",
+      "properties": {
+        "anonymousEmpty": {
+          "type": "array"
+        },
+        "autoLayoutCategories": {
+          "type": "boolean"
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "defaultLinkTarget": {
+          "type": "string"
+        },
+        "dn": {
+          "type": "string"
+        },
+        "ensureLogin": {
+          "type": "boolean"
+        },
+        "fontColor": {
+          "type": "string"
+        },
+        "logo": {
+          "type": "null"
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "de_DE": {
+              "type": "string"
+            },
+            "en_US": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "de_DE",
+            "en_US"
+          ]
+        },
+        "showApps": {
+          "type": "boolean"
+        },
+        "showLogin": {
+          "type": "boolean"
+        },
+        "showMenu": {
+          "type": "boolean"
+        },
+        "showSearch": {
+          "type": "boolean"
+        },
+        "showServers": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "anonymousEmpty",
+        "autoLayoutCategories",
+        "content",
+        "defaultLinkTarget",
+        "dn",
+        "ensureLogin",
+        "fontColor",
+        "logo",
+        "name",
+        "showApps",
+        "showLogin",
+        "showMenu",
+        "showSearch",
+        "showServers"
+      ]
+    }
+  },
+  "required": [
+    "categories",
+    "entries",
+    "links",
+    "portal"
+  ]
+}
