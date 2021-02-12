@@ -40,7 +40,7 @@
       </button>
 
       <portal-category
-        v-for="(category, index) in categories"
+        v-for="(category, index) in categoryArray"
         :key="index"
         :title="category.title"
         :tiles="category.tiles"
@@ -70,12 +70,29 @@ import userMixin from '@/mixins/userMixin.vue';
     PortalIcon,
     PortalStandby,
   },
+  data() {
+    return {
+      categoryList: [],
+    };
+  },
+  mounted() {
+    console.log(this.categories);
+    this.$store.dispatch('categories/storeOriginalArray', this.categories);
+  },
   mixins: [userMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
+      filteredCategories: 'categories/categoryState',
+      originalArray: 'categories/categoryState',
       loading: 'loading/loadingState',
     }),
+    categoryArray() {
+      this.$nextTick(() => {
+        this.categoryList = this.filteredCategories ? this.filteredCategories : this.originalArray;
+        return this.categoryList;
+      });
+    },
   },
   methods: {
     devEmpty() {

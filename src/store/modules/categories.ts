@@ -8,12 +8,16 @@ const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elit
 
 export interface State {
   categories: Array<PortalCategory>;
+  originalArray: Array<PortalCategory>;
+  filteredCategories: Array<PortalCategory>;
 }
 
 const catagories: Module<State, any> = {
   namespaced: true,
   state: {
     categories: [],
+    originalArray: [],
+    filteredCategories: [],
   },
 
   mutations: {
@@ -81,8 +85,15 @@ const catagories: Module<State, any> = {
       state.categories = categories;
     },
     REPLACE(state, payload) {
-      console.log('payload', payload);
       state.categories = payload.categories;
+    },
+    SAVE_ORIGINAL_ARRAY_ONCE(state, payload) {
+      state.originalArray = state.categories;
+      console.log('asdölkjsdfjä', state.originalArray);
+    },
+    FILTER(state, payload) {
+      state.categories = payload;
+      state.filteredCategories = payload;
     },
   },
 
@@ -104,7 +115,11 @@ const catagories: Module<State, any> = {
       commit('REPLACE', payload);
     },
     filterTiles({ commit }, filteredList) {
-      commit('REPLACE', filteredList);
+      console.log('tis happening!');
+      commit('FILTER', filteredList);
+    },
+    storeOriginalArray({ commit }, payload) {
+      commit('SAVE_ORIGINAL_ARRAY_ONCE', payload);
     },
   },
 };
