@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 
 export interface State {
-  locale: String;
+  locale: string;
 }
 
 const locale: Module<State, any> = {

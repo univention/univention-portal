@@ -9,10 +9,15 @@ const catalogDE = {
 };
 
 const catalogEN = {
+  Notifications: 'Notifications',
+  Login: 'Login',
+  Logout: 'Logout',
+  'Edit portal': 'Edit portal',
 };
 
 const catalogs = {
   de_DE: catalogDE,
+  en_US: catalogEN,
 };
 
 export default function _(msg) {
