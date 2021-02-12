@@ -76,6 +76,8 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
+import Notifications from '@/assets/mocks/notifications.json';
+
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
@@ -115,16 +117,8 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       this.$store.dispatch('navigation/setActiveButton', '');
     },
     setBubbleStandaloneContent() {
-      // TODO: replce with dynamic content from e.g. an API
-      const payload = {
-        bubbleIcon: 'x',
-        bubbleLabel: 'Dismiss notification',
-        bubbleType: 'localNotification',
-        bubbleTitle: 'Login',
-        bubbleDescription: 'Login <a class="notification-bubble__link" href="#">here</a> so that you can use the full range of functions of UCS.',
-      };
-
-      this.$store.dispatch('notificationBubble/setContent', payload);
+      // TODO: replace with dynamic content from e.g. an API
+      this.$store.dispatch('notificationBubble/setContent', Notifications);
     },
   },
   computed: {
