@@ -4,6 +4,7 @@
     class="portal-tile"
     :href="link"
     draggable="true"
+    data-test="tileLink"
   >
     <div
       :style="`background: ${backgroundColor}`"

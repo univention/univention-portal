@@ -3,6 +3,7 @@
 exports[`Test tile rendering 1`] = `
 <a
   class="portal-tile"
+  data-test="tileLink"
   draggable="true"
   href="https://test.com"
 >
