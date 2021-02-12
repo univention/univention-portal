@@ -38,6 +38,13 @@
         />
         Logout
       </button>
+      <button @click="switchLocale">
+        <portal-icon
+          icon="flag"
+          icon-width="1em"
+        />
+        Switch Language
+      </button>
 
       <portal-category
         v-for="(category, index) in categories"
@@ -66,6 +73,7 @@ import { mapGetters } from 'vuex';
 import PortalCategory from 'components/PortalCategory.vue'; // @ is an alias to /src
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
+import PortalTile from '@/components/PortalTile.vue';
 import PortalStandby from '@/components/PortalStandby.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
@@ -77,6 +85,7 @@ import userMixin from '@/mixins/userMixin.vue';
   components: {
     PortalCategory,
     PortalHeader,
+    PortalTile,
     PortalIcon,
     PortalStandby,
     PortalFolder,
@@ -106,6 +115,13 @@ import userMixin from '@/mixins/userMixin.vue';
     },
     devStandard() {
       this.$store.dispatch('categories/setDevStandard');
+    },
+    switchLocale() {
+      if (this.$store.state.locale.locale === 'en_US') {
+        this.$store.dispatch('locale/setLocale', { locale: 'de_DE' });
+      } else {
+        this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
+      }
     },
   },
 })
