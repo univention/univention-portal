@@ -5,7 +5,7 @@
       v-model="portalSearch"
       type="text"
       class="portal-search__input"
-      @input="heck2"
+      @input="searchTiles"
     >
   </div>
 </template>
@@ -31,13 +31,14 @@ import { mapGetters } from 'vuex';
     }),
   },
   methods: {
-    heck2() {
+    searchTiles() {
       const that = this;
       let list = this.originalArray;
 
       if (this.portalSearch !== '') {
         list = this.originalArray.map((element) => ({
           ...element,
+          title: element.title,
           tiles: element.tiles.filter((tile) => tile.title.toLowerCase().includes(that.portalSearch.toLowerCase())),
         }));
       }

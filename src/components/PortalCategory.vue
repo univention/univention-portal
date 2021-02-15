@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <h2>{{ title }}</h2>
+    <h2>{{ showTitle }}</h2>
     <div class="tiles">
       <div
         v-for="(tile, index) in tiles"
@@ -53,6 +53,11 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
       isActive: false,
       toolTip: {},
     };
+  },
+  computed: {
+    showTitle() {
+      return this.tiles.length > 0 ? this.title : '';
+    },
   },
   methods: {
     isTile(obj: PortalTile) {
