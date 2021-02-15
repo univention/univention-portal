@@ -26,21 +26,24 @@ import { mapGetters } from 'vuex';
   },
   computed: {
     ...mapGetters({
-      originalArray: 'categories/categoryState',
+      originalArray: 'categories/categoryStateOriginal',
       modalState: 'modal/modalState',
     }),
-    filterByTextInput() {
-      this.originalArray.filter((item) => item.title.includes(this.PortalSearch));
-    },
   },
   methods: {
     heck2() {
       const that = this;
-      const list = this.originalArray.map((element) => ({
-        ...element,
-        tiles: element.tiles.filter((tile) => tile.title.toLowerCase().includes(that.portalSearch.toLowerCase())),
-      }));
+      let list = this.originalArray;
+
+      if (this.portalSearch !== '') {
+        list = this.originalArray.map((element) => ({
+          ...element,
+          tiles: element.tiles.filter((tile) => tile.title.toLowerCase().includes(that.portalSearch.toLowerCase())),
+        }));
+      }
+
       this.newList = list;
+
       this.$store.dispatch('categories/filterTiles', this.newList);
     },
   },
