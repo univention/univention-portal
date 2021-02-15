@@ -1,6 +1,8 @@
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 
+import PortalData from '@/assets/mocks/portal.json';
+
 // modules
 import categories from './modules/categories';
 import navigation from './modules/navigation';
@@ -8,6 +10,7 @@ import notificationBubble from './modules/notificationBubble';
 import modal from './modules/modal';
 import user from './modules/user';
 import locale from './modules/locale';
+import portalData from './modules/portalData';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
@@ -21,12 +24,16 @@ export const store = createStore<State>({
     notificationBubble,
     user,
     locale,
+    portalData,
   },
   state: {},
   mutations: {},
   actions: {
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
+
+      // store portal data
+      store.dispatch('portalData/setPortal', PortalData);
 
       // TODO: Once notification API is available: set state only if notifications are present
       store.dispatch('notificationBubble/setShowBubble');
