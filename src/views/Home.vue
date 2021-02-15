@@ -96,27 +96,26 @@ import userMixin from '@/mixins/userMixin.vue';
       categoryList: [],
     };
   },
-  mounted() {
-    console.log(this.categories);
-    this.$store.dispatch('categories/storeOriginalArray', this.categories);
-  },
   mixins: [userMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
       filteredCategories: 'categories/categoryState',
       originalArray: 'categories/categoryState',
-      loading: 'loading/loadingState',
       modalState: 'modal/modalState',
       modalComponent: 'modal/modalComponent',
       modalProps: 'modal/modalProps',
       modalStubborn: 'modal/modalStubborn',
     }),
     categoryArray() {
+      let catArray = this.originalArray;
       this.$nextTick(() => {
-        this.categoryList = this.filteredCategories ? this.filteredCategories : this.originalArray;
-        return this.categoryList;
+        catArray = this.filteredCategories ? this.filteredCategories : this.originalArray;
       });
+
+      this.categoryList = catArray;
+
+      return catArray;
     },
   },
   methods: {

@@ -113,13 +113,14 @@ const catagories: Module<State, any> = {
         }),
       ];
       state.categories = categories;
+      console.log('DEV_STANDARD: ', state.categories);
     },
     REPLACE(state, payload) {
       state.categories = payload.categories;
     },
     SAVE_ORIGINAL_ARRAY_ONCE(state, payload) {
       state.originalArray = state.categories;
-      console.log('asdölkjsdfjä', state.originalArray);
+      console.log('SAVE_ORIGINAL_ARRAY_ONCE: ', state.originalArray);
     },
     FILTER(state, payload) {
       state.categories = payload;
@@ -145,7 +146,7 @@ const catagories: Module<State, any> = {
       commit('REPLACE', payload);
     },
     filterTiles({ commit }, filteredList) {
-      console.log('tis happening!');
+      console.log('tis happening!: ', filteredList);
       commit('FILTER', filteredList);
     },
     storeOriginalArray({ commit }, payload) {
