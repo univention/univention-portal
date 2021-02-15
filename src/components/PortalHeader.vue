@@ -16,6 +16,7 @@
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
       <header-button
+        ref="searchButton"
         aria-label="Button for Searchbar"
         icon="search"
         @click="dismissBubble"
@@ -40,7 +41,10 @@
 
     <flyout-wrapper :is-visible="activeSearchButton">
       <!-- TODO Semantic headlines -->
-      <portal-search v-if="activeSearchButton" />
+      <portal-search
+        v-if="activeSearchButton"
+        ref="searchInput"
+      />
     </flyout-wrapper>
 
     <portal-modal
@@ -112,6 +116,13 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   created() {
     this.setBubbleStandaloneContent();
   },
+  updated() {
+    this.$nextTick(() => {
+      if (this.activeSearchBar) {
+        this.setTabOrderWhenSearchBarOpen();
+      }
+    });
+  },
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
@@ -119,6 +130,33 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     setBubbleStandaloneContent() {
       // TODO: replace with dynamic content from e.g. an API
       this.$store.dispatch('notificationBubble/setContent', Notifications);
+    },
+    setTabOrderWhenSearchBarOpen() {
+      console.log('Event');
+      document.addEventListener('keydown', (e) => {
+        console.log(e);
+        console.log('ACTIVE ELEMENT', document.activeElement);
+        if (document.activeElement === this.$refs.searchInput.$refs.portalSearchInput) {
+          if (e.shiftKey && e.keyCode === 9 && this.activeSearchBar) {
+            e.preventDefault();
+            if (this) {
+              const searchButton = this.$refs.searchButton.$refs.searchReference;
+              searchButton.focus();
+            }
+          } else if (e.keyCode === 13) {
+            console.log('enter');
+            e.preventDefault();
+            const firstTile = document.querySelector('.portal-tile');
+            if (firstTile) {
+              (firstTile as HTMLElement)?.focus();
+            }
+          } else if (e.keyCode === 9) {
+            console.log('forward');
+            e.preventDefault();
+          // usernameTextBox.focus()
+          }
+        }
+      });
     },
   },
   computed: {
@@ -132,6 +170,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
     activeSearchButton(): boolean {
+      console.log('asd');
       return this.activeButton === 'search';
     },
     activeNotificationButton(): boolean {
@@ -148,6 +187,9 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     },
     sameButtonClicked(buttonType): boolean {
       return buttonType === this.activeFlyoutContent;
+    },
+    activeSearchBar(): number {
+      return this.activeSearchButton ? 1 : 0;
     },
   },
 })

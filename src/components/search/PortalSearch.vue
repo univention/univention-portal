@@ -1,7 +1,7 @@
 <template>
   <div class="portal-search">
     <input
-      ref="portal-search__input"
+      ref="portalSearchInput"
       v-model="portalSearch"
       type="text"
       class="portal-search__input"
@@ -15,14 +15,15 @@ import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalSearch',
-  props: {},
   data() {
     return {
-      modalVisible: false,
       portalSearch: '',
-      newList: [],
-      tileArray: [],
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.portalSearchInput.focus();
+    });
   },
   computed: {
     ...mapGetters({
