@@ -35,6 +35,7 @@ export const store = createStore<State>({
       return new Promise((resolve) => {
         setTimeout(() => {
           store.dispatch('categories/setDevStandard');
+          store.dispatch('categories/storeOriginalArray');
           store.dispatch('modal/setHideModal');
           resolve();
         }, 1000);

@@ -27,7 +27,7 @@ import { mapGetters } from 'vuex';
   computed: {
     ...mapGetters({
       originalArray: 'categories/categoryState',
-      loading: 'loading/loadingState',
+      modalState: 'modal/modalState',
     }),
     filterByTextInput() {
       this.originalArray.filter((item) => item.title.includes(this.PortalSearch));
@@ -45,8 +45,10 @@ import { mapGetters } from 'vuex';
     },
   },
 })
+
 export default class PortalSearch extends Vue {}
 </script>
+
 <style lang="stylus">
 .portal-search {
   &__input {
