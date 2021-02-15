@@ -130,6 +130,7 @@ const catagories: Module<State, any> = {
 
   getters: {
     categoryState: (state) => state.categories,
+    categoryStateOriginal: (state) => state.originalArray,
   },
 
   actions: {

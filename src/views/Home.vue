@@ -46,12 +46,14 @@
         Switch Language
       </button>
 
-      <portal-category
-        v-for="(category, index) in categoryArray"
-        :key="index"
-        :title="category.title"
-        :tiles="category.tiles"
-      />
+      <template v-if="categoryArray">
+        <portal-category
+          v-for="(category, index) in categoryArray"
+          :key="index"
+          :title="category.title"
+          :tiles="category.tiles"
+        />
+      </template>
     </div>
 
     <portal-modal
