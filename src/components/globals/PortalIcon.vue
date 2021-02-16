@@ -40,12 +40,12 @@ export default class PortalIcon extends Vue {}
 
 <style scoped lang="stylus">
 svg
-  font-size: inherit
-  stroke: currentColor
-  stroke-width: 2
-  stroke-linecap: round
-  stroke-linejoin: round
-  color: var(--font-color-contrast-high)
-  fill: none
-  transition: color 250ms
+  font-size: inherit;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--font-color-contrast-high);
+  fill: none;
+  transition: color 250ms;
 </style>
