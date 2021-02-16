@@ -53,6 +53,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
     },
   },
 })
+
 export default class PortalFolder extends PortalTile {
   title!: string;
 
@@ -63,21 +64,6 @@ export default class PortalFolder extends PortalTile {
 </script>
 
 <style lang="stylus">
-.portal-folder.portal-folder__in-modal
-  cursor: default
-  .portal-folder__thumbnails
-    grid-gap: calc(4 * var(--layout-spacing-unit))
-  &> .portal-tile__box
-    width: calc(5 * var(--app-tile-side-length))
-    height: @width
-    .portal-tile
-      width: var(--app-tile-side-length)
-    .portal-tile__box
-      width: var(--app-tile-side-length)
-      height: @width
-  .portal-tile__name
-    display: block;
-
 .portal-folder
   position: relative
   width: var(--app-tile-side-length)
@@ -86,29 +72,48 @@ export default class PortalFolder extends PortalTile {
   align-items: center
   cursor: pointer
 
+  &__name
+    text-align: center
+    width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+  &__in-modal
+    cursor: default
+
+    .portal-tile
+      &__box
+        width: calc(5 * var(--app-tile-side-length))
+        height: @width
+
+        .portal-tile
+          width: var(--app-tile-side-length)
+          &__box
+            width: var(--app-tile-side-length)
+            height: @width
+      &__name
+        display: block;
+
+  &__thumbnails
+    width: 80%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: calc(4 * var(--layout-spacing-unit))
+    grid-gap: var(--layout-spacing-unit)
+
+    .portal-tile
+      width: calc(0.2 * var(--app-tile-side-length))
+      &__box
+        width: calc(0.2 * var(--app-tile-side-length))
+        height: @width
+        margin-bottom: var(--layout-spacing-unit)
+
+      &__name
+        display: none;
+
   .portal-tile__box
     background: var(--color-grey0)
-
-.portal-folder__thumbnails
-  width: 80%;
-  height: 80%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-gap: var(--layout-spacing-unit)
-  .portal-tile
-    width: calc(0.2 * var(--app-tile-side-length))
-  .portal-tile__box
-    width: calc(0.2 * var(--app-tile-side-length))
-    height: @width
-    margin-bottom: var(--layout-spacing-unit)
-  .portal-tile__name
-    display: none;
-
-.portal-folder__name
-  text-align: center
-  width: 100%
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
 </style>
