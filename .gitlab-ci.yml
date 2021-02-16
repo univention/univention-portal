@@ -16,6 +16,9 @@ cache:
 # we'll probably need to do this in the future but right now we can reap the benefits of going single stage
 build-test-deploy-job:
   stage: build
+  only:
+    refs:
+      - main
   image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
   artifacts:
     paths:
