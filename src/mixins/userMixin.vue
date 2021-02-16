@@ -15,15 +15,13 @@ const userMixin = {
       return this.userState.isAdmin;
     },
     async isLoggedIn() {
-      let userDataStored = this.userData;
       let isLoggedIn = false;
       // use next line if local storage should be use. TODO: needs to be refactored
       // let isLoggedIn = this.getLocalStorageData;
 
       // get data from vuex store --> not persistent!
-      if (Object.keys(this.userState).length > 0 && !isLoggedIn) {
-        userDataStored = this.userState;
-        this.userData = userDataStored;
+      if ((Object.keys(this.userState).length > 0) || !isLoggedIn) {
+        this.userData = this.userState;
         isLoggedIn = true;
       }
 
