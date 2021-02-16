@@ -26,8 +26,8 @@ build-test-deploy-job:
     # maybe?
     #public: true
     when: on_success
-    # this only applies to old artifacts
-    expire_in: 2hrs
+    # this seems to apply to all artifacts?
+    expire_in: 12hrs
   script:
     - yarn --cwd=frontend
     - yarn --cwd=frontend build
