@@ -14,6 +14,7 @@ test('Test tile rendering', () => {
       title: 'Test Title',
       link: 'https://test.com',
     },
+
   });
 
   // Assert the rendered text of the component
