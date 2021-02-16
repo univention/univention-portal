@@ -132,10 +132,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       this.$store.dispatch('notificationBubble/setContent', Notifications);
     },
     setTabOrderWhenSearchBarOpen() {
-      console.log('Event');
       document.addEventListener('keydown', (e) => {
-        console.log(e);
-        console.log('ACTIVE ELEMENT', document.activeElement);
         if (document.activeElement === this.$refs.searchInput.$refs.portalSearchInput) {
           if (e.shiftKey && e.keyCode === 9 && this.activeSearchBar) {
             e.preventDefault();
@@ -144,14 +141,12 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
               searchButton.focus();
             }
           } else if (e.keyCode === 13) {
-            console.log('enter');
             e.preventDefault();
             const firstTile = document.querySelector('.portal-tile');
             if (firstTile) {
               (firstTile as HTMLElement)?.focus();
             }
           } else if (e.keyCode === 9) {
-            console.log('forward');
             e.preventDefault();
           // usernameTextBox.focus()
           }
@@ -170,7 +165,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
     activeSearchButton(): boolean {
-      console.log('asd');
       return this.activeButton === 'search';
     },
     activeNotificationButton(): boolean {
