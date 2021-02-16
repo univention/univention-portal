@@ -65,3 +65,14 @@ yarn test:e2e
 
 - Feather-Sprite Icons: [Overview](https://feathericons.com/)
 
+## Building .debs
+### create / run the builder docker image
+* build image `docker build -t phoenixportalbuilder ./builder`
+* build deb `sh ./build-package.sh`
+* tag image `docker image tag phoenixportalbuilder:latest docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest`
+* push image to registry: `docker image push docker-registry.knut.univention.de/phoenix/phoenixportalbuilder`
+
+### Misc
+How to init a package:
+dh_make --native --single --email packages@univention.de -p phoenixportal_0.0.1
+https://docs.software-univention.de/developer-reference.html#chap:packaging
