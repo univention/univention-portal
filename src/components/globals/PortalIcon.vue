@@ -31,7 +31,7 @@ import { Options, Vue } from 'vue-class-component';
     },
   },
   computed: {
-    setIconHeight() {
+    setIconHeight(): boolean {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
   },
