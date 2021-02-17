@@ -1,35 +1,36 @@
 <template>
   <div
-    id="_PortalIframesContainer_0"
-    class="portal__iframeTabs"
-    data-dojo-type="portal/_PortalIframeTabsContainer"
-    data-dojo-attach-point="iframeTabs"
-    widgetid="_PortalIframesContainer_0"
+    id="headerTabWrapper"
+    ref="headerTabWrapper"
+    class="header-tabs"
   >
     <div
-      id="_PortalIframeTab_0"
-      class="iframeTab"
-      tabindex="0"
-      widgetid="_PortalIframeTab_0"
+      :id="`headerTab__${tabIndex}`"
+      :ref="`headerTab__${tabIndex}`"
+      :tabindex="tabIndex"
+      class="header-tabs__container header-tabs__container--selected"
     >
-      <div class="iframeTab__background" />
-      <img
-        class="iframeTab__logo"
-        src="/assets/img/svg/nav_tab_test.svg"
-        alt="No Group logo"
-      >
+      <div class="header-tabs__background" />
+      <image-component
+        v-if="tabImage && (Object.keys(tabImage).length > 0)"
+        :file-path="tabImage.filePath"
+        :file-name="tabImage.fileName"
+        :file-type="tabImage.fileType"
+        :alt-text="tabImage.altText"
+        default-class="header-tabs__logo"
+      />
       <span
-        class="iframeTab__title"
-        title=""
-        data-dojo-attach-point="titleNode"
+        class="header-tabs__title"
+        :title="tabLabel"
       >
-        No Group
+        {{ tabLabel }}
       </span>
       <header-button
-        aria-label="xyz"
-        icon="x"
-        class="iframeTab__closeButton"
-        @click="dismissBubble"
+        v-if="!tabStatic"
+        :icon="tabIcon"
+        :aria-label="ariaLabel"
+        class="header-tabs__close-button"
+        @click="closeTab"
       />
     </div>
   </div>
@@ -37,7 +38,9 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
 import HeaderButton from '@/components/header/HeaderButton.vue';
+import ImageComponent from '@/components/globals/ImageComponent.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
 
@@ -45,29 +48,47 @@ import userMixin from '@/mixins/userMixin.vue';
   name: 'HeaderTabs',
   components: {
     HeaderButton,
+    ImageComponent,
   },
   mixins: [
     userMixin,
   ],
-  // props: {
-  //   icon: {
-  //     type: String,
-  //     required: true,
-  //   },
-  //   ariaLabel: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
+  props: {
+    tabIndex: {
+      type: Number,
+      default: 0,
+    },
+    tabIcon: {
+      type: String,
+      default: 'x',
+    },
+    tabLabel: {
+      type: String,
+      default: 'Nav Tab',
+    },
+    ariaLabel: {
+      type: String,
+      default: 'Tab Aria Label',
+    },
+    tabStatic: {
+      type: Boolean,
+      default: false,
+    },
+    tabImage: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
 
   methods: {
-    // click() {
-    //   if (this.isActiveButton) {
-    //     this.$store.dispatch('navigation/setActiveButton', '');
-    //   } else {
-    //     this.$store.dispatch('navigation/setActiveButton', this.icon);
-    //   }
-    // },
+    closeTab() {
+      console.log('closeTab');
+      // if (this.isActiveButton) {
+      //   this.$store.dispatch('navigation/setActiveButton', '');
+      // } else {
+      //   this.$store.dispatch('navigation/setActiveButton', this.icon);
+      // }
+    },
   },
 
   computed: {
@@ -81,12 +102,16 @@ export default class HeaderTabs extends Vue {}
 </script>
 
 <style lang="stylus">
-.portal__iframeTabs {
+.header-tabs {
   display: flex;
   flex: 1 1 auto;
-  margin-left: calc(5 * var(--layout-spacing-unit));
+  margin-left: calc(3 * var(--layout-spacing-unit));
 
-  &.iframeTab {
+  &:first-of-type {
+    margin-left: -18px;
+  }
+
+  &__container {
     --tabColor: transparent;
     outline: 0;
     cursor: pointer;
@@ -94,18 +119,43 @@ export default class HeaderTabs extends Vue {}
     align-items: center;
     min-width: calc(30 * var(--layout-spacing-unit));
     position: relative;
+    padding-top: 10px;
 
-    &__background {
-      transition: background-color 250ms;
-      position: absolute;
-      top: 10px;
-      right: -1px;
-      bottom: 0;
-      left: -1px;
-      border-radius: 8px 8px 0 0;
-      background-color: var(--tabColor);
-      z-index: -1;
+    &--selected {
+      --tabColor: var(--color-grey8);
+      z-index: 2;
+      height: 50px;
     }
+  }
+
+  &__background {
+    transition: background-color 250ms;
+    position: absolute;
+    top: 10px;
+    right: -1px;
+    bottom: 0;
+    left: -1px;
+    border-radius: 8px 8px 0 0;
+    background-color: var(--tabColor);
+    z-index: -1;
+  }
+
+  &__logo {
+    width: 1em;
+    margin: 0 0.5em;
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    width: 20ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__close-button {
+    --button-icon-length: 1.3em;
+    margin-left: 0.5em;
   }
 }
 </style>

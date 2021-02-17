@@ -5,13 +5,13 @@
     @click="click"
   >
     <span
-      class="header-button__inner"
+      :class="removeDefaultClass || 'header-button__inner'"
       role="presentation"
     >
       <button
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
-        class="header-button__button"
+        :class="removeDefaultClass || 'header-button__button'"
       >
         <portal-icon
           :icon="icon"
@@ -39,6 +39,10 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
     ariaLabel: {
       type: String,
       required: true,
+    },
+    removeDefaultClass: {
+      type: Boolean,
+      default: false,
     },
   },
 
