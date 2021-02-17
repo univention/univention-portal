@@ -12,6 +12,8 @@
         alt="Portal logo"
       >
       <h2>{{ portalName }}</h2>
+      <!-- Nav Tabs -->
+      <header-tabs />
     </div>
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
@@ -78,7 +80,9 @@ import { mapGetters } from 'vuex';
 
 import Notifications from '@/assets/mocks/notifications.json';
 
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import HeaderButton from '@/components/header/HeaderButton.vue';
+import HeaderTabs from '@/components/header/HeaderTabs.vue';
+
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
@@ -93,6 +97,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   name: 'PortalHeader',
   components: {
     HeaderButton,
+    HeaderTabs,
     FlyoutWrapper,
     SideNavigation,
     PortalModal,
