@@ -1,0 +1,23 @@
+[{
+  "tabIcon": "x",
+  "tabLabel": "Univention Portal",
+  "ariaLabel": "Univention Portal",
+  "tabStatic": true,
+  "tabImage": {
+    "filePath": "/img/",
+    "fileName": "default_nav_tab_icon.jpg",
+    "fileType": "jpg",
+    "altText": "Univention Portal Logo"
+  }
+}, {
+  "tabIcon": "x",
+  "tabLabel": "Nav Tab",
+  "ariaLabel": "Tab Aria Label",
+  "tabStatic": false,
+  "tabImage": {
+    "filePath": "/img/",
+    "fileName": "nav_tab_test.svg",
+    "fileType": "svg",
+    "altText": "Nav Tab Logo"
+  }
+}]

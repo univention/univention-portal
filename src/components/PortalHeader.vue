@@ -7,13 +7,17 @@
       class="portal-header__left"
       tabindex="0"
     >
-      <img
-        class="portal-header__left-image"
-        alt="Portal logo"
-      >
-      <h2>{{ portalName }}</h2>
       <!-- Nav Tabs -->
-      <header-tabs />
+      <header-tabs
+        v-for="(item, index) in tabs"
+        :key="index"
+        :tab-index="index"
+        :tab-icon="item.tabIcon"
+        :tab-label="item.tabLabel"
+        :aria-label="item.ariaLabel"
+        :tab-static="item.tabStatic"
+        :tab-image="item.tabImage"
+      />
     </div>
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
@@ -108,27 +112,10 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   mixins: [
     notificationMixin,
   ],
-  props: {
-    portalName: {
-      type: String,
-      default: 'Univention Portal',
-    },
-  },
-  created() {
-    this.setBubbleStandaloneContent();
-  },
-  methods: {
-    closeModal() {
-      this.$store.dispatch('navigation/setActiveButton', '');
-    },
-    setBubbleStandaloneContent() {
-      // TODO: replace with dynamic content from e.g. an API
-      this.$store.dispatch('notificationBubble/setContent', Notifications);
-    },
-  },
   computed: {
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
+      tabs: 'tabs/getAllTabs',
     }),
     notificationsLabel(): string {
       return _('Notifications').value;
@@ -144,6 +131,18 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     },
     activeMenuButton(): boolean {
       return this.activeButton === 'menu';
+    },
+  },
+  created() {
+    this.setBubbleStandaloneContent();
+  },
+  methods: {
+    closeModal() {
+      this.$store.dispatch('navigation/setActiveButton', '');
+    },
+    setBubbleStandaloneContent() {
+      // TODO: replace with dynamic content from e.g. an API
+      this.$store.dispatch('notificationBubble/setContent', Notifications);
     },
   },
 })
@@ -168,9 +167,6 @@ export default class PortalHeader extends Vue {}
     display: flex;
     align-items: center;
     cursor: pointer;
-
-    &-image
-      display: none;
   &__right
     display: flex;
     align-items: center;
