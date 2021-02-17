@@ -29,8 +29,8 @@ build-test-deploy-job:
     # this seems to apply to all artifacts?
     expire_in: 12hrs
   script:
-    - yarn --cwd=frontend
-    - yarn --cwd=frontend build
+    #- yarn --cwd=frontend
+    #- yarn --cwd=frontend build
     - yarn --cwd=frontend test:unit
     - apt-get -q --assume-yes build-dep .
     - dpkg-buildpackage -uc -us -b
