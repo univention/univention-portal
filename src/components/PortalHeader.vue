@@ -19,17 +19,17 @@
         ref="searchButton"
         aria-label="Button for Searchbar"
         icon="search"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
       <header-button
         aria-label="Open notifications"
         icon="bell"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
       <header-button
         aria-label="Button for navigation"
         icon="menu"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
     </div>
 
@@ -55,12 +55,12 @@
         :is-visible="activeNotificationButton || activeMenuButton"
         class="flyout-wrapper__notification"
       >
-        <!-- TODO Semantic headlines -->
+        <!-- Notifications -->
         <div
           v-if="activeNotificationButton"
           class="portal-header__title"
         >
-          {{ notificationsLabel }}
+          <translate i18n-key="NOTIFICATIONS" />
         </div>
         <notification-bubble
           v-if="activeNotificationButton"
@@ -70,6 +70,8 @@
             <notification-bubble-slot bubble-container="embedded" />
           </template>
         </notification-bubble>
+
+        <!-- Side navigation -->
         <side-navigation v-if="activeMenuButton" />
       </flyout-wrapper>
     </portal-modal>
@@ -80,8 +82,6 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
-import Notifications from '@/assets/mocks/notifications.json';
-
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
@@ -89,7 +89,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
-import _ from '@/jsHelper/i18n.js';
+import Translate from '@/i18n/Translate.vue';
 
 import notificationMixin from '@/mixins/notificationMixin.vue';
 
@@ -102,6 +102,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     PortalModal,
     NotificationBubble,
     NotificationBubbleSlot,
+    Translate,
     PortalSearch,
   },
   mixins: [
@@ -113,9 +114,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       default: 'Univention Portal',
     },
   },
-  created() {
-    this.setBubbleStandaloneContent();
-  },
   updated() {
     this.$nextTick(() => {
       if (this.activeSearchBar) {
@@ -126,10 +124,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
-    },
-    setBubbleStandaloneContent() {
-      // TODO: replace with dynamic content from e.g. an API
-      this.$store.dispatch('notificationBubble/setContent', Notifications);
     },
     setTabOrderWhenSearchBarOpen() {
       document.addEventListener('keydown', (e) => {
@@ -158,9 +152,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
     }),
-    notificationsLabel(): string {
-      return _('Notifications').value;
-    },
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },

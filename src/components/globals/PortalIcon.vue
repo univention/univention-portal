@@ -1,5 +1,6 @@
 <template>
   <svg
+    class="portal-icon"
     :width="iconWidth"
     :height="setIconHeight"
     xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +31,7 @@ import { Options, Vue } from 'vue-class-component';
     },
   },
   computed: {
-    setIconHeight() {
+    setIconHeight(): boolean {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
   },
@@ -39,13 +40,13 @@ export default class PortalIcon extends Vue {}
 </script>
 
 <style scoped lang="stylus">
-svg
-  font-size: inherit
-  stroke: currentColor
-  stroke-width: 2
-  stroke-linecap: round
-  stroke-linejoin: round
-  color: var(--font-color-contrast-high)
-  fill: none
-  transition: color 250ms
+.portal-icon
+  font-size: inherit;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--font-color-contrast-high);
+  fill: none;
+  transition: color 250ms;
 </style>
