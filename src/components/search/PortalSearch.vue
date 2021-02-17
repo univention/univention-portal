@@ -25,6 +25,9 @@ import { mapGetters } from 'vuex';
       this.$refs.portalSearchInput.focus();
     });
   },
+  unmounted() {
+    this.$store.dispatch('categories/filterTiles', this.originalArray);
+  },
   computed: {
     ...mapGetters({
       originalArray: 'categories/categoryStateOriginal',
