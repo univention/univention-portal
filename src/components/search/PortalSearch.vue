@@ -37,15 +37,16 @@ import { mapGetters } from 'vuex';
       let list = this.originalArray;
 
       if (this.portalSearch !== '') {
+        console.log(this.originalArray);
         list = this.originalArray.map((element) => ({
           ...element,
           title: element.title,
-          tiles: element.tiles.filter((tile) => tile.title.toLowerCase().includes(that.portalSearch.toLowerCase())),
+          tiles: element.tiles.filter((tile) => tile.title.toLowerCase().includes(this.portalSearch.toLowerCase()) ||
+            tile.description.toLowerCase().includes(this.portalSearch.toLowerCase()) ||
+            element.title.toLowerCase().includes(this.portalSearch.toLowerCase())),
         }));
       }
-
       this.newList = list;
-
       this.$store.dispatch('categories/filterTiles', this.newList);
     },
   },
