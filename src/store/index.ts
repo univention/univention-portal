@@ -34,6 +34,7 @@ export const store = createStore<State>({
 
       // store portal data
       store.dispatch('portalData/setPortal', PortalData);
+      store.dispatch('categories/setCategoryData', PortalData);
 
       // TODO: Once notification API is available: set state only if notifications are present
       store.dispatch('notificationBubble/setShowBubble');

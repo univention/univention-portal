@@ -13,6 +13,7 @@ export default function _(msg) {
   const ret = ref(msg);
   const { state: { locale } } = store;
   const catalog = catalogs[locale.locale];
+  console.log(catalogs);
   if (catalog) {
     ret.value = catalog[msg] || msg;
   }

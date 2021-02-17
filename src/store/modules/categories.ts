@@ -4,6 +4,8 @@ import PortalCategory from '@/components/PortalCategory.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
+import createCategories from '@/jsHelper/createCategories.js';
+
 const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
 
 export interface State {
@@ -110,6 +112,10 @@ const catagories: Module<State, any> = {
       ];
       state.categories = categories;
     },
+    STANDARD(state, payload) {
+      // TODO Pass Rootstate locale
+      createCategories(payload, 'en_US');
+    },
     REPLACE(state, payload) {
       state.categories = payload.categories;
     },
@@ -117,6 +123,7 @@ const catagories: Module<State, any> = {
 
   getters: {
     categoryState: (state) => state.categories,
+    rootState: (state, getters, rootState) => rootState,
   },
 
   actions: {
@@ -131,6 +138,9 @@ const catagories: Module<State, any> = {
     },
     setReplace({ commit }, payload) {
       commit('REPLACE', payload);
+    },
+    setCategoryData({ commit }, payload) {
+      commit('STANDARD', payload);
     },
   },
 };

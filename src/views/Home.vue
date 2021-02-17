@@ -101,6 +101,9 @@ import userMixin from '@/mixins/userMixin.vue';
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
   },
+  mounted() {
+    // this.$store.dispatch('categories/setCategoryData');
+  },
   methods: {
     closeModal() {
       if (!this.modalStubborn) {
