@@ -8,12 +8,25 @@
     "filePath": "/img/",
     "fileName": "default_nav_tab_icon.jpg",
     "fileType": "jpg",
-    "altText": "Univention Portal Logo"
+    "altText": "Univention Portal Logo",
+    "imageClass": "header-tabs__logo--default"
   }
 }, {
   "tabToken": "testtab12345",
   "tabIcon": "x",
   "tabLabel": "Nav Tab",
+  "ariaLabel": "Tab Aria Label",
+  "tabStatic": false,
+  "tabImage": {
+    "filePath": "/img/",
+    "fileName": "nav_tab_test.svg",
+    "fileType": "svg",
+    "altText": "Nav Tab Logo"
+  }
+}, {
+  "tabToken": "testtab09876",
+  "tabIcon": "x",
+  "tabLabel": "Nav Tab 2",
   "ariaLabel": "Tab Aria Label",
   "tabStatic": false,
   "tabImage": {
