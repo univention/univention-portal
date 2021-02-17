@@ -9,12 +9,16 @@ const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elit
 
 export interface State {
   categories: Array<PortalCategory>;
+  originalArray: Array<PortalCategory>;
+  filteredCategories: Array<PortalCategory>;
 }
 
 const categories: Module<State, any> = {
   namespaced: true,
   state: {
     categories: [],
+    originalArray: [],
+    filteredCategories: [],
   },
 
   mutations: {
@@ -104,7 +108,7 @@ const categories: Module<State, any> = {
             new PortalTile({
               title: 'Blog',
               link: 'https://www.univention.de/blog',
-              description: `Blog: ${dummyDescription}`,
+              description: 'Blog: Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans. ',
             }),
           ],
         }),
@@ -118,11 +122,19 @@ const categories: Module<State, any> = {
     REPLACE(state, payload) {
       state.categories = payload.categories;
     },
+    SAVE_ORIGINAL_ARRAY_ONCE(state) {
+      state.originalArray = state.categories;
+    },
+    FILTER(state, payload) {
+      state.categories = payload;
+      state.filteredCategories = payload;
+    },
   },
 
   getters: {
     categoryState: (state) => state.categories,
     rootState: (state, getters, rootState) => rootState,
+    categoryStateOriginal: (state) => state.originalArray,
   },
 
   actions: {
@@ -140,6 +152,12 @@ const categories: Module<State, any> = {
     },
     setCategoryData({ commit }, payload) {
       commit('STANDARD', payload);
+    },
+    filterTiles({ commit }, filteredList) {
+      commit('FILTER', filteredList);
+    },
+    storeOriginalArray({ commit }, payload) {
+      commit('SAVE_ORIGINAL_ARRAY_ONCE', payload);
     },
   },
 };

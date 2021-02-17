@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <h2>{{ title }}</h2>
+    <h2>{{ showTitle }}</h2>
     <div class="tiles">
       <div
         v-for="(tile, index) in tiles"
@@ -11,8 +11,7 @@
           :title="tile.title"
           :link="tile.link"
           :description="tile.description"
-          @mouseover="showTooltip(tile)"
-          @mouseleave="hideTooltip"
+          :tile="tile"
         />
         <portal-folder
           v-if="isFolder(tile)"
@@ -21,12 +20,6 @@
         />
       </div>
     </div>
-    <portal-tool-tip
-      v-if="isActive"
-      :title="toolTip.title"
-      :icon="toolTip.icon"
-      :description="toolTip.description"
-    />
   </div>
 </template>
 
@@ -35,14 +28,11 @@ import { Options, Vue } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
-import PortalToolTip from '@/components/PortalToolTip.vue';
-
 @Options({
   name: 'PortalCategory',
   components: {
     PortalTile,
     PortalFolder,
-    PortalToolTip,
   },
   props: {
     title: String,
@@ -54,24 +44,17 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
       toolTip: {},
     };
   },
+  computed: {
+    showTitle() {
+      return this.tiles.length > 0 ? this.title : '';
+    },
+  },
   methods: {
     isTile(obj: PortalTile) {
       return !this.isFolder(obj);
     },
     isFolder(obj: PortalTile) {
       return obj instanceof PortalFolder;
-    },
-    showTooltip(tile): any {
-      const handleActive = true;
-      this.isActive = handleActive;
-      this.toolTip.title = tile.title;
-      this.toolTip.icon = tile.logo;
-      this.toolTip.description = tile.description;
-    },
-    hideTooltip(): void {
-      const handleActive = false;
-      this.isActive = handleActive;
-      this.toolTip = {};
     },
   },
 })

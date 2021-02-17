@@ -16,19 +16,20 @@
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
       <header-button
+        ref="searchButton"
         aria-label="Button for Searchbar"
         icon="search"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
       <header-button
         aria-label="Open notifications"
         icon="bell"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
       <header-button
         aria-label="Button for navigation"
         icon="menu"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
     </div>
 
@@ -40,7 +41,10 @@
 
     <flyout-wrapper :is-visible="activeSearchButton">
       <!-- TODO Semantic headlines -->
-      <portal-search v-if="activeSearchButton" />
+      <portal-search
+        v-if="activeSearchButton"
+        ref="searchInput"
+      />
     </flyout-wrapper>
 
     <portal-modal
@@ -51,12 +55,12 @@
         :is-visible="activeNotificationButton || activeMenuButton"
         class="flyout-wrapper__notification"
       >
-        <!-- TODO Semantic headlines -->
+        <!-- Notifications -->
         <div
           v-if="activeNotificationButton"
           class="portal-header__title"
         >
-          {{ notificationsLabel }}
+          <translate i18n-key="NOTIFICATIONS" />
         </div>
         <notification-bubble
           v-if="activeNotificationButton"
@@ -66,6 +70,8 @@
             <notification-bubble-slot bubble-container="embedded" />
           </template>
         </notification-bubble>
+
+        <!-- Side navigation -->
         <side-navigation v-if="activeMenuButton" />
       </flyout-wrapper>
     </portal-modal>
@@ -76,8 +82,6 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
-import Notifications from '@/assets/mocks/notifications.json';
-
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
@@ -85,7 +89,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
-import _ from '@/jsHelper/i18n.js';
+import Translate from '@/i18n/Translate.vue';
 
 import notificationMixin from '@/mixins/notificationMixin.vue';
 
@@ -98,6 +102,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     PortalModal,
     NotificationBubble,
     NotificationBubbleSlot,
+    Translate,
     PortalSearch,
   },
   mixins: [
@@ -109,25 +114,44 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       default: 'Univention Portal',
     },
   },
-  created() {
-    this.setBubbleStandaloneContent();
+  updated() {
+    this.$nextTick(() => {
+      if (this.activeSearchBar) {
+        this.setTabOrderWhenSearchBarOpen();
+      }
+    });
   },
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
     },
-    setBubbleStandaloneContent() {
-      // TODO: replace with dynamic content from e.g. an API
-      this.$store.dispatch('notificationBubble/setContent', Notifications);
+    setTabOrderWhenSearchBarOpen() {
+      document.addEventListener('keydown', (e) => {
+        if (document.activeElement === this.$refs.searchInput.$refs.portalSearchInput) {
+          if (e.shiftKey && e.keyCode === 9 && this.activeSearchBar) {
+            e.preventDefault();
+            if (this) {
+              const searchButton = this.$refs.searchButton.$refs.searchReference;
+              searchButton.focus();
+            }
+          } else if (e.keyCode === 13) {
+            e.preventDefault();
+            const firstTile = document.querySelector('.portal-tile');
+            if (firstTile) {
+              (firstTile as HTMLElement)?.focus();
+            }
+          } else if (e.keyCode === 9) {
+            e.preventDefault();
+          // usernameTextBox.focus()
+          }
+        }
+      });
     },
   },
   computed: {
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
     }),
-    notificationsLabel(): string {
-      return _('Notifications').value;
-    },
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
@@ -139,6 +163,18 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     },
     activeMenuButton(): boolean {
       return this.activeButton === 'menu';
+    },
+    setActiveButton(buttonType) {
+      this.activeFlyoutContent = buttonType;
+    },
+    buttonIsClicked(buttonType): boolean {
+      return this.activeFlyoutContent === buttonType;
+    },
+    sameButtonClicked(buttonType): boolean {
+      return buttonType === this.activeFlyoutContent;
+    },
+    activeSearchBar(): number {
+      return this.activeSearchButton ? 1 : 0;
     },
   },
 })

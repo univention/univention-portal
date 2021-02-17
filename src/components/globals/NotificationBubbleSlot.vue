@@ -1,27 +1,34 @@
 <template>
-  <div :class="`notification-bubble__${bubbleContainer}`">
-    <div class="notification-bubble__container">
+  <div
+    :class="`notification-bubble__${bubbleContainer}`"
+  >
+    <div
+      v-for="(item, index) in bubbleContent"
+      :key="index"
+      class="notification-bubble__container"
+    >
       <div>
         <div class="notification-bubble__header">
-          <div class="notification-bubble__title">
-            {{ bubbleContent.bubbleTitle }}
+          <div
+            class="notification-bubble__title"
+          >
+            {{ item.bubbleTitle }}
           </div>
 
           <header-button
-            :aria-label="bubbleContent.bubbleLabel"
-            :icon="bubbleContent.bubbleIcon"
-            @click="dismissBubble(`${bubbleContainer}`)"
+            :aria-label="item.bubbleLabel"
+            :icon="item.bubbleIcon"
+            :no-click="true"
+            @click.stop="dismissBubble(item.bubbleToken)"
           />
         </div>
 
         <div class="notification-bubble__content">
           <!-- eslint-disable vue/no-v-html -->
           <div
-            v-if="bubbleContent && bubbleContent.bubbleDescription"
-            ref="bubbleContent"
+            v-if="item && item.bubbleDescription"
             class="notification-bubble__message"
-            @click="bubbleClick"
-            v-html="bubbleContent.bubbleDescription"
+            v-html="item.bubbleDescription"
           />
           <!-- eslint-enable vue/no-v-html -->
         </div>
@@ -54,11 +61,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       default: 'standalone',
     },
   },
-  computed: {
-    ...mapGetters({
-      bubbleContent: 'notificationBubble/bubbleContent',
-    }),
-  },
 })
 
 export default class NotificationBubbleSlot extends Vue {}
@@ -67,6 +69,7 @@ export default class NotificationBubbleSlot extends Vue {}
 <style lang="stylus">
 .notification-bubble
   &__standalone
+    min-width: 320px;
     max-width: 320px
     position: absolute
     right: 20px
@@ -74,6 +77,7 @@ export default class NotificationBubbleSlot extends Vue {}
     z-index: 10
 
   &__embedded
+    min-width: 320px;
     max-width: 320px
     position: relative
     right: 0

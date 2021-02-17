@@ -45,12 +45,14 @@
         Switch Language
       </button>
 
-      <portal-category
-        v-for="(category, index) in categories"
-        :key="index"
-        :title="category.title"
-        :tiles="category.tiles"
-      />
+      <template v-if="categoryArray">
+        <portal-category
+          v-for="(category, index) in categoryArray"
+          :key="index"
+          :title="category.title"
+          :tiles="category.tiles"
+        />
+      </template>
     </div>
 
     <portal-modal
@@ -90,16 +92,33 @@ import userMixin from '@/mixins/userMixin.vue';
     PortalFolder,
     PortalModal,
   },
+  data() {
+    return {
+      categoryList: [],
+    };
+  },
   mixins: [userMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
+      filteredCategories: 'categories/categoryState',
+      originalArray: 'categories/categoryState',
       modalState: 'modal/modalState',
       modalComponent: 'modal/modalComponent',
       modalProps: 'modal/modalProps',
       modalStubborn: 'modal/modalStubborn',
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
+    categoryArray() {
+      let catArray = this.originalArray;
+      this.$nextTick(() => {
+        catArray = this.filteredCategories ? this.filteredCategories : this.originalArray;
+      });
+
+      this.categoryList = catArray;
+
+      return catArray;
+    },
   },
   mounted() {
     // this.$store.dispatch('categories/setCategoryData');

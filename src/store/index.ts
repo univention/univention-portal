@@ -1,16 +1,18 @@
 import { InjectionKey } from 'vue';
-import { createStore, useStore as baseUseStore, Store } from 'vuex';
+import { createStore, Store, useStore as baseUseStore } from 'vuex';
 
+// mock jsons
+import NotificationData from '@/assets/mocks/notifications.json';
 import PortalData from '@/assets/mocks/portal.json';
 
 // modules
 import categories from './modules/categories';
+import locale from './modules/locale';
+import modal from './modules/modal';
 import navigation from './modules/navigation';
 import notificationBubble from './modules/notificationBubble';
-import modal from './modules/modal';
-import user from './modules/user';
-import locale from './modules/locale';
 import portalData from './modules/portalData';
+import user from './modules/user';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
@@ -32,22 +34,28 @@ export const store = createStore<State>({
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
 
-      // store portal data
+      // Store portal data
       store.dispatch('portalData/setPortal', PortalData);
       store.dispatch('categories/setCategoryData', PortalData);
 
-      // TODO: Once notification API is available: set state only if notifications are present
-      store.dispatch('notificationBubble/setShowBubble');
-      store.dispatch('notificationBubble/setShowBubbleEmbedded');
+      // store notification data
+      // TODO: Only add data to notifications store if data is available
+      store.dispatch('notificationBubble/setContent', NotificationData);
 
-      return new Promise((resolve) => {
+      // display standalone notification bubbles
+      if (store.getters['notificationBubble/bubbleContent'].length > 0) {
+        store.dispatch('notificationBubble/setShowBubble');
+      }
+
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           store.dispatch('categories/setDevStandard');
+          store.dispatch('categories/storeOriginalArray');
           store.dispatch('modal/setHideModal');
           resolve();
         }, 1000);
         setTimeout(() => {
-          // hide notification bubble
+          // Hide notification bubble
           store.dispatch('notificationBubble/setHideBubble');
           resolve();
         }, 4000);
@@ -57,7 +65,7 @@ export const store = createStore<State>({
   getters: {},
 });
 
-// define your own `useStore` composition function
+// Define your own `useStore` composition function
 export function useStore() {
   return baseUseStore(key);
 }
