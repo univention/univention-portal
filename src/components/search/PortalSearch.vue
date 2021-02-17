@@ -25,7 +25,7 @@ import { mapGetters } from 'vuex';
       this.$refs.portalSearchInput.focus();
     });
   },
-  unmounted() {
+  beforeUnmount() {
     this.$store.dispatch('categories/filterTiles', this.originalArray);
   },
   computed: {
@@ -40,7 +40,6 @@ import { mapGetters } from 'vuex';
       let list = this.originalArray;
 
       if (this.portalSearch !== '') {
-        console.log(this.originalArray);
         list = this.originalArray.map((element) => ({
           ...element,
           title: element.title,
