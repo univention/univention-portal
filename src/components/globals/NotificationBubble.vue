@@ -2,12 +2,14 @@
   <div>
     <transition name="fade">
       <slot
-        v-if="bubbleState"
+        v-if="bubbleStateStandalone"
         name="bubble-standalone"
       />
     </transition>
 
-    <slot name="bubble-embedded" />
+    <slot
+      name="bubble-embedded"
+    />
   </div>
 </template>
 
@@ -20,6 +22,7 @@ import { mapGetters } from 'vuex';
   computed: {
     ...mapGetters({
       bubbleState: 'notificationBubble/bubbleState',
+      bubbleStateStandalone: 'notificationBubble/bubbleStateStandalone',
     }),
   },
 })
@@ -29,6 +32,7 @@ export default class NotificationBubble extends Vue {}
 
 <style lang="stylus">
 .notification-bubble
+  min-width: 320px;
   max-width: 320px;
 
   &__container

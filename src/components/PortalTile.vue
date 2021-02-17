@@ -5,6 +5,8 @@
     :href="link"
     draggable="true"
     data-test="tileLink"
+    @mouseover="showTooltip(tile)"
+    @mouseleave="hideTooltip"
   >
     <div
       :style="`background: ${backgroundColor}`"
@@ -19,14 +21,26 @@
     <span class="portal-tile__name">
       {{ title }}
     </span>
+
+    <portal-tool-tip
+      v-if="isActive"
+      :title="toolTip.title"
+      :icon="toolTip.icon"
+      :description="toolTip.description"
+    />
   </component>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
+import PortalToolTip from '@/components/PortalToolTip.vue';
+
 @Options({
   name: 'PortalTile',
+  components: {
+    PortalToolTip,
+  },
   props: {
     title: String,
     link: String,
@@ -36,10 +50,36 @@ import { Options, Vue } from 'vue-class-component';
       type: Boolean,
       default: false,
     },
+    tile: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  data() {
+    return {
+      isActive: false,
+      toolTip: {},
+    };
   },
   computed: {
     wrapperTag() {
       return this.inFolder ? 'div' : 'a';
+    },
+  },
+  methods: {
+    showTooltip(tile): any {
+      if (Object.keys(tile).length > 0) {
+        const handleActive = true;
+        this.isActive = handleActive;
+        this.toolTip.title = tile.title;
+        this.toolTip.icon = tile.logo;
+        this.toolTip.description = tile.description;
+      }
+    },
+    hideTooltip(): void {
+      const handleActive = false;
+      this.isActive = handleActive;
+      this.toolTip = {};
     },
   },
 })
