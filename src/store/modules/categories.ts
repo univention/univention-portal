@@ -107,7 +107,7 @@ const catagories: Module<State, any> = {
             new PortalTile({
               title: 'Blog',
               link: 'https://www.univention.de/blog',
-              description: `Blog: ${dummyDescription}`,
+              description: 'Blog: Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans. ',
             }),
           ],
         }),
