@@ -1,8 +1,7 @@
-import { Module } from 'vuex';
-
 import PortalCategory from '@/components/PortalCategory.vue';
-import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
+import PortalTile from '@/components/PortalTile.vue';
+import { Module } from 'vuex';
 
 import createCategories from '@/jsHelper/createCategories.js';
 
@@ -12,7 +11,7 @@ export interface State {
   categories: Array<PortalCategory>;
 }
 
-const catagories: Module<State, any> = {
+const categories: Module<State, any> = {
   namespaced: true,
   state: {
     categories: [],
@@ -23,7 +22,7 @@ const catagories: Module<State, any> = {
       state.categories = [];
     },
     DEV_FOLDER(state) {
-      const categories = [
+      const folderCategories = [
         new PortalCategory({
           title: 'Applications',
           tiles: [
@@ -75,10 +74,10 @@ const catagories: Module<State, any> = {
           ],
         }),
       ];
-      state.categories = categories;
+      state.categories = folderCategories;
     },
     DEV_STANDARD(state) {
-      const categories = [
+      const standardCategories = [
         new PortalCategory({
           title: 'Applications',
           tiles: [
@@ -110,7 +109,7 @@ const catagories: Module<State, any> = {
           ],
         }),
       ];
-      state.categories = categories;
+      state.categories = standardCategories;
     },
     STANDARD(state, payload) {
       // TODO Pass Rootstate locale
@@ -145,4 +144,4 @@ const catagories: Module<State, any> = {
   },
 };
 
-export default catagories;
+export default categories;
