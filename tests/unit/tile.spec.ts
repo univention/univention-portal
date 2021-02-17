@@ -21,5 +21,7 @@ test('Test tile rendering', () => {
   expect(wrapper.text()).toContain('Test Title');
 
   // fetch an element by a smartly placed data attribute
-  expect(wrapper.get('[data-test="tileLink"]').attributes('href')).toBe('https://test.com');
+  expect(wrapper.get('[data-test="tileLink"]').attributes('href')).toBe(
+    'https://test.com',
+  );
 });

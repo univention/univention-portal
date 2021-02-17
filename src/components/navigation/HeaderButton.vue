@@ -2,13 +2,14 @@
   <div
     :class="{ 'header-button--is-active': isActiveButton }"
     class="header-button"
-    @click="click"
+    @click="toggleActiveButton"
   >
     <span
       class="header-button__inner"
       role="presentation"
     >
       <button
+        :ref="setRef"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
         class="header-button__button"
@@ -40,14 +41,19 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       type: String,
       required: true,
     },
+    noClick: {
+      type: Boolean,
+      default: false,
+    },
   },
-
   methods: {
-    click() {
-      if (this.isActiveButton) {
-        this.$store.dispatch('navigation/setActiveButton', '');
-      } else {
-        this.$store.dispatch('navigation/setActiveButton', this.icon);
+    toggleActiveButton() {
+      if (!this.noClick) {
+        if (this.isActiveButton) {
+          this.$store.dispatch('navigation/setActiveButton', '');
+        } else {
+          this.$store.dispatch('navigation/setActiveButton', this.icon);
+        }
       }
     },
   },
@@ -56,9 +62,11 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
     isActiveButton() {
       return this.$store.state.navigation.activeButton === this.icon;
     },
+    setRef() {
+      return `${this.icon}Reference`;
+    },
   },
 })
-
 export default class HeaderButton extends Vue {}
 </script>
 

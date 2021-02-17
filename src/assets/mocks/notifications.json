@@ -1,7 +1,15 @@
-{
+[{
   "bubbleIcon": "x",
   "bubbleLabel": "Dismiss notification",
   "bubbleType": "localNotification",
   "bubbleTitle": "Login",
-  "bubbleDescription": "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you can use the full range of functions of UCS."
-}
+  "bubbleDescription": "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you can use the full range of functions of UCS.",
+  "bubbleToken": "testtoken12345"
+}, {
+  "bubbleIcon": "x",
+  "bubbleLabel": "Dismiss notification",
+  "bubbleType": "localNotification",
+  "bubbleTitle": "Test notification",
+  "bubbleDescription": "lorem ipsum",
+  "bubbleToken": "testtoken09876"
+}]

@@ -19,7 +19,6 @@ import { Options, Vue } from 'vue-class-component';
     },
   },
 })
-
 export default class FlyoutWrapper extends Vue {}
 </script>
 

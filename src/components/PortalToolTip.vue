@@ -35,7 +35,6 @@ import { Options, Vue } from 'vue-class-component';
     description: String,
   },
 })
-
 export default class PortalToolTip extends Vue {
   title!: string;
 
