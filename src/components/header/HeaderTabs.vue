@@ -9,6 +9,7 @@
       :ref="`headerTab__${tabIndex}`"
       :tabindex="tabIndex"
       class="header-tabs__container header-tabs__container--selected"
+      @click="focusTab(tabToken)"
     >
       <div class="header-tabs__background" />
       <image-component
@@ -30,7 +31,7 @@
         :icon="tabIcon"
         :aria-label="ariaLabel"
         class="header-tabs__close-button"
-        @click="closeTab"
+        @click.stop="closeTab(tabToken)"
       />
     </div>
   </div>
@@ -42,21 +43,21 @@ import { Options, Vue } from 'vue-class-component';
 import HeaderButton from '@/components/header/HeaderButton.vue';
 import ImageComponent from '@/components/globals/ImageComponent.vue';
 
-import userMixin from '@/mixins/userMixin.vue';
-
 @Options({
   name: 'HeaderTabs',
   components: {
     HeaderButton,
     ImageComponent,
   },
-  mixins: [
-    userMixin,
-  ],
   props: {
     tabIndex: {
       type: Number,
       default: 0,
+    },
+    tabToken: {
+      type: String,
+      default: '',
+      required: true,
     },
     tabIcon: {
       type: String,
@@ -79,22 +80,18 @@ import userMixin from '@/mixins/userMixin.vue';
       default: () => ({}),
     },
   },
-
   methods: {
-    closeTab() {
-      console.log('closeTab');
-      // if (this.isActiveButton) {
-      //   this.$store.dispatch('navigation/setActiveButton', '');
-      // } else {
-      //   this.$store.dispatch('navigation/setActiveButton', this.icon);
-      // }
+    focusTab(token) {
+      console.log('focusTab: ', token);
+      if (token) {
+        // add some fancy stuff ;)
+      }
     },
-  },
-
-  computed: {
-    // isActiveButton() {
-    //   return this.$store.state.navigation.activeButton === this.icon;
-    // },
+    closeTab(token) {
+      if (token) {
+        this.$store.dispatch('tabs/deleteTab', token);
+      }
+    },
   },
 })
 
@@ -118,8 +115,9 @@ export default class HeaderTabs extends Vue {}
     display: flex;
     align-items: center;
     min-width: calc(30 * var(--layout-spacing-unit));
-    position: relative;
     padding-top: 10px;
+    position: relative
+    z-index: 1
 
     &--selected {
       --tabColor: var(--color-grey8);
@@ -156,6 +154,8 @@ export default class HeaderTabs extends Vue {}
   &__close-button {
     --button-icon-length: 1.3em;
     margin-left: 0.5em;
+    position: relative
+    z-index: 10
   }
 }
 </style>

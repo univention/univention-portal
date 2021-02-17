@@ -33,28 +33,17 @@ import { Options, Vue } from 'vue-class-component';
       default: '',
     },
   },
-
   data() {
     return {
       imagePath: '',
     };
   },
-
   created() {
     this.imageUrl();
   },
-
-  computed: {
-
-  },
-
   methods: {
     imageUrl() {
-      // const imagePath = '/img/nav_tab_test.svg';
-      const imagePath = `${this.filePath}/${this.fileName}`;
-
-      console.log('imagePath: ', imagePath);
-      this.imagePath = imagePath;
+      this.imagePath = `${this.filePath}/${this.fileName}`;
     },
   },
 })

@@ -12,6 +12,7 @@
         v-for="(item, index) in tabs"
         :key="index"
         :tab-index="index"
+        :tab-token="item.tabToken"
         :tab-icon="item.tabIcon"
         :tab-label="item.tabLabel"
         :aria-label="item.ariaLabel"
