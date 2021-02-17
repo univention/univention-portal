@@ -1,15 +1,14 @@
 <template>
   <div
-    id="headerTabWrapper"
-    ref="headerTabWrapper"
     class="header-tabs"
+    tabindex="0"
+    @keyup.tab="focusTab(tabToken, tabIndex, `headerTab__${tabIndex}`)"
   >
     <div
       :id="`headerTab__${tabIndex}`"
       :ref="`headerTab__${tabIndex}`"
-      :tabindex="tabIndex"
-      class="header-tabs__container header-tabs__container--selected"
-      @click="focusTab(tabToken)"
+      :class="[(tabIndex > 0) || 'header-tabs__container--first', 'header-tabs__container']"
+      @click="focusTab(tabToken, tabIndex, `headerTab__${tabIndex}`)"
     >
       <div class="header-tabs__background" />
       <image-component
@@ -18,7 +17,7 @@
         :file-name="tabImage.fileName"
         :file-type="tabImage.fileType"
         :alt-text="tabImage.altText"
-        default-class="header-tabs__logo"
+        :default-class="tabImage.imageClass"
       />
       <span
         class="header-tabs__title"
@@ -81,10 +80,17 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
     },
   },
   methods: {
-    focusTab(token) {
-      console.log('focusTab: ', token);
-      if (token) {
-        // add some fancy stuff ;)
+    focusTab(token, index, tab) {
+      if (token && index) {
+        // remove selected tab classes
+        Array.from(document.querySelectorAll('.header-tabs__container')).forEach((el) => el.classList.remove('header-tabs__container--selected'));
+        // add selected tab class to current tab
+        const currItem = document.querySelector(`#${tab}`);
+        if (currItem) {
+          currItem.classList.add('header-tabs__container--selected');
+        }
+
+        // display corresponding iframe
       }
     },
     closeTab(token) {
@@ -102,7 +108,7 @@ export default class HeaderTabs extends Vue {}
 .header-tabs {
   display: flex;
   flex: 1 1 auto;
-  margin-left: calc(3 * var(--layout-spacing-unit));
+  margin-left: calc(5 * var(--layout-spacing-unit));
 
   &:first-of-type {
     margin-left: -18px;
@@ -115,14 +121,27 @@ export default class HeaderTabs extends Vue {}
     display: flex;
     align-items: center;
     min-width: calc(30 * var(--layout-spacing-unit));
+    height: 50px;
     padding-top: 10px;
     position: relative
     z-index: 1
 
+    &:hover {
+      --tabColor: #272726;
+    }
+
+    &--first {
+      &:hover {
+        --tabColor: transparent;
+      }
+    }
+
     &--selected {
       --tabColor: var(--color-grey8);
-      z-index: 2;
-      height: 50px;
+
+      &:hover {
+        --tabColor: var(--color-grey8);
+      }
     }
   }
 
@@ -139,8 +158,13 @@ export default class HeaderTabs extends Vue {}
   }
 
   &__logo {
-    width: 1em;
-    margin: 0 0.5em;
+    width: 20px;
+    margin: 0 10px;
+
+    &--default {
+      width: 30px;
+      margin: 0 15px;
+    }
   }
 
   &__title {

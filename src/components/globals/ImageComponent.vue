@@ -30,7 +30,7 @@ import { Options, Vue } from 'vue-class-component';
     },
     defaultClass: {
       type: String,
-      default: '',
+      default: 'header-tabs__logo',
     },
   },
   data() {
