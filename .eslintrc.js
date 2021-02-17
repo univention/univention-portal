@@ -5,24 +5,24 @@ module.exports = {
     node: true,
     jest: true,
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    parser: '@typescript-eslint/parser',
     sourceType: 'module',
     ecmaVersion: 2020,
     ecmaFeatures: {
       legacyDecorators: true,
     },
   },
+  plugins: [
+    'vue',
+    'json',
+    'jest',
+  ],
   extends: [
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     'airbnb',
     '@vue/eslint-config-airbnb',
-  ],
-  plugins: [
-    'vue',
-    'json',
-    'jest',
   ],
   rules: {
     'max-len': 'off',
