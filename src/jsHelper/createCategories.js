@@ -12,7 +12,12 @@ export default function createCategories(portalData, locale) {
       const categoryDn = dnOfAvailableCategory[0];
       // add catagories that are defined in content
       if (cnCategoryDefinition === categoryDn) {
-        FinalARRAY.push({ title: availableCategories[indexOfavailableCategory].display_name[locale] });
+        FinalARRAY.push({
+          title: {
+            de_DE: availableCategories[indexOfavailableCategory].display_name.de_DE,
+            en_US: availableCategories[indexOfavailableCategory].display_name.en_US,
+          },
+        });
       }
     });
     const tiles = [];
@@ -25,9 +30,15 @@ export default function createCategories(portalData, locale) {
         const cnOfAvailableTile = availableTile.dn.split(',');
         if (cnLabelOfDefinedTile === cnOfAvailableTile[0]) {
           const tile = {
-            title: availableTile.name[locale],
-            link: availableTile.links[0],
-            description: availableTile.description[locale],
+            title: {
+              de_DE: availableTile.name.de_DE,
+              en_US: availableTile.name.en_US,
+            },
+            link: availableTile.links,
+            description: {
+              de_DE: availableTile.description.de_DE,
+              en_US: availableTile.description.en_US,
+            },
             pathToLogo: availableTile.logo_name,
           };
           tiles.push(tile);

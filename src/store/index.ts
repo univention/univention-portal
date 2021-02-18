@@ -46,9 +46,14 @@ export const store = createStore<State>({
         store.dispatch('notificationBubble/setShowBubble');
       }
 
+      const dataForMock = {
+        portalData: PortalData,
+        locale: store.getters['locale/getLocale'],
+      };
+
       return new Promise<void>((resolve) => {
         setTimeout(() => {
-          store.dispatch('categories/setFromMock', PortalData);
+          store.dispatch('categories/setFromMock', dataForMock);
           store.dispatch('categories/storeOriginalArray');
           store.dispatch('modal/setHideModal');
           resolve();
