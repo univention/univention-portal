@@ -36,7 +36,6 @@ export const store = createStore<State>({
 
       // Store portal data
       store.dispatch('portalData/setPortal', PortalData);
-      store.dispatch('categories/setCategoryData', PortalData);
 
       // store notification data
       // TODO: Only add data to notifications store if data is available
@@ -49,7 +48,7 @@ export const store = createStore<State>({
 
       return new Promise<void>((resolve) => {
         setTimeout(() => {
-          store.dispatch('categories/setDevStandard');
+          store.dispatch('categories/setFromMock', PortalData);
           store.dispatch('categories/storeOriginalArray');
           store.dispatch('modal/setHideModal');
           resolve();

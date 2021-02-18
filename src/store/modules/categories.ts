@@ -117,7 +117,8 @@ const categories: Module<State, any> = {
     },
     STANDARD(state, payload) {
       // TODO Pass Rootstate locale
-      createCategories(payload, 'en_US');
+      const categoriesFromJSON = createCategories(payload, 'de_DE');
+      state.categories = categoriesFromJSON;
     },
     REPLACE(state, payload) {
       state.categories = payload.categories;
@@ -145,12 +146,12 @@ const categories: Module<State, any> = {
       commit('DEV_FOLDER', payload);
     },
     setDevStandard({ commit }, payload) {
-      commit('DEV_STANDARD', payload);
+      commit('STANDARD', payload);
     },
     setReplace({ commit }, payload) {
       commit('REPLACE', payload);
     },
-    setCategoryData({ commit }, payload) {
+    setFromMock({ commit }, payload) {
       commit('STANDARD', payload);
     },
     filterTiles({ commit }, filteredList) {
