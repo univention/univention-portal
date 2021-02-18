@@ -8,15 +8,19 @@
       @click="openFolder"
     >
       <div class="portal-folder__thumbnails">
-        <template
+        <div
           v-for="tile in tiles"
           :key="tile.title"
         >
-          <PortalTile
+          <portal-tile
             v-bind="tile.$props"
             :in-folder="!inModal"
+            :title="tile.title"
+            :link="tile.link"
+            :description="tile.description"
+            :tile="inModal ? tile : {}"
           />
-        </template>
+        </div>
       </div>
     </div>
     <span class="portal-folder__name">
