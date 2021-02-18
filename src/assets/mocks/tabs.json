@@ -10,7 +10,7 @@
       "fileName": "default_nav_tab_icon.jpg",
       "fileType": "jpg",
       "altText": "Univention Portal Logo",
-      "imageClass": "header-tabs__logo--default"
+      "imageClass": "header-tab__logo--default"
     }
   },
   {
