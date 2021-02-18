@@ -26,7 +26,7 @@
         class="portal-sidenavigation__link"
         @click="login"
       >
-        {{ loginLabel }}
+        <translate key="LOGIN" />
       </div>
     </div>
     <ul class="portal-sidenavigation__menu">
@@ -54,17 +54,16 @@ import { Options, Vue } from 'vue-class-component';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import userMixin from '@/mixins/userMixin.vue';
 import _ from '@/jsHelper/i18n.js';
+import Translate from '@/i18n/Translate.vue';
 
 @Options({
   name: 'SideNavigation',
   components: {
     PortalIcon,
+    Translate,
   },
   mixins: [userMixin],
   computed: {
-    loginLabel() {
-      return _('Login').value;
-    },
     logoutLabel() {
       return _('Logout').value;
     },
