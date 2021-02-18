@@ -64,6 +64,8 @@
         v-bind="modalProps"
       />
     </portal-modal>
+
+    <portal-background />
   </div>
 </template>
 
@@ -79,6 +81,8 @@ import PortalStandby from '@/components/PortalStandby.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
 
+import PortalBackground from '@/components/PortalBackground.vue';
+
 import userMixin from '@/mixins/userMixin.vue';
 
 @Options({
@@ -91,6 +95,7 @@ import userMixin from '@/mixins/userMixin.vue';
     PortalStandby,
     PortalFolder,
     PortalModal,
+    PortalBackground,
   },
   data() {
     return {
@@ -154,6 +159,7 @@ export default class Home extends Vue {}
 <style scoped lang="stylus">
 .portal
   position: relative;
+  z-index: 1;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
   button svg /* just during dev anyway */
     color: black

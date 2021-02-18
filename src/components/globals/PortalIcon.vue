@@ -39,7 +39,7 @@ import { Options, Vue } from 'vue-class-component';
 export default class PortalIcon extends Vue {}
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus">
 .portal-icon
   font-size: inherit;
   stroke: currentColor;
