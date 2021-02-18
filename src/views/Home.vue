@@ -125,9 +125,6 @@ import userMixin from '@/mixins/userMixin.vue';
       return catArray;
     },
   },
-  mounted() {
-    // this.$store.dispatch('categories/setCategoryData');
-  },
   methods: {
     closeModal() {
       if (!this.modalStubborn) {
