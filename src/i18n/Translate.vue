@@ -10,18 +10,17 @@ import catalog from '@/i18n/translations.js';
 @Options({
   name: 'Translate',
   props: {
-    key: {
+    i18nKey: {
       type: String,
-      required: false,
-      default: 'LOGIN',
-      validator(key: string) {
-        return key in catalog;
+      required: true,
+      validator(i18nKey: string) {
+        return i18nKey in catalog;
       },
     },
   },
   computed: {
     translated() {
-      return catalog[this.key].translated.value;
+      return catalog[this.i18nKey].translated.value;
     },
   },
 })
