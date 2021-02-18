@@ -30,9 +30,7 @@ const userMixin = {
     getLocalStorageData() {
       let isLoggedIn = false;
       const userDataStored = this.handleLocalStorage('get', 'ucs-login');
-      console.log('userDataStored: ', userDataStored);
       if (userDataStored) {
-        console.log('userDataStored.loggedIn');
         isLoggedIn = true;
         this.userData = userDataStored;
       }

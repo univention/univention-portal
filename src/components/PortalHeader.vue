@@ -16,6 +16,7 @@
     <div class="portal-header__stretch" />
     <div class="portal-header__right">
       <header-button
+        ref="searchButton"
         aria-label="Button for Searchbar"
         icon="search"
         @click="dismissBubble()"
@@ -40,7 +41,10 @@
 
     <flyout-wrapper :is-visible="activeSearchButton">
       <!-- TODO Semantic headlines -->
-      <portal-search v-if="activeSearchButton" />
+      <portal-search
+        v-if="activeSearchButton"
+        ref="searchInput"
+      />
     </flyout-wrapper>
 
     <portal-modal
@@ -110,9 +114,38 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       default: 'Univention Portal',
     },
   },
+  updated() {
+    this.$nextTick(() => {
+      if (this.activeSearchBar) {
+        this.setTabOrderWhenSearchBarOpen();
+      }
+    });
+  },
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
+    },
+    setTabOrderWhenSearchBarOpen() {
+      document.addEventListener('keydown', (e) => {
+        if (document.activeElement === this.$refs.searchInput.$refs.portalSearchInput) {
+          if (e.shiftKey && e.keyCode === 9 && this.activeSearchBar) {
+            e.preventDefault();
+            if (this) {
+              const searchButton = this.$refs.searchButton.$refs.searchReference;
+              searchButton.focus();
+            }
+          } else if (e.keyCode === 13) {
+            e.preventDefault();
+            const firstTile = document.querySelector('.portal-tile');
+            if (firstTile) {
+              (firstTile as HTMLElement)?.focus();
+            }
+          } else if (e.keyCode === 9) {
+            e.preventDefault();
+          // usernameTextBox.focus()
+          }
+        }
+      });
     },
   },
   computed: {
@@ -130,6 +163,18 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     },
     activeMenuButton(): boolean {
       return this.activeButton === 'menu';
+    },
+    setActiveButton(buttonType) {
+      this.activeFlyoutContent = buttonType;
+    },
+    buttonIsClicked(buttonType): boolean {
+      return this.activeFlyoutContent === buttonType;
+    },
+    sameButtonClicked(buttonType): boolean {
+      return buttonType === this.activeFlyoutContent;
+    },
+    activeSearchBar(): number {
+      return this.activeSearchButton ? 1 : 0;
     },
   },
 })

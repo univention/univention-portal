@@ -9,6 +9,7 @@
       role="presentation"
     >
       <button
+        :ref="setRef"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
         class="header-button__button"
@@ -45,7 +46,6 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       default: false,
     },
   },
-
   methods: {
     toggleActiveButton() {
       if (!this.noClick) {
@@ -62,9 +62,11 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
     isActiveButton() {
       return this.$store.state.navigation.activeButton === this.icon;
     },
+    setRef() {
+      return `${this.icon}Reference`;
+    },
   },
 })
-
 export default class HeaderButton extends Vue {}
 </script>
 
