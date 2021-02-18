@@ -175,8 +175,8 @@
       "activated": true,
       "allowedGroups": [],
       "description": {
-        "de_DE": "Mail",
-        "en_US": "Mail"
+        "de_DE": "Schreibe Emails, empfange welche und anderes.",
+        "en_US": "Write Emails, handle your Inbox and do other stuff"
       },
       "dn": "cn=ucsschool_demo_mail,cn=portal,cn=univention,dc=testorga,dc=intranet",
       "favorite": false,
