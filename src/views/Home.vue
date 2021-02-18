@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="portal">
     <portal-header />
-    <div class="portal">
+
+    <div class="portal-categories">
       <button @click="devEmpty">
         <portal-icon
           icon="circle"
@@ -125,14 +126,15 @@ import userMixin from '@/mixins/userMixin.vue';
     },
   },
 })
-
 export default class Home extends Vue {}
 </script>
 
 <style scoped lang="stylus">
-.portal
+.portal-categories
   position: relative;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
-  button svg /* just during dev anyway */
+
+  /* just during dev anyway */
+  button svg
     color: black
 </style>

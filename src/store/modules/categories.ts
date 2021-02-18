@@ -1,8 +1,7 @@
-import { Module } from 'vuex';
-
 import PortalCategory from '@/components/PortalCategory.vue';
-import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
+import PortalTile from '@/components/PortalTile.vue';
+import { Module } from 'vuex';
 
 const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
 
