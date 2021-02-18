@@ -137,7 +137,7 @@ import userMixin from '@/mixins/userMixin.vue';
       this.$store.dispatch('categories/setDevFolder');
     },
     devStandard() {
-      this.$store.dispatch('categories/setDevStandard');
+      this.$store.dispatch('categories/setStandard');
     },
     switchLocale() {
       if (this.$store.state.locale.locale === 'en_US') {

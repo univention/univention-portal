@@ -15,9 +15,9 @@
           <portal-tile
             v-bind="tile.$props"
             :in-folder="!inModal"
-            :title="tile.title"
+            :title="$localized(tile.title)"
             :link="tile.link"
-            :description="tile.description"
+            :description="$localized(tile.description)"
             :tile="inModal ? tile : {}"
           />
         </div>

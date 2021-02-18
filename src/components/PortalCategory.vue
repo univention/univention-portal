@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <h2>{{ showTitle }}</h2>
+    <h2>{{ $localized(showTitle) }}</h2>
     <div class="tiles">
       <div
         v-for="(tile, index) in tiles"
@@ -8,14 +8,14 @@
       >
         <portal-tile
           v-if="isTile(tile)"
-          :title="tile.title"
+          :title="$localized(tile.title)"
           :link="tile.link"
-          :description="tile.description"
+          :description="$localized(tile.description)"
           :tile="tile"
         />
         <portal-folder
           v-if="isFolder(tile)"
-          :title="tile.title"
+          :title="$localized(tile.title)"
           :tiles="tile.tiles"
         />
       </div>
@@ -28,6 +28,8 @@ import { Options, Vue } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
+import Translate from '@/i18n/Translate.vue';
+
 @Options({
   name: 'PortalCategory',
   components: {
@@ -35,7 +37,7 @@ import PortalFolder from '@/components/PortalFolder.vue';
     PortalFolder,
   },
   props: {
-    title: String,
+    title: Object,
     tiles: Array,
   },
   data() {
@@ -59,7 +61,7 @@ import PortalFolder from '@/components/PortalFolder.vue';
   },
 })
 export default class PortalCategory extends Vue {
-  title!: string;
+  title!: object;
 
   tiles!: [PortalTile];
 }

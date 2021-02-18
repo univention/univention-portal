@@ -24,9 +24,9 @@
 
     <portal-tool-tip
       v-if="isActive"
-      :title="toolTip.title"
+      :title="$localized(toolTip.title)"
       :icon="toolTip.icon"
-      :description="toolTip.description"
+      :description="$localized(toolTip.description)"
     />
   </component>
 </template>
@@ -43,7 +43,7 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
   },
   props: {
     title: String,
-    link: String,
+    link: Array,
     logo: String,
     backgroundColor: String,
     inFolder: {
@@ -85,9 +85,9 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
 })
 
 export default class PortalTile extends Vue {
-  title!: string;
+  title!: String;
 
-  link!: string;
+  link!: String[];
 
   logo = 'questionMark.svg';
 
