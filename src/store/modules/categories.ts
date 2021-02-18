@@ -116,9 +116,7 @@ const categories: Module<State, any> = {
       state.categories = standardCategories;
     },
     STANDARD(state, payload) {
-      // TODO Pass Rootstate locale
-      const categoriesFromJSON = createCategories(payload, 'de_DE');
-      console.log(categoriesFromJSON);
+      const categoriesFromJSON = createCategories(payload.portalData, payload.locale);
       state.categories = categoriesFromJSON;
     },
     REPLACE(state, payload) {
