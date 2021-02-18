@@ -1,16 +1,16 @@
 <template>
   <div
-    class="header-tabs"
+    class="header-tab"
     tabindex="0"
     @keyup.tab="focusTab(tabToken, tabIndex, `headerTab__${tabIndex}`)"
   >
     <div
       :id="`headerTab__${tabIndex}`"
       :ref="`headerTab__${tabIndex}`"
-      :class="[(tabIndex > 0) || 'header-tabs__container--first', 'header-tabs__container']"
+      :class="[(tabIndex > 0) || 'header-tab__container--first', 'header-tab__container']"
       @click="focusTab(tabToken, tabIndex, `headerTab__${tabIndex}`)"
     >
-      <div class="header-tabs__background" />
+      <div class="header-tab__background" />
       <image-component
         v-if="tabImage && (Object.keys(tabImage).length > 0)"
         :file-path="tabImage.filePath"
@@ -20,7 +20,7 @@
         :default-class="tabImage.imageClass"
       />
       <span
-        class="header-tabs__title"
+        class="header-tab__title"
         :title="tabLabel"
       >
         {{ tabLabel }}
@@ -29,7 +29,7 @@
         v-if="!tabStatic"
         :icon="tabIcon"
         :aria-label="ariaLabel"
-        class="header-tabs__close-button"
+        class="header-tab__close-button"
         @click.stop="closeTab(tabToken)"
       />
     </div>
@@ -43,7 +43,7 @@ import HeaderButton from '@/components/header/HeaderButton.vue';
 import ImageComponent from '@/components/globals/ImageComponent.vue';
 
 @Options({
-  name: 'HeaderTabs',
+  name: 'HeaderTab',
   components: {
     HeaderButton,
     ImageComponent,
@@ -81,18 +81,18 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
   },
   methods: {
     focusTab(token, index, tab) {
-      const needle = document.querySelectorAll('.header-tabs__container');
+      const needle = document.querySelectorAll('.header-tab__container');
 
       if (needle) {
         // remove selected tab classes
-        Array.from(needle).forEach((el) => el.classList.remove('header-tabs__container--selected'));
+        Array.from(needle).forEach((el) => el.classList.remove('header-tab__container--selected'));
       }
 
       if (token && index) {
         // add selected tab class to current tab
         const currItem = document.querySelector(`#${tab}`);
         if (currItem) {
-          currItem.classList.add('header-tabs__container--selected');
+          currItem.classList.add('header-tab__container--selected');
         }
 
         // display corresponding iframe
@@ -105,12 +105,11 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
     },
   },
 })
-
-export default class HeaderTabs extends Vue {}
+export default class HeaderTab extends Vue {}
 </script>
 
 <style lang="stylus">
-.header-tabs {
+.header-tab {
   display: flex;
   flex: 1 1 auto;
   margin-left: calc(5 * var(--layout-spacing-unit));

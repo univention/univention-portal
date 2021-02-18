@@ -8,7 +8,7 @@
       tabindex="0"
     >
       <!-- Nav Tabs -->
-      <header-tabs
+      <header-tab
         v-for="(item, index) in tabs"
         :key="index"
         :tab-index="index"
@@ -86,7 +86,7 @@ import { mapGetters } from 'vuex';
 import Notifications from '@/assets/mocks/notifications.json';
 
 import HeaderButton from '@/components/header/HeaderButton.vue';
-import HeaderTabs from '@/components/header/HeaderTabs.vue';
+import HeaderTab from '@/components/header/HeaderTab.vue';
 
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
@@ -102,7 +102,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   name: 'PortalHeader',
   components: {
     HeaderButton,
-    HeaderTabs,
+    HeaderTab,
     FlyoutWrapper,
     SideNavigation,
     PortalModal,
