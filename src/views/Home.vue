@@ -1,5 +1,6 @@
 <template>
   <div>
+    <portal-background />
     <portal-header />
     <div class="portal">
       <button @click="devEmpty">
@@ -64,8 +65,6 @@
         v-bind="modalProps"
       />
     </portal-modal>
-
-    <portal-background />
   </div>
 </template>
 
@@ -156,7 +155,7 @@ export default class Home extends Vue {}
 <style scoped lang="stylus">
 .portal
   position: relative;
-  z-index: 1;
+  // z-index: 1;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
   button svg /* just during dev anyway */
     color: black
