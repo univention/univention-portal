@@ -1,4 +1,4 @@
-export default function createCategories(portalData, locale) {
+export default function createCategories(portalData) {
   const portalContent = portalData.portal.content;
   const availableCategories = portalData.categories;
   const availableTiles = portalData.entries;
