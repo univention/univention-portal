@@ -18,17 +18,17 @@
       <header-button
         aria-label="Button for Searchbar"
         icon="search"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
       <header-button
         aria-label="Open notifications"
         icon="bell"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
       <header-button
         aria-label="Button for navigation"
         icon="menu"
-        @click="dismissBubble"
+        @click="dismissBubble()"
       />
     </div>
 
@@ -51,7 +51,7 @@
         :is-visible="activeNotificationButton || activeMenuButton"
         class="flyout-wrapper__notification"
       >
-        <!-- TODO Semantic headlines -->
+        <!-- Notifications -->
         <div
           v-if="activeNotificationButton"
           class="portal-header__title"
@@ -66,6 +66,8 @@
             <notification-bubble-slot bubble-container="embedded" />
           </template>
         </notification-bubble>
+
+        <!-- Side navigation -->
         <side-navigation v-if="activeMenuButton" />
       </flyout-wrapper>
     </portal-modal>
@@ -75,8 +77,6 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
-
-import Notifications from '@/assets/mocks/notifications.json';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
@@ -109,16 +109,9 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       default: 'Univention Portal',
     },
   },
-  created() {
-    this.setBubbleStandaloneContent();
-  },
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
-    },
-    setBubbleStandaloneContent() {
-      // TODO: replace with dynamic content from e.g. an API
-      this.$store.dispatch('notificationBubble/setContent', Notifications);
     },
   },
   computed: {

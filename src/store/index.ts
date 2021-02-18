@@ -1,7 +1,11 @@
-import PortalData from '@/assets/mocks/portal.json';
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
-// Modules
+
+// mock jsons
+import NotificationData from '@/assets/mocks/notifications.json';
+import PortalData from '@/assets/mocks/portal.json';
+
+// modules
 import categories from './modules/categories';
 import locale from './modules/locale';
 import modal from './modules/modal';
@@ -33,9 +37,14 @@ export const store = createStore<State>({
       // Store portal data
       store.dispatch('portalData/setPortal', PortalData);
 
-      // TODO: Once notification API is available: set state only if notifications are present
-      store.dispatch('notificationBubble/setShowBubble');
-      store.dispatch('notificationBubble/setShowBubbleEmbedded');
+      // store notification data
+      // TODO: Only add data to notifications store if data is available
+      store.dispatch('notificationBubble/setContent', NotificationData);
+
+      // display standalone notification bubbles
+      if (store.getters['notificationBubble/bubbleContent'].length > 0) {
+        store.dispatch('notificationBubble/setShowBubble');
+      }
 
       return new Promise<void>((resolve) => {
         setTimeout(() => {

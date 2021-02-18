@@ -2,7 +2,7 @@
   <div
     :class="{ 'header-button--is-active': isActiveButton }"
     class="header-button"
-    @click="click"
+    @click="toggleActiveButton"
   >
     <span
       class="header-button__inner"
@@ -40,14 +40,20 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       type: String,
       required: true,
     },
+    noClick: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
-    click() {
-      if (this.isActiveButton) {
-        this.$store.dispatch('navigation/setActiveButton', '');
-      } else {
-        this.$store.dispatch('navigation/setActiveButton', this.icon);
+    toggleActiveButton() {
+      if (!this.noClick) {
+        if (this.isActiveButton) {
+          this.$store.dispatch('navigation/setActiveButton', '');
+        } else {
+          this.$store.dispatch('navigation/setActiveButton', this.icon);
+        }
       }
     },
   },
