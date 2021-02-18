@@ -81,9 +81,14 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
   },
   methods: {
     focusTab(token, index, tab) {
-      if (token && index) {
+      const needle = document.querySelectorAll('.header-tabs__container');
+
+      if (needle) {
         // remove selected tab classes
-        Array.from(document.querySelectorAll('.header-tabs__container')).forEach((el) => el.classList.remove('header-tabs__container--selected'));
+        Array.from(needle).forEach((el) => el.classList.remove('header-tabs__container--selected'));
+      }
+
+      if (token && index) {
         // add selected tab class to current tab
         const currItem = document.querySelector(`#${tab}`);
         if (currItem) {
