@@ -17,7 +17,7 @@
             class="portal-sidenavigation__logout-link"
             @click="logout"
           >
-            {{ logoutLabel }}
+            <translate i18n-key="LOGOUT" />
           </div>
         </div>
       </div>
@@ -26,14 +26,14 @@
         class="portal-sidenavigation__link"
         @click="login"
       >
-        <translate key="LOGIN" />
+        <translate i18n-key="LOGIN" />
       </div>
     </div>
     <ul class="portal-sidenavigation__menu">
       <li
         @click="switchLocale"
       >
-        Switch locale
+        <translate i18n-key="SWITCH_LOCALE" />
       </li>
       <li>Item 2</li>
       <li>Item 3</li>
@@ -43,7 +43,7 @@
       v-if="isAdmin"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
     >
-      {{ editPortalLabel }}
+      <translate i18n-key="EDIT_PORTAL" />
     </div>
   </nav>
 </template>
@@ -53,7 +53,6 @@ import { Options, Vue } from 'vue-class-component';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import userMixin from '@/mixins/userMixin.vue';
-import _ from '@/jsHelper/i18n.js';
 import Translate from '@/i18n/Translate.vue';
 
 @Options({
@@ -63,14 +62,6 @@ import Translate from '@/i18n/Translate.vue';
     Translate,
   },
   mixins: [userMixin],
-  computed: {
-    logoutLabel() {
-      return _('Logout').value;
-    },
-    editPortalLabel() {
-      return _('Edit portal').value;
-    },
-  },
   methods: {
     switchLocale() {
       if (this.$store.state.locale.locale === 'en_US') {
