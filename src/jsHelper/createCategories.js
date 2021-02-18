@@ -1,34 +1,8 @@
-function getCategoriesFromDefinition(definition) {
-  const categories = [];
-  definition.forEach((element) => {
-    const categoryDefinition = element[0].split(',');
-    const category = categoryDefinition[0];
-    categories.push(category);
-  });
-
-  return categories;
-}
-function getTileArray(portalContent, tiles, locale) {
-  portalContent.forEach((element, index) => {
-    element[1].forEach((tileInfo, tileInfoIndex) => {
-      const tileInfoArray = tileInfo.split(',');
-    });
-  });
-}
-
 export default function createCategories(portalData, locale) {
   const portalContent = portalData.portal.content;
   const availableCategories = portalData.categories;
   const availableTiles = portalData.entries;
 
-  const categoryStrings = getCategoriesFromDefinition(portalContent);
-
-  const finalCategories = categoryStrings.map((element) => {
-    const usedCategories = availableCategories.filter((category) => category.dn.includes(element));
-    const categoryName = usedCategories[0].display_name;
-    return categoryName[locale];
-  });
-  // getTileArray(portalContent, tiles, locale);
   const FinalARRAY = [];
   portalContent.forEach((cnCategoryInContent, index) => {
     const cnCategoryDefinitions = cnCategoryInContent[0].split(',');
@@ -61,8 +35,7 @@ export default function createCategories(portalData, locale) {
       });
     });
     FinalARRAY[index].tiles = tiles;
-    console.log('tiles', tiles);
   });
-  console.log(FinalARRAY);
+
   return FinalARRAY;
 }

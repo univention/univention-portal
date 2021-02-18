@@ -118,6 +118,7 @@ const categories: Module<State, any> = {
     STANDARD(state, payload) {
       // TODO Pass Rootstate locale
       const categoriesFromJSON = createCategories(payload, 'de_DE');
+      console.log(categoriesFromJSON);
       state.categories = categoriesFromJSON;
     },
     REPLACE(state, payload) {
