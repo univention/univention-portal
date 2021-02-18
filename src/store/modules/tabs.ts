@@ -1,7 +1,22 @@
 import { Module } from 'vuex';
 
+export interface Tab {
+  tabToken: string,
+  tabIcon: string,
+  tabLabel: string,
+  ariaLabel: string,
+  tabStatic: boolean,
+  tabImage: {
+    filePath: string,
+    fileName: string,
+    fileType: string,
+    altText: string,
+    imageClass: string
+  }
+}
+
 export interface State {
-  tabs: Array<any>;
+  tabs: Array<Tab>;
 }
 
 const tabs: Module<State, any> = {
