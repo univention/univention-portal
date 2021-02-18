@@ -115,15 +115,16 @@ const categories: Module<State, any> = {
       ];
       state.categories = standardCategories;
     },
-    STANDARD(state, payload) {
-      const categoriesFromJSON = createCategories(payload.portalData, payload.locale);
-      state.categories = categoriesFromJSON;
+    STANDARD(state) {
+      state.categories = state.originalArray;
     },
     REPLACE(state, payload) {
       state.categories = payload.categories;
     },
-    SAVE_ORIGINAL_ARRAY_ONCE(state) {
-      state.originalArray = state.categories;
+    SAVE_ORIGINAL_ARRAY_ONCE(state, payload) {
+      const categoriesFromJSON = createCategories(payload);
+      // state.categories = categoriesFromJSON;
+      state.originalArray = categoriesFromJSON;
     },
     FILTER(state, payload) {
       state.categories = payload;
@@ -144,8 +145,8 @@ const categories: Module<State, any> = {
     setDevFolder({ commit }, payload) {
       commit('DEV_FOLDER', payload);
     },
-    setDevStandard({ commit }, payload) {
-      commit('STANDARD', payload);
+    setStandard({ commit }) {
+      commit('STANDARD');
     },
     setReplace({ commit }, payload) {
       commit('REPLACE', payload);
