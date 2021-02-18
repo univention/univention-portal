@@ -1,9 +1,9 @@
 import { createApp } from 'vue';
 import App from '@/App.vue';
-import router from '@/router';
 import { store } from '@/store';
+import localize from './plugins/localize';
 
 createApp(App)
   .use(store)
-  .use(router)
+  .use(localize)
   .mount('#app');
