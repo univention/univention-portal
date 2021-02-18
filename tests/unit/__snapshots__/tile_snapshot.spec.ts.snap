@@ -22,5 +22,6 @@ exports[`Test tile rendering 1`] = `
   >
     Test Title
   </span>
+  <!--v-if-->
 </a>
 `;
