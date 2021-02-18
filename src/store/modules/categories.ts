@@ -28,50 +28,68 @@ const categories: Module<State, any> = {
     DEV_FOLDER(state) {
       const folderCategories = [
         new PortalCategory({
-          title: 'Applications',
+          title: {
+            de_DE: 'Applications',
+            en_US: 'Applications',
+          },
           tiles: [
             new PortalTile({
-              title: 'ownCloud',
-              link: 'https://www.owncloud.com',
-              description: `ownCloud: ${dummyDescription}`,
+              title: {
+                de_DE: 'OwnCloud',
+                en_US: 'OwnCloud',
+              },
+              link: [
+                'https://www.owncloud.com',
+              ],
+              description: {
+                de_DE: 'OwnCloud Online DatenSpeicher',
+                en_US: 'OwnCloud Online Data Storage',
+              },
             }),
             new PortalFolder({
-              title: 'Favorites',
+              title: {
+                de_DE: 'Favoriten',
+                en_US: 'Favorites',
+              },
               tiles: [
                 new PortalTile({
-                  title: 'Nextcloud',
-                  link: 'https://www.nextcloud.com',
-                  description: `Nextcloud: ${dummyDescription}`,
+                  title: {
+                    de_DE: 'Nextcloud',
+                    en_US: 'Nextcloud',
+                  },
+                  link: [
+                    'https://www.nextcloud.com',
+                  ],
+                  description: {
+                    de_DE: 'Datenspeicher online für verschiedene Zwecke.',
+                    en_US: 'Online Storage cloud base',
+                  },
                 }),
                 new PortalTile({
-                  title: 'Jitsi',
-                  link: 'https://www.jitsi.com',
-                  description: `Jitsi: ${dummyDescription}`,
+                  title: {
+                    de_DE: 'Jitsi',
+                    en_US: 'Jitsi',
+                  },
+                  link: [
+                    'https://www.jitsi.com',
+                  ],
+                  description: {
+                    de_DE: 'Online Videkonferenzentool',
+                    en_US: 'Online Meeting Tool',
+                  },
                 }),
                 new PortalTile({
-                  title: 'Ubuntu',
-                  link: 'https://www.ubuntu.com',
-                  description: `Ubuntu: ${dummyDescription}`,
-                }),
-                new PortalTile({
-                  title: 'Relution',
-                  link: 'https://www.relution.com',
-                  description: `Relution: ${dummyDescription}`,
-                }),
-                new PortalTile({
-                  title: 'Rocketchat',
-                  link: 'https://www.rocketchat.com',
-                  description: `Rocketchat: ${dummyDescription}`,
-                }),
-                new PortalTile({
-                  title: 'Open Xchange',
-                  link: 'https://www.ox.com',
-                  description: `Open Xchange: ${dummyDescription}`,
-                }),
-                new PortalTile({
-                  title: 'UCS@school',
-                  link: 'https://www.univention.com',
-                  description: `UCS@school: ${dummyDescription}`,
+                  title: {
+                    de_DE: 'Ubuntu',
+                    en_US: 'Ubuntu',
+                  },
+                  link: [
+                    'https://www.ubuntu.com',
+                  ],
+                  description: {
+                    de_DE: 'Ubuntu Lorem ipsum deutsch',
+                    en_US: 'Ubuntu Lorem ipsum englisch',
+                  },
                 }),
               ],
             }),
@@ -79,41 +97,6 @@ const categories: Module<State, any> = {
         }),
       ];
       state.categories = folderCategories;
-    },
-    DEV_STANDARD(state) {
-      const standardCategories = [
-        new PortalCategory({
-          title: 'Applications',
-          tiles: [
-            new PortalTile({
-              title: 'ownCloud',
-              link: 'https://www.owncloud.com',
-              description: `Applications: ${dummyDescription}`,
-            }),
-            new PortalTile({
-              title: 'Nextcloud',
-              link: 'https://www.nextcloud.com',
-              description: `Nextcloud: ${dummyDescription}`,
-            }),
-          ],
-        }),
-        new PortalCategory({
-          title: 'Administration',
-          tiles: [
-            new PortalTile({
-              title: 'UMC',
-              link: '/umc/',
-              description: `UMC: ${dummyDescription}`,
-            }),
-            new PortalTile({
-              title: 'Blog',
-              link: 'https://www.univention.de/blog',
-              description: 'Blog: Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines großen Sprachozeans. ',
-            }),
-          ],
-        }),
-      ];
-      state.categories = standardCategories;
     },
     STANDARD(state) {
       state.categories = state.originalArray;
