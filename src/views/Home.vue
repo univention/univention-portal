@@ -2,7 +2,10 @@
   <div class="portal">
     <portal-header />
 
-    <div class="portal-categories">
+    <div
+      v-if="!showIframe"
+      class="portal-categories"
+    >
       <button @click="devEmpty">
         <portal-icon
           icon="circle"
@@ -45,6 +48,13 @@
         />
         Switch Language
       </button>
+      <button @click="showIframe = !showIframe">
+        <portal-icon
+          icon="archive"
+          icon-width="1em"
+        />
+        IFrame
+      </button>
 
       <portal-category
         v-for="(category, index) in categories"
@@ -52,6 +62,13 @@
         :title="category.title"
         :tiles="category.tiles"
       />
+    </div>
+
+    <div
+      v-if="showIframe"
+      class="portal-iframes"
+    >
+      <portal-iframe link="https://nextcloud.com/?embed" />
     </div>
 
     <portal-modal
@@ -70,7 +87,8 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
-import PortalCategory from 'components/PortalCategory.vue'; // @ is an alias to /src
+import PortalIframe from 'components/PortalIframe.vue';
+import PortalCategory from 'components/PortalCategory.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
 import PortalTile from '@/components/PortalTile.vue';
@@ -84,14 +102,20 @@ import userMixin from '@/mixins/userMixin.vue';
   name: 'Home',
   components: {
     PortalCategory,
-    PortalHeader,
-    PortalTile,
-    PortalIcon,
-    PortalStandby,
     PortalFolder,
+    PortalHeader,
+    PortalIcon,
+    PortalIframe,
     PortalModal,
+    PortalStandby,
+    PortalTile,
   },
   mixins: [userMixin],
+  data() {
+    return {
+      showIframe: false,
+    };
+  },
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
@@ -137,4 +161,14 @@ export default class Home extends Vue {}
   /* just during dev anyway */
   button svg
     color: black
+
+.portal-iframes
+  position: fixed;
+  top: var(--portal-header-height);
+  border: 0px solid var(--color-grey8);
+  border-top-width: var(--portal-header-to-content-seperator-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
 </style>
