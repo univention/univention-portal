@@ -2,48 +2,46 @@ import { Module } from 'vuex';
 
 export interface State {
   visible: boolean;
-  content: Object;
-  visibleEmbedded: boolean;
-  contentEmbedded: Object;
+  visibleStandalone: boolean;
+  content: Array<any>;
 }
 
 const bubble: Module<State, any> = {
   namespaced: true,
   state: {
-    visible: true,
-    content: {},
-    visibleEmbedded: true,
-    contentEmbedded: {},
+    visible: false,
+    visibleStandalone: false,
+    content: [],
   },
 
   mutations: {
-    SHOW(state) {
-      state.visible = true;
-    },
-    HIDE(state) {
-      state.visible = false;
-    },
     WRITE_CONTENT(state, payload) {
       state.content = payload;
     },
-
+    SHOW(state) {
+      state.visibleStandalone = true;
+    },
     SHOW_EMBEDDED(state) {
       state.visible = true;
+      state.visibleStandalone = false;
     },
-    HIDE_EMBEDDED(state) {
+    HIDE(state) {
+      state.visibleStandalone = false;
+    },
+    HIDE_ALL_NOTIFICATIONS(state) {
       state.visible = false;
+      state.visibleStandalone = false;
     },
-    WRITE_CONTENT_EMBEDDED(state, payload) {
-      state.content = payload;
+    DELETE_SINGLE_NOTIFICTION(state, token) {
+      const index = state.content.findIndex((notification) => notification.bubbleToken === token);
+      state.content.splice(index, 1);
     },
   },
 
   getters: {
     bubbleState: (state) => state.visible,
+    bubbleStateStandalone: (state) => state.visibleStandalone,
     bubbleContent: (state) => state.content,
-
-    bubbleStateEmbedded: (state) => state.visible,
-    bubbleContentEmbedded: (state) => state.content,
   },
 
   actions: {
@@ -56,15 +54,14 @@ const bubble: Module<State, any> = {
     setContent({ commit }, payload) {
       commit('WRITE_CONTENT', payload);
     },
-
-    setShowBubbleEmbedded({ commit }, payload) {
+    hideAllNotifications({ commit }, payload) {
+      commit('HIDE_ALL_NOTIFICATIONS', payload);
+    },
+    showEmbedded({ commit }, payload) {
       commit('SHOW_EMBEDDED', payload);
     },
-    setHideBubbleEmbedded({ commit }, payload) {
-      commit('HIDE_EMBEDDED', payload);
-    },
-    setContentEmbedded({ commit }, payload) {
-      commit('WRITE_CONTENT_EMBEDDED', payload);
+    deleteSingleNotification({ commit }, token) {
+      commit('DELETE_SINGLE_NOTIFICTION', token);
     },
   },
 };
