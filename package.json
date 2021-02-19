@@ -11,7 +11,8 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "lint:all": "eslint --ext .js,.vue,.json --ignore-path .gitignore . && stylelint --fix \"{**/*.{scss,vue,styl}\"",
-    "lint:fix": "eslint --fix --ext .js,.vue,.json --ignore-path .gitignore . && stylelint --fix \"{**/*.{scss,vue,styl}\""
+    "lint:fix": "eslint --fix --ext .js,.vue,.json --ignore-path .gitignore . && stylelint --fix \"{**/*.{scss,vue,styl}\"",
+    "deploy:firebase": "yarn build && firebase deploy"
   },
   "dependencies": {
     "core-js": "^3.6.5",
