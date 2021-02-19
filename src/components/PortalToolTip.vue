@@ -82,6 +82,7 @@ export default class PortalToolTip extends Vue {
   right: calc(2 * 1rem)
   background-color: #1e1e1d
   border-radius: 16px
+  min-width: calc(20 * 1rem)
   max-width: calc(40 * 1rem)
   padding: calc(2 * 1rem)
   box-shadow: 0rem 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
