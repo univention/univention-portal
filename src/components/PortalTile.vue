@@ -2,9 +2,9 @@
   <component
     :is="wrapperTag"
     class="portal-tile"
-    :href="link"
     draggable="true"
     data-test="tileLink"
+    @click="tileClick"
   >
     <div
       :style="`background: ${backgroundColor}`"
@@ -37,13 +37,31 @@ import { Options, Vue } from 'vue-class-component';
       default: false,
     },
   },
+  methods: {
+    tileClick() {
+      const tab = {
+        tabToken: 'test',
+        // tabIcon: "x",
+        tabLabel: this.title,
+        // "ariaLabel": "Tab Aria Label",
+        // "tabStatic": false,
+        tabImage: {
+          filePath: '',
+          fileName: this.logo,
+          fileType: 'svg',
+          altText: 'Nav Tab Logo',
+        },
+        iframeLink: this.link,
+      };
+      this.$store.dispatch('tabs/addTab', tab);
+    },
+  },
   computed: {
     wrapperTag() {
       return this.inFolder ? 'div' : 'a';
     },
   },
 })
-
 export default class PortalTile extends Vue {
   title!: string;
 
