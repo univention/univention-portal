@@ -4,7 +4,15 @@ const path = require('path');
 const vueConfig = {
   filenameHashing: false,
   pwa: {
-    name: 'UPX Portal',
+    name: 'Univention Portal',
+  },
+  chainWebpack: config => {
+    config
+      .plugin('html')
+      .tap(args => {
+        args[0].title = 'Univention Portal';
+        return args;
+      })
   },
   css: {
     sourceMap: true,
@@ -18,9 +26,7 @@ const vueConfig = {
       },
     },
   },
-  publicPath: process.env.NODE_ENV === 'sandbox'
-    ? '/univention/phoenix'
-    : '/',
+  publicPath: '/',
 };
 
 const existingConfigureWebpack = vueConfig.configureWebpack;
