@@ -4,14 +4,7 @@
     "tabIcon": "x",
     "tabLabel": "Univention Portal",
     "ariaLabel": "Univention Portal",
-    "tabStatic": true,
-    "tabImage": {
-      "filePath": "/img/",
-      "fileName": "default_nav_tab_icon.jpg",
-      "fileType": "jpg",
-      "altText": "Univention Portal Logo",
-      "imageClass": "header-tab__logo--default"
-    }
+    "tabStatic": true
   },
   {
     "tabToken": "testtab12345",
@@ -20,11 +13,12 @@
     "ariaLabel": "Tab Aria Label",
     "tabStatic": false,
     "tabImage": {
-      "filePath": "/img/",
-      "fileName": "nav_tab_test.svg",
+      "filePath": "",
+      "fileName": "questionMark.svg",
       "fileType": "svg",
       "altText": "Nav Tab Logo"
-    }
+    },
+    "iframeLink": "owncloud.com"
   },
   {
     "tabToken": "testtab09876",
@@ -33,10 +27,11 @@
     "ariaLabel": "Tab Aria Label",
     "tabStatic": false,
     "tabImage": {
-      "filePath": "/img/",
-      "fileName": "nav_tab_test.svg",
+      "filePath": "",
+      "fileName": "questionMark.svg",
       "fileType": "svg",
       "altText": "Nav Tab Logo"
-    }
+    },
+    "iframeLink": "nextcloud.com"
   }
 ]
