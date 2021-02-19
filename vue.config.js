@@ -26,7 +26,7 @@ const vueConfig = {
       },
     },
   },
-  publicPath: '/',
+  publicPath: './',
 };
 
 const existingConfigureWebpack = vueConfig.configureWebpack;
