@@ -1,3 +1,9 @@
+phoenixportal (0.0.2) unstable; urgency=medium
+
+  * Translations
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Fri, 19 Feb 2021 14:49:13 +0100
+
 phoenixportal (0.0.1) unstable; urgency=medium
 
   * Initial Release.
