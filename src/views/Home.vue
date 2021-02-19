@@ -3,7 +3,7 @@
     <portal-header />
 
     <div
-      v-if="!showIframe"
+      v-show="!activeTabIndex"
       class="portal-categories"
     >
       <button @click="devEmpty">
@@ -65,10 +65,15 @@
     </div>
 
     <div
-      v-if="showIframe"
+      v-show="activeTabIndex"
       class="portal-iframes"
     >
-      <portal-iframe link="https://nextcloud.com/?embed" />
+      <portal-iframe
+        v-for="(item, index) in tabs"
+        :key="index"
+        :link="item.iframeLink"
+        :is-active="activeTabIndex == index + 1"
+      />
     </div>
 
     <portal-modal
@@ -111,11 +116,6 @@ import userMixin from '@/mixins/userMixin.vue';
     PortalTile,
   },
   mixins: [userMixin],
-  data() {
-    return {
-      showIframe: false,
-    };
-  },
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
@@ -123,6 +123,8 @@ import userMixin from '@/mixins/userMixin.vue';
       modalComponent: 'modal/modalComponent',
       modalProps: 'modal/modalProps',
       modalStubborn: 'modal/modalStubborn',
+      tabs: 'tabs/allTabs',
+      activeTabIndex: 'tabs/activeTabIndex',
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
   },

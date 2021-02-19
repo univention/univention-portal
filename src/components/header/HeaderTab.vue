@@ -1,38 +1,34 @@
 <template>
   <div
+    :id="`headerTab__${tabIndex}`"
+    :ref="`headerTab__${tabIndex}`"
     class="header-tab"
-    tabindex="0"
-    @keyup.tab="focusTab(tabToken, tabIndex, `headerTab__${tabIndex}`)"
+    :tabIndex="tabIndex"
+    :class="{ 'header-tab--active': isActive }"
+    @click="focusTab"
   >
-    <div
-      :id="`headerTab__${tabIndex}`"
-      :ref="`headerTab__${tabIndex}`"
-      :class="[(tabIndex > 0) || 'header-tab__container--first', 'header-tab__container']"
-      @click="focusTab(tabToken, tabIndex, `headerTab__${tabIndex}`)"
+    <div class="header-tab__background" />
+
+    <image-component
+      file-type="svg"
+      file-path=""
+      :file-name="logo"
+      :alt-text="tabLabel + ' logo'"
+    />
+
+    <span
+      class="header-tab__title"
+      :title="tabLabel"
     >
-      <div class="header-tab__background" />
-      <image-component
-        v-if="tabImage && (Object.keys(tabImage).length > 0)"
-        :file-path="tabImage.filePath"
-        :file-name="tabImage.fileName"
-        :file-type="tabImage.fileType"
-        :alt-text="tabImage.altText"
-        :default-class="tabImage.imageClass"
-      />
-      <span
-        class="header-tab__title"
-        :title="tabLabel"
-      >
-        {{ tabLabel }}
-      </span>
-      <header-button
-        v-if="!tabStatic"
-        :icon="tabIcon"
-        :aria-label="ariaLabel"
-        class="header-tab__close-button"
-        @click.stop="closeTab(tabToken)"
-      />
-    </div>
+      {{ tabLabel }}
+    </span>
+
+    <header-button
+      :icon="closeIcon"
+      :aria-label="ariaLabel"
+      class="header-tab__close-button"
+      @click.stop="closeTab"
+    />
   </div>
 </template>
 
@@ -52,16 +48,7 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
   props: {
     tabIndex: {
       type: Number,
-      default: 0,
-    },
-    tabToken: {
-      type: String,
-      default: '',
       required: true,
-    },
-    tabIcon: {
-      type: String,
-      default: 'x',
     },
     tabLabel: {
       type: String,
@@ -71,42 +58,22 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
       type: String,
       default: 'Tab Aria Label',
     },
-    tabStatic: {
+    closeIcon: {
+      type: String,
+      default: 'x',
+    },
+    isActive: {
       type: Boolean,
       default: false,
     },
-    tabImage: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  computed: {
-    ...mapGetters({
-      activeTab: 'tabs/activeTab',
-    }),
+    logo: String,
   },
   methods: {
-    focusTab(token, index, tab) {
-      const needle = document.querySelectorAll('.header-tab__container');
-
-      if (needle) {
-        // remove selected tab classes
-        Array.from(needle).forEach((el) => el.classList.remove('header-tab__container--selected'));
-      }
-
-      if (token && index) {
-        // add selected tab class to current tab
-        const currItem = document.querySelector(`#${tab}`);
-        if (currItem) {
-          currItem.classList.add('header-tab__container--selected');
-          this.$store.dispatch('tabs/setActiveTab', tab);
-        }
-      }
+    focusTab() {
+      this.$store.dispatch('tabs/setActiveTab', this.tabIndex);
     },
-    closeTab(token) {
-      if (token) {
-        this.$store.dispatch('tabs/deleteTab', token);
-      }
+    closeTab() {
+      this.$store.dispatch('tabs/deleteTab', this.tabIndex);
     },
   },
 })
@@ -115,35 +82,23 @@ export default class HeaderTab extends Vue {}
 
 <style lang="stylus">
 .header-tab
+  --tabColor: transparent;
+  outline: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  min-width: calc(30 * var(--layout-spacing-unit));
+  height: 50px;
+  padding-top: 10px;
+  position: relative
+  z-index: 1
 
   &:focus
-    outline: 0
-
-  &__container
-    --tabColor: transparent;
+    --tabColor: var(--color-grey8);
     outline: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    min-width: calc(30 * var(--layout-spacing-unit));
-    height: 50px;
-    padding-top: 10px;
-    position: relative
-    z-index: 1
 
-    &:hover
-      --tabColor: #272726;
-
-    &--first
-      &:hover
-        --tabColor: transparent;
-
-    &--selected
-      --tabColor: var(--color-grey8);
-      outline: 0;
-
-      &:hover
-        --tabColor: var(--color-grey8);
+  &:hover
+    --tabColor: #272726;
 
   &__background
     transition: background-color 250ms;
@@ -153,7 +108,7 @@ export default class HeaderTab extends Vue {}
     bottom: 0;
     left: -1px;
     border-radius: 8px 8px 0 0;
-    background-color: var(--tabColor);
+    background-color: var(--tabColor)
     z-index: -1;
 
   &__logo
@@ -177,4 +132,12 @@ export default class HeaderTab extends Vue {}
     position: relative
     z-index: 10
 
+.header-tab--active
+  --tabColor: var(--color-grey8);
+
+  &:focus
+    --tabColor: var(--color-grey8);
+
+  &:hover
+    --tabColor: var(--color-grey8);
 </style>

@@ -1,30 +1,22 @@
 import { Module } from 'vuex';
 
 export interface Tab {
-  tabToken: string,
-  tabIcon: string,
   tabLabel: string,
   ariaLabel: string,
-  tabStatic: boolean,
-  tabImage: {
-    filePath: string,
-    fileName: string,
-    fileType: string,
-    altText: string,
-    imageClass: string
-  },
+  closeIcon: string,
+  logo: string,
   iframeLink: string
 }
 
 export interface State {
-  activeTab: Tab | null;
+  activeTabIndex: number;
   tabs: Array<Tab>;
 }
 
 const tabs: Module<State, any> = {
   namespaced: true,
   state: {
-    activeTab: null,
+    activeTabIndex: 0,
     tabs: [],
   },
 
@@ -32,36 +24,41 @@ const tabs: Module<State, any> = {
     ALL_TABS(state, payload: Array<Tab>) {
       state.tabs = payload;
     },
-    ACTIVE_TAB(state, tab: Tab) { // index instead of tab??
-      state.activeTab = tab;
+    ACTIVE_TAB(state, index: number) {
+      state.activeTabIndex = index;
     },
     ADD_TAB(state, tab: Tab) {
-      state.tabs.push(tab);
-      state.activeTab = tab;
+      const index = state.tabs.findIndex((stateTab) => stateTab.tabLabel === tab.tabLabel);
+      if (index === -1) {
+        state.tabs.push(tab);
+        state.activeTabIndex = state.tabs.length;
+      } else {
+        state.activeTabIndex = index + 1;
+      }
     },
-    DELETE_TAB(state, token: string) { // index instead of tab??
-      const index = state.tabs.findIndex((tab) => tab.tabToken === token);
-      state.tabs.splice(index, 1);
+    DELETE_TAB(state, index: number) {
+      state.tabs.splice(index - 1, 1);
+      state.activeTabIndex = 0;
     },
   },
 
   getters: {
-    getAllTabs: (state) => state.tabs,
-    getActiveTab: (state) => state.activeTab,
+    allTabs: (state) => state.tabs,
+    activeTabIndex: (state) => state.activeTabIndex,
   },
 
   actions: {
     setAllTabs({ commit }, payload: Array<Tab>) {
       commit('ALL_TABS', payload);
     },
-    setActiveTab({ commit }, tab: Tab) {
-      commit('ACTIVE_TAB', tab);
+    setActiveTab({ commit }, index: number) {
+      commit('ACTIVE_TAB', index);
     },
     addTab({ commit }, tab: Tab) {
       commit('ADD_TAB', tab);
     },
-    deleteTab({ commit }, token: string) {
-      commit('DELETE_TAB', token);
+    deleteTab({ commit }, index: number) {
+      commit('DELETE_TAB', index);
     },
   },
 };
