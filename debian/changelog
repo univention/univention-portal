@@ -1,3 +1,9 @@
+phoenixportal (0.0.4) unstable; urgency=medium
+
+  * Use local directory for npm during build
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Fri, 19 Feb 2021 15:50:43 +0100
+
 phoenixportal (0.0.3) unstable; urgency=medium
 
   * Build dependency
