@@ -4,6 +4,7 @@ import { createStore, Store, useStore as baseUseStore } from 'vuex';
 // mock jsons
 import NotificationData from '@/assets/mocks/notifications.json';
 import PortalData from '@/assets/mocks/portal.json';
+import MenuData from '@/assets/mocks/menu.json';
 
 // modules
 import categories from './modules/categories';
@@ -13,6 +14,7 @@ import navigation from './modules/navigation';
 import notificationBubble from './modules/notificationBubble';
 import portalData from './modules/portalData';
 import user from './modules/user';
+import menu from './modules/menu';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
@@ -21,12 +23,13 @@ export interface State {}
 export const store = createStore<State>({
   modules: {
     categories,
+    locale,
     modal,
     navigation,
     notificationBubble,
-    user,
-    locale,
     portalData,
+    user,
+    menu,
   },
   state: {},
   mutations: {},
@@ -34,12 +37,17 @@ export const store = createStore<State>({
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
 
-      // Store portal data
+      // store portal data
       store.dispatch('portalData/setPortal', PortalData);
 
       // store notification data
       // TODO: Only add data to notifications store if data is available
       store.dispatch('notificationBubble/setContent', NotificationData);
+
+      // store menu data
+      store.dispatch('menu/setMenu', MenuData);
+      store.dispatch('menu/setMenuLinks', MenuData.menu_links);
+      store.dispatch('menu/setUserLinks', MenuData.user_links);
 
       // display standalone notification bubbles
       if (store.getters['notificationBubble/bubbleContent'].length > 0) {

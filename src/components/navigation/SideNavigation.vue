@@ -29,16 +29,53 @@
         <translate i18n-key="LOGIN" />
       </div>
     </div>
-    <ul class="portal-sidenavigation__menu">
-      <li
+
+    <div
+      class="portal-sidenavigation__menu"
+    >
+      <div
+        class="portal-sidenavigation__menu-item portal-sidenavigation__menu-item--locale"
         @click="switchLocale"
       >
         <translate i18n-key="SWITCH_LOCALE" />
-      </li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-      <li>Item 4</li>
-    </ul>
+      </div>
+      <div
+        v-for="(item, index) in getMenuLinks"
+        :key="index"
+        :class="fade ? fadeRightLeft : fadeLeftRight"
+        class="portal-sidenavigation__menu-item"
+      >
+        <menu-item
+          v-if="menuVisible"
+          :menu-label="$localized(item.name)"
+          :sub-menu="item.sub_menu"
+          @click="toggleMenu(index)"
+        />
+
+        <template v-if="item.sub_menu && item.sub_menu.length > 0">
+          <menu-item
+            v-if="subMenuVisible & (menuParent === index)"
+            :menu-label="$localized(item.name)"
+            :sub-item="true"
+            class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
+            @click="toggleMenu()"
+          />
+          <div
+            v-for="(subitem, subindex) in item.sub_menu"
+            :key="subindex"
+            :class="subMenuClass"
+          >
+            <menu-item
+              v-if="subMenuVisible & (menuParent === index)"
+              :parent-label="$localized(item.name)"
+              :menu-label="$localized(subitem.name)"
+              class="portal-sidenavigation__menu-subitem"
+            />
+          </div>
+        </template>
+      </div>
+    </div>
+
     <div
       v-if="isAdmin"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
@@ -50,8 +87,11 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import MenuItem from '@/components/navigation/MenuItem.vue';
+
 import userMixin from '@/mixins/userMixin.vue';
 import Translate from '@/i18n/Translate.vue';
 
@@ -59,15 +99,45 @@ import Translate from '@/i18n/Translate.vue';
   name: 'SideNavigation',
   components: {
     PortalIcon,
+    MenuItem,
     Translate,
   },
   mixins: [userMixin],
+  data() {
+    return {
+      menuVisible: true,
+      subMenuVisible: false,
+      subMenuClass: 'portal-sidenavigation__menu-item--hide',
+      menuParent: -1,
+      fade: false,
+      fadeRightLeft: 'portal-sidenavigation__fade-right-left',
+      fadeLeftRight: 'portal-sidenavigation__fade-left-right',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      getMenuLinks: 'menu/getMenuLinks',
+      getLocale: 'locale/getLocale',
+    }),
+  },
   methods: {
     switchLocale() {
       if (this.$store.state.locale.locale === 'en_US') {
         this.$store.dispatch('locale/setLocale', { locale: 'de_DE' });
       } else {
         this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
+      }
+    },
+    toggleMenu(index) {
+      this.menuVisible = !this.menuVisible;
+      this.menuParent = index;
+      this.subMenuVisible = !this.subMenuVisible;
+      this.fade = !this.fade;
+
+      if (this.subMenuVisible) {
+        this.subMenuClass = 'portal-sidenavigation__menu-item--show';
+      } else {
+        this.subMenuClass = 'portal-sidenavigation__menu-item--hide';
       }
     },
   },
@@ -117,7 +187,66 @@ export default class SideNavigation extends Vue {}
 
   &__menu
     margin-bottom: auto
+    margin: 0
+    padding-left: 0
+
+  &__menu-item
+    margin-left: 0
+
+    &--locale
+      padding: 20px 0 20px 20px
+      &:hover
+        background-color: #272726
+        cursor: pointer
+
+    &--show
+      display: block
+
+    &--hide
+      display: none
+
+  &__menu-subitem
+    margin-left: 0
+    padding: 20px 0 20px 20px
+    &--parent
+      text-transform: uppercase
+      padding-left: 40px
 
   &__edit-mode
     border-top: 4px solid var(--color-grey8)
+
+  &__fade-left-right,
+  &__fade-right-left
+    animation-duration: .3s;
+
+  &__fade-right-left
+    // transform: translate3d(-30%, 0, 0);
+    // transition: transform 148.723ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    animation-name: fadeOutRight;
+
+  &__fade-left-right
+    animation-name: fadeInLeft;
+
+// keyframes
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(200px);
+  }
+}
+
+@keyframes fadeOutRight {
+  0% {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 </style>
