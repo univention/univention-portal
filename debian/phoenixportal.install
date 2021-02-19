@@ -1,2 +1,1 @@
-./apache/phoenix-portal.conf /etc/apache2/ucs-sites.conf.d
-./dist /var/www2/portal
+./dist/* /usr/share/phoenixportal

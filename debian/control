@@ -1,15 +1,22 @@
 Source: phoenixportal
-Section: unknown
+Section: univention
 Priority: optional
-Maintainer: Univention <packages@univention.de>
-Build-Depends: debhelper-compat (= 12), nodejs (>= 14.15.0), yarn (>=1.22.5)
-Standards-Version: 4.4.1
-Homepage: <insert the upstream URL, if relevant>
-#Vcs-Browser: https://salsa.debian.org/debian/phoenixportal
-#Vcs-Git: https://salsa.debian.org/debian/phoenixportal.git
+Maintainer: Univention GmbH <packages@univention.de>
+Build-Depends: debhelper, npm
+Standards-Version: 3.8.2
 
 Package: phoenixportal
 Architecture: any
 Depends: ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: Univention Portal - Central portal web page for a UCS domain
+ Univention Portal is a web interface which allows a central view
+ to a UCS domain with all installed Apps and services. Univention
+ Portal is configurable, i.e., any and multiple servers can be
+ configured to be show a portal. Portal entries can be configured
+ to be accessible only on specific hosts. Univention Portal is also
+ customisable with a logo and background image.
+ .
+ This package is part of Univention Corporate Server (UCS),
+ an integrated, directory driven solution for managing
+ corporate environments. For more information about UCS,
+ refer to: https://www.univention.de/
