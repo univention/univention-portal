@@ -180,8 +180,10 @@ export default class PortalHeader extends Vue {}
   &__right
     display: flex;
     align-items: center;
+
   &__stretch
     flex: 1 1 auto;
+
   &__bubble-container
     width: 360px;
 
