@@ -38,6 +38,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/header/HeaderButton.vue';
 import ImageComponent from '@/components/globals/ImageComponent.vue';
@@ -79,6 +80,11 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
       default: () => ({}),
     },
   },
+  computed: {
+    ...mapGetters({
+      activeTab: 'tabs/activeTab',
+    }),
+  },
   methods: {
     focusTab(token, index, tab) {
       const needle = document.querySelectorAll('.header-tab__container');
@@ -93,9 +99,8 @@ import ImageComponent from '@/components/globals/ImageComponent.vue';
         const currItem = document.querySelector(`#${tab}`);
         if (currItem) {
           currItem.classList.add('header-tab__container--selected');
+          this.$store.dispatch('tabs/setActiveTab', tab);
         }
-
-        // display corresponding iframe
       }
     },
     closeTab(token) {
