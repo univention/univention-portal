@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="isActive"
     class="portal-iframe"
   >
     <span
@@ -21,6 +22,10 @@ import { Options, Vue } from 'vue-class-component';
   name: 'PortalIframe',
   props: {
     link: String,
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
   },
 })
 export default class PortalTile extends Vue {}

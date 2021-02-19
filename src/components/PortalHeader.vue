@@ -6,21 +6,24 @@
     <div
       class="portal-header__left"
       tabindex="0"
+      @click="goHome"
     >
-      <!-- Nav Tabs -->
-      <div class="portal-header__left__tabs">
-        <header-tab
-          v-for="(item, index) in tabs"
-          :key="index"
-          :tab-index="index"
-          :tab-token="item.tabToken"
-          :tab-icon="item.tabIcon"
-          :tab-label="item.tabLabel"
-          :aria-label="item.ariaLabel"
-          :tab-static="item.tabStatic"
-          :tab-image="item.tabImage"
-        />
-      </div>
+      <img
+        class="portal-header__left-image"
+        alt="Portal logo"
+      >
+      <h2>{{ portalName }}</h2>
+    </div>
+
+    <div class="portal-header__tabs">
+      <header-tab
+        v-for="(item, index) in tabs"
+        :key="index"
+        :tab-index="index + 1"
+        :tab-label="item.tabLabel"
+        :is-active="activeTabIndex == index + 1"
+        :logo="item.logo"
+      />
     </div>
 
     <div class="portal-header__stretch" />
@@ -56,7 +59,7 @@
 
     <portal-modal
       :is-active="activeNotificationButton || activeMenuButton"
-      @click="closeModal()"
+      @click="closeModal"
     >
       <flyout-wrapper
         :is-visible="activeNotificationButton || activeMenuButton"
@@ -117,10 +120,17 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   mixins: [
     notificationMixin,
   ],
+  props: {
+    portalName: {
+      type: String,
+      default: 'Univention Portal',
+    },
+  },
   computed: {
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
-      tabs: 'tabs/getAllTabs',
+      tabs: 'tabs/allTabs',
+      activeTabIndex: 'tabs/activeTabIndex',
     }),
     notificationsLabel(): string {
       return _('Notifications').value;
@@ -144,6 +154,9 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
+    },
+    goHome() {
+      this.$store.dispatch('tabs/setActiveTab', 0);
     },
     setBubbleStandaloneContent() {
       // TODO: replace with dynamic content from e.g. an API
@@ -172,10 +185,15 @@ export default class PortalHeader extends Vue {}
     display: flex;
     align-items: center;
     cursor: pointer;
+    padding: 0px 10px
 
-    &__tabs
-      display: flex;
-      flex: 1 1 auto;
+    &-image
+      display: none;
+
+  &__tabs
+    display: flex;
+    flex: 1 1 auto;
+    margin-left: calc(5 * var(--layout-spacing-unit));
 
   &__right
     display: flex;

@@ -40,17 +40,8 @@ import { Options, Vue } from 'vue-class-component';
   methods: {
     tileClick() {
       const tab = {
-        tabToken: 'test',
-        // tabIcon: "x",
         tabLabel: this.title,
-        // "ariaLabel": "Tab Aria Label",
-        // "tabStatic": false,
-        tabImage: {
-          filePath: '',
-          fileName: this.logo,
-          fileType: 'svg',
-          altText: 'Nav Tab Logo',
-        },
+        logo: this.logo,
         iframeLink: this.link,
       };
       this.$store.dispatch('tabs/addTab', tab);
