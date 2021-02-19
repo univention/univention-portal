@@ -2,7 +2,9 @@ Source: phoenixportal
 Section: univention
 Priority: optional
 Maintainer: Univention GmbH <packages@univention.de>
-Build-Depends: debhelper, npm
+Build-Depends: debhelper,
+ npm,
+ univention-l10n-dev,
 Standards-Version: 3.8.2
 
 Package: phoenixportal
