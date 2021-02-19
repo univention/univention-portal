@@ -109,16 +109,12 @@ export default class HeaderTab extends Vue {}
 </script>
 
 <style lang="stylus">
-.header-tab {
-  display: flex;
-  flex: 1 1 auto;
-  margin-left: calc(5 * var(--layout-spacing-unit));
+.header-tab
 
-  &:first-of-type {
-    margin-left: -18px;
-  }
+  &:focus
+    outline: 0
 
-  &__container {
+  &__container
     --tabColor: transparent;
     outline: 0;
     cursor: pointer;
@@ -130,26 +126,21 @@ export default class HeaderTab extends Vue {}
     position: relative
     z-index: 1
 
-    &:hover {
+    &:hover
       --tabColor: #272726;
-    }
 
-    &--first {
-      &:hover {
+    &--first
+      &:hover
         --tabColor: transparent;
-      }
-    }
 
-    &--selected {
+    &--selected
       --tabColor: var(--color-grey8);
+      outline: 0;
 
-      &:hover {
+      &:hover
         --tabColor: var(--color-grey8);
-      }
-    }
-  }
 
-  &__background {
+  &__background
     transition: background-color 250ms;
     position: absolute;
     top: 10px;
@@ -159,31 +150,26 @@ export default class HeaderTab extends Vue {}
     border-radius: 8px 8px 0 0;
     background-color: var(--tabColor);
     z-index: -1;
-  }
 
-  &__logo {
+  &__logo
     width: 20px;
     margin: 0 10px;
 
-    &--default {
+    &--default
       width: 30px;
       margin: 0 15px;
-    }
-  }
 
-  &__title {
+  &__title
     flex: 1 1 auto;
     width: 20ch;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
 
-  &__close-button {
+  &__close-button
     --button-icon-length: 1.3em;
     margin-left: 0.5em;
     position: relative
     z-index: 10
-  }
-}
+
 </style>

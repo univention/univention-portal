@@ -8,19 +8,23 @@
       tabindex="0"
     >
       <!-- Nav Tabs -->
-      <header-tab
-        v-for="(item, index) in tabs"
-        :key="index"
-        :tab-index="index"
-        :tab-token="item.tabToken"
-        :tab-icon="item.tabIcon"
-        :tab-label="item.tabLabel"
-        :aria-label="item.ariaLabel"
-        :tab-static="item.tabStatic"
-        :tab-image="item.tabImage"
-      />
+      <div class="portal-header__left__tabs">
+        <header-tab
+          v-for="(item, index) in tabs"
+          :key="index"
+          :tab-index="index"
+          :tab-token="item.tabToken"
+          :tab-icon="item.tabIcon"
+          :tab-label="item.tabLabel"
+          :aria-label="item.ariaLabel"
+          :tab-static="item.tabStatic"
+          :tab-image="item.tabImage"
+        />
+      </div>
     </div>
+
     <div class="portal-header__stretch" />
+
     <div class="portal-header__right">
       <header-button
         aria-label="Button for Searchbar"
@@ -168,6 +172,11 @@ export default class PortalHeader extends Vue {}
     display: flex;
     align-items: center;
     cursor: pointer;
+
+    &__tabs
+      display: flex;
+      flex: 1 1 auto;
+
   &__right
     display: flex;
     align-items: center;
