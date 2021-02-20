@@ -23,10 +23,10 @@ export default function createCategories(portalData) {
     const tiles = [];
     const definedTilesInCategory = cnCategoryInContent[1];
 
-    definedTilesInCategory.forEach((definedTile, indexOfdefinedTile) => {
+    definedTilesInCategory.forEach((definedTile) => {
       const cnStringOfDefinedTile = definedTile.split(',');
       const cnLabelOfDefinedTile = cnStringOfDefinedTile[0];
-      availableTiles.forEach((availableTile, indexOfAvailableTile) => {
+      availableTiles.forEach((availableTile) => {
         const cnOfAvailableTile = availableTile.dn.split(',');
         if (cnLabelOfDefinedTile === cnOfAvailableTile[0]) {
           const tile = {
