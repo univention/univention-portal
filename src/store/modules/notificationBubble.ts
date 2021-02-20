@@ -18,6 +18,9 @@ const bubble: Module<State, any> = {
     WRITE_CONTENT(state, payload) {
       state.content = payload;
     },
+    ADD_CONTENT(state, payload) {
+      state.content.push(payload);
+    },
     SHOW(state) {
       state.visibleStandalone = true;
     },
@@ -53,6 +56,9 @@ const bubble: Module<State, any> = {
     },
     setContent({ commit }, payload) {
       commit('WRITE_CONTENT', payload);
+    },
+    addContent({ commit }, payload) {
+      commit('ADD_CONTENT', payload);
     },
     hideAllNotifications({ commit }, payload) {
       commit('HIDE_ALL_NOTIFICATIONS', payload);
