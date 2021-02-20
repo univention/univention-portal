@@ -6,6 +6,7 @@
       v-for="(item, index) in bubbleContent"
       :key="index"
       class="notification-bubble__container"
+      :class="`notification-bubble__container--${item.bubbleImportance}`"
     >
       <div>
         <div class="notification-bubble__header">
@@ -69,7 +70,7 @@ export default class NotificationBubbleSlot extends Vue {}
 <style lang="stylus">
 .notification-bubble
   &__standalone
-    min-width: 320px;
+    min-width: 320px
     max-width: 320px
     position: absolute
     right: 20px
@@ -77,7 +78,7 @@ export default class NotificationBubbleSlot extends Vue {}
     z-index: 10
 
   &__embedded
-    min-width: 320px;
+    min-width: 320px
     max-width: 320px
     position: relative
     right: 0
@@ -85,12 +86,20 @@ export default class NotificationBubbleSlot extends Vue {}
 
   &__container
     max-width: 288px
-    background-color: rgba(0,0,0,0.4)
     backdrop-filter: blur(20px)
     border-radius: var(--border-radius-notification)
     padding: 16px
     font-size: 16px
     margin-bottom: 16px
+
+    &--default
+      background-color: rgba(0,0,0,0.4)
+
+    &--success
+      background-color: var(--notification-success)
+
+    &--warning
+      background-color: var(--notification-warning)
 
   &__header
     display: flex
