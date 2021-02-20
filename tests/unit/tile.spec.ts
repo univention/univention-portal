@@ -1,6 +1,6 @@
+import PortalTile from '@/components/PortalTile.vue';
 import { mount } from '@vue/test-utils';
 
-import PortalTile from '@/components/PortalTile.vue';
 /*
     This is just a simple test to check if a Tile renders.
     Not terribly useful but a good starter. The most basic
@@ -21,7 +21,7 @@ test('Test tile rendering', () => {
   expect(wrapper.text()).toContain('Test Title');
 
   // fetch an element by a smartly placed data attribute
-  expect(wrapper.get('[data-test="tileLink"]').attributes('href')).toBe(
-    'https://test.com',
+  expect(wrapper.get('[data-test="tileLink"]').attributes('class')).toBe(
+    'portal-tile',
   );
 });

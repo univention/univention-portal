@@ -2,11 +2,11 @@
   <component
     :is="wrapperTag"
     class="portal-tile"
-    :href="link"
     draggable="true"
     data-test="tileLink"
     @mouseover="showTooltip(tile)"
     @mouseleave="hideTooltip"
+    @click="tileClick"
   >
     <div
       :style="`background: ${backgroundColor}`"
@@ -67,6 +67,11 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
     },
   },
   methods: {
+    hideTooltip(): void {
+      const handleActive = false;
+      this.isActive = handleActive;
+      this.toolTip = {};
+    },
     showTooltip(tile): any {
       if (Object.keys(tile).length > 0) {
         const handleActive = true;
@@ -76,14 +81,16 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
         this.toolTip.description = tile.description;
       }
     },
-    hideTooltip(): void {
-      const handleActive = false;
-      this.isActive = handleActive;
-      this.toolTip = {};
+    tileClick() {
+      const tab = {
+        tabLabel: this.title,
+        logo: this.logo,
+        iframeLink: this.link,
+      };
+      this.$store.dispatch('tabs/addTab', tab);
     },
   },
 })
-
 export default class PortalTile extends Vue {
   title!: String;
 

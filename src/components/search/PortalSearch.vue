@@ -6,6 +6,7 @@
       type="text"
       class="portal-search__input"
       @input="searchTiles"
+      @keyup.esc="closeSearchInput()"
     >
   </div>
 </template>
@@ -18,6 +19,7 @@ import { mapGetters } from 'vuex';
   data() {
     return {
       portalSearch: '',
+      newList: '',
     };
   },
   mounted() {
@@ -36,7 +38,6 @@ import { mapGetters } from 'vuex';
   },
   methods: {
     searchTiles() {
-      const that = this;
       let list = this.originalArray;
 
       if (this.portalSearch !== '') {
@@ -50,6 +51,12 @@ import { mapGetters } from 'vuex';
       }
       this.newList = list;
       this.$store.dispatch('categories/filterTiles', this.newList);
+    },
+    closeSearchInput() {
+      this.portalSearch = '';
+      this.newList = '';
+      this.$store.dispatch('categories/filterTiles', this.originalArray);
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
   },
 })

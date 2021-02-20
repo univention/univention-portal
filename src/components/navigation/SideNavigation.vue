@@ -42,7 +42,7 @@
       <div
         v-for="(item, index) in getMenuLinks"
         :key="index"
-        :class="fade ? fadeRightLeft : fadeLeftRight"
+        :class="setFadeClass()"
         class="portal-sidenavigation__menu-item"
       >
         <menu-item
@@ -109,6 +109,7 @@ import Translate from '@/i18n/Translate.vue';
       subMenuVisible: false,
       subMenuClass: 'portal-sidenavigation__menu-item--hide',
       menuParent: -1,
+      init: true,
       fade: false,
       fadeRightLeft: 'portal-sidenavigation__fade-right-left',
       fadeLeftRight: 'portal-sidenavigation__fade-left-right',
@@ -133,12 +134,24 @@ import Translate from '@/i18n/Translate.vue';
       this.menuParent = index;
       this.subMenuVisible = !this.subMenuVisible;
       this.fade = !this.fade;
+      this.init = false;
 
       if (this.subMenuVisible) {
         this.subMenuClass = 'portal-sidenavigation__menu-item--show';
       } else {
         this.subMenuClass = 'portal-sidenavigation__menu-item--hide';
       }
+    },
+    setFadeClass() {
+      let ret = '';
+      if (!this.init) {
+        if (!this.fade) {
+          ret = this.fadeLeftRight;
+        } else {
+          ret = this.fadeRightLeft;
+        }
+      }
+      return ret;
     },
   },
 })
@@ -217,25 +230,23 @@ export default class SideNavigation extends Vue {}
 
   &__fade-left-right,
   &__fade-right-left
-    animation-duration: .3s;
+    animation-duration: .4s;
 
   &__fade-right-left
-    // transform: translate3d(-30%, 0, 0);
-    // transition: transform 148.723ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-    animation-name: fadeOutRight;
+    animation-name: fadeOutRight
 
   &__fade-left-right
-    animation-name: fadeInLeft;
+    animation-name: fadeInLeft
 
 // keyframes
 @keyframes fadeInLeft {
   0% {
     opacity: 0;
-    transform: translateX(0);
+    transform: translateX(200px);
   }
   100% {
     opacity: 1;
-    transform: translateX(200px);
+    transform: translateX(0);
   }
 }
 

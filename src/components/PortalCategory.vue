@@ -1,7 +1,9 @@
 <template>
-  <div class="category">
-    <h2>{{ $localized(showTitle) }}</h2>
-    <div class="tiles">
+  <div class="portal-category">
+    <h2 class="portal-category__title">
+     {{ $localized(showTitle) }}
+    </h2>
+    <div class="portal-category__tiles">
       <div
         v-for="(tile, index) in tiles"
         :key="index"
@@ -68,10 +70,12 @@ export default class PortalCategory extends Vue {
 </script>
 
 <style scoped lang="stylus">
-.tiles
-  display: grid
-  grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
-  grid-gap: calc(6 * var(--layout-spacing-unit))
-.category
+.portal-category
   margin-bottom: calc(10 * var(--layout-spacing-unit));
+
+  &__tiles
+    display: grid
+    grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
+    grid-gap: calc(6 * var(--layout-spacing-unit))
+
 </style>
