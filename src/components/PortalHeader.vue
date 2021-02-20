@@ -96,9 +96,8 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
-import Notifications from '@/assets/mocks/notifications.json';
-import HeaderButton from '@/components/header/HeaderButton.vue';
-import HeaderTab from '@/components/header/HeaderTab.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import HeaderTab from '@/components/navigation/HeaderTab.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
@@ -169,19 +168,12 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       return this.activeSearchButton ? 1 : 0;
     },
   },
-  created() {
-    this.setBubbleStandaloneContent();
-  },
   methods: {
     closeModal() {
       this.$store.dispatch('navigation/setActiveButton', '');
     },
     goHome() {
       this.$store.dispatch('tabs/setActiveTab', 0);
-    },
-    setBubbleStandaloneContent() {
-      // TODO: replace with dynamic content from e.g. an API
-      this.$store.dispatch('notificationBubble/setContent', Notifications);
     },
     setTabOrderWhenSearchBarOpen() {
       document.addEventListener('keydown', (e) => {
