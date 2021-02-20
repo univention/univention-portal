@@ -85,9 +85,16 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
       const tab = {
         tabLabel: this.title,
         logo: this.logo,
-        iframeLink: this.link,
+        iframeLink: this.iframeLink(),
       };
       this.$store.dispatch('tabs/addTab', tab);
+    },
+    iframeLink() {
+      let link = '';
+      if (this.link.length === 1) {
+        [link] = link;
+      }
+      return link;
     },
   },
 })
