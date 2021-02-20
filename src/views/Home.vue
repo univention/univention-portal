@@ -162,6 +162,19 @@ import userMixin from '@/mixins/userMixin.vue';
         this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
       }
     },
+    devLogin() {
+      const content = {
+        bubbleIcon: 'x',
+        bubbleLabel: 'Dismiss notification',
+        bubbleType: 'localNotification',
+        bubbleImportance: 'success',
+        bubbleTitle: 'Login',
+        bubbleDescription: 'Click <a class="notification-bubble__link" href="#">here</a> to fix this warning.',
+        bubbleToken: 'testtoken96789896',
+      };
+      this.$store.dispatch('notificationBubble/addContent', content);
+      this.$store.dispatch('notificationBubble/setShowBubble', content);
+    },
   },
 })
 export default class Home extends Vue {}
