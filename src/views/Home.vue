@@ -28,7 +28,7 @@
         />
         Folder
       </button>
-      <button @click="login">
+      <button @click="devLogin">
         <portal-icon
           icon="log-in"
           icon-width="1em"
