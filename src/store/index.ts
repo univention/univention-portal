@@ -64,7 +64,7 @@ export const store = createStore<State>({
         }, 1000);
         setTimeout(() => {
           // Hide notification bubble
-          store.dispatch('notificationBubble/setHideBubble');
+          // store.dispatch('notificationBubble/setHideBubble');
           resolve();
         }, 4000);
       });
