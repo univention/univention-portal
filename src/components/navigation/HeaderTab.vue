@@ -27,6 +27,7 @@
       :icon="closeIcon"
       :aria-label="ariaLabel"
       class="header-tab__close-button"
+      no-click="true"
       @click.stop="closeTab"
     />
   </div>
