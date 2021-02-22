@@ -1,7 +1,7 @@
 <template>
   <div class="portal-category">
     <h2 class="portal-category__title">
-     {{ $localized(showTitle) }}
+      {{ $localized(showTitle) }}
     </h2>
     <div class="portal-category__tiles">
       <div

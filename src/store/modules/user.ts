@@ -1,25 +1,38 @@
 import { Module } from 'vuex';
 
+interface User {
+  username: string;
+  mayEditPortal: boolean;
+}
+
 export interface State {
-  user: object;
+  user: User;
 }
 
 const user: Module<State, any> = {
   namespaced: true,
   state: {
-    user: {},
+    user: {
+      username: '',
+      mayEditPortal: false,
+    },
   },
 
   mutations: {
     devLogin: (state) => {
       state.user = {
         username: 'Administrator',
-        isAdmin: true,
-        loggedIn: true,
+        mayEditPortal: true,
       };
     },
-    devLogout: (state) => {
-      state.user = {};
+    login: (state, payload) => {
+      state.user = payload.user;
+    },
+    logout: (state) => {
+      state.user = {
+        username: '',
+        mayEditPortal: false,
+      };
     },
   },
 
@@ -28,11 +41,14 @@ const user: Module<State, any> = {
   },
 
   actions: {
-    setLogin({ commit }, payload) {
+    setDevLogin({ commit }, payload) {
       commit('devLogin', payload);
     },
+    setLogin({ commit }, payload) {
+      commit('login', payload);
+    },
     setLogout({ commit }, payload) {
-      commit('devLogout', payload);
+      commit('logout', payload);
     },
   },
 };

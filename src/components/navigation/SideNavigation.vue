@@ -2,7 +2,7 @@
   <nav class="portal-sidenavigation">
     <div class="portal-sidenavigation__login-header">
       <div
-        v-if="isLoggedIn && userData.username"
+        v-if="userState.username"
         class="portal-sidenavigation__user-row"
       >
         <portal-icon
@@ -11,7 +11,7 @@
         />
         <div>
           <div class="portal-sidenavigation--username">
-            {{ userData.username }}
+            {{ userState.username }}
           </div>
           <div
             class="portal-sidenavigation__logout-link"
@@ -24,7 +24,7 @@
       <div
         v-else
         class="portal-sidenavigation__link"
-        @click="login"
+        @click="gotoLogin"
       >
         <translate i18n-key="LOGIN" />
       </div>
@@ -77,7 +77,7 @@
     </div>
 
     <div
-      v-if="isAdmin"
+      v-if="mayEditPortal"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
     >
       <translate i18n-key="EDIT_PORTAL" />
@@ -128,6 +128,9 @@ import Translate from '@/i18n/Translate.vue';
       } else {
         this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
       }
+    },
+    gotoLogin() {
+      window.location.href = '/univention/saml/';
     },
     toggleMenu(index) {
       this.menuVisible = !this.menuVisible;
