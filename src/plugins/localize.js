@@ -1,6 +1,7 @@
 // plugins/localize.js
 import { store } from '@/store';
 
+// expects an object, returns a string
 const localize = {
   install: (app, options) => {
     // eslint-disable-next-line no-param-reassign
