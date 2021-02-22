@@ -5,14 +5,14 @@
     @click="toggleActiveButton"
   >
     <span
-      class="header-button__inner"
+      :class="removeDefaultClass || 'header-button__inner'"
       role="presentation"
     >
       <button
         :ref="setRef"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
-        class="header-button__button"
+        :class="removeDefaultClass || 'header-button__button'"
       >
         <portal-icon
           :icon="icon"

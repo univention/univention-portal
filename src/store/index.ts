@@ -1,20 +1,20 @@
-import { InjectionKey } from 'vue';
-import { createStore, Store, useStore as baseUseStore } from 'vuex';
-
-// mock jsons
+// mocks
+import MenuData from '@/assets/mocks/menu.json';
 import NotificationData from '@/assets/mocks/notifications.json';
 import PortalData from '@/assets/mocks/portal.json';
-import MenuData from '@/assets/mocks/menu.json';
-
+// vue
+import { InjectionKey } from 'vue';
+import { createStore, Store, useStore as baseUseStore } from 'vuex';
 // modules
 import categories from './modules/categories';
 import locale from './modules/locale';
+import menu from './modules/menu';
 import modal from './modules/modal';
 import navigation from './modules/navigation';
 import notificationBubble from './modules/notificationBubble';
 import portalData from './modules/portalData';
+import tabs from './modules/tabs';
 import user from './modules/user';
-import menu from './modules/menu';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
@@ -30,6 +30,7 @@ export const store = createStore<State>({
     portalData,
     user,
     menu,
+    tabs,
   },
   state: {},
   mutations: {},
