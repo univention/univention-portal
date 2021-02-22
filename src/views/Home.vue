@@ -48,13 +48,6 @@
         />
         Switch Language
       </button>
-      <button @click="showIframe = !showIframe">
-        <portal-icon
-          icon="archive"
-          icon-width="1em"
-        />
-        IFrame
-      </button>
 
       <portal-category
         v-for="(category, index) in categories"
