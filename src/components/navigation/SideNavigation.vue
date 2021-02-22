@@ -230,25 +230,23 @@ export default class SideNavigation extends Vue {}
 
   &__fade-left-right,
   &__fade-right-left
-    animation-duration: .3s;
-
-  &__fade-left-right
-    animation-name: fadeInLeft;
+    animation-duration: .4s;
 
   &__fade-right-left
-    // transform: translate3d(-30%, 0, 0);
-    // transition: transform 148.723ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-    animation-name: fadeOutRight;
+    animation-name: fadeOutRight
+
+  &__fade-left-right
+    animation-name: fadeInLeft
 
 // keyframes
 @keyframes fadeInLeft {
   0% {
     opacity: 0;
-    transform: translateX(0);
+    transform: translateX(200px);
   }
   100% {
     opacity: 1;
-    transform: translateX(200px);
+    transform: translateX(0);
   }
 }
 
