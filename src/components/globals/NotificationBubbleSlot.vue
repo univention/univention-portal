@@ -41,7 +41,7 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import HeaderButton from '@/components/header/HeaderButton.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';

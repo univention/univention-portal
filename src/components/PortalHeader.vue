@@ -6,6 +6,7 @@
     <div
       class="portal-header__left"
       tabindex="0"
+      @click="goHome"
     >
       <img
         class="portal-header__left-image"
@@ -13,7 +14,20 @@
       >
       <h2>{{ portalName }}</h2>
     </div>
+
+    <div class="portal-header__tabs">
+      <header-tab
+        v-for="(item, index) in tabs"
+        :key="index"
+        :tab-index="index + 1"
+        :tab-label="item.tabLabel"
+        :is-active="activeTabIndex == index + 1"
+        :logo="item.logo"
+      />
+    </div>
+
     <div class="portal-header__stretch" />
+
     <div class="portal-header__right">
       <header-button
         ref="searchButton"
@@ -49,7 +63,7 @@
 
     <portal-modal
       :is-active="activeNotificationButton || activeMenuButton"
-      @click="closeModal()"
+      @click="closeModal"
     >
       <flyout-wrapper
         :is-visible="activeNotificationButton || activeMenuButton"
@@ -82,7 +96,8 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import HeaderButton from '@/components/header/HeaderButton.vue';
+import HeaderTab from '@/components/header/HeaderTab.vue';
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
@@ -97,6 +112,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   name: 'PortalHeader',
   components: {
     HeaderButton,
+    HeaderTab,
     FlyoutWrapper,
     SideNavigation,
     PortalModal,
@@ -121,36 +137,11 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       }
     });
   },
-  methods: {
-    closeModal() {
-      this.$store.dispatch('navigation/setActiveButton', '');
-    },
-    setTabOrderWhenSearchBarOpen() {
-      document.addEventListener('keydown', (e) => {
-        if (document.activeElement === this.$refs.searchInput.$refs.portalSearchInput) {
-          if (e.shiftKey && e.keyCode === 9 && this.activeSearchBar) {
-            e.preventDefault();
-            if (this) {
-              const searchButton = this.$refs.searchButton.$refs.searchReference;
-              searchButton.focus();
-            }
-          } else if (e.keyCode === 13) {
-            e.preventDefault();
-            const firstTile = document.querySelector('.portal-tile');
-            if (firstTile) {
-              (firstTile as HTMLElement)?.focus();
-            }
-          } else if (e.keyCode === 9) {
-            e.preventDefault();
-          // usernameTextBox.focus()
-          }
-        }
-      });
-    },
-  },
   computed: {
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
+      activeTabIndex: 'tabs/activeTabIndex',
+      tabs: 'tabs/allTabs',
     }),
     setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
@@ -177,6 +168,39 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       return this.activeSearchButton ? 1 : 0;
     },
   },
+  created() {
+    this.setBubbleStandaloneContent();
+  },
+  methods: {
+    closeModal() {
+      this.$store.dispatch('navigation/setActiveButton', '');
+    },
+    goHome() {
+      this.$store.dispatch('tabs/setActiveTab', 0);
+    },
+    setTabOrderWhenSearchBarOpen() {
+      document.addEventListener('keydown', (e) => {
+        if (document.activeElement === this.$refs.searchInput.$refs.portalSearchInput) {
+          if (e.shiftKey && e.keyCode === 9 && this.activeSearchBar) {
+            e.preventDefault();
+            if (this) {
+              const searchButton = this.$refs.searchButton.$refs.searchReference;
+              searchButton.focus();
+            }
+          } else if (e.keyCode === 13) {
+            e.preventDefault();
+            const firstTile = document.querySelector('.portal-tile');
+            if (firstTile) {
+              (firstTile as HTMLElement)?.focus();
+            }
+          } else if (e.keyCode === 9) {
+            e.preventDefault();
+          // usernameTextBox.focus()
+          }
+        }
+      });
+    },
+  },
 })
 export default class PortalHeader extends Vue {}
 </script>
@@ -199,14 +223,23 @@ export default class PortalHeader extends Vue {}
     display: flex;
     align-items: center;
     cursor: pointer;
+    padding: 0px 10px
 
     &-image
       display: none;
+
+  &__tabs
+    display: flex;
+    flex: 1 1 auto;
+    margin-left: calc(5 * var(--layout-spacing-unit));
+
   &__right
     display: flex;
     align-items: center;
+
   &__stretch
     flex: 1 1 auto;
+
   &__bubble-container
     width: 360px;
 

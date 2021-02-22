@@ -1,8 +1,12 @@
 <template>
-  <div>
+  <div class="portal">
     <portal-background />
     <portal-header />
-    <div class="portal">
+
+    <div
+      v-show="!activeTabIndex"
+      class="portal-categories"
+    >
       <button @click="devEmpty">
         <portal-icon
           icon="circle"
@@ -56,6 +60,18 @@
       </template>
     </div>
 
+    <div
+      v-show="activeTabIndex"
+      class="portal-iframes"
+    >
+      <portal-iframe
+        v-for="(item, index) in tabs"
+        :key="index"
+        :link="item.iframeLink"
+        :is-active="activeTabIndex == index + 1"
+      />
+    </div>
+
     <portal-modal
       :is-active="modalState"
       @click="closeModal"
@@ -72,11 +88,10 @@
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
-import PortalCategory from 'components/PortalCategory.vue'; // @ is an alias to /src
+import PortalIframe from 'components/PortalIframe.vue';
+import PortalCategory from 'components/PortalCategory.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
-import PortalTile from '@/components/PortalTile.vue';
-import PortalStandby from '@/components/PortalStandby.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
 
@@ -88,11 +103,10 @@ import userMixin from '@/mixins/userMixin.vue';
   name: 'Home',
   components: {
     PortalCategory,
-    PortalHeader,
-    PortalTile,
-    PortalIcon,
-    PortalStandby,
     PortalFolder,
+    PortalHeader,
+    PortalIcon,
+    PortalIframe,
     PortalModal,
     PortalBackground,
   },
@@ -111,6 +125,8 @@ import userMixin from '@/mixins/userMixin.vue';
       modalComponent: 'modal/modalComponent',
       modalProps: 'modal/modalProps',
       modalStubborn: 'modal/modalStubborn',
+      tabs: 'tabs/allTabs',
+      activeTabIndex: 'tabs/activeTabIndex',
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
     categoryArray() {
@@ -148,15 +164,26 @@ import userMixin from '@/mixins/userMixin.vue';
     },
   },
 })
-
 export default class Home extends Vue {}
 </script>
 
 <style scoped lang="stylus">
-.portal
+.portal-categories
   position: relative;
   // z-index: 1;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
-  button svg /* just during dev anyway */
+
+  /* just during dev anyway */
+  button svg
     color: black
+
+.portal-iframes
+  position: fixed;
+  top: var(--portal-header-height);
+  border: 0px solid var(--color-grey8);
+  border-top-width: var(--portal-header-to-content-seperator-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
 </style>
