@@ -11,7 +11,7 @@
 
     <image-component
       file-type="svg"
-      file-path=""
+      file-path="./"
       :file-name="logo"
       :alt-text="tabLabel + ' logo'"
     />

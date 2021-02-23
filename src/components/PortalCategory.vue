@@ -1,7 +1,7 @@
 <template>
   <div class="portal-category">
     <h2 class="portal-category__title">
-      {{ $localized(showTitle) }}
+      {{ $localized(title) }}
     </h2>
     <div class="portal-category__tiles">
       <div
@@ -39,8 +39,14 @@ import Translate from '@/i18n/Translate.vue';
     PortalFolder,
   },
   props: {
-    title: Object,
-    tiles: Array,
+    title: {
+      type: Object,
+      required: true,
+    },
+    tiles: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -48,20 +54,16 @@ import Translate from '@/i18n/Translate.vue';
       toolTip: {},
     };
   },
-  computed: {
-    showTitle() {
-      return this.tiles.length > 0 ? this.title : '';
-    },
-  },
   methods: {
-    isTile(obj: PortalTile) {
+    isTile(obj: typeof PortalTile) {
       return !this.isFolder(obj);
     },
-    isFolder(obj: PortalTile) {
+    isFolder(obj: typeof PortalTile) {
       return obj instanceof PortalFolder;
     },
   },
 })
+
 export default class PortalCategory extends Vue {
   title!: object;
 
