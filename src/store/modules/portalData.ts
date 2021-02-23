@@ -1,13 +1,27 @@
 import { Module } from 'vuex';
 
+export interface Portal {
+  name: Object;
+}
+
+export interface PortalData {
+  portal: Portal;
+}
+
 export interface State {
-  portal: Object;
+  portal: PortalData;
 }
 
 const portal: Module<State, any> = {
   namespaced: true,
   state: {
-    portal: {},
+    portal: {
+      portal: {
+        name: {
+          en_US: 'Univention Portal',
+        },
+      },
+    },
   },
 
   mutations: {
@@ -18,6 +32,7 @@ const portal: Module<State, any> = {
 
   getters: {
     getPortal: (state) => state.portal,
+    portalName: (state) => state.portal.portal.name,
   },
 
   actions: {

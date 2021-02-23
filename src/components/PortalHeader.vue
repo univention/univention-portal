@@ -12,7 +12,7 @@
         class="portal-header__left-image"
         alt="Portal logo"
       >
-      <h2>{{ portalName }}</h2>
+      <h2>{{ $localized(portalName) }}</h2>
     </div>
 
     <div class="portal-header__tabs">
@@ -124,12 +124,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   mixins: [
     notificationMixin,
   ],
-  props: {
-    portalName: {
-      type: String,
-      default: 'Univention Portal',
-    },
-  },
   updated() {
     this.$nextTick(() => {
       if (this.activeSearchBar) {
@@ -139,6 +133,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   },
   computed: {
     ...mapGetters({
+      portalName: 'portalData/portalName',
       activeButton: 'navigation/getActiveButton',
       activeTabIndex: 'tabs/activeTabIndex',
       tabs: 'tabs/allTabs',
