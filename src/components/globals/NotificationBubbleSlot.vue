@@ -91,15 +91,16 @@ export default class NotificationBubbleSlot extends Vue {}
     padding: 16px
     font-size: 16px
     margin-bottom: 16px
-
+    border: 2px solid  rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.4);
     &--default
-      background-color: rgba(0,0,0,0.4)
+      border-color: rgba(0,0,0,0.4)
 
     &--success
-      background-color: var(--notification-success)
+      border-color: var(--notification-success)
 
     &--warning
-      background-color: var(--notification-warning)
+      border-color: var(--notification-warning)
 
   &__header
     display: flex
