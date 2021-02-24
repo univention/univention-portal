@@ -3,7 +3,7 @@ export default function createCategories(portalData) {
   const availableCategories = portalData.categories;
   const availableTiles = portalData.entries;
 
-  const FinalARRAY = [];
+  const finalArray = [];
   portalContent.forEach((cnCategoryInContent, index) => {
     const cnCategoryDefinitions = cnCategoryInContent[0].split(',');
     const cnCategoryDefinition = cnCategoryDefinitions[0];
@@ -12,7 +12,7 @@ export default function createCategories(portalData) {
       const categoryDn = dnOfAvailableCategory[0];
       // add catagories that are defined in content
       if (cnCategoryDefinition === categoryDn) {
-        FinalARRAY.push({
+        finalArray.push({
           title: {
             de_DE: availableCategories[indexOfavailableCategory].display_name.de_DE,
             en_US: availableCategories[indexOfavailableCategory].display_name.en_US,
@@ -45,8 +45,8 @@ export default function createCategories(portalData) {
         }
       });
     });
-    FinalARRAY[index].tiles = tiles;
+    finalArray[index].tiles = tiles;
   });
 
-  return FinalARRAY;
+  return finalArray;
 }
