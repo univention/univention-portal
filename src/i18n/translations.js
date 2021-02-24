@@ -36,7 +36,7 @@ function getCatalog(locale) {
         reject();
       }
     } else {
-      axios.get(`${portalUrl}${locale}/main.json`).then(
+      axios.get(`${portalUrl}/i18n/${locale}.json`).then(
         (response) => {
           const translationCatalog = response.data;
           translationCatalogs[locale] = translationCatalog;
