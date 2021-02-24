@@ -2,7 +2,7 @@
   <div>
     <transition name="fade">
       <slot
-        v-if="bubbleStateStandalone"
+        v-if="bubbleStateStandalone || bubbleStateNewBubble"
         name="bubble-standalone"
       />
     </transition>
@@ -23,6 +23,7 @@ import { mapGetters } from 'vuex';
     ...mapGetters({
       bubbleState: 'notificationBubble/bubbleState',
       bubbleStateStandalone: 'notificationBubble/bubbleStateStandalone',
+      bubbleStateNewBubble: 'notificationBubble/bubbleStateNewBubble',
     }),
   },
 })

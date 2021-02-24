@@ -3,7 +3,7 @@
     :class="`notification-bubble__${bubbleContainer}`"
   >
     <div
-      v-for="(item, index) in bubbleContent"
+      v-for="(item, index) in setBubbleContent"
       :key="index"
       class="notification-bubble__container"
       :class="`notification-bubble__container--${item.bubbleImportance}`"
@@ -62,6 +62,17 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       default: 'standalone',
     },
   },
+  computed: {
+    setBubbleContent() {
+      let data;
+      if (this.bubbleStateNewBubble && this.bubbleContainer === 'standalone') {
+        data = this.bubbleContentNewNotification;
+      } else if (this.bubbleContainer === 'embedded') {
+        data = this.bubbleContent;
+      }
+      return data;
+    },
+  },
 })
 
 export default class NotificationBubbleSlot extends Vue {}
@@ -91,16 +102,19 @@ export default class NotificationBubbleSlot extends Vue {}
     padding: 16px
     font-size: 16px
     margin-bottom: 16px
-    border: 2px solid  rgba(0,0,0,0.4);
+    // border: 2px solid  rgba(0,0,0,0.4);
     background-color: rgba(0,0,0,0.4);
     &--default
-      border-color: rgba(0,0,0,0.4)
+      background-color: rgba(0,0,0,0.4)
 
     &--success
-      border-color: var(--notification-success)
+      background-color: var(--notification-success)
 
     &--warning
-      border-color: var(--notification-warning)
+      background-color: var(--notification-warning)
+
+    &--error
+      background-color: var(--notification-error)
 
   &__header
     display: flex

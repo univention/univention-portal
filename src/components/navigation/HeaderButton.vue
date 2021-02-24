@@ -12,7 +12,7 @@
         :ref="setRef"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
-        :class="'header-button__button'"
+        class="header-button__button"
       >
         <portal-icon
           :icon="icon"
@@ -110,7 +110,6 @@ export default class HeaderButton extends Vue {}
     display: flex;
     align-items: center;
     justify-content: center;
-
     &:hover,
     &:focus
       border-radius: 100%;

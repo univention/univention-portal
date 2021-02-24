@@ -6,7 +6,9 @@ const notificationMixin = {
     ...mapGetters({
       bubbleState: 'notificationBubble/bubbleState',
       bubbleStateStandalone: 'notificationBubble/bubbleStateStandalone',
+      bubbleStateNewBubble: 'notificationBubble/bubbleStateNewBubble',
       bubbleContent: 'notificationBubble/bubbleContent',
+      bubbleContentNewNotification: 'notificationBubble/bubbleContentNewNotification',
     }),
   },
   methods: {
@@ -20,10 +22,16 @@ const notificationMixin = {
         this.$store.dispatch('notificationBubble/showEmbedded');
       }
     },
+    showNewNotification(notificationContent) {
+      this.$store.dispatch('notificationBubble/addContent', notificationContent);
+      this.$store.dispatch('notificationBubble/setShowNewBubble', notificationContent);
+      setTimeout(() => {
+        this.$store.dispatch('notificationBubble/setHideNewBubble');
+      }, 4000);
+    },
     bubbleClick(e) {
       if (e.target.matches('.notification-bubble__link, .notification-bubble__link *')) {
         this.$store.dispatch('notificationBubble/hideAllNotifications');
-
         console.info('Bubble link clicked - TODO: add some action');
       }
     },
