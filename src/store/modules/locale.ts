@@ -1,5 +1,7 @@
 import { Module } from 'vuex';
 
+// get env vars
+const portalLocale = process.env.VUE_APP_LOCALE || 'en_US';
 export interface State {
   locale: string;
 }
@@ -7,7 +9,7 @@ export interface State {
 const locale: Module<State, any> = {
   namespaced: true,
   state: {
-    locale: 'en_US',
+    locale: portalLocale,
   },
 
   mutations: {

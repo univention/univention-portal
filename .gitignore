@@ -10,13 +10,13 @@ dist/
 lib/
 lib64/
 out/
-var/ 
+var/
 downloads/
 package-lock.json
 *.egg-info/
-*.egg 
-*.manifest 
-*.spec 
+*.egg
+*.manifest
+*.spec
 
 # Local env files
 .env.local
@@ -72,27 +72,27 @@ jspm_packages
 
 # Test / coverage reports
 output/
-htmlcov/ 
+htmlcov/
 coverage/
-.tox/ 
-.coverage 
-.coverage.* 
-.cache 
-nosetests.xml 
-coverage.xml 
-*.cover 
-.hypothesis/ 
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 
 # Backup files
-*.bak 
+*.bak
 
-# celery 
-celerybeat-schedule.* 
+# celery
+celerybeat-schedule.*
 
-# SageMath parsed files 
-*.sage.py 
+# SageMath parsed files
+*.sage.py
 
-# mkdocs documentation 
+# mkdocs documentation
 /site

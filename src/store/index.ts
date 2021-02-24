@@ -18,6 +18,10 @@ import user from './modules/user';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
+// get env vars
+const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
+const portalJson = process.env.VUE_APP_PORTAL_DATA || './portal.json';
+
 export interface State {}
 
 export const store = createStore<State>({
@@ -55,7 +59,7 @@ export const store = createStore<State>({
       return new Promise<void>((resolve) => {
         // store portal data
         console.log('Loading Portal');
-        axios.get('./portal.json').then(
+        axios.get(`${portalUrl}${portalJson}`).then(
           (response) => {
             const PortalData = response.data;
             store.dispatch('portalData/setPortal', PortalData);
