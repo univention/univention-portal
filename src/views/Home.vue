@@ -98,6 +98,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 @Options({
   name: 'Home',
@@ -115,7 +116,7 @@ import userMixin from '@/mixins/userMixin.vue';
       categoryList: [],
     };
   },
-  mixins: [userMixin],
+  mixins: [userMixin, notificationMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
@@ -172,8 +173,7 @@ import userMixin from '@/mixins/userMixin.vue';
         bubbleDescription: 'Click <a class="notification-bubble__link" href="#">here</a> to fix this warning.',
         bubbleToken: 'testtoken96789896',
       };
-      this.$store.dispatch('notificationBubble/addContent', content);
-      this.$store.dispatch('notificationBubble/setShowBubble', content);
+      this.showNewNotification(content);
     },
   },
 })
