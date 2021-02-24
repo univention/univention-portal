@@ -16,6 +16,10 @@ const catalog = {
   LOGOUT: _('Logout'),
   EDIT_PORTAL: _('Edit portal'),
   SWITCH_LOCALE: _('Switch locale'),
+  COOKIE_SETTINGS: _('Cookie Settings'),
+  COOKIE_DESCRIPTION: _('We use cookies in order to provide you with certain functions and to be able to guarantee an unrestricted service. By clicking on "Accept", you consent to the collection of information on this portal.'),
+  ACCEPT: _('accept'),
+  SUBMIT: _('sumit'),
 };
 
 function updateLocale(locale) {

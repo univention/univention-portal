@@ -2,5 +2,9 @@
   "Notifications": "Benachrichtigungen",
   "Login": "Anmelden",
   "Logout": "Abmelden",
-  "Edit portal": "Portal bearbeiten"
+  "Edit portal": "Portal bearbeiten",
+  "Cookie settings": "Cookie Einstellungen",
+  "Cookie description": "Wir verwenden Cookies, um Ihnen bestimmte Funktionen zur Verfügung zu stellen und einen uneingeschränkten Service zu gewährleisten. Durch Klicken auf \"Akzeptieren\" stimmen Sie der Erfassung von Informationen auf diesem Portal zu.",
+  "Accept": "akzeptieren",
+  "Submit": "abschicken"
 }
