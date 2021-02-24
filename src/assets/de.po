@@ -39,7 +39,7 @@ msgid "Cookie description"
 msgstr "Wir verwenden Cookies, um Ihnen bestimmte Funktionen zur Verfügung zu stellen und einen uneingeschränkten Service zu gewährleisten. Durch Klicken auf \"Akzeptieren\" stimmen Sie der Erfassung von Informationen auf diesem Portal zu."
 
 msgid "Accept"
-msgstr "akzeptieren"
+msgstr "Akzeptieren"
 
 msgid "Submit"
-msgstr "abschicken"
+msgstr "Abschicken"

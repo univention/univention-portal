@@ -18,13 +18,6 @@
           >
             <translate i18n-key="COOKIE_SETTINGS" />
           </span>
-          <header-button
-            :no-click="true"
-            aria-label="Close cookie banner"
-            icon="x"
-            class="cookie-banner__button-close"
-            @click.stop="dismissCookieBanner()"
-          />
         </div>
         <div class="cookie-banner__pane-content">
           <div class="cookie-banner__container-widget">
