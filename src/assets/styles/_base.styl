@@ -14,3 +14,21 @@ h2
   font-size: var(--font-size-header2);
   line-height: var(--font-lineheight-normal);
   font-weight: 600;
+
+.portal-reset
+  line-height: inherit
+
+.portal
+  &__off-screen
+    position: absolute !important
+    left: -10000px !important
+    top: -10000px !important
+
+// animation
+.fade-enter-active,
+.fade-leave-active
+  transition: opacity .5s
+
+.fade-enter,
+.fade-leave-to
+  opacity: 0

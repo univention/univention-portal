@@ -38,6 +38,7 @@
         v-bind="modalProps"
       />
     </portal-modal>
+    <cookie-banner />
   </div>
 </template>
 
@@ -53,6 +54,7 @@ import PortalFolder from '@/components/PortalFolder.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
 
 import PortalBackground from '@/components/PortalBackground.vue';
+import CookieBanner from '@/components/CookieBanner.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
 
@@ -66,6 +68,7 @@ import userMixin from '@/mixins/userMixin.vue';
     PortalIframe,
     PortalModal,
     PortalBackground,
+    CookieBanner,
   },
   data() {
     return {
