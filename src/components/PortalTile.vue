@@ -13,8 +13,8 @@
       class="portal-tile__box"
     >
       <img
-        :src="logo"
-        :alt="`title ${logo}`"
+        :src="tile.pathToLogo"
+        :alt="`title ${title}`"
         class="portal-tile__img"
       >
     </div>
@@ -42,10 +42,22 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
     PortalToolTip,
   },
   props: {
-    title: String,
-    link: Array,
-    logo: String,
-    backgroundColor: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    link: {
+      type: Array,
+      required: true,
+    },
+    pathToLogo: {
+      type: String,
+      required: true,
+    },
+    backgroundColor: {
+      type: String,
+      default: 'var(--color-grey40)',
+    },
     inFolder: {
       type: Boolean,
       default: false,
@@ -62,7 +74,7 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
     };
   },
   computed: {
-    wrapperTag() {
+    wrapperTag(): string {
       return this.inFolder ? 'div' : 'a';
     },
   },
@@ -76,18 +88,24 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
       if (Object.keys(tile).length > 0) {
         const handleActive = true;
         this.isActive = handleActive;
-        this.toolTip.title = tile.title;
-        this.toolTip.icon = tile.logo;
-        this.toolTip.description = tile.description;
+        this.toolTip = {
+          title: tile.title,
+          icon: tile.pathToLogo,
+          description: tile.description,
+        };
       }
     },
     tileClick() {
       const tab = {
         tabLabel: this.title,
-        logo: this.logo,
-        iframeLink: this.link,
+        logo: this.toolTip.icon,
+        iframeLink: this.iframeLink(),
       };
       this.$store.dispatch('tabs/addTab', tab);
+    },
+    iframeLink() {
+      const [link] = this.link;
+      return link;
     },
   },
 })
@@ -96,7 +114,7 @@ export default class PortalTile extends Vue {
 
   link!: String[];
 
-  logo = 'questionMark.svg';
+  pathToLogo = 'questionMark.svg';
 
   backgroundColor = 'var(--color-grey40)';
 }

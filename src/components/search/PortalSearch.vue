@@ -44,9 +44,12 @@ import { mapGetters } from 'vuex';
         list = this.originalArray.map((element) => ({
           ...element,
           title: element.title,
-          tiles: element.tiles.filter((tile) => tile.title.toLowerCase().includes(this.portalSearch.toLowerCase()) ||
-            tile.description.toLowerCase().includes(this.portalSearch.toLowerCase()) ||
-            element.title.toLowerCase().includes(this.portalSearch.toLowerCase())),
+          tiles: element.tiles.filter((tile) => this.$localized(tile.title).toLowerCase()
+            .includes(this.portalSearch.toLowerCase()) ||
+              this.$localized(tile.description).toLowerCase()
+                .includes(this.portalSearch.toLowerCase()) ||
+              this.$localized(element.title).toLowerCase()
+                .includes(this.portalSearch.toLowerCase())),
         }));
       }
       this.newList = list;

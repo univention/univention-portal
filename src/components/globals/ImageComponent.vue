@@ -43,7 +43,7 @@ import { Options, Vue } from 'vue-class-component';
   },
   methods: {
     imageUrl() {
-      this.imagePath = `${this.filePath}/${this.fileName}`;
+      this.imagePath = `./${this.filePath}/${this.fileName}`;
     },
   },
 })
