@@ -41,7 +41,7 @@ export default class PortalModal extends Vue {}
 <style lang="stylus">
 .portal-modal
     width: 100%;
-    position: absolute;
+    position: fixed;
     height: 100%;
     top: 0;
     right: 0;
