@@ -173,6 +173,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
         bubbleDescription: 'Click <a class="notification-bubble__link" href="#">here</a> to fix this warning.',
         bubbleToken: 'testtoken96789896',
       };
+      // call action from mixin
       this.showNewNotification(content);
     },
   },

@@ -23,6 +23,8 @@ const notificationMixin = {
       }
     },
     showNewNotification(notificationContent) {
+      // for new notifications only
+
       this.$store.dispatch('notificationBubble/addContent', notificationContent);
       this.$store.dispatch('notificationBubble/setShowNewBubble', notificationContent);
       setTimeout(() => {
