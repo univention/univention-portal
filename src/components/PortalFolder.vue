@@ -41,8 +41,14 @@ import PortalModal from '@/components/globals/PortalModal.vue';
     PortalModal,
   },
   props: {
-    title: String,
-    tiles: Array,
+    title: {
+      type: String,
+      required: true,
+    },
+    tiles: {
+      type: Array,
+      required: true,
+    },
     inModal: {
       type: Boolean,
       default: false,

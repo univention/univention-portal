@@ -12,7 +12,7 @@
         class="portal-header__left-image"
         alt="Portal logo"
       >
-      <h2>{{ portalName }}</h2>
+      <h2>{{ $localized(portalName) }}</h2>
     </div>
 
     <div class="portal-header__tabs">
@@ -124,12 +124,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   mixins: [
     notificationMixin,
   ],
-  props: {
-    portalName: {
-      type: String,
-      default: 'Univention Portal',
-    },
-  },
   updated() {
     this.$nextTick(() => {
       if (this.activeSearchBar) {
@@ -139,6 +133,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   },
   computed: {
     ...mapGetters({
+      portalName: 'portalData/portalName',
       activeButton: 'navigation/getActiveButton',
       activeTabIndex: 'tabs/activeTabIndex',
       tabs: 'tabs/allTabs',
@@ -204,16 +199,16 @@ export default class PortalHeader extends Vue {}
 
 <style lang="stylus" scoped>
 .portal-header
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  background-color: var(--bgc-content-header);
-  color: var(--font-color-contrast-high);
-  height: var(--portal-header-height);
-  display: flex;
-  padding: 0 calc(2 * var(--layout-spacing-unit));
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  z-index: $zindex-1
+  background-color: var(--bgc-content-header)
+  color: var(--font-color-contrast-high)
+  height: var(--portal-header-height)
+  display: flex
+  padding: 0 calc(2 * var(--layout-spacing-unit))
 
   &__left
     flex: 0 0 auto;
@@ -238,7 +233,7 @@ export default class PortalHeader extends Vue {}
     flex: 1 1 auto;
 
   &__bubble-container
-    width: 360px;
+    width: 360px
 
   &__title
     margin: calc(2 * var(--layout-spacing-unit)) 0

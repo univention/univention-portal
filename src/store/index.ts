@@ -1,10 +1,10 @@
 // mocks
 import MenuData from '@/assets/mocks/menu.json';
 import NotificationData from '@/assets/mocks/notifications.json';
-import PortalData from '@/assets/mocks/portal.json';
 // vue
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
+import axios from 'axios';
 // modules
 import categories from './modules/categories';
 import locale from './modules/locale';
@@ -17,6 +17,10 @@ import tabs from './modules/tabs';
 import user from './modules/user';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
+
+// get env vars
+const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
+const portalJson = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 
 export interface State {}
 
@@ -38,9 +42,6 @@ export const store = createStore<State>({
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
 
-      // store portal data
-      store.dispatch('portalData/setPortal', PortalData);
-
       // store notification data
       // TODO: Only add data to notifications store if data is available
       store.dispatch('notificationBubble/setContent', NotificationData);
@@ -56,17 +57,31 @@ export const store = createStore<State>({
       }
 
       return new Promise<void>((resolve) => {
-        setTimeout(() => {
-          store.dispatch('categories/storeOriginalArray', PortalData);
-          store.dispatch('categories/setStandard');
-          store.dispatch('modal/setHideModal');
-          resolve();
-        }, 1000);
-        setTimeout(() => {
-          // Hide notification bubble
-          store.dispatch('notificationBubble/setHideBubble');
-          resolve();
-        }, 4000);
+        // store portal data
+        console.log('Loading Portal');
+        axios.get(`${portalUrl}${portalJson}`).then(
+          (response) => {
+            const PortalData = response.data;
+            store.dispatch('portalData/setPortal', PortalData);
+            store.dispatch('categories/storeOriginalArray', PortalData);
+            store.dispatch('categories/setStandard');
+            store.dispatch('user/setLogin', {
+              user: {
+                username: PortalData.user,
+                mayEditPortal: PortalData.may_edit_portal,
+              },
+            });
+            store.dispatch('modal/setHideModal');
+            resolve();
+            setTimeout(() => {
+              // Hide notification bubble
+              store.dispatch('notificationBubble/setHideBubble');
+            }, 4000);
+          }, (error) => {
+            store.dispatch('modal/setHideModal');
+            resolve();
+          },
+        );
       });
     },
   },

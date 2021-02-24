@@ -18,7 +18,7 @@ export default class PortalBackground extends Vue {}
 <style lang="stylus">
 .portal__background {
   position: fixed;
-  z-index: 0;
+  z-index: $zindex-0;
   top: var(--portal-header-height);
   left: 0;
   right: 0;

@@ -8,11 +8,7 @@ const localize = {
     app.config.globalProperties.$localized = (label) => {
       const curLocale = store.state.locale.locale;
 
-      let i18nLabel = label.de_DE;
-      if (curLocale === 'en_US') {
-        i18nLabel = label.en_US;
-      }
-      return i18nLabel;
+      return label[curLocale] || label.en_US;
     };
   },
 };

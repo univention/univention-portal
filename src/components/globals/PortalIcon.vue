@@ -27,15 +27,17 @@ import { Options, Vue } from 'vue-class-component';
     },
     iconHeight: {
       type: String,
+      default: '',
       required: false,
     },
   },
   computed: {
-    setIconHeight(): boolean {
+    setIconHeight(): string {
       return this.iconHeight ? this.iconHeight : this.iconWidth;
     },
   },
 })
+
 export default class PortalIcon extends Vue {}
 </script>
 

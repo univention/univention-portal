@@ -7,49 +7,6 @@
       v-show="!activeTabIndex"
       class="portal-categories"
     >
-      <button @click="devEmpty">
-        <portal-icon
-          icon="circle"
-          icon-width="1em"
-        />
-        Empty
-      </button>
-      <button @click="devStandard">
-        <portal-icon
-          icon="check-circle"
-          icon-width="1em"
-        />
-        Standard
-      </button>
-      <button @click="devFolder">
-        <portal-icon
-          icon="folder"
-          icon-width="1em"
-        />
-        Folder
-      </button>
-      <button @click="devLogin">
-        <portal-icon
-          icon="log-in"
-          icon-width="1em"
-        />
-        Login
-      </button>
-      <button @click="logout">
-        <portal-icon
-          icon="log-out"
-          icon-width="1em"
-        />
-        Logout
-      </button>
-      <button @click="switchLocale">
-        <portal-icon
-          icon="flag"
-          icon-width="1em"
-        />
-        Switch Language
-      </button>
-
       <template v-if="categoryArray">
         <portal-category
           v-for="(category, index) in categoryArray"
@@ -81,6 +38,7 @@
         v-bind="modalProps"
       />
     </portal-modal>
+    <cookie-banner />
   </div>
 </template>
 
@@ -96,6 +54,7 @@ import PortalFolder from '@/components/PortalFolder.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
 
 import PortalBackground from '@/components/PortalBackground.vue';
+import CookieBanner from '@/components/CookieBanner.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';
@@ -110,6 +69,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     PortalIframe,
     PortalModal,
     PortalBackground,
+    CookieBanner,
   },
   data() {
     return {

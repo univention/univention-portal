@@ -96,11 +96,6 @@ export default class HeaderButton extends Vue {}
     transition: opacity 250ms;
     font-size: var(--button-font-size);
 
-  &__input
-    position: absolute !important;
-    left: -10000px !important;
-    top: -10000px !important;
-
   &__button
     width: 4rem;
     height: 4rem;
@@ -110,6 +105,9 @@ export default class HeaderButton extends Vue {}
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: transparent
+    transition: background-color 250ms
+
     &:hover,
     &:focus
       border-radius: 100%;

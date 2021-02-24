@@ -1,3 +1,17 @@
+phoenixportal (0.0.6) unstable; urgency=medium
+
+  * Backend functions: portal and login from server response
+  * Fixes for iframe, icon paths, and more
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Tue, 23 Feb 2021 03:09:16 +0100
+
+phoenixportal (0.0.5) unstable; urgency=medium
+
+  * Better portal.json integration
+  * Tile click opens iframe
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Mon, 22 Feb 2021 17:30:47 +0100
+
 phoenixportal (0.0.4) unstable; urgency=medium
 
   * Use local directory for npm during build

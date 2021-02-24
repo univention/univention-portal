@@ -1,7 +1,9 @@
 import { ref } from 'vue';
 import { store } from '@/store/index';
-import catalogDE from '@/assets/dictionaries/de_DE.json';
-import catalogEN from '@/assets/dictionaries/en_US.json';
+import axios from 'axios';
+
+// get env vars
+const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 
 function _(msg) {
   return {
@@ -16,21 +18,59 @@ const catalog = {
   LOGOUT: _('Logout'),
   EDIT_PORTAL: _('Edit portal'),
   SWITCH_LOCALE: _('Switch locale'),
+  COOKIE_SETTINGS: _('Cookie Settings'),
+  COOKIE_DESCRIPTION: _('We use cookies in order to provide you with certain functions and to be able to guarantee an unrestricted service. By clicking on "Accept", you consent to the collection of information on this portal.'),
+  ACCEPT: _('Accept'),
+  SUBMIT: _('Submit'),
 };
 
-function updateLocale(locale) {
-  let translationCatalog = null;
-  if (locale === 'de_DE') {
-    translationCatalog = catalogDE;
-  }
-  Object.keys(catalog).forEach((key) => {
-    const value = catalog[key];
-    if (translationCatalog && value.original in translationCatalog) {
-      value.translated.value = translationCatalog[value.original];
+const translationCatalogs = {};
+
+function getCatalog(locale) {
+  return new Promise((resolve, reject) => {
+    if (locale in translationCatalogs) {
+      const translationCatalog = translationCatalogs[locale];
+      if (translationCatalog) {
+        resolve(translationCatalog);
+      } else {
+        reject();
+      }
     } else {
-      value.translated.value = value.original;
+      axios.get(`${portalUrl}/i18n/${locale}.json`).then(
+        (response) => {
+          const translationCatalog = response.data;
+          translationCatalogs[locale] = translationCatalog;
+          resolve(translationCatalog);
+        }, (error) => {
+          // no locale found (404?)
+          translationCatalogs[locale] = null;
+          reject();
+        },
+      );
     }
   });
+}
+
+function updateLocale(locale) {
+  const localePart = locale.slice(0, 2);
+  getCatalog(localePart).then(
+    (translationCatalog) => {
+      Object.keys(catalog).forEach((key) => {
+        const value = catalog[key];
+        if (translationCatalog && value.original in translationCatalog) {
+          value.translated.value = translationCatalog[value.original];
+        } else {
+          value.translated.value = value.original;
+        }
+      });
+    }, () => {
+      // no locale found (404?)
+      Object.keys(catalog).forEach((key) => {
+        const value = catalog[key];
+        value.translated.value = value.original;
+      });
+    },
+  );
 }
 
 store.watch(
