@@ -15,6 +15,7 @@ import notificationBubble from './modules/notificationBubble';
 import portalData from './modules/portalData';
 import tabs from './modules/tabs';
 import user from './modules/user';
+import search from './modules/search';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
@@ -35,6 +36,7 @@ export const store = createStore<State>({
     user,
     menu,
     tabs,
+    search,
   },
   state: {},
   mutations: {},

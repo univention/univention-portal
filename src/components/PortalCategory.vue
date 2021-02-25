@@ -1,10 +1,10 @@
 <template>
   <div class="portal-category">
     <h2 class="portal-category__title">
-      {{ $localized(title) }}
+      {{ hasTiles(tiles) }}
     </h2>
     <div class="portal-category__tiles">
-      <div
+      <template
         v-for="(tile, index) in tiles"
         :key="index"
       >
@@ -20,7 +20,7 @@
           :title="$localized(tile.title)"
           :tiles="tile.tiles"
         />
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -31,6 +31,8 @@ import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
 import Translate from '@/i18n/Translate.vue';
+
+import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalCategory',
@@ -54,13 +56,29 @@ import Translate from '@/i18n/Translate.vue';
       toolTip: {},
     };
   },
+  computed: {
+    ...mapGetters({
+      searchQuery: 'search/searchQuery',
+    }),
+  },
   methods: {
-    isTile(obj: typeof PortalTile) {
-      return !this.isFolder(obj);
+    isTile(obj) { // obj: typeof PortalTile -> make it work with this
+      const tileTitle = obj.title;
+      return !this.isFolder(obj) && this.$localized(tileTitle).toLowerCase()
+        .includes(this.searchQuery.toLowerCase());
     },
-    isFolder(obj: typeof PortalTile) {
-      return obj instanceof PortalFolder;
+    isFolder(obj) { // obj: typeof PortalTile -> make it work with this
+      if (obj instanceof PortalFolder) {
+        obj.tiles.forEach((tile) => this.$localized(tile.title).toLowerCase()
+          .includes(this.searchQuery.toLowerCase()) && obj instanceof PortalFolder);
+      }
     },
+    hasTiles(tiles) {
+      console.log('tiles', this.$localized(this.title));
+      console.log('tiles', tiles);
+      return this.title;
+    },
+  
   },
 })
 

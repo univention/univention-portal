@@ -6,13 +6,13 @@ const vueConfig = {
   pwa: {
     name: 'Univention Portal',
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config
       .plugin('html')
-      .tap(args => {
+      .tap((args) => {
         args[0].title = 'Univention Portal';
         return args;
-      })
+      });
   },
   css: {
     sourceMap: true,
