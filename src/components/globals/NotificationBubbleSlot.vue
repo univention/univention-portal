@@ -20,6 +20,7 @@
             :aria-label="item.bubbleLabel"
             :icon="item.bubbleIcon"
             :no-click="true"
+            :hover-class="(item.bubbleImportance === 'neutral') || `header-button__button--${item.bubbleImportance}`"
             @click.stop="dismissBubble(item.bubbleToken)"
           />
         </div>
@@ -102,8 +103,8 @@ export default class NotificationBubbleSlot extends Vue {}
     padding: 1.6rem
     font-size: 1.6rem
     margin-bottom: 1.6rem
-    // border: 0.2rem solid  rgba(0,0,0,0.4);
     background-color: rgba(0,0,0,0.4);
+
     &--default
       background-color: rgba(0,0,0,0.4)
 

@@ -12,7 +12,7 @@
         :ref="setRef"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
-        class="header-button__button"
+        :class="['header-button__button', hoverClass]"
       >
         <portal-icon
           :icon="icon"
@@ -45,6 +45,10 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       type: Boolean,
       default: false,
     },
+    hoverClass: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     toggleActiveButton() {
@@ -74,45 +78,59 @@ export default class HeaderButton extends Vue {}
 .header-button
   --font-size-button-icon: var(--font-size-big)
   margin: 0 var(--layout-spacing-unit-small)
-  --bgc: transparent;
-  --bgc-state: transparent;
-  box-shadow: none;
-  border-radius: var(--button-icon-border-radius);
+  --bgc: transparent
+  --bgc-state: transparent
+  box-shadow: none
+  border-radius: var(--button-icon-border-radius)
 
   &--is-active
-      z-index:1000;
+      z-index:1000
 
       svg
         color: var(--color-primary)
 
   &__inner
-    border: none;
-    border-radius: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--button-bgc-transition);
-    background-color: var(--bgc-state);
-    transition: opacity 250ms;
-    font-size: var(--button-font-size);
+    border: none
+    border-radius: inherit
+    display: flex
+    align-items: center
+    justify-content: center
+    transition: var(--button-bgc-transition)
+    background-color: var(--bgc-state)
+    transition: opacity 250ms
+    font-size: var(--button-font-size)
 
   &__button
-    width: 4rem;
-    height: 4rem;
-    background: none;
-    border: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 4rem
+    height: 4rem
+    background: none
+    border: none
+    color: white
+    display: flex
+    align-items: center
+    justify-content: center
     background-color: transparent
-    transition: background-color 250ms
 
     &:hover,
     &:focus
-      border-radius: 100%;
-      background-color: var(--bgc-content-body);
+      border-radius: 100%
+      background-color: var(--bgc-content-body)
+
+    &--success
+      &:hover,
+      &:focus
+        background-color: var(--notification-success)
+
+    &--warning
+      &:hover,
+      &:focus
+        background-color: var(--notification-warning)
+
+    &--error
+      &:hover,
+      &:focus
+        background-color: var(--notification-error)
 
     &:hover
-      cursor: pointer;
+      cursor: pointer
 </style>
