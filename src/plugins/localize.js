@@ -7,8 +7,13 @@ const localize = {
     // eslint-disable-next-line no-param-reassign
     app.config.globalProperties.$localized = (label) => {
       const curLocale = store.state.locale.locale;
+      let translate = label[curLocale] || label.en;
 
-      return label[curLocale] || label.en_US;
+      if (label.en === undefined) {
+        translate = label[curLocale] || label.en_US;
+      }
+
+      return translate;
     };
   },
 };

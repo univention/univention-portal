@@ -15,12 +15,14 @@ import notificationBubble from './modules/notificationBubble';
 import portalData from './modules/portalData';
 import tabs from './modules/tabs';
 import user from './modules/user';
+import meta from './modules/meta';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 const portalJson = process.env.VUE_APP_PORTAL_DATA || './portal.json';
+const portalMeta = process.env.VUE_APP_META_DATA || './meta.json';
 
 export interface State {}
 
@@ -35,6 +37,7 @@ export const store = createStore<State>({
     user,
     menu,
     tabs,
+    meta,
   },
   state: {},
   mutations: {},
@@ -59,6 +62,21 @@ export const store = createStore<State>({
       return new Promise<void>((resolve) => {
         // store portal data
         console.log('Loading Portal');
+
+        // get meta data
+        axios.get(`${portalUrl}${portalMeta}`).then(
+          (response) => {
+            const metaData = response.data;
+            console.log('metaData - index: ', metaData);
+            store.dispatch('meta/setMeta', metaData);
+            resolve();
+          }, (error) => {
+            console.error(error);
+            resolve();
+          },
+        );
+
+        // get portal data
         axios.get(`${portalUrl}${portalJson}`).then(
           (response) => {
             const PortalData = response.data;
