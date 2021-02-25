@@ -57,6 +57,7 @@ import PortalBackground from '@/components/PortalBackground.vue';
 import CookieBanner from '@/components/CookieBanner.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 @Options({
   name: 'Home',
@@ -75,7 +76,7 @@ import userMixin from '@/mixins/userMixin.vue';
       categoryList: [],
     };
   },
-  mixins: [userMixin],
+  mixins: [userMixin, notificationMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
@@ -121,6 +122,19 @@ import userMixin from '@/mixins/userMixin.vue';
       } else {
         this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
       }
+    },
+    devLogin() {
+      const content = {
+        bubbleIcon: 'x',
+        bubbleLabel: 'Dismiss notification',
+        bubbleType: 'localNotification',
+        bubbleImportance: 'success',
+        bubbleTitle: 'Login',
+        bubbleDescription: 'Click <a class="notification-bubble__link" href="#">here</a> to fix this warning.',
+        bubbleToken: 'testtoken96789896',
+      };
+      // call action from mixin
+      this.showNewNotification(content);
     },
   },
 })
