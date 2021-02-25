@@ -17,10 +17,10 @@
           </div>
 
           <header-button
-            aria-label="DISMISS_NOTIFICATION"
+            :aria-label="ariaLabel"
             icon="x"
             :no-click="true"
-            :hover-class="(item.bubbleImportance === 'neutral') || `header-button__button--${item.bubbleImportance}`"
+            :hover-class="`header-button__button--${item.bubbleImportance}`"
             @click.stop="dismissBubble(item.bubbleToken)"
           />
         </div>
@@ -44,6 +44,7 @@ import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import { catalog } from '@/i18n/translations.js';
 
 import userMixin from '@/mixins/userMixin.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';
@@ -72,6 +73,9 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
         data = this.bubbleContent;
       }
       return data;
+    },
+    ariaLabel() {
+      return catalog.DISMISS_NOTIFICATION.translated.value;
     },
   },
 })

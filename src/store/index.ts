@@ -54,7 +54,7 @@ export const store = createStore<State>({
         store.dispatch('notificationBubble/setShowBubble');
       }
 
-      return new Promise<void>((resolve) => {
+      return new Promise<any>((resolve) => {
         // store portal data
         console.log('Loading Portal');
 
@@ -64,10 +64,8 @@ export const store = createStore<State>({
             const metaData = response.data;
             console.log('metaData - index: ', metaData);
             store.dispatch('meta/setMeta', metaData);
-            resolve();
           }, (error) => {
             console.error(error);
-            resolve();
           },
         );
 
@@ -84,22 +82,11 @@ export const store = createStore<State>({
                 mayEditPortal: PortalData.may_edit_portal,
               },
             });
-            if (!PortalData.user) {
-              store.dispatch('notificationBubble/addContent', {
-                bubbleImportance: 'neutral',
-                bubbleTitle: 'Login',
-                bubbleDescription: 'Login <a class="notification-bubble__link" href="#">here</a> so that you can use the full range of functions of UCS.',
-              });
-            }
             store.dispatch('modal/setHideModal');
-            resolve();
-            setTimeout(() => {
-              // Hide notification bubble
-              store.dispatch('notificationBubble/setHideNewBubble');
-            }, 4000);
+            resolve(PortalData);
           }, (error) => {
             store.dispatch('modal/setHideModal');
-            resolve();
+            resolve({});
           },
         );
       });

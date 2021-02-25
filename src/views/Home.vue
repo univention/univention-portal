@@ -107,35 +107,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
         this.$store.dispatch('modal/setHideModal');
       }
     },
-    devEmpty() {
-      this.$store.dispatch('categories/setDevEmpty');
-    },
-    devFolder() {
-      this.$store.dispatch('categories/setDevFolder');
-    },
-    devStandard() {
-      this.$store.dispatch('categories/setStandard');
-    },
-    switchLocale() {
-      if (this.$store.state.locale.locale === 'en_US') {
-        this.$store.dispatch('locale/setLocale', { locale: 'de_DE' });
-      } else {
-        this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
-      }
-    },
-    devLogin() {
-      const content = {
-        bubbleIcon: 'x',
-        bubbleLabel: 'Dismiss notification',
-        bubbleType: 'localNotification',
-        bubbleImportance: 'success',
-        bubbleTitle: 'Login',
-        bubbleDescription: 'Click <a class="notification-bubble__link" href="#">here</a> to fix this warning.',
-        bubbleToken: 'testtoken96789896',
-      };
-      // call action from mixin
-      this.showNewNotification(content);
-    },
   },
 })
 export default class Home extends Vue {}
@@ -146,10 +117,6 @@ export default class Home extends Vue {}
   position: relative;
   // z-index: 1;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
-
-  /* just during dev anyway */
-  button svg
-    color: black
 
 .portal-iframes
   position: fixed;

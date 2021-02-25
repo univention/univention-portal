@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
-import catalog from '@/i18n/translations.js';
+import { catalog } from '@/i18n/translations.js';
 
 @Options({
   name: 'Translate',
