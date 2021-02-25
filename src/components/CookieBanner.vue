@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="(Object.keys(metaData).length > 0 && this.metaData.cookieBanner.show) && getCookies"
+    v-if="(Object.keys(metaData).length > 0 && metaData.cookieBanner.show) && getCookies"
     :class="fadeOutClass"
     class="cookie-banner"
   >
