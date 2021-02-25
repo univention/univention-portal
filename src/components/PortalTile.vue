@@ -1,6 +1,7 @@
 <template>
   <component
     :is="wrapperTag"
+    :href="link"
     class="portal-tile"
     draggable="true"
     data-test="tileLink"
@@ -33,8 +34,10 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
 
 import PortalToolTip from '@/components/PortalToolTip.vue';
+import bestLink from '@/jsHelper/bestLink.js';
 
 @Options({
   name: 'PortalTile',
@@ -46,13 +49,14 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
       type: String,
       required: true,
     },
-    link: {
+    links: {
       type: Array,
       required: true,
     },
     pathToLogo: {
       type: String,
-      required: true,
+      required: false,
+      default: 'questionMark.svg',
     },
     backgroundColor: {
       type: String,
@@ -74,8 +78,15 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
     };
   },
   computed: {
+    ...mapGetters({
+      metaData: 'meta/getMeta',
+    }),
     wrapperTag(): string {
       return this.inFolder ? 'div' : 'a';
+    },
+    link(): string {
+      console.log(this.links, this.metaData.fqdn, bestLink(this.links, this.metaData.fqdn));
+      return bestLink(this.links, this.metaData.fqdn);
     },
   },
   methods: {
@@ -99,22 +110,18 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
       const tab = {
         tabLabel: this.title,
         logo: this.toolTip.icon,
-        iframeLink: this.iframeLink(),
+        iframeLink: this.link,
       };
       this.$store.dispatch('tabs/addTab', tab);
-    },
-    iframeLink() {
-      const [link] = this.link;
-      return link;
     },
   },
 })
 export default class PortalTile extends Vue {
   title!: String;
 
-  link!: String[];
+  links!: String[];
 
-  pathToLogo = 'questionMark.svg';
+  pathToLogo?: String;
 
   backgroundColor = 'var(--color-grey40)';
 }
