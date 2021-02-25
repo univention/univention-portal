@@ -34,26 +34,26 @@ import { mapGetters } from 'vuex';
     ...mapGetters({
       originalArray: 'categories/categoryStateOriginal',
       modalState: 'modal/modalState',
+      searchQuery: 'search/searchQuery',
     }),
   },
   methods: {
     searchTiles() {
-      let list = this.originalArray;
+      this.$store.dispatch('search/setSearchQuery', this.portalSearch.toLowerCase());
 
-      if (this.portalSearch !== '') {
-        list = this.originalArray.map((element) => ({
-          ...element,
-          title: element.title,
-          tiles: element.tiles.filter((tile) => this.$localized(tile.title).toLowerCase()
-            .includes(this.portalSearch.toLowerCase()) ||
-              this.$localized(tile.description).toLowerCase()
-                .includes(this.portalSearch.toLowerCase()) ||
-              this.$localized(element.title).toLowerCase()
-                .includes(this.portalSearch.toLowerCase())),
-        }));
-      }
-      this.newList = list;
-      this.$store.dispatch('categories/filterTiles', this.newList);
+      // if (this.portalSearch !== '') {
+      //   list = this.originalArray.map((element) => ({
+      //     ...element,
+      //     title: element.title,
+      //     tiles: element.tiles.filter((tile) => this.$localized(tile.title).toLowerCase()
+      //       .includes(this.portalSearch.toLowerCase()) ||
+      //         this.$localized(tile.description).toLowerCase()
+      //           .includes(this.portalSearch.toLowerCase()) ||
+      //         this.$localized(element.title).toLowerCase()
+      //           .includes(this.portalSearch.toLowerCase())),
+      //   }));
+      // }
+      // this.newList = list;
     },
     closeSearchInput() {
       this.portalSearch = '';

@@ -2,11 +2,13 @@
   <div class="portal">
     <portal-background />
     <portal-header />
-
     <div
       v-show="!activeTabIndex"
       class="portal-categories"
     >
+      <button @click="devFolder">
+        TEST
+      </button>
       <template v-if="categoryArray">
         <portal-category
           v-for="(category, index) in categoryArray"
