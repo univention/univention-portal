@@ -15,7 +15,7 @@
     >
       <img
         :src="tile.pathToLogo"
-        :alt="`title ${title}`"
+        :alt="`Logo ${title}`"
         class="portal-tile__img"
       >
     </div>
@@ -85,7 +85,6 @@ import bestLink from '@/jsHelper/bestLink.js';
       return this.inFolder ? 'div' : 'a';
     },
     link(): string {
-      console.log(this.links, this.metaData.fqdn, bestLink(this.links, this.metaData.fqdn));
       return bestLink(this.links, this.metaData.fqdn);
     },
   },

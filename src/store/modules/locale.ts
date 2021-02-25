@@ -1,7 +1,6 @@
 import { Module } from 'vuex';
+import { updateLocale } from '@/i18n/translations.js';
 
-// get env vars
-const portalLocale = process.env.VUE_APP_LOCALE || 'en_US';
 export interface State {
   locale: string;
 }
@@ -9,7 +8,7 @@ export interface State {
 const locale: Module<State, any> = {
   namespaced: true,
   state: {
-    locale: portalLocale,
+    locale: 'en_US',
   },
 
   mutations: {
@@ -25,6 +24,7 @@ const locale: Module<State, any> = {
   actions: {
     setLocale({ commit }, payload) {
       commit('NEWLOCALE', payload);
+      return updateLocale(payload.locale);
     },
   },
 };

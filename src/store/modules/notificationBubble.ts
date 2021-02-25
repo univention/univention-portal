@@ -1,11 +1,24 @@
 import { Module } from 'vuex';
 
+interface Notification {
+  bubbleTitle: string;
+  bubbleDescription: string;
+}
+
+interface WeightedNotification extends Notification {
+  bubbleImportance: string;
+}
+
+interface FullNotification extends WeightedNotification {
+  bubbleToken: string;
+}
+
 export interface State {
   visible: boolean;
   visibleStandalone: boolean;
   visibleNew: boolean;
-  content: Array<any>;
-  contentOfNewNotification: Array<any>;
+  content: Array<FullNotification>;
+  contentOfNewNotification: Array<FullNotification>;
 }
 
 const bubble: Module<State, any> = {
@@ -22,10 +35,10 @@ const bubble: Module<State, any> = {
     WRITE_CONTENT(state, payload) {
       state.content = payload;
     },
-    ADD_CONTENT(state, payload) {
+    ADD_CONTENT(state: State, notification: FullNotification) {
       state.contentOfNewNotification = [];
-      state.content.push(payload);
-      state.contentOfNewNotification.push(payload);
+      state.content.push(notification);
+      state.contentOfNewNotification.push(notification);
     },
     SHOW(state) {
       state.visibleStandalone = true;
@@ -81,10 +94,12 @@ const bubble: Module<State, any> = {
     setContent({ commit }, payload) {
       commit('WRITE_CONTENT', payload);
     },
-    addContent({ commit }, payload) {
-      const item = { ...payload, bubbleToken: Math.random() };
-      commit('ADD_CONTENT', item);
+    addContent({ commit }, item: WeightedNotification) {
+      commit('ADD_CONTENT', { ...item, bubbleToken: Math.random() });
       commit('SHOW_NEW');
+    },
+    addNotification({ dispatch }, item: Notification) {
+      dispatch('addContent', { ...item, bubbleImportance: 'neutral' });
     },
     hideAllNotifications({ commit }, payload) {
       commit('HIDE_ALL_NOTIFICATIONS', payload);

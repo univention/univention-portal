@@ -6,5 +6,7 @@
   "Cookie settings": "Cookie Einstellungen",
   "Cookie description": "Wir verwenden Cookies, um Ihnen bestimmte Funktionen zur Verfügung zu stellen und einen uneingeschränkten Service zu gewährleisten. Durch Klicken auf \"Akzeptieren\" stimmen Sie der Erfassung von Informationen auf diesem Portal zu.",
   "Accept": "Akzeptieren",
-  "Submit": "Abschicken"
+  "Submit": "Abschicken",
+  "Dismiss notification": "Benachrichtigung verwerfen",
+  "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you can use the full range of functions of UCS.": "Melden Sie sich <a class=\"notification-bubble__link\" href=\"#\">hier</a> an, um alle Funktionen von UCS nutzen zu können."
 }
