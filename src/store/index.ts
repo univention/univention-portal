@@ -22,7 +22,7 @@ export const key: InjectionKey<Store<State>> = Symbol('some description');
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 const portalJson = process.env.VUE_APP_PORTAL_DATA || './portal.json';
-const portalMeta = process.env.VUE_APP_META_DATA || './meta.json';
+const portalMeta = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
 export interface State {}
 
