@@ -11,6 +11,7 @@
         <portal-tile
           v-if="isTile(tile)"
           :title="$localized(tile.title)"
+          :link-target="tile.linkTarget"
           :links="tile.links"
           :description="$localized(tile.description)"
           :tile="tile"

@@ -2,6 +2,7 @@ export default function createCategories(portalData) {
   const portalContent = portalData.portal.content;
   const availableCategories = portalData.categories;
   const availableTiles = portalData.entries;
+  const { defaultLinkTarget } = portalData.portal;
 
   const finalArray = [];
   portalContent.forEach((cnCategoryInContent, index) => {
@@ -35,6 +36,7 @@ export default function createCategories(portalData) {
               en_US: availableTile.name.en_US,
             },
             links: availableTile.links,
+            linkTarget: availableTile.linkTarget === 'useportaldefault' ? defaultLinkTarget : availableTile.linkTarget,
             description: {
               de_DE: availableTile.description.de_DE,
               en_US: availableTile.description.en_US,

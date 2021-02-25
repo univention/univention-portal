@@ -161,7 +161,7 @@
       },
       "dn": "cn=ucsschool_demo_home,cn=portal,cn=univention,dc=testorga,dc=intranet",
       "favorite": false,
-      "linkTarget": "useportaldefault",
+      "linkTarget": "samewindow",
       "links": [
         "/univention/ucsschool/demo_tiles.html"
       ],
@@ -180,7 +180,7 @@
       },
       "dn": "cn=ucsschool_demo_mail,cn=portal,cn=univention,dc=testorga,dc=intranet",
       "favorite": false,
-      "linkTarget": "useportaldefault",
+      "linkTarget": "newwindow",
       "links": [
         "/univention/ucsschool/demo_tiles.html"
       ],
@@ -199,7 +199,7 @@
       },
       "dn": "cn=ucsschool_demo_pwReset,cn=portal,cn=univention,dc=testorga,dc=intranet",
       "favorite": false,
-      "linkTarget": "useportaldefault",
+      "linkTarget": "embedded",
       "links": [
         "/univention/ucsschool/demo_tiles.html"
       ],
