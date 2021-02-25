@@ -17,8 +17,8 @@
           </div>
 
           <header-button
-            :aria-label="item.bubbleLabel"
-            :icon="item.bubbleIcon"
+            aria-label="DISMISS_NOTIFICATION"
+            icon="x"
             :no-click="true"
             :hover-class="(item.bubbleImportance === 'neutral') || `header-button__button--${item.bubbleImportance}`"
             @click.stop="dismissBubble(item.bubbleToken)"

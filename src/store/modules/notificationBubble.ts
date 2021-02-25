@@ -82,7 +82,9 @@ const bubble: Module<State, any> = {
       commit('WRITE_CONTENT', payload);
     },
     addContent({ commit }, payload) {
-      commit('ADD_CONTENT', payload);
+      const item = { ...payload, bubbleToken: Math.random() };
+      commit('ADD_CONTENT', item);
+      commit('SHOW_NEW');
     },
     hideAllNotifications({ commit }, payload) {
       commit('HIDE_ALL_NOTIFICATIONS', payload);

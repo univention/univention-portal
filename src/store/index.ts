@@ -1,6 +1,5 @@
 // mocks
 import MenuData from '@/assets/mocks/menu.json';
-import NotificationData from '@/assets/mocks/notifications.json';
 // vue
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
@@ -45,10 +44,6 @@ export const store = createStore<State>({
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
 
-      // store notification data
-      // TODO: Only add data to notifications store if data is available
-      store.dispatch('notificationBubble/setContent', NotificationData);
-
       // store menu data
       store.dispatch('menu/setMenu', MenuData);
       store.dispatch('menu/setMenuLinks', MenuData.menu_links);
@@ -89,11 +84,18 @@ export const store = createStore<State>({
                 mayEditPortal: PortalData.may_edit_portal,
               },
             });
+            if (!PortalData.user) {
+              store.dispatch('notificationBubble/addContent', {
+                bubbleImportance: 'neutral',
+                bubbleTitle: 'Login',
+                bubbleDescription: 'Login <a class="notification-bubble__link" href="#">here</a> so that you can use the full range of functions of UCS.',
+              });
+            }
             store.dispatch('modal/setHideModal');
             resolve();
             setTimeout(() => {
               // Hide notification bubble
-              store.dispatch('notificationBubble/setHideBubble');
+              store.dispatch('notificationBubble/setHideNewBubble');
             }, 4000);
           }, (error) => {
             store.dispatch('modal/setHideModal');
