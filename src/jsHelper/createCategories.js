@@ -34,7 +34,7 @@ export default function createCategories(portalData) {
               de_DE: availableTile.name.de_DE,
               en_US: availableTile.name.en_US,
             },
-            link: availableTile.links,
+            links: availableTile.links,
             description: {
               de_DE: availableTile.description.de_DE,
               en_US: availableTile.description.en_US,

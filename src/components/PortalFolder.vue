@@ -16,7 +16,6 @@
             v-bind="tile.$props"
             :in-folder="!inModal"
             :title="$localized(tile.title)"
-            :link="tile.link"
             :description="$localized(tile.description)"
             :tile="inModal ? tile : {}"
           />
