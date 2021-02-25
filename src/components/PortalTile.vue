@@ -2,6 +2,7 @@
   <component
     :is="wrapperTag"
     :href="link"
+    :target="tagLinkTarget"
     class="portal-tile"
     draggable="true"
     data-test="tileLink"
@@ -53,6 +54,10 @@ import bestLink from '@/jsHelper/bestLink.js';
       type: Array,
       required: true,
     },
+    linkTarget: {
+      type: String,
+      required: true,
+    },
     pathToLogo: {
       type: String,
       required: false,
@@ -87,6 +92,12 @@ import bestLink from '@/jsHelper/bestLink.js';
     link(): string {
       return bestLink(this.links, this.metaData.fqdn);
     },
+    tagLinkTarget(): string {
+      if (this.linkTarget === 'newwindow') {
+        return '_blank';
+      }
+      return '';
+    },
   },
   methods: {
     hideTooltip(): void {
@@ -105,7 +116,15 @@ import bestLink from '@/jsHelper/bestLink.js';
         };
       }
     },
-    tileClick() {
+    tileClick(evt) {
+      if (this.linkTarget === 'embedded') {
+        this.openEmbedded();
+        evt.preventDefault();
+        return false;
+      }
+      return true;
+    },
+    openEmbedded() {
       const tab = {
         tabLabel: this.title,
         logo: this.toolTip.icon,
