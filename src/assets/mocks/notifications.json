@@ -2,6 +2,7 @@
   "bubbleIcon": "x",
   "bubbleLabel": "Dismiss notification",
   "bubbleType": "localNotification",
+  "bubbleImportance": "neutral",
   "bubbleTitle": "Login",
   "bubbleDescription": "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you can use the full range of functions of UCS.",
   "bubbleToken": "testtoken12345"
@@ -9,7 +10,25 @@
   "bubbleIcon": "x",
   "bubbleLabel": "Dismiss notification",
   "bubbleType": "localNotification",
+  "bubbleImportance": "neutral",
   "bubbleTitle": "Test notification",
   "bubbleDescription": "lorem ipsum",
   "bubbleToken": "testtoken09876"
+}, {
+  "bubbleIcon": "x",
+  "bubbleLabel": "Dismiss notification",
+  "bubbleType": "localNotification",
+  "bubbleImportance": "warning",
+  "bubbleTitle": "Warning: Loren Ipsum",
+  "bubbleDescription": "Click <a class=\"notification-bubble__link\" href=\"#\">here</a> to fix this warning.",
+  "bubbleToken": "testtoken08452"
+},
+{
+  "bubbleIcon": "x",
+  "bubbleLabel": "Dismiss notification",
+  "bubbleType": "localNotification",
+  "bubbleImportance": "success",
+  "bubbleTitle": "Language changed",
+  "bubbleDescription": "Click <a class=\"notification-bubble__link\" href=\"#\">here</a> to fix this warning.",
+  "bubbleToken": "testtoken96503"
 }]
