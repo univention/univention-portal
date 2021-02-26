@@ -10,16 +10,12 @@
       >
         <portal-tile
           v-if="isTile(tile)"
-          :title="$localized(tile.title)"
-          :link-target="tile.linkTarget"
-          :links="tile.links"
-          :description="$localized(tile.description)"
+          v-bind="tile"
           :tile="tile"
         />
         <portal-folder
           v-if="isFolder(tile)"
-          :title="$localized(tile.title)"
-          :tiles="tile.tiles"
+          v-bind="tile"
         />
       </div>
     </div>
@@ -56,11 +52,11 @@ import Translate from '@/i18n/Translate.vue';
     };
   },
   methods: {
-    isTile(obj: typeof PortalTile) {
+    isTile(obj: any): boolean {
       return !this.isFolder(obj);
     },
-    isFolder(obj: typeof PortalTile) {
-      return obj instanceof PortalFolder;
+    isFolder(obj: any): boolean {
+      return !!obj.tiles;
     },
   },
 })

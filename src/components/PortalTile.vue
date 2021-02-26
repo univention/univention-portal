@@ -6,7 +6,7 @@
     class="portal-tile"
     draggable="true"
     data-test="tileLink"
-    @mouseover="showTooltip(tile)"
+    @mouseover="showTooltip"
     @mouseleave="hideTooltip"
     @click="tileClick"
   >
@@ -15,20 +15,20 @@
       class="portal-tile__box"
     >
       <img
-        :src="tile.pathToLogo"
+        :src="pathToLogo"
         :alt="`Logo ${title}`"
         class="portal-tile__img"
       >
     </div>
     <span class="portal-tile__name">
-      {{ title }}
+      {{ $localized(title) }}
     </span>
 
     <portal-tool-tip
       v-if="isActive"
-      :title="$localized(toolTip.title)"
-      :icon="toolTip.icon"
-      :description="$localized(toolTip.description)"
+      :title="$localized(title)"
+      :icon="pathToLogo"
+      :description="$localized(description)"
     />
   </component>
 </template>
@@ -47,7 +47,11 @@ import bestLink from '@/jsHelper/bestLink.js';
   },
   props: {
     title: {
-      type: String,
+      type: Object,
+      required: true,
+    },
+    description: {
+      type: Object,
       required: true,
     },
     links: {
@@ -71,15 +75,10 @@ import bestLink from '@/jsHelper/bestLink.js';
       type: Boolean,
       default: false,
     },
-    tile: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   data() {
     return {
       isActive: false,
-      toolTip: {},
     };
   },
   computed: {
@@ -101,33 +100,30 @@ import bestLink from '@/jsHelper/bestLink.js';
   },
   methods: {
     hideTooltip(): void {
-      const handleActive = false;
-      this.isActive = handleActive;
-      this.toolTip = {};
+      this.isActive = false;
     },
-    showTooltip(tile): any {
-      if (Object.keys(tile).length > 0) {
-        const handleActive = true;
-        this.isActive = handleActive;
-        this.toolTip = {
-          title: tile.title,
-          icon: tile.pathToLogo,
-          description: tile.description,
-        };
+    showTooltip(): void {
+      if (!this.inFolder) {
+        this.isActive = true;
       }
     },
     tileClick(evt) {
-      if (this.linkTarget === 'embedded') {
-        this.openEmbedded();
+      if (this.inFolder) {
         evt.preventDefault();
+        return false;
+      }
+      this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
+      if (this.linkTarget === 'embedded') {
+        evt.preventDefault();
+        this.openEmbedded();
         return false;
       }
       return true;
     },
     openEmbedded() {
       const tab = {
-        tabLabel: this.title,
-        logo: this.toolTip.icon,
+        tabLabel: this.$localized(this.title),
+        logo: this.pathToLogo,
         iframeLink: this.link,
       };
       this.$store.dispatch('tabs/addTab', tab);
@@ -135,7 +131,9 @@ import bestLink from '@/jsHelper/bestLink.js';
   },
 })
 export default class PortalTile extends Vue {
-  title!: String;
+  title!: Object;
+
+  description!: Object;
 
   links!: String[];
 
