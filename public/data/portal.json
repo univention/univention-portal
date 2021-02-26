@@ -1,322 +1,194 @@
 {
-  "_id": "60213240ae105df7b169e2a8",
+  "user_links": [],
+  "menu_links": [],
+  "entries": [
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Cloud Lösung für Filesync und -share",
+        "en_US": "Cloud solution for data and file sync and share"
+      },
+      "dn": "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "linkTarget": "useportaldefault",
+      "links": [
+        "http://10.200.4.60/owncloud",
+        "https://master60.intranet.portal.de/owncloud",
+        "https://10.200.4.60/owncloud",
+        "http://master60.intranet.portal.de/owncloud"
+      ],
+      "logo_name": "./data/icons/owncloud.svg",
+      "name": {
+        "de_DE": "ownCloud",
+        "en_US": "ownCloud"
+      }
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "ownCloud Administrations-Handbuch (in Englisch)",
+        "en_US": "ownCloud Administration Manual"
+      },
+      "dn": "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "linkTarget": "useportaldefault",
+      "links": [
+        "https://doc.owncloud.com/server/10.0/admin_manual/"
+      ],
+      "logo_name": "./data/icons/owncloud-admindoc.svg",
+      "name": {
+        "de_DE": "Admin Handbuch",
+        "en_US": "Admin Manual"
+      }
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "ownCloud Benutzer-Handbuch (in Englisch)",
+        "en_US": "ownCloud User Manual"
+      },
+      "dn": "cn=owncloud-userdoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "linkTarget": "useportaldefault",
+      "links": [
+        "https://doc.owncloud.com/server/10.0/user_manual/"
+      ],
+      "logo_name": "./data/icons/owncloud-userdoc.svg",
+      "name": {
+        "de_DE": "Benutzer Handbuch",
+        "en_US": "User Manual"
+      }
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems",
+        "en_US": "Univention Management Console for admin­is­tra­ting the UCS domain and the local system",
+        "fr_FR": "Console de gestion Univention pour admin­is­trer le domaine UCS et le système local"
+      },
+      "dn": "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "linkTarget": "newwindow",
+      "links": [
+        "/univention/management/"
+      ],
+      "logo_name": "./data/icons/umc-domain.svg",
+      "name": {
+        "de_DE": "System- und Domäneneinstellungen",
+        "en_US": "System and domain settings",
+        "fr_FR": "Réglages du système et du domaine"
+      }
+    },
+    {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Users,cn=groups,dc=intranet,dc=portal,dc=de"
+      ],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "News, Tipps und Best Practices",
+        "en_US": "News, tips and best practices",
+        "fr_FR": "Nouvelles, conseils et bonne pratique"
+      },
+      "dn": "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "linkTarget": "newwindow",
+      "links": [
+        "https://www.univention.com/news/blog-en/"
+      ],
+      "logo_name": "./data/icons/univentionblog.png",
+      "name": {
+        "de_DE": "Geheimer Blog",
+        "en_US": "Secret Blog",
+        "fr_FR": "Univention Blog FR"
+      }
+    }
+  ],
+  "folders": [
+    {
+      "dn": "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "entries": [
+        "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+      ],
+      "name": {
+        "de_DE": "Apps",
+        "en_US": "Apps"
+      }
+    }
+  ],
   "categories": [
     {
       "display_name": {
-        "de_DE": "Test 12345",
+        "de_DE": "Verwaltung",
         "en_US": "Administration"
       },
-      "dn": "cn=admin,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet"
+      "dn": "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "entries": [
+        "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+        "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+        "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+        "cn=owncloud-userdoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+      ]
     },
     {
       "display_name": {
         "de_DE": "Applikationen",
         "en_US": "Applications"
       },
-      "dn": "cn=service,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet"
-    },
-    {
-      "display_name": {
-        "de_DE": "Verwaltung",
-        "en_US": "Administration"
-      },
-      "dn": "cn=ucsschool_demo_admin,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet"
-    },
-    {
-      "display_name": {
-        "de_DE": "Kollaboration & Kommunikation",
-        "en_US": "Collaboration & Communication"
-      },
-      "dn": "cn=ucsschool_demo_collaboration_communication,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet"
-    },
-    {
-      "display_name": {
-        "de_DE": "Kreativität",
-        "en_US": "Creativity"
-      },
-      "dn": "cn=ucsschool_demo_creativity,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet"
+      "dn": "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "entries": [
+        "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+        "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+      ]
     }
   ],
-  "entries": [
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "2FA Token",
-        "en_US": "2FA Token"
-      },
-      "dn": "cn=2fa_new,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "https://ucs-1265.testorga.intranet/univention/management/#module=twofactor-self-service-user-initial::0:"
-      ],
-      "logo_name": null,
-      "name": {
-        "de_DE": "2FA Token",
-        "en_US": "2FA Token"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Saml zweiter Faktor",
-        "en_US": "Saml zweiter Faktor"
-      },
-      "dn": "cn=SAML2fa,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "http://192.168.1.108:5001/"
-      ],
-      "logo_name": null,
-      "name": {
-        "de_DE": "Saml zweiter Faktor",
-        "en_US": ""
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "",
-        "en_US": ""
-      },
-      "dn": "cn=test1,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "javascript:generateNewTokenDialog()"
-      ],
-      "logo_name": null,
-      "name": {
-        "de_DE": "Zweiten Faktor generieren",
-        "en_US": "Generate Two Facktor Token"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Administration",
-        "en_US": "Administration"
-      },
-      "dn": "cn=ucsschool_demo_admin,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "/univention/management/"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_admin.png",
-      "name": {
-        "de_DE": "Administration",
-        "en_US": "Administration"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "dn": "cn=ucsschool_demo_calendar,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_calendar.png",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Chat",
-        "en_US": "Chat"
-      },
-      "dn": "cn=ucsschool_demo_chat,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_chat.png",
-      "name": {
-        "de_DE": "Chat",
-        "en_US": "Chat"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Eigene Dateien",
-        "en_US": "My files"
-      },
-      "dn": "cn=ucsschool_demo_home,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "samewindow",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_home.png",
-      "name": {
-        "de_DE": "Eigene Dateien",
-        "en_US": "My files"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Schreibe Emails, empfange welche und anderes.",
-        "en_US": "Write Emails, handle your Inbox and do other stuff"
-      },
-      "dn": "cn=ucsschool_demo_mail,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "newwindow",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_mail.png",
-      "name": {
-        "de_DE": "Mail",
-        "en_US": "Mail"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Eigenes Passwort zurücksetzen",
-        "en_US": "Reset own Password"
-      },
-      "dn": "cn=ucsschool_demo_pwReset,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "embedded",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_pwReset.png",
-      "name": {
-        "de_DE": "Eigenes Passwort zurücksetzen",
-        "en_US": "Reset own Password"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Tauschverzeichnis",
-        "en_US": "File Share"
-      },
-      "dn": "cn=ucsschool_demo_share,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_share.png",
-      "name": {
-        "de_DE": "Tauschverzeichnis",
-        "en_US": "File Share"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Vertretungsplan",
-        "en_US": "Subsitution Plan"
-      },
-      "dn": "cn=ucsschool_demo_subPlan,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_subPlan.png",
-      "name": {
-        "de_DE": "Vertretungsplan",
-        "en_US": "Subsitution Plan"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "description": {
-        "de_DE": "Online Arbeiten",
-        "en_US": "Work Online"
-      },
-      "dn": "cn=ucsschool_demo_workOnline,cn=portal,cn=univention,dc=testorga,dc=intranet",
-      "favorite": false,
-      "linkTarget": "useportaldefault",
-      "links": [
-        "/univention/ucsschool/demo_tiles.html"
-      ],
-      "logo_name": "/univention/portal/icons/entries/ucsschool_demo_workOnline.png",
-      "name": {
-        "de_DE": "Online Arbeiten",
-        "en_US": "Work Online"
-      }
-    }
-  ],
-  "links": {},
   "portal": {
     "anonymousEmpty": [],
     "autoLayoutCategories": false,
-    "content": [
-      [
-        "cn=ucsschool_demo_collaboration_communication,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet",
-        [
-          "cn=ucsschool_demo_mail,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_chat,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_calendar,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_bookResources,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_subPlan,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_eduFunctions,cn=portal,cn=univention,dc=testorga,dc=intranet"
-        ]
-      ],
-      [
-        "cn=ucsschool_demo_creativity,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet",
-        [
-          "cn=ucsschool_demo_home,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_share,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_workOnline,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=Geheim,cn=portal,cn=univention,dc=testorga,dc=intranet"
-        ]
-      ],
-      [
-        "cn=ucsschool_demo_admin,cn=categories,cn=portal,cn=univention,dc=testorga,dc=intranet",
-        [
-          "cn=ucsschool_demo_pwReset,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_users,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=ucsschool_demo_admin,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=test1,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=SAML2fa,cn=portal,cn=univention,dc=testorga,dc=intranet",
-          "cn=2fa_new,cn=portal,cn=univention,dc=testorga,dc=intranet"
-        ]
-      ]
+    "background": null,
+    "categories": [
+      "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
     ],
-    "defaultLinkTarget": "samewindow",
-    "dn": "cn=ucsschool_demo_portal,cn=portal,cn=univention,dc=testorga,dc=intranet",
+    "defaultLinkTarget": "embedded",
+    "dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
     "ensureLogin": false,
     "fontColor": "black",
     "logo": null,
     "name": {
-      "de_DE": "UCS@school Demo Portal",
-      "en_US": "UCS@school Demo Portal"
+      "de_DE": "Univention Portal DE",
+      "en_US": "Univention Portal EN",
+      "fr_FR": "Portail Univention FR"
     },
     "showApps": false,
-    "showLogin": true,
-    "showMenu": true,
-    "showSearch": true,
-    "showServers": true
-  }
+    "content": [
+      [
+        "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+        [
+          "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+          "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+        ]
+      ],
+      [
+        "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+        [
+          "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+          "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+          "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+          "cn=owncloud-userdoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+        ]
+      ]
+    ]
+  },
+  "filtered": true,
+  "may_edit_portal": true,
+  "user": "administrator"
 }
