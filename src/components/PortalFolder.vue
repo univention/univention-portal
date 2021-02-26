@@ -9,27 +9,24 @@
     >
       <div class="portal-folder__thumbnails">
         <div
-          v-for="tile in tiles"
-          :key="tile.title"
+          v-for="(tile, index) in tiles"
+          :key="index"
         >
           <portal-tile
-            v-bind="tile.$props"
+            v-bind="tile"
             :in-folder="!inModal"
-            :title="$localized(tile.title)"
-            :description="$localized(tile.description)"
-            :tile="inModal ? tile : {}"
           />
         </div>
       </div>
     </div>
     <span class="portal-folder__name">
-      {{ title }}
+      {{ $localized(title) }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import { Options } from 'vue-class-component';
+import { Options, Vue } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
 
@@ -41,7 +38,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
   },
   props: {
     title: {
-      type: String,
+      type: Object,
       required: true,
     },
     tiles: {
@@ -55,6 +52,9 @@ import PortalModal from '@/components/globals/PortalModal.vue';
   },
   methods: {
     openFolder() {
+      if (this.inModal) {
+        return;
+      }
       this.$store.dispatch('modal/setShowModal', {
         name: 'PortalFolder',
         props: { ...this.$props, inModal: true },
@@ -63,7 +63,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
   },
 })
 
-export default class PortalFolder extends PortalTile {
+export default class PortalFolder extends Vue {
   title!: string;
 
   tiles!: [PortalTile];
