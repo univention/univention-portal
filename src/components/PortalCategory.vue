@@ -1,7 +1,10 @@
 <template>
   <div class="portal-category">
-    <h2 class="portal-category__title">
-      {{ hasTiles(tiles) }}
+    <h2
+      v-if="showCategoryHeadline"
+      class="portal-category__title"
+    >
+      {{ $localized(title) }}
     </h2>
     <div class="portal-category__tiles">
       <template
@@ -10,6 +13,7 @@
       >
         <portal-tile
           v-if="isTile(tile)"
+          :ref="'tile' + index"
           :title="$localized(tile.title)"
           :link="tile.link"
           :description="$localized(tile.description)"
@@ -17,6 +21,7 @@
         />
         <portal-folder
           v-if="isFolder(tile)"
+          :ref="'tile' + index"
           :title="$localized(tile.title)"
           :tiles="tile.tiles"
         />
@@ -54,7 +59,17 @@ import { mapGetters } from 'vuex';
     return {
       isActive: false,
       toolTip: {},
+      showCategoryHeadline: false,
     };
+  },
+  beforeMount() {
+    this.hasTiles(this.tiles);
+  },
+  mounted() {
+    this.$nextTick(() => { this.hasTiles(this.tiles); });
+  },
+  updated() {
+    this.$nextTick(() => { this.hasTiles(this.tiles); });
   },
   computed: {
     ...mapGetters({
@@ -74,11 +89,14 @@ import { mapGetters } from 'vuex';
       }
     },
     hasTiles(tiles) {
-      console.log('tiles', this.$localized(this.title));
-      console.log('tiles', tiles);
-      return this.title;
+      const refArray = Object.entries(this.$refs);
+      const children = refArray.filter((ref) => ref[1] !== null);
+      if (children.length > 0) {
+        this.showCategoryHeadline = true;
+      } else {
+        this.showCategoryHeadline = false;
+      }
     },
-  
   },
 })
 
