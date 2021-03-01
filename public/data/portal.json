@@ -78,7 +78,8 @@
       "dn": "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "linkTarget": "newwindow",
       "links": [
-        "/univention/management/"
+        "/univention/management/",
+        "https://www.univention.com/news/blog-en/"
       ],
       "logo_name": "./data/icons/umc-domain.svg",
       "name": {
