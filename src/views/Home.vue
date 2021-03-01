@@ -6,12 +6,9 @@
       v-show="!activeTabIndex"
       class="portal-categories"
     >
-      <button @click="devFolder">
-        TEST
-      </button>
-      <template v-if="categoryArray">
+      <template v-if="portalCategories">
         <portal-category
-          v-for="(category, index) in categoryArray"
+          v-for="(category, index) in portalCategories"
           :key="index"
           :title="category.title"
           :tiles="category.tiles"
@@ -73,16 +70,9 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     PortalBackground,
     CookieBanner,
   },
-  data() {
-    return {
-      categoryList: [],
-    };
-  },
   mixins: [userMixin, notificationMixin],
   computed: {
     ...mapGetters({
-      categories: 'categories/categoryState',
-      filteredCategories: 'categories/categoryState',
       originalArray: 'categories/categoryState',
       modalState: 'modal/modalState',
       modalComponent: 'modal/modalComponent',
@@ -92,15 +82,8 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       activeTabIndex: 'tabs/activeTabIndex',
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
-    categoryArray() {
-      let catArray = this.originalArray;
-      this.$nextTick(() => {
-        catArray = this.filteredCategories ? this.filteredCategories : this.originalArray;
-      });
-
-      this.categoryList = catArray;
-
-      return catArray;
+    portalCategories() {
+      return this.originalArray ? this.originalArray : [];
     },
   },
   methods: {

@@ -13,17 +13,13 @@
       >
         <portal-tile
           v-if="isTile(tile)"
+          v-bind="tile"
           :ref="'tile' + index"
-          :title="$localized(tile.title)"
-          :link="tile.link"
-          :description="$localized(tile.description)"
           :tile="tile"
         />
         <portal-folder
           v-if="isFolder(tile)"
           :ref="'tile' + index"
-          :title="$localized(tile.title)"
-          :tiles="tile.tiles"
           v-bind="tile"
         />
       </template>

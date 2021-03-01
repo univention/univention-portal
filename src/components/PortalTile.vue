@@ -89,7 +89,7 @@ import bestLink from '@/jsHelper/bestLink.js';
       return this.inFolder ? 'div' : 'a';
     },
     link(): string {
-      return bestLink(this.links, this.metaData.fqdn);
+      return this.links ? bestLink(this.links, this.metaData.fqdn) : '';
     },
     tagLinkTarget(): string {
       if (this.linkTarget === 'newwindow') {
