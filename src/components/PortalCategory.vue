@@ -1,5 +1,7 @@
 <template>
-  <div class="portal-category">
+  <div
+    class="portal-category"
+  >
     <h2
       v-if="showCategoryHeadline"
       class="portal-category__title"
