@@ -72,21 +72,24 @@ import { mapGetters } from 'vuex';
   },
   methods: {
     isTile(obj: any): boolean {
-      const tileTitle = obj.title;
-      return !this.isFolder(obj) && this.$localized(tileTitle).toLowerCase()
-        .includes(this.searchQuery.toLowerCase());
+      return !this.isFolder(obj) && this.tileMatchesQuery(obj);
     },
     isFolder(obj: any): boolean {
-      let isFolder = false;
-      if (obj instanceof PortalFolder) {
-        obj.tiles.forEach((tile) => {
-          if (this.$localized(tile.title).toLowerCase()
-            .includes(this.searchQuery.toLowerCase()) && obj instanceof PortalFolder) {
-            isFolder = true;
-          }
-        });
-      }
-      return isFolder;
+      return !!obj.tiles && this.folderMatchesQuery(obj);
+    },
+    tileMatchesQuery(obj: any): boolean {
+      return this.$localized(obj.title).toLowerCase()
+        .includes(this.searchQuery.toLowerCase());
+    },
+    folderMatchesQuery(obj: any): boolean {
+      let matchesQuery = false;
+      obj.tiles.forEach((tile) => {
+        if (this.$localized(tile.title).toLowerCase()
+          .includes(this.searchQuery.toLowerCase())) {
+          matchesQuery = true;
+        }
+      });
+      return matchesQuery;
     },
     hasTiles(tiles) {
       const refArray = Object.entries(this.$refs);
