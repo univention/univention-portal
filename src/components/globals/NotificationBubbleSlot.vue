@@ -3,9 +3,10 @@
     :class="`notification-bubble__${bubbleContainer}`"
   >
     <div
-      v-for="(item, index) in bubbleContent"
+      v-for="(item, index) in setBubbleContent"
       :key="index"
       class="notification-bubble__container"
+      :class="`notification-bubble__container--${item.bubbleImportance}`"
     >
       <div>
         <div class="notification-bubble__header">
@@ -16,9 +17,10 @@
           </div>
 
           <header-button
-            :aria-label="item.bubbleLabel"
-            :icon="item.bubbleIcon"
+            :aria-label="ariaLabel"
+            icon="x"
             :no-click="true"
+            :hover-class="`header-button__button--${item.bubbleImportance}`"
             @click.stop="dismissBubble(item.bubbleToken)"
           />
         </div>
@@ -42,6 +44,7 @@ import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import { catalog } from '@/i18n/translations.js';
 
 import userMixin from '@/mixins/userMixin.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';
@@ -61,6 +64,20 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       default: 'standalone',
     },
   },
+  computed: {
+    setBubbleContent() {
+      let data;
+      if (this.bubbleStateNewBubble && this.bubbleContainer === 'standalone') {
+        data = this.bubbleContentNewNotification;
+      } else if (this.bubbleContainer === 'embedded') {
+        data = this.bubbleContent;
+      }
+      return data;
+    },
+    ariaLabel() {
+      return catalog.DISMISS_NOTIFICATION.translated.value;
+    },
+  },
 })
 
 export default class NotificationBubbleSlot extends Vue {}
@@ -69,33 +86,45 @@ export default class NotificationBubbleSlot extends Vue {}
 <style lang="stylus">
 .notification-bubble
   &__standalone
-    min-width: 320px;
-    max-width: 320px
+    min-width: 32rem
+    max-width: 32rem
     position: absolute
-    right: 20px
+    right: 2rem
     top: 8rem
     z-index: 10
 
   &__embedded
-    min-width: 320px;
-    max-width: 320px
+    min-width: 32rem
+    max-width: 32rem
     position: relative
     right: 0
     top: 0
 
   &__container
-    max-width: 288px
-    background-color: rgba(0,0,0,0.4)
-    backdrop-filter: blur(20px)
+    max-width: 28.8rem
+    backdrop-filter: blur(2rem)
     border-radius: var(--border-radius-notification)
-    padding: 16px
-    font-size: 16px
-    margin-bottom: 16px
+    padding: 1.6rem
+    font-size: 1.6rem
+    margin-bottom: 1.6rem
+    background-color: rgba(0,0,0,0.4);
+
+    &--default
+      background-color: rgba(0,0,0,0.4)
+
+    &--success
+      background-color: var(--notification-success)
+
+    &--warning
+      background-color: var(--notification-warning)
+
+    &--error
+      background-color: var(--notification-error)
 
   &__header
     display: flex
     align-items: center
-    margin-bottom: 8px
+    margin-bottom: 0.8rem
 
   &__title
     flex: 1 1 auto

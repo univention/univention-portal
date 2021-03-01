@@ -38,7 +38,7 @@ const categories: Module<State, any> = {
                 de_DE: 'OwnCloud',
                 en_US: 'OwnCloud',
               },
-              link: [
+              links: [
                 'https://www.owncloud.com',
               ],
               description: {
@@ -57,7 +57,7 @@ const categories: Module<State, any> = {
                     de_DE: 'Nextcloud',
                     en_US: 'Nextcloud',
                   },
-                  link: [
+                  links: [
                     'https://www.nextcloud.com',
                   ],
                   description: {
@@ -70,7 +70,7 @@ const categories: Module<State, any> = {
                     de_DE: 'Jitsi',
                     en_US: 'Jitsi',
                   },
-                  link: [
+                  links: [
                     'https://www.jitsi.com',
                   ],
                   description: {
@@ -83,7 +83,7 @@ const categories: Module<State, any> = {
                     de_DE: 'Ubuntu',
                     en_US: 'Ubuntu',
                   },
-                  link: [
+                  links: [
                     'https://www.ubuntu.com',
                   ],
                   description: {

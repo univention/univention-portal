@@ -25,8 +25,6 @@ const getCookie = (name) => {
   const ca = document.cookie.split(';');
   let ret = '';
 
-  // console.log('getCookie: ', ca );
-
   for (let i = 0; i < ca.length; i += 1) {
     let c = ca[i];
     while (c.charAt(0) === ' ') c = c.substring(1, c.length);
@@ -35,7 +33,6 @@ const getCookie = (name) => {
     }
   }
 
-  // console.log('getCookie: ', { ret });
   return ret;
 };
 
