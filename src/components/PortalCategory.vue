@@ -84,10 +84,16 @@ import { mapGetters } from 'vuex';
         .includes(this.searchQuery.toLowerCase());
     },
     isFolder(obj: any): boolean { // obj: typeof PortalTile -> make it work with this
+      let isFolder = false;
       if (obj instanceof PortalFolder) {
-        !!obj.tiles.forEach((tile) => this.$localized(tile.title).toLowerCase()
-          .includes(this.searchQuery.toLowerCase()) && obj instanceof PortalFolder);
+        obj.tiles.forEach((tile) => {
+          if (this.$localized(tile.title).toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) && obj instanceof PortalFolder) {
+            isFolder = true;
+          }
+        });
       }
+      return isFolder;
     },
     hasTiles(tiles) {
       const refArray = Object.entries(this.$refs);
