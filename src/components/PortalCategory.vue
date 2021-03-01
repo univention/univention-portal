@@ -59,14 +59,11 @@ import { mapGetters } from 'vuex';
       showCategoryHeadline: false,
     };
   },
-  beforeMount() {
+  mounted() {
     this.hasTiles(this.tiles);
   },
-  mounted() {
-    this.$nextTick(() => { this.hasTiles(this.tiles); });
-  },
   updated() {
-    this.$nextTick(() => { this.hasTiles(this.tiles); });
+    this.hasTiles(this.tiles);
   },
   computed: {
     ...mapGetters({
@@ -74,12 +71,12 @@ import { mapGetters } from 'vuex';
     }),
   },
   methods: {
-    isTile(obj: any): boolean { // obj: typeof PortalTile -> make it work with this
+    isTile(obj: any): boolean {
       const tileTitle = obj.title;
       return !this.isFolder(obj) && this.$localized(tileTitle).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
-    isFolder(obj: any): boolean { // obj: typeof PortalTile -> make it work with this
+    isFolder(obj: any): boolean {
       let isFolder = false;
       if (obj instanceof PortalFolder) {
         obj.tiles.forEach((tile) => {
