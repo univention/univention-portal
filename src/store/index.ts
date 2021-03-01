@@ -1,6 +1,5 @@
 // mocks
 import MenuData from '@/assets/mocks/menu.json';
-import NotificationData from '@/assets/mocks/notifications.json';
 // vue
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
@@ -16,12 +15,14 @@ import portalData from './modules/portalData';
 import tabs from './modules/tabs';
 import user from './modules/user';
 import search from './modules/search';
+import meta from './modules/meta';
 
 export const key: InjectionKey<Store<State>> = Symbol('some description');
 
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 const portalJson = process.env.VUE_APP_PORTAL_DATA || './portal.json';
+const portalMeta = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
 export interface State {}
 
@@ -37,16 +38,13 @@ export const store = createStore<State>({
     menu,
     tabs,
     search,
+    meta,
   },
   state: {},
   mutations: {},
   actions: {
     loadPortal: ({ commit }) => {
       store.dispatch('modal/setShowLoadingModal');
-
-      // store notification data
-      // TODO: Only add data to notifications store if data is available
-      store.dispatch('notificationBubble/setContent', NotificationData);
 
       // store menu data
       store.dispatch('menu/setMenu', MenuData);
@@ -58,9 +56,22 @@ export const store = createStore<State>({
         store.dispatch('notificationBubble/setShowBubble');
       }
 
-      return new Promise<void>((resolve) => {
+      return new Promise<any>((resolve) => {
         // store portal data
         console.log('Loading Portal');
+
+        // get meta data
+        axios.get(`${portalUrl}${portalMeta}`).then(
+          (response) => {
+            const metaData = response.data;
+            console.log('metaData - index: ', metaData);
+            store.dispatch('meta/setMeta', metaData);
+          }, (error) => {
+            console.error(error);
+          },
+        );
+
+        // get portal data
         axios.get(`${portalUrl}${portalJson}`).then(
           (response) => {
             const PortalData = response.data;
@@ -74,14 +85,10 @@ export const store = createStore<State>({
               },
             });
             store.dispatch('modal/setHideModal');
-            resolve();
-            setTimeout(() => {
-              // Hide notification bubble
-              store.dispatch('notificationBubble/setHideBubble');
-            }, 4000);
+            resolve(PortalData);
           }, (error) => {
             store.dispatch('modal/setHideModal');
-            resolve();
+            resolve({});
           },
         );
       });

@@ -24,6 +24,7 @@
           :ref="'tile' + index"
           :title="$localized(tile.title)"
           :tiles="tile.tiles"
+          v-bind="tile"
         />
       </template>
     </div>
@@ -77,14 +78,14 @@ import { mapGetters } from 'vuex';
     }),
   },
   methods: {
-    isTile(obj) { // obj: typeof PortalTile -> make it work with this
+    isTile(obj: any): boolean { // obj: typeof PortalTile -> make it work with this
       const tileTitle = obj.title;
       return !this.isFolder(obj) && this.$localized(tileTitle).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
-    isFolder(obj) { // obj: typeof PortalTile -> make it work with this
+    isFolder(obj: any): boolean { // obj: typeof PortalTile -> make it work with this
       if (obj instanceof PortalFolder) {
-        obj.tiles.forEach((tile) => this.$localized(tile.title).toLowerCase()
+        !!obj.tiles.forEach((tile) => this.$localized(tile.title).toLowerCase()
           .includes(this.searchQuery.toLowerCase()) && obj instanceof PortalFolder);
       }
     },

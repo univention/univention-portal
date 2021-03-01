@@ -59,6 +59,7 @@ import PortalBackground from '@/components/PortalBackground.vue';
 import CookieBanner from '@/components/CookieBanner.vue';
 
 import userMixin from '@/mixins/userMixin.vue';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 @Options({
   name: 'Home',
@@ -77,7 +78,7 @@ import userMixin from '@/mixins/userMixin.vue';
       categoryList: [],
     };
   },
-  mixins: [userMixin],
+  mixins: [userMixin, notificationMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
@@ -108,22 +109,6 @@ import userMixin from '@/mixins/userMixin.vue';
         this.$store.dispatch('modal/setHideModal');
       }
     },
-    devEmpty() {
-      this.$store.dispatch('categories/setDevEmpty');
-    },
-    devFolder() {
-      this.$store.dispatch('categories/setDevFolder');
-    },
-    devStandard() {
-      this.$store.dispatch('categories/setStandard');
-    },
-    switchLocale() {
-      if (this.$store.state.locale.locale === 'en_US') {
-        this.$store.dispatch('locale/setLocale', { locale: 'de_DE' });
-      } else {
-        this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
-      }
-    },
   },
 })
 export default class Home extends Vue {}
@@ -134,10 +119,6 @@ export default class Home extends Vue {}
   position: relative;
   // z-index: 1;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
-
-  /* just during dev anyway */
-  button svg
-    color: black
 
 .portal-iframes
   position: fixed;

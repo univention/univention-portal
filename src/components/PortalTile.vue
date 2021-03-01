@@ -1,10 +1,12 @@
 <template>
   <component
     :is="wrapperTag"
+    :href="link"
+    :target="tagLinkTarget"
     class="portal-tile"
     draggable="true"
     data-test="tileLink"
-    @mouseover="showTooltip(tile)"
+    @mouseover="showTooltip"
     @mouseleave="hideTooltip"
     @click="tileClick"
   >
@@ -13,28 +15,30 @@
       class="portal-tile__box"
     >
       <img
-        :src="tile.pathToLogo"
-        :alt="`title ${title}`"
+        :src="pathToLogo"
+        :alt="`Logo ${title}`"
         class="portal-tile__img"
       >
     </div>
     <span class="portal-tile__name">
-      {{ title }}
+      {{ $localized(title) }}
     </span>
 
     <portal-tool-tip
       v-if="isActive"
-      :title="$localized(toolTip.title)"
-      :icon="toolTip.icon"
-      :description="$localized(toolTip.description)"
+      :title="$localized(title)"
+      :icon="pathToLogo"
+      :description="$localized(description)"
     />
   </component>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
 
 import PortalToolTip from '@/components/PortalToolTip.vue';
+import bestLink from '@/jsHelper/bestLink.js';
 
 @Options({
   name: 'PortalTile',
@@ -43,16 +47,25 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
   },
   props: {
     title: {
-      type: String,
+      type: Object,
       required: true,
     },
-    link: {
+    description: {
+      type: Object,
+      required: true,
+    },
+    links: {
       type: Array,
+      required: true,
+    },
+    linkTarget: {
+      type: String,
       required: true,
     },
     pathToLogo: {
       type: String,
-      required: true,
+      required: false,
+      default: 'questionMark.svg',
     },
     backgroundColor: {
       type: String,
@@ -62,59 +75,69 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
       type: Boolean,
       default: false,
     },
-    tile: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   data() {
     return {
       isActive: false,
-      toolTip: {},
     };
   },
   computed: {
+    ...mapGetters({
+      metaData: 'meta/getMeta',
+    }),
     wrapperTag(): string {
       return this.inFolder ? 'div' : 'a';
+    },
+    link(): string {
+      return bestLink(this.links, this.metaData.fqdn);
+    },
+    tagLinkTarget(): string {
+      if (this.linkTarget === 'newwindow') {
+        return '_blank';
+      }
+      return '';
     },
   },
   methods: {
     hideTooltip(): void {
-      const handleActive = false;
-      this.isActive = handleActive;
-      this.toolTip = {};
+      this.isActive = false;
     },
-    showTooltip(tile): any {
-      if (Object.keys(tile).length > 0) {
-        const handleActive = true;
-        this.isActive = handleActive;
-        this.toolTip = {
-          title: tile.title,
-          icon: tile.pathToLogo,
-          description: tile.description,
-        };
+    showTooltip(): void {
+      if (!this.inFolder) {
+        this.isActive = true;
       }
     },
-    tileClick() {
+    tileClick(evt) {
+      if (this.inFolder) {
+        evt.preventDefault();
+        return false;
+      }
+      this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
+      if (this.linkTarget === 'embedded') {
+        evt.preventDefault();
+        this.openEmbedded();
+        return false;
+      }
+      return true;
+    },
+    openEmbedded() {
       const tab = {
-        tabLabel: this.title,
-        logo: this.toolTip.icon,
-        iframeLink: this.iframeLink(),
+        tabLabel: this.$localized(this.title),
+        logo: this.pathToLogo,
+        iframeLink: this.link,
       };
       this.$store.dispatch('tabs/addTab', tab);
-    },
-    iframeLink() {
-      const [link] = this.link;
-      return link;
     },
   },
 })
 export default class PortalTile extends Vue {
-  title!: String;
+  title!: Object;
 
-  link!: String[];
+  description!: Object;
 
-  pathToLogo = 'questionMark.svg';
+  links!: String[];
+
+  pathToLogo?: String;
 
   backgroundColor = 'var(--color-grey40)';
 }
