@@ -1,6 +1,9 @@
 {
   "user_links": [],
-  "menu_links": [],
+  "menu_links": [
+    "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+    "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+  ],
   "entries": [
     {
       "activated": true,
