@@ -4,7 +4,7 @@
       {{ $localized(title) }}
     </h2>
     <div class="portal-category__tiles dragdrop__container">
-      <template v-if="userState.username">
+      <template v-if="editMode">
         <draggable-wrapper
           v-model="vTiles"
           :drop-zone-id="dropZone"
@@ -51,7 +51,7 @@
     </div>
 
     <draggable-debugger
-      v-if="userState.username && debug"
+      v-if="editMode && debug"
       :items="vTiles"
     />
   </div>
@@ -59,13 +59,14 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
+
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
 import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
 
-import userMixin from '@/mixins/userMixin.vue';
 import Translate from '@/i18n/Translate.vue';
 
 @Options({
@@ -76,7 +77,6 @@ import Translate from '@/i18n/Translate.vue';
     DraggableWrapper,
     DraggableDebugger,
   },
-  mixins: [userMixin],
   props: {
     title: {
       type: Object,
@@ -105,6 +105,11 @@ import Translate from '@/i18n/Translate.vue';
       console.info('saveState');
       console.log('val: ', val);
     },
+  },
+  computed: {
+    ...mapGetters({
+      editMode: 'portalData/editMode',
+    }),
   },
   methods: {
     isTile(obj: any): boolean {
