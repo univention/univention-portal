@@ -1,35 +1,37 @@
 <template>
-  <component
-    :is="wrapperTag"
-    :href="link"
-    :target="tagLinkTarget"
-    class="portal-tile"
-    data-test="tileLink"
-    @mouseover="showTooltip"
-    @mouseleave="hideTooltip"
-    @click="tileClick"
-  >
-    <div
-      :style="`background: ${backgroundColor}`"
-      class="portal-tile__box"
+  <div>
+    <component
+      :is="wrapperTag"
+      :href="link"
+      :target="tagLinkTarget"
+      class="portal-tile"
+      data-test="tileLink"
+      @mouseover="editMode || showTooltip()"
+      @mouseleave="hideTooltip"
+      @mousedown="hideTooltip"
+      @click="tileClick"
     >
-      <img
-        :src="pathToLogo"
-        :alt="`Logo ${$localized(title)}`"
-        class="portal-tile__img"
+      <div
+        :style="`background: ${backgroundColor}`"
+        class="portal-tile__box"
       >
-    </div>
-    <span class="portal-tile__name">
-      {{ $localized(title) }}
-    </span>
-
+        <img
+          :src="pathToLogo"
+          :alt="`Logo ${$localized(title)}`"
+          class="portal-tile__img"
+        >
+      </div>
+      <span class="portal-tile__name">
+        {{ $localized(title) }}
+      </span>
+    </component>
     <portal-tool-tip
       v-if="isActive"
       :title="$localized(title)"
       :icon="pathToLogo"
       :description="$localized(description)"
     />
-  </component>
+  </div>
 </template>
 
 <script lang="ts">
