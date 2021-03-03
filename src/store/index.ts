@@ -45,7 +45,6 @@ export const store = createStore<State>({
       store.dispatch('modal/setShowLoadingModal');
 
       // store menu data
-      store.dispatch('menu/setMenu', MenuData);
       store.dispatch('menu/setMenuLinks', MenuData.menu_links);
       store.dispatch('menu/setUserLinks', MenuData.user_links);
 
@@ -72,6 +71,7 @@ export const store = createStore<State>({
         axios.get(`${portalUrl}${portalJson}`).then(
           (response) => {
             const PortalData = response.data;
+            store.dispatch('menu/setMenu', PortalData);
             store.dispatch('portalData/setPortal', PortalData);
             store.dispatch('categories/storeOriginalArray', PortalData);
             store.dispatch('categories/setStandard');

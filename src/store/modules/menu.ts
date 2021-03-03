@@ -1,5 +1,7 @@
 import { Module } from 'vuex';
 
+import createMenuStructure from '@/jsHelper/createMenuStructure.js';
+
 export interface State {
   menu: Object;
   menuLinks: Array<any>,
@@ -16,7 +18,9 @@ const menu: Module<State, any> = {
 
   mutations: {
     MENU(state, payload) {
-      state.menu = payload;
+      const menuStructure = createMenuStructure(payload);
+      console.log('menuStructure', menuStructure);
+      state.menu = menuStructure;
     },
     MENU_LINKS(state, payload) {
       state.menuLinks = payload;

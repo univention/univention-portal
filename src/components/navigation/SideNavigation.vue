@@ -47,28 +47,29 @@
       >
         <menu-item
           v-if="menuVisible"
-          :menu-label="$localized(item.name)"
-          :sub-menu="item.sub_menu"
+          :menu-label="$localized(item.title)"
+          :sub-menu="item.subMenu"
+          :menu-link="item.links"
           @click="toggleMenu(index)"
         />
-
-        <template v-if="item.sub_menu && item.sub_menu.length > 0">
+        <template v-if="item.subMenu && item.subMenu.length > 0">
           <menu-item
             v-if="subMenuVisible & (menuParent === index)"
-            :menu-label="$localized(item.name)"
+            :menu-label="$localized(item.title)"
             :sub-item="true"
             class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
             @click="toggleMenu()"
           />
           <div
-            v-for="(subitem, subindex) in item.sub_menu"
+            v-for="(subitem, subindex) in item.subMenu"
             :key="subindex"
             :class="subMenuClass"
           >
             <menu-item
               v-if="subMenuVisible & (menuParent === index)"
-              :parent-label="$localized(item.name)"
-              :menu-label="$localized(subitem.name)"
+              :parent-label="$localized(item.title)"
+              :menu-label="$localized(subitem.title)"
+              :menu-link="subitem.links"
               class="portal-sidenavigation__menu-subitem"
             />
           </div>
@@ -123,7 +124,7 @@ import Translate from '@/i18n/Translate.vue';
   },
   computed: {
     ...mapGetters({
-      getMenuLinks: 'menu/getMenuLinks',
+      getMenuLinks: 'menu/getMenu',
       getLocale: 'locale/getLocale',
       editMode: 'portalData/editMode',
       userState: 'user/userState',
@@ -228,7 +229,7 @@ export default class SideNavigation extends Vue {}
     margin-left: 0
 
     &--locale
-      padding: 20px 0 20px 20px
+      padding: 2rem 0 2rem 2rem;
       &:hover
         background-color: #272726
         cursor: pointer
@@ -241,13 +242,13 @@ export default class SideNavigation extends Vue {}
 
   &__menu-subitem
     margin-left: 0
-    padding: 20px 0 20px 20px
+    padding: 2rem 0 2rem 2rem;
     &--parent
-      text-transform: uppercase
-      padding-left: 40px
+      text-transform: uppercase;
+      padding-left: 4rem;
 
   &__edit-mode
-    border-top: 4px solid var(--color-grey8)
+    border-top: 0.4rem solid var(--color-grey8)
 
   &__fade-left-right,
   &__fade-right-left
@@ -263,7 +264,7 @@ export default class SideNavigation extends Vue {}
 @keyframes fadeInLeft {
   0% {
     opacity: 0;
-    transform: translateX(200px);
+    transform: translateX(20rem);
   }
   100% {
     opacity: 1;
@@ -274,7 +275,7 @@ export default class SideNavigation extends Vue {}
 @keyframes fadeOutRight {
   0% {
     opacity: 0;
-    transform: translateX(200px);
+    transform: translateX(20rem);
   }
   100% {
     opacity: 1;
