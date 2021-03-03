@@ -30,8 +30,8 @@ export default {
       default: 0,
     },
     dropZoneId: {
-      type: String,
-      default: '',
+      type: Number,
+      default: -1,
     },
     dragClass: {
       type: String,

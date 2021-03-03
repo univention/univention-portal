@@ -3,13 +3,13 @@
     <component
       :is="wrapperTag"
       :href="link"
-      :target="tagLinkTarget"
+      :target="setLinkTarget"
       class="portal-tile"
       data-test="tileLink"
       @mouseover="editMode || showTooltip()"
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
-      @click="tileClick"
+      @click.prevent.stop="tileClick"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -91,7 +91,18 @@ import bestLink from '@/jsHelper/bestLink.js';
       return this.inFolder || this.editMode ? 'div' : 'a';
     },
     link(): string {
-      return bestLink(this.links, this.metaData.fqdn);
+      let ret = bestLink(this.links, this.metaData.fqdn);
+      if (this.editMode) {
+        ret = null;
+      }
+      return ret;
+    },
+    setLinkTarget(): string {
+      let ret = this.linkTarget;
+      if (this.editMode) {
+        ret = null;
+      }
+      return ret;
     },
     tagLinkTarget(): string {
       if (this.linkTarget === 'newwindow') {
@@ -110,22 +121,32 @@ import bestLink from '@/jsHelper/bestLink.js';
       }
     },
     tileClick(evt) {
-      if (this.editMode) {
-        evt.preventDefault();
-        // TODO: start edit tile dialog
-        return false;
-      }
-      if (this.inFolder) {
-        evt.preventDefault();
-        return false;
-      }
-      this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
-      if (this.linkTarget === 'embedded') {
-        evt.preventDefault();
-        this.openEmbedded();
-        return false;
-      }
-      return true;
+      console.log('tileClick');
+
+      // if (this.editMode) {
+      //   evt.preventDefault();
+
+      //   if (this.linkTarget === '_blank') {
+      //     evt.preventDefault();
+      //     console.log('tileClick blank');
+      //     return false;
+      //   }
+
+      //   // TODO: start edit tile dialog
+      //   return false;
+      // }
+      // if (this.inFolder) {
+      //   evt.preventDefault();
+      //   return false;
+      // }
+      // this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
+      // if (this.linkTarget === 'embedded') {
+      //   evt.preventDefault();
+      //   this.openEmbedded();
+      //   return false;
+      // }
+      // return true;
+      return false;
     },
     openEmbedded() {
       const tab = {
