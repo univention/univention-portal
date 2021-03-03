@@ -11,7 +11,6 @@
       class="menu-item__arrow menu-item__arrow--left"
     />
     {{ menuLabel }}
-    
     <template
       v-if="subMenu.length > 0"
     >
