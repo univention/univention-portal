@@ -2,11 +2,12 @@
   <div @dragover.prevent="containerDragOver">
     <transition-group
       v-for="(item, index) in defaultItems"
-      :key="item.id"
+      :key="index"
       name="draggable-wrapper"
     >
       <draggable-item
         :id="item.id"
+        :key="item.id"
         :item="item"
         :drop-zone-id="dropZoneId"
         :position="index"
@@ -46,8 +47,8 @@ export default {
       default: () => [],
     },
     dropZoneId: {
-      type: String,
-      default: '',
+      type: Number,
+      default: -1,
     },
     transition: {
       default: '0',
