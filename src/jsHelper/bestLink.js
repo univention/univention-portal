@@ -219,6 +219,9 @@ function getLocalLinks(browserHostname, serverFQDN, links) {
 }
 
 export default function main(links, fqdn) {
+  if (links.length === 0) {
+    return null;
+  }
   const browserHostname = getURIHostname(document.location.href);
   // get the best link to be displayed
   const localLinks = getLocalLinks(browserHostname, fqdn, links).concat(links);

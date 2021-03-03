@@ -2,7 +2,8 @@
   <a
     v-is="isLink ? 'a' : 'div'"
     class="menu-item"
-    :href="bestLink"
+    :href="link"
+    @click="tileClick"
   >
     <portal-icon
       v-if="subItem"
@@ -10,7 +11,7 @@
       icon-width="2rem"
       class="menu-item__arrow menu-item__arrow--left"
     />
-    {{ menuLabel }}
+    {{ $localized(title) }}
     <template
       v-if="subMenu.length > 0"
     >
@@ -32,19 +33,22 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
-import bestLink from '@/jsHelper/bestLink.js';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import TileClick from '@/mixins/TileClick.vue';
 
 @Options({
   name: 'MenuItem',
   components: {
     PortalIcon,
   },
+  mixins: [
+    TileClick,
+  ],
   props: {
-    menuLabel: {
-      type: String,
-      default: '',
+    title: {
+      type: Object,
+      required: true,
     },
     subMenu: {
       type: Array,
@@ -54,21 +58,10 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       type: Boolean,
       default: false,
     },
-    menuLink: {
-      type: Array,
-    },
   },
   computed: {
-    ...mapGetters({
-      metaData: 'meta/getMeta',
-    }),
-    bestLink(): string {
-      return this.menuLink ? bestLink(this.menuLink, this.metaData.fqdn) : '';
-    },
     isLink(): boolean {
-      let isLink = false;
-      isLink = !this.subItem ? !(this.subMenu.length > 0) : false;
-      return isLink;
+      return this.link !== null;
     },
   },
 })

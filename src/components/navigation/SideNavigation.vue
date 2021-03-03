@@ -47,16 +47,17 @@
       >
         <menu-item
           v-if="menuVisible"
-          :menu-label="$localized(item.title)"
-          :sub-menu="item.subMenu"
-          :menu-link="item.links"
+          :links="[]"
+          v-bind="item"
           @click="toggleMenu(index)"
+          @clickAction="closeNavigation"
         />
         <template v-if="item.subMenu && item.subMenu.length > 0">
           <menu-item
             v-if="subMenuVisible & (menuParent === index)"
-            :menu-label="$localized(item.title)"
+            :title="item.title"
             :sub-item="true"
+            :links="[]"
             class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
             @click="toggleMenu()"
           />
@@ -67,10 +68,9 @@
           >
             <menu-item
               v-if="subMenuVisible & (menuParent === index)"
-              :parent-label="$localized(item.title)"
-              :menu-label="$localized(subitem.title)"
-              :menu-link="subitem.links"
+              v-bind="subitem"
               class="portal-sidenavigation__menu-subitem"
+              @clickAction="closeNavigation"
             />
           </div>
         </template>
@@ -140,13 +140,16 @@ import Translate from '@/i18n/Translate.vue';
     },
     login() {
       if (this.userState.mayLoginViaSAML) {
-        window.location.href = '/univention/saml/';
+        window.location.href = `/univention/saml/?location=${window.location.pathname}`;
       } else {
-        window.location.href = '/univention/login/';
+        window.location.href = `/univention/login/?location=${window.location.pathname}`;
       }
     },
     logout() {
       window.location.href = '/univention/logout';
+    },
+    closeNavigation() {
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
     toggleMenu(index = -1) {
       this.menuVisible = !this.menuVisible;
@@ -163,7 +166,7 @@ import Translate from '@/i18n/Translate.vue';
     },
     toggleEditMode() {
       this.$store.dispatch('portalData/setEditMode', !this.editMode);
-      this.$store.dispatch('navigation/setActiveButton', ''); // hide side bar
+      this.closeNavigation();
     },
     setFadeClass() {
       let ret = '';
