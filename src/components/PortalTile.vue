@@ -83,9 +83,10 @@ import bestLink from '@/jsHelper/bestLink.js';
   computed: {
     ...mapGetters({
       metaData: 'meta/getMeta',
+      editMode: 'portalData/editMode',
     }),
     wrapperTag(): string {
-      return this.inFolder ? 'div' : 'a';
+      return this.inFolder || this.editMode ? 'div' : 'a';
     },
     link(): string {
       return bestLink(this.links, this.metaData.fqdn);
@@ -107,6 +108,11 @@ import bestLink from '@/jsHelper/bestLink.js';
       }
     },
     tileClick(evt) {
+      if (this.editMode) {
+        evt.preventDefault();
+        // TODO: start edit tile dialog
+        return false;
+      }
       if (this.inFolder) {
         evt.preventDefault();
         return false;

@@ -79,8 +79,16 @@
     <div
       v-if="mayEditPortal"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
+      @click="toggleEditMode"
     >
-      <translate i18n-key="EDIT_PORTAL" />
+      <translate
+        v-if="editMode"
+        i18n-key="STOP_EDIT_PORTAL"
+      />
+      <translate
+        v-else
+        i18n-key="EDIT_PORTAL"
+      />
     </div>
   </nav>
 </template>
@@ -119,6 +127,7 @@ import Translate from '@/i18n/Translate.vue';
     ...mapGetters({
       getMenuLinks: 'menu/getMenuLinks',
       getLocale: 'locale/getLocale',
+      editMode: 'portalData/editMode',
     }),
   },
   methods: {
@@ -144,6 +153,9 @@ import Translate from '@/i18n/Translate.vue';
       } else {
         this.subMenuClass = 'portal-sidenavigation__menu-item--hide';
       }
+    },
+    toggleEditMode() {
+      this.$store.dispatch('portalData/setEditMode', !this.editMode);
     },
     setFadeClass() {
       let ret = '';
@@ -202,8 +214,8 @@ export default class SideNavigation extends Vue {}
     border-bottom: 4px solid var(--color-grey8)
 
   &__menu
-    margin-bottom: auto
     margin: 0
+    margin-bottom: auto
     padding-left: 0
 
   &__menu-item

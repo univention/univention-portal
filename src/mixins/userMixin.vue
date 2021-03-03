@@ -22,6 +22,7 @@ const userMixin = {
     logout() {
       // remove login data from vuex store
       this.$store.dispatch('user/setLogout');
+      this.$store.dispatch('portalData/setEditMode', false);
     },
   },
 };
