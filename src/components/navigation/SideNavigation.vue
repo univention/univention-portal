@@ -257,7 +257,7 @@ export default class SideNavigation extends Vue {}
 @keyframes fadeOutRight {
   0% {
     opacity: 0;
-    transform: translateX(200px);
+    transform: translateX(20rem);
   }
   100% {
     opacity: 1;
