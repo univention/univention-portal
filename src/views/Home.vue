@@ -56,7 +56,6 @@ import PortalModal from '@/components/globals/PortalModal';
 import PortalBackground from '@/components/PortalBackground';
 import CookieBanner from '@/components/CookieBanner';
 
-import userMixin from '@/mixins/userMixin';
 import notificationMixin from '@/mixins/notificationMixin';
 
 export default {
@@ -71,7 +70,7 @@ export default {
     PortalBackground,
     CookieBanner,
   },
-  mixins: [userMixin, notificationMixin],
+  mixins: [notificationMixin],
   data() {
     return {
       categoryList: [],
