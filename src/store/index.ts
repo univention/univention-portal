@@ -62,7 +62,6 @@ export const store = createStore<State>({
         axios.get(`${portalUrl}${portalMeta}`).then(
           (response) => {
             const metaData = response.data;
-            console.log('metaData - index: ', metaData);
             store.dispatch('meta/setMeta', metaData);
           }, (error) => {
             console.error(error);

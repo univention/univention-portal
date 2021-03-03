@@ -3,22 +3,57 @@
     <h2 class="portal-category__title">
       {{ $localized(title) }}
     </h2>
-    <div class="portal-category__tiles">
-      <div
-        v-for="(tile, index) in tiles"
-        :key="index"
-      >
-        <portal-tile
-          v-if="isTile(tile)"
-          v-bind="tile"
-          :tile="tile"
-        />
-        <portal-folder
-          v-if="isFolder(tile)"
-          v-bind="tile"
-        />
-      </div>
+    <div class="portal-category__tiles dragdrop__container">
+      <template v-if="userState.username">
+        <draggable-wrapper
+          v-model="vTiles"
+          :drop-zone-id="dropZone"
+          :data-drop-zone-id="dropZone"
+          transition="100"
+          class="dragdrop__drop-zone"
+        >
+          <template #item="{ item }">
+            <div class="dragdrop__draggable-item">
+              <portal-tile
+                v-if="isTile(item)"
+                v-bind="item"
+                :data-tile="$localized(item.title)"
+                :title="item.title"
+              />
+
+              <portal-folder
+                v-if="isFolder(item)"
+                v-bind="item"
+                :data-folder="$localized(item.title)"
+              />
+            </div>
+          </template>
+        </draggable-wrapper>
+      </template>
+
+      <template v-else>
+        <div
+          v-for="(tile, index) in tiles"
+          :id="index"
+          :key="index"
+        >
+          <portal-tile
+            v-if="isTile(tile)"
+            v-bind="tile"
+            :tile="tile"
+          />
+          <portal-folder
+            v-if="isFolder(tile)"
+            v-bind="tile"
+          />
+        </div>
+      </template>
     </div>
+
+    <draggable-debugger
+      v-if="userState.username && debug"
+      :items="vTiles"
+    />
   </div>
 </template>
 
@@ -27,6 +62,10 @@ import { Options, Vue } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
+import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
+import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
+
+import userMixin from '@/mixins/userMixin.vue';
 import Translate from '@/i18n/Translate.vue';
 
 @Options({
@@ -34,7 +73,10 @@ import Translate from '@/i18n/Translate.vue';
   components: {
     PortalTile,
     PortalFolder,
+    DraggableWrapper,
+    DraggableDebugger,
   },
+  mixins: [userMixin],
   props: {
     title: {
       type: Object,
@@ -44,12 +86,25 @@ import Translate from '@/i18n/Translate.vue';
       type: Array,
       required: true,
     },
+    dropZone: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
+      vTiles: this.tiles,
       isActive: false,
+      debug: false, // `true` enables the debugger for the tiles array(s) in admin mode
       toolTip: {},
     };
+  },
+  watch: {
+    vTiles(val) {
+      // TODO: save drag & drop changes
+      console.info('saveState');
+      console.log('val: ', val);
+    },
   },
   methods: {
     isTile(obj: any): boolean {
@@ -57,6 +112,9 @@ import Translate from '@/i18n/Translate.vue';
     },
     isFolder(obj: any): boolean {
       return !!obj.tiles;
+    },
+    changed() {
+      console.log('changed');
     },
   },
 })
@@ -68,7 +126,7 @@ export default class PortalCategory extends Vue {
 }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus">
 .portal-category
   margin-bottom: calc(10 * var(--layout-spacing-unit));
 
@@ -76,5 +134,19 @@ export default class PortalCategory extends Vue {
     display: grid
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
+
+  &__drop-zone
+    &--hidden
+      display: none
+
+  &__drag-element
+    height: 210px
+    width: 160px
+
+  &__tile-dotted
+    width: calc(20 * var(--layout-spacing-unit))
+    height: calc(20 * var(--layout-spacing-unit))
+    border-radius: 15%
+    border: 3px dashed var(--color-grey40) !important
 
 </style>

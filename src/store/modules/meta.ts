@@ -13,7 +13,6 @@ const meta: Module<State, any> = {
 
   mutations: {
     META(state, payload) {
-      console.log('META: ', { state, payload });
       state.meta = payload;
     },
   },

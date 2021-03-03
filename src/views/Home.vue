@@ -13,6 +13,7 @@
           :key="index"
           :title="category.title"
           :tiles="category.tiles"
+          :drop-zone="index"
         />
       </template>
     </div>
@@ -42,24 +43,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+<script>
 import { mapGetters } from 'vuex';
 
-import PortalIframe from 'components/PortalIframe.vue';
-import PortalCategory from 'components/PortalCategory.vue';
-import PortalIcon from '@/components/globals/PortalIcon.vue';
-import PortalHeader from '@/components/PortalHeader.vue';
-import PortalFolder from '@/components/PortalFolder.vue';
-import PortalModal from '@/components/globals/PortalModal.vue';
+import PortalIframe from 'components/PortalIframe';
+import PortalCategory from 'components/PortalCategory';
+import PortalIcon from '@/components/globals/PortalIcon';
+import PortalHeader from '@/components/PortalHeader';
+import PortalFolder from '@/components/PortalFolder';
+import PortalModal from '@/components/globals/PortalModal';
 
-import PortalBackground from '@/components/PortalBackground.vue';
-import CookieBanner from '@/components/CookieBanner.vue';
+import PortalBackground from '@/components/PortalBackground';
+import CookieBanner from '@/components/CookieBanner';
 
-import userMixin from '@/mixins/userMixin.vue';
-import notificationMixin from '@/mixins/notificationMixin.vue';
+import userMixin from '@/mixins/userMixin';
+import notificationMixin from '@/mixins/notificationMixin';
 
-@Options({
+export default {
   name: 'Home',
   components: {
     PortalCategory,
@@ -71,12 +71,12 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     PortalBackground,
     CookieBanner,
   },
+  mixins: [userMixin, notificationMixin],
   data() {
     return {
       categoryList: [],
     };
   },
-  mixins: [userMixin, notificationMixin],
   computed: {
     ...mapGetters({
       categories: 'categories/categoryState',
@@ -91,14 +91,16 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
     categoryArray() {
-      let catArray = this.originalArray;
+      let categoryTempArray = this.originalArray;
       this.$nextTick(() => {
-        catArray = this.filteredCategories ? this.filteredCategories : this.originalArray;
+        categoryTempArray = this.filteredCategories ? this.filteredCategories : this.originalArray;
       });
 
-      this.categoryList = catArray;
+      // TODO: fix it!
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.categoryList = categoryTempArray;
 
-      return catArray;
+      return categoryTempArray;
     },
   },
   methods: {
@@ -108,8 +110,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       }
     },
   },
-})
-export default class Home extends Vue {}
+};
 </script>
 
 <style scoped lang="stylus">
