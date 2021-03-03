@@ -4,7 +4,6 @@
     :href="link"
     :target="tagLinkTarget"
     class="portal-tile"
-    draggable="true"
     data-test="tileLink"
     @mouseover="showTooltip"
     @mouseleave="hideTooltip"
@@ -16,7 +15,7 @@
     >
       <img
         :src="pathToLogo"
-        :alt="`Logo ${title}`"
+        :alt="`Logo ${$localized(title)}`"
         class="portal-tile__img"
       >
     </div>
