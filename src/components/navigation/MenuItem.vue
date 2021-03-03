@@ -1,6 +1,8 @@
 <template>
-  <div
+  <a
+    v-is="hasSubmenu ? 'div' : 'a'"
     class="menu-item"
+    :href="bestLink"
   >
     <portal-icon
       v-if="subItem"
@@ -9,6 +11,7 @@
       class="menu-item__arrow menu-item__arrow--left"
     />
     {{ menuLabel }}
+    
     <template
       v-if="subMenu.length > 0"
     >
@@ -24,11 +27,13 @@
         class="menu-item__arrow menu-item__arrow--right"
       />
     </template>
-  </div>
+  </a>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
+import bestLink from '@/jsHelper/bestLink.js';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
@@ -49,6 +54,27 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
     subItem: {
       type: Boolean,
       default: false,
+    },
+    menuLink: {
+      type: Array,
+    },
+    isSubMenuParent: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      metaData: 'meta/getMeta',
+    }),
+    bestLink(): string {
+      return this.menuLink ? bestLink(this.menuLink, this.metaData.fqdn) : '';
+    },
+    hasSubmenu(): boolean {
+      return this.subMenu.length > 0 && (!this.subItem || this.isFirstSubItem);
+    },
+    isFirstSubItem(): boolean {
+      return this.subItem && this.isSubMenuParent;
     },
   },
 })

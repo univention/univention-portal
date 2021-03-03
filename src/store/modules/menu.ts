@@ -20,7 +20,7 @@ const menu: Module<State, any> = {
     MENU(state, payload) {
       const menuStructure = createMenuStructure(payload);
       console.log('menuStructure', menuStructure);
-      state.menuLinks = menuStructure;
+      state.menu = menuStructure;
     },
     MENU_LINKS(state, payload) {
       state.menuLinks = payload;
