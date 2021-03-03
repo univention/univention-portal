@@ -39,6 +39,7 @@ module.exports = {
     'space-before-function-paren': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'arrow-parens': ['error', 'always'],
     'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
+    'prefer-destructuring': 'off',
     // TODO: Should be activated again once a solution is found
     'no-unused-vars': 'off',
     'import/extensions': 'off',
