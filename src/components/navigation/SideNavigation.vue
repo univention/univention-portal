@@ -24,7 +24,7 @@
       <div
         v-else
         class="portal-sidenavigation__link"
-        @click="gotoLogin"
+        @click="login"
       >
         <translate i18n-key="LOGIN" />
       </div>
@@ -77,7 +77,7 @@
     </div>
 
     <div
-      v-if="mayEditPortal"
+      v-if="userState.mayEditPortal"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
       @click="toggleEditMode"
     >
@@ -100,7 +100,6 @@ import { mapGetters } from 'vuex';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
 
-import userMixin from '@/mixins/userMixin.vue';
 import Translate from '@/i18n/Translate.vue';
 
 @Options({
@@ -110,7 +109,6 @@ import Translate from '@/i18n/Translate.vue';
     MenuItem,
     Translate,
   },
-  mixins: [userMixin],
   data() {
     return {
       menuVisible: true,
@@ -128,6 +126,7 @@ import Translate from '@/i18n/Translate.vue';
       getMenuLinks: 'menu/getMenuLinks',
       getLocale: 'locale/getLocale',
       editMode: 'portalData/editMode',
+      userState: 'user/userState',
     }),
   },
   methods: {
@@ -138,8 +137,15 @@ import Translate from '@/i18n/Translate.vue';
         this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
       }
     },
-    gotoLogin() {
-      window.location.href = '/univention/saml/';
+    login() {
+      if (this.userState.mayLoginViaSAML) {
+        window.location.href = '/univention/saml/';
+      } else {
+        window.location.href = '/univention/login/';
+      }
+    },
+    logout() {
+      window.location.href = '/univention/logout';
     },
     toggleMenu(index) {
       this.menuVisible = !this.menuVisible;

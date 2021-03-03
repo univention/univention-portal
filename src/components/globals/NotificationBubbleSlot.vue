@@ -46,7 +46,6 @@ import { mapGetters } from 'vuex';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import { catalog } from '@/i18n/translations.js';
 
-import userMixin from '@/mixins/userMixin.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';
 
 @Options({
@@ -55,7 +54,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     HeaderButton,
   },
   mixins: [
-    userMixin,
     notificationMixin,
   ],
   props: {

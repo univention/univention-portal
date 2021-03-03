@@ -75,10 +75,11 @@ export const store = createStore<State>({
             store.dispatch('portalData/setPortal', PortalData);
             store.dispatch('categories/storeOriginalArray', PortalData);
             store.dispatch('categories/setStandard');
-            store.dispatch('user/setLogin', {
+            store.dispatch('user/setUser', {
               user: {
                 username: PortalData.user,
                 mayEditPortal: PortalData.may_edit_portal,
+                mayLoginViaSAML: PortalData.may_login_via_saml,
               },
             });
             store.dispatch('modal/setHideModal');
