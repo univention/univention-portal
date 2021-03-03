@@ -211,7 +211,7 @@ export default class SideNavigation extends Vue {}
     margin-left: 0
 
     &--locale
-      padding: 20px 0 20px 20px
+      padding: 2rem 0 2rem 2rem;
       &:hover
         background-color: #272726
         cursor: pointer
@@ -224,13 +224,13 @@ export default class SideNavigation extends Vue {}
 
   &__menu-subitem
     margin-left: 0
-    padding: 20px 0 20px 20px
+    padding: 2rem 0 2rem 2rem;
     &--parent
-      text-transform: uppercase
-      padding-left: 40px
+      text-transform: uppercase;
+      padding-left: 4rem;
 
   &__edit-mode
-    border-top: 4px solid var(--color-grey8)
+    border-top: 0.4rem solid var(--color-grey8)
 
   &__fade-left-right,
   &__fade-right-left
@@ -246,7 +246,7 @@ export default class SideNavigation extends Vue {}
 @keyframes fadeInLeft {
   0% {
     opacity: 0;
-    transform: translateX(200px);
+    transform: translateX(20rem);
   }
   100% {
     opacity: 1;
