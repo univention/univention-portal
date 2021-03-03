@@ -112,16 +112,34 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   const middleY = ref(null);
 
   onMounted(async () => {
+    //TODO: fix temp issue `Cannot read property 'getBoundingClientRect' of null` - no idea yet how to fix it!
     // console.log('onMounted');
-    setTimeout(() => {
-      const box = draggable.value.getBoundingClientRect();
-      middleY.value = box.top + box.height / 2;
-    }, 300);
+    let ret = true;
+    if (draggable.value !== null) {
+      // console.log('onMounted - draggable.value: ', draggable.value);
+      setTimeout(() => {
+        const box = draggable.value.getBoundingClientRect();
+        middleY.value = box.top + box.height / 2;
+      }, 300);
+    } else {
+      ret = false;
+    }
+
+    return ret;
   });
 
   onUpdated(() => {
-    const box = draggable.value.getBoundingClientRect();
-    middleY.value = box.top + box.height / 2;
+    //TODO: fix temp issue `Cannot read property 'getBoundingClientRect' of null` - no idea yet how to fix it!
+    let ret = true;
+    if (draggable.value !== null) {
+      // console.log('onUpdated - draggable.value: ', draggable.value);
+      const box = draggable.value.getBoundingClientRect();
+      middleY.value = box.top + box.height / 2;
+    } else {
+      ret = false;
+    }
+
+    return ret;
   });
 
   const itemDragStart = () => {
