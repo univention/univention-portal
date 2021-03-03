@@ -52,14 +52,12 @@
           :menu-link="item.links"
           @click="toggleMenu(index)"
         />
-
         <template v-if="item.subMenu && item.subMenu.length > 0">
           <menu-item
             v-if="subMenuVisible & (menuParent === index)"
             :menu-label="$localized(item.title)"
             :sub-item="true"
             class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
-            :is-sub-menu-parent="true"
             @click="toggleMenu()"
           />
           <div
