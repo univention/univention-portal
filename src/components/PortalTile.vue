@@ -9,7 +9,7 @@
       @mouseover="editMode || showTooltip()"
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
-      @click.prevent.stop="tileClick"
+      @click="tileClick"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -120,33 +120,30 @@ import bestLink from '@/jsHelper/bestLink.js';
         this.isActive = true;
       }
     },
-    tileClick(evt) {
-      console.log('tileClick');
+    tileClick(event) {
+      if (this.editMode) {
+        event.preventDefault();
 
-      // if (this.editMode) {
-      //   evt.preventDefault();
+        if (this.linkTarget === '_blank') {
+          event.preventDefault();
+          return false;
+        }
 
-      //   if (this.linkTarget === '_blank') {
-      //     evt.preventDefault();
-      //     console.log('tileClick blank');
-      //     return false;
-      //   }
+        // TODO: start edit tile dialog
+        return false;
+      }
 
-      //   // TODO: start edit tile dialog
-      //   return false;
-      // }
-      // if (this.inFolder) {
-      //   evt.preventDefault();
-      //   return false;
-      // }
-      // this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
-      // if (this.linkTarget === 'embedded') {
-      //   evt.preventDefault();
-      //   this.openEmbedded();
-      //   return false;
-      // }
-      // return true;
-      return false;
+      if (this.inFolder) {
+        event.preventDefault();
+        return false;
+      }
+      this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
+      if (this.linkTarget === 'embedded') {
+        event.preventDefault();
+        this.openEmbedded();
+        return false;
+      }
+      return true;
     },
     openEmbedded() {
       const tab = {
@@ -197,6 +194,16 @@ export default class PortalTile extends Vue {
     width: var(--app-tile-side-length)
     height: @width
     margin-bottom: calc(2 * var(--layout-spacing-unit))
+    position: relative
+
+    &:after
+      content: ' ';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 99;
 
   &__img
     width: 80%
