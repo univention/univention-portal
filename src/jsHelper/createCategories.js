@@ -1,7 +1,9 @@
 function makeEntry(entryID, availableTiles, availableFolders, defaultLinkTarget) {
   let entry = availableTiles.find((tile) => tile.dn === entryID);
   if (entry) {
+  // TODO: remove id once the service is offering the right data.
     return {
+      id: entry.name.en_US,
       title: entry.name,
       description: entry.description,
       links: entry.links,
@@ -10,7 +12,9 @@ function makeEntry(entryID, availableTiles, availableFolders, defaultLinkTarget)
     };
   }
   entry = availableFolders.find((folder) => folder.dn === entryID);
+  // TODO: remove id once the service is offering the right data.
   return {
+    id: entry.name.en_US,
     title: entry.name,
     tiles: entry.entries.map((folderEntryID) => makeEntry(folderEntryID, availableTiles, availableFolders, defaultLinkTarget)),
   };
@@ -25,7 +29,7 @@ export default function createCategories(portalData) {
 
   const finalArray = [];
   return portalContent.map(([categoryID, categoryEntries]) => {
-    console.log(categoryID, categoryEntries);
+    // console.log(categoryID, categoryEntries);
     const category = availableCategories.find((cat) => cat.dn === categoryID);
     const tiles = categoryEntries.map((entryID) => makeEntry(entryID, availableTiles, availableFolders, defaultLinkTarget));
     return {
