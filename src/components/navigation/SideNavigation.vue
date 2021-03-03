@@ -148,7 +148,7 @@ import Translate from '@/i18n/Translate.vue';
     logout() {
       window.location.href = '/univention/logout';
     },
-    toggleMenu(index) {
+    toggleMenu(index = -1) {
       this.menuVisible = !this.menuVisible;
       this.menuParent = index;
       this.subMenuVisible = !this.subMenuVisible;
@@ -163,6 +163,7 @@ import Translate from '@/i18n/Translate.vue';
     },
     toggleEditMode() {
       this.$store.dispatch('portalData/setEditMode', !this.editMode);
+      this.$store.dispatch('navigation/setActiveButton', ''); // hide side bar
     },
     setFadeClass() {
       let ret = '';
