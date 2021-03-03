@@ -12,7 +12,7 @@ function makeEntry(entryID, availableTiles, availableFolders, defaultLinkTarget)
   entry = availableFolders.find((folder) => folder.dn === entryID);
   return {
     title: entry.name,
-    tiles: entry.entries.map((folderEntryID) => makeEntry(folderEntryID, availableTiles, availableFolders, defaultLinkTarget)),
+    subMenu: entry.entries.map((folderEntryID) => makeEntry(folderEntryID, availableTiles, availableFolders, defaultLinkTarget)),
   };
 }
 
@@ -22,11 +22,5 @@ export default function createMenuStructure(portalData) {
   const availableFolders = portalData.folders;
   const { defaultLinkTarget } = portalData.portal;
 
-  return portalMenuLinks.map((menuID) => {
-    console.log('menuID', menuID);
-    const menuItem = makeEntry(menuID, availableTiles, availableFolders, defaultLinkTarget);
-    return {
-      menuItem,
-    };
-  });
+  return portalMenuLinks.map((menuID) => makeEntry(menuID, availableTiles, availableFolders, defaultLinkTarget));
 }

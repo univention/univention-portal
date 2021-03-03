@@ -47,28 +47,31 @@
       >
         <menu-item
           v-if="menuVisible"
-          :menu-label="$localized(item.name)"
-          :sub-menu="item.sub_menu"
+          :menu-label="$localized(item.title)"
+          :sub-menu="item.subMenu"
+          :menu-link="item.links"
           @click="toggleMenu(index)"
         />
 
-        <template v-if="item.sub_menu && item.sub_menu.length > 0">
+        <template v-if="item.subMenu && item.subMenu.length > 0">
           <menu-item
             v-if="subMenuVisible & (menuParent === index)"
-            :menu-label="$localized(item.name)"
+            :menu-label="$localized(item.title)"
             :sub-item="true"
             class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
+            :is-sub-menu-parent="true"
             @click="toggleMenu()"
           />
           <div
-            v-for="(subitem, subindex) in item.sub_menu"
+            v-for="(subitem, subindex) in item.subMenu"
             :key="subindex"
             :class="subMenuClass"
           >
             <menu-item
               v-if="subMenuVisible & (menuParent === index)"
-              :parent-label="$localized(item.name)"
-              :menu-label="$localized(subitem.name)"
+              :parent-label="$localized(item.title)"
+              :menu-label="$localized(subitem.title)"
+              :menu-link="subitem.links"
               class="portal-sidenavigation__menu-subitem"
             />
           </div>
@@ -117,7 +120,7 @@ import Translate from '@/i18n/Translate.vue';
   },
   computed: {
     ...mapGetters({
-      getMenuLinks: 'menu/getMenuLinks',
+      getMenuLinks: 'menu/getMenu',
       getLocale: 'locale/getLocale',
     }),
   },
