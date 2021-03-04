@@ -40,7 +40,6 @@
           <portal-tile
             v-if="isTile(tile)"
             v-bind="tile"
-            :tile="tile"
           />
           <portal-folder
             v-if="isFolder(tile)"

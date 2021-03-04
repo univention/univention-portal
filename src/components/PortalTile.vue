@@ -88,7 +88,7 @@ import bestLink from '@/jsHelper/bestLink.js';
       editMode: 'portalData/editMode',
     }),
     wrapperTag(): string {
-      return this.inFolder || this.editMode ? 'div' : 'a';
+      return (this.inFolder || this.editMode) ? 'div' : 'a';
     },
     link(): string {
       let ret = bestLink(this.links, this.metaData.fqdn);

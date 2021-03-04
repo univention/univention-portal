@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import { mapGetters } from 'vuex';
 import bestLink from '@/jsHelper/bestLink.js';
 
@@ -18,7 +18,7 @@ const tileClickMixin = {
       metaData: 'meta/getMeta',
       editMode: 'portalData/editMode',
     }),
-    link(): string {
+    link() {
       return bestLink(this.links, this.metaData.fqdn);
     },
   },
