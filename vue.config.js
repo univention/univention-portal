@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 const path = require('path');
 
 const vueConfig = {
@@ -44,6 +43,7 @@ vueConfig.configureWebpack = (config) => {
 };
 
 const existingChainWebpack = vueConfig.chainWebpack;
+
 vueConfig.chainWebpack = (config) => {
   if (existingChainWebpack) {
     existingChainWebpack(config);
