@@ -15,9 +15,12 @@
           :key="index"
         >
           <portal-tile
+            :ref="'portalFolderChildren' + index"
             v-bind="tile"
             :in-folder="!inModal"
             :has-focus="setFocus(index)"
+            :last-element="isLastElement(index, tiles)"
+            @makeStuff="makeStuff"
             @clickAction="closeFolder"
           />
         </div>
@@ -69,6 +72,16 @@ import PortalModal from '@/components/globals/PortalModal.vue';
     },
     setFocus(index): Boolean {
       return this.inModal && index === 0;
+    },
+    isLastElement(index, array): Boolean {
+      return index === (array.length - 1);
+    },
+    makeStuff() {
+      console.log('MAKESTUFF');
+      console.log('REF', this.$refs.portalFolderChildren0.$el.children);
+      const firstElement = this.$refs.portalFolderChildren0.$el.children;
+      console.log('firstELEMTN', firstElement);
+      firstElement.focus();
     },
   },
 })

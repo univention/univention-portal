@@ -10,6 +10,7 @@
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
       @click="tileClick"
+      @keyup.tab.stop="setFocus()"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -77,10 +78,16 @@ import TileClick from '@/mixins/TileClick.vue';
       type: Boolean,
       default: false,
     },
+    lastElement: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['makeStuff'],
   data() {
     return {
       isActive: false,
+      lastElementWasClicked: false,
     };
   },
   mounted() {
@@ -106,6 +113,14 @@ import TileClick from '@/mixins/TileClick.vue';
     showTooltip(): void {
       if (!this.inFolder) {
         this.isActive = true;
+      }
+    },
+    setFocus(): void {
+      if (this.lastElement) {
+        console.log('JEY');
+        this.$emit('makeStuff');
+      } else {
+        console.log('DO NORMAL STUFF');
       }
     },
   },
