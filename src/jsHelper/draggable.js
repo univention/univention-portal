@@ -94,7 +94,7 @@ const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
     items.value = [draggingItem.value];
   };
 
-  const style = 'border: 10px dashed orange;';
+  const style = '';
 
   return {
     style,

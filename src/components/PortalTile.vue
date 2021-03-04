@@ -13,7 +13,9 @@
     >
       <div
         :style="`background: ${backgroundColor}`"
-        class="portal-tile__box"
+        :class="[
+          'portal-tile__box', { 'portal-tile__box--dragable': editMode }
+        ]"
       >
         <img
           :src="pathToLogo"
@@ -194,16 +196,18 @@ export default class PortalTile extends Vue {
     width: var(--app-tile-side-length)
     height: @width
     margin-bottom: calc(2 * var(--layout-spacing-unit))
-    position: relative
 
-    &:after
-      content: ' ';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 99;
+    &--dragable
+      position: relative
+
+      &:after
+        content: ' ';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: $zindex-1;
 
   &__img
     width: 80%
