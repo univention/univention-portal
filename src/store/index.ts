@@ -77,7 +77,8 @@ export const store = createStore<State>({
             store.dispatch('categories/setStandard');
             store.dispatch('user/setUser', {
               user: {
-                username: PortalData.user,
+                username: PortalData.username,
+                displayName: PortalData.user_displayname,
                 mayEditPortal: PortalData.may_edit_portal,
                 mayLoginViaSAML: PortalData.may_login_via_saml,
               },

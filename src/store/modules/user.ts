@@ -2,6 +2,7 @@ import { Module } from 'vuex';
 
 interface User {
   username: string;
+  displayName: string;
   mayEditPortal: boolean;
   mayLoginViaSAML: boolean;
 }
@@ -15,6 +16,7 @@ const user: Module<State, any> = {
   state: {
     user: {
       username: '',
+      displayName: '',
       mayEditPortal: false,
       mayLoginViaSAML: false,
     },
