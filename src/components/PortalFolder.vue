@@ -3,10 +3,11 @@
     class="portal-folder"
     :class="{ 'portal-folder__in-modal': inModal }"
   >
-    <div
+    <button
       class="portal-tile__box"
       tabindex="0"
       @click="openFolder"
+      @keyup.esc.stop="closeFolder()"
     >
       <div class="portal-folder__thumbnails">
         <div
@@ -16,11 +17,12 @@
           <portal-tile
             v-bind="tile"
             :in-folder="!inModal"
+            :has-focus="setFocus(index)"
             @clickAction="closeFolder"
           />
         </div>
       </div>
-    </div>
+    </button>
     <span class="portal-folder__name">
       {{ $localized(title) }}
     </span>
@@ -64,6 +66,9 @@ import PortalModal from '@/components/globals/PortalModal.vue';
         name: 'PortalFolder',
         props: { ...this.$props, inModal: true },
       });
+    },
+    setFocus(index): Boolean {
+      return this.inModal && index === 0;
     },
   },
 })

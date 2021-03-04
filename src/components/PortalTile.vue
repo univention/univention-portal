@@ -73,11 +73,20 @@ import TileClick from '@/mixins/TileClick.vue';
       type: Boolean,
       default: false,
     },
+    hasFocus: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isActive: false,
     };
+  },
+  mounted() {
+    if (this.hasFocus) {
+      this.$el.children[0].focus(); // sets focus to first Element in opened Folder
+    }
   },
   computed: {
     wrapperTag(): string {

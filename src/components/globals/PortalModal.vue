@@ -5,7 +5,7 @@
       :class="{ 'portal-modal--isVisible': isActive }"
       @click="clickHandler"
     >
-      <slot />
+      <slot ref="TEST" />
     </div>
   </teleport>
 </template>
@@ -25,7 +25,6 @@ import { mapGetters } from 'vuex';
 
   // Todo: move to vuex store, avoid emits
   emits: ['click'],
-
   methods: {
     clickHandler(evt) {
       if (evt.target.classList.contains('portal-modal')) {

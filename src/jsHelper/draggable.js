@@ -54,7 +54,7 @@ let transitioning = false;
 
 const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
   const items = ref(initialItems.value);
-
+  console.log('ITEMS', items);
   // update model when dropped
   watch(draggingItem, () => {
     if (draggingItem.value.id) {
@@ -63,18 +63,20 @@ const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
     context.emit('update:modelValue', items.value);
   });
 
-  watch(currentDropZoneId, () => {
-    if (currentDropZoneId.value === dropZoneId.value) {
-      return;
-    }
-    items.value = items.value.filter((item) => item.id !== draggingItem.value.id);
-  });
+  // watch(currentDropZoneId, () => {
+  //   if (currentDropZoneId.value === dropZoneId.value) {
+  //     return;
+  //   }
+  //   items.value = items.value.filter((item) => item.id !== draggingItem.value.id);
+  //   console.log('items.value', items.value);
+  // });
 
   const onItemDragOver = ({ position }) => {
     if (transitioning || draggingItem.value === {}) {
       return;
     }
     items.value = changePosition(draggingItem.value, items.value, position);
+    console.log('items.value', items.value);
   };
 
   const containerDragOver = () => {
@@ -106,6 +108,7 @@ const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
 
 const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   const draggable = ref(null);
+  console.log('draggable___', draggable);
   const isDragging = ref(
     item.value.id === draggingItem.value.id,
   );
@@ -118,8 +121,11 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
     if (draggable.value !== null) {
       // console.log('onMounted - draggable.value: ', draggable.value);
       setTimeout(() => {
-        const box = draggable.value.getBoundingClientRect();
-        middleY.value = box.top + box.height / 2;
+        console.log('draggable.value__', draggable.value);
+        if (draggable.value) {
+          const box = draggable.value.getBoundingClientRect();
+          middleY.value = box.top + box.height / 2;
+        }
       }, 300);
     } else {
       ret = false;
@@ -175,7 +181,7 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   }, 50);
 
   const transitionStart = () => {
-    transitioning = true;
+    transitioning = false;
   };
 
   const transitionEnd = () => {
@@ -183,6 +189,7 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   };
 
   watch(draggingItem, () => {
+    console.log('DRAGGINGITEM', draggingItem);
     if (draggingItem.value.id) {
       return;
     }
