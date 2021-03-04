@@ -15,6 +15,7 @@
           <portal-tile
             v-bind="tile"
             :in-folder="!inModal"
+            @clickAction="closeFolder"
           />
         </div>
       </div>
@@ -51,6 +52,9 @@ import PortalModal from '@/components/globals/PortalModal.vue';
     },
   },
   methods: {
+    closeFolder() {
+      this.$store.dispatch('modal/setHideModal');
+    },
     openFolder() {
       if (this.inModal) {
         return;
