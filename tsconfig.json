@@ -14,10 +14,7 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "resolveJsonModule": true,
-    "types": [
-      "webpack-env",
-      "jest"
-    ],
+    "types": ["webpack-env", "jest"],
     "paths": {
       "@/*": ["src/*"],
       "components/*": ["src/components/*"],
@@ -26,21 +23,16 @@
       "mixins/*": ["src/mixins/*"],
       "views/*": ["src/views/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "src/**/*.js",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "tests/**/*.js"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
