@@ -106,9 +106,9 @@ export default class PortalTile extends Vue {
 
   description!: Object;
 
-  links!: String[];
+  links!: string[];
 
-  pathToLogo?: String;
+  pathToLogo?: string;
 
   backgroundColor = 'var(--color-grey40)';
 }
