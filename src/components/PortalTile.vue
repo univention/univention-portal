@@ -41,13 +41,16 @@ import { Options, Vue } from 'vue-class-component';
 import { mapGetters } from 'vuex';
 
 import PortalToolTip from '@/components/PortalToolTip.vue';
-import bestLink from '@/jsHelper/bestLink.js';
+import TileClick from '@/mixins/TileClick.vue';
 
 @Options({
   name: 'PortalTile',
   components: {
     PortalToolTip,
   },
+  mixins: [
+    TileClick,
+  ],
   props: {
     title: {
       type: Object,
@@ -55,14 +58,6 @@ import bestLink from '@/jsHelper/bestLink.js';
     },
     description: {
       type: Object,
-      required: true,
-    },
-    links: {
-      type: Array,
-      required: true,
-    },
-    linkTarget: {
-      type: String,
       required: true,
     },
     pathToLogo: {
@@ -85,32 +80,14 @@ import bestLink from '@/jsHelper/bestLink.js';
     };
   },
   computed: {
-    ...mapGetters({
-      metaData: 'meta/getMeta',
-      editMode: 'portalData/editMode',
-    }),
     wrapperTag(): string {
       return (this.inFolder || this.editMode) ? 'div' : 'a';
     },
-    link(): string {
-      let ret = bestLink(this.links, this.metaData.fqdn);
-      if (this.editMode) {
-        ret = null;
+    setLinkTarget(): string | null {
+      if (this.editMode || this.linkTarget !== 'newwindow') {
+        return null;
       }
-      return ret;
-    },
-    setLinkTarget(): string {
-      let ret = this.linkTarget;
-      if (this.editMode) {
-        ret = null;
-      }
-      return ret;
-    },
-    tagLinkTarget(): string {
-      if (this.linkTarget === 'newwindow') {
-        return '_blank';
-      }
-      return '';
+      return '_blank';
     },
   },
   methods: {
@@ -121,39 +98,6 @@ import bestLink from '@/jsHelper/bestLink.js';
       if (!this.inFolder) {
         this.isActive = true;
       }
-    },
-    tileClick(event) {
-      if (this.editMode) {
-        event.preventDefault();
-
-        if (this.linkTarget === '_blank') {
-          event.preventDefault();
-          return false;
-        }
-
-        // TODO: start edit tile dialog
-        return false;
-      }
-
-      if (this.inFolder) {
-        event.preventDefault();
-        return false;
-      }
-      this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
-      if (this.linkTarget === 'embedded') {
-        event.preventDefault();
-        this.openEmbedded();
-        return false;
-      }
-      return true;
-    },
-    openEmbedded() {
-      const tab = {
-        tabLabel: this.$localized(this.title),
-        logo: this.pathToLogo,
-        iframeLink: this.link,
-      };
-      this.$store.dispatch('tabs/addTab', tab);
     },
   },
 })
