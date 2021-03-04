@@ -48,6 +48,7 @@
         <menu-item
           v-if="menuVisible"
           :links="[]"
+          link-target="samewindow"
           v-bind="item"
           @click="toggleMenu(index)"
           @clickAction="closeNavigation"
@@ -58,6 +59,7 @@
             :title="item.title"
             :sub-item="true"
             :links="[]"
+            link-target="samewindow"
             class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
             @click="toggleMenu()"
           />
