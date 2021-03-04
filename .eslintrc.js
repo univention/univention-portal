@@ -5,46 +5,62 @@ module.exports = {
     node: true,
     jest: true,
   },
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
   parserOptions: {
+    parser: '@typescript-eslint/parser',
     sourceType: 'module',
+    extraFileExtensions: ['.vue'],
     ecmaVersion: 2020,
     ecmaFeatures: {
       legacyDecorators: true,
     },
   },
   plugins: [
-    'vue',
-    'json',
+    '@typescript-eslint',
+    'eslint-comments',
     'jest',
+    'json',
+    'vue',
   ],
   extends: [
-    'eslint:recommended',
     'plugin:vue/vue3-recommended',
-    'airbnb',
-    '@vue/eslint-config-airbnb',
+    'plugin:jest/recommended',
+    'plugin:eslint-comments/recommended',
+    '@vue/airbnb',
+    '@vue/typescript/recommended',
   ],
   rules: {
-    'max-len': 'off',
-    // 'no-console': ['error', { allow: ['error'] }],
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'max-len': [
+      'error',
+      {
+        code: 120,
+        ignoreComments: true,
+        ignoreUrls: true,
+      },
+    ],
     'no-useless-escape': 'off',
-    quotes: [2, 'single', { avoidEscape: true }],
-    'operator-linebreak': ['error', 'after', { overrides: { '?': 'before', ':': 'before' } }],
-    'comma-spacing': ['error', {
-      before: false,
-      after: true,
-    }],
+    'quotes': ['error', 'single', { avoidEscape: true }],
+    'operator-linebreak': [
+      'error',
+      'after',
+      { overrides: { '?': 'before', ':': 'before' } },
+    ],
+    'comma-spacing': [
+      'error',
+      {
+        before: false,
+        after: true,
+      },
+    ],
     'space-in-parens': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'space-before-function-paren': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'arrow-parens': ['error', 'always'],
     'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
     'prefer-destructuring': 'off',
-    // TODO: Should be activated again once a solution is found
-    'no-unused-vars': 'off',
-    'import/extensions': 'off',
-    // "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    // "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    'quote-props': ['error', 'consistent-as-needed'],
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     // 'import/extensions': ['error', 'never'],
     // 'import/extensions': [
     //   'error',
@@ -70,13 +86,13 @@ module.exports = {
     },
   ],
   settings: {
-    react: {
-      version: '999.999.999',
-    },
     'import/resolver': {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'],
       },
+    },
+    'jest': {
+      version: 26,
     },
   },
 };
