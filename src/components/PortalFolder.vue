@@ -5,6 +5,7 @@
   >
     <div
       class="portal-tile__box"
+      tabindex="0"
       @click="openFolder"
     >
       <div class="portal-folder__thumbnails">
@@ -129,4 +130,9 @@ export default class PortalFolder extends Vue {
 
   .portal-tile__box
     background: var(--color-grey0)
+    border: 0.2rem solid transparent
+
+    &:focus
+      border-color: var(--color-primary)
+      outline: none;
 </style>

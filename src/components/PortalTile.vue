@@ -140,6 +140,10 @@ export default class PortalTile extends Vue {
     width: var(--app-tile-side-length)
     height: @width
     margin-bottom: calc(2 * var(--layout-spacing-unit))
+    border: 0.2rem solid transparent
+
+    ~/:focus &
+      border-color: var(--color-primary)
 
     &--dragable
       position: relative
