@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapGetters } from 'vuex';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import TileClick from '@/mixins/TileClick.vue';

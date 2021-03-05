@@ -4,7 +4,7 @@ export interface State {
   activeButton: string;
 }
 
-const navigation: Module<State, any> = {
+const navigation: Module<State, unknown> = {
   namespaced: true,
   state: {
     activeButton: '',

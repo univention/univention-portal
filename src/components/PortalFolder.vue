@@ -68,9 +68,9 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 })
 
 export default class PortalFolder extends Vue {
-  title!: string;
+  title!: Record<string, string>;
 
-  tiles!: [PortalTile];
+  tiles!: Array<PortalTile>;
 
   inModal!: boolean;
 }

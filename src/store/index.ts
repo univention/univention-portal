@@ -51,7 +51,7 @@ export const store = createStore({
         store.dispatch('notificationBubble/setShowBubble');
       }
 
-      return new Promise<any>((resolve) => {
+      return new Promise<unknown>((resolve) => {
         // store portal data
         console.log('Loading Portal');
 

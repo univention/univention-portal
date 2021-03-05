@@ -11,7 +11,7 @@ export interface State {
   user: User;
 }
 
-const user: Module<State, any> = {
+const user: Module<State, unknown> = {
   namespaced: true,
   state: {
     user: {
