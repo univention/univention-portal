@@ -66,8 +66,6 @@ import PortalFolder from '@/components/PortalFolder.vue';
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
 import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
 
-import Translate from '@/i18n/Translate.vue';
-
 @Options({
   name: 'PortalCategory',
   components: {
@@ -111,11 +109,11 @@ import Translate from '@/i18n/Translate.vue';
     }),
   },
   methods: {
-    isTile(obj: any): boolean {
+    isTile(obj: PortalTile | PortalFolder): boolean {
       return !this.isFolder(obj);
     },
-    isFolder(obj: any): boolean {
-      return !!obj.tiles;
+    isFolder(obj: PortalTile | PortalFolder): obj is PortalFolder {
+      return 'tiles' in obj;
     },
     changed() {
       console.log('changed');
@@ -124,9 +122,9 @@ import Translate from '@/i18n/Translate.vue';
 })
 
 export default class PortalCategory extends Vue {
-  title!: object;
+  title!: Record<string, string>;
 
-  tiles!: [PortalTile];
+  tiles!: Array<PortalTile>;
 }
 </script>
 

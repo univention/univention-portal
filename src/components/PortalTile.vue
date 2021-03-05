@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapGetters } from 'vuex';
 
 import PortalToolTip from '@/components/PortalToolTip.vue';
 import TileClick from '@/mixins/TileClick.vue';
@@ -102,9 +101,9 @@ import TileClick from '@/mixins/TileClick.vue';
   },
 })
 export default class PortalTile extends Vue {
-  title!: Object;
+  title!: Record<string, string>;
 
-  description!: Object;
+  description!: Record<string, string>;
 
   links!: string[];
 
