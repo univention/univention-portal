@@ -128,6 +128,9 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
         this.isActive = true;
       }
     },
+    editTile() {
+      console.log('editTile');
+    },
   },
 })
 export default class PortalTile extends Vue {
@@ -207,4 +210,12 @@ export default class PortalTile extends Vue {
     background-position: center
     border-radius: 50%
     box-shadow: var(--box-shadow)
+
+    &--in-modal
+      position relative
+
+// current fix for edit button in modal
+.portal-folder__in-modal
+  & .portal-tile__edit-button
+    display: none
 </style>
