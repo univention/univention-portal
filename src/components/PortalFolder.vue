@@ -25,7 +25,7 @@
       {{ $localized(title) }}
     </span>
     <header-button
-      v-if="!noEdit && isAdmin"
+      v-if="!noEdit && isAdmin && !inModal"
       :icon="buttonIcon"
       :aria-label="ariaLabelButton"
       :no-click="true"
