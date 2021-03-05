@@ -1,31 +1,29 @@
 // mocks
 import MenuData from '@/assets/mocks/menu.json';
+import axios from 'axios';
 // vue
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
-import axios from 'axios';
 // modules
 import categories from './modules/categories';
 import locale from './modules/locale';
 import menu from './modules/menu';
+import meta from './modules/meta';
 import modal from './modules/modal';
 import navigation from './modules/navigation';
 import notificationBubble from './modules/notificationBubble';
 import portalData from './modules/portalData';
 import tabs from './modules/tabs';
 import user from './modules/user';
-import meta from './modules/meta';
-
-export const key: InjectionKey<Store<State>> = Symbol('some description');
 
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 const portalJson = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 const portalMeta = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
-export interface State {}
+export const key: InjectionKey<Store<unknown>> = Symbol('some description');
 
-export const store = createStore<State>({
+export const store = createStore({
   modules: {
     categories,
     locale,
