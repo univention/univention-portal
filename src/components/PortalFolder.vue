@@ -7,6 +7,7 @@
       class="portal-tile__box"
       tabindex="0"
       @click="openFolder"
+      @keypress.enter="openFolder"
       @keyup.esc.stop="closeFolder()"
     >
       <div class="portal-folder__thumbnails">
@@ -76,12 +77,17 @@ import PortalModal from '@/components/globals/PortalModal.vue';
     isLastElement(index, array): Boolean {
       return index === (array.length - 1);
     },
-    makeStuff() {
+    getLastElement() {
+      console.log('ELEMENT');
+    },
+    makeStuff(direction) {
       console.log('MAKESTUFF');
       const firstElement = this.$refs.portalFolderChildren0.$el.children[0];
-      if (firstElement) {
+      const lastElement = this.$refs.portalFolderChildren0.$el.children[0];
+      if (firstElement && direction === 'forward') {
         firstElement.focus();
-        console.log(firstElement);
+      } else if (lastElement && direction === 'backward') {
+        console.log('backward');
       }
     },
   },

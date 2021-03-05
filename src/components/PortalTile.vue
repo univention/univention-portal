@@ -10,7 +10,8 @@
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
       @click="tileClick"
-      @keydown.tab="setFocus($event)"
+      @keydown.tab.exact="setFocus($event)"
+      @keydown.shift.tab.exact="setFocus($event)"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -117,8 +118,11 @@ import TileClick from '@/mixins/TileClick.vue';
     setFocus(event): void {
       if (this.lastElement) {
         event.preventDefault();
-        console.log('emitting make stuff');
-        this.$emit('makeStuff');
+        console.log('emmitting forward');
+        this.$emit('makeStuff', 'forward');
+      } else if (this.firstElement) {
+        console.log('emitting backward');
+        this.$emit('makeStuff', 'backward');
       }
     },
   },
