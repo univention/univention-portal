@@ -43,3 +43,6 @@ msgstr "Akzeptieren"
 
 msgid "Submit"
 msgstr "Abschicken"
+
+msgid "Add category"
+msgstr "Kategorie hinzufügen"

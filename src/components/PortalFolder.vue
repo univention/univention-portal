@@ -5,7 +5,7 @@
   >
     <div
       class="portal-tile__box"
-      @click="openFolder"
+      @click.prevent="openFolder"
     >
       <div class="portal-folder__thumbnails">
         <div
@@ -15,6 +15,7 @@
           <portal-tile
             v-bind="tile"
             :in-folder="!inModal"
+            :no-edit="true"
             @clickAction="closeFolder"
           />
         </div>
@@ -23,6 +24,14 @@
     <span class="portal-folder__name">
       {{ $localized(title) }}
     </span>
+    <header-button
+      v-if="!noEdit && isAdmin"
+      :icon="buttonIcon"
+      :aria-label="ariaLabelButton"
+      :no-click="true"
+      class="portal-folder__edit-button"
+      @click.prevent="editFolder()"
+    />
   </div>
 </template>
 
@@ -30,12 +39,14 @@
 import { Options, Vue } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 @Options({
   name: 'PortalFolder',
   components: {
     PortalTile,
     PortalModal,
+    HeaderButton,
   },
   props: {
     title: {
@@ -50,6 +61,22 @@ import PortalModal from '@/components/globals/PortalModal.vue';
       type: Boolean,
       default: false,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    noEdit: {
+      type: Boolean,
+      default: false,
+    },
+    buttonIcon: {
+      type: String,
+      default: 'edit-2',
+    },
+    ariaLabelButton: {
+      type: String,
+      default: 'Tab Aria Label',
+    },
   },
   methods: {
     closeFolder() {
@@ -63,6 +90,9 @@ import PortalModal from '@/components/globals/PortalModal.vue';
         name: 'PortalFolder',
         props: { ...this.$props, inModal: true },
       });
+    },
+    editFolder() {
+      console.log('editFolder');
     },
   },
 })
@@ -126,6 +156,22 @@ export default class PortalFolder extends Vue {
 
       &__name
         display: none;
+
+  &__edit-button
+    user-select: none
+
+    position: absolute
+    top: -0.75em
+    right: -0.75em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
 
   .portal-tile__box
     background: var(--color-grey0)

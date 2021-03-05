@@ -16,6 +16,20 @@
           :drop-zone="index"
         />
       </template>
+
+      <h2
+        v-if="editMode"
+        class="portal-categories__title"
+        @click.prevent="addCategory()"
+      >
+        <header-button
+          :icon="buttonIcon"
+          :aria-label="ariaLabelButton"
+          :no-click="true"
+          class="portal-categories__add-button"
+        />
+        <translate i18n-key="ADD_CATEGORY" />
+      </h2>
     </div>
 
     <div
@@ -55,8 +69,11 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 
 import PortalBackground from '@/components/PortalBackground.vue';
 import CookieBanner from '@/components/CookieBanner.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 import notificationMixin from '@/mixins/notificationMixin.vue';
+
+import Translate from '@/i18n/Translate.vue';
 
 export default {
   name: 'Home',
@@ -69,11 +86,15 @@ export default {
     PortalModal,
     PortalBackground,
     CookieBanner,
+    HeaderButton,
+    Translate,
   },
   mixins: [notificationMixin],
   data() {
     return {
       categoryList: [],
+      buttonIcon: 'plus',
+      ariaLabelButton: 'Button for adding a new category',
     };
   },
   computed: {
@@ -87,6 +108,7 @@ export default {
       modalStubborn: 'modal/modalStubborn',
       tabs: 'tabs/allTabs',
       activeTabIndex: 'tabs/activeTabIndex',
+      editMode: 'portalData/editMode',
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
     categoryArray() {
@@ -108,6 +130,9 @@ export default {
         this.$store.dispatch('modal/setHideModal');
       }
     },
+    addCategory() {
+      console.log('addCategory');
+    },
   },
 };
 </script>
@@ -117,6 +142,27 @@ export default {
   position: relative;
   // z-index: 1;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+
+  &__add-button
+    user-select: none
+
+    display: inline-block
+    margin-right: 1em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
+
+  &__title
+    cursor: pointer
+    display: inline-block
+    margin-top: 0
+    margin-bottom: calc(6 * var(--layout-spacing-unit))
 
 .portal-iframes
   position: fixed;
