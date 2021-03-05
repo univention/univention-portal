@@ -44,7 +44,7 @@ function getCatalog(locale) {
           const translationCatalog = response.data;
           translationCatalogs[locale] = translationCatalog;
           resolve(translationCatalog);
-        }, (error) => {
+        }, () => {
           // no locale found (404?)
           translationCatalogs[locale] = null;
           reject();
