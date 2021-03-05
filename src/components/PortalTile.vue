@@ -23,9 +23,21 @@
           class="portal-tile__img"
         >
       </div>
-      <span class="portal-tile__name">
+      <span
+        class="portal-tile__name"
+        @click.prevent="tileClick"
+      >
         {{ $localized(title) }}
       </span>
+
+      <header-button
+        v-if="!noEdit && isAdmin"
+        :icon="buttonIcon"
+        :aria-label="ariaLabelButton"
+        :no-click="true"
+        class="portal-tile__edit-button"
+        @click.prevent="editTile()"
+      />
     </component>
     <portal-tool-tip
       v-if="isActive"
@@ -41,11 +53,13 @@ import { Options, Vue } from 'vue-class-component';
 
 import PortalToolTip from '@/components/PortalToolTip.vue';
 import TileClick from '@/mixins/TileClick.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 @Options({
   name: 'PortalTile',
   components: {
     PortalToolTip,
+    HeaderButton,
   },
   mixins: [
     TileClick,
@@ -71,6 +85,22 @@ import TileClick from '@/mixins/TileClick.vue';
     inFolder: {
       type: Boolean,
       default: false,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    noEdit: {
+      type: Boolean,
+      default: false,
+    },
+    buttonIcon: {
+      type: String,
+      default: 'edit-2',
+    },
+    ariaLabelButton: {
+      type: String,
+      default: 'Tab Aria Label',
     },
   },
   data() {
@@ -161,4 +191,20 @@ export default class PortalTile extends Vue {
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+
+  &__edit-button
+    user-select: none
+
+    position: absolute
+    top: -0.75em
+    right: -0.75em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
 </style>

@@ -1,6 +1,17 @@
 <template>
   <div class="portal-category">
-    <h2 class="portal-category__title">
+    <h2
+      class="portal-category__title"
+      :class="!editMode || 'portal-category__title--edit'"
+      @click.prevent="editMode ? editCategory() : ''"
+    >
+      <header-button
+        v-if="editMode"
+        :icon="buttonIcon"
+        :aria-label="ariaLabelButton"
+        :no-click="true"
+        class="portal-category__edit-button"
+      />
       {{ $localized(title) }}
     </h2>
     <div class="portal-category__tiles dragdrop__container">
@@ -19,12 +30,14 @@
                 v-bind="item"
                 :data-tile="$localized(item.title)"
                 :title="item.title"
+                :is-admin="true"
               />
 
               <portal-folder
                 v-if="isFolder(item)"
                 v-bind="item"
                 :data-folder="$localized(item.title)"
+                :is-admin="true"
               />
             </div>
           </template>
@@ -63,6 +76,8 @@ import { mapGetters } from 'vuex';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
+
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
 import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
 
@@ -71,6 +86,7 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
   components: {
     PortalTile,
     PortalFolder,
+    HeaderButton,
     DraggableWrapper,
     DraggableDebugger,
   },
@@ -86,6 +102,14 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
     dropZone: {
       type: Number,
       required: true,
+    },
+    buttonIcon: {
+      type: String,
+      default: 'edit-2',
+    },
+    ariaLabelButton: {
+      type: String,
+      default: 'Tab Aria Label',
     },
   },
   data() {
@@ -117,6 +141,9 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
     },
     changed() {
       console.log('changed');
+    },
+    editCategory() {
+      console.log('editCategory');
     },
   },
 })
@@ -151,4 +178,26 @@ export default class PortalCategory extends Vue {
     border-radius: 15%
     border: 3px dashed var(--color-grey40) !important
 
+  &__edit-button
+    user-select: none
+
+    display: inline-block
+    margin-right: 1em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
+
+  &__title
+    display: inline-block
+    margin-top: 0
+    margin-bottom: calc(6 * var(--layout-spacing-unit))
+
+    &--edit
+      cursor: pointer
 </style>
