@@ -31,8 +31,8 @@
 
 <script>
 import { toRefs } from 'vue';
-import DraggableItem from '@/components/dragdrop/DraggableItem';
-import TileAdd from '@/components/edit/TileAdd';
+import DraggableItem from '@/components/dragdrop/DraggableItem.vue';
+import TileAdd from '@/components/edit/TileAdd.vue';
 import { useDraggableContainer } from '@/jsHelper/draggable';
 
 export default {

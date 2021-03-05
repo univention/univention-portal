@@ -1,6 +1,5 @@
+import createMenuStructure from '@/jsHelper/createMenuStructure';
 import { Module } from 'vuex';
-
-import createMenuStructure from '@/jsHelper/createMenuStructure.js';
 
 export interface State {
   menu: Object;

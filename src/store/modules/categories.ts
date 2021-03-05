@@ -1,11 +1,8 @@
 import PortalCategory from '@/components/PortalCategory.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
+import createCategories from '@/jsHelper/createCategories';
 import { Module } from 'vuex';
-
-import createCategories from '@/jsHelper/createCategories.js';
-
-const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
 
 export interface State {
   categories: Array<PortalCategory>;
@@ -13,7 +10,7 @@ export interface State {
   filteredCategories: Array<PortalCategory>;
 }
 
-const categories: Module<State, any> = {
+const categories: Module<State, unknown> = {
   namespaced: true,
   state: {
     categories: [],

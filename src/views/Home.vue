@@ -46,17 +46,17 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import PortalIframe from 'components/PortalIframe';
-import PortalCategory from 'components/PortalCategory';
-import PortalIcon from '@/components/globals/PortalIcon';
-import PortalHeader from '@/components/PortalHeader';
-import PortalFolder from '@/components/PortalFolder';
-import PortalModal from '@/components/globals/PortalModal';
+import PortalIframe from 'components/PortalIframe.vue';
+import PortalCategory from 'components/PortalCategory.vue';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
+import PortalHeader from '@/components/PortalHeader.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
 
-import PortalBackground from '@/components/PortalBackground';
-import CookieBanner from '@/components/CookieBanner';
+import PortalBackground from '@/components/PortalBackground.vue';
+import CookieBanner from '@/components/CookieBanner.vue';
 
-import notificationMixin from '@/mixins/notificationMixin';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 export default {
   name: 'Home',

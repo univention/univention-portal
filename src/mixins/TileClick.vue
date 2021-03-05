@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import bestLink from '@/jsHelper/bestLink.js';
+import bestLink from '@/jsHelper/bestLink';
 
 const tileClickMixin = {
   props: {

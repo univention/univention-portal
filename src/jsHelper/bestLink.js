@@ -1,4 +1,4 @@
-import { isFQDN, isIPv6Address, isIPv4Address } from '@/jsHelper/tools.ts';
+import { isFQDN, isIPv4Address, isIPv6Address } from '@/jsHelper/tools';
 
 // convert IPv6 addresses to their canonical form:
 //   ::1:2 -> 0000:0000:0000:0000:0000:0000:0001:0002
