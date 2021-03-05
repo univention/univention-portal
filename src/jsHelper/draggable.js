@@ -1,6 +1,4 @@
-import {
-  ref, onMounted, onUpdated, watch,
-} from 'vue';
+import { onMounted, onUpdated, ref, watch } from 'vue';
 
 const dragdelay = (callback, wait) => {
   let waiting = false;
@@ -44,7 +42,9 @@ const hidePlaceholder = () => {
 
 const changePosition = (itemToChange, items, position) => {
   const newItems = items.filter((item) => item.id !== itemToChange.id);
-  newItems.splice(position, 0, { ...itemToChange });
+  newItems.splice(position, 0, {
+    ...itemToChange,
+  });
   return newItems;
 };
 
@@ -112,24 +112,21 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   const middleY = ref(null);
 
   onMounted(async () => {
-    // TODO: fix temp issue `Cannot read property 'getBoundingClientRect' of null` - no idea yet how to fix it!
-    // console.log('onMounted');
     let ret = true;
-    if (draggable.value !== null) {
-      // console.log('onMounted - draggable.value: ', draggable.value);
-      setTimeout(() => {
+    setTimeout(() => {
+      if (draggable.value !== null) {
+        // console.log('onMounted - draggable.value: ', draggable.value);
         const box = draggable.value.getBoundingClientRect();
         middleY.value = box.top + box.height / 2;
-      }, 300);
-    } else {
-      ret = false;
-    }
+      } else {
+        ret = false;
+      }
+    }, 300);
 
     return ret;
   });
 
   onUpdated(() => {
-    // TODO: fix temp issue `Cannot read property 'getBoundingClientRect' of null` - no idea yet how to fix it!
     let ret = true;
     if (draggable.value !== null) {
       // console.log('onUpdated - draggable.value: ', draggable.value);
