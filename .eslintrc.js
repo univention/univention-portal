@@ -57,7 +57,7 @@ module.exports = {
     'no-param-reassign': ['error', {
       props: false,
     }],
-    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    // 'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-useless-escape': 'off',
     'object-curly-newline': ['error', {
       ImportDeclaration: 'never',
@@ -82,6 +82,8 @@ module.exports = {
     // ToDo: Temporay rule settings that should be deleted when code issues are fixed!
     'import/no-extraneous-dependencies': 'warn', // e.g. no use of 'require' -> Convert all .js to .ts files and use import!
     '@typescript-eslint/explicit-module-boundary-types': 'off', // temporary disabled because of hundrets of warnings which should be fixed before
+    'no-unused-vars': 'warn', // Should be warn for development but error for production environments
+
   },
   overrides: [
     {
