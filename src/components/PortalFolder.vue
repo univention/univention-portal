@@ -78,10 +78,11 @@ import PortalModal from '@/components/globals/PortalModal.vue';
     },
     makeStuff() {
       console.log('MAKESTUFF');
-      console.log('REF', this.$refs.portalFolderChildren0.$el.children);
-      const firstElement = this.$refs.portalFolderChildren0.$el.children;
-      console.log('firstELEMTN', firstElement);
-      firstElement.focus();
+      const firstElement = this.$refs.portalFolderChildren0.$el.children[0];
+      if (firstElement) {
+        firstElement.focus();
+        console.log(firstElement);
+      }
     },
   },
 })
