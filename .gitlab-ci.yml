@@ -22,7 +22,7 @@ build-test-deploy-job:
   image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
   artifacts:
     paths:
-      - phoenixportal_0.0.6_amd64.deb
+      - phoenixportal*.deb
     # maybe?
     #public: true
     when: on_success
