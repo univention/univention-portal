@@ -1,6 +1,7 @@
 <template>
-  <div class="portal-category">
+  <div class="portal-category" :class="{'portal-category--empty': !showCategoryHeadline }">
     <h2
+      v-if="showCategoryHeadline"
       class="portal-category__title"
       :class="!editMode || 'portal-category__title--edit'"
       @click.prevent="editMode ? editCategory() : ''"
@@ -17,6 +18,7 @@
     <div class="portal-category__tiles dragdrop__container">
       <template v-if="editMode">
         <draggable-wrapper
+          v-if="isTile(item)"
           v-model="vTiles"
           :drop-zone-id="dropZone"
           :data-drop-zone-id="dropZone"
@@ -27,7 +29,6 @@
             <div class="dragdrop__draggable-item">
               <portal-tile
                 v-if="isTile(item)"
-                :ref="'tile' + index"
                 v-bind="item"
                 :data-tile="$localized(item.title)"
                 :title="item.title"
@@ -36,7 +37,6 @@
 
               <portal-folder
                 v-if="isFolder(item)"
-                :ref="'tile' + index"
                 v-bind="item"
                 :data-folder="$localized(item.title)"
                 :is-admin="true"
@@ -47,20 +47,26 @@
       </template>
 
       <template v-else>
-        <div
+        <template
           v-for="(tile, index) in tiles"
+        >
+        <div
+          v-if="isTile(tile) || isFolder(tile)"
           :id="index"
           :key="index"
         >
           <portal-tile
             v-if="isTile(tile)"
+            :ref="'tile' + index"
             v-bind="tile"
           />
           <portal-folder
             v-if="isFolder(tile)"
             v-bind="tile"
+            :ref="'tile' + index"
           />
-        </div>
+          </div>
+        </template>
       </template>
     </div>
 
@@ -124,7 +130,11 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
     };
   },
   mounted() {
-    this.hasTiles(this.tiles);
+    this.$nextTick(() => {
+      if (this.activeSearchBar) {
+        this.hasTiles();
+      }
+    });
   },
   updated() {
     this.hasTiles(this.tiles);
@@ -169,8 +179,8 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
       });
       return matchesQuery;
     },
-    hasTiles(tiles) {
-      console.log(tiles);
+    hasTiles() {
+      console.log('JO ITS WORKING');
       const refArray = Object.entries(this.$refs);
       const children = refArray.filter((ref) => ref[1] !== null);
       if (children.length > 0) {
@@ -178,6 +188,7 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
       } else {
         this.showCategoryHeadline = false;
       }
+      console.log('hallo', this.showCategoryHeadline);
     },
   },
 })
@@ -192,6 +203,10 @@ export default class PortalCategory extends Vue {
 <style lang="stylus">
 .portal-category
   margin-bottom: calc(10 * var(--layout-spacing-unit));
+
+  &--empty {
+    margin-bottom: 0;
+  }
 
   &__tiles
     display: grid
