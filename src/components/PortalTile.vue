@@ -83,6 +83,10 @@ import TileClick from '@/mixins/TileClick.vue';
       type: Boolean,
       default: false,
     },
+    firstElement: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['makeStuff'],
   data() {
@@ -121,6 +125,7 @@ import TileClick from '@/mixins/TileClick.vue';
         console.log('emmitting forward');
         this.$emit('makeStuff', 'forward');
       } else if (this.firstElement) {
+        event.preventDefault();
         console.log('emitting backward');
         this.$emit('makeStuff', 'backward');
       }
