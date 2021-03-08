@@ -15,6 +15,7 @@ import notificationBubble from './modules/notificationBubble';
 import portalData from './modules/portalData';
 import tabs from './modules/tabs';
 import user from './modules/user';
+import search from './modules/search';
 
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
@@ -34,6 +35,7 @@ export const store = createStore({
     user,
     menu,
     tabs,
+    search,
     meta,
   },
   state: {},

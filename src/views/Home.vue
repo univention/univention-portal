@@ -2,14 +2,13 @@
   <div class="portal">
     <portal-background />
     <portal-header />
-
     <div
       v-show="!activeTabIndex"
       class="portal-categories"
     >
-      <template v-if="categoryArray">
+      <template v-if="portalCategories">
         <portal-category
-          v-for="(category, index) in categoryArray"
+          v-for="(category, index) in portalCategories"
           :key="index"
           :title="category.title"
           :tiles="category.tiles"
@@ -99,8 +98,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      categories: 'categories/categoryState',
-      filteredCategories: 'categories/categoryState',
       originalArray: 'categories/categoryState',
       modalState: 'modal/modalState',
       modalComponent: 'modal/modalComponent',
@@ -111,17 +108,8 @@ export default {
       editMode: 'portalData/editMode',
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
-    categoryArray() {
-      let categoryTempArray = this.originalArray;
-      this.$nextTick(() => {
-        categoryTempArray = this.filteredCategories ? this.filteredCategories : this.originalArray;
-      });
-
-      // TODO: fix it!
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.categoryList = categoryTempArray;
-
-      return categoryTempArray;
+    portalCategories() {
+      return this.originalArray ? this.originalArray : [];
     },
   },
   methods: {
