@@ -55,6 +55,9 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
 import TileClick from '@/mixins/TileClick.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
+import bestLink from '@/jsHelper/bestLink';
+
+
 @Options({
   name: 'PortalTile',
   components: {
@@ -111,6 +114,9 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
   computed: {
     wrapperTag(): string {
       return (this.inFolder || this.editMode) ? 'div' : 'a';
+    },
+    link(): string {
+      return this.links ? bestLink(this.links, this.metaData.fqdn) : '';
     },
     setLinkTarget(): string | null {
       if (this.editMode || this.linkTarget !== 'newwindow') {
