@@ -3,7 +3,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get --assume-yes install curl
+RUN apt-get update && apt-get --assume-yes install curl openssh-client
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
