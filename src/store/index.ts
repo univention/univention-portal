@@ -1,13 +1,14 @@
 // mocks
 import MenuData from '@/assets/mocks/menu.json';
+import axios from 'axios';
 // vue
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
-import axios from 'axios';
 // modules
 import categories from './modules/categories';
 import locale from './modules/locale';
 import menu from './modules/menu';
+import meta from './modules/meta';
 import modal from './modules/modal';
 import navigation from './modules/navigation';
 import notificationBubble from './modules/notificationBubble';
@@ -15,18 +16,15 @@ import portalData from './modules/portalData';
 import tabs from './modules/tabs';
 import user from './modules/user';
 import search from './modules/search';
-import meta from './modules/meta';
-
-export const key: InjectionKey<Store<State>> = Symbol('some description');
 
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 const portalJson = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 const portalMeta = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
-export interface State {}
+export const key: InjectionKey<Store<unknown>> = Symbol('some description');
 
-export const store = createStore<State>({
+export const store = createStore({
   modules: {
     categories,
     locale,
@@ -47,7 +45,6 @@ export const store = createStore<State>({
       store.dispatch('modal/setShowLoadingModal');
 
       // store menu data
-      store.dispatch('menu/setMenu', MenuData);
       store.dispatch('menu/setMenuLinks', MenuData.menu_links);
       store.dispatch('menu/setUserLinks', MenuData.user_links);
 
@@ -56,7 +53,7 @@ export const store = createStore<State>({
         store.dispatch('notificationBubble/setShowBubble');
       }
 
-      return new Promise<any>((resolve) => {
+      return new Promise<unknown>((resolve) => {
         // store portal data
         console.log('Loading Portal');
 
@@ -64,7 +61,6 @@ export const store = createStore<State>({
         axios.get(`${portalUrl}${portalMeta}`).then(
           (response) => {
             const metaData = response.data;
-            console.log('metaData - index: ', metaData);
             store.dispatch('meta/setMeta', metaData);
           }, (error) => {
             console.error(error);
@@ -75,13 +71,16 @@ export const store = createStore<State>({
         axios.get(`${portalUrl}${portalJson}`).then(
           (response) => {
             const PortalData = response.data;
+            store.dispatch('menu/setMenu', PortalData);
             store.dispatch('portalData/setPortal', PortalData);
             store.dispatch('categories/storeOriginalArray', PortalData);
             store.dispatch('categories/setStandard');
-            store.dispatch('user/setLogin', {
+            store.dispatch('user/setUser', {
               user: {
-                username: PortalData.user,
+                username: PortalData.username,
+                displayName: PortalData.user_displayname,
                 mayEditPortal: PortalData.may_edit_portal,
+                mayLoginViaSAML: PortalData.may_login_via_saml,
               },
             });
             store.dispatch('modal/setHideModal');

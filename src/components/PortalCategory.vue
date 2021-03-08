@@ -1,40 +1,87 @@
 <template>
-  <div
-    class="portal-category"
-  >
+  <div class="portal-category">
     <h2
-      v-if="showCategoryHeadline"
       class="portal-category__title"
+      :class="!editMode || 'portal-category__title--edit'"
+      @click.prevent="editMode ? editCategory() : ''"
     >
+      <header-button
+        v-if="editMode"
+        :icon="buttonIcon"
+        :aria-label="ariaLabelButton"
+        :no-click="true"
+        class="portal-category__edit-button"
+      />
       {{ $localized(title) }}
     </h2>
-    <div class="portal-category__tiles">
-      <template
-        v-for="(tile, index) in tiles"
-        :key="index"
-      >
-        <portal-tile
-          v-if="isTile(tile)"
-          v-bind="tile"
-          :ref="'tile' + index"
-          :tile="tile"
-        />
-        <portal-folder
-          v-if="isFolder(tile)"
-          :ref="'tile' + index"
-          v-bind="tile"
-        />
+    <div class="portal-category__tiles dragdrop__container">
+      <template v-if="editMode">
+        <draggable-wrapper
+          v-model="vTiles"
+          :drop-zone-id="dropZone"
+          :data-drop-zone-id="dropZone"
+          transition="100"
+          class="dragdrop__drop-zone"
+        >
+          <template #item="{ item }">
+            <div class="dragdrop__draggable-item">
+              <portal-tile
+                v-if="isTile(item)"
+                v-bind="item"
+                :data-tile="$localized(item.title)"
+                :title="item.title"
+                :is-admin="true" 
+                :ref="'tile' + index"
+              />
+
+              <portal-folder
+                v-if="isFolder(item)"
+                v-bind="item"
+                :data-folder="$localized(item.title)"
+                :is-admin="true"
+                :ref="'tile' + index"
+              />
+            </div>
+          </template>
+        </draggable-wrapper>
+      </template>
+
+      <template v-else>
+        <div
+          v-for="(tile, index) in tiles"
+          :id="index"
+          :key="index"
+        >
+          <portal-tile
+            v-if="isTile(tile)"
+            v-bind="tile"
+          />
+          <portal-folder
+            v-if="isFolder(tile)"
+            v-bind="tile"
+          />
+        </div>
       </template>
     </div>
+
+    <draggable-debugger
+      v-if="editMode && debug"
+      :items="vTiles"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
+
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 
-import Translate from '@/i18n/Translate.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
+
+import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
+import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
 
 import { mapGetters } from 'vuex';
 
@@ -43,6 +90,9 @@ import { mapGetters } from 'vuex';
   components: {
     PortalTile,
     PortalFolder,
+    HeaderButton,
+    DraggableWrapper,
+    DraggableDebugger,
   },
   props: {
     title: {
@@ -53,10 +103,24 @@ import { mapGetters } from 'vuex';
       type: Array,
       required: true,
     },
+    dropZone: {
+      type: Number,
+      required: true,
+    },
+    buttonIcon: {
+      type: String,
+      default: 'edit-2',
+    },
+    ariaLabelButton: {
+      type: String,
+      default: 'Tab Aria Label',
+    },
   },
   data() {
     return {
+      vTiles: this.tiles,
       isActive: false,
+      debug: false, // `true` enables the debugger for the tiles array(s) in admin mode
       toolTip: {},
       showCategoryHeadline: false,
     };
@@ -64,20 +128,34 @@ import { mapGetters } from 'vuex';
   mounted() {
     this.hasTiles(this.tiles);
   },
-  updated() {
+   updated() {
     this.hasTiles(this.tiles);
+  },
+  watch: {
+    vTiles(val) {
+      // TODO: save drag & drop changes
+      console.info('saveState');
+      console.log('val: ', val);
+    },
   },
   computed: {
     ...mapGetters({
+      editMode: 'portalData/editMode',
       searchQuery: 'search/searchQuery',
     }),
   },
   methods: {
-    isTile(obj: any): boolean {
+    isTile(obj: PortalTile | PortalFolder): boolean {
       return !this.isFolder(obj) && this.tileMatchesQuery(obj);
     },
-    isFolder(obj: any): boolean {
+    isFolder(obj: PortalTile | PortalFolder): obj is PortalFolder {
       return !!obj.tiles && this.folderMatchesQuery(obj);
+    },
+    changed() {
+      console.log('changed');
+    },
+    editCategory() {
+      console.log('editCategory');
     },
     tileMatchesQuery(obj: any): boolean {
       return this.$localized(obj.title).toLowerCase()
@@ -86,8 +164,8 @@ import { mapGetters } from 'vuex';
     folderMatchesQuery(obj: any): boolean {
       let matchesQuery = false;
       obj.tiles.forEach((tile) => {
-        if (this.$localized(tile.title).toLowerCase()
-          .includes(this.searchQuery.toLowerCase())) {
+      if (this.$localized(tile.title).toLowerCase()
+        .includes(this.searchQuery.toLowerCase())) {
           matchesQuery = true;
         }
       });
@@ -106,13 +184,13 @@ import { mapGetters } from 'vuex';
 })
 
 export default class PortalCategory extends Vue {
-  title!: object;
+  title!: Record<string, string>;
 
-  tiles!: [PortalTile];
+  tiles!: Array<PortalTile>;
 }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus">
 .portal-category
   margin-bottom: calc(10 * var(--layout-spacing-unit));
 
@@ -121,4 +199,40 @@ export default class PortalCategory extends Vue {
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
 
+  &__drop-zone
+    &--hidden
+      display: none
+
+  &__drag-element
+    height: 210px
+    width: 160px
+
+  &__tile-dotted
+    width: calc(20 * var(--layout-spacing-unit))
+    height: calc(20 * var(--layout-spacing-unit))
+    border-radius: 15%
+    border: 3px dashed var(--color-grey40) !important
+
+  &__edit-button
+    user-select: none
+
+    display: inline-block
+    margin-right: 1em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
+
+  &__title
+    display: inline-block
+    margin-top: 0
+    margin-bottom: calc(6 * var(--layout-spacing-unit))
+
+    &--edit
+      cursor: pointer
 </style>

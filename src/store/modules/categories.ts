@@ -1,15 +1,14 @@
 import PortalCategory from '@/components/PortalCategory.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
+import createCategories from '@/jsHelper/createCategories';
 import { Module } from 'vuex';
-
-import createCategories from '@/jsHelper/createCategories.js';
 
 export interface State {
   categories: Array<PortalCategory>;
 }
 
-const categories: Module<State, any> = {
+const categories: Module<State, unknown> = {
   namespaced: true,
   state: {
     categories: [],

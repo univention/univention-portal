@@ -26,8 +26,8 @@
     <header-button
       :icon="closeIcon"
       :aria-label="ariaLabel"
-      class="header-tab__close-button"
       :no-click="true"
+      class="header-tab__close-button"
       @click.stop="closeTab"
     />
   </div>
@@ -35,7 +35,6 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import ImageComponent from '@/components/globals/ImageComponent.vue';

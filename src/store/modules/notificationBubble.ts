@@ -21,7 +21,7 @@ export interface State {
   contentOfNewNotification: Array<FullNotification>;
 }
 
-const bubble: Module<State, any> = {
+const bubble: Module<State, unknown> = {
   namespaced: true,
   state: {
     visible: false,

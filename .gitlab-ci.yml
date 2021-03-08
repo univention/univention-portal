@@ -22,7 +22,7 @@ build-test-deploy-job:
   image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
   artifacts:
     paths:
-      - phoenixportal_0.0.1_amd64.deb
+      - phoenixportal*.deb
     # maybe?
     #public: true
     when: on_success
@@ -31,10 +31,11 @@ build-test-deploy-job:
   script:
     #- yarn --cwd=frontend
     #- yarn --cwd=frontend build
-    - yarn --cwd=frontend test:unit
+    #- yarn --cwd=frontend test:unit
     - apt-get -q --assume-yes build-dep .
     - dpkg-buildpackage -uc -us -b
     - cp ../*.deb .
-    - scp ./phoenixportal_0.0.1_amd64.deb univention_ansible@sandbox-009.sx.openws.de:/tmp
+    - scp ./phoenixportal_*.deb univention_ansible@sandbox-009.sx.openws.de:/tmp
     - ssh univention_ansible@sandbox-009.sx.openws.de sudo dpkg --purge phoenixportal
-    - ssh univention_ansible@sandbox-009.sx.openws.de sudo apt install /tmp/phoenixportal_0.0.1_amd64.deb
+    - ssh univention_ansible@sandbox-009.sx.openws.de sudo apt install -y /tmp/phoenixportal_*_amd64.deb
+

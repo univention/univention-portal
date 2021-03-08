@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalModal',

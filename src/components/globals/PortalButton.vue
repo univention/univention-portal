@@ -68,11 +68,7 @@ import Translate from '@/i18n/Translate.vue';
       default: '',
     },
   },
-  methods: {
-    buttonClick() {
-
-    },
-  },
+  methods: {},
 })
 export default class PortalButton extends Vue {}
 </script>

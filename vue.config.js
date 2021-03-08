@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 const path = require('path');
 
 const vueConfig = {
@@ -22,6 +21,7 @@ const vueConfig = {
           path.resolve(__dirname, 'src/assets/styles/_vars.styl'),
           path.resolve(__dirname, 'src/assets/styles/_variables.styl'),
           path.resolve(__dirname, 'src/assets/styles/_base.styl'),
+          path.resolve(__dirname, 'src/assets/styles/_dragdrop.styl'),
         ],
       },
     },
@@ -43,6 +43,7 @@ vueConfig.configureWebpack = (config) => {
 };
 
 const existingChainWebpack = vueConfig.chainWebpack;
+
 vueConfig.chainWebpack = (config) => {
   if (existingChainWebpack) {
     existingChainWebpack(config);

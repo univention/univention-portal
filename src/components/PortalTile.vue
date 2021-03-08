@@ -1,50 +1,69 @@
 <template>
-  <component
-    :is="wrapperTag"
-    :href="link"
-    :target="tagLinkTarget"
-    class="portal-tile"
-    draggable="true"
-    data-test="tileLink"
-    @mouseover="showTooltip"
-    @mouseleave="hideTooltip"
-    @click="tileClick"
-  >
-    <div
-      :style="`background: ${backgroundColor}`"
-      class="portal-tile__box"
+  <div>
+    <component
+      :is="wrapperTag"
+      :href="link"
+      :target="setLinkTarget"
+      class="portal-tile"
+      data-test="tileLink"
+      @mouseover="editMode || showTooltip()"
+      @mouseleave="hideTooltip"
+      @mousedown="hideTooltip"
+      @click="tileClick"
     >
-      <img
-        :src="pathToLogo"
-        :alt="`Logo ${title}`"
-        class="portal-tile__img"
+      <div
+        :style="`background: ${backgroundColor}`"
+        :class="[
+          'portal-tile__box', { 'portal-tile__box--dragable': editMode }
+        ]"
       >
-    </div>
-    <span class="portal-tile__name">
-      {{ $localized(title) }}
-    </span>
+        <img
+          :src="pathToLogo"
+          :alt="`Logo ${$localized(title)}`"
+          class="portal-tile__img"
+        >
+      </div>
+      <span
+        class="portal-tile__name"
+        @click.prevent="tileClick"
+      >
+        {{ $localized(title) }}
+      </span>
 
+      <header-button
+        v-if="!noEdit && isAdmin"
+        :icon="buttonIcon"
+        :aria-label="ariaLabelButton"
+        :no-click="true"
+        class="portal-tile__edit-button"
+        @click.prevent="editTile()"
+      />
+    </component>
     <portal-tool-tip
       v-if="isActive"
       :title="$localized(title)"
       :icon="pathToLogo"
       :description="$localized(description)"
     />
-  </component>
+  </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapGetters } from 'vuex';
 
 import PortalToolTip from '@/components/PortalToolTip.vue';
-import bestLink from '@/jsHelper/bestLink.js';
+import TileClick from '@/mixins/TileClick.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 @Options({
   name: 'PortalTile',
   components: {
     PortalToolTip,
+    HeaderButton,
   },
+  mixins: [
+    TileClick,
+  ],
   props: {
     title: {
       type: Object,
@@ -52,14 +71,6 @@ import bestLink from '@/jsHelper/bestLink.js';
     },
     description: {
       type: Object,
-      required: true,
-    },
-    links: {
-      type: Array,
-      required: true,
-    },
-    linkTarget: {
-      type: String,
       required: true,
     },
     pathToLogo: {
@@ -75,6 +86,22 @@ import bestLink from '@/jsHelper/bestLink.js';
       type: Boolean,
       default: false,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    noEdit: {
+      type: Boolean,
+      default: false,
+    },
+    buttonIcon: {
+      type: String,
+      default: 'edit-2',
+    },
+    ariaLabelButton: {
+      type: String,
+      default: 'Tab Aria Label',
+    },
   },
   data() {
     return {
@@ -82,20 +109,17 @@ import bestLink from '@/jsHelper/bestLink.js';
     };
   },
   computed: {
-    ...mapGetters({
-      metaData: 'meta/getMeta',
-    }),
     wrapperTag(): string {
-      return this.inFolder ? 'div' : 'a';
+      return (this.inFolder || this.editMode) ? 'div' : 'a';
     },
     link(): string {
       return this.links ? bestLink(this.links, this.metaData.fqdn) : '';
     },
-    tagLinkTarget(): string {
-      if (this.linkTarget === 'newwindow') {
-        return '_blank';
+    setLinkTarget(): string | null {
+      if (this.editMode || this.linkTarget !== 'newwindow') {
+        return null;
       }
-      return '';
+      return '_blank';
     },
   },
   methods: {
@@ -107,37 +131,19 @@ import bestLink from '@/jsHelper/bestLink.js';
         this.isActive = true;
       }
     },
-    tileClick(evt) {
-      if (this.inFolder) {
-        evt.preventDefault();
-        return false;
-      }
-      this.$store.dispatch('modal/setHideModal'); // maybe folder was opened... maybe we should $emit here and close in Folder.vue?
-      if (this.linkTarget === 'embedded') {
-        evt.preventDefault();
-        this.openEmbedded();
-        return false;
-      }
-      return true;
-    },
-    openEmbedded() {
-      const tab = {
-        tabLabel: this.$localized(this.title),
-        logo: this.pathToLogo,
-        iframeLink: this.link,
-      };
-      this.$store.dispatch('tabs/addTab', tab);
+    editTile() {
+      console.log('editTile');
     },
   },
 })
 export default class PortalTile extends Vue {
-  title!: Object;
+  title!: Record<string, string>;
 
-  description!: Object;
+  description!: Record<string, string>;
 
-  links!: String[];
+  links!: string[];
 
-  pathToLogo?: String;
+  pathToLogo?: string;
 
   backgroundColor = 'var(--color-grey40)';
 }
@@ -170,6 +176,18 @@ export default class PortalTile extends Vue {
     height: @width
     margin-bottom: calc(2 * var(--layout-spacing-unit))
 
+    &--dragable
+      position: relative
+
+      &:after
+        content: ' ';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: $zindex-1;
+
   &__img
     width: 80%
 
@@ -179,4 +197,28 @@ export default class PortalTile extends Vue {
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+
+  &__edit-button
+    user-select: none
+
+    position: absolute
+    top: -0.75em
+    right: -0.75em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
+
+    &--in-modal
+      position relative
+
+// current fix for edit button in modal
+.portal-folder__in-modal
+  & .portal-tile__edit-button
+    display: none
 </style>
