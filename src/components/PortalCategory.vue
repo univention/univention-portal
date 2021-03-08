@@ -27,19 +27,19 @@
             <div class="dragdrop__draggable-item">
               <portal-tile
                 v-if="isTile(item)"
+                :ref="'tile' + index"
                 v-bind="item"
                 :data-tile="$localized(item.title)"
                 :title="item.title"
-                :is-admin="true" 
-                :ref="'tile' + index"
+                :is-admin="true"
               />
 
               <portal-folder
                 v-if="isFolder(item)"
+                :ref="'tile' + index"
                 v-bind="item"
                 :data-folder="$localized(item.title)"
                 :is-admin="true"
-                :ref="'tile' + index"
               />
             </div>
           </template>
@@ -82,8 +82,6 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
 import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
-
-import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalCategory',
@@ -128,7 +126,7 @@ import { mapGetters } from 'vuex';
   mounted() {
     this.hasTiles(this.tiles);
   },
-   updated() {
+  updated() {
     this.hasTiles(this.tiles);
   },
   watch: {
@@ -149,7 +147,7 @@ import { mapGetters } from 'vuex';
       return !this.isFolder(obj) && this.tileMatchesQuery(obj);
     },
     isFolder(obj: PortalTile | PortalFolder): obj is PortalFolder {
-      return !!obj.tiles && this.folderMatchesQuery(obj);
+      return 'tiles' in obj && this.folderMatchesQuery(obj);
     },
     changed() {
       console.log('changed');
@@ -157,21 +155,22 @@ import { mapGetters } from 'vuex';
     editCategory() {
       console.log('editCategory');
     },
-    tileMatchesQuery(obj: any): boolean {
+    tileMatchesQuery(obj: PortalTile | PortalFolder): boolean {
       return this.$localized(obj.title).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
-    folderMatchesQuery(obj: any): boolean {
+    folderMatchesQuery(obj: PortalFolder): boolean {
       let matchesQuery = false;
       obj.tiles.forEach((tile) => {
-      if (this.$localized(tile.title).toLowerCase()
-        .includes(this.searchQuery.toLowerCase())) {
+        if (this.$localized(tile.title).toLowerCase()
+          .includes(this.searchQuery.toLowerCase())) {
           matchesQuery = true;
         }
       });
       return matchesQuery;
     },
     hasTiles(tiles) {
+      console.log(tiles);
       const refArray = Object.entries(this.$refs);
       const children = refArray.filter((ref) => ref[1] !== null);
       if (children.length > 0) {
