@@ -55,6 +55,9 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
 import TileClick from '@/mixins/TileClick.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
+import bestLink from '@/jsHelper/bestLink';
+
+
 @Options({
   name: 'PortalTile',
   components: {
