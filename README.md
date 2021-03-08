@@ -95,3 +95,9 @@ yarn test:e2e
 
 - Feather-Sprite Icons: [Overview](https://feathericons.com/)
 
+## CI/CD Setup Building .debs
+### create / run the builder docker image
+* build image `docker build -t phoenixportalbuilder ./builder`
+* build deb `sh ./build-package.sh`
+* tag image `docker image tag phoenixportalbuilder:latest docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest`
+* push image to registry: `docker image push docker-registry.knut.univention.de/phoenix/phoenixportalbuilder`

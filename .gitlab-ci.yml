@@ -35,6 +35,6 @@ build-test-deploy-job:
     - apt-get -q --assume-yes build-dep .
     - dpkg-buildpackage -uc -us -b
     - cp ../*.deb .
-    - scp ./phoenixportal_0.0.1_amd64.deb univention_ansible@sandbox-009.sx.openws.de:/tmp
+    - scp ./phoenixportal_0.0.6_amd64.deb univention_ansible@sandbox-009.sx.openws.de:/tmp
     - ssh univention_ansible@sandbox-009.sx.openws.de sudo dpkg --purge phoenixportal
-    - ssh univention_ansible@sandbox-009.sx.openws.de sudo apt install /tmp/phoenixportal_0.0.1_amd64.deb
+    - ssh univention_ansible@sandbox-009.sx.openws.de sudo apt install /tmp/phoenixportal_0.0.6_amd64.deb
