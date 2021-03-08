@@ -2,12 +2,12 @@ import { Module } from 'vuex';
 
 export interface State {
   modalVisible: boolean;
-  modalComponent: any;
-  modalProps: any;
+  modalComponent: unknown;
+  modalProps: unknown;
   modalStubborn: boolean;
 }
 
-const modal: Module<State, any> = {
+const modal: Module<State, unknown> = {
   namespaced: true,
   state: {
     modalVisible: false,

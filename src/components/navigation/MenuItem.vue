@@ -1,6 +1,9 @@
 <template>
-  <div
+  <a
+    v-is="isLink ? 'a' : 'div'"
     class="menu-item"
+    :href="link"
+    @click="tileClick"
   >
     <portal-icon
       v-if="subItem"
@@ -8,7 +11,7 @@
       icon-width="2rem"
       class="menu-item__arrow menu-item__arrow--left"
     />
-    {{ menuLabel }}
+    {{ $localized(title) }}
     <template
       v-if="subMenu.length > 0"
     >
@@ -24,23 +27,27 @@
         class="menu-item__arrow menu-item__arrow--right"
       />
     </template>
-  </div>
+  </a>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import TileClick from '@/mixins/TileClick.vue';
 
 @Options({
   name: 'MenuItem',
   components: {
     PortalIcon,
   },
+  mixins: [
+    TileClick,
+  ],
   props: {
-    menuLabel: {
-      type: String,
-      default: '',
+    title: {
+      type: Object,
+      required: true,
     },
     subMenu: {
       type: Array,
@@ -51,6 +58,11 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
       default: false,
     },
   },
+  computed: {
+    isLink(): boolean {
+      return this.link !== null;
+    },
+  },
 })
 
 export default class MenuItem extends Vue {}
@@ -58,37 +70,39 @@ export default class MenuItem extends Vue {}
 
 <style lang="stylus">
 .menu-item
-  position: relative
-  z-index: 15
-  display: flex
-  align-items: center
-  padding: 20px 0 20px 20px
+  position: relative;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  padding: 2rem 0 2rem 2rem;
+  color: #fff;
+  text-decoration: none;
 
   &:hover
-    background-color: #272726
-    cursor: pointer
+    background-color: #272726;
+    cursor: pointer;
 
   &__counter
-    position: absolute
-    right: 0
-    margin-right: 40px
-    display: inline
+    position: absolute;
+    right: 0;
+    margin-right: 4rem;
+    display: inline;
 
   &__arrow
-    position: absolute
-    display: inline
-    font-size: inherit
-    width: 1em
-    height: 1em
-    stroke: currentColor
-    stroke-width: 2
-    stroke-linecap: round
-    stroke-linejoin: round
-    fill: none
-    transition: color 250ms
+    position: absolute;
+    display: inline;
+    font-size: inherit;
+    width: 2rem;
+    height: 2rem;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    transition: color 250ms;
     &--left
-      left: 12px
+      left: 1.2rem;
     &--right
-      right: 0
-      margin-right: 12px
+      right: 0;
+      margin-right: 1.2rem;
 </style>

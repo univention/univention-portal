@@ -1,11 +1,10 @@
 import { Module } from 'vuex';
-import axios from 'axios';
 
 export interface State {
-  meta: Object;
+  meta: Record<string, unknown>;
 }
 
-const meta: Module<State, any> = {
+const meta: Module<State, unknown> = {
   namespaced: true,
   state: {
     meta: {},
@@ -13,7 +12,6 @@ const meta: Module<State, any> = {
 
   mutations: {
     META(state, payload) {
-      console.log('META: ', { state, payload });
       state.meta = payload;
     },
   },

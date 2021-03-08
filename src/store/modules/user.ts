@@ -2,37 +2,29 @@ import { Module } from 'vuex';
 
 interface User {
   username: string;
+  displayName: string;
   mayEditPortal: boolean;
+  mayLoginViaSAML: boolean;
 }
 
 export interface State {
   user: User;
 }
 
-const user: Module<State, any> = {
+const user: Module<State, unknown> = {
   namespaced: true,
   state: {
     user: {
       username: '',
+      displayName: '',
       mayEditPortal: false,
+      mayLoginViaSAML: false,
     },
   },
 
   mutations: {
-    devLogin: (state) => {
-      state.user = {
-        username: 'Administrator',
-        mayEditPortal: true,
-      };
-    },
-    login: (state, payload) => {
+    SETUSER: (state, payload) => {
       state.user = payload.user;
-    },
-    logout: (state) => {
-      state.user = {
-        username: '',
-        mayEditPortal: false,
-      };
     },
   },
 
@@ -41,14 +33,8 @@ const user: Module<State, any> = {
   },
 
   actions: {
-    setDevLogin({ commit }, payload) {
-      commit('devLogin', payload);
-    },
-    setLogin({ commit }, payload) {
-      commit('login', payload);
-    },
-    setLogout({ commit }, payload) {
-      commit('logout', payload);
+    setUser({ commit }, payload) {
+      commit('SETUSER', payload);
     },
   },
 };

@@ -8,5 +8,6 @@
   "Accept": "Akzeptieren",
   "Submit": "Abschicken",
   "Dismiss notification": "Benachrichtigung verwerfen",
-  "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you can use the full range of functions of UCS.": "Melden Sie sich <a class=\"notification-bubble__link\" href=\"#\">hier</a> an, um alle Funktionen von UCS nutzen zu können."
+  "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you can use the full range of functions of UCS.": "Melden Sie sich <a class=\"notification-bubble__link\" href=\"#\">hier</a> an, um alle Funktionen von UCS nutzen zu können.",
+  "Add category": "Kategorie hinzufügen"
 }

@@ -1,6 +1,10 @@
 {
   "user_links": [],
-  "menu_links": [],
+  "menu_links": [
+    "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+    "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+    "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+  ],
   "entries": [
     {
       "activated": true,
@@ -192,5 +196,7 @@
   },
   "filtered": true,
   "may_edit_portal": true,
-  "user": "administrator"
+  "may_login_via_saml": false,
+  "username": "administrator",
+  "user_displayname": "Administrator"
 }
