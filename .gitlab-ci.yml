@@ -31,7 +31,7 @@ build-test-deploy-job:
   script:
     #- yarn --cwd=frontend
     #- yarn --cwd=frontend build
-    - yarn --cwd=frontend test:unit
+    #- yarn --cwd=frontend test:unit
     - apt-get -q --assume-yes build-dep .
     - dpkg-buildpackage -uc -us -b
     - cp ../*.deb .
