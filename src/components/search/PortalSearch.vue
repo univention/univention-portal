@@ -16,49 +16,26 @@ import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalSearch',
-  data() {
-    return {
-      portalSearch: '',
-      newList: '',
-    };
-  },
   mounted() {
     this.$nextTick(() => {
       this.$refs.portalSearchInput.focus();
     });
   },
   beforeUnmount() {
-    this.$store.dispatch('categories/filterTiles', this.originalArray);
+    this.$store.dispatch('search/setSearchQuery', '');
   },
   computed: {
     ...mapGetters({
-      originalArray: 'categories/categoryStateOriginal',
+      originalArray: 'categories/categoryState',
       modalState: 'modal/modalState',
+      searchQuery: 'search/searchQuery',
     }),
   },
   methods: {
     searchTiles() {
-      let list = this.originalArray;
-
-      if (this.portalSearch !== '') {
-        list = this.originalArray.map((element) => ({
-          ...element,
-          title: element.title,
-          tiles: element.tiles.filter((tile) => this.$localized(tile.title).toLowerCase()
-            .includes(this.portalSearch.toLowerCase()) ||
-              this.$localized(tile.description).toLowerCase()
-                .includes(this.portalSearch.toLowerCase()) ||
-              this.$localized(element.title).toLowerCase()
-                .includes(this.portalSearch.toLowerCase())),
-        }));
-      }
-      this.newList = list;
-      this.$store.dispatch('categories/filterTiles', this.newList);
+      this.$store.dispatch('search/setSearchQuery', this.portalSearch.toLowerCase());
     },
     closeSearchInput() {
-      this.portalSearch = '';
-      this.newList = '';
-      this.$store.dispatch('categories/filterTiles', this.originalArray);
       this.$store.dispatch('navigation/setActiveButton', '');
     },
   },

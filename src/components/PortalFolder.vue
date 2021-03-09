@@ -23,6 +23,7 @@
             :last-element="isLastElement(index, tiles)"
             :first-element="isFirstElement(index, tiles)"
             @makeStuff="makeStuff"
+            :no-edit="true"
             @clickAction="closeFolder"
           />
         </div>
@@ -31,6 +32,14 @@
     <span class="portal-folder__name">
       {{ $localized(title) }}
     </span>
+    <header-button
+      v-if="!noEdit && isAdmin && !inModal"
+      :icon="buttonIcon"
+      :aria-label="ariaLabelButton"
+      :no-click="true"
+      class="portal-folder__edit-button"
+      @click.prevent="editFolder()"
+    />
   </div>
 </template>
 
@@ -38,12 +47,14 @@
 import { Options, Vue } from 'vue-class-component';
 import PortalTile from '@/components/PortalTile.vue';
 import PortalModal from '@/components/globals/PortalModal.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 @Options({
   name: 'PortalFolder',
   components: {
     PortalTile,
     PortalModal,
+    HeaderButton,
   },
   props: {
     title: {
@@ -57,6 +68,22 @@ import PortalModal from '@/components/globals/PortalModal.vue';
     inModal: {
       type: Boolean,
       default: false,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    noEdit: {
+      type: Boolean,
+      default: false,
+    },
+    buttonIcon: {
+      type: String,
+      default: 'edit-2',
+    },
+    ariaLabelButton: {
+      type: String,
+      default: 'Tab Aria Label',
     },
   },
   methods: {
@@ -97,14 +124,16 @@ import PortalModal from '@/components/globals/PortalModal.vue';
         lastElement.focus();
         console.log('backward');
       }
+    editFolder() {
+      console.log('editFolder');
     },
   },
 })
 
 export default class PortalFolder extends Vue {
-  title!: string;
+  title!: Record<string, string>;
 
-  tiles!: [PortalTile];
+  tiles!: Array<PortalTile>;
 
   inModal!: boolean;
 }
@@ -160,6 +189,22 @@ export default class PortalFolder extends Vue {
 
       &__name
         display: none;
+
+  &__edit-button
+    user-select: none
+
+    position: absolute
+    top: -0.75em
+    right: -0.75em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
 
   .portal-tile__box
     background: var(--color-grey0)

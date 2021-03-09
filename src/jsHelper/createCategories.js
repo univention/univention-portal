@@ -27,7 +27,6 @@ export default function createCategories(portalData) {
   const availableFolders = portalData.folders;
   const { defaultLinkTarget } = portalData.portal;
 
-  const finalArray = [];
   return portalContent.map(([categoryID, categoryEntries]) => {
     // console.log(categoryID, categoryEntries);
     const category = availableCategories.find((cat) => cat.dn === categoryID);

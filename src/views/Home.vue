@@ -2,20 +2,33 @@
   <div class="portal">
     <portal-background />
     <portal-header />
-
     <div
       v-show="!activeTabIndex"
       class="portal-categories"
     >
-      <template v-if="categoryArray">
+      <template v-if="portalCategories">
         <portal-category
-          v-for="(category, index) in categoryArray"
+          v-for="(category, index) in portalCategories"
           :key="index"
           :title="category.title"
           :tiles="category.tiles"
           :drop-zone="index"
         />
       </template>
+
+      <h2
+        v-if="editMode"
+        class="portal-categories__title"
+        @click.prevent="addCategory()"
+      >
+        <header-button
+          :icon="buttonIcon"
+          :aria-label="ariaLabelButton"
+          :no-click="true"
+          class="portal-categories__add-button"
+        />
+        <translate i18n-key="ADD_CATEGORY" />
+      </h2>
     </div>
 
     <div
@@ -46,17 +59,20 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import PortalIframe from 'components/PortalIframe';
-import PortalCategory from 'components/PortalCategory';
-import PortalIcon from '@/components/globals/PortalIcon';
-import PortalHeader from '@/components/PortalHeader';
-import PortalFolder from '@/components/PortalFolder';
-import PortalModal from '@/components/globals/PortalModal';
+import PortalIframe from 'components/PortalIframe.vue';
+import PortalCategory from 'components/PortalCategory.vue';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
+import PortalHeader from '@/components/PortalHeader.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
+import PortalModal from '@/components/globals/PortalModal.vue';
 
-import PortalBackground from '@/components/PortalBackground';
-import CookieBanner from '@/components/CookieBanner';
+import PortalBackground from '@/components/PortalBackground.vue';
+import CookieBanner from '@/components/CookieBanner.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
-import notificationMixin from '@/mixins/notificationMixin';
+import notificationMixin from '@/mixins/notificationMixin.vue';
+
+import Translate from '@/i18n/Translate.vue';
 
 export default {
   name: 'Home',
@@ -69,17 +85,19 @@ export default {
     PortalModal,
     PortalBackground,
     CookieBanner,
+    HeaderButton,
+    Translate,
   },
   mixins: [notificationMixin],
   data() {
     return {
       categoryList: [],
+      buttonIcon: 'plus',
+      ariaLabelButton: 'Button for adding a new category',
     };
   },
   computed: {
     ...mapGetters({
-      categories: 'categories/categoryState',
-      filteredCategories: 'categories/categoryState',
       originalArray: 'categories/categoryState',
       modalState: 'modal/modalState',
       modalComponent: 'modal/modalComponent',
@@ -87,19 +105,11 @@ export default {
       modalStubborn: 'modal/modalStubborn',
       tabs: 'tabs/allTabs',
       activeTabIndex: 'tabs/activeTabIndex',
+      editMode: 'portalData/editMode',
       // portalData: 'portalData/getPortal', // access portal data ;)
     }),
-    categoryArray() {
-      let categoryTempArray = this.originalArray;
-      this.$nextTick(() => {
-        categoryTempArray = this.filteredCategories ? this.filteredCategories : this.originalArray;
-      });
-
-      // TODO: fix it!
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.categoryList = categoryTempArray;
-
-      return categoryTempArray;
+    portalCategories() {
+      return this.originalArray ? this.originalArray : [];
     },
   },
   methods: {
@@ -107,6 +117,9 @@ export default {
       if (!this.modalStubborn) {
         this.$store.dispatch('modal/setHideModal');
       }
+    },
+    addCategory() {
+      console.log('addCategory');
     },
   },
 };
@@ -117,6 +130,27 @@ export default {
   position: relative;
   // z-index: 1;
   padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+
+  &__add-button
+    user-select: none
+
+    display: inline-block
+    margin-right: 1em
+
+    width: 2em
+    height: 2em
+    background-color: var(--color-grey0)
+    background-size: 1em
+    background-repeat: no-repeat
+    background-position: center
+    border-radius: 50%
+    box-shadow: var(--box-shadow)
+
+  &__title
+    cursor: pointer
+    display: inline-block
+    margin-top: 0
+    margin-bottom: calc(6 * var(--layout-spacing-unit))
 
 .portal-iframes
   position: fixed;

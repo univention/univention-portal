@@ -5,58 +5,85 @@ module.exports = {
     node: true,
     jest: true,
   },
+  parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
+    extraFileExtensions: ['.vue'],
     ecmaVersion: 2020,
     ecmaFeatures: {
       legacyDecorators: true,
     },
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:vue/vue3-recommended',
-    'airbnb',
-    '@vue/eslint-config-airbnb',
-  ],
   plugins: [
-    'vue',
-    'json',
+    '@typescript-eslint',
+    'eslint-comments',
     'jest',
+    'json',
+    'vue',
+  ],
+  extends: [
+    'plugin:vue/vue3-recommended',
+    'plugin:jest/recommended',
+    'plugin:eslint-comments/recommended',
+    '@vue/airbnb',
+    '@vue/typescript/recommended',
   ],
   rules: {
-    'max-len': 'off',
-    // 'no-console': ['error', { allow: ['error'] }],
+    'arrow-parens': ['error', 'always'],
+    'comma-spacing': [
+      'error',
+      {
+        before: false,
+        after: true,
+      },
+    ],
+    // 'import/extensions': ['error', 'always', { ignorePackages: true }],
+    'max-len': [
+      'error',
+      {
+        code: 180,
+        ignoreComments: true,
+        ignoreRegExpLiterals: true,
+        ignoreStrings: true,
+        ignoreUrls: true,
+      },
+    ],
+    'newline-per-chained-call': ['error', {
+      ignoreChainWithDepth: 2,
+    }],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-param-reassign': ['error', {
+      props: false,
+    }],
+    // 'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-useless-escape': 'off',
-    quotes: [2, 'single', { avoidEscape: true }],
-    'operator-linebreak': ['error', 'after', { overrides: { '?': 'before', ':': 'before' } }],
-    'comma-spacing': ['error', {
-      before: false,
-      after: true,
+    'object-curly-newline': ['error', {
+      ImportDeclaration: 'never',
+    }],
+    'operator-linebreak': [
+      'error',
+      'after',
+      {
+        overrides: {
+          '?': 'before', ':': 'before',
+        },
+      },
+    ],
+    'prefer-destructuring': 'off',
+    'quote-props': ['error', 'consistent-as-needed'],
+    'quotes': ['error', 'single', {
+      avoidEscape: true,
     }],
     'space-in-parens': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'space-before-function-paren': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'arrow-parens': ['error', 'always'],
-    'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
-    'prefer-destructuring': 'off',
-    // TODO: Should be activated again once a solution is found
-    'no-unused-vars': 'off',
-    'import/extensions': 'off',
-    // "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    // "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-    // 'import/extensions': ['error', 'never'],
-    // 'import/extensions': [
-    //   'error',
-    //   'ignorePackages',
-    //   {
-    //     js: 'never',
-    //     jsx: 'never',
-    //     ts: 'never',
-    //     tsx: 'never',
-    //     vue: 'never',
-    //   },
-    // ],
+
+    // ToDo: Temporay rule settings that should be deleted when code issues are fixed!
+    'import/no-extraneous-dependencies': 'warn', // e.g. no use of 'require' -> Convert all .js to .ts files and use import!
+    '@typescript-eslint/explicit-module-boundary-types': 'off', // temporary disabled because of hundrets of warnings which should be fixed before
+    'no-unused-vars': 'warn', // Should be warn for development but error for production environments
+
   },
   overrides: [
     {
@@ -70,13 +97,13 @@ module.exports = {
     },
   ],
   settings: {
-    react: {
-      version: '999.999.999',
-    },
     'import/resolver': {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'],
       },
+    },
+    'jest': {
+      version: 26,
     },
   },
 };

@@ -13,7 +13,7 @@ export interface State {
   tabs: Array<Tab>;
 }
 
-const tabs: Module<State, any> = {
+const tabs: Module<State, unknown> = {
   namespaced: true,
   state: {
     activeTabIndex: 0,

@@ -2,6 +2,7 @@ import { Module } from 'vuex';
 
 interface User {
   username: string;
+  displayName: string;
   mayEditPortal: boolean;
   mayLoginViaSAML: boolean;
 }
@@ -10,11 +11,12 @@ export interface State {
   user: User;
 }
 
-const user: Module<State, any> = {
+const user: Module<State, unknown> = {
   namespaced: true,
   state: {
     user: {
       username: '',
+      displayName: '',
       mayEditPortal: false,
       mayLoginViaSAML: false,
     },

@@ -1,11 +1,11 @@
+import { updateLocale } from '@/i18n/translations';
 import { Module } from 'vuex';
-import { updateLocale } from '@/i18n/translations.js';
 
 export interface State {
   locale: string;
 }
 
-const locale: Module<State, any> = {
+const locale: Module<State, unknown> = {
   namespaced: true,
   state: {
     locale: 'en_US',

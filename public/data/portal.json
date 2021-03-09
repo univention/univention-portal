@@ -82,7 +82,8 @@
       "dn": "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "linkTarget": "newwindow",
       "links": [
-        "/univention/management/"
+        "/univention/management/",
+        "https://www.univention.com/news/blog-en/"
       ],
       "logo_name": "./data/icons/umc-domain.svg",
       "name": {
@@ -198,5 +199,6 @@
   "filtered": true,
   "may_edit_portal": true,
   "may_login_via_saml": false,
-  "user": "administrator"
+  "username": "administrator",
+  "user_displayname": "Administrator"
 }

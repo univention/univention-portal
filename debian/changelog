@@ -1,3 +1,10 @@
+phoenixportal (0.0.7) unstable; urgency=medium
+
+  * Backend functions: Login and logout
+  * Edit mode: First preview functions
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Mon, 08 Mar 2021 16:08:26 +0100
+
 phoenixportal (0.0.6) unstable; urgency=medium
 
   * Backend functions: portal and login from server response

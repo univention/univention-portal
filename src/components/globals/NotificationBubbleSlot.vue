@@ -41,10 +41,9 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import { catalog } from '@/i18n/translations.js';
+import { catalog } from '@/i18n/translations';
 
 import notificationMixin from '@/mixins/notificationMixin.vue';
 
