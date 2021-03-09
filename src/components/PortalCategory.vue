@@ -1,5 +1,8 @@
 <template>
-  <div class="portal-category" :class="{'portal-category--empty': !showCategoryHeadline }">
+  <div
+    :class="{'portal-category--empty': !showCategoryHeadline }"
+    class="portal-category"
+  >
     <h2
       v-if="showCategoryHeadline"
       class="portal-category__title"
@@ -53,21 +56,21 @@
         <template
           v-for="(tile, index) in tiles"
         >
-        <div
-          v-if="isTile(tile) || isFolder(tile)"
-          :id="index"
-          :key="index"
-        >
-          <portal-tile
-            v-if="isTile(tile)"
-            :ref="'tile' + index"
-            v-bind="tile"
-          />
-          <portal-folder
-            v-if="isFolder(tile)"
-            v-bind="tile"
-            :ref="'tile' + index"
-          />
+          <div
+            v-if="isTile(tile) || isFolder(tile)"
+            :id="index"
+            :key="index"
+          >
+            <portal-tile
+              v-if="isTile(tile)"
+              :ref="'tile' + index"
+              v-bind="tile"
+            />
+            <portal-folder
+              v-if="isFolder(tile)"
+              v-bind="tile"
+              :ref="'tile' + index"
+            />
           </div>
         </template>
       </template>
