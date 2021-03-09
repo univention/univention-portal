@@ -111,18 +111,15 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
     getLastElement() {
       console.log('ELEMENT');
     },
-    makeStuff(direction) {
-      console.log('MAKESTUFF');
+    makeStuff(focusElement) {
       const firstElement = this.$refs.portalFolderChildren0.$el.children[0];
-      console.log('LENGTH', this.tiles.length);
-      const lastPortalTile = this.$refs.portalFolderChildren + this.tiles.length;
-      console.log('lastPortalTile', lastPortalTile);
-      const lastElement = this.$refs.portalFolderChildren3.$el.children[0];
-      if (firstElement && direction === 'forward') {
-        firstElement.focus();
-      } else if (lastElement && direction === 'backward') {
+      const lastChild = `portalFolderChildren${this.tiles.length - 1}`;
+      const lastElement = this.$refs[lastChild].$el.children[0];
+
+      if (focusElement === 'focusLast') {
         lastElement.focus();
-        console.log('backward');
+      } else if (focusElement === 'focusFirst') {
+        firstElement.focus();
       }
     },
     editFolder() {

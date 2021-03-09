@@ -183,7 +183,6 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
       return matchesQuery;
     },
     hasTiles() {
-      console.log('JO ITS WORKING');
       const refArray = Object.entries(this.$refs);
       const children = refArray.filter((ref) => ref[1] !== null);
       if (children.length > 0) {
@@ -191,7 +190,6 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
       } else {
         this.showCategoryHeadline = false;
       }
-      console.log('hallo', this.showCategoryHeadline);
     },
   },
 })

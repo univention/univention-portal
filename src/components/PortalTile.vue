@@ -10,8 +10,8 @@
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
       @click="tileClick"
-      @keydown.tab.exact="setFocus($event)"
-      @keydown.shift.tab.exact="setFocus($event)"
+      @keydown.tab.exact="setFocus($event, 'forward')"
+      @keydown.shift.tab.exact="setFocus($event, 'backward')"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -153,15 +153,13 @@ import bestLink from '@/jsHelper/bestLink';
         this.isActive = true;
       }
     },
-    setFocus(event): void {
-      if (this.lastElement) {
+    setFocus(event, direction): void {
+      if (this.lastElement && direction === 'forward' ) {
         event.preventDefault();
-        console.log('emmitting forward');
-        this.$emit('makeStuff', 'forward');
-      } else if (this.firstElement) {
+        this.$emit('makeStuff', 'focusFirst');
+      } else if (this.firstElement && direction === 'backward') {
         event.preventDefault();
-        console.log('emitting backward');
-        this.$emit('makeStuff', 'backward');
+        this.$emit('makeStuff', 'focusLast');
       }
     },
     editTile() {
