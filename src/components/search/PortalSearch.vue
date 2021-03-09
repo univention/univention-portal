@@ -21,6 +21,11 @@ import { mapGetters } from 'vuex';
       this.$refs.portalSearchInput.focus();
     });
   },
+  data() {
+    return {
+      portalSearch: '',
+    };
+  },
   beforeUnmount() {
     this.$store.dispatch('search/setSearchQuery', '');
   },

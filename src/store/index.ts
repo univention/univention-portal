@@ -74,7 +74,6 @@ export const store = createStore({
             store.dispatch('menu/setMenu', PortalData);
             store.dispatch('portalData/setPortal', PortalData);
             store.dispatch('categories/storeOriginalArray', PortalData);
-            store.dispatch('categories/setStandard');
             store.dispatch('user/setUser', {
               user: {
                 username: PortalData.username,
