@@ -2,6 +2,7 @@
   <div
     v-if="showTooltip"
     class="portal-tooltip"
+    :class="{'portal-tooltip--shown': isDisplayed}"
     role="tooltip"
   >
     <div class="portal-tooltip__header">
@@ -54,6 +55,10 @@ import { Options, Vue } from 'vue-class-component';
       type: String,
       default: '',
     },
+    isDisplayed: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     showTooltip() {
@@ -95,7 +100,11 @@ export default class PortalToolTip extends Vue {
   pointer-events: none
   z-index: $zindex-3
   color: var(--color-white)
+  display: none;
 
+  &--shown {
+    display: block;
+  }
   &__header
     display: flex
     align-items: center
