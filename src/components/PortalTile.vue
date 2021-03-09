@@ -57,7 +57,6 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 import bestLink from '@/jsHelper/bestLink';
 
-
 @Options({
   name: 'PortalTile',
   components: {
