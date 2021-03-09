@@ -22,8 +22,8 @@
             :has-focus="setFocus(index)"
             :last-element="isLastElement(index, tiles)"
             :first-element="isFirstElement(index, tiles)"
-            @makeStuff="makeStuff"
             :no-edit="true"
+            @makeStuff="makeStuff"
             @clickAction="closeFolder"
           />
         </div>
@@ -99,13 +99,13 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
         props: { ...this.$props, inModal: true },
       });
     },
-    setFocus(index): Boolean {
+    setFocus(index): boolean {
       return this.inModal && index === 0;
     },
-    isLastElement(index, array): Boolean {
+    isLastElement(index, array): boolean {
       return index === (array.length - 1);
     },
-    isFirstElement(index, array): Boolean {
+    isFirstElement(index, array): boolean {
       return index === 0;
     },
     getLastElement() {
@@ -124,6 +124,7 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
         lastElement.focus();
         console.log('backward');
       }
+    },
     editFolder() {
       console.log('editFolder');
     },

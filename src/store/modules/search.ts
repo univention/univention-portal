@@ -4,7 +4,7 @@ export interface State {
   searchQuery: string,
 }
 
-const search: Module<State, any> = {
+const search: Module<State, unknown> = {
   namespaced: true,
   state: {
     searchQuery: '',

@@ -59,7 +59,6 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 import bestLink from '@/jsHelper/bestLink';
 
-
 @Options({
   name: 'PortalTile',
   components: {
@@ -102,6 +101,7 @@ import bestLink from '@/jsHelper/bestLink';
     firstElement: {
       type: Boolean,
       default: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -163,6 +163,7 @@ import bestLink from '@/jsHelper/bestLink';
         console.log('emitting backward');
         this.$emit('makeStuff', 'backward');
       }
+    },
     editTile() {
       console.log('editTile');
     },
