@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 
 export interface Portal {
-  name: Object;
+  name: Record<string, string>;
 }
 
 export interface PortalData {
@@ -13,7 +13,7 @@ export interface State {
   editMode: boolean;
 }
 
-const portal: Module<State, any> = {
+const portal: Module<State, unknown> = {
   namespaced: true,
   state: {
     portal: {

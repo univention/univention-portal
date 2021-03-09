@@ -1,24 +1,17 @@
 import PortalCategory from '@/components/PortalCategory.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
+import createCategories from '@/jsHelper/createCategories';
 import { Module } from 'vuex';
-
-import createCategories from '@/jsHelper/createCategories.js';
-
-const dummyDescription = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.';
 
 export interface State {
   categories: Array<PortalCategory>;
-  originalArray: Array<PortalCategory>;
-  filteredCategories: Array<PortalCategory>;
 }
 
-const categories: Module<State, any> = {
+const categories: Module<State, unknown> = {
   namespaced: true,
   state: {
     categories: [],
-    originalArray: [],
-    filteredCategories: [],
   },
 
   mutations: {
@@ -99,26 +92,19 @@ const categories: Module<State, any> = {
       state.categories = folderCategories;
     },
     STANDARD(state) {
-      state.categories = state.originalArray;
+      // state.categories = state.originalArray;
     },
     REPLACE(state, payload) {
       state.categories = payload.categories;
     },
     SAVE_ORIGINAL_ARRAY_ONCE(state, payload) {
       const categoriesFromJSON = createCategories(payload);
-      // state.categories = categoriesFromJSON;
-      state.originalArray = categoriesFromJSON;
-    },
-    FILTER(state, payload) {
-      state.categories = payload;
-      state.filteredCategories = payload;
+      state.categories = categoriesFromJSON;
     },
   },
 
   getters: {
     categoryState: (state) => state.categories,
-    rootState: (state, getters, rootState) => rootState,
-    categoryStateOriginal: (state) => state.originalArray,
   },
 
   actions: {
@@ -136,9 +122,6 @@ const categories: Module<State, any> = {
     },
     setFromMock({ commit }, payload) {
       commit('STANDARD', payload);
-    },
-    filterTiles({ commit }, filteredList) {
-      commit('FILTER', filteredList);
     },
     storeOriginalArray({ commit }, payload) {
       commit('SAVE_ORIGINAL_ARRAY_ONCE', payload);

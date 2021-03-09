@@ -11,11 +11,39 @@ Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are ma
 - [Tech Stack](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Tech%20Stack/) (Technical decisions about the frameworks, libraries and tools we use)
 - [Workflow](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Workflow/) (Description and suggestions on how we work together, track issues, review code...)
 
+## Have a live look
+
+A version that *should* work can be found here: http://10.200.4.60
+
+`ssh lagan.knut.univention.de virsh start dwiesent_ucs5-vue-portal`
+
+You may as well install our latest packages. Add this to `/etc/apt/sources.list`:
+
+```
+deb http://omar.knut.univention.de/build2/ ucs_5.0-0-vue-frontend/all/
+deb http://omar.knut.univention.de/build2/ ucs_5.0-0-vue-frontend/$(ARCH)/
+```
+
+and install the packages `phoenix-portal univention-portal`
+
+This installs the frontend to /univention/phoenix/.
+
 ## Project setup
-Installs all project dependencies
+
+Regardless if you want to run it locally on your Linux machine or on a UCS
+server, you need a recent version of NPM (Node Package Manager). So do that as
+root:
+
 ```
-yarn install
+apt install npm  # "old" version
+npm install --force -g npm@latest  # newer version
+/usr/local/bin/npm install -g yarn  # at the end, we use yarn, not npm
+
+/usr/local/bin/yarn install  # installs all runtime and build dependencies (see yarn.lock)
 ```
+
+Have a look at `.env.local_example`. Copy it to `.env.local`. Or copy
+`.env.production` instead.
 
 ### Compiles and hot-reloads for development
 ```
@@ -26,6 +54,8 @@ yarn serve
 ```
 yarn build
 ```
+
+This creates a static HTML file that may be served by UCS' apache. Everything in `dist/*` should be put somewhere in `/var/www/univention/`.
 
 ### Lints and fixes files
 ```
@@ -65,14 +95,9 @@ yarn test:e2e
 
 - Feather-Sprite Icons: [Overview](https://feathericons.com/)
 
-## Building .debs
+## CI/CD Setup Building .debs
 ### create / run the builder docker image
 * build image `docker build -t phoenixportalbuilder ./builder`
 * build deb `sh ./build-package.sh`
 * tag image `docker image tag phoenixportalbuilder:latest docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest`
 * push image to registry: `docker image push docker-registry.knut.univention.de/phoenix/phoenixportalbuilder`
-
-### Misc
-How to init a package:
-dh_make --native --single --email packages@univention.de -p phoenixportal_0.0.1
-https://docs.software-univention.de/developer-reference.html#chap:packaging

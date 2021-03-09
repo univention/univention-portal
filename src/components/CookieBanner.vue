@@ -63,7 +63,7 @@ import PortalButton from '@/components/globals/PortalButton.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import Translate from '@/i18n/Translate.vue';
 
-import { setCookie, getCookie, deleteCookie } from '@/jsHelper/cookieHelper.js';
+import { setCookie, getCookie } from '@/jsHelper/cookieHelper';
 
 @Options({
   name: 'CookieBanner',

@@ -24,6 +24,7 @@ const catalog = {
   SUBMIT: _('Submit'),
   DISMISS_NOTIFICATION: _('Dismiss notification'),
   LOGIN_REMINDER_DESCRIPTION: _('Login <a class="notification-bubble__link" href="#">here</a> so that you can use the full range of functions of UCS.'),
+  ADD_CATEGORY: _('Add category'),
 };
 
 const translationCatalogs = {};
@@ -38,12 +39,12 @@ function getCatalog(locale) {
         reject();
       }
     } else {
-      axios.get(`${portalUrl}/i18n/${locale}.json`).then(
+      axios.get(`${portalUrl}i18n/${locale}.json`).then(
         (response) => {
           const translationCatalog = response.data;
           translationCatalogs[locale] = translationCatalog;
           resolve(translationCatalog);
-        }, (error) => {
+        }, () => {
           // no locale found (404?)
           translationCatalogs[locale] = null;
           reject();

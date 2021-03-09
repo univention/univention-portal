@@ -1,14 +1,13 @@
+import createMenuStructure from '@/jsHelper/createMenuStructure';
 import { Module } from 'vuex';
 
-import createMenuStructure from '@/jsHelper/createMenuStructure.js';
-
 export interface State {
-  menu: Object;
-  menuLinks: Array<any>,
-  userLinks: Array<any>,
+  menu: Record<string, unknown>;
+  menuLinks: Array<unknown>,
+  userLinks: Array<unknown>,
 }
 
-const menu: Module<State, any> = {
+const menu: Module<State, unknown> = {
   namespaced: true,
   state: {
     menu: {},

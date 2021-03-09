@@ -11,7 +11,7 @@
         />
         <div>
           <div class="portal-sidenavigation--username">
-            {{ userState.username }}
+            {{ userState.displayName }}
           </div>
           <div
             class="portal-sidenavigation__logout-link"
