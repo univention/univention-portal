@@ -4,6 +4,7 @@
       :is="wrapperTag"
       :href="link"
       :target="setLinkTarget"
+      :aria-describedby="createID()"
       class="portal-tile"
       data-test="tileLink"
       @mouseover="editMode || showTooltip()"
@@ -12,6 +13,8 @@
       @click="tileClick"
       @keydown.tab.exact="setFocus($event, 'forward')"
       @keydown.shift.tab.exact="setFocus($event, 'backward')"
+      @focus="showTooltip()"
+      @blur="hideTooltip()"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -46,6 +49,7 @@
       :title="$localized(title)"
       :icon="pathToLogo"
       :description="$localized(description)"
+      :aria-id="createID()"
     />
   </div>
 </template>
@@ -154,7 +158,7 @@ import bestLink from '@/jsHelper/bestLink';
       }
     },
     setFocus(event, direction): void {
-      if (this.lastElement && direction === 'forward' ) {
+      if (this.lastElement && direction === 'forward') {
         event.preventDefault();
         this.$emit('makeStuff', 'focusFirst');
       } else if (this.firstElement && direction === 'backward') {
@@ -164,6 +168,16 @@ import bestLink from '@/jsHelper/bestLink';
     },
     editTile() {
       console.log('editTile');
+    },
+    showToolTipIfFocused() {
+      if (this.isActive) {
+        this.hideTooltip();
+      } else {
+        this.showTooltip();
+      }
+    },
+    createID() {
+      return `element-${this.$.uid}`;
     },
   },
 })

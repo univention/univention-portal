@@ -2,6 +2,7 @@
   <div
     v-if="showTooltip"
     class="portal-tooltip"
+    role="tooltip"
   >
     <div class="portal-tooltip__header">
       <div class="portal-tooltip__thumbnail">
@@ -19,6 +20,7 @@
     <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="description"
+      :id="ariaId"
       class="portal-tooltip__description"
       v-html="description"
     />
@@ -45,6 +47,10 @@ import { Options, Vue } from 'vue-class-component';
       default: '',
     },
     link: {
+      type: String,
+      default: '',
+    },
+    ariaId: {
       type: String,
       default: '',
     },
@@ -87,6 +93,8 @@ export default class PortalToolTip extends Vue {
   padding: calc(2 * 1rem)
   box-shadow: 0rem 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
   pointer-events: none
+  z-index: $zindex-3
+  color: var(--color-white)
 
   &__header
     display: flex
