@@ -137,9 +137,7 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.activeSearchBar) {
-        this.hasTiles();
-      }
+      this.hasTiles();
     });
   },
   updated() {
