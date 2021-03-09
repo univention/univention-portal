@@ -91,9 +91,6 @@ const categories: Module<State, unknown> = {
       ];
       state.categories = folderCategories;
     },
-    STANDARD(state) {
-      // state.categories = state.originalArray;
-    },
     REPLACE(state, payload) {
       state.categories = payload.categories;
     },
@@ -113,9 +110,6 @@ const categories: Module<State, unknown> = {
     },
     setDevFolder({ commit }, payload) {
       commit('DEV_FOLDER', payload);
-    },
-    setStandard({ commit }) {
-      commit('STANDARD');
     },
     setReplace({ commit }, payload) {
       commit('REPLACE', payload);
