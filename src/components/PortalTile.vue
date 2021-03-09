@@ -45,11 +45,11 @@
       />
     </component>
     <portal-tool-tip
-      v-if="isActive"
       :title="$localized(title)"
       :icon="pathToLogo"
       :description="$localized(description)"
       :aria-id="createID()"
+      :is-displayed="isActive"
     />
   </div>
 </template>
