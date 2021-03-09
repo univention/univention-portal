@@ -12,7 +12,9 @@
         class="portal-header__left-image"
         alt="Portal logo"
       >
-      <h2>{{ $localized(portalName) }}</h2>
+      <h1 class="portal-header__portal-name">
+        {{ $localized(portalName) }}
+      </h1>
     </div>
 
     <div class="portal-header__tabs">
@@ -209,6 +211,9 @@ export default class PortalHeader extends Vue {}
   height: var(--portal-header-height)
   display: flex
   padding: 0 calc(2 * var(--layout-spacing-unit))
+
+  &__portal-name
+    font-size: 2rem;
 
   &__left
     flex: 0 0 auto;
