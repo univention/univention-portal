@@ -41,7 +41,7 @@ export const store = createStore({
   state: {},
   mutations: {},
   actions: {
-    loadPortal: ({ commit }) => {
+    loadPortal: () => {
       store.dispatch('modal/setShowLoadingModal');
 
       // store menu data
@@ -85,7 +85,7 @@ export const store = createStore({
             });
             store.dispatch('modal/setHideModal');
             resolve(PortalData);
-          }, (error) => {
+          }, () => {
             store.dispatch('modal/setHideModal');
             resolve({});
           },
