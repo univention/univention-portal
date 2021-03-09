@@ -18,7 +18,6 @@ const menu: Module<State, unknown> = {
   mutations: {
     MENU(state, payload) {
       const menuStructure = createMenuStructure(payload);
-      console.log('menuStructure', menuStructure);
       state.menu = menuStructure;
     },
     MENU_LINKS(state, payload) {
