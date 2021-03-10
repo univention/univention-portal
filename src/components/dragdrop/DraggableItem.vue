@@ -3,8 +3,6 @@
     ref="draggable"
     draggable="true"
     :class="!isDragging || dragClass"
-    @transitionStart="transitionStart"
-    @transitionEnd="transitionEnd"
     @dragover.prevent="itemDragOver"
     @dragstart="itemDragStart"
     @dragend="itemDragEnd"

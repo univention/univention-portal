@@ -18,13 +18,16 @@
       />
       {{ $localized(title) }}
     </h2>
-    <div class="portal-category__tiles dragdrop__container">
+    <div
+      class="portal-category__tiles dragdrop__container"
+      :class="{'portal-category__tiles--editmode': editMode}"
+    >
       <template v-if="editMode">
         <draggable-wrapper
           v-model="vTiles"
           :drop-zone-id="dropZone"
           :data-drop-zone-id="dropZone"
-          transition="100"
+          transition="10000"
           class="dragdrop__drop-zone"
         >
           <template #item="{ item }">
@@ -206,7 +209,13 @@ export default class PortalCategory extends Vue {
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
 
+    &--editmode {
+      display: block
+    }
+
   &__drop-zone
+    width: 100%;
+    overflow: hidden;
     &--hidden
       display: none
 
