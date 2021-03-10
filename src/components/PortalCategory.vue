@@ -155,7 +155,7 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
   },
   methods: {
     isTile(obj: PortalTile | PortalFolder): boolean {
-      return !this.isFolder(obj) && this.tileMatchesQuery(obj);
+      return 'linkTarget' in obj && this.tileMatchesQuery(obj);
     },
     isFolder(obj: PortalTile | PortalFolder): obj is PortalFolder {
       return 'tiles' in obj && this.folderMatchesQuery(obj);
@@ -171,14 +171,9 @@ import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
         .includes(this.searchQuery.toLowerCase());
     },
     folderMatchesQuery(obj: PortalFolder): boolean {
-      let matchesQuery = false;
-      obj.tiles.forEach((tile) => {
-        if (this.$localized(tile.title).toLowerCase()
-          .includes(this.searchQuery.toLowerCase())) {
-          matchesQuery = true;
-        }
-      });
-      return matchesQuery;
+      return this.tileMatchesQuery(obj) ||
+        obj.tiles.some((tile) => this.$localized(tile.title).toLowerCase()
+          .includes(this.searchQuery.toLowerCase()));
     },
     hasTiles() {
       const refArray = Object.entries(this.$refs);
