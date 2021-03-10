@@ -166,7 +166,7 @@ export default class PortalFolder extends Vue {
           &__box
             width: var(--app-tile-side-length)
             height: @width
-      &__name
+    .portal-folder__thumbnails .portal-tile__name
         display: block;
 
   &__thumbnails
