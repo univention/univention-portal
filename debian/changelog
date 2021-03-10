@@ -1,3 +1,9 @@
+phoenixportal (0.0.8) unstable; urgency=medium
+
+  * Fixes for search logic
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Wed, 10 Mar 2021 01:24:55 +0100
+
 phoenixportal (0.0.7) unstable; urgency=medium
 
   * Backend functions: Login and logout
