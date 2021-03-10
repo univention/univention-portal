@@ -4,12 +4,17 @@
       :is="wrapperTag"
       :href="link"
       :target="setLinkTarget"
+      :aria-describedby="createID()"
       class="portal-tile"
       data-test="tileLink"
       @mouseover="editMode || showTooltip()"
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
       @click="tileClick"
+      @keydown.tab.exact="setFocus($event, 'forward')"
+      @keydown.shift.tab.exact="setFocus($event, 'backward')"
+      @focus="showTooltip()"
+      @blur="hideTooltip()"
     >
       <div
         :style="`background: ${backgroundColor}`"
@@ -41,10 +46,11 @@
       />
     </component>
     <portal-tool-tip
-      v-if="isActive"
       :title="$localized(title)"
       :icon="pathToLogo"
       :description="$localized(description)"
+      :aria-id="createID()"
+      :is-displayed="isActive"
     />
   </div>
 </template>
@@ -89,6 +95,18 @@ import bestLink from '@/jsHelper/bestLink';
       type: Boolean,
       default: false,
     },
+    hasFocus: {
+      type: Boolean,
+      default: false,
+    },
+    lastElement: {
+      type: Boolean,
+      default: false,
+    },
+    firstElement: {
+      type: Boolean,
+      default: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -106,10 +124,16 @@ import bestLink from '@/jsHelper/bestLink';
       default: 'Tab Aria Label',
     },
   },
+  emits: ['makeStuff'],
   data() {
     return {
       isActive: false,
     };
+  },
+  mounted() {
+    if (this.hasFocus) {
+      this.$el.children[0].focus(); // sets focus to first Element in opened Folder
+    }
   },
   computed: {
     wrapperTag(): string {
@@ -134,8 +158,27 @@ import bestLink from '@/jsHelper/bestLink';
         this.isActive = true;
       }
     },
+    setFocus(event, direction): void {
+      if (this.lastElement && direction === 'forward') {
+        event.preventDefault();
+        this.$emit('makeStuff', 'focusFirst');
+      } else if (this.firstElement && direction === 'backward') {
+        event.preventDefault();
+        this.$emit('makeStuff', 'focusLast');
+      }
+    },
     editTile() {
       console.log('editTile');
+    },
+    showToolTipIfFocused() {
+      if (this.isActive) {
+        this.hideTooltip();
+      } else {
+        this.showTooltip();
+      }
+    },
+    createID() {
+      return `element-${this.$.uid}`;
     },
   },
 })
@@ -178,6 +221,10 @@ export default class PortalTile extends Vue {
     width: var(--app-tile-side-length)
     height: @width
     margin-bottom: calc(2 * var(--layout-spacing-unit))
+    border: 0.2rem solid transparent
+
+    ~/:focus &
+      border-color: var(--color-primary)
 
     &--dragable
       position: relative

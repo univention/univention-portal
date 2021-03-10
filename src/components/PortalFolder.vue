@@ -3,9 +3,12 @@
     class="portal-folder"
     :class="{ 'portal-folder__in-modal': inModal }"
   >
-    <div
+    <button
       class="portal-tile__box"
-      @click.prevent="openFolder"
+      tabindex="0"
+      @click="openFolder"
+      @keypress.enter="openFolder"
+      @keyup.esc.stop="closeFolder()"
     >
       <div class="portal-folder__thumbnails">
         <div
@@ -13,14 +16,19 @@
           :key="index"
         >
           <portal-tile
+            :ref="'portalFolderChildren' + index"
             v-bind="tile"
             :in-folder="!inModal"
+            :has-focus="setFocus(index)"
+            :last-element="isLastElement(index, tiles)"
+            :first-element="isFirstElement(index, tiles)"
             :no-edit="true"
+            @makeStuff="makeStuff"
             @clickAction="closeFolder"
           />
         </div>
       </div>
-    </div>
+    </button>
     <span class="portal-folder__name">
       {{ $localized(title) }}
     </span>
@@ -90,6 +98,29 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
         name: 'PortalFolder',
         props: { ...this.$props, inModal: true },
       });
+    },
+    setFocus(index): boolean {
+      return this.inModal && index === 0;
+    },
+    isLastElement(index, array): boolean {
+      return index === (array.length - 1);
+    },
+    isFirstElement(index): boolean {
+      return index === 0;
+    },
+    getLastElement() {
+      console.log('ELEMENT');
+    },
+    makeStuff(focusElement) {
+      const firstElement = this.$refs.portalFolderChildren0.$el.children[0];
+      const lastChild = `portalFolderChildren${this.tiles.length - 1}`;
+      const lastElement = this.$refs[lastChild].$el.children[0];
+
+      if (focusElement === 'focusLast') {
+        lastElement.focus();
+      } else if (focusElement === 'focusFirst') {
+        firstElement.focus();
+      }
     },
     editFolder() {
       console.log('editFolder');
@@ -175,4 +206,9 @@ export default class PortalFolder extends Vue {
 
   .portal-tile__box
     background: var(--color-grey0)
+    border: 0.2rem solid transparent
+
+    &:focus
+      border-color: var(--color-primary)
+      outline: none;
 </style>
