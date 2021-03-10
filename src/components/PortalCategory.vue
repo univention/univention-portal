@@ -1,10 +1,10 @@
 <template>
   <div
-    :class="{'portal-category--empty': !showCategoryHeadline }"
+    :class="{'portal-category--empty': (!editMode && !showCategoryHeadline) }"
     class="portal-category"
   >
     <h2
-      v-if="showCategoryHeadline"
+      v-if="editMode || showCategoryHeadline"
       class="portal-category__title"
       :class="!editMode || 'portal-category__title--edit'"
       @click.prevent="editMode ? editCategory() : ''"
@@ -21,7 +21,6 @@
     <div class="portal-category__tiles dragdrop__container">
       <template v-if="editMode">
         <draggable-wrapper
-          v-if="isTile(item)"
           v-model="vTiles"
           :drop-zone-id="dropZone"
           :data-drop-zone-id="dropZone"
