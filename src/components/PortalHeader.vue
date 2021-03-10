@@ -126,13 +126,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
   mixins: [
     notificationMixin,
   ],
-  updated() {
-    this.$nextTick(() => {
-      if (this.activeSearchBar) {
-        this.setTabOrderWhenSearchBarOpen();
-      }
-    });
-  },
   computed: {
     ...mapGetters({
       portalName: 'portalData/portalName',
@@ -171,28 +164,6 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
     },
     goHome() {
       this.$store.dispatch('tabs/setActiveTab', 0);
-    },
-    setTabOrderWhenSearchBarOpen() {
-      document.addEventListener('keydown', (e) => {
-        if (document.activeElement === this.$refs.searchInput.$refs.portalSearchInput) {
-          if (e.shiftKey && e.keyCode === 9 && this.activeSearchBar) {
-            e.preventDefault();
-            if (this) {
-              const searchButton = this.$refs.searchButton.$refs.searchReference;
-              searchButton.focus();
-            }
-          } else if (e.keyCode === 13) {
-            e.preventDefault();
-            const firstTile = document.querySelector('.portal-tile');
-            if (firstTile) {
-              (firstTile as HTMLElement)?.focus();
-            }
-          } else if (e.keyCode === 9) {
-            e.preventDefault();
-          // usernameTextBox.focus()
-          }
-        }
-      });
     },
   },
 })

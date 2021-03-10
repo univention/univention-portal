@@ -24,6 +24,7 @@
       >
         <img
           :src="pathToLogo"
+          onerror="this.src='./questionMark.svg'"
           :alt="`Logo ${$localized(title)}`"
           class="portal-tile__img"
         >
