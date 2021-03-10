@@ -105,7 +105,7 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
     isLastElement(index, array): boolean {
       return index === (array.length - 1);
     },
-    isFirstElement(index, array): boolean {
+    isFirstElement(index): boolean {
       return index === 0;
     },
     getLastElement() {
