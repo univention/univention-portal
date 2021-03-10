@@ -7,6 +7,7 @@
       <div class="portal-tooltip__thumbnail">
         <img
           :src="icon"
+          onerror="this.src='./questionMark.svg'"
           :alt="`${title} logo`"
           class="portal-tooltip__logo"
         >
