@@ -2,9 +2,13 @@
   <div class="tile-add__wrapper">
     <div
       class="tile-add"
-      style="background-image: url('plus_grey.svg');"
       @click="showMenu()"
-    />
+    >
+      <portal-icon
+        icon="plus"
+        icon-width="100%"
+      />
+    </div>
 
     <div
       v-if="popMenuShow"
@@ -111,6 +115,9 @@ export default defineComponent({
   background-size: 3em
   background-repeat: no-repeat
   cursor: pointer
+
+  svg
+    stroke: var(--color-grey40)
 
   &__wrapper
     position: relative
