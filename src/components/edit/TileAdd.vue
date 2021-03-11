@@ -2,6 +2,7 @@
   <div class="tile-add__wrapper">
     <div
       class="tile-add"
+      style="background-image: url('plus_grey.svg');"
       @click="showMenu()"
     />
 
@@ -97,7 +98,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .tile-add
   margin: 0
   min-width: var(--app-tile-side-length)
@@ -106,7 +107,6 @@ export default defineComponent({
   border-radius: 15%
   border: 3px solid var(--color-grey40)
   background-color: transparent
-  background-image: url('../../assets/img/plus_grey.svg')
   background-position: center
   background-size: 3em
   background-repeat: no-repeat
