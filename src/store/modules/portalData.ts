@@ -2,6 +2,7 @@ import { Module } from 'vuex';
 
 export interface Portal {
   name: Record<string, string>;
+  background: string | null;
 }
 
 export interface PortalData {
@@ -21,6 +22,7 @@ const portal: Module<State, unknown> = {
         name: {
           en_US: 'Univention Portal',
         },
+        background: null,
       },
     },
     editMode: false,
