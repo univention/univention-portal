@@ -1,14 +1,27 @@
 <template>
   <div
     class="portal__background"
+    :style="backgroundImageStyle"
   />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalBackground',
+  computed: {
+    ...mapGetters({
+      portal: 'portalData/getPortal',
+    }),
+    backgroundImageStyle(): string {
+      if (!this.portal.portal.background) {
+        return 'background-image: none';
+      }
+      return `background-image: url('${this.portal.portal.background}`;
+    },
+  },
 })
 export default class PortalBackground extends Vue {}
 </script>
