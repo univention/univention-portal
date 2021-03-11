@@ -1,8 +1,6 @@
 <template>
   <div
     class="portal__background"
-    data-dojo-attach-point="portalBackgroundNode"
-    style="background-image: url(img/background.jpg);"
   />
 </template>
 
@@ -26,6 +24,5 @@ export default class PortalBackground extends Vue {}
   background-position: top center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url('~@/assets/img/background.jpg');
 }
 </style>

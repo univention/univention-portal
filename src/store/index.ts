@@ -1,5 +1,3 @@
-// mocks
-import MenuData from '@/assets/mocks/menu.json';
 import axios from 'axios';
 // vue
 import { InjectionKey } from 'vue';
@@ -43,10 +41,6 @@ export const store = createStore({
   actions: {
     loadPortal: () => {
       store.dispatch('modal/setShowLoadingModal');
-
-      // store menu data
-      store.dispatch('menu/setMenuLinks', MenuData.menu_links);
-      store.dispatch('menu/setUserLinks', MenuData.user_links);
 
       // display standalone notification bubbles
       if (store.getters['notificationBubble/bubbleContent'].length > 0) {
