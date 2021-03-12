@@ -12,7 +12,6 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { mapGetters } from 'vuex';
 
 @Options({
   name: 'PortalSearch',
@@ -28,13 +27,6 @@ import { mapGetters } from 'vuex';
   },
   beforeUnmount() {
     this.$store.dispatch('search/setSearchQuery', '');
-  },
-  computed: {
-    ...mapGetters({
-      originalArray: 'categories/categoryState',
-      modalState: 'modal/modalState',
-      searchQuery: 'search/searchQuery',
-    }),
   },
   methods: {
     searchTiles() {

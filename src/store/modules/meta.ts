@@ -1,10 +1,10 @@
-import { Module } from 'vuex';
+import { PortalModule } from '../types';
 
-export interface State {
+export interface ModuleState {
   meta: Record<string, unknown>;
 }
 
-const meta: Module<State, unknown> = {
+const meta: PortalModule<ModuleState> = {
   namespaced: true,
   state: {
     meta: {},
