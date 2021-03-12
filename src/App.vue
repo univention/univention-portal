@@ -7,6 +7,7 @@ import { Options, Vue } from 'vue-class-component';
 import { store } from '@/store';
 import { catalog } from '@/i18n/translations';
 import Home from '@/views/Home.vue';
+import { login } from '@/jsHelper/login';
 
 // get env vars
 const defaultPortalLocale = process.env.VUE_APP_LOCALE || 'en_US';
@@ -24,6 +25,7 @@ const defaultPortalLocale = process.env.VUE_APP_LOCALE || 'en_US';
           store.dispatch('notificationBubble/addNotification', {
             bubbleTitle: catalog.LOGIN.translated,
             bubbleDescription: catalog.LOGIN_REMINDER_DESCRIPTION.translated,
+            onClick: () => login(store.getters['user/userState']),
           });
         }
         setTimeout(() => {

@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-interface User {
+export interface User {
   username: string;
   displayName: string;
   mayEditPortal: boolean;

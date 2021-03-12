@@ -3,6 +3,7 @@ import { Module } from 'vuex';
 interface Notification {
   bubbleTitle: string;
   bubbleDescription: string;
+  onClick: () => void | null;
 }
 
 interface WeightedNotification extends Notification {
