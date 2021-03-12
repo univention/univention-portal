@@ -1,20 +1,12 @@
-import { Module } from 'vuex';
+import { PortalData } from '../models';
+import { PortalModule } from '../types';
 
-export interface Portal {
-  name: Record<string, string>;
-  background: string | null;
-}
-
-export interface PortalData {
-  portal: Portal;
-}
-
-export interface State {
+export interface PortalDataState {
   portal: PortalData;
   editMode: boolean;
 }
 
-const portal: Module<State, unknown> = {
+const portalData: PortalModule<PortalDataState> = {
   namespaced: true,
   state: {
     portal: {
@@ -53,4 +45,4 @@ const portal: Module<State, unknown> = {
   },
 };
 
-export default portal;
+export default portalData;

@@ -1,11 +1,12 @@
 import { updateLocale } from '@/i18n/translations';
-import { Module } from 'vuex';
+import { Locale } from '../models';
+import { PortalModule } from '../types';
 
-export interface State {
-  locale: string;
+export interface LocaleState {
+  locale: Locale;
 }
 
-const locale: Module<State, unknown> = {
+const locale: PortalModule<LocaleState> = {
   namespaced: true,
   state: {
     locale: 'en_US',
