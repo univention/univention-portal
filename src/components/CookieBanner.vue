@@ -66,6 +66,11 @@ import PortalButton from '@/components/globals/PortalButton.vue';
 
 import { setCookie, getCookie } from '@/jsHelper/cookieHelper';
 
+interface CookieBannerData {
+  showCookieBanner: boolean,
+  fadeOutClass: string,
+}
+
 export default defineComponent({
   name: 'CookieBanner',
   components: {
@@ -73,7 +78,7 @@ export default defineComponent({
     // HeaderButton,
     // Translate,
   },
-  data() {
+  data(): CookieBannerData {
     return {
       fadeOutClass: '',
     };

@@ -75,15 +75,6 @@ export default defineComponent({
     },
   },
 });
-// export default class PortalToolTip extends Vue {
-//   title!: string;
-
-//   link!: string;
-
-//   icon!: string;
-
-//   description!: string;
-// }
 </script>
 
 <style scoped lang="stylus">

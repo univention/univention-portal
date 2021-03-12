@@ -106,6 +106,17 @@ import { login, logout } from '@/jsHelper/login';
 
 import Translate from '@/i18n/Translate.vue';
 
+interface SideNavigationData {
+  menuVisible: boolean,
+  subMenuVisible: boolean,
+  subMenuClass: string,
+  menuParent: number,
+  init: boolean,
+  fade: boolean,
+  fadeRightLeft: string,
+  fadeLeftRight: string,
+}
+
 export default defineComponent({
   name: 'SideNavigation',
   components: {
@@ -113,7 +124,7 @@ export default defineComponent({
     MenuItem,
     Translate,
   },
-  data() {
+  data(): SideNavigationData {
     return {
       menuVisible: true,
       subMenuVisible: false,
