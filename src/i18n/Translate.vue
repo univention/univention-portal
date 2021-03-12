@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { catalog } from '@/i18n/translations';
+import { catalog } from '@/assets/data/dictionary';
 
 export default defineComponent({
   name: 'Translate',

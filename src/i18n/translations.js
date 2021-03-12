@@ -1,7 +1,6 @@
-import axios from 'axios';
-
 // get default dictionary
 import { catalog } from '@/assets/data/dictionary';
+import axios from 'axios';
 
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
@@ -23,7 +22,8 @@ function getCatalog(locale) {
           const translationCatalog = response.data;
           translationCatalogs[locale] = translationCatalog;
           resolve(translationCatalog);
-        }, () => {
+        },
+        () => {
           // no locale found (404?)
           translationCatalogs[locale] = null;
           reject();
@@ -34,8 +34,7 @@ function getCatalog(locale) {
 }
 
 async function updateLocale(locale) {
-  const localePart = locale.slice(0, 2);
-  return getCatalog(localePart).then(
+  return getCatalog(locale).then(
     (translationCatalog) => {
       Object.keys(catalog).forEach((key) => {
         const value = catalog[key];
@@ -46,7 +45,8 @@ async function updateLocale(locale) {
           value.translated.value = value.original;
         }
       });
-    }, () => {
+    },
+    () => {
       // no locale found (404?)
       Object.keys(catalog).forEach((key) => {
         const value = catalog[key];

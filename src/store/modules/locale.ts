@@ -14,7 +14,7 @@ const locale: PortalModule<LocaleState> = {
 
   mutations: {
     NEWLOCALE(state, payload) {
-      state.locale = payload.locale;
+      state.locale = payload;
     },
   },
 
@@ -23,9 +23,10 @@ const locale: PortalModule<LocaleState> = {
   },
 
   actions: {
-    setLocale({ commit }, payload) {
+    setLocale({ commit }, payload: Locale) {
       commit('NEWLOCALE', payload);
-      return updateLocale(payload.locale);
+      const localePrefix = payload.slice(0, 2);
+      return updateLocale(localePrefix);
     },
   },
 };
