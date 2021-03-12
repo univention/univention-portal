@@ -40,7 +40,7 @@
         <translate i18n-key="SWITCH_LOCALE" />
       </div>
       <div
-        v-for="(item, index) in getMenuLinks"
+        v-for="(item, index) in menuLinks"
         :key="index"
         :class="setFadeClass()"
         class="portal-sidenavigation__menu-item"
@@ -138,18 +138,18 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      getMenuLinks: 'menu/getMenu',
-      getLocale: 'locale/getLocale',
+      menuLinks: 'menu/getMenu',
       editMode: 'portalData/editMode',
       userState: 'user/userState',
+      locale: 'locale/getLocale',
     }),
   },
   methods: {
     switchLocale(): void {
-      if (this.$store.state.locale.locale === 'en_US') {
-        this.$store.dispatch('locale/setLocale', { locale: 'de_DE' });
+      if (this.locale === 'en_US') {
+        this.$store.dispatch('locale/setLocale', 'de_DE');
       } else {
-        this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
+        this.$store.dispatch('locale/setLocale', 'en_US');
       }
     },
     login(): void {

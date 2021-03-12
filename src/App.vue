@@ -19,7 +19,7 @@ export default defineComponent({
     Home,
   },
   mounted() {
-    this.$store.dispatch('locale/setLocale', { locale: defaultPortalLocale }).then(() => {
+    this.$store.dispatch('locale/setLocale', defaultPortalLocale).then(() => {
       this.$store.dispatch('loadPortal').then((PortalData) => {
         if (!PortalData.user) {
           this.$store.dispatch('notificationBubble/addNotification', {
