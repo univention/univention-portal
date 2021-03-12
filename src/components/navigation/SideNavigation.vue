@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
@@ -105,7 +105,7 @@ import MenuItem from '@/components/navigation/MenuItem.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
-@Options({
+export default defineComponent({
   name: 'SideNavigation',
   components: {
     PortalIcon,
@@ -133,27 +133,27 @@ import Translate from '@/i18n/Translate.vue';
     }),
   },
   methods: {
-    switchLocale() {
+    switchLocale(): void {
       if (this.$store.state.locale.locale === 'en_US') {
         this.$store.dispatch('locale/setLocale', { locale: 'de_DE' });
       } else {
         this.$store.dispatch('locale/setLocale', { locale: 'en_US' });
       }
     },
-    login() {
+    login(): void {
       if (this.userState.mayLoginViaSAML) {
         window.location.href = `/univention/saml/?location=${window.location.pathname}`;
       } else {
         window.location.href = `/univention/login/?location=${window.location.pathname}`;
       }
     },
-    logout() {
+    logout(): void {
       window.location.href = '/univention/logout';
     },
-    closeNavigation() {
+    closeNavigation(): void {
       this.$store.dispatch('navigation/setActiveButton', '');
     },
-    toggleMenu(index = -1) {
+    toggleMenu(index = -1): void {
       this.menuVisible = !this.menuVisible;
       this.menuParent = index;
       this.subMenuVisible = !this.subMenuVisible;
@@ -166,11 +166,11 @@ import Translate from '@/i18n/Translate.vue';
         this.subMenuClass = 'portal-sidenavigation__menu-item--hide';
       }
     },
-    toggleEditMode() {
+    toggleEditMode(): void {
       this.$store.dispatch('portalData/setEditMode', !this.editMode);
       this.closeNavigation();
     },
-    setFadeClass() {
+    setFadeClass(): string {
       let ret = '';
       if (!this.init) {
         if (!this.fade) {
@@ -182,9 +182,7 @@ import Translate from '@/i18n/Translate.vue';
       return ret;
     },
   },
-})
-
-export default class SideNavigation extends Vue {}
+});
 </script>
 
 <style lang="stylus">

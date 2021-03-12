@@ -56,21 +56,21 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import PortalButton from '@/components/globals/PortalButton.vue';
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import Translate from '@/i18n/Translate.vue';
+// import HeaderButton from '@/components/navigation/HeaderButton.vue';
+// import Translate from '@/i18n/Translate.vue';
 
 import { setCookie, getCookie } from '@/jsHelper/cookieHelper';
 
-@Options({
+export default defineComponent({
   name: 'CookieBanner',
   components: {
     PortalButton,
-    HeaderButton,
-    Translate,
+    // HeaderButton,
+    // Translate,
   },
   data() {
     return {
@@ -82,32 +82,30 @@ import { setCookie, getCookie } from '@/jsHelper/cookieHelper';
     ...mapGetters({
       metaData: 'meta/getMeta',
     }),
-    getCookies() {
-      if (getCookie(this.cookieName()) === '') {
+    cookieName(): string {
+      return this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAcceptedxx';
+    },
+  },
+  methods: {
+    setCookies(): void {
+      const cookieValue = 'do-not-change-me';
+      setCookie(this.cookieName, cookieValue);
+      this.dismissCookieBanner();
+    },
+    getCookies(): boolean {
+      if (getCookie(this.cookieName === '')) {
         this.showCookieBanner = true;
       }
       return this.showCookieBanner;
     },
-  },
-  methods: {
-    cookieName() {
-      return this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAcceptedxx';
-    },
-    setCookies() {
-      const cookieValue = 'do-not-change-me';
-
-      setCookie(this.cookieName(), cookieValue);
-      this.dismissCookieBanner();
-    },
-    dismissCookieBanner() {
+    dismissCookieBanner(): void {
       this.fadeOutClass = 'cookie-banner__fade-out';
       setTimeout(() => {
         this.showCookieBanner = !this.showCookieBanner;
       }, 600);
     },
   },
-})
-export default class CookieBanner extends Vue {}
+});
 </script>
 
 <style lang="stylus">
