@@ -1,25 +1,7 @@
 import { FullNotification, Notification, WeightedNotification } from '../models';
 import { PortalModule } from '../types';
 
-<<<<<<< HEAD
-interface Notification {
-  bubbleTitle: string;
-  bubbleDescription: string;
-  onClick: () => void | null;
-}
-
-interface WeightedNotification extends Notification {
-  bubbleImportance: string;
-}
-
-interface FullNotification extends WeightedNotification {
-  bubbleToken: string;
-}
-
-export interface State {
-=======
 export interface NotificationBubbleState {
->>>>>>> Refactor: Enhace store typescript support [#84]
   visible: boolean;
   visibleStandalone: boolean;
   visibleNew: boolean;

@@ -1,4 +1,4 @@
-import { User } from '@/store/modules/user';
+import { User } from '@/store/models';
 
 function login(user: User): void {
   if (user.mayLoginViaSAML) {
