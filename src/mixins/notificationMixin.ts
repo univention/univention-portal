@@ -1,4 +1,4 @@
-<script>
+import { store } from '@/store';
 import { mapGetters } from 'vuex';
 
 const notificationMixin = {
@@ -15,25 +15,25 @@ const notificationMixin = {
     dismissBubble(token) {
       if (token !== undefined) {
         // remove selected bubble content
-        this.$store.dispatch('notificationBubble/deleteSingleNotification', token);
+        store.dispatch('notificationBubble/deleteSingleNotification', token);
       } else {
         // store modal state
-        this.$store.dispatch('notificationBubble/setHideBubble');
-        this.$store.dispatch('notificationBubble/showEmbedded');
+        store.dispatch('notificationBubble/setHideBubble');
+        store.dispatch('notificationBubble/showEmbedded');
       }
     },
     showNewNotification(notificationContent) {
       // for new notifications only
 
-      this.$store.dispatch('notificationBubble/addContent', notificationContent);
-      this.$store.dispatch('notificationBubble/setShowNewBubble', notificationContent);
+      store.dispatch('notificationBubble/addContent', notificationContent);
+      store.dispatch('notificationBubble/setShowNewBubble', notificationContent);
       setTimeout(() => {
-        this.$store.dispatch('notificationBubble/setHideNewBubble');
+        store.dispatch('notificationBubble/setHideNewBubble');
       }, 4000);
     },
     bubbleClick(e) {
       if (e.target.matches('.notification-bubble__link, .notification-bubble__link *')) {
-        this.$store.dispatch('notificationBubble/hideAllNotifications');
+        store.dispatch('notificationBubble/hideAllNotifications');
         console.info('Bubble link clicked - TODO: add some action');
       }
     },
@@ -41,4 +41,3 @@ const notificationMixin = {
 };
 
 export default notificationMixin;
-</script>

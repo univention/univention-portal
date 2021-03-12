@@ -40,14 +40,14 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import notificationMixin from '@/mixins/notificationMixin';
+
 import { catalog } from '@/i18n/translations';
 
-import notificationMixin from '@/mixins/notificationMixin.vue';
-
-@Options({
+export default defineComponent({
   name: 'NotificationBubbleSlot',
   components: {
     HeaderButton,
@@ -75,9 +75,7 @@ import notificationMixin from '@/mixins/notificationMixin.vue';
       return catalog.DISMISS_NOTIFICATION.translated.value;
     },
   },
-})
-
-export default class NotificationBubbleSlot extends Vue {}
+});
 </script>
 
 <style lang="stylus">
