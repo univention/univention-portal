@@ -75,7 +75,6 @@ export default defineComponent({
   },
   data() {
     return {
-      showCookieBanner: false,
       fadeOutClass: '',
     };
   },
@@ -99,15 +98,11 @@ export default defineComponent({
   methods: {
     setCookies(): void {
       const cookieValue = 'do-not-change-me';
-      console.log(this.cookieName, cookieValue);
       setCookie(this.cookieName, cookieValue);
       this.dismissCookieBanner();
     },
     dismissCookieBanner(): void {
       this.fadeOutClass = 'cookie-banner__fade-out';
-      setTimeout(() => {
-        this.showCookieBanner = !this.showCookieBanner;
-      }, 600);
     },
   },
 });
