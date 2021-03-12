@@ -50,7 +50,7 @@ async function updateLocale(locale) {
       // no locale found (404?)
       Object.keys(catalog).forEach((key) => {
         const value = catalog[key];
-        value.translated.value = value.original;
+        value.translated.value = value.original; // Vuex error: Do not mutate store state outside mutation handlers
       });
     },
   );

@@ -67,7 +67,6 @@ import PortalButton from '@/components/globals/PortalButton.vue';
 import { setCookie, getCookie } from '@/jsHelper/cookieHelper';
 
 interface CookieBannerData {
-  showCookieBanner: boolean,
   fadeOutClass: string,
 }
 
