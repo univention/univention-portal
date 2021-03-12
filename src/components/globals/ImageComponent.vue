@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue';
 
-@Options({
+export default defineComponent({
   name: 'ImageComponent',
   props: {
     filePath: {
@@ -42,15 +42,11 @@ import { Options, Vue } from 'vue-class-component';
     this.imageUrl();
   },
   methods: {
-    imageUrl() {
+    imageUrl(): void {
       this.imagePath = `./${this.filePath}/${this.fileName}`;
     },
   },
-})
-
-export default class ImageComponent extends Vue {}
+});
 </script>
 
-<style lang="stylus">
-
-</style>
+<style lang="stylus" />

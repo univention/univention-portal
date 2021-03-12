@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-@Options({
+export default defineComponent({
   name: 'PortalBackground',
   computed: {
     ...mapGetters({
@@ -22,8 +22,7 @@ import { mapGetters } from 'vuex';
       return `background-image: url('${this.portal.portal.background}`;
     },
   },
-})
-export default class PortalBackground extends Vue {}
+});
 </script>
 
 <style lang="stylus">
