@@ -9,6 +9,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+interface ImageComponentData {
+  imagePath: string,
+}
+
 export default defineComponent({
   name: 'ImageComponent',
   props: {
@@ -33,7 +37,7 @@ export default defineComponent({
       default: 'header-tab__logo',
     },
   },
-  data() {
+  data(): ImageComponentData {
     return {
       imagePath: '',
     };
