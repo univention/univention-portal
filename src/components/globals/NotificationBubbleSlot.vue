@@ -8,7 +8,10 @@
       class="notification-bubble__container"
       :class="`notification-bubble__container--${item.bubbleImportance}`"
     >
-      <div>
+      <div
+        :class="{'notification-bubble__clickable': clickable(item)}"
+        @click="onClick(item)"
+      >
         <div class="notification-bubble__header">
           <div
             class="notification-bubble__title"
@@ -75,7 +78,18 @@ export default defineComponent({
       return catalog.DISMISS_NOTIFICATION.translated.value;
     },
   },
+  methods: {
+    clickable(item): boolean {
+      return item.onClick !== null;
+    },
+    onClick(item): void {
+      if (this.clickable(item)) {
+        item.onClick();
+      }
+    },
+  },
 });
+
 </script>
 
 <style lang="stylus">
@@ -87,6 +101,9 @@ export default defineComponent({
     right: 2rem
     top: 8rem
     z-index: 10
+
+  &__clickable
+    cursor: pointer
 
   &__embedded
     min-width: 32rem

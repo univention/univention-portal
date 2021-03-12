@@ -102,6 +102,7 @@ import { mapGetters } from 'vuex';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
+import { login, logout } from '@/jsHelper/login';
 
 import Translate from '@/i18n/Translate.vue';
 
@@ -141,14 +142,10 @@ export default defineComponent({
       }
     },
     login(): void {
-      if (this.userState.mayLoginViaSAML) {
-        window.location.href = `/univention/saml/?location=${window.location.pathname}`;
-      } else {
-        window.location.href = `/univention/login/?location=${window.location.pathname}`;
-      }
+      login(this.userState);
     },
     logout(): void {
-      window.location.href = '/univention/logout';
+      logout();
     },
     closeNavigation(): void {
       this.$store.dispatch('navigation/setActiveButton', '');
