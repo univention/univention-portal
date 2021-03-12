@@ -124,7 +124,7 @@ import bestLink from '@/jsHelper/bestLink';
       default: 'Tab Aria Label',
     },
   },
-  emits: ['makeStuff'],
+  emits: ['keepFocusInFolderModal'],
   data() {
     return {
       isActive: false,
@@ -161,10 +161,10 @@ import bestLink from '@/jsHelper/bestLink';
     setFocus(event, direction): void {
       if (this.lastElement && direction === 'forward') {
         event.preventDefault();
-        this.$emit('makeStuff', 'focusFirst');
+        this.$emit('keepFocusInFolderModal', 'focusFirst');
       } else if (this.firstElement && direction === 'backward') {
         event.preventDefault();
-        this.$emit('makeStuff', 'focusLast');
+        this.$emit('keepFocusInFolderModal', 'focusLast');
       }
     },
     editTile() {

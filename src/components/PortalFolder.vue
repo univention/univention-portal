@@ -23,7 +23,7 @@
             :last-element="isLastElement(index, tiles)"
             :first-element="isFirstElement(index, tiles)"
             :no-edit="true"
-            @makeStuff="makeStuff"
+            @keepFocusInFolderModal="keepFocusInFolderModal"
             @clickAction="closeFolder"
           />
         </div>
@@ -111,7 +111,7 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
     getLastElement() {
       console.log('ELEMENT');
     },
-    makeStuff(focusElement) {
+    keepFocusInFolderModal(focusElement) {
       const firstElement = this.$refs.portalFolderChildren0.$el.children[0];
       const lastChild = `portalFolderChildren${this.tiles.length - 1}`;
       const lastElement = this.$refs[lastChild].$el.children[0];
