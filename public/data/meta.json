@@ -4,16 +4,10 @@
   "umc/self-service/passwordchange/frontend/enabled": true,
   "login_texts": {},
   "cookieBanner": {
-    "text": {
-      "de": "Wir verwenden Cookies, um Ihnen bestimmte Funktionen bereitzustellen und einen uneingeschr\u00e4nkten Service gew\u00e4hrleisten zu k\u00f6nnen. Mit einem Klick auf \"Akzeptieren\" willigen Sie in die Erhebung von Informationen auf diesem Portal ein.",
-      "en": "We use cookies in order to provide you with certain functions and to be able to guarantee an unrestricted service. By clicking on \"Accept\", you consent to the collection of information on this portal."
-    },
+    "text": {},
     "show": true,
     "cookie": "univentionCookieSettingsAccepted",
-    "title": {
-      "de": "Cookie-Einstellungen",
-      "en": "Cookie Settings"
-    }
+    "title": {}
   },
   "umc/web/startupdialog": "false",
   "feedbackAddress": "feedback@univention.de",

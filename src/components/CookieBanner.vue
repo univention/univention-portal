@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="(Object.keys(metaData).length > 0 && metaData.cookieBanner.show) && getCookies"
+    v-if="showCookies"
     :class="fadeOutClass"
     class="cookie-banner"
   >
@@ -16,13 +16,13 @@
             role="heading"
             level="1"
           >
-            {{ $localized(metaData.cookieBanner.title) }}
+            {{ $localized(metaData.cookieBanner.title) || defaultCookieTitle }}
           </span>
         </div>
         <div class="cookie-banner__pane-content">
           <div class="cookie-banner__container-widget">
             <div class="cookie-banner__text">
-              {{ $localized(metaData.cookieBanner.text) }}
+              {{ $localized(metaData.cookieBanner.text) || defaultCookieText }}
             </div>
           </div>
         </div>
@@ -58,6 +58,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import { catalog } from '@/i18n/translations';
 
 import PortalButton from '@/components/globals/PortalButton.vue';
 // import HeaderButton from '@/components/navigation/HeaderButton.vue';
@@ -83,20 +84,24 @@ export default defineComponent({
       metaData: 'meta/getMeta',
     }),
     cookieName(): string {
-      return this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAcceptedxx';
+      return this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
+    },
+    defaultCookieTitle(): string {
+      return catalog.COOKIE_TITLE.translated.value;
+    },
+    defaultCookieText(): string {
+      return catalog.COOKIE_TEXT.translated.value;
+    },
+    showCookies(): boolean {
+      return this.metaData.cookieBanner.show && getCookie(this.cookieName) === '';
     },
   },
   methods: {
     setCookies(): void {
       const cookieValue = 'do-not-change-me';
+      console.log(this.cookieName, cookieValue);
       setCookie(this.cookieName, cookieValue);
       this.dismissCookieBanner();
-    },
-    getCookies(): boolean {
-      if (getCookie(this.cookieName === '')) {
-        this.showCookieBanner = true;
-      }
-      return this.showCookieBanner;
     },
     dismissCookieBanner(): void {
       this.fadeOutClass = 'cookie-banner__fade-out';
