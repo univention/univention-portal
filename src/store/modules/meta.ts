@@ -7,7 +7,17 @@ export interface ModuleState {
 const meta: PortalModule<ModuleState> = {
   namespaced: true,
   state: {
-    meta: {},
+    meta: {
+      cookieBanner: {
+        show: false,
+        title: {
+          en: '',
+        },
+        text: {
+          en: '',
+        },
+      },
+    },
   },
 
   mutations: {

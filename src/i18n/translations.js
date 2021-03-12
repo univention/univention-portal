@@ -40,7 +40,8 @@ async function updateLocale(locale) {
       Object.keys(catalog).forEach((key) => {
         const value = catalog[key];
         if (translationCatalog && value.original in translationCatalog) {
-          value.translated.value = translationCatalog[value.original];
+          const translatedValue = translationCatalog[value.original];
+          value.translated.value = translatedValue;
         } else {
           value.translated.value = value.original;
         }

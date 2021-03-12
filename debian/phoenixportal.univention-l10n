@@ -1,7 +1,7 @@
 [
 	{
 		"input_files": [
-			"src/i18n/translations.js"
+			"src/assets/data/dictionary.js"
 		],
 		"po_subdir": "src/assets",
 		"target_type": "json",

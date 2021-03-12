@@ -7,7 +7,8 @@ const localize = {
     // eslint-disable-next-line no-param-reassign
     app.config.globalProperties.$localized = (label) => {
       const curLocale = store.state.locale.locale;
-      return label[curLocale] || label.en || label.en_US;
+      const shortLocale = curLocale.split('_')[0];
+      return label[curLocale] || label[shortLocale] || label.en || label.en_US;
     };
   },
 };
