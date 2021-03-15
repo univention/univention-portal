@@ -12,7 +12,7 @@ const notificationMixin = {
     }),
   },
   methods: {
-    dismissBubble(token) {
+    dismissBubble(token): void {
       if (token !== undefined) {
         // remove selected bubble content
         store.dispatch('notificationBubble/deleteSingleNotification', token);
@@ -22,7 +22,7 @@ const notificationMixin = {
         store.dispatch('notificationBubble/showEmbedded');
       }
     },
-    showNewNotification(notificationContent) {
+    showNewNotification(notificationContent): void {
       // for new notifications only
 
       store.dispatch('notificationBubble/addContent', notificationContent);
@@ -31,7 +31,7 @@ const notificationMixin = {
         store.dispatch('notificationBubble/setHideNewBubble');
       }, 4000);
     },
-    bubbleClick(e) {
+    bubbleClick(e): void {
       if (e.target.matches('.notification-bubble__link, .notification-bubble__link *')) {
         store.dispatch('notificationBubble/hideAllNotifications');
         console.info('Bubble link clicked - TODO: add some action');
