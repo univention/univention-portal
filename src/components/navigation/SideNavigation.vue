@@ -39,6 +39,33 @@
       >
         <translate i18n-key="SWITCH_LOCALE" />
       </div>
+      <div>
+        <menu-item
+          v-if="meta.portal_languages"
+          :title="changeLanguageTranslation"
+          link-target="samewindow"
+          :links="[]"
+          :handles-app-settings="true"
+          @click="toggleMenu()"
+          @clickAction="closeNavigation"
+        />
+        <template v-if="meta.portal_languages.length > 1">
+        <div
+          v-for="(item, index) in meta.portal_languages"
+          :key="index"
+          :class="subMenuClass"
+        >
+
+          <menu-item
+            v-bind="item"
+            :is-sub-item="true"
+            :links="[]"
+            class="portal-sidenavigation__menu-subitem"
+            @clickAction="closeNavigation"
+          />
+        </div>
+        </template>
+      </div>
       <div
         v-for="(item, index) in menuLinks"
         :key="index"
@@ -57,7 +84,7 @@
           <menu-item
             v-if="subMenuVisible & (menuParent === index)"
             :title="item.title"
-            :sub-item="true"
+            :is-sub-item="true"
             :links="[]"
             link-target="samewindow"
             class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
@@ -115,6 +142,7 @@ interface SideNavigationData {
   fade: boolean,
   fadeRightLeft: string,
   fadeLeftRight: string,
+  changeLanguageTranslation: unknown
 }
 
 export default defineComponent({
@@ -134,6 +162,10 @@ export default defineComponent({
       fade: false,
       fadeRightLeft: 'portal-sidenavigation__fade-right-left',
       fadeLeftRight: 'portal-sidenavigation__fade-left-right',
+      changeLanguageTranslation: {
+        de_DE: 'Sprache ändern',
+        en_US: 'change Language',
+      },
     };
   },
   computed: {
@@ -142,10 +174,12 @@ export default defineComponent({
       editMode: 'portalData/editMode',
       userState: 'user/userState',
       locale: 'locale/getLocale',
+      meta: 'meta/getMeta',
     }),
   },
   methods: {
     switchLocale(): void {
+      console.log('portal_languages', this.meta.portal_languages);
       if (this.locale === 'en_US') {
         this.$store.dispatch('locale/setLocale', 'de_DE');
       } else {
