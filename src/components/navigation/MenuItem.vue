@@ -3,15 +3,15 @@
     v-is="isLink ? 'a' : 'div'"
     class="menu-item"
     :href="link"
-    @click="tileClick"
+    @click="handlesAppSettings ? tileClick : setLanguage(locale)"
   >
     <portal-icon
-      v-if="subItem"
+      v-if="isSubItem"
       icon="chevron-left"
       icon-width="2rem"
       class="menu-item__arrow menu-item__arrow--left"
     />
-    {{ $localized(title) }}
+    {{ setTitle }}
     <template
       v-if="subMenu.length > 0"
     >
@@ -21,7 +21,7 @@
         {{ subMenu.length }}
       </div>
       <portal-icon
-        v-if="!subItem"
+        v-if="!isSubItem"
         icon="chevron-right"
         icon-width="2rem"
         class="menu-item__arrow menu-item__arrow--right"
@@ -53,14 +53,36 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
-    subItem: {
+    isSubItem: {
       type: Boolean,
       default: false,
+    },
+    handlesAppSettings: {
+      type: Boolean,
+      default: false,
+    },
+    locale: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   computed: {
     isLink(): boolean {
       return this.link !== null;
+    },
+    isString(): boolean {
+      return typeof this.title === 'string';
+    },
+    setTitle(): unknown {
+      return this.isString ? this.title : this.$localized(this.title);
+    },
+  },
+  methods: {
+    setLanguage(locale) {
+      console.log('LOL', this.locale);
+      console.log('LOL', this);
+      this.$store.dispatch('locale/setLocale', locale);
     },
   },
 });
