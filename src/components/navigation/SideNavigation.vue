@@ -34,13 +34,6 @@
       class="portal-sidenavigation__menu"
     >
       <div
-        class="portal-sidenavigation__menu-item portal-sidenavigation__menu-item--locale"
-        @click="switchLocale"
-      >
-        <translate i18n-key="SWITCH_LOCALE" />
-      </div>
-
-      <div
         v-for="(item, index) in menuLinks"
         :key="index"
         :class="setFadeClass()"
@@ -147,19 +140,10 @@ export default defineComponent({
       menuLinks: 'menu/getMenu',
       editMode: 'portalData/editMode',
       userState: 'user/userState',
-      locale: 'locale/getLocale',
       meta: 'meta/getMeta',
     }),
   },
   methods: {
-    switchLocale(): void {
-      console.log('portal_languages', this.meta.portal_languages);
-      if (this.locale === 'en_US') {
-        this.$store.dispatch('locale/setLocale', 'de_DE');
-      } else {
-        this.$store.dispatch('locale/setLocale', 'en_US');
-      }
-    },
     login(): void {
       login(this.userState);
     },
@@ -247,12 +231,6 @@ export default defineComponent({
 
   &__menu-item
     margin-left: 0
-
-    &--locale
-      padding: 2rem 0 2rem 2rem;
-      &:hover
-        background-color: #272726
-        cursor: pointer
 
     &--show
       display: block
