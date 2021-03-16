@@ -39,33 +39,7 @@
       >
         <translate i18n-key="SWITCH_LOCALE" />
       </div>
-      <div>
-        <menu-item
-          v-if="meta.portal_languages"
-          :title="changeLanguageTranslation"
-          link-target="samewindow"
-          :links="[]"
-          :handles-app-settings="true"
-          @click="toggleMenu()"
-          @clickAction="closeNavigation"
-        />
-        <template v-if="meta.portal_languages.length > 1">
-        <div
-          v-for="(item, index) in meta.portal_languages"
-          :key="index"
-          :class="subMenuClass"
-        >
 
-          <menu-item
-            v-bind="item"
-            :is-sub-item="true"
-            :links="[]"
-            class="portal-sidenavigation__menu-subitem"
-            @clickAction="closeNavigation"
-          />
-        </div>
-        </template>
-      </div>
       <div
         v-for="(item, index) in menuLinks"
         :key="index"
