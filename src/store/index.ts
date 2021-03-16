@@ -95,6 +95,6 @@ export const store = createStore<RootState>({
 });
 
 // Define your own `useStore` composition function
-export function useStore() {
+export function useStore(): Store<RootState> {
   return baseUseStore(key);
 }
