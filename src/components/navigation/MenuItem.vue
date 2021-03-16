@@ -46,7 +46,7 @@ export default defineComponent({
   ],
   props: {
     title: {
-      type: Object,
+      type: Object as PropType<Record<Locale, string>>,
       required: true,
     },
     subMenu: {
