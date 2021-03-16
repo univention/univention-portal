@@ -81,11 +81,7 @@ export default defineComponent({
   },
   methods: {
     callAppSetting(locale) {
-      console.log('calling function');
-      console.log(this.linkTarget);
-      console.log(this.locale);
       if (this.linkTarget === 'internalFunction') {
-        console.log('calling function');
         this.$store.dispatch('locale/setLocale', this.locale);
       }
     },
