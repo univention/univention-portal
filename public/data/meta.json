@@ -35,11 +35,6 @@
   "umc/web/sso/enabled": "true",
   "umc/self-service/allow-authenticated-use": "true",
   "umc/self-service/protect-account/frontend/enabled": true,
-  "umc/self-service/account-verification/frontend/enabled": "false",
-  "portal_languages": [
-    { "title": "Deutsch", "locale": "de_DE"},
-    { "title": "English", "locale": "en_EN"},
-    { "title": "Français", "locale": "fr_FR"}
-  ] 
+  "umc/self-service/account-verification/frontend/enabled": "false"
 }
 

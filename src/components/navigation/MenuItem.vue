@@ -3,7 +3,7 @@
     v-is="isLink ? 'a' : 'div'"
     class="menu-item"
     :href="link"
-    @click="handlesAppSettings ? tileClick : setLanguage(locale)"
+    @click="handlesAppSettings ? setLanguage(locale) : tileClick"
   >
     <portal-icon
       v-if="isSubItem"
@@ -11,7 +11,7 @@
       icon-width="2rem"
       class="menu-item__arrow menu-item__arrow--left"
     />
-    {{ setTitle }}
+    {{ this.$localized(this.title) }}
     <template
       v-if="subMenu.length > 0"
     >
@@ -31,10 +31,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import TileClick from '@/mixins/TileClick.vue';
+import { Locale } from '@/store/models';
 
 export default defineComponent({
   name: 'MenuItem',
@@ -67,21 +68,16 @@ export default defineComponent({
       default: '',
     },
   },
+  mounted() {
+    console.log(this);
+  },
   computed: {
     isLink(): boolean {
-      return this.link !== null;
-    },
-    isString(): boolean {
-      return typeof this.title === 'string';
-    },
-    setTitle(): unknown {
-      return this.isString ? this.title : this.$localized(this.title);
+      return this.link !== null && this.link > 0;
     },
   },
   methods: {
     setLanguage(locale) {
-      console.log('LOL', this.locale);
-      console.log('LOL', this);
       this.$store.dispatch('locale/setLocale', locale);
     },
   },
