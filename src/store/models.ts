@@ -1,10 +1,15 @@
 export type Locale = 'en' | 'en_US' | 'de_DE' | 'fr_FR';
 
+export type Title = Record<Locale, string>;
+
+export type Description = Record<Locale, string>;
+
 export type LinkTarget = 'newwindow' | 'embedded';
 
 export interface Tile {
-    id: string,
-    title: Record<Locale, string>,
+  id: string,
+  title: Title,
+  isFolder: boolean
 }
 
 export interface BaseTile extends Tile {
