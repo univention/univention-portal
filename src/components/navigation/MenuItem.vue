@@ -2,8 +2,8 @@
   <a
     v-is="isLink ? 'a' : 'div'"
     class="menu-item"
-    :href="link"
-    @click="handlesAppSettings ? setLanguage(locale) : tileClick"
+    :href="link ? link : null"
+    @click="isInternalFunction ? callAppSetting() : tileClick"
   >
     <portal-icon
       v-if="isSubItem"
@@ -73,12 +73,21 @@ export default defineComponent({
   },
   computed: {
     isLink(): boolean {
-      return this.link !== null && this.link > 0;
+      return this.link !== null;
+    },
+    isInternalFunction(): boolean {
+      return this.linkTarget === 'internalFunction';
     },
   },
   methods: {
-    setLanguage(locale) {
-      this.$store.dispatch('locale/setLocale', locale);
+    callAppSetting(locale) {
+      console.log('calling function');
+      console.log(this.linkTarget);
+      console.log(this.locale);
+      if (this.linkTarget === 'internalFunction') {
+        console.log('calling function');
+        this.$store.dispatch('locale/setLocale', this.locale);
+      }
     },
   },
 });

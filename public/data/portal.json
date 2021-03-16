@@ -210,13 +210,15 @@
      "portal_languages":[
         {
            "title":{
-              "de_DE":"Deutsch"
+              "de_DE":"Deutsch",
+              "en_US":"Deutsch"
            },
            "locale":"de_DE"
         },
         {
            "title":{
-              "en_US":"Englisch"
+              "en_US":"English",
+              "de_DE":"English"
            },
            "locale":"en_US"
         }
