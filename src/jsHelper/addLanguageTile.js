@@ -9,8 +9,8 @@ export default function createMenuStructure(portalLanguageData) {
     title: element.title,
     locale: element.locale,
     linkTarget: 'internalFunction',
+    internalFunction: 'changeLanguage',
     links: [],
-    description: '',
   }));
 
   const menuElement = {

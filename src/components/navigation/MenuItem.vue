@@ -67,9 +67,10 @@ export default defineComponent({
       required: false,
       default: '',
     },
-  },
-  mounted() {
-    console.log(this);
+    internalFunction: {
+      type: String,
+      required: false,
+    },
   },
   computed: {
     isLink(): boolean {
@@ -80,9 +81,11 @@ export default defineComponent({
     },
   },
   methods: {
-    callAppSetting(locale) {
+    callAppSetting() {
       if (this.linkTarget === 'internalFunction') {
-        this.$store.dispatch('locale/setLocale', this.locale);
+        if (this.internalFunction === 'changeLanguage') {
+          this.$store.dispatch('locale/setLocale', this.locale);
+        }
       }
     },
   },
