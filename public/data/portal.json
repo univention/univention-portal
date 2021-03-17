@@ -2,7 +2,7 @@
   "user_links": [],
   "menu_links": [
     "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-    "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+    "cn=certificates,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
     "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
   ],
   "entries": [
@@ -27,6 +27,46 @@
       "name": {
         "de_DE": "ownCloud",
         "en_US": "ownCloud"
+      }
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Wurzelzertifikat",
+        "en_US": "Root certificate"
+      },
+      "dn": "cn=root-cert,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "linkTarget": "samewindow",
+      "links": [
+        "/ucs-root-ca.crt"
+      ],
+      "logo_name": null,
+      "name": {
+        "de_DE": "Wurzelzertifikat",
+        "en_US": "Root certificate"
+      }
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Zertifikat-Sperrliste",
+        "en_US": "Certificate revocation list"
+      },
+      "dn": "cn=certificate-revocation,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "linkTarget": "samewindow",
+      "links": [
+        "/ucsCA.crl"
+      ],
+      "logo_name": null,
+      "name": {
+        "de_DE": "Zertifikat-Sperrliste",
+        "en_US": "Certificate revocation list"
       }
     },
     {
@@ -129,6 +169,17 @@
       "name": {
         "de_DE": "Apps",
         "en_US": "Apps"
+      }
+    },
+    {
+      "dn": "cn=certificates,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+      "entries": [
+        "cn=root-cert,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+        "cn=certificate-revocation,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+      ],
+      "name": {
+        "de_DE": "Zertifikate",
+        "en_US": "Certificates"
       }
     }
   ],
