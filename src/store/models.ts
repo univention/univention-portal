@@ -4,7 +4,7 @@ export type Title = Record<Locale, string>;
 
 export type Description = Record<Locale, string>;
 
-export type LinkTarget = 'newwindow' | 'embedded';
+export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
 
 export interface Tile {
   id: string,
