@@ -13,12 +13,13 @@
           <div class="portal-sidenavigation--username">
             {{ userState.displayName }}
           </div>
-          <div
+          <button
             class="portal-sidenavigation__logout-link"
+            ref="loginButton"
             @click="logout"
           >
             <translate i18n-key="LOGOUT" />
-          </div>
+          </button>
         </div>
       </div>
       <div
@@ -73,7 +74,7 @@
       </div>
     </div>
 
-    <div
+    <button
       v-if="userState.mayEditPortal"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
       @click="toggleEditMode"
@@ -86,7 +87,7 @@
         v-else
         i18n-key="EDIT_PORTAL"
       />
-    </div>
+    </button>
   </nav>
 </template>
 
@@ -134,6 +135,9 @@ export default defineComponent({
         en_US: 'change Language',
       },
     };
+  },
+  mounted() {
+    (this.$refs.loginButton as HTMLElement).focus();
   },
   computed: {
     ...mapGetters({
@@ -201,9 +205,13 @@ export default defineComponent({
     color: var(--font-color-contrast-high)
     font-weight: 600
     text-transform: uppercase
+    background-color: rgba(0,0,0,0)
+    border: 0.2rem solid rgba(0,0,0,0)
     &:hover
       background-color: #272726
-
+    &:focus
+      border: 0.2rem solid var(--color-primary);
+      outline: 0
   &__user-row
     display: flex
 
@@ -218,8 +226,16 @@ export default defineComponent({
   &__logout-link
     text-decoration: underline
     cursor: pointer
+    background-color: rgba(0,0,0,0)
+    color: var(--font-color-contrast-high)
+    font-size: var(--font-size-normal)
+    border: 0.2rem solid rgba(0,0,0,0);
+
     &:hover
       background-color: #272726
+    &:focus
+      border: 0.2rem solid var(--color-primary);
+      outline: 0
 
   &__login-header
     border-bottom: 4px solid var(--color-grey8)
