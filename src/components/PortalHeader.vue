@@ -106,7 +106,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
-import notificationMixin from '@/mixins/notificationMixin.vue';
+import notificationMixin from '@/mixins/notificationMixin';
 
 import Translate from '@/i18n/Translate.vue';
 
