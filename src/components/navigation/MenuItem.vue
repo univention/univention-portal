@@ -4,6 +4,7 @@
     class="menu-item"
     :href="link ? link : null"
     @click="isInternalFunction ? callAppSetting() : tileClick"
+    tabindex="0"
   >
     <portal-icon
       v-if="isSubItem"
@@ -101,10 +102,15 @@ export default defineComponent({
   padding: 2rem 0 2rem 2rem;
   color: #fff;
   text-decoration: none;
+  border: 0.2rem solid rgba(0,0,0,0);
 
   &:hover
     background-color: #272726;
     cursor: pointer;
+
+  &:focus
+    outline: 0;
+    border: 0.2rem solid var(--color-primary);
 
   &__counter
     position: absolute;

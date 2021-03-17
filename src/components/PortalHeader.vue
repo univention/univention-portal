@@ -45,7 +45,7 @@
       <header-button
         aria-label="Button for navigation"
         icon="menu"
-        @click="dismissBubble()"
+        @click="dismissBubble('menu')"
       />
     </div>
 
@@ -106,7 +106,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
-import notificationMixin from '@/mixins/notificationMixin';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
