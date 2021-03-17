@@ -27,7 +27,7 @@ const tileClickMixin = {
   ],
   methods: {
     tileClick(evt) {
-      if (this.link === null) {
+      if (!this.link) {
         return false;
       }
       if (this.editMode) {
