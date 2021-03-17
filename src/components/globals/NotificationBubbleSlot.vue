@@ -46,7 +46,7 @@
 import { defineComponent } from 'vue';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import notificationMixin from '@/mixins/notificationMixin.vue';
+import notificationMixin from '@/mixins/notificationMixin';
 
 import { catalog } from '@/i18n/translations';
 
