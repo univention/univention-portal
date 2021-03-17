@@ -4,6 +4,8 @@
     class="menu-item"
     :href="link ? link : null"
     @click="isInternalFunction ? callAppSetting() : tileClick"
+    @keydown.enter="test"
+    @keydown.esc="closeWithESC"
     tabindex="0"
   >
     <portal-icon
@@ -12,7 +14,7 @@
       icon-width="2rem"
       class="menu-item__arrow menu-item__arrow--left"
     />
-    {{ this.$localized(this.title) }}
+    {{ $localized(title) }}
     <template
       v-if="subMenu.length > 0"
     >
@@ -73,6 +75,7 @@ export default defineComponent({
       required: false,
     },
   },
+  emits: ['clickAction'],
   computed: {
     isLink(): boolean {
       return this.link !== null;
@@ -88,6 +91,17 @@ export default defineComponent({
           this.$store.dispatch('locale/setLocale', this.locale);
         }
       }
+    },
+    test() {
+      if (this.isInternalFunction) {
+        this.callAppSetting();
+      } else {
+        console.log(TileClick?.methods?.tileClick());
+        TileClick?.methods?.tileClick();
+      }
+    },
+    closeWithESC() {
+      this.$emit('clickAction');
     },
   },
 });

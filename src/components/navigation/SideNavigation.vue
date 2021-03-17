@@ -17,6 +17,7 @@
             class="portal-sidenavigation__logout-link"
             ref="loginButton"
             @click="logout"
+            @keydown.esc="closeNavigation"
           >
             <translate i18n-key="LOGOUT" />
           </button>
@@ -42,11 +43,16 @@
       >
         <menu-item
           v-if="menuVisible"
+          :ref="'menuItem' + index"
           :links="[]"
           link-target="samewindow"
           v-bind="item"
+          :aria-haspopup="hasSubmenu(item)"
           @click="toggleMenu(index)"
           @clickAction="closeNavigation"
+          @escButtonClick="closeNavigation"
+          @keydown.up.prevent="selectPrevious(index)"
+          @keydown.down.prevent="selectNext(index)"
         />
         <template v-if="item.subMenu && item.subMenu.length > 0">
           <menu-item
@@ -78,6 +84,7 @@
       v-if="userState.mayEditPortal"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
       @click="toggleEditMode"
+      @keydown.esc="closeNavigation"
     >
       <translate
         v-if="editMode"
@@ -155,6 +162,7 @@ export default defineComponent({
       logout();
     },
     closeNavigation(): void {
+      console.log('EMIT DISPATCH');
       this.$store.dispatch('navigation/setActiveButton', '');
     },
     toggleMenu(index = -1): void {
@@ -184,6 +192,30 @@ export default defineComponent({
         }
       }
       return ret;
+    },
+    selectPrevious(index: number):void {
+      const currentElementIndex = `menuItem${index}`;
+      const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
+      if (index === 0) {
+        // select Last Element
+      } else {
+        const previousElement = currentElement.parentElement.previousElementSibling.children[0];
+        previousElement.focus();
+      }
+    },
+    selectNext(index: number):void {
+      const currentElementIndex = `menuItem${index}`;
+      const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
+      if (index === 99) {
+        // select Last Element
+      } else {
+        const nextElement = currentElement.parentElement.nextElementSibling.children[0];
+        nextElement.focus();
+      }
+    },
+    hasSubmenu(item) {
+      console.log('hasSubmenu');
+      return item.subMenu && item.subMenu.length > 0;
     },
   },
 });
