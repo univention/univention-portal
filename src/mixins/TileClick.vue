@@ -15,7 +15,7 @@ const tileClickMixin = {
   },
   computed: {
     ...mapGetters({
-      metaData: 'meta/getMeta',
+      metaData: 'metaData/getMeta',
       editMode: 'portalData/editMode',
       locale: 'locale/getLocale',
     }),
