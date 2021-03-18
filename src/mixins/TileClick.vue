@@ -40,10 +40,10 @@ const tileClickMixin = {
         evt.preventDefault();
         return false;
       }
-      // this.$emit('clickAction');
       if (this.linkTarget === 'embedded') {
         evt.preventDefault();
         this.openEmbedded();
+        this.$emit('clickAction');
         // return false;
       } else if (this.linkTarget === 'internalFunction') {
         if (this.internalFunction === 'changeLanguage') {
