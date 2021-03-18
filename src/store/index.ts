@@ -44,18 +44,11 @@ export const store = createStore<RootState>({
   },
   mutations: {},
   actions: {
-    loadPortal: () => {
-      store.dispatch('modal/setShowLoadingModal');
+    loadPortal: () => new Promise((resolve) => {
+      console.log('Loading Portal...');
 
-      // display standalone notification bubbles
-      if (store.getters['notificationBubble/bubbleContent'].length > 0) {
-        store.dispatch('notificationBubble/setShowBubble');
-      }
-
-      return new Promise<unknown>((resolve) => {
-        // store portal data
-        console.log('Loading Portal');
-
+      // TEMP timeout to test loading state
+      setTimeout(() => {
         // get meta data
         axios.get(`${portalUrl}${portalMeta}`).then(
           (response) => {
@@ -81,15 +74,14 @@ export const store = createStore<RootState>({
                 mayLoginViaSAML: PortalData.may_login_via_saml,
               },
             });
-            store.dispatch('modal/setHideModal');
             resolve(PortalData);
           }, () => {
-            store.dispatch('modal/setHideModal');
             resolve({});
           },
         );
-      });
-    },
+      // TEMP Timeout end
+      }, 2000);
+    }),
   },
   getters: {},
 });
