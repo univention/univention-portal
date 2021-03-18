@@ -21,26 +21,30 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       bubbleContent: 'notificationBubble/bubbleContent',
+      userState: 'user/userState',
     }),
   },
   async mounted() {
     this.$store.dispatch('modal/setShowLoadingModal');
-    await this.$store.dispatch('locale/setLocale', defaultPortalLocale);
 
-    const PortalData = await this.$store.dispatch('loadPortal');
+    // Set locale and load portal data from backend
+    await this.$store.dispatch('locale/setLocale', defaultPortalLocale);
+    const portalData = await this.$store.dispatch('loadPortal');
+
     this.$store.dispatch('modal/setHideModal');
 
-    if (!PortalData.user) {
+    if (!portalData.user) {
+      // Display notification bubble with login reminder
       this.$store.dispatch('notificationBubble/addNotification', {
         bubbleTitle: catalog.LOGIN.translated.value,
         bubbleDescription: catalog.LOGIN_REMINDER_DESCRIPTION.translated.value,
-        onClick: () => login(this.$store.getters['user/userState']),
+        onClick: () => login(this.userState),
       });
+      setTimeout(() => {
+      // Hide notification bubble after 4 seconds
+        this.$store.dispatch('notificationBubble/setHideNewBubble');
+      }, 4000);
     }
-    setTimeout(() => {
-      // Hide notification bubble
-      this.$store.dispatch('notificationBubble/setHideNewBubble');
-    }, 4000);
   },
 });
 </script>
