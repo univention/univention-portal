@@ -39,4 +39,3 @@ build-test-deploy-job:
     - scp ./phoenixportal_*.deb root@ucs5-p1.duckdns.org:/tmp
     - ssh root@ucs5-p1.duckdns.org dpkg --purge phoenixportal
     - ssh root@ucs5-p1.duckdns.org apt install -y /tmp/phoenixportal_*_amd64.deb
-
