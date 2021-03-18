@@ -1,11 +1,11 @@
 <template>
-  <home />
+  <portal />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import Home from '@/views/Home.vue';
+import Portal from '@/views/Portal.vue';
 import { login } from '@/jsHelper/login';
 import { catalog } from '@/i18n/translations';
 import { Locale } from './store/models';
@@ -16,15 +16,15 @@ const defaultPortalLocale: Locale = process.env.VUE_APP_LOCALE || 'en_US';
 export default defineComponent({
   name: 'App',
   components: {
-    Home,
+    Portal,
   },
   mounted() {
     this.$store.dispatch('locale/setLocale', defaultPortalLocale).then(() => {
       this.$store.dispatch('loadPortal').then((PortalData) => {
         if (!PortalData.user) {
           this.$store.dispatch('notificationBubble/addNotification', {
-            bubbleTitle: catalog.LOGIN.translated,
-            bubbleDescription: catalog.LOGIN_REMINDER_DESCRIPTION.translated,
+            bubbleTitle: catalog.LOGIN.translated.value,
+            bubbleDescription: catalog.LOGIN_REMINDER_DESCRIPTION.translated.value,
             onClick: () => login(this.$store.getters['user/userState']),
           });
         }

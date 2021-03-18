@@ -38,6 +38,7 @@ export DH_VERBOSE=1
 override_dh_auto_build:
 	npm set prefix=$$HOME/.node
 	npm install -g npm@latest
+	cp ./.env.production .env
 	$$HOME/.node/bin/npm install -g yarn
 	$$HOME/.node/bin/yarn install
 	$$HOME/.node/bin/yarn build

@@ -1,10 +1,10 @@
 <template>
   <div
-    :class="{'portal-category--empty': (!editMode && !showCategoryHeadline) }"
+    :class="{'portal-category--empty': (!editMode && !hasTiles) }"
     class="portal-category"
   >
     <h2
-      v-if="editMode || showCategoryHeadline"
+      v-if="editMode || hasTiles"
       class="portal-category__title"
       :class="!editMode || 'portal-category__title--edit'"
       @click.prevent="editMode ? editCategory() : ''"
@@ -100,7 +100,6 @@ import { Title, Tile, FolderTile } from '@/store/models';
 interface PortalCategoryData {
   vTiles: Tile[],
   debug: boolean,
-  showCategoryHeadline: boolean,
 }
 
 export default defineComponent({
@@ -138,7 +137,6 @@ export default defineComponent({
     return {
       vTiles: this.tiles,
       debug: false, // `true` enables the debugger for the tiles array(s) in admin mode
-      showCategoryHeadline: false,
     };
   },
   computed: {
@@ -146,6 +144,9 @@ export default defineComponent({
       editMode: 'portalData/editMode',
       searchQuery: 'search/searchQuery',
     }),
+    hasTiles(): boolean {
+      return this.tiles.some((tile) => this.tileMatchesQuery(tile));
+    },
   },
   watch: {
     vTiles(val) {
@@ -153,14 +154,6 @@ export default defineComponent({
       console.info('saveState');
       console.log('val: ', val);
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.hasTiles();
-    });
-  },
-  updated() {
-    this.hasTiles();
   },
   methods: {
     changed() {
@@ -177,15 +170,6 @@ export default defineComponent({
       const titleMatch = this.titleMatchesQuery(tile.title);
       const folderMatch = tile.isFolder && (tile as FolderTile).tiles.some((t) => this.titleMatchesQuery(t.title));
       return titleMatch || folderMatch;
-    },
-    hasTiles() {
-      const refArray = Object.entries(this.$refs);
-      const children = refArray.filter((ref) => ref[1] !== null);
-      if (children.length > 0) {
-        this.showCategoryHeadline = true;
-      } else {
-        this.showCategoryHeadline = false;
-      }
     },
   },
 });

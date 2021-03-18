@@ -1,6 +1,7 @@
 <template>
   <a
     v-is="isLink ? 'a' : 'div'"
+    v-if="isVisible"
     class="menu-item"
     :href="link ? link : null"
     @click="isInternalFunctionOrLink ? tileClick() : null"
@@ -80,6 +81,12 @@ export default defineComponent({
     isInternalFunctionOrLink(): boolean {
       return this.linkTarget === 'internalFunction' || this.isLink();
     },
+    isVisible(): boolean {
+      return this.isLink || this.subItem || this.subMenu.length > 0;
+    },
+    isLink(): boolean {
+      return this.link !== null && this.link !== '';
+    },
   },
   methods: {
     callAppSetting() {
@@ -91,10 +98,7 @@ export default defineComponent({
     },
     closeWithESC() {
       this.$emit('clickAction');
-    },
-    isLink(): boolean {
-      return this.link !== null && this.link !== '';
-    },
+    }
   },
 });
 </script>
