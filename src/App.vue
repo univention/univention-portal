@@ -1,11 +1,11 @@
 <template>
-  <home />
+  <portal />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import Home from '@/views/Home.vue';
+import Portal from '@/views/Portal.vue';
 import { login } from '@/jsHelper/login';
 import { catalog } from '@/i18n/translations';
 import { Locale } from './store/models';
@@ -16,7 +16,7 @@ const defaultPortalLocale: Locale = process.env.VUE_APP_LOCALE || 'en_US';
 export default defineComponent({
   name: 'App',
   components: {
-    Home,
+    Portal,
   },
   mounted() {
     this.$store.dispatch('locale/setLocale', defaultPortalLocale).then(() => {
