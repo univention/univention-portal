@@ -14,8 +14,8 @@
             {{ userState.displayName }}
           </div>
           <button
-            class="portal-sidenavigation__logout-link"
             ref="loginButton"
+            class="portal-sidenavigation__logout-link"
             @click="logout"
             @keydown.esc="closeNavigation"
           >
@@ -145,9 +145,6 @@ export default defineComponent({
       },
     };
   },
-  mounted() {
-    (this.$refs.loginButton as HTMLElement).focus();
-  },
   computed: {
     ...mapGetters({
       menuLinks: 'menu/getMenu',
@@ -155,6 +152,9 @@ export default defineComponent({
       userState: 'user/userState',
       meta: 'meta/getMeta',
     }),
+  },
+  mounted() {
+    (this.$refs.loginButton as HTMLElement).focus();
   },
   methods: {
     login(): void {
@@ -217,7 +217,7 @@ export default defineComponent({
     hasSubmenu(item) {
       return item.subMenu && item.subMenu.length > 0;
     },
-    focusOnChild (item, index) {
+    focusOnChild(item, index) {
       this.toggleMenu(index);
       // const firstClickableChildElement = (this.$refs[`subitem${1}`] as HTMLFormElement).$el;
       // console.log(firstClickableChildElement);
