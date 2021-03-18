@@ -45,7 +45,6 @@
           v-if="menuVisible"
           :ref="'menuItem' + index"
           :links="[]"
-          link-target="samewindow"
           v-bind="item"
           :aria-haspopup="hasSubmenu(item)"
           @click="toggleMenu(index)"
@@ -53,6 +52,8 @@
           @escButtonClick="closeNavigation"
           @keydown.up.prevent="selectPrevious(index)"
           @keydown.down.prevent="selectNext(index)"
+          @keydown.enter.prevent="toggleMenu(index)"
+          @keydown.right="focusOnChild(item, index)"
         />
         <template v-if="item.subMenu && item.subMenu.length > 0">
           <menu-item
@@ -60,9 +61,9 @@
             :title="item.title"
             :is-sub-item="true"
             :links="[]"
-            link-target="samewindow"
             class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
             @click="toggleMenu()"
+            @keydown.enter.prevent="toggleMenu()"
           />
           <div
             v-for="(subitem, subindex) in item.subMenu"
@@ -71,6 +72,7 @@
           >
             <menu-item
               v-if="subMenuVisible & (menuParent === index)"
+              :ref="'subitem' + subindex"
               v-bind="subitem"
               class="portal-sidenavigation__menu-subitem"
               @clickAction="closeNavigation"
@@ -162,7 +164,6 @@ export default defineComponent({
       logout();
     },
     closeNavigation(): void {
-      console.log('EMIT DISPATCH');
       this.$store.dispatch('navigation/setActiveButton', '');
     },
     toggleMenu(index = -1): void {
@@ -214,8 +215,13 @@ export default defineComponent({
       }
     },
     hasSubmenu(item) {
-      console.log('hasSubmenu');
       return item.subMenu && item.subMenu.length > 0;
+    },
+    focusOnChild (item, index) {
+      this.toggleMenu(index);
+      // const firstClickableChildElement = (this.$refs[`subitem${1}`] as HTMLFormElement).$el;
+      // console.log(firstClickableChildElement);
+      // firstClickableChildElement.focus();
     },
   },
 });

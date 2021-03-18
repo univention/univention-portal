@@ -3,8 +3,8 @@
     v-is="isLink ? 'a' : 'div'"
     class="menu-item"
     :href="link ? link : null"
-    @click="isInternalFunction ? callAppSetting() : tileClick"
-    @keydown.enter="test"
+    @click="isInternalFunctionOrLink ? tileClick() : null"
+    @keydown.enter="isInternalFunctionOrLink ? tileClick() : null"
     @keydown.esc="closeWithESC"
     tabindex="0"
   >
@@ -77,11 +77,8 @@ export default defineComponent({
   },
   emits: ['clickAction'],
   computed: {
-    isLink(): boolean {
-      return this.link !== null;
-    },
-    isInternalFunction(): boolean {
-      return this.linkTarget === 'internalFunction';
+    isInternalFunctionOrLink(): boolean {
+      return this.linkTarget === 'internalFunction' || this.isLink();
     },
   },
   methods: {
@@ -92,16 +89,11 @@ export default defineComponent({
         }
       }
     },
-    test() {
-      if (this.isInternalFunction) {
-        this.callAppSetting();
-      } else {
-        console.log(TileClick?.methods?.tileClick());
-        TileClick?.methods?.tileClick();
-      }
-    },
     closeWithESC() {
       this.$emit('clickAction');
+    },
+    isLink(): boolean {
+      return this.link !== null && this.link !== '';
     },
   },
 });
