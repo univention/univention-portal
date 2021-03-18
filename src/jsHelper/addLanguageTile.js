@@ -7,9 +7,11 @@ export default function createMenuStructure(portalLanguageData) {
 
   const subMenuItems = portalLanguageData.map((element) => ({
     title: element.title,
-    locale: element.locale,
     linkTarget: 'internalFunction',
-    internalFunction: 'changeLanguage',
+    internalFunction: (tileClick) => {
+      tileClick.$store.dispatch('locale/setLocale', element.locale);
+      return false;
+    },
     links: [],
   }));
 

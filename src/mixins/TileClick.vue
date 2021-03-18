@@ -11,6 +11,10 @@ const tileClickMixin = {
     linkTarget: {
       type: String,
     },
+    internalFunction: {
+      type: Function,
+      required: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -27,9 +31,6 @@ const tileClickMixin = {
   ],
   methods: {
     tileClick(evt) {
-      if (!this.link) {
-        return false;
-      }
       if (this.editMode) {
         evt.preventDefault();
 
@@ -40,15 +41,17 @@ const tileClickMixin = {
         evt.preventDefault();
         return false;
       }
+      if (this.linkTarget === 'internalFunction') {
+        return this.internalFunction(this);
+      }
+      if (!this.link) {
+        return false;
+      }
       if (this.linkTarget === 'embedded') {
         evt.preventDefault();
         this.openEmbedded();
         this.$emit('clickAction');
         // return false;
-      } else if (this.linkTarget === 'internalFunction') {
-        if (this.internalFunction === 'changeLanguage') {
-          this.$store.dispatch('locale/setLocale', this.locale);
-        }
       }
       return true;
     },

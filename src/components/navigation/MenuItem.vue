@@ -3,10 +3,10 @@
     v-is="isLink ? 'a' : 'div'"
     class="menu-item"
     :href="link ? link : null"
+    tabindex="0"
     @click="isInternalFunctionOrLink ? tileClick() : null"
     @keydown.enter="isInternalFunctionOrLink ? tileClick() : null"
     @keydown.esc="closeWithESC"
-    tabindex="0"
   >
     <portal-icon
       v-if="isSubItem"
@@ -65,10 +65,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    internalFunction: {
-      type: String,
-      required: false,
-    },
   },
   emits: ['clickAction'],
   computed: {
@@ -80,13 +76,6 @@ export default defineComponent({
     },
   },
   methods: {
-    callAppSetting() {
-      if (this.linkTarget === 'internalFunction') {
-        if (this.internalFunction === 'changeLanguage') {
-          this.$store.dispatch('locale/setLocale', this.locale);
-        }
-      }
-    },
     closeWithESC() {
       this.$emit('clickAction');
     },
