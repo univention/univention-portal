@@ -45,7 +45,7 @@
       <header-button
         aria-label="Button for navigation"
         icon="menu"
-        @click="dismissBubble()"
+        @click="dismissBubble('menu')"
       />
     </div>
 
