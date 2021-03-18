@@ -10,7 +10,6 @@ const tileClickMixin = {
     },
     linkTarget: {
       type: String,
-      required: true,
     },
   },
   computed: {
@@ -27,6 +26,8 @@ const tileClickMixin = {
   ],
   methods: {
     tileClick(evt) {
+      console.log(this);
+      console.log(this.linkTarget);
       if (this.link === null) {
         return false;
       }
@@ -40,11 +41,15 @@ const tileClickMixin = {
         evt.preventDefault();
         return false;
       }
-      this.$emit('clickAction');
+      // this.$emit('clickAction');
       if (this.linkTarget === 'embedded') {
         evt.preventDefault();
         this.openEmbedded();
-        return false;
+        // return false;
+      } else if (this.linkTarget === 'internalFunction') {
+        if (this.internalFunction === 'changeLanguage') {
+          this.$store.dispatch('locale/setLocale', this.locale);
+        }
       }
       return true;
     },
