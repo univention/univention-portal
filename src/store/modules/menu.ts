@@ -18,8 +18,8 @@ const menu: PortalModule<MenuState> = {
 
   mutations: {
     MENU(state, payload) {
-      const menuStructure = createMenuStructure(payload);
-      const languageMenuLink = addLanguageTile(payload.portal.portal_languages);
+      const menuStructure = createMenuStructure(payload.portal);
+      const languageMenuLink = addLanguageTile(payload.availableLocales);
       menuStructure.unshift(languageMenuLink);
       state.menu = menuStructure;
     },
