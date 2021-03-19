@@ -46,6 +46,7 @@
         aria-label="Button for navigation"
         icon="menu"
         @click="dismissBubble('menu')"
+        @keydown.tab.exact.prevent="activeMenuButton ? dismissBubble('menu') : focusIntoSideNavIfOpen()"
       />
     </div>
 
@@ -106,7 +107,7 @@ import PortalModal from '@/components/globals/PortalModal.vue';
 import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
-import notificationMixin from '@/mixins/notificationMixin';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
@@ -149,6 +150,9 @@ export default defineComponent({
     },
     goHome(): void {
       this.$store.dispatch('tabs/setActiveTab', 0);
+    },
+    focusIntoSideNavIfOpen(): void {
+      (document.querySelector('.portal-tile') as HTMLFormElement).focus();
     },
   },
 });

@@ -16,8 +16,10 @@
           <button
             ref="loginButton"
             class="portal-sidenavigation__logout-link"
+            id="loginButton"
             @click="logout"
             @keydown.esc="closeNavigation"
+            @keydown.shift.tab="focusOnMenuButton($event)"
           >
             <translate i18n-key="LOGOUT" />
           </button>
@@ -65,8 +67,8 @@
             class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
             @click="toggleMenu()"
             @keydown.enter.prevent="focusOnParent(index)"
-            @keydown.up.prevent="selectPrevious('subItemParent', item.subMenu.length)"
-            @keydown.down.prevent="selectNext('subItemParent')"
+            @keydown.up.prevent="selectPrevious('subItemParent',index, item.subMenu.length)"
+            @keydown.down.prevent="selectNext('subItemParent', index)"
           />
           <div
             v-for="(subItem, subindex) in item.subMenu"
@@ -79,8 +81,8 @@
               v-bind="subItem"
               class="portal-sidenavigation__menu-subItem"
               @clickAction="closeNavigation"
-              @keydown.up.prevent="selectPrevious( 'subItem', subindex)"
-              @keydown.down.prevent="selectNext( 'subItem', subindex)"
+              @keydown.up.prevent="selectPrevious( 'subItem', subindex, item.subMenu.length)"
+              @keydown.down.prevent="selectNext( 'subItem', subindex, item.subMenu.length)"
             />
           </div>
         </template>
@@ -199,27 +201,28 @@ export default defineComponent({
       }
       return ret;
     },
-    selectPrevious( menuReference: string, index?: number):void {
+    selectPrevious( menuReference: string, index?: number, numberOfItems?: number):void {
       if (menuReference === 'subItemParent') {
-        console.log('index', index);
+        // If current is subitem Parent focus last item in list
         this.$nextTick(() => {
-          // setting the focus to last child of subnav
-          const lastChildIndex = index ? index - 1 : null;
+          const lastChildIndex = numberOfItems ? numberOfItems - 1 : null;
           const firstSubItemChild = (this.$refs[`subItem${lastChildIndex}`] as HTMLFormElement).$el;
           firstSubItemChild.focus();
         });
       } else {
+        // normal previous behaviour
         const currentElementIndex = menuReference + index;
         const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
         if (index === 0) {
-          // select Last Element
+          // If current is first submenu item set focus to subItemParent.
+          this.focusOnSubItemParent();
         } else {
           const previousElement = currentElement.parentElement.previousElementSibling.children[0];
           previousElement.focus();
         }
       }
     },
-    selectNext( menuReference: string, index?: number):void {
+    selectNext( menuReference: string, index?: number, numberOfItems?: number):void {
       if (menuReference === 'subItemParent') {
         this.$nextTick(() => {
           const firstSubItemChild = (this.$refs.subItem0 as HTMLFormElement).$el;
@@ -228,8 +231,12 @@ export default defineComponent({
       } else {
         const currentElementIndex = menuReference + index;
         const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
-        if (index === 99) {
-          // select Last Element
+        const lastChildIndex = numberOfItems ? numberOfItems - 1 : null;
+        console.log('lastChildIndex', lastChildIndex);
+        console.log('numberOfItems', numberOfItems);
+        console.log('index', index);
+        if (index === lastChildIndex) {
+          this.focusOnSubItemParent();
         } else {
           const nextElement = currentElement.parentElement.nextElementSibling.children[0];
           nextElement.focus();
@@ -242,8 +249,7 @@ export default defineComponent({
     focusOnChild(index) {
       this.toggleMenu(index);
       this.$nextTick(() => {
-        // focusing on the parent element in the submenu
-        (this.$refs.subItemParent as HTMLFormElement).$el.focus();
+        this.focusOnSubItemParent();
       });
     },
     focusOnParent(index) {
@@ -253,6 +259,16 @@ export default defineComponent({
         console.log(firstClickableChildElement);
         firstClickableChildElement.focus();
       });
+    },
+    focusOnSubItemParent() {
+      (this.$refs.subItemParent as HTMLFormElement).$el.focus();
+    },
+    focusOnMenuButton(event) {
+      console.log('header-button-menu');
+      event.preventDefault();
+      const buttonElement = document.getElementById('header-button-menu') as HTMLFormElement;
+      console.log(buttonElement);
+      buttonElement.focus();
     },
   },
 });
