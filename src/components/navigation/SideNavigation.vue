@@ -50,32 +50,37 @@
           @click="toggleMenu(index)"
           @clickAction="closeNavigation"
           @escButtonClick="closeNavigation"
-          @keydown.up.prevent="selectPrevious(index)"
-          @keydown.down.prevent="selectNext(index)"
-          @keydown.enter.prevent="toggleMenu(index)"
-          @keydown.right="focusOnChild(item, index)"
+          @keydown.up.prevent="selectPrevious( 'menuItem', index)"
+          @keydown.down.prevent="selectNext( 'menuItem', index)"
+          @keydown.enter="focusOnChild(index)"
+          @keydown.right="focusOnChild(index)"
         />
         <template v-if="item.subMenu && item.subMenu.length > 0">
           <menu-item
             v-if="subMenuVisible & (menuParent === index)"
+            ref="subItemParent"
             :title="item.title"
             :is-sub-item="true"
             :links="[]"
-            class="portal-sidenavigation__menu-subitem portal-sidenavigation__menu-subitem--parent"
+            class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
             @click="toggleMenu()"
-            @keydown.enter.prevent="toggleMenu()"
+            @keydown.enter.prevent="focusOnParent(index)"
+            @keydown.up.prevent="selectPrevious('subItemParent', item.subMenu.length)"
+            @keydown.down.prevent="selectNext('subItemParent')"
           />
           <div
-            v-for="(subitem, subindex) in item.subMenu"
+            v-for="(subItem, subindex) in item.subMenu"
             :key="subindex"
             :class="subMenuClass"
           >
             <menu-item
               v-if="subMenuVisible & (menuParent === index)"
-              :ref="'subitem' + subindex"
-              v-bind="subitem"
-              class="portal-sidenavigation__menu-subitem"
+              :ref="'subItem' + subindex"
+              v-bind="subItem"
+              class="portal-sidenavigation__menu-subItem"
               @clickAction="closeNavigation"
+              @keydown.up.prevent="selectPrevious( 'subItem', subindex)"
+              @keydown.down.prevent="selectNext( 'subItem', subindex)"
             />
           </div>
         </template>
@@ -194,34 +199,60 @@ export default defineComponent({
       }
       return ret;
     },
-    selectPrevious(index: number):void {
-      const currentElementIndex = `menuItem${index}`;
-      const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
-      if (index === 0) {
-        // select Last Element
+    selectPrevious( menuReference: string, index?: number):void {
+      if (menuReference === 'subItemParent') {
+        console.log('index', index);
+        this.$nextTick(() => {
+          // setting the focus to last child of subnav
+          const lastChildIndex = index ? index - 1 : null;
+          const firstSubItemChild = (this.$refs[`subItem${lastChildIndex}`] as HTMLFormElement).$el;
+          firstSubItemChild.focus();
+        });
       } else {
-        const previousElement = currentElement.parentElement.previousElementSibling.children[0];
-        previousElement.focus();
+        const currentElementIndex = menuReference + index;
+        const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
+        if (index === 0) {
+          // select Last Element
+        } else {
+          const previousElement = currentElement.parentElement.previousElementSibling.children[0];
+          previousElement.focus();
+        }
       }
     },
-    selectNext(index: number):void {
-      const currentElementIndex = `menuItem${index}`;
-      const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
-      if (index === 99) {
-        // select Last Element
+    selectNext( menuReference: string, index?: number):void {
+      if (menuReference === 'subItemParent') {
+        this.$nextTick(() => {
+          const firstSubItemChild = (this.$refs.subItem0 as HTMLFormElement).$el;
+          firstSubItemChild.focus();
+        });
       } else {
-        const nextElement = currentElement.parentElement.nextElementSibling.children[0];
-        nextElement.focus();
+        const currentElementIndex = menuReference + index;
+        const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
+        if (index === 99) {
+          // select Last Element
+        } else {
+          const nextElement = currentElement.parentElement.nextElementSibling.children[0];
+          nextElement.focus();
+        }
       }
     },
     hasSubmenu(item) {
       return item.subMenu && item.subMenu.length > 0;
     },
-    focusOnChild(item, index) {
+    focusOnChild(index) {
       this.toggleMenu(index);
-      // const firstClickableChildElement = (this.$refs[`subitem${1}`] as HTMLFormElement).$el;
-      // console.log(firstClickableChildElement);
-      // firstClickableChildElement.focus();
+      this.$nextTick(() => {
+        // focusing on the parent element in the submenu
+        (this.$refs.subItemParent as HTMLFormElement).$el.focus();
+      });
+    },
+    focusOnParent(index) {
+      this.toggleMenu(index);
+      this.$nextTick(() => {
+        const firstClickableChildElement = (this.$refs[`menuItem${index}`] as HTMLFormElement).$el;
+        console.log(firstClickableChildElement);
+        firstClickableChildElement.focus();
+      });
     },
   },
 });
@@ -292,7 +323,7 @@ export default defineComponent({
     &--hide
       display: none
 
-  &__menu-subitem
+  &__menu-subItem
     margin-left: 0
     padding: 2rem 0 2rem 2rem;
     &--parent
