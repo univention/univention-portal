@@ -13,6 +13,7 @@
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
         :class="['header-button__button', hoverClass]"
+        :id="'header-button-' + icon"
       >
         <portal-icon
           :icon="icon"
