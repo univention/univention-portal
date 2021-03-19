@@ -3,7 +3,7 @@
     <component
       :is="wrapperTag"
       :href="link"
-      :target="setLinkTarget"
+      :target="anchorTarget"
       :aria-describedby="createID()"
       class="portal-tile"
       data-test="tileLink"
@@ -137,12 +137,6 @@ export default defineComponent({
   computed: {
     wrapperTag(): string {
       return (this.inFolder || this.editMode) ? 'div' : 'a';
-    },
-    setLinkTarget(): string | null {
-      if (this.editMode || this.linkTarget !== 'newwindow') {
-        return null;
-      }
-      return '_blank';
     },
   },
   mounted() {
