@@ -55,6 +55,7 @@
           @keydown.up.prevent="selectPrevious( 'menuItem', index)"
           @keydown.down.prevent="selectNext( 'menuItem', index)"
           @keydown.enter="focusOnChild(index)"
+          @keydown.space.prevent="focusOnChild(index)"
           @keydown.right="focusOnChild(index)"
         />
         <template v-if="item.subMenu && item.subMenu.length > 0">
@@ -67,6 +68,8 @@
             class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
             @click="toggleMenu()"
             @keydown.enter.prevent="focusOnParent(index)"
+            @keydown.space.prevent="focusOnParent(index)"
+            @keydown.left="focusOnParent(index)"
             @keydown.up.prevent="selectPrevious('subItemParent',index, item.subMenu.length)"
             @keydown.down.prevent="selectNext('subItemParent', index)"
           />
