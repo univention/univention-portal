@@ -150,7 +150,7 @@ export default defineComponent({
       menuLinks: 'menu/getMenu',
       editMode: 'portalData/editMode',
       userState: 'user/userState',
-      meta: 'meta/getMeta',
+      meta: 'metaData/getMeta',
     }),
   },
   mounted() {

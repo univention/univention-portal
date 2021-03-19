@@ -326,23 +326,7 @@
            "cn=owncloud-userdoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
          ]
        ]
-     ],
-     "portal_languages":[
-      {
-         "title":{
-            "de_DE":"Deutsch",
-            "en_US":"Deutsch"
-         },
-         "locale":"de_DE"
-      },
-      {
-         "title":{
-            "en_US":"English",
-            "de_DE":"English"
-         },
-         "locale":"en_US"
-      }
-   ]
+     ]
    },
    "filtered": true,
    "may_edit_portal": true,

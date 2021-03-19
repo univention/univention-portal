@@ -1,4 +1,4 @@
-export default function createMenuStructure(portalLanguageData) {
+export default function addLanguageTile(portalLanguageData) {
   const menuTitle = {
     de_DE: 'Sprache ändern',
     en_US: 'Change Language',
@@ -6,10 +6,10 @@ export default function createMenuStructure(portalLanguageData) {
   };
 
   const subMenuItems = portalLanguageData.map((element) => ({
-    title: element.title,
+    title: { en_US: element.label },
     linkTarget: 'internalFunction',
     internalFunction: (tileClick) => {
-      tileClick.$store.dispatch('locale/setLocale', element.locale);
+      tileClick.$store.dispatch('locale/setLocale', element.id.replace('-', '_'));
       return false;
     },
     links: [],
@@ -17,6 +17,7 @@ export default function createMenuStructure(portalLanguageData) {
 
   const menuElement = {
     title: menuTitle,
+    linkTarget: 'samewindow',
     subMenu: subMenuItems,
   };
   return menuElement;
