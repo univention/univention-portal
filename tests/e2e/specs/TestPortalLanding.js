@@ -6,6 +6,8 @@ describe('General Tests', () => {
     cy.intercept('GET', 'portal/portal.json', { fixture: 'portal.json' });
     cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
     cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+    cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+
     cy.visit('/');
     /**
      * Since there are few data-test attributes the selectors are all over the place,
