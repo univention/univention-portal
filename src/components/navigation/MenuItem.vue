@@ -3,9 +3,10 @@
     v-is="isLink ? 'a' : 'div'"
     class="menu-item"
     :href="link ? link : null"
+    :target="anchorTarget"
     tabindex="0"
-    @click="isInternalFunctionOrLink ? tileClick() : null"
-    @keydown.enter="isInternalFunctionOrLink ? tileClick() : null"
+    @click="tileClick"
+    @keydown.enter="tileClick"
     @keydown.esc="closeWithESC"
   >
     <portal-icon
@@ -68,9 +69,6 @@ export default defineComponent({
   },
   emits: ['clickAction'],
   computed: {
-    isInternalFunctionOrLink(): boolean {
-      return this.linkTarget === 'internalFunction' || this.isLink;
-    },
     isLink(): boolean {
       return this.link !== null && this.link !== '';
     },

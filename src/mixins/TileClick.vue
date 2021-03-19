@@ -25,6 +25,12 @@ const tileClickMixin = {
     link() {
       return bestLink(this.links, this.metaData.fqdn, this.locale.split('_')[0]);
     },
+    anchorTarget() {
+      if (this.editMode || this.linkTarget !== 'newwindow') {
+        return null;
+      }
+      return '_blank';
+    },
   },
   emits: [
     'clickAction',
