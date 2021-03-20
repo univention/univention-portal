@@ -31,6 +31,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     :src="imagePath"
     :class="defaultClass"
     :alt="altText"
+    onerror="this.src='./questionMark.svg'"
   >
 </template>
 
