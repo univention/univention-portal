@@ -60,9 +60,6 @@ msgstr "Bearbeiten abbrechen"
 msgid "Submit"
 msgstr "Abschicken"
 
-msgid "Add category"
-msgstr "Kategorie hinzufügen"
-
 msgid "Edit category"
 msgstr "Kategorie bearbeiten"
 
