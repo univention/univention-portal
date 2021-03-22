@@ -11,7 +11,7 @@
        "activated": true,
        "allowedGroups": [],
        "anonymous": false,
-       "backgroundColor": null,
+       "backgroundColor": "darkblue",
        "description": {
          "de_DE": "Cloud Lösung für Filesync und -share",
          "en_US": "Cloud solution for data and file sync and share"
