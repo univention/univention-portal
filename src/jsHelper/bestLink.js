@@ -1,3 +1,31 @@
+/*
+ * Copyright 2021 Univention GmbH
+ *
+ * https://www.univention.de/
+ *
+ * All rights reserved.
+ *
+ * The source code of this program is made available
+ * under the terms of the GNU Affero General Public License version 3
+ * (GNU AGPL V3) as published by the Free Software Foundation.
+ *
+ * Binary versions of this program provided by Univention to you as
+ * well as other copyrighted, protected or trademarked materials like
+ * Logos, graphics, fonts, specific documentations and configurations,
+ * cryptographic keys etc. are subject to a license agreement between
+ * you and Univention and not subject to the GNU AGPL V3.
+ *
+ * In the case you use this program under the terms of the GNU AGPL V3,
+ * the program is provided in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License with the Debian GNU/Linux or Univention distribution in file
+ * /usr/share/common-licenses/AGPL-3; if not, see
+ * <https://www.gnu.org/licenses/>.
+ */
 import { isFQDN, isIPv4Address, isIPv6Address } from '@/jsHelper/tools';
 
 // convert IPv6 addresses to their canonical form:
@@ -224,16 +252,11 @@ export default function main(links, fqdn, locale) {
   }
   const localizedLinks = {};
   links.forEach((link) => {
-    const match = /(@[a-z]{2} )?(.*)/.exec(link);
-    let linkLocale = 'en';
-    if (match[1]) {
-      linkLocale = match[1].slice(1, 3);
-    }
-    const alreadyFoundLinks = localizedLinks[linkLocale] || [];
-    alreadyFoundLinks.push(match[2]);
-    localizedLinks[linkLocale] = alreadyFoundLinks;
+    const alreadyFoundLinks = localizedLinks[link.locale] || [];
+    alreadyFoundLinks.push(link.value);
+    localizedLinks[link.locale] = alreadyFoundLinks;
   });
-  const usedLinks = localizedLinks[locale] || localizedLinks.en;
+  const usedLinks = localizedLinks[locale] || localizedLinks.en_US;
   const browserHostname = getURIHostname(document.location.href);
   // get the best link to be displayed
   const localLinks = getLocalLinks(browserHostname, fqdn, usedLinks).concat(usedLinks);
