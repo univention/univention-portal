@@ -61,16 +61,19 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div class="portal-header__right">
       <header-button
         ref="searchButton"
+        data-test="searchbutton"
         aria-label="Button for Searchbar"
         icon="search"
         @click="dismissBubble()"
       />
       <header-button
+        data-test="bellbutton"
         aria-label="Open notifications"
         icon="bell"
         @click="dismissBubble()"
       />
       <header-button
+        data-test="navigationbutton"
         aria-label="Button for navigation"
         icon="menu"
         @click="dismissBubble('menu')"

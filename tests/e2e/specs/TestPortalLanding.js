@@ -22,17 +22,32 @@ describe('General Tests', () => {
     cy.get('.notification-bubble__title').contains('Anmelden');
     cy.get('button[aria-label="Benachrichtigung schließen"]').click();
 
-    cy.contains('Anmelden')
-      .should('not.exist');
-
-    // Buttons ?
-    cy.get('button[aria-label="Button for Searchbar"]');
-    cy.get('button[aria-label="Open notifications"]');
-    cy.get('button[aria-label="Button for navigation"]');
+    cy.contains('Anmelden').should('not.exist');
 
     // Mouseover tooltip?
     cy.get('#ownCloud').trigger('mouseover');
     cy.get('.portal-tooltip--shown').contains('Cloud Lösung');
+    cy.get('#ownCloud').trigger('mouseleave');
+    cy.get('.portal-tooltip--shown').should('not.exist');
+
+    // Buttons ?
+    // TODO: Implement differece between Ring and Icon color / get test criteria
+    // const searchbutton = cy.get('[data-test="searchbutton"]');
+    // searchbutton.should('not.have.class', 'header-button--is-active');
+    // searchbutton.click();
+    // searchbutton.should('have.class', 'header-button--is-active');
+    //
+    // const bellbutton = cy.get('[data-test="bellbutton"]');
+    // bellbutton.should('not.have.class', 'header-button--is-active');
+    // bellbutton.click();
+    // bellbutton.should('have.class', 'header-button--is-active');
+    //
+    // const menubutton = cy.get('[data-test="menubutton"]');
+    // menubutton.should('not.have.class', 'header-button--is-active');
+    // menubutton.click();
+    // menubutton.should('have.class', 'header-button--is-active');
+
+    cy.get('button[aria-label="Button for navigation"]');
 
     // Burger Menu
     cy.get('button[aria-label="Button for navigation"]').click();
