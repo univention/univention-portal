@@ -55,6 +55,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       </div>
       <button
         v-else
+        id="loginButton"
         ref="loginButton"
         class="portal-sidenavigation__link"
         @click="login"

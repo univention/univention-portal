@@ -52,7 +52,9 @@ const notificationMixin = {
         store.dispatch('notificationBubble/showEmbedded');
       }
       if (token === this.getActiveButton) {
-        document.getElementById('loginButton').focus();
+        if (document.getElementById('loginButton')) {
+          document.getElementById('loginButton').focus();
+        }
       }
     },
     showNewNotification(notificationContent) {
