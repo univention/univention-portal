@@ -60,6 +60,50 @@ msgstr "Bearbeiten abbrechen"
 msgid "Submit"
 msgstr "Abschicken"
 
+msgid "Add category"
+msgstr "Kategorie hinzufügen"
+
+msgid "Edit category"
+msgstr "Kategorie bearbeiten"
+
+msgid "Add entry"
+msgstr "Eintrag hinzufügen"
+
+msgid "Create new entry"
+msgstr "Neuen Eintrag hinzufügen"
+
+msgid "Add existing entry"
+msgstr "Bestehenden Eintrag hinzufügen"
+
+msgid "Add folder"
+msgstr "Ordner hinzufügen"
+
+msgid "Create new folder"
+msgstr "Neuen Ordner hinzufügen"
+
+msgid "Add existing folder"
+msgstr "Bestehenden Ordner hinzufügen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Remove from this portal"
+msgstr "Aus diesem Portal entfernen"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Internal name"
+msgstr "Interner Name"
+
+msgid "Display name"
+msgstr "Anzeigename"
+
+msgid "Language code (e.g. en_US)"
+msgstr "Sprachcode (z. B. en_US)"
+
+msgid "Display name of the category. At least one entry; strongly encouraged to have one for en_US"
+msgstr "Anzeigename der Kategorie. Mindestens ein Eintrag; dringend empfohlen, eine für en_US zu haben"
 #: src/assets/data/dictionary.js:16
 msgid "Switch locale"
 msgstr "Sprache ändern"
