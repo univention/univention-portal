@@ -189,10 +189,13 @@ export default defineComponent({
   &__in-modal
     cursor: default
 
-    .portal-tile
+    > .portal-tile
       &__box
         width: calc(5 * var(--app-tile-side-length))
         height: @width
+        max-width: 100vw
+        max-height: auto
+        margin-bottom: 0
 
         .portal-tile
           width: var(--app-tile-side-length)
@@ -203,13 +206,14 @@ export default defineComponent({
         display: block;
 
   &__thumbnails
-    width: 80%;
-    height: 80%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    grid-gap: calc(4 * var(--layout-spacing-unit))
-    grid-gap: var(--layout-spacing-unit)
+    width: 100%
+    height:100%
+    display: grid
+    grid-template-rows: repeat(2, minmax(1fr, min-content));
+    grid-template-columns: repeat(auto-fill,1fr);
+    grid-template-columns: repeat(auto-fit,1fr);
+    grid-template-columns: repeat(auto-fit,minmax(var(--app-tile-side-length), 1fr));
+    grid-auto-rows: min-content;
 
     .portal-tile
       width: calc(0.2 * var(--app-tile-side-length))
@@ -223,11 +227,9 @@ export default defineComponent({
 
   &__edit-button
     user-select: none
-
     position: absolute
     top: -0.75em
     right: -0.75em
-
     width: 2em
     height: 2em
     background-color: var(--color-grey0)
