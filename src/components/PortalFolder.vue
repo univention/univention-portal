@@ -209,11 +209,11 @@ export default defineComponent({
     width: 100%
     height:100%
     display: grid
-    grid-template-rows: repeat(2, minmax(1fr, min-content));
-    grid-template-columns: repeat(auto-fill,1fr);
-    grid-template-columns: repeat(auto-fit,1fr);
+
+    grid-template-rows: repeat(2, minmax(150px, min-content));
     grid-template-columns: repeat(auto-fit,minmax(var(--app-tile-side-length), 1fr));
-    grid-auto-rows: min-content;
+
+    grid-auto-rows: var(--app-tile-side-length);
 
     .portal-tile
       width: calc(0.2 * var(--app-tile-side-length))
