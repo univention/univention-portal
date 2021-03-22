@@ -1,3 +1,31 @@
+/*
+ * Copyright 2021 Univention GmbH
+ *
+ * https://www.univention.de/
+ *
+ * All rights reserved.
+ *
+ * The source code of this program is made available
+ * under the terms of the GNU Affero General Public License version 3
+ * (GNU AGPL V3) as published by the Free Software Foundation.
+ *
+ * Binary versions of this program provided by Univention to you as
+ * well as other copyrighted, protected or trademarked materials like
+ * Logos, graphics, fonts, specific documentations and configurations,
+ * cryptographic keys etc. are subject to a license agreement between
+ * you and Univention and not subject to the GNU AGPL V3.
+ *
+ * In the case you use this program under the terms of the GNU AGPL V3,
+ * the program is provided in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License with the Debian GNU/Linux or Univention distribution in file
+ * /usr/share/common-licenses/AGPL-3; if not, see
+ * <https://www.gnu.org/licenses/>.
+ */
 import { onMounted, onUpdated, ref, watch } from 'vue';
 
 const dragdelay = (callback, wait) => {
@@ -54,7 +82,7 @@ let transitioning = false;
 
 const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
   const items = ref(initialItems.value);
-  console.log('ITEMS', items);
+  // console.log('ITEMS', items);
   // update model when dropped
   watch(draggingItem, () => {
     if (draggingItem.value.id) {
@@ -76,7 +104,7 @@ const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
       return;
     }
     items.value = changePosition(draggingItem.value, items.value, position);
-    console.log('items.value', items.value);
+    // console.log('items.value', items.value);
   };
 
   const containerDragOver = () => {
@@ -108,7 +136,7 @@ const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
 
 const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   const draggable = ref(null);
-  console.log('draggable___', draggable);
+  // console.log('draggable___', draggable);
   const isDragging = ref(
     item.value.id === draggingItem.value.id,
   );
@@ -183,7 +211,7 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   };
 
   watch(draggingItem, () => {
-    console.log('DRAGGINGITEM', draggingItem);
+    // console.log('DRAGGINGITEM', draggingItem);
     if (draggingItem.value.id) {
       return;
     }

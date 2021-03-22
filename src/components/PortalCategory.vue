@@ -1,12 +1,40 @@
+<!--
+Copyright 2021 Univention GmbH
+
+https://www.univention.de/
+
+All rights reserved.
+
+The source code of this program is made available
+under the terms of the GNU Affero General Public License version 3
+(GNU AGPL V3) as published by the Free Software Foundation.
+
+Binary versions of this program provided by Univention to you as
+well as other copyrighted, protected or trademarked materials like
+Logos, graphics, fonts, specific documentations and configurations,
+cryptographic keys etc. are subject to a license agreement between
+you and Univention and not subject to the GNU AGPL V3.
+
+In the case you use this program under the terms of the GNU AGPL V3,
+the program is provided in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public
+License with the Debian GNU/Linux or Univention distribution in file
+/usr/share/common-licenses/AGPL-3; if not, see
+<https://www.gnu.org/licenses/>.
+-->
 <template>
   <div
     :class="{'portal-category--empty': (!editMode && !hasTiles) }"
     class="portal-category"
   >
     <h2
-      v-if="editMode || hasTiles"
-      class="portal-category__title"
+      v-if="editMode || showCategoryHeadline || hasTiles"
       :class="!editMode || 'portal-category__title--edit'"
+      class="portal-category__title"
       @click.prevent="editMode ? editCategory() : ''"
     >
       <header-button
@@ -77,6 +105,28 @@
       </template>
     </div>
 
+    <portal-modal
+      v-if="categoryModal"
+      :is-active="categoryModal"
+    >
+      <div class="portal-category__modal">
+        <modal-admin
+          :title="title"
+          :show-title-button="false"
+          :category-index="categoryIndex"
+          :modal-debugging="true"
+          modal-title="EDIT_CATEGORY"
+          variant="category"
+          modal-type="editCategory"
+          remove-action="removeCategory"
+          save-action="saveCategory"
+          @closeModal="closeModal"
+          @removeCategory="removeCategory"
+          @saveCategory="saveCategory"
+        />
+      </div>
+    </portal-modal>
+
     <draggable-debugger
       v-if="editMode && debug"
       :items="vTiles"
@@ -90,6 +140,10 @@ import { mapGetters } from 'vuex';
 
 import PortalTile from '@/components/PortalTile.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
+
+import PortalModal from '@/components/globals/PortalModal.vue';
+import ModalAdmin from '@/components/admin/ModalAdmin.vue';
+
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
@@ -100,6 +154,8 @@ import { Title, Tile, FolderTile } from '@/store/models';
 interface PortalCategoryData {
   vTiles: Tile[],
   debug: boolean,
+  showCategoryHeadline: boolean,
+  categoryModal: boolean,
 }
 
 export default defineComponent({
@@ -107,6 +163,8 @@ export default defineComponent({
   components: {
     PortalTile,
     PortalFolder,
+    PortalModal,
+    ModalAdmin,
     HeaderButton,
     DraggableWrapper,
     DraggableDebugger,
@@ -132,11 +190,17 @@ export default defineComponent({
       type: String,
       default: 'Tab Aria Label',
     },
+    categoryIndex: {
+      type: Number,
+      default: 0,
+    },
   },
   data(): PortalCategoryData {
     return {
       vTiles: this.tiles,
       debug: false, // `true` enables the debugger for the tiles array(s) in admin mode
+      categoryModal: false,
+      showCategoryHeadline: false,
     };
   },
   computed: {
@@ -160,7 +224,20 @@ export default defineComponent({
       console.log('changed');
     },
     editCategory() {
-      console.log('editCategory');
+      this.categoryModal = true;
+    },
+    closeModal() {
+      this.categoryModal = false;
+    },
+    removeCategory() {
+      console.log('remove category');
+      this.closeModal();
+    },
+    saveCategory(value) {
+      // save the changes
+      console.log('save category: ', value);
+
+      this.closeModal();
     },
     titleMatchesQuery(title: Title): boolean {
       return this.$localized(title).toLowerCase()
@@ -175,7 +252,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .portal-category
   margin-bottom: calc(10 * var(--layout-spacing-unit));
 
