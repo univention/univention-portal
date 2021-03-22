@@ -15,6 +15,10 @@ describe('General Tests', () => {
          * this is quite common but not a best practice. So this is good for learning but
          * should be refactored.
          */
+
+    cy.contains('Cookie-Einstellungen');
+    cy.get('.cookie-banner__button-text').click();
+
     cy.contains('h2', 'Verwaltung');
     // Tiles?
     cy.get('.portal-tile__name').contains('span', 'Univention Blog');
@@ -30,31 +34,33 @@ describe('General Tests', () => {
     cy.get('#ownCloud').trigger('mouseleave');
     cy.get('.portal-tooltip--shown').should('not.exist');
 
-    // Buttons ?
-    // TODO: Implement differece between Ring and Icon color / get test criteria
-    // const searchbutton = cy.get('[data-test="searchbutton"]');
-    // searchbutton.should('not.have.class', 'header-button--is-active');
-    // searchbutton.click();
-    // searchbutton.should('have.class', 'header-button--is-active');
+    // Buttons
+    const searchbutton = cy.get('[data-test="searchbutton"]');
+    searchbutton.should('not.have.class', 'header-button--is-active');
+    searchbutton.click();
+    searchbutton.should('have.class', 'header-button--is-active');
     //
-    // const bellbutton = cy.get('[data-test="bellbutton"]');
-    // bellbutton.should('not.have.class', 'header-button--is-active');
-    // bellbutton.click();
-    // bellbutton.should('have.class', 'header-button--is-active');
-    //
-    // const menubutton = cy.get('[data-test="menubutton"]');
-    // menubutton.should('not.have.class', 'header-button--is-active');
-    // menubutton.click();
-    // menubutton.should('have.class', 'header-button--is-active');
+    const bellbutton = cy.get('[data-test="bellbutton"]');
+    bellbutton.should('not.have.class', 'header-button--is-active');
+    bellbutton.click();
+    bellbutton.should('have.class', 'header-button--is-active');
+    // can't click the bell again bc it's hidden beneath the modal
+    cy.get('.portal-modal--isVisible').click();
+    bellbutton.should('not.have.class', 'header-button--is-active');
 
-    cy.get('button[aria-label="Button for navigation"]');
+    const menubutton = cy.get('[data-test="navigationbutton"]');
+    menubutton.should('not.have.class', 'header-button--is-active');
+    menubutton.click();
+    menubutton.should('have.class', 'header-button--is-active');
+    cy.get('.portal-modal--isVisible').click();
 
-    // Burger Menu
-    cy.get('button[aria-label="Button for navigation"]').click();
-
+    cy.get('[data-test="navigationbutton"]').click();
     cy.get('.portal-sidenavigation__link').contains('Anmelden');
+    cy.contains('Zertifikate');
+    cy.contains('Apps');
+    cy.contains('Hilfe');
 
-    // TODO: Sidemenu broken when entries and not logged in?
+    // TODO: Button Focus / green Ring
     // TODO: empty portal (no tiles, menuitems)
     // TODO: logged out stuff (no tiles, menuitems)
     // TODO: create a permutation of possible tile states (read json from file and manipulate directly / reload page
