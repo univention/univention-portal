@@ -142,7 +142,7 @@ import PortalStandby from '@/components/PortalStandby.vue';
 import CookieBanner from '@/components/CookieBanner.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
-import notificationMixin from '@/mixins/notificationMixin';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
