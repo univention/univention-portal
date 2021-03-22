@@ -74,7 +74,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 import { defineComponent } from 'vue';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import notificationMixin from '@/mixins/notificationMixin';
+import notificationMixin from '@/mixins/notificationMixin.vue';
 
 import { catalog } from '@/i18n/translations';
 
