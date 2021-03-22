@@ -14,9 +14,9 @@
             {{ userState.displayName }}
           </div>
           <button
+            id="loginButton"
             ref="loginButton"
             class="portal-sidenavigation__logout-link"
-            id="loginButton"
             @click="logout"
             @keydown.esc="closeNavigation"
             @keydown.shift.tab="focusOnMenuButton($event)"
@@ -52,8 +52,8 @@
           @click="toggleMenu(index)"
           @clickAction="closeNavigation"
           @escButtonClick="closeNavigation"
-          @keydown.up.prevent="selectPrevious( 'menuItem', index)"
-          @keydown.down.prevent="selectNext( 'menuItem', index)"
+          @keydown.up.prevent="selectPrevious( 'menuItem', index, menuLinks.length)"
+          @keydown.down.prevent="selectNext( 'menuItem', index, menuLinks.length)"
           @keydown.enter="focusOnChild(index)"
           @keydown.space.prevent="focusOnChild(index)"
           @keydown.right="focusOnChild(index)"
@@ -204,7 +204,7 @@ export default defineComponent({
       }
       return ret;
     },
-    selectPrevious( menuReference: string, index?: number, numberOfItems?: number):void {
+    selectPrevious(menuReference: string, index?: number, numberOfItems?: number): void {
       if (menuReference === 'subItemParent') {
         // If current is subitem Parent focus last item in list
         this.$nextTick(() => {
@@ -212,34 +212,38 @@ export default defineComponent({
           const firstSubItemChild = (this.$refs[`subItem${lastChildIndex}`] as HTMLFormElement).$el;
           firstSubItemChild.focus();
         });
-      } else {
-        // normal previous behaviour
-        const currentElementIndex = menuReference + index;
-        const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
+      } else if (menuReference === 'subItem' || menuReference === 'menuItem') {
         if (index === 0) {
           // If current is first submenu item set focus to subItemParent.
-          this.focusOnSubItemParent();
+          if (menuReference === 'subItem') {
+            this.focusOnSubItemParent();
+          } else {
+            const lastElementIndex = numberOfItems ? numberOfItems - 1 : null;
+            (this.$refs[`menuItem${lastElementIndex}`] as HTMLFormElement).$el.focus();
+          }
         } else {
+          // normal previous behaviour
+          const currentElement = (this.$refs[menuReference + index] as HTMLFormElement).$el;
           const previousElement = currentElement.parentElement.previousElementSibling.children[0];
           previousElement.focus();
         }
       }
     },
-    selectNext( menuReference: string, index?: number, numberOfItems?: number):void {
+    selectNext(menuReference: string, index?: number, numberOfItems?: number):void {
       if (menuReference === 'subItemParent') {
         this.$nextTick(() => {
           const firstSubItemChild = (this.$refs.subItem0 as HTMLFormElement).$el;
           firstSubItemChild.focus();
         });
       } else {
-        const currentElementIndex = menuReference + index;
-        const currentElement = (this.$refs[currentElementIndex] as HTMLFormElement).$el;
+        const currentElement = (this.$refs[menuReference + index] as HTMLFormElement).$el;
         const lastChildIndex = numberOfItems ? numberOfItems - 1 : null;
-        console.log('lastChildIndex', lastChildIndex);
-        console.log('numberOfItems', numberOfItems);
-        console.log('index', index);
         if (index === lastChildIndex) {
-          this.focusOnSubItemParent();
+          if (menuReference === 'subItem') {
+            this.focusOnSubItemParent();
+          } else {
+            (this.$refs.menuItem0 as HTMLFormElement).$el.focus();
+          }
         } else {
           const nextElement = currentElement.parentElement.nextElementSibling.children[0];
           nextElement.focus();
