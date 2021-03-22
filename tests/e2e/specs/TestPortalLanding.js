@@ -50,7 +50,8 @@ describe('General Tests', () => {
     // embedded tabs
     // Linktargets + Portaldefault
     // get a couple of screenshots of different viewports
-    //  https://en.wikipedia.org/wiki/Frame_(World_Wide_Web)
-    // criticism: no a11y
+    // TODO: Frames
+    // https://en.wikipedia.org/wiki/Frame_(World_Wide_Web)
+    // criticism there: no a11y, so maybe we got to scrap iframes for UPX/Dataport?
   });
 });
