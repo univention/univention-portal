@@ -203,7 +203,7 @@ export default defineComponent({
   padding: 0 calc(2 * var(--layout-spacing-unit))
 
   &__portal-name
-    font-size: 2rem;
+    font-size: var(--font-size-2);
 
   &__left
     flex: 0 0 auto;

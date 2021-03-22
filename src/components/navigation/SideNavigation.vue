@@ -35,7 +35,6 @@ License with the Debian GNU/Linux or Univention distribution in file
       >
         <portal-icon
           icon="user"
-          icon-width="6rem"
         />
         <div>
           <div class="portal-sidenavigation--username">
@@ -324,7 +323,7 @@ export default defineComponent({
     height: auto
     width: 100%
     justify-content: left
-    font-size: var(--font-size-normal)
+    font-size: var(--font-size-4)
     color: var(--font-color-contrast-high)
     font-weight: 600
     text-transform: uppercase
@@ -340,9 +339,11 @@ export default defineComponent({
 
     svg
       fill: currentColor
+      height: 3rem
+      width: @height
       background-color: var(--color-grey40)
       margin: 0.5rem
-      border-radius: 50%
+      border-radius: var(--border-radius-circles)
     &> div
       margin: auto 0
 
@@ -351,7 +352,7 @@ export default defineComponent({
     cursor: pointer
     background-color: rgba(0,0,0,0)
     color: var(--font-color-contrast-high)
-    font-size: var(--font-size-normal)
+    font-size: var(--font-size-4)
     border: 0.2rem solid rgba(0,0,0,0);
 
     &:hover
@@ -379,7 +380,6 @@ export default defineComponent({
 
   &__menu-subItem
     margin-left: 0
-    padding: 2rem 0 2rem 2rem;
     &--parent
       text-transform: uppercase;
       padding-left: 4rem;
