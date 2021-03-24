@@ -31,9 +31,9 @@ describe('General Tests', () => {
 
     // Mouseover tooltip?
     cy.get('#ownCloud').trigger('mouseover');
-    cy.get('.portal-tooltip--shown').contains('Cloud Lösung');
+    cy.get('[data-test="portal-tooltip"]').contains('ownCloud');
     cy.get('#ownCloud').trigger('mouseleave');
-    cy.get('.portal-tooltip--shown').should('not.exist');
+    cy.get('[data-test="portal-tooltip"]').should('not.exist');
 
     // Buttons, check if they become green
     const searchbutton = cy.get('[data-test="searchbutton"]');

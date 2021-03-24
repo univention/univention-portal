@@ -31,7 +31,10 @@ License with the Debian GNU/Linux or Univention distribution in file
     class="portal-tooltip"
     role="tooltip"
   >
-    <div class="portal-tooltip__header">
+    <div
+      class="portal-tooltip__header"
+      data-test="portal-tooltip"
+    >
       <div class="portal-tooltip__thumbnail">
         <img
           :src="icon || './questionMark.svg'"
