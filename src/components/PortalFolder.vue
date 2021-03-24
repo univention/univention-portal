@@ -192,6 +192,9 @@ export default defineComponent({
   &__in-modal
     cursor: default
 
+    button:last-of-type
+      margin-left: 0
+
     > .portal-tile
       &__box
         width: calc(5 * var(--app-tile-side-length))
@@ -204,6 +207,8 @@ export default defineComponent({
           &__box
             width: var(--app-tile-side-length)
             height: @width
+    &__box
+
     .portal-folder__thumbnails .portal-tile__name
         display: block;
 
