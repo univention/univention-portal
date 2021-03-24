@@ -214,22 +214,22 @@ export default defineComponent({
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: flex-start;
-    padding: 1rem;
+    padding: 0.3rem;
     box-sizing: border-box;
     > div
       height: min-content
       width: var(--portal-folder-tile-width)
       max-width: 50%
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
 
     &--in-modal
       max-height: 100vh
       overflow: auto
       box-sizing: border-box;
-      padding:  calc(4 * var(--layout-spacing-unit))
+      padding:  var(--portal-folder-padding)
 
       > div
-        margin-botttom: 5rem
+        margin-bottom: 5rem
     .portal-tile
       width: calc(0.2 * var(--app-tile-side-length))
       &__box
