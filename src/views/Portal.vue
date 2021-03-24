@@ -94,6 +94,11 @@ License with the Debian GNU/Linux or Univention distribution in file
 
     <!-- <portal-standby /> -->
 
+    <portal-tool-tip
+      v-if="tooltip"
+      v-bind="tooltip"
+    />
+
     <portal-modal
       :is-active="modalState"
       @click="closeModal"
@@ -130,6 +135,7 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import PortalIframe from 'components/PortalIframe.vue';
+import PortalToolTip from 'components/PortalToolTip.vue';
 import PortalCategory from 'components/PortalCategory.vue';
 // import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
@@ -165,6 +171,7 @@ export default defineComponent({
     PortalHeader,
     // PortalIcon,
     PortalIframe,
+    PortalToolTip,
     PortalModal,
     ModalAdmin,
     PortalBackground,
@@ -193,6 +200,7 @@ export default defineComponent({
       tabs: 'tabs/allTabs',
       activeTabIndex: 'tabs/activeTabIndex',
       editMode: 'portalData/editMode',
+      tooltip: 'tooltip/tooltip',
     }),
   },
   methods: {

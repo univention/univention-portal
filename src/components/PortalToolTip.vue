@@ -28,12 +28,13 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <div
-    v-if="showTooltip"
     class="portal-tooltip"
-    :class="{'portal-tooltip--shown': isDisplayed}"
     role="tooltip"
   >
-    <div class="portal-tooltip__header">
+    <div
+      class="portal-tooltip__header"
+      data-test="portal-tooltip"
+    >
       <div class="portal-tooltip__thumbnail">
         <img
           :src="icon || './questionMark.svg'"
@@ -76,30 +77,9 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    link: {
-      type: String,
-      default: '',
-    },
     ariaId: {
       type: String,
       default: '',
-    },
-    isDisplayed: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    showTooltip(): boolean {
-      let ret = true;
-      if (
-        (this.icon === '') ||
-        (this.title === '') ||
-        (this.description === '')
-      ) {
-        ret = false;
-      }
-      return ret;
     },
   },
 });
@@ -107,36 +87,32 @@ export default defineComponent({
 
 <style scoped lang="stylus">
 .portal-tooltip
-  font-size: 16px // 0.8rem
   position: fixed
-  bottom: calc(2 * 1rem)
-  right: calc(2 * 1rem)
+  bottom: 1rem
+  right: 1rem
   background-color: #1e1e1d
-  border-radius: 16px
+  border-radius: var(--border-radius-tooltip)
   min-width: calc(20 * 1rem)
-  max-width: calc(40 * 1rem)
-  padding: calc(2 * 1rem)
-  box-shadow: 0rem 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
+  max-width: calc(20 * 1rem)
+  padding: 1rem
+  box-shadow: var(--box-shadow)
   pointer-events: none
   z-index: $zindex-3
   color: var(--color-white)
-  display: none;
+  display: block;
 
-  &--shown {
-    display: block;
-  }
   &__header
     display: flex
     align-items: center
-    margin-bottom: calc(2 * 1rem)
+    margin-bottom: 1rem
 
   &__thumbnail
-    border-radius: 15%
+    border-radius: var(--border-radius-apptile)
     display: flex
     align-items: center
     justify-content: center
     box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
-    background: #868681
+    background: var(--color-grey40)
 
     .portal-tooltip__header &
       width: calc(3 * 1rem)

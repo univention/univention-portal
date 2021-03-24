@@ -26,39 +26,37 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { setCookie } from '@/jsHelper/tools';
-import { updateLocale } from '@/i18n/translations';
-import { Locale } from '../models';
+import { Tooltip } from '../models';
 import { PortalModule } from '../types';
 
-export interface LocaleState {
-  locale: Locale;
+export interface TooltipState {
+  tooltip: Tooltip | null,
 }
 
-const locale: PortalModule<LocaleState> = {
+const tooltip: PortalModule<TooltipState> = {
   namespaced: true,
   state: {
-    locale: 'en_US',
+    tooltip: null,
   },
 
   mutations: {
-    NEWLOCALE(state, payload) {
-      state.locale = payload;
+    SETTOOLTIP: (state: TooltipState, payload: TooltipState): void => {
+      state.tooltip = payload.tooltip;
     },
   },
 
   getters: {
-    getLocale: (state) => state.locale,
+    tooltip: (state) => state.tooltip,
   },
 
   actions: {
-    setLocale({ commit }, payload: Locale) {
-      commit('NEWLOCALE', payload);
-      setCookie('UMCLang', payload.replace('_', '-'));
-      const localePrefix = payload.slice(0, 2);
-      return updateLocale(localePrefix);
+    setTooltip({ commit }, payload: TooltipState): void {
+      commit('SETTOOLTIP', payload);
+    },
+    unsetTooltip({ commit }): void {
+      commit('SETTOOLTIP', { tooltip: null });
     },
   },
 };
 
-export default locale;
+export default tooltip;

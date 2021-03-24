@@ -1,7 +1,7 @@
 html
-  font-size: $base-font-size
   margin:0
   padding: 0
+  font-size: var(--font-size-html);
 
 body
   margin:0
@@ -9,7 +9,7 @@ body
   font-family: 'Open Sans', sans-serif;
   font-weight: normal;
   line-height: var(--font-lineheight-normal);
-  font-size: var(--font-size-normal);
+  font-size: var(--font-size-body);
   color: var(--font-color-contrast-high);
   margin-top: var(--portal-header-height)
   background-color: var(--bgc-content-body);
@@ -19,7 +19,7 @@ body
   overflow: hidden
 
 h2
-  font-size: var(--font-size-header2);
+  font-size: var(--font-size-2);
   line-height: var(--font-lineheight-normal);
   font-weight: 600;
 
@@ -40,3 +40,32 @@ h2
 .fade-enter,
 .fade-leave-to
   opacity: 0
+
+input
+  padding: 0 calc(3 * var(--layout-spacing-unit-small)) !important;
+  font-size: var(--font-size-3)
+  height: var(--inputfield-size)
+  width: 100%
+  background-color: var(--inputfield-bgc)
+  margin-bottom: var(--layout-spacing-unit)
+  transition: background-color, color, border
+  transition-duration: 250ms
+  border: 1px solid var(--inputfield-bgc)
+  color: var(--font-color-cotrast-high)
+
+  &:hover
+    transition: background-color, color, border
+    transition-duration: 250ms
+
+  &:focus
+    --border-color: var(--color-grey40)
+    outline-style: none
+    box-shadow: none
+
+  &[disabled]
+    cursor: var(--cursor-disabled)
+    color: var(--font-color-disabled)
+
+label
+  color: var(--color-grey62)
+  font-size: var(--font-size-4)
