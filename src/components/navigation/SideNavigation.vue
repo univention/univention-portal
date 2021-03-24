@@ -40,7 +40,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           <div class="portal-sidenavigation--username">
             {{ userState.displayName }}
           </div>
-          <button
+          <a
             id="loginButton"
             ref="loginButton"
             class="portal-sidenavigation__logout-link"
@@ -49,7 +49,7 @@ License with the Debian GNU/Linux or Univention distribution in file
             @keydown.shift.tab="focusOnMenuButton($event)"
           >
             <translate i18n-key="LOGOUT" />
-          </button>
+          </a>
         </div>
       </div>
       <button
@@ -335,17 +335,21 @@ export default defineComponent({
       border: 0.2rem solid var(--color-primary);
       outline: 0
   &__user-row
+    padding-left: var(--layout-spacing-unit)
     display: flex
+    height: 6rem
+    font-weight: var(--font-weight-bold)
 
     svg
       fill: currentColor
-      height: 3rem
+      height: 4rem
       width: @height
       background-color: var(--color-grey40)
-      margin: 0.5rem
+      margin: 1rem
       border-radius: var(--border-radius-circles)
     &> div
       margin: auto 0
+      padding-left: var(--layout-spacing-unit)
 
   &__logout-link
     text-decoration: underline

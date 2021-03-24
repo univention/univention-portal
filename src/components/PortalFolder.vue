@@ -181,6 +181,7 @@ export default defineComponent({
   flex-direction: column
   align-items: center
   cursor: pointer
+  border: 0.2rem solid transparent
 
   &__name
     text-align: center
@@ -192,8 +193,12 @@ export default defineComponent({
   &__in-modal
     cursor: default
 
-    button:last-of-type
-      margin-left: 0
+    button
+      text-transform: none
+
+    .portal-folder__name
+      margin-top: calc(3 * var(--layout-spacing-unit))
+      font-size: var(--font-size-1)
 
     > .portal-tile
       &__box
@@ -208,6 +213,8 @@ export default defineComponent({
             width: var(--app-tile-side-length)
             height: @width
     &__box
+      width: var(--app-tile-side-length)
+      height: var(--app-tile-side-length)
 
     .portal-folder__thumbnails .portal-tile__name
         display: block;
@@ -225,7 +232,7 @@ export default defineComponent({
       height: min-content
       width: var(--portal-folder-tile-width)
       max-width: 50%
-      margin-bottom: 0.5rem;
+      margin-bottom: 0;
 
     &--in-modal
       max-height: 100vh
@@ -234,7 +241,7 @@ export default defineComponent({
       padding:  var(--portal-folder-padding)
 
       > div
-        margin-bottom: 5rem
+        margin-bottom: 3rem
     .portal-tile
       width: calc(0.2 * var(--app-tile-side-length))
       &__box
@@ -262,10 +269,9 @@ export default defineComponent({
 
   .portal-tile__box
     background: var(--color-grey0)
-    border: 0.2rem solid transparent
     padding: 0
 
-    &:focus
-      border-color: var(--color-primary)
-      outline: none;
+&:focus
+  border-color: var(--color-primary)
+  outline: none;
 </style>
