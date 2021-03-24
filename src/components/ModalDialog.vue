@@ -95,6 +95,9 @@ export default defineComponent({
     justify-content: space-between
     flex-wrap: wrap
 
+    button:last-of-type
+      margin-left: auto
+
 .dialog__header
   display: flex
   align-items: center
