@@ -27,7 +27,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div>
+  <div class="portal-tile__root-element">
     <component
       :is="wrapperTag"
       :href="link"
@@ -203,7 +203,9 @@ export default defineComponent({
   &:hover
     color: var(--font-color-contrast-high)
     text-decoration: none
-
+  &__root-element
+    display:flex
+    justify-content: center
   &__box
     border-radius: 15%
     display: flex

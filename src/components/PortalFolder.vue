@@ -39,7 +39,10 @@ License with the Debian GNU/Linux or Univention distribution in file
       @keypress.enter="openFolder"
       @keyup.esc.stop="closeFolder()"
     >
-      <div class="portal-folder__thumbnails">
+      <div
+        class="portal-folder__thumbnails"
+        :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
+      >
         <div
           v-for="(tile, index) in tiles"
           :key="index"
@@ -189,10 +192,12 @@ export default defineComponent({
   &__in-modal
     cursor: default
 
-    .portal-tile
+    > .portal-tile
       &__box
         width: calc(5 * var(--app-tile-side-length))
         height: @width
+        max-width: 100vw
+        margin-bottom: 0
 
         .portal-tile
           width: var(--app-tile-side-length)
@@ -203,31 +208,44 @@ export default defineComponent({
         display: block;
 
   &__thumbnails
-    width: 80%;
-    height: 80%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    grid-gap: calc(4 * var(--layout-spacing-unit))
-    grid-gap: var(--layout-spacing-unit)
+    width: 100%
+    height:100%
+    display: flex
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    padding: 0.3rem;
+    box-sizing: border-box;
+    > div
+      height: min-content
+      width: var(--portal-folder-tile-width)
+      max-width: 50%
+      margin-bottom: 0.5rem;
 
+    &--in-modal
+      max-height: 100vh
+      overflow: auto
+      box-sizing: border-box;
+      padding:  var(--portal-folder-padding)
+
+      > div
+        margin-bottom: 5rem
     .portal-tile
       width: calc(0.2 * var(--app-tile-side-length))
       &__box
         width: calc(0.2 * var(--app-tile-side-length))
         height: @width
         margin-bottom: var(--layout-spacing-unit)
+        padding:  calc(var(--layout-spacing-unit))
 
       &__name
         display: none;
 
   &__edit-button
     user-select: none
-
     position: absolute
     top: -0.75em
     right: -0.75em
-
     width: 2em
     height: 2em
     background-color: var(--color-grey0)
@@ -240,6 +258,7 @@ export default defineComponent({
   .portal-tile__box
     background: var(--color-grey0)
     border: 0.2rem solid transparent
+    padding: 0
 
     &:focus
       border-color: var(--color-primary)
