@@ -31,6 +31,7 @@ import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
 // modules
+import tooltip from '@/store/modules/tooltip';
 import categories from './modules/categories';
 import locale from './modules/locale';
 import menu from './modules/menu';
@@ -64,6 +65,7 @@ export const store = createStore<RootState>({
     portalData,
     search,
     tabs,
+    tooltip,
     user,
   },
   strict: process.env.NODE_ENV !== 'production',
