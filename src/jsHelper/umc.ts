@@ -26,41 +26,32 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import createMenuStructure from '@/jsHelper/createMenuStructure';
-import addLanguageTile from '@/jsHelper/addLanguageTile';
-import createUserMenu from '@/jsHelper/createUserMenu';
-import { PortalModule } from '../types';
+import axios, { AxiosResponse } from 'axios';
 
-export interface MenuState {
-  menu: Array<unknown>;
+import { getCookie } from '@/jsHelper/tools';
+
+function umc(path: string, options: any): Promise<AxiosResponse<any>> {
+  const umcSessionId = getCookie('UMCSessionId');
+  const umcLang = getCookie('UMCLang');
+  const headers = {
+    'X-Requested-With': 'XMLHttpRequest',
+  };
+  if (umcLang) {
+    headers['Accept-Language'] = umcLang;
+  }
+  if (umcSessionId) {
+    headers['X-XSRF-Protection'] = umcSessionId;
+  }
+  return axios.post(`/univention/${path}`, { options }, { headers });
 }
 
-const menu: PortalModule<MenuState> = {
-  namespaced: true,
-  state: {
-    menu: [],
-  },
-
-  mutations: {
-    MENU(state, payload) {
-      const menuStructure = createMenuStructure(payload.portal);
-      const languageMenuLink = addLanguageTile(payload.availableLocales);
-      const userLinks = createUserMenu(payload.portal);
-      menuStructure.unshift(languageMenuLink);
-      menuStructure.unshift(userLinks);
-      state.menu = menuStructure;
+function changePassword(oldPassword: string, newPassword: string): Promise<AxiosResponse<any>> {
+  return umc('set', {
+    password: {
+      password: oldPassword,
+      new_password: newPassword,
     },
-  },
+  });
+}
 
-  getters: {
-    getMenu: (state) => state.menu,
-  },
-
-  actions: {
-    setMenu({ commit }, payload) {
-      commit('MENU', payload);
-    },
-  },
-};
-
-export default menu;
+export { changePassword, umc };
