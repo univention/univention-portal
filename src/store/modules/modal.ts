@@ -50,12 +50,14 @@ const modal: PortalModule<ModalState> = {
       state.modalComponent = payload.name;
       state.modalProps = payload.props || {};
       state.modalStubborn = payload.stubborn || false;
+      document.body.classList.add('body__has-modal');
     },
     HIDEMODAL(state) {
       state.modalVisible = false;
       state.modalComponent = null;
       state.modalProps = {};
       state.modalStubborn = false;
+      document.body.classList.remove('body__has-modal');
     },
   },
 

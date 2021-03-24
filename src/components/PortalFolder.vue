@@ -39,7 +39,10 @@ License with the Debian GNU/Linux or Univention distribution in file
       @keypress.enter="openFolder"
       @keyup.esc.stop="closeFolder()"
     >
-      <div class="portal-folder__thumbnails">
+      <div
+        class="portal-folder__thumbnails"
+        :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
+      >
         <div
           v-for="(tile, index) in tiles"
           :key="index"
@@ -194,7 +197,6 @@ export default defineComponent({
         width: calc(5 * var(--app-tile-side-length))
         height: @width
         max-width: 100vw
-        max-height: auto
         margin-bottom: 0
 
         .portal-tile
@@ -208,19 +210,33 @@ export default defineComponent({
   &__thumbnails
     width: 100%
     height:100%
-    display: grid
+    display: flex
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    padding: 1rem;
+    box-sizing: border-box;
+    > div
+      height: min-content
+      width: var(--portal-folder-tile-width)
+      max-width: 50%
+      margin-bottom: 1rem;
 
-    grid-template-rows: repeat(2, minmax(150px, min-content));
-    grid-template-columns: repeat(auto-fit,minmax(var(--app-tile-side-length), 1fr));
+    &--in-modal
+      max-height: 100vh
+      overflow: auto
+      box-sizing: border-box;
+      padding:  calc(4 * var(--layout-spacing-unit))
 
-    grid-auto-rows: var(--app-tile-side-length);
-
+      > div
+        margin-botttom: 5rem
     .portal-tile
       width: calc(0.2 * var(--app-tile-side-length))
       &__box
         width: calc(0.2 * var(--app-tile-side-length))
         height: @width
         margin-bottom: var(--layout-spacing-unit)
+        padding:  calc(var(--layout-spacing-unit))
 
       &__name
         display: none;
@@ -242,6 +258,7 @@ export default defineComponent({
   .portal-tile__box
     background: var(--color-grey0)
     border: 0.2rem solid transparent
+    padding: 0
 
     &:focus
       border-color: var(--color-primary)
