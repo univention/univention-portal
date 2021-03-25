@@ -67,7 +67,8 @@ const portalData: PortalModule<PortalDataState> = {
     setPortal({ commit }, payload) {
       commit('PORTALDATA', payload);
     },
-    setEditMode({ commit }, editMode) {
+    async setEditMode({ dispatch, commit }, editMode) {
+      await dispatch('loadPortal', { adminMode: editMode }, { root: true });
       commit('EDITMODE', editMode);
     },
   },
