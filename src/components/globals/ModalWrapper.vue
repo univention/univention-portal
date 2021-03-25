@@ -27,42 +27,51 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div
-    :class="{ 'flyout-wrapper--isVisible': isVisible }"
-    class="flyout-wrapper"
-  >
-    <slot />
-  </div>
+  <teleport to="body">
+    <div
+      class="modal-wrapper"
+      :class="{ 'modal-wrapper--isVisible': isActive }"
+      @click.self="$emit('backgroundClick');"
+    >
+      <slot />
+    </div>
+  </teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'FlyoutWrapper',
+  name: 'ModalWrapper',
   props: {
-    isVisible: {
+    isActive: {
       type: Boolean,
       required: true,
     },
   },
+  emits: ['backgroundClick'],
 });
 </script>
 
 <style lang="stylus">
-.flyout-wrapper
-  width: 22rem
-  max-width: 22rem
-  position: fixed
-  top:  calc(var(--portal-header-height) + 0.5rem)
-  right: 0
-  z-index: 100
-  background-color: var(--bgc-content-header)
-  color: #fff
-  transform: translate3d(110%, 0, 0)
-  transition: transform cubic-bezier(0, 0, 0.2, 1) 0.5s
+.modal-wrapper
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -999
 
-  &--isVisible
-    transform: translate3d(0, 0, 0) scale(1, 1)
-    transition: transform cubic-bezier(0, 0, 0.2, 1) 0.5s
+    &--isVisible
+      z-index: $zindex-0
+      background-color: rgba(51, 51, 49, 0.5);
+      display: flex
+      align-items: center
+      justify-content: center
+
+      &> *
+        position: relative
+        z-index: 1
 </style>
