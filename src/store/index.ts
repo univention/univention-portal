@@ -75,17 +75,24 @@ export const store = createStore<RootState>({
   },
   mutations: {},
   actions: {
-    loadPortal: ({ dispatch }) => new Promise((resolve, reject) => {
+    loadPortal: ({ dispatch }, payload) => new Promise((resolve, reject) => {
       console.log('Loading Portal...');
 
+      // Get portal data
+      const headers = {};
+      if (payload.adminMode) {
+        console.log('... in Admin mode');
+        headers['X-Univention-Portal-Admin-Mode'] = 'yes';
+      }
+      const portalRequest = axios.get(`${portalUrl}${portalJsonPath}`, { headers });
       const portalPromises = [
         `${portalUrl}${portalMetaPath}`, // Get meta data
-        `${portalUrl}${portalJsonPath}`, // Get portal data
         `${portalUrl}${languageJsonPath}`, // Get locale data
       ].map((url) => axios.get(url));
+      portalPromises.push(portalRequest);
 
-      axios.all(portalPromises).then(axios.spread((metaResponse, portalResponse, languageResponse) => {
-        const [meta, portal, availableLocales] = [metaResponse.data, portalResponse.data, languageResponse.data];
+      axios.all(portalPromises).then(axios.spread((metaResponse, languageResponse, portalResponse) => {
+        const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
         dispatch('metaData/setMeta', meta);
         dispatch('menu/setMenu', { portal, availableLocales });
         dispatch('portalData/setPortal', portal);

@@ -1,5 +1,7 @@
 {
-   "user_links": [],
+   "user_links": [
+     "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+   ],
    "menu_links": [
      "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "cn=certificates,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
