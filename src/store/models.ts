@@ -34,6 +34,8 @@ export type Description = Record<Locale, string>;
 
 export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
 
+export type NavigationButton = 'search' | 'bell' | 'menu' | '';
+
 export interface Tile {
   id: string,
   title: Title,
