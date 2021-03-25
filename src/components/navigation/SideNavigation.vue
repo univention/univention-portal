@@ -109,12 +109,12 @@ License with the Debian GNU/Linux or Univention distribution in file
           >
             <menu-item
               v-if="subMenuVisible & (menuParent === index)"
-              :ref="'subItem' + subindex"
+              :ref="`subItem${subindex}`"
               v-bind="subItem"
               class="portal-sidenavigation__menu-subItem"
               @clickAction="closeNavigation"
-              @keydown.up.prevent="selectPrevious( 'subItem', subindex, item.subMenu.length)"
-              @keydown.down.prevent="selectNext( 'subItem', subindex, item.subMenu.length)"
+              @keydown.up.prevent="selectPrevious('subItem', subindex, item.subMenu.length)"
+              @keydown.down.prevent="selectNext('subItem', subindex, item.subMenu.length)"
             />
           </div>
         </template>
@@ -178,9 +178,10 @@ export default defineComponent({
       fade: false,
       fadeRightLeft: 'portal-sidenavigation__fade-right-left',
       fadeLeftRight: 'portal-sidenavigation__fade-left-right',
+      // TODO: outsource translation
       changeLanguageTranslation: {
         de_DE: 'Sprache ändern',
-        en_US: 'change Language',
+        en_US: 'Change language',
       },
     };
   },
