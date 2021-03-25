@@ -138,16 +138,13 @@ License with the Debian GNU/Linux or Univention distribution in file
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
-import PortalTile from '@/components/PortalTile.vue';
-import PortalFolder from '@/components/PortalFolder.vue';
-
-import PortalModal from '@/components/globals/PortalModal.vue';
-import ModalAdmin from '@/components/admin/ModalAdmin.vue';
-
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
-
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
 import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
+import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import ModalAdmin from '@/components/admin/ModalAdmin.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
+import PortalModal from '@/components/PortalModal.vue';
+import PortalTile from '@/components/PortalTile.vue';
 
 import { Title, Tile, FolderTile } from '@/store/models';
 
