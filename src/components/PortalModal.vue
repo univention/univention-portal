@@ -27,60 +27,59 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <teleport to="body">
-    <div
-      class="portal-modal"
-      :class="{ 'portal-modal--isVisible': isActive }"
-      @click="clickHandler"
+  <div class="portal-modal">
+    <modal-wrapper
+      :is-active="modalState"
+      @backgroundClick="closeModal"
     >
-      <slot ref="TEST" />
-    </div>
-  </teleport>
+      <component
+        :is="modalComponent"
+        v-bind="modalProps"
+      />
+    </modal-wrapper>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
+
+import ChangePassword from '@/components/forms/ChangePassword.vue';
+import ModalWrapper from '@/components/globals/ModalWrapper.vue';
+import PortalFolder from '@/components/PortalFolder.vue';
 
 export default defineComponent({
   name: 'PortalModal',
+  // Register and import all possible modal components here
+  // Otherwise they will not be displyed correctly
+  // (Maybe change PortalModal to not use the component tag anymore?)
+  components: {
+    ChangePassword,
+    ModalWrapper,
+    PortalFolder,
+  },
   props: {
     isActive: {
       type: Boolean,
       required: true,
     },
   },
-
-  // ToDo: move to vuex store, avoid emits
-  emits: ['click'],
+  computed: {
+    ...mapGetters({
+      modalState: 'modal/getModalState',
+      modalComponent: 'modal/getModalComponent',
+      modalProps: 'modal/getModalProps',
+      modalStubborn: 'modal/getModalStubborn',
+    }),
+  },
   methods: {
-    clickHandler(evt): void {
-      if (evt.target.classList.contains('portal-modal')) {
-        this.$emit('click');
+    closeModal(): void {
+      if (!this.modalStubborn) {
+        this.$store.dispatch('modal/hideAndClearModal');
       }
     },
   },
 });
 </script>
 
-<style lang="stylus">
-.portal-modal
-    width: 100%;
-    position: fixed;
-    height: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -999
-
-    &--isVisible
-      z-index: $zindex-1
-      background-color: rgba(51, 51, 49, 0.5);
-      display: flex
-      align-items: center
-      justify-content: center
-
-      &> *
-        position: relative
-        z-index: 1
-</style>
+<style lang="stylus" />

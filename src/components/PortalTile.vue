@@ -79,8 +79,8 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import TileClick from '@/mixins/TileClick.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import TileClick from '@/mixins/TileClick.vue';
 
 import { Title, Description } from '@/store/models';
 
