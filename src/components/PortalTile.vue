@@ -104,7 +104,7 @@ export default defineComponent({
     pathToLogo: {
       type: String,
       required: false,
-      default: 'questionMark.svg',
+      default: './questionMark.svg',
     },
     backgroundColor: {
       type: String,
@@ -162,6 +162,7 @@ export default defineComponent({
       if (!this.inFolder) {
         const tooltip = {
           title: this.$localized(this.title),
+          backgroundColor: this.backgroundColor,
           icon: this.pathToLogo,
           description: this.$localized(this.description),
           ariaId: this.createID(),
@@ -235,6 +236,7 @@ export default defineComponent({
 
   &__img
     width: 80%
+    max-height: 80%
 
   &__name
     text-align: center
