@@ -50,10 +50,10 @@ import PortalFolder from '@/components/PortalFolder.vue';
 
 export default defineComponent({
   name: 'PortalModal',
+  components: {
   // Register and import all possible modal components here
   // Otherwise they will not be displyed correctly
   // (Maybe change PortalModal to not use the component tag anymore?)
-  components: {
     ChangePassword,
     ModalWrapper,
     PortalFolder,

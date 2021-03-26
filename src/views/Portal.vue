@@ -106,9 +106,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         <modal-admin
           :show-title-button="false"
           :modal-debugging="true"
+          :modal-type="adminModalAction"
           modal-title="ADD_CATEGORY"
           variant="category"
-          modal-type="addNewCategory"
           save-action="saveCategory"
           @closeModal="closeAdminModal"
           @saveCategory="saveCategory"
@@ -154,6 +154,7 @@ interface PortalViewData {
   popMenuShow: boolean,
   popMenuCategories: Array<PopMenuCategory>,
   showAdminModal: boolean,
+  adminModalAction: string,
 }
 
 export default defineComponent({
@@ -179,6 +180,7 @@ export default defineComponent({
       popMenuShow: false,
       popMenuCategories: PopMenuDataCategories,
       showAdminModal: false,
+      adminModalAction: '',
     };
   },
   computed: {
@@ -204,6 +206,7 @@ export default defineComponent({
       console.log('openAdminModal: ', action);
       this.popMenuShow = false;
       this.showAdminModal = true;
+      this.adminModalAction = action;
       // open modal
     },
     saveCategory(value) {
@@ -224,19 +227,7 @@ export default defineComponent({
     margin-top: -50px;
 
   &__add-button
-    user-select: none
-
-    display: inline-block
-    margin-right: 1em
-
-    width: 2em
-    height: 2em
-    background-color: var(--color-grey0)
-    background-size: 1em
-    background-repeat: no-repeat
-    background-position: center
-    border-radius: 50%
-    box-shadow: var(--box-shadow)
+    @extend .icon-button--admin
 
   &__title
     cursor: pointer
