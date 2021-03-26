@@ -244,20 +244,11 @@ export default defineComponent({
     white-space: nowrap
 
   &__edit-button
-    user-select: none
-
     position: absolute
     top: -0.75em
     right: -0.75em
 
-    width: 2em
-    height: 2em
-    background-color: var(--color-grey0)
-    background-size: 1em
-    background-repeat: no-repeat
-    background-position: center
-    border-radius: 50%
-    box-shadow: var(--box-shadow)
+    @extend .icon-button--admin
 
     &--in-modal
       position relative
