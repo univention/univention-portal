@@ -84,15 +84,7 @@ import { defineComponent } from 'vue';
 
 import Translate from '@/i18n/Translate.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
-
-function setInvalidity(element: any, name: string, invalid: boolean): void {
-  const el = element.$refs[name] as HTMLElement;
-  if (invalid) {
-    el.setAttribute('invalid', 'invalid');
-  } else {
-    el.removeAttribute('invalid');
-  }
-}
+import { setInvalidity } from '@/jsHelper/tools';
 
 export default defineComponent({
   name: 'ChangePassword',

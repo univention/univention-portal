@@ -92,6 +92,7 @@ export interface Tab {
 export interface Tooltip {
   title: string | null,
   icon: string | null,
+  backgroundColor: string | null,
   description: string,
   ariaId: string,
 }

@@ -28,7 +28,6 @@
  */
 // vue
 // modules
-import tooltip from '@/store/modules/tooltip';
 import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
@@ -42,6 +41,7 @@ import notificationBubble from './modules/notificationBubble';
 import portalData from './modules/portalData';
 import search from './modules/search';
 import tabs from './modules/tabs';
+import tooltip from './modules/tooltip';
 import user from './modules/user';
 import { RootState } from './types';
 
