@@ -69,7 +69,6 @@ export default defineComponent({
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
       modalState: 'modal/modalState',
-      originalArray: 'categories/getCategories',
       searchQuery: 'search/searchQuery',
     }),
   },

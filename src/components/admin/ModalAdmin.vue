@@ -221,7 +221,7 @@ export default defineComponent({
     if ((props.modalType === 'editCategory') || (props.modalType === 'addExistingCategory')) {
       // TODO: keys have to be provided in the portal.json in parallel to the title
 
-      getPortalCategories = computed(() => store.getters['categories/getCategories']);
+      getPortalCategories = computed(() => store.getters['portalData/portalCategories']);
     }
 
     // category edit mode
