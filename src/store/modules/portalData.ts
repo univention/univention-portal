@@ -43,14 +43,26 @@ const portalData: PortalModule<PortalDataState> = {
           en_US: 'Univention Portal',
         },
         background: null,
+        defaultLinkTarget: 'embedded',
+        dn: 'default',
+        categories: [],
+        logo: null,
+        showUmc: false,
+        content: [],
       },
+      entries: [],
+      folders: [],
+      categories: [],
     },
     editMode: false,
   },
 
   mutations: {
     PORTALDATA(state, payload) {
-      state.portal = payload;
+      state.portal.portal = payload.portal;
+      state.portal.entries = payload.entries;
+      state.portal.folders = payload.folders;
+      state.portal.categories = payload.categories;
     },
     EDITMODE(state, editMode) {
       state.editMode = editMode;
@@ -60,6 +72,11 @@ const portalData: PortalModule<PortalDataState> = {
   getters: {
     getPortal: (state) => state.portal,
     portalName: (state) => state.portal.portal.name,
+    portalContent: (state) => state.portal.portal.content,
+    portalEntries: (state) => state.portal.entries,
+    portalFolders: (state) => state.portal.folders,
+    portalCategories: (state) => state.portal.categories,
+    portalDefaultLinkTarget: (state) => state.portal.portal.defaultLinkTarget,
     editMode: (state) => state.editMode,
   },
 

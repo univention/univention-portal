@@ -28,11 +28,15 @@
  */
 export type Locale = 'en' | 'en_US' | 'de_DE' | 'fr_FR';
 
+export type LocalizedString = Record<string, string>;
+
 export type Title = Record<Locale, string>;
+export type PortalContent = [string, string[]][];
 
 export type Description = Record<Locale, string>;
 
 export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
+export type LinkTargetOrDefault = 'newwindow' | 'samewindow' | 'embedded' | 'function' | 'useportaldefault';
 
 export type NavigationButton = 'search' | 'bell' | 'menu' | '';
 
@@ -43,9 +47,10 @@ export interface Tile {
 }
 
 export interface BaseTile extends Tile {
+  backgroundColor: string | null,
   description: Record<Locale, string>,
   linkTarget: LinkTarget,
-  links: string[],
+  links: Link[],
   pathToLogo: string,
 }
 
@@ -53,9 +58,11 @@ export interface FolderTile extends Tile {
   tiles: BaseTile[]
 }
 
+export type TileOrFolder = BaseTile | FolderTile;
+
 export interface Category {
   title: Record<Locale, string>,
-  tiles: Tile[],
+  tiles: TileOrFolder[],
 }
 
 export interface Notification {
@@ -73,11 +80,50 @@ export interface FullNotification extends WeightedNotification {
 }
 
 export interface Portal {
-  name: Record<string, string>;
+  name: LocalizedString;
   background: string | null;
+  defaultLinkTarget: LinkTarget,
+  dn: string,
+  categories: string[],
+  logo: string | null,
+  showUmc: boolean,
+  content: PortalContent,
+}
+
+export interface Link {
+  locale: Locale,
+  link: string,
+}
+
+export interface PortalEntry {
+  activated: boolean,
+  allowedGroups: string[],
+  anonymous: boolean,
+  backgroundColor: string | null,
+  description: Description,
+  dn: string,
+  linkTarget: LinkTargetOrDefault,
+  links: Link[],
+  logo_name: string | null,
+  name: LocalizedString,
+}
+
+export interface PortalFolder {
+  dn: string,
+  entries: string[],
+  name: LocalizedString,
+}
+
+export interface PortalCategory {
+  dn: string,
+  entries: string[],
+  display_name: LocalizedString,
 }
 
 export interface PortalData {
+  entries: PortalEntry[],
+  folders: PortalFolder[],
+  categories: PortalCategory[],
   portal: Portal;
 }
 

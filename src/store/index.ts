@@ -31,7 +31,6 @@
 import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
-import categories from './modules/categories';
 import locale from './modules/locale';
 import menu from './modules/menu';
 import metaData from './modules/metaData';
@@ -55,7 +54,6 @@ export const key: InjectionKey<Store<RootState>> = Symbol('');
 
 export const store = createStore<RootState>({
   modules: {
-    categories,
     locale,
     menu,
     metaData,
@@ -105,7 +103,6 @@ export const store = createStore<RootState>({
         dispatch('metaData/setMeta', meta);
         dispatch('menu/setMenu', { portal, availableLocales });
         dispatch('portalData/setPortal', portal);
-        dispatch('categories/setOriginalArray', portal);
         dispatch('user/setUser', {
           user: {
             username: portal.username,
