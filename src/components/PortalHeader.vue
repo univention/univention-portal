@@ -58,7 +58,27 @@ License with the Debian GNU/Linux or Univention distribution in file
 
     <div class="portal-header__stretch" />
 
-    <div class="portal-header__right">
+    <div
+      v-if="editMode"
+      class="portal-header__right"
+    >
+      <div>
+        Edit mode
+      </div>
+      <header-button
+        aria-label="Button for Edit mode"
+        icon="settings"
+      />
+      <header-button
+        aria-label="Stop edit mode"
+        icon="x"
+        @click="stopEditMode"
+      />
+    </div>
+    <div
+      v-else
+      class="portal-header__right"
+    >
       <header-button
         ref="searchButton"
         data-test="searchbutton"
@@ -120,6 +140,7 @@ export default defineComponent({
       portalName: 'portalData/portalName',
       activeTabIndex: 'tabs/activeTabIndex',
       tabs: 'tabs/allTabs',
+      editMode: 'portalData/editMode',
     }),
   },
   methods: {
@@ -128,6 +149,10 @@ export default defineComponent({
     },
     focusIntoSideNavIfOpen(): void {
       (document.querySelector('.portal-tile') as HTMLFormElement).focus();
+    },
+    stopEditMode(): void {
+      this.$store.dispatch('portalData/setEditMode', false);
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
   },
 });
