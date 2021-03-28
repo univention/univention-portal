@@ -26,18 +26,39 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { User } from '@/store/modules/user/user.models';
+import { updateLocale } from '@/i18n/translations';
+import { setCookie } from '@/jsHelper/tools';
+import { PortalModule } from '@/store/root.models';
+import { Locale } from './locale.models';
 
-function login(user: User): void {
-  if (user.mayLoginViaSAML) {
-    window.location.href = `/univention/saml/?location=${window.location.pathname}`;
-  } else {
-    window.location.href = `/univention/login/?location=${window.location.pathname}`;
-  }
+export interface LocaleState {
+  locale: Locale;
 }
 
-function logout(): void {
-  window.location.href = '/univention/logout';
-}
+const locale: PortalModule<LocaleState> = {
+  namespaced: true,
+  state: {
+    locale: 'en_US',
+  },
 
-export { login, logout };
+  mutations: {
+    NEWLOCALE(state, payload) {
+      state.locale = payload;
+    },
+  },
+
+  getters: {
+    getLocale: (state) => state.locale,
+  },
+
+  actions: {
+    setLocale({ commit }, payload: Locale) {
+      commit('NEWLOCALE', payload);
+      setCookie('UMCLang', payload.replace('_', '-'));
+      const localePrefix = payload.slice(0, 2);
+      return updateLocale(localePrefix);
+    },
+  },
+};
+
+export default locale;

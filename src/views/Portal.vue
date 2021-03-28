@@ -139,7 +139,7 @@ import PortalToolTip from 'components/PortalToolTip.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';
 import Translate from '@/i18n/Translate.vue';
 
-import { Category } from '@/store/models';
+import { Category } from '@/store/modules/portalData/portalData.models';
 import createCategories from '@/jsHelper/createCategories';
 
 // mocks

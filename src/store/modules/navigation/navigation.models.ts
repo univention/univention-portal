@@ -26,9 +26,5 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { Module } from 'vuex';
 
-export interface RootState {
-  isLoading: boolean;
-}
-export type PortalModule<S> = Module<S, RootState>;
+export type NavigationButton = 'search' | 'bell' | 'menu' | '';

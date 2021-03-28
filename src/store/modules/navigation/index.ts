@@ -26,39 +26,34 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { User } from '../models';
-import { PortalModule } from '../types';
+import { PortalModule } from '../../root.models';
+import { NavigationButton } from './navigation.models';
 
-export interface UserState {
-  user: User;
+export interface NavigationState {
+  activeButton: NavigationButton;
 }
 
-const user: PortalModule<UserState> = {
+const navigation: PortalModule<NavigationState> = {
   namespaced: true,
   state: {
-    user: {
-      username: '',
-      displayName: '',
-      mayEditPortal: false,
-      mayLoginViaSAML: false,
-    },
+    activeButton: '',
   },
 
   mutations: {
-    SETUSER: (state, payload) => {
-      state.user = payload.user;
+    ACTIVEBUTTON(state, id) {
+      state.activeButton = id;
     },
   },
 
   getters: {
-    userState: (state) => state.user,
+    getActiveButton: (state) => state.activeButton,
   },
 
   actions: {
-    setUser({ commit }, payload) {
-      commit('SETUSER', payload);
+    setActiveButton({ commit }, id) {
+      commit('ACTIVEBUTTON', id);
     },
   },
 };
 
-export default user;
+export default navigation;
