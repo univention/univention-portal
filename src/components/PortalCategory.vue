@@ -146,7 +146,7 @@ import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 
-import { Title, Tile, FolderTile } from '@/store/models';
+import { Title, Tile, FolderTile } from '@/store/modules/portalData/portalData.models';
 
 interface PortalCategoryData {
   vTiles: Tile[],

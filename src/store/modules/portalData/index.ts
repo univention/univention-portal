@@ -26,8 +26,8 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { PortalData } from '../models';
-import { PortalModule } from '../types';
+import { PortalModule } from '../../root.models';
+import { PortalData } from './portalData.models';
 
 export interface PortalDataState {
   portal: PortalData;
