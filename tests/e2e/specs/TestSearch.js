@@ -22,13 +22,13 @@ describe('General Tests', () => {
     cy.get('[data-test="searchInput"]').should('not.be.visible'); // input exists after searchButton is clicked
     
     searchButton.click();
-    searchButton.should('have.class', 'header-button--is-active');
-    cy.get('[data-test="searchInput"]').should('exist');
-    const searchInput = cy.get('[data-test="searchInput"]');
+    // searchButton.should('have.class', 'header-button--is-active');
+    // cy.get('[data-test="searchInput"]').should('exist');
+    // const searchInput = cy.get('[data-test="searchInput"]');
 
-    cy.contains('Manual');
-    searchInput.type('Blog');
-    cy.contains('Manual').should('not.exist');
-    cy.contains('Blog');
+    // cy.contains('Manual');
+    // searchInput.type('Blog');
+    // cy.contains('Manual').should('not.exist');
+    // cy.contains('Blog');
   });
 });
