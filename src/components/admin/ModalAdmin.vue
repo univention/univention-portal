@@ -227,8 +227,8 @@ export default defineComponent({
     // category edit mode
     if ((props.modalType === 'editCategory') && getPortalCategories) {
       const categoryTitle = getPortalCategories.value[props.categoryIndex];
-      categoryTitleDe = categoryTitle.title.de_DE;
-      categoryTitleEn = categoryTitle.title.en_US;
+      categoryTitleDe = categoryTitle.display_name.de_DE;
+      categoryTitleEn = categoryTitle.display_name.en_US;
 
       const dn = getPortalCategories.value[props.categoryIndex].dn;
       internalNameValue = dn.substring(
