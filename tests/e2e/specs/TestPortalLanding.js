@@ -50,7 +50,7 @@ describe('General Tests', () => {
     menubutton.should('not.have.class', 'header-button--is-active');
     menubutton.click();
     menubutton.should('have.class', 'header-button--is-active');
-    cy.get('modal-wrapper--isVisible').click();
+    cy.get('.modal-wrapper--isVisible').click();
 
     cy.get('[data-test="navigationbutton"]').click();
     cy.get('.portal-sidenavigation__link').contains('Anmelden');
