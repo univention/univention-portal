@@ -1,4 +1,4 @@
-import {shallowMount} from '@vue/test-utils'
+import {mount} from '@vue/test-utils'
 import PortalSearch from '@/components/search/PortalSearch'
 import Vuex from 'vuex'
 
@@ -18,13 +18,13 @@ test('Test Portalsearch', async () => {
     const store = new Vuex.Store()
     store.dispatch = jest.fn()
 
-    const wrapper = await shallowMount(PortalSearch, {
+    const wrapper = await mount(PortalSearch, {
         global: {
             plugins: [store]
         },
         attachTo: "#root"
     })
-
+    
     const input = await wrapper.find('.portal-search__input')
     // ensure that input is focussed after mounting
     expect(input.element).toBe(document.activeElement)
