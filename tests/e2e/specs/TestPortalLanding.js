@@ -46,9 +46,6 @@ describe('General Tests', () => {
     bellbutton.click();
     bellbutton.should('have.class', 'header-button--is-active');
 
-    // can't click the bell again bc it's hidden beneath the modal
-    cy.get('.portal-modal--isVisible').click();
-    bellbutton.should('not.have.class', 'header-button--is-active');
 
     const menubutton = cy.get('[data-test="navigationbutton"]');
     menubutton.should('not.have.class', 'header-button--is-active');
