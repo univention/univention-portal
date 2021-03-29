@@ -1,0 +1,32 @@
+// Iframes are inherently unsafe. Don't use them.
+
+describe('General Tests', () => {
+  it('search shows results with "Blog"', () => {
+    // TODO: Same origin html fake for linktarget tests
+    cy.intercept('GET', 'portal.json', { fixture: 'portal_logged_out.json' });
+    cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
+    cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+    cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+    cy.visit('/');
+    cy.contains('Cookie-Einstellungen');
+    cy.get('.cookie-banner__button-text').click();
+    cy.getCookie('univentionCookieSettingsAccepted').should('exist');
+
+
+    const searchButton = cy.get('[data-test="searchbutton"]');
+    
+    searchButton.should('not.have.class', 'header-button--is-active');
+  
+    cy.get('[data-test="searchInput"]').should('not.be.visible'); // input exists after searchButton is clicked
+    
+    searchButton.click();
+    searchButton.should('have.class', 'header-button--is-active');
+    cy.get('[data-test="searchInput"]').should('exist');
+    const searchInput = cy.get('[data-test="searchInput"]');
+
+    cy.contains('Manual');
+    searchInput.type('Blog');
+    cy.contains('Manual').should('not.exist');
+    cy.contains('Blog');
+  });
+});
