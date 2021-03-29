@@ -390,9 +390,6 @@ export default defineComponent({
     &:last-of-type
       margin-right: calc(var(--layout-spacing-unit) * 2)
 
-    &--inner
-      padding: calc(var(--layout-spacing-unit) * 2)
-
   &__label
     &--error
       color: var(--color-error);
