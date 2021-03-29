@@ -82,7 +82,7 @@ import { defineComponent, PropType } from 'vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import TileClick from '@/mixins/TileClick.vue';
 
-import { Title, Description } from '@/store/models';
+import { Title, Description } from '@/store/modules/portalData/portalData.models';
 
 export default defineComponent({
   name: 'PortalTile',

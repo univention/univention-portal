@@ -80,7 +80,7 @@ import { defineComponent, PropType } from 'vue';
 
 import PortalTile from '@/components/PortalTile.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import { Title, Tile } from '@/store/models';
+import { Title, Tile } from '@/store/modules/portalData/portalData.models';
 
 export default defineComponent({
   name: 'PortalFolder',

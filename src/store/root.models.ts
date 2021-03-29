@@ -26,34 +26,15 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { NavigationButton } from '../models';
-import { PortalModule } from '../types';
 
-export interface NavigationState {
-  activeButton: NavigationButton;
+import { Module } from 'vuex';
+
+export interface RootState {
+  isLoading: boolean;
 }
 
-const navigation: PortalModule<NavigationState> = {
-  namespaced: true,
-  state: {
-    activeButton: '',
-  },
+export type PortalModule<S> = Module<S, RootState>;
 
-  mutations: {
-    ACTIVEBUTTON(state, id) {
-      state.activeButton = id;
-    },
-  },
-
-  getters: {
-    getActiveButton: (state) => state.activeButton,
-  },
-
-  actions: {
-    setActiveButton({ commit }, id) {
-      commit('ACTIVEBUTTON', id);
-    },
-  },
+export const initialRootState: RootState = {
+  isLoading: true,
 };
-
-export default navigation;

@@ -26,18 +26,39 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { User } from '@/store/modules/user/user.models';
+import { PortalModule } from '../../root.models';
+import { User } from './user.models';
 
-function login(user: User): void {
-  if (user.mayLoginViaSAML) {
-    window.location.href = `/univention/saml/?location=${window.location.pathname}`;
-  } else {
-    window.location.href = `/univention/login/?location=${window.location.pathname}`;
-  }
+export interface UserState {
+  user: User;
 }
 
-function logout(): void {
-  window.location.href = '/univention/logout';
-}
+const user: PortalModule<UserState> = {
+  namespaced: true,
+  state: {
+    user: {
+      username: '',
+      displayName: '',
+      mayEditPortal: false,
+      mayLoginViaSAML: false,
+    },
+  },
 
-export { login, logout };
+  mutations: {
+    SETUSER: (state, payload) => {
+      state.user = payload.user;
+    },
+  },
+
+  getters: {
+    userState: (state) => state.user,
+  },
+
+  actions: {
+    setUser({ commit }, payload) {
+      commit('SETUSER', payload);
+    },
+  },
+};
+
+export default user;
