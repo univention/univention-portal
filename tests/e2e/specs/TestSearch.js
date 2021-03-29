@@ -2,8 +2,10 @@
 
 describe('General Tests', () => {
   it('search shows results with "Blog"', () => {
-    // TODO: Same origin html fake for linktarget tests
+    cy.setCookie('UMCLang', 'de_DE');
+    // stuff selenium can't do #1: mock requests / responses
     cy.intercept('GET', 'portal.json', { fixture: 'portal_logged_out.json' });
+    // cy.intercept('GET', 'portal/portal.json', { fixture: 'portal_logged_in.json' });
     cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
     cy.intercept('GET', 'de.json', { fixture: 'de.json' });
     cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
