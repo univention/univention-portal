@@ -26,43 +26,43 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import createMenuStructure from '@/jsHelper/createMenuStructure';
-import addLanguageTile from '@/jsHelper/addLanguageTile';
-import createUserMenu from '@/jsHelper/createUserMenu';
-import { PortalModule } from '../types';
+import { PortalModule } from '@/store/root.models';
 
-export interface MenuState {
-  menu: Array<unknown>;
+export interface MetaDataState {
+  meta: Record<string, unknown>;
 }
 
-const menu: PortalModule<MenuState> = {
+const metaData: PortalModule<MetaDataState> = {
   namespaced: true,
   state: {
-    menu: [],
+    meta: {
+      cookieBanner: {
+        show: false,
+        title: {
+          en: '',
+        },
+        text: {
+          en: '',
+        },
+      },
+    },
   },
 
   mutations: {
-    MENU(state, payload) {
-      const menuStructure = createMenuStructure(payload.portal);
-      const languageMenuLink = addLanguageTile(payload.availableLocales);
-      const userLinks = createUserMenu(payload.portal);
-      menuStructure.unshift(languageMenuLink);
-      if (userLinks) {
-        menuStructure.unshift(userLinks);
-      }
-      state.menu = menuStructure;
+    META(state, payload) {
+      state.meta = payload;
     },
   },
 
   getters: {
-    getMenu: (state) => state.menu,
+    getMeta: (state) => state.meta,
   },
 
   actions: {
-    setMenu({ commit }, payload) {
-      commit('MENU', payload);
+    setMeta({ commit }, payload) {
+      commit('META', payload);
     },
   },
 };
 
-export default menu;
+export default metaData;

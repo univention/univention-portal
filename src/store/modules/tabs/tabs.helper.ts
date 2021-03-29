@@ -26,18 +26,3 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { User } from '@/store/modules/user/user.models';
-
-function login(user: User): void {
-  if (user.mayLoginViaSAML) {
-    window.location.href = `/univention/saml/?location=${window.location.pathname}`;
-  } else {
-    window.location.href = `/univention/login/?location=${window.location.pathname}`;
-  }
-}
-
-function logout(): void {
-  window.location.href = '/univention/logout';
-}
-
-export { login, logout };
