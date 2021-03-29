@@ -26,7 +26,7 @@ describe('General Tests', () => {
     // Login notification?
     cy.get('.notification-bubble__title').contains('Anmelden');
     cy.get('button[aria-label="Benachrichtigung schließen"]').first().click();
-    cy.get('.notification-bubble__title').contains('Anmelden').should('not.exist');
+    cy.get('.notification-bubble__title').should('not.exist');
 
 
     // Mouseover tooltip?
