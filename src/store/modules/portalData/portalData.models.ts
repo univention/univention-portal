@@ -44,12 +44,12 @@ export interface Link {
 export interface Tile {
     id: string,
     title: Title,
-    isFolder: boolean
+    isFolder: boolean,
 }
 
 export interface BaseTile extends Tile {
     backgroundColor: string | null,
-    description: Record<Locale, string>,
+    description: Description,
     linkTarget: LinkTarget,
     links: Link[],
     pathToLogo: string,

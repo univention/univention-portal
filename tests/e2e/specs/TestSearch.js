@@ -31,4 +31,7 @@ describe('General Tests', () => {
     cy.contains('Handbuch').should('not.exist');
     cy.contains('Blog');
   });
+  it('searches also for tile description', () => {
+      // how to write test for description? Tooltip is not redered. 
+  });
 });
