@@ -32,6 +32,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     class="portal-header"
   >
     <div
+      ref="portalHeaderH1"
       class="portal-header__left"
       tabindex="0"
       @click="goHome"
@@ -106,8 +107,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         <notification-bubble-slot bubble-container="standalone" />
       </template>
     </notification-bubble>
-
-    <portal-search />
+    <template v-if="activeButton === 'search'">
+      <portal-search />
+    </template>
   </header>
 </template>
 
@@ -141,6 +143,7 @@ export default defineComponent({
       activeTabIndex: 'tabs/activeTabIndex',
       tabs: 'tabs/allTabs',
       editMode: 'portalData/editMode',
+      activeButton: 'navigation/getActiveButton',
     }),
   },
   methods: {
