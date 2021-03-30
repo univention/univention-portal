@@ -183,6 +183,7 @@ export default defineComponent({
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+    text-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3)
 
   &__in-modal
     cursor: default
