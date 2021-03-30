@@ -30,7 +30,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import { getCookie } from '@/jsHelper/tools';
 
-function umc(path: string, options: any): Promise<AxiosResponse<any>> {
+function umc(path: string, options: any, flavor?: string): Promise<AxiosResponse<any>> {
   const umcSessionId = getCookie('UMCSessionId');
   const umcLang = getCookie('UMCLang');
   const headers = {
@@ -42,7 +42,11 @@ function umc(path: string, options: any): Promise<AxiosResponse<any>> {
   if (umcSessionId) {
     headers['X-XSRF-Protection'] = umcSessionId;
   }
-  return axios.post(`/univention/${path}`, { options }, { headers });
+  const params: any = { options };
+  if (flavor) {
+    params.flavor = flavor;
+  }
+  return axios.post(`/univention/${path}`, params, { headers });
 }
 
 function changePassword(oldPassword: string, newPassword: string): Promise<AxiosResponse<any>> {
@@ -54,4 +58,12 @@ function changePassword(oldPassword: string, newPassword: string): Promise<Axios
   });
 }
 
-export { changePassword, umc };
+function udmPut(dn: string, attrs: any): Promise<AxiosResponse<any>> {
+  return umc('command/udm/put', [{
+    object: { ...attrs, $dn: dn },
+    options: null,
+  }],
+  'portals/all');
+}
+
+export { changePassword, umc, udmPut };

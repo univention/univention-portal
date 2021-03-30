@@ -56,6 +56,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import { udmPut } from '@/jsHelper/umc';
 import Translate from '@/i18n/Translate.vue';
 
 interface LocalizedName {
@@ -79,8 +80,16 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
+      portalDn: 'portalData/getPortalDn',
       portalName: 'portalData/portalName',
     }),
+  },
+  updated() {
+    const name = {};
+    this.displayNames.forEach((displayName) => {
+      name[displayName.locale] = displayName.name;
+    });
+    this.$store.dispatch('portalData/setPortalName', name);
   },
   mounted() {
     this.displayNames = Object.keys(this.portalName).map((locale) => ({
@@ -90,10 +99,16 @@ export default defineComponent({
   },
   methods: {
     saveChanges() {
-      console.log(this.displayNames.map((x) => ({ ...x })));
-      // TODO: actual save
-      this.$store.dispatch('portalData/setEditMode', false);
-      this.$store.dispatch('navigation/setActiveButton', '');
+      const displayName = this.displayNames.map((displName) => [displName.locale, displName.name]);
+      udmPut(this.portalDn, { displayName }).then(() => {
+        this.$store.dispatch('portalData/setEditMode', false);
+        this.$store.dispatch('navigation/setActiveButton', '');
+      }, (error) => {
+        this.$store.dispatch('notificationBubble/addErrorNotification', {
+          bubbleTitle: 'Update failed',
+          bubbleDescription: `'Saving the portal failed: ${error}'`,
+        });
+      });
     },
   },
 });
