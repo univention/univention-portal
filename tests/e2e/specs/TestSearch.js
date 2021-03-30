@@ -26,9 +26,9 @@ describe('General Tests', () => {
     cy.get('[data-test="searchInput"]').should('exist');
     const searchInput = cy.get('[data-test="searchInput"]');
 
-    cy.contains('Manual');
+    cy.contains('Handbuch');
     searchInput.type('Blog');
-    cy.contains('Manual').should('not.exist');
+    cy.contains('Handbuch').should('not.exist');
     cy.contains('Blog');
   });
 });
