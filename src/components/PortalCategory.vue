@@ -241,7 +241,6 @@ export default defineComponent({
         .includes(this.searchQuery.toLowerCase());
     },
     descriptionMatchesQuery(description: Description): boolean {
-      console.log('TEST', description);
       return this.$localized(description).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
