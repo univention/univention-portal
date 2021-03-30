@@ -24,10 +24,10 @@ describe('General Tests', () => {
     cy.get('[data-test="searchbutton"]').click();
     searchButton.should('have.class', 'header-button--is-active');
     cy.get('[data-test="searchInput"]').should('exist');
-    const searchInput = cy.get('[data-test="searchInput"]');
+    cy.get('[data-test="searchInput"]');
 
     cy.contains('Handbuch');
-    searchInput.type('Blog');
+    cy.get('[data-test="searchInput"]').type('Blog');
     cy.contains('Handbuch').should('not.exist');
     cy.contains('Blog');
   });
