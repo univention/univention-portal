@@ -18,7 +18,7 @@ describe('General Tests', () => {
     // make inputfield visible 
     const searchButton = cy.get('[data-test="searchbutton"]');
     searchButton.should('not.have.class', 'header-button--is-active');
-    cy.get('[data-test="searchInput"]').should('not.be.visible'); // input exists after searchButton is clicked
+    cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
     cy.get('[data-test="searchbutton"]').click();
     searchButton.should('have.class', 'header-button--is-active');
     cy.get('[data-test="searchInput"]').should('exist');
@@ -49,7 +49,7 @@ describe('General Tests', () => {
     // make inputfield visible 
     const searchButton = cy.get('[data-test="searchbutton"]');
     searchButton.should('not.have.class', 'header-button--is-active');
-    cy.get('[data-test="searchInput"]').should('not.be.visible'); // input exists after searchButton is clicked
+    cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
     cy.get('[data-test="searchbutton"]').click();
     searchButton.should('have.class', 'header-button--is-active');
     cy.get('[data-test="searchInput"]').should('exist');
