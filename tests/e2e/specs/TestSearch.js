@@ -11,11 +11,11 @@ beforeEach(() => {
 });
 
 const clickOnSearchButton = () => {
-  const searchButton = cy.get('[data-test="searchbutton"]');
-  searchButton.should('not.have.class', 'header-button--is-active');
+  
+  cy.get('[data-test="searchbutton"]').should('not.have.class', 'header-button--is-active');
   cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
   cy.get('[data-test="searchbutton"]').click();
-  searchButton.should('have.class', 'header-button--is-active');
+  cy.get('[data-test="searchbutton"]').should('have.class', 'header-button--is-active');
   cy.get('[data-test="searchInput"]').should('exist');
 }
 
@@ -33,11 +33,11 @@ describe('General Tests', () => {
 
 
   it('Searches also for tile description', () => {
-// make inputfield visible 
-clickOnSearchButton();
+    // make inputfield visible 
+    clickOnSearchButton();
 
-cy.get('.portal-tile').first().contains('ownCloud');
-cy.get('[data-test="searchInput"]').type('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
-cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen');
+    cy.get('.portal-tile').first().contains('ownCloud');
+    cy.get('[data-test="searchInput"]').type('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
+    cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen');
   });
 });
