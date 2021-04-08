@@ -7,7 +7,7 @@ beforeEach(() => {
   cy.intercept('GET', 'de.json', { fixture: 'de.json' });
   cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
 
-  cy.setCookie('univentionCookieSettingsAccepted');
+  cy.setCookie('univentionCookieSettingsAccepted', 'simpleCookieValue');
 });
 
 const clickOnSearchButton = () => {
