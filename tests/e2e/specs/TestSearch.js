@@ -22,7 +22,7 @@ const clickOnSearchButton = () => {
 }
 
 describe('General Tests', () => {
-  it('search shows results with "Blog"', () => {
+  it('Tile title in results should match with the String "Blog"', () => {
     // make inputfield visible 
     clickOnSearchButton();
 
