@@ -7,10 +7,8 @@ beforeEach(() => {
   cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
   cy.intercept('GET', 'de.json', { fixture: 'de.json' });
   cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
-  cy.visit('/');
-  cy.contains('Cookie-Einstellungen');
-  cy.get('.cookie-banner__button-text').click();
-  cy.getCookie('univentionCookieSettingsAccepted').should('exist');
+
+  cy.setCookie('univentionCookieSettingsAccepted');
 });
 
 describe('General Tests', () => {
