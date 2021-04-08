@@ -11,15 +11,20 @@ beforeEach(() => {
   cy.setCookie('univentionCookieSettingsAccepted');
 });
 
+const clickOnSearchButton = () => {
+  const searchButton = cy.get('[data-test="searchbutton"]');
+  searchButton.should('not.have.class', 'header-button--is-active');
+  cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
+  cy.get('[data-test="searchbutton"]').click();
+  searchButton.should('have.class', 'header-button--is-active');
+  cy.get('[data-test="searchInput"]').should('exist');
+
+}
+
 describe('General Tests', () => {
   it('search shows results with "Blog"', () => {
     // make inputfield visible 
-    const searchButton = cy.get('[data-test="searchbutton"]');
-    searchButton.should('not.have.class', 'header-button--is-active');
-    cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
-    cy.get('[data-test="searchbutton"]').click();
-    searchButton.should('have.class', 'header-button--is-active');
-    cy.get('[data-test="searchInput"]').should('exist');
+    clickOnSearchButton();
 
     // test for tilename
     cy.contains('Handbuch');
@@ -31,13 +36,7 @@ describe('General Tests', () => {
 
   it('searches also for tile description', () => {
     // make inputfield visible 
-    const searchButton = cy.get('[data-test="searchbutton"]');
-    searchButton.should('not.have.class', 'header-button--is-active');
-    cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
-    cy.get('[data-test="searchbutton"]').click();
-    searchButton.should('have.class', 'header-button--is-active');
-    cy.get('[data-test="searchInput"]').should('exist');
-
+    clickOnSearchButton();
 
   // test for query of description
   // before typing text of tooltip is decsription of first tile
