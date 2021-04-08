@@ -1,4 +1,3 @@
-// Iframes are inherently unsafe. Don't use them.
 beforeEach(() => {
   cy.setCookie('UMCLang', 'de_DE');
   // stuff selenium can't do #1: mock requests / responses
@@ -18,7 +17,6 @@ const clickOnSearchButton = () => {
   cy.get('[data-test="searchbutton"]').click();
   searchButton.should('have.class', 'header-button--is-active');
   cy.get('[data-test="searchInput"]').should('exist');
-
 }
 
 describe('General Tests', () => {
@@ -34,20 +32,12 @@ describe('General Tests', () => {
   });
 
 
-  it('searches also for tile description', () => {
-    // make inputfield visible 
-    clickOnSearchButton();
+  it('Searches also for tile description', () => {
+// make inputfield visible 
+clickOnSearchButton();
 
-  // test for query of description
-  // before typing text of tooltip is decsription of first tile
-  cy.get('.portal-tile').first().trigger('mouseover');
-  cy.get('[data-test="portal-tooltip"]').contains('Cloud Lösung für Filesync und -share');
-  cy.get('#ownCloud').trigger('mouseleave');
-  cy.get('[data-test="portal-tooltip"]').should('not.exist');
-
-  // typing text from second tile (not folder)
-  cy.get('[data-test="searchInput"]').type('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
-  cy.get('.portal-tile').first().trigger('mouseover');
-  cy.get('[data-test="portal-tooltip"]').contains('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
+cy.get('.portal-tile').first().contains('ownCloud');
+cy.get('[data-test="searchInput"]').type('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
+cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen');
   });
 });
