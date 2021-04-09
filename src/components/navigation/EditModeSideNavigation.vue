@@ -37,13 +37,16 @@ License with the Debian GNU/Linux or Univention distribution in file
         :key="displayName.locale"
       >
         <label>
-          Name for {{ displayName.locale }}
+          Name ({{ displayName.locale }})
         </label>
         <input
           v-model="displayName.name"
         >
       </div>
-      <button>
+      <button class="primary">
+        <portal-icon
+          icon="save"
+        />
         <translate
           i18n-key="SAVE"
         />
@@ -58,6 +61,7 @@ import { mapGetters } from 'vuex';
 
 import { udmPut } from '@/jsHelper/umc';
 import Translate from '@/i18n/Translate.vue';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 interface LocalizedName {
   locale: string,
@@ -72,6 +76,7 @@ export default defineComponent({
   name: 'EditModeSideNavigation',
   components: {
     Translate,
+    PortalIcon,
   },
   data(): EditModeSideNavigationData {
     return {
