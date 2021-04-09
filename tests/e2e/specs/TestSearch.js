@@ -6,18 +6,9 @@ beforeEach(() => {
   cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
   cy.intercept('GET', 'de.json', { fixture: 'de.json' });
   cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
-
+  cy.visit('/');
   cy.setCookie('univentionCookieSettingsAccepted', 'simpleCookieValue');
 });
-
-const clickOnSearchButton = () => {
-  
-  cy.get('[data-test="searchbutton"]').should('not.have.class', 'header-button--is-active');
-  cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
-  cy.get('[data-test="searchbutton"]').click();
-  cy.get('[data-test="searchbutton"]').should('have.class', 'header-button--is-active');
-  cy.get('[data-test="searchInput"]').should('exist');
-}
 
 describe('General Tests', () => {
   it('Tile title in results should match with the String "Blog"', () => {
@@ -41,3 +32,11 @@ describe('General Tests', () => {
     cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen');
   });
 });
+
+const clickOnSearchButton = () => {
+  cy.get('[data-test="searchbutton"]').should('not.have.class', 'header-button--is-active');
+  cy.get('[data-test="searchInput"]').should('not.exist'); // input exists after searchButton is clicked
+  cy.get('[data-test="searchbutton"]').click();
+  cy.get('[data-test="searchbutton"]').should('have.class', 'header-button--is-active');
+  cy.get('[data-test="searchInput"]').should('exist');
+}
