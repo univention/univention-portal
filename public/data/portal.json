@@ -303,7 +303,7 @@
      "dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "ensureLogin": false,
      "fontColor": "black",
-     "logo": null,
+     "logo": "./data/icons/logo.svg",
      "name": {
        "de_DE": "Univention Portal DE",
        "en_US": "Univention Portal EN",
