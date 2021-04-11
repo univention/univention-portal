@@ -36,6 +36,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     />
     <iframe
       :src="link"
+      ref="iframe"
       title="Embedded Page"
       class="portal-iframe__iframe"
       allow="geolocation; microphone; camera; midi; encrypted-media"
@@ -57,6 +58,16 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+  },
+  mounted() {
+    console.log('CAN RECIEVE FOCUS First Time');
+  },
+  updated() {
+    if (this.isActive) {
+      console.log('CAN RECIEVE FOCUS Multiple times');
+      console.log((this.$refs.iframe as HTMLIFrameElement));
+      (this.$refs.iframe as HTMLIFrameElement).contentWindow!.focus();
+    }
   },
 });
 </script>
