@@ -37,6 +37,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       ref="tabFocusWrapper"
       class="header-tab__focus-wrapper"
       tabIndex="0"
+      :aria-label="ariaLabelFocus"
       @click="focusTab"
       @keydown.enter="focusTab('setFocusOnIframe')"
       @focus="setFocusStyleToParent()"
@@ -57,10 +58,11 @@ License with the Debian GNU/Linux or Univention distribution in file
     </div>
     <header-button
       :icon="closeIcon"
-      :aria-label="ariaLabel"
+      :aria-label="ariaLabelClose"
       :no-click="true"
       class="header-tab__close-button"
       @click.stop="closeTab"
+      @keydown.enter.prevent="reManageFocus"
     />
   </div>
 </template>
@@ -104,8 +106,11 @@ export default defineComponent({
     };
   },
   computed: {
-    ariaLabel():string {
-      return `Close Application: ${this.tabLabel}`;
+    ariaLabelClose():string {
+      return ` ${this.tabLabel}: Close Tab.`;
+    },
+    ariaLabelFocus():string {
+      return ` ${this.tabLabel}: To Focus press Enter`; // Better naming?
     },
   },
   mounted() {
@@ -123,6 +128,15 @@ export default defineComponent({
     },
     removeFocusStyleFromParent():void {
       this.hasFocus = false;
+    },
+    reManageFocus():void {
+      this.closeTab();
+      // setTimeout(() => {
+      //   const tabArray = document.querySelectorAll('.header-tab__focus-wrapper');
+      //   console.log(tabArray);
+      //   const indexOfLastChild = tabArray.length - 1;
+      //   (tabArray[indexOfLastChild] as HTMLElement).focus();
+      // }, 50);
     },
   },
 });
