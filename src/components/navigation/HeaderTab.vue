@@ -31,24 +31,30 @@ License with the Debian GNU/Linux or Univention distribution in file
     :id="`headerTab__${tabIndex}`"
     :ref="`headerTab__${tabIndex}`"
     class="header-tab"
-    :tabIndex="tabIndex"
-    :class="{ 'header-tab--active': isActive }"
-    @click="focusTab"
+    :class="{ 'header-tab--active': isActive, 'header-tab--focus': hasFocus }"
   >
-    <img
-      :src="logo"
-      onerror="this.src='./questionMark.svg'"
-      :alt="`${tabLabel} logo`"
-      class="header-tab__logo"
+    <div
+      ref="tabFocusWrapper"
+      class="header-tab__focus-wrapper"
+      tabIndex="0"
+      @click="focusTab"
+      @keydown.enter="focusTab('setFocusOnIframe')"
+      @focus="setFocusStyleToParent()"
+      @blur="removeFocusStyleFromParent()"
     >
-
-    <span
-      class="header-tab__title"
-      :title="tabLabel"
-    >
-      {{ tabLabel }}
-    </span>
-
+      <img
+        :src="logo"
+        onerror="this.src='./questionMark.svg'"
+        :alt="`${tabLabel} logo`"
+        class="header-tab__logo"
+      >
+      <span
+        class="header-tab__title"
+        :title="tabLabel"
+      >
+        {{ tabLabel }}
+      </span>
+    </div>
     <header-button
       :icon="closeIcon"
       :aria-label="ariaLabel"
@@ -91,10 +97,19 @@ export default defineComponent({
       required: true,
     },
   },
+  data() {
+    return {
+      isMounted: false,
+      hasFocus: false,
+    };
+  },
   computed: {
     ariaLabel():string {
       return `Close Application: ${this.tabLabel}`;
     },
+  },
+  mounted() {
+    this.isMounted = true;
   },
   methods: {
     focusTab(): void {
@@ -102,6 +117,12 @@ export default defineComponent({
     },
     closeTab(): void {
       this.$store.dispatch('tabs/deleteTab', this.tabIndex);
+    },
+    setFocusStyleToParent():void {
+      this.hasFocus = true;
+    },
+    removeFocusStyleFromParent():void {
+      this.hasFocus = false;
     },
   },
 });
@@ -119,6 +140,7 @@ export default defineComponent({
   z-index: 1
   background-color: var(--tabColor)
   transition: background-color 250ms;
+  border: 0.2rem solid rgba(0,0,0,0)
 
   &:focus
     --tabColor: var(--color-grey8);
@@ -147,12 +169,19 @@ export default defineComponent({
     position: relative
     z-index: 10
 
-.header-tab--active
-  --tabColor: var(--color-grey8);
+  &__focus-wrapper
+    display: flex
+    align-items: center
 
-  &:focus
+  &--focus
+    border-color: var(--color-primary);
+
+  &--active
     --tabColor: var(--color-grey8);
 
-  &:hover
-    --tabColor: var(--color-grey8);
+    &:focus
+      --tabColor: var(--color-grey8);
+
+    &:hover
+      --tabColor: var(--color-grey8);
 </style>
