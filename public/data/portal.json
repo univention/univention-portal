@@ -332,6 +332,7 @@
    "filtered": true,
    "may_edit_portal": true,
    "may_login_via_saml": false,
+   "cache_id": "abc:123",
    "username": "administrator",
    "user_displayname": "Administrator"
  }
