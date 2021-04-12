@@ -35,7 +35,7 @@
       @dragenter.prevent=""
       @dragover.prevent=""
       @drop.prevent="drop"
-      @click="start_upload"
+      @click="startUpload"
     >
       <img
         v-if="modelValue"
