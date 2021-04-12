@@ -195,6 +195,8 @@ export default defineComponent({
     display: flex;
     flex: 1 1 auto;
     margin-left: calc(5 * var(--layout-spacing-unit));
+    width: 100%;
+    min-width: 2.4rem; /* maybe fix later to 1.2 */
 
   &__right
     display: flex;

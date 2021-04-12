@@ -114,11 +114,14 @@ export default defineComponent({
   cursor: pointer;
   display: flex;
   align-items: center;
-  min-width: calc(30 * var(--layout-spacing-unit));
   position: relative
   z-index: 1
   background-color: var(--tabColor)
   transition: background-color 250ms;
+  flex-basis: auto;
+  flex-grow: 1;
+  max-width: 15rem;
+  min-width: 0;
 
   &:focus
     --tabColor: var(--color-grey8);
@@ -137,13 +140,13 @@ export default defineComponent({
 
   &__title
     flex: 1 1 auto;
-    width: 20ch;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    min-width: 2.5rem;
 
   &__close-button
-    margin-left: 0.5em;
+    margin-left: auto;
     position: relative
     z-index: 10
 
