@@ -60,7 +60,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    console.log('CAN RECIEVE FOCUS First Time');
+    (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
   },
   updated() {
     if (this.isActive) {
