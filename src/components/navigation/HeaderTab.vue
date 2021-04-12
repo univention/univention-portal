@@ -182,7 +182,6 @@ export default defineComponent({
     min-width: 2.5rem;
 
   &__close-button
-    margin-left: auto;
     position: relative
     z-index: 10
 
@@ -190,6 +189,7 @@ export default defineComponent({
     display: flex
     align-items: center
     min-width: 40px
+    width: 100%
 
   &--focus
     border-color: var(--color-primary);
