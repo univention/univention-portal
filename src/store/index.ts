@@ -89,6 +89,7 @@ const actions = {
 
     axios.all(portalPromises).then(axios.spread((metaResponse, languageResponse, portalResponse) => {
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
+      dispatch('locale/setAvailableLocale', availableLocales);
       dispatch('metaData/setMeta', meta);
       dispatch('menu/setMenu', { portal, availableLocales });
       dispatch('portalData/setPortal', portal);

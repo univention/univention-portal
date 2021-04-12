@@ -36,17 +36,15 @@
         v-model="portalLogoData"
         label="Portal logo"
       />
-      <div
-        v-for="displayName in displayNames"
-        :key="displayName.locale"
-      >
-        <label>
-          Name ({{ displayName.locale }})
-        </label>
-        <input
-          v-model="displayName.name"
-        >
-      </div>
+      <locale-input
+        v-model="portalNameData"
+        label="Name"
+        @update:modelValue="update"
+      />
+      <image-upload
+        v-model="portalBackgroundData"
+        label="Background"
+      />
       <button class="primary">
         <portal-icon
           icon="save"
@@ -67,15 +65,12 @@ import { udmPut } from '@/jsHelper/umc';
 import Translate from '@/i18n/Translate.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
-
-interface LocalizedName {
-  locale: string,
-  name: string,
-}
+import LocaleInput from '@/components/widgets/LocaleInput.vue';
 
 interface EditModeSideNavigationData {
   portalLogoData: string,
-  displayNames: LocalizedName[],
+  portalNameData: Record<string, string>,
+  portalBackgroundData: string,
 }
 
 export default defineComponent({
@@ -84,11 +79,13 @@ export default defineComponent({
     Translate,
     PortalIcon,
     ImageUpload,
+    LocaleInput,
   },
   data(): EditModeSideNavigationData {
     return {
       portalLogoData: '',
-      displayNames: [],
+      portalNameData: {},
+      portalBackgroundData: '',
     };
   },
   computed: {
@@ -96,27 +93,24 @@ export default defineComponent({
       portalDn: 'portalData/getPortalDn',
       portalName: 'portalData/portalName',
       portalLogo: 'portalData/portalLogo',
+      portalBackground: 'portalData/portalBackground',
     }),
   },
   updated() {
-    const name = {};
-    this.displayNames.forEach((displayName) => {
-      name[displayName.locale] = displayName.name;
-    });
-    this.$store.dispatch('portalData/setPortalName', name);
-    this.$store.dispatch('portalData/setPortalLogo', this.portalLogoData);
+    this.update();
   },
-  mounted() {
+  created() {
     // get initial logo data
     this.portalLogoData = this.portalLogo || '';
-
-    // set up displayNames from locale data
-    this.displayNames = Object.keys(this.portalName).map((locale) => ({
-      locale,
-      name: this.portalName[locale],
-    }));
+    this.portalNameData = this.portalName;
+    this.portalBackgroundData = this.portalBackground || '';
   },
   methods: {
+    update() {
+      this.$store.dispatch('portalData/setPortalName', this.portalNameData);
+      this.$store.dispatch('portalData/setPortalLogo', this.portalLogoData);
+      this.$store.dispatch('portalData/setPortalBackground', this.portalBackgroundData);
+    },
     async saveChanges() {
       let logo: string | null = null;
       if (this.portalLogoData.startsWith('data:')) {
@@ -124,11 +118,20 @@ export default defineComponent({
       } else if (this.portalLogoData === '') {
         logo = '';
       }
-      const displayName = this.displayNames.map((displName) => [displName.locale, displName.name]);
+      let background: string | null = null;
+      if (this.portalBackgroundData.startsWith('data:')) {
+        background = this.portalBackgroundData.split(',')[1];
+      } else if (this.portalLogoData === '') {
+        background = '';
+      }
+      const displayName = Object.entries(this.portalNameData);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const attrs: any = { displayName };
       if (logo !== null) {
         attrs.logo = logo;
+      }
+      if (background !== null) {
+        attrs.background = background;
       }
       try {
         this.$store.dispatch('activateLoadingState');
