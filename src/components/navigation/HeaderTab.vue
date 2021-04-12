@@ -156,7 +156,7 @@ export default defineComponent({
   flex-basis: auto;
   flex-grow: 1;
   max-width: 15rem;
-  min-width: 0;
+  min-width: 2.4rem; /* maybe fix later to 1.2 */
   border: 0.2rem solid rgba(0,0,0,0)
 
   &:focus
@@ -189,6 +189,7 @@ export default defineComponent({
   &__focus-wrapper
     display: flex
     align-items: center
+    min-width: 40px
 
   &--focus
     border-color: var(--color-primary);
