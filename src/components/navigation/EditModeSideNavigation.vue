@@ -1,30 +1,30 @@
 <!--
-Copyright 2021 Univention GmbH
+  Copyright 2021 Univention GmbH
 
-https://www.univention.de/
+  https://www.univention.de/
 
-All rights reserved.
+  All rights reserved.
 
-The source code of this program is made available
-under the terms of the GNU Affero General Public License version 3
-(GNU AGPL V3) as published by the Free Software Foundation.
+  The source code of this program is made available
+  under the terms of the GNU Affero General Public License version 3
+  (GNU AGPL V3) as published by the Free Software Foundation.
 
-Binary versions of this program provided by Univention to you as
-well as other copyrighted, protected or trademarked materials like
-Logos, graphics, fonts, specific documentations and configurations,
-cryptographic keys etc. are subject to a license agreement between
-you and Univention and not subject to the GNU AGPL V3.
+  Binary versions of this program provided by Univention to you as
+  well as other copyrighted, protected or trademarked materials like
+  Logos, graphics, fonts, specific documentations and configurations,
+  cryptographic keys etc. are subject to a license agreement between
+  you and Univention and not subject to the GNU AGPL V3.
 
-In the case you use this program under the terms of the GNU AGPL V3,
-the program is provided in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
+  In the case you use this program under the terms of the GNU AGPL V3,
+  the program is provided in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public
-License with the Debian GNU/Linux or Univention distribution in file
-/usr/share/common-licenses/AGPL-3; if not, see
-<https://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU Affero General Public
+  License with the Debian GNU/Linux or Univention distribution in file
+  /usr/share/common-licenses/AGPL-3; if not, see
+  <https://www.gnu.org/licenses/>.
 -->
 <template>
   <nav class="portal-sidenavigation">
@@ -117,7 +117,7 @@ export default defineComponent({
     }));
   },
   methods: {
-    saveChanges() {
+    async saveChanges() {
       let logo: string | null = null;
       if (this.portalLogoData.startsWith('data:')) {
         logo = this.portalLogoData.split(',')[1];
@@ -130,23 +130,28 @@ export default defineComponent({
       if (logo !== null) {
         attrs.logo = logo;
       }
-      udmPut(this.portalDn, attrs).then(() => {
+      try {
+        this.$store.dispatch('activateLoadingState');
+        await udmPut(this.portalDn, attrs);
+        await this.$store.dispatch('portalData/waitForChange', 10);
         this.$store.dispatch('portalData/setEditMode', false);
         this.$store.dispatch('navigation/setActiveButton', '');
-      }, (error) => {
+      } catch (error) {
         this.$store.dispatch('notificationBubble/addErrorNotification', {
           bubbleTitle: 'Update failed',
           bubbleDescription: `'Saving the portal failed: ${error}'`,
         });
-      });
+      }
+      this.$store.dispatch('deactivateLoadingState');
     },
   },
 });
 </script>
 
 <style lang="stylus">
-.edit-mode-side-navigation__form
-  padding: calc(2 * var(--layout-spacing-unit))
-  input
-    width: 18rem
+.edit-mode-side-navigation
+  &__form
+    padding: calc(2 * var(--layout-spacing-unit))
+    input
+      width: 18rem
 </style>
