@@ -36,6 +36,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="portal-header__left"
       tabindex="0"
       @click="goHome"
+      @keydown.enter="goHome"
     >
       <img
         v-if="portalLogo"
