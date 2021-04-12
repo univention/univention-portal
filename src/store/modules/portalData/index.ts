@@ -32,6 +32,7 @@ import { PortalData } from './portalData.models';
 export interface PortalDataState {
   portal: PortalData;
   editMode: boolean;
+  cacheId: string;
 }
 
 const portalData: PortalModule<PortalDataState> = {
@@ -55,6 +56,7 @@ const portalData: PortalModule<PortalDataState> = {
       categories: [],
     },
     editMode: false,
+    cacheId: '',
   },
 
   mutations: {
@@ -63,9 +65,13 @@ const portalData: PortalModule<PortalDataState> = {
       state.portal.entries = payload.entries;
       state.portal.folders = payload.folders;
       state.portal.categories = payload.categories;
+      state.cacheId = payload.cache_id;
     },
     PORTALNAME(state, name) {
       state.portal.portal.name = name;
+    },
+    PORTALLOGO(state, data) {
+      state.portal.portal.logo = data;
     },
     EDITMODE(state, editMode) {
       state.editMode = editMode;
@@ -76,23 +82,46 @@ const portalData: PortalModule<PortalDataState> = {
     getPortal: (state) => state.portal,
     getPortalDn: (state) => state.portal.portal.dn,
     portalName: (state) => state.portal.portal.name,
+    portalLogo: (state) => state.portal.portal.logo,
     portalContent: (state) => state.portal.portal.content,
     portalEntries: (state) => state.portal.entries,
     portalFolders: (state) => state.portal.folders,
     portalCategories: (state) => state.portal.categories,
     portalDefaultLinkTarget: (state) => state.portal.portal.defaultLinkTarget,
     editMode: (state) => state.editMode,
+    cacheId: (state) => state.cacheId,
   },
 
   actions: {
     setPortal({ commit }, payload) {
       commit('PORTALDATA', payload);
     },
-    setPortalName({ commit }, name) {
+    setPortalName({ commit }, name: string) {
       commit('PORTALNAME', name);
     },
-    async setEditMode({ dispatch, commit }, editMode) {
-      await dispatch('loadPortal', { adminMode: editMode }, { root: true });
+    setPortalLogo({ commit }, data: string) {
+      commit('PORTALLOGO', data);
+    },
+    async waitForChange({ dispatch, getters }, retries: number) {
+      if (retries <= 0) {
+        return false;
+      }
+      const response = await dispatch('portalJsonRequest', {
+        adminMode: false,
+      }, { root: true });
+      const portalJson = response.data;
+      if (portalJson.cache_id !== getters.cacheId) {
+        return true;
+      }
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
+      return dispatch('waitForChange', retries - 1);
+    },
+    async setEditMode({ dispatch, commit }, editMode: boolean) {
+      await dispatch('loadPortal', {
+        adminMode: editMode,
+      }, { root: true });
       commit('EDITMODE', editMode);
     },
   },

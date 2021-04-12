@@ -36,8 +36,12 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="portal-header__left"
       tabindex="0"
       @click="goHome"
+      @keydown.enter="goHome"
     >
       <img
+        v-if="portalLogo"
+        id="portal-header-logo"
+        :src="portalLogo"
         class="portal-header__left-image"
         alt="Portal logo"
       >
@@ -139,6 +143,7 @@ export default defineComponent({
   ],
   computed: {
     ...mapGetters({
+      portalLogo: 'portalData/portalLogo',
       portalName: 'portalData/portalName',
       activeTabIndex: 'tabs/activeTabIndex',
       tabs: 'tabs/allTabs',
@@ -176,6 +181,7 @@ export default defineComponent({
 
   &__portal-name
     font-size: var(--font-size-2);
+    white-space: nowrap
 
   &__left
     flex: 0 0 auto;
@@ -188,8 +194,12 @@ export default defineComponent({
     &:focus
       border: 0.2rem solid var(--color-primary)
       outline: 0
+
     &-image
-      display: none;
+      height: 100%
+
+      + h1
+        padding-left: var(--layout-spacing-unit)
 
   &__tabs
     display: flex;
