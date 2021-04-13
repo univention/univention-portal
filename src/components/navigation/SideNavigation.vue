@@ -47,7 +47,7 @@ License with the Debian GNU/Linux or Univention distribution in file
             class="portal-sidenavigation__logout-link"
             @click="logout"
             @keydown.esc="closeNavigation"
-            @keydown.shift.tab="focusOnMenuButton($event)"
+            @keydown.shift.tab="focusOnLastItemInSideMenu($event)"
           >
             <translate i18n-key="LOGOUT" />
           </button>
@@ -125,6 +125,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
     <button
       v-if="userState.mayEditPortal"
+      ref="editModeButton"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
       @click="startEditMode"
       @keydown.esc="closeNavigation"
@@ -201,6 +202,7 @@ export default defineComponent({
       logout();
     },
     closeNavigation(): void {
+      console.log('closeNavigation');
       this.$store.dispatch('navigation/setActiveButton', '');
     },
     toggleMenu(index = -1): void {
@@ -233,6 +235,7 @@ export default defineComponent({
     },
     selectPrevious(menuReference: string, index?: number, numberOfItems?: number): void {
       if (menuReference === 'subItemParent') {
+        console.log('selectPrevious: in subMenu');
         // If current is subitem Parent focus last item in list
         this.$nextTick(() => {
           const lastChildIndex = numberOfItems ? numberOfItems - 1 : null;
@@ -240,15 +243,20 @@ export default defineComponent({
           firstSubItemChild.focus();
         });
       } else if (menuReference === 'subItem' || menuReference === 'menuItem') {
+        console.log('selectPrevious: in parentMenu');
         if (index === 0) {
+          console.log('selectPrevious: ?');
           // If current is first submenu item set focus to subItemParent.
           if (menuReference === 'subItem') {
+            console.log('selectPrevious: ?');
             this.focusOnSubItemParent();
           } else {
+            console.log('selectPrevious: ?');
             const lastElementIndex = numberOfItems ? numberOfItems - 1 : null;
             (this.$refs[`menuItem${lastElementIndex}`] as HTMLFormElement).$el.focus();
           }
         } else {
+          console.log('selectPrevious: normal previous behaviour');
           // normal previous behaviour
           const currentElement = (this.$refs[menuReference + index] as HTMLFormElement).$el;
           const previousElement = currentElement.parentElement.previousElementSibling.children[0];
@@ -297,12 +305,15 @@ export default defineComponent({
     focusOnSubItemParent() {
       (this.$refs.subItemParent as HTMLFormElement).$el.focus();
     },
-    focusOnMenuButton(event) {
+    focusOnLastItemInSideMenu(event) {
       console.log('header-button-menu');
       event.preventDefault();
-      const buttonElement = document.getElementById('header-button-menu') as HTMLFormElement;
-      console.log(buttonElement);
-      buttonElement.focus();
+      const lastElementIndex = this.menuLinks.length - 1;
+      const lastMenuItem = (this.$refs[`menuItem${lastElementIndex}`] as HTMLFormElement).$el;
+      const editModeButton = (this.$refs.editModeButton as HTMLFormElement);
+      const lastItemInSideMenu = this.userState.mayEditPortal ? editModeButton : lastMenuItem;
+      console.log('THIS', lastMenuItem.$el, editModeButton);
+      lastItemInSideMenu.focus();
     },
   },
 });
