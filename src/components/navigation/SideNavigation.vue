@@ -206,8 +206,8 @@ export default defineComponent({
       logout();
     },
     closeNavigation(): void {
-      console.log('closeNavigation');
       this.$store.dispatch('navigation/setActiveButton', '');
+      document.getElementById('header-button-menu')?.focus();
     },
     toggleMenu(index = -1): void {
       this.menuVisible = !this.menuVisible;
@@ -356,7 +356,6 @@ export default defineComponent({
   display: flex
   flex-direction: column
   align-item: flex-end
-  overflow: auto
 
   &__link
     padding: 1em 0 1em 20px
