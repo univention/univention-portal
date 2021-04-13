@@ -331,7 +331,7 @@
    },
    "filtered": true,
    "may_edit_portal": true,
-   "may_login_via_saml": false,
+   "auth_mode": "ucs",
    "cache_id": "abc:123",
    "username": "administrator",
    "user_displayname": "Administrator"
