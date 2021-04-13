@@ -98,7 +98,7 @@ const actions = {
           username: portal.username,
           displayName: portal.user_displayname,
           mayEditPortal: portal.may_edit_portal,
-          mayLoginViaSAML: portal.may_login_via_saml,
+          authMode: portal.auth_mode,
         },
       });
       resolve(portal);
