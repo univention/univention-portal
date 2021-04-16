@@ -51,5 +51,10 @@ export default defineComponent({
       return catalog[this.i18nKey].translated.value;
     },
   },
+  methods: {
+    translateLabel(translationLabel: string): void {
+      return catalog[translationLabel].translated.value;
+    },
+  },
 });
 </script>

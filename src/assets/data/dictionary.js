@@ -73,6 +73,10 @@ const catalog = {
   REMOVE: _('Remove'),
   UPLOAD: _('Upload'),
   SELECT_FILE: _('Select file'),
+  GO_TO: _('Go to'),
+  START: _('Start'),
+  STOP: _('Stop'),
+  EDIT_MODE: _('Edit mode')
 };
 
 export { catalog };

@@ -35,6 +35,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       ref="portalHeaderH1"
       class="portal-header__left"
       tabindex="0"
+      :aria-label="ariaLabelPortalHeader"
       @click="goHome"
       @keydown.enter="goHome"
     >
@@ -43,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         id="portal-header-logo"
         :src="portalLogo"
         class="portal-header__left-image"
-        alt="Portal logo"
+        :alt="$localized(portalName)"
       >
       <h1 class="portal-header__portal-name">
         {{ $localized(portalName) }}
@@ -67,11 +68,12 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-if="editMode"
       class="portal-header__right"
     >
+    <!-- TODO Screenreader Translations -->
       <div>
         Edit mode
       </div>
       <header-button
-        aria-label="Button for Edit mode"
+        aria-label="Open Edit mode"
         icon="settings"
       />
       <header-button
@@ -84,22 +86,25 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-else
       class="portal-header__right"
     >
+    <!-- TODO Screenreader Translations -->
       <header-button
         ref="searchButton"
         data-test="searchbutton"
-        aria-label="Button for Searchbar"
+        aria-label="Search"
         icon="search"
         @click="dismissBubble"
       />
+      <!-- TODO Screenreader Translations -->
       <header-button
         data-test="bellbutton"
-        aria-label="Open notifications"
+        aria-label="Notifications"
         icon="bell"
         @click="dismissBubble"
       />
+      <!-- TODO Screenreader Translations -->
       <header-button
         data-test="navigationbutton"
-        aria-label="Button for navigation"
+        aria-label="Menu"
         icon="menu"
         @click="dismissNotification('menu')"
         @keydown.tab.exact.prevent="activeMenuButton ? dismissNotification('menu') : focusIntoSideNavIfOpen()"
@@ -126,7 +131,7 @@ import HeaderTab from '@/components/navigation/HeaderTab.vue';
 import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
-
+import Translate from '@/i18n/Translate.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';
 
 export default defineComponent({
@@ -140,6 +145,7 @@ export default defineComponent({
   },
   mixins: [
     notificationMixin,
+    Translate,
   ],
   computed: {
     ...mapGetters({
@@ -150,6 +156,15 @@ export default defineComponent({
       editMode: 'portalData/editMode',
       activeButton: 'navigation/getActiveButton',
     }),
+    ariaLabelPortalHeader(): string {
+      return `${this.translateLabel('GO_TO')} ${this.$localized(this.portalName)}`;
+    },
+    ariaLabelStartEditMode(): string {
+      return `${this.translateLabel('START')} ${this.translateLabel('EDIT_MODE')}`;
+    },
+    ariaLabelStopEditmode(): string {
+      return `${this.translateLabel('STOP')} ${this.translateLabel('EDIT_MODE')}`;
+    },
   },
   methods: {
     goHome(): void {
