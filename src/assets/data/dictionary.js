@@ -76,7 +76,12 @@ const catalog = {
   GO_TO: _('Go to'),
   START: _('Start'),
   STOP: _('Stop'),
-  EDIT_MODE: _('Edit mode')
+  OPEN: _('Open'),
+  EDIT_MODE: _('Edit mode'),
+  SIDEBAR: _('sidebar'),
+  SEARCH: _('search'),
+  NOTIFCATIONS: _('Notifications'),
+  MENU: _('Menu')
 };
 
 export { catalog };

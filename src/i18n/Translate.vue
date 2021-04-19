@@ -53,6 +53,7 @@ export default defineComponent({
   },
   methods: {
     translateLabel(translationLabel: string): void {
+      console.log('translationLabel', translationLabel);
       return catalog[translationLabel].translated.value;
     },
   },

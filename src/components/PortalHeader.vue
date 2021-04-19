@@ -68,16 +68,15 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-if="editMode"
       class="portal-header__right"
     >
-    <!-- TODO Screenreader Translations -->
       <div>
-        Edit mode
+       {{ ariaLabelEditmode }}
       </div>
       <header-button
-        aria-label="Open Edit mode"
+        :aria-label="ariaLabelStartEditMode"
         icon="settings"
       />
       <header-button
-        aria-label="Stop edit mode"
+        :aria-label="ariaLabelStopEditmode"
         icon="x"
         @click="stopEditMode"
       />
@@ -86,25 +85,22 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-else
       class="portal-header__right"
     >
-    <!-- TODO Screenreader Translations -->
       <header-button
         ref="searchButton"
         data-test="searchbutton"
-        aria-label="Search"
+        :aria-label="ariaLabelSearch"
         icon="search"
         @click="dismissBubble"
       />
-      <!-- TODO Screenreader Translations -->
       <header-button
         data-test="bellbutton"
-        aria-label="Notifications"
+        :aria-label="ariaLabelNotifications"
         icon="bell"
         @click="dismissBubble"
       />
-      <!-- TODO Screenreader Translations -->
       <header-button
         data-test="navigationbutton"
-        aria-label="Menu"
+        :aria-label="ariaLabelMenu"
         icon="menu"
         @click="dismissNotification('menu')"
         @keydown.tab.exact.prevent="activeMenuButton ? dismissNotification('menu') : focusIntoSideNavIfOpen()"
@@ -160,10 +156,22 @@ export default defineComponent({
       return `${this.translateLabel('GO_TO')} ${this.$localized(this.portalName)}`;
     },
     ariaLabelStartEditMode(): string {
-      return `${this.translateLabel('START')} ${this.translateLabel('EDIT_MODE')}`;
+      return `${this.translateLabel('OPEN')} ${this.translateLabel('EDIT_MODE')} ${this.translateLabel('SIDEBAR')}`;
     },
     ariaLabelStopEditmode(): string {
       return `${this.translateLabel('STOP')} ${this.translateLabel('EDIT_MODE')}`;
+    },
+    ariaLabelEditmode(): string {
+      return `${this.translateLabel('EDIT_MODE')}`;
+    },
+    ariaLabelSearch(): string {
+      return `${this.translateLabel('SEARCH')}`;
+    },
+    ariaLabelNotifications(): string {
+      return `${this.translateLabel('NOTIFCATIONS')}`;
+    },
+    ariaLabelMenu(): string {
+      return `${this.translateLabel('MENU')}`;
     },
   },
   methods: {
