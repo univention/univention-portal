@@ -29,7 +29,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <a
     v-is="isLink ? 'a' : 'div'"
-    class="menu-item"
+    class="menu-item custom-menu-item"
     :href="link ? link : null"
     :target="anchorTarget"
     tabindex="0"

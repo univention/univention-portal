@@ -61,7 +61,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         </div>
       </div>
     </button>
-    <span class="portal-folder__name">
+    <span class="portal-folder__name custom-potal-folder-title">
       {{ $localized(title) }}
     </span>
     <header-button

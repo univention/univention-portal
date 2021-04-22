@@ -60,7 +60,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         >
       </div>
       <span
-        class="portal-tile__name"
+        class="portal-tile__name custom-portal-tile-name"
         @click.prevent="tileClick"
       >
         {{ $localized(title) }}

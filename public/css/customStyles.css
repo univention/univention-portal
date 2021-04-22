@@ -1,0 +1,34 @@
+/*
+    This is an example of your custom CSS
+
+    Only the styles given in the examples are supported.
+    Feel free to alter any other style, but be aware that upgrades can break you
+    styling e.g. because css selectors no longer find your defined element.
+
+*/
+
+
+.custom-portal-name {
+    color: turquoise;
+}
+.custom-category-title {
+    color: turquoise;
+}
+.custom-portal-tile-name {
+    color: turquoise;
+}
+.custom-potal-folder-title {
+    color: turquoise;
+}
+.custom-header-button svg{
+    color: turquoise;
+}
+.custom-logout-label {
+    color: turquoise;
+}
+.custom-login-label {
+    color: turquoise;
+}
+.custom-menu-item {
+    color: turquoise;
+}
