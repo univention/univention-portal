@@ -330,6 +330,7 @@
      ]
    },
    "showUmc": false,
+   "ensureLogin": false,
    "filtered": true,
    "may_edit_portal": true,
    "auth_mode": "ucs",
