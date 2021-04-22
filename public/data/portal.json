@@ -292,8 +292,6 @@
      }
    ],
    "portal": {
-     "anonymousEmpty": [],
-     "autoLayoutCategories": false,
      "background": null,
      "categories": [
        "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
@@ -302,14 +300,13 @@
      "defaultLinkTarget": "embedded",
      "dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "ensureLogin": false,
-     "fontColor": "black",
+     "showUmc": true,
      "logo": "./data/icons/logo.svg",
      "name": {
        "de_DE": "Univention Portal DE",
        "en_US": "Univention Portal EN",
        "fr_FR": "Portail Univention FR"
      },
-     "showApps": false,
      "content": [
        [
          "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
@@ -329,8 +326,6 @@
        ]
      ]
    },
-   "showUmc": false,
-   "ensureLogin": false,
    "filtered": true,
    "may_edit_portal": true,
    "auth_mode": "ucs",
