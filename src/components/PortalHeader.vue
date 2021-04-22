@@ -46,7 +46,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="portal-header__left-image"
         :alt="$localized(portalName)"
       >
-      <h1 class="portal-header__portal-name">
+      <h1 class="portal-header__portal-name custom-portal-name">
         {{ $localized(portalName) }}
       </h1>
     </div>

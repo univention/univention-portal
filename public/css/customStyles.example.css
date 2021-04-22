@@ -1,0 +1,13 @@
+/*
+    This is an example of your custom CSS
+
+    Only the styles given in the examples are supported.
+    Feel free to alter any other style, but be aware that upgrades can break you
+    styling e.g. because css selectors no longer find your defined element.
+
+*/
+
+
+.custom-portal-name {
+    color: blue;
+}
