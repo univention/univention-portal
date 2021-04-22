@@ -7,28 +7,99 @@
 
 */
 
-
+/* Fonts */
 .custom-portal-name {
-    color: turquoise;
+    color: #ffffff;
 }
 .custom-category-title {
-    color: turquoise;
+    color: #03045E;
 }
 .custom-portal-tile-name {
-    color: turquoise;
+    color: #03045E;
 }
 .custom-potal-folder-title {
-    color: turquoise;
+    color: #03045E;
 }
 .custom-header-button svg{
-    color: turquoise;
+    color: #CAF0F8;
 }
 .custom-logout-label {
-    color: turquoise;
+    color: #ffffff;
 }
 .custom-login-label {
-    color: turquoise;
+    color: #ffffff;
 }
 .custom-menu-item {
-    color: turquoise;
+    color: #03045E;
 }
+.custom-menu-arrow-icon {
+    color: #03045E;
+}
+.custom-edit-mode-label {
+    color: #03045E;
+}
+.custom-user-name {
+    color: #03045E;
+}
+.custom-search-input {
+    color: #ffffff;
+}
+.custom-notification-title {
+    color: #CAF0F8;
+}
+.custom-notification-message {
+    color: #CAF0F8;
+}
+.custom-sidebar-title {
+    color: #03045E;
+}
+.custom-tab-title {
+    color: #ffffff;
+}
+
+/* Background colors */
+.custom-portal-background {
+    background-color: #bae6ee;
+}
+.custom-portal-header {
+    background-color: #03045E;
+}
+.custom-portal-folder {
+    background-color: #7dc2ce;
+}
+.custom-search-input {
+    background-color: #03045E;
+}
+.custom-flyout {
+    background-color: #CAF0F8;
+}
+.custom-logout-label {
+    background-color: #03045E;
+}
+.custom-login-label {
+    background-color: #03045E;
+}
+.custom-header-tab {
+    background-color: #0077B6;
+}
+
+
+/* hover states */
+.custom-header-button:hover {
+    background-color: #070988;
+}
+.custom-menu-item:hover {
+    background-color: #abeaf7;
+}
+.custom-edit-mode-label:hover {
+    background-color: #abeaf7;
+}
+.custom-logout-label:hover {
+    background-color: #070988;
+}
+.custom-login-label:hover {
+    background-color: #070988;
+}
+
+
+/* focus states */
