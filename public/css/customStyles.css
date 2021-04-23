@@ -56,6 +56,13 @@
 .custom-tab-title {
     color: #ffffff;
 }
+.custom-portal-tooltip-description {
+    color: #03045E;
+}
+.custom-portal-tooltip-title {
+    color: #03045E;
+}
+
 
 /* Background colors */
 .custom-portal-background {
@@ -80,7 +87,13 @@
     background-color: #03045E;
 }
 .custom-header-tab {
+    background-color: #7bbfe4;
+}
+.custom-header-tab-active {
     background-color: #0077B6;
+}
+.custom-portal-tooltip {
+    background-color: #CAF0F8;
 }
 
 
@@ -104,7 +117,9 @@
     color: #03045E;
     background-color: #7dc2ce;
 }
-
+.custom-portal-folder:hover {
+    background-color: #7dc2ce;
+}
 
 /* focus states */
 .custom-portal-name:focus {
@@ -141,11 +156,18 @@
     background-color: #CAF0F8;
     border-color: #03045E;
  }
+ .custom-header-tab-focus {
+    border-color: #ffffff;
+}
 
 /* details */
 .custom-navigation-header {
-    border-bottom-color: #ffffff;
+    border-color: #03045E;
 }
+
 .custom-edit-mode-label {
    border-top-color: #ffffff;
+}
+.custom-iframe {
+    border-top-color: #0077B6;
 }
