@@ -29,11 +29,11 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <header
     id="portal-header"
-    class="portal-header"
+    class="portal-header custom-portal-header"
   >
     <div
       ref="portalHeaderH1"
-      class="portal-header__left"
+      class="portal-header__left custom-portal-name"
       tabindex="0"
       :aria-label="ariaLabelPortalHeader"
       @click="goHome"
@@ -46,7 +46,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="portal-header__left-image"
         :alt="$localized(portalName)"
       >
-      <h1 class="portal-header__portal-name custom-portal-name">
+      <h1 class="portal-header__portal-name">
         {{ $localized(portalName) }}
       </h1>
     </div>

@@ -14,7 +14,7 @@
 .custom-category-title {
     color: #03045E;
 }
-.custom-portal-tile-name {
+.custom-portal-tile-title {
     color: #03045E;
 }
 .custom-potal-folder-title {
@@ -42,7 +42,7 @@
     color: #03045E;
 }
 .custom-search-input {
-    color: #ffffff;
+    color: #03045E;
 }
 .custom-notification-title {
     color: #CAF0F8;
@@ -59,7 +59,7 @@
 
 /* Background colors */
 .custom-portal-background {
-    background-color: #bae6ee;
+    background-color: #f6fcfd;
 }
 .custom-portal-header {
     background-color: #03045E;
@@ -68,7 +68,7 @@
     background-color: #7dc2ce;
 }
 .custom-search-input {
-    background-color: #03045E;
+    background-color: #f6fcfd;
 }
 .custom-flyout {
     background-color: #CAF0F8;
@@ -95,11 +95,57 @@
     background-color: #abeaf7;
 }
 .custom-logout-label:hover {
-    background-color: #070988;
+    border-color: #03045E;
+    color: #03045E;
+    background-color: #7dc2ce;
 }
 .custom-login-label:hover {
-    background-color: #070988;
+    border-color: #03045E;
+    color: #03045E;
+    background-color: #7dc2ce;
 }
 
 
 /* focus states */
+.custom-portal-name:focus {
+    border-color: #0AB6FF;
+}
+.custom-header-button:focus {
+    background-color: #070988;
+    border-color: #0AB6FF;
+}
+.custom-portal-tile-wrapper:focus .custom-portal-tile {
+    border-color: #1d21ff;
+} 
+.custom-portal-folder:focus {
+    border-color: #1d21ff;
+    background-color: #7dc2ce;
+}
+.custom-search-input:focus {
+    border-color: #03045E;
+}
+.custom-logout-label:focus {
+    border-color: #03045E;
+    color: #03045E;
+    background-color: #7dc2ce;
+}
+.custom-login-label:focus {
+    border-color: #03045E;
+    color: #03045E;
+    background-color: #7dc2ce;
+}
+.custom-menu-item:focus {
+    border-color: #03045E;
+}
+.custom-edit-mode-label:focus {
+    background-color: #CAF0F8;
+    border-color: #03045E;
+ }
+
+/* details */
+.custom-navigation-header {
+    border-bottom-color: #ffffff;
+}
+.custom-edit-mode-label {
+   border-top-color: #ffffff;
+}

@@ -30,7 +30,7 @@ License with the Debian GNU/Linux or Univention distribution in file
   <div
     :id="`headerTab__${tabIndex}`"
     :ref="`headerTab__${tabIndex}`"
-    class="header-tab"
+    class="header-tab custom-header-tab"
     :class="{ 'header-tab--active': isActive, 'header-tab--focus': hasFocus }"
   >
     <div
@@ -51,7 +51,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="header-tab__logo"
       >
       <span
-        class="header-tab__title"
+        class="header-tab__title custom-tab-title"
         :title="tabLabel"
       >
         {{ tabLabel }}

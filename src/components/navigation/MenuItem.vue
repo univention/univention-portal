@@ -39,7 +39,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <portal-icon
       v-if="isSubItem"
       icon="chevron-left"
-      class="menu-item__arrow menu-item__arrow--left"
+      class="menu-item__arrow menu-item__arrow--left custom-menu-arrow-icon"
     />
     {{ $localized(title) }}
     <template
@@ -53,7 +53,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       <portal-icon
         v-if="!isSubItem"
         icon="chevron-right"
-        class="menu-item__arrow menu-item__arrow--right"
+        class="menu-item__arrow menu-item__arrow--right custom-menu-arrow-icon"
       />
     </template>
   </a>
