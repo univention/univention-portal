@@ -33,7 +33,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     :class="{ 'portal-folder__in-modal': inModal }"
   >
     <button
-      class="portal-tile__box"
+      class="portal-tile__box custom-portal-folder"
       tabindex="0"
       @click="openFolder"
       @keypress.enter="openFolder"
@@ -265,8 +265,10 @@ export default defineComponent({
     box-shadow: var(--box-shadow)
 
   .portal-tile__box
-    background: var(--color-grey0)
     padding: 0
+
+.portal-tile__box
+  background-color: var(--color-grey0)
 
 &:focus
   border-color: var(--color-primary)

@@ -28,7 +28,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <nav class="portal-sidenavigation">
-    <div class="portal-sidenavigation__login-header">
+    <div class="portal-sidenavigation__login-header custom-navigation-header">
       <div
         v-if="userState.username"
         class="portal-sidenavigation__user-row"
@@ -37,7 +37,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           icon="user"
         />
         <div>
-          <div class="portal-sidenavigation--username">
+          <div class="portal-sidenavigation--username custom-user-name">
             {{ userState.displayName }}
           </div>
           <!-- as long as this link has no href, this needs to be a button to be focusable -->
@@ -129,7 +129,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <button
       v-if="userState.mayEditPortal"
       ref="editModeButton"
-      class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
+      class="portal-sidenavigation__link portal-sidenavigation__edit-mode custom-edit-mode-label"
       @click="startEditMode"
       @keydown.esc="closeNavigation"
       @keydown.tab.exact.prevent="focusOnLoginButton"
