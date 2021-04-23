@@ -28,7 +28,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <div
-    class="portal-tooltip"
+    class="portal-tooltip custom-portal-tooltip"
     role="tooltip"
     data-test="portal-tooltip"
   >
@@ -46,7 +46,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="portal-tooltip__logo"
         >
       </div>
-      <div class="portal-tooltip__title">
+      <div class="portal-tooltip__title custom-portal-tooltip-title">
         {{ title }}
       </div>
     </div>
@@ -55,7 +55,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div
       v-if="description"
       :id="ariaId"
-      class="portal-tooltip__description"
+      class="portal-tooltip__description custom-portal-tooltip-description"
       v-html="description"
     />
     <!-- eslint-enable vue/no-v-html -->
@@ -97,7 +97,6 @@ export default defineComponent({
   position: fixed
   bottom: calc(2 * var(--layout-spacing-unit))
   right: calc(2 * var(--layout-spacing-unit))
-  background-color: var(--color-grey0)
   border-radius: var(--border-radius-container)
   min-width: calc(20 * 1rem)
   max-width: calc(20 * 1rem)
