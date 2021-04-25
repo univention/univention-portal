@@ -51,7 +51,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           'portal-tile__box', { 'portal-tile__box--dragable': editMode }
         ]"
       >
-      <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
+        <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
         <img
           :src="pathToLogo || './questionMark.svg'"
           onerror="this.src='./questionMark.svg'"

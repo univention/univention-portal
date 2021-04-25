@@ -31,6 +31,7 @@
 import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
+import { getCookie } from '@/jsHelper/tools';
 import locale from './modules/locale';
 import menu from './modules/menu';
 import metaData from './modules/metaData';
@@ -63,7 +64,11 @@ const actions = {
   },
   portalJsonRequest: (_, payload) => {
     console.log('Loading Portal...');
-    const headers = {};
+    const umcLang = getCookie('UMCLang');
+    const headers = {
+      'X-Requested-With': 'XMLHTTPRequest',
+      'Accept-Language': umcLang || 'en-US',
+    };
     if (payload.adminMode) {
       console.log('... in Admin mode');
       headers['X-Univention-Portal-Admin-Mode'] = 'yes';
