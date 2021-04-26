@@ -36,7 +36,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :aria-label="$localized(title)"
       class="portal-tile custom-portal-tile-wrapper"
       data-test="tileLink"
-      @mouseover="editMode || showTooltip()"
+      @mouseenter="editMode || showTooltip()"
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
       @click="tileClick"
@@ -50,7 +50,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         :class="{ 'portal-tile__box--dragable': editMode }"
         class="portal-tile__box custom-portal-tile"
       >
-      <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
+        <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
         <img
           :src="pathToLogo || './questionMark.svg'"
           onerror="this.src='./questionMark.svg'"

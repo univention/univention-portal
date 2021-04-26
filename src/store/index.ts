@@ -31,6 +31,7 @@
 import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
+import { getCookie } from '@/jsHelper/tools';
 import locale from './modules/locale';
 import menu from './modules/menu';
 import metaData from './modules/metaData';
@@ -52,26 +53,22 @@ const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
 export const key: InjectionKey<Store<RootState>> = Symbol('');
 
-const getters = {
-  getLoadingState: (state) => state.isLoading,
-};
-
-const mutations = {
-  SET_LOADING_STATE(state, loadingState: boolean) {
-    state.isLoading = loadingState;
-  },
-};
-
 const actions = {
-  activateLoadingState({ commit }) {
-    commit('SET_LOADING_STATE', true);
+  activateLoadingState({ dispatch }) {
+    dispatch('modal/setAndShowModal', {
+      name: 'LoadingOverlay',
+    });
   },
-  deactivateLoadingState({ commit }) {
-    commit('SET_LOADING_STATE', false);
+  deactivateLoadingState({ dispatch }) {
+    dispatch('modal/hideAndClearModal');
   },
   portalJsonRequest: (_, payload) => {
     console.log('Loading Portal...');
-    const headers = {};
+    const umcLang = getCookie('UMCLang');
+    const headers = {
+      'X-Requested-With': 'XMLHTTPRequest',
+      'Accept-Language': umcLang || 'en-US',
+    };
     if (payload.adminMode) {
       console.log('... in Admin mode');
       headers['X-Univention-Portal-Admin-Mode'] = 'yes';
@@ -111,9 +108,7 @@ const actions = {
 export const store = createStore<RootState>({
   strict: process.env.NODE_ENV !== 'production',
   state: initialRootState,
-  mutations,
   actions,
-  getters,
   modules: {
     locale,
     menu,
