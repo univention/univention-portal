@@ -84,7 +84,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
     <div
       v-show="activeTabIndex"
-      class="portal-iframes"
+      class="portal-iframes custom-iframe"
     >
       <portal-iframe
         v-for="(item, index) in tabs"

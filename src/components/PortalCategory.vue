@@ -44,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         :no-click="true"
         class="portal-category__edit-button"
       />
-      <span>{{ $localized(title) }}</span>
+      <span class="custom-category-title">{{ $localized(title) }}</span>
     </h2>
     <div
       class="portal-category__tiles dragdrop__container"

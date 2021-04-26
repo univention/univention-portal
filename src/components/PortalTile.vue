@@ -34,7 +34,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :target="anchorTarget"
       :aria-describedby="createID()"
       :aria-label="$localized(title)"
-      class="portal-tile"
+      class="portal-tile custom-portal-tile-wrapper"
       data-test="tileLink"
       @mouseenter="editMode || showTooltip()"
       @mouseleave="hideTooltip"
@@ -47,9 +47,8 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       <div
         :style="`background: ${backgroundColor || 'var(--color-grey40)'}`"
-        :class="[
-          'portal-tile__box', { 'portal-tile__box--dragable': editMode }
-        ]"
+        :class="{ 'portal-tile__box--dragable': editMode }"
+        class="portal-tile__box custom-portal-tile"
       >
         <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
         <img
@@ -60,7 +59,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         >
       </div>
       <span
-        class="portal-tile__name"
+        class="portal-tile__name custom-portal-tile-title"
         @click.prevent="tileClick"
       >
         {{ $localized(title) }}

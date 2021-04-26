@@ -28,7 +28,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <nav class="portal-sidenavigation">
-    <div class="portal-sidenavigation__login-header">
+    <div class="portal-sidenavigation__login-header custom-navigation-header">
       <div
         v-if="userState.username"
         class="portal-sidenavigation__user-row"
@@ -37,14 +37,14 @@ License with the Debian GNU/Linux or Univention distribution in file
           icon="user"
         />
         <div>
-          <div class="portal-sidenavigation--username">
+          <div class="portal-sidenavigation--username custom-user-name">
             {{ userState.displayName }}
           </div>
           <!-- as long as this link has no href, this needs to be a button to be focusable -->
           <button
             id="loginButton"
             ref="loginButton"
-            class="portal-sidenavigation__logout-link"
+            class="portal-sidenavigation__logout-link custom-logout-label"
             @click="logout"
             @keydown.shift.tab.exact="focusOnLastItemInSideMenu($event)"
             @keydown.esc="closeNavigation"
@@ -57,7 +57,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-else
         id="loginButton"
         ref="loginButton"
-        class="portal-sidenavigation__link"
+        class="portal-sidenavigation__link custom-login-label"
         @click="login"
         @keydown.shift.tab.exact="focusOnLastItemInSideMenu($event)"
         @keydown.esc="closeNavigation"
@@ -129,7 +129,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <button
       v-if="userState.mayEditPortal"
       ref="editModeButton"
-      class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
+      class="portal-sidenavigation__link portal-sidenavigation__edit-mode custom-edit-mode-label"
       @click="startEditMode"
       @keydown.esc="closeNavigation"
       @keydown.tab.exact.prevent="focusOnLoginButton"
@@ -394,7 +394,6 @@ export default defineComponent({
     padding-left: 3px
 
   &__logout-link
-    text-decoration: underline
     cursor: pointer
     background-color: rgba(0,0,0,0)
     color: var(--font-color-contrast-high)
@@ -406,6 +405,9 @@ export default defineComponent({
     &:focus
       border: 0.2rem solid var(--color-primary);
       outline: 0
+
+    span
+      text-decoration: underline
 
   &__login-header
     border-bottom: 4px solid var(--color-grey8)

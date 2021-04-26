@@ -42,7 +42,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       >
         <div class="notification-bubble__header">
           <div
-            class="notification-bubble__title"
+            class="notification-bubble__title custom-notification-title"
           >
             {{ item.bubbleTitle }}
           </div>
@@ -60,7 +60,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           <!-- eslint-disable vue/no-v-html -->
           <div
             v-if="item && item.bubbleDescription"
-            class="notification-bubble__message"
+            class="notification-bubble__message custom-notification-message"
             v-html="item.bubbleDescription"
           />
           <!-- eslint-enable vue/no-v-html -->
