@@ -41,7 +41,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-model="portalSearch"
         data-test="searchInput"
         type="text"
-        class="portal-search__input"
+        class="portal-search__input custom-search-input"
         @input="searchTiles"
         @keyup.esc="closeSearchInput()"
       >
