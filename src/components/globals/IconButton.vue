@@ -27,10 +27,12 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <button class="icon-button">
+  <button
+    class="icon-button"
+    @click="$emit('click')"
+  >
     <portal-icon
       :icon="icon"
-      @click="$emit('click')"
     />
   </button>
 </template>
