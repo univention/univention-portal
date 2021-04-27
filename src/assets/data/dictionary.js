@@ -58,6 +58,7 @@ const catalog = {
   ADD_EXISTING_ENTRY: _('Add existing entry'),
   ADD_EXISTING_FOLDER: _('Add existing folder'),
   ADD_NEW_ENTRY: _('Add new entry'),
+  ADD_NEW_CATEGORY: _('Add new category'),
   ADD_FOLDER: _('Add folder'),
   EDIT_FOLDER: _('Edit folder'),
   CREATE_FOLDER: _('Create new folder'),

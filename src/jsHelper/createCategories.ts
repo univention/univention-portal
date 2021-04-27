@@ -38,6 +38,7 @@ function makeEntry(
   portalEntries: PortalEntry[],
   portalFolders: PortalFolder[],
   defaultLinkTarget: LinkTarget,
+  editMode: boolean,
 ): TileOrFolder | null {
   const entry = portalEntries.find((data) => data.dn === entryID);
   if (entry) {
@@ -68,24 +69,24 @@ function makeEntry(
   }
   const tiles: BaseTile[] = [];
   folder.entries.forEach((folderEntryID) => {
-    const entryInFolder = makeEntry(folderEntryID, portalEntries, portalFolders, defaultLinkTarget);
+    const entryInFolder = makeEntry(folderEntryID, portalEntries, portalFolders, defaultLinkTarget, editMode);
     if (isBaseTile(entryInFolder)) {
       tiles.push(entryInFolder);
     } else {
       console.warn('Entry', folderEntryID, 'not found!');
     }
   });
-  if (!tiles.length) {
-    console.warn('Not showing empty', entryID);
-    return null;
+  if (tiles.length || editMode) {
+    // TODO: remove id once the service is offering the right data.
+    return {
+      id: folder.name.en_US,
+      title: folder.name,
+      isFolder: true,
+      tiles,
+    };
   }
-  // TODO: remove id once the service is offering the right data.
-  return {
-    id: folder.name.en_US,
-    title: folder.name,
-    isFolder: true,
-    tiles,
-  };
+  console.warn('Not showing empty', entryID);
+  return null;
 }
 
 export default function createCategories(
@@ -94,6 +95,7 @@ export default function createCategories(
   portalEntries: PortalEntry[],
   portalFolders: PortalFolder[],
   defaultLinkTarget: LinkTarget,
+  editMode: boolean,
 ): Category[] {
   const ret: Category[] = [];
   portalContent.forEach(([categoryID, categoryEntries]) => {
@@ -104,13 +106,13 @@ export default function createCategories(
     }
     const tiles: TileOrFolder[] = [];
     categoryEntries.forEach((entryID) => {
-      const entry = makeEntry(entryID, portalEntries, portalFolders, defaultLinkTarget);
+      const entry = makeEntry(entryID, portalEntries, portalFolders, defaultLinkTarget, editMode);
       if (!entry) {
         return;
       }
       tiles.push(entry);
     });
-    if (tiles.length) {
+    if (tiles.length || editMode) {
       const categoryItem = {
         title: category.display_name,
         dn: category.dn,

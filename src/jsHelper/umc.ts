@@ -64,4 +64,12 @@ function udmPut(dn: string, attrs: any): Promise<AxiosResponse<any>> {
   'portals/all');
 }
 
-export { changePassword, umc, udmPut };
+function udmAdd(objectType: string, attrs: any): Promise<AxiosResponse<any>> {
+  return umc('command/udm/add', [{
+    object: { ...attrs },
+    options: { objectType },
+  }],
+  'portals/all');
+}
+
+export { changePassword, umc, udmPut, udmAdd };
