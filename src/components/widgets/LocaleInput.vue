@@ -68,7 +68,15 @@ export default defineComponent({
     }),
   },
   created() {
-    Object.assign(this.modelValueData, this.modelValue);
+    const model = this.modelValue;
+    const newModel = {};
+
+    if ('locale' in model) {
+      newModel[model.locale] = model.value;
+      Object.assign(this.modelValueData, newModel);
+    } else {
+      Object.assign(this.modelValueData, model);
+    }
   },
   updated() {
     this.$emit('update:modelValue', this.modelValueData);
