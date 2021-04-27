@@ -268,7 +268,7 @@ export default defineComponent({
     display:flex
     justify-content: center
   &__box
-    border-radius: 15%
+    border-radius: var(--border-radius-apptile)
     display: flex
     align-items: center
     justify-content: center
