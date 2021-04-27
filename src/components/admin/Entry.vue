@@ -69,7 +69,38 @@
             v-model="links[index]"
             label="Links"
           />
+          <span
+            v-if="links.length > 1"
+            class="modal-admin__button"
+          >
+            <button
+              class="modal-admin__button--inner"
+              @click.prevent="removeField(index, links)"
+            >
+              <portal-icon
+                icon="trash"
+              />
+              <translate
+                i18n-key="REMOVE"
+              />
+            </button>
+          </span>
         </div>
+
+        <span class="modal-admin__button">
+          <button
+            class="modal-admin__button--inner"
+            @click.prevent="addField(links)"
+          >
+            <portal-icon
+              icon="plus"
+            />
+            <translate
+              i18n-key="NEW_ENTRY"
+            />
+          </button>
+        </span>
+
         <image-upload
           v-model="pathToLogo"
           label="Icon"
@@ -118,6 +149,7 @@ import { udmPut, udmAdd } from '@/jsHelper/umc';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
@@ -138,6 +170,7 @@ export default defineComponent({
     Translate,
     ImageUpload,
     LocaleInput,
+    PortalIcon,
   },
   props: {
     label: {
@@ -161,7 +194,7 @@ export default defineComponent({
       title: {},
       description: {},
       backgroundColor: null,
-      links: this.modelValue.links,
+      links: [],
     };
   },
   computed: {
@@ -182,6 +215,7 @@ export default defineComponent({
     this.backgroundColor = this.modelValue.backgroundColor || null;
     this.title = { ...(this.modelValue.title || {}) };
     this.description = { ...(this.modelValue.description || {}) };
+    this.links.push(...(this.modelValue.links));
   },
   methods: {
     cancel() {
@@ -215,6 +249,18 @@ export default defineComponent({
         await udmPut(this.categoryDn, categoryAttrs);
       }
       this.$store.dispatch('modal/hideAndClearModal');
+    },
+
+    addField(fieldType) {
+      fieldType.push({ value: '' });
+    },
+
+    removeField(index, fieldType) {
+      // TODO: does not yet remove the selected record
+      console.log('index: ', index);
+      console.log('fieldType before: ', fieldType);
+      fieldType.splice(index, 1);
+      console.log('fieldType after: ', fieldType);
     },
   },
 });
