@@ -177,28 +177,28 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
     }),
     ariaLabelPortalHeader(): string {
-      return `${this.translateLabel('GO_TO')} ${this.$localized(this.portalName)}`;
+      return `${this.$translateLabel('GO_TO')} ${this.$localized(this.portalName)}`;
     },
     ariaLabelStartEditMode(): string {
-      return `${this.translateLabel('OPEN')} ${this.translateLabel('EDIT_MODE')} ${this.translateLabel('SIDEBAR')}`;
+      return `${this.$translateLabel('OPEN')} ${this.$translateLabel('EDIT_MODE')} ${this.$translateLabel('SIDEBAR')}`;
     },
     ariaLabelStopEditmode(): string {
-      return `${this.translateLabel('STOP')} ${this.translateLabel('EDIT_MODE')}`;
+      return `${this.$translateLabel('STOP')} ${this.$translateLabel('EDIT_MODE')}`;
     },
     ariaLabelEditmode(): string {
-      return `${this.translateLabel('EDIT_MODE')}`;
+      return `${this.$translateLabel('EDIT_MODE')}`;
     },
     ariaLabelTabs(): string {
-      return `${this.translateLabel('TABS')}`;
+      return `${this.$translateLabel('TABS')}`;
     },
     ariaLabelSearch(): string {
-      return `${this.translateLabel('SEARCH')}`;
+      return `${this.$translateLabel('SEARCH')}`;
     },
     ariaLabelNotifications(): string {
-      return `${this.translateLabel('NOTIFCATIONS')}`;
+      return `${this.$translateLabel('NOTIFCATIONS')}`;
     },
     ariaLabelMenu(): string {
-      return `${this.translateLabel('MENU')}`;
+      return `${this.$translateLabel('MENU')}`;
     },
     showTabButton(): boolean {
       return this.tabs.length > 0;

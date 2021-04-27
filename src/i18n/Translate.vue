@@ -55,11 +55,5 @@ export default defineComponent({
       return ret;
     },
   },
-  methods: {
-    translateLabel(translationLabel: string): string {
-      console.log('translationLabel', translationLabel);
-      return catalog[translationLabel].translated.value;
-    },
-  },
 });
 </script>
