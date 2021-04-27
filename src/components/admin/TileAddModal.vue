@@ -82,6 +82,26 @@ export default defineComponent({
           },
         });
       }
+      if (action === 'addEntry') {
+        this.$store.dispatch('modal/setAndShowModal', {
+          name: 'AdminExistingEntry',
+          props: {
+            label: 'ADD_EXISTING_ENTRY',
+            objectGetter: 'portalData/portalEntries',
+            categoryDn: this.categoryDn,
+          },
+        });
+      }
+      if (action === 'addFolder') {
+        this.$store.dispatch('modal/setAndShowModal', {
+          name: 'AdminExistingEntry',
+          props: {
+            label: 'ADD_EXISTING_FOLDER',
+            objectGetter: 'portalData/portalFolders',
+            categoryDn: this.categoryDn,
+          },
+        });
+      }
     },
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
