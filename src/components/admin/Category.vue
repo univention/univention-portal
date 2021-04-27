@@ -50,6 +50,16 @@
           label="Name"
         />
       </main>
+      <footer
+        v-if="modelValue.dn"
+      >
+        <button
+          type="button"
+          @click.prevent="remove"
+        >
+          <translate i18n-key="REMOVE_FROM_PORTAL" />
+        </button>
+      </footer>
       <footer>
         <button
           type="button"
@@ -122,6 +132,13 @@ export default defineComponent({
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
     },
+    async remove() {
+      const dn = this.modelValue.dn;
+      const portalAttrs = {
+        categories: this.categories.filter((catDn) => catDn !== dn),
+      };
+      await udmPut(this.portalDn, portalAttrs);
+    },
     async finish() {
       const attrs = {
         name: this.name,
@@ -147,6 +164,6 @@ export default defineComponent({
 .admin-entry
   width: calc(var(--inputfield-width) + 3rem)
   main
-    max-height: 30rem
+    max-height: 26rem
     overflow: auto
 </style>

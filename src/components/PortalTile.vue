@@ -119,6 +119,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    categoryDn: {
+      type: String,
+      required: true,
+    },
     title: {
       type: Object as PropType<Title>,
       required: true,
@@ -220,6 +224,7 @@ export default defineComponent({
           name: 'AdminEntry',
           props: {
             modelValue: this.$props,
+            categoryDn: this.categoryDn,
             label: 'EDIT_ENTRY',
           },
         });
