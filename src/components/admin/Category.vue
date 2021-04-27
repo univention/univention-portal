@@ -42,6 +42,7 @@
           <input
             v-model="name"
             name="name"
+            :disabled="modelValue.dn"
           >
         </label>
         <locale-input
@@ -126,13 +127,16 @@ export default defineComponent({
         name: this.name,
         displayName: Object.entries(this.title),
       };
-      const response = await udmAdd('portals/category', attrs);
-      const dn = response.data.result[0].$dn$;
-      const portalAttrs = {
-        categories: this.categories.concat([dn]),
-      };
-      await udmPut(this.portalDn, portalAttrs);
-      console.log(attrs);
+      if (this.modelValue.dn) {
+        await udmPut(this.modelValue.dn, attrs);
+      } else {
+        const response = await udmAdd('portals/category', attrs);
+        const dn = response.data.result[0].$dn$;
+        const portalAttrs = {
+          categories: this.categories.concat([dn]),
+        };
+        await udmPut(this.portalDn, portalAttrs);
+      }
       this.$store.dispatch('modal/hideAndClearModal');
     },
   },
