@@ -199,9 +199,6 @@ export default defineComponent({
     addCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'CategoryAddModal',
-        props: {
-          categoryDn: this.categoryDn,
-        },
       });
     },
     openAdminModal(action) {

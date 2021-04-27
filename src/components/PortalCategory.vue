@@ -107,29 +107,6 @@
       </template>
     </div>
 
-    <!-- <modal-wrapper
-      v-if="categoryModal"
-      :is-active="categoryModal"
-    >
-      <div class="portal-category__modal">
-        title {{ title }}
-        <modal-admin
-          :title="title"
-          :show-title-button="false"
-          :category-index="categoryIndex"
-          :modal-debugging="true"
-          modal-title="EDIT_CATEGORY"
-          variant="category"
-          modal-type="editCategory"
-          remove-action="removeCategory"
-          save-action="saveCategory"
-          @closeModal="closeModal"
-          @removeCategory="removeCategory"
-          @saveCategory="saveCategory"
-        />
-      </div>
-    </modal-wrapper> -->
-
     <draggable-debugger
       v-if="editMode && debug"
       :items="vTiles"
@@ -234,18 +211,14 @@ export default defineComponent({
     changed() {
       console.log('changed');
     },
-    editCategory(catIndex, catTitle) {
-      console.log('editCategory: ', catIndex, catTitle);
-      // this.categoryModal = true;
-      this.$store.dispatch('admin/setShowModal', true);
-      this.$store.dispatch('admin/setCurrentModal', 'editCategory');
-      this.$store.dispatch('admin/setModalVariant', 'category');
-      this.$store.dispatch('admin/setSaveAction', 'saveCategory');
-      this.$store.dispatch('admin/setModalTitle', 'EDIT_CATEGORY');
-      this.$store.dispatch('admin/setModalClass', 'portal-category__modal');
-      this.$store.dispatch('admin/setCategoryIndex', catIndex);
-      // category mode workaround
-      this.$store.dispatch('admin/setCategoryTitle', catTitle);
+    editCategory() {
+      this.$store.dispatch('modal/setAndShowModal', {
+        name: 'AdminCategory',
+        props: {
+          modelValue: this.$props,
+          label: 'EDIT_CATEGORY',
+        },
+      });
     },
     closeModal() {
       this.categoryModal = false;

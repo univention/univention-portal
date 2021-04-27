@@ -42,6 +42,7 @@
           <input
             v-model="name"
             name="name"
+            :disabled="modelValue.dn"
           >
         </label>
         <label>
