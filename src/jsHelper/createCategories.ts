@@ -33,19 +33,32 @@ function isBaseTile(value: any): value is BaseTile {
   return (value !== null) && !value.isFolder;
 }
 
-function makeEntry(entryID: string, portalEntries: PortalEntry[], portalFolders: PortalFolder[], defaultLinkTarget: LinkTarget): TileOrFolder | null {
+function makeEntry(
+  entryID: string,
+  portalEntries: PortalEntry[],
+  portalFolders: PortalFolder[],
+  defaultLinkTarget: LinkTarget,
+): TileOrFolder | null {
   const entry = portalEntries.find((data) => data.dn === entryID);
   if (entry) {
     // TODO: remove id once the service is offering the right data.
     return {
+      dn: entry.dn,
       id: entry.name.en_US,
       title: entry.name,
       isFolder: false,
-      description: entry.description,
+      activated: entry.activated,
+      allowedGroups: entry.allowedGroups,
+      selectedGroups: [], // needed for storing selected groups
       backgroundColor: entry.backgroundColor,
+      description: entry.description,
       links: entry.links,
       linkTarget: entry.linkTarget === 'useportaldefault' ? defaultLinkTarget : entry.linkTarget,
       pathToLogo: entry.logo_name || './questionMark.svg',
+      key: {
+        de_DE: 'de_DE',
+        en_US: 'en_US',
+      },
     };
   }
   const folder = portalFolders.find((data) => data.dn === entryID);
@@ -100,6 +113,7 @@ export default function createCategories(
     if (tiles.length) {
       const categoryItem = {
         title: category.display_name,
+        dn: category.dn,
         tiles,
       };
       ret.push(categoryItem);

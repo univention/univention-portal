@@ -1,0 +1,185 @@
+<!--
+  Copyright 2021 Univention GmbH
+
+  https://www.univention.de/
+
+  All rights reserved.
+
+  The source code of this program is made available
+  under the terms of the GNU Affero General Public License version 3
+  (GNU AGPL V3) as published by the Free Software Foundation.
+
+  Binary versions of this program provided by Univention to you as
+  well as other copyrighted, protected or trademarked materials like
+  Logos, graphics, fonts, specific documentations and configurations,
+  cryptographic keys etc. are subject to a license agreement between
+  you and Univention and not subject to the GNU AGPL V3.
+
+  In the case you use this program under the terms of the GNU AGPL V3,
+  the program is provided in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public
+  License with the Debian GNU/Linux or Univention distribution in file
+  /usr/share/common-licenses/AGPL-3; if not, see
+  <https://www.gnu.org/licenses/>.
+-->
+<template>
+  <modal-dialog
+    :i18n-title-key="label"
+    @cancel="cancel"
+  >
+    <form
+      class="admin-entry"
+      @submit.prevent="finish"
+    >
+      <main>
+        <label>
+          <translate i18n-key="INTERNAL_NAME" />
+          <span> *</span>
+          <input
+            v-model="name"
+            name="name"
+          >
+        </label>
+        <label>
+          <input
+            v-model="activated"
+            type="checkbox"
+          >
+          <translate i18n-key="ACTIVATED" />
+        </label>
+        <locale-input
+          v-model="title"
+          label="Name"
+        />
+        <locale-input
+          v-model="description"
+          label="Description"
+        />
+        <image-upload
+          v-model="pathToLogo"
+          label="Icon"
+        />
+        <label>
+          <translate i18n-key="BACKGROUND_COLOR" />
+          <input
+            v-model="backgroundColor"
+            name="backgroundColor"
+          >
+        </label>
+      </main>
+      <footer>
+        <button
+          type="button"
+          @click.prevent="cancel"
+        >
+          <translate i18n-key="CANCEL" />
+        </button>
+        <button
+          type="submit"
+          @click.prevent="finish"
+        >
+          <translate :i18n-key="label" />
+        </button>
+      </footer>
+    </form>
+  </modal-dialog>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import ImageUpload from '@/components/widgets/ImageUpload.vue';
+import LocaleInput from '@/components/widgets/LocaleInput.vue';
+import ModalDialog from '@/components/ModalDialog.vue';
+
+import Translate from '@/i18n/Translate.vue';
+
+interface AdminEntryData {
+  name: string,
+  activated: boolean,
+  pathToLogo: string,
+  backgroundColor: string | null,
+  title: Record<string, string>,
+  description: Record<string, string>,
+}
+
+export default defineComponent({
+  name: 'FormEntryEdit',
+  components: {
+    ModalDialog,
+    Translate,
+    ImageUpload,
+    LocaleInput,
+  },
+  props: {
+    label: {
+      type: String,
+      required: true,
+    },
+    categoryDn: {
+      type: String,
+      required: true,
+    },
+    modelValue: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: [
+    'closeModal',
+    'update:modelValue',
+  ],
+  data(): AdminEntryData {
+    return {
+      name: '',
+      activated: true,
+      pathToLogo: '',
+      title: {},
+      description: {},
+      backgroundColor: null,
+    };
+  },
+  created(): void {
+    console.log(this.modelValue);
+    console.log(this.categoryDn);
+    const dn = this.modelValue.dn;
+    const activated = this.modelValue.activated;
+    if (dn) {
+      this.name = dn.slice(3, dn.indexOf(','));
+    }
+    if (activated !== undefined) {
+      this.activated = activated;
+    }
+    this.pathToLogo = this.modelValue.pathToLogo || '';
+    this.backgroundColor = this.modelValue.backgroundColor || null;
+    this.title = { ...(this.modelValue.title || {}) };
+    this.description = { ...(this.modelValue.description || {}) };
+  },
+  methods: {
+    cancel() {
+      this.$store.dispatch('modal/hideAndClearModal');
+    },
+    finish() {
+      const attrs = {
+        name: this.name,
+        activated: this.activated,
+        pathToLogo: this.pathToLogo,
+        title: this.title,
+      };
+      console.log(attrs);
+      this.$store.dispatch('modal/hideAndClearModal');
+    },
+  },
+});
+</script>
+
+<style lang="stylus">
+.admin-entry
+  main
+    max-height: 40rem
+    overflow: auto
+</style>
