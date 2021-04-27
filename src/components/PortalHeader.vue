@@ -177,13 +177,13 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
     }),
     ariaLabelPortalHeader(): string {
-      return `${this.$translateLabel('GO_TO')} ${this.$localized(this.portalName)}`;
+      return `${this.$translateLabel('SHOW_PORTAL')}`;
     },
     ariaLabelStartEditMode(): string {
-      return `${this.$translateLabel('OPEN')} ${this.$translateLabel('EDIT_MODE')} ${this.$translateLabel('SIDEBAR')}`;
+      return `${this.$translateLabel('OPEN_EDIT_SIDEBAR')}`;
     },
     ariaLabelStopEditmode(): string {
-      return `${this.$translateLabel('STOP')} ${this.$translateLabel('EDIT_MODE')}`;
+      return `${this.$translateLabel('STOP_EDIT_PORTAL')}`;
     },
     ariaLabelEditmode(): string {
       return `${this.$translateLabel('EDIT_MODE')}`;
@@ -195,7 +195,7 @@ export default defineComponent({
       return `${this.$translateLabel('SEARCH')}`;
     },
     ariaLabelNotifications(): string {
-      return `${this.$translateLabel('NOTIFCATIONS')}`;
+      return `${this.$translateLabel('NOTIFICATIONS')}`;
     },
     ariaLabelMenu(): string {
       return `${this.$translateLabel('MENU')}`;
