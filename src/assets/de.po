@@ -20,11 +20,17 @@ msgstr "Akzeptieren"
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
 
-#: src/assets/data/dictionary.js:53
+msgid "Add existing category"
+msgstr "Bestehende Kategorie hinzufügen"
+
+#: frontend/src/assets/data/dictionary.js:53
 msgid "Add entry"
 msgstr "Eintrag hinzufügen"
 
-#: src/assets/data/dictionary.js:55
+msgid "Add new entry"
+msgstr "Neuen Eintrag hinzufügen"
+
+#: frontend/src/assets/data/dictionary.js:55
 msgid "Add existing entry"
 msgstr "Bestehenden Eintrag hinzufügen"
 
@@ -70,7 +76,7 @@ msgid ""
 "have one for en_US"
 msgstr ""
 "Anzeigename der Kategorie. Mindestens ein Eintrag; dringend empfohlen, eine "
-"für en_US zu haben"
+"für 'en_US' zu haben"
 
 #: src/assets/data/dictionary.js:52
 msgid "Edit category"
@@ -170,3 +176,57 @@ msgstr "Das Passwort wurde erfolgreich aktualisiert"
 #: src/assets/data/dictionary.js:70
 msgid "retype"
 msgstr "Wiederholung"
+
+msgid "Edit entry"
+msgstr "Eintrag bearbeiten"
+
+msgid "Edit folder"
+msgstr "Ordner bearbeiten"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Next"
+msgstr "Weiter"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Activated"
+msgstr "Aktiviert"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Add objects"
+msgstr "Objekte hinzufügen"
+
+msgid "Restrict visibility to groups"
+msgstr "Beschränkung der Sichtbarkeit auf Gruppen"
+
+msgid "If one or more groups are selected then the portal entry will only be visible to logged in users that are in any of the selected groups. If no groups are selected then the portal entry is always visible."
+msgstr "Wenn eine oder mehrere Gruppen ausgewählt sind, ist der Portaleintrag nur für angemeldete Benutzer sichtbar, die sich in einer der ausgewählten Gruppen befinden. Wenn keine Gruppen ausgewählt sind, ist der Portaleintrag immer sichtbar."
+
+msgid "Select all"
+msgstr "Alles auswählen"
+
+msgid "Background color"
+msgstr "Hintergrundfarbe"
+
+msgid "Headline of the entry. At least one entry; strongly encouraged to have one for 'en_US'"
+msgstr "Überschrift des Eintrags. Mindestens ein Eintrag; dringend empfohlen, einen Eintrag für 'en_US' zu haben"
+
+msgid "Link"
+msgstr "Link"
+
+msgid "Links"
+msgstr "Links"
+
+msgid "New entry"
+msgstr "Neuer Eintrag"
+
+msgid "Description of the entry. At least one entry; strongly encouraged to have one for en_US"
+msgstr "Beschreibung des Eintrags. Mindestens ein Eintrag; dringend empfohlen, eine für 'en_US' zu haben"
+
+msgid "Description"
+msgstr "Beschreibung"

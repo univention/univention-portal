@@ -1,12 +1,12 @@
-<!--
-  Copyright 2021 Univention GmbH
-
-  https://www.univention.de/
-
-  All rights reserved.
-
-  The source code of this program is made available
-  under the terms of the GNU Affero General Public License version 3
+OOOOBOOOBOOBOBOOOBBOOOOO<!--
+  Copyright 2021 UniventBOBOBion GmbH
+OOO
+  hOOBOBOOttps://www.univention.de/
+OBOOOOOBOOB
+  All rightOOOBOBOOOOOOs reserved.
+OOOOOOOOA
+  TheOBOO source cOode of this program is made available
+  under tBOBOBOOOOhe terms of the GNU Affero General Public License version 3
   (GNU AGPL V3) as published by the Free Software Foundation.
 
   Binary versions of this program provided by Univention to you as
@@ -45,9 +45,9 @@
         @mousedown="moveModal()"
       >
         <template
-          v-if="!getInnerModal && getModalTitle"
+          v-if="!getInnerModal"
         >
-          <translate :i18n-key="getModalTitle" />
+          <translate :i18n-key="modalTitle" />
         </template>
 
         <template
@@ -100,9 +100,9 @@
         </template>
 
         <template v-if="getCurrentModal === 'addExistingCategory'">
-          <form-clone-existing
+          <form-category-add-existing
             v-model="getModalContent"
-            :clone-listing="categorieDn"
+            :category-listing="categorieDn"
           />
           <pre v-if="modalDebugging">
             dn: {{ getModalContent.internalName }}
@@ -110,6 +110,10 @@
         </template>
 
         <template v-if="getCurrentModal === 'editEntry'">
+          <!-- <form-entry-edit
+            v-model="entryForm"
+            :step="getEntryStep"
+          /> -->
           <form-entry-edit
             v-model="getModalContent"
             :step="getEntryStep"
@@ -134,34 +138,6 @@
             de: {{ getModalContent.title.de_DE }}
             en: {{ getModalContent.title.en_US }}
             allowedGroups: {{ getModalContent.allowedGroups }}
-          </pre>
-        </template>
-
-        <template v-if="getCurrentModal === 'addExistingEntry'">
-          <form-clone-existing
-            v-model="getModalContent"
-            :clone-listing="entryDn"
-          />
-          <pre v-if="modalDebugging">
-            dn: {{ getModalContent.internalName }}
-          </pre>
-        </template>
-
-        <template v-if="getCurrentModal === 'editFolder'">
-          <div>editFolder</div>
-        </template>
-
-        <template v-if="getCurrentModal === 'createFolder'">
-          <div>createFolder</div>
-        </template>
-
-        <template v-if="getCurrentModal === 'addExistingFolder'">
-          <form-clone-existing
-            v-model="getModalContent"
-            :clone-listing="folderDn"
-          />
-          <pre v-if="modalDebugging">
-            dn: {{ getModalContent.internalName }}
           </pre>
         </template>
       </div>
@@ -221,7 +197,7 @@
           <span class="modal-admin__button">
             <button
               class="modal-admin__button--inner"
-              @click.prevent="resetModal(getSaveAction)"
+              @click.prevent="resetModal(saveAction)"
             >
               <translate i18n-key="SAVE" />
             </button>
@@ -241,24 +217,28 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
 // Forms
 import FormCategoryEdit from '@/components/admin/forms/FormCategoryEdit.vue';
 import FormCategoryAddNew from '@/components/admin/forms/FormCategoryAddNew.vue';
+import FormCategoryAddExisting from '@/components/admin/forms/FormCategoryAddExisting.vue';
 import FormEntryEdit from '@/components/admin/forms/FormEntryEdit.vue';
-import FormCloneExisting from '@/components/admin/forms/FormCloneExisting.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
 import moveContent from '@/jsHelper/moveContent';
 
 export default defineComponent({
-  name: 'ModalAdmin',
+  name: 'ModalEditCategory',
   components: {
     PortalIcon,
     FormCategoryEdit,
     FormCategoryAddNew,
+    FormCategoryAddExisting,
     FormEntryEdit,
-    FormCloneExisting,
     Translate,
   },
   props: {
+    modalTitle: {
+      type: String,
+      required: true,
+    },
     showTitleButton: {
       type: Boolean,
       default: true,
@@ -267,13 +247,17 @@ export default defineComponent({
       type: String,
       default: null,
     },
-    getCategoryTitle: {
+    saveAction: {
       type: String,
       required: true,
     },
     title: {
       type: Object,
       required: true,
+    },
+    categoryIndex: {
+      type: Number,
+      default: 0,
     },
     itemIndex: {
       type: Number,
@@ -287,17 +271,12 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    modelValue: {
-      type: Object,
-      required: true,
-    },
   },
   emits: [
     'closeModal',
     'removeCategory',
     'saveCategory',
     'saveEntry',
-    'saveFolder',
   ],
   setup(props, { emit }) {
     // vuex example: https://github.com/vuejs/vuex/blob/4.0/examples/composition/shopping-cart/components/ShoppingCart.vue
@@ -308,28 +287,16 @@ export default defineComponent({
     const getCurrentModal = computed(() => store.getters['admin/getCurrentModal']);
     const modalPagination = computed(() => store.getters['admin/getShowModalPagination']);
     const getModalVariant = computed(() => store.getters['admin/getModalVariant']);
-    const getModalTitle = computed(() => store.getters['admin/getModalTitle']);
-    const getSaveAction = computed(() => store.getters['admin/getSaveAction']);
-    const getPortalCategories = computed(() => store.getters['portalData/portalCategories']);
-    const getPortalEntries = computed(() => store.getters['portalData/portalEntries']);
-    const getPortalFolders = computed(() => store.getters['portalData/portalFolders']);
-    // category mode workaround
-    const getCategoryTitle = computed(() => store.getters['admin/getCategoryTitle']);
 
     console.log('getCurrentModal: ', getCurrentModal.value);
     console.log('modalPagination: ', modalPagination.value);
     console.log('getModalVariant: ', getModalVariant.value);
-    console.log('getModalTitle: ', getModalTitle.value);
-    console.log('saveAction: ', getSaveAction.value);
-    console.log('getCategoryTitle: ', getCategoryTitle);
 
     // data
     const modal = ref(null);
     const isMoveable = true;
     const showHint = ref(false);
     const categorieDn = [];
-    const entryDn = [];
-    const folderDn = [];
     let getEntryStep = ref(0);
     let maxStep = 0;
     let getInnerModal = ref(false);
@@ -340,105 +307,66 @@ export default defineComponent({
     let categoryTitleDe = '';
     let categoryTitleEn = '';
     let categoryInternalNameValue = '';
+    let getPortalCategories = '';
 
-    // category mode workaround
-    if (getCategoryTitle.value) {
-      categoryTitleDe = getCategoryTitle.value.de_DE;
-      categoryTitleEn = getCategoryTitle.value.en_US;
-
-      console.log('categoryTitleDe: ', categoryTitleDe);
-      console.log('categoryTitleEn: ', categoryTitleEn);
-    }
+    // v-model
+    const categoryForm = reactive({
+      key: {
+        de_DE: 'de_DE',
+        en_US: 'en_US',
+      },
+      title: {
+        de_DE: categoryTitleDe,
+        en_US: categoryTitleEn,
+      },
+      internalName: categoryInternalNameValue,
+    });
+    // console.log('categoryForm: ', categoryForm);
 
     // get catgorie data
-    if (getCurrentModal.value === 'editCategory') {
+    if ((getCurrentModal.value === 'editCategory') || (getCurrentModal.value === 'addExistingCategory')) {
       // TODO: keys have to be provided in the portal.json in parallel to the title
 
       // v-model
-      getModalContent = reactive({
-        key: {
-          de_DE: 'de_DE',
-          en_US: 'en_US',
-        },
-        title: {
-          de_DE: categoryTitleDe,
-          en_US: categoryTitleEn,
-        },
-        internalName: categoryInternalNameValue,
-        dn: '',
-      });
+      getModalContent = categoryForm;
       console.log('getModalContent: ', getModalContent);
-    }
 
-    // category add new mode
-    if (getCurrentModal.value === 'addNewCategory') {
-      // TODO: do we really need that?
-      categoryInternalNameValue = 'not specified';
-
-      // v-model
-      getModalContent = reactive({
-        key: {
-          de_DE: 'de_DE',
-          en_US: 'en_US',
-        },
-        title: {
-          de_DE: '',
-          en_US: '',
-        },
-        internalName: categoryInternalNameValue,
-      });
-      console.log('getModalContent: ', getModalContent);
+      getPortalCategories = computed(() => store.getters['portalData/portalCategories']);
     }
 
     // category edit mode
     if ((getCurrentModal.value === 'editCategory') && getPortalCategories) {
-      console.log('getPortalCategories: ', getPortalCategories);
+      const categoryTitle = getPortalCategories.value[props.categoryIndex];
+      categoryTitleDe = categoryTitle.display_name.de_DE;
+      categoryTitleEn = categoryTitle.display_name.en_US;
 
-      const getCategoryIndex = computed(() => store.getters['admin/getCategoryIndex']);
-      const categoryIndex = getCategoryIndex.value;
-      console.log('categoryIndex: ', categoryIndex);
+      // v-model
+      getModalContent = categoryForm;
+      console.log('getModalContent: ', getModalContent);
 
-      // The category index and the index from the store do not fit! See workaround flags!!!
-      // const categoryTitle = getPortalCategories.value[categoryIndex];
-      // categoryTitleDe = categoryTitle.display_name.de_DE;
-      // categoryTitleEn = categoryTitle.display_name.en_US;
-
-      // TODO: do we really need that?
-      const dn = getPortalCategories.value[categoryIndex].dn;
+      const dn = getPortalCategories.value[props.categoryIndex].dn;
       categoryInternalNameValue = dn.substring(
         dn.indexOf('cn=') + 3,
         dn.indexOf(','),
       );
-
-      // v-model
-      getModalContent = reactive({
-        key: {
-          de_DE: 'de_DE',
-          en_US: 'en_US',
-        },
-        title: {
-          de_DE: categoryTitleDe,
-          en_US: categoryTitleEn,
-        },
-        internalName: categoryInternalNameValue,
-      });
-      console.log('getModalContent: ', getModalContent);
     }
 
     // category existing mode
-    if ((getCurrentModal.value === 'addExistingCategory') && (getPortalCategories.value && getPortalCategories.value.length > 0)) {
+    if ((getCurrentModal.value === 'addExistingCategory') && (getPortalCategories && getPortalCategories.value.length > 0)) {
       getPortalCategories.value.forEach((category) => {
-        categorieDn.push(category);
+        categorieDn.push(category.dn.substring(
+          category.dn.indexOf('cn=') + 3,
+          category.dn.indexOf(','),
+        ));
       });
 
-      console.log('categorieDn: ', categorieDn);
-
       // v-model
-      getModalContent = reactive({});
+      getModalContent = categoryForm;
+      console.log('getModalContent: ', getModalContent);
     }
 
     // entry edit mode
-    if (getCurrentModal.value === 'editEntry') {
+    if ((getCurrentModal.value === 'editEntry') || (getCurrentModal.value === 'createEntry')) {
       maxStep = 4;
       getEntryStep = computed(() => store.getters['admin/getEntryStep']);
       console.log('getEntryStep: ', getEntryStep);
@@ -455,78 +383,6 @@ export default defineComponent({
       modalInnerTitle = 'ADD_OBJECTS';
     }
 
-    // create entry mode
-    if (getCurrentModal.value === 'createEntry') {
-      maxStep = 4;
-      getEntryStep = computed(() => store.getters['admin/getEntryStep']);
-      console.log('getEntryStep: ', getEntryStep);
-
-      getInnerModal = computed(() => store.getters['admin/getInnerModal']);
-      console.log('getInnerModal: ', getInnerModal);
-
-      // v-model
-      const emptyObject = {
-        activated: true,
-        allowedGroups: [],
-        anonymous: false,
-        backgroundColor: '',
-        description: {
-          de_DE: '',
-          en_US: '',
-        },
-        dn: '',
-        key: {
-          de_DE: 'de_DE',
-          en_US: 'en_US',
-        },
-        linkTarget: '',
-        links: [],
-        logo_name: '',
-        name: {
-          de_DE: '',
-          en_US: '',
-        },
-        title: {
-          de_DE: '',
-          en_US: '',
-        },
-      };
-      getModalContent = reactive(emptyObject);
-      console.log('getModalContent: ', getModalContent);
-
-      store.dispatch('admin/setShowModalPagination', true);
-
-      modalInnerTitle = 'ADD_OBJECTS';
-    }
-
-    // entry existing mode
-    if ((getCurrentModal.value === 'addExistingEntry') && (getPortalEntries.value && getPortalEntries.value.length > 0)) {
-      getPortalEntries.value.forEach((entry) => {
-        entryDn.push(entry);
-      });
-
-      // console.log('getModalContent: ', getModalContent);
-      console.log('entryDn: ', entryDn);
-
-      // v-model
-      getModalContent = reactive({});
-      console.log('getPortalEntries: ', getPortalEntries);
-    }
-
-    // folder existing mode
-    if ((getCurrentModal.value === 'addExistingFolder') && (getPortalFolders.value && getPortalFolders.value.length > 0)) {
-      getPortalFolders.value.forEach((folder) => {
-        folderDn.push(folder);
-      });
-
-      // console.log('getModalContent: ', getModalContent);
-      console.log('folderDn: ', folderDn);
-
-      // v-model
-      getModalContent = reactive({});
-      console.log('getPortalFolders: ', getPortalFolders);
-    }
-
     // methods
     const moveModal = () => {
       if (isMoveable) {
@@ -538,18 +394,27 @@ export default defineComponent({
       modal.value.style.top = '0';
       modal.value.style.left = '0';
 
-      console.log('resetModal: ', action);
-      // console.log('getCurrentModal.value: ', getCurrentModal.value);
-
-      console.log('getModalContent: ', getModalContent);
-
       // reset steps
       store.dispatch('admin/setEntryStep', 0);
 
-      if (getModalContent) {
-        emit('saveContent', getModalContent);
-      } else if (action) {
-        emit(action);
+      if (action) {
+        if (action === 'saveCategory') {
+          emit('saveCategory', categoryForm);
+        } else if (action === 'saveEntry') {
+          console.log('saveEntry');
+          // emit('saveEntry', entryForm);
+        } else {
+          if (getCurrentModal.value === 'editEntry') {
+            console.log('editEntry');
+
+            // const entryFormOriginal = localStorage.getItem('tile');
+            // console.log('entryForm: ', entryForm);
+            // console.log('entryFormOriginal: ', entryFormOriginal);
+            // // props.modalContent = JSON.parse(entryFormOriginal);
+            // emit('saveEntry', JSON.parse(entryFormOriginal));
+          }
+          emit(action);
+        }
       }
     };
 
@@ -573,17 +438,24 @@ export default defineComponent({
       store.dispatch('admin/setEntryStep', setStep);
     };
 
+    // mounted
+    onMounted(() => {
+      localStorage.setItem('tile', JSON.stringify(props.modalContent));
+    });
+
+    onUnmounted(() => {
+      localStorage.removeItem('tile');
+    });
+
     return {
       modal,
       isMoveable,
       showHint,
       getPortalCategories,
-      getPortalEntries,
-      getPortalFolders,
       categorieDn,
-      entryDn,
-      folderDn,
       getEntryStep,
+      // categoryForm,
+      // entryForm,
       moveModal,
       resetModal,
       navigate,
@@ -593,7 +465,6 @@ export default defineComponent({
       modalInnerTitle,
       getCurrentModal,
       getModalContent,
-      getSaveAction,
     };
   },
 });

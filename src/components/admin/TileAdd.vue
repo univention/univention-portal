@@ -1,30 +1,30 @@
 <!--
-Copyright 2021 Univention GmbH
+  Copyright 2021 Univention GmbH
 
-https://www.univention.de/
+  https://www.univention.de/
 
-All rights reserved.
+  All rights reserved.
 
-The source code of this program is made available
-under the terms of the GNU Affero General Public License version 3
-(GNU AGPL V3) as published by the Free Software Foundation.
+  The source code of this program is made available
+  under the terms of the GNU Affero General Public License version 3
+  (GNU AGPL V3) as published by the Free Software Foundation.
 
-Binary versions of this program provided by Univention to you as
-well as other copyrighted, protected or trademarked materials like
-Logos, graphics, fonts, specific documentations and configurations,
-cryptographic keys etc. are subject to a license agreement between
-you and Univention and not subject to the GNU AGPL V3.
+  Binary versions of this program provided by Univention to you as
+  well as other copyrighted, protected or trademarked materials like
+  Logos, graphics, fonts, specific documentations and configurations,
+  cryptographic keys etc. are subject to a license agreement between
+  you and Univention and not subject to the GNU AGPL V3.
 
-In the case you use this program under the terms of the GNU AGPL V3,
-the program is provided in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
+  In the case you use this program under the terms of the GNU AGPL V3,
+  the program is provided in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public
-License with the Debian GNU/Linux or Univention distribution in file
-/usr/share/common-licenses/AGPL-3; if not, see
-<https://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU Affero General Public
+  License with the Debian GNU/Linux or Univention distribution in file
+  /usr/share/common-licenses/AGPL-3; if not, see
+  <https://www.gnu.org/licenses/>.
 -->
 <template>
   <div class="tile-add__wrapper">
@@ -70,6 +70,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           v-for="(child, index) in menuChildren"
           :key="index"
           class="tile-add__menu-child"
+          @click="openModal(child.action, child.variant)"
         >
           {{ $localized(child.title) }}
         </div>
@@ -90,12 +91,17 @@ interface TileAddData {
   menuChildren: Record<string, unknown>[],
   popMenuOffset: number,
   popMenuShow: boolean,
+  // openModal: Record<string, unknown>[],
 }
 
 export default defineComponent({
   name: 'TileAdd',
-  components: {
-    PortalIcon,
+  components: { PortalIcon },
+  props: {
+    categoryDn: {
+      type: String,
+      required: true,
+    },
   },
   data(): TileAddData {
     return {
@@ -132,6 +138,63 @@ export default defineComponent({
     hideMenu(): void {
       this.popMenuShow = false;
       this.menuChildren = [];
+    },
+    openModal(action, variant): void {
+      if (action === 'createEntry') {
+        this.$store.dispatch('modal/setAndShowModal', {
+          name: 'AdminEntry',
+          props: {
+            modelValue: {},
+            categoryDn: this.categoryDn,
+            label: 'ADD_ENTRY',
+          },
+        });
+        this.hideMenu();
+        return;
+      }
+      console.log('openModal: ', action);
+
+      this.$store.dispatch('admin/setShowModal', true);
+      this.$store.dispatch('admin/setCurrentModal', action);
+      this.$store.dispatch('admin/setModalVariant', variant);
+
+      // entry (tiles)
+      if (action === 'editEntry') {
+        this.$store.dispatch('admin/setModalTitle', 'EDIT_ENTRY');
+      }
+
+      if (action === 'createEntry') {
+        this.$store.dispatch('admin/setModalTitle', 'ADD_ENTRY');
+      }
+
+      if (action === 'addExistingEntry') {
+        this.$store.dispatch('admin/setModalTitle', 'ADD_EXISTING_ENTRY');
+      }
+
+      if ((action === 'createEntry') || (action === 'addExistingEntry') || (action === 'editEntry')) {
+        this.$store.dispatch('admin/setModalClass', 'portal-tile__modal');
+        this.$store.dispatch('admin/setSaveAction', 'saveEntry');
+      }
+
+      // folder
+      if (action === 'editFolder') {
+        this.$store.dispatch('admin/setModalTitle', 'EDIT_FOLDER');
+      }
+
+      if (action === 'createFolder') {
+        this.$store.dispatch('admin/setModalTitle', 'ADD_FOLDER');
+      }
+
+      if (action === 'addExistingFolder') {
+        this.$store.dispatch('admin/setModalTitle', 'ADD_EXISTING_FOLDER');
+      }
+
+      if ((action === 'createFolder') || (action === 'addExistingFolder') || (action === 'editFolder')) {
+        this.$store.dispatch('admin/setModalClass', 'portal-tile__modal');
+        this.$store.dispatch('admin/setSaveAction', 'saveFolder');
+      }
+
+      this.hideMenu();
     },
   },
 });

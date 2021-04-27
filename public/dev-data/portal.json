@@ -1,11 +1,42 @@
 {
-   "user_links": [],
+   "user_links": [
+     "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+   ],
    "menu_links": [
+     "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "cn=certificates,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "cn=help,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
    ],
    "entries": [
+     {
+       "activated": true,
+       "allowedGroups": [
+        {"id": 1, "name": "Computers", "active": true},
+        {"id": 2, "name": "Domain Admins", "active": false},
+        {"id": 3, "name": "Domain Guests", "active": true},
+        {"id": 4, "name": "Domain Users", "active": false}
+       ],
+       "anonymous": false,
+       "backgroundColor": "darkblue",
+       "description": {
+         "de_DE": "Cloud Lösung für Filesync und -share",
+         "en_US": "Cloud solution for data and file sync and share"
+       },
+       "dn": "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+       "linkTarget": "useportaldefault",
+       "links": [
+         {"locale": "en_US", "value": "http://10.200.4.60/owncloud"},
+         {"locale": "en_US", "value": "https://master60.intranet.portal.de/owncloud"},
+         {"locale": "en_US", "value": "https://10.200.4.60/owncloud"},
+         {"locale": "en_US", "value": "http://master60.intranet.portal.de/owncloud"}
+       ],
+       "logo_name": "./data/icons/owncloud.svg",
+       "name": {
+         "de_DE": "ownCloud",
+         "en_US": "ownCloud"
+       }
+     },
      {
        "activated": true,
        "allowedGroups": [],
@@ -203,7 +234,10 @@
      {
        "dn": "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "entries": [
-         "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+         "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+         "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+         "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+         "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
        ],
        "name": {
          "de_DE": "Apps",
@@ -257,11 +291,14 @@
        },
        "dn": "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "entries": [
+         "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
          "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
        ]
      }
    ],
    "portal": {
+     "anonymousEmpty": [],
+     "autoLayoutCategories": false,
      "background": null,
      "categories": [
        "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
@@ -270,17 +307,19 @@
      "defaultLinkTarget": "embedded",
      "dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "ensureLogin": false,
-     "showUmc": true,
+     "fontColor": "black",
      "logo": "./data/icons/logo.svg",
      "name": {
        "de_DE": "Univention Portal DE",
        "en_US": "Univention Portal EN",
        "fr_FR": "Portail Univention FR"
      },
+     "showApps": false,
      "content": [
        [
          "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
          [
+           "cn=owncloud,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
            "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
          ]
        ],
@@ -297,7 +336,7 @@
    },
    "filtered": true,
    "may_edit_portal": true,
-   "auth_mode": "ucs",
+   "may_login_via_saml": false,
    "cache_id": "abc:123",
    "username": "administrator",
    "user_displayname": "Administrator"

@@ -1,30 +1,30 @@
 <!--
-Copyright 2021 Univention GmbH
+  Copyright 2021 Univention GmbH
 
-https://www.univention.de/
+  https://www.univention.de/
 
-All rights reserved.
+  All rights reserved.
 
-The source code of this program is made available
-under the terms of the GNU Affero General Public License version 3
-(GNU AGPL V3) as published by the Free Software Foundation.
+  The source code of this program is made available
+  under the terms of the GNU Affero General Public License version 3
+  (GNU AGPL V3) as published by the Free Software Foundation.
 
-Binary versions of this program provided by Univention to you as
-well as other copyrighted, protected or trademarked materials like
-Logos, graphics, fonts, specific documentations and configurations,
-cryptographic keys etc. are subject to a license agreement between
-you and Univention and not subject to the GNU AGPL V3.
+  Binary versions of this program provided by Univention to you as
+  well as other copyrighted, protected or trademarked materials like
+  Logos, graphics, fonts, specific documentations and configurations,
+  cryptographic keys etc. are subject to a license agreement between
+  you and Univention and not subject to the GNU AGPL V3.
 
-In the case you use this program under the terms of the GNU AGPL V3,
-the program is provided in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
+  In the case you use this program under the terms of the GNU AGPL V3,
+  the program is provided in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public
-License with the Debian GNU/Linux or Univention distribution in file
-/usr/share/common-licenses/AGPL-3; if not, see
-<https://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU Affero General Public
+  License with the Debian GNU/Linux or Univention distribution in file
+  /usr/share/common-licenses/AGPL-3; if not, see
+  <https://www.gnu.org/licenses/>.
 -->
 <template>
   <div>
@@ -89,69 +89,6 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="form-input__container"
         >
           <input
-            v-model="categoryForm.key.de_DE"
-            type="text"
-            :placeholder="LANGUAGE_CODE"
-            :disabled="true"
-            class="form-input--default form-input--text"
-            name="key.de_DE"
-            autocomplete="off"
-            tabindex="0"
-            aria-required="true"
-            aria-invalid="false"
-          >
-        </div>
-      </div>
-
-      <div class="form-input__wrapper">
-        <label
-          :class="{'form-input__label--error' : formErrors.error.title_de.error}"
-          class="form-input__label"
-        >
-          <translate i18n-key="DISPLAY_NAME" />
-          <span v-if="inputMandatory"> *</span>
-        </label>
-        <portal-icon
-          v-if="formErrors.error.title_de.error"
-          class="form-input__icon--error"
-          icon="alert-circle"
-          icon-width="2rem"
-        />
-        <div
-          class="form-input__container"
-        >
-          <input
-            v-model="categoryForm.title.de_DE"
-            type="text"
-            :placeholder="DISPLAY_NAME"
-            :class="{'form-input--error' : formErrors.error.title_de.error}"
-            class="form-input--default form-input--text"
-            name="title.de_DE"
-            autocomplete="off"
-            tabindex="0"
-            aria-required="true"
-            aria-invalid="false"
-            @blur="checkInput($event, 'blur')"
-            @keyup="checkInput($event, 'keyup')"
-          >
-        </div>
-        <!-- <span
-          v-if="formErrors.error.title_de.error"
-          class="form-input__error-message"
-        >
-          {{ $localized(formErrors.error.title_de.message) }}
-        </span> -->
-      </div>
-
-      <div class="form-input__wrapper">
-        <label class="form-input__label">
-          <translate i18n-key="LANGUAGE_CODE" />
-          <span v-if="inputMandatory"> *</span>
-        </label>
-        <div
-          class="form-input__container"
-        >
-          <input
             v-model="categoryForm.key.en_US"
             type="text"
             :placeholder="LANGUAGE_CODE"
@@ -203,6 +140,69 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="form-input__error-message"
         >
           {{ $localized(formErrors.error.title_en.message) }}
+        </span> -->
+      </div>
+
+      <div class="form-input__wrapper">
+        <label class="form-input__label">
+          <translate i18n-key="LANGUAGE_CODE" />
+          <span v-if="inputMandatory"> *</span>
+        </label>
+        <div
+          class="form-input__container"
+        >
+          <input
+            v-model="categoryForm.key.de_DE"
+            type="text"
+            :placeholder="LANGUAGE_CODE"
+            :disabled="true"
+            class="form-input--default form-input--text"
+            name="key.de_DE"
+            autocomplete="off"
+            tabindex="0"
+            aria-required="true"
+            aria-invalid="false"
+          >
+        </div>
+      </div>
+
+      <div class="form-input__wrapper">
+        <label
+          :class="{'form-input__label--error' : formErrors.error.title_de.error}"
+          class="form-input__label"
+        >
+          <translate i18n-key="DISPLAY_NAME" />
+          <span v-if="inputMandatory"> *</span>
+        </label>
+        <portal-icon
+          v-if="formErrors.error.title_de.error"
+          class="form-input__icon--error"
+          icon="alert-circle"
+          icon-width="2rem"
+        />
+        <div
+          class="form-input__container"
+        >
+          <input
+            v-model="categoryForm.title.de_DE"
+            type="text"
+            :placeholder="DISPLAY_NAME"
+            :class="{'form-input--error' : formErrors.error.title_de.error}"
+            class="form-input--default form-input--text"
+            name="title.de_DE"
+            autocomplete="off"
+            tabindex="0"
+            aria-required="true"
+            aria-invalid="false"
+            @blur="checkInput($event, 'blur')"
+            @keyup="checkInput($event, 'keyup')"
+          >
+        </div>
+        <!-- <span
+          v-if="formErrors.error.title_de.error"
+          class="form-input__error-message"
+        >
+          {{ $localized(formErrors.error.title_de.message) }}
         </span> -->
       </div>
     </div>
