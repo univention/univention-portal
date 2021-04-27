@@ -60,6 +60,16 @@
           v-model="description"
           label="Description"
         />
+        <div
+          v-for="(link, index) in links"
+          :key="index"
+          class="admin-entry__spacer"
+        >
+          <locale-input
+            v-model="links[index]"
+            label="Links"
+          />
+        </div>
         <image-upload
           v-model="pathToLogo"
           label="Icon"
@@ -118,6 +128,7 @@ interface AdminEntryData {
   backgroundColor: string | null,
   title: Record<string, string>,
   description: Record<string, string>,
+  links: Array<unknown>,
 }
 
 export default defineComponent({
@@ -150,6 +161,7 @@ export default defineComponent({
       title: {},
       description: {},
       backgroundColor: null,
+      links: this.modelValue.links,
     };
   },
   computed: {
@@ -214,4 +226,7 @@ export default defineComponent({
   main
     max-height: 26rem
     overflow: auto
+
+  &__spacer
+    margin: calc(var(--layout-spacing-unit) * 5) auto
 </style>
