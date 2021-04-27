@@ -72,6 +72,16 @@
           >
         </label>
       </main>
+      <footer
+        v-if="modelValue.dn"
+      >
+        <button
+          type="button"
+          @click.prevent="remove"
+        >
+          <translate i18n-key="REMOVE_FROM_PORTAL" />
+        </button>
+      </footer>
       <footer>
         <button
           type="button"
@@ -92,7 +102,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
+import { udmPut, udmAdd } from '@/jsHelper/umc';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
@@ -140,6 +152,11 @@ export default defineComponent({
       backgroundColor: null,
     };
   },
+  computed: {
+    ...mapGetters({
+      portalCategories: 'portalData/portalCategories',
+    }),
+  },
   created(): void {
     const dn = this.modelValue.dn;
     const activated = this.modelValue.activated;
@@ -158,14 +175,33 @@ export default defineComponent({
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
     },
-    finish() {
+    async remove() {
+      const dn = this.modelValue.dn;
+      console.log(this.categoryDn, this.portalCategories);
+      const category = this.portalCategories.find((cat) => cat.dn === this.categoryDn);
+      const categoryAttrs = {
+        entries: category.entries.filter((entryDn) => entryDn !== dn),
+      };
+      await udmPut(this.categoryDn, categoryAttrs);
+    },
+    async finish() {
       const attrs = {
         name: this.name,
         activated: this.activated,
         pathToLogo: this.pathToLogo,
         title: this.title,
       };
-      console.log(attrs);
+      if (this.modelValue.dn) {
+        await udmPut(this.modelValue.dn, attrs);
+      } else {
+        const response = await udmAdd('portals/category', attrs);
+        const dn = response.data.result[0].$dn$;
+        const category = this.portalCategories.find((cat) => cat.dn === this.categoryDn);
+        const categoryAttrs = {
+          entries: category.entries.concat([dn]),
+        };
+        await udmPut(this.categoryDn, categoryAttrs);
+      }
       this.$store.dispatch('modal/hideAndClearModal');
     },
   },
@@ -176,6 +212,6 @@ export default defineComponent({
 .admin-entry
   width: calc(var(--inputfield-width) + 3rem)
   main
-    max-height: 30rem
+    max-height: 26rem
     overflow: auto
 </style>

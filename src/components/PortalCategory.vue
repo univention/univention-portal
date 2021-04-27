@@ -69,10 +69,12 @@
                 v-bind="item"
                 :data-folder="$localized(item.title)"
                 :is-admin="true"
+                :category-dn="dn"
               />
               <portal-tile
                 v-else
                 v-bind="item"
+                :category-dn="dn"
                 :data-tile="$localized(item.title)"
                 :title="item.title"
                 :is-admin="true"
@@ -96,11 +98,13 @@
               v-if="tile.isFolder"
               v-bind="tile"
               :ref="'tile' + index"
+              :category-dn="dn"
             />
             <portal-tile
               v-else
               :ref="'tile' + index"
               v-bind="tile"
+              :category-dn="dn"
             />
           </div>
         </template>

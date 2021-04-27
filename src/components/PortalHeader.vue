@@ -141,7 +141,6 @@ import NotificationBubble from '@/components/globals/NotificationBubble.vue';
 import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
-import Translate from '@/i18n/Translate.vue';
 import notificationMixin from '@/mixins/notificationMixin.vue';
 
 interface PortalHeaderData {
@@ -160,7 +159,6 @@ export default defineComponent({
   },
   mixins: [
     notificationMixin,
-    Translate,
   ],
   data(): PortalHeaderData {
     return {

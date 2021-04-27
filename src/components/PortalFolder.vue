@@ -59,6 +59,7 @@
             :last-element="isLastElement(index, tiles)"
             :first-element="isFirstElement(index)"
             :no-edit="true"
+            :category-dn="categoryDn"
             @keepFocusInFolderModal="keepFocusInFolderModal"
             @clickAction="closeFolder"
           />
@@ -107,6 +108,10 @@ export default defineComponent({
     },
     tiles: {
       type: Array as PropType<Tile[]>,
+      required: true,
+    },
+    categoryDn: {
+      type: String,
       required: true,
     },
     inModal: {
