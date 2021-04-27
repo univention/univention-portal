@@ -33,10 +33,10 @@
   >
     <label>
       {{ label }} ({{ locale }})
+      <input
+        v-model="modelValueData[locale]"
+      >
     </label>
-    <input
-      v-model="modelValueData[locale]"
-    >
   </div>
 </template>
 
