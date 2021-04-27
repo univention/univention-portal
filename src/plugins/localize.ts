@@ -41,7 +41,12 @@ const localize = {
     const localized: Localized = (input: Record<Locale, string>) => {
       const curLocale = store.getters['locale/getLocale'];
       const shortLocale = curLocale.split('_')[0];
-      return input[curLocale] || input[shortLocale] || input.en || input.en_US;
+      let ret = '';
+
+      if (input) {
+        ret = input[curLocale] || input[shortLocale] || input.en || input.en_US;
+      }
+      return ret;
     };
     app.config.globalProperties.$localized = localized;
   },

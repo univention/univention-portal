@@ -104,9 +104,7 @@ export default defineComponent({
       set: (value) => emit('update:inputValue', value),
     });
 
-    return {
-      formData,
-    };
+    return { formData };
   },
   // methods: {
   //   emitValue(evt) {

@@ -48,7 +48,11 @@ export default defineComponent({
   },
   computed: {
     translated(): string {
-      return catalog[this.i18nKey].translated.value;
+      let ret = '';
+      if (this.i18nKey) {
+        ret = catalog[this.i18nKey].translated.value;
+      }
+      return ret;
     },
   },
   methods: {

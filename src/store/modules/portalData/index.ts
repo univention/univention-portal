@@ -40,9 +40,7 @@ const portalData: PortalModule<PortalDataState> = {
   state: {
     portal: {
       portal: {
-        name: {
-          en_US: 'Univention Portal',
-        },
+        name: { en_US: 'Univention Portal' },
         background: null,
         defaultLinkTarget: 'embedded',
         dn: 'default',
@@ -115,9 +113,7 @@ const portalData: PortalModule<PortalDataState> = {
       if (retries <= 0) {
         return false;
       }
-      const response = await dispatch('portalJsonRequest', {
-        adminMode: false,
-      }, { root: true });
+      const response = await dispatch('portalJsonRequest', { adminMode: false }, { root: true });
       const portalJson = response.data;
       if (portalJson.cache_id !== getters.cacheId) {
         return true;
@@ -128,9 +124,7 @@ const portalData: PortalModule<PortalDataState> = {
       return dispatch('waitForChange', retries - 1);
     },
     async setEditMode({ dispatch, commit }, editMode: boolean) {
-      await dispatch('loadPortal', {
-        adminMode: editMode,
-      }, { root: true });
+      await dispatch('loadPortal', { adminMode: editMode }, { root: true });
       commit('EDITMODE', editMode);
     },
   },

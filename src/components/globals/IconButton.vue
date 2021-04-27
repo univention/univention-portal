@@ -43,9 +43,7 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 export default defineComponent({
   name: 'IconButton',
-  components: {
-    PortalIcon,
-  },
+  components: { PortalIcon },
   props: {
     icon: {
       type: String,
