@@ -61,26 +61,6 @@
         />
         <translate i18n-key="ADD_CATEGORY" />
       </h2>
-
-      <div
-        v-if="popMenuShow"
-        class="portal-categories__menu-wrapper portal-categories__add"
-      >
-        <div class="portal-categories__menu-container">
-          <div
-            v-for="(item, index) in popMenuCategories"
-            :key="index"
-            class="portal-categories__menu-parent"
-          >
-            <span
-              class="portal-categories__menu-title"
-              @click="openAdminModal(item.action, 'category')"
-            >
-              {{ $localized(item.title) }}
-            </span>
-          </div>
-        </div>
-      </div>
     </main>
 
     <div
@@ -149,20 +129,9 @@ import Translate from '@/i18n/Translate.vue';
 import { Category } from '@/store/modules/portalData/portalData.models';
 import createCategories from '@/jsHelper/createCategories';
 
-// mocks
-import PopMenuDataCategories from '@/assets/data/popmenuCategories.json';
-
-// Temp interface for menu data mock
-interface PopMenuCategory {
-  title: Record<string, string>,
-  action: string
-}
-
 interface PortalViewData {
   buttonIcon: string,
   ariaLabelButton: string,
-  popMenuShow: boolean,
-  popMenuCategories: Array<PopMenuCategory>,
   modalTitle: string,
   entryIndex: number,
   saveAction: string,
@@ -189,8 +158,6 @@ export default defineComponent({
     return {
       buttonIcon: 'plus',
       ariaLabelButton: 'Button for adding a new category',
-      popMenuShow: false,
-      popMenuCategories: PopMenuDataCategories,
       modalTitle: '',
       entryIndex: 0,
       saveAction: '',
@@ -218,7 +185,7 @@ export default defineComponent({
       modalClass: ('admin/getModalClass'),
     }),
     categories(): Category[] {
-      return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget);
+      return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
     },
     setModalContent() {
       let ret = '';
@@ -230,8 +197,12 @@ export default defineComponent({
   },
   methods: {
     addCategory() {
-      console.log('addCategory');
-      this.popMenuShow = !this.popMenuShow;
+      this.$store.dispatch('modal/setAndShowModal', {
+        name: 'CategoryAddModal',
+        props: {
+          categoryDn: this.categoryDn,
+        },
+      });
     },
     openAdminModal(action) {
       console.log('openAdminModal: ', action);
@@ -252,7 +223,6 @@ export default defineComponent({
       if (action === 'addExistingCategory') {
         this.$store.dispatch('admin/setModalTitle', 'ADD_EXISTING_CATEGORY');
       }
-      this.popMenuShow = false;
     },
     closeAdminModal(): void {
       console.log('closeAdminModal');

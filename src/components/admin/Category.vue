@@ -44,32 +44,10 @@
             name="name"
           >
         </label>
-        <label>
-          <input
-            v-model="activated"
-            type="checkbox"
-          >
-          <translate i18n-key="ACTIVATED" />
-        </label>
         <locale-input
           v-model="title"
           label="Name"
         />
-        <locale-input
-          v-model="description"
-          label="Description"
-        />
-        <image-upload
-          v-model="pathToLogo"
-          label="Icon"
-        />
-        <label>
-          <translate i18n-key="BACKGROUND_COLOR" />
-          <input
-            v-model="backgroundColor"
-            name="backgroundColor"
-          >
-        </label>
       </main>
       <footer>
         <button
@@ -91,36 +69,27 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
-import ImageUpload from '@/components/widgets/ImageUpload.vue';
+import { udmPut, udmAdd } from '@/jsHelper/umc';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
-
 import Translate from '@/i18n/Translate.vue';
 
-interface AdminEntryData {
+interface AdminCategoryData {
   name: string,
-  activated: boolean,
-  pathToLogo: string,
-  backgroundColor: string | null,
   title: Record<string, string>,
-  description: Record<string, string>,
 }
 
 export default defineComponent({
-  name: 'FormEntryEdit',
+  name: 'FormCategoryEdit',
   components: {
     ModalDialog,
     Translate,
-    ImageUpload,
     LocaleInput,
   },
   props: {
     label: {
-      type: String,
-      required: true,
-    },
-    categoryDn: {
       type: String,
       required: true,
     },
@@ -129,41 +98,40 @@ export default defineComponent({
       required: true,
     },
   },
-  data(): AdminEntryData {
+  data(): AdminCategoryData {
     return {
       name: '',
-      activated: true,
-      pathToLogo: '',
       title: {},
-      description: {},
-      backgroundColor: null,
     };
+  },
+  computed: {
+    ...mapGetters({
+      portalDn: 'portalData/getPortalDn',
+      categories: 'portalData/portalCategoriesOnPortal',
+    }),
   },
   created(): void {
     const dn = this.modelValue.dn;
-    const activated = this.modelValue.activated;
     if (dn) {
       this.name = dn.slice(3, dn.indexOf(','));
     }
-    if (activated !== undefined) {
-      this.activated = activated;
-    }
-    this.pathToLogo = this.modelValue.pathToLogo || '';
-    this.backgroundColor = this.modelValue.backgroundColor || null;
     this.title = { ...(this.modelValue.title || {}) };
-    this.description = { ...(this.modelValue.description || {}) };
   },
   methods: {
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
     },
-    finish() {
+    async finish() {
       const attrs = {
         name: this.name,
-        activated: this.activated,
-        pathToLogo: this.pathToLogo,
-        title: this.title,
+        displayName: Object.entries(this.title),
       };
+      const response = await udmAdd('portals/category', attrs);
+      const dn = response.data.result[0].$dn$;
+      const portalAttrs = {
+        categories: this.categories.concat([dn]),
+      };
+      await udmPut(this.portalDn, portalAttrs);
       console.log(attrs);
       this.$store.dispatch('modal/hideAndClearModal');
     },

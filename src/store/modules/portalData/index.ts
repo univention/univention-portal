@@ -91,6 +91,7 @@ const portalData: PortalModule<PortalDataState> = {
     portalEntries: (state) => state.portal.entries,
     portalFolders: (state) => state.portal.folders,
     portalCategories: (state) => state.portal.categories,
+    portalCategoriesOnPortal: (state) => state.portal.portal.categories,
     portalDefaultLinkTarget: (state) => state.portal.portal.defaultLinkTarget,
     editMode: (state) => state.editMode,
     cacheId: (state) => state.cacheId,

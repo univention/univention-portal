@@ -105,7 +105,7 @@ export default defineComponent({
       const list = input.getAttribute('list');
       const options = document.querySelectorAll(`#${list} option`);
 
-      for (let k = 0; k < options.length; k += 1 ) {
+      for (let k = 0; k < options.length; k += 1) {
         const option = options[k];
 
         if (option.value === input.value) {
