@@ -69,6 +69,11 @@ export default defineComponent({
           },
         });
       }
+      if (action === 'addCategory') {
+        this.$store.dispatch('modal/setAndShowModal', {
+          name: 'AdminExistingCategory',
+        });
+      }
     },
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
