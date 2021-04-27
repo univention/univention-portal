@@ -179,7 +179,8 @@ export default defineComponent({
 
 <style lang="stylus">
 .admin-entry
+  width: calc(var(--inputfield-width) + 3rem)
   main
-    max-height: 40rem
+    max-height: 30rem
     overflow: auto
 </style>
