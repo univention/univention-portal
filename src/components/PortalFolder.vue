@@ -296,10 +296,8 @@ export default defineComponent({
     box-shadow: var(--box-shadow)
 
   .portal-tile__box
+    background-color: var(--color-grey0)
     padding: 0
-
-.portal-tile__box
-  background-color: var(--color-grey0)
 
 &:focus
   border-color: var(--color-primary)

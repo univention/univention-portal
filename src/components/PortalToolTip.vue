@@ -97,6 +97,7 @@ export default defineComponent({
   position: fixed
   bottom: calc(2 * var(--layout-spacing-unit))
   right: calc(2 * var(--layout-spacing-unit))
+  background-color: var(--color-grey0)
   border-radius: var(--border-radius-container)
   min-width: calc(20 * 1rem)
   max-width: calc(20 * 1rem)
