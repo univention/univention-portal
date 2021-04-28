@@ -150,14 +150,6 @@ export default defineComponent({
       activeTabIndex: 'tabs/activeTabIndex',
       editMode: 'portalData/editMode',
       tooltip: 'tooltip/tooltip',
-      currentModal: 'admin/getCurrentModal',
-      modalVariant: 'admin/getModalVariant',
-      tileObject: 'admin/getTileObject',
-      showAdminModal: 'admin/getShowModal',
-      showModalPagination: 'admin/getShowModalPagination',
-      saveAction: ('admin/getSaveAction'),
-      modalTitle: ('admin/getModalTitle'),
-      modalClass: ('admin/getModalClass'),
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
@@ -175,47 +167,6 @@ export default defineComponent({
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'CategoryAddModal',
       });
-    },
-    openAdminModal(action) {
-      console.log('openAdminModal: ', action);
-
-      this.$store.dispatch('admin/setShowModal', true);
-      this.$store.dispatch('admin/setCurrentModal', action);
-
-      if ((action === 'addNewCategory') || (action === 'addExistingCategory') || (action === 'editCategory')) {
-        this.$store.dispatch('admin/setModalVariant', 'category');
-        this.$store.dispatch('admin/setModalClass', 'portal-category__modal');
-        this.$store.dispatch('admin/setSaveAction', 'saveCategory');
-      }
-
-      if (action === 'addNewCategory') {
-        this.$store.dispatch('admin/setModalTitle', 'ADD_CATEGORY');
-      }
-
-      if (action === 'addExistingCategory') {
-        this.$store.dispatch('admin/setModalTitle', 'ADD_EXISTING_CATEGORY');
-      }
-    },
-    closeAdminModal(): void {
-      console.log('closeAdminModal');
-      this.$store.dispatch('admin/setShowModal', false);
-      this.$store.dispatch('admin/setCurrentModal', '');
-      this.$store.dispatch('admin/setModalVariant', '');
-      this.$store.dispatch('admin/setTileObject', '');
-      this.$store.dispatch('admin/setShowModalPagination', false);
-
-      // clean local storage
-      localStorage.removeItem('tile');
-    },
-    saveItem(value) {
-      // save the changes
-      console.log('save item: ', value);
-      this.closeAdminModal();
-    },
-    removeItem(value) {
-      // remove this item
-      console.log('remove item: ', value);
-      this.closeAdminModal();
     },
   },
 });

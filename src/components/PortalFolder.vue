@@ -186,13 +186,6 @@ export default defineComponent({
     },
     editFolder() {
       console.log('editFolder');
-      this.$store.dispatch('admin/setShowModal', true);
-      this.$store.dispatch('admin/setCurrentModal', 'editFolder');
-      this.$store.dispatch('admin/setModalVariant', 'folder');
-      // this.$store.dispatch('admin/setTileObject', this.tileModel);
-      this.$store.dispatch('admin/setSaveAction', 'saveFolder');
-      this.$store.dispatch('admin/setModalTitle', 'EDIT_FOLDER');
-      this.$store.dispatch('admin/setModalClass', 'portal-folder__modal');
     },
   },
 });

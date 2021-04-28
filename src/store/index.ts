@@ -43,7 +43,6 @@ import search from './modules/search';
 import tabs from './modules/tabs';
 import tooltip from './modules/tooltip';
 import user from './modules/user';
-import admin from './modules/admin';
 import { initialRootState, RootState } from './root.models';
 
 // get env vars
@@ -126,7 +125,6 @@ export const store = createStore<RootState>({
     tabs,
     tooltip,
     user,
-    admin,
   },
 });
 

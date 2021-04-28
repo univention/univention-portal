@@ -86,7 +86,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 
@@ -178,7 +177,6 @@ export default defineComponent({
     return { showEditButton: true };
   },
   computed: {
-    ...mapGetters({ currentModal: 'admin/getCurrentModal' }),
     wrapperTag(): string {
       return (this.inFolder || this.editMode) ? 'div' : 'a';
     },
@@ -229,22 +227,6 @@ export default defineComponent({
     createID() {
       console.log(this.description);
       return `element-${this.$.uid}`;
-    },
-    closeModal() {
-      this.$store.dispatch('admin/setShowModal', false);
-      this.$store.dispatch('admin/setCurrentModal', '');
-      this.$store.dispatch('admin/setModalVariant', '');
-      this.$store.dispatch('admin/setTileObject', '');
-    },
-    removeEntry() {
-      console.log('remove entry');
-      this.closeModal();
-    },
-    saveEntry(value) {
-      // save the changes
-      console.log('save entry: ', value);
-
-      this.closeModal();
     },
   },
 });
