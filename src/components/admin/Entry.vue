@@ -204,6 +204,7 @@ export default defineComponent({
         name: this.name,
         activated: this.activated,
         displayName: Object.entries(this.title),
+        links: this.links,
         icon: '',
       };
       if (this.pathToLogo.startsWith('data:')) {
