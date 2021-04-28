@@ -69,8 +69,6 @@ export default defineComponent({
     if (answer.portal && answer.portal.ensureLogin && !this.userState.username) {
       login(this.userState);
     }
-
-    console.log('LOAD STYLE CSS');
     addCustomStyles();
 
     this.$store.dispatch('deactivateLoadingState');

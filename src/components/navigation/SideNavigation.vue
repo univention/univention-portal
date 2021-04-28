@@ -28,7 +28,7 @@
 -->
 <template>
   <nav class="portal-sidenavigation">
-    <div class="portal-sidenavigation__login-header custom-navigation-header">
+    <div class="portal-sidenavigation__login-header">
       <div
         v-if="userState.username"
         class="portal-sidenavigation__user-row"
@@ -37,14 +37,14 @@
           icon="user"
         />
         <div>
-          <div class="portal-sidenavigation--username custom-user-name">
+          <div class="portal-sidenavigation--username">
             {{ userState.displayName }}
           </div>
           <!-- as long as this link has no href, this needs to be a button to be focusable -->
           <button
             id="loginButton"
             ref="loginButton"
-            class="portal-sidenavigation__logout-link custom-logout-label"
+            class="portal-sidenavigation__logout-link"
             @click="logout"
             @keydown.shift.tab.exact="focusOnLastItemInSideMenu($event)"
             @keydown.esc="closeNavigation"
@@ -57,7 +57,7 @@
         v-else
         id="loginButton"
         ref="loginButton"
-        class="portal-sidenavigation__link custom-login-label"
+        class="portal-sidenavigation__link"
         @click="login"
         @keydown.shift.tab.exact="focusOnLastItemInSideMenu($event)"
         @keydown.esc="closeNavigation"
@@ -129,7 +129,7 @@
     <button
       v-if="userState.mayEditPortal"
       ref="editModeButton"
-      class="portal-sidenavigation__link portal-sidenavigation__edit-mode custom-edit-mode-label"
+      class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
       @click="startEditMode"
       @keydown.esc="closeNavigation"
       @keydown.tab.exact.prevent="focusOnLoginButton"

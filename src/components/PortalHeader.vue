@@ -30,11 +30,11 @@ License with the Debian GNU/Linux or Univention distribution in file
   <header
     id="portal-header"
     :class="{ 'portal-header__tabs-overflow': tabsOverflow }"
-    class="portal-header custom-portal-header"
+    class="portal-header"
   >
     <div
       ref="portalHeaderH1"
-      class="portal-header__left custom-portal-name"
+      class="portal-header__left"
       tabindex="0"
       :aria-label="ariaLabelPortalHeader"
       @click="goHome"

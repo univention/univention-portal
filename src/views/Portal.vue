@@ -65,7 +65,7 @@
 
     <div
       v-show="activeTabIndex"
-      class="portal-iframes custom-iframe"
+      class="portal-iframes"
     >
       <portal-iframe
         v-for="(item, index) in tabs"

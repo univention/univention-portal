@@ -28,7 +28,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <div
-    class="portal-tooltip custom-portal-tooltip"
+    class="portal-tooltip"
     role="tooltip"
     data-test="portal-tooltip"
   >
@@ -46,7 +46,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="portal-tooltip__logo"
         >
       </div>
-      <div class="portal-tooltip__title custom-portal-tooltip-title">
+      <div class="portal-tooltip__title">
         {{ title }}
       </div>
     </div>
@@ -55,7 +55,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div
       v-if="description"
       :id="ariaId"
-      class="portal-tooltip__description custom-portal-tooltip-description"
+      class="portal-tooltip__description"
       v-html="description"
     />
     <!-- eslint-enable vue/no-v-html -->

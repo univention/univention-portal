@@ -41,7 +41,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         :ref="setRef"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
-        :class="['header-button__button custom-header-button', hoverClass]"
+        :class="['header-button__button', hoverClass]"
       >
         <portal-icon
           :icon="icon"
