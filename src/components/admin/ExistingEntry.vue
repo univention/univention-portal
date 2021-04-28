@@ -118,7 +118,18 @@ export default defineComponent({
         const categoryAttrs = {
           entries: category.entries.concat([dn]),
         };
-        await udmPut(this.categoryDn, categoryAttrs);
+        console.info('Adding', dn, 'to', this.categoryDn);
+        try {
+          await udmPut(this.categoryDn, categoryAttrs);
+          this.$store.dispatch('notificationBubble/addSuccessNotification', {
+            bubbleTitle: this.$translateLabel('ENTRY_ADDED_SUCCESS'),
+          });
+        } catch (err) {
+          console.error(err.message);
+          this.$store.dispatch('notificationBubble/addErrorNotification', {
+            bubbleTitle: this.$translateLabel('ENTRY_ADDED_FAILURE'),
+          });
+        }
         this.$store.dispatch('modal/hideAndClearModal');
       }
     },
