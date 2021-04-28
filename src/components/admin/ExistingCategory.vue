@@ -102,7 +102,18 @@ export default defineComponent({
         const portalAttrs = {
           categories: this.categories.concat([dn]),
         };
-        await udmPut(this.portalDn, portalAttrs);
+        console.info('Adding', dn, 'to', this.portalDn);
+        try {
+          await udmPut(this.portalDn, portalAttrs);
+          this.$store.dispatch('notificationBubble/addSuccessNotification', {
+            bubbleTitle: this.$translateLabel('CATEGORY_ADDED_SUCCESS'),
+          });
+        } catch (err) {
+          console.error(err.message);
+          this.$store.dispatch('notificationBubble/addErrorNotification', {
+            bubbleTitle: this.$translateLabel('CATEGORY_ADDED_FAILURE'),
+          });
+        }
         this.$store.dispatch('modal/hideAndClearModal');
       }
     },

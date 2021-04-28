@@ -89,8 +89,6 @@ import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import ModalAdmin from '@/components/admin/ModalAdmin.vue';
-import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 
 import TileClick from '@/mixins/TileClick.vue';
 
@@ -104,8 +102,6 @@ export default defineComponent({
   name: 'PortalTile',
   components: {
     HeaderButton,
-    ModalAdmin,
-    ModalWrapper,
   },
   mixins: [
     TileClick,

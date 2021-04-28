@@ -124,10 +124,8 @@ import { mapGetters } from 'vuex';
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
 import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import ModalAdmin from '@/components/admin/ModalAdmin.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
-import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 import {
   Title,
   Tile,
@@ -148,11 +146,9 @@ export default defineComponent({
   components: {
     PortalTile,
     PortalFolder,
-    ModalAdmin,
     HeaderButton,
     DraggableWrapper,
     DraggableDebugger,
-    ModalWrapper,
   },
   props: {
     dn: {

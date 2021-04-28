@@ -80,29 +80,6 @@
       v-bind="tooltip"
     />
 
-    <modal-wrapper
-      v-if="showAdminModal"
-      :is-active="showAdminModal"
-    >
-      <div :class="modalClass">
-        <modal-admin
-          :show-title-button="false"
-          :modal-debugging="false"
-          :modal-title="modalTitle"
-          :modal-pagination="showModalPagination"
-          :modal-content="setModalContent"
-          :item-index="entryIndex"
-          :save-action="saveAction"
-          remove-action="removeEntry"
-          title="Edit entry"
-          @closeModal="closeAdminModal"
-          @saveCategory="saveItem"
-          @saveContent="saveItem"
-          @removeEntry="removeItem"
-        />
-      </div>
-    </modal-wrapper>
-
     <portal-sidebar />
     <portal-modal :is-active="false" />
   </div>
@@ -113,7 +90,6 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
-import ModalAdmin from '@/components/admin/ModalAdmin.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 import PortalCategory from 'components/PortalCategory.vue';
@@ -142,7 +118,6 @@ export default defineComponent({
   name: 'Portal',
   components: {
     HeaderButton,
-    ModalAdmin,
     ModalWrapper,
     PortalBackground,
     PortalCategory,
