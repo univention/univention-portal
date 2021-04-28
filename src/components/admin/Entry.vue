@@ -256,11 +256,21 @@ export default defineComponent({
     },
 
     removeField(index, fieldType) {
-      // TODO: does not yet remove the selected record
+      // TODO: does not yet remove the selected element
+      console.log('this.links: ', this.links);
       console.log('index: ', index);
-      console.log('fieldType before: ', fieldType);
+      console.log('fieldType before: ', JSON.parse(JSON.stringify(fieldType)));
+
       fieldType.splice(index, 1);
-      console.log('fieldType after: ', fieldType);
+
+      const test = JSON.parse(JSON.stringify(fieldType));
+      // test.splice(index, 1);
+
+      console.log('test: ', test);
+      this.links = [];
+      console.log('this.links: ', this.links);
+      this.links.push(...(test));
+      console.log('this.links: ', this.links);
     },
   },
 });
