@@ -36,10 +36,10 @@ License with the Debian GNU/Linux or Univention distribution in file
       <flyout-wrapper
         v-if="activeNotificationButton"
         :is-visible="activeNotificationButton"
-        class="portal-sidebar__flyout custom-flyout"
+        class="portal-sidebar__flyout"
       >
         <!-- Side notifications -->
-        <div class="portal-sidebar__title custom-sidebar-title">
+        <div class="portal-sidebar__title">
           <translate i18n-key="NOTIFICATIONS" />
         </div>
         <notification-bubble class="portal-sidebar__bubble">
@@ -51,7 +51,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       <flyout-wrapper
         v-if="activeMenuButton"
         :is-visible="activeMenuButton"
-        class="portal-sidebar__flyout custom-flyout"
+        class="portal-sidebar__flyout"
       >
         <!-- Side navigation -->
         <side-navigation />

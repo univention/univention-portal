@@ -43,8 +43,7 @@
         :aria-label="ariaLabelButton"
         :no-click="true"
         class="portal-category__edit-button"
-      />
-      <span class="custom-category-title">{{ $localized(title) }}</span>
+      />{{ $localized(title) }}
     </h2>
     <div
       class="portal-category__tiles dragdrop__container"

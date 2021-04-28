@@ -35,7 +35,7 @@
       :aria-describedby="createID()"
       :aria-label="$localized(title)"
       :class="{ 'icon-button--default-cursor' : !showEditButton }"
-      class="portal-tile custom-portal-tile-wrapper"
+      class="portal-tile"
       data-test="tileLink"
       @mouseenter="editMode || showTooltip()"
       @mouseleave="hideTooltip"
@@ -54,7 +54,7 @@
           { 'portal-tile__box--dragable': editMode },
           { 'icon-button--default-cursor' : !showEditButton },
         ]"
-        class="portal-tile__box custom-portal-tile"
+        class="portal-tile__box"
       >
         <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
         <img
@@ -66,7 +66,7 @@
       </div>
       <span
         :class="{ 'icon-button--default-cursor' : !showEditButton }"
-        class="portal-tile__name custom-portal-tile-title"
+        class="portal-tile__name"
         @click.prevent="tileClick"
       >
         {{ $localized(title) }}

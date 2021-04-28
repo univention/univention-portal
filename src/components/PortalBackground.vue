@@ -28,7 +28,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <div
-    class="portal__background custom-portal-background"
+    class="portal__background"
     :style="backgroundImageStyle"
   />
 </template>

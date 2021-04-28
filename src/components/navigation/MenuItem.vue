@@ -29,7 +29,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <a
     v-is="isLink ? 'a' : 'div'"
-    class="menu-item custom-menu-item"
+    class="menu-item"
     :href="link ? link : null"
     :target="anchorTarget"
     tabindex="0"
@@ -39,7 +39,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <portal-icon
       v-if="isSubItem"
       icon="chevron-left"
-      class="menu-item__arrow menu-item__arrow--left custom-menu-arrow-icon"
+      class="menu-item__arrow menu-item__arrow--left"
     />
     {{ $localized(title) }}
     <template
@@ -53,7 +53,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       <portal-icon
         v-if="!isSubItem"
         icon="chevron-right"
-        class="menu-item__arrow menu-item__arrow--right custom-menu-arrow-icon"
+        class="menu-item__arrow menu-item__arrow--right"
       />
     </template>
   </a>

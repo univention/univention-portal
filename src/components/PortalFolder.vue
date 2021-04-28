@@ -37,7 +37,7 @@
   >
     <button
       :class="{ 'icon-button--default-cursor' : !showEditButton }"
-      class="portal-tile__box custom-portal-folder"
+      class="portal-tile__box"
       tabindex="0"
       @click="openFolder"
       @keypress.enter="openFolder"
@@ -68,7 +68,7 @@
     </button>
     <span
       :class="{ 'icon-button--default-cursor' : !showEditButton }"
-      class="portal-folder__name custom-potal-folder-title"
+      class="portal-folder__name"
     >
       {{ $localized(title) }}
     </span>
