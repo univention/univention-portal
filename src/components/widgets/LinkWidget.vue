@@ -1,4 +1,4 @@
-<!--
+s<!--
   Copyright 2021 Univention GmbH
 
   https://www.univention.de/
@@ -38,7 +38,7 @@
           v-model="modelValueData[index].locale"
         >
           <option
-            v-for="select in modelLocales"
+            v-for="select in locales"
             :key="select"
             :selected="modelValueData[index].locale || select"
             class="link-widget__option"
@@ -68,7 +68,7 @@
     <span class="modal-admin__button">
       <button
         class="modal-admin__button--inner"
-        @click.prevent="addField(modelValueData)"
+        @click.prevent="addField"
       >
         <portal-icon
           icon="plus"
@@ -91,7 +91,11 @@ import Translate from '@/i18n/Translate.vue';
 
 interface LinkWidgetData {
   modelValueData: Array<unknown>,
-  modelLocales: Record<string, string>,
+}
+
+interface LocaleAndValue {
+  locale: string,
+  value: string,
 }
 
 export default defineComponent({
@@ -103,7 +107,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Array as PropType<Array<number>>,
+      type: Array as PropType<LocaleAndValue[]>,
       required: true,
     },
   },
@@ -111,7 +115,6 @@ export default defineComponent({
   data(): LinkWidgetData {
     return {
       modelValueData: [],
-      modelLocales: {},
     };
   },
   computed: {
@@ -120,25 +123,29 @@ export default defineComponent({
     }),
   },
   created() {
-    this.modelValueData.push(...(this.modelValue));
-    this.modelLocales = { ...(this.locales || {}) };
+    this.modelValue.forEach((val) => {
+      this.modelValueData.push({
+        locale: val.locale,
+        value: val.value,
+      });
+    });
   },
   updated() {
     console.log('this.modelValueData: ', this.modelValueData);
     this.$emit('update:modelValue', this.modelValueData);
   },
   methods: {
-    addField(linksArr) {
-      linksArr.push({ value: '' });
-      const i = (linksArr.length - 1);
+    addField() {
+      this.modelValueData.push({ value: '' });
+      const i = (this.modelValueData.length - 1);
 
-      this.$nextTick(() => {
+      setTimeout(() => {
         const elem = (this.$refs[`link${i}`] as HTMLElement);
         elem.focus();
-      });
+      }, 50);
     },
-    removeField(index, linksArr) {
-      linksArr.splice(index, 1);
+    removeField(index) {
+      this.modelValueData.splice(index, 1);
     },
   },
 });
@@ -146,21 +153,20 @@ export default defineComponent({
 
 <style lang="stylus">
 .link-widget
-  width: 90%
+  display: flex
+  align-items: center
 
   &__select
-    display: inline-flex
-    width: 20%
+    max-width: 5rem
 
-    & > select
-      background-color: grey
-      height: 45px
-      cursor: pointer
   &__input
-    display: inline-flex
-    width: 68%
-    margin-right: 2%
+    width: 100%
+    margin-left: 0.5rem
+    margin-right: 2rem
+
+    input
+      width: 100%
+
   &__remove
-    display: inline-flex
-    width: 10%
+    width: 3rem
 </style>
