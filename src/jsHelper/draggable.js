@@ -28,6 +28,20 @@
  */
 import { onMounted, onUpdated, ref, watch } from 'vue';
 
+const dragdelay = (callback, wait) => {
+  let waiting = false;
+  return (e) => {
+    if (waiting) {
+      return;
+    }
+    callback(e);
+    waiting = true;
+    setTimeout(() => {
+      waiting = false;
+    }, wait);
+  };
+};
+
 const changePosition = (itemToChange, items, position) => {
   const newItems = items.filter((item) => item.id !== itemToChange.id);
   newItems.splice(position, 0, { ...itemToChange });
@@ -36,7 +50,6 @@ const changePosition = (itemToChange, items, position) => {
 
 const draggingItem = ref({});
 const currentDropZoneId = ref(null);
-let transitioning = false;
 
 const useDraggableContainer = ({ initialItems, dropZoneId, categoryDn }, context) => {
   const items = ref(initialItems.value);
@@ -48,49 +61,23 @@ const useDraggableContainer = ({ initialItems, dropZoneId, categoryDn }, context
     if (draggingItem.value.id) {
       return;
     }
-    context.emit('update:modelValue', items.value);
+    console.log('%c Dropped. ', 'background: #00ff00; color: #000000');
+    context.emit('update:modelValue', items.value); // TODO VUE WARN
   });
 
-  console.log('xg ITEMS outSIDE', items);
   const onItemDragOver = ({ position }) => {
-    if (transitioning || draggingItem.value === {}) {
+    if (draggingItem.value === {}) {
       return;
     }
     console.group('onItemDragOver xg');
-    console.log('xg draggingItem.value', draggingItem.value);
-    console.log('xg ITEMS', items);
-    console.log('xg items.value', items.value);
-    console.log('xg categoryDn', categoryDn);
-    console.log('xg position', position);
     console.groupEnd();
 
     items.value = changePosition(draggingItem.value, items.value, position);
   };
 
-  const containerDragOver = () => {
-    if (
-      transitioning ||
-      draggingItem.value === {} ||
-      dropZoneId.value === currentDropZoneId.value
-    ) {
-      return;
-    }
-
-    if (items.value.length > 0) {
-      return;
-    }
-
-    currentDropZoneId.value = dropZoneId.value;
-    items.value = [draggingItem.value];
-  };
-
-  const style = '';
-
   return {
-    style,
     defaultItems: items,
     onItemDragOver,
-    containerDragOver,
   };
 };
 
@@ -139,13 +126,19 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
     draggingItem.value = {};
   };
 
-  const transitionStart = () => {
-    transitioning = false;
-  };
+  const itemDragOver = dragdelay((e) => {
+    if (item.value.id === draggingItem.value.id) {
+      return;
+    }
 
-  const transitionEnd = () => {
-    transitioning = false;
-  };
+    if (currentDropZoneId.value !== dropZoneId.value) {
+      currentDropZoneId.value = dropZoneId.value;
+    }
+
+    const offset = middleY.value - e.clientY;
+
+    context.emit('itemDragOver', { position: offset > 0 ? position.value : position.value + 1 });
+  }, 0);
 
   watch(draggingItem, () => {
     // console.log('DRAGGINGITEM', draggingItem);
@@ -159,9 +152,8 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
     draggable,
     isDragging,
     itemDragStart,
+    itemDragOver,
     itemDragEnd,
-    transitionStart,
-    transitionEnd,
   };
 };
 
