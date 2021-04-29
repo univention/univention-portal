@@ -28,46 +28,6 @@
  */
 import { onMounted, onUpdated, ref, watch } from 'vue';
 
-const dragdelay = (callback, wait) => {
-  let waiting = false;
-  return (e) => {
-    if (waiting) {
-      return;
-    }
-    callback(e);
-    waiting = true;
-    setTimeout(() => {
-      waiting = false;
-    }, wait);
-  };
-};
-
-const showPlaceholder = (item) => {
-  const itemId = `#placeholder-${item}`;
-  const placeholderItem = document.querySelector(itemId);
-
-  if (placeholderItem) {
-    if (placeholderItem.style.display === 'none') {
-      placeholderItem.style.display = 'block';
-    } else {
-      placeholderItem.style.display = 'none';
-    }
-  }
-};
-
-const hidePlaceholder = () => {
-  const placeholderElement = '.dragdrop__placeholder--dotted';
-  const placeholder = document.querySelectorAll(placeholderElement);
-
-  if (placeholder && placeholder.length > 0) {
-    /* eslint-disable no-param-reassign */
-    placeholder.forEach((el) => {
-      el.style.display = 'none';
-    });
-    /* eslint-enable no-param-reassign */
-  }
-};
-
 const changePosition = (itemToChange, items, position) => {
   const newItems = items.filter((item) => item.id !== itemToChange.id);
   newItems.splice(position, 0, { ...itemToChange });
@@ -78,9 +38,11 @@ const draggingItem = ref({});
 const currentDropZoneId = ref(null);
 let transitioning = false;
 
-const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
+const useDraggableContainer = ({ initialItems, dropZoneId, categoryDn }, context) => {
   const items = ref(initialItems.value);
-  // console.log('ITEMS', items);
+  console.log('%c xg ITEMS first TIME', 'background: #222; color: #bada55', items);
+  console.log('%c xg categoryDn', 'background: #222; color: #005500', categoryDn);
+
   // update model when dropped
   watch(draggingItem, () => {
     if (draggingItem.value.id) {
@@ -89,20 +51,20 @@ const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
     context.emit('update:modelValue', items.value);
   });
 
-  // watch(currentDropZoneId, () => {
-  //   if (currentDropZoneId.value === dropZoneId.value) {
-  //     return;
-  //   }
-  //   items.value = items.value.filter((item) => item.id !== draggingItem.value.id);
-  //   console.log('items.value', items.value);
-  // });
-
+  console.log('xg ITEMS outSIDE', items);
   const onItemDragOver = ({ position }) => {
     if (transitioning || draggingItem.value === {}) {
       return;
     }
+    console.group('onItemDragOver xg');
+    console.log('xg draggingItem.value', draggingItem.value);
+    console.log('xg ITEMS', items);
+    console.log('xg items.value', items.value);
+    console.log('xg categoryDn', categoryDn);
+    console.log('xg position', position);
+    console.groupEnd();
+
     items.value = changePosition(draggingItem.value, items.value, position);
-    // console.log('items.value', items.value);
   };
 
   const containerDragOver = () => {
@@ -134,7 +96,6 @@ const useDraggableContainer = ({ initialItems, dropZoneId }, context) => {
 
 const useDraggableItem = ({ item, position, dropZoneId }, context) => {
   const draggable = ref(null);
-  // console.log('draggable___', draggable);
   const isDragging = ref(
     item.value.id === draggingItem.value.id,
   );
@@ -178,26 +139,6 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
     draggingItem.value = {};
   };
 
-  const itemDragOver = dragdelay((e) => {
-    hidePlaceholder();
-    showPlaceholder(item.value.id);
-
-    if (item.value.id === draggingItem.value.id) {
-      return;
-    }
-
-    if (currentDropZoneId.value !== dropZoneId.value) {
-      currentDropZoneId.value = dropZoneId.value;
-    }
-
-    hidePlaceholder();
-    showPlaceholder(item.value.id);
-
-    const offset = middleY.value - e.clientY;
-
-    context.emit('itemDragOver', { position: offset > 0 ? position.value : position.value + 1 });
-  }, 50);
-
   const transitionStart = () => {
     transitioning = false;
   };
@@ -212,15 +153,12 @@ const useDraggableItem = ({ item, position, dropZoneId }, context) => {
       return;
     }
     isDragging.value = false;
-
-    hidePlaceholder();
   });
 
   return {
     draggable,
     isDragging,
     itemDragStart,
-    itemDragOver,
     itemDragEnd,
     transitionStart,
     transitionEnd,

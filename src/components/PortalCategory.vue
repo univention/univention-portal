@@ -50,18 +50,19 @@
       :class="{'portal-category__tiles--editmode': editMode}"
     >
       <template v-if="editMode">
+
         <draggable-wrapper
           v-model="vTiles"
           :category-dn="dn"
           :drop-zone-id="dropZone"
           :data-drop-zone-id="dropZone"
-          transition="10000"
           class="dragdrop__drop-zone"
         >
-          <template #item="{ item }">
+          <template #item="{ item }" >
             <div
               v-if="tileMatchesQuery(item)"
               class="dragdrop__draggable-item"
+              :key="item"
             >
               <portal-folder
                 v-if="item.isFolder"
@@ -203,7 +204,7 @@ export default defineComponent({
     vTiles(val) {
       // TODO: save drag & drop changes
       console.info('saveState');
-      console.log('val: ', val);
+      console.warn('val', val);
     },
   },
   methods: {
