@@ -35,11 +35,11 @@
       v-if="editMode || showCategoryHeadline || hasTiles"
       :class="!editMode || 'portal-category__title--edit'"
       class="portal-category__title"
-      @click.prevent="editMode ? editCategory(categoryIndex, title) : ''"
+      @click.prevent="editMode ? editCategory() : ''"
     >
       <header-button
         v-if="editMode"
-        :icon="buttonIcon"
+        icon="edit-2"
         :aria-label="ariaLabelButton"
         :no-click="true"
         class="portal-category__edit-button"
@@ -68,18 +68,12 @@
               <portal-folder
                 v-if="item.isFolder"
                 v-bind="item"
-                :data-folder="$localized(item.title)"
-                :is-admin="true"
                 :category-dn="dn"
               />
               <portal-tile
                 v-else
                 v-bind="item"
                 :category-dn="dn"
-                :data-tile="$localized(item.title)"
-                :title="item.title"
-                :is-admin="true"
-                :tile-model="item"
               />
             </div>
           </template>
@@ -177,17 +171,9 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    buttonIcon: {
-      type: String,
-      default: 'edit-2',
-    },
     ariaLabelButton: {
       type: String,
       default: 'Tab Aria Label',
-    },
-    categoryIndex: {
-      type: Number,
-      default: 0,
     },
   },
   data(): PortalCategoryData {

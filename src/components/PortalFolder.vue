@@ -73,8 +73,8 @@
       {{ $localized(title) }}
     </span>
     <header-button
-      v-if="!noEdit && isAdmin && !inModal && showEditButton"
-      :icon="buttonIcon"
+      v-if="!noEdit && editMode && !inModal && showEditButton"
+      icon="edit-2"
       :aria-label="ariaLabelButton"
       :no-click="true"
       class="portal-folder__edit-button"
@@ -122,17 +122,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
     noEdit: {
       type: Boolean,
       default: false,
-    },
-    buttonIcon: {
-      type: String,
-      default: 'edit-2',
     },
     ariaLabelButton: {
       type: String,
