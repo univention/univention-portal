@@ -82,22 +82,19 @@
 
       <template v-else>
         <template
-          v-for="(tile, index) in tiles"
+          v-for="tile in tiles"
         >
           <div
             v-if="tileMatchesQuery(tile)"
-            :id="index"
             :key="tile.id"
           >
             <portal-folder
               v-if="tile.isFolder"
               v-bind="tile"
-              :ref="'tile' + index"
               :category-dn="dn"
             />
             <portal-tile
               v-else
-              :ref="'tile' + index"
               v-bind="tile"
               :category-dn="dn"
             />
