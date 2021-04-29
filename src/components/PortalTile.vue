@@ -40,7 +40,7 @@
       @mouseenter="editMode || showTooltip()"
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
-      @click="tileClick"
+      @click="clickSelector"
       @keydown.tab.exact="setFocus($event, 'forward')"
       @keydown.shift.tab.exact="setFocus($event, 'backward')"
       @focus="showTooltip()"
@@ -77,7 +77,7 @@
         :aria-label="ariaLabelButton"
         :no-click="true"
         class="portal-tile__edit-button"
-        @click.prevent="editTile()"
+        @click.prevent="editTile"
       />
     </component>
   </div>
@@ -179,6 +179,13 @@ export default defineComponent({
     wrapperTag(): string {
       return (this.inFolder || this.editMode) ? 'div' : 'a';
     },
+    clickSelector(): unknown {
+      let ret = this.editTile;
+      if (this.noEdit && !this.isAdmin && !this.showEditButton) {
+        ret = this.tileClick;
+      }
+      return ret;
+    },
   },
   mounted() {
     if (this.hasFocus) {
@@ -210,7 +217,9 @@ export default defineComponent({
         this.$emit('keepFocusInFolderModal', 'focusLast');
       }
     },
-    editTile() {
+    editTile(e) {
+      e.preventDefault();
+
       if (this.showEditButton && this.editMode) {
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminEntry',
