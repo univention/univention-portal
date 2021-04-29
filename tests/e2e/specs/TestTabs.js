@@ -11,7 +11,7 @@ describe('General Tests', () => {
       cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
       cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
       cy.visit('/');
-      cy.get('#3').click();
+      cy.get('.portal-category .portal-tile').last().click();
       // cypress can't look into frames out of the box
       cy.get('iframe').should('be.visible');
       cy.get('.portal-header__portal-name').click();
