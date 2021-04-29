@@ -102,6 +102,10 @@ export default defineComponent({
     HeaderButton,
   },
   props: {
+    dn: {
+      type: String,
+      required: true,
+    },
     title: {
       type: Object as PropType<Title>,
       required: true,

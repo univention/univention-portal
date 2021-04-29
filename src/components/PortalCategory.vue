@@ -49,8 +49,9 @@
       class="portal-category__tiles dragdrop__container"
       :class="{'portal-category__tiles--editmode': editMode}"
     >
-      <template v-if="editMode">
-
+      <template
+        v-if="editMode"
+      >
         <draggable-wrapper
           v-model="vTiles"
           :category-dn="dn"
@@ -58,11 +59,11 @@
           :data-drop-zone-id="dropZone"
           class="dragdrop__drop-zone"
         >
-          <template #item="{ item }" >
+          <template #item="{ item }">
             <div
               v-if="tileMatchesQuery(item)"
+              :key="item.id"
               class="dragdrop__draggable-item"
-              :key="item"
             >
               <portal-folder
                 v-if="item.isFolder"
@@ -92,7 +93,7 @@
           <div
             v-if="tileMatchesQuery(tile)"
             :id="index"
-            :key="index"
+            :key="tile.id"
           >
             <portal-folder
               v-if="tile.isFolder"
@@ -121,6 +122,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
+import { put } from '@/jsHelper/admin';
 
 import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
 import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
@@ -135,8 +137,15 @@ import {
   BaseTile,
 } from '@/store/modules/portalData/portalData.models';
 
+function isEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  return arr1.every((v, i) => v === arr2[i]);
+}
+
 interface PortalCategoryData {
-  // vTiles: Tile[],
+  vTiles: Tile[],
   debug: boolean,
   showCategoryHeadline: boolean,
   categoryModal: boolean,
@@ -183,6 +192,7 @@ export default defineComponent({
   },
   data(): PortalCategoryData {
     return {
+      vTiles: [],
       debug: false, // `true` enables the debugger for the tiles array(s) in admin mode
       categoryModal: false,
       showCategoryHeadline: false,
@@ -196,21 +206,31 @@ export default defineComponent({
     hasTiles(): boolean {
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
     },
-    vTiles(): Tile[] {
-      return this.tiles;
-    },
   },
   watch: {
-    vTiles(val) {
-      // TODO: save drag & drop changes
-      console.info('saveState');
-      console.warn('val', val);
+    async vTiles(val) {
+      if (!this.editMode) {
+        return;
+      }
+      const oldEntries = this.tiles.map((tile) => tile.dn);
+      const entries = val.map((tile) => tile.dn);
+      if (isEqual(oldEntries, entries)) {
+        return;
+      }
+      this.$store.dispatch('activateLoadingState');
+      const dn = this.dn;
+      const attrs = {
+        entries,
+      };
+      console.info('Rearranging entries for', dn);
+      await put(dn, attrs, this.$store, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+      this.$store.dispatch('deactivateLoadingState');
     },
   },
+  created(): void {
+    this.vTiles = [...this.tiles];
+  },
   methods: {
-    changed() {
-      console.log('changed');
-    },
     editCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminCategory',
