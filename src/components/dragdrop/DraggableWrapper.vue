@@ -27,7 +27,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div @dragover.prevent="containerDragOver">
+  <div>
     <template
       v-for="(item, index) in defaultItems"
       :key="index"
@@ -85,7 +85,6 @@ export default defineComponent({
     const {
       defaultItems,
       onItemDragOver,
-      containerDragOver,
     } = useDraggableContainer(
       {
         initialItems: modelValue,
@@ -98,7 +97,6 @@ export default defineComponent({
     return {
       defaultItems,
       onItemDragOver,
-      containerDragOver,
     };
   },
 });
