@@ -275,6 +275,7 @@ export default defineComponent({
 
     &-image
       height: 100%
+      width: var(--portal-header-height)
 
       + h1
         padding-left: var(--layout-spacing-unit)
