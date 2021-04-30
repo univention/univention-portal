@@ -97,10 +97,11 @@
           <translate i18n-key="CANCEL" />
         </button>
         <button
+          class="primary"
           type="submit"
           @click.prevent="finish"
         >
-          <translate :i18n-key="label" />
+          <translate i18n-key="SAVE" />
         </button>
       </footer>
     </form>

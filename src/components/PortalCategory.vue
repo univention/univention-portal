@@ -256,7 +256,7 @@ export default defineComponent({
 
 <style lang="stylus" scoped>
 .portal-category
-  margin-bottom: calc(10 * var(--layout-spacing-unit));
+  margin-bottom: calc(8 * var(--layout-spacing-unit));
 
   &--empty {
     margin-bottom: 0;
@@ -295,7 +295,7 @@ export default defineComponent({
     display: inline-flex
     align-items: center
     margin-top: 0
-    margin-bottom: calc(6 * var(--layout-spacing-unit))
+    margin-bottom: calc(3 * var(--layout-spacing-unit))
 
     &--edit
       cursor: pointer
