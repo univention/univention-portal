@@ -68,12 +68,12 @@
               <portal-folder
                 v-if="item.isFolder"
                 v-bind="item"
-                :category-dn="dn"
+                :super-dn="dn"
               />
               <portal-tile
                 v-else
                 v-bind="item"
-                :category-dn="dn"
+                :super-dn="dn"
               />
             </div>
           </template>
@@ -91,12 +91,12 @@
             <portal-folder
               v-if="tile.isFolder"
               v-bind="tile"
-              :category-dn="dn"
+              :super-dn="dn"
             />
             <portal-tile
               v-else
               v-bind="tile"
-              :category-dn="dn"
+              :super-dn="dn"
             />
           </div>
         </template>
