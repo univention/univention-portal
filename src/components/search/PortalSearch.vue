@@ -70,6 +70,7 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
       modalState: 'modal/modalState',
       searchQuery: 'search/searchQuery',
+      emptySearchResults: 'search/emptySearchResults',
     }),
   },
   mounted() {
@@ -83,6 +84,13 @@ export default defineComponent({
   methods: {
     searchTiles(): void {
       this.$store.dispatch('search/setSearchQuery', this.portalSearch.toLowerCase());
+      this.$nextTick(() => {
+        if (document.querySelectorAll('.portal-tile').length === 0) {
+          this.$store.dispatch('search/setSearchResultsEmpty');
+        } else {
+          this.$store.dispatch('search/setSearchResultsNotEmpty');
+        }
+      });
     },
     closeSearchInput(): void {
       this.$store.dispatch('navigation/setActiveButton', '');
