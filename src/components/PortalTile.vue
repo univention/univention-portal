@@ -34,24 +34,26 @@
       :target="anchorTarget"
       :aria-describedby="createID()"
       :aria-label="$localized(title)"
-      :class="{ 'icon-button--default-cursor' : !showEditButton }"
       class="portal-tile"
+      :draggable="editMode && !fromFolder"
       data-test="tileLink"
       @mouseenter="editMode || showTooltip()"
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
-      @click="editMode && editTile($event) || tileClick($event)"
+      @click="tileClick($event)"
       @keydown.tab.exact="setFocus($event, 'forward')"
       @keydown.shift.tab.exact="setFocus($event, 'backward')"
       @focus="showTooltip()"
       @blur="hideTooltip()"
+      @dragstart="dragstart"
+      @dragenter="dragenter"
+      @dragend="dragend"
     >
       <div
         :style="`background: ${backgroundColor || 'var(--color-grey40)'}`"
         :class="[
           'portal-tile__box',
           { 'portal-tile__box--dragable': editMode },
-          { 'icon-button--default-cursor' : !showEditButton },
         ]"
         class="portal-tile__box"
       >
@@ -63,21 +65,14 @@
           class="portal-tile__img"
         >
       </div>
-      <span
-        :class="{ 'icon-button--default-cursor' : !showEditButton }"
-        class="portal-tile__name"
-        @click.prevent="tileClick"
-      >
+      <span class="portal-tile__name">
         {{ $localized(title) }}
       </span>
 
-      <header-button
-        v-if="!noEdit && editMode && showEditButton"
-        :icon="buttonIcon"
-        :aria-label="ariaLabelButton"
-        :no-click="true"
+      <icon-button
+        v-if="!minified && editMode"
+        icon="edit-2"
         class="portal-tile__edit-button"
-        @click="editTile($event)"
       />
     </component>
   </div>
@@ -86,30 +81,28 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import IconButton from '@/components/globals/IconButton.vue';
 
 import TileClick from '@/mixins/TileClick.vue';
+import Draggable from '@/mixins/Draggable.vue';
 
 import { Title, Description } from '@/store/modules/portalData/portalData.models';
-
-interface PortalTileData {
-  showEditButton: boolean,
-}
 
 export default defineComponent({
   name: 'PortalTile',
   components: {
-    HeaderButton,
+    IconButton,
   },
   mixins: [
     TileClick,
+    Draggable,
   ],
   props: {
     dn: {
       type: String,
       required: true,
     },
-    categoryDn: {
+    superDn: {
       type: String,
       required: true,
     },
@@ -134,7 +127,7 @@ export default defineComponent({
       type: String,
       default: 'var(--color-grey40)',
     },
-    inFolder: {
+    minified: {
       type: Boolean,
       default: false,
     },
@@ -150,26 +143,15 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    noEdit: {
+    fromFolder: {
       type: Boolean,
       default: false,
     },
-    buttonIcon: {
-      type: String,
-      default: 'edit-2',
-    },
-    ariaLabelButton: {
-      type: String,
-      default: 'Tab Aria Label',
-    },
   },
   emits: ['keepFocusInFolderModal'],
-  data(): PortalTileData {
-    return { showEditButton: true };
-  },
   computed: {
     wrapperTag(): string {
-      return (this.inFolder || this.editMode) ? 'div' : 'a';
+      return (this.minified || this.editMode) ? 'div' : 'a';
     },
   },
   mounted() {
@@ -182,7 +164,7 @@ export default defineComponent({
       this.$store.dispatch('tooltip/unsetTooltip');
     },
     showTooltip(): void {
-      if (!this.inFolder) {
+      if (!this.minified) {
         const tooltip = {
           title: this.$localized(this.title),
           backgroundColor: this.backgroundColor,
@@ -202,21 +184,18 @@ export default defineComponent({
         this.$emit('keepFocusInFolderModal', 'focusLast');
       }
     },
-    editTile(event) {
-      event.preventDefault();
-      if (this.showEditButton && this.editMode) {
-        this.$store.dispatch('modal/setAndShowModal', {
-          name: 'AdminEntry',
-          props: {
-            modelValue: this.$props,
-            categoryDn: this.categoryDn,
-            label: 'EDIT_ENTRY',
-          },
-        });
-      }
+    editTile() {
+      this.$store.dispatch('modal/setAndShowModal', {
+        name: 'AdminEntry',
+        props: {
+          modelValue: this.$props,
+          superDn: this.superDn,
+          fromFolder: this.fromFolder,
+          label: 'EDIT_ENTRY',
+        },
+      });
     },
     createID() {
-      console.log(this.description);
       return `element-${this.$.uid}`;
     },
   },
@@ -293,9 +272,4 @@ export default defineComponent({
 
   &__modal
     width: 650px
-
-// current fix for edit button in modal
-.portal-folder__in-modal
-  & .portal-tile__edit-button
-    display: none
 </style>
