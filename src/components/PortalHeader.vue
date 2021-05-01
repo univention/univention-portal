@@ -70,7 +70,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-if="editMode"
       class="portal-header__right"
     >
-      <div>
+      <div class="portal-header__edit-mode-label">
         {{ ariaLabelEditmode }}
       </div>
       <header-button
@@ -291,6 +291,9 @@ export default defineComponent({
     margin-left: auto
     display: flex;
     align-items: center;
+
+  &__edit-mode-label
+    white-space: nowrap
 
   &__bubble-container
     width: 360px

@@ -28,15 +28,17 @@
 -->
 <template>
   <div
-    v-if="hasTiles"
+    v-if="hasTiles || editMode"
     class="portal-folder"
+    :draggable="editMode && !inModal"
     :class="[
       { 'portal-folder__in-modal': inModal },
-      { 'icon-button--default-cursor' : !showEditButton },
     ]"
+    @dragstart="dragstart"
+    @dragenter="dragenter"
+    @dragend="dragend"
   >
     <button
-      :class="{ 'icon-button--default-cursor' : !showEditButton }"
       class="portal-tile__box"
       tabindex="0"
       @click="openFolder"
@@ -54,31 +56,37 @@
           <portal-tile
             :ref="'portalFolderChildren' + index"
             v-bind="tile"
-            :in-folder="!inModal"
+            :minified="!inModal"
             :has-focus="setFocus(index)"
             :last-element="isLastElement(index, tiles)"
             :first-element="isFirstElement(index)"
-            :no-edit="true"
-            :category-dn="categoryDn"
+            :from-folder="true"
+            :super-dn="dn"
             @keepFocusInFolderModal="keepFocusInFolderModal"
-            @clickAction="closeFolder"
           />
+        </div>
+        <div>
+          <div class="portal-tile__root-element">
+            <tile-add
+              v-if="editMode && inModal"
+              :for-folder="true"
+              :super-dn="dn"
+            />
+          </div>
         </div>
       </div>
     </button>
     <span
-      :class="{ 'icon-button--default-cursor' : !showEditButton }"
       class="portal-folder__name"
+      @click="openFolder"
     >
       {{ $localized(title) }}
     </span>
-    <header-button
-      v-if="!noEdit && editMode && !inModal && showEditButton"
+    <icon-button
+      v-if="editMode && !inModal"
       icon="edit-2"
-      :aria-label="ariaLabelButton"
-      :no-click="true"
       class="portal-folder__edit-button"
-      @click.prevent="editFolder()"
+      @click="editFolder()"
     />
   </div>
 </template>
@@ -88,19 +96,21 @@ import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
 import PortalTile from '@/components/PortalTile.vue';
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import Draggable from '@/mixins/Draggable.vue';
+import IconButton from '@/components/globals/IconButton.vue';
+import TileAdd from '@/components/admin/TileAdd.vue';
 import { Title, Tile } from '@/store/modules/portalData/portalData.models';
-
-interface PortalFolderData {
-  showEditButton: boolean,
-}
 
 export default defineComponent({
   name: 'PortalFolder',
   components: {
     PortalTile,
-    HeaderButton,
+    IconButton,
+    TileAdd,
   },
+  mixins: [
+    Draggable,
+  ],
   props: {
     dn: {
       type: String,
@@ -114,7 +124,7 @@ export default defineComponent({
       type: Array as PropType<Tile[]>,
       required: true,
     },
-    categoryDn: {
+    superDn: {
       type: String,
       required: true,
     },
@@ -122,17 +132,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    noEdit: {
-      type: Boolean,
-      default: false,
-    },
-    ariaLabelButton: {
-      type: String,
-      default: 'Tab Aria Label',
-    },
-  },
-  data(): PortalFolderData {
-    return { showEditButton: false };
   },
   computed: {
     ...mapGetters({ editMode: 'portalData/editMode' }),
@@ -145,9 +144,6 @@ export default defineComponent({
       this.$store.dispatch('modal/hideAndClearModal');
     },
     openFolder() {
-      if (this.editMode) {
-        return;
-      }
       if (this.inModal) {
         return;
       }
@@ -181,7 +177,14 @@ export default defineComponent({
       }
     },
     editFolder() {
-      console.log('editFolder');
+      this.$store.dispatch('modal/setAndShowModal', {
+        name: 'AdminFolder',
+        props: {
+          modelValue: this.$props,
+          superDn: this.superDn,
+          label: 'EDIT_FOLDER',
+        },
+      });
     },
   },
 });
@@ -210,6 +213,7 @@ export default defineComponent({
 
     button
       text-transform: none
+      cursor: default
 
     .portal-folder__name
       margin-top: calc(3 * var(--layout-spacing-unit))
@@ -224,6 +228,7 @@ export default defineComponent({
         margin-bottom: 0
 
         .portal-tile
+          cursor: pointer
           width: var(--app-tile-side-length)
           &__box
             width: var(--app-tile-side-length)
@@ -271,18 +276,13 @@ export default defineComponent({
         display: none;
 
   &__edit-button
-    user-select: none
     position: absolute
+    background-color: var(--color-grey0)
     top: -0.75em
     right: -0.75em
-    width: 2em
-    height: 2em
-    background-color: var(--color-grey0)
-    background-size: 1em
-    background-repeat: no-repeat
-    background-position: center
-    border-radius: 50%
-    box-shadow: var(--box-shadow)
+    z-index: $zindex-1
+
+    @extend .icon-button--admin
 
   .portal-tile__box
     background-color: var(--color-grey0)

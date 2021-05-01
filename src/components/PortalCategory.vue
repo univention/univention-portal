@@ -30,96 +30,69 @@
   <div
     :class="{'portal-category--empty': (!editMode && !hasTiles) }"
     class="portal-category"
+    @drop="tileDropped"
+    @dragover.prevent
+    @dragenter.prevent
   >
     <h2
       v-if="editMode || showCategoryHeadline || hasTiles"
-      :class="!editMode || 'portal-category__title--edit'"
       class="portal-category__title"
-      @click.prevent="editMode ? editCategory() : ''"
     >
-      <header-button
+      <icon-button
         v-if="editMode"
         icon="edit-2"
-        :aria-label="ariaLabelButton"
-        :no-click="true"
         class="portal-category__edit-button"
-      />{{ $localized(title) }}
+        @click="editCategory"
+      />
+      <div
+        :draggable="editMode"
+        @dragstart="dragstart"
+        @dragenter="dragenter"
+        @dragend="dragend"
+        @drop="categoryDropped"
+      >
+        {{ $localized(title) }}
+      </div>
     </h2>
     <div
-      class="portal-category__tiles dragdrop__container"
-      :class="{'portal-category__tiles--editmode': editMode}"
+      class="portal-category__tiles"
     >
       <template
-        v-if="editMode"
+        v-for="tile in tiles"
       >
-        <draggable-wrapper
-          v-model="vTiles"
-          :category-dn="dn"
-          :drop-zone-id="dropZone"
-          :data-drop-zone-id="dropZone"
-          class="dragdrop__drop-zone"
+        <div
+          v-if="tileMatchesQuery(tile)"
+          :key="tile.id"
         >
-          <template #item="{ item }">
-            <div
-              v-if="tileMatchesQuery(item)"
-              :key="item.id"
-              class="dragdrop__draggable-item"
-            >
-              <portal-folder
-                v-if="item.isFolder"
-                v-bind="item"
-                :category-dn="dn"
-              />
-              <portal-tile
-                v-else
-                v-bind="item"
-                :category-dn="dn"
-              />
-            </div>
-          </template>
-        </draggable-wrapper>
+          <portal-folder
+            v-if="tile.isFolder"
+            v-bind="tile"
+            :super-dn="dn"
+          />
+          <portal-tile
+            v-else
+            v-bind="tile"
+            :super-dn="dn"
+          />
+        </div>
       </template>
-
-      <template v-else>
-        <template
-          v-for="tile in tiles"
-        >
-          <div
-            v-if="tileMatchesQuery(tile)"
-            :key="tile.id"
-          >
-            <portal-folder
-              v-if="tile.isFolder"
-              v-bind="tile"
-              :category-dn="dn"
-            />
-            <portal-tile
-              v-else
-              v-bind="tile"
-              :category-dn="dn"
-            />
-          </div>
-        </template>
-      </template>
+      <tile-add
+        v-if="editMode"
+        :super-dn="dn"
+      />
     </div>
-
-    <draggable-debugger
-      v-if="editMode && debug"
-      :items="vTiles"
-    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
-import { put } from '@/jsHelper/admin';
 
-import DraggableWrapper from '@/components/dragdrop/DraggableWrapper.vue';
-import DraggableDebugger from '@/components/dragdrop/DraggableDebugger.vue';
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import TileAdd from '@/components/admin/TileAdd.vue';
+import IconButton from '@/components/globals/IconButton.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
+import Draggable from '@/mixins/Draggable.vue';
 import {
   Title,
   Tile,
@@ -128,29 +101,21 @@ import {
   BaseTile,
 } from '@/store/modules/portalData/portalData.models';
 
-function isEqual(arr1, arr2) {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  return arr1.every((v, i) => v === arr2[i]);
-}
-
 interface PortalCategoryData {
-  vTiles: Tile[],
-  debug: boolean,
   showCategoryHeadline: boolean,
-  categoryModal: boolean,
 }
 
 export default defineComponent({
   name: 'PortalCategory',
   components: {
+    TileAdd,
     PortalTile,
     PortalFolder,
-    HeaderButton,
-    DraggableWrapper,
-    DraggableDebugger,
+    IconButton,
   },
+  mixins: [
+    Draggable,
+  ],
   props: {
     dn: {
       type: String,
@@ -164,20 +129,9 @@ export default defineComponent({
       type: Array as PropType<Tile[]>,
       required: true,
     },
-    dropZone: {
-      type: Number,
-      required: true,
-    },
-    ariaLabelButton: {
-      type: String,
-      default: 'Tab Aria Label',
-    },
   },
   data(): PortalCategoryData {
     return {
-      vTiles: [],
-      debug: false, // `true` enables the debugger for the tiles array(s) in admin mode
-      categoryModal: false,
       showCategoryHeadline: false,
     };
   },
@@ -185,35 +139,35 @@ export default defineComponent({
     ...mapGetters({
       editMode: 'portalData/editMode',
       searchQuery: 'search/searchQuery',
+      dragDropIds: 'dragndrop/getId',
     }),
     hasTiles(): boolean {
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
     },
   },
-  watch: {
-    async vTiles(val) {
-      if (!this.editMode) {
-        return;
-      }
-      const oldEntries = this.tiles.map((tile) => tile.dn);
-      const entries = val.map((tile) => tile.dn);
-      if (isEqual(oldEntries, entries)) {
-        return;
-      }
-      this.$store.dispatch('activateLoadingState');
-      const dn = this.dn;
-      const attrs = {
-        entries,
-      };
-      console.info('Rearranging entries for', dn);
-      await put(dn, attrs, this.$store, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
-      this.$store.dispatch('deactivateLoadingState');
-    },
-  },
-  created(): void {
-    this.vTiles = [...this.tiles];
-  },
   methods: {
+    async tileDropped(evt: DragEvent) {
+      evt.preventDefault();
+      if (evt.dataTransfer === null) {
+        return;
+      }
+      const data = this.dragDropIds;
+      if (this.dn === data.superDn) {
+        this.$store.dispatch('dragndrop/dropped');
+        await this.$store.dispatch('portalData/saveContent');
+      }
+    },
+    async categoryDropped(evt: DragEvent) {
+      evt.preventDefault();
+      if (evt.dataTransfer === null) {
+        return;
+      }
+      const data = this.dragDropIds;
+      if (!data.superDn) {
+        this.$store.dispatch('dragndrop/dropped');
+        await this.$store.dispatch('portalData/savePortalCategories');
+      }
+    },
     editCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminCategory',
@@ -222,19 +176,6 @@ export default defineComponent({
           label: 'EDIT_CATEGORY',
         },
       });
-    },
-    closeModal() {
-      this.categoryModal = false;
-    },
-    removeCategory() {
-      console.log('remove category');
-      this.closeModal();
-    },
-    saveCategory(value) {
-      // save the changes
-      console.log('save category: ', value);
-
-      this.closeModal();
     },
     titleMatchesQuery(title: Title): boolean {
       return this.$localized(title).toLowerCase()
@@ -256,7 +197,7 @@ export default defineComponent({
 
 <style lang="stylus" scoped>
 .portal-category
-  margin-bottom: calc(10 * var(--layout-spacing-unit));
+  margin-bottom: calc(8 * var(--layout-spacing-unit));
 
   &--empty {
     margin-bottom: 0;
@@ -271,23 +212,8 @@ export default defineComponent({
       display: block
     }
 
-  &__drop-zone
-    width: 100%;
-    overflow: hidden;
-    &--hidden
-      display: none
-
-  &__drag-element
-    height: 210px
-    width: 160px
-
-  &__tile-dotted
-    width: calc(20 * var(--layout-spacing-unit))
-    height: calc(20 * var(--layout-spacing-unit))
-    border-radius: 15%
-    border: 3px dashed var(--color-grey40) !important
-
   &__edit-button
+    padding 0
     @extend .icon-button--admin
 
   &__title
@@ -295,8 +221,8 @@ export default defineComponent({
     display: inline-flex
     align-items: center
     margin-top: 0
-    margin-bottom: calc(6 * var(--layout-spacing-unit))
+    margin-bottom: calc(3 * var(--layout-spacing-unit))
 
-    &--edit
-      cursor: pointer
+    & [draggable="true"]
+      cursor: move
 </style>

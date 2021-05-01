@@ -26,12 +26,21 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { put } from '@/jsHelper/admin';
+
 import { PortalModule } from '../../root.models';
 import { PortalData } from './portalData.models';
 
+function isEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  return arr1.every((v, i) => v === arr2[i]);
+}
+
 interface WaitForChangePayload {
-  retries?: number;
-  adminMode?: boolean;
+  retries: number;
+  adminMode: boolean;
 }
 
 export interface PortalDataState {
@@ -77,8 +86,27 @@ const portalData: PortalModule<PortalDataState> = {
     PORTALLOGO(state, data) {
       state.portal.portal.logo = data;
     },
+    CONTENT(state, content) {
+      state.portal.portal.content = content;
+    },
     PORTALBACKGROUND(state, data) {
       state.portal.portal.background = data;
+    },
+    CHANGE_CATEGORY(state, payload) {
+      state.portal.categories.forEach((category) => {
+        if (category.dn !== payload.category) {
+          return;
+        }
+        category.entries = payload.entries;
+      });
+    },
+    RESHUFFLE_CATEGORY(state, payload) {
+      state.portal.portal.content = state.portal.portal.content.map(([category, entries]) => {
+        if (category === payload.category) {
+          return [category, payload.entries];
+        }
+        return [category, entries];
+      });
     },
     EDITMODE(state, editMode) {
       state.editMode = editMode;
@@ -115,13 +143,123 @@ const portalData: PortalModule<PortalDataState> = {
     setPortalBackground({ commit }, data: string) {
       commit('PORTALBACKGROUND', data);
     },
+    async savePortalCategories({ commit, dispatch, getters }) {
+      dispatch('activateLoadingState', undefined, { root: true });
+      const content = getters.portalContent;
+      const portalDn = getters.getPortalDn;
+      const attrs = {
+        categories: content.map(([category]) => category),
+      };
+      await put(portalDn, attrs, { dispatch }, 'CATEGORY_ORDER_SUCCESS', 'CATEGORY_ORDER_FAILURE');
+      dispatch('deactivateLoadingState', undefined, { root: true });
+    },
+    async saveContent({ commit, dispatch, getters }) {
+      dispatch('activateLoadingState', undefined, { root: true });
+      const content = getters.portalContent;
+      const categories = getters.portalCategories;
+      const puts = await categories.map(async (category) => content.map(async ([cat, entries]) => {
+        if (cat !== category.dn) {
+          return;
+        }
+        const attrs = {
+          entries,
+        };
+        if (isEqual(entries, category.entries)) {
+          return;
+        }
+        console.info('Rearranging entries for', cat);
+        await put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+      }));
+      await Promise.all(puts);
+      dispatch('deactivateLoadingState', undefined, { root: true });
+    },
+    replaceContent({ commit }, content) {
+      commit('CONTENT', content);
+    },
+    moveContent({ commit, getters }, payload) {
+      const src = payload.src;
+      const origin = payload.origin;
+      const dst = payload.dst;
+      const cat = payload.cat;
+      const content = getters.portalContent.map(([category, oldEntries]) => {
+        if (category === origin) {
+          const entries = [...oldEntries];
+          const idx = entries.indexOf(src);
+          entries.splice(idx, 1);
+          return [category, entries];
+        }
+        if (category === cat) {
+          const entries = [...oldEntries];
+          const idx = entries.indexOf(dst);
+          entries.splice(idx, 0, src);
+          return [category, entries];
+        }
+        return [category, oldEntries];
+      });
+      commit('CONTENT', content);
+    },
+    reshuffleContent({ commit, getters }, payload) {
+      const src = payload.src;
+      const dst = payload.dst;
+      const cat = payload.cat;
+      const content = getters.portalContent;
+      if (!cat) {
+        // src and dst are categories!
+        const newContent: string[][] = [];
+        let srcContent: string[] = [];
+        let srcIdx = -1;
+        let dstContent: string[] = [];
+        let dstIdx = -1;
+        content.forEach(([category, entries], idx) => {
+          if (category === src) {
+            srcContent = [category, entries];
+            srcIdx = idx;
+          }
+          if (category === dst) {
+            dstContent = [category, entries];
+            dstIdx = idx;
+          }
+        });
+        if (srcIdx < dstIdx) {
+          newContent.push(...content.slice(0, srcIdx));
+          newContent.push(...content.slice(srcIdx + 1, dstIdx + 1));
+          newContent.push(srcContent);
+          newContent.push(...content.slice(dstIdx + 1));
+        } else {
+          newContent.push(...content.slice(0, dstIdx));
+          newContent.push(srcContent);
+          newContent.push(...content.slice(dstIdx, srcIdx));
+          newContent.push(...content.slice(srcIdx + 1));
+        }
+        commit('CONTENT', newContent);
+        return;
+      }
+      content.forEach(([category, oldEntries]) => {
+        if (category !== cat) {
+          return;
+        }
+        const idx1 = oldEntries.indexOf(src);
+        const idx2 = oldEntries.indexOf(dst);
+        let entries: string[] = [];
+        if (idx1 < idx2) {
+          entries = oldEntries.slice(0, idx1);
+          entries = entries.concat(oldEntries.slice(idx1 + 1, idx2 + 1));
+          entries.push(src);
+          entries = entries.concat(oldEntries.slice(idx2 + 1));
+        } else {
+          entries = oldEntries.slice(0, idx2);
+          entries.push(src);
+          entries = entries.concat(oldEntries.slice(idx2, idx1));
+          entries = entries.concat(oldEntries.slice(idx1 + 1));
+        }
+        commit('RESHUFFLE_CATEGORY', { category, entries });
+      });
+    },
     async waitForChange({ dispatch, getters }, payload: WaitForChangePayload) {
-      const retries = payload.retries || 10;
-      const adminMode = payload.adminMode || false;
-      if (retries <= 0) {
+      if (payload.retries <= 0) {
         return false;
       }
-      const response = await dispatch('portalJsonRequest', { adminMode }, { root: true });
+      const response = await dispatch('portalJsonRequest', { adminMode: payload.adminMode }, { root: true });
       const portalJson = response.data;
       if (portalJson.cache_id !== getters.cacheId) {
         return true;
@@ -129,7 +267,8 @@ const portalData: PortalModule<PortalDataState> = {
       await new Promise((resolve) => {
         setTimeout(resolve, 1000);
       });
-      return dispatch('waitForChange', retries - 1);
+      payload.retries -= 1;
+      return dispatch('waitForChange', payload);
     },
     async setEditMode({ dispatch, commit }, editMode: boolean) {
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });

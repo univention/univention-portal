@@ -44,12 +44,11 @@
 
       <template v-if="categories">
         <portal-category
-          v-for="(category, index) in categories"
+          v-for="category in categories"
           :key="category.id"
           :title="category.title"
           :dn="category.dn"
           :tiles="category.tiles"
-          :drop-zone="index"
         />
       </template>
 
@@ -58,10 +57,8 @@
         class="portal-categories__title"
         @click.prevent="addCategory()"
       >
-        <header-button
-          :icon="buttonIcon"
-          :aria-label="ariaLabelButton"
-          :no-click="true"
+        <icon-button
+          icon="plus"
           class="portal-categories__add-button"
         />
         <translate i18n-key="ADD_CATEGORY" />
@@ -94,7 +91,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import IconButton from '@/components/globals/IconButton.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 import PortalCategory from 'components/PortalCategory.vue';
@@ -110,19 +107,10 @@ import Translate from '@/i18n/Translate.vue';
 import { Category } from '@/store/modules/portalData/portalData.models';
 import createCategories from '@/jsHelper/createCategories';
 
-interface PortalViewData {
-  buttonIcon: string,
-  ariaLabelButton: string,
-  modalTitle: string,
-  entryIndex: number,
-  saveAction: string,
-  modalClass: string,
-}
-
 export default defineComponent({
   name: 'Portal',
   components: {
-    HeaderButton,
+    IconButton,
     ModalWrapper,
     PortalBackground,
     PortalCategory,
@@ -134,16 +122,6 @@ export default defineComponent({
     Translate,
   },
   mixins: [notificationMixin],
-  data(): PortalViewData {
-    return {
-      buttonIcon: 'plus',
-      ariaLabelButton: 'Button for adding a new category',
-      modalTitle: '',
-      entryIndex: 0,
-      saveAction: '',
-      modalClass: '',
-    };
-  },
   computed: {
     ...mapGetters({
       portalContent: 'portalData/portalContent',
@@ -181,13 +159,17 @@ export default defineComponent({
 <style lang="stylus">
 .portal-categories
   position: relative;
-  padding: calc(7 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+  padding: calc(4 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
 
   &__add
     margin-top: -50px;
 
   &__add-button
+    vertical-align: top
     @extend .icon-button--admin
+
+    svg
+      vertical-align: top
 
   &__title
     cursor: pointer

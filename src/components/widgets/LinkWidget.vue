@@ -1,4 +1,4 @@
-s<!--
+<!--
   Copyright 2021 Univention GmbH
 
   https://www.univention.de/
@@ -57,11 +57,9 @@ s<!--
         v-if="modelValueData.length > 1"
         class="link-widget__remove modal-admin__button"
       >
-        <header-button
-          aria-label="Remove link"
+        <icon-button
           icon="trash"
-          :no-click="true"
-          @click.stop.prevent="removeField(index, modelValueData)"
+          @click="removeField(index, modelValueData)"
         />
       </span>
     </div>
@@ -85,7 +83,7 @@ s<!--
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
-import HeaderButton from '@/components/navigation/HeaderButton.vue';
+import IconButton from '@/components/globals/IconButton.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import Translate from '@/i18n/Translate.vue';
 
@@ -101,7 +99,7 @@ interface LocaleAndValue {
 export default defineComponent({
   name: 'LinkWidget',
   components: {
-    HeaderButton,
+    IconButton,
     PortalIcon,
     Translate,
   },
@@ -149,6 +147,9 @@ export default defineComponent({
     },
   },
 });
+
+export { LocaleAndValue };
+
 </script>
 
 <style lang="stylus">
@@ -158,6 +159,9 @@ export default defineComponent({
 
   &__select
     max-width: 5rem
+
+    select
+      width: 5rem
 
   &__input
     width: 100%
