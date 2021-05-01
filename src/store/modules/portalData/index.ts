@@ -80,6 +80,22 @@ const portalData: PortalModule<PortalDataState> = {
     PORTALBACKGROUND(state, data) {
       state.portal.portal.background = data;
     },
+    CHANGE_CATEGORY(state, payload) {
+      state.portal.categories.forEach((category) => {
+        if (category.dn !== payload.category) {
+          return;
+        }
+        category.entries = payload.entries;
+      });
+    },
+    RESHUFFLE_CATEGORY(state, payload) {
+      state.portal.portal.content = state.portal.portal.content.map(([category, entries]) => {
+        if (category === payload.category) {
+          return [category, payload.entries];
+        }
+        return [category, entries];
+      });
+    },
     EDITMODE(state, editMode) {
       state.editMode = editMode;
     },
@@ -114,6 +130,55 @@ const portalData: PortalModule<PortalDataState> = {
     },
     setPortalBackground({ commit }, data: string) {
       commit('PORTALBACKGROUND', data);
+    },
+    resetShuffle({ commit, getters }, superDn: string) {
+      getters.portalCategories.forEach((category) => {
+        if (category.dn !== superDn) {
+          return;
+        }
+        commit('RESHUFFLE_CATEGORY', {
+          category: category.dn,
+          entries: category.entries,
+        });
+      });
+    },
+    saveShuffe({ commit, getters }, superDn: string) {
+      const content = getters.portalContent;
+      content.forEach(([category, entries]) => {
+        if (category !== superDn) {
+          return;
+        }
+        commit('CHANGE_CATEGORY', {
+          category,
+          entries,
+        });
+      });
+    },
+    reshuffleContent({ commit, getters }, payload) {
+      const src = payload.src;
+      const dst = payload.dst;
+      const cat = payload.cat;
+      const content = getters.portalContent;
+      content.forEach(([category, oldEntries]) => {
+        if (category !== cat) {
+          return;
+        }
+        const idx1 = oldEntries.indexOf(src);
+        const idx2 = oldEntries.indexOf(dst);
+        let entries: string[] = [];
+        if (idx1 < idx2) {
+          entries = oldEntries.slice(0, idx1);
+          entries = entries.concat(oldEntries.slice(idx1 + 1, idx2 + 1));
+          entries.push(src);
+          entries = entries.concat(oldEntries.slice(idx2 + 1));
+        } else {
+          entries = oldEntries.slice(0, idx2);
+          entries.push(src);
+          entries = entries.concat(oldEntries.slice(idx2, idx1));
+          entries = entries.concat(oldEntries.slice(idx1 + 1));
+        }
+        commit('RESHUFFLE_CATEGORY', { category, entries });
+      });
     },
     async waitForChange({ dispatch, getters }, payload: WaitForChangePayload) {
       if (payload.retries <= 0) {
