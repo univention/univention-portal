@@ -78,7 +78,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
-import { put } from '@/jsHelper/admin';
 
 import TileAdd from '@/components/admin/TileAdd.vue';
 import IconButton from '@/components/globals/IconButton.vue';
@@ -127,6 +126,7 @@ export default defineComponent({
     ...mapGetters({
       editMode: 'portalData/editMode',
       searchQuery: 'search/searchQuery',
+      dragDropIds: 'dragndrop/getId',
     }),
     hasTiles(): boolean {
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
@@ -138,16 +138,10 @@ export default defineComponent({
       if (evt.dataTransfer === null) {
         return;
       }
-      if (this.dn === evt.dataTransfer.getData('superDn')) {
-        this.$store.dispatch('portalData/saveShuffe', this.dn);
-        this.$store.dispatch('activateLoadingState');
-        const dn = this.dn;
-        const attrs = {
-          entries: this.tiles.map((tile) => tile.dn),
-        };
-        console.info('Rearranging entries for', dn);
-        await put(dn, attrs, this.$store, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
-        this.$store.dispatch('deactivateLoadingState');
+      const data = this.dragDropIds;
+      if (this.dn === data.superDn) {
+        this.$store.dispatch('dragndrop/dropped');
+        await this.$store.dispatch('portalData/saveContent');
       }
     },
     editCategory() {

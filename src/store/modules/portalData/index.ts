@@ -26,8 +26,17 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { put } from '@/jsHelper/admin';
+
 import { PortalModule } from '../../root.models';
 import { PortalData } from './portalData.models';
+
+function isEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  return arr1.every((v, i) => v === arr2[i]);
+}
 
 interface WaitForChangePayload {
   retries: number;
@@ -76,6 +85,9 @@ const portalData: PortalModule<PortalDataState> = {
     },
     PORTALLOGO(state, data) {
       state.portal.portal.logo = data;
+    },
+    CONTENT(state, content) {
+      state.portal.portal.content = content;
     },
     PORTALBACKGROUND(state, data) {
       state.portal.portal.background = data;
@@ -131,28 +143,50 @@ const portalData: PortalModule<PortalDataState> = {
     setPortalBackground({ commit }, data: string) {
       commit('PORTALBACKGROUND', data);
     },
-    resetShuffle({ commit, getters }, superDn: string) {
-      getters.portalCategories.forEach((category) => {
-        if (category.dn !== superDn) {
-          return;
-        }
-        commit('RESHUFFLE_CATEGORY', {
-          category: category.dn,
-          entries: category.entries,
-        });
-      });
-    },
-    saveShuffe({ commit, getters }, superDn: string) {
+    async saveContent({ commit, dispatch, getters }) {
+      dispatch('activateLoadingState', undefined, { root: true });
       const content = getters.portalContent;
-      content.forEach(([category, entries]) => {
-        if (category !== superDn) {
+      const categories = getters.portalCategories;
+      const puts = await categories.map(async (category) => content.map(async ([cat, entries]) => {
+        if (cat !== category.dn) {
           return;
         }
-        commit('CHANGE_CATEGORY', {
-          category,
+        const attrs = {
           entries,
-        });
+        };
+        if (isEqual(entries, category.entries)) {
+          return;
+        }
+        console.info('Rearranging entries for', cat);
+        await put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+      }));
+      await Promise.all(puts);
+      dispatch('deactivateLoadingState', undefined, { root: true });
+    },
+    replaceContent({ commit }, content) {
+      commit('CONTENT', content);
+    },
+    moveContent({ commit, getters }, payload) {
+      const src = payload.src;
+      const origin = payload.origin;
+      const dst = payload.dst;
+      const cat = payload.cat;
+      const content = getters.portalContent.map(([category, oldEntries]) => {
+        if (category === origin) {
+          const entries = [...oldEntries];
+          const idx = entries.indexOf(src);
+          entries.splice(idx, 1);
+          return [category, entries];
+        }
+        if (category === cat) {
+          const entries = [...oldEntries];
+          const idx = entries.indexOf(dst);
+          entries.splice(idx, 0, src);
+          return [category, entries];
+        }
+        return [category, oldEntries];
       });
+      commit('CONTENT', content);
     },
     reshuffleContent({ commit, getters }, payload) {
       const src = payload.src;
