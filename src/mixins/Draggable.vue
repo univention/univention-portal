@@ -34,24 +34,36 @@ const draggableMixin = {
         e.preventDefault();
         return;
       }
-      console.log('dragstart', this.dn);
-      e.dataTransfer.setData('dn', this.dn);
-      e.dataTransfer.setData('superDn', this.superDn);
-      e.dataTransfer.effectAllowed = 'move';
+      this.$store.dispatch('dragndrop/startDragging', {
+        dn: this.dn,
+        superDn: this.superDn,
+        original: true,
+      });
     },
     dragenter(e) {
       if (!this.editMode || this.fromFolder || this.inModal) {
         e.preventDefault();
         return;
       }
-      console.log('dragenter', this.dn);
+      const data = this.$store.getters['dragndrop/getId'];
       const myCategory = this.superDn;
-      const otherCategory = e.dataTransfer.getData('superDn');
+      const otherCategory = data.superDn;
+      const myId = this.dn;
+      const otherId = data.dn;
       if (myCategory !== otherCategory) {
+        this.$store.dispatch('portalData/moveContent', {
+          src: otherId,
+          origin: otherCategory,
+          dst: myId,
+          cat: myCategory,
+        });
+        this.$store.dispatch('dragndrop/startDragging', {
+          dn: otherId,
+          superDn: myCategory,
+          original: false,
+        });
         return;
       }
-      const myId = this.dn;
-      const otherId = e.dataTransfer.getData('dn');
       if (myId === otherId) {
         return;
       }
@@ -66,8 +78,7 @@ const draggableMixin = {
         e.preventDefault();
         return;
       }
-      console.log('dragend', this.dn);
-      this.$store.dispatch('portalData/resetShuffle', e.dataTransfer.getData('superDn'));
+      this.$store.dispatch('dragndrop/revert');
     },
   },
 };
