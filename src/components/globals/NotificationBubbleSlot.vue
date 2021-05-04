@@ -145,10 +145,10 @@ export default defineComponent({
       background-color: rgba(0,0,0,0.4)
 
     &--success
-      background-color: var(--notification-success)
+      background-color: var(--color-notification-success)
 
     &--warning
-      background-color: var(--notification-warning)
+      background-color: var(--color-notification-warning)
 
     &--error
       background-color: var(--notification-error)

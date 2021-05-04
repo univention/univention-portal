@@ -149,12 +149,12 @@ export default defineComponent({
     &--success
       &:hover,
       &:focus
-        background-color: var(--notification-success)
+        background-color: var(--color-notification-success)
 
     &--warning
       &:hover,
       &:focus
-        background-color: var(--notification-warning)
+        background-color: var(--color-notification-warning)
 
     &--error
       &:hover,
