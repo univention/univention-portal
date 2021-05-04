@@ -139,7 +139,7 @@ export default defineComponent({
     border-radius: var(--border-radius-notification)
     padding: var(--layout-spacing-unit)
     margin-bottom: calc(2 * var(--layout-spacing-unit))
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4)
 
     &--default
       background-color: rgba(0,0,0,0.4)
@@ -170,7 +170,7 @@ export default defineComponent({
     text-decoration: none
 
     &>a
-      color: #fff!important
+      color: var(--color-white)!important
       transition: color 250ms
       text-decoration: underline
 </style>

@@ -143,7 +143,7 @@ export default defineComponent({
     &:focus
       border-radius: 100%
     &:focus
-      border: 0.2rem solid var(--color-primary)
+      border: 0.2rem solid var(--color-focus)
       outline: none
 
     &--success

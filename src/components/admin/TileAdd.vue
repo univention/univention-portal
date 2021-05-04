@@ -82,7 +82,7 @@ export default defineComponent({
   cursor: pointer
 
   &:focus
-    border-color: var(--color-primary)
+    border-color: var(--color-focus)
 
   svg
     width: 100%

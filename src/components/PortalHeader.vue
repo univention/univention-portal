@@ -270,7 +270,7 @@ export default defineComponent({
     border: 0.2rem solid rgba(0,0,0,0)
 
     &:focus
-      border: 0.2rem solid var(--color-primary)
+      border: 0.2rem solid var(--color-focus)
       outline: 0
 
     &-image
