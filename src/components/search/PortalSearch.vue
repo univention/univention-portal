@@ -104,8 +104,8 @@ export default defineComponent({
   &__input
     width: 100%;
     background-color: transparent;
-    color: #fff;
-    border: 0.1rem solid white;
+    color: var(--color-white);
+    border: 0.1rem solid var(--color-white);
     border-radius: var(--border-radius-interactable);
     background-color: var(--bgc-content-header)
     __border-radius: var(--border-radius-interactable);
@@ -114,7 +114,7 @@ export default defineComponent({
     margin-bottom: 0
 
     &:focus
-      border-color: var(--color-primary);
+      border-color: var(--color-focus);
       outline: none;
   &__wrapper
     background-color: rgba(0,0,0,0)

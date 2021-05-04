@@ -233,7 +233,7 @@ export default defineComponent({
     border: 0.2rem solid transparent
 
     ~/:focus &
-      border-color: var(--color-primary)
+      border-color: var(--color-focus)
 
     &--dragable
       position: relative

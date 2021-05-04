@@ -221,6 +221,6 @@ export default defineComponent({
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #fff;
+  background-color: var(--color-white);
 
 </style>

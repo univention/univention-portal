@@ -289,6 +289,6 @@ export default defineComponent({
     padding: 0
 
 &:focus
-  border-color: var(--color-primary)
+  border-color: var(--color-focus)
   outline: none;
 </style>
