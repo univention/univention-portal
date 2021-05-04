@@ -54,7 +54,7 @@ const portalData: PortalModule<PortalDataState> = {
   state: {
     portal: {
       portal: {
-        name: { en_US: 'Univention Portal' },
+        name: { en_US: '' },
         background: null,
         defaultLinkTarget: 'embedded',
         dn: 'default',
