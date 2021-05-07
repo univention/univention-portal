@@ -53,8 +53,7 @@
        "anonymous": false,
        "backgroundColor": null,
        "description": {
-         "de_DE": "ownCloud Administrations-Handbuch (in Englisch)",
-         "en_US": "ownCloud Administration Manual"
+         "de_DE": "ownCloud Administrations-Handbuch (in Englisch)"
        },
        "dn": "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "linkTarget": "newwindow",
@@ -63,8 +62,7 @@
        ],
        "logo_name": "./data/icons/owncloud-admindoc.svg",
        "name": {
-         "de_DE": "Admin Handbuch",
-         "en_US": "Admin Manual"
+         "de_DE": "Admin Handbuch"
        }
      },
      {
