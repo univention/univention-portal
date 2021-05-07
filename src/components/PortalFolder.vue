@@ -142,6 +142,7 @@ export default defineComponent({
   methods: {
     closeFolder(): void {
       this.$store.dispatch('modal/hideAndClearModal');
+      this.$store.dispatch('tooltip/unsetTooltip');
     },
     openFolder() {
       if (this.inModal) {
