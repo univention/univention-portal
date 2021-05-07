@@ -54,7 +54,7 @@ const search: PortalModule<SearchState> = {
 
   getters: {
     searchQuery: (state) => state.searchQuery,
-    hasEmptySearchResults: (state) => state.emptySearchResults,
+    hasEmptySearchResults: (state) => !!state.searchQuery && state.emptySearchResults,
   },
 
   actions: {
