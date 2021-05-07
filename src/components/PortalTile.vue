@@ -74,6 +74,11 @@
         icon="edit-2"
         class="portal-tile__edit-button"
       />
+      <icon-button
+        v-if="!minified && isTouchDevice"
+        icon="info"
+        class="portal-tile__edit-button"
+      />
     </component>
   </div>
 </template>
@@ -88,6 +93,10 @@ import Draggable from '@/mixins/Draggable.vue';
 
 import { Title, Description } from '@/store/modules/portalData/portalData.models';
 
+interface PortalTileData {
+  isTouchDevice: boolean;
+}
+
 export default defineComponent({
   name: 'PortalTile',
   components: {
@@ -97,6 +106,11 @@ export default defineComponent({
     TileClick,
     Draggable,
   ],
+  data(): PortalTileData {
+    return {
+      isTouchDevice: false,
+    };
+  },
   props: {
     dn: {
       type: String,
@@ -153,10 +167,16 @@ export default defineComponent({
     wrapperTag(): string {
       return (this.minified || this.editMode) ? 'div' : 'a';
     },
+    isMobileTouchDevice(): boolean {
+      return true;
+    },
   },
   mounted() {
     if (this.hasFocus) {
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
+    }
+    if ('ontouchstart' in document.documentElement) {
+      this.isTouchDevice = true;
     }
   },
   methods: {
