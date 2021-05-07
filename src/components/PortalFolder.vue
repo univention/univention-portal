@@ -198,7 +198,6 @@ export default defineComponent({
   flex-direction: column
   align-items: center
   cursor: pointer
-  border: 0.2rem solid transparent
 
   &__name
     text-align: center
