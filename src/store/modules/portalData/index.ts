@@ -190,7 +190,11 @@ const portalData: PortalModule<PortalDataState> = {
         }
         if (category === cat) {
           const entries = [...oldEntries];
-          const idx = entries.indexOf(dst);
+          let idx = entries.indexOf(dst);
+          if (idx === -1) {
+            // TileAdd.vue
+            idx = entries.length;
+          }
           entries.splice(idx, 0, src);
           return [category, entries];
         }
@@ -239,7 +243,16 @@ const portalData: PortalModule<PortalDataState> = {
           return;
         }
         const idx1 = oldEntries.indexOf(src);
-        const idx2 = oldEntries.indexOf(dst);
+        let idx2 = oldEntries.indexOf(dst);
+        if (idx2 === -1) {
+          // TileAdd.vue
+          idx2 = oldEntries.length - 1;
+          if (idx1 === idx2) {
+            // otherwise drop does not work on TileAdd.vue
+            // I do not know exactly why, though
+            return;
+          }
+        }
         let entries: string[] = [];
         if (idx1 < idx2) {
           entries = oldEntries.slice(0, idx1);
