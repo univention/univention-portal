@@ -97,10 +97,6 @@ import Draggable from '@/mixins/Draggable.vue';
 
 import { Title, Description } from '@/store/modules/portalData/portalData.models';
 
-interface PortalTileData {
-  isTouchDevice: boolean;
-}
-
 export default defineComponent({
   name: 'PortalTile',
   components: {
@@ -110,11 +106,6 @@ export default defineComponent({
     TileClick,
     Draggable,
   ],
-  data(): PortalTileData {
-    return {
-      isTouchDevice: false,
-    };
-  },
   props: {
     dn: {
       type: String,
@@ -174,13 +165,13 @@ export default defineComponent({
     wrapperTag(): string {
       return (this.minified || this.editMode) ? 'div' : 'a';
     },
+    isTouchDevice(): boolean {
+      return 'ontouchstart' in document.documentElement;
+    },
   },
   mounted() {
     if (this.hasFocus) {
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
-    }
-    if ('ontouchstart' in document.documentElement) {
-      this.isTouchDevice = true;
     }
   },
   methods: {
