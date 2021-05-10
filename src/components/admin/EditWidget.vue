@@ -33,6 +33,7 @@
   >
     <form
       class="admin-entry"
+      @checkAllErrors="checkFormError"
       @submit.prevent="finish"
     >
       <main>
@@ -56,12 +57,18 @@
           <translate i18n-key="CANCEL" />
         </button>
         <button
-          class="primary"
-          type="submit"
-          @click.prevent="$emit('save')"
+          type="button"
+          :disabled="getModalError && getModalError.length > 0"
+          :class="[(getModalError && getModalError.length > 0) ? 'form__error--disabled' : 'primary']"
+          @click.prevent="submit"
         >
           <translate i18n-key="SAVE" />
         </button>
+      </footer>
+      <footer
+        v-if="showDebugger"
+      >
+        <pre>getModalError: {{ getModalError }}</pre>
       </footer>
     </form>
   </modal-dialog>
@@ -69,9 +76,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 import Translate from '@/i18n/Translate.vue';
+
+interface EditWidgetData {
+  showDebugger: boolean,
+}
 
 export default defineComponent({
   name: 'EditWidget',
@@ -90,12 +102,25 @@ export default defineComponent({
     },
   },
   emits: ['remove', 'save'],
+  data(): EditWidgetData {
+    return {
+      showDebugger: false,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      getModalError: 'modal/getModalError',
+    }),
+  },
   mounted() {
     this.$el.querySelector('input:enabled')?.focus();
   },
   methods: {
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
+    },
+    submit() {
+      this.$emit('save');
     },
   },
 });
