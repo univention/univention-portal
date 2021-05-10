@@ -74,15 +74,14 @@
         icon="edit-2"
         class="portal-tile__edit-button"
       />
-
     </component>
-      <icon-button
-        v-if="!minified && isTouchDevice"
-        icon="info"
-        class="portal-tile__info-button"
-        @click="toolTipTouchHandler($event)"
-        tabindex="-1"
-      />
+    <icon-button
+      v-if="!minified && isTouchDevice"
+      icon="info"
+      class="portal-tile__info-button"
+      tabindex="-1"
+      @click="toolTipTouchHandler()"
+    />
   </div>
 </template>
 
@@ -210,7 +209,7 @@ export default defineComponent({
         },
       });
     },
-    toolTipTouchHandler(event) {
+    toolTipTouchHandler() {
       if (this.tooltip) {
         this.hideTooltip();
       } else {
