@@ -273,6 +273,14 @@
    "categories": [
      {
        "display_name": {
+         "de_DE": "Neue Kategorie",
+         "en_US": "New category"
+       },
+       "dn": "cn=new,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+       "entries": []
+     },
+     {
+       "display_name": {
          "de_DE": "Verwaltung",
          "en_US": "Administration"
        },
@@ -301,6 +309,7 @@
      "autoLayoutCategories": false,
      "background": null,
      "categories": [
+       "cn=new,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
      ],
@@ -316,6 +325,10 @@
      },
      "showApps": false,
      "content": [
+       [
+         "cn=new,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+         []
+       ],
        [
          "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
          [
