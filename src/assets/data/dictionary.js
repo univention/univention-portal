@@ -134,6 +134,8 @@ const catalog = {
   CHOOSE_TAB: _('Choose a tab'),
   SHOW_UMC: _('Show local UMC modules'),
   NO_RESULTS: _('No search results'),
+  ERROR_ENTER_NAME: _('Please enter a name'),
+  ERROR_ENTER_DESCRIPTION: _('Please enter a description'),
 };
 
 export { catalog };

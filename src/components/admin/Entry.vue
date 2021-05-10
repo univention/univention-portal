@@ -44,10 +44,14 @@
     </label>
     <locale-input
       v-model="title"
+      :required-fields="['en_US', 'de_DE']"
+      error-text="ERROR_ENTER_NAME"
       label="Name"
     />
     <locale-input
       v-model="description"
+      :required-fields="['en_US']"
+      error-text="ERROR_ENTER_DESCRIPTION"
       label="Description"
     />
     <label>
@@ -96,6 +100,7 @@ interface AdminEntryData {
   title: Record<string, string>,
   description: Record<string, string>,
   links: Array<LocaleAndValue>,
+  save: boolean,
 }
 
 export default defineComponent({
@@ -134,12 +139,14 @@ export default defineComponent({
       description: {},
       backgroundColor: null,
       links: [],
+      save: false,
     };
   },
   computed: {
     ...mapGetters({
       portalCategories: 'portalData/portalCategories',
       portalFolders: 'portalData/portalFolders',
+      getModalError: 'modal/getModalError',
     }),
     superObjs(): any[] {
       if (this.fromFolder) {
