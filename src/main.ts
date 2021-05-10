@@ -30,8 +30,10 @@ import { createApp } from 'vue';
 import App from '@/App.vue';
 import { store } from '@/store';
 import localize from '@/plugins/localize';
+import formCheck from '@/plugins/formCheck';
 
 createApp(App)
   .use(store)
   .use(localize)
+  .use(formCheck)
   .mount('#app');
