@@ -74,17 +74,21 @@
         icon="edit-2"
         class="portal-tile__edit-button"
       />
+
+    </component>
       <icon-button
         v-if="!minified && isTouchDevice"
         icon="info"
-        class="portal-tile__edit-button"
+        class="portal-tile__info-button"
+        @click="toolTipTouchHandler($event)"
+        tabindex="-1"
       />
-    </component>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { mapGetters } from 'vuex';
 
 import IconButton from '@/components/globals/IconButton.vue';
 
@@ -164,11 +168,11 @@ export default defineComponent({
   },
   emits: ['keepFocusInFolderModal'],
   computed: {
+    ...mapGetters({
+      tooltip: 'tooltip/tooltip',
+    }),
     wrapperTag(): string {
       return (this.minified || this.editMode) ? 'div' : 'a';
-    },
-    isMobileTouchDevice(): boolean {
-      return true;
     },
   },
   mounted() {
@@ -215,6 +219,13 @@ export default defineComponent({
         },
       });
     },
+    toolTipTouchHandler(event) {
+      if (this.tooltip) {
+        this.hideTooltip();
+      } else {
+        this.showTooltip();
+      }
+    },
     createID() {
       return `element-${this.$.uid}`;
     },
@@ -240,6 +251,7 @@ export default defineComponent({
   &__root-element
     display:flex
     justify-content: center
+    position: relative
   &__box
     border-radius: var(--border-radius-apptile)
     display: flex
@@ -279,11 +291,28 @@ export default defineComponent({
     white-space: nowrap
     text-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3)
 
-  &__edit-button
+  &__edit-button,
+  &__info-button
     position: absolute
     top: -0.75em
     right: -0.75em
     z-index: $zindex-1
+    width: calc(5.5 * var(--layout-spacing-unit))
+    height: @width
+    padding: calc(.5 * var(--layout-spacing-unit))
+    border: 0.2rem solid transparent
+    box-sizing: border-box
+    font-size: var(--font-size-2)
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &:focus
+      border-color: var(--color-focus)
+
+    svg
+      width: calc(1.5 * var(--button-icon-size))
+      height: @width
 
     @extend .icon-button--admin
 
