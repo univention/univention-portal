@@ -65,10 +65,11 @@
             @keepFocusInFolderModal="keepFocusInFolderModal"
           />
         </div>
-        <div>
+        <div
+          v-if="editMode && inModal"
+        >
           <div class="portal-tile__root-element">
             <tile-add
-              v-if="editMode && inModal"
               :for-folder="true"
               :super-dn="dn"
             />
@@ -142,6 +143,7 @@ export default defineComponent({
   methods: {
     closeFolder(): void {
       this.$store.dispatch('modal/hideAndClearModal');
+      this.$store.dispatch('tooltip/unsetTooltip');
     },
     openFolder() {
       if (this.inModal) {
@@ -195,7 +197,6 @@ export default defineComponent({
   flex-direction: column
   align-items: center
   cursor: pointer
-  border: 0.2rem solid transparent
 
   &__name
     text-align: center
@@ -239,7 +240,7 @@ export default defineComponent({
 
   &__thumbnails
     width: 100%
-    height:100%
+    height: 100%
     display: flex
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -258,13 +259,14 @@ export default defineComponent({
       overflow: auto
       box-sizing: border-box;
       padding:  var(--portal-folder-padding)
+      padding-bottom: 0
 
       > div
         margin-bottom: 3rem
     .portal-tile
-      width: calc(0.2 * var(--app-tile-side-length))
+      width: calc(0.25 * var(--app-tile-side-length))
       &__box
-        width: calc(0.2 * var(--app-tile-side-length))
+        width: calc(0.25 * var(--app-tile-side-length))
         height: @width
         margin-bottom: var(--layout-spacing-unit)
         padding:  calc(var(--layout-spacing-unit))
