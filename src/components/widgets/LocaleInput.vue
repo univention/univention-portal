@@ -31,12 +31,27 @@
     v-for="locale in locales"
     :key="locale"
   >
-    <label>
+    <label
+      :class="{'form__error--text' : getModalError && getModalError.includes(`${[label]}_${locale}`)}"
+    >
       {{ label }} ({{ locale }})
-      <input
-        v-model="modelValueData[locale]"
-      >
     </label>
+    <input
+      v-model="modelValueData[locale]"
+      :class="{'form__error--input' : getModalError && getModalError.includes(`${[label]}_${locale}`)}"
+      autocomplete="off"
+      tabindex="0"
+      aria-required="true"
+      aria-invalid="false"
+      @blur="$formChecker(modelValueData, requiredFields, label)"
+      @keyup="$formChecker(modelValueData, requiredFields, label)"
+    >
+    <span
+      v-if="getModalError&& getModalError.includes(`${[label]}_${locale}`)"
+      class="form__error--message"
+    >
+      <translate :i18n-key="errorText" /> ({{ locale }})
+    </span>
   </div>
 </template>
 
@@ -44,19 +59,34 @@
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
+import Translate from '@/i18n/Translate.vue';
+
 export default defineComponent({
   name: 'LocaleInput',
+  components: {
+    Translate,
+  },
   props: {
-    label: {
-      type: String,
-      required: true,
-    },
     modelValue: {
       type: Object as PropType<Record<string, string>>,
       required: true,
     },
+    label: {
+      type: String,
+      required: true,
+    },
+    requiredFields: {
+      type: Array as PropType<Array<string>>,
+      default: () => [],
+    },
+    errorText: {
+      type: Object as PropType<Record<string, string>>,
+      default: '',
+    },
   },
-  emits: ['update:modelValue'],
+  emits: [
+    'update:modelValue',
+  ],
   data() {
     return {
       modelValueData: {},
@@ -65,6 +95,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       locales: 'locale/getAvailableLocales',
+      getModalError: 'modal/getModalError',
     }),
   },
   created() {
