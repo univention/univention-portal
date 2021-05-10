@@ -144,20 +144,18 @@ const portalData: PortalModule<PortalDataState> = {
       commit('PORTALBACKGROUND', data);
     },
     async savePortalCategories({ commit, dispatch, getters }) {
-      dispatch('activateLoadingState', undefined, { root: true });
       const content = getters.portalContent;
       const portalDn = getters.getPortalDn;
       const attrs = {
         categories: content.map(([category]) => category),
       };
       await put(portalDn, attrs, { dispatch }, 'CATEGORY_ORDER_SUCCESS', 'CATEGORY_ORDER_FAILURE');
-      dispatch('deactivateLoadingState', undefined, { root: true });
     },
     async saveContent({ commit, dispatch, getters }) {
-      dispatch('activateLoadingState', undefined, { root: true });
       const content = getters.portalContent;
       const categories = getters.portalCategories;
-      const puts = await categories.map(async (category) => content.map(async ([cat, entries]) => {
+      const puts: Promise<void>[] = [];
+      categories.forEach((category) => content.forEach(([cat, entries]) => {
         if (cat !== category.dn) {
           return;
         }
@@ -168,10 +166,10 @@ const portalData: PortalModule<PortalDataState> = {
           return;
         }
         console.info('Rearranging entries for', cat);
-        await put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+        const ret = put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+        puts.push(ret);
       }));
       await Promise.all(puts);
-      dispatch('deactivateLoadingState', undefined, { root: true });
     },
     replaceContent({ commit }, content) {
       commit('CONTENT', content);
