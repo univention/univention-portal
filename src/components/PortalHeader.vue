@@ -98,19 +98,19 @@ License with the Debian GNU/Linux or Univention distribution in file
       <header-button
         ref="searchButton"
         data-test="searchbutton"
-        :aria-label="ariaLabelSearch"
+        :aria-label-prop="ariaLabelSearch"
         icon="search"
         @click="dismissBubble"
       />
       <header-button
         data-test="bellbutton"
-        :aria-label="ariaLabelNotifications"
+        :aria-label-prop="ariaLabelNotifications"
         icon="bell"
         @click="dismissBubble"
       />
       <header-button
         data-test="navigationbutton"
-        :aria-label="ariaLabelMenu"
+        :aria-label-prop="ariaLabelMenu"
         icon="menu"
         @click="dismissNotification('menu')"
       />

@@ -33,7 +33,7 @@
       :href="link"
       :target="anchorTarget"
       :aria-describedby="createID()"
-      :aria-label="$localized(title)"
+      :aria-label="ariaLabelPortalTile"
       class="portal-tile"
       :draggable="editMode && !fromFolder"
       data-test="tileLink"
@@ -166,6 +166,9 @@ export default defineComponent({
     },
     isTouchDevice(): boolean {
       return 'ontouchstart' in document.documentElement;
+    },
+    ariaLabelPortalTile(): null | string {
+      return (this.minified || this.editMode) ? null : '';
     },
   },
   mounted() {
