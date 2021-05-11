@@ -306,6 +306,15 @@ export default defineComponent({
     &--in-modal
       position relative
 
+  &__info-button
+    width: calc(5.5 * var(--layout-spacing-unit))
+    height: @width
+    font-size: var(--font-size-2)
+
+    svg
+      width: calc(1.5 * var(--button-icon-size))
+      height: @width
+
   &__modal
     width: 650px
 </style>
