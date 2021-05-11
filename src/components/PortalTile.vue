@@ -168,7 +168,7 @@ export default defineComponent({
       return 'ontouchstart' in document.documentElement;
     },
     ariaLabelPortalTile(): null | string {
-      return (this.minified || this.editMode) ? null : '';
+      return (this.minified || this.editMode) ? null : this.$localized(this.title);
     },
   },
   mounted() {

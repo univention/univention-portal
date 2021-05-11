@@ -36,6 +36,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       ref="portalHeaderH1"
       class="portal-header__left"
       tabindex="0"
+      role="button"
       :aria-label="ariaLabelPortalHeader"
       @click="goHome"
       @keydown.enter="goHome"
@@ -45,7 +46,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         id="portal-header-logo"
         :src="portalLogo"
         class="portal-header__left-image"
-        :alt="$localized(portalName)"
+        alt=""
       >
       <h1 class="portal-header__portal-name">
         {{ $localized(portalName) }}

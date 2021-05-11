@@ -142,6 +142,7 @@ const catalog = {
   ERROR_ENTER_TITLE: _('Please enter a display name'),
   ERROR_ENTER_DESCRIPTION: _('Please enter a description'),
   ERROR_ENTER_LINK: _('Please enter at least one English link'),
+  FOLDER: _('Folder'),
 };
 
 export { catalog };
