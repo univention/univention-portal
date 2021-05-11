@@ -33,8 +33,7 @@
   >
     <form
       class="admin-entry"
-      @checkAllErrors="checkFormError"
-      @submit.prevent="finish"
+      @submit.prevent="submit"
     >
       <main>
         <slot />
@@ -57,32 +56,25 @@
           <translate i18n-key="CANCEL" />
         </button>
         <button
-          type="button"
-          :disabled="getModalError && getModalError.length > 0"
-          :class="[(getModalError && getModalError.length > 0) ? 'form__error--disabled' : 'primary']"
+          class="primary"
+          type="submit"
           @click.prevent="submit"
         >
           <translate i18n-key="SAVE" />
         </button>
-      </footer>
-      <footer
-        v-if="showDebugger"
-      >
-        <pre>getModalError: {{ getModalError }}</pre>
       </footer>
     </form>
   </modal-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 import Translate from '@/i18n/Translate.vue';
 
-interface EditWidgetData {
-  showDebugger: boolean,
+export interface ValidatableData {
+  getErrors: () => Record<string, string>,
 }
 
 export default defineComponent({
@@ -100,18 +92,12 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    model: {
+      type: Object as PropType<ValidatableData>,
+      required: true,
+    },
   },
   emits: ['remove', 'save'],
-  data(): EditWidgetData {
-    return {
-      showDebugger: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getModalError: 'modal/getModalError',
-    }),
-  },
   mounted() {
     this.$el.querySelector('input:enabled')?.focus();
   },
@@ -120,7 +106,27 @@ export default defineComponent({
       this.$store.dispatch('modal/hideAndClearModal');
     },
     submit() {
-      this.$emit('save');
+      const errors = this.model.getErrors();
+      if (Object.keys(errors).length === 0) {
+        this.$emit('save');
+      } else {
+        this.$el.querySelectorAll('input').forEach((input) => {
+          if (input.name) {
+            if (input.name in errors) {
+              input.setAttribute('invalid', 'invalid');
+            } else {
+              input.removeAttribute('invalid');
+            }
+          }
+        });
+        const description = Object.values(errors)
+          .map((err) => this.$translateLabel(err))
+          .join('</li><li>');
+        this.$store.dispatch('notificationBubble/addErrorNotification', {
+          bubbleTitle: this.$translateLabel('ERROR_ON_VALIDATION'),
+          bubbleDescription: `<ul><li>${description}</li></ul>`,
+        });
+      }
     },
   },
 });

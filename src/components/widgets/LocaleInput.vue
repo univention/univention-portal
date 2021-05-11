@@ -27,31 +27,19 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div
-    v-for="locale in locales"
-    :key="locale"
-  >
+  <div class="locale-input">
     <label
-      :class="{'form__error--text' : getModalError && getModalError.includes(`${[label]}_${locale}`)}"
+      v-for="locale in locales"
+      :key="locale"
     >
       {{ label }} ({{ locale }})
+      <input
+        v-model="modelValueData[locale]"
+        :name="locale === 'en_US' ? name : `${name}-${locale}`"
+        autocomplete="off"
+        tabindex="0"
+      >
     </label>
-    <input
-      v-model="modelValueData[locale]"
-      :class="{'form__error--input' : getModalError && getModalError.includes(`${[label]}_${locale}`)}"
-      autocomplete="off"
-      tabindex="0"
-      aria-required="true"
-      aria-invalid="false"
-      @blur="$formChecker(modelValueData, requiredFields, label)"
-      @keyup="$formChecker(modelValueData, requiredFields, label)"
-    >
-    <span
-      v-if="getModalError&& getModalError.includes(`${[label]}_${locale}`)"
-      class="form__error--message"
-    >
-      <translate :i18n-key="errorText" /> ({{ locale }})
-    </span>
   </div>
 </template>
 
@@ -71,17 +59,13 @@ export default defineComponent({
       type: Object as PropType<Record<string, string>>,
       required: true,
     },
-    label: {
+    name: {
       type: String,
       required: true,
     },
-    requiredFields: {
-      type: Array as PropType<Array<string>>,
-      default: () => [],
-    },
-    errorText: {
-      type: Object as PropType<Record<string, string>>,
-      default: '',
+    label: {
+      type: String,
+      required: true,
     },
   },
   emits: [
@@ -114,3 +98,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="stylus">
+.locale-input
+  margin-top: calc(3 * var(--layout-spacing-unit))
+
+  label
+    margin-top: 0
+</style>

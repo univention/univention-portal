@@ -35,7 +35,6 @@ export interface ModalState {
   modalStubborn: boolean;
   modalResolve: (any) => void;
   modalReject: () => void;
-  modalError: Array<unknown>;
 }
 
 const modal: PortalModule<ModalState> = {
@@ -47,7 +46,6 @@ const modal: PortalModule<ModalState> = {
     modalStubborn: false,
     modalResolve: (() => undefined),
     modalReject: (() => undefined),
-    modalError: [],
   },
 
   mutations: {
@@ -75,32 +73,6 @@ const modal: PortalModule<ModalState> = {
       state.modalVisible = false;
       document.body.classList.remove('body__has-modal');
     },
-    MODAL_ERROR(state, payload) {
-      state.modalError.push(payload);
-    },
-    MODAL_ERROR_REMOVE(state, payload) {
-      const arr = state.modalError;
-      let i = 0;
-
-      // function arrayRemove(arr, payload) {
-      //   return arr.filter(function(ele){
-      //     return ele !== payload;
-      //   });
-      // }
-
-      // console.log('MODAL_ERROR_REMOVE - payload: ', payload);
-
-      if (arr.includes(payload)) {
-        // delete state.modalError[payload];
-        // arrayRemove(arr, payload);
-        console.log('MODAL_ERROR_REMOVE - inside: ', payload);
-        for (i; i < arr.length; i += 1) {
-          if (arr[i] === payload) {
-            arr.splice(i, 1);
-          }
-        }
-      }
-    },
   },
 
   getters: {
@@ -108,7 +80,6 @@ const modal: PortalModule<ModalState> = {
     getModalComponent: (state) => state.modalComponent,
     getModalProps: (state) => state.modalProps,
     getModalStubborn: (state) => state.modalStubborn,
-    getModalError: (state) => state.modalError,
   },
 
   actions: {
@@ -133,12 +104,6 @@ const modal: PortalModule<ModalState> = {
     },
     reject({ state }) {
       state.modalReject();
-    },
-    setModalError({ commit }, payload) {
-      commit('MODAL_ERROR', payload);
-    },
-    removeModalErrorItem({ commit }, payload) {
-      commit('MODAL_ERROR_REMOVE', payload);
     },
   },
 };
