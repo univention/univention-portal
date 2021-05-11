@@ -134,6 +134,7 @@ const catalog = {
   CHOOSE_TAB: _('Choose a tab'),
   SELECT_TAB: _('Select'),
   CLOSE_TAB: _('Close'),
+  PRESS_ENTER_TO_FOCUS: _('To focus press Enter'),
   SHOW_UMC: _('Show local UMC modules'),
   NO_RESULTS: _('No search results'),
   ERROR_ON_VALIDATION: _('The form data is not valid'),
