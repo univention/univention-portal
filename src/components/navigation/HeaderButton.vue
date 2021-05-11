@@ -40,7 +40,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         :id="'header-button-' + icon"
         :ref="setRef"
         :aria-expanded="isActiveButton"
-        :aria-label="ariaLabelHeaderButton"
+        :aria-label="ariaLabelProp"
         :class="['header-button__button', hoverClass]"
       >
         <portal-icon
@@ -64,7 +64,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    ariaLabelHeaderButton: {
+    ariaLabelProp: {
       type: String,
       required: true,
     },
