@@ -450,4 +450,3 @@ msgstr "auswählen"
 
 msgid "Close"
 msgstr "schließen"
-
