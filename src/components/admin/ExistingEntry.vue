@@ -124,7 +124,7 @@ export default defineComponent({
           entries: superObj.entries.concat([dn]),
         };
         console.info('Adding', dn, 'to', this.superDn);
-        if (this.superObjectGetter === 'portalData/portalEntries') {
+        if (this.objectGetter === 'portalData/portalEntries') {
           await put(this.superDn, superAttrs, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
         } else {
           await put(this.superDn, superAttrs, this.$store, 'FOLDER_ADDED_SUCCESS', 'FOLDER_ADDED_FAILURE');
