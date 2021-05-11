@@ -49,17 +49,9 @@
       </span>
       <span class="link-widget__input">
         <input
-          v-if="modelValueData.length === requiredFields"
           :ref="`link${index}`"
           v-model="modelValueData[index].value"
-          :class="{'form__error--input' : getModalError && getModalError.includes(`${this.$translateLabel('LINK')}_${this.currentLocale}`)}"
-          @blur="$formChecker(modelValueData, currentLocale, $translateLabel('LINK'))"
-          @keyup="$formChecker(modelValueData, currentLocale, $translateLabel('LINK'))"
-        >
-        <input
-          v-else
-          :ref="`link${index}`"
-          v-model="modelValueData[index].value"
+          :name="index === 0 ? name : `${name}-${index}`"
         >
       </span>
       <span
@@ -74,6 +66,7 @@
     </div>
     <span class="modal-admin__button">
       <button
+        type="button"
         class="modal-admin__button--inner"
         @click.prevent="addField"
       >
@@ -117,9 +110,9 @@ export default defineComponent({
       type: Array as PropType<LocaleAndValue[]>,
       required: true,
     },
-    requiredFields: {
-      type: Number,
-      default: 1,
+    name: {
+      type: String,
+      required: true,
     },
   },
   emits: ['update:modelValue'],
@@ -132,7 +125,6 @@ export default defineComponent({
     ...mapGetters({
       locales: 'locale/getAvailableLocales',
       currentLocale: 'locale/getLocale',
-      getModalError: 'modal/getModalError',
     }),
   },
   created() {
@@ -141,6 +133,10 @@ export default defineComponent({
         locale: val.locale,
         value: val.value,
       });
+    });
+    this.modelValueData.push({
+      locale: 'en_US',
+      value: '',
     });
   },
   updated() {

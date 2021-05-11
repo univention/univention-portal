@@ -288,22 +288,15 @@ export default defineComponent({
     top: -0.75em
     right: -0.75em
     z-index: $zindex-1
-    width: calc(5.5 * var(--layout-spacing-unit))
-    height: @width
     padding: calc(.5 * var(--layout-spacing-unit))
     border: 0.2rem solid transparent
     box-sizing: border-box
-    font-size: var(--font-size-2)
     display: flex
     align-items: center
     justify-content: center
 
     &:focus
       border-color: var(--color-focus)
-
-    svg
-      width: calc(1.5 * var(--button-icon-size))
-      height: @width
 
     @extend .icon-button--admin
 
