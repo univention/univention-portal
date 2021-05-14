@@ -80,6 +80,8 @@
       />
     </div>
 
+    <notifications :only-visible="true" />
+
     <portal-tool-tip
       v-if="tooltip"
       v-bind="tooltip"
@@ -96,6 +98,7 @@ import { mapGetters } from 'vuex';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
+import Notifications from 'components/notifications/Notifications.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 import PortalCategory from 'components/PortalCategory.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
@@ -104,7 +107,6 @@ import PortalModal from 'components/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
 
-import notificationMixin from '@/mixins/notificationMixin.vue';
 import Translate from '@/i18n/Translate.vue';
 
 import { Category } from '@/store/modules/portalData/portalData.models';
@@ -115,6 +117,7 @@ export default defineComponent({
   components: {
     IconButton,
     ModalWrapper,
+    Notifications,
     PortalBackground,
     PortalCategory,
     PortalHeader,
@@ -124,7 +127,6 @@ export default defineComponent({
     PortalToolTip,
     Translate,
   },
-  mixins: [notificationMixin],
   computed: {
     ...mapGetters({
       portalContent: 'portalData/portalContent',

@@ -47,15 +47,15 @@ function changePasswordCallback(tileClick) {
     stubborn: true,
   }).then((values) => {
     changePassword(values.oldPassword, values.newPassword).then((response) => {
-      tileClick.$store.dispatch('notificationBubble/addSuccessNotification', {
-        bubbleTitle: translate('CHANGE_PASSWORD'),
-        bubbleDescription: response.data.message,
+      tileClick.$store.dispatch('notifications/addSuccessNotification', {
+        title: translate('CHANGE_PASSWORD'),
+        description: response.data.message,
       });
       tileClick.$store.dispatch('modal/hideAndClearModal');
     }, (error) => {
-      tileClick.$store.dispatch('notificationBubble/addErrorNotification', {
-        bubbleTitle: translate('CHANGE_PASSWORD'),
-        bubbleDescription: error.response.data.message,
+      tileClick.$store.dispatch('notifications/addErrorNotification', {
+        title: translate('CHANGE_PASSWORD'),
+        description: error.response.data.message,
       });
       tileClick.$store.dispatch('modal/hideAndClearModal');
       return changePasswordCallback(tileClick);

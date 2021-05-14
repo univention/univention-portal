@@ -39,7 +39,7 @@ import menu from './modules/menu';
 import metaData from './modules/metaData';
 import modal from './modules/modal';
 import navigation from './modules/navigation';
-import notificationBubble from './modules/notificationBubble';
+import notifications from './modules/notifications';
 import portalData from './modules/portalData';
 import search from './modules/search';
 import tabs from './modules/tabs';
@@ -122,7 +122,7 @@ export const store = createStore<RootState>({
     metaData,
     modal,
     navigation,
-    notificationBubble,
+    notifications,
     portalData,
     search,
     tabs,

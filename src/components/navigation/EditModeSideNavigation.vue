@@ -156,9 +156,9 @@ export default defineComponent({
         this.$store.dispatch('portalData/setEditMode', false);
         this.$store.dispatch('navigation/setActiveButton', '');
       } catch (error) {
-        this.$store.dispatch('notificationBubble/addErrorNotification', {
-          bubbleTitle: 'Update failed',
-          bubbleDescription: `'Saving the portal failed: ${error}'`,
+        this.$store.dispatch('notifications/addErrorNotification', {
+          title: 'Update failed',
+          description: `'Saving the portal failed: ${error}'`,
         });
       }
       this.$store.dispatch('deactivateLoadingState');
