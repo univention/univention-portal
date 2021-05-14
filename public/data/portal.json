@@ -56,7 +56,7 @@
          "de_DE": "ownCloud Administrations-Handbuch (in Englisch)"
        },
        "dn": "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-       "linkTarget": "newwindow",
+       "linkTarget": "useportaldefault",
        "links": [
          {"locale": "en_US", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"}
        ],
