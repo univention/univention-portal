@@ -51,7 +51,6 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      bubbleContent: 'notificationBubble/bubbleContent',
       userState: 'user/userState',
     }),
   },

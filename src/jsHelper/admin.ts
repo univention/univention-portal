@@ -41,8 +41,8 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     return result.$dn$;
   } catch (err) {
     console.error(err.message);
-    store.dispatch('notificationBubble/addErrorNotification', {
-      bubbleTitle: translate(errorMessage),
+    store.dispatch('notifications/addErrorNotification', {
+      title: translate(errorMessage),
     });
   }
   return '';
@@ -55,8 +55,8 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage) {
     if (!result.success) {
       throw new Error(result.details);
     }
-    dispatch('notificationBubble/addSuccessNotification', {
-      bubbleTitle: translate(successMessage),
+    dispatch('notifications/addSuccessNotification', {
+      title: translate(successMessage),
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -65,8 +65,8 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage) {
     await dispatch('loadPortal', { adminMode: true }, { root: true });
   } catch (err) {
     console.error(err.message);
-    dispatch('notificationBubble/addErrorNotification', {
-      bubbleTitle: translate(errorMessage),
+    dispatch('notifications/addErrorNotification', {
+      title: translate(errorMessage),
     }, { root: true });
   }
 }

@@ -66,6 +66,7 @@ const tabs: PortalModule<TabState> = {
 
   getters: {
     allTabs: (state) => state.tabs,
+    numTabs: (state) => state.tabs.length,
     activeTabIndex: (state) => state.activeTabIndex,
   },
 

@@ -122,9 +122,9 @@ export default defineComponent({
         const description = Object.values(errors)
           .map((err) => this.$translateLabel(err))
           .join('</li><li>');
-        this.$store.dispatch('notificationBubble/addErrorNotification', {
-          bubbleTitle: this.$translateLabel('ERROR_ON_VALIDATION'),
-          bubbleDescription: `<ul><li>${description}</li></ul>`,
+        this.$store.dispatch('notifications/addErrorNotification', {
+          title: this.$translateLabel('ERROR_ON_VALIDATION'),
+          description: `<ul><li>${description}</li></ul>`,
         });
       }
     },

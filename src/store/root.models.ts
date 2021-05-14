@@ -27,13 +27,14 @@
  * <https://www.gnu.org/licenses/>.
  */
 
-import { Module } from 'vuex';
+import { Module, ActionContext } from 'vuex';
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface RootState {
 }
 
 export type PortalModule<S> = Module<S, RootState>;
+export type PortalActionContext<S> = ActionContext<S, RootState>;
 
 export const initialRootState: RootState = {
 };

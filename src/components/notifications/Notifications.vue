@@ -27,16 +27,11 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div>
-    <transition name="fade">
-      <slot
-        v-if="bubbleStateStandalone || bubbleStateNewBubble"
-        name="bubble-standalone"
-      />
-    </transition>
-
-    <slot
-      name="bubble-embedded"
+  <div class="notifications">
+    <notification
+      v-for="notification in notifications"
+      :key="notification.token"
+      v-bind="notification"
     />
   </div>
 </template>
@@ -45,41 +40,39 @@ License with the Debian GNU/Linux or Univention distribution in file
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import Notification from '@/components/notifications/Notification.vue';
+
 export default defineComponent({
-  name: 'NotificationBubble',
+  name: 'Notifications',
+  components: { Notification },
+  props: {
+    onlyVisible: {
+      type: Boolean,
+      required: true,
+    },
+  },
   computed: {
     ...mapGetters({
-      bubbleState: 'notificationBubble/bubbleState',
-      bubbleStateStandalone: 'notificationBubble/bubbleStateStandalone',
-      bubbleStateNewBubble: 'notificationBubble/bubbleStateNewBubble',
+      allNotifications: 'notifications/allNotifications',
+      visibleNotifications: 'notifications/visibleNotifications',
     }),
+    notifications() {
+      if (this.onlyVisible) {
+        return this.visibleNotifications;
+      }
+      return this.allNotifications;
+    },
   },
 });
+
 </script>
 
 <style lang="stylus">
-.notification-bubble
-  &__container
-    background-color: rgba(0,0,0,0.4);
-    backdrop-filter: blur(2rem);
-    border-radius: var(--border-radius-notification);
-
-  &__standalone
-    position: absolute
-    right: 2rem
-    top: 0.8rem
-    margin: 0;
-    max-width: 20rem;
-
-  &__embedded
-    position: relative
-
-// animation
-.fade-enter-active,
-.fade-leave-active
-  transition: opacity .5s
-
-.fade-enter,
-.fade-leave-to
-  opacity: 0
+.notifications
+  position: fixed
+  z-index: $zindex-4
+  top: calc(var(--layout-height-header) + 1rem)
+  right: var(--layout-spacing-unit)
+  width: 90vw
+  max-width: 300px
 </style>

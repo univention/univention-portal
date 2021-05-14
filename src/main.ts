@@ -31,6 +31,13 @@ import App from '@/App.vue';
 import { store } from '@/store';
 import localize from '@/plugins/localize';
 
+declare global {
+    interface Window {
+        store: any;
+    }
+}
+window.store = store;
+
 createApp(App)
   .use(store)
   .use(localize)

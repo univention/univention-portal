@@ -94,6 +94,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         data-test="tabbutton"
         :aria-label="ariaLabelTabs"
         icon="copy"
+        :counter="numTabs"
         class="portal-header__tab-button"
       />
       <header-button
@@ -107,6 +108,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         data-test="bellbutton"
         :aria-label-prop="ariaLabelNotifications"
         icon="bell"
+        :counter="numNotifications"
         @click="dismissBubble"
       />
       <header-button
@@ -117,11 +119,6 @@ License with the Debian GNU/Linux or Univention distribution in file
       />
     </div>
 
-    <notification-bubble>
-      <template #bubble-standalone>
-        <notification-bubble-slot bubble-container="standalone" />
-      </template>
-    </notification-bubble>
     <template v-if="activeButton === 'search'">
       <portal-search />
     </template>
@@ -137,11 +134,8 @@ import { mapGetters } from 'vuex';
 
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import HeaderTab from '@/components/navigation/HeaderTab.vue';
-import NotificationBubble from '@/components/globals/NotificationBubble.vue';
-import NotificationBubbleSlot from '@/components/globals/NotificationBubbleSlot.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
-import notificationMixin from '@/mixins/notificationMixin.vue';
 
 interface PortalHeaderData {
   tabsOverflow: boolean;
@@ -152,14 +146,9 @@ export default defineComponent({
   components: {
     HeaderButton,
     HeaderTab,
-    NotificationBubble,
-    NotificationBubbleSlot,
     PortalSearch,
     ChooseTabs,
   },
-  mixins: [
-    notificationMixin,
-  ],
   data(): PortalHeaderData {
     return {
       tabsOverflow: false,
@@ -171,8 +160,10 @@ export default defineComponent({
       portalName: 'portalData/portalName',
       activeTabIndex: 'tabs/activeTabIndex',
       tabs: 'tabs/allTabs',
+      numTabs: 'tabs/numTabs',
       editMode: 'portalData/editMode',
       activeButton: 'navigation/getActiveButton',
+      numNotifications: 'notifications/numNotifications',
     }),
     ariaLabelPortalHeader(): string {
       return `${this.$translateLabel('SHOW_PORTAL')}`;
@@ -291,9 +282,6 @@ export default defineComponent({
 
   &__edit-mode-label
     white-space: nowrap
-
-  &__bubble-container
-    width: 360px
 
 #header-button-copy
     display: none
