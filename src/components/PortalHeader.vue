@@ -102,20 +102,18 @@ License with the Debian GNU/Linux or Univention distribution in file
         data-test="searchbutton"
         :aria-label-prop="ariaLabelSearch"
         icon="search"
-        @click="dismissBubble"
       />
       <header-button
         data-test="bellbutton"
         :aria-label-prop="ariaLabelNotifications"
         icon="bell"
         :counter="numNotifications"
-        @click="dismissBubble"
+        @keydown.esc="closeNotifications"
       />
       <header-button
         data-test="navigationbutton"
         :aria-label-prop="ariaLabelMenu"
         icon="menu"
-        @click="dismissNotification('menu')"
       />
     </div>
 
@@ -211,6 +209,11 @@ export default defineComponent({
         return;
       }
       this.tabsOverflow = tabs.scrollWidth > tabs.clientWidth;
+    },
+    closeNotifications(): void {
+      if (this.activeButton === 'bell') {
+        this.$store.dispatch('navigation/setActiveButton', '');
+      }
     },
     chooseTab(): void {
       this.$store.dispatch('modal/setAndShowModal', {

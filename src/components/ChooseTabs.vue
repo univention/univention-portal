@@ -42,10 +42,11 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="choose-tab"
         >
           <div
+            :ref="activeTab === 0 && idx === 0 || activeTab === idx + 1 ? 'currentTab' : ''"
             class="choose-tab__button"
             tabindex="0"
             :aria-label="ariaLabelChooseTab(tab.tabLabel)"
-            @click="gotoTab(idx)"
+            @click.prevent="gotoTab(idx)"
           >
             <img
               :src="tab.logo"
@@ -83,15 +84,20 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       tabs: 'tabs/allTabs',
+      activeTab: 'tabs/activeTabIndex',
     }),
+  },
+  mounted() {
+    const el = this.$refs.currentTab as HTMLElement;
+    el?.focus();
+  },
+  methods: {
     ariaLabelChooseTab(tabLabel: string): string {
       return `${tabLabel} ${this.$translateLabel('SELECT_TAB')}`;
     },
     ariaLabelCloseTab(tabLabel: string): string {
       return `${tabLabel} ${this.$translateLabel('CLOSE_TAB')}`;
     },
-  },
-  methods: {
     closeTab(idx: number) {
       this.$store.dispatch('tabs/deleteTab', idx + 1);
       if (this.tabs.length === 0) {
@@ -111,27 +117,29 @@ export default defineComponent({
 <style lang="stylus">
 .choose-tab
   margin-top: calc(4 * var(--layout-spacing-unit))
-  padding: var(--layout-spacing-unit)
   display: flex
-  background-color: var(--color-grey25)
-  border-radius: var(--border-radius-container)
   align-items: center
+
+  &:first-of-type
+    margin-top: 0
 
   &__button
     display: flex
+    background-color: var(--color-grey25)
     align-items: center
     cursor: pointer
     border: 2px solid transparent
     border-radius: var(--border-radius-container)
     padding: var(--layout-spacing-unit)
+    width: 100%
 
-    &:focus, &:hover
+    &:focus, &:active, &:hover
       border-color: var(--color-focus)
 
     img
       height: var(--button-size)
       margin-right: var(--layout-spacing-unit)
 
-  .icon-button
-    margin-left: auto
+.icon-button
+  margin-left: var(--layout-spacing-unit)
 </style>

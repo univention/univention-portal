@@ -143,13 +143,6 @@ export default defineComponent({
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
     },
-    setModalContent() {
-      let ret = '';
-      if (this.currentModal === 'editEntry') {
-        ret = this.tileObject;
-      }
-      return ret;
-    },
   },
   methods: {
     addCategory() {

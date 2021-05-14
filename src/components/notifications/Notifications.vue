@@ -27,7 +27,10 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div class="notifications">
+  <div
+    class="notifications"
+    @keydown.esc="closeNotifications"
+  >
     <notification
       v-for="notification in notifications"
       :key="notification.token"
@@ -55,12 +58,20 @@ export default defineComponent({
     ...mapGetters({
       allNotifications: 'notifications/allNotifications',
       visibleNotifications: 'notifications/visibleNotifications',
+      activeButton: 'navigation/getActiveButton',
     }),
     notifications() {
       if (this.onlyVisible) {
         return this.visibleNotifications;
       }
       return this.allNotifications;
+    },
+  },
+  methods: {
+    closeNotifications(): void {
+      if (this.activeButton === 'bell') {
+        this.$store.dispatch('navigation/setActiveButton', '');
+      }
     },
   },
 });
