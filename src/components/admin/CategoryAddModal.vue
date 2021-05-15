@@ -63,6 +63,7 @@ export default defineComponent({
       if (action === 'createCategory') {
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminCategory',
+          stubborn: true,
           props: {
             modelValue: {},
             label: 'ADD_CATEGORY',
@@ -72,6 +73,7 @@ export default defineComponent({
       if (action === 'addCategory') {
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminExistingCategory',
+          stubborn: true,
         });
       }
     },

@@ -87,6 +87,7 @@ export default defineComponent({
       if (action === 'createEntry') {
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminEntry',
+          stubborn: true,
           props: {
             modelValue: {},
             superDn: this.superDn,
@@ -102,6 +103,7 @@ export default defineComponent({
         }
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminExistingEntry',
+          stubborn: true,
           props: {
             label: 'ADD_EXISTING_ENTRY',
             objectGetter: 'portalData/portalEntries',
@@ -113,6 +115,7 @@ export default defineComponent({
       if (action === 'createFolder') {
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminFolder',
+          stubborn: true,
           props: {
             modelValue: {},
             superDn: this.superDn,
@@ -123,6 +126,7 @@ export default defineComponent({
       if (action === 'addFolder') {
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminExistingEntry',
+          stubborn: true,
           props: {
             label: 'ADD_EXISTING_FOLDER',
             objectGetter: 'portalData/portalFolders',
