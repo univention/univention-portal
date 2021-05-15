@@ -71,7 +71,8 @@ const tabs: PortalModule<TabState> = {
   },
 
   actions: {
-    setActiveTab({ commit }, index: number) {
+    setActiveTab({ commit, dispatch }, index: number) {
+      dispatch('modal/hideAndClearModal', undefined, { root: true });
       commit('ACTIVE_TAB', index);
     },
     addTab({ commit }, tab: Tab) {
