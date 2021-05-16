@@ -86,4 +86,7 @@ export default defineComponent({
   right: var(--layout-spacing-unit)
   width: 90vw
   max-width: 300px
+  max-height: 100%
+  overflow-y: auto
+  padding-right: calc(3 * var(--layout-spacing-unit))
 </style>

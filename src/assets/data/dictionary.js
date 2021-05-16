@@ -137,6 +137,7 @@ const catalog = {
   SHOW_UMC: _('Show local UMC modules'),
   NO_RESULTS: _('No search results'),
   ERROR_ON_VALIDATION: _('The form data is not valid'),
+  ERROR_WRONG_NAME: _('Internal name must not contain anything other than digits, letters or dots, must be at least 2 characters long, and start and end with a digit or letter!'),
   ERROR_ENTER_NAME: _('Please enter an internal name'),
   ERROR_ENTER_TITLE: _('Please enter a display name'),
   ERROR_ENTER_DESCRIPTION: _('Please enter a description'),

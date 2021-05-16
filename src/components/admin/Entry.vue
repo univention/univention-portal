@@ -110,6 +110,11 @@ function getErrors(this: AdminEntryData) {
   const errors: Record<string, string> = {};
   if (!this.name) {
     errors.name = 'ERROR_ENTER_NAME';
+  } else {
+    const regex = new RegExp('(^[a-zA-Z0-9])[a-zA-Z0-9._-]*([a-zA-Z0-9]$)');
+    if (!regex.test(this.name)) {
+      errors.name = 'ERROR_WRONG_NAME';
+    }
   }
   if (!this.title.en_US) {
     errors.title = 'ERROR_ENTER_TITLE';
