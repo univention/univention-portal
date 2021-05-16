@@ -40,9 +40,9 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     }
     return result.$dn$;
   } catch (err) {
-    console.error(err.message);
     store.dispatch('notifications/addErrorNotification', {
       title: translate(errorMessage),
+      description: err.message,
     });
   }
   return '';
@@ -64,9 +64,9 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage) {
     }, { root: true });
     await dispatch('loadPortal', { adminMode: true }, { root: true });
   } catch (err) {
-    console.error(err.message);
     dispatch('notifications/addErrorNotification', {
       title: translate(errorMessage),
+      description: err.message,
     }, { root: true });
   }
 }
