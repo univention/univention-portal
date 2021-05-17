@@ -62,5 +62,5 @@ export default defineComponent({
   stroke-linejoin: round
   color: var(--font-color-contrast-high)
   fill: none
-  transition: color 250ms
+  transition: color var(--portal-transition-duration)
 </style>

@@ -25,11 +25,12 @@ button
   border: none
   border-radius: var(--button-border-radius)
   background-color: unquote('rgba(var(--color-grey25-rgb), 0.7)')
-  transition: opacity 250ms
+  transition: opacity var(--portal-transition-duration)
   display: flex
   align-items: center
   cursor: pointer
-
+  transition: all var(--portal-transition-duration)
+  
   svg + span
     padding-left: var(--layout-spacing-unit-small)
 
@@ -41,6 +42,7 @@ button
 
   &:hover
     background-color: unquote('rgba(var(--color-grey25-rgb), 0.85)')
+    transition: all var(--portal-transition-duration)
 
   &:focus,
   &:active
@@ -72,7 +74,7 @@ input, select
   border: 1px solid var(--inputfield-bgc)
   border-radius: var(--border-radius-interactable)
   transition: background-color, color, border
-  transition-duration: 250ms
+  transition-duration: var(--portal-transition-duration)
 
   &:hover,
   &:focus

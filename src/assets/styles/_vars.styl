@@ -76,7 +76,7 @@
   --button-font-size: var(--font-size-small)
   --button-border-radius: var(--border-radius-interactable)
   --button-icon-border-radius: var(--border-radius-circles)
-  --button-bgc-transition: background-color 250ms
+  --button-bgc-transition: background-color var(--portal-transition-duration)
   --button-icon-bgc: transparent
   --button-icon-bgc-overlay-hover:  var(--color-grey8-rgb)
   --button-icon-bgc-overlay-active: rgba((@--color-white) 0.12)
@@ -113,6 +113,9 @@
   // Portal Folder
   --portal-folder-tile-width: 33%
   --portal-folder-padding: calc(4 * var(--layout-spacing-unit))
+
+  // transition
+  --portal-transition-duration: 250ms 
 
 @media $mqSmartphone
   :root

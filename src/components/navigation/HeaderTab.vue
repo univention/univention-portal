@@ -145,7 +145,7 @@ export default defineComponent({
   position: relative
   z-index: 1
   background-color: var(--tabColor)
-  transition: background-color 250ms;
+  transition: background-color var(--portal-transition-duration);
   flex-basis: auto;
   flex-grow: 1;
   max-width: 15rem;

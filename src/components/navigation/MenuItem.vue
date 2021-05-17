@@ -135,7 +135,7 @@ export default defineComponent({
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
-    transition: color 250ms;
+    transition: color var(--portal-transition-duration);
     &--left
       left: 1.2rem;
     &--right
