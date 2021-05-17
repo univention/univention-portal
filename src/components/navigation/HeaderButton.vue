@@ -136,6 +136,8 @@ export default defineComponent({
     background-color: var(--bgc-state)
     transition: opacity 250ms
     font-size: var(--button-font-size)
+    width: inherit
+    height: inherit
 
   &__button
     position: relative
@@ -149,6 +151,8 @@ export default defineComponent({
     background-color: transparent
     border: 0.2rem solid rgba(0,0,0,0)
     padding: var(--layout-spacing-unit)
+    width: inherit
+    height: inherit
 
     &:hover,
     &:focus
