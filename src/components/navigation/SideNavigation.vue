@@ -351,6 +351,9 @@ export default defineComponent({
   flex-direction: column
   align-item: flex-end
 
+  @media $mqSmartphone
+    overflow-y: auto
+
   &__link
     padding: 1em 0 1em 20px
     cursor: pointer
