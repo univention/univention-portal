@@ -158,6 +158,7 @@ export default defineComponent({
       portalName: 'portalData/portalName',
       activeTabIndex: 'tabs/activeTabIndex',
       tabs: 'tabs/allTabs',
+      savedScrollPosition: 'tabs/savedScrollPosition',
       numTabs: 'tabs/numTabs',
       editMode: 'portalData/editMode',
       activeButton: 'navigation/getActiveButton',
@@ -222,6 +223,9 @@ export default defineComponent({
     },
     goHome(): void {
       this.$store.dispatch('tabs/setActiveTab', 0);
+      setTimeout(() => {
+        window.scrollTo(0, this.savedScrollPosition);
+      }, 10);
     },
     stopEditMode(): void {
       this.$store.dispatch('portalData/setEditMode', false);
