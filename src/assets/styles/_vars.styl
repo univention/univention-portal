@@ -1,3 +1,5 @@
+ @import "./_variables.styl"
+
 :root
   // colors
   --color-primary:   #7AB51D
@@ -112,6 +114,10 @@
   --portal-folder-tile-width: 33%
   --portal-folder-padding: calc(4 * var(--layout-spacing-unit))
 
-  @media mqSmartphone
+@media $mqSmartphone
+  :root
     --portal-folder-tile-width: 50%
     --portal-folder-padding: calc(2 * var(--layout-spacing-unit))
+
+    --app-tile-side-length: 5.5rem
+
