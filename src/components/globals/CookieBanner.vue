@@ -161,7 +161,7 @@ export default defineComponent({
     background-color: var(--button-text-bgc)
     padding: 8px 30px
     line-height: 30px
-    transition: background-color 250ms
+    transition: background-color var(--portal-transition-duration)
     &:hover,
     &:focus
       background-color: var(--button-text-bgc-overlay-hover)

@@ -188,6 +188,6 @@ export default defineComponent({
 
     &>a
       color: var(--color-white) !important
-      transition: color 250ms
+      transition: color var(--portal-transition-duration)
       text-decoration: underline
 </style>

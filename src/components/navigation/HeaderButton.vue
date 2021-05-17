@@ -134,7 +134,7 @@ export default defineComponent({
     justify-content: center
     transition: var(--button-bgc-transition)
     background-color: var(--bgc-state)
-    transition: opacity 250ms
+    transition: opacity var(--portal-transition-duration)
     font-size: var(--button-font-size)
     width: inherit
     height: inherit
@@ -153,6 +153,7 @@ export default defineComponent({
     padding: var(--layout-spacing-unit)
     width: inherit
     height: inherit
+    border-radius: var(--border-radius-circles)
 
     &:hover,
     &:focus
