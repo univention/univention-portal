@@ -30,6 +30,7 @@ License with the Debian GNU/Linux or Univention distribution in file
   <button
     type="button"
     class="icon-button"
+    :aria-label="ariaLabelProp"
     @click.prevent="$emit('click')"
   >
     <portal-icon
@@ -47,6 +48,10 @@ export default defineComponent({
   components: { PortalIcon },
   props: {
     icon: {
+      type: String,
+      required: true,
+    },
+    ariaLabelProp: {
       type: String,
       required: true,
     },

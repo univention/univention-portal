@@ -143,6 +143,9 @@ const catalog = {
   ERROR_ENTER_DESCRIPTION: _('Please enter a description'),
   ERROR_ENTER_LINK: _('Please enter at least one English link'),
   FOLDER: _('Folder'),
+  SHOW_TOOLTIP_BY_TOUCH: _('Show tooltip'),
+  EDIT_TILE: _('Edit tile'),
+  ADD_NEW_TILE: _('Add new Tile'),
 };
 
 export { catalog };

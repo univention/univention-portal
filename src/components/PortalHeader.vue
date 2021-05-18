@@ -48,7 +48,8 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="portal-header__left-image"
         alt=""
       >
-      <div v-else
+      <div
+        v-else
         class="portal-header__portal-home-icon"
       >
         <PortalIcon icon="home" />
@@ -81,11 +82,11 @@ License with the Debian GNU/Linux or Univention distribution in file
         {{ ariaLabelEditmode }}
       </div>
       <header-button
-        :aria-label="ariaLabelStartEditMode"
+        :aria-label-prop="ariaLabelStartEditMode"
         icon="settings"
       />
       <header-button
-        :aria-label="ariaLabelStopEditmode"
+        :aria-label-prop="ariaLabelStopEditmode"
         icon="x"
         @click="stopEditMode"
       />
@@ -98,7 +99,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-if="showTabButton"
         ref="tabButton"
         data-test="tabbutton"
-        :aria-label="ariaLabelTabs"
+        :aria-label-prop="ariaLabelTabs"
         icon="copy"
         :counter="numTabs"
         class="portal-header__tab-button"

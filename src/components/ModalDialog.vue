@@ -40,6 +40,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       <icon-button
         v-if="cancelAllowed"
         icon="x"
+        :aria-label-prop="ariaLabelCancel"
         @click="cancel()"
       />
     </header>
@@ -47,7 +48,7 @@ License with the Debian GNU/Linux or Univention distribution in file
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue';
 import Translate from '@/i18n/Translate.vue';
 import IconButton from '@/components/globals/IconButton.vue';
@@ -70,8 +71,13 @@ export default defineComponent({
     },
   },
   emits: ['cancel'],
+  computed: {
+    ariaLabelCancel(): string {
+      return this.$translateLabel('CANCEL');
+    },
+  },
   methods: {
-    cancel() {
+    cancel(): void {
       if (this.cancelAllowed) {
         this.$emit('cancel');
       }

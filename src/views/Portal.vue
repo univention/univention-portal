@@ -63,6 +63,7 @@
         <icon-button
           icon="plus"
           class="portal-categories__add-button"
+          :aria-label-prop="ariaLabelAddNewTile"
         />
         <translate i18n-key="ADD_CATEGORY" />
       </h2>
@@ -142,6 +143,9 @@ export default defineComponent({
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
+    },
+    ariaLabelAddNewTile(): string {
+      return this.$translateLabel('ADD_NEW_TILE');
     },
   },
   methods: {

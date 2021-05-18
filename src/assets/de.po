@@ -456,6 +456,20 @@ msgstr "Wiederholung"
 msgid "search"
 msgstr "suchen"
 
+#: src/assets/data/dictionary.js:146
+msgid "Show tooltip"
+msgstr "Kurzinfo anzeigen"
+
+#: src/assets/data/dictionary.js:147
+msgid "Edit tile"
+msgstr "Kachel editieren"
+
+#: src/assets/data/dictionary.js:147
+msgid "Add new Tile"
+msgstr "Neue Kachel hinzufügen"
+
+
+
 #~ msgid ""
 #~ "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you"
 #~ " can use the full range of functions of UCS."
