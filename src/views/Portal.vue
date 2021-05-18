@@ -90,6 +90,7 @@
 
     <portal-sidebar />
     <portal-modal :is-active="false" />
+    <loading-overlay />
   </div>
 </template>
 
@@ -107,6 +108,7 @@ import PortalIframe from 'components/PortalIframe.vue';
 import PortalModal from 'components/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
+import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
@@ -117,6 +119,7 @@ export default defineComponent({
   name: 'Portal',
   components: {
     IconButton,
+    LoadingOverlay,
     ModalWrapper,
     Notifications,
     PortalBackground,
