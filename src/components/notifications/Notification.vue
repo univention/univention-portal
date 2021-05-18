@@ -108,13 +108,13 @@ export default defineComponent({
       dismissalTimeout: null,
     };
   },
-  mounted() {
-    this.startDismissal();
-  },
   computed: {
     ariaLabelDismissNotification(): string {
       return this.$translateLabel('DISMISS_NOTIFICATION');
     },
+  },
+  mounted() {
+    this.startDismissal();
   },
   beforeUnmount() {
     this.stopDismissal();

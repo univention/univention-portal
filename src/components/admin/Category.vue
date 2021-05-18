@@ -129,18 +129,22 @@ export default defineComponent({
         categories: this.categories.filter((catDn) => catDn !== dn),
       };
       console.info('Removing', dn, 'from', this.portalDn);
-      put(this.portalDn, portalAttrs, this.$store, 'CATEGORY_REMOVED_SUCCESS', 'CATEGORY_REMOVED_FAILURE');
+      const success = put(this.portalDn, portalAttrs, this.$store, 'CATEGORY_REMOVED_SUCCESS', 'CATEGORY_REMOVED_FAILURE');
       this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
     },
     async finish() {
       this.$store.dispatch('activateLoadingState');
+      let success = false;
       const attrs = {
         name: this.name,
         displayName: Object.entries(this.title),
       };
       if (this.modelValue.dn) {
         console.info('Modifying', this.modelValue.dn);
-        put(this.modelValue.dn, attrs, this.$store, 'CATEGORY_MODIFIED_SUCCESS', 'CATEGORY_MODIFIED_FAILURE');
+        success = await put(this.modelValue.dn, attrs, this.$store, 'CATEGORY_MODIFIED_SUCCESS', 'CATEGORY_MODIFIED_FAILURE');
       } else {
         console.info('Adding category');
         console.info('Then adding it to', this.categories, 'of', this.portalDn); // Okay, strange. message needs to be here, otherwise "this" seems to forget its props!
@@ -150,10 +154,13 @@ export default defineComponent({
           const portalAttrs = {
             categories: this.categories.concat([dn]),
           };
-          await put(this.portalDn, portalAttrs, this.$store, 'CATEGORY_ADDED_SUCCESS', 'CATEGORY_ADDED_FAILURE');
+          success = await put(this.portalDn, portalAttrs, this.$store, 'CATEGORY_ADDED_SUCCESS', 'CATEGORY_ADDED_FAILURE');
         }
       }
       this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
     },
   },
 });

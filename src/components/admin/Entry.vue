@@ -210,11 +210,15 @@ export default defineComponent({
         entries: superObj.entries.filter((entryDn) => entryDn !== dn),
       };
       console.info('Removing', dn, 'from', this.superDn);
-      await put(this.superDn, superAttrs, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
+      const success = await put(this.superDn, superAttrs, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
       this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
     },
     async finish() {
       this.$store.dispatch('activateLoadingState');
+      let success = false;
       const links = this.links.filter((lnk) => !!lnk.value).map((lnk) => [lnk.locale, lnk.value]);
       const attrs = {
         name: this.name,
@@ -235,7 +239,7 @@ export default defineComponent({
 
       if (this.modelValue.dn) {
         console.info('Modifying', this.modelValue.dn);
-        await put(this.modelValue.dn, attrs, this.$store, 'ENTRY_MODIFIED_SUCCESS', 'ENTRY_MODIFIED_FAILURE');
+        success = await put(this.modelValue.dn, attrs, this.$store, 'ENTRY_MODIFIED_SUCCESS', 'ENTRY_MODIFIED_FAILURE');
       } else {
         console.info('Adding entry');
         console.info('Then adding it to', [...this.superObjs], 'of', this.superDn); // Okay, strange. message needs to be here, otherwise "this" seems to forget its props!
@@ -246,10 +250,13 @@ export default defineComponent({
           const superAttrs = {
             entries: superObj.entries.concat([dn]),
           };
-          await put(this.superDn, superAttrs, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
+          success = await put(this.superDn, superAttrs, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
         }
       }
       this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
     },
   },
 });
