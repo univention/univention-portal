@@ -228,6 +228,14 @@ export default defineComponent({
         height: @width
         max-width: 100vw
         margin-bottom: 0
+        max-height: 80vh
+        border-radius: 4rem
+
+        @media $mqSmartphone
+          max-width: 90vw
+          margin-bottom: 0
+          max-height: 90vw
+          border-radius: 2rem
 
         .portal-tile
           cursor: pointer
