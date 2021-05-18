@@ -42,6 +42,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
       <icon-button
         icon="x"
+        :aria-label-prop="ariaLabelDismissNotification"
         @click="dismissNotification()"
       />
     </div>
@@ -109,6 +110,11 @@ export default defineComponent({
   },
   mounted() {
     this.startDismissal();
+  },
+  computed: {
+    ariaLabelDismissNotification(): string {
+      return this.$translateLabel('DISMISS_NOTIFICATION');
+    },
   },
   beforeUnmount() {
     this.stopDismissal();

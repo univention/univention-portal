@@ -57,7 +57,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           </div>
           <icon-button
             icon="x"
-            :aria-label="ariaLabelCloseTab(tab.tabLabel)"
+            :aria-label-prop="ariaLabelCloseTab(tab.tabLabel)"
             @click="closeTab(idx)"
           />
         </div>

@@ -73,13 +73,14 @@
         v-if="!minified && editMode"
         icon="edit-2"
         class="portal-tile__edit-button"
+        :aria-label-prop="ariaLabelEditTile"
       />
     </component>
     <icon-button
       v-if="!minified && isTouchDevice"
       icon="info"
       class="portal-tile__info-button"
-      tabindex="-1"
+      :aria-label-prop="ariaLabelInfoButton"
       @click="toolTipTouchHandler()"
     />
   </div>
@@ -169,6 +170,12 @@ export default defineComponent({
     },
     ariaLabelPortalTile(): null | string {
       return (this.minified || this.editMode) ? null : this.$localized(this.title);
+    },
+    ariaLabelInfoButton(): string {
+      return `${this.$translateLabel('SHOW_TOOLTIP_BY_TOUCH')}`;
+    },
+    ariaLabelEditTile(): string {
+      return this.$translateLabel('EDIT_TILE');
     },
   },
   mounted() {

@@ -88,6 +88,7 @@
       v-if="editMode && !inModal"
       icon="edit-2"
       class="portal-folder__edit-button"
+      :aria-label-prop="ariaLabelFolderButton"
       @click="editFolder()"
     />
   </div>
@@ -142,6 +143,9 @@ export default defineComponent({
     },
     ariaLabelFolder(): string {
       return `${this.$translateLabel('FOLDER')}`;
+    },
+    ariaLabelFolderButton(): string {
+      return `${this.$translateLabel('EDIT_FOLDER')}`;
     },
   },
   methods: {
