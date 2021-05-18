@@ -48,6 +48,12 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="portal-header__left-image"
         alt=""
       >
+      <div v-else
+        class="portal-header__portal-home-icon"
+      >
+        <PortalIcon icon="home" />
+      </div>
+
       <h1 class="portal-header__portal-name">
         {{ $localized(portalName) }}
       </h1>
@@ -134,6 +140,7 @@ import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import HeaderTab from '@/components/navigation/HeaderTab.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 interface PortalHeaderData {
   tabsOverflow: boolean;
@@ -146,6 +153,7 @@ export default defineComponent({
     HeaderTab,
     PortalSearch,
     ChooseTabs,
+    PortalIcon,
   },
   data(): PortalHeaderData {
     return {
@@ -252,9 +260,8 @@ export default defineComponent({
     font-size: var(--font-size-2);
     white-space: nowrap
 
-    @media mqSmartphone
-      width: 2rem
-      overflow: hidden
+    @media $mqSmartphone
+      @extend .sr-only
 
   &__left
     flex: 0 0 auto;
@@ -289,6 +296,14 @@ export default defineComponent({
 
   &__edit-mode-label
     white-space: nowrap
+
+  &__portal-home-icon
+    display: flex
+    align-content: center
+
+    svg
+      width: calc(3* var(--layout-spacing-unit))
+      height: @width
 
 #header-button-copy
     display: none
