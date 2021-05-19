@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-05-15 18:49+0200\n"
+"POT-Creation-Date: 2021-05-18 23:57+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -47,6 +47,10 @@ msgstr "Bestehenden Ordner hinzufügen"
 #: src/assets/data/dictionary.js:61
 msgid "Add folder"
 msgstr "Ordner hinzufügen"
+
+#: src/assets/data/dictionary.js:148
+msgid "Add new Tile"
+msgstr "Neue Kachel hinzufügen"
 
 #: src/assets/data/dictionary.js:60
 msgid "Add new category"
@@ -192,6 +196,10 @@ msgstr "Editiermodus"
 msgid "Edit portal"
 msgstr "Portal bearbeiten"
 
+#: src/assets/data/dictionary.js:147
+msgid "Edit tile"
+msgstr "Kachel editieren"
+
 #: src/assets/data/dictionary.js:79
 msgid "Entries could not be re-sorted"
 msgstr "Einträge konnten nicht umsortiert werden"
@@ -297,9 +305,9 @@ msgid ""
 "must be at least 2 characters long, and start and end with a digit or "
 "letter!"
 msgstr ""
-"Interner Name darf nur Ziffern, Buchstaben und Punkte enthalten, muss mindestens "
-"2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben beginnen und"
-" enden."
+"Interner Name darf nur Ziffern, Buchstaben und Punkte enthalten, muss "
+"mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
+"beginnen und enden."
 
 #: src/assets/data/dictionary.js:71
 msgid "Language code (e.g. en_US)"
@@ -405,6 +413,10 @@ msgstr "UMC-Module anzeigen"
 msgid "Show portal"
 msgstr "Portal anzeigen"
 
+#: src/assets/data/dictionary.js:146
+msgid "Show tooltip"
+msgstr "Kurzinfo anzeigen"
+
 #: src/assets/data/dictionary.js:44
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
@@ -427,7 +439,7 @@ msgstr "Die Formulardaten sind fehlerhaft"
 
 #: src/assets/data/dictionary.js:136
 msgid "To focus press Enter"
-msgstr ""
+msgstr "Enter drücken um zu Fokussieren"
 
 #: src/assets/data/dictionary.js:114
 msgid "Upload"
@@ -455,20 +467,6 @@ msgstr "Wiederholung"
 #: src/assets/data/dictionary.js:129
 msgid "search"
 msgstr "suchen"
-
-#: src/assets/data/dictionary.js:146
-msgid "Show tooltip"
-msgstr "Kurzinfo anzeigen"
-
-#: src/assets/data/dictionary.js:147
-msgid "Edit tile"
-msgstr "Kachel editieren"
-
-#: src/assets/data/dictionary.js:147
-msgid "Add new Tile"
-msgstr "Neue Kachel hinzufügen"
-
-
 
 #~ msgid ""
 #~ "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you"
