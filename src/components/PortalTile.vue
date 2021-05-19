@@ -318,15 +318,6 @@ export default defineComponent({
     top: -0.75em
     right: -0.75em
     z-index: $zindex-1
-    padding: calc(.5 * var(--layout-spacing-unit))
-    border: 0.2rem solid transparent
-    box-sizing: border-box
-    display: flex
-    align-items: center
-    justify-content: center
-
-    &:focus
-      border-color: var(--color-focus)
 
     @extend .icon-button--admin
 

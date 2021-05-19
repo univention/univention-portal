@@ -158,8 +158,6 @@ label, div.label
   &--admin
     height: calc(2 * var(--button-icon-size))
     user-select: none
-
-    display: inline-block
     margin-right: var(--layout-spacing-unit)
 
     background-color: var(--color-grey0)
@@ -168,13 +166,21 @@ label, div.label
     background-position: center
     border-radius: 50%
     box-shadow: var(--box-shadow)
+    border: 0.2rem solid transparent
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    box-sizing: border-box
+    padding: 0
 
     &:hover
       background-color: var(--color-grey8)
+      border-color: var(--color-focus)
 
     &:focus,
     &:active
       background-color: var(--color-grey25)
+      border-color: var(--color-focus)
 
 
   &--default-cursor,
