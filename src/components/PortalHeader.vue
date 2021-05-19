@@ -262,7 +262,7 @@ export default defineComponent({
     white-space: nowrap
 
     @media $mqSmartphone
-      @extend .sr-only
+      @extend .sr-only-mobile
 
   &__left
     flex: 0 0 auto;
