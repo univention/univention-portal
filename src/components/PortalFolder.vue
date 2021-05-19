@@ -186,6 +186,7 @@ export default defineComponent({
     editFolder() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminFolder',
+        stubborn: true,
         props: {
           modelValue: this.$props,
           superDn: this.superDn,
