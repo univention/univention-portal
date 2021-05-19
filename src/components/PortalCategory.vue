@@ -179,6 +179,7 @@ export default defineComponent({
     editCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminCategory',
+        stubborn: true,
         props: {
           modelValue: this.$props,
           label: 'EDIT_CATEGORY',

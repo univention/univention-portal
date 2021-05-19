@@ -225,6 +225,7 @@ export default defineComponent({
     editTile() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminEntry',
+        stubborn: true,
         props: {
           modelValue: this.$props,
           superDn: this.superDn,
