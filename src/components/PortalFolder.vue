@@ -53,6 +53,7 @@
         <div
           v-for="(tile, index) in tiles"
           :key="index"
+          :class="`portal-folder__thumbnail${isMoreThanFiveOrTen(index)}`"
         >
           <portal-tile
             :ref="'portalFolderChildren' + index"
@@ -193,6 +194,15 @@ export default defineComponent({
         },
       });
     },
+    isMoreThanFiveOrTen(index): string {
+      let classSuffix = '';
+      if (index === 3 && this.tiles.length > 4) {
+        classSuffix = '--mobile';
+      } else if (index === 8 && this.tiles.length >= 10) {
+        classSuffix = '--desktop';
+      }
+      return classSuffix;
+    },
   },
 });
 </script>
@@ -268,7 +278,10 @@ export default defineComponent({
       height: min-content
       width: var(--portal-folder-tile-width)
       max-width: 50%
-      margin-bottom: 0;
+      margin-bottom: 0
+      display: flex
+      align-content: center
+      justify-content: center
 
     &--in-modal
       max-height: 100vh
@@ -303,7 +316,22 @@ export default defineComponent({
     background-color: var(--color-grey0)
     padding: 0
 
+  &__thumbnail--mobile
+    position: relative
+    &:after
+      @media $mqSmartphone
+        content: '...'
+        position: absolute
+        width: 100%
+        height: @width
+        top: 0
+        bottom:0
+        bottom: 0;
+        right: 0
+        background-color: var(--color-grey0)
+
 &:focus
   border-color: var(--color-focus)
   outline: none;
+
 </style>
