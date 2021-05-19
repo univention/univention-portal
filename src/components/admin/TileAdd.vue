@@ -29,6 +29,9 @@
 <template>
   <div
     class="tile-add"
+    tabindex="0"
+    role="button"
+    :aria-label="ariaLabelAddTile"
     @click="showMenu()"
     @dragenter="dragenter"
   >
@@ -59,6 +62,11 @@ export default defineComponent({
     forFolder: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    ariaLabelAddTile(): string {
+      return this.$translateLabel('ADD_NEW_TILE');
     },
   },
   methods: {

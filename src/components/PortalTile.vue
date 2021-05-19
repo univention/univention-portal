@@ -32,7 +32,7 @@
       :is="wrapperTag"
       :href="link"
       :target="anchorTarget"
-      :aria-describedby="createID()"
+      :aria-describedby="tileId"
       :aria-label="ariaLabelPortalTile"
       class="portal-tile"
       :draggable="editMode && !fromFolder"
@@ -43,11 +43,13 @@
       @click="tileClick($event)"
       @keydown.tab.exact="setFocus($event, 'forward')"
       @keydown.shift.tab.exact="setFocus($event, 'backward')"
-      @focus="showTooltip()"
       @blur="hideTooltip()"
       @dragstart="dragstart"
       @dragenter="dragenter"
       @dragend="dragend"
+      @focus="showTooltip()"
+      @focusin="setAriaDescribedBy"
+      @focusout="removeAriaDescribedBy"
     >
       <div
         :style="`background: ${backgroundColor || 'var(--color-grey40)'}`"
@@ -96,6 +98,10 @@ import TileClick from '@/mixins/TileClick.vue';
 import Draggable from '@/mixins/Draggable.vue';
 
 import { Title, Description } from '@/store/modules/portalData/portalData.models';
+
+interface PortalTile {
+  tileId: string,
+}
 
 export default defineComponent({
   name: 'PortalTile',
@@ -157,6 +163,11 @@ export default defineComponent({
       default: false,
     },
   },
+  data(): PortalTile {
+    return {
+      tileId: '',
+    };
+  },
   emits: ['keepFocusInFolderModal'],
   computed: {
     ...mapGetters({
@@ -182,6 +193,9 @@ export default defineComponent({
     if (this.hasFocus) {
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
     }
+  },
+  updated() {
+    console.log('updated!');
   },
   methods: {
     hideTooltip(): void {
@@ -228,6 +242,12 @@ export default defineComponent({
     },
     createID() {
       return `element-${this.$.uid}`;
+    },
+    setAriaDescribedBy() {
+      this.tileId = this.createID();
+    },
+    removeAriaDescribedBy() {
+      this.tileId = '';
     },
   },
 });

@@ -145,7 +145,7 @@ export default defineComponent({
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
     },
     ariaLabelAddNewTile(): string {
-      return this.$translateLabel('ADD_NEW_TILE');
+      return this.$translateLabel('ADD_NEW_CATEGORY');
     },
   },
   methods: {
