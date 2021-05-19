@@ -31,7 +31,6 @@ import { translate } from '@/i18n/translations';
 import { udmPut, udmAdd } from '@/jsHelper/umc';
 
 async function add(objectType, attrs, store, errorMessage): Promise<string> {
-  store.dispatch('activateLoadingState');
   try {
     const response = await udmAdd(objectType, attrs);
     const result = response.data.result[0];
@@ -48,7 +47,7 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
   return '';
 }
 
-async function put(dn, attrs, { dispatch }, successMessage, errorMessage) {
+async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promise<boolean> {
   try {
     const response = await udmPut(dn, attrs);
     const result = response.data.result[0];
@@ -63,11 +62,13 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage) {
       adminMode: true,
     }, { root: true });
     await dispatch('loadPortal', { adminMode: true }, { root: true });
+    return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
       title: translate(errorMessage),
       description: err.message,
     }, { root: true });
+    return false;
   }
 }
 

@@ -118,6 +118,7 @@ export default defineComponent({
       }
       setInvalidity(this, 'input', !dn);
       if (dn) {
+        let success = false;
         this.$store.dispatch('activateLoadingState');
         const superObj = this.superObjs.find((obj) => obj.dn === this.superDn);
         const superAttrs = {
@@ -125,11 +126,14 @@ export default defineComponent({
         };
         console.info('Adding', dn, 'to', this.superDn);
         if (this.objectGetter === 'portalData/portalEntries') {
-          await put(this.superDn, superAttrs, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
+          success = await put(this.superDn, superAttrs, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
         } else {
-          await put(this.superDn, superAttrs, this.$store, 'FOLDER_ADDED_SUCCESS', 'FOLDER_ADDED_FAILURE');
+          success = await put(this.superDn, superAttrs, this.$store, 'FOLDER_ADDED_SUCCESS', 'FOLDER_ADDED_FAILURE');
         }
         this.$store.dispatch('deactivateLoadingState');
+        if (success) {
+          this.cancel();
+        }
       }
     },
   },
