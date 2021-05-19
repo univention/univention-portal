@@ -176,4 +176,6 @@ export default defineComponent({
 
     input
       width: 18rem
+      &[type=checkbox]
+        margin-left: 0
 </style>
