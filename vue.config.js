@@ -42,9 +42,7 @@ const vueConfig = {
     loaderOptions: {
       stylus: {
         import: [
-          path.resolve(__dirname, 'src/assets/styles/_vars.styl'),
           path.resolve(__dirname, 'src/assets/styles/_variables.styl'),
-          path.resolve(__dirname, 'src/assets/styles/_base.styl'),
         ],
       },
     },
