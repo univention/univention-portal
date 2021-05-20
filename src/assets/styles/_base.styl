@@ -111,8 +111,9 @@ label, div.label
     padding: 0 !important
     margin: 4px
     margin-right: var(--layout-spacing-unit)
+    margin-left: 0
     border: 2px solid var(--color-grey40)
-    border-radius: var(--border-radius-tooltip)
+    border-radius: 2px
     background-color: var(--color-grey0)
     cursor: pointer
     appearance: none
@@ -126,7 +127,7 @@ label, div.label
         content: '\2713'
         color: var(--color-primary)
         position: absolute
-        left: calc(var(--font-size-3) / 2 - 2px)
+        left: calc(var(--font-size-3) / 2 - 2px - 4px)
     & + span
       vertical-align: top
       cursor: pointer

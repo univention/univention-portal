@@ -62,7 +62,7 @@
       >
         <icon-button
           icon="plus"
-          class="portal-categories__add-button"
+          class="portal-categories__add-button icon-button--admin"
           :aria-label-prop="ariaLabelAddNewTile"
         />
         <translate i18n-key="ADD_CATEGORY" />
@@ -174,7 +174,6 @@ export default defineComponent({
 
   &__add-button
     vertical-align: top
-    @extend .icon-button--admin
 
     svg
       vertical-align: top

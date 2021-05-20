@@ -74,14 +74,14 @@
       <icon-button
         v-if="!minified && editMode"
         icon="edit-2"
-        class="portal-tile__edit-button"
+        class="portal-tile__edit-button icon-button--admin"
         :aria-label-prop="ariaLabelEditTile"
       />
     </component>
     <icon-button
       v-if="!minified && isTouchDevice"
       icon="info"
-      class="portal-tile__info-button"
+      class="portal-tile__info-button icon-button--admin"
       :aria-label-prop="ariaLabelInfoButton"
       @click="toolTipTouchHandler()"
     />
@@ -225,6 +225,7 @@ export default defineComponent({
     editTile() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminEntry',
+        stubborn: true,
         props: {
           modelValue: this.$props,
           superDn: this.superDn,
@@ -319,8 +320,6 @@ export default defineComponent({
     top: -0.75em
     right: -0.75em
     z-index: $zindex-1
-
-    @extend .icon-button--admin
 
     &--in-modal
       position relative
