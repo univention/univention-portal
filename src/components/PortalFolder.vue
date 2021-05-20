@@ -40,6 +40,7 @@
   >
     <button
       class="portal-tile__box"
+      :class="[{ 'portal-tile__box--accessible-zoom': inModal && updateZoomQuery() },]"
       tabindex="0"
       :aria-label="ariaLabelFolder"
       @click="openFolder"
@@ -149,6 +150,14 @@ export default defineComponent({
       return `${this.$translateLabel('EDIT_FOLDER')}`;
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.updateZoomQuery);
+    });
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateZoomQuery);
+  },
   methods: {
     closeFolder(): void {
       this.$store.dispatch('modal/hideAndClearModal');
@@ -203,6 +212,16 @@ export default defineComponent({
       }
       return classSuffix;
     },
+    updateZoomQuery(): boolean {
+      const browserZoomLevel = Math.round((window.devicePixelRatio * 100) / 2);
+      // BROWSER ZOOM DEFAULT: 100
+      // MOBILE ZOOM DEFAULT: 100 - 150
+      // BROWSER ZOOM WCAG2.1 AA: 200
+      if (browserZoomLevel && browserZoomLevel >= 200) {
+        return true;
+      }
+      return false;
+    },
   },
 });
 </script>
@@ -252,6 +271,11 @@ export default defineComponent({
           max-height: 90vw
           border-radius: 2rem
 
+        &--accessible-zoom
+          @media $mqSmartphone
+            max-height: calc(100vh -  var(--portal-header-height) - (10 * var(--layout-spacing-unit)));
+            margin-top: calc(var(--portal-header-height) + var(--layout-spacing-unit));
+
         .portal-tile
           cursor: pointer
           width: var(--app-tile-side-length)
@@ -260,7 +284,8 @@ export default defineComponent({
             width: var(--app-tile-side-length)
             height: @width
             margin-bottom: calc(2 * var(--layout-spacing-unit))
-
+    .portal-folder__thumbnail:last-child .portal-tile
+      margin-bottom: calc(5 * var(--layout-spacing-unit))
     .portal-folder__thumbnails .portal-tile__name
         display: block;
 
