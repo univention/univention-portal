@@ -58,13 +58,20 @@
         >
           <portal-tile
             :ref="'portalFolderChildren' + index"
-            v-bind="tile"
+            :dn="tile.dn"
+            :super-dn="dn"
+            :title="tile.title"
+            :description="tile.description"
+            :activated="tile.activated"
+            :background-color="tile.backgroundColor"
+            :links="tile.links"
+            :link-target="tile.linkTarget"
+            :path-to-logo="tile.pathToLogo"
             :minified="!inModal"
             :has-focus="setFocus(index)"
             :last-element="isLastElement(index, tiles)"
             :first-element="isFirstElement(index)"
             :from-folder="true"
-            :super-dn="dn"
             @keepFocusInFolderModal="keepFocusInFolderModal"
           />
         </div>
@@ -121,16 +128,16 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    superDn: {
+      type: String,
+      required: true,
+    },
     title: {
       type: Object as PropType<Title>,
       required: true,
     },
     tiles: {
       type: Array as PropType<Tile[]>,
-      required: true,
-    },
-    superDn: {
-      type: String,
       required: true,
     },
     inModal: {

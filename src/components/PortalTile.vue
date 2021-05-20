@@ -133,11 +133,6 @@ export default defineComponent({
       type: Boolean,
       required: false,
     },
-    pathToLogo: {
-      type: String,
-      required: false,
-      default: './questionMark.svg',
-    },
     backgroundColor: {
       type: String,
       default: 'var(--color-grey40)',
@@ -163,12 +158,12 @@ export default defineComponent({
       default: false,
     },
   },
+  emits: ['keepFocusInFolderModal'],
   data(): PortalTile {
     return {
       tileId: '',
     };
   },
-  emits: ['keepFocusInFolderModal'],
   computed: {
     ...mapGetters({
       tooltip: 'tooltip/tooltip',
