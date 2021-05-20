@@ -67,13 +67,22 @@
         >
           <portal-folder
             v-if="tile.isFolder"
-            v-bind="tile"
+            :dn="tile.dn"
             :super-dn="dn"
+            :title="tile.title"
+            :tiles="tile.tiles"
           />
           <portal-tile
             v-else
-            v-bind="tile"
+            :dn="tile.dn"
             :super-dn="dn"
+            :title="tile.title"
+            :description="tile.description"
+            :activated="tile.activated"
+            :background-color="tile.backgroundColor"
+            :links="tile.links"
+            :link-target="tile.linkTarget"
+            :path-to-logo="tile.pathToLogo"
           />
         </div>
       </template>
