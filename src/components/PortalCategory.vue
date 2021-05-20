@@ -41,7 +41,7 @@
       <icon-button
         v-if="editMode"
         icon="edit-2"
-        class="portal-category__edit-button"
+        class="portal-category__edit-button icon-button--admin"
         :aria-label-prop="ariaLabelEditButton"
         @click="editCategory"
       />
@@ -179,6 +179,7 @@ export default defineComponent({
     editCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminCategory',
+        stubborn: true,
         props: {
           modelValue: this.$props,
           label: 'EDIT_CATEGORY',
@@ -222,7 +223,6 @@ export default defineComponent({
 
   &__edit-button
     padding 0
-    @extend .icon-button--admin
 
   &__title
     height: var(--button-size)

@@ -89,7 +89,7 @@
     <icon-button
       v-if="editMode && !inModal"
       icon="edit-2"
-      class="portal-folder__edit-button"
+      class="portal-folder__edit-button icon-button--admin"
       :aria-label-prop="ariaLabelFolderButton"
       @click="editFolder()"
     />
@@ -196,6 +196,7 @@ export default defineComponent({
     editFolder() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminFolder',
+        stubborn: true,
         props: {
           modelValue: this.$props,
           superDn: this.superDn,
@@ -349,8 +350,6 @@ export default defineComponent({
     top: -0.75em
     right: -0.75em
     z-index: $zindex-1
-
-    @extend .icon-button--admin
 
   .portal-tile__box
     background-color: var(--color-grey0)

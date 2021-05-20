@@ -55,7 +55,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         <PortalIcon icon="home" />
       </div>
 
-      <h1 class="portal-header__portal-name">
+      <h1 class="portal-header__portal-name sr-only-mobile">
         {{ $localized(portalName) }}
       </h1>
     </div>
@@ -260,9 +260,6 @@ export default defineComponent({
   &__portal-name
     font-size: var(--font-size-2);
     white-space: nowrap
-
-    @media $mqSmartphone
-      @extend .sr-only-mobile
 
   &__left
     flex: 0 0 auto;
