@@ -53,7 +53,7 @@
         <div
           v-for="(tile, index) in tiles"
           :key="index"
-          :class="`portal-folder__thumbnail${isMoreThanFiveOrTen(index)}`"
+          :class="`portal-folder__thumbnail ${isMoreThanFiveOrTen(index)}`"
         >
           <portal-tile
             :ref="'portalFolderChildren' + index"
@@ -197,9 +197,9 @@ export default defineComponent({
     isMoreThanFiveOrTen(index): string {
       let classSuffix = '';
       if (index === 3 && this.tiles.length > 4) {
-        classSuffix = '--mobile';
+        classSuffix = 'portal-folder__thumbnail--mobile';
       } else if (index === 8 && this.tiles.length >= 10) {
-        classSuffix = '--desktop';
+        classSuffix = 'portal-folder__thumbnail--desktop';
       }
       return classSuffix;
     },
@@ -237,7 +237,8 @@ export default defineComponent({
       width: unset
 
     > .portal-tile
-      &__box
+
+      &__box // Big FOLDER
         width: calc(5 * var(--app-tile-side-length))
         height: @width
         max-width: 100vw
@@ -254,12 +255,11 @@ export default defineComponent({
         .portal-tile
           cursor: pointer
           width: var(--app-tile-side-length)
+
           &__box
             width: var(--app-tile-side-length)
             height: @width
-    &__box
-      width: var(--app-tile-side-length)
-      height: var(--app-tile-side-length)
+            margin-bottom: calc(2 * var(--layout-spacing-unit))
 
     .portal-folder__thumbnails .portal-tile__name
         display: block;
@@ -275,13 +275,9 @@ export default defineComponent({
     box-sizing: border-box;
     overflow: hidden
     > div
-      height: min-content
-      width: var(--portal-folder-tile-width)
-      max-width: 50%
-      margin-bottom: 0
-      display: flex
-      align-content: center
-      justify-content: center
+        display: flex
+        align-content: center
+        justify-content: center
 
     &--in-modal
       max-height: 100vh
@@ -291,17 +287,36 @@ export default defineComponent({
       padding-bottom: 0
 
       > div
-        margin-bottom: 3rem
+        margin-bottom: calc(.2 * var(--portal-folder-tile-width))
+      .portal-folder__thumbnail:after {
+        display: none;
+      }
+      .portal-folder__thumbnail:nth-child(n+10)
+        display: block
     .portal-tile
       width: calc(0.25 * var(--app-tile-side-length))
       &__box
         width: calc(0.25 * var(--app-tile-side-length))
         height: @width
-        margin-bottom: var(--layout-spacing-unit)
         padding:  calc(var(--layout-spacing-unit))
+        margin-bottom: 0
 
       &__name
-        display: none;
+        display: none
+      &__root-element
+        align-items: center
+      ^[0]__thumbnail
+        margin-bottom: 0
+        display: flex
+        align-content: center
+        justify-content: center
+        width: var(--portal-folder-tile-width)
+        height: var(--portal-folder-tile-width)
+
+        @media $mqSmartphone
+          height: 50%
+          width: var(--portal-folder-tile-width)
+          max-width: 50%
 
   &__edit-button
     position: absolute
@@ -316,19 +331,40 @@ export default defineComponent({
     background-color: var(--color-grey0)
     padding: 0
 
-  &__thumbnail--mobile
-    position: relative
-    &:after
-      @media $mqSmartphone
-        content: '...'
-        position: absolute
-        width: 100%
-        height: @width
-        top: 0
-        bottom:0
-        bottom: 0;
-        right: 0
-        background-color: var(--color-grey0)
+  &__thumbnail
+    &:nth-child(n+10)
+      display: none
+    &--desktop
+      position: relative
+
+      &:after
+          content: '...'
+          position: absolute
+          width: 100%
+          height: @width
+          top: 0
+          bottom:0
+          bottom: 0;
+          right: 0
+          line-height: 300%
+          background-color: var(--color-grey0)
+        @media $mqSmartphone
+          display: none
+
+    &--mobile
+      position: relative
+      &:after
+        @media $mqSmartphone
+          content: '...'
+          position: absolute
+          width: 100%
+          height: @width
+          top: 0
+          bottom:0
+          bottom: 0;
+          right: 0
+          line-height: 300%
+          background-color: var(--color-grey0)
 
 &:focus
   border-color: var(--color-focus)
