@@ -31,6 +31,8 @@ import App from '@/App.vue';
 import { store } from '@/store';
 import localize from '@/plugins/localize';
 
+import '@/assets/styles/style.styl';
+
 declare global {
     interface Window {
         store: any;

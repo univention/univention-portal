@@ -140,6 +140,6 @@ export default defineComponent({
       height: var(--button-size)
       margin-right: var(--layout-spacing-unit)
 
-.icon-button
-  margin-left: var(--layout-spacing-unit)
+  .icon-button
+    margin-left: var(--layout-spacing-unit)
 </style>
