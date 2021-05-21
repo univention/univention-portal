@@ -466,7 +466,7 @@ msgstr "Wiederholung"
 
 #: src/assets/data/dictionary.js:129
 msgid "search"
-msgstr "suchen"
+msgstr "suche"
 
 #~ msgid ""
 #~ "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you"
