@@ -36,17 +36,17 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div class="notification__header">
       <div
         class="notification__title"
-      >
-        {{ title }}
+      ><b>
+        {{ preAccouncement }}
+        </b><br/>
+        {{title}}
       </div>
-
       <icon-button
         icon="x"
         :aria-label-prop="ariaLabelDismissNotification"
         @click="dismissNotification()"
       />
     </div>
-
     <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="description"
@@ -112,6 +112,19 @@ export default defineComponent({
     ariaLabelDismissNotification(): string {
       return this.$translateLabel('DISMISS_NOTIFICATION');
     },
+    preAccouncement(): string {
+      let preAccouncement = this.$translateLabel('DEFAULT_NOTIFICATION');
+      if (this.importance === 'warning') {
+        preAccouncement = this.$translateLabel('WARNING');
+      }
+      if (this.importance === 'success') {
+        preAccouncement = this.$translateLabel('SUCCSESS');
+      }
+      if (this.importance === 'error') {
+        preAccouncement = this.$translateLabel('ERROR');
+      }
+      return `${preAccouncement}:`;
+    },
   },
   mounted() {
     this.startDismissal();
@@ -128,7 +141,7 @@ export default defineComponent({
         this.$el.style = `transition-duration: ${this.hidingAfter}s;`;
         this.$el.classList.add('notification__dismissing');
         this.dismissalTimeout = setTimeout(() => this.dismissNotification(),
-          this.hidingAfter * 1000);
+          this.hidingAfter * 9999);
       }, 50); // $nextTick is still too soon
     },
     stopDismissal() {
@@ -150,8 +163,8 @@ export default defineComponent({
 .notification
   border-radius: var(--border-radius-notification)
   padding: var(--layout-spacing-unit)
+  padding-bottom: calc(2 * var(--layout-spacing-unit))
   padding-left: calc(3 * var(--layout-spacing-unit))
-  margin-bottom: calc(2 * var(--layout-spacing-unit))
   transition: background 0s ease-out
   background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.1) 50%);
   background-size: 200% 100%;

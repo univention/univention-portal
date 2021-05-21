@@ -146,6 +146,10 @@ const catalog = {
   SHOW_TOOLTIP_BY_TOUCH: _('Show tooltip'),
   EDIT_TILE: _('Edit tile'),
   ADD_NEW_TILE: _('Add new Tile'),
+  DEFAULT_NOTIFICATION: _('Info'),
+  WARNING: _('Warning'),
+  SUCCESS: _('Success'),
+  ERROR: _('Error'),
 };
 
 export { catalog };

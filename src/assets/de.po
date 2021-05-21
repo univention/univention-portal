@@ -468,6 +468,22 @@ msgstr "Wiederholung"
 msgid "search"
 msgstr "suche"
 
+#: src/assets/data/dictionary.js:149
+msgid "Info"
+msgstr "Info"
+
+#: src/assets/data/dictionary.js:150
+msgid "Warning"
+msgstr "Warnung"
+
+#: src/assets/data/dictionary.js:151
+msgid "Success"
+msgstr "Aktion erfolgreich"
+
+#: src/assets/data/dictionary.js:152
+msgid "Error"
+msgstr "Fehler"
+
 #~ msgid ""
 #~ "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you"
 #~ " can use the full range of functions of UCS."
