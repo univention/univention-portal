@@ -29,7 +29,7 @@ button
   display: flex
   align-items: center
   cursor: pointer
-  transition: all var(--portal-transition-duration)
+  transition: background-color var(--portal-transition-duration)
   
   svg + span
     padding-left: var(--layout-spacing-unit-small)
@@ -42,11 +42,12 @@ button
 
   &:hover
     background-color: unquote('rgba(var(--color-grey25-rgb), 0.85)')
-    transition: all var(--portal-transition-duration)
+    transition: background-color var(--portal-transition-duration)
 
   &:focus,
   &:active
     background-color: unquote('rgba(var(--color-grey25-rgb), 1)')
+    transition: unset;
 
   &.primary
     background-color: unquote('rgba(var(--color-primary-rgb), 0.7)')
