@@ -327,7 +327,7 @@ export default defineComponent({
         justify-content: center
 
     &--in-modal
-      max-height: 100vh
+      max-height: calc(100vh - var(--portal-header-height) - var(--portal-header-height) - var(--portal-header-height));
       overflow: auto
       box-sizing: border-box;
       padding:  var(--portal-folder-padding)
@@ -335,6 +335,7 @@ export default defineComponent({
 
       > div
         margin-bottom: calc(.2 * var(--portal-folder-tile-width))
+        height: auto
       .portal-folder__thumbnail:after {
         display: none;
       }

@@ -320,8 +320,6 @@ export default defineComponent({
       position relative
 
   &__info-button
-    width: calc(5.5 * var(--layout-spacing-unit))
-    height: @width
     font-size: var(--font-size-2)
 
     svg
