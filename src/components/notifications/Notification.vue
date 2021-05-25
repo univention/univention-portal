@@ -36,10 +36,12 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div class="notification__header">
       <div
         class="notification__title"
-      ><b>
-        {{ preAccouncement }}
-        </b><br/>
-        {{title}}
+      >
+        <b>
+          {{ preAccouncement }}
+        </b>
+        <br>
+        {{ title }}
       </div>
       <icon-button
         icon="x"
