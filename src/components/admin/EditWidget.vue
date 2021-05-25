@@ -104,6 +104,7 @@ export default defineComponent({
   methods: {
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
+      this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
     submit() {
       const errors = this.model.getErrors();

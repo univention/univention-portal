@@ -31,9 +31,10 @@
     <portal-background />
     <portal-header />
 
-    <main
+    <region
       v-show="!activeTabIndex"
       id="portalCategories"
+      role="main"
       class="portal-categories"
     >
       <div
@@ -58,16 +59,16 @@
       <h2
         v-if="editMode"
         class="portal-categories__title"
-        @click.prevent="addCategory()"
       >
         <icon-button
           icon="plus"
           class="portal-categories__add-button icon-button--admin"
           :aria-label-prop="ariaLabelAddNewTile"
+          @click="addCategory"
         />
         <translate i18n-key="ADD_CATEGORY" />
       </h2>
-    </main>
+    </region>
 
     <div
       v-show="activeTabIndex"
@@ -99,6 +100,7 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import IconButton from '@/components/globals/IconButton.vue';
+import Region from '@/components/activity/Region.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 import Notifications from 'components/notifications/Notifications.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
@@ -129,6 +131,7 @@ export default defineComponent({
     PortalModal,
     PortalSidebar,
     PortalToolTip,
+    Region,
     Translate,
   },
   computed: {
@@ -156,6 +159,7 @@ export default defineComponent({
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'CategoryAddModal',
       });
+      this.$store.dispatch('activity/setRegion', 'category-add-modal');
     },
   },
 });
@@ -179,7 +183,6 @@ export default defineComponent({
       vertical-align: top
 
   &__title
-    cursor: pointer
     display: inline-block
     margin-top: 0
     margin-bottom: calc(6 * var(--layout-spacing-unit))

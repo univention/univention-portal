@@ -27,7 +27,9 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div
+  <region
+    :id="`notifications-${onlyVisible ? 'visible' : 'all'}`"
+    direction="topdown"
     class="notifications"
     @keydown.esc="closeNotifications"
   >
@@ -36,18 +38,22 @@ License with the Debian GNU/Linux or Univention distribution in file
       :key="notification.token"
       v-bind="notification"
     />
-  </div>
+  </region>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import Region from '@/components/activity/Region.vue';
 import Notification from '@/components/notifications/Notification.vue';
 
 export default defineComponent({
   name: 'Notifications',
-  components: { Notification },
+  components: {
+    Notification,
+    Region,
+  },
   props: {
     onlyVisible: {
       type: Boolean,

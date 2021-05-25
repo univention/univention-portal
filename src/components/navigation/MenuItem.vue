@@ -27,12 +27,13 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <a
-    v-is="isLink ? 'a' : 'div'"
+  <tabindex-element
+    :id="id"
+    :tag="isLink ? 'a' : 'div'"
+    :active-at="['header-menu']"
     class="menu-item"
     :href="link ? link : null"
     :target="anchorTarget"
-    tabindex="0"
     @click="tileClick"
     @keydown.enter="tileClick"
   >
@@ -59,12 +60,13 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="menu-item__arrow menu-item__arrow--right"
       />
     </template>
-  </a>
+  </tabindex-element>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import TileClick from '@/mixins/TileClick.vue';
 
@@ -72,11 +74,18 @@ import { Locale } from '@/store/modules/locale/locale.models';
 
 export default defineComponent({
   name: 'MenuItem',
-  components: { PortalIcon },
+  components: {
+    PortalIcon,
+    TabindexElement,
+  },
   mixins: [
     TileClick,
   ],
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     title: {
       type: Object as PropType<Record<Locale, string>>,
       required: true,
@@ -86,10 +95,6 @@ export default defineComponent({
       default: () => [],
     },
     isSubItem: {
-      type: Boolean,
-      default: false,
-    },
-    handlesAppSettings: {
       type: Boolean,
       default: false,
     },

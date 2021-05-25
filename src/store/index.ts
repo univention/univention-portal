@@ -33,6 +33,7 @@ import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
 import { getCookie } from '@/jsHelper/tools';
 import { adminState } from '@/jsHelper/admin';
+import activity from './modules/activity';
 import dragndrop from './modules/dragndrop';
 import locale from './modules/locale';
 import menu from './modules/menu';
@@ -126,6 +127,7 @@ export const store = createStore<RootState>({
   actions,
   getters,
   modules: {
+    activity,
     dragndrop,
     locale,
     menu,

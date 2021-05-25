@@ -27,15 +27,17 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <header
+  <region
     id="portal-header"
+    role="banner"
     :class="{ 'portal-header__tabs-overflow': tabsOverflow }"
     class="portal-header"
   >
-    <div
-      ref="portalHeaderH1"
+    <tabindex-element
+      id="portal-header-head"
+      tag="div"
+      :active-at="['portal']"
       class="portal-header__left"
-      tabindex="0"
       role="button"
       :aria-label="ariaLabelPortalHeader"
       @click="goHome"
@@ -58,7 +60,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       <h1 class="portal-header__portal-name sr-only-mobile">
         {{ $localized(portalName) }}
       </h1>
-    </div>
+    </tabindex-element>
 
     <div
       ref="tabs"
@@ -67,10 +69,11 @@ License with the Debian GNU/Linux or Univention distribution in file
       <header-tab
         v-for="(item, index) in tabs"
         :key="index"
-        :tab-index="index + 1"
+        :idx="index + 1"
         :tab-label="item.tabLabel"
         :is-active="activeTabIndex == index + 1"
         :logo="item.logo"
+        :hidden="tabsOverflow"
       />
     </div>
 
@@ -127,7 +130,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <template v-if="activeButton === 'search'">
       <portal-search />
     </template>
-  </header>
+  </region>
   <choose-tabs
     v-if="activeButton === 'copy'"
   />
@@ -137,6 +140,8 @@ License with the Debian GNU/Linux or Univention distribution in file
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import Region from '@/components/activity/Region.vue';
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 import HeaderButton from '@/components/navigation/HeaderButton.vue';
 import HeaderTab from '@/components/navigation/HeaderTab.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
@@ -155,6 +160,8 @@ export default defineComponent({
     PortalSearch,
     ChooseTabs,
     PortalIcon,
+    Region,
+    TabindexElement,
   },
   data(): PortalHeaderData {
     return {
@@ -198,7 +205,12 @@ export default defineComponent({
       return `${this.$translateLabel('MENU')}`;
     },
     showTabButton(): boolean {
-      return this.tabs.length > 0;
+      return this.numTabs > 0 && this.tabsOverflow;
+    },
+  },
+  watch: {
+    numTabs(): void {
+      this.updateOverflow();
     },
   },
   mounted() {
@@ -208,9 +220,6 @@ export default defineComponent({
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updateOverflow);
-  },
-  updated(): void {
-    this.updateOverflow();
   },
   methods: {
     updateOverflow() {
