@@ -152,7 +152,6 @@ export default defineComponent({
       return this.tiles.length > 0;
     },
     ariaLabelFolder(): string | null {
-      console.log(this.tiles.length);
       const numberOfItems = this.tiles.length;
       let itemString = '';
       if (this.tiles.length === 0) {

@@ -49,6 +49,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="menu-item__counter"
       >
         {{ subMenu.length }}
+        <span class="sr-only sr-only-mobile">
+          {{ itemString }}
+        </span>
       </div>
       <portal-icon
         v-if="!isSubItem"
@@ -94,6 +97,18 @@ export default defineComponent({
   computed: {
     isLink(): boolean {
       return this.link !== null && this.link !== '';
+    },
+    itemString(): string {
+      const numberOfItems = this.subMenu.length;
+      let itemString = '';
+      if (numberOfItems === 0) {
+        itemString = this.$translateLabel('NO_ITEMS');
+      } else if (numberOfItems === 1) {
+        itemString = this.$translateLabel('ITEM');
+      } else {
+        itemString = this.$translateLabel('ITEMS');
+      }
+      return itemString;
     },
   },
 });

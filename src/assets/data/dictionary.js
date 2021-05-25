@@ -153,6 +153,7 @@ const catalog = {
   ITEM: _('Item'),
   ITEMS: _('Items'),
   NO_ITEMS: _('No items'),
+  GO_BACK: _('Go Back'),
 };
 
 export { catalog };
