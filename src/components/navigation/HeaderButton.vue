@@ -31,14 +31,17 @@ License with the Debian GNU/Linux or Univention distribution in file
     :class="{ 'header-button--is-active': isActiveButton }"
     class="header-button"
     @click="toggleActiveButton"
+    @keyup.esc.stop="emptyActiveButton"
   >
     <span
       :class="'header-button__inner'"
       role="presentation"
     >
-      <button
+      <tabindex-element
         :id="'header-button-' + icon"
         :ref="setRef"
+        tag="button"
+        :active-at="['portal', `header-${icon}`]"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabelProp"
         :class="['header-button__button', hoverClass]"
@@ -52,7 +55,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         >
           {{ counter }}
         </div>
-      </button>
+      </tabindex-element>
     </span>
   </div>
 </template>
@@ -60,11 +63,15 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 export default defineComponent({
   name: 'HeaderButton',
-  components: { PortalIcon },
+  components: {
+    PortalIcon,
+    TabindexElement,
+  },
   props: {
     icon: {
       type: String,
@@ -103,6 +110,11 @@ export default defineComponent({
         } else {
           this.$store.dispatch('navigation/setActiveButton', this.icon);
         }
+      }
+    },
+    emptyActiveButton(): void {
+      if (!this.noClick) {
+        this.$store.dispatch('navigation/setActiveButton', '');
       }
     },
   },

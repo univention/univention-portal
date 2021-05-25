@@ -31,32 +31,45 @@
     i18n-title-key="ADD_ENTRY"
     @cancel="cancel"
   >
-    <button
-      class="tile-add-modal-button"
-      @click="openModal('createEntry')"
+    <region
+      id="tile-add-modal"
+      direction="topdown"
     >
-      <translate i18n-key="NEW_ENTRY" />
-    </button>
-    <button
-      class="tile-add-modal-button"
-      @click="openModal('addEntry')"
-    >
-      <translate i18n-key="ADD_EXISTING_ENTRY" />
-    </button>
-    <button
-      v-if="!forFolder"
-      class="tile-add-modal-button"
-      @click="openModal('createFolder')"
-    >
-      <translate i18n-key="NEW_FOLDER" />
-    </button>
-    <button
-      v-if="!forFolder"
-      class="tile-add-modal-button"
-      @click="openModal('addFolder')"
-    >
-      <translate i18n-key="ADD_EXISTING_FOLDER" />
-    </button>
+      <button
+        id="tile-add-modal-button-create-entry"
+        tabindex="0"
+        class="tile-add-modal-button"
+        @click="openModal('createEntry')"
+      >
+        <translate i18n-key="NEW_ENTRY" />
+      </button>
+      <button
+        id="tile-add-modal-button-existing-entry"
+        tabindex="0"
+        class="tile-add-modal-button"
+        @click="openModal('addEntry')"
+      >
+        <translate i18n-key="ADD_EXISTING_ENTRY" />
+      </button>
+      <button
+        v-if="!forFolder"
+        id="tile-add-modal-button-create-folder"
+        tabindex="0"
+        class="tile-add-modal-button"
+        @click="openModal('createFolder')"
+      >
+        <translate i18n-key="NEW_FOLDER" />
+      </button>
+      <button
+        v-if="!forFolder"
+        id="tile-add-modal-button-existing-folder"
+        tabindex="0"
+        class="tile-add-modal-button"
+        @click="openModal('addFolder')"
+      >
+        <translate i18n-key="ADD_EXISTING_FOLDER" />
+      </button>
+    </region>
   </modal-dialog>
 </template>
 
@@ -64,12 +77,14 @@
 import { defineComponent } from 'vue';
 
 import ModalDialog from '@/components/ModalDialog.vue';
+import Region from '@/components/activity/Region.vue';
 import Translate from '@/i18n/Translate.vue';
 
 export default defineComponent({
   name: 'TileAddModal',
   components: {
     ModalDialog,
+    Region,
     Translate,
   },
   props: {
@@ -138,6 +153,7 @@ export default defineComponent({
     },
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
+      this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
   },
 });

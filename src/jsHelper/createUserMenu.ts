@@ -28,10 +28,12 @@
  */
 import { translate } from '@/i18n/translations';
 import { changePassword } from '@/jsHelper/umc';
+import { randomId } from '@/jsHelper/tools';
 
 function makeEntry(entryID, availableTiles, defaultLinkTarget) {
   const entry = availableTiles.find((tile) => tile.dn === entryID);
   return {
+    id: `menu-item-${randomId()}`,
     title: entry.name,
     description: entry.description,
     links: entry.links,
@@ -79,6 +81,7 @@ export default function createUserMenu(portalData) {
 
   if (portalData.username) {
     subMenuItems.unshift({
+      id: `menu-item-${randomId()}`,
       title: {
         en_US: 'Change password',
         de_DE: 'Passwort ändern',
@@ -90,6 +93,7 @@ export default function createUserMenu(portalData) {
   }
 
   const menuElement = {
+    id: `menu-${randomId()}`,
     title: menuTitle,
     linkTarget: 'samewindow',
     subMenu: subMenuItems,

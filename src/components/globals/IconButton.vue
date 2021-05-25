@@ -27,29 +27,42 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <button
+  <tabindex-element
+    :id="id"
+    tag="button"
+    :active-at="activeAt"
     type="button"
     class="icon-button"
     :aria-label="ariaLabelProp"
-    @click.prevent="$emit('click')"
+    @click.prevent.stop="$emit('click')"
   >
     <portal-icon
       :icon="icon"
     />
-  </button>
+  </tabindex-element>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+
+import { randomId } from '@/jsHelper/tools';
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 export default defineComponent({
   name: 'IconButton',
-  components: { PortalIcon },
+  components: {
+    PortalIcon,
+    TabindexElement,
+  },
   props: {
     icon: {
       type: String,
       required: true,
+    },
+    activeAt: {
+      type: Array,
+      default: () => ['portal'],
     },
     ariaLabelProp: {
       type: String,
@@ -57,6 +70,11 @@ export default defineComponent({
     },
   },
   emits: ['click'],
+  computed: {
+    id(): string {
+      return `icon-button-${randomId()}`;
+    },
+  },
 });
 </script>
 
