@@ -496,6 +496,10 @@ msgstr "Einträge"
 msgid "No items"
 msgstr "Keine Einträge"
 
+#: src/assets/data/dictionary.js:155
+msgid "Go Back"
+msgstr "Gehe zurück"
+
 #~ msgid ""
 #~ "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you"
 #~ " can use the full range of functions of UCS."

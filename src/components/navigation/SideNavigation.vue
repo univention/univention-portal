@@ -68,6 +68,8 @@
 
     <div
       class="portal-sidenavigation__menu"
+      role="toolbar"
+      aria-orientation="vertical"
     >
       <div
         v-for="(item, index) in menuLinks"
@@ -84,6 +86,7 @@
           :link-target="item.linkTarget"
           :path-to-logo="item.pathToLogo"
           :internal-function="item.internalFunction"
+          aria-haspopup="true"
           @click="toggleMenu(index)"
           @keydown.up.exact.prevent="selectPrevious( 'menuItem', index, menuLinks.length)"
           @keydown.down.exact.prevent="selectNext( 'menuItem', index, menuLinks.length)"
@@ -100,6 +103,7 @@
             :title="item.title"
             :is-sub-item="true"
             :links="[]"
+            :aria-label="ariaLabelSubMenuParent"
             class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
             @click="toggleMenu()"
             @keydown.enter.exact.prevent="focusOnParent(index)"
@@ -201,6 +205,9 @@ export default defineComponent({
       userState: 'user/userState',
       meta: 'metaData/getMeta',
     }),
+    ariaLabelSubMenuParent(): string {
+      return this.$translateLabel('GO_BACK');
+    },
   },
   mounted() {
     this.focusOnLoginButton();
