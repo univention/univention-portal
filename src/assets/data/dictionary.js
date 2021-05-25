@@ -150,6 +150,9 @@ const catalog = {
   WARNING: _('Warning'),
   SUCCESS: _('Success'),
   ERROR: _('Error'),
+  ITEM: _('Item'),
+  ITEMS: _('Items'),
+  NO_ITEMS: _('No items'),
 };
 
 export { catalog };

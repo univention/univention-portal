@@ -38,7 +38,8 @@
     @dragenter="dragenter"
     @dragend="dragend"
   >
-    <button
+    <component
+      :is="isOpened"
       class="portal-tile__box"
       :class="[{ 'portal-tile__box--accessible-zoom': inModal && updateZoomQuery() },]"
       tabindex="0"
@@ -86,7 +87,7 @@
           </div>
         </div>
       </div>
-    </button>
+    </component>
     <span
       class="portal-folder__name"
       @click="openFolder"
@@ -150,11 +151,25 @@ export default defineComponent({
     hasTiles(): boolean {
       return this.tiles.length > 0;
     },
-    ariaLabelFolder(): string {
-      return `${this.$translateLabel('FOLDER')}`;
+    ariaLabelFolder(): string | null {
+      console.log(this.tiles.length);
+      const numberOfItems = this.tiles.length;
+      let itemString = '';
+      if (this.tiles.length === 0) {
+        itemString = this.$translateLabel('NO_ITEMS');
+      } else if (this.tiles.length === 1) {
+        itemString = this.$translateLabel('ITEM');
+      } else {
+        itemString = this.$translateLabel('ITEMS');
+      }
+
+      return !this.inModal ? `${this.$translateLabel('FOLDER')}: ${numberOfItems} ${itemString}` : null;
     },
     ariaLabelFolderButton(): string {
       return `${this.$translateLabel('EDIT_FOLDER')}`;
+    },
+    isOpened(): string {
+      return this.inModal ? 'div' : 'button';
     },
   },
   mounted() {
