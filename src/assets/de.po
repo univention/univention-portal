@@ -484,6 +484,18 @@ msgstr "Aktion erfolgreich"
 msgid "Error"
 msgstr "Fehler"
 
+#: src/assets/data/dictionary.js:153
+msgid "Item"
+msgstr "Eintrag"
+
+#: src/assets/data/dictionary.js:154
+msgid "Items"
+msgstr "Einträge"
+
+#: src/assets/data/dictionary.js:155
+msgid "No items"
+msgstr "Keine Einträge"
+
 #~ msgid ""
 #~ "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you"
 #~ " can use the full range of functions of UCS."
