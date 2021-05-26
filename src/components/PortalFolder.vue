@@ -78,6 +78,7 @@
         </div>
         <div
           v-if="editMode && inModal"
+          class="portal-folder__thumbnail portal-folder__thumbnail--tile-add"
         >
           <div class="portal-tile__root-element">
             <tile-add
@@ -306,7 +307,7 @@ export default defineComponent({
             width: var(--app-tile-side-length)
             height: @width
             margin-bottom: calc(2 * var(--layout-spacing-unit))
-    .portal-folder__thumbnail:last-child .portal-tile
+    .portal-folder__thumbnail .portal-tile
       margin-bottom: calc(5 * var(--layout-spacing-unit))
     .portal-folder__thumbnails .portal-tile__name
         display: block;
@@ -334,8 +335,9 @@ export default defineComponent({
       padding-bottom: 0
 
       > div
-        margin-bottom: calc(.2 * var(--portal-folder-tile-width))
         height: auto
+      .portal-folder__thumbnail--tile-add
+        align-items: start
       .portal-folder__thumbnail:after {
         display: none;
       }
