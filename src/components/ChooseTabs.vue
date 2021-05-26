@@ -57,6 +57,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           </div>
           <icon-button
             icon="x"
+            :active-at="['header-copy']"
             :aria-label-prop="ariaLabelCloseTab(tab.tabLabel)"
             @click="closeTab(idx)"
           />
