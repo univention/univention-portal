@@ -210,7 +210,9 @@ export default defineComponent({
   },
   watch: {
     numTabs(): void {
-      this.updateOverflow();
+      this.$nextTick(() => {
+        this.updateOverflow();
+      });
     },
   },
   mounted() {
