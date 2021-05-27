@@ -28,7 +28,6 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <div
-    v-if="showCookieBanner"
     :class="fadeOutClass"
     class="cookie-banner"
   >
@@ -59,11 +58,11 @@ License with the Debian GNU/Linux or Univention distribution in file
             class="cookie-banner__button portal-reset"
             role="presentation"
           >
-            <portal-button
-              button-label="ACCEPT"
-              class="cookie-banner__button-text"
+            <button
               @click.stop="setCookies()"
-            />
+            >
+              <translate i18n-key="ACCEPT" />
+            </button>
           </span>
         </div>
       </div>
@@ -87,10 +86,10 @@ License with the Debian GNU/Linux or Univention distribution in file
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import PortalButton from '@/components/globals/PortalButton.vue';
+import Translate from '@/i18n/Translate.vue';
 
 import { catalog } from '@/i18n/translations';
-import { setCookie, getCookie } from '@/jsHelper/cookieHelper';
+import { setCookie } from '@/jsHelper/tools';
 
 interface CookieBannerData {
   fadeOutClass: string,
@@ -98,7 +97,9 @@ interface CookieBannerData {
 
 export default defineComponent({
   name: 'CookieBanner',
-  components: { PortalButton },
+  components: {
+    Translate,
+  },
   data(): CookieBannerData {
     return { fadeOutClass: '' };
   },
@@ -113,9 +114,9 @@ export default defineComponent({
     defaultCookieText(): string {
       return catalog.COOKIE_TEXT.translated.value;
     },
-    showCookieBanner(): boolean {
-      return this.metaData.cookieBanner.show && getCookie(this.cookieName) === '';
-    },
+  },
+  mounted(): void {
+    this.$store.dispatch('activity/setLevel', 'cookies');
   },
   methods: {
     setCookies(): void {
@@ -125,6 +126,7 @@ export default defineComponent({
     },
     dismissCookieBanner(): void {
       this.fadeOutClass = 'cookie-banner__fade-out';
+      this.$store.dispatch('activity/setLevel', 'portal');
     },
   },
 });
@@ -162,27 +164,14 @@ export default defineComponent({
     padding: 8px 30px
     line-height: 30px
     transition: background-color var(--portal-transition-duration)
-    &:hover,
-    &:focus
-      background-color: var(--button-text-bgc-overlay-hover)
-      cursor: pointer
-    &:active
-      background-color: var(--button-text-bgc-overlay-active)
 
   &__button-close
     margin-left: auto
 
-  &__button-text
-    text-transform: uppercase
-    color: var(--font-color-contrast-high)
-    font-family: 'Open Sans', sans-serif
-    font-size: 16px
-    font-weight: 600
-
   &__action-bar
     background-color: var(--color-grey0)
     display: flex
-    justify-content: space-between
+    justify-content: end
     border-top: thin solid var(--color-grey8)
     padding: 8px 24px
 
