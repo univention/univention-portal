@@ -29,7 +29,9 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <portal />
 
-  <cookie-banner />
+  <cookie-banner
+    v-if="showCookieBanner"
+  />
 </template>
 
 <script lang="ts">
@@ -52,7 +54,12 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       userState: 'user/userState',
+      metaData: 'metaData/getMeta',
     }),
+    showCookieBanner(): boolean {
+      const cookieName = this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
+      return this.metaData.cookieBanner.show && !getCookie(cookieName);
+    },
   },
   async mounted() {
     // Set locale and load portal data from backend

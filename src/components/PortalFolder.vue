@@ -38,17 +38,20 @@
     @dragenter="dragenter"
     @dragend="dragend"
   >
-    <component
-      :is="isOpened"
+    <tabindex-element
+      :id="id"
+      :tag="isOpened"
+      :active-at="activeAt"
       class="portal-tile__box"
       :class="[{ 'portal-tile__box--accessible-zoom': inModal && updateZoomQuery() },]"
-      tabindex="0"
       :aria-label="ariaLabelFolder"
       @click="openFolder"
       @keypress.enter="openFolder"
       @keyup.esc.stop="closeFolder()"
     >
-      <div
+      <region
+        :id="`${id}-content`"
+        :role="inModal ? 'section' : 'none'"
         class="portal-folder__thumbnails"
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
       >
@@ -58,6 +61,7 @@
           :class="`portal-folder__thumbnail ${isMoreThanFiveOrTen(index)}`"
         >
           <portal-tile
+            :id="`${inModal ? 'folder' : 'modal'}-${tile.id}`"
             :ref="'portalFolderChildren' + index"
             :dn="tile.dn"
             :super-dn="dn"
@@ -69,11 +73,7 @@
             :link-target="tile.linkTarget"
             :path-to-logo="tile.pathToLogo"
             :minified="!inModal"
-            :has-focus="setFocus(index)"
-            :last-element="isLastElement(index, tiles)"
-            :first-element="isFirstElement(index)"
             :from-folder="true"
-            @keepFocusInFolderModal="keepFocusInFolderModal"
           />
         </div>
         <div
@@ -87,8 +87,8 @@
             />
           </div>
         </div>
-      </div>
-    </component>
+      </region>
+    </tabindex-element>
     <span
       class="portal-folder__name"
       @click="openFolder"
@@ -109,6 +109,8 @@
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
+import Region from '@/components/activity/Region.vue';
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import IconButton from '@/components/globals/IconButton.vue';
@@ -121,11 +123,17 @@ export default defineComponent({
     PortalTile,
     IconButton,
     TileAdd,
+    TabindexElement,
+    Region,
   },
   mixins: [
     Draggable,
   ],
   props: {
+    id: {
+      type: String,
+      default: '',
+    },
     dn: {
       type: String,
       required: true,
@@ -151,6 +159,12 @@ export default defineComponent({
     ...mapGetters({ editMode: 'portalData/editMode' }),
     hasTiles(): boolean {
       return this.tiles.length > 0;
+    },
+    activeAt(): string[] {
+      if (this.editMode) {
+        return ['portal'];
+      }
+      return ['portal', 'header-search'];
     },
     ariaLabelFolder(): string | null {
       const numberOfItems = this.tiles.length;
@@ -184,36 +198,18 @@ export default defineComponent({
     closeFolder(): void {
       this.$store.dispatch('modal/hideAndClearModal');
       this.$store.dispatch('tooltip/unsetTooltip');
+      this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
-    openFolder() {
+    openFolder(ev: Event) {
       if (this.inModal) {
         return;
       }
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'PortalFolder',
-        props: { ...this.$props, inModal: true },
+        props: { ...this.$props, id: `${this.id}-modal`, inModal: true },
       });
-    },
-    setFocus(index): boolean {
-      return this.inModal && index === 0;
-    },
-    isLastElement(index, array): boolean {
-      return index === (array.length - 1);
-    },
-    isFirstElement(index): boolean {
-      return index === 0;
-    },
-    keepFocusInFolderModal(focusElement) {
-      // TODO: Following $refs are bad practice and do not have proper typescript support
-      const firstElement = (this.$refs.portalFolderChildren0 as HTMLFormElement).$el.children[0];
-      const lastChild = `portalFolderChildren${this.tiles.length - 1}`;
-      const lastElement = (this.$refs[lastChild] as HTMLFormElement).$el.children[0];
-
-      if (focusElement === 'focusLast') {
-        lastElement.focus();
-      } else if (focusElement === 'focusFirst') {
-        firstElement.focus();
-      }
+      this.$store.dispatch('activity/setRegion', `${this.id}-modal-content`);
+      ev.stopPropagation();
     },
     editFolder() {
       this.$store.dispatch('modal/setAndShowModal', {

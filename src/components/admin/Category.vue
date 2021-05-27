@@ -121,6 +121,7 @@ export default defineComponent({
   methods: {
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
+      this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
     async remove() {
       this.$store.dispatch('activateLoadingState');

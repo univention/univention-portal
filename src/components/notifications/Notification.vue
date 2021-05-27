@@ -44,6 +44,8 @@ License with the Debian GNU/Linux or Univention distribution in file
         {{ title }}
       </div>
       <icon-button
+        :id="`close-notification-${token}`"
+        tabindex="0"
         icon="x"
         :aria-label-prop="ariaLabelDismissNotification"
         @click="dismissNotification()"
