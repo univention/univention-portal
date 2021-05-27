@@ -307,7 +307,6 @@ export default defineComponent({
     text-overflow: ellipsis
     white-space: nowrap
     text-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3)
-    margin-top: var(--layout-spacing-unit)
 
   &__edit-button,
   &__info-button
