@@ -67,6 +67,7 @@
         >
           <portal-folder
             v-if="tile.isFolder"
+            :id="tile.id"
             :dn="tile.dn"
             :super-dn="dn"
             :title="tile.title"
@@ -74,6 +75,7 @@
           />
           <portal-tile
             v-else
+            :id="tile.id"
             :dn="tile.dn"
             :super-dn="dn"
             :title="tile.title"

@@ -28,8 +28,10 @@
 -->
 <template>
   <div class="portal-tile__root-element">
-    <component
-      :is="wrapperTag"
+    <tabindex-element
+      :id="id"
+      :tag="wrapperTag"
+      :active-at="activeAt"
       :href="link"
       :target="anchorTarget"
       :aria-describedby="tileId"
@@ -40,16 +42,14 @@
       @mouseenter="editMode || showTooltip()"
       @mouseleave="hideTooltip"
       @mousedown="hideTooltip"
-      @click="tileClick($event)"
-      @keydown.tab.exact="setFocus($event, 'forward')"
-      @keydown.shift.tab.exact="setFocus($event, 'backward')"
+      @focus="showTooltip()"
+      @focusin="setAriaDescribedBy"
+      @focusout="removeAriaDescribedBy"
       @blur="hideTooltip()"
       @dragstart="dragstart"
       @dragenter="dragenter"
       @dragend="dragend"
-      @focus="showTooltip()"
-      @focusin="setAriaDescribedBy"
-      @focusout="removeAriaDescribedBy"
+      @click="tileClick($event)"
     >
       <div
         :style="`background: ${backgroundColor || 'var(--color-grey40)'}`"
@@ -74,10 +74,12 @@
       <icon-button
         v-if="!minified && editMode"
         icon="edit-2"
+        :active-at="activeAtEdit"
         class="portal-tile__edit-button icon-button--admin"
         :aria-label-prop="ariaLabelEditTile"
+        @click="editTile"
       />
-    </component>
+    </tabindex-element>
     <icon-button
       v-if="!minified && isTouchDevice"
       icon="info"
@@ -93,6 +95,7 @@ import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
 import IconButton from '@/components/globals/IconButton.vue';
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 
 import TileClick from '@/mixins/TileClick.vue';
 import Draggable from '@/mixins/Draggable.vue';
@@ -107,12 +110,17 @@ export default defineComponent({
   name: 'PortalTile',
   components: {
     IconButton,
+    TabindexElement,
   },
   mixins: [
     TileClick,
     Draggable,
   ],
   props: {
+    id: {
+      type: String,
+      default: '',
+    },
     dn: {
       type: String,
       required: true,
@@ -141,24 +149,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    hasFocus: {
-      type: Boolean,
-      default: false,
-    },
-    lastElement: {
-      type: Boolean,
-      default: false,
-    },
-    firstElement: {
-      type: Boolean,
-      default: false,
-    },
     fromFolder: {
       type: Boolean,
       default: false,
     },
   },
-  emits: ['keepFocusInFolderModal'],
   data(): PortalTile {
     return {
       tileId: '',
@@ -183,6 +178,27 @@ export default defineComponent({
     ariaLabelEditTile(): string {
       return this.$translateLabel('EDIT_TILE');
     },
+    activeAtEdit(): string[] {
+      if (!this.editMode) {
+        return [];
+      }
+      if (this.fromFolder) {
+        return ['modal'];
+      }
+      return ['portal'];
+    },
+    activeAt(): string[] {
+      if (this.minified) {
+        return [];
+      }
+      if (this.editMode) {
+        return [];
+      }
+      if (this.fromFolder) {
+        return ['modal'];
+      }
+      return ['portal', 'header-search'];
+    },
   },
   mounted() {
     if (this.hasFocus) {
@@ -206,15 +222,6 @@ export default defineComponent({
           ariaId: this.createID(),
         };
         this.$store.dispatch('tooltip/setTooltip', { tooltip });
-      }
-    },
-    setFocus(event, direction): void {
-      if (this.lastElement && direction === 'forward') {
-        event.preventDefault();
-        this.$emit('keepFocusInFolderModal', 'focusFirst');
-      } else if (this.firstElement && direction === 'backward') {
-        event.preventDefault();
-        this.$emit('keepFocusInFolderModal', 'focusLast');
       }
     },
     editTile() {

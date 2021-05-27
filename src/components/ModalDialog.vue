@@ -40,6 +40,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       <icon-button
         v-if="cancelAllowed"
         icon="x"
+        :active-at="['modal']"
         :aria-label-prop="ariaLabelCancel"
         @click="cancel()"
       />

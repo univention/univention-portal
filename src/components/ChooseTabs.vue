@@ -47,6 +47,7 @@ License with the Debian GNU/Linux or Univention distribution in file
             tabindex="0"
             :aria-label="ariaLabelChooseTab(tab.tabLabel)"
             @click.prevent="gotoTab(idx)"
+            @keydown.enter.prevent="gotoTab(idx)"
           >
             <img
               :src="tab.logo"
@@ -57,6 +58,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           </div>
           <icon-button
             icon="x"
+            :active-at="['modal']"
             :aria-label-prop="ariaLabelCloseTab(tab.tabLabel)"
             @click="closeTab(idx)"
           />
@@ -88,6 +90,7 @@ export default defineComponent({
     }),
   },
   mounted() {
+    this.$store.dispatch('activity/setLevel', 'modal');
     const el = this.$refs.currentTab as HTMLElement;
     el?.focus();
   },

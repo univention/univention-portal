@@ -51,6 +51,11 @@ const navigation: PortalModule<NavigationState> = {
       if (id === 'bell') {
         dispatch('notifications/removeAllNotifications', undefined, { root: true });
       }
+      if (id) {
+        dispatch('activity/setLevel', `header-${id}`, { root: true });
+      } else {
+        dispatch('activity/setLevel', 'portal', { root: true });
+      }
       commit('ACTIVEBUTTON', id);
     },
   },

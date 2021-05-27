@@ -31,18 +31,27 @@
     i18n-title-key="ADD_CATEGORY"
     @cancel="cancel"
   >
-    <button
-      class="tile-add-modal-button"
-      @click="openModal('createCategory')"
+    <region
+      id="category-add-modal"
+      direction="topdown"
     >
-      <translate i18n-key="ADD_NEW_CATEGORY" />
-    </button>
-    <button
-      class="tile-add-modal-button"
-      @click="openModal('addCategory')"
-    >
-      <translate i18n-key="ADD_EXISTING_CATEGORY" />
-    </button>
+      <button
+        id="category-add-modal-button-create-category"
+        tabindex="0"
+        class="tile-add-modal-button"
+        @click="openModal('createCategory')"
+      >
+        <translate i18n-key="ADD_NEW_CATEGORY" />
+      </button>
+      <button
+        id="category-add-modal-button-existing-category"
+        tabindex="0"
+        class="tile-add-modal-button"
+        @click="openModal('addCategory')"
+      >
+        <translate i18n-key="ADD_EXISTING_CATEGORY" />
+      </button>
+    </region>
   </modal-dialog>
 </template>
 
@@ -50,12 +59,14 @@
 import { defineComponent } from 'vue';
 
 import ModalDialog from '@/components/ModalDialog.vue';
+import Region from '@/components/activity/Region.vue';
 import Translate from '@/i18n/Translate.vue';
 
 export default defineComponent({
   name: 'CategoryAddModal',
   components: {
     ModalDialog,
+    Region,
     Translate,
   },
   methods: {
@@ -79,6 +90,7 @@ export default defineComponent({
     },
     cancel() {
       this.$store.dispatch('modal/hideAndClearModal');
+      this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
   },
 });
