@@ -274,7 +274,6 @@ export default defineComponent({
       cursor: default
 
     .portal-folder__name
-      margin-top: calc(3 * var(--layout-spacing-unit))
       font-size: var(--font-size-1)
       width: unset
 
@@ -307,8 +306,9 @@ export default defineComponent({
             width: var(--app-tile-side-length)
             height: @width
             margin-bottom: calc(2 * var(--layout-spacing-unit))
-    .portal-folder__thumbnail .portal-tile
+    .portal-folder__thumbnail
       margin-bottom: calc(5 * var(--layout-spacing-unit))
+
     .portal-folder__thumbnails .portal-tile__name
         display: block;
 
