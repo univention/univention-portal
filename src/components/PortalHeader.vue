@@ -296,12 +296,14 @@ export default defineComponent({
     white-space: nowrap
 
   &__portal-home-icon
-    display: flex
-    align-content: center
+    display: none
+    @media $mqSmartphone
+      display: flex
+      align-content: center
 
-    svg
-      width: calc(3* var(--layout-spacing-unit))
-      height: @width
+      svg
+        width: calc(3* var(--layout-spacing-unit))
+        height: @width
 
 #header-button-copy
     display: none
