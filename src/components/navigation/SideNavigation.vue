@@ -360,6 +360,8 @@ export default defineComponent({
       padding-left: 4rem;
 
   &__edit-mode
+    border: none
+    border-radius: unset
     border-top: 0.4rem solid var(--color-grey8)
 
   &__fade-left-right,
