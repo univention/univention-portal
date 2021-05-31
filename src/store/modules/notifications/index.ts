@@ -89,7 +89,7 @@ const notifications: PortalModule<Notifications> = {
       if (!notification) {
         return;
       }
-      if (notification.visible) {
+      if (notification.hidingAfter >= 0) {
         commit('HIDE_NOTIFICATION', notification);
       } else {
         commit('REMOVE_NOTIFICATION', notification);

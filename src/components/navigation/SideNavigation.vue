@@ -362,7 +362,13 @@ export default defineComponent({
   &__edit-mode
     border: none
     border-radius: unset
-    border-top: 0.4rem solid var(--color-grey8)
+    border-top: 0.2rem solid var(--color-grey8)
+
+    span
+      margin: 0.2rem
+
+    &:focus span
+      margin: 0
 
   &__fade-left-right,
   &__fade-right-left

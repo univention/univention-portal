@@ -159,6 +159,7 @@ export default defineComponent({
         this.$store.dispatch('notifications/addErrorNotification', {
           title: 'Update failed',
           description: `'Saving the portal failed: ${error}'`,
+          hidingAfter: -1,
         });
       }
       this.$store.dispatch('deactivateLoadingState');
