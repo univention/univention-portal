@@ -145,7 +145,7 @@ export default defineComponent({
         this.$el.style = `transition-duration: ${this.hidingAfter}s;`;
         this.$el.classList.add('notification__dismissing');
         this.dismissalTimeout = setTimeout(() => this.dismissNotification(),
-          this.hidingAfter * 9999);
+          this.hidingAfter * 1000);
       }, 50); // $nextTick is still too soon
     },
     stopDismissal() {
