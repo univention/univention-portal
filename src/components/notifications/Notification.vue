@@ -166,8 +166,9 @@ export default defineComponent({
 <style lang="stylus">
 .notification
   border-radius: var(--border-radius-notification)
+  margin-bottom: calc(2 * var(--layout-spacing-unit))
   padding: var(--layout-spacing-unit)
-  padding-bottom: calc(2 * var(--layout-spacing-unit))
+  padding-bottom: var(--layout-spacing-unit)
   padding-left: calc(3 * var(--layout-spacing-unit))
   transition: background 0s ease-out
   background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.1) 50%);
