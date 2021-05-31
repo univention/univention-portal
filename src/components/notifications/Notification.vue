@@ -122,7 +122,7 @@ export default defineComponent({
         preAccouncement = this.$translateLabel('WARNING');
       }
       if (this.importance === 'success') {
-        preAccouncement = this.$translateLabel('SUCCSESS');
+        preAccouncement = this.$translateLabel('SUCCESS');
       }
       if (this.importance === 'error') {
         preAccouncement = this.$translateLabel('ERROR');
@@ -139,6 +139,10 @@ export default defineComponent({
   methods: {
     startDismissal() {
       if (this.hidingAfter < 0) {
+        return;
+      }
+      if (this.hidingAfter === 0) {
+        this.dismissNotification();
         return;
       }
       setTimeout(() => {
