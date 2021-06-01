@@ -1,85 +1,74 @@
 <!--
-Copyright 2021 Univention GmbH
+  Copyright 2021 Univention GmbH
 
-https://www.univention.de/
+  https://www.univention.de/
 
-All rights reserved.
+  All rights reserved.
 
-The source code of this program is made available
-under the terms of the GNU Affero General Public License version 3
-(GNU AGPL V3) as published by the Free Software Foundation.
+  The source code of this program is made available
+  under the terms of the GNU Affero General Public License version 3
+  (GNU AGPL V3) as published by the Free Software Foundation.
 
-Binary versions of this program provided by Univention to you as
-well as other copyrighted, protected or trademarked materials like
-Logos, graphics, fonts, specific documentations and configurations,
-cryptographic keys etc. are subject to a license agreement between
-you and Univention and not subject to the GNU AGPL V3.
+  Binary versions of this program provided by Univention to you as
+  well as other copyrighted, protected or trademarked materials like
+  Logos, graphics, fonts, specific documentations and configurations,
+  cryptographic keys etc. are subject to a license agreement between
+  you and Univention and not subject to the GNU AGPL V3.
 
-In the case you use this program under the terms of the GNU AGPL V3,
-the program is provided in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
+  In the case you use this program under the terms of the GNU AGPL V3,
+  the program is provided in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public
-License with the Debian GNU/Linux or Univention distribution in file
-/usr/share/common-licenses/AGPL-3; if not, see
-<https://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU Affero General Public
+  License with the Debian GNU/Linux or Univention distribution in file
+  /usr/share/common-licenses/AGPL-3; if not, see
+  <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div
-    :class="fadeOutClass"
-    class="cookie-banner"
+  <modal-dialog
+    @cancel="cancel"
   >
-    <transition name="fade">
-      <div
-        class="cookie-banner__container"
-        role="dialog"
-        aria-labelledby=""
-      >
-        <div class="cookie-banner__title-bar">
-          <span
-            class="cookie-banner__title"
-            role="heading"
-            level="1"
-          >
-            {{ $localized(metaData.cookieBanner.title) || defaultCookieTitle }}
-          </span>
-        </div>
-        <div class="cookie-banner__pane-content">
-          <div class="cookie-banner__container-widget">
-            <div class="cookie-banner__text">
-              {{ $localized(metaData.cookieBanner.text) || defaultCookieText }}
+    <div
+      :class="fadeOutClass"
+      class="cookie-banner"
+    >
+      <transition name="fade">
+        <div
+          class="cookie-banner__container"
+          role="dialog"
+          aria-labelledby=""
+        >
+          <div class="cookie-banner__title-bar">
+            <span
+              class="cookie-banner__title"
+              role="heading"
+              level="1"
+            >
+              {{ $localized(metaData.cookieBanner.title) || defaultCookieTitle }}
+            </span>
+          </div>
+          <div class="cookie-banner__pane-content">
+            <div class="cookie-banner__container-widget">
+              <div
+                v-dompurify-html="$localized(metaData.cookieBanner.text) || defaultCookieText"
+                class="cookie-banner__text"
+              />
             </div>
           </div>
-        </div>
-        <div class="cookie-banner__action-bar">
-          <span
-            class="cookie-banner__button portal-reset"
-            role="presentation"
-          >
+          <div class="cookie-banner__action-bar">
             <button
+              class="primary"
               @click.stop="setCookies()"
             >
               <translate i18n-key="ACCEPT" />
             </button>
-          </span>
+          </div>
         </div>
-      </div>
-    </transition>
-
-    <teleport to="body">
-      <div
-        :class="fadeOutClass"
-        class="cookie-banner__blackout"
-      >
-        <div
-          class="cookie-banner__blackout-content"
-          tabindex="-1"
-        />
-      </div>
-    </teleport>
-  </div>
+      </transition>
+    </div>
+  </modal-dialog>
 </template>
 
 <script lang="ts">
@@ -87,6 +76,7 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import Translate from '@/i18n/Translate.vue';
+import ModalDialog from '@/components/ModalDialog.vue';
 
 import { catalog } from '@/i18n/translations';
 import { setCookie } from '@/jsHelper/tools';
@@ -98,6 +88,7 @@ interface CookieBannerData {
 export default defineComponent({
   name: 'CookieBanner',
   components: {
+    ModalDialog,
     Translate,
   },
   data(): CookieBannerData {
@@ -124,9 +115,13 @@ export default defineComponent({
       setCookie(this.cookieName, cookieValue);
       this.dismissCookieBanner();
     },
+    cancel() {
+      this.dismissCookieBanner();
+    },
     dismissCookieBanner(): void {
       this.fadeOutClass = 'cookie-banner__fade-out';
       this.$store.dispatch('activity/setLevel', 'portal');
+      this.$store.dispatch('modal/hideAndClearModal');
     },
   },
 });
@@ -134,17 +129,6 @@ export default defineComponent({
 
 <style lang="stylus">
 .cookie-banner
-  position: fixed
-  top: auto
-  left: 0
-  bottom: 0
-  right: 0
-  z-index: $zindex-10
-  width: 100%
-  max-width: 100%
-  box-shadow: 0px 14px 45px rgb(0 0 0 / 25%), 0px 10px 18px rgb(0 0 0 / 22%)
-  border-radius: var(--border-radius-container)
-  background-color: var(--color-grey0)
 
   &__title-bar
     padding: 30px 30px 5px 30px
@@ -192,4 +176,8 @@ export default defineComponent({
 
   &__blackout-content
     display: block
+
+  &__text
+    > a
+      color: var(--color-white);
 </style>
