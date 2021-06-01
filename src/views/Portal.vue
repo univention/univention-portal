@@ -99,6 +99,8 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import { getCookie } from '@/jsHelper/tools';
+
 import IconButton from '@/components/globals/IconButton.vue';
 import Region from '@/components/activity/Region.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
@@ -146,6 +148,7 @@ export default defineComponent({
       editMode: 'portalData/editMode',
       tooltip: 'tooltip/tooltip',
       hasEmptySearchResults: 'search/hasEmptySearchResults',
+      metaData: 'metaData/getMeta',
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
@@ -154,12 +157,37 @@ export default defineComponent({
       return this.$translateLabel('ADD_NEW_CATEGORY');
     },
   },
+  mounted(): void {
+    this.showCookieBanner();
+  },
   methods: {
     addCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'CategoryAddModal',
       });
       this.$store.dispatch('activity/setRegion', 'category-add-modal');
+    },
+    showCookieBanner(): void {
+      console.log('showCookieBanner');
+
+      const cookieName = this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
+
+      console.log('this.metaData.cookieBanner.show && getCookie(cookieName)', this.metaData.cookieBanner.show && getCookie(cookieName));
+
+      if (!this.metaData.cookieBanner.show && !getCookie(cookieName)) {
+        this.openModal();
+      }
+    },
+    openModal(): void {
+      console.log('openModal');
+
+      this.$store.dispatch('modal/setAndShowModal', {
+        name: 'CookieBanner',
+        stubborn: true,
+      });
+    },
+    hideModal() {
+      this.$store.dispatch('modal/hideAndClearModal');
     },
   },
 });
