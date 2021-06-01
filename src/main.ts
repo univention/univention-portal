@@ -30,6 +30,7 @@ import { createApp } from 'vue';
 import App from '@/App.vue';
 import { store } from '@/store';
 import localize from '@/plugins/localize';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 import '@/assets/styles/style.styl';
 
@@ -43,4 +44,5 @@ window.store = store;
 createApp(App)
   .use(store)
   .use(localize)
+  .use(VueDOMPurifyHTML)
   .mount('#app');
