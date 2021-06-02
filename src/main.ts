@@ -44,5 +44,16 @@ window.store = store;
 createApp(App)
   .use(store)
   .use(localize)
-  .use(VueDOMPurifyHTML)
+  .use(VueDOMPurifyHTML, {
+    hooks: {
+      afterSanitizeAttributes: (currentNode) => {
+        // Do something with the node
+        // set all elements owning target to target=_blank
+        if ('target' in currentNode) {
+          currentNode.setAttribute('target', '_blank');
+          currentNode.setAttribute('rel', 'noopener');
+        }
+      },
+    },
+  })
   .mount('#app');
