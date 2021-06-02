@@ -28,26 +28,48 @@
 -->
 <template>
   <portal />
+
+  <cookie-banner
+    v-if="showCookieBanner"
+    @dismissed="hideCookieBanner"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Portal from '@/views/Portal.vue';
+import CookieBanner from '@/components/globals/CookieBanner.vue';
 
 import addCustomStyles from '@/jsHelper/addCustomStyles';
 import { getCookie } from '@/jsHelper/tools';
 import { login } from '@/jsHelper/login';
 import { mapGetters } from 'vuex';
 
+interface AppData {
+  cookieBannerDismissed: boolean,
+}
+
 export default defineComponent({
   name: 'App',
   components: {
     Portal,
+    CookieBanner,
+  },
+  data(): AppData {
+    return {
+      cookieBannerDismissed: false,
+    };
   },
   computed: {
     ...mapGetters({
       userState: 'user/userState',
+      metaData: 'metaData/getMeta',
     }),
+    showCookieBanner(): boolean {
+      const cookieName = this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
+      console.log('showCookieBanner', this.metaData.cookieBanner.show, cookieName, getCookie(cookieName));
+      return this.metaData.cookieBanner.show && !getCookie(cookieName) && !this.cookieBannerDismissed;
+    },
   },
   async mounted() {
     // Set locale and load portal data from backend
@@ -65,6 +87,11 @@ export default defineComponent({
     addCustomStyles();
 
     this.$store.dispatch('deactivateLoadingState');
+  },
+  methods: {
+    hideCookieBanner(): void {
+      this.cookieBannerDismissed = true;
+    },
   },
 });
 </script>

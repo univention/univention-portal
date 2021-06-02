@@ -27,48 +27,29 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <modal-dialog
-    @cancel="cancel"
+  <modal-wrapper
+    :is-active="true"
+    :full="true"
   >
-    <div
-      :class="fadeOutClass"
-      class="cookie-banner"
+    <modal-dialog
+      :title="cookieTitle"
+      :cancel-allowed="false"
     >
-      <transition name="fade">
+      <main class="cookie-banner">
         <div
-          class="cookie-banner__container"
-          role="dialog"
-          aria-labelledby=""
+          v-dompurify-html="cookieText"
+        />
+      </main>
+      <footer>
+        <button
+          class="primary"
+          @click.stop="setCookies()"
         >
-          <div class="cookie-banner__title-bar">
-            <span
-              class="cookie-banner__title"
-              role="heading"
-              level="1"
-            >
-              {{ $localized(metaData.cookieBanner.title) || defaultCookieTitle }}
-            </span>
-          </div>
-          <div class="cookie-banner__pane-content">
-            <div class="cookie-banner__container-widget">
-              <div
-                v-dompurify-html="$localized(metaData.cookieBanner.text) || defaultCookieText"
-                class="cookie-banner__text"
-              />
-            </div>
-          </div>
-          <div class="cookie-banner__action-bar">
-            <button
-              class="primary"
-              @click.stop="setCookies()"
-            >
-              <translate i18n-key="ACCEPT" />
-            </button>
-          </div>
-        </div>
-      </transition>
-    </div>
-  </modal-dialog>
+          <translate i18n-key="ACCEPT" />
+        </button>
+      </footer>
+    </modal-dialog>
+  </modal-wrapper>
 </template>
 
 <script lang="ts">
@@ -77,33 +58,28 @@ import { mapGetters } from 'vuex';
 
 import Translate from '@/i18n/Translate.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
+import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 
-import { catalog } from '@/i18n/translations';
 import { setCookie } from '@/jsHelper/tools';
-
-interface CookieBannerData {
-  fadeOutClass: string,
-}
 
 export default defineComponent({
   name: 'CookieBanner',
   components: {
+    ModalWrapper,
     ModalDialog,
     Translate,
   },
-  data(): CookieBannerData {
-    return { fadeOutClass: '' };
-  },
+  emits: ['dismissed'],
   computed: {
     ...mapGetters({ metaData: 'metaData/getMeta' }),
     cookieName(): string {
       return this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
     },
-    defaultCookieTitle(): string {
-      return catalog.COOKIE_TITLE.translated.value;
+    cookieTitle(): string {
+      return this.$localized(this.metaData.cookieBanner.title) || this.$translateLabel('COOKIE_TITLE');
     },
-    defaultCookieText(): string {
-      return catalog.COOKIE_TEXT.translated.value;
+    cookieText(): string {
+      return this.$localized(this.metaData.cookieBanner.text) || this.$translateLabel('COOKIE_TEXT');
     },
   },
   mounted(): void {
@@ -115,69 +91,10 @@ export default defineComponent({
       setCookie(this.cookieName, cookieValue);
       this.dismissCookieBanner();
     },
-    cancel() {
-      this.dismissCookieBanner();
-    },
     dismissCookieBanner(): void {
-      this.fadeOutClass = 'cookie-banner__fade-out';
       this.$store.dispatch('activity/setLevel', 'portal');
-      this.$store.dispatch('modal/hideAndClearModal');
+      this.$emit('dismissed');
     },
   },
 });
 </script>
-
-<style lang="stylus">
-.cookie-banner
-
-  &__title-bar
-    padding: 30px 30px 5px 30px
-    display: flex
-    align-items: center
-
-  &__pane-content
-    padding: 5px 30px 40px 30px
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16)
-
-  &__button
-    box-shadow: var(--box-shadow)
-    margin: 0
-    font-size: var(--button-font-size)
-    border-radius: var(--button-border-radius)
-    background-color: var(--button-text-bgc)
-    padding: 8px 30px
-    line-height: 30px
-    transition: background-color var(--portal-transition-duration)
-
-  &__button-close
-    margin-left: auto
-
-  &__action-bar
-    background-color: var(--color-grey0)
-    display: flex
-    justify-content: flex-end
-    border-top: thin solid var(--color-grey8)
-    padding: 8px 24px
-
-  &__fade-out
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s .3s, opacity .5s linear;
-
-  &__blackout
-    position: fixed
-    top: 0
-    left: 0
-    z-index: $zindex-9
-    background: #5a5a5a
-    opacity: 0.5
-    min-height: 100vh
-    width: 100vw
-
-  &__blackout-content
-    display: block
-
-  &__text
-    > a
-      color: var(--color-white);
-</style>

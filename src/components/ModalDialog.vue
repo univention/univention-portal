@@ -34,8 +34,12 @@ License with the Debian GNU/Linux or Univention distribution in file
     <header class="dialog__header">
       <h3>
         <translate
+          v-if="i18nTitleKey"
           :i18n-key="i18nTitleKey"
         />
+        <span v-else>
+          {{ title }}
+        </span>
       </h3>
       <icon-button
         v-if="cancelAllowed"
@@ -63,7 +67,11 @@ export default defineComponent({
   props: {
     i18nTitleKey: {
       type: String,
-      required: true,
+      default: '',
+    },
+    title: {
+      type: String,
+      default: '',
     },
     cancelAllowed: {
       type: Boolean,
