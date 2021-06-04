@@ -171,7 +171,7 @@ export default defineComponent({
   &__action-bar
     background-color: var(--color-grey0)
     display: flex
-    justify-content: end
+    justify-content: flex-end
     border-top: thin solid var(--color-grey8)
     padding: 8px 24px
 
