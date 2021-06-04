@@ -126,6 +126,7 @@ export default defineComponent({
         this.$store.dispatch('notifications/addErrorNotification', {
           title: this.$translateLabel('ERROR_ON_VALIDATION'),
           description: `<ul><li>${description}</li></ul>`,
+          hidingAfter: -1,
         });
       }
     },

@@ -42,6 +42,7 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     store.dispatch('notifications/addErrorNotification', {
       title: translate(errorMessage),
       description: err.message,
+      hidingAfter: -1,
     });
   }
   return '';
@@ -56,6 +57,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
     }
     dispatch('notifications/addSuccessNotification', {
       title: translate(successMessage),
+      hidingAfter: -1,
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -67,6 +69,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
     dispatch('notifications/addErrorNotification', {
       title: translate(errorMessage),
       description: err.message,
+      hidingAfter: -1,
     }, { root: true });
     return false;
   }

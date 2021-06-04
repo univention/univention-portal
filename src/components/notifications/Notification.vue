@@ -122,7 +122,7 @@ export default defineComponent({
         preAccouncement = this.$translateLabel('WARNING');
       }
       if (this.importance === 'success') {
-        preAccouncement = this.$translateLabel('SUCCSESS');
+        preAccouncement = this.$translateLabel('SUCCESS');
       }
       if (this.importance === 'error') {
         preAccouncement = this.$translateLabel('ERROR');
@@ -141,11 +141,15 @@ export default defineComponent({
       if (this.hidingAfter < 0) {
         return;
       }
+      if (this.hidingAfter === 0) {
+        this.dismissNotification();
+        return;
+      }
       setTimeout(() => {
         this.$el.style = `transition-duration: ${this.hidingAfter}s;`;
         this.$el.classList.add('notification__dismissing');
         this.dismissalTimeout = setTimeout(() => this.dismissNotification(),
-          this.hidingAfter * 9999);
+          this.hidingAfter * 1000);
       }, 50); // $nextTick is still too soon
     },
     stopDismissal() {
@@ -166,8 +170,9 @@ export default defineComponent({
 <style lang="stylus">
 .notification
   border-radius: var(--border-radius-notification)
+  margin-bottom: calc(2 * var(--layout-spacing-unit))
   padding: var(--layout-spacing-unit)
-  padding-bottom: calc(2 * var(--layout-spacing-unit))
+  padding-bottom: var(--layout-spacing-unit)
   padding-left: calc(3 * var(--layout-spacing-unit))
   transition: background 0s ease-out
   background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.1) 50%);

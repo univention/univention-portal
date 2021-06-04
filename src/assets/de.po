@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-05-18 23:57+0200\n"
+"POT-Creation-Date: 2021-06-02 23:58+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -240,6 +240,10 @@ msgstr "Eintrag erfolgreich bearbeitet"
 msgid "Entry successfully removed"
 msgstr "Eintrag erfolgreich entfernt"
 
+#: src/assets/data/dictionary.js:152
+msgid "Error"
+msgstr "Fehler"
+
 #: src/assets/data/dictionary.js:145
 msgid "Folder"
 msgstr "Ordner"
@@ -276,6 +280,10 @@ msgstr "Ordner erfolgreich bearbeitet"
 msgid "Folder successfully removed"
 msgstr "Ordner erfolgreich entfernt"
 
+#: src/assets/data/dictionary.js:156
+msgid "Go Back"
+msgstr "Gehe zurück"
+
 #: src/assets/data/dictionary.js:120
 msgid ""
 "Headline of the entry. At least one entry; strongly encouraged to have one "
@@ -295,6 +303,10 @@ msgstr ""
 "Gruppen befinden. Wenn keine Gruppen ausgewählt sind, ist der Portaleintrag "
 "immer sichtbar."
 
+#: src/assets/data/dictionary.js:149
+msgid "Info"
+msgstr "Info"
+
 #: src/assets/data/dictionary.js:68
 msgid "Internal name"
 msgstr "Interner Name"
@@ -308,6 +320,14 @@ msgstr ""
 "Interner Name darf nur Ziffern, Buchstaben und Punkte enthalten, muss "
 "mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
 "beginnen und enden."
+
+#: src/assets/data/dictionary.js:153
+msgid "Item"
+msgstr "Eintrag"
+
+#: src/assets/data/dictionary.js:154
+msgid "Items"
+msgstr "Einträge"
 
 #: src/assets/data/dictionary.js:71
 msgid "Language code (e.g. en_US)"
@@ -344,6 +364,10 @@ msgstr "Neues Passwort"
 #: src/assets/data/dictionary.js:109
 msgid "Next"
 msgstr "Weiter"
+
+#: src/assets/data/dictionary.js:155
+msgid "No items"
+msgstr "Keine Einträge"
 
 #: src/assets/data/dictionary.js:138
 msgid "No search results"
@@ -425,6 +449,10 @@ msgstr "Bearbeiten abbrechen"
 msgid "Submit"
 msgstr "Abschicken"
 
+#: src/assets/data/dictionary.js:151
+msgid "Success"
+msgstr "Aktion erfolgreich"
+
 #: src/assets/data/dictionary.js:45
 msgid "Switch locale"
 msgstr "Sprache ändern"
@@ -444,6 +472,10 @@ msgstr "Enter drücken um zu Fokussieren"
 #: src/assets/data/dictionary.js:114
 msgid "Upload"
 msgstr "Hochladen"
+
+#: src/assets/data/dictionary.js:150
+msgid "Warning"
+msgstr "Warnung"
 
 #: src/assets/data/dictionary.js:47 src/assets/data/dictionary.js:74
 msgid ""
@@ -467,38 +499,6 @@ msgstr "Wiederholung"
 #: src/assets/data/dictionary.js:129
 msgid "search"
 msgstr "suche"
-
-#: src/assets/data/dictionary.js:149
-msgid "Info"
-msgstr "Info"
-
-#: src/assets/data/dictionary.js:150
-msgid "Warning"
-msgstr "Warnung"
-
-#: src/assets/data/dictionary.js:151
-msgid "Success"
-msgstr "Aktion erfolgreich"
-
-#: src/assets/data/dictionary.js:152
-msgid "Error"
-msgstr "Fehler"
-
-#: src/assets/data/dictionary.js:153
-msgid "Item"
-msgstr "Eintrag"
-
-#: src/assets/data/dictionary.js:154
-msgid "Items"
-msgstr "Einträge"
-
-#: src/assets/data/dictionary.js:155
-msgid "No items"
-msgstr "Keine Einträge"
-
-#: src/assets/data/dictionary.js:155
-msgid "Go Back"
-msgstr "Gehe zurück"
 
 #~ msgid ""
 #~ "Login <a class=\"notification-bubble__link\" href=\"#\">here</a> so that you"
