@@ -31,6 +31,6 @@ set -e
 
 #DEBHELPER#
 
-[ ! -e /var/www/univention/phoenix ] && ln -s /usr/share/phoenixportal/ /var/www/univention/phoenix
+[ ! -L /var/www/univention/phoenix ] && ln -s /usr/share/phoenixportal/ /var/www/univention/phoenix
 
 exit 0

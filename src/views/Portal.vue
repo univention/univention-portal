@@ -146,6 +146,7 @@ export default defineComponent({
       editMode: 'portalData/editMode',
       tooltip: 'tooltip/tooltip',
       hasEmptySearchResults: 'search/hasEmptySearchResults',
+      metaData: 'metaData/getMeta',
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
