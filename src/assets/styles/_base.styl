@@ -51,12 +51,14 @@ button
 
   &.primary
     background-color: unquote('rgba(var(--color-primary-rgb), 0.7)')
+    border: 0.2rem solid transparent
 
     &:hover
       background-color: unquote('rgba(var(--color-primary-rgb), 0.85)')
 
     &:focus, &:active
       background-color: unquote('rgba(var(--color-primary-rgb), 1)')
+      border: 0.2rem solid var(--color-focus)
 
 h2
   font-size: var(--font-size-2)
