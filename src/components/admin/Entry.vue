@@ -69,6 +69,17 @@
         name="links"
       />
     </div>
+    <label>
+      <translate i18n-key="LINK_TARGET" />
+      <select
+        v-model="linkTarget"
+      >
+        <option value="useportaldefault">{{ $translateLabel('PORTAL_DEFAULT') }}</option>
+        <option value="samewindow">{{ $translateLabel('SAME_WINDOW') }}</option>
+        <option value="newwindow">{{ $translateLabel('NEW_WINDOW') }}</option>
+        <option value="embedded">{{ $translateLabel('EMBEDDED') }}</option>
+      </select>
+    </label>
 
     <image-upload
       v-model="pathToLogo"
@@ -104,6 +115,7 @@ interface AdminEntryData extends ValidatableData {
   title: Record<string, string>,
   description: Record<string, string>,
   links: Array<LocaleAndValue>,
+  linkTarget: string,
 }
 
 function getErrors(this: AdminEntryData) {
@@ -167,6 +179,7 @@ export default defineComponent({
       description: {},
       backgroundColor: null,
       links: [],
+      linkTarget: 'default',
       getErrors,
     };
   },
@@ -197,6 +210,8 @@ export default defineComponent({
     this.title = { ...(this.modelValue.title || {}) };
     this.description = { ...(this.modelValue.description || {}) };
     this.links.push(...(this.modelValue.links || []));
+    console.log('create entry.vue', this.modelValue.originalLinkTarget);
+    this.linkTarget = this.modelValue.originalLinkTarget;
   },
   methods: {
     cancel() {
@@ -227,6 +242,7 @@ export default defineComponent({
         displayName: Object.entries(this.title),
         description: Object.entries(this.description),
         link: links,
+        linkTarget: this.linkTarget,
         icon: '',
         backgroundColor: this.backgroundColor,
       };

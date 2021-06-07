@@ -71,6 +71,7 @@
             :background-color="tile.backgroundColor"
             :links="tile.links"
             :link-target="tile.linkTarget"
+            :original-link-target="tile.originalLinkTarget"
             :path-to-logo="tile.pathToLogo"
             :minified="!inModal"
             :from-folder="true"

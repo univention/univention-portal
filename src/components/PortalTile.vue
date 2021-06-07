@@ -145,6 +145,10 @@ export default defineComponent({
       type: String,
       default: 'var(--color-grey40)',
     },
+    originalLinkTarget: {
+      type: String,
+      required: true,
+    },
     minified: {
       type: Boolean,
       default: false,

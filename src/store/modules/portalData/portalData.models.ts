@@ -55,6 +55,7 @@ export interface BaseTile extends Tile {
   backgroundColor: string | null,
   description: Description,
   linkTarget: LinkTarget,
+  originalLinkTarget: LinkTargetOrDefault,
   links: Link[],
   pathToLogo: string,
   key: any, // TODO: no idea how to type this object :(
