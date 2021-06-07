@@ -131,6 +131,7 @@ const portalData: PortalModule<PortalDataState> = {
     portalLogo: (state) => state.portal.portal.logo,
     portalBackground: (state) => state.portal.portal.background,
     portalShowUmc: (state) => state.portal.portal.showUmc,
+    portalEnsureLogin: (state) => state.portal.portal.ensureLogin,
     portalContent: (state) => state.portal.portal.content,
     portalEntries: (state) => state.portal.entries,
     portalFolders: (state) => state.portal.folders,
