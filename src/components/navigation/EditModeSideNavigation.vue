@@ -52,7 +52,7 @@
           v-model="portalDefaultLinkTargetData"
         >
           <option value="samewindow">{{ $translateLabel('SAME_WINDOW') }}</option>
-          <option value="newindow">{{ $translateLabel('NEW_WINDOW') }}</option>
+          <option value="newwindow">{{ $translateLabel('NEW_WINDOW') }}</option>
           <option value="embedded">{{ $translateLabel('EMBEDDED') }}</option>
         </select>
       </label>
