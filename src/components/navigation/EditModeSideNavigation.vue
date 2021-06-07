@@ -47,6 +47,16 @@
         label="Background"
       />
       <label>
+        <translate i18n-key="DEFAULT_LINK_TARGET" />
+        <select
+          v-model="portalDefaultLinkTargetData"
+        >
+          <option value="samewindow">{{ $translateLabel('SAME_WINDOW') }}</option>
+          <option value="newindow">{{ $translateLabel('NEW_WINDOW') }}</option>
+          <option value="embedded">{{ $translateLabel('EMBEDDED') }}</option>
+        </select>
+      </label>
+      <label>
         <input
           v-model="portalEnsureLoginData"
           type="checkbox"
@@ -86,6 +96,7 @@ interface EditModeSideNavigationData {
   portalLogoData: string,
   portalNameData: Record<string, string>,
   portalBackgroundData: string,
+  portalDefaultLinkTargetData: string,
   portalShowUmcData: boolean,
   portalEnsureLoginData: boolean,
 }
@@ -103,6 +114,7 @@ export default defineComponent({
       portalLogoData: '',
       portalNameData: {},
       portalBackgroundData: '',
+      portalDefaultLinkTargetData: 'embedded',
       portalShowUmcData: false,
       portalEnsureLoginData: false,
     };
@@ -115,6 +127,7 @@ export default defineComponent({
       portalBackground: 'portalData/portalBackground',
       portalShowUmc: 'portalData/portalShowUmc',
       portalEnsureLogin: 'portalData/portalEnsureLogin',
+      portalDefaultLinkTarget: 'portalData/portalDefaultLinkTarget',
     }),
   },
   updated() {
@@ -127,6 +140,7 @@ export default defineComponent({
     this.portalBackgroundData = this.portalBackground || '';
     this.portalShowUmcData = this.portalShowUmc;
     this.portalEnsureLoginData = this.portalEnsureLogin;
+    this.portalDefaultLinkTargetData = this.portalDefaultLinkTarget;
   },
   methods: {
     update() {
@@ -150,8 +164,9 @@ export default defineComponent({
       const displayName = Object.entries(this.portalNameData);
       const showUmc = this.portalShowUmcData;
       const ensureLogin = this.portalEnsureLoginData;
+      const defaultLinkTarget = this.portalDefaultLinkTargetData;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const attrs: any = { displayName, showUmc, ensureLogin };
+      const attrs: any = { displayName, showUmc, ensureLogin, defaultLinkTarget };
       if (logo !== null) {
         attrs.logo = logo;
       }
