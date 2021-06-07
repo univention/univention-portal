@@ -135,6 +135,7 @@ const catalog = {
   CLOSE_TAB: _('Close'),
   PRESS_ENTER_TO_FOCUS: _('To focus press Enter'),
   SHOW_UMC: _('Show local UMC modules'),
+  ENSURE_LOGIN: _('Users are required to login'),
   NO_RESULTS: _('No search results'),
   ERROR_ON_VALIDATION: _('The form data is not valid'),
   ERROR_WRONG_NAME: _('Internal name must not contain anything other than digits, letters or dots, must be at least 2 characters long, and start and end with a digit or letter!'),

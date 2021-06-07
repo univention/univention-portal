@@ -48,6 +48,13 @@
       />
       <label>
         <input
+          v-model="portalEnsureLoginData"
+          type="checkbox"
+        >
+        <translate i18n-key="ENSURE_LOGIN" />
+      </label>
+      <label>
+        <input
           v-model="portalShowUmcData"
           type="checkbox"
         >
@@ -80,6 +87,7 @@ interface EditModeSideNavigationData {
   portalNameData: Record<string, string>,
   portalBackgroundData: string,
   portalShowUmcData: boolean,
+  portalEnsureLoginData: boolean,
 }
 
 export default defineComponent({
@@ -96,6 +104,7 @@ export default defineComponent({
       portalNameData: {},
       portalBackgroundData: '',
       portalShowUmcData: false,
+      portalEnsureLoginData: false,
     };
   },
   computed: {
@@ -105,6 +114,7 @@ export default defineComponent({
       portalLogo: 'portalData/portalLogo',
       portalBackground: 'portalData/portalBackground',
       portalShowUmc: 'portalData/portalShowUmc',
+      portalEnsureLogin: 'portalData/portalEnsureLogin',
     }),
   },
   updated() {
@@ -116,6 +126,7 @@ export default defineComponent({
     this.portalNameData = this.portalName;
     this.portalBackgroundData = this.portalBackground || '';
     this.portalShowUmcData = this.portalShowUmc;
+    this.portalEnsureLoginData = this.portalEnsureLogin;
   },
   methods: {
     update() {
@@ -138,8 +149,9 @@ export default defineComponent({
       }
       const displayName = Object.entries(this.portalNameData);
       const showUmc = this.portalShowUmcData;
+      const ensureLogin = this.portalEnsureLoginData;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const attrs: any = { displayName, showUmc };
+      const attrs: any = { displayName, showUmc, ensureLogin };
       if (logo !== null) {
         attrs.logo = logo;
       }
