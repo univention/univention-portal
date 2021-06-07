@@ -141,6 +141,10 @@ export default defineComponent({
       type: Boolean,
       required: false,
     },
+    anonymous: {
+      type: Boolean,
+      required: false,
+    },
     backgroundColor: {
       type: String,
       default: 'var(--color-grey40)',

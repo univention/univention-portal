@@ -51,6 +51,7 @@ export interface Tile {
 export interface BaseTile extends Tile {
   allowedGroups: string[],
   activated: boolean,
+  anonymous: boolean,
   selectedGroups: string[],
   backgroundColor: string | null,
   description: Description,

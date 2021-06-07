@@ -17,7 +17,7 @@
         {"id": 3, "name": "Domain Guests", "active": true},
         {"id": 4, "name": "Domain Users", "active": false}
        ],
-       "anonymous": false,
+       "anonymous": true,
        "backgroundColor": "darkblue",
        "description": {
          "de_DE": "Cloud Lösung für Filesync und -share",

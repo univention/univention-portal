@@ -117,6 +117,7 @@ const catalog = {
   SELECT_ALL: _('Select all'),
   SELECT_FILE: _('Select file'),
   BACKGROUND_COLOR: _('Background color'),
+  ANONYMOUS: _('Only visible if not logged in'),
   MODAL_HINT_HEADLINE: _('Headline of the entry. At least one entry; strongly encouraged to have one for en_US'),
   LINK: _('Link'),
   LINKS: _('Links'),

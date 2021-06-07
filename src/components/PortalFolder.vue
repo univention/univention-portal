@@ -68,6 +68,7 @@
             :title="tile.title"
             :description="tile.description"
             :activated="tile.activated"
+            :anonymous="tile.anonymous"
             :background-color="tile.backgroundColor"
             :links="tile.links"
             :link-target="tile.linkTarget"

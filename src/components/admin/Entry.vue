@@ -92,6 +92,13 @@
         name="backgroundColor"
       >
     </label>
+    <label>
+      <input
+        v-model="anonymous"
+        type="checkbox"
+      >
+      <translate i18n-key="ANONYMOUS" />
+    </label>
   </edit-widget>
 </template>
 
@@ -116,6 +123,7 @@ interface AdminEntryData extends ValidatableData {
   description: Record<string, string>,
   links: Array<LocaleAndValue>,
   linkTarget: string,
+  anonymous: boolean,
 }
 
 function getErrors(this: AdminEntryData) {
@@ -180,6 +188,7 @@ export default defineComponent({
       backgroundColor: null,
       links: [],
       linkTarget: 'default',
+      anonymous: false,
       getErrors,
     };
   },
@@ -212,6 +221,7 @@ export default defineComponent({
     this.links.push(...(this.modelValue.links || []));
     console.log('create entry.vue', this.modelValue.originalLinkTarget);
     this.linkTarget = this.modelValue.originalLinkTarget;
+    this.anonymous = this.modelValue.anonymous;
   },
   methods: {
     cancel() {
@@ -243,6 +253,7 @@ export default defineComponent({
         description: Object.entries(this.description),
         link: links,
         linkTarget: this.linkTarget,
+        anonymous: this.anonymous,
         icon: '',
         backgroundColor: this.backgroundColor,
       };
