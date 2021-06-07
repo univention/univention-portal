@@ -50,6 +50,7 @@ function makeEntry(
       title: entry.name,
       isFolder: false,
       activated: entry.activated,
+      anonymous: entry.anonymous,
       allowedGroups: entry.allowedGroups,
       selectedGroups: [], // needed for storing selected groups
       backgroundColor: entry.backgroundColor,
