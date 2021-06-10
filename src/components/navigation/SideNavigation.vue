@@ -149,9 +149,7 @@
       @click="startEditMode"
       @keydown.esc="closeNavigation"
     >
-      <translate
-        i18n-key="EDIT_PORTAL"
-      />
+      {{ $getText('Go Back') }}
     </button>
   </region>
 </template>

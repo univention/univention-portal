@@ -50,8 +50,16 @@ const localize = {
       return ret;
     };
     app.config.globalProperties.$localized = localized;
-    const translateLabel: TranslateLabel = (translationLabel: string) => catalog[translationLabel].translated.value;
-    app.config.globalProperties.$translateLabel = translateLabel;
+
+    // const translateLabel: TranslateLabel = (translationLabel: string) => catalog[translationLabel].translated.value;
+    // app.config.globalProperties.$translateLabel = translateLabel;
+
+    const newPlugin: TranslateLabel = (englishReference: string) => {
+      console.log('englishReference', englishReference);
+      console.log('catalog[englishReference].translated.value', catalog[englishReference].translated.value);
+      return englishReference;
+    };
+    app.config.globalProperties.$getText = newPlugin;
   },
 };
 
@@ -60,6 +68,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $localized: Localized;
     $translateLabel: TranslateLabel;
+    $getText: TranslateLabel;
   }
 }
 
