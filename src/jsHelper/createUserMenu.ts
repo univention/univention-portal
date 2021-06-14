@@ -57,7 +57,6 @@ function changePasswordCallback(tileClick) {
     }, (error) => {
       tileClick.$store.dispatch('notifications/addErrorNotification', {
         title: translate('CHANGE_PASSWORD'),
-        description: error.response.data.message,
       });
       tileClick.$store.dispatch('modal/hideAndClearModal');
       return changePasswordCallback(tileClick);

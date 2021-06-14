@@ -52,6 +52,7 @@ export default defineComponent({
       if (this.i18nKey) {
         ret = catalog[this.i18nKey].translated.value;
       }
+      ret = 'ADMIN TRANSLATION';
       return ret;
     },
   },

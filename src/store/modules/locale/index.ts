@@ -53,6 +53,7 @@ const locale: PortalModule<LocaleState> = {
       state.locale = payload;
     },
     AVAILABLE_LOCALES(state, payload) {
+      console.log('789', payload);
       state.availableLocales = payload;
     },
   },
@@ -70,13 +71,17 @@ const locale: PortalModule<LocaleState> = {
       // TODO create helper function
       const html = document.documentElement;
       html.setAttribute('lang', localePrefix);
+      console.log('TESTTESTTEST');
+      console.log('localePrefix', localePrefix);
       return updateLocale(localePrefix);
     },
     setAvailableLocale({ commit }, payload: LocaleDefinition[]) {
       const locales = payload.map((loc) => loc.id.replace('-', '_'));
+      console.log('LOCALES', locales);
       commit('AVAILABLE_LOCALES', locales);
       // TODO create helper function
       const html = document.documentElement;
+      console.log('BASE LANG');
       html.setAttribute('lang', 'en'); // setting document lang to en, because it is also set in line 47, 48
     },
   },
