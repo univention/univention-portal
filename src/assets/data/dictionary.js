@@ -36,6 +36,8 @@ function _(msg) {
 }
 
 const catalog = {
+  PORTAL_MENU: _('Portal Menu'),
+  USER_MENU: _('User Menu'),
   NOTIFICATIONS: _('Notifications'),
   LOGIN: _('Login'),
   LOGOUT: _('Logout'),
@@ -138,8 +140,8 @@ const catalog = {
   SHOW_UMC: _('Show local UMC modules'),
   ENSURE_LOGIN: _('Users are required to login'),
   LINK_TARGET: _('Way of opening links'),
-  DEFAULT_LINK_TARGET: _('Use default of portal'),
-  PORTAL_DEFAULT: _('Use portal default'),
+  DEFAULT_LINK_TARGET: _('Default link behaviour for portal entries'),
+  PORTAL_DEFAULT: _('Use default of portal'),
   EMBEDDED: _('Embedded'),
   SAME_WINDOW: _('Same tab'),
   NEW_WINDOW: _('New tab'),

@@ -120,6 +120,7 @@ export default function createCategories(
         id: `category-${randomId()}`,
         title: category.display_name,
         dn: category.dn,
+        virtual: !!category.virtual,
         tiles,
       };
       ret.push(categoryItem);

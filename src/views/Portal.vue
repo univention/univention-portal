@@ -52,6 +52,7 @@
           :key="category.id"
           :title="category.title"
           :dn="category.dn"
+          :virtual="category.virtual"
           :tiles="category.tiles"
         />
       </template>
