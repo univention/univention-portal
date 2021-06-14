@@ -34,7 +34,7 @@
     >
       <image-upload
         v-model="portalLogoData"
-        label="Portal logo"
+        :label="$translateLabel('PORTAL_LOGO')"
       />
       <locale-input
         v-model="portalNameData"
@@ -44,7 +44,7 @@
       />
       <image-upload
         v-model="portalBackgroundData"
-        label="Background"
+        :label="$translateLabel('BACKGROUND')"
       />
       <label>
         <translate i18n-key="DEFAULT_LINK_TARGET" />
@@ -70,7 +70,7 @@
         >
         <translate i18n-key="SHOW_UMC" />
       </label>
-      <button class="primary">
+      <button class="primary edit-mode-side-navigation__save-button">
         <portal-icon
           icon="save"
         />
@@ -206,4 +206,6 @@ export default defineComponent({
       width: 18rem
       &[type=checkbox]
         margin-left: 0
+  &__save-button
+    margin-top: calc(2 * var(--layout-spacing-unit))
 </style>

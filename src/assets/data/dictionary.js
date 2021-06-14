@@ -118,6 +118,8 @@ const catalog = {
   MODAL_HINT_RESTRICT_VISIBILITY: _('If one or more groups are selected then the portal entry will only be visible to logged in users that are in any of the selected groups. If no groups are selected then the portal entry is always visible.'),
   SELECT_ALL: _('Select all'),
   SELECT_FILE: _('Select file'),
+  PORTAL_LOGO: _('Portal logo'),
+  BACKGROUND: _('Background'),
   BACKGROUND_COLOR: _('Background color'),
   ANONYMOUS: _('Only visible if not logged in'),
   MODAL_HINT_HEADLINE: _('Headline of the entry. At least one entry; strongly encouraged to have one for en_US'),
