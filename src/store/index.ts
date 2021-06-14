@@ -104,7 +104,7 @@ const actions = {
       dispatch('locale/setAvailableLocale', availableLocales);
       dispatch('metaData/setMeta', meta);
       dispatch('menu/setMenu', { portal, availableLocales });
-      dispatch('portalData/setPortal', portal);
+      dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || adminState });
       dispatch('user/setUser', {
         user: {
           username: portal.username,

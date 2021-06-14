@@ -27,6 +27,7 @@
  * <https://www.gnu.org/licenses/>.
  */
 import { put, adminState } from '@/jsHelper/admin';
+import translateLabel from '@/jsHelper/translate';
 
 import { PortalModule } from '../../root.models';
 import { PortalData } from './portalData.models';
@@ -67,6 +68,8 @@ const portalData: PortalModule<PortalDataState> = {
       entries: [],
       folders: [],
       categories: [],
+      menuLinks: [],
+      userLinks: [],
     },
     editMode: adminState,
     cacheId: '',
@@ -74,11 +77,38 @@ const portalData: PortalModule<PortalDataState> = {
 
   mutations: {
     PORTALDATA(state, payload) {
-      state.portal.portal = payload.portal;
-      state.portal.entries = payload.entries;
-      state.portal.folders = payload.folders;
-      state.portal.categories = payload.categories;
-      state.cacheId = payload.cache_id;
+      const portal = payload.portal;
+      const adminMode = payload.adminMode;
+      state.portal.portal = portal.portal;
+      state.portal.entries = portal.entries;
+      state.portal.folders = portal.folders;
+      state.portal.categories = portal.categories;
+      state.portal.menuLinks = portal.menu_links;
+      state.portal.userLinks = portal.user_links;
+      if (adminMode) {
+        const menu = {
+          display_name: {
+            en_US: translateLabel('PORTAL_MENU'),
+          },
+          virtual: true,
+          dn: '$$menu$$',
+          entries: state.portal.menuLinks,
+        };
+        const userMenu = {
+          display_name: {
+            en_US: translateLabel('USER_MENU'),
+          },
+          virtual: true,
+          dn: '$$user$$',
+          entries: state.portal.userLinks,
+        };
+        state.portal.categories.push(userMenu);
+        state.portal.categories.push(menu);
+        state.portal.portal.content.unshift([userMenu.dn, userMenu.entries]);
+        state.portal.portal.content.unshift([menu.dn, menu.entries]);
+      }
+      console.log(state.portal.portal);
+      state.cacheId = portal.cache_id;
     },
     PORTALNAME(state, name) {
       state.portal.portal.name = name;
@@ -138,6 +168,8 @@ const portalData: PortalModule<PortalDataState> = {
     portalCategories: (state) => state.portal.categories,
     portalCategoriesOnPortal: (state) => state.portal.portal.categories,
     portalDefaultLinkTarget: (state) => state.portal.portal.defaultLinkTarget,
+    userLinks: (state) => state.portal.userLinks,
+    menuLinks: (state) => state.portal.menuLinks,
     editMode: (state) => state.editMode,
     cacheId: (state) => state.cacheId,
   },
@@ -166,21 +198,42 @@ const portalData: PortalModule<PortalDataState> = {
     async saveContent({ commit, dispatch, getters }) {
       const content = getters.portalContent;
       const categories = getters.portalCategories;
+      const portalDn = getters.getPortalDn;
       const puts: Promise<boolean>[] = [];
-      categories.forEach((category) => content.forEach(([cat, entries]) => {
-        if (cat !== category.dn) {
+      content.forEach(([cat, entries]) => {
+        if (cat === '$$user$$') {
+          console.info('Rearranging entries for user menu');
+          const attrs = {
+            userLinks: entries,
+          };
+          const ret = put(portalDn, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          puts.push(ret);
           return;
         }
-        const attrs = {
-          entries,
-        };
-        if (isEqual(entries, category.entries)) {
+        if (cat === '$$menu$$') {
+          console.info('Rearranging entries for portal menu');
+          const attrs = {
+            menuLinks: entries,
+          };
+          const ret = put(portalDn, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          puts.push(ret);
           return;
         }
-        console.info('Rearranging entries for', cat);
-        const ret = put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
-        puts.push(ret);
-      }));
+        categories.forEach((category) => {
+          if (cat !== category.dn) {
+            return;
+          }
+          const attrs = {
+            entries,
+          };
+          if (isEqual(entries, category.entries)) {
+            return;
+          }
+          console.info('Rearranging entries for', cat);
+          const ret = put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          puts.push(ret);
+        });
+      });
       await Promise.all(puts);
     },
     replaceContent({ commit }, content) {

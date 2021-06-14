@@ -75,7 +75,7 @@ const locale: PortalModule<LocaleState> = {
       console.log('localePrefix', localePrefix);
       return updateLocale(localePrefix);
     },
-    setAvailableLocale({ commit }, payload: LocaleDefinition[]) {
+    setAvailableLocale({ dispatch, commit }, payload: LocaleDefinition[]) {
       const locales = payload.map((loc) => loc.id.replace('-', '_'));
       console.log('LOCALES', locales);
       commit('AVAILABLE_LOCALES', locales);
@@ -83,6 +83,9 @@ const locale: PortalModule<LocaleState> = {
       const html = document.documentElement;
       console.log('BASE LANG');
       html.setAttribute('lang', 'en'); // setting document lang to en, because it is also set in line 47, 48
+      if (locales.length === 1) {
+        dispatch('setLocale', locales[0]);
+      }
     },
   },
 };
