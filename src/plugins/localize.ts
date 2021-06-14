@@ -30,6 +30,7 @@
 import { Locale } from '@/store/modules/locale/locale.models';
 import { App } from 'vue';
 import { catalog } from '@/assets/data/dictionary';
+import { translationCatalogs } from '@/i18n/translations';
 
 import { store } from '../store';
 
@@ -51,15 +52,21 @@ const localize = {
     };
     app.config.globalProperties.$localized = localized;
 
-    // const translateLabel: TranslateLabel = (translationLabel: string) => catalog[translationLabel].translated.value;
-    // app.config.globalProperties.$translateLabel = translateLabel;
+    const translateLabel: TranslateLabel = (translationLabel: string) => {
+      const currentLocale = store.getters['locale/getLocale'];
+      const shortLocale = currentLocale.split('_')[0];
+      console.log('SSS', translationCatalogs[shortLocale]);
+      if (shortLocale === 'en') {
+        // TODO retuen Key
+      } else if (shortLocale === 'en') {
+        // TODO return Value
+      } else {
+        // HMMMMMMMM....
+      }
 
-    const newPlugin: TranslateLabel = (englishReference: string) => {
-      console.log('englishReference', englishReference);
-      console.log('catalog[englishReference].translated.value', catalog[englishReference].translated.value);
-      return englishReference;
+      return catalog[translationLabel].translated.value;
     };
-    app.config.globalProperties.$getText = newPlugin;
+    app.config.globalProperties.$translateLabel = translateLabel;
   },
 };
 
@@ -68,7 +75,6 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $localized: Localized;
     $translateLabel: TranslateLabel;
-    $getText: TranslateLabel;
   }
 }
 

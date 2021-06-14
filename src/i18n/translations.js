@@ -28,9 +28,6 @@
  */
 import axios from 'axios';
 
-// get default dictionary
-import { catalog } from '@/assets/data/dictionary';
-
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 
@@ -54,7 +51,7 @@ function getCatalog(locale) {
         },
         () => {
           // no locale found (404?)
-          translationCatalogs[locale] = null;
+          console.error('404: No translation file found.');
           reject();
         },
       );
@@ -65,28 +62,21 @@ function getCatalog(locale) {
 async function updateLocale(locale) {
   return getCatalog(locale).then(
     (translationCatalog) => {
-      Object.keys(catalog).forEach((key) => {
-        const value = catalog[key];
-        if (translationCatalog && value.original in translationCatalog) {
-          const translatedValue = translationCatalog[value.original];
-          value.translated.value = translatedValue;
-        } else {
-          value.translated.value = value.original;
-        }
-      });
+      console.log('translationCatalog', translationCatalog);
     },
     () => {
       // no locale found (404?)
-      Object.keys(catalog).forEach((key) => {
-        const value = catalog[key];
-        value.translated.value = value.original; // Vuex error: Do not mutate store state outside mutation handlers
-      });
+      // Object.keys(catalog).forEach((key) => {
+      //   const value = catalog[key];
+      //   value.translated.value = value.original; // Vuex error: Do not mutate store state outside mutation handlers
+      // });
     },
   );
 }
 
 function translate(key) {
-  return catalog[key].translated.value;
+  return 'function translate(key)';
+  // return catalog[key].translated.value;
 }
 
-export { catalog, updateLocale, translate };
+export { updateLocale, translate, translationCatalogs };

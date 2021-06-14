@@ -149,7 +149,7 @@
       @click="startEditMode"
       @keydown.esc="closeNavigation"
     >
-      {{ $getText('Go Back') }}
+      TODO
     </button>
   </region>
 </template>

@@ -46,9 +46,9 @@
         v-else
         class="image-upload__nofile"
       >
-        <translate
-          i18n-key="SELECT_FILE"
-        />
+      <span>
+        {{ $translateLabel('SELECT_FILE') }}
+      </span>
       </div>
     </div>
     <footer class="image-upload__footer">
@@ -65,9 +65,7 @@
         <portal-icon
           icon="upload"
         />
-        <translate
-          i18n-key="UPLOAD"
-        />
+          {{ $translateLabel('UPLOAD') }}
       </button>
       <button
         type="button"
@@ -76,9 +74,7 @@
         <portal-icon
           icon="trash"
         />
-        <translate
-          i18n-key="REMOVE"
-        />
+          {{ $translateLabel('REMOVE') }}
       </button>
     </footer>
   </div>
@@ -88,13 +84,11 @@
 import { defineComponent } from 'vue';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import Translate from '@/i18n/Translate.vue';
 
 export default defineComponent({
   name: 'ImageUpload',
   components: {
     PortalIcon,
-    Translate,
   },
   props: {
     label: {
