@@ -78,4 +78,50 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
 // edit mode default settings
 const adminState = process.env.VUE_APP_LOCAL ? (!!localStorage.getItem('UCSAdmin') || false) : false;
 
-export { put, add, adminState };
+async function addEntryToSuperObj(superDn, superObjs, dn, { dispatch, getters }, successMessage, errorMessage) {
+  const portalDn = getters['portalData/getPortalDn'];
+  let actualSuperDn = superDn;
+  let attrName = 'entries';
+  let links: string[] = [];
+  if (superDn === '$$user$$') {
+    actualSuperDn = portalDn;
+    attrName = 'userLinks';
+    links = getters['portalData/userLinks'];
+  } else if (superDn === '$$menu$$') {
+    actualSuperDn = portalDn;
+    attrName = 'menuLinks';
+    links = getters['portalData/menuLinks'];
+  } else {
+    const superObj = superObjs.find((obj) => obj.dn === superDn);
+    links = superObj.entries;
+  }
+  const attrs = {
+    [attrName]: links.concat([dn]),
+  };
+  return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
+}
+
+async function removeEntryFromSuperObj(superDn, superObjs, dn, { dispatch, getters }, successMessage, errorMessage) {
+  const portalDn = getters['portalData/getPortalDn'];
+  let actualSuperDn = superDn;
+  let attrName = 'entries';
+  let links = [];
+  if (superDn === '$$user$$') {
+    actualSuperDn = portalDn;
+    attrName = 'userLinks';
+    links = getters['portalData/userLinks'];
+  } else if (superDn === '$$menu$$') {
+    actualSuperDn = portalDn;
+    attrName = 'menuLinks';
+    links = getters['portalData/menuLinks'];
+  } else {
+    const superObj = superObjs.find((obj) => obj.dn === superDn);
+    links = superObj.entries;
+  }
+  const attrs = {
+    [attrName]: links.filter((entryDn) => entryDn !== dn),
+  };
+  return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
+}
+
+export { put, add, adminState, removeEntryFromSuperObj, addEntryToSuperObj };

@@ -106,7 +106,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import { put, add } from '@/jsHelper/admin';
+import { removeEntryFromSuperObj, addEntryToSuperObj, put, add } from '@/jsHelper/admin';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
@@ -219,7 +219,6 @@ export default defineComponent({
     this.title = { ...(this.modelValue.title || {}) };
     this.description = { ...(this.modelValue.description || {}) };
     this.links.push(...(this.modelValue.links || []));
-    console.log('create entry.vue', this.modelValue.originalLinkTarget);
     this.linkTarget = this.modelValue.originalLinkTarget;
     this.anonymous = this.modelValue.anonymous;
   },
@@ -231,12 +230,8 @@ export default defineComponent({
     async remove() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
-      const superObj = this.superObjs.find((obj) => obj.dn === this.superDn);
-      const superAttrs = {
-        entries: superObj.entries.filter((entryDn) => entryDn !== dn),
-      };
       console.info('Removing', dn, 'from', this.superDn);
-      const success = await put(this.superDn, superAttrs, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
+      const success = await removeEntryFromSuperObj(this.superDn, this.superObjs, dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
@@ -270,15 +265,10 @@ export default defineComponent({
         success = await put(this.modelValue.dn, attrs, this.$store, 'ENTRY_MODIFIED_SUCCESS', 'ENTRY_MODIFIED_FAILURE');
       } else {
         console.info('Adding entry');
-        console.info('Then adding it to', [...this.superObjs], 'of', this.superDn); // Okay, strange. message needs to be here, otherwise "this" seems to forget its props!
         const dn = await add('portals/entry', attrs, this.$store, 'ENTRY_ADDED_FAILURE');
         if (dn) {
           console.info(dn, 'added');
-          const superObj = this.superObjs.find((obj) => obj.dn === this.superDn);
-          const superAttrs = {
-            entries: superObj.entries.concat([dn]),
-          };
-          success = await put(this.superDn, superAttrs, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
+          success = await addEntryToSuperObj(this.superDn, this.superObjs, dn, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
         }
       }
       this.$store.dispatch('deactivateLoadingState');

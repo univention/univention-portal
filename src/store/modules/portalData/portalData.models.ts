@@ -72,6 +72,7 @@ export interface Category {
   id: string,
   title: Record<Locale, string>,
   dn: string,
+  virtual: boolean,
   tiles: TileOrFolder[],
 }
 
@@ -101,6 +102,7 @@ export interface PortalFolder {
 export interface PortalCategory {
   dn: string,
   entries: string[],
+  virtual: boolean,
   display_name: LocalizedString,
 }
 
@@ -120,5 +122,7 @@ export interface PortalData {
   entries: PortalEntry[],
   folders: PortalFolder[],
   categories: PortalCategory[],
+  userLinks: string[],
+  menuLinks: string[],
   portal: Portal;
 }
