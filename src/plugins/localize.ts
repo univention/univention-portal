@@ -31,11 +31,12 @@ import { Locale } from '@/store/modules/locale/locale.models';
 import { App } from 'vue';
 import { catalog } from '@/assets/data/dictionary';
 import { translationCatalogs } from '@/i18n/translations';
+import translateLabel from '@/jsHelper/translate';
 
 import { store } from '../store';
 
-export type Localized = (input: Record<Locale, string>) => string;
-export type TranslateLabel = (translationLabel: string) => string;
+type Localized = (input: Record<Locale, string>) => string;
+type TranslateLabel = (translationLabel: string) => string;
 
 // expects an object, returns a string
 const localize = {
