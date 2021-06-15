@@ -74,9 +74,7 @@
         <portal-icon
           icon="plus"
         />
-        <translate
-          i18n-key="NEW_ENTRY"
-        />
+        {{ $translateLabel('Create a new Entry') }}
       </button>
     </span>
   </div>
@@ -88,7 +86,6 @@ import { mapGetters } from 'vuex';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import Translate from '@/i18n/Translate.vue';
 
 interface LinkWidgetData {
   modelValueData: Array<unknown>,
@@ -104,7 +101,6 @@ export default defineComponent({
   components: {
     IconButton,
     PortalIcon,
-    Translate,
   },
   props: {
     modelValue: {

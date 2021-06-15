@@ -46,9 +46,9 @@
         v-else
         class="image-upload__nofile"
       >
-      <span>
-        {{ $translateLabel('SELECT_FILE') }}
-      </span>
+        <span>
+          {{ $translateLabel('Select file') }}
+        </span>
       </div>
     </div>
     <footer class="image-upload__footer">
@@ -66,7 +66,7 @@
           icon="upload"
         />
         <span>
-          {{ $translateLabel('UPLOAD') }}
+          {{ $translateLabel('Upload') }}
         </span>
       </button>
       <button
@@ -77,7 +77,7 @@
           icon="trash"
         />
         <span>
-          {{ $translateLabel('REMOVE') }}
+          {{ $translateLabel('Remove') }}
         </span>
       </button>
     </footer>

@@ -96,10 +96,10 @@ export default defineComponent({
       userLinks: 'portalData/userLinks',
       menuLinks: 'portalData/menuLinks',
     }),
-    superObjs(): any[] {
+    superObjs(): any[] { // eslint-disable-line @typescript-eslint/no-explicit-any
       return this.$store.getters[this.superObjectGetter];
     },
-    items(): any[] {
+    items(): any[] { // eslint-disable-line @typescript-eslint/no-explicit-any
       return this.$store.getters[this.objectGetter];
     },
   },
