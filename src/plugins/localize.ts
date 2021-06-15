@@ -54,8 +54,6 @@ const localize = {
     const translateLabel: TranslateLabel = (translationString: string) => {
       const currentLocale = store.getters['locale/getLocale'];
       const shortLocale = currentLocale.split('_')[0];
-      console.log('AAA', store.getters['locale/getLocale']);
-      console.log('SSS', translationCatalogs[shortLocale]);
       // EN is default and therefore already in Code
       let returnString = '';
       if (shortLocale === 'en') {
@@ -63,7 +61,7 @@ const localize = {
       } else if (shortLocale === 'de') {
         const catalog = translationCatalogs[shortLocale];
         console.log('translationCatalogs[shortLocale].translationString', catalog[translationString]);
-        returnString = translationCatalogs[shortLocale].translationString ? translationCatalogs[shortLocale].translationString : '-> fix this';
+        returnString = translationCatalogs[shortLocale].translationString ? translationCatalogs[shortLocale].translationString : translationString;
       } else {
         // HMMMMMMMM....
         console.warn('HANDLE THIRD LANG');

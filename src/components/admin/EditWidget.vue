@@ -60,7 +60,6 @@
           type="submit"
           @click.prevent="submit"
         >
-          <translate i18n-key="SAVE" />
           {{ $translateLabel('Save') }}
         </button>
       </footer>

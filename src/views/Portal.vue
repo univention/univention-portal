@@ -42,7 +42,7 @@
         aria-atomic="true"
       >
         <h2 v-if="hasEmptySearchResults">
-          <translate i18n-key="NO_RESULTS" />
+          {{ $translateLabel('No search results') }}
         </h2>
       </div>
 
@@ -64,10 +64,10 @@
         <icon-button
           icon="plus"
           class="portal-categories__add-button icon-button--admin"
-          :aria-label-prop="ariaLabelAddNewTile"
+          :aria-label-prop="$translateLabel('Add new category')"
           @click="addCategory"
         />
-        <translate i18n-key="ADD_CATEGORY" />
+        {{ $translateLabel('Add category') }}
       </h2>
     </region>
 
@@ -113,8 +113,6 @@ import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 
-import Translate from '@/i18n/Translate.vue';
-
 import { Category } from '@/store/modules/portalData/portalData.models';
 import createCategories from '@/jsHelper/createCategories';
 
@@ -133,7 +131,6 @@ export default defineComponent({
     PortalSidebar,
     PortalToolTip,
     Region,
-    Translate,
   },
   computed: {
     ...mapGetters({
@@ -151,9 +148,6 @@ export default defineComponent({
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
-    },
-    ariaLabelAddNewTile(): string {
-      return this.$translateLabel('ADD_NEW_CATEGORY');
     },
   },
   methods: {

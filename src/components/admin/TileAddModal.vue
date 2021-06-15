@@ -28,7 +28,7 @@
 -->
 <template>
   <modal-dialog
-    i18n-title-key="ADD_ENTRY"
+    i18n-title-key="Add entry"
     @cancel="cancel"
   >
     <region
@@ -104,7 +104,7 @@ export default defineComponent({
           props: {
             modelValue: {},
             superDn: this.superDn,
-            label: 'NEW_ENTRY',
+            label: 'Create a new Entry',
             fromFolder: this.forFolder,
           },
         });
@@ -118,7 +118,7 @@ export default defineComponent({
           name: 'AdminExistingEntry',
           stubborn: true,
           props: {
-            label: 'ADD_EXISTING_ENTRY',
+            label: 'Add existing entry',
             objectGetter: 'portalData/portalEntries',
             superObjectGetter,
             superDn: this.superDn,
@@ -132,7 +132,7 @@ export default defineComponent({
           props: {
             modelValue: {},
             superDn: this.superDn,
-            label: 'NEW_FOLDER',
+            label: 'Create a new folder',
           },
         });
       }
@@ -141,7 +141,7 @@ export default defineComponent({
           name: 'AdminExistingEntry',
           stubborn: true,
           props: {
-            label: 'ADD_EXISTING_FOLDER',
+            label: 'Add existing folder',
             objectGetter: 'portalData/portalFolders',
             superObjectGetter: 'portalData/portalCategories',
             superDn: this.superDn,

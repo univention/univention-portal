@@ -40,7 +40,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       >
         <!-- Side notifications -->
         <div class="portal-sidebar__title">
-          <translate i18n-key="NOTIFICATIONS" />
+          {{ $translateLabel('Notifications') }}
         </div>
         <notifications :only-visible="false" />
       </flyout-wrapper>
@@ -73,8 +73,6 @@ import Notifications from '@/components/notifications/Notifications.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import EditModeSideNavigation from '@/components/navigation/EditModeSideNavigation.vue';
 
-import Translate from '@/i18n/Translate.vue';
-
 export default defineComponent({
   name: 'PortalSidebar',
   components: {
@@ -83,7 +81,6 @@ export default defineComponent({
     Notifications,
     SideNavigation,
     EditModeSideNavigation,
-    Translate,
   },
   computed: {
     ...mapGetters({

@@ -153,7 +153,7 @@
       @click="startEditMode"
       @keydown.esc="closeNavigation"
     >
-      TODO
+      {{ $translateLabel('Edit mode') }}
     </button>
   </region>
 </template>

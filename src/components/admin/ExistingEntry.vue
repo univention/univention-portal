@@ -52,7 +52,6 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import ModalDialog from '@/components/ModalDialog.vue';
-import Translate from '@/i18n/Translate.vue';
 
 import { setInvalidity, randomId } from '@/jsHelper/tools';
 import { put } from '@/jsHelper/admin';
@@ -65,7 +64,6 @@ export default defineComponent({
   name: 'ExistingEntry',
   components: {
     ModalDialog,
-    Translate,
   },
   props: {
     label: {

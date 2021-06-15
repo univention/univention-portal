@@ -32,7 +32,7 @@
       v-for="locale in locales"
       :key="locale"
     >
-      {{ $translateLabel('i18nLabel') }}
+      {{ $translateLabel(i18nLabel) }}
       ({{ locale }})
       <span
         v-if="locale === 'en_US'"
