@@ -76,7 +76,7 @@
         icon="edit-2"
         :active-at="activeAtEdit"
         class="portal-tile__edit-button icon-button--admin"
-        :aria-label-prop="ariaLabelEditTile"
+        :aria-label-prop="$translateLabel('Edit tile')"
         @click="editTile"
       />
     </tabindex-element>
@@ -84,7 +84,7 @@
       v-if="!minified && isTouchDevice"
       icon="info"
       class="portal-tile__info-button icon-button--admin"
-      :aria-label-prop="ariaLabelInfoButton"
+      :aria-label-prop="$translateLabel('Show tooltip')"
       @click="toolTipTouchHandler()"
     />
   </div>
@@ -180,12 +180,6 @@ export default defineComponent({
     ariaLabelPortalTile(): null | string {
       return (this.minified || this.editMode) ? null : this.$localized(this.title);
     },
-    ariaLabelInfoButton(): string {
-      return `${this.$translateLabel('SHOW_TOOLTIP_BY_TOUCH')}`;
-    },
-    ariaLabelEditTile(): string {
-      return this.$translateLabel('EDIT_TILE');
-    },
     activeAtEdit(): string[] {
       if (!this.editMode) {
         return [];
@@ -240,7 +234,7 @@ export default defineComponent({
           modelValue: this.$props,
           superDn: this.superDn,
           fromFolder: this.fromFolder,
-          label: 'EDIT_ENTRY',
+          label: 'Edit entry',
         },
       });
     },

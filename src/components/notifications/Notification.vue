@@ -47,7 +47,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         :id="`close-notification-${token}`"
         tabindex="0"
         icon="x"
-        :aria-label-prop="ariaLabelDismissNotification"
+        :aria-label-prop="$translateLabel('Dismiss notification')"
         @click="dismissNotification()"
       />
     </div>
@@ -113,9 +113,6 @@ export default defineComponent({
     };
   },
   computed: {
-    ariaLabelDismissNotification(): string {
-      return this.$translateLabel('DISMISS_NOTIFICATION');
-    },
     preAccouncement(): string {
       let preAccouncement = this.$translateLabel('DEFAULT_NOTIFICATION');
       if (this.importance === 'warning') {

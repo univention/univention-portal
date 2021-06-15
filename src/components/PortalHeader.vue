@@ -39,7 +39,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :active-at="['portal']"
       class="portal-header__left"
       role="button"
-      :aria-label="ariaLabelPortalHeader"
+      :aria-label="$translateLabel('Show portal')"
       @click="goHome"
       @keydown.enter="goHome"
     >
@@ -82,14 +82,14 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="portal-header__right"
     >
       <div class="portal-header__edit-mode-label">
-        {{ ariaLabelEditmode }}
+        {{ $translateLabel('Edit mode') }}
       </div>
       <header-button
-        :aria-label-prop="ariaLabelStartEditMode"
+        :aria-label-prop="$translateLabel('Open edit sidebar')"
         icon="settings"
       />
       <header-button
-        :aria-label-prop="ariaLabelStopEditmode"
+        :aria-label-prop="$translateLabel('Stop edit portal')"
         icon="x"
         @click="stopEditMode"
       />
@@ -102,7 +102,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-if="showTabButton"
         ref="tabButton"
         data-test="tabbutton"
-        :aria-label-prop="ariaLabelTabs"
+        :aria-label-prop="$translateLabel('Tabs')"
         icon="copy"
         :counter="numTabs"
         class="portal-header__tab-button"
@@ -110,19 +110,19 @@ License with the Debian GNU/Linux or Univention distribution in file
       <header-button
         ref="searchButton"
         data-test="searchbutton"
-        :aria-label-prop="ariaLabelSearch"
+        :aria-label-prop="$translateLabel('search')"
         icon="search"
       />
       <header-button
         data-test="bellbutton"
-        :aria-label-prop="ariaLabelNotifications"
+        :aria-label-prop="$translateLabel('Notifications')"
         icon="bell"
         :counter="numNotifications"
         @keydown.esc="closeNotifications"
       />
       <header-button
         data-test="navigationbutton"
-        :aria-label-prop="ariaLabelMenu"
+        :aria-label-prop="$translateLabel('Menu')"
         icon="menu"
       />
     </div>
@@ -180,30 +180,6 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
       numNotifications: 'notifications/numNotifications',
     }),
-    ariaLabelPortalHeader(): string {
-      return `${this.$translateLabel('SHOW_PORTAL')}`;
-    },
-    ariaLabelStartEditMode(): string {
-      return `${this.$translateLabel('OPEN_EDIT_SIDEBAR')}`;
-    },
-    ariaLabelStopEditmode(): string {
-      return `${this.$translateLabel('STOP_EDIT_PORTAL')}`;
-    },
-    ariaLabelEditmode(): string {
-      return `${this.$translateLabel('EDIT_MODE')}`;
-    },
-    ariaLabelTabs(): string {
-      return `${this.$translateLabel('TABS')}`;
-    },
-    ariaLabelSearch(): string {
-      return `${this.$translateLabel('SEARCH')}`;
-    },
-    ariaLabelNotifications(): string {
-      return `${this.$translateLabel('NOTIFICATIONS')}`;
-    },
-    ariaLabelMenu(): string {
-      return `${this.$translateLabel('MENU')}`;
-    },
     showTabButton(): boolean {
       return this.numTabs > 0 && this.tabsOverflow;
     },

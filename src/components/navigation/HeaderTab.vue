@@ -116,10 +116,10 @@ export default defineComponent({
   },
   computed: {
     ariaLabelClose(): string {
-      return `${this.tabLabel}:  ${this.$translateLabel('CLOSE_TAB')}`;
+      return `${this.tabLabel}:  ${this.$translateLabel('Close')}`;
     },
     ariaLabelFocus(): string {
-      return `${this.tabLabel}:  ${this.$translateLabel('SELECT_TAB')}`;
+      return `${this.tabLabel}:  ${this.$translateLabel('Select')}`;
     },
   },
   mounted() {

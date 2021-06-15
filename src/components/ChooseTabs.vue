@@ -96,10 +96,10 @@ export default defineComponent({
   },
   methods: {
     ariaLabelChooseTab(tabLabel: string): string {
-      return `${tabLabel} ${this.$translateLabel('SELECT_TAB')}`;
+      return `${tabLabel} ${this.$translateLabel('Select')}`;
     },
     ariaLabelCloseTab(tabLabel: string): string {
-      return `${tabLabel} ${this.$translateLabel('CLOSE_TAB')}`;
+      return `${tabLabel} ${this.$translateLabel('Close')}`;
     },
     closeTab(idx: number) {
       this.$store.dispatch('tabs/deleteTab', idx + 1);

@@ -44,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-if="cancelAllowed"
         icon="x"
         :active-at="['modal']"
-        :aria-label-prop="ariaLabelCancel"
+        :aria-label-prop="$translateLabel('Cancel')"
         @click="cancel()"
       />
     </header>
@@ -77,11 +77,6 @@ export default defineComponent({
     },
   },
   emits: ['cancel'],
-  computed: {
-    ariaLabelCancel(): string {
-      return this.$translateLabel('CANCEL');
-    },
-  },
   methods: {
     cancel(): void {
       if (this.cancelAllowed) {
