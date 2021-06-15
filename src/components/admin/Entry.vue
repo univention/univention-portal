@@ -53,7 +53,7 @@
       name="description"
       i18n-label="DESCRIPTION"
     />
-    <label>
+    <label class="entry__checkbox">
       <input
         v-model="activated"
         type="checkbox"
@@ -92,7 +92,7 @@
         name="backgroundColor"
       >
     </label>
-    <label>
+    <label class="entry__checkbox">
       <input
         v-model="anonymous"
         type="checkbox"
@@ -276,3 +276,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="stylus">
+.entry
+  &__checkbox
+    display: flex
+</style>

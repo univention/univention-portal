@@ -35,7 +35,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       @submit.prevent="finish"
     >
       <label>
-        <translate i18n-key="OLD_PASSWORD" />
+        {{ $translateLabel('Old password') }}
       </label>
       <input
         ref="oldPassword"
@@ -44,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         type="password"
       >
       <label>
-        <translate i18n-key="NEW_PASSWORD" />
+        {{ $translateLabel('New password') }}
       </label>
       <input
         ref="newPassword"
@@ -53,7 +53,8 @@ License with the Debian GNU/Linux or Univention distribution in file
         type="password"
       >
       <label>
-        <translate i18n-key="NEW_PASSWORD" /> (<translate i18n-key="RETYPE" />)
+         {{ $translateLabel('New password') }}
+          ({{ $translateLabel('retype') }})
       </label>
       <input
         ref="newPassword2"
@@ -66,13 +67,13 @@ License with the Debian GNU/Linux or Univention distribution in file
           type="button"
           @click.prevent="cancel"
         >
-          <translate i18n-key="CANCEL" />
+          {{ $translateLabel('Cancel') }}
         </button>
         <button
           type="submit"
           @click.prevent="finish"
         >
-          <translate i18n-key="CHANGE_PASSWORD" />
+          {{ $translateLabel('Change password') }}
         </button>
       </footer>
     </form>
@@ -81,8 +82,6 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-import Translate from '@/i18n/Translate.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 import { setInvalidity } from '@/jsHelper/tools';
 
@@ -96,7 +95,6 @@ export default defineComponent({
   name: 'ChangePassword',
   components: {
     ModalDialog,
-    Translate,
   },
   data(): ChangePasswordData {
     return {
