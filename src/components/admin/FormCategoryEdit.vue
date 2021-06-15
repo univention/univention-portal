@@ -36,6 +36,7 @@
   >
     <label>
       <translate i18n-key="INTERNAL_NAME" />
+      {{ $translateLabel('Internal name') }}
       <span> *</span>
       <input
         v-model="name"

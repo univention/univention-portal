@@ -34,7 +34,7 @@
     >
       <image-upload
         v-model="portalLogoData"
-        :label="$translateLabel('PORTAL_LOGO')"
+        :label="$translateLabel('Portal logo')"
       />
       <locale-input
         v-model="portalNameData"
@@ -44,39 +44,40 @@
       />
       <image-upload
         v-model="portalBackgroundData"
-        :label="$translateLabel('BACKGROUND')"
+        :label="$translateLabel('Background')"
       />
       <label>
-        <translate i18n-key="DEFAULT_LINK_TARGET" />
+        {{ $translateLabel('Default link behaviour for portal entries') }}
         <select
           v-model="portalDefaultLinkTargetData"
         >
-          <option value="samewindow">{{ $translateLabel('SAME_WINDOW') }}</option>
-          <option value="newwindow">{{ $translateLabel('NEW_WINDOW') }}</option>
-          <option value="embedded">{{ $translateLabel('EMBEDDED') }}</option>
+          <option value="samewindow">{{ $translateLabel('Same tab') }}</option>
+          <option value="newwindow">{{ $translateLabel('New tab') }}</option>
+          <option value="embedded">{{ $translateLabel('Embedded') }}</option>
         </select>
       </label>
-      <label>
+      <label class="edit-mode-side-navigation__checkbox">
         <input
           v-model="portalEnsureLoginData"
           type="checkbox"
         >
-        <translate i18n-key="ENSURE_LOGIN" />
+        {{ $translateLabel('Users are required to login') }}
       </label>
-      <label>
+      <label class="edit-mode-side-navigation__checkbox">
         <input
           v-model="portalShowUmcData"
           type="checkbox"
         >
-        <translate i18n-key="SHOW_UMC" />
+        {{ $translateLabel('Show local UMC modules') }}
+
       </label>
       <button class="primary edit-mode-side-navigation__save-button">
         <portal-icon
           icon="save"
         />
-        <translate
-          i18n-key="SAVE"
-        />
+        <span>
+          {{ $translateLabel('Save') }}
+        </span>
       </button>
     </form>
   </nav>
@@ -87,7 +88,6 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import { udmPut } from '@/jsHelper/umc';
-import Translate from '@/i18n/Translate.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
@@ -104,7 +104,6 @@ interface EditModeSideNavigationData {
 export default defineComponent({
   name: 'EditModeSideNavigation',
   components: {
-    Translate,
     PortalIcon,
     ImageUpload,
     LocaleInput,
@@ -208,4 +207,6 @@ export default defineComponent({
         margin-left: 0
   &__save-button
     margin-top: calc(2 * var(--layout-spacing-unit))
+  &__checkbox
+    display: flex
 </style>

@@ -8,7 +8,7 @@
     >
       <main>
         <label>
-          <translate i18n-key="NAME" />
+          {{ $translateLabel('Name') }}
           <input
             ref="input"
             type="text"
@@ -33,14 +33,14 @@
           type="button"
           @click.prevent="cancel"
         >
-          <translate i18n-key="CANCEL" />
+          {{ $translateLabel('Cancel') }}
         </button>
         <button
           class="primary"
           type="submit"
           @click.prevent="finish"
         >
-          <translate i18n-key="ADD" />
+          {{ $translateLabel('Add') }}
         </button>
       </footer>
     </form>

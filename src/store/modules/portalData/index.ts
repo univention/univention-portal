@@ -27,7 +27,6 @@
  * <https://www.gnu.org/licenses/>.
  */
 import { put, adminState } from '@/jsHelper/admin';
-import translateLabel from '@/jsHelper/translate';
 
 import { PortalModule } from '../../root.models';
 import { PortalData } from './portalData.models';
@@ -88,7 +87,8 @@ const portalData: PortalModule<PortalDataState> = {
       if (adminMode) {
         const menu = {
           display_name: {
-            en_US: translateLabel('PORTAL_MENU'),
+            en_US: 'PORTAL_MENU',
+            // en_US: translateLabel('PORTAL_MENU'),
           },
           virtual: true,
           dn: '$$menu$$',
@@ -96,7 +96,8 @@ const portalData: PortalModule<PortalDataState> = {
         };
         const userMenu = {
           display_name: {
-            en_US: translateLabel('USER_MENU'),
+            en_US: 'USER_MENU',
+            // en_US: translateLabel('USER_MENU'),
           },
           virtual: true,
           dn: '$$user$$',

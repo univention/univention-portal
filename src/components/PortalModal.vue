@@ -50,7 +50,7 @@ import PortalFolder from '@/components/PortalFolder.vue';
 import AdminEntry from '@/components/admin/Entry.vue';
 import AdminFolder from '@/components/admin/Folder.vue';
 import AdminExistingEntry from '@/components/admin/ExistingEntry.vue';
-import AdminCategory from '@/components/admin/Category.vue';
+import AdminCategory from '@/components/admin/FormCategoryEdit.vue';
 import AdminExistingCategory from '@/components/admin/ExistingCategory.vue';
 import TileAddModal from '@/components/admin/TileAddModal.vue';
 import CategoryAddModal from '@/components/admin/CategoryAddModal.vue';

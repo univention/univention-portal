@@ -41,7 +41,7 @@
         class="tile-add-modal-button"
         @click="openModal('createEntry')"
       >
-        <translate i18n-key="NEW_ENTRY" />
+        {{ $translateLabel('Create a new Entry') }}
       </button>
       <button
         id="tile-add-modal-button-existing-entry"
@@ -49,7 +49,7 @@
         class="tile-add-modal-button"
         @click="openModal('addEntry')"
       >
-        <translate i18n-key="ADD_EXISTING_ENTRY" />
+        {{  $translateLabel('Add existing entry')  }}
       </button>
       <button
         v-if="!forFolder"
@@ -58,7 +58,7 @@
         class="tile-add-modal-button"
         @click="openModal('createFolder')"
       >
-        <translate i18n-key="NEW_FOLDER" />
+        {{  $translateLabel('Create a new folder')  }}
       </button>
       <button
         v-if="!forFolder"
@@ -67,7 +67,7 @@
         class="tile-add-modal-button"
         @click="openModal('addFolder')"
       >
-        <translate i18n-key="ADD_EXISTING_FOLDER" />
+        {{  $translateLabel('Add existing folder')  }}
       </button>
     </region>
   </modal-dialog>
@@ -78,14 +78,12 @@ import { defineComponent } from 'vue';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 import Region from '@/components/activity/Region.vue';
-import Translate from '@/i18n/Translate.vue';
 
 export default defineComponent({
   name: 'TileAddModal',
   components: {
     ModalDialog,
     Region,
-    Translate,
   },
   props: {
     superDn: {
