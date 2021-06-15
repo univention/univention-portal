@@ -35,7 +35,6 @@
     @save="finish"
   >
     <label>
-      <translate i18n-key="INTERNAL_NAME" />
       {{ $translateLabel('Internal name') }}
       <span> *</span>
       <input
@@ -59,7 +58,6 @@ import { mapGetters } from 'vuex';
 import { put, add } from '@/jsHelper/admin';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
-import Translate from '@/i18n/Translate.vue';
 
 interface AdminCategoryData extends ValidatableData {
   name: string,
@@ -86,7 +84,6 @@ export default defineComponent({
   name: 'FormCategoryEdit',
   components: {
     EditWidget,
-    Translate,
     LocaleInput,
   },
   props: {
