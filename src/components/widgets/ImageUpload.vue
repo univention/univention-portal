@@ -65,7 +65,9 @@
         <portal-icon
           icon="upload"
         />
+        <span>
           {{ $translateLabel('UPLOAD') }}
+        </span>
       </button>
       <button
         type="button"
@@ -74,7 +76,9 @@
         <portal-icon
           icon="trash"
         />
+        <span>
           {{ $translateLabel('REMOVE') }}
+        </span>
       </button>
     </footer>
   </div>

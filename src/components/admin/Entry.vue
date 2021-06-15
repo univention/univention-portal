@@ -35,7 +35,7 @@
     @save="finish"
   >
     <label>
-      <translate i18n-key="INTERNAL_NAME" />
+      {{ $translateLabel('Internal name') }}
       <span> *</span>
       <input
         v-model="name"
@@ -58,7 +58,7 @@
         v-model="activated"
         type="checkbox"
       >
-      <translate i18n-key="ACTIVATED" />
+      {{ $translateLabel('Activated') }}
     </label>
     <div>
       <label>
@@ -70,14 +70,14 @@
       />
     </div>
     <label>
-      <translate i18n-key="LINK_TARGET" />
+      {{ $translateLabel('Way of opening links') }}
       <select
         v-model="linkTarget"
       >
-        <option value="useportaldefault">{{ $translateLabel('PORTAL_DEFAULT') }}</option>
-        <option value="samewindow">{{ $translateLabel('SAME_WINDOW') }}</option>
-        <option value="newwindow">{{ $translateLabel('NEW_WINDOW') }}</option>
-        <option value="embedded">{{ $translateLabel('EMBEDDED') }}</option>
+        <option value="useportaldefault">{{ $translateLabel('Use default of portal') }}</option>
+        <option value="samewindow">{{ $translateLabel('Same tab') }}</option>
+        <option value="newwindow">{{ $translateLabel('New tab') }}</option>
+        <option value="embedded">{{ $translateLabel('Embedded') }}</option>
       </select>
     </label>
 
@@ -86,7 +86,7 @@
       label="Icon"
     />
     <label>
-      <translate i18n-key="BACKGROUND_COLOR" />
+      {{ $translateLabel('Background color') }}
       <input
         v-model="backgroundColor"
         name="backgroundColor"
@@ -97,7 +97,7 @@
         v-model="anonymous"
         type="checkbox"
       >
-      <translate i18n-key="ANONYMOUS" />
+      {{ $translateLabel('Only visible if not logged in') }}
     </label>
   </edit-widget>
 </template>
@@ -111,8 +111,6 @@ import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import LinkWidget, { LocaleAndValue } from '@/components/widgets/LinkWidget.vue';
-
-import Translate from '@/i18n/Translate.vue';
 
 interface AdminEntryData extends ValidatableData {
   name: string,
@@ -158,7 +156,6 @@ export default defineComponent({
     EditWidget,
     LocaleInput,
     LinkWidget,
-    Translate,
   },
   props: {
     label: {

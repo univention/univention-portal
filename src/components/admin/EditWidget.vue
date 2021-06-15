@@ -45,7 +45,7 @@
           type="button"
           @click.prevent="$emit('remove')"
         >
-          <translate i18n-key="REMOVE_HERE" />
+          {{ $translateLabel('Remove here') }}
         </button>
       </footer>
       <footer>
@@ -53,7 +53,7 @@
           type="button"
           @click.prevent="cancel"
         >
-          <translate i18n-key="CANCEL" />
+          {{ $translateLabel('Cancel') }}
         </button>
         <button
           class="primary"
@@ -61,6 +61,7 @@
           @click.prevent="submit"
         >
           <translate i18n-key="SAVE" />
+          {{ $translateLabel('Save') }}
         </button>
       </footer>
     </form>
@@ -71,7 +72,6 @@
 import { defineComponent, PropType } from 'vue';
 
 import ModalDialog from '@/components/ModalDialog.vue';
-import Translate from '@/i18n/Translate.vue';
 
 export interface ValidatableData {
   getErrors: () => Record<string, string>,
@@ -81,7 +81,6 @@ export default defineComponent({
   name: 'EditWidget',
   components: {
     ModalDialog,
-    Translate,
   },
   props: {
     label: {

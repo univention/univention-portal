@@ -49,10 +49,7 @@ export default defineComponent({
   computed: {
     translated(): string {
       let ret = '';
-      if (this.i18nKey) {
-        ret = catalog[this.i18nKey].translated.value;
-      }
-      ret = 'ADMIN TRANSLATION';
+      ret = '-> FIX: ADMIN TRANSLATION';
       return ret;
     },
   },

@@ -35,7 +35,7 @@
     @save="finish"
   >
     <label>
-      <translate i18n-key="INTERNAL_NAME" />
+      {{ $translateLabel('Internal name') }}
       <span> *</span>
       <input
         v-model="name"
@@ -60,8 +60,6 @@ import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import LinkWidget from '@/components/widgets/LinkWidget.vue';
-
-import Translate from '@/i18n/Translate.vue';
 
 interface AdminFolderData extends ValidatableData {
   name: string,
@@ -91,7 +89,6 @@ export default defineComponent({
     EditWidget,
     LocaleInput,
     LinkWidget,
-    Translate,
   },
   props: {
     label: {
