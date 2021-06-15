@@ -43,7 +43,7 @@
         v-if="editMode && !virtual"
         icon="edit-2"
         class="portal-category__edit-button icon-button--admin"
-        :aria-label-prop="ariaLabelEditButton"
+        :aria-label-prop="$translateLabel('Edit category')"
         @click="editCategory"
       />
       <div
@@ -162,9 +162,6 @@ export default defineComponent({
     }),
     hasTiles(): boolean {
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
-    },
-    ariaLabelEditButton(): string {
-      return this.$translateLabel('EDIT_CATEGORY');
     },
   },
   methods: {

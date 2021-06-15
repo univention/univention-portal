@@ -29,7 +29,7 @@
 <template>
   <icon-button
     icon="plus"
-    :aria-label-prop="ariaLabelAddTile"
+    :aria-label-prop="$translateLabel('Add new Tile')"
     :active-at="activeAt"
     class="tile-add"
     @dragenter="dragenter"
@@ -62,9 +62,6 @@ export default defineComponent({
     },
   },
   computed: {
-    ariaLabelAddTile(): string {
-      return this.$translateLabel('ADD_NEW_TILE');
-    },
     id(): string {
       const r = new RegExp(/[^a-z]/g);
       return `tile-add-${this.superDn.replaceAll(r, '-')}`;

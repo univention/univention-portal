@@ -107,7 +107,7 @@
             id="portal-sidenavigation-sub"
             role="navigation"
             direction="topdown"
-            :aria-label="ariaLabelSubMenuParent"
+            :aria-label="$translateLabel('Go Back')"
           >
             <menu-item
               :id="item.id"
@@ -213,9 +213,6 @@ export default defineComponent({
       userState: 'user/userState',
       meta: 'metaData/getMeta',
     }),
-    ariaLabelSubMenuParent(): string {
-      return this.$translateLabel('GO_BACK');
-    },
   },
   mounted(): void {
     this.$store.dispatch('activity/setRegion', 'portal-sidenavigation');
