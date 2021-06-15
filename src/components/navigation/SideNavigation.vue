@@ -53,7 +53,9 @@
             @click="logout"
             @keydown.esc="closeNavigation"
           >
-            <translate i18n-key="LOGOUT" />
+            <span>
+              {{ $translateLabel('Logout') }}
+            </span>
           </button>
         </div>
       </div>
@@ -65,7 +67,9 @@
         @click="login"
         @keydown.esc="closeNavigation"
       >
-        <translate i18n-key="LOGIN" />
+        <span>
+          {{ $translateLabel('Login') }}
+        </span>
       </button>
     </div>
 
@@ -164,7 +168,6 @@ import MenuItem from '@/components/navigation/MenuItem.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 import { login, logout } from '@/jsHelper/login';
-import Translate from '@/i18n/Translate.vue';
 
 interface SideNavigationData {
   menuVisible: boolean,
@@ -183,7 +186,6 @@ export default defineComponent({
   components: {
     PortalIcon,
     MenuItem,
-    Translate,
     TabindexElement,
     Region,
   },

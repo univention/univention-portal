@@ -45,7 +45,9 @@
           class="primary"
           @click.stop="setCookies()"
         >
-          <translate i18n-key="ACCEPT" />
+          <span>
+            {{ $translateLabel('Accept') }}
+          </span>
         </button>
       </footer>
     </modal-dialog>
@@ -56,7 +58,6 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import Translate from '@/i18n/Translate.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
 
@@ -67,7 +68,6 @@ export default defineComponent({
   components: {
     ModalWrapper,
     ModalDialog,
-    Translate,
   },
   emits: ['dismissed'],
   computed: {

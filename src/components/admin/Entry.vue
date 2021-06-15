@@ -194,7 +194,7 @@ export default defineComponent({
       portalCategories: 'portalData/portalCategories',
       portalFolders: 'portalData/portalFolders',
     }),
-    superObjs(): any[] {
+    superObjs(): any[] { // eslint-disable-line @typescript-eslint/no-explicit-any
       if (this.fromFolder) {
         return this.portalFolders;
       }

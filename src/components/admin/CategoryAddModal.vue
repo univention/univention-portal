@@ -50,7 +50,6 @@
         @click="openModal('addCategory')"
       >
         {{ $translateLabel('Add existing category') }}
-
       </button>
     </region>
   </modal-dialog>

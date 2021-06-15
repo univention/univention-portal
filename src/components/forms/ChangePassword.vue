@@ -53,8 +53,8 @@ License with the Debian GNU/Linux or Univention distribution in file
         type="password"
       >
       <label>
-         {{ $translateLabel('New password') }}
-          ({{ $translateLabel('retype') }})
+        {{ $translateLabel('New password') }}
+        ({{ $translateLabel('retype') }})
       </label>
       <input
         ref="newPassword2"

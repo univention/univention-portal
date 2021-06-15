@@ -32,9 +32,8 @@
       v-for="locale in locales"
       :key="locale"
     >
-      <translate
-        :i18n-key="i18nLabel"
-      /> ({{ locale }})
+      {{ $translateLabel('i18nLabel') }}
+      ({{ locale }})
       <span
         v-if="locale === 'en_US'"
       >
@@ -54,13 +53,8 @@
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 
-import Translate from '@/i18n/Translate.vue';
-
 export default defineComponent({
   name: 'LocaleInput',
-  components: {
-    Translate,
-  },
   props: {
     modelValue: {
       type: Object as PropType<Record<string, string>>,

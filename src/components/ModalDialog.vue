@@ -33,10 +33,9 @@ License with the Debian GNU/Linux or Univention distribution in file
   >
     <header class="dialog__header">
       <h3>
-        <translate
-          v-if="i18nTitleKey"
-          :i18n-key="i18nTitleKey"
-        />
+        <span v-if="i18nTitleKey">
+          {{ $translateLabel(i18nTitleKey) }}
+        </span>
         <span v-else>
           {{ title }}
         </span>
@@ -55,13 +54,11 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Translate from '@/i18n/Translate.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 
 export default defineComponent({
   name: 'ModalDialog',
   components: {
-    Translate,
     IconButton,
   },
   props: {

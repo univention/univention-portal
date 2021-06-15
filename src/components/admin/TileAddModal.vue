@@ -49,7 +49,7 @@
         class="tile-add-modal-button"
         @click="openModal('addEntry')"
       >
-        {{  $translateLabel('Add existing entry')  }}
+        {{ $translateLabel('Add existing entry') }}
       </button>
       <button
         v-if="!forFolder"
@@ -58,7 +58,7 @@
         class="tile-add-modal-button"
         @click="openModal('createFolder')"
       >
-        {{  $translateLabel('Create a new folder')  }}
+        {{ $translateLabel('Create a new folder') }}
       </button>
       <button
         v-if="!forFolder"
@@ -67,7 +67,7 @@
         class="tile-add-modal-button"
         @click="openModal('addFolder')"
       >
-        {{  $translateLabel('Add existing folder')  }}
+        {{ $translateLabel('Add existing folder') }}
       </button>
     </region>
   </modal-dialog>
@@ -96,7 +96,7 @@ export default defineComponent({
     },
   },
   methods: {
-    openModal(action): void {
+    openModal(action: string): void {
       if (action === 'createEntry') {
         this.$store.dispatch('modal/setAndShowModal', {
           name: 'AdminEntry',
