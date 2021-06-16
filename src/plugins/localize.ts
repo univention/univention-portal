@@ -29,8 +29,7 @@
 // plugins/localize
 import { Locale } from '@/store/modules/locale/locale.models';
 import { App } from 'vue';
-import { translationCatalogs } from '@/i18n/translations';
-
+import { getLocalePrefix, translateString } from '@/jsHelper/translate';
 import { store } from '../store';
 
 type Localized = (input: Record<Locale, string>) => string;
@@ -52,23 +51,8 @@ const localize = {
     app.config.globalProperties.$localized = localized;
 
     const translateLabel: TranslateLabel = (translationString: string) => {
-      const currentLocale = store.getters['locale/getLocale'];
-      const shortLocale = currentLocale.split('_')[0];
-      // EN is default and therefore already in Code
-      let returnString = '';
-      if (shortLocale === 'en') {
-        returnString = translationString;
-      } else if (shortLocale === 'de') {
-        const catalog = translationCatalogs[shortLocale];
-        console.log('translationCatalogs[shortLocale].translationString', catalog[translationString]);
-        returnString = translationCatalogs[shortLocale].translationString ? translationCatalogs[shortLocale].translationString : translationString;
-      } else {
-        // HMMMMMMMM....
-        console.warn('HANDLE THIRD LANG');
-      }
-      console.log('returnString', returnString);
-      return returnString;
-      // return catalog[translationLabel].translated.value;
+      const shortLocale = getLocalePrefix(store.getters['locale/getLocale']);
+      return translateString(translationString, shortLocale);
     };
     app.config.globalProperties.$translateLabel = translateLabel;
   },

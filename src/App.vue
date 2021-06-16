@@ -73,7 +73,6 @@ export default defineComponent({
   },
   async mounted() {
     // Set locale and load portal data from backend
-    console.log('########');
     const umcLang = getCookie('UMCLang');
     if (umcLang) {
       await this.$store.dispatch('locale/setLocale', umcLang.replace('-', '_'));
