@@ -74,7 +74,6 @@ const actions = {
     commit('SET_LOADING_STATE', false);
   },
   portalJsonRequest: (_, payload) => {
-    console.log('Loading Portal...');
     const umcLang = getCookie('UMCLang');
     const headers = {
       'X-Requested-With': 'XMLHTTPRequest',

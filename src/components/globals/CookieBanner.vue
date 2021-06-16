@@ -76,10 +76,10 @@ export default defineComponent({
       return this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
     },
     cookieTitle(): string {
-      return this.$localized(this.metaData.cookieBanner.title) || this.$translateLabel('COOKIE_TITLE');
+      return this.$localized(this.metaData.cookieBanner.title) || this.$translateLabel('Cookie Settings');
     },
     cookieText(): string {
-      return this.$localized(this.metaData.cookieBanner.text) || this.$translateLabel('COOKIE_TEXT');
+      return this.$localized(this.metaData.cookieBanner.text) || this.$translateLabel('We use cookies in order to provide you with certain functions and to be able to guarantee an unrestricted service. By clicking on "Accept", you consent to the collection of information on this portal.');
     },
   },
   mounted(): void {

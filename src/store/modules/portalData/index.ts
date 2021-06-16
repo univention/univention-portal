@@ -26,8 +26,8 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { translateString } from '@/jsHelper/translate';
 import { put, adminState } from '@/jsHelper/admin';
-
 import { PortalModule } from '../../root.models';
 import { PortalData } from './portalData.models';
 
@@ -87,8 +87,7 @@ const portalData: PortalModule<PortalDataState> = {
       if (adminMode) {
         const menu = {
           display_name: {
-            en_US: 'PORTAL_MENU',
-            // en_US: translateLabel('PORTAL_MENU'),
+            en_US: translateString('Portal Menu', this.getters['locale/getLocale']),
           },
           virtual: true,
           dn: '$$menu$$',
@@ -96,8 +95,7 @@ const portalData: PortalModule<PortalDataState> = {
         };
         const userMenu = {
           display_name: {
-            en_US: 'USER_MENU',
-            // en_US: translateLabel('USER_MENU'),
+            en_US: translateString('User Menu', this.getters['locale/getLocale']),
           },
           virtual: true,
           dn: '$$user$$',
