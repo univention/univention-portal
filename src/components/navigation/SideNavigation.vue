@@ -54,7 +54,7 @@
             @keydown.esc="closeNavigation"
           >
             <span>
-              {{ $translateLabel('Logout') }}
+              {{ LOGOUT }}
             </span>
           </button>
         </div>
@@ -68,7 +68,7 @@
         @keydown.esc="closeNavigation"
       >
         <span>
-          {{ $translateLabel('Login') }}
+          {{ LOGIN }}
         </span>
       </button>
     </div>
@@ -107,7 +107,7 @@
             id="portal-sidenavigation-sub"
             role="navigation"
             direction="topdown"
-            :aria-label="$translateLabel('Go Back')"
+            :aria-label="GO_BACK"
           >
             <menu-item
               :id="item.id"
@@ -153,7 +153,7 @@
       @click="startEditMode"
       @keydown.esc="closeNavigation"
     >
-      {{ $translateLabel('Edit mode') }}
+      {{ EDIT_MODE }}
     </button>
   </region>
 </template>
@@ -161,6 +161,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
@@ -178,7 +179,6 @@ interface SideNavigationData {
   fade: boolean,
   fadeRightLeft: string,
   fadeLeftRight: string,
-  changeLanguageTranslation: unknown
 }
 
 export default defineComponent({
@@ -200,10 +200,6 @@ export default defineComponent({
       fadeRightLeft: 'portal-sidenavigation__fade-right-left',
       fadeLeftRight: 'portal-sidenavigation__fade-left-right',
       // TODO: outsource translation
-      changeLanguageTranslation: {
-        de_DE: 'Sprache ändern',
-        en_US: 'Change language',
-      },
     };
   },
   computed: {
@@ -213,6 +209,21 @@ export default defineComponent({
       userState: 'user/userState',
       meta: 'metaData/getMeta',
     }),
+    LOGOUT(): string {
+      return _('Logout');
+    },
+    LOGIN(): string {
+      return _('Login');
+    },
+    GO_BACK(): string {
+      return _('Go Back');
+    },
+    EDIT_MODE(): string {
+      return _('Edit mode');
+    },
+    CHANGE_LANGUAGE(): string {
+      return _('Change language');
+    },
   },
   mounted(): void {
     this.$store.dispatch('activity/setRegion', 'portal-sidenavigation');

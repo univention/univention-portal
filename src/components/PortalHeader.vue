@@ -39,7 +39,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :active-at="['portal']"
       class="portal-header__left"
       role="button"
-      :aria-label="$translateLabel('Show portal')"
+      :aria-label="SHOW_PORTAL"
       @click="goHome"
       @keydown.enter="goHome"
     >
@@ -82,14 +82,14 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="portal-header__right"
     >
       <div class="portal-header__edit-mode-label">
-        {{ $translateLabel('Edit mode') }}
+        {{ EDIT_MODE }}
       </div>
       <header-button
-        :aria-label-prop="$translateLabel('Open edit sidebar')"
+        :aria-label-prop="OPEN_EDIT_SIDEBAR"
         icon="settings"
       />
       <header-button
-        :aria-label-prop="$translateLabel('Stop edit portal')"
+        :aria-label-prop="STOP_EDIT_PORTAL"
         icon="x"
         @click="stopEditMode"
       />
@@ -102,7 +102,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-if="showTabButton"
         ref="tabButton"
         data-test="tabbutton"
-        :aria-label-prop="$translateLabel('Tabs')"
+        :aria-label-prop="TABS"
         icon="copy"
         :counter="numTabs"
         class="portal-header__tab-button"
@@ -110,19 +110,19 @@ License with the Debian GNU/Linux or Univention distribution in file
       <header-button
         ref="searchButton"
         data-test="searchbutton"
-        :aria-label-prop="$translateLabel('search')"
+        :aria-label-prop="SEARCH"
         icon="search"
       />
       <header-button
         data-test="bellbutton"
-        :aria-label-prop="$translateLabel('Notifications')"
+        :aria-label-prop="NOTIFICATIONS"
         icon="bell"
         :counter="numNotifications"
         @keydown.esc="closeNotifications"
       />
       <header-button
         data-test="navigationbutton"
-        :aria-label-prop="$translateLabel('Menu')"
+        :aria-label-prop="MENU"
         icon="menu"
       />
     </div>
@@ -139,6 +139,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
@@ -182,6 +183,30 @@ export default defineComponent({
     }),
     showTabButton(): boolean {
       return this.numTabs > 0 && this.tabsOverflow;
+    },
+    SHOW_PORTAL(): string {
+      return _('Show portal');
+    },
+    EDIT_MODE(): string {
+      return _('Edit mode');
+    },
+    OPEN_EDIT_SIDEBAR(): string {
+      return _('Open edit sidebar');
+    },
+    STOP_EDIT_PORTAL(): string {
+      return _('Stop edit portal');
+    },
+    TABS(): string {
+      return _('Tabs');
+    },
+    SEARCH(): string {
+      return _('search');
+    },
+    NOTIFICATIONS(): string {
+      return _('Notifications');
+    },
+    MENU(): string {
+      return _('Menu');
     },
   },
   watch: {

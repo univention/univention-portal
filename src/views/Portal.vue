@@ -42,7 +42,7 @@
         aria-atomic="true"
       >
         <h2 v-if="hasEmptySearchResults">
-          {{ $translateLabel('No search results') }}
+          {{ EMPTY_SEARCH_RESULTS }}
         </h2>
       </div>
 
@@ -64,10 +64,10 @@
         <icon-button
           icon="plus"
           class="portal-categories__add-button icon-button--admin"
-          :aria-label-prop="$translateLabel('Add new category')"
+          :aria-label-prop="ADD_CATEGORY"
           @click="addCategory"
         />
-        {{ $translateLabel('Add category') }}
+        {{ ADD_CATEGORY }}
       </h2>
     </region>
 
@@ -99,6 +99,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import Region from '@/components/activity/Region.vue';
@@ -148,6 +149,12 @@ export default defineComponent({
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
+    },
+    ADD_CATEGORY(): string {
+      return _('Add category');
+    },
+    EMPTY_SEARCH_RESULTS(): string {
+      return _('No search results');
     },
   },
   methods: {

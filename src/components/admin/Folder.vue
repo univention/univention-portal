@@ -35,7 +35,7 @@
     @save="finish"
   >
     <label>
-      {{ $translateLabel('Internal name') }}
+      {{ INTERNAL_NAME }}
       <span> *</span>
       <input
         v-model="name"
@@ -54,6 +54,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import { removeEntryFromSuperObj, addEntryToSuperObj, put, add } from '@/jsHelper/admin';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
@@ -115,6 +116,9 @@ export default defineComponent({
     ...mapGetters({
       portalCategories: 'portalData/portalCategories',
     }),
+    INTERNAL_NAME(): string {
+      return _('Internal name');
+    },
   },
   created(): void {
     const dn = this.modelValue.dn;

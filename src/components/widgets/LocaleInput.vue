@@ -32,7 +32,7 @@
       v-for="locale in locales"
       :key="locale"
     >
-      {{ $translateLabel(i18nLabel) }}
+      {{ I18N_LABEL }}
       ({{ locale }})
       <span
         v-if="locale === 'en_US'"
@@ -52,6 +52,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 export default defineComponent({
   name: 'LocaleInput',
@@ -82,6 +83,9 @@ export default defineComponent({
       locales: 'locale/getAvailableLocales',
       getModalError: 'modal/getModalError',
     }),
+    I18N_LABEL():string {
+      return _(this.i18nLabel);
+    },
   },
   created() {
     const model = this.modelValue;

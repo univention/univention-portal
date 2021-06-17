@@ -65,6 +65,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
@@ -107,11 +108,11 @@ export default defineComponent({
       const numberOfItems = this.subMenu.length;
       let itemString = '';
       if (numberOfItems === 0) {
-        itemString = this.$translateLabel('NO_ITEMS');
+        itemString = _('NO_ITEMS');
       } else if (numberOfItems === 1) {
-        itemString = this.$translateLabel('ITEM');
+        itemString = _('ITEM');
       } else {
-        itemString = this.$translateLabel('ITEMS');
+        itemString = _('ITEMS');
       }
       return itemString;
     },

@@ -43,7 +43,7 @@
         v-if="editMode && !virtual"
         icon="edit-2"
         class="portal-category__edit-button icon-button--admin"
-        :aria-label-prop="$translateLabel('Edit category')"
+        :aria-label-prop="EDIT_CATEGORY"
         @click="editCategory"
       />
       <div
@@ -102,6 +102,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import TileAdd from '@/components/admin/TileAdd.vue';
 import IconButton from '@/components/globals/IconButton.vue';
@@ -163,6 +164,9 @@ export default defineComponent({
     hasTiles(): boolean {
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
     },
+    EDIT_CATEGORY(): string {
+      return _('Edit category');
+    },
   },
   methods: {
     async tileDropped(evt: DragEvent) {
@@ -197,7 +201,7 @@ export default defineComponent({
         stubborn: true,
         props: {
           modelValue: this.$props,
-          label: 'EDIT_CATEGORY',
+          label: 'Edit category',
         },
       });
     },

@@ -35,7 +35,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       @submit.prevent="finish"
     >
       <label>
-        {{ $translateLabel('Old password') }}
+        {{ OLD_PASSWORD }}
       </label>
       <input
         ref="oldPassword"
@@ -44,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         type="password"
       >
       <label>
-        {{ $translateLabel('New password') }}
+        {{ NEW_PASSWORD }}
       </label>
       <input
         ref="newPassword"
@@ -53,8 +53,8 @@ License with the Debian GNU/Linux or Univention distribution in file
         type="password"
       >
       <label>
-        {{ $translateLabel('New password') }}
-        ({{ $translateLabel('retype') }})
+        {{ NEW_PASSWORD }}
+        ({{ RETYPE }})
       </label>
       <input
         ref="newPassword2"
@@ -67,13 +67,13 @@ License with the Debian GNU/Linux or Univention distribution in file
           type="button"
           @click.prevent="cancel"
         >
-          {{ $translateLabel('Cancel') }}
+          {{ CANCEL }}
         </button>
         <button
           type="submit"
           @click.prevent="finish"
         >
-          {{ $translateLabel('Change password') }}
+          {{ CHANGE_PASSWORD }}
         </button>
       </footer>
     </form>
@@ -84,6 +84,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 import { defineComponent } from 'vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 import { setInvalidity } from '@/jsHelper/tools';
+import _ from '@/jsHelper/translate';
 
 interface ChangePasswordData {
     oldPassword: string,
@@ -102,6 +103,23 @@ export default defineComponent({
       newPassword: '',
       newPassword2: '',
     };
+  },
+  computed: {
+    OLD_PASSWORD(): string {
+      return _('Old password');
+    },
+    NEW_PASSWORD(): string {
+      return _('New password');
+    },
+    RETYPE(): string {
+      return _('retype');
+    },
+    CANCEL(): string {
+      return _('Cancel');
+    },
+    CHANGE_PASSWORD(): string {
+      return _('Change password');
+    },
   },
   mounted(): void {
     (this.$refs.oldPassword as HTMLElement).focus();

@@ -47,7 +47,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         :id="`close-notification-${token}`"
         tabindex="0"
         icon="x"
-        :aria-label-prop="$translateLabel('Dismiss notification')"
+        :aria-label-prop="DISMISS_NOTIFICATION"
         @click="dismissNotification()"
       />
     </div>
@@ -63,6 +63,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 
@@ -114,17 +115,20 @@ export default defineComponent({
   },
   computed: {
     preAccouncement(): string {
-      let preAccouncement = this.$translateLabel('DEFAULT_NOTIFICATION');
+      let preAccouncement = _('Info');
       if (this.importance === 'warning') {
-        preAccouncement = this.$translateLabel('WARNING');
+        preAccouncement = _('Warning');
       }
       if (this.importance === 'success') {
-        preAccouncement = this.$translateLabel('SUCCESS');
+        preAccouncement = _('Success');
       }
       if (this.importance === 'error') {
-        preAccouncement = this.$translateLabel('ERROR');
+        preAccouncement = _('Error');
       }
       return `${preAccouncement}:`;
+    },
+    DISMISS_NOTIFICATION(): string {
+      return _('Dismiss notification');
     },
   },
   mounted() {
