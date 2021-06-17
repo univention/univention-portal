@@ -49,10 +49,10 @@ const locale: PortalModule<LocaleState> = {
   },
 
   mutations: {
-    NEWLOCALE(state, payload) {
+    NEWLOCALE(state, payload): void {
       state.locale = payload;
     },
-    AVAILABLE_LOCALES(state, payload) {
+    AVAILABLE_LOCALES(state, payload): void {
       console.log('789', payload);
       state.availableLocales = payload;
     },
@@ -64,7 +64,7 @@ const locale: PortalModule<LocaleState> = {
   },
 
   actions: {
-    setLocale({ commit }, payload: Locale) {
+    setLocale({ commit }, payload: Locale): void {
       commit('NEWLOCALE', payload);
       setCookie('UMCLang', payload.replace('_', '-'));
       const localePrefix = payload.slice(0, 2);
@@ -73,7 +73,7 @@ const locale: PortalModule<LocaleState> = {
       html.setAttribute('lang', localePrefix);
       return updateLocale(localePrefix);
     },
-    setAvailableLocale({ dispatch, commit }, payload: LocaleDefinition[]) {
+    setAvailableLocale({ dispatch, commit }, payload: LocaleDefinition[]): void {
       const locales = payload.map((loc) => loc.id.replace('-', '_'));
       commit('AVAILABLE_LOCALES', locales);
       // TODO create helper function

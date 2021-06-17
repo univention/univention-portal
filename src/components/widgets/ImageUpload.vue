@@ -47,7 +47,7 @@
         class="image-upload__nofile"
       >
         <span>
-          {{SELECT_FILE }}
+          {{ SELECT_FILE }}
         </span>
       </div>
     </div>

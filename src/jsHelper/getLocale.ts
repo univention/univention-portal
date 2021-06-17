@@ -1,6 +1,6 @@
 import { store } from '../store';
 
-const getLocalePrefix = function(): string {
+const getLocalePrefix = (): string => {
   const currentLocale = store.getters['locale/getLocale'];
   return currentLocale.split('_')[0];
 };

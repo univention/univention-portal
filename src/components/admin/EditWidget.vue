@@ -82,7 +82,6 @@ export default defineComponent({
   components: {
     ModalDialog,
   },
-  emits: ['remove', 'save'],
   props: {
     label: {
       type: String,
@@ -97,6 +96,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['remove', 'save'],
   computed: {
     SAVE(): string {
       return _('Save');

@@ -75,7 +75,7 @@ const portalData: PortalModule<PortalDataState> = {
   },
 
   mutations: {
-    PORTALDATA(state, payload) {
+    PORTALDATA(state: PortalDataState, payload): void {
       const portal = payload.portal;
       const adminMode = payload.adminMode;
       state.portal.portal = portal.portal;
@@ -109,19 +109,19 @@ const portalData: PortalModule<PortalDataState> = {
       console.log(state.portal.portal);
       state.cacheId = portal.cache_id;
     },
-    PORTALNAME(state, name) {
+    PORTALNAME(state: PortalDataState, name): void {
       state.portal.portal.name = name;
     },
-    PORTALLOGO(state, data) {
+    PORTALLOGO(state: PortalDataState, data): void {
       state.portal.portal.logo = data;
     },
-    CONTENT(state, content) {
+    CONTENT(state: PortalDataState, content): void {
       state.portal.portal.content = content;
     },
-    PORTALBACKGROUND(state, data) {
+    PORTALBACKGROUND(state: PortalDataState, data): void {
       state.portal.portal.background = data;
     },
-    CHANGE_CATEGORY(state, payload) {
+    CHANGE_CATEGORY(state: PortalDataState, payload): void {
       state.portal.categories.forEach((category) => {
         if (category.dn !== payload.category) {
           return;
@@ -129,7 +129,7 @@ const portalData: PortalModule<PortalDataState> = {
         category.entries = payload.entries;
       });
     },
-    RESHUFFLE_CATEGORY(state, payload) {
+    RESHUFFLE_CATEGORY(state: PortalDataState, payload): void {
       state.portal.portal.content = state.portal.portal.content.map(([category, entries]) => {
         if (category === payload.category) {
           return [category, payload.entries];
@@ -137,7 +137,7 @@ const portalData: PortalModule<PortalDataState> = {
         return [category, entries];
       });
     },
-    EDITMODE(state, editMode) {
+    EDITMODE(state: PortalDataState, editMode): void {
       state.editMode = editMode;
 
       // save state to localstorage if we are in dev mode
@@ -274,7 +274,7 @@ const portalData: PortalModule<PortalDataState> = {
         const newContent: string[][] = [];
         let srcContent: string[] = [];
         let srcIdx = -1;
-        let dstContent: string[] = [];
+        let dstContent: string[] = []; // TODO
         let dstIdx = -1;
         content.forEach(([category, entries], idx) => {
           if (category === src) {
