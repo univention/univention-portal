@@ -101,7 +101,7 @@
       v-if="editMode && !inModal"
       icon="edit-2"
       class="portal-folder__edit-button icon-button--admin"
-      :aria-label-prop="$translateLabel('Edit folder')"
+      :aria-label-prop="translateEditFolder"
       @click="editFolder()"
     />
   </div>
@@ -118,6 +118,7 @@ import Draggable from '@/mixins/Draggable.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 import TileAdd from '@/components/admin/TileAdd.vue';
 import { Title, Tile } from '@/store/modules/portalData/portalData.models';
+import _ from '@/jsHelper/translate';
 
 export default defineComponent({
   name: 'PortalFolder',
@@ -172,17 +173,20 @@ export default defineComponent({
       const numberOfItems = this.tiles.length;
       let itemString = '';
       if (this.tiles.length === 0) {
-        itemString = this.$translateLabel('No items');
+        itemString = _('No items');
       } else if (this.tiles.length === 1) {
-        itemString = this.$translateLabel('Item');
+        itemString = _('Item');
       } else {
-        itemString = this.$translateLabel('Items');
+        itemString = _('Items');
       }
 
-      return !this.inModal ? `${this.$translateLabel('Folder')}: ${numberOfItems} ${itemString}` : null;
+      return !this.inModal ? `${_('Folder')}: ${numberOfItems} ${itemString}` : null;
     },
     isOpened(): string {
       return this.inModal ? 'div' : 'button';
+    },
+    translateEditFolder(): string {
+      return _('Edit folder');
     },
   },
   mounted() {

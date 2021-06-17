@@ -71,6 +71,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
@@ -96,10 +97,10 @@ export default defineComponent({
   },
   methods: {
     ariaLabelChooseTab(tabLabel: string): string {
-      return `${tabLabel} ${this.$translateLabel('Select')}`;
+      return `${tabLabel} ${_('Select')}`;
     },
     ariaLabelCloseTab(tabLabel: string): string {
-      return `${tabLabel} ${this.$translateLabel('Close')}`;
+      return `${tabLabel} ${_('Close')}`;
     },
     closeTab(idx: number) {
       this.$store.dispatch('tabs/deleteTab', idx + 1);

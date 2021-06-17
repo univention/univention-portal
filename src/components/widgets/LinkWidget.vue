@@ -60,7 +60,7 @@
       >
         <icon-button
           icon="trash"
-          :aria-label-prop="$translateLabel('Remove')"
+          :aria-label-prop="REMOVE"
           @click="removeField(index, modelValueData)"
         />
       </span>
@@ -74,7 +74,7 @@
         <portal-icon
           icon="plus"
         />
-        {{ $translateLabel('Create a new Entry') }}
+        {{ CREATE_NEW_ENTRY }}
       </button>
     </span>
   </div>
@@ -83,6 +83,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
@@ -123,6 +124,12 @@ export default defineComponent({
       locales: 'locale/getAvailableLocales',
       currentLocale: 'locale/getLocale',
     }),
+    REMOVE(): string {
+      return _('Remove');
+    },
+    CREATE_NEW_ENTRY(): string {
+      return _('Create a new Entry');
+    },
   },
   created() {
     this.modelValue.forEach((val) => {

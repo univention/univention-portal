@@ -86,7 +86,7 @@ module.exports = {
     'vue/no-unused-components': 'off',
 
     // TEST new Plugin
-    'no-underscore-dangle': 'off',
+    'import/no-cycle': 'off',
   },
   overrides: [
     {

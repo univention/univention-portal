@@ -76,7 +76,7 @@
         icon="edit-2"
         :active-at="activeAtEdit"
         class="portal-tile__edit-button icon-button--admin"
-        :aria-label-prop="$translateLabel('Edit tile')"
+        :aria-label-prop="EDIT_TILE"
         @click="editTile"
       />
     </tabindex-element>
@@ -84,7 +84,7 @@
       v-if="!minified && isTouchDevice"
       icon="info"
       class="portal-tile__info-button icon-button--admin"
-      :aria-label-prop="$translateLabel('Show tooltip')"
+      :aria-label-prop="SHOW_TOOLTIP"
       @click="toolTipTouchHandler()"
     />
   </div>
@@ -93,6 +93,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
@@ -200,6 +201,12 @@ export default defineComponent({
         return ['modal'];
       }
       return ['portal', 'header-search'];
+    },
+    EDIT_TILE(): string {
+      return _('Edit tile');
+    },
+    SHOW_TOOLTIP(): string {
+      return _('Show tooltip');
     },
   },
   mounted() {

@@ -34,7 +34,7 @@
     >
       <image-upload
         v-model="portalLogoData"
-        :label="$translateLabel('Portal logo')"
+        :label="PORTAL_LOGO"
       />
       <locale-input
         v-model="portalNameData"
@@ -44,16 +44,16 @@
       />
       <image-upload
         v-model="portalBackgroundData"
-        :label="$translateLabel('Background')"
+        :label="BACKGROUND"
       />
       <label>
-        {{ $translateLabel('Default link behaviour for portal entries') }}
+        {{ DEFAULT_LINK_BEHAVIOUR }}
         <select
           v-model="portalDefaultLinkTargetData"
         >
-          <option value="samewindow">{{ $translateLabel('Same tab') }}</option>
-          <option value="newwindow">{{ $translateLabel('New tab') }}</option>
-          <option value="embedded">{{ $translateLabel('Embedded') }}</option>
+          <option value="samewindow">{{ SAME_TAB }}</option>
+          <option value="newwindow">{{ NEW_TAB }}</option>
+          <option value="embedded">{{ EMBEDDED }}</option>
         </select>
       </label>
       <label class="edit-mode-side-navigation__checkbox">
@@ -61,14 +61,14 @@
           v-model="portalEnsureLoginData"
           type="checkbox"
         >
-        {{ $translateLabel('Users are required to login') }}
+        {{ USERS_REQUIRED_TO_LOGIN }}
       </label>
       <label class="edit-mode-side-navigation__checkbox">
         <input
           v-model="portalShowUmcData"
           type="checkbox"
         >
-        {{ $translateLabel('Show local UMC modules') }}
+        {{ SHOW_LOCAL_UMC_MODULES }}
 
       </label>
       <button class="primary edit-mode-side-navigation__save-button">
@@ -76,7 +76,7 @@
           icon="save"
         />
         <span>
-          {{ $translateLabel('Save') }}
+          {{ SAVE }}
         </span>
       </button>
     </form>
@@ -86,6 +86,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import { udmPut } from '@/jsHelper/umc';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
@@ -128,6 +129,33 @@ export default defineComponent({
       portalEnsureLogin: 'portalData/portalEnsureLogin',
       portalDefaultLinkTarget: 'portalData/portalDefaultLinkTarget',
     }),
+    PORTAL_LOGO(): string {
+      return _('Portal logo');
+    },
+    BACKGROUND(): string {
+      return _('Background');
+    },
+    DEFAULT_LINK_BEHAVIOUR(): string {
+      return _('Default link behaviour for portal entries');
+    },
+    SAME_TAB(): string {
+      return _('Same tab');
+    },
+    NEW_TAB(): string {
+      return _('New tab');
+    },
+    EMBEDDED(): string {
+      return _('Embedded');
+    },
+    USERS_REQUIRED_TO_LOGIN(): string {
+      return _('Users are required to login');
+    },
+    SHOW_LOCAL_UMC_MODULES(): string {
+      return _('Show local UMC modules');
+    },
+    SAVE(): string {
+      return _('Save');
+    },
   },
   updated() {
     this.update();

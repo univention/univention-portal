@@ -8,7 +8,7 @@
     >
       <main>
         <label>
-          {{ $translateLabel('Name') }}
+          {{ NAME }}
           <input
             ref="input"
             type="text"
@@ -33,14 +33,14 @@
           type="button"
           @click.prevent="cancel"
         >
-          {{ $translateLabel('Cancel') }}
+          {{ CANCEL }}
         </button>
         <button
           class="primary"
           type="submit"
           @click.prevent="finish"
         >
-          {{ $translateLabel('Add') }}
+          {{ ADD }}
         </button>
       </footer>
     </form>
@@ -50,6 +50,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 
@@ -99,6 +100,15 @@ export default defineComponent({
     },
     items(): any[] { // eslint-disable-line @typescript-eslint/no-explicit-any
       return this.$store.getters[this.objectGetter];
+    },
+    NAME(): string {
+      return _('Name');
+    },
+    CANCEL(): string {
+      return _('Cancel');
+    },
+    ADD(): string {
+      return _('Add');
     },
   },
   mounted() {

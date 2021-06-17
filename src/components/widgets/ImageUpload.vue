@@ -47,7 +47,7 @@
         class="image-upload__nofile"
       >
         <span>
-          {{ $translateLabel('Select file') }}
+          {{SELECT_FILE }}
         </span>
       </div>
     </div>
@@ -66,7 +66,7 @@
           icon="upload"
         />
         <span>
-          {{ $translateLabel('Upload') }}
+          {{ UPLOAD }}
         </span>
       </button>
       <button
@@ -77,7 +77,7 @@
           icon="trash"
         />
         <span>
-          {{ $translateLabel('Remove') }}
+          {{ REMOVE }}
         </span>
       </button>
     </footer>
@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
@@ -105,6 +106,17 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  computed: {
+    SELECT_FILE(): string {
+      return _('Select file');
+    },
+    UPLOAD(): string {
+      return _('Upload');
+    },
+    REMOVE(): string {
+      return _('Remove');
+    },
+  },
   methods: {
     drop(evt: DragEvent) {
       const dt = evt.dataTransfer;

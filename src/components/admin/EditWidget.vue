@@ -45,7 +45,7 @@
           type="button"
           @click.prevent="$emit('remove')"
         >
-          {{ $translateLabel('Remove here') }}
+          {{ REMOVE }}
         </button>
       </footer>
       <footer>
@@ -53,14 +53,14 @@
           type="button"
           @click.prevent="cancel"
         >
-          {{ $translateLabel('Cancel') }}
+          {{ CANCEL }}
         </button>
         <button
           class="primary"
           type="submit"
           @click.prevent="submit"
         >
-          {{ $translateLabel('Save') }}
+          {{ SAVE }}
         </button>
       </footer>
     </form>
@@ -69,6 +69,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 
@@ -81,6 +82,7 @@ export default defineComponent({
   components: {
     ModalDialog,
   },
+  emits: ['remove', 'save'],
   props: {
     label: {
       type: String,
@@ -95,7 +97,17 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['remove', 'save'],
+  computed: {
+    SAVE(): string {
+      return _('Save');
+    },
+    CANCEL(): string {
+      return _('Cancel');
+    },
+    REMOVE(): string {
+      return _('Remove here');
+    },
+  },
   mounted() {
     this.$el.querySelector('input:enabled')?.focus();
   },
@@ -119,10 +131,10 @@ export default defineComponent({
           }
         });
         const description = Object.values(errors)
-          .map((err) => this.$translateLabel(err))
+          .map((err) => _(err))
           .join('</li><li>');
         this.$store.dispatch('notifications/addErrorNotification', {
-          title: this.$translateLabel('ERROR_ON_VALIDATION'),
+          title: _('The form data is not valid'),
           description: `<ul><li>${description}</li></ul>`,
           hidingAfter: -1,
         });

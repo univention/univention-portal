@@ -41,7 +41,7 @@
         class="tile-add-modal-button"
         @click="openModal('createCategory')"
       >
-        {{ $translateLabel('Add new category') }}
+        {{ ADD_NEW_CATEGORY }}
       </button>
       <button
         id="category-add-modal-button-existing-category"
@@ -49,7 +49,7 @@
         class="tile-add-modal-button"
         @click="openModal('addCategory')"
       >
-        {{ $translateLabel('Add existing category') }}
+        {{ ADD_EXISTING_CATEGORY }}
       </button>
     </region>
   </modal-dialog>
@@ -57,6 +57,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 import Region from '@/components/activity/Region.vue';
@@ -67,6 +68,14 @@ export default defineComponent({
     ModalDialog,
     Region,
   },
+  computed: {
+    ADD_NEW_CATEGORY(): string {
+      return _('Add new category');
+    },
+    ADD_EXISTING_CATEGORY(): string {
+      return _('Add existing category');
+    },
+  },
   methods: {
     openModal(action): void {
       if (action === 'createCategory') {
@@ -75,7 +84,7 @@ export default defineComponent({
           stubborn: true,
           props: {
             modelValue: {},
-            label: 'ADD_CATEGORY',
+            label: 'Add category',
           },
         });
       }

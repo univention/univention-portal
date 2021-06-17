@@ -41,7 +41,7 @@
         class="tile-add-modal-button"
         @click="openModal('createEntry')"
       >
-        {{ $translateLabel('Create a new Entry') }}
+        {{ CREATE_NEW_ENTRY }}
       </button>
       <button
         id="tile-add-modal-button-existing-entry"
@@ -49,7 +49,7 @@
         class="tile-add-modal-button"
         @click="openModal('addEntry')"
       >
-        {{ $translateLabel('Add existing entry') }}
+        {{ CREATE_EXISTING_ENTRY }}
       </button>
       <button
         v-if="!forFolder"
@@ -58,7 +58,7 @@
         class="tile-add-modal-button"
         @click="openModal('createFolder')"
       >
-        {{ $translateLabel('Create a new folder') }}
+        {{ CREATE_NEW_FOLDER }}
       </button>
       <button
         v-if="!forFolder"
@@ -67,7 +67,7 @@
         class="tile-add-modal-button"
         @click="openModal('addFolder')"
       >
-        {{ $translateLabel('Add existing folder') }}
+        {{ CREATE_EXISTING_FOLDER }}
       </button>
     </region>
   </modal-dialog>
@@ -75,6 +75,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import ModalDialog from '@/components/ModalDialog.vue';
 import Region from '@/components/activity/Region.vue';
@@ -93,6 +94,20 @@ export default defineComponent({
     forFolder: {
       type: Boolean,
       required: true,
+    },
+  },
+  computed: {
+    CREATE_NEW_ENTRY(): string {
+      return _('Create a new Entry');
+    },
+    CREATE_EXISTING_ENTRY(): string {
+      return _('Add existing entry');
+    },
+    CREATE_NEW_FOLDER(): string {
+      return _('Create a new folder');
+    },
+    CREATE_EXISTING_FOLDER(): string {
+      return _('Add existing folder');
     },
   },
   methods: {

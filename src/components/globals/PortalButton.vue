@@ -42,7 +42,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         icon-width="2rem"
       />
       <span>
-        {{ $translateLabel('buttonLabel') }}
+        {{ BUTTON_LABEL }}
       </span>
       <portal-icon
         v-if="iconAfter"
@@ -65,6 +65,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
@@ -95,7 +96,11 @@ export default defineComponent({
       default: '',
     },
   },
-  methods: {},
+  computed: {
+    BUTTON_LABEL(): string {
+      _(buttonLabel);
+    }
+  },
 });
 </script>
 

@@ -35,7 +35,7 @@
     @save="finish"
   >
     <label>
-      {{ $translateLabel('Internal name') }}
+      {{ INTERNAL_NAME }}
       <span> *</span>
       <input
         v-model="name"
@@ -58,7 +58,7 @@
         v-model="activated"
         type="checkbox"
       >
-      {{ $translateLabel('Activated') }}
+      {{ ACTIVATED }}
     </label>
     <div>
       <label>
@@ -70,14 +70,14 @@
       />
     </div>
     <label>
-      {{ $translateLabel('Way of opening links') }}
+      {{  WAY_OF_OPENING_LINKS }}
       <select
         v-model="linkTarget"
       >
-        <option value="useportaldefault">{{ $translateLabel('Use default of portal') }}</option>
-        <option value="samewindow">{{ $translateLabel('Same tab') }}</option>
-        <option value="newwindow">{{ $translateLabel('New tab') }}</option>
-        <option value="embedded">{{ $translateLabel('Embedded') }}</option>
+        <option value="useportaldefault">{{ PORTAL_DEFAULT }}</option>
+        <option value="samewindow">{{ SAME_TAB }}</option>
+        <option value="newwindow">{{ NEW_TAB }}</option>
+        <option value="embedded">{{ EMBEDDED }}</option>
       </select>
     </label>
 
@@ -86,7 +86,7 @@
       label="Icon"
     />
     <label>
-      {{ $translateLabel('Background color') }}
+      {{ BACKGROUND_COLOR }}
       <input
         v-model="backgroundColor"
         name="backgroundColor"
@@ -97,7 +97,7 @@
         v-model="anonymous"
         type="checkbox"
       >
-      {{ $translateLabel('Only visible if not logged in') }}
+      {{ ONLY_VISIBLE_IF_NOT_LOGGED_IN }}
     </label>
   </edit-widget>
 </template>
@@ -105,6 +105,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import { removeEntryFromSuperObj, addEntryToSuperObj, put, add } from '@/jsHelper/admin';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
@@ -199,6 +200,33 @@ export default defineComponent({
         return this.portalFolders;
       }
       return this.portalCategories;
+    },
+    INTERNAL_NAME(): string {
+      return _('Internal name');
+    },
+    ACTIVATED(): string {
+      return _('Activated');
+    },
+    WAY_OF_OPENING_LINKS(): string {
+      return _('Way of opening links');
+    },
+    PORTAL_DEFAULT(): string {
+      return _('Use default of portal');
+    },
+    SAME_TAB(): string {
+      return _('Same tab');
+    },
+    NEW_TAB(): string {
+      return _('New Tab');
+    },
+    EMBEDDED(): string {
+      return _('Embedded');
+    },
+    BACKGROUND_COLOR(): string {
+      return _('Background color');
+    },
+    ONLY_VISIBLE_IF_NOT_LOGGED_IN(): string {
+      return _('Only visible if not logged in');
     },
   },
   created(): void {

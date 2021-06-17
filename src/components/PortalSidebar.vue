@@ -40,7 +40,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       >
         <!-- Side notifications -->
         <div class="portal-sidebar__title">
-          {{ $translateLabel('Notifications') }}
+          {{ NOTIFICATIONS }}
         </div>
         <notifications :only-visible="false" />
       </flyout-wrapper>
@@ -66,6 +66,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import ModalWrapper from '@/components/globals/ModalWrapper.vue';
@@ -97,6 +98,9 @@ export default defineComponent({
     },
     activeEditModeButton(): boolean {
       return this.activeButton === 'settings';
+    },
+    NOTIFICATIONS(): string {
+      return _('Notifications');
     },
   },
   methods: {

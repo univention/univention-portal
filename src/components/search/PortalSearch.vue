@@ -42,7 +42,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         data-test="searchInput"
         type="text"
         class="portal-search__input"
-        :aria-label="$translateLabel('search')"
+        :aria-label="SEARCH"
         @input="searchTiles"
         @keyup.esc="closeSearchInput()"
       >
@@ -53,6 +53,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 
@@ -73,6 +74,9 @@ export default defineComponent({
       searchQuery: 'search/searchQuery',
       emptySearchResults: 'search/emptySearchResults',
     }),
+    SEARCH(): string {
+      return _('search');
+    },
   },
   mounted() {
     this.$nextTick(() => {

@@ -35,7 +35,7 @@
     @save="finish"
   >
     <label>
-      {{ $translateLabel('Internal name') }}
+      {{ INTERNAL_NAME }}
       <span> *</span>
       <input
         v-model="name"
@@ -54,6 +54,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import { put, add } from '@/jsHelper/admin';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
@@ -108,6 +109,9 @@ export default defineComponent({
       portalDn: 'portalData/getPortalDn',
       categories: 'portalData/portalCategoriesOnPortal',
     }),
+    INTERNAL_NAME(): string {
+      return _('Internal name');
+    },
   },
   created(): void {
     const dn = this.modelValue.dn;

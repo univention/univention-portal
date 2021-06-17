@@ -72,6 +72,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import TabindexElement from '@/components/activity/TabindexElement.vue';
 import IconButton from '@/components/globals/IconButton.vue';
@@ -116,10 +117,10 @@ export default defineComponent({
   },
   computed: {
     ariaLabelClose(): string {
-      return `${this.tabLabel}:  ${this.$translateLabel('Close')}`;
+      return `${this.tabLabel}:  ${_('Close')}`;
     },
     ariaLabelFocus(): string {
-      return `${this.tabLabel}:  ${this.$translateLabel('Select')}`;
+      return `${this.tabLabel}:  ${_('Select')}`;
     },
   },
   mounted() {
