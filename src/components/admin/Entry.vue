@@ -70,7 +70,7 @@
       />
     </div>
     <label>
-      {{  WAY_OF_OPENING_LINKS }}
+      {{ WAY_OF_OPENING_LINKS }}
       <select
         v-model="linkTarget"
       >
