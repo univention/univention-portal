@@ -173,7 +173,6 @@ export default defineComponent({
         this.$store.dispatch('notifications/addErrorNotification', {
           title: this.$translateLabel('ERROR_ON_VALIDATION'),
           description: `<ul><li>${description}</li></ul>`,
-          hidingAfter: -1,
         });
         return;
       }
@@ -214,7 +213,6 @@ export default defineComponent({
         this.$store.dispatch('notifications/addErrorNotification', {
           title: 'Update failed',
           description: `'Saving the portal failed: ${error}'`,
-          hidingAfter: -1,
         });
       }
       this.$store.dispatch('deactivateLoadingState');
