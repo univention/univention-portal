@@ -368,14 +368,16 @@ export default defineComponent({
 
   &__edit-button
     position: absolute
-    background-color: var(--color-grey0)
     top: -0.75em
     right: -0.75em
     z-index: $zindex-1
 
   .portal-tile__box
-    background-color: var(--color-grey0)
+    background-color: var(--bgc-content-container)
     padding: 0
+
+    .portal-tile__box
+      background-color: var(--bgc-app-defaultbgc)
 
   &__thumbnail
     &:nth-child(n+10)
@@ -383,6 +385,9 @@ export default defineComponent({
     &--desktop
       position: relative
 
+      .portal-tile__box
+        box-shadow: none
+
       &:after
           content: '...'
           position: absolute
@@ -393,12 +398,16 @@ export default defineComponent({
           bottom: 0;
           right: 0
           line-height: 300%
-          background-color: var(--color-grey0)
+          background-color: var(--bgc-content-container)
         @media $mqSmartphone
           display: none
 
     &--mobile
       position: relative
+
+      .portal-tile__box
+        box-shadow: none
+
       &:after
         @media $mqSmartphone
           content: '...'
@@ -410,7 +419,7 @@ export default defineComponent({
           bottom: 0;
           right: 0
           line-height: 300%
-          background-color: var(--color-grey0)
+          background-color: var(--bgc-content-container)
 
 &:focus
   border-color: var(--color-focus)
