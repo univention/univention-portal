@@ -89,6 +89,13 @@ export default defineComponent({
       activeTab: 'tabs/activeTabIndex',
     }),
   },
+  watch: {
+    activeTab(newIdx: number) {
+      if (newIdx === 0) {
+        this.cancel();
+      }
+    },
+  },
   mounted() {
     this.$store.dispatch('activity/setLevel', 'modal');
     const el = this.$refs.currentTab as HTMLElement;
