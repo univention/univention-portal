@@ -22,15 +22,15 @@ button
   color: var(--font-color-contrast-high)
   font-size: var(--button-font-size)
   text-transform: uppercase
-  border: none
+  border: 0.2rem solid transparent
   border-radius: var(--button-border-radius)
-  background-color: unquote('rgba(var(--color-grey25-rgb), 0.7)')
+  background-color: var(--button-bgc)
   transition: opacity var(--portal-transition-duration)
   display: flex
   align-items: center
   cursor: pointer
   transition: background-color var(--portal-transition-duration)
-  
+
   svg + span
     padding-left: var(--layout-spacing-unit-small)
 
@@ -40,25 +40,18 @@ button
     color: var(--font-color-disabled)
     cursor: var(--cursor-disabled)
 
-  &:hover
-    background-color: unquote('rgba(var(--color-grey25-rgb), 0.85)')
-    transition: background-color var(--portal-transition-duration)
-
   &:focus,
   &:active
-    background-color: unquote('rgba(var(--color-grey25-rgb), 1)')
-    transition: unset;
+    border: 0.2rem solid var(--color-focus)
 
   &.primary
     background-color: unquote('rgba(var(--color-primary-rgb), 0.7)')
-    border: 0.2rem solid transparent
 
     &:hover
       background-color: unquote('rgba(var(--color-primary-rgb), 0.85)')
 
     &:focus, &:active
       background-color: unquote('rgba(var(--color-primary-rgb), 1)')
-      border: 0.2rem solid var(--color-focus)
 
 h2
   font-size: var(--font-size-2)
@@ -81,7 +74,7 @@ input, select
 
   &:hover,
   &:focus
-    border-color: var(--color-grey40)
+    border-color: var(--font-color-contrast-low)
     outline-style: none
     box-shadow: none
 
@@ -103,11 +96,12 @@ select
 label, div.label
   display: block
   margin-top: calc(3 * var(--layout-spacing-unit))
-  color: var(--color-grey62)
+  color: var(--font-color-contrast-middle)
   font-size: var(--font-size-3)
   position: relative
 
   input[type=checkbox]
+    background-color: var(--bgc-inputfield-on-container)
     display: inline-block
     height: var(--font-size-3)
     width: var(--font-size-3)
@@ -115,15 +109,13 @@ label, div.label
     margin: 4px
     margin-right: var(--layout-spacing-unit)
     margin-left: 0
-    border: 2px solid var(--color-grey40)
+    border: 2px solid var(--font-color-contrast-low)
     border-radius: 2px
-    background-color: var(--color-grey0)
+    background-color: var(--bgc-inputfield-on-container)
     cursor: pointer
     appearance: none
     &:focus
-      background-color: var(--color-grey25)
-    &:hover
-      background-color: var(--color-grey8)
+      border-color: var(--color-focus)
     &:checked
       border-color: var(--color-primary)
       & + span::before
@@ -164,7 +156,7 @@ label, div.label
     user-select: none
     margin-right: var(--layout-spacing-unit)
 
-    background-color: var(--color-grey0)
+    background-color: var(--button-bgc)
     background-size: 1em
     background-repeat: no-repeat
     background-position: center
@@ -176,16 +168,6 @@ label, div.label
     justify-content: center
     box-sizing: border-box
     padding: 0
-
-    &:hover
-      background-color: var(--color-grey8)
-      border-color: var(--color-focus)
-
-    &:focus,
-    &:active
-      background-color: var(--color-grey25)
-      border-color: var(--color-focus)
-
 
   &--default-cursor,
   &--default-cursor:hover
