@@ -165,6 +165,7 @@ const catalog = {
   ITEMS: _('Items'),
   NO_ITEMS: _('No items'),
   GO_BACK: _('Go Back'),
+  REMOVE_ALL_NOTIFICATIONS: _('Remove all notifications'),
 };
 
 export { catalog };
