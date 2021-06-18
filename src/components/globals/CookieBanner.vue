@@ -83,7 +83,7 @@ export default defineComponent({
       return this.$localized(this.metaData.cookieBanner.text) || _('We use cookies in order to provide you with certain functions and to be able to guarantee an unrestricted service. By clicking on "Accept", you consent to the collection of information on this portal.');
     },
     ACCEPT(): string {
-      return _('Accept <1> and <2>', 'TEST1');
+      return _('Accept [key1] and [key1] and [key3]', { key1: 'AGBS', key3: 'DSGVO' });
     },
   },
   mounted(): void {

@@ -26,7 +26,7 @@
   * /usr/share/common-licenses/AGPL-3; if not, see
   * <https://www.gnu.org/licenses/>.
  */
-import { updateLocale } from '@/i18n/translations';
+import { updateLocale } from '@/i18n/getTranslations';
 import { setCookie } from '@/jsHelper/tools';
 import { PortalModule } from '@/store/root.models';
 import { Locale } from './locale.models';

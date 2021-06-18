@@ -1,16 +1,18 @@
-import { translationCatalogs } from '@/i18n/translations';
+import { translationCatalogs } from '@/i18n/getTranslations';
 import getLocalePrefix from './getLocale';
 
-const _ = (translationString: string, ...variables: string[]): string => {
+const _ = (translationString: string, variables?: Record<string, string>): string => {
   const shortLocale = getLocalePrefix();
   let returnString = '';
   let cleanedTranslationString = '';
   if (variables) {
-    for (let i = 0; i < variables.length; i += 1) {
-      console.log(`${translationString}, ${variables[i]}`);
-      cleanedTranslationString = translationString.replace(/<.*>/, variables[i]);
-      console.log('cleanedTranslationString', cleanedTranslationString);
-    }
+    cleanedTranslationString = translationString.replace(/\[(.*?)\]/g, (...args) => {
+      const placeHolder = args[1];
+      const parameter = variables;
+      let replace = '';
+      replace = parameter[placeHolder];
+      return replace;
+    });
   }
 
   if (shortLocale === 'en') {
