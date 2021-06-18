@@ -50,8 +50,6 @@ function getCatalog(locale) {
           resolve(translationCatalog);
         },
         () => {
-          // no locale found (404?)
-          console.error('404: No translation file found.');
           reject();
         },
       );
@@ -66,17 +64,9 @@ async function updateLocale(locale) {
     },
     () => {
       // no locale found (404?)
-      // Object.keys(catalog).forEach((key) => {
-      //   const value = catalog[key];
-      //   value.translated.value = value.original; // Vuex error: Do not mutate store state outside mutation handlers
-      // });
+      console.error('404: No translation file found.');
     },
   );
 }
 
-function translate(key) {
-  return 'function translate(key)';
-  // return catalog[key].translated.value;
-}
-
-export { updateLocale, translate, translationCatalogs };
+export { updateLocale, translationCatalogs };

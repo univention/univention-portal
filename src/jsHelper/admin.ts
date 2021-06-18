@@ -26,8 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-
-import { translate } from '@/i18n/translations';
+import _ from '@/jsHelper/translate';
 import { udmPut, udmAdd } from '@/jsHelper/umc';
 
 async function add(objectType, attrs, store, errorMessage): Promise<string> {
@@ -40,7 +39,7 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     return result.$dn$;
   } catch (err) {
     store.dispatch('notifications/addErrorNotification', {
-      title: translate(errorMessage),
+      title: _('<errorMessage>', errorMessage),
       description: err.message,
       hidingAfter: -1,
     });
@@ -56,7 +55,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
       throw new Error(result.details);
     }
     dispatch('notifications/addSuccessNotification', {
-      title: translate(successMessage),
+      title: _('<successMessage>', successMessage),
       hidingAfter: -1,
     }, { root: true });
     await dispatch('portalData/waitForChange', {
@@ -67,7 +66,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
     return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
-      title: translate(errorMessage),
+      title: _('<errorMessage>', errorMessage),
       description: err.message,
       hidingAfter: -1,
     }, { root: true });
