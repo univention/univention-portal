@@ -288,7 +288,7 @@ export default defineComponent({
     align-items: center
     justify-content: center
     box-shadow: var(--box-shadow)
-    background-color: var(--bgc-app-defaultbgc)
+    background-color: var(--bgc-apptile-default)
     width: var(--app-tile-side-length)
     height: @width
     margin-bottom: calc(2 * var(--layout-spacing-unit))

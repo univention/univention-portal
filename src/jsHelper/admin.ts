@@ -73,7 +73,9 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
 }
 
 // edit mode default settings
-const adminState = process.env.VUE_APP_LOCAL ? (!!localStorage.getItem('UCSAdmin') || false) : false;
+function getAdminState() {
+  return process.env.VUE_APP_LOCAL ? (!!localStorage.getItem('UCSAdmin') || false) : false;
+}
 
 async function addEntryToSuperObj(superDn, superObjs, dn, { dispatch, getters }, successMessage, errorMessage) {
   const portalDn = getters['portalData/getPortalDn'];
@@ -121,4 +123,4 @@ async function removeEntryFromSuperObj(superDn, superObjs, dn, { dispatch, gette
   return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
 }
 
-export { put, add, adminState, removeEntryFromSuperObj, addEntryToSuperObj };
+export { put, add, getAdminState, removeEntryFromSuperObj, addEntryToSuperObj };

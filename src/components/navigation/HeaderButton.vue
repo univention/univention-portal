@@ -136,7 +136,7 @@ export default defineComponent({
       z-index:1000
 
       svg
-        color: var(--color-primary)
+        color: var(--color-accent)
 
   &__inner
     border: none
@@ -173,21 +173,6 @@ export default defineComponent({
     &:focus
       border: 0.2rem solid var(--color-focus)
       outline: none
-
-    &--success
-      &:hover,
-      &:focus
-        background-color: var(--color-notification-success)
-
-    &--warning
-      &:hover,
-      &:focus
-        background-color: var(--color-notification-warning)
-
-    &--error
-      &:hover,
-      &:focus
-        background-color: var(--notification-error)
 
     &:hover
       cursor: pointer
