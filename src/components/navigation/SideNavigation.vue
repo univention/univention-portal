@@ -279,7 +279,7 @@ export default defineComponent({
   height: calc(100vh - (var(--portal-header-height) + 0.5rem))
   display: flex
   flex-direction: column
-  align-item: flex-end
+  align-items: flex-end
 
   @media $mqSmartphone
     overflow-y: auto
