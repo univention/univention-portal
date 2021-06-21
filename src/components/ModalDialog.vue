@@ -117,7 +117,7 @@ export default defineComponent({
   footer
     margin-top: calc(2 * var(--layout-spacing-unit))
     padding-top: calc(2 * var(--layout-spacing-unit))
-    border-top: thin solid var(--bgc-tab-seperator)
+    border-top: thin solid var(--bgc-tab-separator)
     /* padding: var(--layout-spacing-unit-small) calc(2 * var(--layout-spacing-unit))*/
     display: flex
     justify-content: space-between

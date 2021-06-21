@@ -108,6 +108,6 @@ export default defineComponent({
     text-decoration-thickness: 1px
 
     &:focus
-      color: var(--color-primary)
+      color: var(--color-accent)
       text-decoration-thickness: 3px
 </style>

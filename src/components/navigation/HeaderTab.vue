@@ -179,5 +179,5 @@ export default defineComponent({
     border-color: var(--color-focus)
 
   &--active
-    background-color: var(--bgc-tab-seperator)
+    background-color: var(--bgc-tab-separator)
 </style>

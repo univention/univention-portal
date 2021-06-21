@@ -107,7 +107,7 @@ export default defineComponent({
   z-index: $zindex-3
   display: block;
 
-  @media mqSmartphone
+  @media $mqSmartphone
     bottom: unset;
     top: calc(3 * var(--layout-spacing-unit))
     min-width: 4rem
@@ -129,7 +129,7 @@ export default defineComponent({
     align-items: center
     justify-content: center
     box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16)
-    background-color: var(--bgc-app-defaultbgc)
+    background-color: var(--bgc-apptile-default)
 
     .portal-tooltip__header &
       width: calc(3 * 1rem)

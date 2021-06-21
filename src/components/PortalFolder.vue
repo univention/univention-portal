@@ -226,10 +226,12 @@ export default defineComponent({
     },
     isMoreThanFiveOrTen(index): string {
       let classSuffix = '';
-      if (index === 3 && this.tiles.length > 4) {
-        classSuffix = 'portal-folder__thumbnail--mobile';
-      } else if (index === 8 && this.tiles.length >= 10) {
-        classSuffix = 'portal-folder__thumbnail--desktop';
+      if (!this.inModal) {
+        if (index === 3 && this.tiles.length > 4) {
+          classSuffix = 'portal-folder__thumbnail--mobile';
+        } else if (index === 8 && this.tiles.length >= 10) {
+          classSuffix = 'portal-folder__thumbnail--desktop';
+        }
       }
       return classSuffix;
     },
@@ -377,7 +379,7 @@ export default defineComponent({
     padding: 0
 
     .portal-tile__box
-      background-color: var(--bgc-app-defaultbgc)
+      background-color: var(--bgc-apptile-default)
 
   &__thumbnail
     &:nth-child(n+10)
@@ -404,9 +406,6 @@ export default defineComponent({
 
     &--mobile
       position: relative
-
-      .portal-tile__box
-        box-shadow: none
 
       &:after
         @media $mqSmartphone

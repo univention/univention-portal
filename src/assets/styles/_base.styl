@@ -40,18 +40,11 @@ button
     color: var(--font-color-disabled)
     cursor: var(--cursor-disabled)
 
-  &:focus,
-  &:active
+  &:focus
     border: 0.2rem solid var(--color-focus)
 
   &.primary
-    background-color: unquote('rgba(var(--color-primary-rgb), 0.7)')
-
-    &:hover
-      background-color: unquote('rgba(var(--color-primary-rgb), 0.85)')
-
-    &:focus, &:active
-      background-color: unquote('rgba(var(--color-primary-rgb), 1)')
+    background-color: var(--color-accent)
 
 h2
   font-size: var(--font-size-2)
@@ -66,8 +59,8 @@ input, select
   margin-bottom: var(--layout-spacing-unit)
   font-size: var(--font-size-3)
   color: var(--font-color-contrast-high)
-  background-color: var(--inputfield-bgc)
-  border: 1px solid var(--inputfield-bgc)
+  background-color: var(--bgc-inputfield-on-container)
+  border: 1px solid var(--bgc-inputfield-on-container)
   border-radius: var(--border-radius-interactable)
   transition: background-color, color, border
   transition-duration: var(--portal-transition-duration)
@@ -117,10 +110,10 @@ label, div.label
     &:focus
       border-color: var(--color-focus)
     &:checked
-      border-color: var(--color-primary)
+      border-color: var(--color-accent)
       & + span::before
         content: '\2713'
-        color: var(--color-primary)
+        color: var(--color-accent)
         position: absolute
         left: calc(var(--font-size-3) / 2 - 2px - 4px)
     & + span

@@ -213,8 +213,8 @@ export default defineComponent({
 .portal-iframes
   position: fixed
   top: var(--portal-header-height)
-  border: 0px solid var(--bgc-tab-seperator)
-  border-top-width: var(--layout-height-header-seperator)
+  border: 0px solid var(--bgc-tab-separator)
+  border-top-width: var(--layout-height-header-separator)
   right: 0
   bottom: 0
   left: 0
