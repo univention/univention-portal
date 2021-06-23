@@ -109,7 +109,7 @@ export default defineComponent({
     width: 100%;
     border: 0.1rem solid transparent;
     border-radius: var(--border-radius-interactable);
-    background-color: var(--bgc-content-header)
+    background-color: var(--bgc-inputfield-on-body)
     padding: var(--layout-spacing-unit) !important;
     box-sizing: border-box;
     margin-bottom: 0
