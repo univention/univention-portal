@@ -98,7 +98,7 @@ export default defineComponent({
   },
   computed: {
     BUTTON_LABEL(): string {
-      _(buttonLabel);
+      _('%(key1)s', { key1: buttonLabel });
     }
   },
 });

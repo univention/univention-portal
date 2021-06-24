@@ -1,7 +1,8 @@
 [
 	{
 		"input_files": [
-			"src/assets/data/dictionary.js"
+			"src/(.*/)*.*.vue",
+			"src/(.*/)*.*.js"
 		],
 		"po_subdir": "src/assets",
 		"target_type": "json",

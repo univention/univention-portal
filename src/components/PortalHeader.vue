@@ -58,7 +58,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       </div>
 
       <h1 class="portal-header__portal-name sr-only-mobile">
-        {{ $localized(portalName) }}
+        {{ PORTALNAME }}
       </h1>
     </tabindex-element>
 
@@ -206,6 +206,9 @@ export default defineComponent({
       return _('Notifications');
     },
     MENU(): string {
+      return _('Menu');
+    },
+    PORTALNAME(): string {
       return _('Menu');
     },
   },

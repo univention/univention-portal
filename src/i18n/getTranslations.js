@@ -61,6 +61,7 @@ async function updateLocale(locale) {
   return getCatalog(locale).then(
     (translationCatalog) => {
       console.log('translationCatalog', translationCatalog);
+      return translationCatalog;
     },
     () => {
       // no locale found (404?)
