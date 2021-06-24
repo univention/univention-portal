@@ -81,7 +81,7 @@ export default defineComponent({
   emits: ['cancel'],
   computed: {
     I18N_TITLE_KEY(): string {
-      return _(this.i18nTitleKey);
+      return _('%(key1)s', { key1: this.i18nTitleKey });
     },
     CANCEL(): string {
       return _('Cancel');

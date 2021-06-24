@@ -6,7 +6,7 @@ const _ = (translationString: string, variables?: Record<string, string>): strin
   let returnString = '';
   let cleanedTranslationString = '';
   if (variables) {
-    cleanedTranslationString = translationString.replace(/\[(.*?)\]/g, (...args) => {
+    cleanedTranslationString = translationString.replace(/\%\((.*?)\)s/g, (...args) => {
       const placeHolder = args[1];
       const parameter = variables;
       let replace = '';
