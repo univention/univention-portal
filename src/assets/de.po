@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-06-25 00:55+0300\n"
+"POT-Creation-Date: 2021-06-25 01:59+0300\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -11,6 +11,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/components/ModalDialog.vue:84 src/components/admin/EditWidget.vue:134
+#: src/components/globals/PortalButton.vue:101
+msgid "%(key1)s"
+msgstr ""
 
 #: src/components/globals/CookieBanner.vue:86
 msgid "Accept %(key1)s and %(key3)s"
@@ -153,6 +158,10 @@ msgstr "Einträge"
 #: src/components/PortalHeader.vue:209
 msgid "Menu"
 msgstr "Menü"
+
+#: src/components/PortalHeader.vue:213
+msgid "Menu %(key1)s"
+msgstr "Menü %(key1)s"
 
 #: src/components/navigation/MenuItem.vue:111
 msgid "NO_ITEMS"
