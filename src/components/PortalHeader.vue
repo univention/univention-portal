@@ -209,7 +209,8 @@ export default defineComponent({
       return _('Menu');
     },
     PORTALNAME(): string {
-      return _('Menu');
+      console.log('portalName', this.portalName);
+      return _('Menu %(key1)s', { key1: this.$localized(this.portalName) });
     },
   },
   watch: {

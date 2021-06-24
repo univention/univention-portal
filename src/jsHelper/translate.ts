@@ -1,6 +1,7 @@
 import { translationCatalogs } from '@/i18n/getTranslations';
 import getLocalePrefix from './getLocale';
 
+
 const _ = (translationString: string, variables?: Record<string, string>): string => {
   const shortLocale = getLocalePrefix();
   let returnString = '';
@@ -14,11 +15,14 @@ const _ = (translationString: string, variables?: Record<string, string>): strin
       return replace;
     });
   }
-
+  console.log('lol', shortLocale);
   if (shortLocale === 'en') {
     returnString = cleanedTranslationString.length > 0 ? cleanedTranslationString : translationString;
   } else if (shortLocale === 'de') {
-    returnString = translationCatalogs[shortLocale].translationString ? translationCatalogs[shortLocale].translationString : translationString;
+    console.log('ITS GERMAN', translationString);
+    const key = translationCatalogs[shortLocale];
+    console.log('ITS GERMAN', key[translationString]);
+    returnString = key[translationString] ? key[translationString] : translationString;
   } else {
     console.warn('Handle third language');
   }
