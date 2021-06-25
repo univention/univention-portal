@@ -84,7 +84,7 @@ export default defineComponent({
       getModalError: 'modal/getModalError',
     }),
     I18N_LABEL():string {
-      return _(this.i18nLabel);
+      return _('%(key1)s', { key1: this.i18nLabel });
     },
   },
   created() {

@@ -39,7 +39,7 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     return result.$dn$;
   } catch (err) {
     store.dispatch('notifications/addErrorNotification', {
-      title: _('<errorMessage>', errorMessage),
+      title: _('%(key1)s', { key1: errorMessage }),
       description: err.message,
     });
   }
@@ -54,7 +54,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
       throw new Error(result.details);
     }
     dispatch('notifications/addSuccessNotification', {
-      title:_('%(key1)s', { key1: successMessage })
+      title: _('%(key1)s', { key1: successMessage }),
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -64,7 +64,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
     return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
-      title: _('<errorMessage>', errorMessage),
+      title: _('%(key1)s', { key1: errorMessage }),
       description: err.message,
     }, { root: true });
     return false;

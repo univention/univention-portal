@@ -119,11 +119,11 @@ export default defineComponent({
       const numberOfItems = this.subMenu.length;
       let itemString = '';
       if (numberOfItems === 0) {
-        itemString = _('NO_ITEMS');
+        itemString = _('No items');
       } else if (numberOfItems === 1) {
-        itemString = _('ITEM');
+        itemString = _('Item');
       } else {
-        itemString = _('ITEMS');
+        itemString = _('Items');
       }
       return itemString;
     },

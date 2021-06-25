@@ -78,5 +78,5 @@ export default formCheckPlugin;
 // @blur="$formChecker(modelValueData, requiredFields, label)"
 // @keyup="$formChecker(modelValueData, requiredFields, label)"
 
-// @blur="$formChecker(modelValueData, currentLocale, _('LINK'))"
-// @keyup="$formChecker(modelValueData, currentLocale, _('LINK'))"
+// @blur="$formChecker(modelValueData, currentLocale, _('Link'))"
+// @keyup="$formChecker(modelValueData, currentLocale, _('Link'))"
