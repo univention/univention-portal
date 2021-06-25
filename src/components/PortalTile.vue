@@ -55,7 +55,7 @@
         :style="backgroundColor ? `background: ${backgroundColor}` : ''"
         :class="[
           'portal-tile__box',
-          { 'portal-tile__box--draggable': editMode },
+          { 'portal-tile__box--draggable': editMode }
         ]"
       >
         <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->

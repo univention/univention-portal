@@ -38,7 +38,7 @@
       />
       <locale-input
         v-model="portalNameData"
-        i18n-label="NAME"
+        :i18n-label="NAME"
         name="name"
         @update:modelValue="update"
       />
@@ -156,6 +156,9 @@ export default defineComponent({
     SAVE(): string {
       return _('Save');
     },
+    NAME(): string {
+      return _('Name');
+    },
   },
   updated() {
     this.update();
@@ -178,7 +181,7 @@ export default defineComponent({
     validate() {
       const errors: Record<string, string> = {};
       if (!this.portalNameData.en_US) {
-        errors.name = 'ERROR_ENTER_TITLE';
+        errors.name = _('Please enter a display name');
       }
       return errors;
     },

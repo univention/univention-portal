@@ -45,7 +45,7 @@
     </label>
     <locale-input
       v-model="title"
-      i18n-label="NAME"
+      :i18n-label="NAME"
       name="title"
     />
   </edit-widget>
@@ -70,15 +70,15 @@ interface AdminFolderData extends ValidatableData {
 function getErrors(this: AdminFolderData) {
   const errors: Record<string, string> = {};
   if (!this.name) {
-    errors.name = 'ERROR_ENTER_NAME';
+    errors.name = _('Please enter an internal name');
   } else {
     const regex = new RegExp('(^[a-zA-Z0-9])[a-zA-Z0-9._-]*([a-zA-Z0-9]$)');
     if (!regex.test(this.name)) {
-      errors.name = 'ERROR_WRONG_NAME';
+      errors.name = _('Internal name must not contain anything other than digits, letters or dots, must be at least 2 characters long, and start and end with a digit or letter!');
     }
   }
   if (!this.title.en_US) {
-    errors.title = 'ERROR_ENTER_TITLE';
+    errors.title = _('Please enter a display name');
   }
   return errors;
 }
@@ -119,6 +119,9 @@ export default defineComponent({
     INTERNAL_NAME(): string {
       return _('Internal name');
     },
+    NAME(): string {
+      return _('Name');
+    },
   },
   created(): void {
     const dn = this.modelValue.dn;
@@ -136,7 +139,7 @@ export default defineComponent({
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       console.info('Removing', dn, 'from', this.superDn);
-      const success = await removeEntryFromSuperObj(this.superDn, this.portalCategories, dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
+      const success = await removeEntryFromSuperObj(this.superDn, this.portalCategories, dn, this.$store, _('Entry successfully removed'), _('Entry could not be removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
@@ -151,13 +154,13 @@ export default defineComponent({
       };
       if (this.modelValue.dn) {
         console.info('Modifying', this.modelValue.dn);
-        success = await put(this.modelValue.dn, attrs, this.$store, 'FOLDER_MODIFIED_SUCCESS', 'FOLDER_MODIFIED_FAILURE');
+        success = await put(this.modelValue.dn, attrs, this.$store, _('Folder successfully modified'), _('Folder could not be modified'));
       } else {
         console.info('Adding folder');
-        const dn = await add('portals/folder', attrs, this.$store, 'FOLDER_ADDED_FAILURE');
+        const dn = await add('portals/folder', attrs, this.$store, _('Folder could not be added'));
         if (dn) {
           console.info(dn, 'added');
-          success = await addEntryToSuperObj(this.superDn, this.portalCategories, dn, this.$store, 'FOLDER_ADDED_SUCCESS', 'FOLDER_ADDED_FAILURE');
+          success = await addEntryToSuperObj(this.superDn, this.portalCategories, dn, this.$store, _('Folder successfully added'), _('Folder could not be added'));
         }
       }
       this.$store.dispatch('deactivateLoadingState');

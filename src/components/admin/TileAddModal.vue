@@ -28,7 +28,7 @@
 -->
 <template>
   <modal-dialog
-    i18n-title-key="Add entry"
+    :i18n-title-key="ADD_ENTRY"
     @cancel="cancel"
   >
     <region
@@ -108,6 +108,9 @@ export default defineComponent({
     },
     CREATE_EXISTING_FOLDER(): string {
       return _('Add existing folder');
+    },
+    ADD_ENTRY(): string {
+      return _('Add entry');
     },
   },
   methods: {

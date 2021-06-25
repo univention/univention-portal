@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-06-25 06:39+0300\n"
+"POT-Creation-Date: 2021-06-25 09:55+0300\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -15,7 +15,7 @@ msgstr ""
 #: src/components/ModalDialog.vue:84 src/components/widgets/LocaleInput.vue:87
 #: src/components/admin/EditWidget.vue:134
 #: src/components/globals/PortalButton.vue:101
-#: src/components/navigation/EditModeSideNavigation.vue:198
+#: src/components/navigation/EditModeSideNavigation.vue:201
 msgid "%(key1)s"
 msgstr "%(key1)s"
 
@@ -36,7 +36,12 @@ msgstr "Hinzufügen"
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
 
+#: src/components/admin/TileAddModal.vue:113
+msgid "Add entry"
+msgstr "Eintrag hinzufügen"
+
 #: src/components/admin/CategoryAddModal.vue:76
+#: src/components/admin/ExistingCategory.vue:94
 msgid "Add existing category"
 msgstr "Bestehende Kategorie hinzufügen"
 
@@ -72,11 +77,40 @@ msgstr "Hintergrundfarbe"
 msgid "Cancel"
 msgstr "Abbrechen"
 
+#: src/components/admin/FormCategoryEdit.vue:157
+#: src/components/admin/FormCategoryEdit.vue:163
+msgid "Category could not be added"
+msgstr "Kategorie konnte nicht hinzugefügt werden"
+
+#: src/components/admin/FormCategoryEdit.vue:153
+msgid "Category could not be modified"
+msgstr "Kategorie konnte nicht bearbeitet werden"
+
+#: src/components/admin/FormCategoryEdit.vue:138
+msgid "Category could not be removed"
+msgstr "Kategorie konnte nicht entfernt werden"
+
+#: src/components/admin/FormCategoryEdit.vue:163
+msgid "Category successfully added"
+msgstr "Kategorie erfolgreich hinzugefügt"
+
+#: src/components/admin/FormCategoryEdit.vue:153
+msgid "Category successfully modified"
+msgstr "Kategorie erfolgreich bearbeitet"
+
+#: src/components/admin/FormCategoryEdit.vue:138
+msgid "Category successfully removed"
+msgstr "Kategorie erfolgreich entfernt"
+
 #: src/components/forms/ChangePassword.vue:121
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: src/components/ChooseTabs.vue:110
+#: src/components/ChooseTabs.vue:93
+msgid "Choose a tab"
+msgstr "Tab wählen"
+
+#: src/components/ChooseTabs.vue:113
 #: src/components/navigation/HeaderTab.vue:128
 msgid "Close"
 msgstr "Schließen"
@@ -97,6 +131,10 @@ msgstr "Neuen Ordner erstellen"
 #: src/components/navigation/EditModeSideNavigation.vue:139
 msgid "Default link behaviour for portal entries"
 msgstr "Standardverhalten für Links von Portaleinträgen"
+
+#: src/components/admin/Entry.vue:232
+msgid "Description"
+msgstr "Beschreibung"
 
 #: src/components/notifications/Notification.vue:145
 msgid "Dismiss notification"
@@ -123,17 +161,65 @@ msgstr "Kachel editieren"
 msgid "Embedded"
 msgstr "Eingebettet"
 
+#: src/components/admin/Entry.vue:299 src/components/admin/Entry.vue:302
+#: src/components/admin/ExistingEntry.vue:145
+#: src/components/admin/ExistingEntry.vue:150
+#: src/components/admin/ExistingEntry.vue:157
+msgid "Entry could not be added"
+msgstr "Eintrag konnte nicht hinzugefügt werden"
+
+#: src/components/admin/Entry.vue:296
+msgid "Entry could not be modified"
+msgstr "Eintrag konnte nicht bearbeitet werden"
+
+#: src/components/admin/Entry.vue:265 src/components/admin/Folder.vue:142
+msgid "Entry could not be removed"
+msgstr "Eintrag konnte nicht entfernt werden"
+
+#: src/components/admin/Entry.vue:302
+#: src/components/admin/ExistingEntry.vue:145
+#: src/components/admin/ExistingEntry.vue:150
+#: src/components/admin/ExistingEntry.vue:157
+msgid "Entry successfully added"
+msgstr "Eintrag erfolgreich hinzugefügt"
+
+#: src/components/admin/Entry.vue:296
+msgid "Entry successfully modified"
+msgstr "Eintrag erfolgreich bearbeitet"
+
+#: src/components/admin/Entry.vue:265 src/components/admin/Folder.vue:142
+msgid "Entry successfully removed"
+msgstr "Eintrag erfolgreich entfernt"
+
 #: src/components/notifications/Notification.vue:140
 msgid "Error"
 msgstr "Fehler"
 
-#: src/components/navigation/EditModeSideNavigation.vue:201
+#: src/components/navigation/EditModeSideNavigation.vue:204
 msgid "Error on validation"
 msgstr "Fehler bei der Validierung"
 
 #: src/components/PortalFolder.vue:183
 msgid "Folder"
 msgstr "Ordner"
+
+#: src/components/admin/ExistingEntry.vue:159
+#: src/components/admin/Folder.vue:160 src/components/admin/Folder.vue:163
+msgid "Folder could not be added"
+msgstr "Ordner konnte nicht hinzugefügt werden"
+
+#: src/components/admin/Folder.vue:157
+msgid "Folder could not be modified"
+msgstr "Ordner konnte nicht bearbeitet werden"
+
+#: src/components/admin/ExistingEntry.vue:159
+#: src/components/admin/Folder.vue:163
+msgid "Folder successfully added"
+msgstr "Ordner erfolgreich hinzugefügt"
+
+#: src/components/admin/Folder.vue:157
+msgid "Folder successfully modified"
+msgstr "Ordner erfolgreich bearbeitet"
 
 #: src/components/notifications/Notification.vue:132
 msgid "Info"
@@ -144,6 +230,18 @@ msgstr "Info"
 #: src/components/admin/Folder.vue:120
 msgid "Internal name"
 msgstr "Interner Name"
+
+#: src/components/admin/Entry.vue:135
+#: src/components/admin/FormCategoryEdit.vue:75
+#: src/components/admin/Folder.vue:77
+msgid ""
+"Internal name must not contain anything other than digits, letters or dots, "
+"must be at least 2 characters long, and start and end with a digit or "
+"letter!"
+msgstr ""
+"Interner Name darf nur Ziffern, Buchstaben und Punkte enthalten, muss "
+"mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
+"beginnen und enden."
 
 #: src/components/PortalFolder.vue:178
 #: src/components/navigation/MenuItem.vue:124
@@ -159,8 +257,12 @@ msgstr "Einträge"
 msgid "Menu"
 msgstr "Menü"
 
+#: src/components/admin/Entry.vue:235
+#: src/components/admin/FormCategoryEdit.vue:116
 #: src/components/admin/ExistingEntry.vue:105
+#: src/components/admin/Folder.vue:123
 #: src/components/admin/ExistingCategory.vue:85
+#: src/components/navigation/EditModeSideNavigation.vue:160
 msgid "Name"
 msgstr "Name"
 
@@ -202,6 +304,27 @@ msgstr "Nur sichtbar, wenn nicht angemeldet"
 msgid "Open edit sidebar"
 msgstr "Editierseite öffnen"
 
+#: src/components/admin/Entry.vue:142
+msgid "Please enter a description"
+msgstr "Bitte geben Sie eine Beschreibung ein"
+
+#: src/components/admin/Entry.vue:139
+#: src/components/admin/FormCategoryEdit.vue:79
+#: src/components/admin/Folder.vue:81
+#: src/components/navigation/EditModeSideNavigation.vue:184
+msgid "Please enter a display name"
+msgstr "Bitte geben Sie einen Anzeigenamen ein"
+
+#: src/components/admin/Entry.vue:131
+#: src/components/admin/FormCategoryEdit.vue:71
+#: src/components/admin/Folder.vue:73
+msgid "Please enter an internal name"
+msgstr "Bitte geben Sie einen internen Namen ein"
+
+#: src/components/admin/Entry.vue:145 src/components/admin/Entry.vue:148
+msgid "Please enter at least one English link"
+msgstr "Bitte geben Sie mindestens einen englischen Link ein"
+
 #: src/components/navigation/EditModeSideNavigation.vue:133
 msgid "Portal logo"
 msgstr "Portal-Logo"
@@ -230,7 +353,7 @@ msgstr "Gleicher Tab"
 msgid "Save"
 msgstr "Speichern"
 
-#: src/components/ChooseTabs.vue:107
+#: src/components/ChooseTabs.vue:110
 #: src/components/navigation/HeaderTab.vue:131
 msgid "Select"
 msgstr "auswählen"
@@ -254,6 +377,10 @@ msgstr "Kurzinfo anzeigen"
 #: src/components/PortalHeader.vue:205
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
+
+#: src/components/globals/PortalButton.vue:80
+msgid "Submit"
+msgstr "Abschicken"
 
 #: src/components/notifications/Notification.vue:137
 msgid "Success"
@@ -307,85 +434,14 @@ msgstr "Wiederholung"
 msgid "search"
 msgstr "suche"
 
-#~ msgid "Add entry"
-#~ msgstr "Eintrag hinzufügen"
-
-#~ msgid "Add folder"
-#~ msgstr "Ordner hinzufügen"
-
-#~ msgid "Add new entry"
-#~ msgstr "Neuen Eintrag hinzufügen"
-
-#~ msgid "Add objects"
-#~ msgstr "Objekte hinzufügen"
-
-#~ msgid "Back"
-#~ msgstr "Zurück"
-
 #~ msgid "Categories could not be re-sorted"
 #~ msgstr "Kategorien konnten nicht umsortiert werden"
 
 #~ msgid "Categories successfully re-sorted"
 #~ msgstr "Kategorien erfolgreich umsortiert"
 
-#~ msgid "Category could not be added"
-#~ msgstr "Kategorie konnte nicht hinzugefügt werden"
-
-#~ msgid "Category could not be created"
-#~ msgstr "Kategorie konnte nicht erstellt werden"
-
-#~ msgid "Category could not be modified"
-#~ msgstr "Kategorie konnte nicht bearbeitet werden"
-
-#~ msgid "Category could not be removed"
-#~ msgstr "Kategorie konnte nicht entfernt werden"
-
-#~ msgid "Category successfully added"
-#~ msgstr "Kategorie erfolgreich hinzugefügt"
-
-#~ msgid "Category successfully created"
-#~ msgstr "Kategorie erfolgreich erstellt"
-
-#~ msgid "Category successfully modified"
-#~ msgstr "Kategorie erfolgreich bearbeitet"
-
-#~ msgid "Category successfully removed"
-#~ msgstr "Kategorie erfolgreich entfernt"
-
-#~ msgid "Choose a tab"
-#~ msgstr "Tab wählen"
-
-#~ msgid "Create new entry"
-#~ msgstr "Neuen Eintrag hinzufügen"
-
-#~ msgid "Create new folder"
-#~ msgstr "Neuen Ordner hinzufügen"
-
-#~ msgid "Description"
-#~ msgstr "Beschreibung"
-
-#~ msgid ""
-#~ "Description of the entry. At least one entry; strongly encouraged to have "
-#~ "one for en_US"
-#~ msgstr ""
-#~ "Beschreibung des Eintrags. Mindestens ein Eintrag; dringend empfohlen, eine "
-#~ "für 'en_US' zu haben"
-
-#~ msgid "Display name"
-#~ msgstr "Anzeigename"
-
-#~ msgid ""
-#~ "Display name of the category. At least one entry; strongly encouraged to "
-#~ "have one for en_US"
-#~ msgstr ""
-#~ "Anzeigename der Kategorie. Mindestens ein Eintrag; dringend empfohlen, eine "
-#~ "für 'en_US' zu haben"
-
 #~ msgid "Edit entry"
 #~ msgstr "Eintrag bearbeiten"
-
-#~ msgid "Edit portal"
-#~ msgstr "Portal bearbeiten"
 
 #~ msgid "Entries could not be re-sorted"
 #~ msgstr "Einträge konnten nicht umsortiert werden"
@@ -393,85 +449,8 @@ msgstr "suche"
 #~ msgid "Entries successfully re-sorted"
 #~ msgstr "Einträge erfolgreich umsortiert"
 
-#~ msgid "Entry could not be added"
-#~ msgstr "Eintrag konnte nicht hinzugefügt werden"
-
-#~ msgid "Entry could not be created"
-#~ msgstr "Eintrag konnte nicht erstellt werden"
-
-#~ msgid "Entry could not be modified"
-#~ msgstr "Eintrag konnte nicht bearbeitet werden"
-
-#~ msgid "Entry could not be removed"
-#~ msgstr "Eintrag konnte nicht entfernt werden"
-
-#~ msgid "Entry successfully added"
-#~ msgstr "Eintrag erfolgreich hinzugefügt"
-
-#~ msgid "Entry successfully created"
-#~ msgstr "Eintrag erfolgreich erstellt"
-
-#~ msgid "Entry successfully modified"
-#~ msgstr "Eintrag erfolgreich bearbeitet"
-
-#~ msgid "Entry successfully removed"
-#~ msgstr "Eintrag erfolgreich entfernt"
-
-#~ msgid "Folder could not be added"
-#~ msgstr "Ordner konnte nicht hinzugefügt werden"
-
-#~ msgid "Folder could not be created"
-#~ msgstr "Ordner konnte nicht erstellt werden"
-
-#~ msgid "Folder could not be modified"
-#~ msgstr "Ordner konnte nicht bearbeitet werden"
-
-#~ msgid "Folder could not be removed"
-#~ msgstr "Ordner konnte nicht entfernt werden"
-
-#~ msgid "Folder successfully added"
-#~ msgstr "Ordner erfolgreich hinzugefügt"
-
-#~ msgid "Folder successfully created"
-#~ msgstr "Ordner erfolgreich erstellt"
-
-#~ msgid "Folder successfully modified"
-#~ msgstr "Ordner erfolgreich bearbeitet"
-
-#~ msgid "Folder successfully removed"
-#~ msgstr "Ordner erfolgreich entfernt"
-
 #~ msgid "Go Back"
 #~ msgstr "Gehe zurück"
-
-#~ msgid ""
-#~ "Headline of the entry. At least one entry; strongly encouraged to have one "
-#~ "for en_US"
-#~ msgstr ""
-#~ "Überschrift des Eintrags. Mindestens ein Eintrag; dringend empfohlen, einen "
-#~ "Eintrag für 'en_US' zu haben"
-
-#~ msgid ""
-#~ "If one or more groups are selected then the portal entry will only be "
-#~ "visible to logged in users that are in any of the selected groups. If no "
-#~ "groups are selected then the portal entry is always visible."
-#~ msgstr ""
-#~ "Wenn eine oder mehrere Gruppen ausgewählt sind, ist der Portaleintrag nur "
-#~ "für angemeldete Benutzer sichtbar, die sich in einer der ausgewählten "
-#~ "Gruppen befinden. Wenn keine Gruppen ausgewählt sind, ist der Portaleintrag "
-#~ "immer sichtbar."
-
-#~ msgid ""
-#~ "Internal name must not contain anything other than digits, letters or dots, "
-#~ "must be at least 2 characters long, and start and end with a digit or "
-#~ "letter!"
-#~ msgstr ""
-#~ "Interner Name darf nur Ziffern, Buchstaben und Punkte enthalten, muss "
-#~ "mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
-#~ "beginnen und enden."
-
-#~ msgid "Language code (e.g. en_US)"
-#~ msgstr "Sprachcode (z. B. en_US)"
 
 #~ msgid "Link"
 #~ msgstr "Link"
@@ -485,38 +464,5 @@ msgstr "suche"
 #~ msgid "Logout"
 #~ msgstr "Abmelden"
 
-#~ msgid "Next"
-#~ msgstr "Weiter"
-
-#~ msgid "Please enter a description"
-#~ msgstr "Bitte geben Sie eine Beschreibung ein"
-
-#~ msgid "Please enter a display name"
-#~ msgstr "Bitte geben Sie einen Anzeigenamen ein"
-
-#~ msgid "Please enter an internal name"
-#~ msgstr "Bitte geben Sie einen internen Namen ein"
-
-#~ msgid "Please enter at least one English link"
-#~ msgstr "Bitte geben Sie mindestens einen englischen Link ein"
-
 #~ msgid "Portal Menu"
 #~ msgstr "Portal-Menü"
-
-#~ msgid "Restrict visibility to groups"
-#~ msgstr "Beschränkung der Sichtbarkeit auf Gruppen"
-
-#~ msgid "Select all"
-#~ msgstr "Alles auswählen"
-
-#~ msgid "Submit"
-#~ msgstr "Abschicken"
-
-#~ msgid "Switch locale"
-#~ msgstr "Sprache ändern"
-
-#~ msgid "To focus press Enter"
-#~ msgstr "Enter drücken um zu Fokussieren"
-
-#~ msgid "You have successfully updated your password"
-#~ msgstr "Das Passwort wurde erfolgreich aktualisiert"

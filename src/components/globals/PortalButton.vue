@@ -77,7 +77,7 @@ export default defineComponent({
   props: {
     buttonLabel: {
       type: String,
-      default: 'SUBMIT',
+      default: _('Submit'),
     },
     iconBefore: {
       type: String,

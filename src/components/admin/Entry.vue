@@ -46,12 +46,12 @@
     <locale-input
       v-model="title"
       name="title"
-      i18n-label="NAME"
+      :i18n-label="NAME"
     />
     <locale-input
       v-model="description"
       name="description"
-      i18n-label="DESCRIPTION"
+      :i18n-label="DESCRIPTION"
     />
     <label class="entry__checkbox">
       <input
@@ -128,24 +128,24 @@ interface AdminEntryData extends ValidatableData {
 function getErrors(this: AdminEntryData) {
   const errors: Record<string, string> = {};
   if (!this.name) {
-    errors.name = 'ERROR_ENTER_NAME';
+    errors.name = _('Please enter an internal name');
   } else {
     const regex = new RegExp('(^[a-zA-Z0-9])[a-zA-Z0-9._-]*([a-zA-Z0-9]$)');
     if (!regex.test(this.name)) {
-      errors.name = 'ERROR_WRONG_NAME';
+      errors.name = _('Internal name must not contain anything other than digits, letters or dots, must be at least 2 characters long, and start and end with a digit or letter!');
     }
   }
   if (!this.title.en_US) {
-    errors.title = 'ERROR_ENTER_TITLE';
+    errors.title = _('Please enter a display name');
   }
   if (!this.description.en_US) {
-    errors.description = 'ERROR_ENTER_DESCRIPTION';
+    errors.description = _('Please enter a description');
   }
   if (!this.links.some((link) => link.locale === 'en_US' && !!link.value)) {
-    errors.links = 'ERROR_ENTER_LINK';
+    errors.links = _('Please enter at least one English link');
   }
   if (this.links.length === 0) {
-    errors.links = 'ERROR_ENTER_LINK';
+    errors.links = _('Please enter at least one English link');
   }
   return errors;
 }
@@ -228,6 +228,12 @@ export default defineComponent({
     ONLY_VISIBLE_IF_NOT_LOGGED_IN(): string {
       return _('Only visible if not logged in');
     },
+    DESCRIPTION(): string {
+      return _('Description');
+    },
+    NAME(): string {
+      return _('Name');
+    },
   },
   created(): void {
     console.info('Edit entry', this.modelValue);
@@ -256,7 +262,7 @@ export default defineComponent({
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       console.info('Removing', dn, 'from', this.superDn);
-      const success = await removeEntryFromSuperObj(this.superDn, this.superObjs, dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
+      const success = await removeEntryFromSuperObj(this.superDn, this.superObjs, dn, this.$store, _('Entry successfully removed'), _('Entry could not be removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
@@ -287,13 +293,13 @@ export default defineComponent({
 
       if (this.modelValue.dn) {
         console.info('Modifying', this.modelValue.dn);
-        success = await put(this.modelValue.dn, attrs, this.$store, 'ENTRY_MODIFIED_SUCCESS', 'ENTRY_MODIFIED_FAILURE');
+        success = await put(this.modelValue.dn, attrs, this.$store, _('Entry successfully modified'), _('Entry could not be modified'));
       } else {
         console.info('Adding entry');
-        const dn = await add('portals/entry', attrs, this.$store, 'ENTRY_ADDED_FAILURE');
+        const dn = await add('portals/entry', attrs, this.$store, _('Entry could not be added'));
         if (dn) {
           console.info(dn, 'added');
-          success = await addEntryToSuperObj(this.superDn, this.superObjs, dn, this.$store, 'ENTRY_ADDED_SUCCESS', 'ENTRY_ADDED_FAILURE');
+          success = await addEntryToSuperObj(this.superDn, this.superObjs, dn, this.$store, _('Entry successfully added'), _('Entry could not be added'));
         }
       }
       this.$store.dispatch('deactivateLoadingState');
