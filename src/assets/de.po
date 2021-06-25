@@ -485,9 +485,6 @@ msgstr "suche"
 #~ msgid "Logout"
 #~ msgstr "Abmelden"
 
-#~ msgid "Menu %(key1)s"
-#~ msgstr "Menü %(key1)s"
-
 #~ msgid "Next"
 #~ msgstr "Weiter"
 
@@ -520,9 +517,6 @@ msgstr "suche"
 
 #~ msgid "To focus press Enter"
 #~ msgstr "Enter drücken um zu Fokussieren"
-
-#~ msgid "User Menu"
-#~ msgstr "Benutzer-Menü"
 
 #~ msgid "You have successfully updated your password"
 #~ msgstr "Das Passwort wurde erfolgreich aktualisiert"
