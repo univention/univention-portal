@@ -154,7 +154,7 @@
       @click="startEditMode"
       @keydown.esc="closeNavigation"
     >
-      {{ EDIT_MODE }}
+      {{ EDIT_PORTAL }}
     </button>
   </region>
 </template>
@@ -219,8 +219,8 @@ export default defineComponent({
     GO_BACK(): string {
       return _('Go Back');
     },
-    EDIT_MODE(): string {
-      return _('Edit mode');
+    EDIT_PORTAL(): string {
+      return _('Edit portal');
     },
     CHANGE_LANGUAGE(): string {
       return _('Change language');

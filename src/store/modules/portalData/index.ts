@@ -193,7 +193,7 @@ const portalData: PortalModule<PortalDataState> = {
       const attrs = {
         categories: content.map(([category]) => category).filter((category) => !['$$menu$$', '$$user$$'].includes(category)),
       };
-      await put(portalDn, attrs, { dispatch }, 'CATEGORY_ORDER_SUCCESS', 'CATEGORY_ORDER_FAILURE');
+      await put(portalDn, attrs, { dispatch }, _('Categories successfully re-sorted'), _('Categories could not be re-sorted'));
     },
     async saveContent({ commit, dispatch, getters }) {
       const content = getters.portalContent;
@@ -206,7 +206,7 @@ const portalData: PortalModule<PortalDataState> = {
           const attrs = {
             userLinks: entries,
           };
-          const ret = put(portalDn, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          const ret = put(portalDn, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
           puts.push(ret);
           return;
         }
@@ -215,7 +215,7 @@ const portalData: PortalModule<PortalDataState> = {
           const attrs = {
             menuLinks: entries,
           };
-          const ret = put(portalDn, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          const ret = put(portalDn, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
           puts.push(ret);
           return;
         }
@@ -230,7 +230,7 @@ const portalData: PortalModule<PortalDataState> = {
             return;
           }
           console.info('Rearranging entries for', cat);
-          const ret = put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          const ret = put(cat, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
           puts.push(ret);
         });
       });

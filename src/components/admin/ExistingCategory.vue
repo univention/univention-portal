@@ -1,6 +1,6 @@
 <template>
   <modal-dialog
-    i18n-title-key="ADD_EXISTING_CATEGORY"
+    :i18n-title-key="ADD_EXISTING_CATEGORY"
     @cancel="cancel"
   >
     <form
@@ -89,6 +89,9 @@ export default defineComponent({
     },
     ADD(): string {
       return _('Add');
+    },
+    ADD_EXISTING_CATEGORY(): string {
+      return _('Add existing category');
     },
   },
   mounted() {

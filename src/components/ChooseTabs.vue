@@ -33,7 +33,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       @backgroundClick="cancel"
     >
       <modal-dialog
-        i18n-title-key="CHOOSE_TAB"
+        :i18n-title-key="CHOOSE_TAB"
         @cancel="cancel"
       >
         <div
@@ -89,6 +89,9 @@ export default defineComponent({
       tabs: 'tabs/allTabs',
       activeTab: 'tabs/activeTabIndex',
     }),
+    CHOOSE_TAB(): string {
+      return _('Choose a tab');
+    },
   },
   watch: {
     activeTab(newIdx: number) {
