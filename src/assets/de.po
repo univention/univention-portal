@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-06-25 04:21+0300\n"
+"POT-Creation-Date: 2021-06-25 06:39+0300\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -12,21 +12,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/components/ModalDialog.vue:84 src/components/admin/EditWidget.vue:134
+#: src/components/ModalDialog.vue:84 src/components/widgets/LocaleInput.vue:87
+#: src/components/admin/EditWidget.vue:134
 #: src/components/globals/PortalButton.vue:101
+#: src/components/navigation/EditModeSideNavigation.vue:198
 msgid "%(key1)s"
-msgstr ""
+msgstr "%(key1)s"
 
 #: src/components/globals/CookieBanner.vue:86
-msgid "Accept %(key1)s and %(key3)s"
-msgstr ""
+msgid "Accept"
+msgstr "Akzeptieren"
 
 #: src/components/admin/Entry.vue:208
 msgid "Activated"
 msgstr "Aktiviert"
 
 #: src/components/admin/ExistingEntry.vue:111
-#: src/components/admin/ExistingCategory.vue:87
+#: src/components/admin/ExistingCategory.vue:91
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -65,7 +67,7 @@ msgstr "Hintergrundfarbe"
 #: src/components/ModalDialog.vue:87
 #: src/components/admin/ExistingEntry.vue:108
 #: src/components/admin/EditWidget.vue:105
-#: src/components/admin/ExistingCategory.vue:84
+#: src/components/admin/ExistingCategory.vue:88
 #: src/components/forms/ChangePassword.vue:118
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -74,10 +76,10 @@ msgstr "Abbrechen"
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: src/components/ChooseTabs.vue:103
-#: src/components/navigation/HeaderTab.vue:120
+#: src/components/ChooseTabs.vue:110
+#: src/components/navigation/HeaderTab.vue:128
 msgid "Close"
-msgstr "schließen"
+msgstr "Schließen"
 
 #: src/components/globals/CookieBanner.vue:80
 msgid "Cookie Settings"
@@ -96,11 +98,11 @@ msgstr "Neuen Ordner erstellen"
 msgid "Default link behaviour for portal entries"
 msgstr "Standardverhalten für Links von Portaleinträgen"
 
-#: src/components/notifications/Notification.vue:131
+#: src/components/notifications/Notification.vue:145
 msgid "Dismiss notification"
 msgstr "Benachrichtigung schließen"
 
-#: src/components/PortalCategory.vue:168
+#: src/components/PortalCategory.vue:167
 msgid "Edit category"
 msgstr "Kategorie bearbeiten"
 
@@ -108,11 +110,11 @@ msgstr "Kategorie bearbeiten"
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
-#: src/components/PortalHeader.vue:191
+#: src/components/PortalHeader.vue:199
 msgid "Edit mode"
 msgstr "Editiermodus"
 
-#: src/components/PortalTile.vue:206
+#: src/components/PortalTile.vue:201
 msgid "Edit tile"
 msgstr "Kachel editieren"
 
@@ -121,23 +123,19 @@ msgstr "Kachel editieren"
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: src/components/notifications/Notification.vue:126
+#: src/components/notifications/Notification.vue:140
 msgid "Error"
 msgstr "Fehler"
+
+#: src/components/navigation/EditModeSideNavigation.vue:201
+msgid "Error on validation"
+msgstr "Fehler bei der Validierung"
 
 #: src/components/PortalFolder.vue:183
 msgid "Folder"
 msgstr "Ordner"
 
-#: src/components/navigation/MenuItem.vue:113
-msgid "ITEM"
-msgstr ""
-
-#: src/components/navigation/MenuItem.vue:115
-msgid "ITEMS"
-msgstr ""
-
-#: src/components/notifications/Notification.vue:118
+#: src/components/notifications/Notification.vue:132
 msgid "Info"
 msgstr "Info"
 
@@ -148,23 +146,21 @@ msgid "Internal name"
 msgstr "Interner Name"
 
 #: src/components/PortalFolder.vue:178
+#: src/components/navigation/MenuItem.vue:124
 msgid "Item"
 msgstr "Eintrag"
 
 #: src/components/PortalFolder.vue:180
+#: src/components/navigation/MenuItem.vue:126
 msgid "Items"
 msgstr "Einträge"
 
-#: src/components/PortalHeader.vue:209
+#: src/components/PortalHeader.vue:217
 msgid "Menu"
 msgstr "Menü"
 
-#: src/components/navigation/MenuItem.vue:111
-msgid "NO_ITEMS"
-msgstr ""
-
 #: src/components/admin/ExistingEntry.vue:105
-#: src/components/admin/ExistingCategory.vue:81
+#: src/components/admin/ExistingCategory.vue:85
 msgid "Name"
 msgstr "Name"
 
@@ -182,6 +178,7 @@ msgid "New tab"
 msgstr "Neuer Tab"
 
 #: src/components/PortalFolder.vue:176
+#: src/components/navigation/MenuItem.vue:122
 msgid "No items"
 msgstr "Keine Einträge"
 
@@ -189,7 +186,7 @@ msgstr "Keine Einträge"
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
-#: src/components/PortalSidebar.vue:103 src/components/PortalHeader.vue:206
+#: src/components/PortalSidebar.vue:103 src/components/PortalHeader.vue:214
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -201,7 +198,7 @@ msgstr "Altes Passwort"
 msgid "Only visible if not logged in"
 msgstr "Nur sichtbar, wenn nicht angemeldet"
 
-#: src/components/PortalHeader.vue:194
+#: src/components/PortalHeader.vue:202
 msgid "Open edit sidebar"
 msgstr "Editierseite öffnen"
 
@@ -209,10 +206,15 @@ msgstr "Editierseite öffnen"
 msgid "Portal logo"
 msgstr "Portal-Logo"
 
-#: src/components/widgets/ImageUpload.vue:117
+#: src/components/widgets/ImageUpload.vue:116
 #: src/components/widgets/LinkWidget.vue:128
 msgid "Remove"
 msgstr "Entfernen"
+
+#: src/components/notifications/Notifications.vue:93
+#, fuzzy
+msgid "Remove all notifications"
+msgstr "Benachrichtigungen"
 
 #: src/components/admin/EditWidget.vue:108
 msgid "Remove here"
@@ -228,12 +230,12 @@ msgstr "Gleicher Tab"
 msgid "Save"
 msgstr "Speichern"
 
-#: src/components/ChooseTabs.vue:100
-#: src/components/navigation/HeaderTab.vue:123
+#: src/components/ChooseTabs.vue:107
+#: src/components/navigation/HeaderTab.vue:131
 msgid "Select"
 msgstr "auswählen"
 
-#: src/components/widgets/ImageUpload.vue:111
+#: src/components/widgets/ImageUpload.vue:110
 msgid "Select file"
 msgstr "Datei auswählen"
 
@@ -241,23 +243,23 @@ msgstr "Datei auswählen"
 msgid "Show local UMC modules"
 msgstr "UMC-Module anzeigen"
 
-#: src/components/PortalHeader.vue:188
+#: src/components/PortalHeader.vue:196
 msgid "Show portal"
 msgstr "Portal anzeigen"
 
-#: src/components/PortalTile.vue:209
+#: src/components/PortalTile.vue:204
 msgid "Show tooltip"
 msgstr "Kurzinfo anzeigen"
 
-#: src/components/PortalHeader.vue:197
+#: src/components/PortalHeader.vue:205
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
 
-#: src/components/notifications/Notification.vue:123
+#: src/components/notifications/Notification.vue:137
 msgid "Success"
 msgstr "Aktion erfolgreich"
 
-#: src/components/PortalHeader.vue:200
+#: src/components/PortalHeader.vue:208
 msgid "Tabs"
 msgstr "Tabs"
 
@@ -265,7 +267,7 @@ msgstr "Tabs"
 msgid "The form data is not valid"
 msgstr "Die Formulardaten sind fehlerhaft"
 
-#: src/components/widgets/ImageUpload.vue:114
+#: src/components/widgets/ImageUpload.vue:113
 msgid "Upload"
 msgstr "Hochladen"
 
@@ -277,7 +279,7 @@ msgstr "Portal-Vorgabe nutzen"
 msgid "Users are required to login"
 msgstr "Benutzer müssen sich anmelden"
 
-#: src/components/notifications/Notification.vue:120
+#: src/components/notifications/Notification.vue:134
 msgid "Warning"
 msgstr "Warnung"
 
@@ -300,13 +302,10 @@ msgstr ""
 msgid "retype"
 msgstr "Wiederholung"
 
-#: src/components/PortalHeader.vue:203
+#: src/components/PortalHeader.vue:211
 #: src/components/search/PortalSearch.vue:78
 msgid "search"
 msgstr "suche"
-
-#~ msgid "Accept"
-#~ msgstr "Akzeptieren"
 
 #~ msgid "Add entry"
 #~ msgstr "Eintrag hinzufügen"
