@@ -195,7 +195,7 @@ export default defineComponent({
           }
         });
         const description = Object.values(errors)
-          .map((err) => _('%(key1)s', {key1: err}))
+          .map((err) => _('%(key1)s', { key1: err }))
           .join('</li><li>');
         this.$store.dispatch('notifications/addErrorNotification', {
           title: _('Error on validation'),

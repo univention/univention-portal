@@ -114,3 +114,5 @@ const tileClickMixin = {
 
 export default tileClickMixin;
 </script>
+<style>
+</style>

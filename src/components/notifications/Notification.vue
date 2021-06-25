@@ -48,21 +48,21 @@ License with the Debian GNU/Linux or Univention distribution in file
         class="notification__closing-button"
         tabindex="0"
         icon="x"
-        @click="removeNotification()"
         :aria-label-prop="DISMISS_NOTIFICATION"
-      />
-        <svg
-          class="notification__closing-svg"
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            ref="closingCircle"
-            cx="50"
-            cy="50"
-            r="45"
-          />
-        </svg>
+        @click="removeNotification()"
+      >
+      <svg
+        class="notification__closing-svg"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          ref="closingCircle"
+          cx="50"
+          cy="50"
+          r="45"
+        />
+      </svg>
       </icon-button>
     </div>
     <!-- eslint-disable vue/no-v-html -->

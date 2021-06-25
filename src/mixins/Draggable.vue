@@ -101,3 +101,5 @@ const draggableMixin = {
 
 export default draggableMixin;
 </script>
+<style>
+</style>
