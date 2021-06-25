@@ -1,49 +1,46 @@
-before_script:
-  - mkdir -p ~/.ssh
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
+stages:
+  - build
+  - test
+  - lint
 
-cache:
-  key: "phoenix-yarn"
+cache: &global-cache
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules
-    - "packages/*/node_modules"
-    - .eslint
+  policy: pull
 
-# every job starts a docker container, so an extra deploy and test stage slows stuff down significantly
-# we'll probably need to do this in the future but right now we can reap the benefits of going single stage
-build-test-deploy-job:
-  stage: build
-  only:
-    refs:
-      - main
-  image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
+.node-template:
+  cache:
+    <<: *global-cache
+  dependencies: []
+  image: node:16.3-buster
+
+build:
   artifacts:
-    # we need the cypress artifacts...
-    when: always
+    expire_in: 7 days
     paths:
-      - phoenixportal*.deb
-      - tests/e2e/screenshots/*
-      - tests/e2e/videos/*
-    # maybe?
-    #public: true
-    # this seems to apply to all artifacts?
-    expire_in: 12hrs
+      - dist
+  cache:
+    <<: *global-cache
+    policy: push
+  extends: .node-template
+  needs: []
   script:
-    #- yarn --cwd=frontend
-    #- yarn --cwd=frontend build
-    - yarn
-    - yarn --cwd=frontend test:unit
-    - yarn serve:wait
-    - yarn cypress run
-    # das folgende ist Holzhammer auf Wegwerfmaschinen, nicht in prod nutzen...
-    - apt-get -q --assume-yes build-dep .
-    - dpkg-buildpackage -uc -us -b
-    - cp ../*.deb .
-    - ssh root@ucs5-p1.duckdns.org rm -f /tmp/phoenixportal*
-    # only scp the latest version
-    - find . -maxdepth 1 -type f -name "phoenixportal*" | sort -V | tail -1 | xargs -I '{}' scp {} root@ucs5-p1.duckdns.org:/tmp
-    - ssh root@ucs5-p1.duckdns.org dpkg --purge phoenixportal
-    - ssh root@ucs5-p1.duckdns.org dpkg -i --force-overwrite /tmp/phoenixportal_*_amd64.deb
+    - yarn build
+  stage: build
+
+test-cypress:
+  extends: .node-template
+  needs:
+    - build
+  script:
+    - yarn test:e2e:headless
+  stage: test
+
+lint:
+  allow_failure: true
+  extends: .node-template
+  needs: []
+  script:
+    - yarn lint:all
+  stage: lint
