@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-06-25 01:59+0300\n"
+"POT-Creation-Date: 2021-06-25 04:21+0300\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -158,10 +158,6 @@ msgstr "Einträge"
 #: src/components/PortalHeader.vue:209
 msgid "Menu"
 msgstr "Menü"
-
-#: src/components/PortalHeader.vue:213
-msgid "Menu %(key1)s"
-msgstr "Menü %(key1)s"
 
 #: src/components/navigation/MenuItem.vue:111
 msgid "NO_ITEMS"
@@ -489,6 +485,9 @@ msgstr "suche"
 
 #~ msgid "Logout"
 #~ msgstr "Abmelden"
+
+#~ msgid "Menu %(key1)s"
+#~ msgstr "Menü %(key1)s"
 
 #~ msgid "Next"
 #~ msgstr "Weiter"

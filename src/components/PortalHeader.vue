@@ -58,7 +58,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       </div>
 
       <h1 class="portal-header__portal-name sr-only-mobile">
-        {{ PORTALNAME }}
+        {{ $localized(this.portalName) }}
       </h1>
     </tabindex-element>
 
@@ -207,10 +207,6 @@ export default defineComponent({
     },
     MENU(): string {
       return _('Menu');
-    },
-    PORTALNAME(): string {
-      console.log('portalName', this.portalName);
-      return _('Menu %(key1)s', { key1: this.$localized(this.portalName) });
     },
   },
   watch: {
