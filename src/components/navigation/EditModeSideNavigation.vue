@@ -195,10 +195,10 @@ export default defineComponent({
           }
         });
         const description = Object.values(errors)
-          .map((err) => this.$translateLabel(err))
+          .map((err) => _('%(key1)s', {key1: err}))
           .join('</li><li>');
         this.$store.dispatch('notifications/addErrorNotification', {
-          title: this.$translateLabel('ERROR_ON_VALIDATION'),
+          title: _('Error on validation'),
           description: `<ul><li>${description}</li></ul>`,
         });
         return;
