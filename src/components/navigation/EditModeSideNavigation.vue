@@ -175,7 +175,34 @@ export default defineComponent({
       this.$store.dispatch('portalData/setPortalLogo', this.portalLogoData);
       this.$store.dispatch('portalData/setPortalBackground', this.portalBackgroundData);
     },
+    validate() {
+      const errors: Record<string, string> = {};
+      if (!this.portalNameData.en_US) {
+        errors.name = 'ERROR_ENTER_TITLE';
+      }
+      return errors;
+    },
     async saveChanges() {
+      const errors = this.validate();
+      if (Object.keys(errors).length > 0) {
+        this.$el.querySelectorAll('input').forEach((input) => {
+          if (input.name) {
+            if (input.name in errors) {
+              input.setAttribute('invalid', 'invalid');
+            } else {
+              input.removeAttribute('invalid');
+            }
+          }
+        });
+        const description = Object.values(errors)
+          .map((err) => this.$translateLabel(err))
+          .join('</li><li>');
+        this.$store.dispatch('notifications/addErrorNotification', {
+          title: this.$translateLabel('ERROR_ON_VALIDATION'),
+          description: `<ul><li>${description}</li></ul>`,
+        });
+        return;
+      }
       let logo: string | null = null;
       if (this.portalLogoData.startsWith('data:')) {
         logo = this.portalLogoData.split(',')[1];
@@ -213,7 +240,6 @@ export default defineComponent({
         this.$store.dispatch('notifications/addErrorNotification', {
           title: 'Update failed',
           description: `'Saving the portal failed: ${error}'`,
-          hidingAfter: -1,
         });
       }
       this.$store.dispatch('deactivateLoadingState');

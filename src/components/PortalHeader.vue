@@ -72,6 +72,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         :idx="index + 1"
         :tab-label="item.tabLabel"
         :is-active="activeTabIndex == index + 1"
+        :background-color="item.backgroundColor"
         :logo="item.logo"
         :hidden="tabsOverflow"
       />
@@ -89,7 +90,14 @@ License with the Debian GNU/Linux or Univention distribution in file
         icon="settings"
       />
       <header-button
+        data-test="bellbutton"
         :aria-label-prop="STOP_EDIT_PORTAL"
+        icon="bell"
+        :counter="numNotifications"
+        @keydown.esc="closeNotifications"
+      />
+      <header-button
+        :aria-label-prop="ariaLabelStopEditmode"
         icon="x"
         @click="stopEditMode"
       />
@@ -287,7 +295,7 @@ export default defineComponent({
 
     &-image
       height: 100%
-      width: var(--portal-header-height)
+      width: calc(var(--portal-header-height) * var(--portal-header-icon-scale))
 
       + h1
         padding-left: var(--layout-spacing-unit)

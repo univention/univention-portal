@@ -100,7 +100,7 @@ export default defineComponent({
 <style lang="stylus">
 .dialog
   padding: calc(2 * var(--layout-spacing-unit)) calc(4 * var(--layout-spacing-unit))
-  background: var(--color-grey0)
+  background: var(--bgc-content-container)
   border-radius: var(--border-radius-container)
   max-width: calc(50 * var(--layout-spacing-unit))
   box-shadow: var(--box-shadow)
@@ -116,10 +116,10 @@ export default defineComponent({
     > label:first-child
       margin-top: 0
 
-  footer
+  footer:not(.image-upload__footer)
     margin-top: calc(2 * var(--layout-spacing-unit))
     padding-top: calc(2 * var(--layout-spacing-unit))
-    border-top: thin solid var(--color-grey8)
+    border-top: thin solid var(--bgc-tab-separator)
     /* padding: var(--layout-spacing-unit-small) calc(2 * var(--layout-spacing-unit))*/
     display: flex
     justify-content: space-between

@@ -227,10 +227,12 @@ export default defineComponent({
     },
     isMoreThanFiveOrTen(index): string {
       let classSuffix = '';
-      if (index === 3 && this.tiles.length > 4) {
-        classSuffix = 'portal-folder__thumbnail--mobile';
-      } else if (index === 8 && this.tiles.length >= 10) {
-        classSuffix = 'portal-folder__thumbnail--desktop';
+      if (!this.inModal) {
+        if (index === 3 && this.tiles.length > 4) {
+          classSuffix = 'portal-folder__thumbnail--mobile';
+        } else if (index === 8 && this.tiles.length >= 10) {
+          classSuffix = 'portal-folder__thumbnail--desktop';
+        }
       }
       return classSuffix;
     },
@@ -270,7 +272,6 @@ export default defineComponent({
 
     button
       text-transform: none
-      cursor: default
 
     .portal-folder__name
       font-size: var(--font-size-1)
@@ -298,7 +299,6 @@ export default defineComponent({
             margin-top: calc(var(--portal-header-height) + var(--layout-spacing-unit));
 
         .portal-tile
-          cursor: pointer
           width: var(--app-tile-side-length)
 
           &__box
@@ -369,14 +369,16 @@ export default defineComponent({
 
   &__edit-button
     position: absolute
-    background-color: var(--color-grey0)
     top: -0.75em
     right: -0.75em
     z-index: $zindex-1
 
   .portal-tile__box
-    background-color: var(--color-grey0)
+    background-color: var(--bgc-content-container)
     padding: 0
+
+    .portal-tile__box
+      background-color: var(--bgc-apptile-default)
 
   &__thumbnail
     &:nth-child(n+10)
@@ -384,6 +386,9 @@ export default defineComponent({
     &--desktop
       position: relative
 
+      .portal-tile__box
+        box-shadow: none
+
       &:after
           content: '...'
           position: absolute
@@ -394,12 +399,13 @@ export default defineComponent({
           bottom: 0;
           right: 0
           line-height: 300%
-          background-color: var(--color-grey0)
+          background-color: var(--bgc-content-container)
         @media $mqSmartphone
           display: none
 
     &--mobile
       position: relative
+
       &:after
         @media $mqSmartphone
           content: '...'
@@ -411,7 +417,7 @@ export default defineComponent({
           bottom: 0;
           right: 0
           line-height: 300%
-          background-color: var(--color-grey0)
+          background-color: var(--bgc-content-container)
 
 &:focus
   border-color: var(--color-focus)
