@@ -20,6 +20,8 @@ build:
     expire_in: 7 days
     paths:
       - dist
+  before_script:
+    - yarn
   cache:
     <<: *global-cache
     policy: push
@@ -40,7 +42,8 @@ test-cypress:
 lint:
   allow_failure: true
   extends: .node-template
-  needs: []
+  needs:
+    - build
   script:
     - yarn lint:all
   stage: lint
