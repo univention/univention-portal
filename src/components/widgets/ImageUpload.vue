@@ -31,7 +31,6 @@
     <label>{{ label }}</label>
     <div
       class="image-upload__canvas"
-      style="background-image: url('./checkerboard-pattern.png');"
       @dragenter.prevent=""
       @dragover.prevent=""
       @drop.prevent="drop"
@@ -159,6 +158,7 @@ export default defineComponent({
     width: 10rem
     cursor: pointer
     display: flex
+    background: var(--bgc-checkerboard)
     img
       max-height: 10rem
       margin: auto
@@ -174,7 +174,7 @@ export default defineComponent({
     height: 100%
     width: 100%
     display: flex
-    background-color: var(--bgc-content-body)
+    background-color: var(--bgc-inputfield-on-container)
     span
       margin: auto
 </style>

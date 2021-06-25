@@ -136,7 +136,6 @@ export default defineComponent({
         this.$store.dispatch('notifications/addErrorNotification', {
           title: _('The form data is not valid'),
           description: `<ul><li>${description}</li></ul>`,
-          hidingAfter: -1,
         });
       }
     },

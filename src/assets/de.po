@@ -275,7 +275,7 @@ msgstr "Portal-Vorgabe nutzen"
 
 #: src/components/navigation/EditModeSideNavigation.vue:151
 msgid "Users are required to login"
-msgstr "Benutzer müssen angemeldet sein"
+msgstr "Benutzer müssen sich anmelden"
 
 #: src/components/notifications/Notification.vue:120
 msgid "Warning"

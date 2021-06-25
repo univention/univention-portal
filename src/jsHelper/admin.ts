@@ -41,7 +41,6 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     store.dispatch('notifications/addErrorNotification', {
       title: _('<errorMessage>', errorMessage),
       description: err.message,
-      hidingAfter: -1,
     });
   }
   return '';
@@ -55,8 +54,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
       throw new Error(result.details);
     }
     dispatch('notifications/addSuccessNotification', {
-      title: _('<successMessage>', successMessage),
-      hidingAfter: -1,
+      title:_('%(key1)s', { key1: successMessage })
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -68,14 +66,15 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
     dispatch('notifications/addErrorNotification', {
       title: _('<errorMessage>', errorMessage),
       description: err.message,
-      hidingAfter: -1,
     }, { root: true });
     return false;
   }
 }
 
 // edit mode default settings
-const adminState = process.env.VUE_APP_LOCAL ? (!!localStorage.getItem('UCSAdmin') || false) : false;
+function getAdminState() {
+  return process.env.VUE_APP_LOCAL ? (!!localStorage.getItem('UCSAdmin') || false) : false;
+}
 
 async function addEntryToSuperObj(superDn, superObjs, dn, { dispatch, getters }, successMessage, errorMessage) {
   const portalDn = getters['portalData/getPortalDn'];
@@ -123,4 +122,4 @@ async function removeEntryFromSuperObj(superDn, superObjs, dn, { dispatch, gette
   return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
 }
 
-export { put, add, adminState, removeEntryFromSuperObj, addEntryToSuperObj };
+export { put, add, getAdminState, removeEntryFromSuperObj, addEntryToSuperObj };

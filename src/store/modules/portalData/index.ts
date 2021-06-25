@@ -26,8 +26,9 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
-import { put, adminState } from '@/jsHelper/admin';
+
 import { PortalModule } from '../../root.models';
 import { PortalData } from './portalData.models';
 
@@ -70,7 +71,7 @@ const portalData: PortalModule<PortalDataState> = {
       menuLinks: [],
       userLinks: [],
     },
-    editMode: adminState,
+    editMode: getAdminState(),
     cacheId: '',
   },
 
@@ -190,7 +191,7 @@ const portalData: PortalModule<PortalDataState> = {
       const content = getters.portalContent;
       const portalDn = getters.getPortalDn;
       const attrs = {
-        categories: content.map(([category]) => category),
+        categories: content.map(([category]) => category).filter((category) => !['$$menu$$', '$$user$$'].includes(category)),
       };
       await put(portalDn, attrs, { dispatch }, 'CATEGORY_ORDER_SUCCESS', 'CATEGORY_ORDER_FAILURE');
     },
@@ -346,8 +347,8 @@ const portalData: PortalModule<PortalDataState> = {
       return dispatch('waitForChange', payload);
     },
     async setEditMode({ dispatch, commit }, editMode: boolean) {
-      await dispatch('loadPortal', { adminMode: editMode }, { root: true });
       commit('EDITMODE', editMode);
+      await dispatch('loadPortal', { adminMode: editMode }, { root: true });
     },
   },
 };
