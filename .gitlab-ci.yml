@@ -6,12 +6,13 @@ stages:
 cache: &global-cache
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - node_modules
     - cypress_cache
     - yarn_cache
   policy: pull
 
 .node-template:
+  before_script:
+    - yarn install --frozen-lockfile
   cache:
     <<: *global-cache
   dependencies: []
@@ -25,8 +26,6 @@ build:
     expire_in: 7 days
     paths:
       - dist
-  before_script:
-    - yarn install --frozen-lockfile
   cache:
     <<: *global-cache
     policy: pull-push
@@ -35,7 +34,6 @@ build:
   script:
     - yarn build
   stage: build
-
 
 test-cypress:
   extends: .node-template
