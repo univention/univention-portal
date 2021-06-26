@@ -7,7 +7,8 @@ cache: &global-cache
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules
-    - /root/.cache/Cypress
+    - cypress_cache
+    - yarn_cache
   policy: pull
 
 .node-template:
@@ -15,6 +16,9 @@ cache: &global-cache
     <<: *global-cache
   dependencies: []
   image: artifacts.knut.univention.de/dockerhub_proxy_cache/library/node:16.3-buster
+  variables:
+    CYPRESS_CACHE_FOLDER: ${CI_PROJECT_DIR}/cypress_cache
+    YARN_CACHE_FOLDER: ${CI_PROJECT_DIR}/yarn_cache
 
 build:
   artifacts:
@@ -22,7 +26,7 @@ build:
     paths:
       - dist
   before_script:
-    - yarn
+    - yarn install --frozen-lockfile
   cache:
     <<: *global-cache
     policy: pull-push
@@ -31,6 +35,7 @@ build:
   script:
     - yarn build
   stage: build
+
 
 test-cypress:
   extends: .node-template
