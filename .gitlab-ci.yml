@@ -43,7 +43,7 @@ test-cypress:
       - cypress/screenshots/**/*.png
     expire_in: 1 day
   extends: .node-template
-  image: artifacts.knut.univention.de/dockerhub_proxy_cache/library/cypress/browsers:node14.16.0-chrome90-ff88
+  image: artifacts.knut.univention.de/dockerhub_proxy_cache/cypress/browsers:node14.16.0-chrome90-ff88
   needs:
     - build
   script:
