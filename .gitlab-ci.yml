@@ -18,8 +18,8 @@ cache: &global-cache
   dependencies: []
   image: artifacts.knut.univention.de/dockerhub_proxy_cache/library/node:16.3-buster
   variables:
-    CYPRESS_CACHE_FOLDER: ${CI_PROJECT_DIR}/cypress_cache
-    YARN_CACHE_FOLDER: ${CI_PROJECT_DIR}/yarn_cache
+    CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/cypress_cache
+    YARN_CACHE_FOLDER: $CI_PROJECT_DIR/yarn_cache
 
 build:
   artifacts:
@@ -36,12 +36,18 @@ build:
   stage: build
 
 test-cypress:
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 day
   extends: .node-template
+  image: artifacts.knut.univention.de/dockerhub_proxy_cache/library/cypress/browsers:node14.16.0-chrome90-ff88
   needs:
     - build
   script:
-    - cypress install
-    - yarn test:e2e:headless
+    - yarn test:e2e:headless --browser chrome
   stage: test
 
 lint:
