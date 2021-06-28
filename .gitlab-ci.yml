@@ -38,6 +38,7 @@ cache: &global-cache
   # without extra base64 encoding.
   # https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
   - echo "${ID_RSA_UCS_KVM_IMAGE}" | tr -d '\r' | ssh-add -
+  - echo "${ID_RSA_UCS_KVM_IMAGE}" > ${CI_PROJECT_DIR}/ci/id_rsa_ucs_kvm_image
 
   # Create the SSH directory and give it the right permissions
   - mkdir -p ~/.ssh
@@ -166,11 +167,11 @@ master-env:
   artifacts:
     reports:
       dotenv: ${CI_PROJECT_DIR}/deploy.env
-  #environment:
-  #  name: ${CI_COMMIT_REF_NAME}
-  #  url: https://${MASTER_SERVER_IP}
-  #  on_stop: master-stop-env
-  #  auto_stop_in: 4 hours
+  environment:
+    name: ${CI_COMMIT_REF_NAME}
+    url: https://${MASTER_SERVER_IP}
+    on_stop: master-stop-env
+    auto_stop_in: 4 hours
   extends: .environment-common
   needs:
     - build-deb
@@ -199,9 +200,9 @@ master-deploy:
   stage: master-deploy
 
 master-stop-env:
-  #environment:
-  #  name: ${CI_COMMIT_REF_NAME}
-  #  action: stop
+  environment:
+    name: ${CI_COMMIT_REF_NAME}
+    action: stop
   extends: .environment-common
   script:
     - *remove-env-instance
