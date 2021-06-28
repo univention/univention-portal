@@ -102,48 +102,15 @@
           @keydown.right.exact.prevent="toggleMenu(index)"
           @keydown.esc="closeNavigation"
         />
-        <template v-if="item.subMenu && item.subMenu.length > 0">
-          <region
-            v-if="subMenuVisible & (menuParent === index)"
-            id="portal-sidenavigation-sub"
-            role="navigation"
-            direction="topdown"
-            :aria-label="GO_BACK"
-          >
-            <menu-item
-              :id="item.id"
-              :title="item.title"
-              :is-sub-item="true"
-              :links="[]"
-              class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
-              @click="toggleMenu()"
-              @keydown.enter.exact="toggleMenu()"
-              @keydown.space.exact.prevent="toggleMenu()"
-              @keydown.left.exact="toggleMenu()"
-              @keydown.esc="closeNavigation"
-            />
-            <div
-              v-for="(subItem, subindex) in item.subMenu"
-              :key="subindex"
-              :class="subMenuClass"
-            >
-              <menu-item
-                v-if="subMenuVisible & (menuParent === index)"
-                :id="subItem.id"
-                :ref="`subItem${subindex}`"
-                :title="subItem.title"
-                :links="subItem.links || []"
-                :link-target="subItem.linkTarget"
-                :path-to-logo="subItem.pathToLogo"
-                :internal-function="subItem.internalFunction"
-                :background-color="subItem.backgroundColor"
-                class="portal-sidenavigation__menu-subItem"
-                @clickAction="closeNavigation"
-                @keydown.esc="closeNavigation"
-              />
-            </div>
-          </region>
-        </template>
+        <sub-menu-item
+          v-if="item.subMenu && item.subMenu.length > 0"
+          :sub-menu-visible="subMenuVisible"
+          :menu-parent="menuParent"
+          :parent-index="index"
+          :menu-item="item"
+          :sub-menu-class="subMenuClass"
+          @toggle-menu="toggleMenu"
+        />
       </div>
     </div>
 
@@ -167,6 +134,7 @@ import _ from '@/jsHelper/translate';
 import Region from '@/components/activity/Region.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
+import SubMenuItem from '@/components/navigation/SubMenuItem.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 import { login, logout } from '@/jsHelper/login';
@@ -187,6 +155,7 @@ export default defineComponent({
   components: {
     PortalIcon,
     MenuItem,
+    SubMenuItem,
     TabindexElement,
     Region,
   },
@@ -241,6 +210,7 @@ export default defineComponent({
       this.$store.dispatch('activity/setRegion', 'portal-header');
     },
     toggleMenu(index = -1): void {
+      console.log('TESTTEST');
       this.menuVisible = !this.menuVisible;
       this.menuParent = index;
       this.subMenuVisible = !this.subMenuVisible;

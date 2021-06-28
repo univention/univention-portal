@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-06-25 09:55+0300\n"
+"POT-Creation-Date: 2021-06-28 18:09+0300\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -102,6 +102,10 @@ msgstr "Kategorie erfolgreich bearbeitet"
 msgid "Category successfully removed"
 msgstr "Kategorie erfolgreich entfernt"
 
+#: src/components/navigation/SideNavigation.vue:195
+msgid "Change language"
+msgstr ""
+
 #: src/components/forms/ChangePassword.vue:121
 msgid "Change password"
 msgstr "Passwort ändern"
@@ -151,6 +155,11 @@ msgstr "Ordner bearbeiten"
 #: src/components/PortalHeader.vue:199
 msgid "Edit mode"
 msgstr "Editiermodus"
+
+#: src/components/navigation/SideNavigation.vue:192
+#, fuzzy
+msgid "Edit portal"
+msgstr "Bearbeiten abbrechen"
 
 #: src/components/PortalTile.vue:201
 msgid "Edit tile"
@@ -221,6 +230,11 @@ msgstr "Ordner erfolgreich hinzugefügt"
 msgid "Folder successfully modified"
 msgstr "Ordner erfolgreich bearbeitet"
 
+#: src/components/navigation/SubMenuItem.vue:81
+#: src/components/navigation/SideNavigation.vue:189
+msgid "Go Back"
+msgstr "Gehe zurück"
+
 #: src/components/notifications/Notification.vue:132
 msgid "Info"
 msgstr "Info"
@@ -252,6 +266,14 @@ msgstr "Eintrag"
 #: src/components/navigation/MenuItem.vue:126
 msgid "Items"
 msgstr "Einträge"
+
+#: src/components/navigation/SideNavigation.vue:186
+msgid "Login"
+msgstr "Anmelden"
+
+#: src/components/navigation/SideNavigation.vue:183
+msgid "Logout"
+msgstr "Abmelden"
 
 #: src/components/PortalHeader.vue:217
 msgid "Menu"
@@ -449,20 +471,11 @@ msgstr "suche"
 #~ msgid "Entries successfully re-sorted"
 #~ msgstr "Einträge erfolgreich umsortiert"
 
-#~ msgid "Go Back"
-#~ msgstr "Gehe zurück"
-
 #~ msgid "Link"
 #~ msgstr "Link"
 
 #~ msgid "Links"
 #~ msgstr "Links"
-
-#~ msgid "Login"
-#~ msgstr "Anmelden"
-
-#~ msgid "Logout"
-#~ msgstr "Abmelden"
 
 #~ msgid "Portal Menu"
 #~ msgstr "Portal-Menü"
