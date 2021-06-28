@@ -189,6 +189,7 @@ master-deploy:
     - build-deb
   image: artifacts.knut.univention.de/upx/container-tooling/automation-ansible:main-42d46e47
   needs:
+    - build-deb
     - master-env
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
