@@ -21,7 +21,7 @@ cache: &global-cache
     CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/cypress_cache
     YARN_CACHE_FOLDER: $CI_PROJECT_DIR/yarn_cache
 
-build:
+build-nodejs:
   artifacts:
     expire_in: 7 days
     paths:
@@ -35,17 +35,30 @@ build:
     - yarn build
   stage: build
 
+build-deb:
+  artifacts:
+    when: always
+    paths:
+      - /phoenixportal*.deb
+    expire_in: 7 days
+  cache: {}
+  image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
+  needs: []
+  script:
+    - dpkg-buildpackage -uc -us -b
+  stage: build
+
 test-cypress:
   artifacts:
     when: always
     paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
+      - tests/e2e/videos/**/*.mp4
+      - tests/e2e/screenshots/**/*.png
     expire_in: 1 day
   extends: .node-template
   image: artifacts.knut.univention.de/dockerhub_proxy_cache/cypress/browsers:node14.16.0-chrome90-ff88
   needs:
-    - build
+    - build-nodejs
   script:
     - yarn test:e2e:headless --browser chrome
   stage: test
@@ -54,7 +67,7 @@ lint:
   allow_failure: true
   extends: .node-template
   needs:
-    - build
+    - build-nodejs
   script:
     - yarn lint:all
   stage: lint
