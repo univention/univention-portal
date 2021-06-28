@@ -38,23 +38,25 @@
         v-if="userState.username"
         class="portal-sidenavigation__user-row"
       >
-        <portal-icon
-          icon="user"
-        />
-        <div>
+        <div class="portal-sidenavigation__user-icon">
+          <portal-icon
+            icon="user"
+          />
+        </div>
+        <div class="portal-sidenavigation__user-text-content">
           <div class="portal-sidenavigation--username">
             {{ userState.displayName }}
           </div>
-          <!-- as long as this link has no href, this needs to be a button to be focusable -->
-          <button
+          <div
             id="loginButton"
             ref="loginButton"
             class="portal-sidenavigation__logout-link"
             @click="logout"
             @keydown.esc="closeNavigation"
+            tabindex="0"
           >
             <translate i18n-key="LOGOUT" />
-          </button>
+          </div>
         </div>
       </div>
       <button
@@ -304,32 +306,56 @@ export default defineComponent({
     display: flex
     height: 6rem
     font-weight: var(--font-weight-bold)
-
+  &__user-icon
+    position: relative
+    overflow: hidden;
+    border-radius: 100%
+    margin: 1rem
+    &:after
+      content: ''
+      display: block
+      width: 100%
+      height: 10px
+      background-color: white
+      position: absolute
+      bottom: 0
+      margin-left: auto
+      margin-right: auto
+      left: 0
+      right: 0
+      text-align: center
     svg
       fill: currentColor
       height: 4rem
       width: @height
-      margin: 1rem
       border-radius: var(--border-radius-circles)
-    &> div
-      margin: auto 0
-      padding-left: var(--layout-spacing-unit)
+
+  &__user-text-content
+    margin: auto 0
+    padding: 0 var(--layout-spacing-unit)
+    height: 100%;
+    align-items: flex-start
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding: calc(1rem + var(--layout-spacing-unit)) 0
+    box-sizing: border-box
+
   &--username
-    padding-left: 3px
+    font-weight: bold
 
   &__logout-link
     cursor: pointer
     background-color: rgba(0,0,0,0)
     color: var(--font-color-contrast-high)
     font-size: var(--font-size-4)
-    border: 0.2rem solid rgba(0,0,0,0);
+    border-bottom: 0.2rem solid rgba(0,0,0,0);
+    font-weight: normal
+    width: min-content
 
     &:focus
-      border: 0.2rem solid var(--color-focus);
+      border-bottom: 0.2rem solid var(--color-focus);
       outline: 0
-
-    span
-      text-decoration: underline
 
   &__login-header
     border-bottom: 4px solid var(--bgc-content-body)
