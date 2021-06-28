@@ -1,7 +1,19 @@
+---
+
+#include:
+#  - project: "univention/customers/dataport/deployment/ci-tooling"
+#    ref: "main"
+#    file: ".gitlab-ci-ansible.yml"
+#  - project: "univention/customers/dataport/deployment/ci-tooling"
+#    ref: "main"
+#    file: ".gitlab-ci-terraform.yml"
+
 stages:
   - build
   - test
   - lint
+  - master-env
+  - master-deploy
 
 cache: &global-cache
   key: ${CI_COMMIT_REF_SLUG}
@@ -39,13 +51,14 @@ build-deb:
   artifacts:
     when: always
     paths:
-      - /phoenixportal*.deb
+      - phoenixportal*.deb
     expire_in: 7 days
   cache: {}
   image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
   needs: []
   script:
     - dpkg-buildpackage -uc -us -b
+    - cp ../*.deb .
   stage: build
 
 test-cypress:
@@ -63,6 +76,14 @@ test-cypress:
     - yarn test:e2e:headless --browser chrome
   stage: test
 
+test-unit:
+  extends: .node-template
+  needs:
+    - build-nodejs
+  script:
+    - yarn --cwd=frontend test:unit
+  stage: test
+
 lint:
   allow_failure: true
   extends: .node-template
@@ -71,3 +92,14 @@ lint:
   script:
     - yarn lint:all
   stage: lint
+
+#master-deploy:
+#  before_script:
+#    *prepare_ansible
+#  dependencies:
+#    - master-env
+#  image: artifacts.knut.univention.de/upx/container-tooling/automation-ansible:main-42d46e47
+#  resource_group: ${CI_COMMIT_REF_SLUG}
+#  script:
+#    - ansible-playbook playbook.yml -l ${CI_COMMIT_REF_SLUG} -i inventory/univention -v
+#  stage: master-deploy
