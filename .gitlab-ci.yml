@@ -166,12 +166,14 @@ master-env:
   artifacts:
     reports:
       dotenv: ${CI_PROJECT_DIR}/deploy.env
-  environment:
-    name: ${CI_COMMIT_REF_NAME}
-    url: https://${MASTER_SERVER_IP}
-    on_stop: master-stop-env
-    auto_stop_in: 4 hours
+  #environment:
+  #  name: ${CI_COMMIT_REF_NAME}
+  #  url: https://${MASTER_SERVER_IP}
+  #  on_stop: master-stop-env
+  #  auto_stop_in: 4 hours
   extends: .environment-common
+  needs:
+    - build-deb
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
     - terraform apply -auto-approve -var sandbox-snapshot=41662961 -var create-dns-record=false
@@ -186,6 +188,8 @@ master-deploy:
     - master-env
     - build-deb
   image: artifacts.knut.univention.de/upx/container-tooling/automation-ansible:main-42d46e47
+  needs:
+    - master-env
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
     - export PACKAGE_NAME="$(set -- *.deb; echo "$1")"
@@ -194,9 +198,9 @@ master-deploy:
   stage: master-deploy
 
 master-stop-env:
-  environment:
-    name: ${CI_COMMIT_REF_NAME}
-    action: stop
+  #environment:
+  #  name: ${CI_COMMIT_REF_NAME}
+  #  action: stop
   extends: .environment-common
   script:
     - *remove-env-instance
