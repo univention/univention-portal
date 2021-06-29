@@ -34,29 +34,48 @@ License with the Debian GNU/Linux or Univention distribution in file
     <form
       @submit.prevent="finish"
     >
-      <label>
+      <label for="oldPassword">
         {{ OLD_PASSWORD }}
+        <input-error-message
+          :display-condition="!oldPasswordSet && submitButtonClicked"
+          :error-message="OLD_PASSWORD_ERROR_MESSAGE"
+        />
       </label>
       <input
+        id="oldPassword"
         ref="oldPassword"
         v-model="oldPassword"
         name="old-password"
         type="password"
       >
-      <label>
+      <label for="newPassword">
         {{ NEW_PASSWORD }}
+        <input-error-message
+          :display-condition="!newPasswordSet && submitButtonClicked"
+          :error-message="NEW_PASSWORD_ERROR_MESSAGE"
+        />
       </label>
       <input
+        id="newPassword"
         ref="newPassword"
         v-model="newPassword"
         name="new-password"
         type="password"
       >
-      <label>
+      <label for="newPasswordRetype">
         {{ NEW_PASSWORD }}
         ({{ RETYPE }})
+        <input-error-message
+          :display-condition="!newPassword2Set && submitButtonClicked"
+          :error-message="RETYPE_ERROR_MESSAGE"
+        />
+        <input-error-message
+          :display-condition="!newPasswordsMatch && submitButtonClicked"
+          :error-message="MATCH_NEW_PASSWORD_ERROR_MESSAGE"
+        />
       </label>
       <input
+        id="newPasswordRetype"
         ref="newPassword2"
         v-model="newPassword2"
         name="new-password-retype"
@@ -82,37 +101,51 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ModalDialog from '@/components/ModalDialog.vue';
 import { setInvalidity } from '@/jsHelper/tools';
 import _ from '@/jsHelper/translate';
+
+import ModalDialog from '@/components/ModalDialog.vue';
+import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
 
 interface ChangePasswordData {
     oldPassword: string,
     newPassword: string,
     newPassword2: string,
+    submitButtonClicked: boolean,
 }
 
 export default defineComponent({
   name: 'ChangePassword',
   components: {
     ModalDialog,
+    InputErrorMessage,
   },
   data(): ChangePasswordData {
     return {
       oldPassword: '',
       newPassword: '',
       newPassword2: '',
+      submitButtonClicked: false,
     };
   },
   computed: {
     OLD_PASSWORD(): string {
       return _('Old password');
     },
+    OLD_PASSWORD_ERROR_MESSAGE(): string {
+      return _('Please enter your old password');
+    },
     NEW_PASSWORD(): string {
       return _('New password');
     },
+    NEW_PASSWORD_ERROR_MESSAGE(): string {
+      return _('Please enter your new password');
+    },
     RETYPE(): string {
       return _('retype');
+    },
+    RETYPE_ERROR_MESSAGE(): string {
+      return _('Please confirm your new password.');
     },
     CANCEL(): string {
       return _('Cancel');
@@ -120,20 +153,40 @@ export default defineComponent({
     CHANGE_PASSWORD(): string {
       return _('Change password');
     },
+    MATCH_NEW_PASSWORD_ERROR_MESSAGE(): string {
+      return _('The new passwords do not match');
+    },
+    oldPasswordSet(): boolean {
+      return !!this.oldPassword;
+    },
+    newPasswordSet(): boolean {
+      return !!this.newPassword;
+    },
+    newPassword2Set(): boolean {
+      return !!this.newPassword2;
+    },
+    newPasswordsMatch(): boolean {
+      return this.newPassword === this.newPassword2;
+    },
   },
   mounted(): void {
     (this.$refs.oldPassword as HTMLElement).focus();
   },
   methods: {
     finish() {
-      const oldPasswordSet = !!this.oldPassword;
-      const newPasswordSet = !!this.newPassword;
-      const newPasswordsMatch = this.newPassword === this.newPassword2;
-      setInvalidity(this, 'oldPassword', !oldPasswordSet);
-      setInvalidity(this, 'newPassword', !newPasswordSet);
-      setInvalidity(this, 'newPassword2', !newPasswordsMatch);
-      const everythingIsCorrect = oldPasswordSet && newPasswordSet && newPasswordsMatch;
+      this.submitButtonClicked = true;
+      setInvalidity(this, 'oldPassword', !this.oldPasswordSet);
+      setInvalidity(this, 'newPassword', !this.newPasswordSet);
+      setInvalidity(this, 'newPassword2', !this.newPasswordsMatch);
+      const everythingIsCorrect = this.oldPasswordSet && this.newPasswordSet && this.newPasswordsMatch;
       if (!everythingIsCorrect) {
+        if (!this.oldPasswordSet) {
+          (this.$refs.oldPassword as HTMLElement).focus();
+        } else if (!this.newPasswordSet) {
+          (this.$refs.newPassword as HTMLElement).focus();
+        } else if (!this.newPassword2Set || !this.newPasswordsMatch) {
+          (this.$refs.newPasnewPassword2sword as HTMLElement).focus();
+        }
         return;
       }
       this.$store.dispatch('modal/resolve', {
