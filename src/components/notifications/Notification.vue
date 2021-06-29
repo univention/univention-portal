@@ -260,4 +260,8 @@ export default defineComponent({
       color: var(--color-white) !important
       transition: color var(--portal-transition-duration)
       text-decoration: underline
+
+    ul
+      padding-left: calc(2* var(--layout-spacing-unit))
+      margin-top: 0
 </style>
