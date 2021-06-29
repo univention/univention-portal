@@ -60,7 +60,7 @@ cache: &global-cache
   - |
     cat << EOF > ${CI_PROJECT_DIR}/ci/inventory/univention
     [all]
-    ${CI_COMMIT_REF_SLUG} ansible_user=root ansible_host="${MASTER_SERVER_IP}" ansible_ssh_host="${MASTER_SERVER_IP}"
+    ${CI_COMMIT_REF_SLUG} ansible_user=univention_ansible ansible_host="${MASTER_SERVER_IP}" ansible_ssh_host="${MASTER_SERVER_IP}"
     EOF
   - cat ${CI_PROJECT_DIR}/ci/inventory/univention
 
@@ -177,7 +177,8 @@ master-env:
     - build-deb
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
-    - terraform apply -auto-approve -var sandbox-snapshot=41676112 -var create-dns-record=false
+    - *remove-env-instance
+    - terraform apply -auto-approve -var sandbox-snapshot=41718538 -var create-dns-record=false
   stage: master-env
   variables:
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}-master
