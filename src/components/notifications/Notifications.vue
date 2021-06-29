@@ -29,6 +29,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <region
     :id="`notifications-${onlyVisible ? 'visible' : 'all'}`"
+    :aria-live="ariaLiveStatus"
     direction="topdown"
     class="notifications"
     @keydown.esc="closeNotifications"
@@ -89,6 +90,9 @@ export default defineComponent({
         return this.visibleNotifications;
       }
       return this.allNotifications;
+    },
+    ariaLiveStatus(): string {
+      return this.onlyVisible ? 'polite' : 'off';
     },
   },
   methods: {
