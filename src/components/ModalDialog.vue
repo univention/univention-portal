@@ -27,7 +27,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div
+  <section
     class="dialog"
     @keydown.esc="cancel()"
   >
@@ -50,7 +50,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       />
     </header>
     <slot />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
