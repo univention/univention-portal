@@ -178,7 +178,7 @@ master-env:
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
     - *remove-env-instance
-    - terraform apply -auto-approve -var sandbox-snapshot=41819533 -var create-dns-record=false
+    - terraform apply -auto-approve -var sandbox-snapshot=41819632 -var create-dns-record=false
   stage: master-env
   variables:
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}-master
