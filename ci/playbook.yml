@@ -34,6 +34,7 @@
     - name: "Install frontend package"
       ansible.builtin.apt:
         deb: "/tmp/{{ lookup('env', 'PACKAGE_NAME') }}"
+        force: "yes"
       tags:
         - upx_frontend
         - upx_frontend_copy_package
