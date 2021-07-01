@@ -85,6 +85,7 @@ const tabs: PortalModule<TabState> = {
       commit('ACTIVE_TAB', index);
     },
     addTab({ commit }, tab: Tab) {
+      commit('SAVE_SCROLL_POSITION', window.scrollY);
       commit('ADD_TAB', tab);
     },
     deleteTab({ commit }, index: number) {
