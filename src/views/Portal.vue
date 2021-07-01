@@ -80,6 +80,7 @@
         :key="index"
         :link="item.iframeLink"
         :is-active="activeTabIndex == index + 1"
+        data-test="portal-iframes"
       />
     </div>
 

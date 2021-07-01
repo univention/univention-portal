@@ -24,6 +24,9 @@ describe('General Tests', () => {
       cy.get('[href="https://doc.owncloud.com/server/10.0/admin_manual/"]').click();
       cy.get('iframe').should('be.visible');
       cy.get('[data-test="header-tabs"]').children().should('have.length', 2)
+      cy.get('#headerTab__1').click();
+      cy.get('#headerTab__1').should('be.focused');
+      cy.get('[data-test="portal-iframes"]').children().first().should('be.visible');
       // cy.get('#close-tab-1').click();
     });
   });
