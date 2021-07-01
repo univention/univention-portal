@@ -19,7 +19,8 @@ describe('General Tests', () => {
       cy.get('iframe').should('not.be.visible');
       cy.get('#headerTab__1').click();
       cy.get('iframe').should('be.visible');
-      
+      cy.get('.portal-header__portal-name').click();
+      cy.get('#portalCategories').should('be.visible');
       cy.get('[href="https://doc.owncloud.com/server/10.0/admin_manual/"]').click();
       cy.get('iframe').should('be.visible');
       cy.get('data-test="header-tabs"').children().should('have.length', 2)
