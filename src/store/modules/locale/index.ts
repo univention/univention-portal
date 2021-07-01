@@ -27,17 +27,19 @@
   * <https://www.gnu.org/licenses/>.
  */
 import { updateLocale } from '@/i18n/translations';
-import { setCookie } from '@/jsHelper/tools';
+import { getCookie, setCookie } from '@/jsHelper/tools';
 import { PortalModule } from '@/store/root.models';
 import { Locale } from './locale.models';
 
 interface LocaleDefinition {
   id: string;
   label: string;
+  default?: boolean;
 }
 
 export interface LocaleState {
   locale: Locale;
+  defaultLocale: Locale | null;
   availableLocales: Locale[];
 }
 
@@ -45,12 +47,16 @@ const locale: PortalModule<LocaleState> = {
   namespaced: true,
   state: {
     locale: 'en_US',
+    defaultLocale: null,
     availableLocales: ['en_US'],
   },
 
   mutations: {
     NEWLOCALE(state, payload) {
       state.locale = payload;
+    },
+    DEFAULT_LOCALE(state, payload) {
+      state.defaultLocale = payload;
     },
     AVAILABLE_LOCALES(state, payload) {
       state.availableLocales = payload;
@@ -59,6 +65,7 @@ const locale: PortalModule<LocaleState> = {
 
   getters: {
     getLocale: (state) => state.locale,
+    getDefaultLocale: (state) => state.defaultLocale,
     getAvailableLocales: (state) => state.availableLocales,
   },
 
@@ -74,15 +81,45 @@ const locale: PortalModule<LocaleState> = {
       html.setAttribute('lang', localePrefix);
       return updateLocale(localePrefix);
     },
+    setInitialLocale({ getters, dispatch }) {
+      if (getters.getAvailableLocales.length === 1) {
+        console.log('setInitialLocale', 'single');
+        dispatch('setLocale', getters.getAvailableLocales[0]);
+      }
+      const umcLang = getCookie('UMCLang');
+      if (umcLang) {
+        console.log('setInitialLocale', 'cookie');
+        return dispatch('setLocale', umcLang.replace('-', '_'));
+      }
+      if (getters.getDefaultLocale) {
+        console.log('setInitialLocale', 'default');
+        return dispatch('setLocale', getters.getDefaultLocale);
+      }
+      if (window.navigator.languages) {
+        let preferred = null;
+        window.navigator.languages.some((language) => {
+          preferred = getters.getAvailableLocales.find((loc) => loc === language.replace('-', '_') || loc.slice(0, 2) === language);
+          return !!preferred;
+        });
+        if (preferred) {
+          console.log('setInitialLocale', 'browser');
+          return dispatch('setLocale', preferred);
+        }
+      }
+      console.log('setInitialLocale', 'fallback');
+      return dispatch('setLocale', 'en_US');
+    },
     setAvailableLocale({ dispatch, commit }, payload: LocaleDefinition[]) {
       const locales = payload.map((loc) => loc.id.replace('-', '_'));
       commit('AVAILABLE_LOCALES', locales);
+      const defaultLocale = payload.find((loc) => loc.default);
+      if (defaultLocale) {
+        commit('DEFAULT_LOCALE', defaultLocale.id.replace('-', '_'));
+      }
       // TODO create helper function
       const html = document.documentElement;
       html.setAttribute('lang', 'en'); // setting document lang to en, because it is also set in line 47, 48
-      if (locales.length === 1) {
-        dispatch('setLocale', locales[0]);
-      }
+      return dispatch('setInitialLocale');
     },
   },
 };
