@@ -1,13 +1,3 @@
-beforeEach(() => {
-  cy.setCookie('UMCLang', 'de_DE');
-  cy.intercept('GET', 'portal.json', { fixture: 'portal_logged_out.json' });
-  cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
-  cy.intercept('GET', 'de.json', { fixture: 'de.json' });
-  cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
-  cy.visit('/');
-  cy.setCookie('univentionCookieSettingsAccepted', 'simpleCookieValue');
-});
-
 describe('General Tests', () => {
   it('Tile title in results should match with the String "Blog"', () => {
     // make inputfield visible
