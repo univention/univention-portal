@@ -65,6 +65,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div
       ref="tabs"
       class="portal-header__tabs"
+      data-test="header-tabs"
     >
       <header-tab
         v-for="(item, index) in tabs"
