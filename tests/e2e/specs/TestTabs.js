@@ -25,7 +25,7 @@ describe('General Tests', () => {
       cy.get('iframe').should('be.visible');
       cy.get('[data-test="header-tabs"]').children().should('have.length', 2)
       cy.get('#headerTab__1').click();
-      cy.get('#headerTab__1').children().first().should('be.focused');
+      cy.get('iframe').should('be.focused');
       cy.get('[data-test="portal-iframes"]').children().first().should('be.visible');
       // cy.get('#close-tab-1').click();
     });
