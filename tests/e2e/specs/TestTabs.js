@@ -45,4 +45,31 @@ describe('General Tests', () => {
       cy.get('[data-test="portal-iframes"]').children().should('have.length', 0)
     });
   });
+  const getStore = () => cy.window().its('app.$store');
+  it('test store 1', () => {
+    // TODO: Same origin html fake for linktarget tests
+    cy.readFile('public/data/portal.json').then((portal) => {
+      portal.entries[0].linkTarget = 'embedded';
+      cy.intercept('GET', 'portal.json', portal);
+      cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
+      cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+      cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+      cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
+      cy.visit('/');
+      // first click results to first tab and first Iframe (first element in array)
+      // cy.get('.portal-category .portal-tile').last().click();
+      // cy.get('#iframe-1').should('be.visible');
+      getStore().its('state').should('have.keys', ['activeTabIndex', 'tabs', 'scrollPosition'])
+    });
+  });
+  it('test store 2', () => {
+    // TODO: Same origin html fake for linktarget tests
+    cy.readFile('public/data/portal.json').then((portal) => {
+      cy.visit('/');
+      // first click results to first tab and first Iframe (first element in array)
+      // cy.get('.portal-category .portal-tile').last().click();
+      // cy.get('#iframe-1').should('be.visible');
+      getStore().its('state').should('have.keys', ['activeTabIndex', 'tabs', 'scrollPosition'])
+    });
+  });
 });
