@@ -74,13 +74,14 @@
     <div
       v-show="activeTabIndex"
       class="portal-iframes"
+      data-test="portal-iframes"
     >
       <portal-iframe
         v-for="(item, index) in tabs"
         :key="index"
         :link="item.iframeLink"
         :is-active="activeTabIndex == index + 1"
-        data-test="portal-iframes"
+        :tab-id="index"
       />
     </div>
 
