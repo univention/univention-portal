@@ -45,7 +45,7 @@ describe('General Tests', () => {
       cy.get('[data-test="portal-iframes"]').children().should('have.length', 0)
     });
   });
-  it('test store 1', () => {
+  it('test store', () => {
     // TODO: Same origin html fake for linktarget tests
     cy.readFile('public/data/portal.json').then((portal) => {
       portal.entries[0].linkTarget = 'embedded';
@@ -59,22 +59,7 @@ describe('General Tests', () => {
       // cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
       const getStore = () => cy.window().its('store');
-      // getStore().its('state').should('have.keys', ['tabs']).should('have.keys', ['activeTabIndex','tabs','scrollPosition']);
-      const stateArr = ['activeTabIndex','tabs','scrollPosition'];
-      getStore().its('state').to.have.any.keys('tab');
-      getStore().its('state').to.have.any.keys('tab').to.have.keys(['activeTabIndex','tabs','scrollPosition']);
-      getStore().its('state').to.have.nested.property('tabs' + stateArr);
-    });
+      getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
   });
-  it('test store 2', () => {
-    // TODO: Same origin html fake for linktarget tests
-    cy.readFile('public/data/portal.json').then((portal) => {
-      cy.visit('/');
-      const getStore = () => cy.window().its('store');
-      // first click results to first tab and first Iframe (first element in array)
-      // cy.get('.portal-category .portal-tile').last().click();
-      // cy.get('#iframe-1').should('be.visible');
-      getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition'])
-    });
-  });
+});
 });
