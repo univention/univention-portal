@@ -66,7 +66,7 @@ describe('General Tests', () => {
     // TODO: Same origin html fake for linktarget tests
     cy.readFile('public/data/portal.json').then((portal) => {
       cy.visit('/');
-      const getStore = () => cy.window().its('app.$store');
+      const getStore = () => cy.window().its('store');
       // first click results to first tab and first Iframe (first element in array)
       // cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
