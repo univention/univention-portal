@@ -58,7 +58,7 @@ describe('General Tests', () => {
       // first click results to first tab and first Iframe (first element in array)
       // cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
-      const getStore = () => cy.window().its('app.$store');
+      const getStore = () => cy.window().its('store');
       getStore().its('state').should('have.keys', ['activeTabIndex', 'tabs', 'scrollPosition'])
     });
   });
