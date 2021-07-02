@@ -40,6 +40,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       title="Embedded Page"
       class="portal-iframe__iframe"
       allow="geolocation; microphone; camera; midi; encrypted-media"
+      :id="`iframe-${tabId + 1}`"
     />
   </div>
 </template>
@@ -57,6 +58,10 @@ export default defineComponent({
     isActive: {
       type: Boolean,
       default: false,
+    },
+    tabId: {
+      type: Number,
+      required: true,
     },
   },
   mounted() {
