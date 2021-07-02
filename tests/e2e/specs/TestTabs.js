@@ -45,7 +45,6 @@ describe('General Tests', () => {
       cy.get('[data-test="portal-iframes"]').children().should('have.length', 0)
     });
   });
-  const getStore = () => cy.window().its('app.$store');
   it('test store 1', () => {
     // TODO: Same origin html fake for linktarget tests
     cy.readFile('public/data/portal.json').then((portal) => {
@@ -59,6 +58,7 @@ describe('General Tests', () => {
       // first click results to first tab and first Iframe (first element in array)
       // cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
+      const getStore = () => cy.window().its('app.$store');
       getStore().its('state').should('have.keys', ['activeTabIndex', 'tabs', 'scrollPosition'])
     });
   });
@@ -66,6 +66,7 @@ describe('General Tests', () => {
     // TODO: Same origin html fake for linktarget tests
     cy.readFile('public/data/portal.json').then((portal) => {
       cy.visit('/');
+      const getStore = () => cy.window().its('app.$store');
       // first click results to first tab and first Iframe (first element in array)
       // cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
