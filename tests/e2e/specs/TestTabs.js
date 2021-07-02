@@ -59,7 +59,11 @@ describe('General Tests', () => {
       // cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
       const getStore = () => cy.window().its('store');
-      getStore().its('state').should('have.keys', ['tabs']).should('have.keys', ['activeTabIndex','tabs','scrollPosition']);
+      // getStore().its('state').should('have.keys', ['tabs']).should('have.keys', ['activeTabIndex','tabs','scrollPosition']);
+      const stateArr = ['activeTabIndex','tabs','scrollPosition'];
+      getStore().its('state').to.have.any.keys('tab');
+      getStore().its('state').to.have.any.keys('tab').to.have.keys(['activeTabIndex','tabs','scrollPosition']);
+      getStore().its('state').to.have.nested.property('tabs' + stateArr);
     });
   });
   it('test store 2', () => {
