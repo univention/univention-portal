@@ -74,7 +74,7 @@ describe('General Tests', () => {
       // first click results to first tab and first Iframe (first element in array)
       // cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
-      getStore().its('state').should('have.keys', ['activeTabIndex', 'tabs', 'scrollPosition'])
+      getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition'])
     });
   });
 });
