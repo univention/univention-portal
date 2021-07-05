@@ -60,7 +60,7 @@ describe('General Tests', () => {
       getStore().its('state').its('tabs').should('have.length', 0);
       cy.get('.portal-category .portal-tile').last().click();
       cy.get('#iframe-1').should('be.visible');
-      getStore().its('state').its('tabs').should('have.length', 1);
+      getStore().its('state').its('tabs').its('tabs').should('have.length', 1);
     });
   });
 
@@ -73,7 +73,7 @@ describe('General Tests', () => {
       cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
       cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
 
-      cy.viewport('iphone-x', 'landcape');
+      cy.viewport('iphone-x', 'landscape');
       cy.visit('/'); 
       const getStore = () => cy.window().its('store');
       getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
