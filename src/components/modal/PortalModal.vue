@@ -45,7 +45,7 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import ChangePassword from '@/components/forms/ChangePassword.vue';
-import ModalWrapper from '@/components/globals/ModalWrapper.vue';
+import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import AdminEntry from '@/components/admin/Entry.vue';
 import AdminFolder from '@/components/admin/Folder.vue';

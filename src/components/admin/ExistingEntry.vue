@@ -51,7 +51,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import ModalDialog from '@/components/ModalDialog.vue';
+import ModalDialog from '@/components/modal/ModalDialog.vue';
 import Translate from '@/i18n/Translate.vue';
 
 import { setInvalidity, randomId } from '@/jsHelper/tools';

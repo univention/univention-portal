@@ -58,7 +58,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import ModalDialog from '@/components/ModalDialog.vue';
+import ModalDialog from '@/components/modal/ModalDialog.vue';
 import Region from '@/components/activity/Region.vue';
 import Translate from '@/i18n/Translate.vue';
 
