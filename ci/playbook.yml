@@ -1,0 +1,40 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: "Wait until ucs is started"
+      ansible.builtin.wait_for_connection:
+        connect_timeout: 5
+        delay: 0
+        sleep: 1
+        timeout: 600
+
+- hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: "Copy package to new UCS machine"
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'CI_PROJECT_DIR') }}/{{ lookup('env', 'PACKAGE_NAME') }}"
+        dest: "/tmp/{{ lookup('env', 'PACKAGE_NAME') }}"
+      tags:
+        - upx_frontend
+        - upx_frontend_copy_package
+
+    - name: "Remove existing portal"
+      ansible.builtin.apt:
+        name: "phoenixportal"
+        purge: "yes"
+        state: "absent"
+      tags:
+        - upx_frontend
+        - upx_frontend_copy_package
+
+    - name: "Install frontend package"
+      ansible.builtin.apt:
+        deb: "/tmp/{{ lookup('env', 'PACKAGE_NAME') }}"
+        force: "yes"
+      tags:
+        - upx_frontend
+        - upx_frontend_copy_package
