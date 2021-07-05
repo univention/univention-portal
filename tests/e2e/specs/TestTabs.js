@@ -46,7 +46,6 @@ describe('General Tests', () => {
     });
   });
   it('test store', () => {
-    // TODO: Same origin html fake for linktarget tests
     cy.readFile('public/data/portal.json').then((portal) => {
       portal.entries[0].linkTarget = 'embedded';
       cy.intercept('GET', 'portal.json', portal);
@@ -55,11 +54,34 @@ describe('General Tests', () => {
       cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
       cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
       cy.visit('/');
-      // first click results to first tab and first Iframe (first element in array)
-      // cy.get('.portal-category .portal-tile').last().click();
-      // cy.get('#iframe-1').should('be.visible');
       const getStore = () => cy.window().its('store');
       getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
+      // open Tab to see if it correctly in store
+      getStore().its('state').its('tabs').should('have.length', 0);
+      cy.get('.portal-category .portal-tile').last().click();
+      cy.get('#iframe-1').should('be.visible');
+      getStore().its('state').its('tabs').should('have.length', 1);
+    });
   });
-});
+
+  it('test scroll position', () => {
+    cy.readFile('public/data/portal.json').then((portal) => {
+      portal.entries[0].linkTarget = 'embedded';
+      cy.intercept('GET', 'portal.json', portal);
+      cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
+      cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+      cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+      cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
+
+      cy.viewport('iphone-x', 'landcape');
+      cy.visit('/'); 
+      const getStore = () => cy.window().its('store');
+      getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
+      // open Tab to see if it correctly in store
+      getStore().its('state').its('scrollPosition').should('eq', 0);
+      cy.get('.portal-category .portal-tile').last().click();
+      // cy.get('#iframe-1').should('be.visible');
+      getStore().its('state').its('scrollPosition').should('be.greaterThan', 0);
+    });
+  });
 });
