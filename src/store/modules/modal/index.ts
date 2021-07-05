@@ -26,6 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { Commit } from 'vuex';
 import { PortalModule } from '@/store/root.models';
 
 export interface ModalState {
@@ -49,7 +50,7 @@ const modal: PortalModule<ModalState> = {
   },
 
   mutations: {
-    SET_MODAL(state, payload) {
+    SET_MODAL(state: ModalState, payload): void {
       state.modalComponent = payload.name;
       state.modalProps = payload.props || {};
       state.modalStubborn = payload.stubborn || false;
@@ -57,7 +58,7 @@ const modal: PortalModule<ModalState> = {
       state.modalResolve = payload.resolve || (() => undefined);
       state.modalReject = payload.reject || (() => undefined);
     },
-    CLEAR_MODAL(state) {
+    CLEAR_MODAL(state: ModalState): void {
       state.modalComponent = null;
       state.modalProps = {};
       state.modalStubborn = false;
@@ -65,11 +66,11 @@ const modal: PortalModule<ModalState> = {
       state.modalResolve = () => undefined;
       state.modalReject = () => undefined;
     },
-    SHOW_MODAL(state) {
+    SHOW_MODAL(state: ModalState): void {
       state.modalVisible = true;
       document.body.classList.add('body__has-modal');
     },
-    HIDE_MODAL(state) {
+    HIDE_MODAL(state: ModalState): void {
       state.modalVisible = false;
       document.body.classList.remove('body__has-modal');
     },
@@ -83,30 +84,30 @@ const modal: PortalModule<ModalState> = {
   },
 
   actions: {
-    setAndShowModal({ commit, dispatch }, payload) {
+    setAndShowModal({ commit, dispatch }, payload): void {
       commit('SET_MODAL', payload);
       commit('SHOW_MODAL');
       dispatch('activity/setLevel', 'modal', { root: true });
     },
-    showModal({ commit }) {
+    showModal({ commit }: { commit: Commit }): void {
       commit('SHOW_MODAL');
     },
-    setShowModalPromise({ dispatch }, payload) {
+    setShowModalPromise({ dispatch }, payload): Promise<void> {
       return new Promise((resolve, reject) => {
         dispatch('setAndShowModal', { ...payload, resolve, reject });
       });
     },
-    hideAndClearModal({ getters, commit, dispatch }) {
+    hideAndClearModal({ getters, commit, dispatch }): void {
       if (getters.getModalState) {
         dispatch('activity/setLevel', 'portal', { root: true });
       }
       commit('HIDE_MODAL');
       commit('CLEAR_MODAL');
     },
-    resolve({ state }, payload) {
+    resolve({ state }: { state: ModalState }, payload): void {
       state.modalResolve(payload);
     },
-    reject({ state }) {
+    reject({ state }: { state: ModalState }): void {
       state.modalReject();
     },
   },

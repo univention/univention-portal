@@ -104,13 +104,13 @@ import { mapGetters } from 'vuex';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import Region from '@/components/activity/Region.vue';
-import ModalWrapper from '@/components/globals/ModalWrapper.vue';
+import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import Notifications from 'components/notifications/Notifications.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 import PortalCategory from 'components/PortalCategory.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
 import PortalIframe from 'components/PortalIframe.vue';
-import PortalModal from 'components/PortalModal.vue';
+import PortalModal from 'components/modal/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';

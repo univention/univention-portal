@@ -70,7 +70,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import ModalDialog from '@/components/ModalDialog.vue';
+import ModalDialog from '@/components/modal/ModalDialog.vue';
 import Translate from '@/i18n/Translate.vue';
 
 export interface ValidatableData {
