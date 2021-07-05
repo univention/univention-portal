@@ -51,9 +51,9 @@
             id="loginButton"
             ref="loginButton"
             class="portal-sidenavigation__logout-link"
+            tabindex="0"
             @click="logout"
             @keydown.esc="closeNavigation"
-            tabindex="0"
           >
             <translate i18n-key="LOGOUT" />
           </div>
@@ -97,7 +97,7 @@
           @click="toggleMenu(index)"
           @keydown.enter.exact.prevent="toggleMenu(index)"
           @keydown.space.exact.prevent="toggleMenu(index)"
-          @keydown.right.exact.prevent="toggleMenu(index)"
+          @keydown.right.exact.prevent="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : null"
           @keydown.esc="closeNavigation"
         />
         <template v-if="item.subMenu && item.subMenu.length > 0">
