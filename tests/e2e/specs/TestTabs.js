@@ -57,7 +57,7 @@ describe('General Tests', () => {
       const getStore = () => cy.window().its('store');
       getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
       // open Tab to see if it correctly in store
-      getStore().its('state').its('tabs').should('have.length', 0);
+      getStore().its('state').its('tabs').its('tabs').should('have.length', 0);
       cy.get('.portal-category .portal-tile').last().click();
       cy.get('#iframe-1').should('be.visible');
       getStore().its('state').its('tabs').its('tabs').should('have.length', 1);
@@ -78,10 +78,10 @@ describe('General Tests', () => {
       const getStore = () => cy.window().its('store');
       getStore().its('state').should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
       // open Tab to see if it correctly in store
-      getStore().its('state').its('scrollPosition').should('eq', 0);
+      getStore().its('state').its('tabs').its('scrollPosition').should('eq', 0);
       cy.get('.portal-category .portal-tile').last().click();
       // cy.get('#iframe-1').should('be.visible');
-      getStore().its('state').its('scrollPosition').should('be.greaterThan', 0);
+      getStore().its('state').its('tabs').its('scrollPosition').should('be.greaterThan', 0);
     });
   });
 });
