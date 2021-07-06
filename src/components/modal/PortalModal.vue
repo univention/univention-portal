@@ -29,12 +29,12 @@
 <template>
   <div class="portal-modal">
     <modal-wrapper
-      :is-active="modalState"
+      :is-active="modalState('firstLevelModal')"
       @backgroundClick="closeModal"
     >
       <component
-        :is="modalComponent"
-        v-bind="modalProps"
+        :is="modalComponent('firstLevelModal')"
+        v-bind="modalProps('firstLevelModal')"
       />
     </modal-wrapper>
   </div>
@@ -94,7 +94,7 @@ export default defineComponent({
   },
   methods: {
     closeModal(): void {
-      if (!this.modalStubborn) {
+      if (!this.modalStubborn('firstLevelModal')) {
         this.$store.dispatch('modal/hideAndClearModal');
       }
     },
