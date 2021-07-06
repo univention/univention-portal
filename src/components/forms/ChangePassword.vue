@@ -163,6 +163,7 @@ export default defineComponent({
         return;
       }
       this.$store.dispatch('modal/resolve', {
+        level: 1,
         oldPassword: this.oldPassword,
         newPassword: this.newPassword,
       });

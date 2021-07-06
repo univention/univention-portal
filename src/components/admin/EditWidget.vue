@@ -43,7 +43,7 @@
       >
         <button
           type="button"
-          @click.prevent="$emit('remove')"
+          @click.prevent="openConfirmationDialog"
         >
           <translate i18n-key="REMOVE_HERE" />
         </button>
@@ -128,6 +128,18 @@ export default defineComponent({
           description: `<ul><li>${description}</li></ul>`,
         });
       }
+    },
+    openConfirmationDialog() {
+      console.log('openConfirmationDialog');
+      this.$store.dispatch('modal/setAndShowModal', {
+        level: 2,
+        name: 'PortalIcon',
+        props: {
+          icon: 'sun',
+        },
+      });
+      this.$store.dispatch('activity/setRegion', 'portal-icon');
+      // $emit('remove')
     },
   },
 });
