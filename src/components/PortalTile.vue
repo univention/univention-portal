@@ -208,9 +208,6 @@ export default defineComponent({
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
     }
   },
-  updated() {
-    console.log('updated!');
-  },
   methods: {
     hideTooltip(): void {
       this.$store.dispatch('tooltip/unsetTooltip');
