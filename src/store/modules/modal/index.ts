@@ -96,7 +96,6 @@ const modal: PortalModule<ModalState> = {
     },
     HIDE_MODAL(state: ModalState, payload): void {
       const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
-      console.log('modalLevel HIDE_MODAL', modalLevel);
       state[modalLevel].modalVisible = false;
       document.body.classList.remove('body--has-modal');
     },
