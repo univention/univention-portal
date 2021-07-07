@@ -1,49 +1,215 @@
-before_script:
-  - mkdir -p ~/.ssh
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
+---
 
-cache:
-  key: "phoenix-yarn"
+stages:
+  - build
+  - test
+  - lint
+  - master-env
+  - master-deploy
+
+cache: &global-cache
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - node_modules
-    - "packages/*/node_modules"
-    - .eslint
+    - cypress_cache
+    - yarn_cache
+  policy: pull
 
-# every job starts a docker container, so an extra deploy and test stage slows stuff down significantly
-# we'll probably need to do this in the future but right now we can reap the benefits of going single stage
-build-test-deploy-job:
-  stage: build
-  only:
-    refs:
-      - main
-  image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
+.node-template:
+  before_script:
+    - yarn install --frozen-lockfile
+  cache:
+    <<: *global-cache
+  dependencies: []
+  image: artifacts.knut.univention.de/dockerhub_proxy_cache/library/node:16.3-buster
+  variables:
+    CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/cypress_cache
+    YARN_CACHE_FOLDER: $CI_PROJECT_DIR/yarn_cache
+
+.prepare_ansible: &prepare_ansible
+  # Include univention CA certificate
+  - curl -k https://nissedal.knut.univention.de/ucs-root-ca.crt > /usr/local/share/ca-certificates/ucs-root-ca.crt
+  - update-ca-certificates
+
+  # Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  # We're using tr to fix line endings which makes ed25519 keys work
+  # without extra base64 encoding.
+  # https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+  - echo "${ID_RSA_UCS_KVM_IMAGE}" | tr -d '\r' | ssh-add -
+  - echo "${ID_RSA_UCS_KVM_IMAGE}" > ${CI_PROJECT_DIR}/ci/id_rsa_ucs_kvm_image
+
+  # Create the SSH directory and give it the right permissions
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+  # Store vault-password
+  - echo $ANSIBLE_VAULT_PASSWORD > ~/.vault-password
+
+  # Change permission for ansible
+  # For more information see https://docs.ansible.com/ansible/devel/reference_appendices/config.html#cfg-in-world-writable-dir
+  - chmod -R o-w .
+  - chmod -R ug+rw .
+
+  # Install dependencies
+  - ansible-galaxy install -r ${CI_PROJECT_DIR}/ci/collections/requirements.yml
+
+  # Create inventory
+  - mkdir -p ${CI_PROJECT_DIR}/ci/inventory/
+  - |
+    cat << EOF > ${CI_PROJECT_DIR}/ci/inventory/univention
+    [all]
+    ${CI_COMMIT_REF_SLUG} ansible_user=univention_ansible ansible_host="${MASTER_SERVER_IP}" ansible_ssh_host="${MASTER_SERVER_IP}"
+    EOF
+  - cat ${CI_PROJECT_DIR}/ci/inventory/univention
+
+  # Create hostvars for master
+  - mkdir -p "${CI_PROJECT_DIR}/ci/inventory/host_vars/${CI_COMMIT_REF_SLUG}"
+  - |
+    cat << EOF > ${CI_PROJECT_DIR}/ci/inventory/host_vars/${CI_COMMIT_REF_SLUG}/ucs.yml
+    server_type: "master"
+    network_config_static_ip_config: "${MASTER_SERVER_IP}/32"
+    EOF
+  - cat "${CI_PROJECT_DIR}/ci/inventory/host_vars/${CI_COMMIT_REF_SLUG}/ucs.yml"
+
+build-nodejs:
   artifacts:
-    # we need the cypress artifacts...
+    expire_in: 7 days
+    paths:
+      - dist
+  cache:
+    <<: *global-cache
+    policy: pull-push
+  extends: .node-template
+  needs: []
+  script:
+    - yarn build
+  stage: build
+
+build-deb:
+  artifacts:
     when: always
     paths:
       - phoenixportal*.deb
-      - tests/e2e/screenshots/*
-      - tests/e2e/videos/*
-    # maybe?
-    #public: true
-    # this seems to apply to all artifacts?
-    expire_in: 12hrs
+    expire_in: 7 days
+  cache: {}
+  image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
+  needs: []
   script:
-    #- yarn --cwd=frontend
-    #- yarn --cwd=frontend build
-    - yarn
-    - yarn --cwd=frontend test:unit
-    - yarn serve:wait
-    - yarn cypress run
-    # das folgende ist Holzhammer auf Wegwerfmaschinen, nicht in prod nutzen...
-    - apt-get -q --assume-yes build-dep .
     - dpkg-buildpackage -uc -us -b
     - cp ../*.deb .
-    - ssh root@ucs5-p1.duckdns.org rm -f /tmp/phoenixportal*
-    # only scp the latest version
-    - find . -maxdepth 1 -type f -name "phoenixportal*" | sort -V | tail -1 | xargs -I '{}' scp {} root@ucs5-p1.duckdns.org:/tmp
-    - ssh root@ucs5-p1.duckdns.org dpkg --purge phoenixportal
-    - ssh root@ucs5-p1.duckdns.org dpkg -i --force-overwrite /tmp/phoenixportal_*_amd64.deb
+  stage: build
+
+test-cypress:
+  artifacts:
+    when: always
+    paths:
+      - tests/e2e/videos/**/*.mp4
+      - tests/e2e/screenshots/**/*.png
+    expire_in: 1 day
+  extends: .node-template
+  image: artifacts.knut.univention.de/dockerhub_proxy_cache/cypress/browsers:node14.16.0-chrome90-ff88
+  needs:
+    - build-nodejs
+  script:
+    - yarn test:e2e:headless --browser chrome
+  stage: test
+
+test-unit:
+  extends: .node-template
+  needs:
+    - build-nodejs
+  script:
+    - yarn --cwd=frontend test:unit
+  stage: test
+
+lint:
+  allow_failure: true
+  extends: .node-template
+  needs:
+    - build-nodejs
+  script:
+    - yarn lint:all
+  stage: lint
+
+.remove-env-instance: &remove-env-instance
+  - terraform refresh
+  - terraform destroy -auto-approve
+
+.environment-common:
+  before_script:
+    - rm -rf ${CI_BUILDS_DIR}/terraform
+    - git -c http.sslVerify=false clone --single-branch --branch main --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/univention/customers/dataport/deployment/terraform-ionos ${CI_BUILDS_DIR}/terraform
+    - cd ${TF_ROOT}
+    - |
+      terraform init \
+      -backend-config="address=${TF_ADDRESS}" \
+      -backend-config="lock_address=${TF_ADDRESS}/lock" \
+      -backend-config="unlock_address=${TF_ADDRESS}/lock" \
+      -backend-config="username=gitlab-ci-token" \
+      -backend-config="password=${CI_JOB_TOKEN}" \
+      -backend-config="lock_method=POST" \
+      -backend-config="unlock_method=DELETE" \
+      -backend-config="retry_wait_min=5" \
+      -backend-config="skip_cert_verification=true"
+  image: artifacts.knut.univention.de/upx/container-tooling/automation-terraform:main-ecb2bd5d
+  variables:
+    HOSTING_PROVIDER: hetzner
+    TF_ROOT: ${CI_BUILDS_DIR}/terraform/${HOSTING_PROVIDER}/ucs-automation
+
+master-env:
+  after_script:
+    - cd ${TF_ROOT}
+    - MASTER_SERVER_IP=$(terraform refresh -lock=false | grep -Po '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')
+    - echo "MASTER_SERVER_IP=${MASTER_SERVER_IP}" > ${CI_PROJECT_DIR}/deploy.env
+    - cat ${CI_PROJECT_DIR}/deploy.env
+  artifacts:
+    reports:
+      dotenv: ${CI_PROJECT_DIR}/deploy.env
+  environment:
+    name: ${CI_COMMIT_REF_NAME}
+    url: https://${MASTER_SERVER_IP}
+    on_stop: master-stop-env
+    auto_stop_in: 4 hours
+  extends: .environment-common
+  needs:
+    - build-deb
+  resource_group: ${CI_COMMIT_REF_SLUG}
+  script:
+    - *remove-env-instance
+    - terraform apply -auto-approve -var sandbox-snapshot=41819632 -var create-dns-record=false
+  stage: master-env
+  variables:
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}-master
+
+master-deploy:
+  before_script:
+    *prepare_ansible
+  dependencies:
+    - master-env
+    - build-deb
+  image: artifacts.knut.univention.de/upx/container-tooling/automation-ansible:main-42d46e47
+  needs:
+    - build-deb
+    - master-env
+  resource_group: ${CI_COMMIT_REF_SLUG}
+  script:
+    - export PACKAGE_NAME="$(set -- *.deb; echo "$1")"
+    - cd ci/
+    - ansible-playbook playbook.yml -l ${CI_COMMIT_REF_SLUG} -i inventory/univention -v
+  stage: master-deploy
+
+master-stop-env:
+  environment:
+    name: ${CI_COMMIT_REF_NAME}
+    action: stop
+  extends: .environment-common
+  script:
+    - *remove-env-instance
+    # Delete terraform state (maintainer permission needed)
+    - curl -k --header "Private-Token:${GL_TOKEN}" --request DELETE ${TF_ADDRESS}
+  stage: master-env
+  variables:
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}-master
+  when: manual
