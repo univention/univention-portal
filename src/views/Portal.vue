@@ -94,7 +94,11 @@
 
     <portal-sidebar />
     <portal-modal :is-active="false" />
-    <loading-overlay />
+    <portal-modal
+      :modal-level="2"
+      :is-active="isSecondModalActive"
+    />
+    <!-- <loading-overlay /> -->
   </div>
 </template>
 
@@ -150,12 +154,16 @@ export default defineComponent({
       tooltip: 'tooltip/tooltip',
       hasEmptySearchResults: 'search/hasEmptySearchResults',
       metaData: 'metaData/getMeta',
+      getModalState: 'modal/getModalState',
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
     },
     ariaLabelAddNewTile(): string {
       return this.$translateLabel('ADD_NEW_CATEGORY');
+    },
+    isSecondModalActive(): boolean {
+      return this.getModalState('secondLevelModal');
     },
   },
   methods: {

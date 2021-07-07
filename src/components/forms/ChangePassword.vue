@@ -169,7 +169,7 @@ export default defineComponent({
       });
     },
     cancel() {
-      this.$store.dispatch('modal/reject');
+      this.$store.dispatch('modal/hideAndClearModal', 2);
     },
   },
 });

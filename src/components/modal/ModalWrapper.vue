@@ -30,7 +30,7 @@ License with the Debian GNU/Linux or Univention distribution in file
   <teleport to="body">
     <div
       class="modal-wrapper"
-      :class="{ 'modal-wrapper--isVisible': isActive, 'modal-wrapper--isVisibleFullscreen': isActive && full }"
+      :class="{ 'modal-wrapper--isVisible': isActive, 'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
       @click.self="$emit('backgroundClick');"
     >
       <slot />
@@ -52,8 +52,17 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    modalLevel: {
+      type: Number,
+      default: 1,
+    },
   },
   emits: ['backgroundClick'],
+  computed: {
+    isSecondModalActive(): boolean {
+      return this.modalLevel === 2 && this.isActive;
+    },
+  },
 });
 </script>
 
@@ -74,6 +83,13 @@ export default defineComponent({
       display: flex
       align-items: center
       justify-content: center
+
+      &> *
+        position: relative
+        z-index: 1
+
+    &--isSecondLayer
+      z-index: $zindex-3
 
       &> *
         position: relative

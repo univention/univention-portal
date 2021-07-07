@@ -29,12 +29,13 @@
 <template>
   <div class="portal-modal">
     <modal-wrapper
-      :is-active="modalState('firstLevelModal')"
+      :is-active="isActiveModal"
+      :modal-level="modalLevel"
       @backgroundClick="closeModal"
     >
       <component
-        :is="modalComponent('firstLevelModal')"
-        v-bind="modalProps('firstLevelModal')"
+        :is="modalComponentLevel"
+        v-bind="modalPropsLevel"
       />
     </modal-wrapper>
   </div>
@@ -83,6 +84,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    modalLevel: {
+      type: Number,
+      default: 1,
+    },
   },
   computed: {
     ...mapGetters({
@@ -90,12 +95,44 @@ export default defineComponent({
       modalComponent: 'modal/getModalComponent',
       modalProps: 'modal/getModalProps',
       modalStubborn: 'modal/getModalStubborn',
+      getModalState: 'modal/getModalState',
     }),
+    isActiveModal(): boolean {
+      let bool = false;
+      if (this.modalLevel === 2) {
+        bool = this.getModalState('secondLevelModal');
+      }
+      if (this.modalLevel === 1) {
+        bool = this.getModalState('firstLevelModal');
+      }
+      return bool;
+    },
+    modalComponentLevel(): string {
+      let component = '';
+      if (this.modalLevel === 2) {
+        component = this.modalComponent('secondLevelModal');
+      }
+      if (this.modalLevel === 1) {
+        component = this.modalComponent('firstLevelModal');
+      }
+      return component;
+    },
+    modalPropsLevel(): Record<string, unknown> {
+      let props = {};
+      if (this.modalLevel === 2) {
+        props = this.modalProps('secondLevelModal');
+      }
+      if (this.modalLevel === 1) {
+        props = this.modalProps('firstLevelModal');
+      }
+      return props;
+    },
   },
   methods: {
     closeModal(): void {
-      if (!this.modalStubborn('firstLevelModal')) {
-        this.$store.dispatch('modal/hideAndClearModal');
+      const modalLevel = this.modalLevel === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      if (!this.modalStubborn(modalLevel)) {
+        this.$store.dispatch('modal/hideAndClearModal', this.modalLevel);
       }
     },
   },

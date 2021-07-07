@@ -76,31 +76,29 @@ const modal: PortalModule<ModalState> = {
       state[modalLevel].modalComponent = payload.name;
       state[modalLevel].modalProps = payload.props || {};
       state[modalLevel].modalStubborn = payload.stubborn || false;
-      document.body.classList.add('body__has-modal');
+      document.body.classList.add('body--has-modal');
       state[modalLevel].modalResolve = payload.resolve || (() => undefined);
       state[modalLevel].modalReject = payload.reject || (() => undefined);
     },
     CLEAR_MODAL(state: ModalState, payload): void {
-      const modalLevel = payload?.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
-
+      const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
       state[modalLevel].modalComponent = null;
       state[modalLevel].modalProps = {};
       state[modalLevel].modalStubborn = false;
-      document.body.classList.remove('body__has-modal');
+      document.body.classList.remove('body--has-modal');
       state[modalLevel].modalResolve = () => undefined;
       state[modalLevel].modalReject = () => undefined;
     },
     SHOW_MODAL(state: ModalState, payload): void {
-      const modalLevel = payload?.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
-
+      const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
       state[modalLevel].modalVisible = true;
-      document.body.classList.add('body__has-modal');
+      document.body.classList.add('body--has-modal');
     },
     HIDE_MODAL(state: ModalState, payload): void {
-      const modalLevel = payload?.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
-
+      const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      console.log('modalLevel HIDE_MODAL', modalLevel);
       state[modalLevel].modalVisible = false;
-      document.body.classList.remove('body__has-modal');
+      document.body.classList.remove('body--has-modal');
     },
   },
 

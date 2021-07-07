@@ -130,15 +130,11 @@ export default defineComponent({
       }
     },
     openConfirmationDialog() {
-      console.log('openConfirmationDialog');
       this.$store.dispatch('modal/setAndShowModal', {
         level: 2,
-        name: 'PortalIcon',
-        props: {
-          icon: 'sun',
-        },
+        name: 'ChangePassword',
+        stubborn: true,
       });
-      this.$store.dispatch('activity/setRegion', 'portal-icon');
       // $emit('remove')
     },
   },
