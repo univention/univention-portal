@@ -94,9 +94,9 @@
           :internal-function="item.internalFunction"
           :background-color="item.backgroundColor"
           aria-haspopup="true"
-          @click="toggleMenu(index)"
-          @keydown.enter.exact.prevent="toggleMenu(index)"
-          @keydown.space.exact.prevent="toggleMenu(index)"
+          @click="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : tileClickAndClose($event, index)"
+          @keydown.enter.exact.prevent="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : tileClickAndClose($event, index)"
+          @keydown.space.exact.prevent="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : tileClickAndClose($event, index)"
           @keydown.right.exact.prevent="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : null"
           @keydown.esc="closeNavigation"
         />
@@ -167,6 +167,7 @@ import Region from '@/components/activity/Region.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import TileClick from '@/mixins/TileClick.vue';
 
 import { login, logout } from '@/jsHelper/login';
 import Translate from '@/i18n/Translate.vue';
@@ -180,7 +181,6 @@ interface SideNavigationData {
   fade: boolean,
   fadeRightLeft: string,
   fadeLeftRight: string,
-  changeLanguageTranslation: unknown
 }
 
 export default defineComponent({
@@ -192,6 +192,9 @@ export default defineComponent({
     TabindexElement,
     Region,
   },
+  mixins: [
+    TileClick,
+  ],
   data(): SideNavigationData {
     return {
       menuVisible: true,
@@ -202,11 +205,6 @@ export default defineComponent({
       fade: false,
       fadeRightLeft: 'portal-sidenavigation__fade-right-left',
       fadeLeftRight: 'portal-sidenavigation__fade-left-right',
-      // TODO: outsource translation
-      changeLanguageTranslation: {
-        de_DE: 'Sprache ändern',
-        en_US: 'Change language',
-      },
     };
   },
   computed: {
@@ -272,6 +270,12 @@ export default defineComponent({
     },
     hasSubmenu(item): boolean {
       return item.subMenu && item.subMenu.length > 0;
+    },
+    tileClickAndClose($event, index: number): void {
+      const menuItem = this.$refs[`menuItem${index}`];
+      // @ts-ignore
+      menuItem.tileClick($event);
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
   },
 });
