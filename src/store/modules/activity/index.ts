@@ -55,6 +55,7 @@ const activity: PortalModule<Activity> = {
     ADD_REGION(state: Activity, region: string): void {
       console.log('Adding region', region);
       state.focus[region] = state.focus[region] || '';
+      console.log('CHECKING ACTIVITY STATE', state.focus);
     },
     SET_REGION(state: Activity, region: string | null): void {
       state.region = region;

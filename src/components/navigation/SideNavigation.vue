@@ -164,7 +164,6 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import Region from '@/components/activity/Region.vue';
-import TabindexElement from '@/components/activity/TabindexElement.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import TileClick from '@/mixins/TileClick.vue';
@@ -189,7 +188,6 @@ export default defineComponent({
     PortalIcon,
     MenuItem,
     Translate,
-    TabindexElement,
     Region,
   },
   mixins: [
@@ -276,6 +274,11 @@ export default defineComponent({
       // @ts-ignore
       menuItem.tileClick($event);
       this.$store.dispatch('navigation/setActiveButton', '');
+      this.$store.dispatch('activity/setRegion', 'portal-header');
+      this.$store.dispatch('activity/saveFocus', {
+        region: 'portal-header',
+        id: 'loginButton',
+      });
     },
   },
 });
