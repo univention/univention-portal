@@ -115,6 +115,7 @@ const catalog = {
   ADD: _('Add'),
   ADD_OBJECTS: _('Add objects'),
   UPLOAD: _('Upload'),
+  ALLOWED_GROUPS: _('Can only be seen by these groups'),
   RESTRICT_VISIBILITY_TO_GROUPS: _('Restrict visibility to groups'),
   MODAL_HINT_RESTRICT_VISIBILITY: _('If one or more groups are selected then the portal entry will only be visible to logged in users that are in any of the selected groups. If no groups are selected then the portal entry is always visible.'),
   SELECT_ALL: _('Select all'),
