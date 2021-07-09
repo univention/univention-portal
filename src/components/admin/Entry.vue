@@ -101,6 +101,11 @@
         :tabindex="tabindex"
       >
     </label>
+    <multi-select
+      v-model="allowedGroups"
+      :label="$translateLabel('ALLOWED_GROUPS')"
+      :tabindex="tabindex"
+    />
     <label>
       <input
         v-model="anonymous"
@@ -121,6 +126,7 @@ import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
+import MultiSelect from '@/components/widgets/MultiSelect.vue';
 import LinkWidget, { LocaleAndValue } from '@/components/widgets/LinkWidget.vue';
 
 import Translate from '@/i18n/Translate.vue';
@@ -133,6 +139,7 @@ interface AdminEntryData extends ValidatableData {
   title: Record<string, string>,
   description: Record<string, string>,
   links: Array<LocaleAndValue>,
+  allowedGroups: string[],
   linkTarget: string,
   anonymous: boolean,
 }
@@ -168,6 +175,7 @@ export default defineComponent({
     ImageUpload,
     EditWidget,
     LocaleInput,
+    MultiSelect,
     LinkWidget,
     Translate,
   },
@@ -198,6 +206,7 @@ export default defineComponent({
       description: {},
       backgroundColor: null,
       links: [],
+      allowedGroups: [],
       linkTarget: 'default',
       anonymous: false,
       getErrors,
@@ -234,6 +243,7 @@ export default defineComponent({
     this.title = { ...(this.modelValue.title || {}) };
     this.description = { ...(this.modelValue.description || {}) };
     this.links.push(...(this.modelValue.links || []));
+    this.allowedGroups.push(...(this.modelValue.allowedGroups || []));
     this.linkTarget = this.modelValue.originalLinkTarget;
     this.anonymous = this.modelValue.anonymous;
   },
@@ -272,6 +282,7 @@ export default defineComponent({
         displayName: Object.entries(this.title),
         description: Object.entries(this.description),
         link: links,
+        allowedGroups: this.allowedGroups,
         linkTarget: this.linkTarget,
         anonymous: this.anonymous,
         icon: '',
