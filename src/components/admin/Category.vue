@@ -31,6 +31,7 @@
     :label="label"
     :can-remove="!!modelValue.dn"
     :model="$data"
+    @unlink="unlink"
     @remove="remove"
     @save="finish"
   >
@@ -40,6 +41,7 @@
       <input
         v-model="name"
         name="name"
+        :tabindex="tabindex"
         :disabled="modelValue.dn"
       >
     </label>
@@ -47,6 +49,7 @@
       v-model="title"
       i18n-label="NAME"
       name="title"
+      :tabindex="tabindex"
     />
   </edit-widget>
 </template>
@@ -55,7 +58,8 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import { put, add } from '@/jsHelper/admin';
+import { put, add, remove } from '@/jsHelper/admin';
+import activity from '@/jsHelper/activity';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import Translate from '@/i18n/Translate.vue';
@@ -109,7 +113,11 @@ export default defineComponent({
     ...mapGetters({
       portalDn: 'portalData/getPortalDn',
       categories: 'portalData/portalCategoriesOnPortal',
+      activityLevel: 'activity/level',
     }),
+    tabindex(): number {
+      return activity(['modal'], this.activityLevel);
+    },
   },
   created(): void {
     const dn = this.modelValue.dn;
@@ -123,14 +131,24 @@ export default defineComponent({
       this.$store.dispatch('modal/hideAndClearModal');
       this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
-    async remove() {
+    async unlink() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       const portalAttrs = {
         categories: this.categories.filter((catDn) => catDn !== dn),
       };
       console.info('Removing', dn, 'from', this.portalDn);
-      const success = put(this.portalDn, portalAttrs, this.$store, 'CATEGORY_REMOVED_SUCCESS', 'CATEGORY_REMOVED_FAILURE');
+      const success = await put(this.portalDn, portalAttrs, this.$store, 'CATEGORY_REMOVED_SUCCESS', 'CATEGORY_REMOVED_FAILURE');
+      this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
+    },
+    async remove() {
+      this.$store.dispatch('activateLoadingState');
+      const dn = this.modelValue.dn;
+      console.info('Deleting', dn, 'completely');
+      const success = await remove(dn, this.$store, 'CATEGORY_REMOVED_SUCCESS', 'CATEGORY_REMOVED_FAILURE');
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();

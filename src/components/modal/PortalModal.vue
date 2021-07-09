@@ -56,6 +56,7 @@ import AdminExistingCategory from '@/components/admin/ExistingCategory.vue';
 import TileAddModal from '@/components/admin/TileAddModal.vue';
 import CategoryAddModal from '@/components/admin/CategoryAddModal.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
+import ConfirmDialog from '@/components/admin/ConfirmDialog.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 import CookieBanner from '@/components/globals/CookieBanner.vue';
 
@@ -66,6 +67,7 @@ export default defineComponent({
   // Otherwise they will not be displyed correctly
   // (Maybe change PortalModal to not use the component tag anymore?)
     ChangePassword,
+    ConfirmDialog,
     ModalWrapper,
     PortalFolder,
     AdminEntry,

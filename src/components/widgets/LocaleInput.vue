@@ -44,7 +44,7 @@
         v-model="modelValueData[locale]"
         :name="locale === 'en_US' ? name : `${name}-${locale}`"
         autocomplete="off"
-        tabindex="0"
+        :tabindex="tabindex"
       >
     </label>
   </div>
@@ -73,6 +73,10 @@ export default defineComponent({
     i18nLabel: {
       type: String,
       required: true,
+    },
+    tabindex: {
+      type: Number,
+      default: 0,
     },
   },
   emits: [

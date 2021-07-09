@@ -59,6 +59,7 @@
       >
       <button
         type="button"
+        :tabindex="tabindex"
         @click.prevent="startUpload"
       >
         <portal-icon
@@ -70,6 +71,7 @@
       </button>
       <button
         type="button"
+        :tabindex="tabindex"
         @click.prevent="remove"
       >
         <portal-icon
@@ -103,6 +105,10 @@ export default defineComponent({
     modelValue: {
       type: String,
       required: true,
+    },
+    tabindex: {
+      type: Number,
+      default: 0,
     },
   },
   emits: ['update:modelValue'],

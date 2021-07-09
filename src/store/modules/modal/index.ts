@@ -112,10 +112,8 @@ const modal: PortalModule<ModalState> = {
     setAndShowModal({ commit, dispatch }, payload): void {
       commit('SET_MODAL', payload);
       commit('SHOW_MODAL', payload.level);
-      dispatch('activity/setLevel', 'modal', { root: true });
-    },
-    showModal({ commit }: { commit: Commit }, payload): void {
-      commit('SHOW_MODAL', payload);
+      const activityLevel = payload.level === 2 ? 'modal2' : 'modal';
+      dispatch('activity/setLevel', activityLevel, { root: true });
     },
     setShowModalPromise({ dispatch }, payload): Promise<void> {
       return new Promise((resolve, reject) => {
@@ -124,7 +122,8 @@ const modal: PortalModule<ModalState> = {
     },
     hideAndClearModal({ getters, commit, dispatch }, payload?: number): void {
       if (getters.getModalState) {
-        dispatch('activity/setLevel', 'portal', { root: true });
+        const activityLevel = payload === 2 ? 'modal' : 'portal';
+        dispatch('activity/setLevel', activityLevel, { root: true });
       }
       commit('HIDE_MODAL', payload);
       commit('CLEAR_MODAL', payload);

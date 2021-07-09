@@ -31,6 +31,7 @@
     :label="label"
     :can-remove="!!modelValue.dn"
     :model="$data"
+    @unlink="unlink"
     @remove="remove"
     @save="finish"
   >
@@ -41,22 +42,26 @@
         v-model="name"
         name="name"
         :disabled="modelValue.dn"
+        :tabindex="tabindex"
       >
     </label>
     <locale-input
       v-model="title"
       name="title"
       i18n-label="NAME"
+      :tabindex="tabindex"
     />
     <locale-input
       v-model="description"
       name="description"
       i18n-label="DESCRIPTION"
+      :tabindex="tabindex"
     />
     <label>
       <input
         v-model="activated"
         type="checkbox"
+        :tabindex="tabindex"
       >
       <translate i18n-key="ACTIVATED" />
     </label>
@@ -67,12 +72,14 @@
       <link-widget
         v-model="links"
         name="links"
+        :tabindex="tabindex"
       />
     </div>
     <label>
       <translate i18n-key="LINK_TARGET" />
       <select
         v-model="linkTarget"
+        :tabindex="tabindex"
       >
         <option value="useportaldefault">{{ $translateLabel('PORTAL_DEFAULT') }}</option>
         <option value="samewindow">{{ $translateLabel('SAME_WINDOW') }}</option>
@@ -84,18 +91,21 @@
     <image-upload
       v-model="pathToLogo"
       label="Icon"
+      :tabindex="tabindex"
     />
     <label>
       <translate i18n-key="BACKGROUND_COLOR" />
       <input
         v-model="backgroundColor"
         name="backgroundColor"
+        :tabindex="tabindex"
       >
     </label>
     <label>
       <input
         v-model="anonymous"
         type="checkbox"
+        :tabindex="tabindex"
       >
       <translate i18n-key="ANONYMOUS" />
     </label>
@@ -106,7 +116,8 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import { removeEntryFromSuperObj, addEntryToSuperObj, put, add } from '@/jsHelper/admin';
+import { removeEntryFromSuperObj, addEntryToSuperObj, put, add, remove } from '@/jsHelper/admin';
+import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
@@ -196,7 +207,11 @@ export default defineComponent({
     ...mapGetters({
       portalCategories: 'portalData/portalCategories',
       portalFolders: 'portalData/portalFolders',
+      activityLevel: 'activity/level',
     }),
+    tabindex(): number {
+      return activity(['modal'], this.activityLevel);
+    },
     superObjs(): any[] {
       if (this.fromFolder) {
         return this.portalFolders;
@@ -227,11 +242,21 @@ export default defineComponent({
       this.$store.dispatch('modal/hideAndClearModal');
       this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
-    async remove() {
+    async unlink() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       console.info('Removing', dn, 'from', this.superDn);
       const success = await removeEntryFromSuperObj(this.superDn, this.superObjs, dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
+      this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
+    },
+    async remove() {
+      this.$store.dispatch('activateLoadingState');
+      const dn = this.modelValue.dn;
+      console.info('Deleting', dn, 'completely');
+      const success = await remove(dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
