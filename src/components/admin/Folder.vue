@@ -31,6 +31,7 @@
     :label="label"
     :can-remove="!!modelValue.dn"
     :model="$data"
+    @unlink="unlink"
     @remove="remove"
     @save="finish"
   >
@@ -40,6 +41,7 @@
       <input
         v-model="name"
         name="name"
+        :tabindex="tabindex"
         :disabled="modelValue.dn"
       >
     </label>
@@ -47,6 +49,7 @@
       v-model="title"
       i18n-label="NAME"
       name="title"
+      :tabindex="tabindex"
     />
   </edit-widget>
 </template>
@@ -55,11 +58,11 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import { removeEntryFromSuperObj, addEntryToSuperObj, put, add } from '@/jsHelper/admin';
+import { removeEntryFromSuperObj, addEntryToSuperObj, put, add, remove } from '@/jsHelper/admin';
+import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
-import LinkWidget from '@/components/widgets/LinkWidget.vue';
 
 import Translate from '@/i18n/Translate.vue';
 
@@ -90,7 +93,6 @@ export default defineComponent({
     ImageUpload,
     EditWidget,
     LocaleInput,
-    LinkWidget,
     Translate,
   },
   props: {
@@ -117,7 +119,11 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       portalCategories: 'portalData/portalCategories',
+      activityLevel: 'activity/level',
     }),
+    tabindex(): number {
+      return activity(['modal'], this.activityLevel);
+    },
   },
   created(): void {
     const dn = this.modelValue.dn;
@@ -131,11 +137,21 @@ export default defineComponent({
       this.$store.dispatch('modal/hideAndClearModal');
       this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
-    async remove() {
+    async unlink() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       console.info('Removing', dn, 'from', this.superDn);
-      const success = await removeEntryFromSuperObj(this.superDn, this.portalCategories, dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
+      const success = await removeEntryFromSuperObj(this.superDn, this.portalCategories, dn, this.$store, 'FOLDER_REMOVED_SUCCESS', 'FOLDER_REMOVED_FAILURE');
+      this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
+    },
+    async remove() {
+      this.$store.dispatch('activateLoadingState');
+      const dn = this.modelValue.dn;
+      console.info('Deleting', dn, 'completely');
+      const success = await remove(dn, this.$store, 'FOLDER_REMOVED_SUCCESS', 'FOLDER_REMOVED_FAILURE');
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();

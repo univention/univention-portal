@@ -28,7 +28,7 @@
  */
 
 import { translate } from '@/i18n/translations';
-import { udmPut, udmAdd } from '@/jsHelper/umc';
+import { udmRemove, udmPut, udmAdd } from '@/jsHelper/umc';
 
 async function add(objectType, attrs, store, errorMessage): Promise<string> {
   try {
@@ -50,6 +50,31 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
 async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promise<boolean> {
   try {
     const response = await udmPut(dn, attrs);
+    const result = response.data.result[0];
+    if (!result.success) {
+      throw new Error(result.details);
+    }
+    dispatch('notifications/addSuccessNotification', {
+      title: translate(successMessage),
+    }, { root: true });
+    await dispatch('portalData/waitForChange', {
+      retries: 10,
+      adminMode: true,
+    }, { root: true });
+    await dispatch('loadPortal', { adminMode: true }, { root: true });
+    return true;
+  } catch (err) {
+    dispatch('notifications/addErrorNotification', {
+      title: translate(errorMessage),
+      description: err.message,
+    }, { root: true });
+    return false;
+  }
+}
+
+async function remove(dn, { dispatch }, successMessage, errorMessage) {
+  try {
+    const response = await udmRemove(dn);
     const result = response.data.result[0];
     if (!result.success) {
       throw new Error(result.details);
@@ -123,4 +148,4 @@ async function removeEntryFromSuperObj(superDn, superObjs, dn, { dispatch, gette
   return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
 }
 
-export { put, add, getAdminState, removeEntryFromSuperObj, addEntryToSuperObj };
+export { put, add, remove, getAdminState, removeEntryFromSuperObj, addEntryToSuperObj };
