@@ -36,11 +36,11 @@ License with the Debian GNU/Linux or Univention distribution in file
     />
     <iframe
       ref="iframe"
+      :id="`iframe-${tabId + 1}`"
       :src="link"
       title="Embedded Page"
       class="portal-iframe__iframe"
       allow="geolocation; microphone; camera; midi; encrypted-media"
-      :id="`iframe-${tabId + 1}`"
     />
   </div>
 </template>
@@ -65,7 +65,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
+    // (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
   },
   updated() {
     if (this.isActive) {

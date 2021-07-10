@@ -169,7 +169,9 @@ export default defineComponent({
       });
     },
     cancel() {
-      this.$store.dispatch('modal/hideAndClearModal', 2);
+      // for second modal purpose
+      // this.$store.dispatch('modal/hideAndClearModal', 2);
+      this.$store.dispatch('modal/hideAndClearModal');
     },
   },
 });
