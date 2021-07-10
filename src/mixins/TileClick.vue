@@ -84,7 +84,7 @@ const tileClickMixin = {
         return false;
       }
       this.$store.dispatch('tooltip/unsetTooltip');
-      this.$store.dispatch('modal/hideAndClearModal');
+      // this.$store.dispatch('modal/hideAndClearModal');
       if (this.linkTarget === 'internalFunction') {
         evt.preventDefault();
         return this.internalFunction(this);

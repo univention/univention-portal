@@ -53,6 +53,7 @@
             class="portal-sidenavigation__logout-link"
             tabindex="0"
             @click="logout"
+            @keydown.enter="logout"
             @keydown.esc="closeNavigation"
           >
             <translate i18n-key="LOGOUT" />
@@ -65,6 +66,7 @@
         ref="loginButton"
         class="portal-sidenavigation__link"
         @click="login"
+        @keydown.enter="login"
         @keydown.esc="closeNavigation"
       >
         <translate i18n-key="LOGIN" />
@@ -94,10 +96,10 @@
           :internal-function="item.internalFunction"
           :background-color="item.backgroundColor"
           aria-haspopup="true"
-          @click="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : tileClickAndClose($event, index)"
-          @keydown.enter.exact.prevent="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : tileClickAndClose($event, index)"
-          @keydown.space.exact.prevent="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : tileClickAndClose($event, index)"
-          @keydown.right.exact.prevent="item.subMenu && item.subMenu.length > 0 ? toggleMenu(index) : null"
+          @click="menuClickAction($event, index, item)"
+          @keydown.enter.exact="menuClickAction($event, index, item)"
+          @keydown.space.exact="menuClickAction($event, index, item)"
+          @keydown.right.exact.prevent="hasSubmenu(item) ? toggleMenu(index) : null"
           @keydown.esc="closeNavigation"
         />
         <template v-if="item.subMenu && item.subMenu.length > 0">
@@ -111,7 +113,7 @@
             <menu-item
               :id="item.id"
               :title="item.title"
-              :is-sub-item="true"
+              :is-parent-in-sub-item="true"
               :links="[]"
               class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
               @click="toggleMenu()"
@@ -135,8 +137,8 @@
                 :path-to-logo="subItem.pathToLogo"
                 :internal-function="subItem.internalFunction"
                 :background-color="subItem.backgroundColor"
+                :is-subitem="true"
                 class="portal-sidenavigation__menu-subItem"
-                @clickAction="closeNavigation"
                 @keydown.esc="closeNavigation"
               />
             </div>
@@ -269,16 +271,22 @@ export default defineComponent({
     hasSubmenu(item): boolean {
       return item.subMenu && item.subMenu.length > 0;
     },
-    tileClickAndClose($event, index: number): void {
-      const menuItem = this.$refs[`menuItem${index}`];
-      // @ts-ignore
-      menuItem.tileClick($event);
-      this.$store.dispatch('navigation/setActiveButton', '');
-      this.$store.dispatch('activity/setRegion', 'portal-header');
-      this.$store.dispatch('activity/saveFocus', {
-        region: 'portal-header',
-        id: 'loginButton',
-      });
+    menuClickAction($event, index: number, item: Record<string, unknown>): void {
+      if (this.hasSubmenu(item)) {
+        $event.preventDefault();
+        this.toggleMenu(index);
+      } else {
+        const menuItem = this.$refs[`menuItem${index}`] ? this.$refs[`menuItem${index}`] : this.$refs[`subItem${index}`];
+        // @ts-ignore
+        menuItem.tileClick($event);
+        if (item.linkTarget === 'embedded') {
+          this.$store.dispatch('navigation/setActiveButton', '');
+          this.$store.dispatch('activity/saveFocus', {
+            region: 'portal-sidenavigation',
+            id: 'loginButton',
+          });
+        }
+      }
     },
   },
 });

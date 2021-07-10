@@ -93,7 +93,6 @@ export default defineComponent({
   },
   created() {
     this.$store.dispatch('activity/addRegion', this.id);
-    console.log('###');
   },
   methods: {
     restoreFocus(): void {
