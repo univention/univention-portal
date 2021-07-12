@@ -11,6 +11,7 @@
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch",
     "test:e2e": "NODE_ENV=development vue-cli-service test:e2e",
+    "test:e2e:headless": "NODE_ENV=development vue-cli-service test:e2e --headless",
     "test:e2e:run": "yarn cypress run",
     "lint": "vue-cli-service lint --no-fix",
     "lint:all": "yarn lint && stylelint \"{**/*.{scss,vue,styl}\"",

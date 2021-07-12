@@ -69,7 +69,7 @@ import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
-import ModalWrapper from '@/components/globals/ModalWrapper.vue';
+import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import Notifications from '@/components/notifications/Notifications.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import EditModeSideNavigation from '@/components/navigation/EditModeSideNavigation.vue';

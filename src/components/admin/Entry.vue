@@ -31,6 +31,7 @@
     :label="label"
     :can-remove="!!modelValue.dn"
     :model="$data"
+    @unlink="unlink"
     @remove="remove"
     @save="finish"
   >
@@ -41,22 +42,26 @@
         v-model="name"
         name="name"
         :disabled="modelValue.dn"
+        :tabindex="tabindex"
       >
     </label>
     <locale-input
       v-model="title"
       name="title"
       :i18n-label="NAME"
+      :tabindex="tabindex"
     />
     <locale-input
       v-model="description"
       name="description"
       :i18n-label="DESCRIPTION"
+      :tabindex="tabindex"
     />
     <label class="entry__checkbox">
       <input
         v-model="activated"
         type="checkbox"
+        :tabindex="tabindex"
       >
       {{ ACTIVATED }}
     </label>
@@ -67,12 +72,14 @@
       <link-widget
         v-model="links"
         name="links"
+        :tabindex="tabindex"
       />
     </div>
     <label>
       {{ WAY_OF_OPENING_LINKS }}
       <select
         v-model="linkTarget"
+        :tabindex="tabindex"
       >
         <option value="useportaldefault">{{ PORTAL_DEFAULT }}</option>
         <option value="samewindow">{{ SAME_TAB }}</option>
@@ -84,18 +91,26 @@
     <image-upload
       v-model="pathToLogo"
       label="Icon"
+      :tabindex="tabindex"
     />
     <label>
       {{ BACKGROUND_COLOR }}
       <input
         v-model="backgroundColor"
         name="backgroundColor"
+        :tabindex="tabindex"
       >
     </label>
+    <multi-select
+      v-model="allowedGroups"
+      :label="$translateLabel('ALLOWED_GROUPS')"
+      :tabindex="tabindex"
+    />
     <label class="entry__checkbox">
       <input
         v-model="anonymous"
         type="checkbox"
+        :tabindex="tabindex"
       >
       {{ ONLY_VISIBLE_IF_NOT_LOGGED_IN }}
     </label>
@@ -107,10 +122,12 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
-import { removeEntryFromSuperObj, addEntryToSuperObj, put, add } from '@/jsHelper/admin';
+import { removeEntryFromSuperObj, addEntryToSuperObj, put, add, remove } from '@/jsHelper/admin';
+import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
+import MultiSelect from '@/components/widgets/MultiSelect.vue';
 import LinkWidget, { LocaleAndValue } from '@/components/widgets/LinkWidget.vue';
 
 interface AdminEntryData extends ValidatableData {
@@ -121,6 +138,7 @@ interface AdminEntryData extends ValidatableData {
   title: Record<string, string>,
   description: Record<string, string>,
   links: Array<LocaleAndValue>,
+  allowedGroups: string[],
   linkTarget: string,
   anonymous: boolean,
 }
@@ -156,6 +174,7 @@ export default defineComponent({
     ImageUpload,
     EditWidget,
     LocaleInput,
+    MultiSelect,
     LinkWidget,
   },
   props: {
@@ -185,6 +204,7 @@ export default defineComponent({
       description: {},
       backgroundColor: null,
       links: [],
+      allowedGroups: [],
       linkTarget: 'default',
       anonymous: false,
       getErrors,
@@ -194,7 +214,11 @@ export default defineComponent({
     ...mapGetters({
       portalCategories: 'portalData/portalCategories',
       portalFolders: 'portalData/portalFolders',
+      activityLevel: 'activity/level',
     }),
+    tabindex(): number {
+      return activity(['modal'], this.activityLevel);
+    },
     superObjs(): any[] { // eslint-disable-line @typescript-eslint/no-explicit-any
       if (this.fromFolder) {
         return this.portalFolders;
@@ -250,6 +274,7 @@ export default defineComponent({
     this.title = { ...(this.modelValue.title || {}) };
     this.description = { ...(this.modelValue.description || {}) };
     this.links.push(...(this.modelValue.links || []));
+    this.allowedGroups.push(...(this.modelValue.allowedGroups || []));
     this.linkTarget = this.modelValue.originalLinkTarget;
     this.anonymous = this.modelValue.anonymous;
   },
@@ -258,11 +283,21 @@ export default defineComponent({
       this.$store.dispatch('modal/hideAndClearModal');
       this.$store.dispatch('activity/setRegion', 'portalCategories');
     },
-    async remove() {
+    async unlink() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       console.info('Removing', dn, 'from', this.superDn);
       const success = await removeEntryFromSuperObj(this.superDn, this.superObjs, dn, this.$store, _('Entry successfully removed'), _('Entry could not be removed'));
+      this.$store.dispatch('deactivateLoadingState');
+      if (success) {
+        this.cancel();
+      }
+    },
+    async remove() {
+      this.$store.dispatch('activateLoadingState');
+      const dn = this.modelValue.dn;
+      console.info('Deleting', dn, 'completely');
+      const success = await remove(dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
@@ -278,6 +313,7 @@ export default defineComponent({
         displayName: Object.entries(this.title),
         description: Object.entries(this.description),
         link: links,
+        allowedGroups: this.allowedGroups,
         linkTarget: this.linkTarget,
         anonymous: this.anonymous,
         icon: '',

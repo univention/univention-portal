@@ -133,6 +133,10 @@ export default defineComponent({
   },
   mounted() {
     this.isMounted = true;
+    this.$store.dispatch('activity/saveFocus', {
+      region: 'portal-header',
+      id: `headerTab__${this.idx}`,
+    });
   },
   methods: {
     focusTab(): void {

@@ -51,9 +51,10 @@
             id="loginButton"
             ref="loginButton"
             class="portal-sidenavigation__logout-link"
-            @click="logout"
-            @keydown.esc="closeNavigation"
             tabindex="0"
+            @click="logout"
+            @keydown.enter="logout"
+            @keydown.esc="closeNavigation"
           >
             <span>
               {{ LOGOUT }}
@@ -67,6 +68,7 @@
         ref="loginButton"
         class="portal-sidenavigation__link"
         @click="login"
+        @keydown.enter="login"
         @keydown.esc="closeNavigation"
       >
         <span>
@@ -97,22 +99,56 @@
           :path-to-logo="item.pathToLogo"
           :internal-function="item.internalFunction"
           :background-color="item.backgroundColor"
-          aria-haspopup="true"
-          @click="toggleMenu(index)"
-          @keydown.enter.exact.prevent="toggleMenu(index)"
-          @keydown.space.exact.prevent="toggleMenu(index)"
-          @keydown.right.exact.prevent="toggleMenu(index)"
+          :aria-haspopup="hasSubmenu(item)"
+          @click="menuClickAction($event, index, item)"
+          @keydown.enter.exact="menuClickAction($event, index, item)"
+          @keydown.space.exact="menuClickAction($event, index, item)"
+          @keydown.right.exact.prevent="hasSubmenu(item) ? toggleMenu(index) : null"
           @keydown.esc="closeNavigation"
         />
-        <sub-menu-item
-          v-if="item.subMenu && item.subMenu.length > 0"
-          :sub-menu-visible="subMenuVisible"
-          :menu-parent="menuParent"
-          :parent-index="index"
-          :menu-item="item"
-          :sub-menu-class="subMenuClass"
-          @toggle-menu="toggleMenu"
-        />
+        <template v-if="hasSubmenu(item)">
+          <region
+            v-if="subMenuVisible & (menuParent === index)"
+            id="portal-sidenavigation-sub"
+            role="navigation"
+            direction="topdown"
+            :aria-label="ariaLabelSubMenuParent"
+            :aria-expanded="subMenuVisible"
+          >
+            <menu-item
+              :id="item.id"
+              :title="item.title"
+              :is-parent-in-sub-item="true"
+              :links="[]"
+              class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
+              @click="toggleMenu()"
+              @keydown.enter.exact="toggleMenu()"
+              @keydown.space.exact.prevent="toggleMenu()"
+              @keydown.left.exact="toggleMenu()"
+              @keydown.esc="closeNavigation"
+            />
+            <div
+              v-for="(subItem, subindex) in item.subMenu"
+              :key="subindex"
+              :class="subMenuClass"
+            >
+              <menu-item
+                v-if="subMenuVisible & (menuParent === index)"
+                :id="subItem.id"
+                :ref="`subItem${subindex}`"
+                :title="subItem.title"
+                :links="subItem.links || []"
+                :link-target="subItem.linkTarget"
+                :path-to-logo="subItem.pathToLogo"
+                :internal-function="subItem.internalFunction"
+                :background-color="subItem.backgroundColor"
+                :is-subitem="true"
+                class="portal-sidenavigation__menu-subItem"
+                @keydown.esc="closeNavigation"
+              />
+            </div>
+          </region>
+        </template>
       </div>
     </div>
 
@@ -134,10 +170,10 @@ import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
-import TabindexElement from '@/components/activity/TabindexElement.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
 import SubMenuItem from '@/components/navigation/SubMenuItem.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import TileClick from '@/mixins/TileClick.vue';
 
 import { login, logout } from '@/jsHelper/login';
 
@@ -161,6 +197,9 @@ export default defineComponent({
     TabindexElement,
     Region,
   },
+  mixins: [
+    TileClick,
+  ],
   data(): SideNavigationData {
     return {
       menuVisible: true,
@@ -171,7 +210,6 @@ export default defineComponent({
       fade: false,
       fadeRightLeft: 'portal-sidenavigation__fade-right-left',
       fadeLeftRight: 'portal-sidenavigation__fade-left-right',
-      // TODO: outsource translation
     };
   },
   computed: {
@@ -250,6 +288,23 @@ export default defineComponent({
     },
     hasSubmenu(item): boolean {
       return item.subMenu && item.subMenu.length > 0;
+    },
+    menuClickAction($event, index: number, item: Record<string, unknown>): void {
+      if (this.hasSubmenu(item)) {
+        $event.preventDefault();
+        this.toggleMenu(index);
+      } else {
+        const menuItem = this.$refs[`menuItem${index}`] ? this.$refs[`menuItem${index}`] : this.$refs[`subItem${index}`];
+        // @ts-ignore
+        menuItem.tileClick($event);
+        if (item.linkTarget === 'embedded') {
+          this.$store.dispatch('navigation/setActiveButton', '');
+          this.$store.dispatch('activity/saveFocus', {
+            region: 'portal-sidenavigation',
+            id: 'loginButton',
+          });
+        }
+      }
     },
   },
 });

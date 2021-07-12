@@ -35,11 +35,12 @@ License with the Debian GNU/Linux or Univention distribution in file
     :class="{ 'menu-item__disabled': disabled }"
     :href="link ? link : null"
     :target="anchorTarget"
-    @click="tileClick"
-    @keydown.enter="tileClick"
+    :role="ariaRole"
+    @click="setClickIfSubItem"
+    @keydown.enter="setClickIfSubItem"
   >
     <portal-icon
-      v-if="isSubItem"
+      v-if="isParentInSubItem"
       icon="chevron-left"
       class="menu-item__arrow menu-item__arrow--left"
     />
@@ -56,7 +57,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         </span>
       </div>
       <portal-icon
-        v-if="!isSubItem"
+        v-if="!isParentInSubItem"
         icon="chevron-right"
         class="menu-item__arrow menu-item__arrow--right"
       />
@@ -97,7 +98,11 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
-    isSubItem: {
+    isParentInSubItem: {
+      type: Boolean,
+      default: false,
+    },
+    isSubitem: {
       type: Boolean,
       default: false,
     },
@@ -126,6 +131,17 @@ export default defineComponent({
         itemString = _('Items');
       }
       return itemString;
+    },
+    ariaRole(): string {
+      return this.link || this.internalFunction ? 'menuitem' : 'button';
+    },
+  },
+  methods: {
+    setClickIfSubItem($event) {
+      if (this.isSubitem) {
+        // @ts-ignore
+        this.tileClick($event);
+      }
     },
   },
 });

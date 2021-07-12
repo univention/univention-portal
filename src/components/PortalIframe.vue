@@ -36,6 +36,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     />
     <iframe
       ref="iframe"
+      :id="`iframe-${tabId + 1}`"
       :src="link"
       title="Embedded Page"
       class="portal-iframe__iframe"
@@ -57,6 +58,10 @@ export default defineComponent({
     isActive: {
       type: Boolean,
       default: false,
+    },
+    tabId: {
+      type: Number,
+      required: true,
     },
   },
   mounted() {
