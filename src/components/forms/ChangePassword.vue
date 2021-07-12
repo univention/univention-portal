@@ -104,7 +104,7 @@ import { defineComponent } from 'vue';
 import { setInvalidity } from '@/jsHelper/tools';
 import _ from '@/jsHelper/translate';
 
-import ModalDialog from '@/components/ModalDialog.vue';
+import ModalDialog from '@/components/modal/ModalDialog.vue';
 import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
 
 interface ChangePasswordData {

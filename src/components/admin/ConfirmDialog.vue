@@ -34,7 +34,7 @@
   >
     <form class="confirm-dialog">
       <div class="confirm-dialog__content">
-        {{ confirmLabel }}
+        {{ CONFIRM }}
       </div>
       <footer class="confirm-dialog__footer">
         <button
@@ -43,19 +43,19 @@
           class="primary"
           @click.prevent="cancel"
         >
-          {{ cancelLabel }}
+          {{ CANCEL }}
         </button>
         <button
           type="button"
           @click.prevent="finish('remove')"
         >
-          {{ removeLabel }}
+          {{ REMOVE }}
         </button>
         <button
           type="button"
           @click.prevent="finish('unlink')"
         >
-          {{ removeHereLabel }}
+          {{ REMOVE_HERE }}
         </button>
       </footer>
     </form>
@@ -64,6 +64,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
@@ -83,17 +84,17 @@ export default defineComponent({
     },
   },
   computed: {
-    confirmLabel(): string {
-      return this.$translateLabel('CONFIRM_REMOVE');
+    CONFIRM(): string {
+      return _('Do you really want to remove this object? You can completely delete it, or just remove the link to the object here, so that you can still use it somewhere else.');
     },
-    cancelLabel(): string {
-      return this.$translateLabel('CANCEL');
+    CANCEL(): string {
+      return _('Cancel');
     },
-    removeLabel(): string {
-      return this.$translateLabel('DELETE');
+    REMOVE(): string {
+      return _('Delete');
     },
-    removeHereLabel(): string {
-      return this.$translateLabel('REMOVE_HERE');
+    REMOVE_HERE(): string {
+      return _('Remove here');
     },
   },
   mounted(): void {

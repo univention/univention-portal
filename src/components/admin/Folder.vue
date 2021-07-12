@@ -92,7 +92,6 @@ export default defineComponent({
     ImageUpload,
     EditWidget,
     LocaleInput,
-    LinkWidget,
   },
   props: {
     label: {
@@ -156,7 +155,7 @@ export default defineComponent({
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       console.info('Deleting', dn, 'completely');
-      const success = await remove(dn, this.$store,  _('Folder successfully removed'), _('Folder could not be removed'));
+      const success = await remove(dn, this.$store, _('Folder successfully removed'), _('Folder could not be removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
