@@ -65,7 +65,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    // (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
+    (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
   },
   updated() {
     if (this.isActive) {
