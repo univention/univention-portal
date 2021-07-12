@@ -144,6 +144,10 @@ export default defineComponent({
       type: Boolean,
       required: false,
     },
+    allowedGroups: {
+      type: Array,
+      required: true,
+    },
     originalLinkTarget: {
       type: String,
       required: true,

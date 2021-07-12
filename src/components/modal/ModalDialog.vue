@@ -44,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       <icon-button
         v-if="cancelAllowed"
         icon="x"
-        :active-at="['modal']"
+        :active-at="[modalLevel]"
         :aria-label-prop="ariaLabelCancel"
         @click="cancel()"
       />
@@ -72,6 +72,10 @@ export default defineComponent({
     title: {
       type: String,
       default: '',
+    },
+    modalLevel: {
+      type: String,
+      default: 'modal',
     },
     cancelAllowed: {
       type: Boolean,
@@ -114,7 +118,7 @@ export default defineComponent({
     > label:first-child
       margin-top: 0
 
-  footer:not(.image-upload__footer)
+  footer:not(.image-upload__footer):not(.multi-select__footer)
     margin-top: calc(2 * var(--layout-spacing-unit))
     padding-top: calc(2 * var(--layout-spacing-unit))
     border-top: thin solid var(--bgc-tab-separator)

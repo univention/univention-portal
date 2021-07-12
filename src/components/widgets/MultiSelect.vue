@@ -27,48 +27,24 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div class="image-upload">
+  <div class="multi-select">
     <label>{{ label }}</label>
     <div
-      class="image-upload__canvas"
-      @dragenter.prevent=""
-      @dragover.prevent=""
-      @drop.prevent="drop"
-      @click="startUpload"
+      class="multi-select__select"
     >
-      <img
-        v-if="modelValue"
-        :src="modelValue"
-        alt=""
+      <label
+        v-for="value in modelValue"
+        :key="value"
       >
-      <div
-        v-else
-        class="image-upload__nofile"
-      >
-        <translate
-          i18n-key="SELECT_FILE"
-        />
-      </div>
+        <input
+          type="checkbox"
+          :tabindex="tabindex"
+          @change="toggleSelection(value)"
+        >
+        <span>{{ value }}</span>
+      </label>
     </div>
-    <footer class="image-upload__footer">
-      <input
-        ref="file_input"
-        class="image-upload__file-input"
-        type="file"
-        @change="upload"
-      >
-      <button
-        type="button"
-        :tabindex="tabindex"
-        @click.prevent="startUpload"
-      >
-        <portal-icon
-          icon="upload"
-        />
-        <translate
-          i18n-key="UPLOAD"
-        />
-      </button>
+    <footer class="multi-select__footer">
       <button
         type="button"
         :tabindex="tabindex"
@@ -86,13 +62,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import Translate from '@/i18n/Translate.vue';
 
+interface MultiSelectSelection {
+  selection: string[],
+}
+
 export default defineComponent({
-  name: 'ImageUpload',
+  name: 'MultiSelect',
   components: {
     PortalIcon,
     Translate,
@@ -103,7 +83,7 @@ export default defineComponent({
       required: true,
     },
     modelValue: {
-      type: String,
+      type: Array as PropType<string[]>,
       required: true,
     },
     tabindex: {
@@ -112,65 +92,51 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  data(): MultiSelectSelection {
+    return {
+      selection: [],
+    };
+  },
   methods: {
-    drop(evt: DragEvent) {
-      const dt = evt.dataTransfer;
-      if (dt && dt.files) {
-        this.handleFiles(dt.files);
+    toggleSelection(value: string) {
+      const idx = this.selection.indexOf(value);
+      if (idx > -1) {
+        this.selection.splice(idx, 1);
+      } else {
+        this.selection.push(value);
       }
-    },
-    startUpload() {
-      (this.$refs.file_input as HTMLElement).click();
-    },
-    upload(evt: Event) {
-      const target = evt.target as HTMLInputElement;
-      if (target.files) {
-        this.handleFiles(target.files);
-      }
-    },
-    handleFiles(files) {
-      const file = files[0];
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        if (e.target) {
-          console.log('e.target: ', e.target);
-          this.$emit('update:modelValue', e.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
     },
     remove() {
-      this.$emit('update:modelValue', '');
+      const values = this.modelValue.filter((value) => !this.selection.includes(value));
+      this.$emit('update:modelValue', values);
     },
   },
 });
 </script>
 
 <style lang="stylus">
-.image-upload
-  &__canvas
-    height: 10rem
-    width: 10rem
-    cursor: pointer
-    display: flex
-    background: var(--bgc-checkerboard)
-    img
-      max-height: 10rem
-      margin: auto
+.multi-select
+  &__select
+    padding: 0 var(--layout-spacing-unit)
+    background-color: var(--bgc-inputfield-on-container)
+    border: 0.1rem solid var(--bgc-inputfield-on-container)
+    border-radius: var(--border-radius-interactable)
+    min-height: calc(2 * var(--inputfield-size))
+
+    label
+      margin-top: var(--layout-spacing-unit)
+      display: flex
+
+      input
+        flex-shrink: 0
+
+      span
+        overflow: hidden
+        text-overflow: ellipsis
+
   &__footer
     margin: var(--layout-spacing-unit) 0
     display: flex
     button + button
       margin-left: var(--layout-spacing-unit)
-  &__file-input
-    visibility: hidden
-    position: absolute
-  &__nofile
-    height: 100%
-    width: 100%
-    display: flex
-    background-color: var(--bgc-inputfield-on-container)
-    span
-      margin: auto
 </style>
