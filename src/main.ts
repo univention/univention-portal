@@ -61,4 +61,3 @@ const app = createApp(App)
   });
 
 const vm = app.mount('#app');
-console.log('APP', vm.$root);

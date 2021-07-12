@@ -107,7 +107,6 @@ const portalData: PortalModule<PortalDataState> = {
         state.portal.portal.content.unshift([userMenu.dn, userMenu.entries]);
         state.portal.portal.content.unshift([menu.dn, menu.entries]);
       }
-      console.log(state.portal.portal);
       state.cacheId = portal.cache_id;
     },
     PORTALNAME(state: PortalDataState, name): void {

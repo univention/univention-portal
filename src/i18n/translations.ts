@@ -49,7 +49,6 @@ function getCatalog(locale: ShortLocale | Locale) {
     } else {
       axios.get(`${portalUrl}i18n/${locale}.json`).then(
         (response) => {
-          console.error('LOL JUST KIDDING');
           const translationCatalog = response.data;
           translationCatalogs[locale] = translationCatalog;
           resolve(translationCatalog);

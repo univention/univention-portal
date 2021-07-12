@@ -53,9 +53,7 @@ const activity: PortalModule<Activity> = {
 
   mutations: {
     ADD_REGION(state: Activity, region: string): void {
-      console.log('Adding region', region);
       state.focus[region] = state.focus[region] || '';
-      console.log('CHECKING ACTIVITY STATE', state.focus);
     },
     SET_REGION(state: Activity, region: string | null): void {
       state.region = region;
@@ -91,7 +89,6 @@ const activity: PortalModule<Activity> = {
       }
       if (region) {
         state.focus[region] = payload.id;
-        console.log('State.focus', state.focus);
       }
     },
   },
@@ -107,7 +104,6 @@ const activity: PortalModule<Activity> = {
       commit('ADD_REGION', region);
     },
     setRegion({ dispatch, commit }: ActivityActionContext, region: string | null): void {
-      console.log('setRegion', region);
       commit('SET_REGION', region);
       dispatch('focusElement', region);
     },
@@ -128,13 +124,11 @@ const activity: PortalModule<Activity> = {
             elem = document.getElementById(activeElem.id);
           }
         }
-        console.log('focusElement', elem);
         elem?.focus();
       }, 50);
     },
     saveFocus({ commit }: ActivityActionContext, payload: SaveFocusArgs): void {
       if (payload.id) {
-        console.log('SAVE FOCUS', payload.id);
         commit('SAVE_FOCUS', payload);
       }
     },

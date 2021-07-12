@@ -66,7 +66,6 @@ export default defineComponent({
     }),
     showCookieBanner(): boolean {
       const cookieName = this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
-      console.log('showCookieBanner', this.metaData.cookieBanner.show, cookieName, getCookie(cookieName));
       return this.metaData.cookieBanner.show && !getCookie(cookieName) && !this.cookieBannerDismissed;
     },
   },
