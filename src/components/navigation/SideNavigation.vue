@@ -249,7 +249,6 @@ export default defineComponent({
       this.$store.dispatch('activity/setRegion', 'portal-header');
     },
     toggleMenu(index = -1): void {
-      console.log('TESTTEST');
       this.menuVisible = !this.menuVisible;
       this.menuParent = index;
       this.subMenuVisible = !this.subMenuVisible;

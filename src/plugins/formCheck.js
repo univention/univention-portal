@@ -63,8 +63,6 @@ const formCheckPlugin = {
           }
         }
       }
-      console.log('modalError: ', modalError);
-
       return true;
     };
 

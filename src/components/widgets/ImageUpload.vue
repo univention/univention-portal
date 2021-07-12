@@ -144,7 +144,6 @@ export default defineComponent({
 
       reader.onload = (e) => {
         if (e.target) {
-          console.log('e.target: ', e.target);
           this.$emit('update:modelValue', e.target.result);
         }
       };

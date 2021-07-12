@@ -80,7 +80,6 @@ const actions = {
       'Accept-Language': umcLang || 'en-US',
     };
     if (payload.adminMode || getAdminState()) {
-      console.log('... in Admin mode');
       headers['X-Univention-Portal-Admin-Mode'] = 'yes';
 
       if (process.env.VUE_APP_LOCAL) {
@@ -115,7 +114,6 @@ const actions = {
       });
       resolve(portal);
     }), (error) => {
-      console.log('ERROR', error);
       reject(error);
     });
   }),
