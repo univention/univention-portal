@@ -43,14 +43,16 @@
       >
         <button
           type="button"
+          :tabindex="tabindex"
           @click.prevent="openConfirmationDialog"
         >
-          <translate i18n-key="REMOVE_HERE" />
+          <translate i18n-key="REMOVE" />
         </button>
       </footer>
       <footer>
         <button
           type="button"
+          :tabindex="tabindex"
           @click.prevent="cancel"
         >
           <translate i18n-key="CANCEL" />
@@ -58,6 +60,7 @@
         <button
           class="primary"
           type="submit"
+          :tabindex="tabindex"
           @click.prevent="submit"
         >
           <translate i18n-key="SAVE" />
@@ -69,7 +72,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { mapGetters } from 'vuex';
 
+import activity from '@/jsHelper/activity';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
 import Translate from '@/i18n/Translate.vue';
 
@@ -97,7 +102,15 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['remove', 'save'],
+  emits: ['unlink', 'remove', 'save'],
+  computed: {
+    ...mapGetters({
+      activityLevel: 'activity/level',
+    }),
+    tabindex(): number {
+      return activity(['modal'], this.activityLevel);
+    },
+  },
   mounted() {
     this.$el.querySelector('input:enabled')?.focus();
   },
@@ -130,12 +143,20 @@ export default defineComponent({
       }
     },
     openConfirmationDialog() {
-      this.$store.dispatch('modal/setAndShowModal', {
+      this.$store.dispatch('modal/setShowModalPromise', {
         level: 2,
-        name: 'ChangePassword',
+        name: 'ConfirmDialog',
         stubborn: true,
+      }).then((values) => {
+        this.$store.dispatch('modal/hideAndClearModal', 2);
+        if (values.action === 'remove') {
+          this.$emit('remove');
+        } else if (values.action === 'unlink') {
+          this.$emit('unlink');
+        }
+      }, () => {
+        this.$store.dispatch('modal/hideAndClearModal', 2);
       });
-      // $emit('remove')
     },
   },
 });

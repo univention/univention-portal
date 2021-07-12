@@ -13,10 +13,8 @@
      {
        "activated": true,
        "allowedGroups": [
-        {"id": 1, "name": "Computers", "active": true},
-        {"id": 2, "name": "Domain Admins", "active": false},
-        {"id": 3, "name": "Domain Guests", "active": true},
-        {"id": 4, "name": "Domain Users", "active": false}
+        "cn=Domain Users,cn=groups,dc=intranet,dc=portal,dc=de",
+        "cn=lehrer,cn=groups,dc=intranet,dc=portal,dc=de"
        ],
        "anonymous": true,
        "backgroundColor": "darkblue",

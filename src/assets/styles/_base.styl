@@ -33,10 +33,9 @@ button
   svg + span
     padding-left: var(--layout-spacing-unit-small)
 
-  &[disabled],
-  &[disabled]:hover
+  &[disabled]
     background-color: var(--button-bgc-disabled)
-    color: var(--font-color-disabled)
+    color: var(--font-color-contrast-middle)
     cursor: var(--cursor-disabled)
 
   &:focus
@@ -75,6 +74,7 @@ input, select
 
   &[disabled]
     cursor: var(--cursor-disabled)
+    color: var(--font-color-contrast-low)
 
 select
   cursor: pointer
