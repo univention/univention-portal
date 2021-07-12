@@ -95,20 +95,21 @@
           :path-to-logo="item.pathToLogo"
           :internal-function="item.internalFunction"
           :background-color="item.backgroundColor"
-          aria-haspopup="true"
+          :aria-haspopup="hasSubmenu(item)"
           @click="menuClickAction($event, index, item)"
           @keydown.enter.exact="menuClickAction($event, index, item)"
           @keydown.space.exact="menuClickAction($event, index, item)"
           @keydown.right.exact.prevent="hasSubmenu(item) ? toggleMenu(index) : null"
           @keydown.esc="closeNavigation"
         />
-        <template v-if="item.subMenu && item.subMenu.length > 0">
+        <template v-if="hasSubmenu(item)">
           <region
             v-if="subMenuVisible & (menuParent === index)"
             id="portal-sidenavigation-sub"
             role="navigation"
             direction="topdown"
             :aria-label="ariaLabelSubMenuParent"
+            :aria-expanded="subMenuVisible"
           >
             <menu-item
               :id="item.id"
