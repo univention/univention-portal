@@ -71,7 +71,6 @@ export default defineComponent({
   },
   methods: {
     saveFocus(): void {
-      console.log('SAVEFOCUD() ID', this.id);
       this.$store.dispatch('activity/saveFocus', {
         id: this.id,
       });

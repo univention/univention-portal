@@ -26,7 +26,6 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { Commit } from 'vuex';
 import { PortalModule } from '@/store/root.models';
 
 export interface ModalState {
@@ -38,6 +37,8 @@ export interface ModalState {
     modalResolve: (any) => void;
     modalReject: () => void;
   }
+  // secondLevel Modals are mostly used for confirmation dialogs, another layer of option form.
+  // A11Y: When creating a second Modal you should set also the activity layer.
   secondLevelModal: {
     modalVisible: boolean;
     modalComponent: string | null;
