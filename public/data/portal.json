@@ -60,11 +60,13 @@
        "dn": "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "linkTarget": "useportaldefault",
        "links": [
-         {"locale": "en_US", "value": "https://wikipedia.gr"}
+         {"locale": "en_US", "value": "https://wikipedia.com"},
+         {"locale": "de_DE", "value": "hheps://wikipedia.de"}
        ],
        "logo_name": "./data/icons/owncloud-admindoc.svg",
        "name": {
-         "de_DE": "Admin Handbuch"
+         "de_DE": "Admin Handbuch",
+         "en_US": "Admin Handbook"
        }
      },
      {
