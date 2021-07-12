@@ -79,7 +79,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
       throw new Error(result.details);
     }
     dispatch('notifications/addSuccessNotification', {
-      title: _(successMessage), // TODO TR
+      title: _('%(key1)s', { key1: successMessage }),
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -89,7 +89,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
     return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
-      title: _(errorMessage), // TODO TR
+      title: _('%(key1)s', { key1: errorMessage }),
       description: err.message,
     }, { root: true });
     return false;
