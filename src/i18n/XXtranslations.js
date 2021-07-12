@@ -45,6 +45,7 @@ function getCatalog(locale) {
     } else {
       axios.get(`${portalUrl}i18n/${locale}.json`).then(
         (response) => {
+          console.error('LOL JUST KIDDING');
           const translationCatalog = response.data;
           translationCatalogs[locale] = translationCatalog;
           resolve(translationCatalog);
@@ -62,7 +63,7 @@ async function updateLocale(locale) {
     (translationCatalog) => translationCatalog,
     () => {
       // no locale found (404?)
-      console.error('404: No translation file found.');
+      // console.error('404: No translation file found.');
     },
   );
 }

@@ -99,6 +99,7 @@ const actions = {
     portalPromises.push(portalRequest);
 
     axios.all(portalPromises).then(axios.spread((metaResponse, languageResponse, portalResponse) => {
+      console.warn('test');
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
       dispatch('locale/setAvailableLocale', availableLocales);
       dispatch('metaData/setMeta', meta);
@@ -114,6 +115,7 @@ const actions = {
       });
       resolve(portal);
     }), (error) => {
+      console.log('ERROR', error);
       reject(error);
     });
   }),
