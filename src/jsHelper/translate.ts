@@ -1,4 +1,4 @@
-import { translationCatalogs, updateLocale } from '@/i18n/getTranslations';
+import { translationCatalogs, updateLocale } from '@/i18n/translations';
 import getLocalePrefix from './getLocale';
 
 const replaceKeys = (translationString: string, variables: Record<string, string>): string => {
