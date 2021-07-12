@@ -103,7 +103,7 @@
     </label>
     <multi-select
       v-model="allowedGroups"
-      :label="$translateLabel('ALLOWED_GROUPS')"
+      :label="ALLOWED_GROUPS"
       :tabindex="tabindex"
     />
     <label class="entry__checkbox">
@@ -257,6 +257,9 @@ export default defineComponent({
     },
     NAME(): string {
       return _('Name');
+    },
+    ALLOWED_GROUPS(): string {
+      return _('Can only be seen by these groups');
     },
   },
   created(): void {

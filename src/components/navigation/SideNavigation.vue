@@ -194,7 +194,6 @@ export default defineComponent({
     PortalIcon,
     MenuItem,
     SubMenuItem,
-    TabindexElement,
     Region,
   },
   mixins: [

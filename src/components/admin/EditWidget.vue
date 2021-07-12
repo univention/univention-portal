@@ -77,7 +77,6 @@ import _ from '@/jsHelper/translate';
 
 import activity from '@/jsHelper/activity';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
-import Translate from '@/i18n/Translate.vue';
 
 export interface ValidatableData {
   getErrors: () => Record<string, string>,
@@ -118,6 +117,7 @@ export default defineComponent({
     },
     REMOVE(): string {
       return _('Remove here');
+    },
   },
   mounted() {
     this.$el.querySelector('input:enabled')?.focus();

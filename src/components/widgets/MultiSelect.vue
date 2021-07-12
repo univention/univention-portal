@@ -53,9 +53,7 @@
         <portal-icon
           icon="trash"
         />
-        <translate
-          i18n-key="REMOVE"
-        />
+        {{ REMOVE }}
       </button>
     </footer>
   </div>
@@ -63,9 +61,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import Translate from '@/i18n/Translate.vue';
 
 interface MultiSelectSelection {
   selection: string[],
@@ -75,7 +73,6 @@ export default defineComponent({
   name: 'MultiSelect',
   components: {
     PortalIcon,
-    Translate,
   },
   props: {
     label: {
@@ -96,6 +93,11 @@ export default defineComponent({
     return {
       selection: [],
     };
+  },
+  computed: {
+    REMOVE(): string {
+      return _('Remove');
+    },
   },
   methods: {
     toggleSelection(value: string) {

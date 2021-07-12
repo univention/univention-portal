@@ -56,14 +56,17 @@ yarn lint
 
 ## Translation
 
-We use the UCS tooling. The configuration is in debian/phoenixportal.univention-l10n. Here are some commands how to make the translation files locally (and so that they can be checked in):
+We use the UCS tooling. The configuration is in `debian/phoenixportal.univention-l10n.` 
+You need to download the ucs repo to call the following commands: https://git.knut.univention.de/univention/ucs
 
 ```
-# updates de.po
-~/git/ucs/packaging/univention-l10n/univention-l10n-build de
+# creates tempprary files for vue and generates/updates de.po
+./process_vue_files.sh && ~/git/ucs/packaging/univention-l10n/univention-l10n-build de
 
 # compiles de.po to de.json
 ~/git/ucs/packaging/univention-l10n/univention-l10n-install de
+
+# copy that json into out public directory
 cp {debian/phoenixportal/,}public/i18n/de.json
 ```
 
