@@ -27,7 +27,7 @@
  * <https://www.gnu.org/licenses/>.
  */
 import axios from 'axios';
-// import { ShortLocale, Locale } from '@/store/modules/locale/locale.models';
+import { ShortLocale, Locale } from '@/store/modules/locale/locale.models';
 
 // get env vars
 const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
@@ -37,7 +37,7 @@ interface TranslationCatalogDefinition {
 }
 const translationCatalogs: TranslationCatalogDefinition = {};
 
-function getCatalog(locale) {
+function getCatalog(locale: ShortLocale | Locale) {
   return new Promise((resolve, reject) => {
     if (locale in translationCatalogs) {
       const translationCatalog = translationCatalogs[locale];
@@ -62,7 +62,7 @@ function getCatalog(locale) {
   });
 }
 
-async function updateLocale(locale) {
+async function updateLocale(locale: ShortLocale | Locale): Promise<unknown> {
   return getCatalog(locale).then(
     (translationCatalog) => translationCatalog,
     () => {
