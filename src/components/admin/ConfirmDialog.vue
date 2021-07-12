@@ -29,7 +29,7 @@
 <template>
   <modal-dialog
     :i18n-title-key="title"
-    modal-level="modal2"
+    :modal-level="modalLevel"
     @cancel="cancel"
   >
     <form class="confirm-dialog">
@@ -95,6 +95,10 @@ export default defineComponent({
     removeHereLabel(): string {
       return this.$translateLabel('REMOVE_HERE');
     },
+    modalLevel(): string {
+      // Modal 2 Because it set the correct tabindizies for elements in modal Level 1
+      return 'modal2';
+    },
   },
   mounted(): void {
     (this.$refs.cancel as HTMLElement).focus();
@@ -105,7 +109,7 @@ export default defineComponent({
     },
     finish(action: string): void {
       this.$store.dispatch('modal/resolve', {
-        level: 2,
+        level: 2, // Will be displayed in second Level Modal
         action,
       });
     },
