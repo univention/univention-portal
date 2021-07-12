@@ -29,6 +29,7 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none' }],
+    "@typescript-eslint/ban-ts-comment": "off", // removed rule, since vue mixins and typescript are causing errors
     'arrow-parens': ['error', 'always'],
     'comma-spacing': [
       'error',

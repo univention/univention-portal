@@ -12,7 +12,7 @@ describe('Logo', () => {
         cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
         cy.intercept('GET', 'de.json', { fixture: 'de.json' });
         cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
-        cy.viewport(size);
+        cy.viewport(size, orientation);
 
         cy.visit('/');
         cy.get('main.cookie-banner + footer button.primary').click();

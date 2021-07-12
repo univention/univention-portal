@@ -73,8 +73,8 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
-import ModalDialog from '@/components/ModalDialog.vue';
-import ModalWrapper from '@/components/globals/ModalWrapper.vue';
+import ModalDialog from '@/components/modal/ModalDialog.vue';
+import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 
 export default defineComponent({

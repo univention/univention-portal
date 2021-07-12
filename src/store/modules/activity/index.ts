@@ -55,6 +55,7 @@ const activity: PortalModule<Activity> = {
     ADD_REGION(state: Activity, region: string): void {
       console.log('Adding region', region);
       state.focus[region] = state.focus[region] || '';
+      console.log('CHECKING ACTIVITY STATE', state.focus);
     },
     SET_REGION(state: Activity, region: string | null): void {
       state.region = region;
@@ -75,7 +76,7 @@ const activity: PortalModule<Activity> = {
       }
       if (!region) {
         let foundRegion: HTMLElement | null = null;
-        Object.entries(state.focus).forEach(([focusRegion, id]) => {
+        Object.entries(state.focus).forEach(([focusRegion]) => {
           const regionElem = document.getElementById(focusRegion);
           if (regionElem) {
             if (foundRegion && regionElem.contains(foundRegion)) {
@@ -90,6 +91,7 @@ const activity: PortalModule<Activity> = {
       }
       if (region) {
         state.focus[region] = payload.id;
+        console.log('State.focus', state.focus);
       }
     },
   },
@@ -132,6 +134,7 @@ const activity: PortalModule<Activity> = {
     },
     saveFocus({ commit }: ActivityActionContext, payload: SaveFocusArgs): void {
       if (payload.id) {
+        console.log('SAVE FOCUS', payload.id);
         commit('SAVE_FOCUS', payload);
       }
     },

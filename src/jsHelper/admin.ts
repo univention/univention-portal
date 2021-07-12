@@ -27,7 +27,7 @@
  * <https://www.gnu.org/licenses/>.
  */
 import _ from '@/jsHelper/translate';
-import { udmPut, udmAdd } from '@/jsHelper/umc';
+import { udmRemove, udmPut, udmAdd } from '@/jsHelper/umc';
 
 async function add(objectType, attrs, store, errorMessage): Promise<string> {
   try {
@@ -65,6 +65,31 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
       title: _('%(key1)s', { key1: errorMessage }),
+      description: err.message,
+    }, { root: true });
+    return false;
+  }
+}
+
+async function remove(dn, { dispatch }, successMessage, errorMessage) {
+  try {
+    const response = await udmRemove(dn);
+    const result = response.data.result[0];
+    if (!result.success) {
+      throw new Error(result.details);
+    }
+    dispatch('notifications/addSuccessNotification', {
+      title: _(successMessage), // TODO TR
+    }, { root: true });
+    await dispatch('portalData/waitForChange', {
+      retries: 10,
+      adminMode: true,
+    }, { root: true });
+    await dispatch('loadPortal', { adminMode: true }, { root: true });
+    return true;
+  } catch (err) {
+    dispatch('notifications/addErrorNotification', {
+      title: _(errorMessage), // TODO TR
       description: err.message,
     }, { root: true });
     return false;
@@ -122,4 +147,4 @@ async function removeEntryFromSuperObj(superDn, superObjs, dn, { dispatch, gette
   return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
 }
 
-export { put, add, getAdminState, removeEntryFromSuperObj, addEntryToSuperObj };
+export { put, add, remove, getAdminState, removeEntryFromSuperObj, addEntryToSuperObj };

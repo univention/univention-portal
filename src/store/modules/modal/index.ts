@@ -26,88 +26,115 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { Commit } from 'vuex';
 import { PortalModule } from '@/store/root.models';
 
 export interface ModalState {
-  modalVisible: boolean;
-  modalComponent: string | null;
-  modalProps: Record<string, string>;
-  modalStubborn: boolean;
-  modalResolve: (any) => void;
-  modalReject: () => void;
+  firstLevelModal: {
+    modalVisible: boolean;
+    modalComponent: string | null;
+    modalProps: Record<string, string>;
+    modalStubborn: boolean;
+    modalResolve: (any) => void;
+    modalReject: () => void;
+  }
+  secondLevelModal: {
+    modalVisible: boolean;
+    modalComponent: string | null;
+    modalProps: Record<string, string>;
+    modalStubborn: boolean;
+    modalResolve: (any) => void;
+    modalReject: () => void;
+  }
 }
 
 const modal: PortalModule<ModalState> = {
   namespaced: true,
   state: {
-    modalVisible: false,
-    modalComponent: null,
-    modalProps: {},
-    modalStubborn: false,
-    modalResolve: (() => undefined),
-    modalReject: (() => undefined),
+    firstLevelModal: {
+      modalVisible: false,
+      modalComponent: null,
+      modalProps: {},
+      modalStubborn: false,
+      modalResolve: (() => undefined),
+      modalReject: (() => undefined),
+    },
+    secondLevelModal: {
+      modalVisible: false,
+      modalComponent: null,
+      modalProps: {},
+      modalStubborn: false,
+      modalResolve: (() => undefined),
+      modalReject: (() => undefined),
+    },
   },
 
   mutations: {
-    SET_MODAL(state, payload) {
-      state.modalComponent = payload.name;
-      state.modalProps = payload.props || {};
-      state.modalStubborn = payload.stubborn || false;
-      document.body.classList.add('body__has-modal');
-      state.modalResolve = payload.resolve || (() => undefined);
-      state.modalReject = payload.reject || (() => undefined);
+    SET_MODAL(state: ModalState, payload): void {
+      const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
+
+      state[modalLevel].modalComponent = payload.name;
+      state[modalLevel].modalProps = payload.props || {};
+      state[modalLevel].modalStubborn = payload.stubborn || false;
+      document.body.classList.add('body--has-modal');
+      state[modalLevel].modalResolve = payload.resolve || (() => undefined);
+      state[modalLevel].modalReject = payload.reject || (() => undefined);
     },
-    CLEAR_MODAL(state) {
-      state.modalComponent = null;
-      state.modalProps = {};
-      state.modalStubborn = false;
-      document.body.classList.remove('body__has-modal');
-      state.modalResolve = () => undefined;
-      state.modalReject = () => undefined;
+    CLEAR_MODAL(state: ModalState, payload): void {
+      const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      state[modalLevel].modalComponent = null;
+      state[modalLevel].modalProps = {};
+      state[modalLevel].modalStubborn = false;
+      document.body.classList.remove('body--has-modal');
+      state[modalLevel].modalResolve = () => undefined;
+      state[modalLevel].modalReject = () => undefined;
     },
-    SHOW_MODAL(state) {
-      state.modalVisible = true;
-      document.body.classList.add('body__has-modal');
+    SHOW_MODAL(state: ModalState, payload): void {
+      const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      state[modalLevel].modalVisible = true;
+      document.body.classList.add('body--has-modal');
     },
-    HIDE_MODAL(state) {
-      state.modalVisible = false;
-      document.body.classList.remove('body__has-modal');
+    HIDE_MODAL(state: ModalState, payload): void {
+      const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      state[modalLevel].modalVisible = false;
+      document.body.classList.remove('body--has-modal');
     },
   },
 
   getters: {
-    getModalState: (state) => state.modalVisible,
-    getModalComponent: (state) => state.modalComponent,
-    getModalProps: (state) => state.modalProps,
-    getModalStubborn: (state) => state.modalStubborn,
+    getModalState: (state) => (level: string) => state[level].modalVisible,
+    getModalComponent: (state) => (level: string) => state[level].modalComponent,
+    getModalProps: (state) => (level: string) => state[level].modalProps,
+    getModalStubborn: (state) => (level: string) => state[level].modalStubborn,
   },
 
   actions: {
-    setAndShowModal({ commit, dispatch }, payload) {
+    setAndShowModal({ commit, dispatch }, payload): void {
       commit('SET_MODAL', payload);
-      commit('SHOW_MODAL');
-      dispatch('activity/setLevel', 'modal', { root: true });
+      commit('SHOW_MODAL', payload.level);
+      const activityLevel = payload.level === 2 ? 'modal2' : 'modal';
+      dispatch('activity/setLevel', activityLevel, { root: true });
     },
-    showModal({ commit }) {
-      commit('SHOW_MODAL');
-    },
-    setShowModalPromise({ dispatch }, payload) {
+    setShowModalPromise({ dispatch }, payload): Promise<void> {
       return new Promise((resolve, reject) => {
         dispatch('setAndShowModal', { ...payload, resolve, reject });
       });
     },
-    hideAndClearModal({ getters, commit, dispatch }) {
+    hideAndClearModal({ getters, commit, dispatch }, payload?: number): void {
       if (getters.getModalState) {
-        dispatch('activity/setLevel', 'portal', { root: true });
+        const activityLevel = payload === 2 ? 'modal' : 'portal';
+        dispatch('activity/setLevel', activityLevel, { root: true });
       }
-      commit('HIDE_MODAL');
-      commit('CLEAR_MODAL');
+      commit('HIDE_MODAL', payload);
+      commit('CLEAR_MODAL', payload);
     },
-    resolve({ state }, payload) {
-      state.modalResolve(payload);
+    resolve({ state }: { state: ModalState }, payload): void {
+      const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      state[modalLevel].modalResolve(payload);
     },
-    reject({ state }) {
-      state.modalReject();
+    reject({ state }: { state: ModalState }, payload?: number): void {
+      const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      state[modalLevel].modalReject();
     },
   },
 };

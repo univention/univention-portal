@@ -77,7 +77,7 @@
 import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 
-import ModalDialog from '@/components/ModalDialog.vue';
+import ModalDialog from '@/components/modal/ModalDialog.vue';
 import Region from '@/components/activity/Region.vue';
 
 export default defineComponent({

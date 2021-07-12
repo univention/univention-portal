@@ -36,6 +36,7 @@
       <span class="link-widget__select">
         <select
           v-model="modelValueData[index].locale"
+          :tabindex="tabindex"
         >
           <option
             v-for="select in locales"
@@ -52,6 +53,7 @@
           :ref="`link${index}`"
           v-model="modelValueData[index].value"
           :name="index === 0 ? name : `${name}-${index}`"
+          :tabindex="tabindex"
         >
       </span>
       <span
@@ -61,6 +63,7 @@
         <icon-button
           icon="trash"
           :aria-label-prop="REMOVE"
+          :active-at="['modal']"
           @click="removeField(index, modelValueData)"
         />
       </span>
@@ -69,6 +72,7 @@
       <button
         type="button"
         class="modal-admin__button--inner"
+        :tabindex="tabindex"
         @click.prevent="addField"
       >
         <portal-icon
@@ -111,6 +115,10 @@ export default defineComponent({
     name: {
       type: String,
       required: true,
+    },
+    tabindex: {
+      type: Number,
+      default: 0,
     },
   },
   emits: ['update:modelValue'],

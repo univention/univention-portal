@@ -145,6 +145,10 @@ export default defineComponent({
       type: Boolean,
       required: false,
     },
+    allowedGroups: {
+      type: Array,
+      required: true,
+    },
     originalLinkTarget: {
       type: String,
       required: true,
@@ -208,9 +212,6 @@ export default defineComponent({
     if (this.hasFocus) {
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
     }
-  },
-  updated() {
-    console.log('updated!');
   },
   methods: {
     hideTooltip(): void {

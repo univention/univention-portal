@@ -71,6 +71,7 @@
             :anonymous="tile.anonymous"
             :background-color="tile.backgroundColor"
             :links="tile.links"
+            :allowed-groups="tile.allowedGroups"
             :link-target="tile.linkTarget"
             :original-link-target="tile.originalLinkTarget"
             :path-to-logo="tile.pathToLogo"

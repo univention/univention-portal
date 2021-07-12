@@ -190,12 +190,15 @@ export default defineComponent({
         return;
       }
       this.$store.dispatch('modal/resolve', {
+        level: 1,
         oldPassword: this.oldPassword,
         newPassword: this.newPassword,
       });
     },
     cancel() {
-      this.$store.dispatch('modal/reject');
+      // for second modal purpose
+      // this.$store.dispatch('modal/hideAndClearModal', 2);
+      this.$store.dispatch('modal/hideAndClearModal');
     },
   },
 });

@@ -74,12 +74,14 @@
     <div
       v-show="activeTabIndex"
       class="portal-iframes"
+      data-test="portal-iframes"
     >
       <portal-iframe
         v-for="(item, index) in tabs"
         :key="index"
         :link="item.iframeLink"
         :is-active="activeTabIndex == index + 1"
+        :tab-id="index"
       />
     </div>
 
@@ -92,7 +94,11 @@
 
     <portal-sidebar />
     <portal-modal :is-active="false" />
-    <loading-overlay />
+    <portal-modal
+      :modal-level="2"
+      :is-active="isSecondModalActive"
+    />
+    <!-- <loading-overlay /> -->
   </div>
 </template>
 
@@ -103,13 +109,13 @@ import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import Region from '@/components/activity/Region.vue';
-import ModalWrapper from '@/components/globals/ModalWrapper.vue';
+import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import Notifications from 'components/notifications/Notifications.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 import PortalCategory from 'components/PortalCategory.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
 import PortalIframe from 'components/PortalIframe.vue';
-import PortalModal from 'components/PortalModal.vue';
+import PortalModal from 'components/modal/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
@@ -146,6 +152,7 @@ export default defineComponent({
       tooltip: 'tooltip/tooltip',
       hasEmptySearchResults: 'search/hasEmptySearchResults',
       metaData: 'metaData/getMeta',
+      getModalState: 'modal/getModalState',
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
@@ -155,6 +162,9 @@ export default defineComponent({
     },
     EMPTY_SEARCH_RESULTS(): string {
       return _('No search results');
+    },
+    isSecondModalActive(): boolean {
+      return this.getModalState('secondLevelModal');
     },
   },
   methods: {

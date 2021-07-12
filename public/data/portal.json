@@ -3,7 +3,9 @@
    "menu_links": [
      "cn=certificates,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-     "cn=help,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+     "cn=help,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+     "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+     "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
    ],
    "entries": [
      {
@@ -58,11 +60,13 @@
        "dn": "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "linkTarget": "useportaldefault",
        "links": [
-         {"locale": "en_US", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"}
+         {"locale": "en_US", "value": "https://wikipedia.com"},
+         {"locale": "de_DE", "value": "hheps://wikipedia.de"}
        ],
        "logo_name": "./data/icons/owncloud-admindoc.svg",
        "name": {
-         "de_DE": "Admin Handbuch"
+         "de_DE": "Admin Handbuch",
+         "en_US": "Admin Handbook"
        }
      },
      {

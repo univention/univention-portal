@@ -56,6 +56,17 @@ function changePassword(oldPassword: string, newPassword: string): Promise<Axios
   });
 }
 
+function udmRemove(dn: string): Promise<AxiosResponse<any>> {
+  return umc('command/udm/remove', [{
+    object: dn,
+    options: {
+      cleanup: true,
+      recursive: true,
+    },
+  }],
+  'portals/all');
+}
+
 function udmPut(dn: string, attrs: any): Promise<AxiosResponse<any>> {
   return umc('command/udm/put', [{
     object: { ...attrs, $dn$: dn },
@@ -72,4 +83,4 @@ function udmAdd(objectType: string, attrs: any): Promise<AxiosResponse<any>> {
   'portals/all');
 }
 
-export { changePassword, umc, udmPut, udmAdd };
+export { changePassword, umc, udmPut, udmAdd, udmRemove };
