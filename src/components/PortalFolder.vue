@@ -181,7 +181,7 @@ export default defineComponent({
         itemString = _('Items');
       }
 
-      return !this.inModal ? `${_('Folder')}: ${numberOfItems} ${itemString}` : null;
+      return !this.inModal ? `${this.$localized(this.title)} ${_('Folder')}: ${numberOfItems} ${itemString}` : null;
     },
     isOpened(): string {
       return this.inModal ? 'div' : 'button';

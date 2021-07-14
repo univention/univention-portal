@@ -107,6 +107,7 @@ export default defineComponent({
       activityLevel: 'activity/level',
     }),
     tabindex(): number {
+      // Sets to tabindex -1 if modalLevel 2 is active
       return activity(['modal'], this.activityLevel);
     },
     SAVE(): string {
