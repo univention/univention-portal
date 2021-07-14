@@ -17,7 +17,7 @@ describe('General Tests', () => {
          * should be refactored.
          */
 
-    cy.contains('Cookie-Einstellungen');
+    // cy.contains('Cookie-Einstellungen');
     cy.get('main.cookie-banner + footer button.primary').click();
     cy.getCookie('univentionCookieSettingsAccepted').should('exist');
 
