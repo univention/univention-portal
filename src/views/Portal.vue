@@ -161,7 +161,7 @@ export default defineComponent({
       return _('Add category');
     },
     EMPTY_SEARCH_RESULTS(): string {
-      return _('No search results.');
+      return _('No search results');
     },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
