@@ -179,8 +179,7 @@ export default defineComponent({
       } else {
         itemString = this.$translateLabel('ITEMS');
       }
-
-      return !this.inModal ? `${this.$translateLabel('FOLDER')}: ${numberOfItems} ${itemString}` : null;
+      return !this.inModal ? `${this.$localized(this.title)} ${this.$translateLabel('FOLDER')}: ${numberOfItems} ${itemString}` : null;
     },
     ariaLabelFolderButton(): string {
       return `${this.$translateLabel('EDIT_FOLDER')}`;
