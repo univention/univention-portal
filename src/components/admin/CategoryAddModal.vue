@@ -84,7 +84,7 @@ export default defineComponent({
           stubborn: true,
           props: {
             modelValue: {},
-            label: 'Add category',
+            label: _('Add category'),
           },
         });
       }

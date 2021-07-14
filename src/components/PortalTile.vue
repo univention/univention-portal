@@ -237,7 +237,7 @@ export default defineComponent({
           modelValue: this.$props,
           superDn: this.superDn,
           fromFolder: this.fromFolder,
-          label: 'Edit entry',
+          label: _('Edit entry'),
         },
       });
     },
