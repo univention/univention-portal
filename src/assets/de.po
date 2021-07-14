@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-07-13 03:00+0300\n"
+"POT-Creation-Date: 2021-07-14 12:44+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -34,6 +34,11 @@ msgstr "Aktiviert"
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
 msgid "Add"
 msgstr "Hinzufügen"
+
+#: src/tmp/ts/src/views/Portal.vue:56
+#: src/tmp/ts/src/components/admin/CategoryAddModal.vue:29
+msgid "Add category"
+msgstr "Kategorie hinzufügen"
 
 #: src/tmp/ts/src/components/admin/TileAddModal.vue:37
 msgid "Add entry"
@@ -176,6 +181,10 @@ msgstr ""
 #: src/tmp/ts/src/components/PortalCategory.vue:66
 msgid "Edit category"
 msgstr "Kategorie bearbeiten"
+
+#: src/tmp/ts/src/components/PortalTile.vue:148
+msgid "Edit entry"
+msgstr "Eintrag bearbeiten"
 
 #: src/tmp/ts/src/components/PortalFolder.vue:79
 msgid "Edit folder"
@@ -358,6 +367,11 @@ msgstr "Neuer Tab"
 msgid "No items"
 msgstr "Keine Einträge"
 
+#: src/tmp/ts/src/views/Portal.vue:59
+#, fuzzy
+msgid "No search results."
+msgstr "Keine Suchergebnisse"
+
 #: src/tmp/ts/src/components/PortalSidebar.vue:37
 #: src/tmp/ts/src/components/PortalHeader.vue:67
 msgid "Notifications"
@@ -532,109 +546,3 @@ msgstr "Wiederholung"
 #: src/tmp/ts/src/components/search/PortalSearch.vue:25
 msgid "search"
 msgstr "suche"
-
-#~ msgid "Add category"
-#~ msgstr "Kategorie hinzufügen"
-
-#~ msgid "Add folder"
-#~ msgstr "Ordner hinzufügen"
-
-#~ msgid "Add new entry"
-#~ msgstr "Neuen Eintrag hinzufügen"
-
-#~ msgid "Add objects"
-#~ msgstr "Objekte hinzufügen"
-
-#~ msgid "Back"
-#~ msgstr "Zurück"
-
-#~ msgid "Category could not be created"
-#~ msgstr "Kategorie konnte nicht erstellt werden"
-
-#~ msgid "Category successfully created"
-#~ msgstr "Kategorie erfolgreich erstellt"
-
-#~ msgid "Create new entry"
-#~ msgstr "Neuen Eintrag hinzufügen"
-
-#~ msgid "Create new folder"
-#~ msgstr "Neuen Ordner hinzufügen"
-
-#~ msgid ""
-#~ "Description of the entry. At least one entry; strongly encouraged to have "
-#~ "one for en_US"
-#~ msgstr ""
-#~ "Beschreibung des Eintrags. Mindestens ein Eintrag; dringend empfohlen, eine "
-#~ "für 'en_US' zu haben"
-
-#~ msgid "Display name"
-#~ msgstr "Anzeigename"
-
-#~ msgid ""
-#~ "Display name of the category. At least one entry; strongly encouraged to "
-#~ "have one for en_US"
-#~ msgstr ""
-#~ "Anzeigename der Kategorie. Mindestens ein Eintrag; dringend empfohlen, eine "
-#~ "für 'en_US' zu haben"
-
-#~ msgid "Edit entry"
-#~ msgstr "Eintrag bearbeiten"
-
-#~ msgid "Entry could not be created"
-#~ msgstr "Eintrag konnte nicht erstellt werden"
-
-#~ msgid "Entry successfully created"
-#~ msgstr "Eintrag erfolgreich erstellt"
-
-#~ msgid "Folder could not be created"
-#~ msgstr "Ordner konnte nicht erstellt werden"
-
-#~ msgid "Folder successfully created"
-#~ msgstr "Ordner erfolgreich erstellt"
-
-#~ msgid ""
-#~ "Headline of the entry. At least one entry; strongly encouraged to have one "
-#~ "for en_US"
-#~ msgstr ""
-#~ "Überschrift des Eintrags. Mindestens ein Eintrag; dringend empfohlen, einen "
-#~ "Eintrag für 'en_US' zu haben"
-
-#~ msgid ""
-#~ "If one or more groups are selected then the portal entry will only be "
-#~ "visible to logged in users that are in any of the selected groups. If no "
-#~ "groups are selected then the portal entry is always visible."
-#~ msgstr ""
-#~ "Wenn eine oder mehrere Gruppen ausgewählt sind, ist der Portaleintrag nur "
-#~ "für angemeldete Benutzer sichtbar, die sich in einer der ausgewählten "
-#~ "Gruppen befinden. Wenn keine Gruppen ausgewählt sind, ist der Portaleintrag "
-#~ "immer sichtbar."
-
-#~ msgid "Language code (e.g. en_US)"
-#~ msgstr "Sprachcode (z. B. en_US)"
-
-#~ msgid "Link"
-#~ msgstr "Link"
-
-#~ msgid "Links"
-#~ msgstr "Links"
-
-#~ msgid "Next"
-#~ msgstr "Weiter"
-
-#~ msgid "No search results"
-#~ msgstr "Keine Suchergebnisse"
-
-#~ msgid "Restrict visibility to groups"
-#~ msgstr "Beschränkung der Sichtbarkeit auf Gruppen"
-
-#~ msgid "Select all"
-#~ msgstr "Alles auswählen"
-
-#~ msgid "Switch locale"
-#~ msgstr "Sprache ändern"
-
-#~ msgid "To focus press Enter"
-#~ msgstr "Enter drücken um zu Fokussieren"
-
-#~ msgid "You have successfully updated your password"
-#~ msgstr "Das Passwort wurde erfolgreich aktualisiert"
