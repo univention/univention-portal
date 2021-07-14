@@ -74,7 +74,7 @@ export default defineComponent({
     },
     modalLevel: {
       type: String,
-      default: 'modal',
+      default: 'modal', // pass 'modal2' if modal is in second Level
     },
     cancelAllowed: {
       type: Boolean,
