@@ -44,14 +44,18 @@ License with the Debian GNU/Linux or Univention distribution in file
         </div>
         <notifications :only-visible="false" />
       </flyout-wrapper>
-      <flyout-wrapper
-        v-if="activeMenuButton"
-        :is-visible="activeMenuButton"
-        class="portal-sidebar__flyout"
-      >
-        <!-- Side navigation -->
-        <side-navigation />
-      </flyout-wrapper>
+
+      <transition name="slide" appear>
+        <flyout-wrapper
+          v-if="activeMenuButton"
+          :is-visible="activeMenuButton"
+          class="portal-sidebar__flyout"
+        >
+          <!-- Side navigation -->
+          <side-navigation />
+        </flyout-wrapper>
+      </transition>
+
       <flyout-wrapper
         :is-visible="activeEditModeButton"
         class="portal-sidebar__flyout"
@@ -104,7 +108,9 @@ export default defineComponent({
   },
   methods: {
     closeSidebar(): void {
-      this.$store.dispatch('navigation/setActiveButton', '');
+      setTimeout(() => {
+        this.$store.dispatch('navigation/setActiveButton', '');
+      }, 500);
     },
   },
 });
@@ -117,4 +123,14 @@ export default defineComponent({
     margin: calc(2 * var(--layout-spacing-unit)) 0
     margin-left: calc(2.5 * var(--layout-spacing-unit))
     font-size: 20px
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(22rem)
+}
 </style>
