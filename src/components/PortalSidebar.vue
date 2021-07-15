@@ -33,19 +33,27 @@ License with the Debian GNU/Linux or Univention distribution in file
       :is-active="activeNotificationButton || activeMenuButton || activeEditModeButton"
       @backgroundClick="closeSidebar"
     >
-      <flyout-wrapper
-        v-if="activeNotificationButton"
-        :is-visible="activeNotificationButton"
-        class="portal-sidebar__flyout"
+      <transition
+        name="slide"
+        appear
       >
-        <!-- Side notifications -->
-        <div class="portal-sidebar__title">
-          <translate i18n-key="NOTIFICATIONS" />
-        </div>
-        <notifications :only-visible="false" />
-      </flyout-wrapper>
+        <flyout-wrapper
+          v-if="activeNotificationButton"
+          :is-visible="activeNotificationButton"
+          class="portal-sidebar__flyout"
+        >
+          <!-- Side notifications -->
+          <div class="portal-sidebar__title">
+            <translate i18n-key="NOTIFICATIONS" />
+          </div>
+          <notifications :only-visible="false" />
+        </flyout-wrapper>
+      </transition>
 
-      <transition name="slide" appear>
+      <transition
+        name="slide"
+        appear
+      >
         <flyout-wrapper
           v-if="activeMenuButton"
           :is-visible="activeMenuButton"
@@ -56,13 +64,18 @@ License with the Debian GNU/Linux or Univention distribution in file
         </flyout-wrapper>
       </transition>
 
-      <flyout-wrapper
-        :is-visible="activeEditModeButton"
-        class="portal-sidebar__flyout"
+      <transition
+        name="slide"
+        appear
       >
-        <!-- Edit mode -->
-        <edit-mode-side-navigation v-if="activeEditModeButton" />
-      </flyout-wrapper>
+        <flyout-wrapper
+          :is-visible="activeEditModeButton"
+          class="portal-sidebar__flyout"
+        >
+          <!-- Edit mode -->
+          <edit-mode-side-navigation v-if="activeEditModeButton" />
+        </flyout-wrapper>
+      </transition>
     </modal-wrapper>
   </div>
 </template>
