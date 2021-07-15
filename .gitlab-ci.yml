@@ -147,8 +147,8 @@ lint:
       -backend-config="address=${TF_ADDRESS}" \
       -backend-config="lock_address=${TF_ADDRESS}/lock" \
       -backend-config="unlock_address=${TF_ADDRESS}/lock" \
-      -backend-config="username=gitlab-ci-token" \
-      -backend-config="password=${CI_JOB_TOKEN}" \
+      -backend-config="username=terraform-state" \
+      -backend-config="password=${GL_TOKEN}" \
       -backend-config="lock_method=POST" \
       -backend-config="unlock_method=DELETE" \
       -backend-config="retry_wait_min=5" \
@@ -181,7 +181,7 @@ master-env:
     - terraform apply -auto-approve -var sandbox-snapshot=41819632 -var create-dns-record=false
   stage: master-env
   variables:
-    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}-master
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}
 
 master-deploy:
   before_script:
@@ -211,5 +211,5 @@ master-stop-env:
     - curl -k --header "Private-Token:${GL_TOKEN}" --request DELETE ${TF_ADDRESS}
   stage: master-env
   variables:
-    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}-master
+    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}
   when: manual
