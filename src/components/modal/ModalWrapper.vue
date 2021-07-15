@@ -28,13 +28,18 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <teleport to="body">
-    <div
-      class="modal-wrapper"
-      :class="{ 'modal-wrapper--isVisible': isActive, 'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
-      @click.self="$emit('backgroundClick');"
+    <transition
+      name="fade"
+      appear
     >
-      <slot />
-    </div>
+      <div
+        class="modal-wrapper"
+        :class="{ 'modal-wrapper--isVisible': isActive, 'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
+        @click.self="$emit('backgroundClick');"
+      >
+        <slot />
+      </div>
+    </transition>
   </teleport>
 </template>
 
@@ -97,4 +102,14 @@ export default defineComponent({
 
     &--isVisibleFullscreen
       z-index: $zindex-4
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0
+}
 </style>
