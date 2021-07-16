@@ -122,9 +122,7 @@ export default defineComponent({
   },
   methods: {
     closeSidebar(): void {
-      setTimeout(() => {
-        this.$store.dispatch('navigation/setActiveButton', '');
-      }, 500);
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
   },
 });
