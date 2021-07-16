@@ -140,7 +140,7 @@ lint:
 .environment-common:
   before_script:
     - rm -rf ${CI_BUILDS_DIR}/terraform
-    - git -c http.sslVerify=false clone --single-branch --branch language-refactoring --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/univention/customers/dataport/deployment/terraform-ionos ${CI_BUILDS_DIR}/terraform
+    - git -c http.sslVerify=false clone --single-branch --branch main --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/univention/customers/dataport/deployment/terraform-ionos ${CI_BUILDS_DIR}/terraform
     - cd ${TF_ROOT}
     - |
       terraform init \
