@@ -50,6 +50,7 @@ describe('General Tests', () => {
     cy.get('.modal-wrapper--isVisible').click();
 
     cy.get('[data-test="navigationbutton"]').click();
+    cy.wait(500);
     cy.get('.portal-sidenavigation__link').contains('Anmelden');
     cy.contains('Zertifikate');
     cy.contains('Apps');
