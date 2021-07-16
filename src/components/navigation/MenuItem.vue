@@ -38,6 +38,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     :role="ariaRole"
     @click="setClickIfSubItem"
     @keydown.enter="setClickIfSubItem"
+    @keydown.space="setClickIfSubItem"
   >
     <portal-icon
       v-if="isParentInSubItem"
