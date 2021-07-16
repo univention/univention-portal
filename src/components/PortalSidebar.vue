@@ -29,7 +29,6 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <div class="portal-sidebar">
     <modal-wrapper
-      v-if="activeNotificationButton || activeMenuButton || activeEditModeButton"
       :is-active="activeNotificationButton || activeMenuButton || activeEditModeButton"
       @backgroundClick="closeSidebar"
     >

@@ -32,21 +32,24 @@ License with the Debian GNU/Linux or Univention distribution in file
     ref="searchInput"
     class="portal-search"
   >
-    <flyout-wrapper
-      :is-visible="activeButton === 'search'"
-      class="portal-search__wrapper"
-    >
-      <input
-        ref="portalSearchInput"
-        v-model="portalSearch"
-        data-test="searchInput"
-        type="text"
-        class="portal-search__input"
-        :aria-label="SEARCH"
-        @input="searchTiles"
-        @keyup.esc="closeSearchInput()"
+    <transition name="slide" appear>
+      <flyout-wrapper
+        v-if="activeButton === 'search'"
+        :is-visible="activeButton === 'search'"
+        class="portal-search__wrapper"
       >
-    </flyout-wrapper>
+        <input
+          ref="portalSearchInput"
+          v-model="portalSearch"
+          data-test="searchInput"
+          type="text"
+          class="portal-search__input"
+          :aria-label="SEARCH"
+          @input="searchTiles"
+          @keyup.esc="closeSearchInput()"
+        >
+      </flyout-wrapper>
+    </transition>
   </div>
 </template>
 
@@ -120,4 +123,14 @@ export default defineComponent({
       outline: none;
   &__wrapper
     background-color: rgba(0,0,0,0)
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(22rem)
+}
 </style>
