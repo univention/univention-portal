@@ -42,7 +42,7 @@
         aria-atomic="true"
       >
         <h2 v-if="hasEmptySearchResults">
-          <translate i18n-key="NO_RESULTS" />
+          {{ EMPTY_SEARCH_RESULTS }}
         </h2>
       </div>
 
@@ -64,10 +64,10 @@
         <icon-button
           icon="plus"
           class="portal-categories__add-button icon-button--admin"
-          :aria-label-prop="ariaLabelAddNewTile"
+          :aria-label-prop="ADD_CATEGORY"
           @click="addCategory"
         />
-        <translate i18n-key="ADD_CATEGORY" />
+        {{ ADD_CATEGORY }}
       </h2>
     </region>
 
@@ -105,6 +105,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import Region from '@/components/activity/Region.vue';
@@ -118,8 +119,6 @@ import PortalModal from 'components/modal/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
-
-import Translate from '@/i18n/Translate.vue';
 
 import { Category } from '@/store/modules/portalData/portalData.models';
 import createCategories from '@/jsHelper/createCategories';
@@ -139,7 +138,6 @@ export default defineComponent({
     PortalSidebar,
     PortalToolTip,
     Region,
-    Translate,
   },
   computed: {
     ...mapGetters({
@@ -159,8 +157,11 @@ export default defineComponent({
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
     },
-    ariaLabelAddNewTile(): string {
-      return this.$translateLabel('ADD_NEW_CATEGORY');
+    ADD_CATEGORY(): string {
+      return _('Add category');
+    },
+    EMPTY_SEARCH_RESULTS(): string {
+      return _('No search results');
     },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');

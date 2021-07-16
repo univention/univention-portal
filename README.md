@@ -11,23 +11,6 @@ Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are ma
 - [Tech Stack](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Tech%20Stack/) (Technical decisions about the frameworks, libraries and tools we use)
 - [Workflow](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Workflow/) (Description and suggestions on how we work together, track issues, review code...)
 
-## Have a live look
-
-A version that *should* work can be found here: http://10.200.4.60
-
-`ssh lagan.knut.univention.de virsh start dwiesent_ucs5-vue-portal`
-
-You may as well install our latest packages. Add this to `/etc/apt/sources.list`:
-
-```
-deb http://omar.knut.univention.de/build2/ ucs_5.0-0-vue-frontend/all/
-deb http://omar.knut.univention.de/build2/ ucs_5.0-0-vue-frontend/$(ARCH)/
-```
-
-and install the packages `phoenix-portal univention-portal`
-
-This installs the frontend to /univention/phoenix/.
-
 ## Project setup
 
 Regardless if you want to run it locally on your Linux machine or on a UCS
@@ -44,6 +27,15 @@ npm install --force -g npm@latest  # newer version
 
 Have a look at `.env.local_example`. Copy it to `.env.local`. Or copy
 `.env.production` instead.
+
+### Sync the files to a UCS
+
+In order to build the project on a UCS, you can sync all dev files from your local git:
+
+```
+UCS_MACHINE=10.200.4.80
+~/git/frontend/sync $UCS_MACHINE:frontend/
+```
 
 ### Compiles and hot-reloads for development
 ```
@@ -64,14 +56,17 @@ yarn lint
 
 ## Translation
 
-We use the UCS tooling. The configuration is in debian/phoenixportal.univention-l10n. Here are some commands how to make the translation files locally (and so that they can be checked in):
+We use the UCS tooling. The configuration is in `debian/phoenixportal.univention-l10n.` 
+You need to download the ucs repo to call the following commands: https://git.knut.univention.de/univention/ucs
 
 ```
-# updates de.po
-~/git/ucs/packaging/univention-l10n/univention-l10n-build de
+# creates tempprary files for vue and generates/updates de.po
+./process_vue_files.sh && ~/git/ucs/packaging/univention-l10n/univention-l10n-build de
 
 # compiles de.po to de.json
 ~/git/ucs/packaging/univention-l10n/univention-l10n-install de
+
+# copy that json into out public directory
 cp {debian/phoenixportal/,}public/i18n/de.json
 ```
 

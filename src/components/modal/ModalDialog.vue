@@ -33,10 +33,9 @@ License with the Debian GNU/Linux or Univention distribution in file
   >
     <header class="dialog__header">
       <h3>
-        <translate
-          v-if="i18nTitleKey"
-          :i18n-key="i18nTitleKey"
-        />
+        <span v-if="i18nTitleKey">
+          {{ I18N_TITLE_KEY }}
+        </span>
         <span v-else>
           {{ title }}
         </span>
@@ -44,8 +43,8 @@ License with the Debian GNU/Linux or Univention distribution in file
       <icon-button
         v-if="cancelAllowed"
         icon="x"
+        :aria-label-prop="CANCEL"
         :active-at="[modalLevel]"
-        :aria-label-prop="ariaLabelCancel"
         @click="cancel()"
       />
     </header>
@@ -55,13 +54,13 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Translate from '@/i18n/Translate.vue';
+import _ from '@/jsHelper/translate';
+
 import IconButton from '@/components/globals/IconButton.vue';
 
 export default defineComponent({
   name: 'ModalDialog',
   components: {
-    Translate,
     IconButton,
   },
   props: {
@@ -85,8 +84,11 @@ export default defineComponent({
   },
   emits: ['cancel'],
   computed: {
-    ariaLabelCancel(): string {
-      return this.$translateLabel('CANCEL');
+    I18N_TITLE_KEY(): string {
+      return _('%(key1)s', { key1: this.i18nTitleKey });
+    },
+    CANCEL(): string {
+      return _('Cancel');
     },
   },
   methods: {

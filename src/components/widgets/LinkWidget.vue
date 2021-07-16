@@ -62,7 +62,7 @@
       >
         <icon-button
           icon="trash"
-          :aria-label-prop="ariaLabelRemove"
+          :aria-label-prop="REMOVE"
           :active-at="['modal']"
           @click="removeField(index, modelValueData)"
         />
@@ -78,9 +78,7 @@
         <portal-icon
           icon="plus"
         />
-        <translate
-          i18n-key="NEW_ENTRY"
-        />
+        {{ CREATE_NEW_ENTRY }}
       </button>
     </span>
   </div>
@@ -89,10 +87,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import Translate from '@/i18n/Translate.vue';
 
 interface LinkWidgetData {
   modelValueData: Array<unknown>,
@@ -108,7 +106,6 @@ export default defineComponent({
   components: {
     IconButton,
     PortalIcon,
-    Translate,
   },
   props: {
     modelValue: {
@@ -135,8 +132,11 @@ export default defineComponent({
       locales: 'locale/getAvailableLocales',
       currentLocale: 'locale/getLocale',
     }),
-    ariaLabelRemove(): string {
-      return this.$translateLabel('REMOVE');
+    REMOVE(): string {
+      return _('Remove');
+    },
+    CREATE_NEW_ENTRY(): string {
+      return _('Create a new Entry');
     },
   },
   created() {

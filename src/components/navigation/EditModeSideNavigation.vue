@@ -34,49 +34,50 @@
     >
       <image-upload
         v-model="portalLogoData"
-        :label="$translateLabel('PORTAL_LOGO')"
+        :label="PORTAL_LOGO"
       />
       <locale-input
         v-model="portalNameData"
-        i18n-label="NAME"
+        :i18n-label="NAME"
         name="name"
         @update:modelValue="update"
       />
       <image-upload
         v-model="portalBackgroundData"
-        :label="$translateLabel('BACKGROUND')"
+        :label="BACKGROUND"
       />
       <label>
-        <translate i18n-key="DEFAULT_LINK_TARGET" />
+        {{ DEFAULT_LINK_BEHAVIOUR }}
         <select
           v-model="portalDefaultLinkTargetData"
         >
-          <option value="samewindow">{{ $translateLabel('SAME_WINDOW') }}</option>
-          <option value="newwindow">{{ $translateLabel('NEW_WINDOW') }}</option>
-          <option value="embedded">{{ $translateLabel('EMBEDDED') }}</option>
+          <option value="samewindow">{{ SAME_TAB }}</option>
+          <option value="newwindow">{{ NEW_TAB }}</option>
+          <option value="embedded">{{ EMBEDDED }}</option>
         </select>
       </label>
-      <label>
+      <label class="edit-mode-side-navigation__checkbox">
         <input
           v-model="portalEnsureLoginData"
           type="checkbox"
         >
-        <translate i18n-key="ENSURE_LOGIN" />
+        {{ USERS_REQUIRED_TO_LOGIN }}
       </label>
-      <label>
+      <label class="edit-mode-side-navigation__checkbox">
         <input
           v-model="portalShowUmcData"
           type="checkbox"
         >
-        <translate i18n-key="SHOW_UMC" />
+        {{ SHOW_LOCAL_UMC_MODULES }}
+
       </label>
       <button class="primary edit-mode-side-navigation__save-button">
         <portal-icon
           icon="save"
         />
-        <translate
-          i18n-key="SAVE"
-        />
+        <span>
+          {{ SAVE }}
+        </span>
       </button>
     </form>
   </nav>
@@ -85,9 +86,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import { udmPut } from '@/jsHelper/umc';
-import Translate from '@/i18n/Translate.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
@@ -104,7 +105,6 @@ interface EditModeSideNavigationData {
 export default defineComponent({
   name: 'EditModeSideNavigation',
   components: {
-    Translate,
     PortalIcon,
     ImageUpload,
     LocaleInput,
@@ -129,6 +129,36 @@ export default defineComponent({
       portalEnsureLogin: 'portalData/portalEnsureLogin',
       portalDefaultLinkTarget: 'portalData/portalDefaultLinkTarget',
     }),
+    PORTAL_LOGO(): string {
+      return _('Portal logo');
+    },
+    BACKGROUND(): string {
+      return _('Background');
+    },
+    DEFAULT_LINK_BEHAVIOUR(): string {
+      return _('Default link behaviour for portal entries');
+    },
+    SAME_TAB(): string {
+      return _('Same tab');
+    },
+    NEW_TAB(): string {
+      return _('New tab');
+    },
+    EMBEDDED(): string {
+      return _('Embedded');
+    },
+    USERS_REQUIRED_TO_LOGIN(): string {
+      return _('Users are required to login');
+    },
+    SHOW_LOCAL_UMC_MODULES(): string {
+      return _('Show local UMC modules');
+    },
+    SAVE(): string {
+      return _('Save');
+    },
+    NAME(): string {
+      return _('Name');
+    },
   },
   updated() {
     this.update();
@@ -151,7 +181,7 @@ export default defineComponent({
     validate() {
       const errors: Record<string, string> = {};
       if (!this.portalNameData.en_US) {
-        errors.name = 'ERROR_ENTER_TITLE';
+        errors.name = _('Please enter a display name');
       }
       return errors;
     },
@@ -168,10 +198,10 @@ export default defineComponent({
           }
         });
         const description = Object.values(errors)
-          .map((err) => this.$translateLabel(err))
+          .map((err) => _('%(key1)s', { key1: err }))
           .join('</li><li>');
         this.$store.dispatch('notifications/addErrorNotification', {
-          title: this.$translateLabel('ERROR_ON_VALIDATION'),
+          title: _('Error on validation'),
           description: `<ul><li>${description}</li></ul>`,
         });
         return;
@@ -234,4 +264,6 @@ export default defineComponent({
         margin-left: 0
   &__save-button
     margin-top: calc(2 * var(--layout-spacing-unit))
+  &__checkbox
+    display: flex
 </style>

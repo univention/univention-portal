@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rsync -av --delete --exclude .git --exclude node_modules/ --include 'public/fonts/' --exclude 'public/*/' --exclude dist/ --exclude debian/ --exclude .env.local --exclude src/assets/mocks/ --exclude src/assets/img/ --exclude src/tmp/ "$(dirname "$0")" $@

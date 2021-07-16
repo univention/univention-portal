@@ -29,7 +29,7 @@
 <template>
   <icon-button
     icon="plus"
-    :aria-label-prop="ariaLabelAddTile"
+    :aria-label-prop="ADD_NEW_TILE"
     :active-at="activeAt"
     class="tile-add"
     @dragenter="dragenter"
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import Draggable from '@/mixins/Draggable.vue';
@@ -62,9 +63,6 @@ export default defineComponent({
     },
   },
   computed: {
-    ariaLabelAddTile(): string {
-      return this.$translateLabel('ADD_NEW_TILE');
-    },
     id(): string {
       const r = new RegExp(/[^a-z]/g);
       return `tile-add-${this.superDn.replaceAll(r, '-')}`;
@@ -74,6 +72,9 @@ export default defineComponent({
         return ['modal'];
       }
       return ['portal'];
+    },
+    ADD_NEW_TILE():string {
+      return _('Add new Tile');
     },
   },
   methods: {

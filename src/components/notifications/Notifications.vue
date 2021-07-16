@@ -45,7 +45,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         <portal-icon
           icon="trash"
         />
-        <translate i18n-key="REMOVE_ALL_NOTIFICATIONS" />
+        {{ REMOVE_ALL_NOTIFICATIONS }}
       </button>
     </div>
     <notification
@@ -59,8 +59,8 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
-import Translate from '@/i18n/Translate.vue';
 import Region from '@/components/activity/Region.vue';
 import Notification from '@/components/notifications/Notification.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
@@ -70,7 +70,6 @@ export default defineComponent({
   components: {
     Notification,
     Region,
-    Translate,
     PortalIcon,
   },
   props: {
@@ -90,6 +89,9 @@ export default defineComponent({
         return this.visibleNotifications;
       }
       return this.allNotifications;
+    },
+    REMOVE_ALL_NOTIFICATIONS(): string {
+      return _('Remove all notifications');
     },
     ariaLiveStatus(): string {
       return this.onlyVisible ? 'polite' : 'off';

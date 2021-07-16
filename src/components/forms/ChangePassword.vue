@@ -35,10 +35,10 @@ License with the Debian GNU/Linux or Univention distribution in file
       @submit.prevent="finish"
     >
       <label for="oldPassword">
-        <translate i18n-key="OLD_PASSWORD" />
+        {{ OLD_PASSWORD }}
         <input-error-message
           :display-condition="!oldPasswordSet && submitButtonClicked"
-          error-message="Please enter your old password"
+          :error-message="OLD_PASSWORD_ERROR_MESSAGE"
         />
       </label>
       <input
@@ -49,10 +49,10 @@ License with the Debian GNU/Linux or Univention distribution in file
         type="password"
       >
       <label for="newPassword">
-        <translate i18n-key="NEW_PASSWORD" />
+        {{ NEW_PASSWORD }}
         <input-error-message
           :display-condition="!newPasswordSet && submitButtonClicked"
-          error-message="Please enter your new password"
+          :error-message="NEW_PASSWORD_ERROR_MESSAGE"
         />
       </label>
       <input
@@ -63,14 +63,15 @@ License with the Debian GNU/Linux or Univention distribution in file
         type="password"
       >
       <label for="newPasswordRetype">
-        <translate i18n-key="NEW_PASSWORD" /> (<translate i18n-key="RETYPE" />)
+        {{ NEW_PASSWORD }}
+        ({{ RETYPE }})
         <input-error-message
           :display-condition="!newPassword2Set && submitButtonClicked"
-          error-message="Please confirm your new password."
+          :error-message="RETYPE_ERROR_MESSAGE"
         />
         <input-error-message
-          error-message="The new passwords don't match"
           :display-condition="!newPasswordsMatch && submitButtonClicked"
+          :error-message="MATCH_NEW_PASSWORD_ERROR_MESSAGE"
         />
       </label>
       <input
@@ -85,13 +86,13 @@ License with the Debian GNU/Linux or Univention distribution in file
           type="button"
           @click.prevent="cancel"
         >
-          <translate i18n-key="CANCEL" />
+          {{ CANCEL }}
         </button>
         <button
           type="submit"
           @click.prevent="finish"
         >
-          <translate i18n-key="CHANGE_PASSWORD" />
+          {{ CHANGE_PASSWORD }}
         </button>
       </footer>
     </form>
@@ -101,8 +102,8 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { setInvalidity } from '@/jsHelper/tools';
+import _ from '@/jsHelper/translate';
 
-import Translate from '@/i18n/Translate.vue';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
 import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
 
@@ -117,7 +118,6 @@ export default defineComponent({
   name: 'ChangePassword',
   components: {
     ModalDialog,
-    Translate,
     InputErrorMessage,
   },
   data(): ChangePasswordData {
@@ -129,6 +129,33 @@ export default defineComponent({
     };
   },
   computed: {
+    OLD_PASSWORD(): string {
+      return _('Old password');
+    },
+    OLD_PASSWORD_ERROR_MESSAGE(): string {
+      return _('Please enter your old password');
+    },
+    NEW_PASSWORD(): string {
+      return _('New password');
+    },
+    NEW_PASSWORD_ERROR_MESSAGE(): string {
+      return _('Please enter your new password');
+    },
+    RETYPE(): string {
+      return _('retype');
+    },
+    RETYPE_ERROR_MESSAGE(): string {
+      return _('Please confirm your new password.');
+    },
+    CANCEL(): string {
+      return _('Cancel');
+    },
+    CHANGE_PASSWORD(): string {
+      return _('Change password');
+    },
+    MATCH_NEW_PASSWORD_ERROR_MESSAGE(): string {
+      return _('The new passwords do not match');
+    },
     oldPasswordSet(): boolean {
       return !!this.oldPassword;
     },
@@ -176,3 +203,5 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+</style>
