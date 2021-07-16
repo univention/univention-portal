@@ -26,10 +26,11 @@
   * /usr/share/common-licenses/AGPL-3; if not, see
   * <https://www.gnu.org/licenses/>.
  */
+import { Commit, Dispatch } from 'vuex';
 import { updateLocale } from '@/i18n/translations';
 import { getCookie, setCookie } from '@/jsHelper/tools';
 import { PortalModule } from '@/store/root.models';
-import { Locale } from './locale.models';
+import { Locale, ShortLocale } from './locale.models';
 
 interface LocaleDefinition {
   id: string;
@@ -52,25 +53,25 @@ const locale: PortalModule<LocaleState> = {
   },
 
   mutations: {
-    NEWLOCALE(state, payload) {
+    NEWLOCALE(state: LocaleState, payload: Locale): void {
       state.locale = payload;
     },
-    DEFAULT_LOCALE(state, payload) {
+    DEFAULT_LOCALE(state: LocaleState, payload: Locale): void {
       state.defaultLocale = payload;
     },
-    AVAILABLE_LOCALES(state, payload) {
+    AVAILABLE_LOCALES(state: LocaleState, payload: Locale[]): void {
       state.availableLocales = payload;
     },
   },
 
   getters: {
-    getLocale: (state) => state.locale,
-    getDefaultLocale: (state) => state.defaultLocale,
-    getAvailableLocales: (state) => state.availableLocales,
+    getLocale: (state: LocaleState) => state.locale,
+    getDefaultLocale: (state: LocaleState) => state.defaultLocale,
+    getAvailableLocales: (state: LocaleState) => state.availableLocales,
   },
 
   actions: {
-    setLocale({ commit, dispatch }, payload: Locale) {
+    setLocale({ commit, dispatch }: { commit: Commit, dispatch: Dispatch}, payload: Locale): Promise<unknown> {
       commit('NEWLOCALE', payload);
       const lang = payload.replace('_', '-');
       dispatch('menu/setDisabled', [`menu-item-language-${lang}`], { root: true });
@@ -79,20 +80,17 @@ const locale: PortalModule<LocaleState> = {
       // TODO create helper function
       const html = document.documentElement;
       html.setAttribute('lang', localePrefix);
-      return updateLocale(localePrefix);
+      return updateLocale(localePrefix as ShortLocale);
     },
-    setInitialLocale({ getters, dispatch }) {
+    setInitialLocale({ getters, dispatch }: { getters: Record<string, any>, dispatch: Dispatch}): Promise<Dispatch> { // There is the gettertype Gettertree, but results in another error. Need to investigate.
       if (getters.getAvailableLocales.length === 1) {
-        console.log('setInitialLocale', 'single');
         dispatch('setLocale', getters.getAvailableLocales[0]);
       }
       const umcLang = getCookie('UMCLang');
       if (umcLang) {
-        console.log('setInitialLocale', 'cookie');
         return dispatch('setLocale', umcLang.replace('-', '_'));
       }
       if (getters.getDefaultLocale) {
-        console.log('setInitialLocale', 'default');
         return dispatch('setLocale', getters.getDefaultLocale);
       }
       if (window.navigator.languages) {
@@ -102,14 +100,12 @@ const locale: PortalModule<LocaleState> = {
           return !!preferred;
         });
         if (preferred) {
-          console.log('setInitialLocale', 'browser');
           return dispatch('setLocale', preferred);
         }
       }
-      console.log('setInitialLocale', 'fallback');
       return dispatch('setLocale', 'en_US');
     },
-    setAvailableLocale({ dispatch, commit }, payload: LocaleDefinition[]) {
+    setAvailableLocale({ dispatch, commit }: { commit: Commit, dispatch: Dispatch}, payload: LocaleDefinition[]): Promise<Dispatch> {
       const locales = payload.map((loc) => loc.id.replace('-', '_'));
       commit('AVAILABLE_LOCALES', locales);
       const defaultLocale = payload.find((loc) => loc.default);

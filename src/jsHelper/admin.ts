@@ -26,8 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-
-import { translate } from '@/i18n/translations';
+import _ from '@/jsHelper/translate';
 import { udmRemove, udmPut, udmAdd } from '@/jsHelper/umc';
 
 async function add(objectType, attrs, store, errorMessage): Promise<string> {
@@ -40,7 +39,7 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     return result.$dn$;
   } catch (err) {
     store.dispatch('notifications/addErrorNotification', {
-      title: translate(errorMessage),
+      title: _('%(key1)s', { key1: errorMessage }),
       description: err.message,
     });
   }
@@ -55,7 +54,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
       throw new Error(result.details);
     }
     dispatch('notifications/addSuccessNotification', {
-      title: translate(successMessage),
+      title: _('%(key1)s', { key1: successMessage }),
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -65,7 +64,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
     return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
-      title: translate(errorMessage),
+      title: _('%(key1)s', { key1: errorMessage }),
       description: err.message,
     }, { root: true });
     return false;
@@ -80,7 +79,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
       throw new Error(result.details);
     }
     dispatch('notifications/addSuccessNotification', {
-      title: translate(successMessage),
+      title: _('%(key1)s', { key1: successMessage }),
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -90,7 +89,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
     return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
-      title: translate(errorMessage),
+      title: _('%(key1)s', { key1: errorMessage }),
       description: err.message,
     }, { root: true });
     return false;

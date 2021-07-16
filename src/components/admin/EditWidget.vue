@@ -46,7 +46,7 @@
           :tabindex="tabindex"
           @click.prevent="openConfirmationDialog"
         >
-          <translate i18n-key="REMOVE" />
+          {{ REMOVE }}
         </button>
       </footer>
       <footer>
@@ -55,7 +55,7 @@
           :tabindex="tabindex"
           @click.prevent="cancel"
         >
-          <translate i18n-key="CANCEL" />
+          {{ CANCEL }}
         </button>
         <button
           class="primary"
@@ -63,7 +63,7 @@
           :tabindex="tabindex"
           @click.prevent="submit"
         >
-          <translate i18n-key="SAVE" />
+          {{ SAVE }}
         </button>
       </footer>
     </form>
@@ -73,10 +73,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import activity from '@/jsHelper/activity';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
-import Translate from '@/i18n/Translate.vue';
 
 export interface ValidatableData {
   getErrors: () => Record<string, string>,
@@ -86,7 +86,6 @@ export default defineComponent({
   name: 'EditWidget',
   components: {
     ModalDialog,
-    Translate,
   },
   props: {
     label: {
@@ -110,6 +109,15 @@ export default defineComponent({
     tabindex(): number {
       // Sets to tabindex -1 if modalLevel 2 is active
       return activity(['modal'], this.activityLevel);
+    },
+    SAVE(): string {
+      return _('Save');
+    },
+    CANCEL(): string {
+      return _('Cancel');
+    },
+    REMOVE(): string {
+      return _('Remove here');
     },
   },
   mounted() {
@@ -135,10 +143,10 @@ export default defineComponent({
           }
         });
         const description = Object.values(errors)
-          .map((err) => this.$translateLabel(err))
+          .map((err) => _('%(key1)s', { key1: err }))
           .join('</li><li>');
         this.$store.dispatch('notifications/addErrorNotification', {
-          title: this.$translateLabel('ERROR_ON_VALIDATION'),
+          title: _('The form data is not valid'),
           description: `<ul><li>${description}</li></ul>`,
         });
       }

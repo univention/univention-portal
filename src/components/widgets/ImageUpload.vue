@@ -45,9 +45,9 @@
         v-else
         class="image-upload__nofile"
       >
-        <translate
-          i18n-key="SELECT_FILE"
-        />
+        <span>
+          {{ SELECT_FILE }}
+        </span>
       </div>
     </div>
     <footer class="image-upload__footer">
@@ -65,9 +65,9 @@
         <portal-icon
           icon="upload"
         />
-        <translate
-          i18n-key="UPLOAD"
-        />
+        <span>
+          {{ UPLOAD }}
+        </span>
       </button>
       <button
         type="button"
@@ -77,9 +77,9 @@
         <portal-icon
           icon="trash"
         />
-        <translate
-          i18n-key="REMOVE"
-        />
+        <span>
+          {{ REMOVE }}
+        </span>
       </button>
     </footer>
   </div>
@@ -87,15 +87,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import Translate from '@/i18n/Translate.vue';
 
 export default defineComponent({
   name: 'ImageUpload',
   components: {
     PortalIcon,
-    Translate,
   },
   props: {
     label: {
@@ -112,6 +111,17 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  computed: {
+    SELECT_FILE(): string {
+      return _('Select file');
+    },
+    UPLOAD(): string {
+      return _('Upload');
+    },
+    REMOVE(): string {
+      return _('Remove');
+    },
+  },
   methods: {
     drop(evt: DragEvent) {
       const dt = evt.dataTransfer;
@@ -134,7 +144,6 @@ export default defineComponent({
 
       reader.onload = (e) => {
         if (e.target) {
-          console.log('e.target: ', e.target);
           this.$emit('update:modelValue', e.target.result);
         }
       };

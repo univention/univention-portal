@@ -67,6 +67,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import _ from '@/jsHelper/translate';
 import { mapGetters } from 'vuex';
 
 import TabindexElement from '@/components/activity/TabindexElement.vue';
@@ -123,11 +124,11 @@ export default defineComponent({
       const numberOfItems = this.subMenu.length;
       let itemString = '';
       if (numberOfItems === 0) {
-        itemString = this.$translateLabel('NO_ITEMS');
+        itemString = _('No items');
       } else if (numberOfItems === 1) {
-        itemString = this.$translateLabel('ITEM');
+        itemString = _('Item');
       } else {
-        itemString = this.$translateLabel('ITEMS');
+        itemString = _('Items');
       }
       return itemString;
     },

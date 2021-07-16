@@ -39,7 +39,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :active-at="['portal']"
       class="portal-header__left"
       role="button"
-      :aria-label="ariaLabelPortalHeader"
+      :aria-label="SHOW_PORTAL"
       @click="goHome"
       @keydown.enter="goHome"
     >
@@ -58,7 +58,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       </div>
 
       <h1 class="portal-header__portal-name sr-only-mobile">
-        {{ $localized(portalName) }}
+        {{ $localized(this.portalName) }}
       </h1>
     </tabindex-element>
 
@@ -84,15 +84,15 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="portal-header__right"
     >
       <div class="portal-header__edit-mode-label">
-        {{ ariaLabelEditmode }}
+        {{ EDIT_MODE }}
       </div>
       <header-button
-        :aria-label-prop="ariaLabelStartEditMode"
+        :aria-label-prop="OPEN_EDIT_SIDEBAR"
         icon="settings"
       />
       <header-button
         data-test="bellbutton"
-        :aria-label-prop="ariaLabelNotifications"
+        :aria-label-prop="STOP_EDIT_PORTAL"
         icon="bell"
         :counter="numNotifications"
         @keydown.esc="closeNotifications"
@@ -111,7 +111,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-if="showTabButton"
         ref="tabButton"
         data-test="tabbutton"
-        :aria-label-prop="ariaLabelTabs"
+        :aria-label-prop="TABS"
         icon="copy"
         :counter="numTabs"
         class="portal-header__tab-button"
@@ -119,19 +119,19 @@ License with the Debian GNU/Linux or Univention distribution in file
       <header-button
         ref="searchButton"
         data-test="searchbutton"
-        :aria-label-prop="ariaLabelSearch"
+        :aria-label-prop="SEARCH"
         icon="search"
       />
       <header-button
         data-test="bellbutton"
-        :aria-label-prop="ariaLabelNotifications"
+        :aria-label-prop="NOTIFICATIONS"
         icon="bell"
         :counter="numNotifications"
         @keydown.esc="closeNotifications"
       />
       <header-button
         data-test="navigationbutton"
-        :aria-label-prop="ariaLabelMenu"
+        :aria-label-prop="MENU"
         icon="menu"
       />
     </div>
@@ -148,6 +148,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
@@ -189,32 +190,32 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
       numNotifications: 'notifications/numNotifications',
     }),
-    ariaLabelPortalHeader(): string {
-      return `${this.$translateLabel('SHOW_PORTAL')}`;
-    },
-    ariaLabelStartEditMode(): string {
-      return `${this.$translateLabel('OPEN_EDIT_SIDEBAR')}`;
-    },
-    ariaLabelStopEditmode(): string {
-      return `${this.$translateLabel('STOP_EDIT_PORTAL')}`;
-    },
-    ariaLabelEditmode(): string {
-      return `${this.$translateLabel('EDIT_MODE')}`;
-    },
-    ariaLabelTabs(): string {
-      return `${this.$translateLabel('TABS')}`;
-    },
-    ariaLabelSearch(): string {
-      return `${this.$translateLabel('SEARCH')}`;
-    },
-    ariaLabelNotifications(): string {
-      return `${this.$translateLabel('NOTIFICATIONS')}`;
-    },
-    ariaLabelMenu(): string {
-      return `${this.$translateLabel('MENU')}`;
-    },
     showTabButton(): boolean {
       return this.numTabs > 0 && this.tabsOverflow;
+    },
+    SHOW_PORTAL(): string {
+      return _('Show portal');
+    },
+    EDIT_MODE(): string {
+      return _('Edit mode');
+    },
+    OPEN_EDIT_SIDEBAR(): string {
+      return _('Open edit sidebar');
+    },
+    STOP_EDIT_PORTAL(): string {
+      return _('Stop edit portal');
+    },
+    TABS(): string {
+      return _('Tabs');
+    },
+    SEARCH(): string {
+      return _('search');
+    },
+    NOTIFICATIONS(): string {
+      return _('Notifications');
+    },
+    MENU(): string {
+      return _('Menu');
     },
   },
   watch: {

@@ -60,8 +60,8 @@
        "dn": "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
        "linkTarget": "useportaldefault",
        "links": [
-        {"locale": "en_US", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"},
-        {"locale": "de_DE", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"}
+         {"locale": "en_US", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"},
+         {"locale": "de_DE", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"}
        ],
        "logo_name": "./data/icons/owncloud-admindoc.svg",
        "name": {

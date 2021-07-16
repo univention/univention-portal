@@ -27,7 +27,7 @@
  * <https://www.gnu.org/licenses/>.
  */
 import { put, getAdminState } from '@/jsHelper/admin';
-import translateLabel from '@/jsHelper/translate';
+import _ from '@/jsHelper/translate';
 
 import { PortalModule } from '../../root.models';
 import { PortalData } from './portalData.models';
@@ -76,7 +76,7 @@ const portalData: PortalModule<PortalDataState> = {
   },
 
   mutations: {
-    PORTALDATA(state, payload) {
+    PORTALDATA(state: PortalDataState, payload): void {
       const portal = payload.portal;
       const adminMode = payload.adminMode;
       state.portal.portal = portal.portal;
@@ -88,7 +88,7 @@ const portalData: PortalModule<PortalDataState> = {
       if (adminMode) {
         const menu = {
           display_name: {
-            en_US: translateLabel('PORTAL_MENU'),
+            en_US: _('Portal Menu'),
           },
           virtual: true,
           dn: '$$menu$$',
@@ -96,7 +96,7 @@ const portalData: PortalModule<PortalDataState> = {
         };
         const userMenu = {
           display_name: {
-            en_US: translateLabel('USER_MENU'),
+            en_US: _('User Menu'),
           },
           virtual: true,
           dn: '$$user$$',
@@ -107,22 +107,21 @@ const portalData: PortalModule<PortalDataState> = {
         state.portal.portal.content.unshift([userMenu.dn, userMenu.entries]);
         state.portal.portal.content.unshift([menu.dn, menu.entries]);
       }
-      console.log(state.portal.portal);
       state.cacheId = portal.cache_id;
     },
-    PORTALNAME(state, name) {
+    PORTALNAME(state: PortalDataState, name): void {
       state.portal.portal.name = name;
     },
-    PORTALLOGO(state, data) {
+    PORTALLOGO(state: PortalDataState, data): void {
       state.portal.portal.logo = data;
     },
-    CONTENT(state, content) {
+    CONTENT(state: PortalDataState, content): void {
       state.portal.portal.content = content;
     },
-    PORTALBACKGROUND(state, data) {
+    PORTALBACKGROUND(state: PortalDataState, data): void {
       state.portal.portal.background = data;
     },
-    CHANGE_CATEGORY(state, payload) {
+    CHANGE_CATEGORY(state: PortalDataState, payload): void {
       state.portal.categories.forEach((category) => {
         if (category.dn !== payload.category) {
           return;
@@ -130,7 +129,7 @@ const portalData: PortalModule<PortalDataState> = {
         category.entries = payload.entries;
       });
     },
-    RESHUFFLE_CATEGORY(state, payload) {
+    RESHUFFLE_CATEGORY(state: PortalDataState, payload): void {
       state.portal.portal.content = state.portal.portal.content.map(([category, entries]) => {
         if (category === payload.category) {
           return [category, payload.entries];
@@ -138,7 +137,7 @@ const portalData: PortalModule<PortalDataState> = {
         return [category, entries];
       });
     },
-    EDITMODE(state, editMode) {
+    EDITMODE(state: PortalDataState, editMode): void {
       state.editMode = editMode;
 
       // save state to localstorage if we are in dev mode
@@ -193,7 +192,7 @@ const portalData: PortalModule<PortalDataState> = {
       const attrs = {
         categories: content.map(([category]) => category).filter((category) => !['$$menu$$', '$$user$$'].includes(category)),
       };
-      await put(portalDn, attrs, { dispatch }, 'CATEGORY_ORDER_SUCCESS', 'CATEGORY_ORDER_FAILURE');
+      await put(portalDn, attrs, { dispatch }, _('Categories successfully re-sorted'), _('Categories could not be re-sorted'));
     },
     async saveContent({ commit, dispatch, getters }) {
       const content = getters.portalContent;
@@ -206,7 +205,7 @@ const portalData: PortalModule<PortalDataState> = {
           const attrs = {
             userLinks: entries,
           };
-          const ret = put(portalDn, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          const ret = put(portalDn, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
           puts.push(ret);
           return;
         }
@@ -215,7 +214,7 @@ const portalData: PortalModule<PortalDataState> = {
           const attrs = {
             menuLinks: entries,
           };
-          const ret = put(portalDn, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          const ret = put(portalDn, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
           puts.push(ret);
           return;
         }
@@ -230,7 +229,7 @@ const portalData: PortalModule<PortalDataState> = {
             return;
           }
           console.info('Rearranging entries for', cat);
-          const ret = put(cat, attrs, { dispatch }, 'ENTRY_ORDER_SUCCESS', 'ENTRY_ORDER_FAILURE');
+          const ret = put(cat, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
           puts.push(ret);
         });
       });
@@ -275,7 +274,7 @@ const portalData: PortalModule<PortalDataState> = {
         const newContent: string[][] = [];
         let srcContent: string[] = [];
         let srcIdx = -1;
-        let dstContent: string[] = [];
+        let dstContent: string[] = []; // TODO
         let dstIdx = -1;
         content.forEach(([category, entries], idx) => {
           if (category === src) {

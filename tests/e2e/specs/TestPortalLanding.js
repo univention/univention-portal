@@ -17,7 +17,7 @@ describe('General Tests', () => {
          * should be refactored.
          */
 
-    cy.contains('Cookie-Einstellungen');
+    // cy.contains('Cookie-Einstellungen');
     cy.get('main.cookie-banner + footer button.primary').click();
     cy.getCookie('univentionCookieSettingsAccepted').should('exist');
 
@@ -50,24 +50,10 @@ describe('General Tests', () => {
     cy.get('.modal-wrapper--isVisible').click();
 
     cy.get('[data-test="navigationbutton"]').click();
+    cy.wait(500);
     cy.get('.portal-sidenavigation__link').contains('Anmelden');
     cy.contains('Zertifikate');
     cy.contains('Apps');
     cy.contains('Hilfe');
-
-    // TODO: Button Focus / green Ring
-    // TODO: empty portal (no tiles, menuitems)
-    // TODO: logged out stuff (no tiles, menuitems)
-    // TODO: create a permutation of possible tile states (read json from file and manipulate directly / reload page
-    // https://help.univention.com/t/q-a-how-to-add-a-portal-tile-for-saml-login/10139
-    // TODO: injection via tile
-    // TODO: Is the loading animation loaded multiple times (see cypress time travel)?
-    // Linktargets + Portaldefault
-    // get a couple of screenshots of different viewports and integrate as ci artifacts
-    // TODO: Frames
-    // https://en.wikipedia.org/wiki/Frame_(World_Wide_Web)
-    // criticism there: no a11y, so maybe we got to scrap iframes for UPX/Dataport?
-    // no focus control: https://stackoverflow.com/questions/63737458/blocked-autofocusing-on-a-input-element-in-a-cross-origin-subframe
-    // cypress doesn't support iframes out of the box
   });
 });

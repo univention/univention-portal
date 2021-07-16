@@ -38,8 +38,8 @@ import dragndrop from './modules/dragndrop';
 import locale from './modules/locale';
 import menu from './modules/menu';
 import metaData from './modules/metaData';
-import modal from './modules/modal';
 import navigation from './modules/navigation';
+import modal from './modules/modal';
 import notifications from './modules/notifications';
 import portalData from './modules/portalData';
 import search from './modules/search';
@@ -74,14 +74,12 @@ const actions = {
     commit('SET_LOADING_STATE', false);
   },
   portalJsonRequest: (_, payload) => {
-    console.log('Loading Portal...');
     const umcLang = getCookie('UMCLang');
     const headers = {
       'X-Requested-With': 'XMLHTTPRequest',
       'Accept-Language': umcLang || 'en-US',
     };
     if (payload.adminMode || getAdminState()) {
-      console.log('... in Admin mode');
       headers['X-Univention-Portal-Admin-Mode'] = 'yes';
 
       if (process.env.VUE_APP_LOCAL) {
@@ -100,6 +98,7 @@ const actions = {
     portalPromises.push(portalRequest);
 
     axios.all(portalPromises).then(axios.spread((metaResponse, languageResponse, portalResponse) => {
+      console.warn('test');
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
       dispatch('locale/setAvailableLocale', availableLocales);
       dispatch('metaData/setMeta', meta);

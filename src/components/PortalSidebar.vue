@@ -44,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         >
           <!-- Side notifications -->
           <div class="portal-sidebar__title">
-            <translate i18n-key="NOTIFICATIONS" />
+             {{ NOTIFICATIONS }}
           </div>
           <notifications :only-visible="false" />
         </flyout-wrapper>
@@ -83,14 +83,13 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import Notifications from '@/components/notifications/Notifications.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import EditModeSideNavigation from '@/components/navigation/EditModeSideNavigation.vue';
-
-import Translate from '@/i18n/Translate.vue';
 
 export default defineComponent({
   name: 'PortalSidebar',
@@ -100,7 +99,6 @@ export default defineComponent({
     Notifications,
     SideNavigation,
     EditModeSideNavigation,
-    Translate,
   },
   computed: {
     ...mapGetters({
@@ -118,12 +116,13 @@ export default defineComponent({
     activeEditModeButton(): boolean {
       return this.activeButton === 'settings';
     },
+    NOTIFICATIONS(): string {
+      return _('Notifications');
+    },
   },
   methods: {
     closeSidebar(): void {
-      setTimeout(() => {
-        this.$store.dispatch('navigation/setActiveButton', '');
-      }, 500);
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
   },
 });

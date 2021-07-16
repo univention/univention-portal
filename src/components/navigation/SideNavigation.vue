@@ -56,7 +56,9 @@
             @keydown.enter="logout"
             @keydown.esc="closeNavigation"
           >
-            <translate i18n-key="LOGOUT" />
+            <span>
+              {{ LOGOUT }}
+            </span>
           </div>
         </div>
       </div>
@@ -69,7 +71,9 @@
         @keydown.enter="login"
         @keydown.esc="closeNavigation"
       >
-        <translate i18n-key="LOGIN" />
+        <span>
+          {{ LOGIN }}
+        </span>
       </button>
     </div>
 
@@ -155,9 +159,7 @@
       @click="startEditMode"
       @keydown.esc="closeNavigation"
     >
-      <translate
-        i18n-key="EDIT_PORTAL"
-      />
+      {{ EDIT_PORTAL }}
     </button>
   </region>
 </template>
@@ -165,14 +167,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
+import SubMenuItem from '@/components/navigation/SubMenuItem.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import TileClick from '@/mixins/TileClick.vue';
 
 import { login, logout } from '@/jsHelper/login';
-import Translate from '@/i18n/Translate.vue';
 
 interface SideNavigationData {
   menuVisible: boolean,
@@ -190,7 +193,7 @@ export default defineComponent({
   components: {
     PortalIcon,
     MenuItem,
-    Translate,
+    SubMenuItem,
     Region,
   },
   mixins: [
@@ -215,8 +218,20 @@ export default defineComponent({
       userState: 'user/userState',
       meta: 'metaData/getMeta',
     }),
-    ariaLabelSubMenuParent(): string {
-      return this.$translateLabel('GO_BACK');
+    LOGOUT(): string {
+      return _('Logout');
+    },
+    LOGIN(): string {
+      return _('Login');
+    },
+    GO_BACK(): string {
+      return _('Go Back');
+    },
+    EDIT_PORTAL(): string {
+      return _('Edit portal');
+    },
+    CHANGE_LANGUAGE(): string {
+      return _('Change language');
     },
   },
   mounted(): void {

@@ -1,6 +1,6 @@
 <template>
   <modal-dialog
-    i18n-title-key="ADD_EXISTING_CATEGORY"
+    :i18n-title-key="ADD_EXISTING_CATEGORY"
     @cancel="cancel"
   >
     <form
@@ -8,7 +8,7 @@
     >
       <main>
         <label>
-          <translate i18n-key="NAME" />
+          {{ NAME }}
           <input
             ref="input"
             type="text"
@@ -37,14 +37,14 @@
           type="button"
           @click.prevent="cancel"
         >
-          <translate i18n-key="CANCEL" />
+          {{ CANCEL }}
         </button>
         <button
           class="primary"
           type="submit"
           @click.prevent="finish"
         >
-          <translate i18n-key="ADD" />
+          {{ ADD }}
         </button>
       </footer>
     </form>
@@ -54,9 +54,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import ModalDialog from '@/components/modal/ModalDialog.vue';
-import Translate from '@/i18n/Translate.vue';
 
 import { setInvalidity, randomId } from '@/jsHelper/tools';
 import { put } from '@/jsHelper/admin';
@@ -69,7 +69,6 @@ export default defineComponent({
   name: 'ExistingCategory',
   components: {
     ModalDialog,
-    Translate,
   },
   data(): ExistingEntryData {
     return {
@@ -82,6 +81,18 @@ export default defineComponent({
       categories: 'portalData/portalCategoriesOnPortal',
       items: 'portalData/portalCategories',
     }),
+    NAME(): string {
+      return _('Name');
+    },
+    CANCEL(): string {
+      return _('Cancel');
+    },
+    ADD(): string {
+      return _('Add');
+    },
+    ADD_EXISTING_CATEGORY(): string {
+      return _('Add existing category');
+    },
   },
   mounted() {
     this.$el.querySelector('input:enabled')?.focus();
@@ -122,3 +133,5 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+</style>

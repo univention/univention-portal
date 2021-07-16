@@ -33,7 +33,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       @backgroundClick="cancel"
     >
       <modal-dialog
-        i18n-title-key="CHOOSE_TAB"
+        :i18n-title-key="CHOOSE_TAB"
         @cancel="cancel"
       >
         <div
@@ -71,6 +71,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import ModalDialog from '@/components/modal/ModalDialog.vue';
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
@@ -88,6 +89,9 @@ export default defineComponent({
       tabs: 'tabs/allTabs',
       activeTab: 'tabs/activeTabIndex',
     }),
+    CHOOSE_TAB(): string {
+      return _('Choose a tab');
+    },
   },
   watch: {
     activeTab(newIdx: number) {
@@ -103,10 +107,10 @@ export default defineComponent({
   },
   methods: {
     ariaLabelChooseTab(tabLabel: string): string {
-      return `${tabLabel} ${this.$translateLabel('SELECT_TAB')}`;
+      return `${tabLabel} ${_('Select')}`;
     },
     ariaLabelCloseTab(tabLabel: string): string {
-      return `${tabLabel} ${this.$translateLabel('CLOSE_TAB')}`;
+      return `${tabLabel} ${_('Close')}`;
     },
     closeTab(idx: number) {
       this.$store.dispatch('tabs/deleteTab', idx + 1);
