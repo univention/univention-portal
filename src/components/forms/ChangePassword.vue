@@ -28,7 +28,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <modal-dialog
-    i18n-title-key="CHANGE_PASSWORD"
+    :i18n-title-key="CHANGE_PASSWORD"
     @cancel="cancel"
   >
     <form
@@ -185,7 +185,7 @@ export default defineComponent({
         } else if (!this.newPasswordSet) {
           (this.$refs.newPassword as HTMLElement).focus();
         } else if (!this.newPassword2Set || !this.newPasswordsMatch) {
-          (this.$refs.newPasnewPassword2sword as HTMLElement).focus();
+          (this.$refs.newPassword2 as HTMLElement).focus();
         }
         return;
       }
