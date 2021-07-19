@@ -127,4 +127,7 @@ export default defineComponent({
     display: flex
     justify-content: flex-end
     margin-bottom: calc(4 * var(--layout-spacing-unit))
+
+.flyout-wrapper .notifications
+  height: calc(100vh - var(--layout-height-header) - 10 * var(--layout-spacing-unit))
 </style>
