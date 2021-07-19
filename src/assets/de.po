@@ -418,7 +418,7 @@ msgstr "Bitte geben Sie mindestens einen englischen Link ein"
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:40
 #, fuzzy
 msgid "Please enter your new password"
-msgstr "Bitte geben Sie einen internen Namen ein"
+msgstr "Bitte geben Sie ein neues Passwort ein"
 
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:34
 #, fuzzy
