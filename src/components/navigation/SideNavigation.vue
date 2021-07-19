@@ -110,6 +110,7 @@
           <region
             v-if="subMenuVisible & (menuParent === index)"
             id="portal-sidenavigation-sub"
+            class="portal-sidenavigation__submenu"
             role="navigation"
             direction="topdown"
             :aria-label="ariaLabelSubMenuParent"
@@ -309,6 +310,7 @@ export default defineComponent({
 </script>
 
 <style lang="stylus">
+$userRow = 6rem
 .portal-sidenavigation
   height: calc(100vh - (var(--portal-header-height) + 0.5rem))
   display: flex
@@ -335,7 +337,7 @@ export default defineComponent({
   &__user-row
     padding-left: var(--layout-spacing-unit)
     display: flex
-    height: 6rem
+    height: $userRow
     font-weight: var(--font-weight-bold)
   &__user-icon
     position: relative
@@ -431,6 +433,10 @@ export default defineComponent({
 
   &__fade-left-right
     animation-name: fadeInLeft
+
+  &__submenu
+    height: 'calc(%s - (%s + %s) - %s - %s)' % (100vh var(--portal-header-height) 0.5rem $userRow 3rem)
+    overflow-y: auto
 
 // keyframes
 @keyframes fadeInLeft {
