@@ -28,7 +28,7 @@
 -->
 <template>
   <modal-dialog
-    :i18n-title-key="title"
+    :title="REMOVE"
     :modal-level="modalLevel"
     @cancel="cancel"
   >
@@ -49,13 +49,13 @@
           type="button"
           @click.prevent="finish('remove')"
         >
-          {{ REMOVE }}
+          {{ DELETE }}
         </button>
         <button
           type="button"
           @click.prevent="finish('unlink')"
         >
-          {{ REMOVE_HERE }}
+          {{ REMOVE }}
         </button>
       </footer>
     </form>
@@ -90,11 +90,11 @@ export default defineComponent({
     CANCEL(): string {
       return _('Cancel');
     },
-    REMOVE(): string {
+    DELETE(): string {
       return _('Delete');
     },
-    REMOVE_HERE(): string {
-      return _('Remove here');
+    REMOVE(): string {
+      return _('Remove');
     },
     modalLevel(): string {
       // Modal 2 Because it set the correct tabindizies for elements in modal Level 1
@@ -122,6 +122,6 @@ export default defineComponent({
 form.confirm-dialog
   width: calc(var(--inputfield-width) + 5rem)
 
-  footer.confirm-dialog__footer button:last-of-type
+  footer.confirm-dialog__footer:not(.image-upload__footer):not(.multi-select__footer) button:last-of-type
     margin-left: inherit
 </style>
