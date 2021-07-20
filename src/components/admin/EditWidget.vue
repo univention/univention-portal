@@ -117,7 +117,7 @@ export default defineComponent({
       return _('Cancel');
     },
     REMOVE(): string {
-      return _('Remove here');
+      return _('Remove');
     },
   },
   mounted() {
