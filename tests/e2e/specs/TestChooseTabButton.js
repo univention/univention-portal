@@ -14,8 +14,10 @@ describe('ChooseTabButton Component', () => {
       testLinks.should('have.length', 6);
       cy.get('[href="https://de.wikipedia.org/wiki/Test"]').click();
       cy.get('#headerTab__1').should('be.visible');
+      cy.get('.portal-header__portal-name').click();
       cy.get('[href="https://de.wikipedia.org/wiki/Vue"]').click();
       cy.get('#headerTab__2').should('be.visible');
+      cy.get('.portal-header__portal-name').click();
       cy.get('[href="https://en.wikipedia.org/wiki/Front_end_and_back_end"]').click();
       cy.get('#headerTab__3').should('not.be.visible');
     });
