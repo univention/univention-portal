@@ -29,115 +29,6 @@
          "en_US": "Root certificate"
        }
      },
-     
-     {
-      "activated": true,
-      "allowedGroups": [],
-      "anonymous": false,
-      "backgroundColor": null,
-      "description": {
-        "en_US": "Wikipedia Test Page"
-      },
-      "dn": "cn=wiki1,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-      "linkTarget": "useportaldefault",
-      "links": [
-        {"locale": "en_US", "value": "https://de.wikipedia.org/wiki/Test"}
-      ],
-      "logo_name": null,
-      "name": {
-        "en_US": "Wikipedia Test"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "anonymous": false,
-      "backgroundColor": null,
-      "description": {
-        "en_US": "Wikipedia Vue Page"
-      },
-      "dn": "cn=wiki2,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-      "linkTarget": "useportaldefault",
-      "links": [
-        {"locale": "en_US", "value": "https://de.wikipedia.org/wiki/Vue"}
-      ],
-      "logo_name": null,
-      "name": {
-        "en_US": "Wikipedia Vue"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "anonymous": false,
-      "backgroundColor": null,
-      "description": {
-        "en_US": "Wikipedia Front end and back end"
-      },
-      "dn": "cn=wiki3,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-      "linkTarget": "useportaldefault",
-      "links": [
-        {"locale": "en_US", "value": "https://en.wikipedia.org/wiki/Front_end_and_back_end"}
-      ],
-      "logo_name": null,
-      "name": {
-        "en_US": "Wikipedia Front end and back end"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "anonymous": false,
-      "backgroundColor": null,
-      "description": {
-        "en_US": "MacBook"
-      },
-      "dn": "cn=wiki4,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-      "linkTarget": "useportaldefault",
-      "links": [
-        {"locale": "en_US", "value": "https://en.wikipedia.org/wiki/MacBook"}
-      ],
-      "logo_name": null,
-      "name": {
-        "en_US": "MacBook"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "anonymous": false,
-      "backgroundColor": null,
-      "description": {
-        "en_US": "Climate change"
-      },
-      "dn": "cn=wiki5,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-      "linkTarget": "useportaldefault",
-      "links": [
-        {"locale": "en_US", "value": "https://en.wikipedia.org/wiki/Climate_change"}
-      ],
-      "logo_name": null,
-      "name": {
-        "en_US": "Climate change"
-      }
-    },
-    {
-      "activated": true,
-      "allowedGroups": [],
-      "anonymous": false,
-      "backgroundColor": null,
-      "description": {
-        "en_US": "Arctic Ocean"
-      },
-      "dn": "cn=wiki6,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-      "linkTarget": "useportaldefault",
-      "links": [
-        {"locale": "en_US", "value": "https://en.wikipedia.org/wiki/Arctic_Ocean"}
-      ],
-      "logo_name": null,
-      "name": {
-        "en_US": "Arctic Ocean"
-      }
-    },
      {
        "activated": true,
        "allowedGroups": [],
@@ -380,23 +271,7 @@
        "entries": [
          "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
        ]
-     },
-     {
-      "display_name": {
-        "de_DE": "Test Choose Tabs",
-        "en_US": "Test Choose Tabs"
-      },
-      "dn": "cn=test-category,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-      "entries": [
-        "cn=wiki1,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-        "cn=wiki1,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-        "cn=wiki2,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-        "cn=wiki3,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-        "cn=wiki4,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-        "cn=wiki5,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-        "cn=wiki6,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
-      ]
-    }
+     }
    ],
    "portal": {
      "background": null,
@@ -428,17 +303,6 @@
            "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
            "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
            "cn=owncloud-userdoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
-         ]
-       ],
-       [
-         "cn=test-category,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-         [
-          "cn=wiki1,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-          "cn=wiki2,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-          "cn=wiki3,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-          "cn=wiki4,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-          "cn=wiki5,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
-          "cn=wiki6,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
          ]
        ]
      ]
