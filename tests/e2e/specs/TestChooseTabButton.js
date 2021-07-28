@@ -20,6 +20,8 @@ describe('ChooseTabButton Component', () => {
       cy.get('.portal-header__portal-name').click();
       cy.get('#header-button-copy').should('not.be.visible');
       cy.get('[href="https://en.wikipedia.org/wiki/Front_end_and_back_end"]').click();
+      cy.get('.portal-header__portal-name').click();
+      cy.get('[href="https://en.wikipedia.org/wiki/Climate_change"]').click();
       cy.get('#headerTab__3').should('not.be.visible');
       cy.get('#header-button-copy').should('be.visible');
     });
