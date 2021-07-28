@@ -23,6 +23,8 @@ describe('ChooseTabButton Component', () => {
       cy.get('[href="https://en.wikipedia.org/wiki/Climate_change"]').click();
       cy.get('#headerTab__3').should('not.be.visible');
       cy.get('#header-button-copy').should('be.visible');
+      cy.get('#header-button-copy').click();
+      cy.get('.modal-wrapper--isVisible').should('be.visible');
     });
   });
   
