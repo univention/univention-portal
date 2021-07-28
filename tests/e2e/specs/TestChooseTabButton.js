@@ -3,7 +3,6 @@
 describe('ChooseTabButton Component', () => {
     it('ChooseTabButton.vue works correctly', () => {
         cy.intercept('GET', 'portal.json', { fixture: 'portal_choose_tab_button.json' });
-        portal.entries[0].linkTarget = 'embedded';
         cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
         cy.intercept('GET', 'de.json', { fixture: 'de.json' });
         cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
