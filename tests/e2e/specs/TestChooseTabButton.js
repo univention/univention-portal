@@ -26,10 +26,10 @@ describe('ChooseTabButton Component', () => {
       cy.get('#header-button-copy').click();
       cy.get('.modal-wrapper--isVisible').should('be.visible');
 
-      // const openElements = 4;
-      // cy.get('[data-test="portal-iframes"]').children().should('have.length', openElements);
-      // cy.get('.choose-tab').should('have.length', openElements);
-      // cy.get('.header-button__detail').to.have.value(openElements);
+      const openElements = 4;
+      cy.get('[data-test="portal-iframes"]').children().should('have.length', openElements);
+      cy.get('.choose-tab').should('have.length', openElements);
+      cy.get('.header-button__detail').contains(openElements);
     });
   });
   
