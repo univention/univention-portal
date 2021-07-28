@@ -61,7 +61,7 @@ License with the Debian GNU/Linux or Univention distribution in file
             icon="x"
             :active-at="['modal']"
             :aria-label-prop="ariaLabelCloseTab(tab.tabLabel)"
-            data-test="chooseTabCloseButton"
+            :data-test="`chooseTabCloseButton--${idx}`"
             @click="closeTab(idx)"
           />
         </div>
