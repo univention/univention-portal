@@ -23,13 +23,19 @@ describe('ChooseTabButton Component', () => {
       cy.get('[href="https://en.wikipedia.org/wiki/Climate_change"]').click();
       cy.get('#headerTab__3').should('not.be.visible');
       cy.get('#header-button-copy').should('be.visible');
+      cy.wait(500);
       cy.get('#header-button-copy').click();
+      cy.wait(500);
       cy.get('.modal-wrapper--isVisible').should('be.visible');
-
+      cy.wait(500);
+      
       const openElements = 4;
       cy.get('[data-test="portal-iframes"]').children().should('have.length', openElements);
       cy.get('.choose-tab').should('have.length', openElements);
       cy.get('.header-button__detail').contains(openElements);
+      cy.wait(500);
+      cy.get('#choose-tab__button--2').click();
+      cy.get('#iframe-2').should('be.visible');
     });
   });
   
