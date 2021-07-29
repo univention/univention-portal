@@ -35,8 +35,8 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="portal-iframe__status"
     />
     <iframe
-      ref="iframe"
       :id="`iframe-${tabId + 1}`"
+      ref="iframe"
       :src="link"
       title="Embedded Page"
       class="portal-iframe__iframe"
