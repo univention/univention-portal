@@ -28,13 +28,13 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <teleport to="body">
-      <div
-        :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
-        'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
-        @click.self="$emit('backgroundClick');"
-      >
-        <slot />
-      </div>
+    <div
+      :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
+                'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
+      @click.self="$emit('backgroundClick');"
+    >
+      <slot />
+    </div>
   </teleport>
 </template>
 

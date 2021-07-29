@@ -29,23 +29,30 @@
 <template>
   <div class="locale-input">
     <label
-      v-for="locale in locales"
-      :key="locale"
+      class="locale-input__label"
+      :for="`locale-input-${I18N_LABEL}`"
     >
       {{ I18N_LABEL }}
-      ({{ locale }})
-      <span
-        v-if="locale === 'en_US'"
-      >
-        *
-      </span>
+    </label>
+    <div class="locale-input__wrapper">
       <input
         v-model="modelValueData[locale]"
-        :name="locale === 'en_US' ? name : `${name}-${locale}`"
+        class="locale-input__text-field"
+        :id="`locale-input-${I18N_LABEL}`"
+        :name="name"
         autocomplete="off"
         :tabindex="tabindex"
       >
-    </label>
+      <icon-button
+        icon="globe"
+        class="locale-input__icon"
+        @click="openTranslationEditingDialog"
+      >
+        <span class="sr-only sr-only-mobile">
+          {{ TRANSLATE_TEXT_INPUT }}
+        </span>
+      </icon-button>
+    </div>
   </div>
 </template>
 
@@ -54,8 +61,13 @@ import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
+import IconButton from '@/components/globals/IconButton.vue';
+
 export default defineComponent({
   name: 'LocaleInput',
+  components: {
+    IconButton,
+  },
   props: {
     modelValue: {
       type: Object as PropType<Record<string, string>>,
@@ -90,6 +102,9 @@ export default defineComponent({
     I18N_LABEL():string {
       return _('%(key1)s', { key1: this.i18nLabel });
     },
+    TRANSLATE_TEXT_INPUT(): string {
+      return _('Edit Translations');
+    },
   },
   created() {
     const model = this.modelValue;
@@ -105,13 +120,48 @@ export default defineComponent({
   updated() {
     this.$emit('update:modelValue', this.modelValueData);
   },
+  methods: {
+    openTranslationEditingDialog() {
+      this.$store.dispatch('modal/setAndShowModal', {
+        level: 2,
+        name: 'TranslationEditing',
+        stubborn: true,
+        props: {
+          inputValue: this.i18nLabel,
+          // superDn: this.superDn,
+          title: this.i18nLabel,
+          // fromFolder: this.forFolder,
+        },
+      });
+    },
+  },
 });
 </script>
 
 <style lang="stylus">
 .locale-input
   margin-top: calc(3 * var(--layout-spacing-unit))
+  margin-bottom: var(--layout-spacing-unit);
 
   label
     margin-top: 0
+  &__wrapper
+    display: flex
+    align-items: center
+
+  &__icon
+    background-color: var(--button-bgc)
+    border-radius: var(--button-border-radius)
+    border: 0.1rem solid transparent
+    margin-left: var(--layout-spacing-unit)
+    height: var(--inputfield-size)
+    width: @height
+    display: flex
+    align-items: center
+    justify-content: center
+
+  &__text-field
+    width: calc(var(--inputfield-width) - var(--inputfield-size) - var(--layout-spacing-unit))
+    margin-bottom: 0
+
 </style>

@@ -42,9 +42,9 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="choose-tab"
         >
           <div
+            :id="`choose-tab__button--${idx + 1}`"
             :ref="activeTab === 0 && idx === 0 || activeTab === idx + 1 ? 'currentTab' : ''"
             class="choose-tab__button"
-            :id="`choose-tab__button--${idx + 1}`"
             tabindex="0"
             :aria-label="ariaLabelChooseTab(tab.tabLabel)"
             @click.prevent="gotoTab(idx)"

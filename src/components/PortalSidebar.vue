@@ -43,7 +43,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         >
           <!-- Side notifications -->
           <div class="portal-sidebar__title">
-             {{ NOTIFICATIONS }}
+            {{ NOTIFICATIONS }}
           </div>
           <notifications :only-visible="false" />
         </flyout-wrapper>
