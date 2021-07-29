@@ -41,7 +41,9 @@ describe('ChooseTabButton Component', () => {
       cy.get('#header-button-copy').click();
       for (let i = 1; i <= openElements; i++) {
         cy.get(`[data-test="chooseTabCloseButton--1"]`).click();
-        cy.get('.modal-wrapper--isVisible').should('be.visible');
+        if (i < openElements) {
+          cy.get('.modal-wrapper--isVisible').should('be.visible');
+        }
       }
       cy.get('.modal-wrapper--isVisible').should('not.exist');
     });
