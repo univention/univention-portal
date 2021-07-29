@@ -38,7 +38,7 @@ describe('ChooseTabButton Component', () => {
       cy.get('#iframe-2').should('be.visible');
       cy.get('#header-button-copy').click();
       for (let i = 1; i <= openElements; i++) {
-        cy.get(`[data-test="chooseTabCloseButton--${i}"]`).click();
+        cy.get(`[data-test="chooseTabCloseButton--1"]`).click();
         cy.get('.modal-wrapper--isVisible').should('be.visible');
       }
       cy.get('.modal-wrapper--isVisible').should('not.be.visible');
