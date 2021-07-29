@@ -43,7 +43,7 @@ describe('ChooseTabButton Component', () => {
         cy.get(`[data-test="chooseTabCloseButton--1"]`).click();
         cy.get('.modal-wrapper--isVisible').should('be.visible');
       }
-      cy.get('.modal-wrapper--isVisible').should('not.be.visible');
+      cy.get('.modal-wrapper--isVisible').should('not.exist');
     });
   });
   
