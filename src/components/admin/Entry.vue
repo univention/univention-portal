@@ -308,6 +308,7 @@ export default defineComponent({
     },
     async finish() {
       this.$store.dispatch('activateLoadingState');
+      console.log('SAVE THIS', Object.entries(this.title));
       let success = false;
       const links = this.links.filter((lnk) => !!lnk.value).map((lnk) => [lnk.locale, lnk.value]);
       const attrs = {

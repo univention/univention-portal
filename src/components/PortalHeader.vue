@@ -92,13 +92,13 @@ License with the Debian GNU/Linux or Univention distribution in file
       />
       <header-button
         data-test="bellbutton"
-        :aria-label-prop="STOP_EDIT_PORTAL"
+        :aria-label-prop="NOTIFICATIONS"
         icon="bell"
         :counter="numNotifications"
         @keydown.esc="closeNotifications"
       />
       <header-button
-        :aria-label-prop="ariaLabelStopEditmode"
+        :aria-label-prop="STOP_EDIT_PORTAL"
         icon="x"
         @click="stopEditMode"
       />

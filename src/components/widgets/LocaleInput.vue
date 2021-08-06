@@ -36,16 +36,19 @@
     </label>
     <div class="locale-input__wrapper">
       <input
-        v-model="modelValueData[locale]"
-        class="locale-input__text-field"
         :id="`locale-input-${I18N_LABEL}`"
-        :name="name"
+        v-model="modelValueData.en_US"
+        class="locale-input__text-field"
         autocomplete="off"
+        :name="name"
         :tabindex="tabindex"
       >
       <icon-button
         icon="globe"
         class="locale-input__icon"
+        :aria-label-prop="TRANSLATE_TEXT_INPUT"
+        :disabled="!modelValueData?.en_US?.length > 0"
+        :tabindex="tabindex"
         @click="openTranslationEditingDialog"
       >
         <span class="sr-only sr-only-mobile">
@@ -91,7 +94,12 @@ export default defineComponent({
   ],
   data() {
     return {
-      modelValueData: {},
+      modelValueData: {
+        en_US: '',
+      },
+      translations: {
+        en_US: '',
+      },
     };
   },
   computed: {
@@ -105,11 +113,13 @@ export default defineComponent({
     TRANSLATE_TEXT_INPUT(): string {
       return _('Edit Translations');
     },
+    hasNewTranslation(): string {
+      return !this.translations.en_US ? this.translations.en_US : this.modelValueData.en_US;
+    },
   },
   created() {
     const model = this.modelValue;
     const newModel = {};
-
     if ('locale' in model) {
       newModel[model.locale] = model.value;
       Object.assign(this.modelValueData, newModel);
@@ -122,16 +132,22 @@ export default defineComponent({
   },
   methods: {
     openTranslationEditingDialog() {
-      this.$store.dispatch('modal/setAndShowModal', {
+      this.$store.dispatch('modal/setShowModalPromise', {
         level: 2,
         name: 'TranslationEditing',
         stubborn: true,
         props: {
-          inputValue: this.i18nLabel,
+          inputValue: this.modelValue,
           // superDn: this.superDn,
           title: this.i18nLabel,
           // fromFolder: this.forFolder,
         },
+      }).then((data) => {
+        this.$store.dispatch('modal/hideAndClearModal', 2);
+        this.modelValueData = data.translations;
+        this.translations = data.translations;
+      }, () => {
+        this.$store.dispatch('modal/hideAndClearModal', 2);
       });
     },
   },
