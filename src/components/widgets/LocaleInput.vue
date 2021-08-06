@@ -88,6 +88,10 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    isInModal: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [
     'update:modelValue',
@@ -116,6 +120,9 @@ export default defineComponent({
     hasNewTranslation(): string {
       return !this.translations.en_US ? this.translations.en_US : this.modelValueData.en_US;
     },
+    translationEditingDialogLevel(): number {
+      return this.isInModal ? 2 : 1;
+    },
   },
   created() {
     const model = this.modelValue;
@@ -133,21 +140,20 @@ export default defineComponent({
   methods: {
     openTranslationEditingDialog() {
       this.$store.dispatch('modal/setShowModalPromise', {
-        level: 2,
+        level: this.translationEditingDialogLevel,
         name: 'TranslationEditing',
         stubborn: true,
         props: {
           inputValue: this.modelValue,
-          // superDn: this.superDn,
           title: this.i18nLabel,
-          // fromFolder: this.forFolder,
+          modalLevelProp: this.translationEditingDialogLevel,
         },
       }).then((data) => {
-        this.$store.dispatch('modal/hideAndClearModal', 2);
+        this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
         this.modelValueData = data.translations;
         this.translations = data.translations;
       }, () => {
-        this.$store.dispatch('modal/hideAndClearModal', 2);
+        this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
       });
     },
   },
