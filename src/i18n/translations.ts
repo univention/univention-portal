@@ -26,18 +26,19 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import axios from 'axios';
-import { ShortLocale, Locale } from '@/store/modules/locale/locale.models';
+import { reactive } from 'vue';
 
-// get env vars
-const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
+import axios from 'axios';
+import { ShortLocale } from '@/store/modules/locale/locale.models';
 
 interface TranslationCatalogDefinition {
   [key: string]: Record<string, string>;
 }
 const translationCatalogs: TranslationCatalogDefinition = {};
 
-function getCatalog(locale: ShortLocale | Locale) {
+const currentCatalog = reactive({});
+
+function getCatalog(locale: ShortLocale): Promise<Record<string, string>> {
   return new Promise((resolve, reject) => {
     if (locale in translationCatalogs) {
       const translationCatalog = translationCatalogs[locale];
@@ -47,7 +48,7 @@ function getCatalog(locale: ShortLocale | Locale) {
         reject();
       }
     } else {
-      axios.get(`${portalUrl}i18n/${locale}.json`).then(
+      axios.get(`./i18n/${locale}.json`).then(
         (response) => {
           const translationCatalog = response.data;
           translationCatalogs[locale] = translationCatalog;
@@ -61,14 +62,25 @@ function getCatalog(locale: ShortLocale | Locale) {
   });
 }
 
-async function updateLocale(locale: ShortLocale | Locale): Promise<unknown> {
+async function updateLocale(locale: ShortLocale): Promise<unknown> {
   return getCatalog(locale).then(
-    (translationCatalog) => translationCatalog,
+    (translationCatalog) => {
+      Object.keys(currentCatalog).forEach((key) => delete currentCatalog[key]);
+      Object.entries(translationCatalog).forEach(([key, value]) => {
+        currentCatalog[key] = value;
+      });
+      return translationCatalog;
+    },
     () => {
+      Object.keys(currentCatalog).forEach((key) => delete currentCatalog[key]);
       // no locale found (404?)
       // console.error('404: No translation file found.');
     },
   );
 }
 
-export { updateLocale, translationCatalogs };
+function getCurrentCatalog(): Record<string, string> {
+  return currentCatalog;
+}
+
+export { updateLocale, getCurrentCatalog };
