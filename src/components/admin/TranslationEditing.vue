@@ -43,21 +43,22 @@
         >
           *
         </span>
-        <input>
+        <input
+          v-model="translationObject[locale]"
+          :placeholder="inputValue.en_US"
+        >
       </label>
       <div class="translation-editing__footer-buttons">
         <button
           type="button"
-          :tabindex="tabindex"
-          @click.prevent="cancel"
+          @click.prevent="closeDialog()"
         >
           {{ CANCEL }}
         </button>
         <button
           class="primary"
-          type="submit"
-          :tabindex="tabindex"
-          @click.prevent="submit"
+          type="button"
+          @click.prevent="closeDialog()"
         >
           {{ SAVE }}
         </button>
@@ -85,9 +86,14 @@ export default defineComponent({
       default: 'REMOVE',
     },
     inputValue: {
-      type: String,
+      type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      translationObject: {},
+    };
   },
   computed: {
     ...mapGetters({
@@ -108,14 +114,33 @@ export default defineComponent({
       return 'modal2';
     },
   },
+  mounted() {
+    console.log('this.inputValue', this.inputValue);
+  },
   methods: {
     cancel(): void {
       this.$store.dispatch('modal/hideAndClearModal', 2);
+    },
+    saveTranslations(): Record<string, unknown> {
+      Object.keys(this.locales).forEach((key) => {
+        if (!this.translationObject[this.locales[key]]) {
+          this.translationObject[this.locales[key]] = this.inputValue.en_US;
+        }
+      });
+      return this.translationObject;
+    },
+    closeDialog(): void {
+      const translations = this.saveTranslations();
+      this.$store.dispatch('modal/resolve', {
+        level: 2,
+        translations,
+      });
     },
   },
 });
 
 </script>
+
 <style lang="stylus">
 .translation-editing
   &__footer-buttons
