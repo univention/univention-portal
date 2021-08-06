@@ -51,7 +51,7 @@
       <div class="translation-editing__footer-buttons">
         <button
           type="button"
-          @click.prevent="closeDialog()"
+          @click.prevent="cancel()"
         >
           {{ CANCEL }}
         </button>
@@ -89,6 +89,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    modalLevelProp: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -111,7 +115,7 @@ export default defineComponent({
     },
     modalLevel(): string {
       // Modal 2 Because it set the correct tabindizies for elements in modal Level 1
-      return 'modal2';
+      return this.modalLevelProp === 1 ? 'modal' : 'modal2';
     },
   },
   mounted() {
@@ -119,7 +123,7 @@ export default defineComponent({
   },
   methods: {
     cancel(): void {
-      this.$store.dispatch('modal/hideAndClearModal', 2);
+      this.$store.dispatch('modal/hideAndClearModal', this.modalLevelProp);
     },
     saveTranslations(): Record<string, unknown> {
       Object.keys(this.locales).forEach((key) => {
@@ -132,7 +136,7 @@ export default defineComponent({
     closeDialog(): void {
       const translations = this.saveTranslations();
       this.$store.dispatch('modal/resolve', {
-        level: 2,
+        level: this.modalLevelProp,
         translations,
       });
     },
