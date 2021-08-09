@@ -27,7 +27,10 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <teleport to="body">
+  <teleport
+    v-if="teleportToBody"
+    to="body"
+  >
     <div
       :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
                 'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
@@ -36,6 +39,15 @@ License with the Debian GNU/Linux or Univention distribution in file
       <slot />
     </div>
   </teleport>
+  <div v-else>
+    <div
+      :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
+                'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
+      @click.self="$emit('backgroundClick');"
+    >
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -55,6 +67,10 @@ export default defineComponent({
     modalLevel: {
       type: Number,
       default: 1,
+    },
+    teleportToBody: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['backgroundClick'],

@@ -27,12 +27,11 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <portal />
-
   <cookie-banner
     v-if="showCookieBanner"
     @dismissed="hideCookieBanner"
   />
+  <portal />
 </template>
 
 <script lang="ts">

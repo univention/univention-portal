@@ -30,6 +30,7 @@
   <modal-wrapper
     :is-active="true"
     :full="true"
+    :teleport-to-body="false"
   >
     <modal-dialog
       :title="cookieTitle"
