@@ -58,7 +58,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       </div>
 
       <h1 class="portal-header__portal-name sr-only-mobile">
-        {{ $localized(this.portalName) }}
+        {{ $localized(portalName) }}
       </h1>
     </tabindex-element>
 
