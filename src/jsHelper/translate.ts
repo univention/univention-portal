@@ -35,11 +35,9 @@ const replaceKeys = (translationString: string, variables: Record<string, string
 
 function _(translationString: string, variables?: Record<string, string>): string {
   let catalog: Record<string, string> = {};
-  let translatedString = variables ? replaceKeys(translationString, variables) : translationString;
   catalog = getCurrentCatalog();
-  translatedString = catalog[translationString] || translationString;
-  translatedString = variables ? replaceKeys(translatedString, variables) : translatedString;
-  return translatedString;
+  const translatedString = catalog[translationString] || translationString;
+  return variables ? replaceKeys(translatedString, variables) : translatedString;
 }
 
 export { _ as default };
