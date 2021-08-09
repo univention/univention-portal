@@ -62,7 +62,6 @@ export default defineComponent({
       for (i; i < props.length; i += 1) {
         // check if we need to test for errors
         if (reqFields.includes(props[i])) {
-
           if (this.modelValueData[props[i]] === '') {
             this.error[props[i]] = true;
 

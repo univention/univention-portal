@@ -32,7 +32,10 @@ License with the Debian GNU/Linux or Univention distribution in file
     ref="searchInput"
     class="portal-search"
   >
-    <transition name="slide" appear>
+    <transition
+      name="slide"
+      appear
+    >
       <flyout-wrapper
         v-if="activeButton === 'search'"
         :is-visible="activeButton === 'search'"

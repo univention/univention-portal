@@ -55,8 +55,9 @@ import AdminCategory from '@/components/admin/FormCategoryEdit.vue';
 import AdminExistingCategory from '@/components/admin/ExistingCategory.vue';
 import TileAddModal from '@/components/admin/TileAddModal.vue';
 import CategoryAddModal from '@/components/admin/CategoryAddModal.vue';
-import ChooseTabs from '@/components/ChooseTabs.vue';
 import ConfirmDialog from '@/components/admin/ConfirmDialog.vue';
+import TranslationEditing from '@/components/admin/TranslationEditing.vue';
+import ChooseTabs from '@/components/ChooseTabs.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 import CookieBanner from '@/components/globals/CookieBanner.vue';
 
@@ -80,6 +81,7 @@ export default defineComponent({
     TileAddModal,
     CategoryAddModal,
     CookieBanner,
+    TranslationEditing,
   },
   props: {
     isActive: {

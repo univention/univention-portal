@@ -29,23 +29,33 @@
 <template>
   <div class="locale-input">
     <label
-      v-for="locale in locales"
-      :key="locale"
+      class="locale-input__label"
+      :for="`locale-input-${I18N_LABEL}`"
     >
       {{ I18N_LABEL }}
-      ({{ locale }})
-      <span
-        v-if="locale === 'en_US'"
-      >
-        *
-      </span>
+    </label>
+    <div class="locale-input__wrapper">
       <input
-        v-model="modelValueData[locale]"
-        :name="locale === 'en_US' ? name : `${name}-${locale}`"
+        :id="`locale-input-${I18N_LABEL}`"
+        v-model="modelValueData.en_US"
+        class="locale-input__text-field"
         autocomplete="off"
+        :name="name"
         :tabindex="tabindex"
       >
-    </label>
+      <icon-button
+        icon="globe"
+        class="locale-input__icon"
+        :aria-label-prop="TRANSLATE_TEXT_INPUT"
+        :disabled="!modelValueData?.en_US?.length > 0"
+        :tabindex="tabindex"
+        @click="openTranslationEditingDialog"
+      >
+        <span class="sr-only sr-only-mobile">
+          {{ TRANSLATE_TEXT_INPUT }}
+        </span>
+      </icon-button>
+    </div>
   </div>
 </template>
 
@@ -54,8 +64,13 @@ import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
+import IconButton from '@/components/globals/IconButton.vue';
+
 export default defineComponent({
   name: 'LocaleInput',
+  components: {
+    IconButton,
+  },
   props: {
     modelValue: {
       type: Object as PropType<Record<string, string>>,
@@ -73,13 +88,22 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    isInModal: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [
     'update:modelValue',
   ],
   data() {
     return {
-      modelValueData: {},
+      modelValueData: {
+        en_US: '',
+      },
+      translations: {
+        en_US: '',
+      },
     };
   },
   computed: {
@@ -90,11 +114,19 @@ export default defineComponent({
     I18N_LABEL():string {
       return _('%(key1)s', { key1: this.i18nLabel });
     },
+    TRANSLATE_TEXT_INPUT(): string {
+      return _('Edit Translations');
+    },
+    hasNewTranslation(): string {
+      return !this.translations.en_US ? this.translations.en_US : this.modelValueData.en_US;
+    },
+    translationEditingDialogLevel(): number {
+      return this.isInModal ? 2 : 1;
+    },
   },
   created() {
     const model = this.modelValue;
     const newModel = {};
-
     if ('locale' in model) {
       newModel[model.locale] = model.value;
       Object.assign(this.modelValueData, newModel);
@@ -105,13 +137,53 @@ export default defineComponent({
   updated() {
     this.$emit('update:modelValue', this.modelValueData);
   },
+  methods: {
+    openTranslationEditingDialog() {
+      this.$store.dispatch('modal/setShowModalPromise', {
+        level: this.translationEditingDialogLevel,
+        name: 'TranslationEditing',
+        stubborn: true,
+        props: {
+          inputValue: this.modelValue,
+          title: this.i18nLabel,
+          modalLevelProp: this.translationEditingDialogLevel,
+        },
+      }).then((data) => {
+        this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
+        this.modelValueData = data.translations;
+        this.translations = data.translations;
+      }, () => {
+        this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
+      });
+    },
+  },
 });
 </script>
 
 <style lang="stylus">
 .locale-input
   margin-top: calc(3 * var(--layout-spacing-unit))
+  margin-bottom: var(--layout-spacing-unit);
 
   label
     margin-top: 0
+  &__wrapper
+    display: flex
+    align-items: center
+
+  &__icon
+    background-color: var(--button-bgc)
+    border-radius: var(--button-border-radius)
+    border: 0.1rem solid transparent
+    margin-left: var(--layout-spacing-unit)
+    height: var(--inputfield-size)
+    width: @height
+    display: flex
+    align-items: center
+    justify-content: center
+
+  &__text-field
+    width: calc(var(--inputfield-width) - var(--inputfield-size) - var(--layout-spacing-unit))
+    margin-bottom: 0
+
 </style>
