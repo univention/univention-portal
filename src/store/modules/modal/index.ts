@@ -27,6 +27,7 @@
  * <https://www.gnu.org/licenses/>.
  */
 import { PortalModule } from '@/store/root.models';
+import { Commit, Dispatch } from 'vuex';
 
 export interface ModalState {
   firstLevelModal: {
@@ -73,11 +74,9 @@ const modal: PortalModule<ModalState> = {
   mutations: {
     SET_MODAL(state: ModalState, payload): void {
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
-
       state[modalLevel].modalComponent = payload.name;
       state[modalLevel].modalProps = payload.props || {};
       state[modalLevel].modalStubborn = payload.stubborn || false;
-      document.body.classList.add('body--has-modal');
       state[modalLevel].modalResolve = payload.resolve || (() => undefined);
       state[modalLevel].modalReject = payload.reject || (() => undefined);
     },
@@ -86,19 +85,22 @@ const modal: PortalModule<ModalState> = {
       state[modalLevel].modalComponent = null;
       state[modalLevel].modalProps = {};
       state[modalLevel].modalStubborn = false;
-      document.body.classList.remove('body--has-modal');
       state[modalLevel].modalResolve = () => undefined;
       state[modalLevel].modalReject = () => undefined;
     },
     SHOW_MODAL(state: ModalState, payload): void {
       const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
       state[modalLevel].modalVisible = true;
-      document.body.classList.add('body--has-modal');
     },
     HIDE_MODAL(state: ModalState, payload): void {
       const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
       state[modalLevel].modalVisible = false;
+    },
+    ENABLE_BODY_SCROLLING(): void {
       document.body.classList.remove('body--has-modal');
+    },
+    DISABLE_BODY_SCROLLING(): void {
+      document.body.classList.add('body--has-modal');
     },
   },
 
@@ -110,9 +112,10 @@ const modal: PortalModule<ModalState> = {
   },
 
   actions: {
-    setAndShowModal({ commit, dispatch }, payload): void {
+    setAndShowModal({ commit, dispatch }: { commit: Commit, dispatch:Dispatch }, payload): void {
       commit('SET_MODAL', payload);
       commit('SHOW_MODAL', payload.level);
+      commit('DISABLE_BODY_SCROLLING');
       const activityLevel = payload.level === 2 ? 'modal2' : 'modal';
       dispatch('activity/setLevel', activityLevel, { root: true });
     },
@@ -128,6 +131,7 @@ const modal: PortalModule<ModalState> = {
       }
       commit('HIDE_MODAL', payload);
       commit('CLEAR_MODAL', payload);
+      commit('ENABLE_BODY_SCROLLING');
     },
     resolve({ state }: { state: ModalState }, payload): void {
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
@@ -136,6 +140,12 @@ const modal: PortalModule<ModalState> = {
     reject({ state }: { state: ModalState }, payload?: number): void {
       const modalLevel = payload === 2 ? 'secondLevelModal' : 'firstLevelModal';
       state[modalLevel].modalReject();
+    },
+    enableBodyScrolling({ commit }: { commit: Commit}): void {
+      commit('ENABLE_BODY_SCROLLING');
+    },
+    disableBodyScrolling({ commit }: { commit: Commit}): void {
+      commit('DISABLE_BODY_SCROLLING');
     },
   },
 };

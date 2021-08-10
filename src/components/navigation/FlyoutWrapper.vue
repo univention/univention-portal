@@ -51,8 +51,8 @@ export default defineComponent({
 
 <style lang="stylus">
 .flyout-wrapper
-  width: 22rem
-  max-width: 22rem
+  width: 23rem
+  max-width: 23rem
   min-height: 100vh
   position: fixed
   top:  calc(var(--portal-header-height) + 0.5rem)

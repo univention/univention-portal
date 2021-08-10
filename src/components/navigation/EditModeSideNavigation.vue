@@ -165,6 +165,7 @@ export default defineComponent({
     this.update();
   },
   created() {
+    this.$store.dispatch('modal/disableBodyScrolling');
     // get initial logo data
     this.portalLogoData = this.portalLogo || '';
     this.portalNameData = this.portalName;
