@@ -124,14 +124,17 @@ const modal: PortalModule<ModalState> = {
         dispatch('setAndShowModal', { ...payload, resolve, reject });
       });
     },
-    hideAndClearModal({ getters, commit, dispatch }, payload?: number): void {
+    hideAndClearModal({ getters, rootGetters, commit, dispatch }, payload?: number): void {
       if (getters.getModalState) {
         const activityLevel = payload === 2 ? 'modal' : 'portal';
         dispatch('activity/setLevel', activityLevel, { root: true });
       }
       commit('HIDE_MODAL', payload);
       commit('CLEAR_MODAL', payload);
-      commit('ENABLE_BODY_SCROLLING');
+      if (payload !== 2) {
+        commit('ENABLE_BODY_SCROLLING');
+      }
+      // rootGetters['navigation/getActiveButton'] === 'settings
     },
     resolve({ state }: { state: ModalState }, payload): void {
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';

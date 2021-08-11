@@ -39,7 +39,6 @@
       <locale-input
         v-model="portalNameData"
         :i18n-label="NAME"
-        :is-in-modal="false"
         name="name"
         @update:modelValue="update"
       />
