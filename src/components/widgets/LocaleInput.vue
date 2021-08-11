@@ -47,7 +47,6 @@
         icon="globe"
         class="locale-input__icon"
         :aria-label-prop="TRANSLATE_TEXT_INPUT"
-        :disabled="!modelValueData?.en_US?.length > 0"
         :tabindex="tabindex"
         @click="openTranslationEditingDialog"
       >

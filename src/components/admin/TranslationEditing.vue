@@ -45,7 +45,7 @@
         </span>
         <input
           v-model="translationObject[locale]"
-          :placeholder="inputValue.en_US"
+          :placeholder="hasValue(locale)"
         >
       </label>
       <div class="translation-editing__footer-buttons">
@@ -139,6 +139,9 @@ export default defineComponent({
         level: this.modalLevelProp,
         translations,
       });
+    },
+    hasValue(locale): string {
+      return this.inputValue[locale] ? this.inputValue[locale] : this.inputValue.en_US;
     },
   },
 });
