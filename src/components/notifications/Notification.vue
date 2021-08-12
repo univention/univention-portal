@@ -30,6 +30,7 @@ License with the Debian GNU/Linux or Univention distribution in file
   <div
     class="notification"
     :class="`notification--${importance}`"
+    :data-test="`notification--${importance}`"
     @mouseenter="stopDismissal"
     @mouseleave="startDismissal"
   >
@@ -49,6 +50,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         tabindex="0"
         icon="x"
         :aria-label-prop="DISMISS_NOTIFICATION"
+        :data-test="`closeNotification--${importance}`"
         @click="removeNotification()"
       >
         <svg

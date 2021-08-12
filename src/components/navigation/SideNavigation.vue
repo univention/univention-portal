@@ -157,6 +157,7 @@
       v-if="userState.mayEditPortal"
       ref="editModeButton"
       class="portal-sidenavigation__link portal-sidenavigation__edit-mode"
+      data-test="openEditmodeButton"
       @click="startEditMode"
       @keydown.esc="closeNavigation"
     >

@@ -71,7 +71,10 @@
         {{ SHOW_LOCAL_UMC_MODULES }}
 
       </label>
-      <button class="primary edit-mode-side-navigation__save-button">
+      <button
+        class="primary edit-mode-side-navigation__save-button"
+        data-test="editModeSideNavigation--Save"
+      >
         <portal-icon
           icon="save"
         />
