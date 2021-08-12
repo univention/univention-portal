@@ -47,6 +47,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "<25.0.0",
     "cypress": "^6.3.0",
+    "cypress-file-upload": "^5.0.8",
     "cypress-wait-until": "^1.7.1",
     "eslint": "^7.21.0",
     "eslint-plugin-cypress": "^2.11.2",

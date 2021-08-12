@@ -42,12 +42,14 @@
         autocomplete="off"
         :name="name"
         :tabindex="tabindex"
+        :data-test="`localeInput--${I18N_LABEL}`"
       >
       <icon-button
         icon="globe"
         class="locale-input__icon"
         :aria-label-prop="TRANSLATE_TEXT_INPUT"
         :tabindex="tabindex"
+        :data-test="`iconButton--${I18N_LABEL}`"
         @click="openTranslationEditingDialog"
       >
         <span class="sr-only sr-only-mobile">

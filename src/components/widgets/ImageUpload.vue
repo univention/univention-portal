@@ -31,6 +31,7 @@
     <label>{{ label }}</label>
     <div
       class="image-upload__canvas"
+      :data-test="`imageUploadCanvas--${label}`"
       @dragenter.prevent=""
       @dragover.prevent=""
       @drop.prevent="drop"
@@ -55,11 +56,13 @@
         ref="file_input"
         class="image-upload__file-input"
         type="file"
+        :data-test="`imageUploadFileInput--${label}`"
         @change="upload"
       >
       <button
         type="button"
         :tabindex="tabindex"
+        :data-test="`imageUploadButton--${label}`"
         @click.prevent="startUpload"
       >
         <portal-icon
@@ -72,6 +75,7 @@
       <button
         type="button"
         :tabindex="tabindex"
+        :data-test="`imageRemoveButton--${label}`"
         @click.prevent="remove"
       >
         <portal-icon
