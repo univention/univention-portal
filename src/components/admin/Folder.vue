@@ -170,7 +170,7 @@ export default defineComponent({
       };
       if (this.modelValue.dn) {
         console.info('Modifying', this.modelValue.dn);
-        success = await put(this.modelValue.dn, attrs, this.$store, _('Folder successfully modified'), _('Folder could not be modified'));
+        success = await put(this.modelValue.dn, attrs, this.$store, _('Folder could not be modified'), _('Folder successfully modified'));
       } else {
         console.info('Adding folder');
         const dn = await add('portals/folder', attrs, this.$store, _('Folder could not be added'));
