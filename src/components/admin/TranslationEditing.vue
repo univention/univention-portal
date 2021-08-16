@@ -119,7 +119,12 @@ export default defineComponent({
     },
   },
   mounted() {
-    console.log('this.inputValue', this.inputValue);
+    this.locales.forEach((key, index) => {
+      console.log('###', this.locales[index]);
+      if (this.inputValue[this.locales[index]]) {
+        this.translationObject[this.locales[index]] = this.inputValue[this.locales[index]];
+      }
+    });
   },
   methods: {
     cancel(): void {
@@ -141,7 +146,11 @@ export default defineComponent({
       });
     },
     hasValue(locale): string {
-      return this.inputValue[locale] ? this.inputValue[locale] : this.inputValue.en_US;
+      console.log('this.inputValue[locale]', this.inputValue[locale]);
+      return this.inputValue[locale] ? null : this.inputValue.en_US;
+    },
+    isUserInput(locale): boolean {
+      return this.inputValue[locale];
     },
   },
 });
