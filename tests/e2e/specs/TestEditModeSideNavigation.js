@@ -1,4 +1,26 @@
 import 'cypress-file-upload';
+import 'cypress-axe';
+
+
+function terminalLog(violations) {
+  cy.task(
+    'log',
+    `${violations.length} accessibility violation${
+      violations.length === 1 ? '' : 's'
+    } ${violations.length === 1 ? 'was' : 'were'} detected`
+  )
+  // pluck specific keys to keep the table readable
+  const violationData = violations.map(
+    ({ id, impact, description, nodes }) => ({
+      id,
+      impact,
+      description,
+      nodes: nodes.length
+    })
+  )
+
+  cy.task('table', violationData)
+}
 
 beforeEach(() => {
   cy.setCookie('UMCLang', 'de_DE');
@@ -8,13 +30,13 @@ beforeEach(() => {
   cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
   cy.visit('/');
   cy.get('main.cookie-banner + footer button.primary').click();
+
+  cy.injectAxe();
+  openEditmode();
 });
 
 describe('Test Editmode Side navigation', () => {
   it('Open Editmode sidenavigation and edit general portal data.', () => {
-
-    openEditmode();
-
     // Assert: No Image in .image-upload__canvas
     cy.get('[data-test=imageUploadCanvas--Portal-Logo] img').should('not.exist');
     cy.get('[data-test=imageUploadButton--Portal-Logo]').click();
@@ -37,8 +59,6 @@ describe('Test Editmode Side navigation', () => {
   });
 
   it('Test Local Input and required fields', () => {
-    openEditmode();
-
     cy.get('[data-test="localeInput--Name"]').clear();
     cy.get('[data-test="notification--error"]').should('not.exist');
     cy.get('[data-test="editModeSideNavigation--Save"]').click();
@@ -53,6 +73,21 @@ describe('Test Editmode Side navigation', () => {
     cy.get('[data-test="editModeSideNavigation--Save"]').click();
 
     // TODO: Check if Changes are seen in new portal.json
+  });
+
+  it('make a11y test', () => {
+    // Inject the axe-core library
+    // first a11y test
+    cy.checkA11y('.edit-mode-side-navigation__form', 
+    {
+      runOnly: {
+        type: 'tag',
+        values: ['wcag2a'],
+      }
+    },
+    terminalLog, {
+      skipFailures: true
+    });
   });
 });
 
