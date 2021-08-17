@@ -72,6 +72,11 @@ const modal: PortalModule<ModalState> = {
   },
 
   mutations: {
+    CHANGE_MODAL_PROPS(state: ModalState, payload): void {
+      const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
+      state[modalLevel].modalProps = { ...state[modalLevel].modalProps, ...payload.props };
+      console.log(state[modalLevel].modalProps);
+    },
     SET_MODAL(state: ModalState, payload): void {
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
       state[modalLevel].modalComponent = payload.name;
@@ -112,6 +117,9 @@ const modal: PortalModule<ModalState> = {
   },
 
   actions: {
+    changeModalProps({ commit }: { commit: Commit }, payload): void {
+      commit('CHANGE_MODAL_PROPS', payload);
+    },
     setAndShowModal({ commit, dispatch }: { commit: Commit, dispatch:Dispatch }, payload): void {
       commit('SET_MODAL', payload);
       commit('SHOW_MODAL', payload.level);
