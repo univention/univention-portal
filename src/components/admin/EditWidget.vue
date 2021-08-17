@@ -131,17 +131,7 @@ export default defineComponent({
     },
     submit() {
       const errors = this.model.getErrors();
-      Object.keys(this.model).forEach((key) => {
-        const localeInputElement = typeof this.model[key] === 'object' && this.model[key]?.en_US ? this.model[key] : null;
-        if (localeInputElement) {
-          Object.keys(this.locales).forEach((localeKey) => {
-            const locale = this.locales[localeKey];
-            if (!localeInputElement[locale]) {
-              localeInputElement[locale] = this.model[key].en_US;
-            }
-          });
-        }
-      });
+      console.log('MODEL', this.model);
       if (Object.keys(errors).length === 0) {
         this.$emit('save');
       } else {

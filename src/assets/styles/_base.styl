@@ -29,9 +29,10 @@ button
   transition: background-color var(--portal-transition-duration)
   display: flex
   align-items: center
+  justify-content: center
 
-  svg + span
-    padding-left: var(--layout-spacing-unit-small)
+  svg:not(:only-child)
+    margin-right: var(--layout-spacing-unit-small)
 
   &[disabled]
     background-color: var(--button-bgc-disabled)

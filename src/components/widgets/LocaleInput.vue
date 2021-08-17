@@ -52,9 +52,6 @@
         :data-test="`iconButton--${I18N_LABEL}`"
         @click="openTranslationEditingDialog"
       >
-        <span class="sr-only sr-only-mobile">
-          {{ TRANSLATE_TEXT_INPUT }}
-        </span>
       </icon-button>
     </div>
   </div>

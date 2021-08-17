@@ -130,16 +130,8 @@ export default defineComponent({
     cancel(): void {
       this.$store.dispatch('modal/hideAndClearModal', this.modalLevelProp);
     },
-    saveTranslations(): Record<string, unknown> {
-      Object.keys(this.locales).forEach((key) => {
-        if (!this.translationObject[this.locales[key]]) {
-          this.translationObject[this.locales[key]] = this.inputValue.en_US;
-        }
-      });
-      return this.translationObject;
-    },
     closeDialog(): void {
-      const translations = this.saveTranslations();
+      const translations = this.translationObject;
       this.$store.dispatch('modal/resolve', {
         level: this.modalLevelProp,
         translations,
