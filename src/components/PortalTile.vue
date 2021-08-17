@@ -37,7 +37,7 @@
       :aria-describedby="tileId"
       :aria-label="ariaLabelPortalTile"
       class="portal-tile"
-      :draggable="editMode && !fromFolder"
+      :draggable="editMode && !minified"
       data-test="tileLink"
       @mouseenter="showTooltip()"
       @mouseleave="hideTooltip"
