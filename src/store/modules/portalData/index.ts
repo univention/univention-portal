@@ -121,6 +121,14 @@ const portalData: PortalModule<PortalDataState> = {
     PORTALBACKGROUND(state: PortalDataState, data): void {
       state.portal.portal.background = data;
     },
+    CHANGE_FOLDER_ENTRIES(state: PortalDataState, payload): void {
+      state.portal.folders.forEach((folder) => {
+        if (folder.dn !== payload.dn) {
+          return;
+        }
+        folder.entries = payload.entries;
+      });
+    },
     CHANGE_CATEGORY(state: PortalDataState, payload): void {
       state.portal.categories.forEach((category) => {
         if (category.dn !== payload.category) {
@@ -193,6 +201,17 @@ const portalData: PortalModule<PortalDataState> = {
         categories: content.map(([category]) => category).filter((category) => !['$$menu$$', '$$user$$'].includes(category)),
       };
       await put(portalDn, attrs, { dispatch }, _('Categories could not be re-sorted'), _('Categories successfully re-sorted'));
+    },
+    async saveFolder({ getters, dispatch }, payload) {
+      const folder = getters.portalFolders.find((foldr) => foldr.dn === payload.dn);
+      if (!folder) {
+        return;
+      }
+      const attrs = {
+        entries: folder.entries,
+      };
+      console.info('Rearranging entries for', payload.dn);
+      await put(folder.dn, attrs, { dispatch }, _('Entries could not be re-sorted'), _('Entries successfully re-sorted'));
     },
     async saveContent({ commit, dispatch, getters }) {
       const content = getters.portalContent;
@@ -269,7 +288,7 @@ const portalData: PortalModule<PortalDataState> = {
       });
       commit('CONTENT', content);
     },
-    reshuffleContent({ commit, getters }, payload) {
+    reshuffleContent({ commit, dispatch, rootGetters, getters }, payload) {
       const src = payload.src;
       const dst = payload.dst;
       const cat = payload.cat;
@@ -303,6 +322,48 @@ const portalData: PortalModule<PortalDataState> = {
           newContent.push(...content.slice(srcIdx + 1));
         }
         commit('CONTENT', newContent);
+        return;
+      }
+      const catIsFolder = getters.portalFolders.some((foldr) => foldr.dn === cat);
+      if (catIsFolder) {
+        getters.portalFolders.forEach((folder) => {
+          if (folder.dn !== cat) {
+            return;
+          }
+          const entries: string[] = [];
+          const tiles: any[] = [];
+          const srcIdx = folder.entries.indexOf(src);
+          const dstIdx = folder.entries.indexOf(dst);
+          const oldTiles = [...rootGetters['modal/getModalProps']('firstLevelModal').tiles];
+          if (srcIdx < dstIdx) {
+            entries.push(...folder.entries.slice(0, srcIdx));
+            entries.push(...folder.entries.slice(srcIdx + 1, dstIdx + 1));
+            entries.push(src);
+            entries.push(...folder.entries.slice(dstIdx + 1));
+            tiles.push(...oldTiles.slice(0, srcIdx));
+            tiles.push(...oldTiles.slice(srcIdx + 1, dstIdx + 1));
+            tiles.push(oldTiles[srcIdx]);
+            tiles.push(...oldTiles.slice(dstIdx + 1));
+          } else {
+            entries.push(...folder.entries.slice(0, dstIdx));
+            entries.push(src);
+            entries.push(...folder.entries.slice(dstIdx, srcIdx));
+            entries.push(...folder.entries.slice(srcIdx + 1));
+            tiles.push(...oldTiles.slice(0, dstIdx));
+            tiles.push(oldTiles[srcIdx]);
+            tiles.push(...oldTiles.slice(dstIdx, srcIdx));
+            tiles.push(...oldTiles.slice(srcIdx + 1));
+          }
+          commit('CHANGE_FOLDER_ENTRIES', {
+            dn: cat,
+            entries,
+          });
+          dispatch('modal/changeModalProps', {
+            props: {
+              tiles,
+            },
+          }, { root: true });
+        });
         return;
       }
       content.forEach(([category, oldEntries]) => {
