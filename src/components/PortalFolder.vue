@@ -37,6 +37,8 @@
     @dragstart="dragstart"
     @dragenter="dragenter"
     @dragend="dragend"
+    @dragover.prevent
+    @drop="dropped"
   >
     <tabindex-element
       :id="id"
@@ -160,7 +162,9 @@ export default defineComponent({
     },
   },
   computed: {
-    ...mapGetters({ editMode: 'portalData/editMode' }),
+    ...mapGetters({
+      editMode: 'portalData/editMode',
+    }),
     hasTiles(): boolean {
       return this.tiles.length > 0;
     },
@@ -199,6 +203,12 @@ export default defineComponent({
     window.removeEventListener('resize', this.updateZoomQuery);
   },
   methods: {
+    async dropped() {
+      if (!this.editMode || !this.inModal) {
+        return;
+      }
+      await this.$store.dispatch('portalData/saveFolder', { dn: this.dn });
+    },
     closeFolder(): void {
       this.$store.dispatch('modal/hideAndClearModal');
       this.$store.dispatch('tooltip/unsetTooltip');

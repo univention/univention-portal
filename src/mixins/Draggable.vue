@@ -30,7 +30,7 @@
 const draggableMixin = {
   computed: {
     isDraggable() {
-      return this.editMode && !this.fromFolder && !this.inModal && !this.virtual;
+      return this.editMode && !this.minified && !this.inModal && !this.virtual;
     },
     canDragEnter() {
       if (this.forFolder !== undefined) {
@@ -43,7 +43,6 @@ const draggableMixin = {
   methods: {
     dragstart(e) {
       if (!this.isDraggable) {
-        e.preventDefault();
         return;
       }
       this.$store.dispatch('dragndrop/startDragging', {
