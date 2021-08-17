@@ -142,21 +142,21 @@ export default defineComponent({
           const attrs = {
             userLinks: this.userLinks.concat([dn]),
           };
-          success = await put(this.portalDn, attrs, this.$store, _('Entry successfully added'), _('Entry could not be added'));
+          success = await put(this.portalDn, attrs, this.$store, _('Entry could not be added'), _('Entry successfully added'));
         } else if (this.superDn === '$$menu$$') {
           const attrs = {
             menuLinks: this.menuLinks.concat([dn]),
           };
-          success = await put(this.portalDn, attrs, this.$store, _('Entry successfully added'), _('Entry could not be added'));
+          success = await put(this.portalDn, attrs, this.$store, _('Entry could not be added'), _('Entry successfully added'));
         } else {
           const superObj = this.superObjs.find((obj) => obj.dn === this.superDn);
           const superAttrs = {
             entries: superObj.entries.concat([dn]),
           };
           if (this.objectGetter === 'portalData/portalEntries') {
-            success = await put(this.superDn, superAttrs, this.$store, _('Entry successfully added'), _('Entry could not be added'));
+            success = await put(this.superDn, superAttrs, this.$store, _('Entry could not be added'), _('Entry successfully added'));
           } else {
-            success = await put(this.superDn, superAttrs, this.$store, _('Folder successfully added'), _('Folder could not be added'));
+            success = await put(this.superDn, superAttrs, this.$store, _('Folder could not be added'), _('Folder successfully added'));
           }
         }
         this.$store.dispatch('deactivateLoadingState');

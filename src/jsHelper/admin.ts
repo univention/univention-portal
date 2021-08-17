@@ -26,7 +26,6 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import _ from '@/jsHelper/translate';
 import { udmRemove, udmPut, udmAdd } from '@/jsHelper/umc';
 
 async function add(objectType, attrs, store, errorMessage): Promise<string> {
@@ -39,23 +38,25 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
     return result.$dn$;
   } catch (err) {
     store.dispatch('notifications/addErrorNotification', {
-      title: _('%(key1)s', { key1: errorMessage }),
+      title: errorMessage,
       description: err.message,
     });
   }
   return '';
 }
 
-async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promise<boolean> {
+async function put(dn, attrs, { dispatch }, errorMessage, successMessage?): Promise<boolean> {
   try {
     const response = await udmPut(dn, attrs);
     const result = response.data.result[0];
     if (!result.success) {
       throw new Error(result.details);
     }
-    dispatch('notifications/addSuccessNotification', {
-      title: _('%(key1)s', { key1: successMessage }),
-    }, { root: true });
+    if (successMessage) {
+      dispatch('notifications/addSuccessNotification', {
+        title: successMessage,
+      }, { root: true });
+    }
     await dispatch('portalData/waitForChange', {
       retries: 10,
       adminMode: true,
@@ -64,7 +65,7 @@ async function put(dn, attrs, { dispatch }, successMessage, errorMessage): Promi
     return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
-      title: _('%(key1)s', { key1: errorMessage }),
+      title: errorMessage,
       description: err.message,
     }, { root: true });
     return false;
@@ -79,7 +80,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
       throw new Error(result.details);
     }
     dispatch('notifications/addSuccessNotification', {
-      title: _('%(key1)s', { key1: successMessage }),
+      title: successMessage,
     }, { root: true });
     await dispatch('portalData/waitForChange', {
       retries: 10,
@@ -89,7 +90,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
     return true;
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
-      title: _('%(key1)s', { key1: errorMessage }),
+      title: errorMessage,
       description: err.message,
     }, { root: true });
     return false;
@@ -121,7 +122,7 @@ async function addEntryToSuperObj(superDn, superObjs, dn, { dispatch, getters },
   const attrs = {
     [attrName]: links.concat([dn]),
   };
-  return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
+  return put(actualSuperDn, attrs, { dispatch }, errorMessage, successMessage);
 }
 
 async function removeEntryFromSuperObj(superDn, superObjs, dn, { dispatch, getters }, successMessage, errorMessage) {
@@ -144,7 +145,7 @@ async function removeEntryFromSuperObj(superDn, superObjs, dn, { dispatch, gette
   const attrs = {
     [attrName]: links.filter((entryDn) => entryDn !== dn),
   };
-  return put(actualSuperDn, attrs, { dispatch }, successMessage, errorMessage);
+  return put(actualSuperDn, attrs, { dispatch }, errorMessage, successMessage);
 }
 
 export { put, add, remove, getAdminState, removeEntryFromSuperObj, addEntryToSuperObj };
