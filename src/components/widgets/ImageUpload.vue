@@ -68,21 +68,24 @@
         <portal-icon
           icon="upload"
         />
-        <span>
-          {{ UPLOAD }}
+        {{ UPLOAD }}
+        <span class="sr-only sr-only-mobile">
+          {{ IMAGE_UPLOAD_STATE }}
         </span>
       </button>
       <button
         type="button"
         :tabindex="tabindex"
+        :disabled="!modelValue"
         :data-test="`imageRemoveButton--${label}`"
         @click.prevent="remove"
       >
         <portal-icon
           icon="trash"
         />
-        <span>
-          {{ REMOVE }}
+        {{ REMOVE }}
+        <span class="sr-only sr-only-mobile">
+          {{ label }}
         </span>
       </button>
     </footer>
@@ -94,6 +97,10 @@ import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+
+interface ImageUploadData {
+  fileName: string,
+}
 
 export default defineComponent({
   name: 'ImageUpload',
@@ -115,6 +122,11 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  data(): ImageUploadData {
+    return {
+      fileName: '',
+    };
+  },
   computed: {
     SELECT_FILE(): string {
       return _('Select file');
@@ -124,6 +136,12 @@ export default defineComponent({
     },
     REMOVE(): string {
       return _('Remove');
+    },
+    IMAGE_UPLOAD_STATE(): string {
+      return `${this.label}, ${this.hasImage}`;
+    },
+    hasImage(): string {
+      return this.modelValue ? this.fileName : _('no file selected');
     },
   },
   methods: {
@@ -139,6 +157,7 @@ export default defineComponent({
     upload(evt: Event) {
       const target = evt.target as HTMLInputElement;
       if (target.files) {
+        this.fileName = target.files[0].name;
         this.handleFiles(target.files);
       }
     },
@@ -155,6 +174,7 @@ export default defineComponent({
     },
     remove() {
       this.$emit('update:modelValue', '');
+      this.fileName = '';
     },
   },
 });

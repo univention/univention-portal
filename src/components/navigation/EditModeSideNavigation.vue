@@ -28,6 +28,11 @@
 -->
 <template>
   <nav class="portal-sidenavigation">
+    <h2
+      class="edit-mode-side-navigation__headline"
+    >
+      {{ PORTAL_SETTINGS }}
+    </h2>
     <form
       class="edit-mode-side-navigation__form"
       @submit.prevent="saveChanges"
@@ -162,6 +167,9 @@ export default defineComponent({
     NAME(): string {
       return _('Name');
     },
+    PORTAL_SETTINGS(): string {
+      return _('General Settings');
+    },
   },
   updated() {
     this.update();
@@ -257,6 +265,9 @@ export default defineComponent({
 
 <style lang="stylus">
 .edit-mode-side-navigation
+  &__headline
+    padding: 0 calc(2 * var(--layout-spacing-unit))
+    margin-bottom: 0
   &__form
     height: auto
     overflow: auto
@@ -266,6 +277,9 @@ export default defineComponent({
       width: 18rem
       &[type=checkbox]
         margin-left: 0
+
+    .image-upload:first-child label
+      margin-top: 0
   &__save-button
     margin-top: calc(2 * var(--layout-spacing-unit))
   &__checkbox

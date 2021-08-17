@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-07-14 12:58+0200\n"
+"POT-Creation-Date: 2021-08-17 14:16+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -14,11 +14,11 @@ msgstr ""
 
 #: src/jsHelper/admin.ts:42 src/jsHelper/admin.ts:57 src/jsHelper/admin.ts:67
 #: src/jsHelper/admin.ts:82 src/jsHelper/admin.ts:92
-#: src/tmp/ts/src/components/widgets/LocaleInput.vue:39
-#: src/tmp/ts/src/components/admin/EditWidget.vue:73
+#: src/tmp/ts/src/components/widgets/LocaleInput.vue:53
+#: src/tmp/ts/src/components/admin/EditWidget.vue:85
 #: src/tmp/ts/src/components/globals/PortalButton.vue:35
 #: src/tmp/ts/src/components/modal/ModalDialog.vue:33
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:115
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:119
 msgid "%(key1)s"
 msgstr "%(key1)s"
 
@@ -77,8 +77,9 @@ msgstr "Hintergrundfarbe"
 msgid "Can only be seen by these groups"
 msgstr "Kann nur von diesen Gruppen gesehen werden"
 
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:42
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
-#: src/tmp/ts/src/components/admin/EditWidget.vue:44
+#: src/tmp/ts/src/components/admin/EditWidget.vue:45
 #: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:49
@@ -123,7 +124,7 @@ msgstr "Kategorie erfolgreich entfernt"
 
 #: src/tmp/ts/src/components/navigation/SideNavigation.vue:67
 msgid "Change language"
-msgstr ""
+msgstr "Sprache ändern"
 
 #: src/jsHelper/createUserMenu.ts:57 src/jsHelper/createUserMenu.ts:64
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:52
@@ -177,6 +178,15 @@ msgstr ""
 "Wollen Sie wirklich dieses Objekt entfernen? Sie können es komplett löschen "
 "oder nur die Verbindung des Objektes hierhin entfernen, sodass Sie es noch "
 "anderswo nutzen können."
+
+#: src/tmp/ts/src/components/PortalFolder.vue:114
+#, fuzzy
+msgid "Edit Folder"
+msgstr "Ordner bearbeiten"
+
+#: src/tmp/ts/src/components/widgets/LocaleInput.vue:56
+msgid "Edit Translations"
+msgstr "Übersetzungen bearbeiten"
 
 #: src/tmp/ts/src/components/PortalCategory.vue:66
 msgid "Edit category"
@@ -254,9 +264,9 @@ msgstr "Eintrag erfolgreich entfernt"
 msgid "Error"
 msgstr "Fehler"
 
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:118
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:122
 msgid "Error on validation"
-msgstr ""
+msgstr "Fehler bei der Validierung"
 
 #: src/tmp/ts/src/components/PortalFolder.vue:73
 msgid "Folder"
@@ -290,6 +300,11 @@ msgstr "Ordner erfolgreich bearbeitet"
 #: src/tmp/ts/src/components/admin/Folder.vue:101
 msgid "Folder successfully removed"
 msgstr "Ordner erfolgreich entfernt"
+
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:77
+#, fuzzy
+msgid "General Settings"
+msgstr "Cookie-Einstellungen"
 
 #: src/tmp/ts/src/components/navigation/SubMenuItem.vue:38
 #: src/tmp/ts/src/components/navigation/SideNavigation.vue:61
@@ -400,7 +415,7 @@ msgstr "Bitte geben Sie eine Beschreibung ein"
 #: src/tmp/ts/src/components/admin/Entry.vue:37
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:26
 #: src/tmp/ts/src/components/admin/Folder.vue:27
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:98
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:102
 msgid "Please enter a display name"
 msgstr "Bitte geben Sie einen Anzeigenamen ein"
 
@@ -434,8 +449,10 @@ msgid "Portal logo"
 msgstr "Portal-Logo"
 
 #: src/tmp/ts/src/components/widgets/MultiSelect.vue:37
-#: src/tmp/ts/src/components/widgets/ImageUpload.vue:34
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:39
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
+#: src/tmp/ts/src/components/admin/EditWidget.vue:48
+#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -443,17 +460,13 @@ msgstr "Entfernen"
 msgid "Remove all notifications"
 msgstr "Alle Benachrichtigungen entfernen"
 
-#: src/tmp/ts/src/components/admin/EditWidget.vue:47
-#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
-msgid "Remove here"
-msgstr "Hier entfernen"
-
 #: src/tmp/ts/src/components/admin/Entry.vue:121
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:56
 msgid "Same tab"
 msgstr "Gleicher Tab"
 
-#: src/tmp/ts/src/components/admin/EditWidget.vue:41
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:45
+#: src/tmp/ts/src/components/admin/EditWidget.vue:42
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:71
 msgid "Save"
 msgstr "Speichern"
@@ -463,7 +476,7 @@ msgstr "Speichern"
 msgid "Select"
 msgstr "auswählen"
 
-#: src/tmp/ts/src/components/widgets/ImageUpload.vue:28
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:33
 msgid "Select file"
 msgstr "Datei auswählen"
 
@@ -495,7 +508,7 @@ msgstr "Aktion erfolgreich"
 msgid "Tabs"
 msgstr "Tabs"
 
-#: src/tmp/ts/src/components/admin/EditWidget.vue:76
+#: src/tmp/ts/src/components/admin/EditWidget.vue:88
 msgid "The form data is not valid"
 msgstr "Die Formulardaten sind fehlerhaft"
 
@@ -503,7 +516,11 @@ msgstr "Die Formulardaten sind fehlerhaft"
 msgid "The new passwords do not match"
 msgstr "Die Passwörter stimmen nicht überein."
 
-#: src/tmp/ts/src/components/widgets/ImageUpload.vue:31
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:39
+msgid "Translation: %(key1)s"
+msgstr "Übersetzung: %(key1)s"
+
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:36
 msgid "Upload"
 msgstr "Hochladen"
 
@@ -538,6 +555,10 @@ msgstr ""
 " \"Akzeptieren\" willigen Sie in die Erhebung von Informationen auf diesem "
 "Portal ein."
 
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:45
+msgid "no file selected"
+msgstr "keine Datei ausgewählt"
+
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:43
 msgid "retype"
 msgstr "Wiederholung"
@@ -546,3 +567,6 @@ msgstr "Wiederholung"
 #: src/tmp/ts/src/components/search/PortalSearch.vue:25
 msgid "search"
 msgstr "suche"
+
+#~ msgid "Remove here"
+#~ msgstr "Hier entfernen"
