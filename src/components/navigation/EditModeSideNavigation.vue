@@ -168,7 +168,7 @@ export default defineComponent({
       return _('Name');
     },
     PORTAL_SETTINGS(): string {
-      return _('General Settings');
+      return _('Portal settings');
     },
   },
   updated() {

@@ -120,7 +120,6 @@ export default defineComponent({
   },
   mounted() {
     this.locales.forEach((key, index) => {
-      console.log('###', this.locales[index]);
       if (this.inputValue[this.locales[index]]) {
         this.translationObject[this.locales[index]] = this.inputValue[this.locales[index]];
       }
@@ -138,7 +137,6 @@ export default defineComponent({
       });
     },
     hasValue(locale): string {
-      console.log('this.inputValue[locale]', this.inputValue[locale]);
       return this.inputValue[locale] ? null : this.inputValue.en_US;
     },
     isUserInput(locale): boolean {
