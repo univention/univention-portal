@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-08-17 14:16+0200\n"
+"POT-Creation-Date: 2021-08-17 15:39+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -12,10 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/jsHelper/admin.ts:42 src/jsHelper/admin.ts:57 src/jsHelper/admin.ts:67
-#: src/jsHelper/admin.ts:82 src/jsHelper/admin.ts:92
 #: src/tmp/ts/src/components/widgets/LocaleInput.vue:53
-#: src/tmp/ts/src/components/admin/EditWidget.vue:85
+#: src/tmp/ts/src/components/admin/EditWidget.vue:75
 #: src/tmp/ts/src/components/globals/PortalButton.vue:35
 #: src/tmp/ts/src/components/modal/ModalDialog.vue:33
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:119
@@ -87,16 +85,17 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/store/modules/portalData/index.ts:195
+#: src/store/modules/portalData/index.ts:203
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
-#: src/store/modules/portalData/index.ts:195
+#: src/store/modules/portalData/index.ts:203
 msgid "Categories successfully re-sorted"
 msgstr "Kategorien erfolgreich umsortiert"
 
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:118
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:124
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:72
 msgid "Category could not be added"
 msgstr "Kategorie konnte nicht hinzugefügt werden"
 
@@ -110,6 +109,7 @@ msgid "Category could not be removed"
 msgstr "Kategorie konnte nicht entfernt werden"
 
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:124
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:72
 msgid "Category successfully added"
 msgstr "Kategorie erfolgreich hinzugefügt"
 
@@ -179,7 +179,7 @@ msgstr ""
 "oder nur die Verbindung des Objektes hierhin entfernen, sodass Sie es noch "
 "anderswo nutzen können."
 
-#: src/tmp/ts/src/components/PortalFolder.vue:114
+#: src/tmp/ts/src/components/PortalFolder.vue:122
 #, fuzzy
 msgid "Edit Folder"
 msgstr "Ordner bearbeiten"
@@ -196,7 +196,7 @@ msgstr "Kategorie bearbeiten"
 msgid "Edit entry"
 msgstr "Eintrag bearbeiten"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:79
+#: src/tmp/ts/src/components/PortalFolder.vue:81
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
@@ -217,15 +217,15 @@ msgstr "Kachel editieren"
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: src/store/modules/portalData/index.ts:208
-#: src/store/modules/portalData/index.ts:217
-#: src/store/modules/portalData/index.ts:232
+#: src/store/modules/portalData/index.ts:214
+#: src/store/modules/portalData/index.ts:227
+#: src/store/modules/portalData/index.ts:236
+#: src/store/modules/portalData/index.ts:251
 msgid "Entries could not be re-sorted"
 msgstr "Einträge konnten nicht umsortiert werden"
 
-#: src/store/modules/portalData/index.ts:208
-#: src/store/modules/portalData/index.ts:217
-#: src/store/modules/portalData/index.ts:232
+#: src/store/modules/portalData/index.ts:214
+#: src/store/modules/portalData/index.ts:258
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
@@ -268,7 +268,7 @@ msgstr "Fehler"
 msgid "Error on validation"
 msgstr "Fehler bei der Validierung"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:73
+#: src/tmp/ts/src/components/PortalFolder.vue:75
 msgid "Folder"
 msgstr "Ordner"
 
@@ -301,11 +301,6 @@ msgstr "Ordner erfolgreich bearbeitet"
 msgid "Folder successfully removed"
 msgstr "Ordner erfolgreich entfernt"
 
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:77
-#, fuzzy
-msgid "General Settings"
-msgstr "Cookie-Einstellungen"
-
 #: src/tmp/ts/src/components/navigation/SubMenuItem.vue:38
 #: src/tmp/ts/src/components/navigation/SideNavigation.vue:61
 msgid "Go Back"
@@ -333,12 +328,12 @@ msgstr ""
 "mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
 "beginnen und enden."
 
-#: src/tmp/ts/src/components/PortalFolder.vue:68
+#: src/tmp/ts/src/components/PortalFolder.vue:70
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:61
 msgid "Item"
 msgstr "Eintrag"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:70
+#: src/tmp/ts/src/components/PortalFolder.vue:72
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:63
 msgid "Items"
 msgstr "Einträge"
@@ -377,7 +372,7 @@ msgstr "Neues Passwort"
 msgid "New tab"
 msgstr "Neuer Tab"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:66
+#: src/tmp/ts/src/components/PortalFolder.vue:68
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:59
 msgid "No items"
 msgstr "Keine Einträge"
@@ -448,8 +443,13 @@ msgstr "Portal-Menü"
 msgid "Portal logo"
 msgstr "Portal-Logo"
 
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:77
+#, fuzzy
+msgid "Portal settings"
+msgstr "Portal-Einstellungen"
+
 #: src/tmp/ts/src/components/widgets/MultiSelect.vue:37
-#: src/tmp/ts/src/components/widgets/ImageUpload.vue:39
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:43
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
 #: src/tmp/ts/src/components/admin/EditWidget.vue:48
 #: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
@@ -476,7 +476,7 @@ msgstr "Speichern"
 msgid "Select"
 msgstr "auswählen"
 
-#: src/tmp/ts/src/components/widgets/ImageUpload.vue:33
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:37
 msgid "Select file"
 msgstr "Datei auswählen"
 
@@ -508,7 +508,7 @@ msgstr "Aktion erfolgreich"
 msgid "Tabs"
 msgstr "Tabs"
 
-#: src/tmp/ts/src/components/admin/EditWidget.vue:88
+#: src/tmp/ts/src/components/admin/EditWidget.vue:78
 msgid "The form data is not valid"
 msgstr "Die Formulardaten sind fehlerhaft"
 
@@ -520,7 +520,7 @@ msgstr "Die Passwörter stimmen nicht überein."
 msgid "Translation: %(key1)s"
 msgstr "Übersetzung: %(key1)s"
 
-#: src/tmp/ts/src/components/widgets/ImageUpload.vue:36
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:40
 msgid "Upload"
 msgstr "Hochladen"
 
@@ -555,7 +555,7 @@ msgstr ""
 " \"Akzeptieren\" willigen Sie in die Erhebung von Informationen auf diesem "
 "Portal ein."
 
-#: src/tmp/ts/src/components/widgets/ImageUpload.vue:45
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:49
 msgid "no file selected"
 msgstr "keine Datei ausgewählt"
 
