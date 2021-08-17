@@ -332,7 +332,7 @@ export default defineComponent({
 
       if (this.modelValue.dn) {
         console.info('Modifying', this.modelValue.dn);
-        success = await put(this.modelValue.dn, attrs, this.$store, _('Entry successfully modified'), _('Entry could not be modified'));
+        success = await put(this.modelValue.dn, attrs, this.$store, _('Entry could not be modified'), _('Entry successfully modified'));
       } else {
         console.info('Adding entry');
         const dn = await add('portals/entry', attrs, this.$store, _('Entry could not be added'));

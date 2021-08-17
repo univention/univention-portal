@@ -192,7 +192,7 @@ const portalData: PortalModule<PortalDataState> = {
       const attrs = {
         categories: content.map(([category]) => category).filter((category) => !['$$menu$$', '$$user$$'].includes(category)),
       };
-      await put(portalDn, attrs, { dispatch }, _('Categories successfully re-sorted'), _('Categories could not be re-sorted'));
+      await put(portalDn, attrs, { dispatch }, _('Categories could not be re-sorted'), _('Categories successfully re-sorted'));
     },
     async saveContent({ commit, dispatch, getters }) {
       const content = getters.portalContent;
@@ -205,7 +205,7 @@ const portalData: PortalModule<PortalDataState> = {
           const attrs = {
             userLinks: entries,
           };
-          const ret = put(portalDn, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
+          const ret = put(portalDn, attrs, { dispatch }, _('Entries could not be re-sorted'));
           puts.push(ret);
           return;
         }
@@ -214,7 +214,7 @@ const portalData: PortalModule<PortalDataState> = {
           const attrs = {
             menuLinks: entries,
           };
-          const ret = put(portalDn, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
+          const ret = put(portalDn, attrs, { dispatch }, _('Entries could not be re-sorted'));
           puts.push(ret);
           return;
         }
@@ -229,11 +229,16 @@ const portalData: PortalModule<PortalDataState> = {
             return;
           }
           console.info('Rearranging entries for', cat);
-          const ret = put(cat, attrs, { dispatch }, _('Entries successfully re-sorted'), _('Entries could not be re-sorted'));
+          const ret = put(cat, attrs, { dispatch }, _('Entries could not be re-sorted'));
           puts.push(ret);
         });
       });
-      await Promise.all(puts);
+      const results = await Promise.all(puts);
+      if (results.every((result) => !!result)) {
+        dispatch('notifications/addSuccessNotification', {
+          title: _('Entries successfully re-sorted'),
+        }, { root: true });
+      }
     },
     replaceContent({ commit }, content) {
       commit('CONTENT', content);
