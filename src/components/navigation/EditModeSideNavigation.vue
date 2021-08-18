@@ -40,21 +40,26 @@
       <image-upload
         v-model="portalLogoData"
         :label="PORTAL_LOGO"
+        :tabindex="tabindex"
+
       />
       <locale-input
         v-model="portalNameData"
         :i18n-label="NAME"
+        :tabindex="tabindex"
         name="name"
         @update:modelValue="update"
       />
       <image-upload
         v-model="portalBackgroundData"
         :label="BACKGROUND"
+        :tabindex="tabindex"
       />
       <label>
         {{ DEFAULT_LINK_BEHAVIOUR }}
         <select
           v-model="portalDefaultLinkTargetData"
+          :tabindex="tabindex"
         >
           <option value="samewindow">{{ SAME_TAB }}</option>
           <option value="newwindow">{{ NEW_TAB }}</option>
@@ -65,6 +70,7 @@
         <input
           v-model="portalEnsureLoginData"
           type="checkbox"
+          :tabindex="tabindex"
         >
         {{ USERS_REQUIRED_TO_LOGIN }}
       </label>
@@ -72,6 +78,7 @@
         <input
           v-model="portalShowUmcData"
           type="checkbox"
+          :tabindex="tabindex"
         >
         {{ SHOW_LOCAL_UMC_MODULES }}
 
@@ -79,6 +86,7 @@
       <button
         class="primary edit-mode-side-navigation__save-button"
         data-test="editModeSideNavigation--Save"
+        :tabindex="tabindex"
       >
         <portal-icon
           icon="save"
@@ -97,6 +105,7 @@ import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
 import { udmPut } from '@/jsHelper/umc';
+import activity from '@/jsHelper/activity';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
@@ -136,6 +145,7 @@ export default defineComponent({
       portalShowUmc: 'portalData/portalShowUmc',
       portalEnsureLogin: 'portalData/portalEnsureLogin',
       portalDefaultLinkTarget: 'portalData/portalDefaultLinkTarget',
+      activityLevel: 'activity/level',
     }),
     PORTAL_LOGO(): string {
       return _('Portal logo');
@@ -170,9 +180,15 @@ export default defineComponent({
     PORTAL_SETTINGS(): string {
       return _('Portal settings');
     },
+    tabindex(): number {
+      return activity(['header-settings'], this.activityLevel);
+    },
   },
   updated() {
     this.update();
+    if (this.activityLevel === 'modal') {
+      this.$store.dispatch('activity/setLevel', 'header-settings');
+    }
   },
   created() {
     this.$store.dispatch('modal/disableBodyScrolling');

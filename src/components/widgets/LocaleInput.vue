@@ -153,6 +153,8 @@ export default defineComponent({
       }, () => {
         this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
       });
+      this.$store.dispatch('activity/setRegion', 'translation-editing');
+      this.$store.dispatch('activity/setLevel', 'modal2');
     },
   },
 });

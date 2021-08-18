@@ -30,6 +30,7 @@
   <modal-dialog
     :title="TRANSLATION_OF"
     :modal-level="modalLevel"
+    :id="id"
     @cancel="cancel"
   >
     <form class="translation-editing">
@@ -40,15 +41,19 @@
         {{ locale }}
         <span
           v-if="locale === 'en_US'"
+          aria-hidden="true"
         >
           *
+        </span>
+        <span class="sr-only sr-only-mobile">
+          required
         </span>
         <input
           v-model="translationObject[locale]"
           :placeholder="hasValue(locale)"
         >
       </label>
-      <div class="translation-editing__footer-buttons">
+      <footer class="translation-editing__footer-buttons">
         <button
           type="button"
           @click.prevent="cancel()"
@@ -62,7 +67,7 @@
         >
           {{ SAVE }}
         </button>
-      </div>
+      </footer>
     </form>
   </modal-dialog>
 </template>
@@ -97,6 +102,7 @@ export default defineComponent({
   data() {
     return {
       translationObject: {},
+      id: '',
     };
   },
   computed: {
@@ -115,7 +121,7 @@ export default defineComponent({
     },
     modalLevel(): string {
       // Modal 2 Because it set the correct tabindizies for elements in modal Level 1
-      return this.modalLevelProp === 1 ? 'modal' : 'modal2';
+      return 'modal2';
     },
   },
   mounted() {
@@ -124,6 +130,8 @@ export default defineComponent({
         this.translationObject[this.locales[index]] = this.inputValue[this.locales[index]];
       }
     });
+    const randomId = Math.random();
+    this.id = 'translation-editing';
   },
   methods: {
     cancel(): void {
