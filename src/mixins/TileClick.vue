@@ -108,6 +108,7 @@ const tileClickMixin = {
         iframeLink: this.link,
       };
       this.$store.dispatch('tabs/addTab', tab);
+      this.$store.dispatch('modal/hideAndClearModal');
     },
   },
 };
