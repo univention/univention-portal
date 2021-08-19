@@ -45,14 +45,14 @@
         :data-test="`localeInput--${I18N_LABEL}`"
       >
       <icon-button
+        :id="`locale-input__icon--${I18N_LABEL}`"
         icon="globe"
         class="locale-input__icon"
         :aria-label-prop="TRANSLATE_TEXT_INPUT"
         :tabindex="tabindex"
         :data-test="`iconButton--${I18N_LABEL}`"
         @click="openTranslationEditingDialog"
-      >
-      </icon-button>
+      />
     </div>
   </div>
 </template>
@@ -108,6 +108,7 @@ export default defineComponent({
     ...mapGetters({
       locales: 'locale/getAvailableLocales',
       getModalError: 'modal/getModalError',
+      savedFocus: 'activity/focus',
     }),
     I18N_LABEL():string {
       return _('%(key1)s', { key1: this.i18nLabel });
@@ -150,11 +151,17 @@ export default defineComponent({
         this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
         this.modelValueData = data.translations;
         this.translations = data.translations;
+        const clickedButton = document.getElementById(`locale-input__icon--${this.I18N_LABEL}`);
+        clickedButton?.focus();
       }, () => {
         this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
       });
       this.$store.dispatch('activity/setRegion', 'translation-editing');
       this.$store.dispatch('activity/setLevel', 'modal2');
+      this.$store.dispatch('activity/saveFocus', {
+        region: 'modal-wrapper--isVisible',
+        id: `locale-input__icon--${this.I18N_LABEL}`,
+      });
     },
   },
 });

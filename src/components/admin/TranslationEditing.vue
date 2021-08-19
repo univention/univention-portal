@@ -28,9 +28,9 @@
 -->
 <template>
   <modal-dialog
+    :id="id"
     :title="TRANSLATION_OF"
     :modal-level="modalLevel"
-    :id="id"
     @cancel="cancel"
   >
     <form class="translation-editing">
@@ -109,6 +109,7 @@ export default defineComponent({
     ...mapGetters({
       locales: 'locale/getAvailableLocales',
       getModalError: 'modal/getModalError',
+      savedFocus: 'activity/focus',
     }),
     TRANSLATION_OF(): string {
       return _('Translation: %(key1)s', { key1: this.title });
@@ -130,12 +131,14 @@ export default defineComponent({
         this.translationObject[this.locales[index]] = this.inputValue[this.locales[index]];
       }
     });
-    const randomId = Math.random();
     this.id = 'translation-editing';
   },
   methods: {
     cancel(): void {
       this.$store.dispatch('modal/hideAndClearModal', this.modalLevelProp);
+      const lastFocusID = this.savedFocus['modal-wrapper--isVisible'];
+      const clickedButton = document.getElementById(lastFocusID);
+      clickedButton?.focus();
     },
     closeDialog(): void {
       const translations = this.translationObject;

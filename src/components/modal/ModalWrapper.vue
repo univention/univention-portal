@@ -32,6 +32,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     to="body"
   >
     <div
+      :id="setID"
       :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
                 'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
       @click.self="$emit('backgroundClick');"
@@ -77,6 +78,9 @@ export default defineComponent({
   computed: {
     isSecondModalActive(): boolean {
       return this.modalLevel === 2 && this.isActive;
+    },
+    setID(): string {
+      return this.isActive ? 'modal-wrapper--isVisible' : '';
     },
   },
 });
