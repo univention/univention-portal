@@ -16,7 +16,8 @@ msgstr ""
 #: src/tmp/ts/src/components/admin/EditWidget.vue:75
 #: src/tmp/ts/src/components/globals/PortalButton.vue:35
 #: src/tmp/ts/src/components/modal/ModalDialog.vue:33
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:119
+#: src/tmp/ts/src/components/admin/EditWidget.vue:75
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:123
 msgid "%(key1)s"
 msgstr "%(key1)s"
 
@@ -28,8 +29,8 @@ msgstr "Akzeptieren"
 msgid "Activated"
 msgstr "Aktiviert"
 
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:61
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:61
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -75,13 +76,13 @@ msgstr "Hintergrundfarbe"
 msgid "Can only be seen by these groups"
 msgstr "Kann nur von diesen Gruppen gesehen werden"
 
-#: src/tmp/ts/src/components/admin/TranslationEditing.vue:42
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
-#: src/tmp/ts/src/components/admin/EditWidget.vue:45
-#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
-#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
-#: src/tmp/ts/src/components/forms/ChangePassword.vue:49
 #: src/tmp/ts/src/components/modal/ModalDialog.vue:36
+#: src/tmp/ts/src/components/forms/ChangePassword.vue:49
+#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:42
+#: src/tmp/ts/src/components/admin/EditWidget.vue:45
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -126,8 +127,8 @@ msgstr "Kategorie erfolgreich entfernt"
 msgid "Change language"
 msgstr "Sprache ändern"
 
-#: src/jsHelper/createUserMenu.ts:57 src/jsHelper/createUserMenu.ts:64
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:52
+#: src/jsHelper/createUserMenu.ts:57 src/jsHelper/createUserMenu.ts:64
 msgid "Change password"
 msgstr "Passwort ändern"
 
@@ -264,7 +265,7 @@ msgstr "Eintrag erfolgreich entfernt"
 msgid "Error"
 msgstr "Fehler"
 
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:122
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:126
 msgid "Error on validation"
 msgstr "Fehler bei der Validierung"
 
@@ -272,9 +273,9 @@ msgstr "Fehler bei der Validierung"
 msgid "Folder"
 msgstr "Ordner"
 
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 #: src/tmp/ts/src/components/admin/Folder.vue:119
 #: src/tmp/ts/src/components/admin/Folder.vue:122
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 msgid "Folder could not be added"
 msgstr "Ordner konnte nicht hinzugefügt werden"
 
@@ -287,8 +288,8 @@ msgstr "Ordner konnte nicht bearbeitet werden"
 msgid "Folder could not be removed"
 msgstr "Ordner konnte nicht entfernt werden"
 
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 #: src/tmp/ts/src/components/admin/Folder.vue:122
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 msgid "Folder successfully added"
 msgstr "Ordner erfolgreich hinzugefügt"
 
@@ -303,6 +304,7 @@ msgstr "Ordner erfolgreich entfernt"
 
 #: src/tmp/ts/src/components/navigation/SubMenuItem.vue:38
 #: src/tmp/ts/src/components/navigation/SideNavigation.vue:61
+#: src/tmp/ts/src/components/navigation/SubMenuItem.vue:38
 msgid "Go Back"
 msgstr "Gehe zurück"
 
@@ -310,14 +312,14 @@ msgstr "Gehe zurück"
 msgid "Info"
 msgstr "Info"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:109
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:61
+#: src/tmp/ts/src/components/admin/Entry.vue:109
 #: src/tmp/ts/src/components/admin/Folder.vue:66
 msgid "Internal name"
 msgstr "Interner Name"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:33
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:22
+#: src/tmp/ts/src/components/admin/Entry.vue:33
 #: src/tmp/ts/src/components/admin/Folder.vue:23
 msgid ""
 "Internal name must not contain anything other than digits, letters or dots, "
@@ -350,24 +352,20 @@ msgstr "Abmelden"
 msgid "Menu"
 msgstr "Menü"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:139
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:64
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
+#: src/tmp/ts/src/components/admin/Entry.vue:139
 #: src/tmp/ts/src/components/admin/Folder.vue:69
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:31
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:74
 msgid "Name"
 msgstr "Name"
-
-#: src/tmp/ts/src/components/admin/Entry.vue:124
-#, fuzzy
-msgid "New Tab"
-msgstr "Neuer Tab"
 
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:37
 msgid "New password"
 msgstr "Neues Passwort"
 
+#: src/tmp/ts/src/components/admin/Entry.vue:124
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:59
 msgid "New tab"
 msgstr "Neuer Tab"
@@ -378,7 +376,6 @@ msgid "No items"
 msgstr "Keine Einträge"
 
 #: src/tmp/ts/src/views/Portal.vue:59
-#, fuzzy
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
@@ -407,15 +404,15 @@ msgstr "Bitte bestätigen Sie ihr neues Passwort"
 msgid "Please enter a description"
 msgstr "Bitte geben Sie eine Beschreibung ein"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:37
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:26
+#: src/tmp/ts/src/components/admin/Entry.vue:37
 #: src/tmp/ts/src/components/admin/Folder.vue:27
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:102
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:106
 msgid "Please enter a display name"
 msgstr "Bitte geben Sie einen Anzeigenamen ein"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:29
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:18
+#: src/tmp/ts/src/components/admin/Entry.vue:29
 #: src/tmp/ts/src/components/admin/Folder.vue:19
 msgid "Please enter an internal name"
 msgstr "Bitte geben Sie einen internen Namen ein"
@@ -426,14 +423,12 @@ msgid "Please enter at least one English link"
 msgstr "Bitte geben Sie mindestens einen englischen Link ein"
 
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:40
-#, fuzzy
 msgid "Please enter your new password"
 msgstr "Bitte geben Sie ein neues Passwort ein"
 
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:34
-#, fuzzy
 msgid "Please enter your old password"
-msgstr "Bitte geben Sie ihr altes Passwort ein"
+msgstr "Bitte geben Sie Ihr altes Passwort ein"
 
 #: src/store/modules/portalData/index.ts:91
 msgid "Portal Menu"
@@ -451,8 +446,9 @@ msgstr "Portal-Einstellungen"
 #: src/tmp/ts/src/components/widgets/MultiSelect.vue:37
 #: src/tmp/ts/src/components/widgets/ImageUpload.vue:43
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
-#: src/tmp/ts/src/components/admin/EditWidget.vue:48
+#: src/tmp/ts/src/components/widgets/ImageUpload.vue:43
 #: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
+#: src/tmp/ts/src/components/admin/EditWidget.vue:48
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -567,6 +563,3 @@ msgstr "Wiederholung"
 #: src/tmp/ts/src/components/search/PortalSearch.vue:25
 msgid "search"
 msgstr "suche"
-
-#~ msgid "Remove here"
-#~ msgstr "Hier entfernen"

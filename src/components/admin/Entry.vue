@@ -241,7 +241,7 @@ export default defineComponent({
       return _('Same tab');
     },
     NEW_TAB(): string {
-      return _('New Tab');
+      return _('New tab');
     },
     EMBEDDED(): string {
       return _('Embedded');

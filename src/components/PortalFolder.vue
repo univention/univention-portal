@@ -232,7 +232,7 @@ export default defineComponent({
         props: {
           modelValue: this.$props,
           superDn: this.superDn,
-          label: _('Edit Folder'),
+          label: _('Edit folder'),
         },
       });
     },
