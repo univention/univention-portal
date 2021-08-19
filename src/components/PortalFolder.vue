@@ -119,7 +119,7 @@ import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import IconButton from '@/components/globals/IconButton.vue';
-import TileAdd from @/components/admin/TileAdd.vue';
+import TileAdd from '@/components/admin/TileAdd.vue';
 import { Title, Tile } from '@/store/modules/portalData/portalData.models';
 import _ from '@/jsHelper/translate';
 
