@@ -44,7 +44,6 @@
         v-model="portalLogoData"
         :label="PORTAL_LOGO"
         :tabindex="tabindex"
-
       />
       <locale-input
         v-model="portalNameData"
