@@ -27,7 +27,10 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <nav class="portal-sidenavigation">
+  <nav
+    class="portal-sidenavigation"
+    @keydown.esc="closeNavigation"
+  >
     <h2
       class="edit-mode-side-navigation__headline"
     >
@@ -201,6 +204,10 @@ export default defineComponent({
     this.portalDefaultLinkTargetData = this.portalDefaultLinkTarget;
   },
   methods: {
+    closeNavigation(): void {
+      this.$store.dispatch('navigation/setActiveButton', '');
+      this.$store.dispatch('activity/setRegion', 'portal-header');
+    },
     update() {
       this.$store.dispatch('portalData/setPortalName', this.portalNameData);
       this.$store.dispatch('portalData/setPortalLogo', this.portalLogoData);
