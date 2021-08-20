@@ -353,8 +353,12 @@ export default defineComponent({
       }
       .portal-folder__thumbnail:nth-child(n+10)
         display: block
+    .portal-tile--minified:focus .portal-tile__box
+      border-color: transparent
+
     .portal-tile
       width: calc(0.25 * var(--app-tile-side-length))
+
       &__box
         width: calc(0.25 * var(--app-tile-side-length))
         height: @width
@@ -429,9 +433,5 @@ export default defineComponent({
           right: 0
           line-height: 300%
           background-color: var(--bgc-content-container)
-
-&:focus
-  border-color: var(--color-focus)
-  outline: none;
 
 </style>
