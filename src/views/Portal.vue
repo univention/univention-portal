@@ -98,7 +98,7 @@
       :modal-level="2"
       :is-active="isSecondModalActive"
     />
-    <!-- <loading-overlay /> -->
+    <loading-overlay />
   </div>
 </template>
 
