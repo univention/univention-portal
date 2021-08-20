@@ -27,14 +27,17 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <icon-button
-    icon="plus"
-    :aria-label-prop="ADD_NEW_TILE"
-    :active-at="activeAt"
-    class="tile-add"
-    @dragenter="dragenter"
-    @click="showMenu()"
-  />
+  <div class="tile-add">
+    <icon-button
+      icon="plus"
+      :aria-label-prop="ADD_NEW_TILE"
+      :active-at="activeAt"
+      class="tile-add__button"
+      @dragenter="dragenter"
+      @click="showMenu()"
+    />
+    <span>{{ ADD_NEW_TILE }}</span>
+  </div>
 </template>
 
 <script lang="ts">
@@ -94,24 +97,29 @@ export default defineComponent({
 
 <style lang="stylus">
 .tile-add
-  margin: 0
-  min-width: var(--app-tile-side-length)
-  width: var(--app-tile-side-length)
-  height: var(--app-tile-side-length)
-  border-radius: var(--border-radius-apptile)
-  border: 0.2rem solid var(--button-bgc)
-  background-color: transparent
-  cursor: pointer
-  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  align-items: center
 
-  &:focus
-    border-color: var(--color-focus)
-
-  &:focus, &:hover
+  &__button
+    margin: 0 0 calc(2 * var(--layout-spacing-unit)) 0
+    min-width: var(--app-tile-side-length)
+    width: var(--app-tile-side-length)
+    height: var(--app-tile-side-length)
+    border-radius: var(--border-radius-apptile)
+    border: 0.2rem solid var(--button-bgc)
     background-color: transparent
+    cursor: pointer
+    box-sizing: border-box
 
-  svg
-    width: 100%
-    height: 100%
-    stroke: var(--button-bgc)
+    &:focus
+      border-color: var(--color-focus)
+
+    &:focus, &:hover
+      background-color: transparent
+
+    svg
+      width: 100%
+      height: 100%
+      stroke: var(--button-bgc)
 </style>
