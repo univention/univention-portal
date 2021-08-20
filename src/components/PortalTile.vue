@@ -36,8 +36,10 @@
       :target="anchorTarget"
       :aria-describedby="tileId"
       :aria-label="ariaLabelPortalTile"
-      class="portal-tile"
       :draggable="editMode && !minified"
+      :disabled="isDisabled"
+      :class="{'portal-tile--minified': minified}"
+      class="portal-tile"
       data-test="tileLink"
       @mouseenter="showTooltip()"
       @mouseleave="hideTooltip"
@@ -173,6 +175,9 @@ export default defineComponent({
     }),
     wrapperTag(): string {
       return (this.minified || this.editMode) ? 'div' : 'a';
+    },
+    isDisabled(): boolean {
+      return (this.minified || this.editMode);
     },
     isTouchDevice(): boolean {
       return 'ontouchstart' in document.documentElement;
