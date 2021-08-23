@@ -35,6 +35,9 @@
     @remove="remove"
     @save="finish"
   >
+    <h3 class="sr-only sr-only-mobile">
+      {{ INTERNAL_NAME_SR_ONLY }}
+    </h3>
     <label>
       {{ INTERNAL_NAME }}
       <required-field-label />
@@ -123,6 +126,9 @@ export default defineComponent({
     }),
     INTERNAL_NAME(): string {
       return _('Internal name');
+    },
+    INTERNAL_NAME_SR_ONLY(): string {
+      return `${this.name} ${this.INTERNAL_NAME} ${_('view-only')}`;
     },
     NAME(): string {
       return _('Name');
