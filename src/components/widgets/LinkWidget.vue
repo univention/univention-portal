@@ -78,7 +78,7 @@
         <portal-icon
           icon="plus"
         />
-        {{ CREATE_NEW_ENTRY }}
+        {{ ADD_LINK }}
       </button>
     </span>
   </div>
@@ -135,8 +135,8 @@ export default defineComponent({
     REMOVE(): string {
       return _('Remove');
     },
-    CREATE_NEW_ENTRY(): string {
-      return _('Create a new Entry');
+    ADD_LINK(): string {
+      return _('Add link');
     },
   },
   created() {
