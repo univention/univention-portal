@@ -37,6 +37,7 @@
         <select
           v-model="modelValueData[index].locale"
           :tabindex="tabindex"
+          :aria-label="localeSelect(index)"
         >
           <option
             v-for="select in locales"
@@ -54,6 +55,7 @@
           v-model="modelValueData[index].value"
           :name="index === 0 ? name : `${name}-${index}`"
           :tabindex="tabindex"
+          :aria-label="linkInput(index)"
         >
       </span>
       <span
@@ -62,7 +64,7 @@
       >
         <icon-button
           icon="trash"
-          :aria-label-prop="REMOVE"
+          :aria-label-prop="removeLink(index)"
           :active-at="['modal']"
           @click="removeField(index, modelValueData)"
         />
@@ -166,6 +168,18 @@ export default defineComponent({
     },
     removeField(index) {
       this.modelValueData.splice(index, 1);
+    },
+    LINK(index: number): string {
+      return `${_('Link')} ${index}:`;
+    },
+    localeSelect(index: number): string {
+      return `${this.LINK(index)} ${_('Select locale for Link')}`;
+    },
+    linkInput(index: number): string {
+      return `${this.LINK(index)} ${_('insert valid Link')}`;
+    },
+    removeLink(index: number): string {
+      return `${this.LINK(index)} ${this.REMOVE}`;
     },
   },
 });
