@@ -37,7 +37,7 @@
   >
     <label>
       {{ INTERNAL_NAME }}
-      <span> *</span>
+      <required-field-label />
       <input
         v-model="name"
         name="name"
@@ -64,6 +64,7 @@ import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
+import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
 
 interface AdminFolderData extends ValidatableData {
   name: string,
@@ -92,6 +93,7 @@ export default defineComponent({
     ImageUpload,
     EditWidget,
     LocaleInput,
+    RequiredFieldLabel,
   },
   props: {
     label: {

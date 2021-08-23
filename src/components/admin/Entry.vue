@@ -37,7 +37,7 @@
   >
     <label>
       {{ INTERNAL_NAME }}
-      <span> *</span>
+      <required-field-label />
       <input
         v-model="name"
         name="name"
@@ -125,6 +125,7 @@ import _ from '@/jsHelper/translate';
 import { removeEntryFromSuperObj, addEntryToSuperObj, put, add, remove } from '@/jsHelper/admin';
 import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
+import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import MultiSelect from '@/components/widgets/MultiSelect.vue';
@@ -176,6 +177,7 @@ export default defineComponent({
     LocaleInput,
     MultiSelect,
     LinkWidget,
+    RequiredFieldLabel,
   },
   props: {
     label: {

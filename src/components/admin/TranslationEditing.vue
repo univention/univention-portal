@@ -39,15 +39,11 @@
         :key="locale"
       >
         {{ locale }}
-        <span
+        <template
           v-if="locale === 'en_US'"
-          aria-hidden="true"
         >
-          *
-        </span>
-        <span class="sr-only sr-only-mobile">
-          required
-        </span>
+          <required-field-label />
+        </template>
         <input
           v-model="translationObject[locale]"
           :placeholder="hasValue(locale)"
@@ -76,6 +72,7 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
+import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 
@@ -84,6 +81,7 @@ export default defineComponent({
   components: {
     ModalDialog,
     ModalWrapper,
+    RequiredFieldLabel,
   },
   props: {
     title: {
