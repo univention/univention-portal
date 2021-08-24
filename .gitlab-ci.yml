@@ -156,7 +156,7 @@ lint:
   image: artifacts.knut.univention.de/upx/container-tooling/automation-terraform:main-ecb2bd5d
   variables:
     HOSTING_PROVIDER: hetzner
-    TF_ROOT: ${CI_BUILDS_DIR}/terraform/${HOSTING_PROVIDER}/ucs-automation
+    TF_ROOT: ${CI_BUILDS_DIR}/terraform/${HOSTING_PROVIDER}/ucs-automation-named
 
 master-env:
   after_script:
@@ -178,7 +178,8 @@ master-env:
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
     - *remove-env-instance
-    - terraform apply -auto-approve -var sandbox-snapshot=41819632 -var create-dns-record=false
+    - terraform apply -auto-approve -var sandbox-snapshot=46209159 -var create-dns-record=false -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
+    - terraform apply -auto-approve -var sandbox-snapshot=46209159 -var create-dns-record=true -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
   stage: master-env
   variables:
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}
