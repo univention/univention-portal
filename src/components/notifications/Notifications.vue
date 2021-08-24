@@ -116,6 +116,11 @@ export default defineComponent({
       return !this.isInNotificationBar ? 'polite' : 'off';
     },
   },
+  created() {
+    if (this.isInNotificationBar) {
+      this.$store.dispatch('modal/disableBodyScrolling');
+    }
+  },
   methods: {
     closeAll(): void {
       this.$store.dispatch('notifications/removeAllNotifications');
