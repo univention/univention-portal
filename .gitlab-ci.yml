@@ -169,7 +169,7 @@ master-env:
       dotenv: ${CI_PROJECT_DIR}/deploy.env
   environment:
     name: ${CI_COMMIT_REF_NAME}
-    url: https://${MASTER_SERVER_IP}
+    url: https://${CI_COMMIT_REF_SLUG}.upx.mydemoenv.net
     on_stop: master-stop-env
     auto_stop_in: 4 hours
   extends: .environment-common
