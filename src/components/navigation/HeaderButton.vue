@@ -203,4 +203,7 @@ export default defineComponent({
     align-items: center
     justify-content: center
     pointer-events: none
+
+#header-button-bell svg
+  margin-right: 0!important
 </style>
