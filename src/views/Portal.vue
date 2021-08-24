@@ -85,7 +85,7 @@
       />
     </div>
 
-    <notifications :only-visible="true" />
+    <notifications :is-in-notification-bar="false" />
 
     <portal-tool-tip
       v-if="tooltip"
