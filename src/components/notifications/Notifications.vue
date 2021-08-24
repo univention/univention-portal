@@ -28,14 +28,14 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <region
-    :id="`notifications-${onlyVisible ? 'visible' : 'all'}`"
+    :id="`notifications-${!isInNotificationBar ? 'visible' : 'all'}`"
     :aria-live="ariaLiveStatus"
     direction="topdown"
     class="notifications"
     @keydown.esc="closeNotifications"
   >
     <div
-      v-if="!onlyVisible && notifications.length > 1"
+      v-if="isInNotificationBar && notifications.length > 1"
       class="notifications__close-all"
     >
       <button
@@ -55,11 +55,14 @@ License with the Debian GNU/Linux or Univention distribution in file
       :key="notification.token"
       v-bind="notification"
     />
-    <span v-if="!onlyVisible && notifications.length === 0">
+    <span
+      v-if="isInNotificationBar && notifications.length === 0"
+      class="notifications__no-notifications"
+    >
       {{ NO_NOTIFICATIONS }}
     </span>
     <div aria-live="polite" aria-atomic="true">
-      <span v-if="!onlyVisible && notifications.length === 0" class="sr-only sr-only-mobile">
+      <span v-if="isInNotificationBar && notifications.length === 0" class="sr-only sr-only-mobile">
         {{ NOTIFICATIONS_REMOVED }}
       </span>
     </div>
@@ -83,7 +86,7 @@ export default defineComponent({
     PortalIcon,
   },
   props: {
-    onlyVisible: {
+    isInNotificationBar: {
       type: Boolean,
       required: true,
     },
@@ -95,13 +98,13 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
     }),
     notifications() {
-      if (this.onlyVisible) {
+      if (!this.isInNotificationBar) {
         return this.visibleNotifications;
       }
       return this.allNotifications;
     },
     REMOVE_ALL_NOTIFICATIONS(): string {
-      return _('Remove all notifications');
+      return _('Remove all');
     },
     NO_NOTIFICATIONS(): string {
       return _('No notifications');
@@ -110,7 +113,7 @@ export default defineComponent({
       return _('Notifications removed');
     },
     ariaLiveStatus(): string {
-      return this.onlyVisible ? 'polite' : 'off';
+      return !this.isInNotificationBar ? 'polite' : 'off';
     },
   },
   methods: {
@@ -141,9 +144,16 @@ export default defineComponent({
 
   &__close-all
     display: flex
-    justify-content: flex-end
+    justify-content: flex-start
     margin-bottom: calc(4 * var(--layout-spacing-unit))
 
-.flyout-wrapper .notifications
-  height: calc(100vh - var(--layout-height-header) - 10 * var(--layout-spacing-unit))
+  &__no-notifications
+    font-size: var(--font-size-2)
+
+  .flyout-wrapper &
+    top: calc(4 * var(--layout-spacing-unit));
+    height: calc(100vh - var(--layout-height-header) - 10 * var(--layout-spacing-unit))
+
+.test
+  display: flex
 </style>

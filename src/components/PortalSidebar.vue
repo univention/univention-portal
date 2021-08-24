@@ -42,10 +42,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="portal-sidebar__flyout"
         >
           <!-- Side notifications -->
-          <h2 class="portal-sidebar__title">
-            {{ NOTIFICATIONS }}
-          </h2>
-          <notifications :only-visible="false" />
+          <notifications :is-in-notification-bar="true" />
         </flyout-wrapper>
       </transition>
 
@@ -114,9 +111,6 @@ export default defineComponent({
     },
     activeEditModeButton(): boolean {
       return this.activeButton === 'settings';
-    },
-    NOTIFICATIONS(): string {
-      return _('Notifications');
     },
   },
   methods: {
