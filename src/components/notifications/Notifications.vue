@@ -45,7 +45,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         <portal-icon
           icon="trash"
         />
-        {{ REMOVE_ALL_NOTIFICATIONS }}
+        <span>
+          {{ REMOVE_ALL_NOTIFICATIONS }}
+        </span>
       </button>
     </div>
     <notification
@@ -53,6 +55,14 @@ License with the Debian GNU/Linux or Univention distribution in file
       :key="notification.token"
       v-bind="notification"
     />
+    <span v-if="!onlyVisible && notifications.length === 0">
+      {{ NO_NOTIFICATIONS }}
+    </span>
+    <div aria-live="polite" aria-atomic="true">
+      <span v-if="!onlyVisible && notifications.length === 0" class="sr-only sr-only-mobile">
+        {{ NOTIFICATIONS_REMOVED }}
+      </span>
+    </div>
   </region>
 </template>
 
@@ -92,6 +102,12 @@ export default defineComponent({
     },
     REMOVE_ALL_NOTIFICATIONS(): string {
       return _('Remove all notifications');
+    },
+    NO_NOTIFICATIONS(): string {
+      return _('No notifications');
+    },
+    NOTIFICATIONS_REMOVED(): string {
+      return _('Notifications removed');
     },
     ariaLiveStatus(): string {
       return this.onlyVisible ? 'polite' : 'off';

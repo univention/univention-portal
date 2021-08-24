@@ -42,9 +42,9 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="portal-sidebar__flyout"
         >
           <!-- Side notifications -->
-          <div class="portal-sidebar__title">
+          <h2 class="portal-sidebar__title">
             {{ NOTIFICATIONS }}
-          </div>
+          </h2>
           <notifications :only-visible="false" />
         </flyout-wrapper>
       </transition>
@@ -134,6 +134,7 @@ export default defineComponent({
     margin: calc(2 * var(--layout-spacing-unit)) 0
     margin-left: calc(2.5 * var(--layout-spacing-unit))
     font-size: 20px
+    font-weight: normal
 
 .slide-enter-active,
 .slide-leave-active {
