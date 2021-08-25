@@ -1,7 +1,8 @@
+import { mount } from '@vue/test-utils';
+
 import PortalSearch from '@/components/search/PortalSearch';
 import navigation from '@/store/modules/navigation';
 import localize from '@/plugins/localize';
-import { mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 
 

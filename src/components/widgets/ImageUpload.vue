@@ -148,7 +148,7 @@ export default defineComponent({
     drop(evt: DragEvent) {
       const dt = evt.dataTransfer;
       if (dt && dt.files) {
-        this.handleFiles(dt.files);
+        this.handleFile(dt.files);
       }
     },
     startUpload() {
@@ -158,15 +158,16 @@ export default defineComponent({
       const target = evt.target as HTMLInputElement;
       if (target.files) {
         this.fileName = target.files[0].name;
-        this.handleFiles(target.files);
+        this.handleFile(target.files[0]);
       }
     },
-    handleFiles(files) {
-      const file = files[0];
+    handleFile(file) {
+      // const file = files[0];
       const reader = new FileReader();
-
       reader.onload = (e) => {
+        console.log('asdasd');
         if (e.target) {
+          console.log('e.target');
           this.$emit('update:modelValue', e.target.result);
         }
       };
