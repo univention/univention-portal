@@ -56,6 +56,7 @@ import AdminExistingCategory from '@/components/admin/ExistingCategory.vue';
 import TileAddModal from '@/components/admin/TileAddModal.vue';
 import CategoryAddModal from '@/components/admin/CategoryAddModal.vue';
 import ConfirmDialog from '@/components/admin/ConfirmDialog.vue';
+import AddObjects from '@/components/widgets/AddObjects.vue';
 import TranslationEditing from '@/components/admin/TranslationEditing.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
@@ -69,6 +70,7 @@ export default defineComponent({
   // (Maybe change PortalModal to not use the component tag anymore?)
     ChangePassword,
     ConfirmDialog,
+    AddObjects,
     ModalWrapper,
     PortalFolder,
     AdminEntry,
@@ -84,10 +86,6 @@ export default defineComponent({
     TranslationEditing,
   },
   props: {
-    isActive: {
-      type: Boolean,
-      required: true,
-    },
     modalLevel: {
       type: Number,
       default: 1,
