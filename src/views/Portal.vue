@@ -93,10 +93,9 @@
     />
 
     <portal-sidebar />
-    <portal-modal :is-active="false" />
+    <portal-modal />
     <portal-modal
       :modal-level="2"
-      :is-active="isSecondModalActive"
     />
     <loading-overlay />
   </div>

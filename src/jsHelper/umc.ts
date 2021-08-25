@@ -30,6 +30,11 @@ import axios, { AxiosResponse } from 'axios';
 
 import { getCookie } from '@/jsHelper/tools';
 
+interface Choice {
+  id: string,
+  label: string,
+}
+
 function umc(path: string, options: any, flavor?: string): Promise<AxiosResponse<any>> {
   const umcSessionId = getCookie('UMCSessionId');
   const umcLang = getCookie('UMCLang');
@@ -83,4 +88,16 @@ function udmAdd(objectType: string, attrs: any): Promise<AxiosResponse<any>> {
   'portals/all');
 }
 
-export { changePassword, umc, udmPut, udmAdd, udmRemove };
+function udmChoices(objectType: string, syntax: string, searchString: string): Promise<AxiosResponse<any>> {
+  return umc('command/udm/syntax/choices', {
+    container: 'all',
+    hidden: false,
+    objectProperty: 'None',
+    objectPropertyValue: searchString,
+    objectType,
+    syntax,
+  },
+  'portals/all');
+}
+
+export { changePassword, umc, udmPut, udmAdd, udmRemove, udmChoices, Choice };
