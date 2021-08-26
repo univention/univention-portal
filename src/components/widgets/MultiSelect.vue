@@ -41,10 +41,20 @@
           :tabindex="tabindex"
           @change="toggleSelection(value)"
         >
-        <span>{{ value }}</span>
+        <span>{{ dnToLabel(value) }}</span>
       </label>
     </div>
     <footer class="multi-select__footer">
+      <button
+        type="button"
+        :tabindex="tabindex"
+        @click.prevent="add"
+      >
+        <portal-icon
+          icon="plus"
+        />
+        {{ ADD }}
+      </button>
       <button
         type="button"
         :tabindex="tabindex"
@@ -95,6 +105,9 @@ export default defineComponent({
     };
   },
   computed: {
+    ADD(): string {
+      return _('Add');
+    },
     REMOVE(): string {
       return _('Remove');
     },
@@ -107,6 +120,25 @@ export default defineComponent({
       } else {
         this.selection.push(value);
       }
+    },
+    dnToLabel(dn: string): string {
+      const idx = dn.indexOf(',');
+      return dn.slice(3, idx);
+    },
+    add() {
+      this.$store.dispatch('modal/setShowModalPromise', {
+        level: 2,
+        name: 'AddObjects',
+        props: {
+          alreadyAdded: this.modelValue,
+        },
+        stubborn: true,
+      }).then((values) => {
+        this.$store.dispatch('modal/hideAndClearModal', 2);
+        const newValues = this.modelValue.concat(values.selection);
+        newValues.sort();
+        this.$emit('update:modelValue', newValues);
+      });
     },
     remove() {
       const values = this.modelValue.filter((value) => !this.selection.includes(value));
@@ -123,7 +155,8 @@ export default defineComponent({
     background-color: var(--bgc-inputfield-on-container)
     border: 0.1rem solid var(--bgc-inputfield-on-container)
     border-radius: var(--border-radius-interactable)
-    min-height: calc(2 * var(--inputfield-size))
+    height: calc(5 * var(--inputfield-size))
+    overflow: auto
 
     label
       margin-top: var(--layout-spacing-unit)
