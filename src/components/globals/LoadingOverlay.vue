@@ -29,6 +29,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <modal-wrapper
     :is-active="loadingState"
+    :modal-level="2"
   >
     <div
       class="loading-overlay"
