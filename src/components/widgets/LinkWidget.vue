@@ -56,6 +56,7 @@
           :name="index === 0 ? name : `${name}-${index}`"
           :tabindex="tabindex"
           :aria-label="linkInput(index)"
+          autocomplete="off"
         >
       </span>
       <span
