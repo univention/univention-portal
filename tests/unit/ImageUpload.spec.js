@@ -4,7 +4,7 @@ import ImageUpload from '@/components/widgets/ImageUpload';
 
 
 describe('ImageUpload.vue', () => {
-  test('Test ImageUpload', async () => {
+  test('uploading image', async () => {
     const vueProps = {
       label: 'Example Image',
       modelValue: '',
@@ -61,5 +61,42 @@ describe('ImageUpload.vue', () => {
     imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);
 
     expect(imagePreview.attributes('src')).toContain(imageResult);
+  });
+  test('removing existing image', async () => {
+    const imageResult = 'data:image/png;base64__TEST';
+
+    const vueProps = {
+      label: 'Example Image',
+      modelValue: imageResult,
+    }
+
+    const wrapper = await mount(ImageUpload, {
+      propsData: vueProps,
+    });
+
+    // Spy on remove method
+    const removeSpy = jest.spyOn(wrapper.vm, 'remove');
+    
+    let imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);    
+
+    expect(imagePreview.exists()).toBe(true);
+    expect(imagePreview.attributes('src')).toContain(imageResult);
+
+    // trigger upload event with test data
+    wrapper.vm.remove();
+
+    // expect update emmiter to be triggered
+    expect(wrapper.emitted()).toHaveProperty('update:modelValue');
+
+    // expect remove() to be called
+    expect(removeSpy).toHaveBeenCalled();
+
+    // await instance to update
+    await wrapper.vm.$nextTick();
+
+    // reassign since instance is updated. 
+    imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);
+
+    expect(imagePreview.exists()).toBe(false);
   });
 }); 
