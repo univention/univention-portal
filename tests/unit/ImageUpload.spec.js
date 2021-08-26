@@ -2,13 +2,9 @@ import { mount } from '@vue/test-utils';
 
 import ImageUpload from '@/components/widgets/ImageUpload';
 
-// https://zaengle.com/blog/mocking-file-upload-in-vue-with-jest
 
-describe('ImageUpload component', () => {
-  test('Test ImageUpload component', async () => {
-    // Arrange
-    // configure and setup the test
-
+describe('ImageUpload.vue', () => {
+  test('Test ImageUpload', async () => {
     const vueProps = {
       label: 'Example Image',
       modelValue: '',
@@ -25,35 +21,45 @@ describe('ImageUpload component', () => {
         ],
       },
     }
+    const imageResult = 'data:image/png;base64__TEST';
 
     const wrapper = await mount(ImageUpload, {
       propsData: vueProps,
     });
 
-    // Mock FileReader.readAsDataURL() to be a function that returns null
-    const fileReaderSpy = jest.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(() => {
-      console.log('Filereader read as data url is called');
+    // Spy on Filereader
+    jest.spyOn(global, 'FileReader').mockImplementation(function () {
+        this.readAsDataURL = jest.fn();
     });
-    
-    // Spy on the component’s handleFile() method
-    const handleFileSpy = jest.spyOn(wrapper.vm, 'handleFile');
- 
-    // Manually trigger the component’s onChange() method
-    // Act: perfom actions to change the state
-    wrapper.vm.upload(event);
 
-    // Assert
-    // check if the state is as what expected to be
-    expect(fileReaderSpy).toHaveBeenCalledWith(event.target.files[0]);
+    // Spy on handleFile method
+    const handleFileSpy = jest.spyOn(wrapper.vm, 'handleFile');
+    
+    let imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);    
+
+    expect(imagePreview.exists()).toBe(false);
+
+    // trigger upload event with test data
+    wrapper.vm.upload(event);
+    const reader = FileReader.mock.instances[0];
+
+    expect(reader.readAsDataURL).toHaveBeenCalledWith(event.target.files[0]);
+    expect(reader.onload).toStrictEqual(expect.any(Function));
+    
+    reader.onload({ target: { result: imageResult } });
+
+    // expect update emmiter to be triggered
+    expect(wrapper.emitted()).toHaveProperty('update:modelValue');
+
+    // expect handleFile() to be called
     expect(handleFileSpy).toHaveBeenCalledWith(event.target.files[0]);
 
-    // reader.onload() is not called
-    // -> therefore no updated base64 string
-    // -> cannot see if canvas has content
+    // await instance to update
+    await wrapper.vm.$nextTick();
 
-    // expect(wrapper.emitted()).toHaveProperty('update:modelValue');
-    // 1. Modelvalue has base64 String
-    // expect(wrapper.vm.modelValue).toContain('base64,');
-    // console.log(wrapper);
+    // reassign since instance is updated. 
+    imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);
+
+    expect(imagePreview.attributes('src')).toContain(imageResult);
   });
 }); 

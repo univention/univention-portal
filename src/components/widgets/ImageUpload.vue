@@ -40,6 +40,7 @@
       <img
         v-if="modelValue"
         :src="modelValue"
+        :data-test="`imagePreview--${label}`"
         alt=""
       >
       <div
@@ -165,9 +166,7 @@ export default defineComponent({
       // const file = files[0];
       const reader = new FileReader();
       reader.onload = (e) => {
-        console.log('asdasd');
         if (e.target) {
-          console.log('e.target');
           this.$emit('update:modelValue', e.target.result);
         }
       };
