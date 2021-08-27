@@ -24,7 +24,7 @@ describe('General Tests', () => {
       // go back to portal to open second tab
       cy.get('.portal-header__portal-name').click();
       cy.get('#portalCategories').should('be.visible');
-      cy.get('[href="https://doc.owncloud.com/server/10.0/admin_manual/"]').click();
+      cy.get('[href="https://doc.owncloud.com/server/10.0/user_manual/"]').click();
       cy.get('iframe').should('be.visible');
       // now we have two tabs and can switch between them
       cy.get('[data-test="header-tabs"]').children().should('have.length', 2)
