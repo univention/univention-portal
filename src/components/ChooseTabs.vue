@@ -34,6 +34,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       <modal-dialog
         :i18n-title-key="CHOOSE_TAB"
+        data-test="choose-tabs"
         @cancel="cancel"
       >
         <div
