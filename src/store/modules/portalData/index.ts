@@ -333,8 +333,12 @@ const portalData: PortalModule<PortalDataState> = {
           const entries: string[] = [];
           const tiles: any[] = [];
           const srcIdx = folder.entries.indexOf(src);
-          const dstIdx = folder.entries.indexOf(dst);
+          let dstIdx = folder.entries.indexOf(dst);
           const oldTiles = [...rootGetters['modal/getModalProps']('firstLevelModal').tiles];
+          if (dstIdx === -1) {
+            // TileAdd.vue
+            dstIdx = oldTiles.length - 1;
+          }
           if (srcIdx < dstIdx) {
             entries.push(...folder.entries.slice(0, srcIdx));
             entries.push(...folder.entries.slice(srcIdx + 1, dstIdx + 1));
