@@ -62,7 +62,7 @@ describe('Test Editmode Side navigation', () => {
     {
       runOnly: {
         type: 'tag',
-        values: ['wcag2a'],
+        values: ['wcag21aa'],
       }
     },
     cy.terminalLog, {

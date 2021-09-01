@@ -73,7 +73,7 @@ describe('ChooseTabButton Component', () => {
     {
       runOnly: {
         type: 'tag',
-        values: ['wcag2a'],
+        values: ['wcag21aa'],
       }
     },
     cy.terminalLog, {
