@@ -35,16 +35,17 @@
     @remove="remove"
     @save="finish"
   >
-    <h3 class="sr-only sr-only-mobile">
-      {{ INTERNAL_NAME_SR_ONLY }}
-    </h3>
     <label>
       {{ INTERNAL_NAME }}
-      <required-field-label />
+      {{ READ_ONLY }}
+      <required-field-label
+        v-if="!modelValue.dn"
+      />
       <input
         v-model="name"
         name="name"
-        :disabled="modelValue.dn"
+        autocomplete="off"
+        :readonly="modelValue.dn"
         :tabindex="tabindex"
       >
     </label>
@@ -233,8 +234,8 @@ export default defineComponent({
     INTERNAL_NAME(): string {
       return _('Internal name');
     },
-    INTERNAL_NAME_SR_ONLY(): string {
-      return `${this.name} ${this.INTERNAL_NAME} ${_('view-only')}`;
+    READ_ONLY(): string {
+      return this.modelValue.dn ? `(${_('readonly')})` : _('');
     },
     ACTIVATED(): string {
       return _('Activated');
