@@ -144,7 +144,7 @@ export default defineComponent({
       return `${preAccouncement}:`;
     },
     DISMISS_NOTIFICATION(): string {
-      return _('Dismiss notification');
+      return `${_('Dismiss notification')}: ${this.title}`;
     },
   },
   mounted() {
@@ -229,6 +229,7 @@ export default defineComponent({
 
   .icon-button
     border: 0.1rem solid transparent
+    align-self: flex-start;
 
     &:hover, &:focus, &:active
       background-color: transparent
