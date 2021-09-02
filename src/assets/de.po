@@ -390,7 +390,7 @@ msgstr "Keine Einträge"
 #: src/tmp/ts/src/components/notifications/Notifications.vue:38
 #, fuzzy
 msgid "No notifications"
-msgstr "Benachrichtigungen"
+msgstr "Keine Benachrichtigungen"
 
 #: src/tmp/ts/src/views/Portal.vue:59
 msgid "No search results"
@@ -403,7 +403,7 @@ msgstr "Benachrichtigungen"
 #: src/tmp/ts/src/components/notifications/Notifications.vue:41
 #, fuzzy
 msgid "Notifications removed"
-msgstr "Benachrichtigungen"
+msgstr "Benachrichtigungen entfernt"
 
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:31
 msgid "Old password"
