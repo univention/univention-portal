@@ -36,7 +36,7 @@
       @dragenter="dragenter"
       @click="showMenu()"
     />
-    <span>{{ ADD_NEW_TILE }}</span>
+    <span class="tile-add__label">{{ ADD_NEW_TILE }}</span>
   </div>
 </template>
 
@@ -100,6 +100,9 @@ export default defineComponent({
   display: flex
   flex-direction: column
   align-items: center
+
+  &__label
+    text-align:center
 
   &__button
     margin: 0 0 calc(2 * var(--layout-spacing-unit)) 0
