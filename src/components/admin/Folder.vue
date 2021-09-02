@@ -40,12 +40,16 @@
     </h3>
     <label>
       {{ INTERNAL_NAME }}
-      <required-field-label />
+      {{ READ_ONLY }}
+      <required-field-label
+        v-if="!modelValue.dn"
+      />
       <input
         v-model="name"
         name="name"
+        autocomplete="off"
         :tabindex="tabindex"
-        :disabled="modelValue.dn"
+        :readonly="modelValue.dn"
       >
     </label>
     <locale-input
@@ -126,6 +130,9 @@ export default defineComponent({
     }),
     INTERNAL_NAME(): string {
       return _('Internal name');
+    },
+    READ_ONLY(): string {
+      return this.modelValue.dn ? `(${_('readonly')})` : _('');
     },
     INTERNAL_NAME_SR_ONLY(): string {
       return `${this.name} ${this.INTERNAL_NAME} ${_('view-only')}`;
