@@ -61,8 +61,14 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       {{ NO_NOTIFICATIONS }}
     </span>
-    <div aria-live="polite" aria-atomic="true">
-      <span v-if="isInNotificationBar && notifications.length === 0" class="sr-only sr-only-mobile">
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span
+        v-if="isInNotificationBar && notifications.length === 0"
+        class="sr-only sr-only-mobile"
+      >
         {{ NOTIFICATIONS_REMOVED }}
       </span>
     </div>
