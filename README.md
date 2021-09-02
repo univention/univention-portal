@@ -54,6 +54,56 @@ This creates a static HTML file that may be served by UCS' apache. Everything in
 yarn lint
 ```
 
+### Using a real backend server
+Currently, the dev server just serves a static portal.json (from `public/data`). A full portal server that accepts backend calls like tile reordering and so on can be configured by setting up a reverse proxy *on your laptop*.
+
+You need:
+
+- A UCS 5.0 machine with a running portal. See our KVM environment. It runs at, say, 10.200.4.80.
+- An alias for localhost, say portal-dev.intranet, added in your local /etc/hosts
+- A reverse proxy on your laptop. We are using nginx
+  - A config for said proxy:
+
+```
+server {
+        listen 80;
+        listen [::]:80;
+        server_name portal-dev.intranet;
+
+        location /univention/portal/data/portal.json {
+                proxy_pass http://10.200.4.80/univention/portal/portal.json;
+        }
+
+        location /univention/portal/data/meta.json {
+                proxy_pass http://10.200.4.80/univention/meta.json;
+        }
+
+        location /univention/portal/data/languages.json {
+                proxy_pass http://10.200.4.80/univention/languages.json;
+        }
+
+        location /univention/portal/icons/ {
+                proxy_pass http://10.200.4.80/univention/portal/icons/;
+        }
+
+        location /univention/portal/ {
+                proxy_pass http://localhost:8080/;
+        }
+
+        location /univention/ {
+                proxy_pass http://10.200.4.80/univention/;
+        }
+}
+```
+
+Now you can access the development portal like this: `http://portal-dev.intranet/univention/portal`.
+
+(The /univention/ part is important for cookies set by the backend)
+
+To enable hot reloading, you need to do
+
+`yarn serve --host portal-dev.intranet`
+
 ## Translation
 
 We use the UCS tooling. The configuration is in `debian/phoenixportal.univention-l10n.` 
