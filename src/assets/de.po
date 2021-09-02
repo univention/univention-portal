@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-08-25 13:01+0200\n"
+"POT-Creation-Date: 2021-09-02 10:56+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -13,9 +13,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/tmp/ts/src/components/widgets/LocaleInput.vue:54
+#: src/tmp/ts/src/components/admin/EditWidget.vue:75
 #: src/tmp/ts/src/components/globals/PortalButton.vue:35
 #: src/tmp/ts/src/components/modal/ModalDialog.vue:33
-#: src/tmp/ts/src/components/admin/EditWidget.vue:75
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:131
 msgid "%(key1)s"
 msgstr "%(key1)s"
@@ -32,10 +32,10 @@ msgstr "Akzeptieren"
 msgid "Activated"
 msgstr "Aktiviert"
 
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:37
 #: src/tmp/ts/src/components/widgets/AddObjects.vue:49
-#: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:37
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:61
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -90,13 +90,13 @@ msgid "Can only be seen by these groups"
 msgstr "Kann nur von diesen Gruppen gesehen werden"
 
 #: src/tmp/ts/src/components/widgets/AddObjects.vue:46
-#: src/tmp/ts/src/components/modal/ModalDialog.vue:36
-#: src/tmp/ts/src/components/forms/ChangePassword.vue:49
-#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
 #: src/tmp/ts/src/components/admin/TranslationEditing.vue:46
-#: src/tmp/ts/src/components/admin/EditWidget.vue:45
-#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
+#: src/tmp/ts/src/components/admin/EditWidget.vue:45
+#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
+#: src/tmp/ts/src/components/forms/ChangePassword.vue:49
+#: src/tmp/ts/src/components/modal/ModalDialog.vue:36
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -141,8 +141,8 @@ msgstr "Kategorie erfolgreich entfernt"
 msgid "Change language"
 msgstr "Sprache ändern"
 
-#: src/tmp/ts/src/components/forms/ChangePassword.vue:52
 #: src/jsHelper/createUserMenu.ts:57 src/jsHelper/createUserMenu.ts:64
+#: src/tmp/ts/src/components/forms/ChangePassword.vue:52
 msgid "Change password"
 msgstr "Passwort ändern"
 
@@ -282,9 +282,9 @@ msgstr "Fehler bei der Validierung"
 msgid "Folder"
 msgstr "Ordner"
 
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 #: src/tmp/ts/src/components/admin/Folder.vue:124
 #: src/tmp/ts/src/components/admin/Folder.vue:127
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 msgid "Folder could not be added"
 msgstr "Ordner konnte nicht hinzugefügt werden"
 
@@ -297,8 +297,8 @@ msgstr "Ordner konnte nicht bearbeitet werden"
 msgid "Folder could not be removed"
 msgstr "Ordner konnte nicht entfernt werden"
 
-#: src/tmp/ts/src/components/admin/Folder.vue:127
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
+#: src/tmp/ts/src/components/admin/Folder.vue:127
 msgid "Folder successfully added"
 msgstr "Ordner erfolgreich hinzugefügt"
 
@@ -311,8 +311,8 @@ msgstr "Ordner erfolgreich bearbeitet"
 msgid "Folder successfully removed"
 msgstr "Ordner erfolgreich entfernt"
 
-#: src/tmp/ts/src/components/navigation/SideNavigation.vue:61
 #: src/tmp/ts/src/components/navigation/SubMenuItem.vue:38
+#: src/tmp/ts/src/components/navigation/SideNavigation.vue:61
 msgid "Go Back"
 msgstr "Gehe zurück"
 
@@ -320,14 +320,14 @@ msgstr "Gehe zurück"
 msgid "Info"
 msgstr "Info"
 
-#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:61
 #: src/tmp/ts/src/components/admin/Entry.vue:111
+#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:61
 #: src/tmp/ts/src/components/admin/Folder.vue:68
 msgid "Internal name"
 msgstr "Interner Name"
 
-#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:22
 #: src/tmp/ts/src/components/admin/Entry.vue:34
+#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:22
 #: src/tmp/ts/src/components/admin/Folder.vue:24
 msgid ""
 "Internal name must not contain anything other than digits, letters or dots, "
@@ -364,11 +364,11 @@ msgstr "Abmelden"
 msgid "Menu"
 msgstr "Menü"
 
-#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:67
 #: src/tmp/ts/src/components/admin/Entry.vue:144
+#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:67
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
 #: src/tmp/ts/src/components/admin/Folder.vue:74
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:31
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:76
 msgid "Name"
 msgstr "Name"
@@ -387,13 +387,22 @@ msgstr "Neuer Tab"
 msgid "No items"
 msgstr "Keine Einträge"
 
+#: src/tmp/ts/src/components/notifications/Notifications.vue:38
+#, fuzzy
+msgid "No notifications"
+msgstr "Benachrichtigungen"
+
 #: src/tmp/ts/src/views/Portal.vue:59
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
-#: src/tmp/ts/src/components/PortalSidebar.vue:37
 #: src/tmp/ts/src/components/PortalHeader.vue:67
 msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: src/tmp/ts/src/components/notifications/Notifications.vue:41
+#, fuzzy
+msgid "Notifications removed"
 msgstr "Benachrichtigungen"
 
 #: src/tmp/ts/src/components/forms/ChangePassword.vue:31
@@ -416,15 +425,15 @@ msgstr "Bitte bestätigen Sie ihr neues Passwort"
 msgid "Please enter a description"
 msgstr "Bitte geben Sie eine Beschreibung ein"
 
-#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:26
 #: src/tmp/ts/src/components/admin/Entry.vue:38
+#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:26
 #: src/tmp/ts/src/components/admin/Folder.vue:28
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:114
 msgid "Please enter a display name"
 msgstr "Bitte geben Sie einen Anzeigenamen ein"
 
-#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:18
 #: src/tmp/ts/src/components/admin/Entry.vue:30
+#: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:18
 #: src/tmp/ts/src/components/admin/Folder.vue:20
 msgid "Please enter an internal name"
 msgstr "Bitte geben Sie einen internen Namen ein"
@@ -455,16 +464,17 @@ msgid "Portal settings"
 msgstr "Portal-Einstellungen"
 
 #: src/tmp/ts/src/components/widgets/MultiSelect.vue:40
-#: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
 #: src/tmp/ts/src/components/widgets/ImageUpload.vue:43
-#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
+#: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
 #: src/tmp/ts/src/components/admin/EditWidget.vue:48
+#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
 msgid "Remove"
 msgstr "Entfernen"
 
 #: src/tmp/ts/src/components/notifications/Notifications.vue:35
-msgid "Remove all notifications"
-msgstr "Alle Benachrichtigungen entfernen"
+#, fuzzy
+msgid "Remove all"
+msgstr "Entfernen"
 
 #: src/tmp/ts/src/components/admin/Entry.vue:126
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:58
@@ -573,9 +583,24 @@ msgstr ""
 msgid "insert valid Link"
 msgstr "validen Link einfügen"
 
+#: src/tmp/ts/src/components/navigation/HeaderButton.vue:47
+#, fuzzy
+msgid "item"
+msgstr "Keine Einträge"
+
+#: src/tmp/ts/src/components/navigation/HeaderButton.vue:49
+#, fuzzy
+msgid "items"
+msgstr "Einträge"
+
 #: src/tmp/ts/src/components/widgets/ImageUpload.vue:49
 msgid "no file selected"
 msgstr "keine Datei ausgewählt"
+
+#: src/tmp/ts/src/components/admin/Entry.vue:114
+#: src/tmp/ts/src/components/admin/Folder.vue:71
+msgid "readonly"
+msgstr "schreibgeschützt"
 
 #: src/tmp/ts/src/components/forms/RequiredFieldLabel.vue:8
 msgid "required"
@@ -591,7 +616,8 @@ msgid "search"
 msgstr "suche"
 
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:64
-#: src/tmp/ts/src/components/admin/Entry.vue:114
-#: src/tmp/ts/src/components/admin/Folder.vue:71
 msgid "view-only"
 msgstr ""
+
+#~ msgid "Remove all notifications"
+#~ msgstr "Alle Benachrichtigungen entfernen"

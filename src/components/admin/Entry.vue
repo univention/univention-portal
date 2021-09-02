@@ -234,8 +234,8 @@ export default defineComponent({
     INTERNAL_NAME(): string {
       return _('Internal name');
     },
-    READ_ONLY(): string {
-      return this.modelValue.dn ? `(${_('readonly')})` : _('');
+    READ_ONLY(): string | null {
+      return this.modelValue.dn ? `(${_('readonly')})` : null;
     },
     ACTIVATED(): string {
       return _('Activated');
