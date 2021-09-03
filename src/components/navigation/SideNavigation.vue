@@ -345,19 +345,8 @@ $userRow = 6rem
     overflow: hidden;
     border-radius: 100%
     margin: 1rem
-    &:after
-      content: ''
-      display: block
-      width: 100%
-      height: 10px
-      background-color: white
-      position: absolute
-      bottom: 0
-      margin-left: auto
-      margin-right: auto
-      left: 0
-      right: 0
-      text-align: center
+    border: 1px solid var(--font-color-contrast-high)
+
     svg
       fill: currentColor
       height: 4rem
