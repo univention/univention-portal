@@ -268,12 +268,7 @@ export default defineComponent({
     },
     async startEditMode(): Promise<void> {
       await this.$store.dispatch('portalData/setEditMode', true);
-      this.$store.dispatch('navigation/setActiveButton', 'settings');
-      this.$store.dispatch('activity/saveFocus', {
-        region: 'portal-header',
-        id: 'header-button-settings',
-      });
-      this.$store.dispatch('activity/setRegion', 'portal-header');
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
     setFadeClass(): string {
       let ret = '';
@@ -404,9 +399,9 @@ $userRow = 6rem
       padding-left: 4rem;
 
   &__edit-mode
-    border: none
     border-radius: unset
-    border-top: 0.2rem solid var(--bgc-content-body)
+    border: 0.2rem solid var(--bgc-content-container)
+    border-top-color: var(--bgc-content-body)
 
     span
       margin: 0.2rem
