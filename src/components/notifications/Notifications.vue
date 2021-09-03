@@ -54,6 +54,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-for="notification in notifications"
       :key="notification.token"
       v-bind="notification"
+      @alertRemovedNotification="alertRemovedNotification"
     />
     <span
       v-if="isInNotificationBar && notifications.length === 0"
@@ -66,10 +67,16 @@ License with the Debian GNU/Linux or Univention distribution in file
       aria-atomic="true"
     >
       <span
-        v-if="isInNotificationBar && notifications.length === 0"
+        v-if="allNotificationsRemovedAtOnce"
         class="sr-only sr-only-mobile"
       >
         {{ NOTIFICATIONS_REMOVED }}
+      </span>
+      <span
+        v-if="closedNotification"
+        class="sr-only sr-only-mobile"
+      >
+        {{ NOTIFICATION_REMOVED }}
       </span>
     </div>
   </region>
@@ -84,6 +91,11 @@ import Region from '@/components/activity/Region.vue';
 import Notification from '@/components/notifications/Notification.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
+interface NotificationsData {
+  closedNotification: boolean,
+  allNotificationsRemovedAtOnce: boolean,
+}
+
 export default defineComponent({
   name: 'Notifications',
   components: {
@@ -96,6 +108,12 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+  },
+  data(): NotificationsData {
+    return {
+      closedNotification: false,
+      allNotificationsRemovedAtOnce: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -118,6 +136,9 @@ export default defineComponent({
     NOTIFICATIONS_REMOVED(): string {
       return _('Notifications removed');
     },
+    NOTIFICATION_REMOVED(): string {
+      return _('Notification removed');
+    },
     ariaLiveStatus(): string {
       return !this.isInNotificationBar ? 'polite' : 'off';
     },
@@ -130,11 +151,21 @@ export default defineComponent({
   methods: {
     closeAll(): void {
       this.$store.dispatch('notifications/removeAllNotifications');
+      this.allNotificationsRemovedAtOnce = true;
+      setTimeout(() => {
+        this.allNotificationsRemovedAtOnce = false;
+      }, 100);
     },
     closeNotifications(): void {
       if (this.activeButton === 'bell') {
         this.$store.dispatch('navigation/setActiveButton', '');
       }
+    },
+    alertRemovedNotification() {
+      this.closedNotification = true;
+      setTimeout(() => {
+        this.closedNotification = false;
+      }, 100);
     },
   },
 });
