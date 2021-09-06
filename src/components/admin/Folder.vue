@@ -46,10 +46,11 @@
       />
       <input
         v-model="name"
-        name="name"
-        autocomplete="off"
         :tabindex="tabindex"
         :readonly="modelValue.dn"
+        class="folder__text-input"
+        name="name"
+        autocomplete="off"
       >
     </label>
     <locale-input
@@ -199,3 +200,8 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="stylus">
+.folder
+  &__text-input
+    width: 100%
+</style>

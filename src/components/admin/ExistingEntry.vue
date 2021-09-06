@@ -15,6 +15,7 @@
             autocomplete="off"
             :list="datalistId"
             name="display_name"
+            class="existing-entry__text-input"
           >
           <datalist
             :id="datalistId"
@@ -168,3 +169,8 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="stylus">
+.existing-entry
+  &__text-input
+    width: 100%
+</style>

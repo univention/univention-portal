@@ -33,7 +33,7 @@
       :key="index"
       class="link-widget"
     >
-      <span class="link-widget__select">
+      <div class="link-widget__select">
         <select
           v-model="modelValueData[index].locale"
           :tabindex="tabindex"
@@ -48,8 +48,8 @@
             {{ select }}
           </option>
         </select>
-      </span>
-      <span class="link-widget__input">
+      </div>
+      <div class="link-widget__input">
         <input
           :ref="`link${index}`"
           v-model="modelValueData[index].value"
@@ -58,8 +58,8 @@
           :aria-label="linkInput(index)"
           autocomplete="off"
         >
-      </span>
-      <span
+      </div>
+      <div
         v-if="modelValueData.length > 1"
         class="link-widget__remove modal-admin__button"
       >
@@ -67,11 +67,12 @@
           icon="trash"
           :aria-label-prop="removeLink(index)"
           :active-at="['modal']"
+          :has-button-style="true"
           @click="removeField(index, modelValueData)"
         />
-      </span>
+      </div>
     </div>
-    <span class="modal-admin__button">
+    <div class="modal-admin__button">
       <button
         type="button"
         class="modal-admin__button--inner"
@@ -83,7 +84,7 @@
         />
         {{ ADD_LINK }}
       </button>
-    </span>
+    </div>
   </div>
 </template>
 
@@ -203,10 +204,11 @@ export { LocaleAndValue };
   &__input
     width: 100%
     margin-left: 0.5rem
-    margin-right: 2rem
+    margin-right: var(--layout-spacing-unit)
 
     input
       width: 100%
+      box-sizing: border-box
 
   &__remove
     width: 3rem

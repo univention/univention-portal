@@ -47,6 +47,7 @@
         <input
           v-model="translationObject[locale]"
           :placeholder="hasValue(locale)"
+          class="translation-editing__text-input"
         >
       </label>
       <footer class="translation-editing__footer-buttons">
@@ -161,5 +162,7 @@ export default defineComponent({
   &__footer-buttons
     display: flex
     justify-content: space-between
-    width: var(--inputfield-width)
+
+  &__text-input
+    width: 100%
 </style>

@@ -36,16 +36,18 @@
     >
       <label>
         {{ SEARCH }}
-        <div class="input-with-inline-button">
+        <div class="add-objects__search-wrapper">
           <input
             ref="search"
             v-model="searchString"
             name="search"
+            class="add-objects__text-input"
           >
           <icon-button
             icon="search"
             :active-at="['modal2']"
             :aria-label-prop="SEARCH"
+            :has-button-style="true"
             @click="search"
           />
         </div>
@@ -190,10 +192,10 @@ export default defineComponent({
 </script>
 
 <style lang="stylus">
-.input-with-inline-button
-  display: flex
-  align-items: center
-  button
-    margin-bottom: var(--layout-spacing-unit)
-    margin-left: var(--layout-spacing-unit)
+.add-objects
+  &__search-wrapper
+    display: flex
+    align-items: center
+  &__text-input
+    margin-right: var(--layout-spacing-unit)
 </style>
