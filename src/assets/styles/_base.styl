@@ -82,11 +82,16 @@ input, select
     cursor: var(--cursor-disabled)
     color: var(--font-color-contrast-low)
 
+fieldset
+  border: 0
+  padding: 0
+  margin-top: calc(3 * var(--layout-spacing-unit))
+
 select
   cursor: pointer
   appearance: none
 
-label, div.label
+legend, label, div.label
   display: block
   margin-top: calc(3 * var(--layout-spacing-unit))
   color: var(--font-color-contrast-middle)
@@ -111,11 +116,7 @@ label, div.label
       border-color: var(--color-focus)
     &:checked
       border-color: var(--color-accent)
-      & + span::before
-        content: '\2713'
-        color: var(--color-accent)
-        position: absolute
-        left: calc(var(--font-size-3) / 2 - 2px - 4px)
+
     & + span
       vertical-align: top
       cursor: pointer
@@ -127,6 +128,7 @@ label, div.label
       height: 100%
       line-height: 111%
       font-size: 0.7rem
+      font-weight: bold
       text-align: center
       color: var(--color-accent)
 

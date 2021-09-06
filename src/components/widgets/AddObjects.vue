@@ -198,4 +198,5 @@ export default defineComponent({
     align-items: center
   &__text-input
     margin-right: var(--layout-spacing-unit)
+    margin-bottom: 0
 </style>
