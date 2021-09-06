@@ -43,10 +43,11 @@
       />
       <input
         v-model="name"
-        name="name"
-        autocomplete="off"
         :readonly="modelValue.dn"
         :tabindex="tabindex"
+        class="entry__text-input"
+        name="name"
+        autocomplete="off"
       >
     </label>
     <locale-input
@@ -84,6 +85,7 @@
       <select
         v-model="linkTarget"
         :tabindex="tabindex"
+        class="entry__select"
       >
         <option value="useportaldefault">{{ PORTAL_DEFAULT }}</option>
         <option value="samewindow">{{ SAME_TAB }}</option>
@@ -101,8 +103,9 @@
       {{ BACKGROUND_COLOR }}
       <input
         v-model="backgroundColor"
-        name="backgroundColor"
         :tabindex="tabindex"
+        name="backgroundColor"
+        class="entry__text-input"
       >
     </label>
     <multi-select
@@ -363,4 +366,7 @@ export default defineComponent({
 .entry
   &__checkbox
     display: flex
+  &__text-input,
+  &__select
+    width: 100%
 </style>

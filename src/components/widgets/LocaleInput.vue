@@ -47,7 +47,7 @@
       <icon-button
         :id="`locale-input__icon--${I18N_LABEL}`"
         icon="globe"
-        class="locale-input__icon"
+        :has-button-style="true"
         :aria-label-prop="TRANSLATE_TEXT_INPUT"
         :tabindex="tabindex"
         :data-test="`iconButton--${I18N_LABEL}`"
@@ -170,7 +170,7 @@ export default defineComponent({
 <style lang="stylus">
 .locale-input
   margin-top: calc(3 * var(--layout-spacing-unit))
-  margin-bottom: var(--layout-spacing-unit);
+  margin-bottom: var(--layout-spacing-unit)
 
   label
     margin-top: 0
@@ -178,19 +178,8 @@ export default defineComponent({
     display: flex
     align-items: center
 
-  &__icon
-    background-color: var(--button-bgc)
-    border-radius: var(--button-border-radius)
-    border: 0.1rem solid transparent
-    margin-left: var(--layout-spacing-unit)
-    height: var(--inputfield-size)
-    width: @height
-    display: flex
-    align-items: center
-    justify-content: center
-
   &__text-field
-    width: calc(var(--inputfield-width) - var(--inputfield-size) - var(--layout-spacing-unit))
     margin-bottom: 0
+    margin-right: var(--layout-spacing-unit)
 
 </style>
