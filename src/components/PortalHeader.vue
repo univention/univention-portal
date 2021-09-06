@@ -81,15 +81,19 @@ License with the Debian GNU/Linux or Univention distribution in file
 
     <div
       v-if="editMode"
+      class="portal-header__edit-mode-label"
+    >
+      {{ EDIT_MODE }}
+      <header-button
+        :aria-label-prop="STOP_EDIT_PORTAL"
+        icon="x"
+        @click="stopEditMode"
+      />
+    </div>
+    <div
+      v-if="editMode"
       class="portal-header__right"
     >
-      <div class="portal-header__edit-mode-label">
-        {{ EDIT_MODE }}
-      </div>
-      <header-button
-        :aria-label-prop="OPEN_EDIT_SIDEBAR"
-        icon="settings"
-      />
       <header-button
         data-test="bellbutton"
         :aria-label-prop="NOTIFICATIONS"
@@ -98,9 +102,8 @@ License with the Debian GNU/Linux or Univention distribution in file
         @keydown.esc="closeNotifications"
       />
       <header-button
-        :aria-label-prop="STOP_EDIT_PORTAL"
-        icon="x"
-        @click="stopEditMode"
+        :aria-label-prop="OPEN_EDIT_SIDEBAR"
+        icon="settings"
       />
     </div>
     <div
@@ -315,6 +318,15 @@ export default defineComponent({
 
   &__edit-mode-label
     white-space: nowrap
+    position: absolute
+    top: var(--layout-height-header)
+    display: flex
+    min-width: 150px
+    right: calc(50% - 75px)
+    background-color: var(--bgc-content-header)
+    align-items: center
+    justify-content: center
+    padding-left: calc(var(--button-size) / 2)
 
   &__portal-home-icon
     display: none
