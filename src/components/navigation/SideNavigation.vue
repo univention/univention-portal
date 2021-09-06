@@ -79,7 +79,7 @@
 
     <div
       class="portal-sidenavigation__menu"
-      role="toolbar"
+      role="menubar"
       aria-orientation="vertical"
     >
       <div
