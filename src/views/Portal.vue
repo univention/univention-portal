@@ -44,6 +44,18 @@
         <h2 v-if="hasEmptySearchResults">
           {{ EMPTY_SEARCH_RESULTS }}
         </h2>
+        <span
+          v-if="announceUserInEditMode"
+          class="sr-only sr-only-mobile"
+        >
+          {{ PORTAL_IS_IN_EDITMODE }}
+        </span>
+        <span
+          v-else
+          class="sr-only sr-only-mobile"
+        >
+          {{ LEFT_EDITMODE }}
+        </span>
       </div>
 
       <template v-if="categories">
@@ -162,8 +174,23 @@ export default defineComponent({
     EMPTY_SEARCH_RESULTS(): string {
       return _('No search results');
     },
+    PORTAL_IS_IN_EDITMODE(): string {
+      return _('Portal is in editmode');
+    },
+    LEFT_EDITMODE(): string {
+      return _('Left editmode');
+    },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
+    },
+    editmode(): boolean {
+      return this.editMode;
+    },
+    announceUserInEditMode(): boolean {
+      if (this.editMode) {
+        return true;
+      }
+      return false;
     },
   },
   methods: {
