@@ -28,44 +28,57 @@
 -->
 <template>
   <div class="multi-select">
-    <label>{{ label }}</label>
-    <div
-      class="multi-select__select"
-    >
-      <label
-        v-for="value in modelValue"
-        :key="value"
+    <fieldset>
+      <legend>{{ label }}</legend>
+      <div
+        class="multi-select__select"
       >
-        <input
-          type="checkbox"
-          :tabindex="tabindex"
-          @change="toggleSelection(value)"
+        <label
+          v-for="value in modelValue"
+          :key="value"
         >
-        <span>{{ dnToLabel(value) }}</span>
-      </label>
-    </div>
-    <footer class="multi-select__footer">
-      <button
-        type="button"
-        :tabindex="tabindex"
-        @click.prevent="add"
-      >
-        <portal-icon
-          icon="plus"
-        />
-        {{ ADD }}
-      </button>
-      <button
-        type="button"
-        :tabindex="tabindex"
-        @click.prevent="remove"
-      >
-        <portal-icon
-          icon="trash"
-        />
-        {{ REMOVE }}
-      </button>
-    </footer>
+          <input
+            type="checkbox"
+            :tabindex="tabindex"
+            @change="toggleSelection(value)"
+          >
+          <span>{{ dnToLabel(value) }}</span>
+        </label>
+      </div>
+      <footer class="multi-select__footer">
+        <button
+          type="button"
+          :tabindex="tabindex"
+          @click.prevent="add"
+        >
+          <portal-icon
+            icon="plus"
+          />
+          <span aria-hidden="true">
+            {{ ADD }}
+          </span>
+          <span class="sr-only sr-only-mobile">
+            {{ ADD_GROUPS }}
+          </span>
+        </button>
+        <button
+          type="button"
+          :disabled="!elementsSelected || modelValue.length === 0"
+          :tabindex="tabindex"
+          @click.prevent="remove"
+        >
+          <portal-icon
+            icon="trash"
+          />
+          <span aria-hidden="true">
+            {{ REMOVE }}
+          </span>
+          <span class="sr-only sr-only-mobile">
+            {{ REMOVE_SELECTION }}
+          </span>
+        </button>
+      </footer>
+    </fieldset>
   </div>
 </template>
 
@@ -108,8 +121,17 @@ export default defineComponent({
     ADD(): string {
       return _('Add');
     },
+    ADD_GROUPS(): string {
+      return _('Add Groups');
+    },
     REMOVE(): string {
       return _('Remove');
+    },
+    REMOVE_SELECTION(): string {
+      return _('Remove selection');
+    },
+    elementsSelected(): boolean {
+      return this.selection.length > 0;
     },
   },
   methods: {
