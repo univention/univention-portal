@@ -80,6 +80,18 @@
       </footer>
     </fieldset>
   </div>
+  <div
+    aria-live="polite"
+    aria-atomic="true"
+    class="sr-only sr-only-mobile"
+  >
+    <p v-if="removedSelection" lang="en">
+      {{ REMOVED_SELECTION }}
+    </p>
+    <p v-if="addedToSelection" lang="en">
+      {{ ADDED_TO_SELECTION }}
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -90,6 +102,8 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 interface MultiSelectSelection {
   selection: string[],
+  removedSelection: boolean,
+  addedToSelection: boolean,
 }
 
 export default defineComponent({
@@ -115,6 +129,8 @@ export default defineComponent({
   data(): MultiSelectSelection {
     return {
       selection: [],
+      removedSelection: false,
+      addedToSelection: false,
     };
   },
   computed: {
@@ -129,6 +145,12 @@ export default defineComponent({
     },
     REMOVE_SELECTION(): string {
       return _('Remove selection');
+    },
+    REMOVED_SELECTION(): string {
+      return _('Removed selection');
+    },
+    ADDED_TO_SELECTION(): string {
+      return _('Added to selection');
     },
     elementsSelected(): boolean {
       return this.selection.length > 0;
@@ -160,11 +182,19 @@ export default defineComponent({
         const newValues = this.modelValue.concat(values.selection);
         newValues.sort();
         this.$emit('update:modelValue', newValues);
+        this.addedToSelection = true;
+        setTimeout(() => {
+          this.addedToSelection = false;
+        }, 100);
       });
     },
     remove() {
       const values = this.modelValue.filter((value) => !this.selection.includes(value));
       this.$emit('update:modelValue', values);
+      this.removedSelection = true;
+      setTimeout(() => {
+        this.removedSelection = false;
+      }, 100);
     },
   },
 });
