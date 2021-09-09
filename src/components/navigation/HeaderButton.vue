@@ -205,5 +205,6 @@ export default defineComponent({
     pointer-events: none
 
 #header-button-bell svg
+#header-button-copy svg
   margin-right: 0!important
 </style>

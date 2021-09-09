@@ -35,16 +35,13 @@ License with the Debian GNU/Linux or Univention distribution in file
     :hidden="hidden"
     class="header-tab"
     :class="{ 'header-tab--active': isActive }"
+    :aria-label="ariaLabelFocus"
     @click="focusTab"
     @keydown.enter="focusTab"
   >
     <div
-      ref="tabFocusWrapper"
       class="header-tab__focus-wrapper"
-      :aria-label="ariaLabelFocus"
-      @blur="removeFocusStyleFromParent()"
     >
-      <!-- Alt-Tag should be empty, since it's not necessary for screenreader users -->
       <div
         class="header-tab__logo-wrapper"
         :style="backgroundColor ? `background: ${backgroundColor}` : ''"
