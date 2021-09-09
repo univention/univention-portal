@@ -45,10 +45,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         >
           <div
             :id="`choose-tab__button--${index + 1}`"
-            :ref="isActiveTab(index) ? 'currentTab' : ''"
+            :ref="activeTab === 0 && index === 0 || activeTab === index + 1 ? 'currentTab' : ''"
             class="choose-tab__button"
             tabindex="0"
-            :aria-label="ariaLabelChooseTab(tab.tabLabel)"
             @click.prevent="gotoTab(index)"
             @keydown.enter.prevent="gotoTab(index)"
           >
@@ -61,6 +60,12 @@ License with the Debian GNU/Linux or Univention distribution in file
               >
             </div>
             {{ tab.tabLabel }}
+            <span
+              v-if="isActiveTab(index)"
+              class="sr-only sr-only-mobile"
+            >
+              {{ ACTIVE }}
+            </span>
           </div>
           <icon-button
             icon="x"
@@ -99,6 +104,9 @@ export default defineComponent({
     CHOOSE_TAB(): string {
       return _('Choose a tab');
     },
+    ACTIVE(): string {
+      return `: ${_('active')}`;
+    },
   },
   watch: {
     activeTab(newIdx: number) {
@@ -133,7 +141,7 @@ export default defineComponent({
       this.$store.dispatch('navigation/setActiveButton', '');
     },
     isActiveTab(index: number): boolean {
-      return (this.activeTab === 0 && index === 0) || this.activeTab === index + 1;
+      return this.activeTab === index + 1;
     },
   },
 });
