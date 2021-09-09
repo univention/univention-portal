@@ -55,7 +55,7 @@
             icon="plus"
           />
           <span aria-hidden="true">
-            {{ ADD }}
+            {{ ADD_MORE }}
           </span>
           <span class="sr-only sr-only-mobile">
             {{ ADD_GROUPS }}
@@ -134,8 +134,8 @@ export default defineComponent({
     };
   },
   computed: {
-    ADD(): string {
-      return _('Add');
+    ADD_MORE(): string {
+      return _('Add more');
     },
     ADD_GROUPS(): string {
       return _('Add Groups');

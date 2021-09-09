@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-09-07 01:55+0200\n"
+"POT-Creation-Date: 2021-09-09 13:12+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -33,7 +33,6 @@ msgid "Activated"
 msgstr "Aktiviert"
 
 #: src/tmp/ts/src/components/widgets/AddObjects.vue:49
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:41
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:61
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
 msgid "Add"
@@ -73,6 +72,11 @@ msgstr "Gruppen hinzufügen"
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:52
 msgid "Add link"
 msgstr "Link hinzufügen"
+
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:41
+#, fuzzy
+msgid "Add more"
+msgstr "Mehr hinzufügen"
 
 #: src/tmp/ts/src/components/admin/TileAdd.vue:37
 msgid "Add new Tile"
@@ -159,7 +163,7 @@ msgstr "Passwort ändern"
 msgid "Choose a tab"
 msgstr "Tab wählen"
 
-#: src/tmp/ts/src/components/ChooseTabs.vue:42
+#: src/tmp/ts/src/components/ChooseTabs.vue:45
 #: src/tmp/ts/src/components/navigation/HeaderTab.vue:51
 msgid "Close"
 msgstr "schließen"
@@ -524,7 +528,7 @@ msgstr "Speichern"
 msgid "Search"
 msgstr "Suchen"
 
-#: src/tmp/ts/src/components/ChooseTabs.vue:39
+#: src/tmp/ts/src/components/ChooseTabs.vue:42
 #: src/tmp/ts/src/components/navigation/HeaderTab.vue:54
 msgid "Select"
 msgstr "auswählen"
@@ -611,6 +615,11 @@ msgstr ""
 "einen uneingeschränkten Service gewährleisten zu können. Mit einem Klick auf"
 " \"Akzeptieren\" willigen Sie in die Erhebung von Informationen auf diesem "
 "Portal ein."
+
+#: src/tmp/ts/src/components/ChooseTabs.vue:25
+#, fuzzy
+msgid "active"
+msgstr "aktiv"
 
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:90
 msgid "insert valid Link"
