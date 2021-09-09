@@ -85,10 +85,10 @@
     aria-atomic="true"
     class="sr-only sr-only-mobile"
   >
-    <p v-if="removedSelection" lang="en">
+    <p v-if="removedSelection">
       {{ REMOVED_SELECTION }}
     </p>
-    <p v-if="addedToSelection" lang="en">
+    <p v-if="addedToSelection">
       {{ ADDED_TO_SELECTION }}
     </p>
   </div>
