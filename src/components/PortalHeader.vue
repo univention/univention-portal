@@ -33,34 +33,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     :class="{ 'portal-header__tabs-overflow': tabsOverflow }"
     class="portal-header"
   >
-    <tabindex-element
-      id="portal-header-head"
-      tag="div"
-      :active-at="['portal']"
-      class="portal-header__left"
-      role="button"
-      :aria-label="SHOW_PORTAL"
-      @click="goHome"
-      @keydown.enter="goHome"
-    >
-      <img
-        v-if="portalLogo"
-        id="portal-header-logo"
-        :src="portalLogo"
-        class="portal-header__left-image"
-        alt=""
-      >
-      <div
-        v-else
-        class="portal-header__portal-home-icon"
-      >
-        <PortalIcon icon="home" />
-      </div>
-
-      <h1 class="portal-header__portal-name sr-only-mobile">
-        {{ $localized(portalName) }}
-      </h1>
-    </tabindex-element>
+    <portal-title />
 
     <div
       ref="tabs"
@@ -160,6 +133,7 @@ import HeaderTab from '@/components/navigation/HeaderTab.vue';
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import PortalTitle from '@/components/header/PortalTitle.vue';
 
 interface PortalHeaderData {
   tabsOverflow: boolean;
@@ -175,6 +149,7 @@ export default defineComponent({
     PortalIcon,
     Region,
     TabindexElement,
+    PortalTitle,
   },
   data(): PortalHeaderData {
     return {
@@ -259,6 +234,7 @@ export default defineComponent({
       setTimeout(() => {
         window.scrollTo(0, this.savedScrollPosition);
       }, 10);
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
     stopEditMode(): void {
       this.$store.dispatch('portalData/setEditMode', false);
@@ -280,29 +256,6 @@ export default defineComponent({
   height: var(--portal-header-height)
   display: flex
   padding: 0 calc(2 * var(--layout-spacing-unit))
-
-  &__portal-name
-    font-size: var(--font-size-2);
-    white-space: nowrap
-
-  &__left
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0px 10px
-    border: 0.2rem solid rgba(0,0,0,0)
-
-    &:focus
-      border: 0.2rem solid var(--color-focus)
-      outline: 0
-
-    &-image
-      height: 100%
-      width: calc(var(--portal-header-height) * var(--portal-header-icon-scale))
-
-      + h1
-        padding-left: var(--layout-spacing-unit)
 
   &__tabs
     display: flex;
@@ -327,16 +280,6 @@ export default defineComponent({
     align-items: center
     justify-content: center
     padding-left: calc(var(--button-size) / 2)
-
-  &__portal-home-icon
-    display: none
-    @media $mqSmartphone
-      display: flex
-      align-content: center
-
-      svg
-        width: calc(3* var(--layout-spacing-unit))
-        height: @width
 
 #header-button-copy
     display: none
