@@ -31,7 +31,11 @@ License with the Debian GNU/Linux or Univention distribution in file
     :id="`notifications-${!isInNotificationBar ? 'visible' : 'all'}`"
     :aria-live="ariaLiveStatus"
     direction="topdown"
-    class="notifications"
+    :class="['notifications',
+             {
+               'notifications--in-bar' : isInNotificationBar,
+               'notifications--floating' : !isInNotificationBar,
+             }]"
     @keydown.esc="closeNotifications"
   >
     <div
@@ -185,11 +189,19 @@ export default defineComponent({
   padding-right: calc(3 * var(--layout-spacing-unit))
 
   @media $mqSmartphone
-    padding-right: 0
-    right: 0
-    left: calc(3 * var(--layout-spacing-unit))
-    width: 73vw
     font-size: var(--font-size-5)
+    width: 73vw
+    padding-right: 0
+
+  &--in-bar
+    @media $mqSmartphone
+      right: 0
+      left: calc(3 * var(--layout-spacing-unit))
+      font-size: var(--font-size-5)
+
+  &--floating
+    @media $mqSmartphone
+      right: var(--layout-spacing-unit)
 
   &__close-all
     display: flex
