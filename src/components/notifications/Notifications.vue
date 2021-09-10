@@ -214,7 +214,4 @@ export default defineComponent({
   .flyout-wrapper &
     top: calc(4 * var(--layout-spacing-unit));
     height: calc(100vh - var(--layout-height-header) - 10 * var(--layout-spacing-unit))
-
-.test
-  display: flex
 </style>
