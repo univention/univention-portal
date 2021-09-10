@@ -184,6 +184,13 @@ export default defineComponent({
   overflow-y: auto
   padding-right: calc(3 * var(--layout-spacing-unit))
 
+  @media $mqSmartphone
+    padding-right: 0
+    right: 0
+    left: calc(3 * var(--layout-spacing-unit))
+    width: 73vw
+    font-size: var(--font-size-5)
+
   &__close-all
     display: flex
     justify-content: flex-start
