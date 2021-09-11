@@ -57,7 +57,9 @@
         :style="backgroundColor ? `background: ${backgroundColor}` : ''"
         :class="[
           'portal-tile__box',
-          { 'portal-tile__box--draggable': editMode }
+          { 'portal-tile__box--draggable': editMode,
+            'portal-tile__box--dragged-line': isOtherTile
+          }
         ]"
       >
         <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
@@ -82,7 +84,7 @@
       />
     </tabindex-element>
     <icon-button
-      v-if="!minified && isTouchDevice"
+      v-if="!minified && isTouchDevice && !editMode"
       icon="info"
       class="portal-tile__info-button icon-button--admin"
       :aria-label-prop="SHOW_TOOLTIP"
@@ -278,9 +280,9 @@ export default defineComponent({
   color: var(--font-color-contrast-high)
   text-decoration: none
 
-  &:hover
-    color: var(--font-color-contrast-high)
-    text-decoration: none
+  &:-moz-drag-over
+    border: 2px solid red
+
   &__root-element
     display:flex
     justify-content: center
@@ -300,6 +302,9 @@ export default defineComponent({
 
     ~/:focus &
       border-color: var(--color-focus)
+
+    &--dragged-line
+      border: 3px solid pink
 
     &--draggable
       position: relative

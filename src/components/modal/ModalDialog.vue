@@ -109,8 +109,20 @@ export default defineComponent({
   max-width: calc(50 * var(--layout-spacing-unit))
   box-shadow: var(--box-shadow)
 
+  @media $mqSmartphone
+    max-width: calc(100% - 8 * var(--layout-spacing-unit))
+    padding: calc(2 * var(--layout-spacing-unit)) calc(2 * var(--layout-spacing-unit))
+    position: absolute
+    top: 110px
+    max-height: 70vh
+    overflow: auto
+    overflow-x: hidden
+
   form
     width: calc(var(--inputfield-width) + 3rem)
+
+    @media $mqSmartphone
+      max-width: 100%
 
   main
     max-height: 26rem
@@ -119,6 +131,10 @@ export default defineComponent({
 
     > label:first-child
       margin-top: 0
+
+    @media $mqSmartphone
+      max-height: none
+      overflow: unset
 
   footer:not(.image-upload__footer):not(.multi-select__footer)
     margin-top: calc(2 * var(--layout-spacing-unit))
@@ -135,6 +151,20 @@ export default defineComponent({
   &__header
     display: flex
     align-items: center
+
+    @media $mqSmartphone
+      position: sticky;
+      top: 0;
+      z-index: 9;
+      background-color: var(--bgc-content-container)
+
+      &:before
+        content: ''
+        width: 100%
+        height: calc(2 * var(--layout-spacing-unit))
+        top: calc(-2 * var(--layout-spacing-unit))
+        position: absolute
+        background-color: var(--bgc-content-container)
 
     button
       margin-left: auto

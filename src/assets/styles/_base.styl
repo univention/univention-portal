@@ -31,6 +31,10 @@ button
   align-items: center
   justify-content: center
 
+  @media $mqSmartphone
+    padding: 0 calc(1 * var(--layout-spacing-unit))
+    font-size: var(--button-font-size-mobile)
+
   svg:not(:only-child)
     margin-right: var(--layout-spacing-unit-small)
 
@@ -43,7 +47,7 @@ button
       color: var(--font-color-contrast-middle)
 
   &:focus
-    border: 0.2rem solid var(--color-focus)
+    border-color: var(--color-focus)
     outline: 0
 
   &.primary
@@ -68,6 +72,11 @@ input, select
   border-radius: var(--border-radius-interactable)
   transition: background-color, color, border
   transition-duration: var(--portal-transition-duration)
+
+  @media $mqSmartphone
+    width: 100%
+    font-size: var(--font-size-4)
+    padding: 0 calc(2 * var(--layout-spacing-unit-small)) !important;
 
   &:hover,
   &:focus
@@ -98,6 +107,10 @@ legend, label, div.label
   color: var(--font-color-contrast-middle)
   font-size: var(--font-size-3)
   position: relative
+
+  @media $mqSmartphone
+    margin-top: calc(1 * var(--layout-spacing-unit))
+    font-size: var(--font-size-4)
 
   input[type=checkbox]
     background-color: var(--bgc-inputfield-on-container)
