@@ -309,6 +309,7 @@ export default defineComponent({
 $userRow = 6rem
 .portal-sidenavigation
   height: calc(100vh - (var(--portal-header-height) + 0.5rem))
+  height: calc(100vh - (var(--portal-header-height) + 0.5rem + env(safe-area-inset-bottom)))
   display: flex
   flex-direction: column
 
