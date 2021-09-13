@@ -150,7 +150,6 @@ yarn test:e2e
 ```
 
 ## Links and references
-
 - Feather-Sprite Icons: [Overview](https://feathericons.com/)
 
 ## CI/CD Setup Building .debs
