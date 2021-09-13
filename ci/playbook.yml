@@ -29,7 +29,7 @@
         state: "absent"
       tags:
         - upx_frontend
-        - upx_frontend_copy_package
+        - upx_frontend_remove_portal_package
 
     - name: "Install frontend package"
       ansible.builtin.apt:
@@ -37,4 +37,61 @@
         force: "yes"
       tags:
         - upx_frontend
-        - upx_frontend_copy_package
+        - upx_frontend_install_portal_package
+
+    - name: "Copy demodata to new UCS machine"
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'CI_BUILDS_DIR') }}/demodata"
+        dest: "/tmp"
+      tags:
+        - upx_frontend
+        - upx_frontend_copy_demodata
+
+    - name: "Set execute permission on fill_portal.pl"
+      ansible.builtin.file:
+        path: "/tmp/demodata/fill_portal.pl"
+        mode: "0755"
+      tags:
+        - upx_frontend
+        - upx_frontend_set_execute_permission_fill_portal
+
+    - name: "Execute fill_portal.pl"
+      ansible.builtin.command:
+        cmd: "/tmp/demodata/fill_portal.pl"
+        chdir: "/tmp/demodata/"
+      tags:
+        - upx_frontend
+        - upx_frontend_execute_fill_portal
+
+    - name: "Set execute permission on demodata"
+      ansible.builtin.file:
+        path: "/tmp/demodata/demodata.sh"
+        mode: "0755"
+      tags:
+        - upx_frontend
+        - upx_frontend_set_execute_permission_demodata
+
+    - name: "Execute demodata.sh"
+      ansible.builtin.command:
+        cmd: "/tmp/demodata/demodata.sh"
+        chdir: "/tmp/demodata/"
+      tags:
+        - upx_frontend
+        - upx_frontend_execute_demo_data
+
+    - name: "Patch univention-portal.conf"
+      ansible.builtin.replace:
+        path: "/etc/apache2/sites-available/univention-portal.conf"
+        regexp: "style-src-elem 'self' 'sha256-kDRQ3dagwwb3nrm8xnMC0VgLt6lNN98.2oajznduaKI='"
+        replace: "style-src-elem 'unsafe-inline'"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+
+    - name: "Restart Apache"
+      ansible.builtin.command:
+        cmd: "systemctl reload apache2"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+  

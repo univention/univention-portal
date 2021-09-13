@@ -4,6 +4,7 @@ stages:
   - build
   - test
   - lint
+  - get-demodata
   - master-env
   - master-deploy
 
@@ -190,14 +191,16 @@ master-deploy:
   dependencies:
     - master-env
     - build-deb
-  image: artifacts.knut.univention.de/upx/container-tooling/automation-ansible:main-42d46e47
+  image: artifacts.knut.univention.de/upx/container-tooling/automation-ansible:main-41a9520a
   needs:
     - build-deb
     - master-env
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
     - export PACKAGE_NAME="$(set -- *.deb; echo "$1")"
-    - cd ci/
+    - rm -rf ${CI_BUILDS_DIR}/demodata
+    - git -c http.sslVerify=false clone --single-branch --branch main --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.knut.univention.de/univention/customers/dataport/upx/portal/ci-demodata ${CI_BUILDS_DIR}/demodata
+    - cd ${CI_PROJECT_DIR}/ci/
     - ansible-playbook playbook.yml -l ${CI_COMMIT_REF_SLUG} -i inventory/univention -v
   stage: master-deploy
 
