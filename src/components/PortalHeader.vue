@@ -75,6 +75,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         @keydown.esc="closeNotifications"
       />
       <header-button
+        data-test="settingsbutton"
         :aria-label-prop="OPEN_EDIT_SIDEBAR"
         icon="settings"
       />

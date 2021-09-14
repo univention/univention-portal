@@ -46,12 +46,12 @@ describe('ChooseTabButton Component', () => {
     testLinks.should('have.length', 6);
     cy.get('[href="https://de.wikipedia.org/wiki/Test"]').click();
     cy.get('#headerTab__1').should('be.visible');
-    cy.get('.portal-header__portal-name').click();
+    cy.get('.portal-title__portal-name').click();
     cy.get('[href="https://de.wikipedia.org/wiki/Vue"]').click();
     cy.get('#headerTab__2').should('be.visible');
-    cy.get('.portal-header__portal-name').click();
+    cy.get('.portal-title__portal-name').click();
     cy.get('[href="https://en.wikipedia.org/wiki/Front_end_and_back_end"]').click();
-    cy.get('.portal-header__portal-name').click();
+    cy.get('.portal-title__portal-name').click();
     cy.get('[href="https://en.wikipedia.org/wiki/Climate_change"]').click();
     cy.get('#headerTab__3').should('not.be.visible');
     cy.get('#header-button-copy').should('be.visible');
@@ -60,7 +60,7 @@ describe('ChooseTabButton Component', () => {
     cy.wait(500);
     cy.get('.modal-wrapper--isVisible').should('be.visible');
     cy.wait(500);
-    
+
     const openElements = 4;
     cy.get('[data-test="portal-iframes"]').children().should('have.length', openElements);
     cy.get('.choose-tab').should('have.length', openElements);
@@ -84,11 +84,11 @@ describe('ChooseTabButton Component', () => {
     cy.injectAxe();
 
     cy.get('[href="https://de.wikipedia.org/wiki/Test"]').click();
-    cy.get('.portal-header__portal-name').click();
+    cy.get('.portal-title__portal-name').click();
     cy.get('[href="https://de.wikipedia.org/wiki/Vue"]').click();
-    cy.get('.portal-header__portal-name').click();
+    cy.get('.portal-title__portal-name').click();
     cy.get('[href="https://en.wikipedia.org/wiki/Front_end_and_back_end"]').click();
-    cy.get('.portal-header__portal-name').click();
+    cy.get('.portal-title__portal-name').click();
     cy.get('[href="https://en.wikipedia.org/wiki/Climate_change"]').click();
     cy.get('#header-button-copy').should('be.visible');
     cy.wait(500);
@@ -108,4 +108,3 @@ describe('ChooseTabButton Component', () => {
     });
   });
 });
-  

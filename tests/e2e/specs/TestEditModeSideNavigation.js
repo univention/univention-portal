@@ -49,7 +49,7 @@ describe('Test Editmode Side navigation', () => {
     // Assert: No Image in .image-upload__canvas
     cy.get('[data-test=imageUploadCanvas--Portal-Logo] img').should('not.exist');
     cy.get('[data-test=imageUploadButton--Portal-Logo]').click();
-        
+
     // programmatically upload the logo
     const fileName = 'images/logo.svg';
 
@@ -71,12 +71,12 @@ describe('Test Editmode Side navigation', () => {
     cy.get('[data-test="localeInput--Name"]').clear();
     cy.get('[data-test="notification--error"]').should('not.exist');
     cy.get('[data-test="editModeSideNavigation--Save"]').click();
-    
+
     // assert Error Notification due to empty input
     cy.get('[data-test="notification--error"]').should('exist');
-    
+
     cy.get('[data-test="closeNotification--error"]').click();
-  
+
     // Enter Text and Save then. 
     cy.get('[data-test="localeInput--Name"]').type('Univention Portal');
     cy.get('[data-test="editModeSideNavigation--Save"]').click();
@@ -104,5 +104,6 @@ const openEditmode = () => {
     // Open Editmode
     cy.get('[data-test="navigationbutton"]').click();
     cy.get('[data-test="openEditmodeButton"]').click();
+    cy.get('[data-test="settingsbutton"]').click();
     cy.get('.edit-mode-side-navigation__form').should('be.visible');
 }
