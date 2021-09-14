@@ -44,14 +44,14 @@ describe('Test Tabs', () => {
       cy.get('.portal-category .portal-tile').last().click();
       cy.get('#iframe-1').should('be.visible');
       // click to portal
-      cy.get('.portal-header__portal-name').click();
+      cy.get('.portal-title__portal-name').click();
       cy.get('#portalCategories').should('be.visible');
       cy.get('iframe').should('not.be.visible');
       // click to first tab expects to have visible iframe
       cy.get('#headerTab__1').click();
       cy.get('iframe').should('be.visible');
       // go back to portal to open second tab
-      cy.get('.portal-header__portal-name').click();
+      cy.get('.portal-title__portal-name').click();
       cy.get('#portalCategories').should('be.visible');
       cy.get('[href="https://doc.owncloud.com/server/10.0/user_manual/"]').click();
       cy.get('iframe').should('be.visible');
