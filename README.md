@@ -62,7 +62,7 @@ You need:
 - A UCS 5.0 machine with a running portal. See our KVM environment. It runs at, say, 10.200.4.80.
 - An alias for localhost, say portal-dev.intranet, added in your local /etc/hosts
 - A reverse proxy on your laptop. We are using nginx
-  - A config for said proxy:
+  - A config for said proxy (you could just append it to `/etc/nginx/sites-enabled/default`):
 
 ```
 server {
