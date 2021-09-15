@@ -282,6 +282,9 @@ export default defineComponent({
     justify-content: center
     padding-left: calc(var(--button-size) / 2)
 
+    @media $mqSmartphone
+      top: calc(var(--layout-height-header) - 62%)
+
 #header-button-copy
     display: none
 
