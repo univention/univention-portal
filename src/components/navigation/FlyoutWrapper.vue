@@ -64,7 +64,7 @@ export default defineComponent({
 
   @media $mqSmartphone
     min-height: unset;
-    height: calc(100vh - 5 * env(safe-area-inset-bottom));
+    height: calc(100vh - 4 * var(--portal-header-height));
 
   &--isVisible
     transform: translate3d(0, 0, 0) scale(1, 1)
