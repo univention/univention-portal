@@ -313,7 +313,7 @@ $userRow = 6rem
   flex-direction: column
 
   @media $mqSmartphone
-    height: calc(100vh - (var(--portal-header-height) + 0.5rem + 6 * env(safe-area-inset-bottom)))
+    height: 100%
     overflow-y: auto
 
   &__link
@@ -342,7 +342,9 @@ $userRow = 6rem
     border-radius: 100%
     margin: 1rem
     border: 1px solid var(--font-color-contrast-high)
-
+    width: 4rem
+    height: @width
+    margin: 1rem 1rem 1rem 0
     svg
       fill: currentColor
       height: 4rem
