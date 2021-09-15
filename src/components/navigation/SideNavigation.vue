@@ -350,6 +350,7 @@ $userRow = 6rem
       height: 4rem
       width: @height
       border-radius: var(--border-radius-circles)
+      margin: 0
 
   &__user-text-content
     margin: auto 0
