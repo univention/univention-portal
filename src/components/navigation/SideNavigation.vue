@@ -313,7 +313,7 @@ $userRow = 6rem
   flex-direction: column
 
   @media $mqSmartphone
-    height: calc(100vh - (var(--portal-header-height) + 0.5rem + 5 * env(safe-area-inset-bottom)))
+    height: calc(100vh - (var(--portal-header-height) + 0.5rem + 10 * env(safe-area-inset-bottom)))
     overflow-y: auto
 
   &__link
