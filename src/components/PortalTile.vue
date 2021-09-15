@@ -57,8 +57,7 @@
         :style="backgroundColor ? `background: ${backgroundColor}` : ''"
         :class="[
           'portal-tile__box',
-          { 'portal-tile__box--draggable': editMode,
-            'portal-tile__box--dragged-line': isOtherTile
+          { 'portal-tile__box--draggable': editMode
           }
         ]"
       >
