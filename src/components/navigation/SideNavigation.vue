@@ -79,7 +79,7 @@
 
     <div
       class="portal-sidenavigation__menu"
-      role="menubar"
+      role="toolbar"
       aria-orientation="vertical"
     >
       <div
@@ -117,7 +117,7 @@
             :aria-expanded="subMenuVisible"
           >
             <menu-item
-              :id="item.id"
+              :id="`sub-item-${item.id}`"
               :title="item.title"
               :is-parent-in-sub-item="true"
               :links="[]"

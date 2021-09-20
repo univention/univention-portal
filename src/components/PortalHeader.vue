@@ -107,8 +107,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         @keydown.esc="closeNotifications"
       />
       <header-button
-        data-test="navigationbutton"
         :aria-label-prop="MENU"
+        aria-haspopup="menu"
+        data-test="navigationbutton"
         icon="menu"
       />
     </div>

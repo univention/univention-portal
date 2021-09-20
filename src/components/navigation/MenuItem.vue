@@ -134,7 +134,7 @@ export default defineComponent({
       return itemString;
     },
     ariaRole(): string {
-      return this.link || this.internalFunction ? 'menuitem' : 'button';
+      return this.link || this.internalFunction ? 'link' : 'button';
     },
   },
   methods: {
