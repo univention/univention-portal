@@ -94,6 +94,7 @@
         :link="item.iframeLink"
         :is-active="activeTabIndex == index + 1"
         :tab-id="index"
+        :title="item.tabLabel"
       />
     </div>
 
