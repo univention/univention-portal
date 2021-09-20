@@ -38,7 +38,8 @@ License with the Debian GNU/Linux or Univention distribution in file
       :id="`iframe-${tabId + 1}`"
       ref="iframe"
       :src="link"
-      title="Embedded Page"
+      :title="title"
+      :tabindex="tabindex"
       class="portal-iframe__iframe"
       allow="geolocation; microphone; camera; midi; encrypted-media"
     />
@@ -47,6 +48,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: 'PortalIframe',
@@ -63,12 +65,25 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      activeButton: 'navigation/getActiveButton',
+    }),
+    tabindex(): number {
+      return this.activeButton === 'copy' ? -1 : 0;
+    },
   },
   mounted() {
     (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
   },
   updated() {
-    if (this.isActive) {
+    if (this.isActive && this.activeButton === '') {
+      console.log('test');
       (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
     }
   },
