@@ -191,6 +191,7 @@ export default defineComponent({
     img
       max-height: 10rem
       margin: auto
+      max-width: 100%
   &__footer
     margin: var(--layout-spacing-unit) 0
     display: flex
