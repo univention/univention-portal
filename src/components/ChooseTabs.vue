@@ -153,9 +153,13 @@ export default defineComponent({
   position:relative
   margin: 2px 0
   border-radius: var(--border-radius-interactable)
+  width: 20rem
+
+  @media $mqSmartphone
+    max-width: 100%
 
   &:first-of-type
-    margin-top: 0
+    margin-top: 0.2rem
 
   &--active
     background-color: var(--bgc-apptile-default)
