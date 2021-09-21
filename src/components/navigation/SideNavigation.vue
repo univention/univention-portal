@@ -346,6 +346,8 @@ $userRow = 6rem
     width: 4rem
     height: @width
     margin: 1rem 1rem 1rem 0
+    padding-left: 0 !important; // remove this line, when weird server caching is fixed
+
     svg
       fill: currentColor
       height: 4rem
@@ -377,7 +379,8 @@ $userRow = 6rem
     width: min-content
 
     &:focus
-      border-bottom: 0.2rem solid var(--color-focus);
+      border: 0.2rem solid var(--color-focus);
+      border-bottom-color: var(--color-focus);
       outline: 0
 
   &__login-header
