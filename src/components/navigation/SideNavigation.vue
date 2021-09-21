@@ -379,9 +379,12 @@ $userRow = 6rem
     width: min-content
 
     &:focus
-      border: 0.2rem solid var(--color-focus);
+      border: 0.2rem solid transparent;
       border-bottom-color: var(--color-focus);
       outline: 0
+
+    &:focus span
+      text-decoration: none
 
   &__login-header
     border-bottom: 4px solid var(--bgc-content-body)
