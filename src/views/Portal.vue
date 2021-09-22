@@ -37,10 +37,7 @@
       role="main"
       class="portal-categories"
     >
-      <div
-        aria-live="assertive"
-        aria-atomic="true"
-      >
+      <screen-reader-announcer>
         <h2 v-if="hasEmptySearchResults">
           {{ EMPTY_SEARCH_RESULTS }}
         </h2>
@@ -51,12 +48,18 @@
           {{ PORTAL_IS_IN_EDITMODE }}
         </span>
         <span
-          v-else
+          v-if="announceUserIsLoggedIn"
           class="sr-only sr-only-mobile"
         >
-          {{ LEFT_EDITMODE }}
+          {{ USER_IS_LOGGED_IN }}
         </span>
-      </div>
+        <span
+          v-if="announceUserIsLoggedOut"
+          class="sr-only sr-only-mobile"
+        >
+          {{ USER_IS_LOGGED_OUT }}
+        </span>
+      </screen-reader-announcer>
 
       <template v-if="categories">
         <portal-category
@@ -130,6 +133,7 @@ import PortalIframe from 'components/PortalIframe.vue';
 import PortalModal from 'components/modal/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
+import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 
 import { Category } from '@/store/modules/portalData/portalData.models';
@@ -150,6 +154,7 @@ export default defineComponent({
     PortalSidebar,
     PortalToolTip,
     Region,
+    ScreenReaderAnnouncer,
   },
   computed: {
     ...mapGetters({
@@ -165,6 +170,7 @@ export default defineComponent({
       hasEmptySearchResults: 'search/hasEmptySearchResults',
       metaData: 'metaData/getMeta',
       getModalState: 'modal/getModalState',
+      userState: 'user/userState',
     }),
     categories(): Category[] {
       return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
@@ -178,8 +184,11 @@ export default defineComponent({
     PORTAL_IS_IN_EDITMODE(): string {
       return _('Portal is in editmode');
     },
-    LEFT_EDITMODE(): string {
-      return _('Left editmode');
+    USER_IS_LOGGED_IN(): string {
+      return _('Successfully logged in');
+    },
+    USER_IS_LOGGED_OUT(): string {
+      return _('Successfully logged out');
     },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
@@ -189,6 +198,18 @@ export default defineComponent({
     },
     announceUserInEditMode(): boolean {
       if (this.editMode) {
+        return true;
+      }
+      return false;
+    },
+    announceUserIsLoggedIn(): boolean {
+      if (this.userState.username) {
+        return true;
+      }
+      return false;
+    },
+    announceUserIsLoggedOut(): boolean {
+      if (this.userState.username === null) {
         return true;
       }
       return false;
