@@ -66,23 +66,20 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       {{ NO_NOTIFICATIONS }}
     </span>
-    <div
-      aria-live="polite"
-      aria-atomic="true"
+    <screen-reader-announcer
+      class="sr-only sr-only-mobile"
     >
       <span
         v-if="allNotificationsRemovedAtOnce"
-        class="sr-only sr-only-mobile"
       >
         {{ NOTIFICATIONS_REMOVED }}
       </span>
       <span
         v-if="closedNotification"
-        class="sr-only sr-only-mobile"
       >
         {{ NOTIFICATION_REMOVED }}
       </span>
-    </div>
+    </screen-reader-announcer>
   </region>
 </template>
 
@@ -94,6 +91,7 @@ import _ from '@/jsHelper/translate';
 import Region from '@/components/activity/Region.vue';
 import Notification from '@/components/notifications/Notification.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 
 interface NotificationsData {
   closedNotification: boolean,
@@ -106,6 +104,7 @@ export default defineComponent({
     Notification,
     Region,
     PortalIcon,
+    ScreenReaderAnnouncer,
   },
   props: {
     isInNotificationBar: {

@@ -52,6 +52,7 @@
             ref="loginButton"
             class="portal-sidenavigation__logout-link"
             tabindex="0"
+            role="button"
             @click="logout"
             @keydown.enter="logout"
             @keydown.esc="closeNavigation"

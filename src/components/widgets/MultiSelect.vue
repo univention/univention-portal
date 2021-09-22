@@ -80,9 +80,7 @@
       </footer>
     </fieldset>
   </div>
-  <div
-    aria-live="polite"
-    aria-atomic="true"
+  <screen-reader-announcer
     class="sr-only sr-only-mobile"
   >
     <p v-if="removedSelection">
@@ -91,7 +89,7 @@
     <p v-if="addedToSelection">
       {{ ADDED_TO_SELECTION }}
     </p>
-  </div>
+  </screen-reader-announcer>
 </template>
 
 <script lang="ts">
@@ -99,6 +97,7 @@ import { defineComponent, PropType } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 
 interface MultiSelectSelection {
   selection: string[],
@@ -110,6 +109,7 @@ export default defineComponent({
   name: 'MultiSelect',
   components: {
     PortalIcon,
+    ScreenReaderAnnouncer,
   },
   props: {
     label: {
