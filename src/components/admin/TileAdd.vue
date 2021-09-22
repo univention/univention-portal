@@ -100,6 +100,7 @@ export default defineComponent({
   display: flex
   flex-direction: column
   align-items: center
+  border: 0; // TODO: Remove when weird servercaching is fixed
 
   &__button
     margin: 0 0 calc(2 * var(--layout-spacing-unit)) 0
