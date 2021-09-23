@@ -1,5 +1,6 @@
 <template>
   <tabindex-element
+    id="portalTitle"
     :active-at="['portal']"
     :aria-label="SHOW_PORTAL"
     tag="div"

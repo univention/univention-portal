@@ -67,7 +67,6 @@ function makeEntry(
   }
   const folder = portalFolders.find((data) => data.dn === entryID);
   if (!folder) {
-    console.warn('Entry', entryID, 'not found!');
     return null;
   }
   const tiles: BaseTile[] = [];

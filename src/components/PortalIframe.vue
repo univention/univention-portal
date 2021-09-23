@@ -83,7 +83,6 @@ export default defineComponent({
   },
   updated() {
     if (this.isActive && this.activeButton === '') {
-      console.log('test');
       (this.$refs.iframe as HTMLIFrameElement).contentWindow?.focus();
     }
   },

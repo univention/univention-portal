@@ -56,7 +56,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           class="portal-sidebar__flyout"
         >
           <!-- Side navigation -->
-          <side-navigation />
+          <side-navigation :links="menuItems" />
         </flyout-wrapper>
       </transition>
 
@@ -79,7 +79,6 @@ License with the Debian GNU/Linux or Univention distribution in file
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import _ from '@/jsHelper/translate';
 
 import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
@@ -101,6 +100,7 @@ export default defineComponent({
       portalName: 'portalData/portalName',
       activeButton: 'navigation/getActiveButton',
       activeTabIndex: 'tabs/activeTabIndex',
+      menuItems: 'menu/getMenu',
       tabs: 'tabs/allTabs',
     }),
     activeNotificationButton(): boolean {

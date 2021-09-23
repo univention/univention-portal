@@ -138,7 +138,7 @@ export default defineComponent({
       if (dn) {
         let success = false;
         this.$store.dispatch('activateLoadingState');
-        console.info('Adding', dn, 'to', this.superDn);
+        // console.info('Adding', dn, 'to', this.superDn);
         if (this.superDn === '$$user$$') {
           const attrs = {
             userLinks: this.userLinks.concat([dn]),

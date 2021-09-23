@@ -150,7 +150,7 @@ export default defineComponent({
     },
     allowedGroups: {
       type: Array,
-      required: true,
+      default: () => [],
     },
     originalLinkTarget: {
       type: String,

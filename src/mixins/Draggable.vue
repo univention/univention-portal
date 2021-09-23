@@ -39,10 +39,6 @@ const draggableMixin = {
       }
       return this.isDraggable;
     },
-    computedTest() {
-      console.log('computedTest');
-      return true;
-    },
   },
   data() {
     return {
@@ -95,10 +91,9 @@ const draggableMixin = {
       this.reshuffledContent.src = otherId;
       this.reshuffledContent.dst = myId;
       this.reshuffledContent.cat = myCategory;
+      this.$store.dispatch('portalData/reshuffleContent', this.reshuffledContent);
     },
     dragend(e) {
-      console.log('dragend', this);
-      this.$store.dispatch('portalData/reshuffleContent', this.reshuffledContent);
       if (!this.isDraggable) {
         e.preventDefault();
         return;
