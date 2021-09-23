@@ -275,7 +275,7 @@ export default defineComponent({
     },
   },
   created(): void {
-    console.info('Edit entry', this.modelValue);
+    // console.info('Edit entry', this.modelValue);
     const dn = this.modelValue.dn;
     const activated = this.modelValue.activated;
     if (dn) {
@@ -301,8 +301,8 @@ export default defineComponent({
     async unlink() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
-      console.info('Removing', dn, 'from', this.superDn);
-      const success = await removeEntryFromSuperObj(this.superDn, this.superObjs, dn, this.$store, _('Entry successfully removed'), _('Entry could not be removed'));
+      // console.info('Removing', dn, 'from', this.superDn);
+      const success = await removeEntryFromSuperObj(this.superDn, this.superObjs, dn, this.$store, _('Entry successfully unlinked'), _('Entry could not be unlinked'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
@@ -311,8 +311,8 @@ export default defineComponent({
     async remove() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
-      console.info('Deleting', dn, 'completely');
-      const success = await remove(dn, this.$store, 'ENTRY_REMOVED_SUCCESS', 'ENTRY_REMOVED_FAILURE');
+      // console.info('Deleting', dn, 'completely');
+      const success = await remove(dn, this.$store, _('Entry successfully removed'), _('Entry could not be removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();
@@ -343,13 +343,13 @@ export default defineComponent({
       }
 
       if (this.modelValue.dn) {
-        console.info('Modifying', this.modelValue.dn);
+        // console.info('Modifying', this.modelValue.dn);
         success = await put(this.modelValue.dn, attrs, this.$store, _('Entry could not be modified'), _('Entry successfully modified'));
       } else {
-        console.info('Adding entry');
+        // console.info('Adding entry');
         const dn = await add('portals/entry', attrs, this.$store, _('Entry could not be added'));
         if (dn) {
-          console.info(dn, 'added');
+          // console.info(dn, 'added');
           success = await addEntryToSuperObj(this.superDn, this.superObjs, dn, this.$store, _('Entry successfully added'), _('Entry could not be added'));
         }
       }

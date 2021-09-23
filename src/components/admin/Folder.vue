@@ -157,7 +157,7 @@ export default defineComponent({
     async unlink() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
-      console.info('Removing', dn, 'from', this.superDn);
+      // console.info('Removing', dn, 'from', this.superDn);
       const success = await removeEntryFromSuperObj(this.superDn, this.portalCategories, dn, this.$store, _('Folder successfully removed'), _('Folder could not be removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
@@ -167,7 +167,7 @@ export default defineComponent({
     async remove() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
-      console.info('Deleting', dn, 'completely');
+      // console.info('Deleting', dn, 'completely');
       const success = await remove(dn, this.$store, _('Folder successfully removed'), _('Folder could not be removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
@@ -182,13 +182,13 @@ export default defineComponent({
         displayName: Object.entries(this.title),
       };
       if (this.modelValue.dn) {
-        console.info('Modifying', this.modelValue.dn);
+        // console.info('Modifying', this.modelValue.dn);
         success = await put(this.modelValue.dn, attrs, this.$store, _('Folder could not be modified'), _('Folder successfully modified'));
       } else {
-        console.info('Adding folder');
+        // console.info('Adding folder');
         const dn = await add('portals/folder', attrs, this.$store, _('Folder could not be added'));
         if (dn) {
-          console.info(dn, 'added');
+          // console.info(dn, 'added');
           success = await addEntryToSuperObj(this.superDn, this.portalCategories, dn, this.$store, _('Folder successfully added'), _('Folder could not be added'));
         }
       }

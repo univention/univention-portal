@@ -114,7 +114,6 @@
             class="portal-sidenavigation__submenu"
             role="navigation"
             direction="topdown"
-            :aria-label="ariaLabelSubMenuParent"
             :aria-expanded="subMenuVisible"
           >
             <menu-item

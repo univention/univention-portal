@@ -151,10 +151,10 @@ const portalData: PortalModule<PortalDataState> = {
       // save state to localstorage if we are in dev mode
       if (process.env.VUE_APP_LOCAL) {
         if (editMode) {
-          console.info('logged into admin mode');
+          // console.info('logged into admin mode');
           localStorage.setItem('UCSAdmin', editMode);
         } else {
-          console.info('logged out of admin mode');
+          // console.info('logged out of admin mode');
           localStorage.removeItem('UCSAdmin');
         }
       }
@@ -210,7 +210,7 @@ const portalData: PortalModule<PortalDataState> = {
       const attrs = {
         entries: folder.entries,
       };
-      console.info('Rearranging entries for', payload.dn);
+      // console.info('Rearranging entries for', payload.dn);
       await put(folder.dn, attrs, { dispatch }, _('Entries could not be re-sorted'), _('Entries successfully re-sorted'));
     },
     async saveContent({ commit, dispatch, getters }) {
@@ -220,7 +220,7 @@ const portalData: PortalModule<PortalDataState> = {
       const puts: Promise<boolean>[] = [];
       content.forEach(([cat, entries]) => {
         if (cat === '$$user$$') {
-          console.info('Rearranging entries for user menu');
+          // console.info('Rearranging entries for user menu');
           const attrs = {
             userLinks: entries,
           };
@@ -229,7 +229,7 @@ const portalData: PortalModule<PortalDataState> = {
           return;
         }
         if (cat === '$$menu$$') {
-          console.info('Rearranging entries for portal menu');
+          // console.info('Rearranging entries for portal menu');
           const attrs = {
             menuLinks: entries,
           };
@@ -247,7 +247,7 @@ const portalData: PortalModule<PortalDataState> = {
           if (isEqual(entries, category.entries)) {
             return;
           }
-          console.info('Rearranging entries for', cat);
+          // console.info('Rearranging entries for', cat);
           const ret = put(cat, attrs, { dispatch }, _('Entries could not be re-sorted'));
           puts.push(ret);
         });

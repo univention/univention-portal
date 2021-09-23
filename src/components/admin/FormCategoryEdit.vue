@@ -148,7 +148,7 @@ export default defineComponent({
       const portalAttrs = {
         categories: this.categories.filter((catDn) => catDn !== dn),
       };
-      console.info('Removing', dn, 'from', this.portalDn);
+      // console.info('Removing', dn, 'from', this.portalDn);
       const success = await put(this.portalDn, portalAttrs, this.$store, _('Category could not be removed'), _('Category successfully removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
@@ -158,7 +158,7 @@ export default defineComponent({
     async remove() {
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
-      console.info('Deleting', dn, 'completely');
+      // console.info('Deleting', dn, 'completely');
       const success = await remove(dn, this.$store, _('Category successfully removed'), _('Category could not be removed'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
@@ -173,14 +173,14 @@ export default defineComponent({
         displayName: Object.entries(this.title),
       };
       if (this.modelValue.dn) {
-        console.info('Modifying', this.modelValue.dn);
+        // console.info('Modifying', this.modelValue.dn);
         success = await put(this.modelValue.dn, attrs, this.$store, _('Category could not be modified'), _('Category successfully modified'));
       } else {
-        console.info('Adding category');
-        console.info('Then adding it to', this.categories, 'of', this.portalDn); // Okay, strange. message needs to be here, otherwise "this" seems to forget its props!
+        // console.info('Adding category');
+        // console.info('Then adding it to', this.categories, 'of', this.portalDn); // Okay, strange. message needs to be here, otherwise "this" seems to forget its props!
         const dn = await add('portals/category', attrs, this.$store, _('Category could not be added'));
         if (dn) {
-          console.info(dn, 'added');
+          // console.info(dn, 'added');
           const portalAttrs = {
             categories: this.categories.concat([dn]),
           };

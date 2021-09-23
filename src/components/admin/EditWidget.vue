@@ -131,7 +131,6 @@ export default defineComponent({
     },
     submit() {
       const errors = this.model.getErrors();
-      console.log('MODEL', this.model);
       if (Object.keys(errors).length === 0) {
         this.$emit('save');
       } else {

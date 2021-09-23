@@ -75,7 +75,6 @@ const modal: PortalModule<ModalState> = {
     CHANGE_MODAL_PROPS(state: ModalState, payload): void {
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
       state[modalLevel].modalProps = { ...state[modalLevel].modalProps, ...payload.props };
-      console.log(state[modalLevel].modalProps);
     },
     SET_MODAL(state: ModalState, payload): void {
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';

@@ -122,7 +122,7 @@ export default defineComponent({
         const portalAttrs = {
           categories: this.categories.concat([dn]),
         };
-        console.info('Adding', dn, 'to', this.portalDn);
+        // console.info('Adding', dn, 'to', this.portalDn);
         const success = await put(this.portalDn, portalAttrs, this.$store, _('Category could not be added'), _('Category successfully added'));
         this.$store.dispatch('deactivateLoadingState');
         if (success) {

@@ -168,7 +168,6 @@ export default defineComponent({
       this.available = result
         .filter((group) => !this.alreadyAdded.includes(group.id))
         .map((group) => group.id);
-      console.log(this.available);
       this.$store.dispatch('deactivateLoadingState');
     },
     finish() {
