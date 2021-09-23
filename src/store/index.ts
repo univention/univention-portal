@@ -90,7 +90,13 @@ const actions = {
   },
   loadPortal: ({ dispatch }, payload) => new Promise((resolve, reject) => {
     // Get portal data
-    const portalRequest = dispatch('portalJsonRequest', payload);
+    const portalRequest = dispatch('portalJsonRequest', payload)
+      .catch((error) => {
+        if (error.response) {
+          dispatch('portalData/setPortalErrorDisplay', error.response.status);
+          dispatch('deactivateLoadingState');
+        }
+      });
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data

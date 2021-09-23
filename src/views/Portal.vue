@@ -30,7 +30,7 @@
   <div class="portal">
     <portal-background />
     <portal-header />
-
+    <portal-error v-if="errorContentType" />
     <region
       v-show="!activeTabIndex"
       id="portalCategories"
@@ -134,6 +134,7 @@ import PortalModal from 'components/modal/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from 'components/PortalToolTip.vue';
 import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
+import PortalError from '@/components/globals/PortalError.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 
 import { Category } from '@/store/modules/portalData/portalData.models';
@@ -155,12 +156,14 @@ export default defineComponent({
     PortalToolTip,
     Region,
     ScreenReaderAnnouncer,
+    PortalError,
   },
   computed: {
     ...mapGetters({
       portalContent: 'portalData/portalContent',
       portalEntries: 'portalData/portalEntries',
       portalFolders: 'portalData/portalFolders',
+      errorContentType: 'portalData/errorContentType',
       portalCategories: 'portalData/portalCategories',
       portalDefaultLinkTarget: 'portalData/portalDefaultLinkTarget',
       tabs: 'tabs/allTabs',
