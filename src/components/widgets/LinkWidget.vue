@@ -175,13 +175,13 @@ export default defineComponent({
       return `${_('Link')} ${index}:`;
     },
     localeSelect(index: number): string {
-      return `${this.LINK(index)} ${_('Select locale for Link')}`;
+      return `${this.LINK(index + 1)} ${_('Select locale for Link')}`;
     },
     linkInput(index: number): string {
-      return `${this.LINK(index)} ${_('insert valid Link')}`;
+      return `${this.LINK(index + 1)} ${_('insert valid Link')}`;
     },
     removeLink(index: number): string {
-      return `${this.LINK(index)} ${this.REMOVE}`;
+      return `${this.LINK(index + 1)} ${this.REMOVE}`;
     },
   },
 });
