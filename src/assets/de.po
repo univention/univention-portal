@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-09-09 13:12+0200\n"
+"POT-Creation-Date: 2021-09-23 15:25+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/tmp/ts/src/components/widgets/LocaleInput.vue:54
-#: src/tmp/ts/src/components/admin/EditWidget.vue:75
+#: src/tmp/ts/src/components/admin/EditWidget.vue:74
 #: src/tmp/ts/src/components/globals/PortalButton.vue:35
 #: src/tmp/ts/src/components/modal/ModalDialog.vue:33
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:131
@@ -38,12 +38,12 @@ msgstr "Aktiviert"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:44
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:46
 #, fuzzy
 msgid "Add Groups"
 msgstr "Gruppen hinzufügen"
 
-#: src/tmp/ts/src/views/Portal.vue:56
+#: src/tmp/ts/src/views/Portal.vue:59
 #: src/tmp/ts/src/components/admin/CategoryAddModal.vue:29
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
@@ -73,7 +73,7 @@ msgstr "Gruppen hinzufügen"
 msgid "Add link"
 msgstr "Link hinzufügen"
 
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:41
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:43
 #, fuzzy
 msgid "Add more"
 msgstr "Mehr hinzufügen"
@@ -86,7 +86,7 @@ msgstr "Neue Kachel hinzufügen"
 msgid "Add new category"
 msgstr "Neue Kategorie hinzufügen"
 
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:56
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:58
 msgid "Added to selection"
 msgstr "Zur Auswahl hinzugefügt"
 
@@ -223,7 +223,7 @@ msgstr "Eintrag bearbeiten"
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:52
+#: src/tmp/ts/src/components/PortalHeader.vue:58
 msgid "Edit mode"
 msgstr "Editiermodus"
 
@@ -264,9 +264,14 @@ msgstr "Eintrag konnte nicht hinzugefügt werden"
 msgid "Entry could not be modified"
 msgstr "Eintrag konnte nicht bearbeitet werden"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:178
+#: src/tmp/ts/src/components/admin/Entry.vue:188
 msgid "Entry could not be removed"
 msgstr "Eintrag konnte nicht entfernt werden"
+
+#: src/tmp/ts/src/components/admin/Entry.vue:178
+#, fuzzy
+msgid "Entry could not be unlinked"
+msgstr "Eintrag konnte nicht hinzugefügt werden"
 
 #: src/tmp/ts/src/components/admin/Entry.vue:226
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:95
@@ -279,9 +284,14 @@ msgstr "Eintrag erfolgreich hinzugefügt"
 msgid "Entry successfully modified"
 msgstr "Eintrag erfolgreich bearbeitet"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:178
+#: src/tmp/ts/src/components/admin/Entry.vue:188
 msgid "Entry successfully removed"
 msgstr "Eintrag erfolgreich entfernt"
+
+#: src/tmp/ts/src/components/admin/Entry.vue:178
+#, fuzzy
+msgid "Entry successfully unlinked"
+msgstr "Eintrag erfolgreich hinzugefügt"
 
 #: src/tmp/ts/src/components/notifications/Notification.vue:63
 msgid "Error"
@@ -361,7 +371,7 @@ msgstr "Eintrag"
 msgid "Items"
 msgstr "Einträge"
 
-#: src/tmp/ts/src/views/Portal.vue:65
+#: src/tmp/ts/src/components/PortalHeader.vue:79
 #, fuzzy
 msgid "Left editmode"
 msgstr "Editiermodus geschlossen"
@@ -378,7 +388,7 @@ msgstr "Anmelden"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:70
+#: src/tmp/ts/src/components/PortalHeader.vue:76
 msgid "Menu"
 msgstr "Menü"
 
@@ -405,25 +415,25 @@ msgstr "Neuer Tab"
 msgid "No items"
 msgstr "Keine Einträge"
 
-#: src/tmp/ts/src/components/notifications/Notifications.vue:49
+#: src/tmp/ts/src/components/notifications/Notifications.vue:51
 #, fuzzy
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/tmp/ts/src/views/Portal.vue:59
+#: src/tmp/ts/src/views/Portal.vue:62
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
-#: src/tmp/ts/src/components/notifications/Notifications.vue:55
+#: src/tmp/ts/src/components/notifications/Notifications.vue:57
 #, fuzzy
 msgid "Notification removed"
 msgstr "Benachrichtigungen entfernt"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:67
+#: src/tmp/ts/src/components/PortalHeader.vue:73
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
-#: src/tmp/ts/src/components/notifications/Notifications.vue:52
+#: src/tmp/ts/src/components/notifications/Notifications.vue:54
 #, fuzzy
 msgid "Notifications removed"
 msgstr "Benachrichtigungen entfernt"
@@ -436,7 +446,7 @@ msgstr "Altes Passwort"
 msgid "Only visible if not logged in"
 msgstr "Nur sichtbar, wenn nicht angemeldet"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:55
+#: src/tmp/ts/src/components/PortalHeader.vue:61
 msgid "Open edit sidebar"
 msgstr "Editierseite öffnen"
 
@@ -478,7 +488,7 @@ msgstr "Bitte geben Sie Ihr altes Passwort ein"
 msgid "Portal Menu"
 msgstr "Portal-Menü"
 
-#: src/tmp/ts/src/views/Portal.vue:62
+#: src/tmp/ts/src/views/Portal.vue:65
 msgid "Portal is in editmode"
 msgstr "Portal ist im Editiermodus"
 
@@ -490,7 +500,7 @@ msgstr "Portal-Logo"
 msgid "Portal settings"
 msgstr "Portal-Einstellungen"
 
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:47
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:49
 #: src/tmp/ts/src/components/widgets/ImageUpload.vue:43
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
 #: src/tmp/ts/src/components/admin/EditWidget.vue:48
@@ -498,17 +508,17 @@ msgstr "Portal-Einstellungen"
 msgid "Remove"
 msgstr "Entfernen"
 
-#: src/tmp/ts/src/components/notifications/Notifications.vue:46
+#: src/tmp/ts/src/components/notifications/Notifications.vue:48
 #, fuzzy
 msgid "Remove all"
 msgstr "Entfernen"
 
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:50
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:52
 #, fuzzy
 msgid "Remove selection"
 msgstr "Alle Benachrichtigungen entfernen"
 
-#: src/tmp/ts/src/components/widgets/MultiSelect.vue:53
+#: src/tmp/ts/src/components/widgets/MultiSelect.vue:55
 #, fuzzy
 msgid "Removed selection"
 msgstr "Alle Benachrichtigungen entfernen"
@@ -545,7 +555,8 @@ msgstr "Sprache für Link wählen"
 msgid "Show local UMC modules"
 msgstr "UMC-Module anzeigen"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:49
+#: src/tmp/ts/src/components/PortalHeader.vue:55
+#: src/tmp/ts/src/components/header/PortalTitle.vue:22
 msgid "Show portal"
 msgstr "Portal anzeigen"
 
@@ -553,7 +564,7 @@ msgstr "Portal anzeigen"
 msgid "Show tooltip"
 msgstr "Kurzinfo anzeigen"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:58
+#: src/tmp/ts/src/components/PortalHeader.vue:64
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
 
@@ -565,11 +576,21 @@ msgstr "Abschicken"
 msgid "Success"
 msgstr "Aktion erfolgreich"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:61
+#: src/tmp/ts/src/views/Portal.vue:68
+#, fuzzy
+msgid "Successfully logged in"
+msgstr "Erfolgreich eingeloggt"
+
+#: src/tmp/ts/src/views/Portal.vue:71
+#, fuzzy
+msgid "Successfully logged out"
+msgstr "Erfolgreich ausgeloggt"
+
+#: src/tmp/ts/src/components/PortalHeader.vue:67
 msgid "Tabs"
 msgstr "Tabs"
 
-#: src/tmp/ts/src/components/admin/EditWidget.vue:78
+#: src/tmp/ts/src/components/admin/EditWidget.vue:77
 msgid "The form data is not valid"
 msgstr "Die Formulardaten sind fehlerhaft"
 
@@ -628,7 +649,7 @@ msgstr "validen Link einfügen"
 #: src/tmp/ts/src/components/navigation/HeaderButton.vue:47
 #, fuzzy
 msgid "item"
-msgstr "Keine Einträge"
+msgstr "Eintrag"
 
 #: src/tmp/ts/src/components/navigation/HeaderButton.vue:49
 #, fuzzy
@@ -652,7 +673,7 @@ msgstr "erforderlich"
 msgid "retype"
 msgstr "Wiederholung"
 
-#: src/tmp/ts/src/components/PortalHeader.vue:64
+#: src/tmp/ts/src/components/PortalHeader.vue:70
 #: src/tmp/ts/src/components/search/PortalSearch.vue:25
 msgid "search"
 msgstr "suche"
