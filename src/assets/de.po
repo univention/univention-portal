@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-09-23 15:25+0200\n"
+"POT-Creation-Date: 2021-09-23 17:34+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -43,7 +43,7 @@ msgstr "Hinzufügen"
 msgid "Add Groups"
 msgstr "Gruppen hinzufügen"
 
-#: src/tmp/ts/src/views/Portal.vue:59
+#: src/tmp/ts/src/views/Portal.vue:62
 #: src/tmp/ts/src/components/admin/CategoryAddModal.vue:29
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
@@ -113,11 +113,11 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/store/modules/portalData/index.ts:203
+#: src/store/modules/portalData/index.ts:210
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
-#: src/store/modules/portalData/index.ts:203
+#: src/store/modules/portalData/index.ts:210
 msgid "Categories successfully re-sorted"
 msgstr "Kategorien erfolgreich umsortiert"
 
@@ -240,15 +240,15 @@ msgstr "Kachel editieren"
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: src/store/modules/portalData/index.ts:214
-#: src/store/modules/portalData/index.ts:227
-#: src/store/modules/portalData/index.ts:236
-#: src/store/modules/portalData/index.ts:251
+#: src/store/modules/portalData/index.ts:221
+#: src/store/modules/portalData/index.ts:234
+#: src/store/modules/portalData/index.ts:243
+#: src/store/modules/portalData/index.ts:258
 msgid "Entries could not be re-sorted"
 msgstr "Einträge konnten nicht umsortiert werden"
 
-#: src/store/modules/portalData/index.ts:214
-#: src/store/modules/portalData/index.ts:258
+#: src/store/modules/portalData/index.ts:221
+#: src/store/modules/portalData/index.ts:265
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
@@ -420,7 +420,7 @@ msgstr "Keine Einträge"
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/tmp/ts/src/views/Portal.vue:62
+#: src/tmp/ts/src/views/Portal.vue:65
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
@@ -484,11 +484,11 @@ msgstr "Bitte geben Sie ein neues Passwort ein"
 msgid "Please enter your old password"
 msgstr "Bitte geben Sie Ihr altes Passwort ein"
 
-#: src/store/modules/portalData/index.ts:91
+#: src/store/modules/portalData/index.ts:93
 msgid "Portal Menu"
 msgstr "Portal-Menü"
 
-#: src/tmp/ts/src/views/Portal.vue:65
+#: src/tmp/ts/src/views/Portal.vue:68
 msgid "Portal is in editmode"
 msgstr "Portal ist im Editiermodus"
 
@@ -564,6 +564,17 @@ msgstr "Portal anzeigen"
 msgid "Show tooltip"
 msgstr "Kurzinfo anzeigen"
 
+#: src/tmp/ts/src/components/globals/PortalError.vue:12
+msgid "Something is wrong."
+msgstr "Irgendwas ist schief gelaufen"
+
+#: src/tmp/ts/src/components/globals/PortalError.vue:16
+msgid ""
+"Something went wrong with connecting to the portal. We are trying to fix it "
+"soon."
+msgstr ""
+"Kein Kontakt zum Portal möglich. Wir versuchen das Problem schnellstmöglich zu beheben."
+
 #: src/tmp/ts/src/components/PortalHeader.vue:64
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
@@ -576,12 +587,12 @@ msgstr "Abschicken"
 msgid "Success"
 msgstr "Aktion erfolgreich"
 
-#: src/tmp/ts/src/views/Portal.vue:68
+#: src/tmp/ts/src/views/Portal.vue:71
 #, fuzzy
 msgid "Successfully logged in"
 msgstr "Erfolgreich eingeloggt"
 
-#: src/tmp/ts/src/views/Portal.vue:71
+#: src/tmp/ts/src/views/Portal.vue:74
 #, fuzzy
 msgid "Successfully logged out"
 msgstr "Erfolgreich ausgeloggt"
@@ -610,7 +621,7 @@ msgstr "Hochladen"
 msgid "Use default of portal"
 msgstr "Portal-Vorgabe nutzen"
 
-#: src/store/modules/portalData/index.ts:99
+#: src/store/modules/portalData/index.ts:101
 msgid "User Menu"
 msgstr "Benutzer-Menü"
 
