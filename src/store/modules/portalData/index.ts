@@ -48,6 +48,7 @@ export interface PortalDataState {
   portal: PortalData;
   editMode: boolean;
   cacheId: string;
+  errorContentType: number | null;
 }
 
 const portalData: PortalModule<PortalDataState> = {
@@ -73,6 +74,7 @@ const portalData: PortalModule<PortalDataState> = {
     },
     editMode: getAdminState(),
     cacheId: '',
+    errorContentType: null,
   },
 
   mutations: {
@@ -159,6 +161,10 @@ const portalData: PortalModule<PortalDataState> = {
         }
       }
     },
+    PORTAL_DISPLAY_ERROR(state: PortalDataState, payload): void {
+      console.log('PORTAL_DISPLAY_ERROR payload', payload);
+      state.errorContentType = payload;
+    },
   },
 
   getters: {
@@ -179,6 +185,7 @@ const portalData: PortalModule<PortalDataState> = {
     menuLinks: (state) => state.portal.menuLinks,
     editMode: (state) => state.editMode,
     cacheId: (state) => state.cacheId,
+    errorContentType: (state) => state.errorContentType,
   },
 
   actions: {
@@ -418,6 +425,9 @@ const portalData: PortalModule<PortalDataState> = {
     async setEditMode({ dispatch, commit }, editMode: boolean) {
       commit('EDITMODE', editMode);
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });
+    },
+    setPortalErrorDisplay({ commit }, payload) {
+      commit('PORTAL_DISPLAY_ERROR', payload);
     },
   },
 };
