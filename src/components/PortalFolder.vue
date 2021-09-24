@@ -281,7 +281,7 @@ export default defineComponent({
     cursor: default
 
     .portal-tile__root-element
-      align-items: flex-start;
+      align-items: flex-start!important;
 
     button
       text-transform: none
