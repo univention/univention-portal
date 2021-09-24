@@ -40,11 +40,6 @@ const draggableMixin = {
       return this.isDraggable;
     },
   },
-  data() {
-    return {
-      reshuffledContent: {},
-    };
-  },
   methods: {
     dragstart(e) {
       if (!this.isDraggable) {
@@ -71,7 +66,6 @@ const draggableMixin = {
           // dragging category over tile or vice versa
           return;
         }
-
         this.$store.dispatch('portalData/moveContent', {
           src: otherId,
           origin: otherCategory,
@@ -88,10 +82,11 @@ const draggableMixin = {
       if (myId === otherId) {
         return;
       }
-      this.reshuffledContent.src = otherId;
-      this.reshuffledContent.dst = myId;
-      this.reshuffledContent.cat = myCategory;
-      this.$store.dispatch('portalData/reshuffleContent', this.reshuffledContent);
+      this.$store.dispatch('portalData/reshuffleContent', {
+        src: otherId,
+        dst: myId,
+        cat: myCategory,
+      });
     },
     dragend(e) {
       if (!this.isDraggable) {
@@ -99,7 +94,6 @@ const draggableMixin = {
         return;
       }
       this.$store.dispatch('dragndrop/revert');
-      this.reshuffledContent = {};
     },
   },
 };
