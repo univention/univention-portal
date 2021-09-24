@@ -323,15 +323,6 @@ export default defineComponent({
 
   &__name
     text-align: center
-    width: 100%
-    overflow: hidden
-    text-overflow: ellipsis
-    text-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3)
-    -webkit-box-orient: vertical
-    display: -webkit-box
-    line-clamp: 2
-    -webkit-line-clamp: 2
-    height: calc(2 * var(--font-lineheight-normal))
 
   &__edit-button,
   &__info-button

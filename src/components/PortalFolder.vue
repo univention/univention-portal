@@ -273,16 +273,15 @@ export default defineComponent({
   &__name
     text-align: center
     width: 100%
-    overflow: hidden
     text-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.3)
-    -webkit-box-orient: vertical
-    display: -webkit-box
-    line-clamp: 2
-    -webkit-line-clamp: 2
-    height: calc(2 * var(--font-lineheight-normal))
+    word-wrap: break-word
+    hyphens: auto
 
   &__in-modal
     cursor: default
+
+    .portal-tile__root-element
+      align-items: flex-start;
 
     button
       text-transform: none
@@ -323,7 +322,7 @@ export default defineComponent({
       margin-bottom: calc(5 * var(--layout-spacing-unit))
 
     .portal-folder__thumbnails .portal-tile__name
-        display: -webkit-box;
+        display: block;
 
   &__thumbnails
     width: 100%
