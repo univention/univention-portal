@@ -213,6 +213,9 @@ export default defineComponent({
     SHOW_TOOLTIP(): string {
       return _('Show tooltip');
     },
+    anchorTarget(): string {
+      return this.linkTarget === 'newwindow' ? '_blank' : '';
+    },
   },
   mounted() {
     if (this.hasFocus) {
