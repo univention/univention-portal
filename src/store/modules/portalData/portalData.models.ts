@@ -112,7 +112,7 @@ export interface Portal {
     defaultLinkTarget: LinkTarget,
     dn: string,
     categories: string[],
-    logo: string | null,
+    logo: PortalImageDataBlob | null,
     showUmc: boolean,
     ensureLogin: boolean,
     content: PortalContent,
@@ -125,4 +125,8 @@ export interface PortalData {
   userLinks: string[],
   menuLinks: string[],
   portal: Portal;
+}
+
+export interface PortalImageDataBlob {
+  data: string,
 }
