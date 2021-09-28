@@ -35,7 +35,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :id="setID"
       :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
                 'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
-      @click.self="$emit('backgroundClick');"
+      @click.self="$emit('backgroundClick', $event);"
     >
       <slot />
     </div>
@@ -44,7 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div
       :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
                 'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
-      @click.self="$emit('backgroundClick');"
+      @click.self="$emit('backgroundClick', $event);"
     >
       <slot />
     </div>
