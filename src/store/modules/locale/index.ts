@@ -82,7 +82,7 @@ const locale: PortalModule<LocaleState> = {
       html.setAttribute('lang', localePrefix);
       return updateLocale(localePrefix as ShortLocale);
     },
-    setInitialLocale({ getters, dispatch }: { getters: Record<string, any>, dispatch: Dispatch}): Promise<Dispatch> { // There is the gettertype Gettertree, but results in another error. Need to investigate.
+    setInitialLocale({ getters, dispatch }: { getters: Record<string, any>, dispatch: Dispatch}): Promise<Dispatch> {
       if (getters.getAvailableLocales.length === 1) {
         dispatch('setLocale', getters.getAvailableLocales[0]);
       }

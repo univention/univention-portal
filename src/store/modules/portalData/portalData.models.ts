@@ -108,7 +108,7 @@ export interface PortalCategory {
 
 export interface Portal {
     name: LocalizedString;
-    background: string | null;
+    background: PortalImageDataBlob | null;
     defaultLinkTarget: LinkTarget,
     dn: string,
     categories: string[],
