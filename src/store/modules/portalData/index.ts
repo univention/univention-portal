@@ -26,12 +26,12 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { Commit, Dispatch } from 'vuex';
+import { Commit, Dispatch, ActionContext } from 'vuex';
 import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
 
-import { PortalModule } from '../../root.models';
-import { PortalData, PortalImageDataBlob, LocalizedString } from './portalData.models';
+import { PortalModule, RootState } from '../../root.models';
+import { PortalData, PortalImageDataBlob, LocalizedString, PortalContent } from './portalData.models';
 
 function isEqual(arr1, arr2) {
   if (arr1.length !== arr2.length) {
@@ -51,6 +51,7 @@ export interface PortalDataState {
   cacheId: string;
   errorContentType: number | null;
 }
+type PortalDataActionContext = ActionContext<PortalDataState, RootState>;
 
 const portalData: PortalModule<PortalDataState> = {
   namespaced: true,
@@ -118,8 +119,7 @@ const portalData: PortalModule<PortalDataState> = {
     PORTALLOGO(state: PortalDataState, data: PortalImageDataBlob): void {
       state.portal.portal.logo = data;
     },
-    CONTENT(state: PortalDataState, content): void {
-      console.log('Content', content);
+    CONTENT(state: PortalDataState, content: PortalContent): void {
       state.portal.portal.content = content;
     },
     PORTALBACKGROUND(state: PortalDataState, data:PortalImageDataBlob): void {
@@ -149,14 +149,14 @@ const portalData: PortalModule<PortalDataState> = {
         return [category, entries];
       });
     },
-    EDITMODE(state: PortalDataState, editMode): void {
+    EDITMODE(state: PortalDataState, editMode: boolean): void {
       state.editMode = editMode;
 
       // save state to localstorage if we are in dev mode
       if (process.env.VUE_APP_LOCAL) {
         if (editMode) {
           // console.info('logged into admin mode');
-          localStorage.setItem('UCSAdmin', editMode);
+          localStorage.setItem('UCSAdmin', editMode.toString());
         } else {
           // console.info('logged out of admin mode');
           localStorage.removeItem('UCSAdmin');
@@ -190,19 +190,19 @@ const portalData: PortalModule<PortalDataState> = {
   },
 
   actions: {
-    setPortal({ commit }: { commit: Commit }, payload): void {
+    setPortal({ commit }: PortalDataActionContext, payload): void {
       commit('PORTALDATA', payload);
     },
-    setPortalName({ commit }: { commit: Commit }, name: LocalizedString): void {
+    setPortalName({ commit }: PortalDataActionContext, name: LocalizedString): void {
       commit('PORTALNAME', { ...name });
     },
-    setPortalLogo({ commit }: { commit: Commit }, data: PortalImageDataBlob): void {
+    setPortalLogo({ commit }: PortalDataActionContext, data: PortalImageDataBlob): void {
       commit('PORTALLOGO', data);
     },
-    setPortalBackground({ commit }: { commit: Commit }, data: PortalImageDataBlob): void {
+    setPortalBackground({ commit }: PortalDataActionContext, data: PortalImageDataBlob): void {
       commit('PORTALBACKGROUND', data);
     },
-    async savePortalCategories({ dispatch, getters }: { dispatch: Dispatch, getters: any }): Promise<void> {
+    async savePortalCategories({ dispatch, getters }: PortalDataActionContext): Promise<void> {
       const content = getters.portalContent;
       const portalDn = getters.getPortalDn;
       const attrs = {
@@ -210,7 +210,7 @@ const portalData: PortalModule<PortalDataState> = {
       };
       await put(portalDn, attrs, { dispatch }, _('Categories could not be re-sorted'), _('Categories successfully re-sorted'));
     },
-    async saveFolder({ getters, dispatch }, payload): Promise<void> {
+    async saveFolder({ getters, dispatch }: PortalDataActionContext, payload): Promise<void> {
       const folder = getters.portalFolders.find((foldr) => foldr.dn === payload.dn);
       if (!folder) {
         return;
@@ -221,7 +221,7 @@ const portalData: PortalModule<PortalDataState> = {
       // console.info('Rearranging entries for', payload.dn);
       await put(folder.dn, attrs, { dispatch }, _('Entries could not be re-sorted'), _('Entries successfully re-sorted'));
     },
-    async saveContent({ dispatch, getters }: { dispatch: Dispatch, getters: any}): Promise<void> {
+    async saveContent({ dispatch, getters }: PortalDataActionContext): Promise<void> {
       const content = getters.portalContent;
       const categories = getters.portalCategories;
       const portalDn = getters.getPortalDn;
@@ -267,10 +267,10 @@ const portalData: PortalModule<PortalDataState> = {
         }, { root: true });
       }
     },
-    replaceContent({ commit }: { commit: Commit }, content): void {
+    replaceContent({ commit }: PortalDataActionContext, content: Array<Record<string, unknown>>): void {
       commit('CONTENT', content);
     },
-    moveContent({ commit, getters }, payload): void {
+    moveContent({ commit, getters }: PortalDataActionContext, payload): void {
       const src = payload.src;
       const origin = payload.origin;
       const dst = payload.dst;
@@ -296,7 +296,7 @@ const portalData: PortalModule<PortalDataState> = {
       });
       commit('CONTENT', content);
     },
-    reshuffleContent({ commit, dispatch, rootGetters, getters }, payload): void {
+    reshuffleContent({ commit, dispatch, rootGetters, getters }: PortalDataActionContext, payload): void {
       const src = payload.src;
       const dst = payload.dst;
       const cat = payload.cat;
@@ -339,7 +339,7 @@ const portalData: PortalModule<PortalDataState> = {
             return;
           }
           const entries: string[] = [];
-          const tiles: any[] = [];
+          const tiles: Array<Record<string, unknown>> = [];
           const srcIdx = folder.entries.indexOf(src);
           let dstIdx = folder.entries.indexOf(dst);
           const oldTiles = [...rootGetters['modal/getModalProps']('firstLevelModal').tiles];
@@ -408,7 +408,7 @@ const portalData: PortalModule<PortalDataState> = {
         commit('RESHUFFLE_CATEGORY', { category, entries });
       });
     },
-    async waitForChange({ dispatch, getters }, payload: WaitForChangePayload): Promise<boolean | void> {
+    async waitForChange({ dispatch, getters }: PortalDataActionContext, payload: WaitForChangePayload): Promise<boolean | void> {
       if (payload.retries <= 0) {
         return false;
       }
