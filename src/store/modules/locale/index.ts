@@ -26,10 +26,10 @@
   * /usr/share/common-licenses/AGPL-3; if not, see
   * <https://www.gnu.org/licenses/>.
  */
-import { Commit, Dispatch } from 'vuex';
+import { ActionContext, Dispatch } from 'vuex';
 import { updateLocale } from '@/i18n/translations';
 import { getCookie, setCookie } from '@/jsHelper/tools';
-import { PortalModule } from '@/store/root.models';
+import { PortalModule, RootState } from '@/store/root.models';
 import { Locale, ShortLocale } from './locale.models';
 
 interface LocaleDefinition {
@@ -43,6 +43,7 @@ export interface LocaleState {
   defaultLocale: Locale | null;
   availableLocales: Locale[];
 }
+type LocaleActionContext = ActionContext<LocaleState, RootState>;
 
 const locale: PortalModule<LocaleState> = {
   namespaced: true,
@@ -71,7 +72,7 @@ const locale: PortalModule<LocaleState> = {
   },
 
   actions: {
-    setLocale({ commit, dispatch }: { commit: Commit, dispatch: Dispatch}, payload: Locale): Promise<unknown> {
+    setLocale({ commit, dispatch }: LocaleActionContext, payload: Locale): Promise<unknown> {
       commit('NEWLOCALE', payload);
       const lang = payload.replace('_', '-');
       dispatch('menu/setDisabled', [`menu-item-language-${lang}`], { root: true });
@@ -82,7 +83,7 @@ const locale: PortalModule<LocaleState> = {
       html.setAttribute('lang', localePrefix);
       return updateLocale(localePrefix as ShortLocale);
     },
-    setInitialLocale({ getters, dispatch }: { getters: Record<string, any>, dispatch: Dispatch}): Promise<Dispatch> {
+    setInitialLocale({ getters, dispatch }: LocaleActionContext): Promise<Dispatch> {
       if (getters.getAvailableLocales.length === 1) {
         dispatch('setLocale', getters.getAvailableLocales[0]);
       }
@@ -105,7 +106,7 @@ const locale: PortalModule<LocaleState> = {
       }
       return dispatch('setLocale', 'en_US');
     },
-    setAvailableLocale({ dispatch, commit }: { commit: Commit, dispatch: Dispatch}, payload: LocaleDefinition[]): Promise<Dispatch> {
+    setAvailableLocale({ dispatch, commit }: LocaleActionContext, payload: LocaleDefinition[]): Promise<Dispatch> {
       const locales = payload.map((loc) => loc.id.replace('-', '_'));
       commit('AVAILABLE_LOCALES', locales);
       const defaultLocale = payload.find((loc) => loc.default);

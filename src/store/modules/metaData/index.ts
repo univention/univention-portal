@@ -48,7 +48,6 @@ const metaData: PortalModule<MetaDataState> = {
   mutations: {
     META(state: MetaDataState, payload: Record<string, unknown>): void {
       state.meta = payload;
-      console.log('STATE', state.meta);
     },
   },
 
@@ -56,7 +55,6 @@ const metaData: PortalModule<MetaDataState> = {
 
   actions: {
     setMeta({ commit }: { commit: Commit }, payload: Record<string, unknown>): void {
-      console.log('PAYLAD', payload);
       commit('META', payload);
     },
   },
