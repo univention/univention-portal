@@ -46,14 +46,14 @@
         :aria-label-prop="EDIT_CATEGORY"
         @click="editCategory"
       />
-      <div
+      <span
         :draggable="editMode && !virtual"
         @dragstart="dragstart"
         @dragenter="dragenter"
         @dragend="dragend"
       >
         {{ $localized(title) }}
-      </div>
+      </span>
     </h2>
     <div
       class="portal-category__tiles"

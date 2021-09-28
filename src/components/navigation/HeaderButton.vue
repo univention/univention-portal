@@ -33,7 +33,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     @click="toggleActiveButton"
     @keyup.esc.stop="emptyActiveButton"
   >
-    <span
+    <div
       :class="'header-button__inner'"
       role="presentation"
     >
@@ -56,7 +56,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           {{ counter }}
         </div>
       </tabindex-element>
-    </span>
+    </div>
   </div>
 </template>
 
