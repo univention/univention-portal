@@ -26,7 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { Commit, Dispatch, GetterTree } from 'vuex';
+import { Commit, Dispatch } from 'vuex';
 import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
 
@@ -122,7 +122,7 @@ const portalData: PortalModule<PortalDataState> = {
       console.log('Content', content);
       state.portal.portal.content = content;
     },
-    PORTALBACKGROUND(state: PortalDataState, data): void {
+    PORTALBACKGROUND(state: PortalDataState, data:PortalImageDataBlob): void {
       state.portal.portal.background = data;
     },
     CHANGE_FOLDER_ENTRIES(state: PortalDataState, payload): void {
@@ -196,13 +196,13 @@ const portalData: PortalModule<PortalDataState> = {
     setPortalName({ commit }: { commit: Commit }, name: LocalizedString): void {
       commit('PORTALNAME', { ...name });
     },
-    setPortalLogo({ commit }: { commit: Commit }, data: string): void {
+    setPortalLogo({ commit }: { commit: Commit }, data: PortalImageDataBlob): void {
       commit('PORTALLOGO', data);
     },
-    setPortalBackground({ commit }: { commit: Commit }, data: string): void {
+    setPortalBackground({ commit }: { commit: Commit }, data: PortalImageDataBlob): void {
       commit('PORTALBACKGROUND', data);
     },
-    async savePortalCategories({ dispatch, getters }) {
+    async savePortalCategories({ dispatch, getters }: { dispatch: Dispatch, getters: any }): Promise<void> {
       const content = getters.portalContent;
       const portalDn = getters.getPortalDn;
       const attrs = {
@@ -210,7 +210,7 @@ const portalData: PortalModule<PortalDataState> = {
       };
       await put(portalDn, attrs, { dispatch }, _('Categories could not be re-sorted'), _('Categories successfully re-sorted'));
     },
-    async saveFolder({ getters, dispatch }, payload) {
+    async saveFolder({ getters, dispatch }, payload): Promise<void> {
       const folder = getters.portalFolders.find((foldr) => foldr.dn === payload.dn);
       if (!folder) {
         return;
@@ -221,7 +221,7 @@ const portalData: PortalModule<PortalDataState> = {
       // console.info('Rearranging entries for', payload.dn);
       await put(folder.dn, attrs, { dispatch }, _('Entries could not be re-sorted'), _('Entries successfully re-sorted'));
     },
-    async saveContent({ dispatch, getters }) {
+    async saveContent({ dispatch, getters }: { dispatch: Dispatch, getters: any}): Promise<void> {
       const content = getters.portalContent;
       const categories = getters.portalCategories;
       const portalDn = getters.getPortalDn;
@@ -408,7 +408,7 @@ const portalData: PortalModule<PortalDataState> = {
         commit('RESHUFFLE_CATEGORY', { category, entries });
       });
     },
-    async waitForChange({ dispatch, getters }, payload: WaitForChangePayload) {
+    async waitForChange({ dispatch, getters }, payload: WaitForChangePayload): Promise<boolean | void> {
       if (payload.retries <= 0) {
         return false;
       }
@@ -423,7 +423,7 @@ const portalData: PortalModule<PortalDataState> = {
       payload.retries -= 1;
       return dispatch('waitForChange', payload);
     },
-    async setEditMode({ dispatch, commit }: { commit: Commit, dispatch: Dispatch }, editMode: boolean) {
+    async setEditMode({ dispatch, commit }: { commit: Commit, dispatch: Dispatch }, editMode: boolean): Promise<void> {
       commit('EDITMODE', editMode);
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });
     },
