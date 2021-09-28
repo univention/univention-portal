@@ -94,6 +94,7 @@ export default defineComponent({
   },
   methods: {
     searchTiles(): void {
+      console.log('asjdhakerh');
       this.$store.dispatch('search/setSearchQuery', this.portalSearch.toLowerCase());
       this.$nextTick(() => {
         if (document.querySelectorAll('.portal-tile').length === 0) {
