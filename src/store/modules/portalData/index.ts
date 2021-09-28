@@ -30,7 +30,7 @@ import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
 
 import { PortalModule } from '../../root.models';
-import { PortalData } from './portalData.models';
+import { PortalData, PortalImageDataBlob } from './portalData.models';
 
 function isEqual(arr1, arr2) {
   if (arr1.length !== arr2.length) {
@@ -114,10 +114,11 @@ const portalData: PortalModule<PortalDataState> = {
     PORTALNAME(state: PortalDataState, name): void {
       state.portal.portal.name = name;
     },
-    PORTALLOGO(state: PortalDataState, data): void {
+    PORTALLOGO(state: PortalDataState, data: PortalImageDataBlob): void {
       state.portal.portal.logo = data;
     },
     CONTENT(state: PortalDataState, content): void {
+      console.log('Content', content);
       state.portal.portal.content = content;
     },
     PORTALBACKGROUND(state: PortalDataState, data): void {
@@ -161,7 +162,7 @@ const portalData: PortalModule<PortalDataState> = {
         }
       }
     },
-    PORTAL_DISPLAY_ERROR(state: PortalDataState, payload): void {
+    PORTAL_DISPLAY_ERROR(state: PortalDataState, payload: number): void {
       state.errorContentType = payload;
     },
   },
@@ -189,6 +190,7 @@ const portalData: PortalModule<PortalDataState> = {
 
   actions: {
     setPortal({ commit }, payload) {
+      console.log('PAYLOAD', payload);
       commit('PORTALDATA', payload);
     },
     setPortalName({ commit }, name) {
@@ -200,7 +202,7 @@ const portalData: PortalModule<PortalDataState> = {
     setPortalBackground({ commit }, data: string) {
       commit('PORTALBACKGROUND', data);
     },
-    async savePortalCategories({ commit, dispatch, getters }) {
+    async savePortalCategories({ dispatch, getters }) {
       const content = getters.portalContent;
       const portalDn = getters.getPortalDn;
       const attrs = {
@@ -219,7 +221,7 @@ const portalData: PortalModule<PortalDataState> = {
       // console.info('Rearranging entries for', payload.dn);
       await put(folder.dn, attrs, { dispatch }, _('Entries could not be re-sorted'), _('Entries successfully re-sorted'));
     },
-    async saveContent({ commit, dispatch, getters }) {
+    async saveContent({ dispatch, getters }) {
       const content = getters.portalContent;
       const categories = getters.portalCategories;
       const portalDn = getters.getPortalDn;
@@ -425,7 +427,7 @@ const portalData: PortalModule<PortalDataState> = {
       commit('EDITMODE', editMode);
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });
     },
-    setPortalErrorDisplay({ commit }, payload) {
+    setPortalErrorDisplay({ commit }, payload: number) {
       commit('PORTAL_DISPLAY_ERROR', payload);
     },
   },

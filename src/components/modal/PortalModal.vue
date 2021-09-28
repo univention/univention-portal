@@ -131,7 +131,7 @@ export default defineComponent({
     },
   },
   methods: {
-    closeModal($event): void {
+    closeModal(): void {
       const modalLevel = this.modalLevel === 2 ? 'secondLevelModal' : 'firstLevelModal';
       if (!this.modalStubborn(modalLevel)) {
         this.$store.dispatch('modal/hideAndClearModal', this.modalLevel);
