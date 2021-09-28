@@ -66,7 +66,6 @@ const dragndrop: PortalModule<DraggedItem> = {
 
   actions: {
     startDragging({ commit, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
-      console.log('PAYLOAD', payload);
       let content = null;
       if (payload.original) {
         content = rootGetters['portalData/portalContent'];
