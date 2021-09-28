@@ -26,11 +26,12 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { Commit, Dispatch, GetterTree } from 'vuex';
 import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
 
 import { PortalModule } from '../../root.models';
-import { PortalData, PortalImageDataBlob } from './portalData.models';
+import { PortalData, PortalImageDataBlob, LocalizedString } from './portalData.models';
 
 function isEqual(arr1, arr2) {
   if (arr1.length !== arr2.length) {
@@ -111,7 +112,7 @@ const portalData: PortalModule<PortalDataState> = {
       }
       state.cacheId = portal.cache_id;
     },
-    PORTALNAME(state: PortalDataState, name): void {
+    PORTALNAME(state: PortalDataState, name: LocalizedString): void {
       state.portal.portal.name = name;
     },
     PORTALLOGO(state: PortalDataState, data: PortalImageDataBlob): void {
@@ -189,17 +190,16 @@ const portalData: PortalModule<PortalDataState> = {
   },
 
   actions: {
-    setPortal({ commit }, payload) {
-      console.log('PAYLOAD', payload);
+    setPortal({ commit }: { commit: Commit }, payload): void {
       commit('PORTALDATA', payload);
     },
-    setPortalName({ commit }, name) {
+    setPortalName({ commit }: { commit: Commit }, name: LocalizedString): void {
       commit('PORTALNAME', { ...name });
     },
-    setPortalLogo({ commit }, data: string) {
+    setPortalLogo({ commit }: { commit: Commit }, data: string): void {
       commit('PORTALLOGO', data);
     },
-    setPortalBackground({ commit }, data: string) {
+    setPortalBackground({ commit }: { commit: Commit }, data: string): void {
       commit('PORTALBACKGROUND', data);
     },
     async savePortalCategories({ dispatch, getters }) {
@@ -267,10 +267,10 @@ const portalData: PortalModule<PortalDataState> = {
         }, { root: true });
       }
     },
-    replaceContent({ commit }, content) {
+    replaceContent({ commit }: { commit: Commit }, content): void {
       commit('CONTENT', content);
     },
-    moveContent({ commit, getters }, payload) {
+    moveContent({ commit, getters }, payload): void {
       const src = payload.src;
       const origin = payload.origin;
       const dst = payload.dst;
@@ -296,7 +296,7 @@ const portalData: PortalModule<PortalDataState> = {
       });
       commit('CONTENT', content);
     },
-    reshuffleContent({ commit, dispatch, rootGetters, getters }, payload) {
+    reshuffleContent({ commit, dispatch, rootGetters, getters }, payload): void {
       const src = payload.src;
       const dst = payload.dst;
       const cat = payload.cat;
@@ -423,11 +423,11 @@ const portalData: PortalModule<PortalDataState> = {
       payload.retries -= 1;
       return dispatch('waitForChange', payload);
     },
-    async setEditMode({ dispatch, commit }, editMode: boolean) {
+    async setEditMode({ dispatch, commit }: { commit: Commit, dispatch: Dispatch }, editMode: boolean) {
       commit('EDITMODE', editMode);
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });
     },
-    setPortalErrorDisplay({ commit }, payload: number) {
+    setPortalErrorDisplay({ commit }: { commit: Commit }, payload: number): void {
       commit('PORTAL_DISPLAY_ERROR', payload);
     },
   },
