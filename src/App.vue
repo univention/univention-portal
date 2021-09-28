@@ -71,7 +71,6 @@ export default defineComponent({
   async mounted() {
     // Set locale and load portal data from backend
     this.$store.dispatch('activateLoadingState');
-    console.log('1xx');
     const answer = await this.$store.dispatch('loadPortal', {
       adminMode: false,
     });

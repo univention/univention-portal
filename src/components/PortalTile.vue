@@ -323,6 +323,8 @@ export default defineComponent({
 
   &__name
     text-align: center
+    word-wrap: break-word
+    hyphens: auto
 
   &__edit-button,
   &__info-button
