@@ -162,7 +162,6 @@ const portalData: PortalModule<PortalDataState> = {
       }
     },
     PORTAL_DISPLAY_ERROR(state: PortalDataState, payload): void {
-      console.log('PORTAL_DISPLAY_ERROR payload', payload);
       state.errorContentType = payload;
     },
   },
