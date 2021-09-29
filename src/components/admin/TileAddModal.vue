@@ -122,7 +122,7 @@ export default defineComponent({
           props: {
             modelValue: {},
             superDn: this.superDn,
-            label: 'Create a new Entry',
+            label: this.CREATE_NEW_ENTRY,
             fromFolder: this.forFolder,
           },
         });
@@ -136,7 +136,7 @@ export default defineComponent({
           name: 'AdminExistingEntry',
           stubborn: true,
           props: {
-            label: 'Add existing entry',
+            label: this.CREATE_EXISTING_ENTRY,
             objectGetter: 'portalData/portalEntries',
             superObjectGetter,
             superDn: this.superDn,
@@ -150,7 +150,7 @@ export default defineComponent({
           props: {
             modelValue: {},
             superDn: this.superDn,
-            label: 'Create a new folder',
+            label: this.CREATE_NEW_FOLDER,
           },
         });
       }
@@ -159,7 +159,7 @@ export default defineComponent({
           name: 'AdminExistingEntry',
           stubborn: true,
           props: {
-            label: 'Add existing folder',
+            label: this.CREATE_EXISTING_FOLDER,
             objectGetter: 'portalData/portalFolders',
             superObjectGetter: 'portalData/portalCategories',
             superDn: this.superDn,
