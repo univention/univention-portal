@@ -28,7 +28,6 @@
  */
 import { PortalModule, RootState } from '@/store/root.models';
 import { ActionContext, Commit, Dispatch } from 'vuex';
-
 import { ModalComponentInterface, ModalProp, ModalLevel } from './modal.models';
 
 export interface ModalState {
