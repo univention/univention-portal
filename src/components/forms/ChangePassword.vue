@@ -29,6 +29,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <modal-dialog
     :i18n-title-key="CHANGE_PASSWORD"
+    class="change-password"
     @cancel="cancel"
   >
     <form
@@ -47,6 +48,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-model="oldPassword"
         name="old-password"
         type="password"
+        class="change-password__input"
       >
       <label for="newPassword">
         {{ NEW_PASSWORD }}
@@ -61,6 +63,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-model="newPassword"
         name="new-password"
         type="password"
+        class="change-password__input"
       >
       <label for="newPasswordRetype">
         {{ NEW_PASSWORD }}
@@ -80,6 +83,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         v-model="newPassword2"
         name="new-password-retype"
         type="password"
+        class="change-password__input"
       >
       <footer>
         <button
@@ -203,5 +207,10 @@ export default defineComponent({
   },
 });
 </script>
-<style>
+<style lang="stylus">
+.change-password
+
+    &__input
+      width: 100%
+
 </style>
