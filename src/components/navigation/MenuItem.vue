@@ -36,6 +36,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     :href="link ? link : null"
     :target="anchorTarget"
     :role="ariaRole"
+    :aria-disabled="ariaDisabled"
     @click="setClickIfSubItem"
     @keydown.enter="setClickIfSubItem"
     @keydown.space="setClickIfSubItem"
@@ -115,10 +116,10 @@ export default defineComponent({
     disabled(): boolean {
       return this.disabledMenuItems.includes(this.id);
     },
+    ariaDisabled(): boolean {
+      return this.ariaRole === 'button' && this.disabled;
+    },
     activeAt(): string[] {
-      if (this.disabled) {
-        return [];
-      }
       return ['header-menu'];
     },
     itemString(): string {
@@ -134,7 +135,7 @@ export default defineComponent({
       return itemString;
     },
     ariaRole(): string {
-      return this.link || this.internalFunction ? 'link' : 'button';
+      return this.link ? 'link' : 'button';
     },
   },
   methods: {
