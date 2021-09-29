@@ -30,13 +30,7 @@ import { ActionContext, Dispatch } from 'vuex';
 import { updateLocale } from '@/i18n/translations';
 import { getCookie, setCookie } from '@/jsHelper/tools';
 import { PortalModule, RootState } from '@/store/root.models';
-import { Locale, ShortLocale } from './locale.models';
-
-interface LocaleDefinition {
-  id: string;
-  label: string;
-  default?: boolean;
-}
+import { Locale, ShortLocale, LocaleDefinition } from './locale.models';
 
 export interface LocaleState {
   locale: Locale;
