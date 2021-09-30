@@ -63,6 +63,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       icon="x"
       :aria-label-prop="ariaLabelClose"
       class="header-tab__close-button"
+      :data-test="`close-tab-${idx}`"
       :hidden="hidden"
       @click="closeTab"
     />
@@ -206,6 +207,7 @@ export default defineComponent({
       right: 0
       border: 0.2rem solid rgba(0,0,0,0)
       box-sizing: border-box;
+      z-index: -1
 
     &:focus:before
       border-color: var(--color-focus)

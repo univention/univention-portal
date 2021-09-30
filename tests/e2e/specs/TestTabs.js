@@ -63,12 +63,12 @@ describe('Test Tabs', () => {
       // closing last tab of two
       cy.get('#headerTab__2').click();
       cy.get('#iframe-2').should('be.visible');
-      cy.get('#headerTab__2').children().last().click();
+      cy.get('[data-test="close-tab-2"]').click();
       cy.get('#portalCategories').should('be.visible');
       cy.get('[data-test="header-tabs"]').children().should('have.length', 1)
       cy.get('[data-test="portal-iframes"]').children().should('have.length', 1)
       // closing remaining tab
-      cy.get('#headerTab__1').children().last().click();
+      cy.get('[data-test="close-tab-1"]').click();
       cy.get('#portalCategories').should('be.visible');
       cy.get('[data-test="header-tabs"]').children().should('have.length', 0)
       cy.get('[data-test="portal-iframes"]').children().should('have.length', 0)
