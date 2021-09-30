@@ -283,6 +283,7 @@ export default defineComponent({
     margin-left: calc(5 * var(--layout-spacing-unit));
     width: 100%;
     overflow: hidden
+    align-items: center
 
   &__right
     margin-left: auto
