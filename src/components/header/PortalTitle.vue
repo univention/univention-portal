@@ -22,7 +22,10 @@
       <PortalIcon icon="home" />
     </div>
 
-    <h1 class="portal-title__portal-name sr-only-mobile">
+    <h1
+      v-if="$localized(portalName)"
+      class="portal-title__portal-name sr-only-mobile"
+    >
       {{ $localized(portalName) }}
     </h1>
   </tabindex-element>
