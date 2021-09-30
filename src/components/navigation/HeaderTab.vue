@@ -27,21 +27,20 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-    <div
-      class="header-tab__wrapper"
-    >
-  <tabindex-element
-    :id="`headerTab__${idx}`"
-    :ref="`headerTab__${idx}`"
-    tag="div"
-    :active-at="['portal']"
-    :hidden="hidden"
-    class="header-tab header-tab__clickable"
-    :class="{ 'header-tab--active': isActive }"
-    @click="focusTab"
-    @keydown.enter="focusTab"
+  <div
+    class="header-tab__wrapper"
   >
-
+    <tabindex-element
+      :id="`headerTab__${idx}`"
+      :ref="`headerTab__${idx}`"
+      tag="div"
+      :active-at="['portal']"
+      :hidden="hidden"
+      class="header-tab header-tab__clickable"
+      :class="{ 'header-tab--active': isActive }"
+      @click="focusTab"
+      @keydown.enter="focusTab"
+    >
       <div
         class="header-tab__logo-wrapper"
         :style="backgroundColor ? `background: ${backgroundColor}` : ''"
@@ -58,7 +57,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       >
         {{ tabLabel }}
       </span>
-  </tabindex-element>
+    </tabindex-element>
     <icon-button
       :id="`close-tab-${idx}`"
       icon="x"
@@ -67,7 +66,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :hidden="hidden"
       @click="closeTab"
     />
-    </div>
+  </div>
 </template>
 
 <script lang="ts">

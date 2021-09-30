@@ -26,7 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-export type ModalLevel =  number | undefined;
+export type ModalLevel = number | undefined;
 export interface ModalProp {
   props?: {
     tiles?: Record<string, unknown>
