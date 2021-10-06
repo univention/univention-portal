@@ -158,7 +158,7 @@ export default defineComponent({
       this.$store.dispatch('activateLoadingState');
       const dn = this.modelValue.dn;
       // console.info('Removing', dn, 'from', this.superDn);
-      const success = await removeEntryFromSuperObj(this.superDn, this.portalCategories, dn, this.$store, _('Folder successfully removed'), _('Folder could not be removed'));
+      const success = await removeEntryFromSuperObj(this.superDn, this.portalCategories, dn, this.$store, _('Folder successfully unlinked'), _('Folder could not be unlinked'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();

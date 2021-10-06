@@ -209,7 +209,7 @@ export default defineComponent({
       return _('Menu');
     },
     LEFT_EDITMODE(): string {
-      return _('Left editmode');
+      return _('Left edit mode');
     },
   },
   watch: {
