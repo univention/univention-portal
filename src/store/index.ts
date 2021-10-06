@@ -91,36 +91,51 @@ const actions = {
   loadPortal: ({ dispatch }, payload) => new Promise((resolve, reject) => {
     // Get portal data
     const portalRequest = dispatch('portalJsonRequest', payload)
-      .catch((error) => {
-        if (error.response) {
-          dispatch('portalData/setPortalErrorDisplay', error.response.status);
-          dispatch('deactivateLoadingState');
-        }
-      });
+      .catch((error) => error);
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data
-    ].map((url) => axios.get(url));
+    ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
-    axios.all(portalPromises).then(axios.spread((metaResponse, languageResponse, portalResponse) => {
+    Promise.all(portalPromises).then(axios.spread((metaResponse, languageResponse, portalResponse) => {
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
-      dispatch('locale/setAvailableLocale', availableLocales);
-      dispatch('metaData/setMeta', meta);
-      dispatch('menu/setMenu', { portal, availableLocales });
-      dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
-      dispatch('user/setUser', {
-        user: {
-          username: portal.username,
-          displayName: portal.user_displayname,
-          mayEditPortal: portal.may_edit_portal,
-          authMode: portal.auth_mode,
-        },
+      if (languageResponse.isAxiosError) {
+        console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
+      } else {
+        dispatch('locale/setAvailableLocale', availableLocales);
+      }
+      if (metaResponse.isAxiosError) {
+        console.warn(`Failed to fetch ${portalUrl}${portalMetaPath}`, metaResponse);
+      } else {
+        dispatch('metaData/setMeta', meta);
+      }
+
+      if (portalResponse.isAxiosError) {
+        console.warn(`Failed to fetch ${portalUrl}${portalJsonPath}`);
+        dispatch('portalData/setPortalErrorDisplay', portalResponse.response.status);
+        dispatch('deactivateLoadingState');
+      } else {
+        dispatch('menu/setMenu', { portal, availableLocales: availableLocales ?? [] });
+        dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
+        dispatch('user/setUser', {
+          user: {
+            username: portal.username,
+            displayName: portal.user_displayname,
+            mayEditPortal: portal.may_edit_portal,
+            authMode: portal.auth_mode,
+          },
+        });
+        resolve(portal);
+      }
+    }))
+      .catch((error) => {
+        // We won't get here at the moment because we call .catch on
+        // all promises in Promise.all
+        dispatch('portalData/setPortalErrorDisplay', 502);
+        dispatch('deactivateLoadingState');
+        reject(error);
       });
-      resolve(portal);
-    }), (error) => {
-      reject(error);
-    });
   }),
 };
 

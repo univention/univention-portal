@@ -16,11 +16,11 @@ export default defineComponent({
       errorContentType: 'portalData/errorContentType',
     }),
     ERROR_MESSAGE(): string {
-      return _('Something is wrong.');
+      return _('Sorry.');
     },
     ERROR_SUBTEXT(): string {
       if (this.errorContentType === 404) {
-        return _('Something went wrong with connecting to the portal. We are trying to fix it soon.');
+        return _('The portal is temporarily unavailable. If the problem persists, please contact your system administrator.');
       }
       return '';
     },
@@ -29,6 +29,7 @@ export default defineComponent({
 </script>
 <style lang="stylus">
 .portal-error
+  position: relative
   display: flex
   flex-direction: column
   margin-left: 5em

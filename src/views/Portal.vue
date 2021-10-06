@@ -32,6 +32,7 @@
     <portal-header />
     <portal-error v-if="errorContentType" />
     <region
+      v-if="!errorContentType"
       v-show="!activeTabIndex"
       id="portalCategories"
       role="main"
@@ -185,7 +186,7 @@ export default defineComponent({
       return _('No search results');
     },
     PORTAL_IS_IN_EDITMODE(): string {
-      return _('Portal is in editmode');
+      return _('Portal is in edit mode');
     },
     USER_IS_LOGGED_IN(): string {
       return _('Successfully logged in');
