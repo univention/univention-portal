@@ -49,6 +49,9 @@ const navigation: PortalModule<NavigationState> = {
   actions: {
     setActiveButton({ commit, dispatch } : { commit: Commit, dispatch: Dispatch }, id: NavigationButton): void {
       dispatch('modal/hideAndClearModal', undefined, { root: true });
+      if (id === 'search') {
+        dispatch('tabs/setActiveTab', 0, { root: true });
+      }
       if (id === 'bell') {
         dispatch('notifications/hideAllNotifications', undefined, { root: true });
       }
