@@ -19,10 +19,7 @@ export default defineComponent({
       return _('Sorry.');
     },
     ERROR_SUBTEXT(): string {
-      if (this.errorContentType === 404) {
-        return _('The portal is temporarily unavailable. If the problem persists, please contact your system administrator.');
-      }
-      return '';
+      return _('The portal is temporarily unavailable. If the problem persists, please contact your system administrator.');
     },
   },
 });

@@ -98,7 +98,7 @@ const actions = {
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
-    Promise.all(portalPromises).then(axios.spread((metaResponse, languageResponse, portalResponse) => {
+    Promise.all(portalPromises).then(([metaResponse, languageResponse, portalResponse]) => {
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
       if (languageResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
@@ -111,12 +111,15 @@ const actions = {
         dispatch('metaData/setMeta', meta);
       }
 
+      dispatch('menu/setMenu', {
+        portal,
+        availableLocales: availableLocales ?? [],
+      });
       if (portalResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${portalJsonPath}`);
-        dispatch('portalData/setPortalErrorDisplay', portalResponse.response.status);
+        dispatch('portalData/setPortalErrorDisplay', 502);
         dispatch('deactivateLoadingState');
       } else {
-        dispatch('menu/setMenu', { portal, availableLocales: availableLocales ?? [] });
         dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
         dispatch('user/setUser', {
           user: {
@@ -128,7 +131,7 @@ const actions = {
         });
         resolve(portal);
       }
-    }))
+    })
       .catch((error) => {
         // We won't get here at the moment because we call .catch on
         // all promises in Promise.all
