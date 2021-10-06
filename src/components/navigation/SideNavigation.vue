@@ -379,8 +379,7 @@ $userRow = 6rem
     width: min-content
 
     &:focus
-      border: 0.2rem solid transparent;
-      border-bottom-color: var(--color-focus);
+      text-decoration: underline
       outline: 0
 
     &:focus span
