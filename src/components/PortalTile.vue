@@ -83,11 +83,12 @@
           class="portal-tile__edit-button icon-button--admin"
           :aria-label-prop="MOVE_ENTRY"
           @click="enterMoveMode"
-          @keydown.esc="cancelMoveMode"
+          @keydown.esc.exact="cancelMoveMode"
           @keydown.left.exact.prevent="moveLeft"
           @keydown.right.exact.prevent="moveRight"
           @keydown.up.exact.prevent="moveUp"
           @keydown.down.exact.prevent="moveDown"
+          @keydown.tab="handleTabWhileMoving"
         />
         <icon-button
           v-if="!minified && editMode"
@@ -251,7 +252,7 @@ export default defineComponent({
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
     }
     if (this.isBeingDragged) {
-      // @ts-ignore
+      // @ts-ignore // TODO
       (this.$refs.mover.$el as HTMLElement).focus();
     }
   },
@@ -271,60 +272,77 @@ export default defineComponent({
         this.$store.dispatch('tooltip/setTooltip', { tooltip });
       }
     },
-    moveLeft() {
+    async handleTabWhileMoving() {
+      if (this.isBeingDragged) {
+        this.$store.dispatch('dragndrop/dropped');
+        this.$store.dispatch('activateLoadingState');
+        await this.$store.dispatch('portalData/saveContent');
+        this.$store.dispatch('deactivateLoadingState');
+      }
+    },
+    moveLeft(evt) {
       if (!this.inDragnDropMode) {
         return;
       }
-      const otherId = this.dn;
-      const myCategory = this.superDn;
-      const myEntries = this.portalContent.find(([categoryDn]) => categoryDn === myCategory)[1];
-      const otherIdx = myEntries.indexOf(otherId);
-      if (otherIdx === 0) {
+
+      const srcId = this.dn;
+      const srcCategory = this.superDn;
+      const srcEntries = this.portalContent.find(([categoryDn]) => categoryDn === srcCategory)?.[1] ?? [];
+      const srcIndex = srcEntries.indexOf(srcId);
+      if (srcIndex <= 0) {
         return;
       }
-      const myIdx = otherIdx - 1;
-      const myId = myEntries[myIdx];
+
+      const dstId = srcEntries[srcIndex - 1];
       this.$store.dispatch('portalData/reshuffleContent', {
-        src: otherId,
-        dst: myId,
-        cat: myCategory,
+        src: srcId,
+        dst: dstId,
+        cat: srcCategory,
+      });
+      this.$nextTick(() => {
+        evt.target.focus();
       });
     },
     moveRight() {
       if (!this.inDragnDropMode) {
         return;
       }
-      const otherId = this.dn;
-      const myCategory = this.superDn;
-      const myEntries = this.portalContent.find(([categoryDn]) => categoryDn === myCategory)[1];
-      const otherIdx = myEntries.indexOf(otherId);
-      const myIdx = otherIdx + 1;
-      const myId = myEntries[myIdx];
+
+      const srcId = this.dn;
+      const srcCategory = this.superDn;
+      const srcEntries = this.portalContent.find(([categoryDn]) => categoryDn === srcCategory)?.[1] ?? [];
+      const srcIndex = srcEntries.indexOf(srcId);
+      if (srcIndex === srcEntries.length - 1) {
+        return;
+      }
+
+      const dstId = srcEntries[srcIndex + 1];
       this.$store.dispatch('portalData/reshuffleContent', {
-        src: otherId,
-        dst: myId,
-        cat: myCategory,
+        src: srcId,
+        dst: dstId,
+        cat: srcCategory,
       });
     },
     moveUp() {
       if (!this.inDragnDropMode) {
         return;
       }
-      const otherId = this.dn;
-      const otherCategory = this.superDn;
-      const otherIdx = this.portalContent.findIndex(([categoryDn]) => categoryDn === otherCategory);
-      const myIdx = otherIdx - 1;
-      const my = this.portalContent[myIdx];
-      if (!my) {
+      const srcId = this.dn;
+      const srcCategory = this.superDn;
+      const srcCategoryIdx = this.portalContent.findIndex(([categoryDn]) => categoryDn === srcCategory);
+      if (srcCategoryIdx <= 0) {
         return;
       }
-      const myCategory = my[0];
-      const myId = my[1][0];
+      const dstCategory = this.portalContent[srcCategoryIdx - 1];
+      if (!dstCategory) {
+        return;
+      }
+      const dstId = dstCategory[1][0];
       this.$store.dispatch('portalData/moveContent', {
-        src: otherId,
-        origin: otherCategory,
-        dst: myId,
-        cat: myCategory,
+        src: srcId,
+        origin: srcCategory,
+        dst: dstId,
+        cat: dstCategory[0],
       });
     },
     moveDown() {
@@ -359,7 +377,6 @@ export default defineComponent({
         await this.$store.dispatch('portalData/saveContent');
         this.$store.dispatch('deactivateLoadingState');
       } else {
-        console.log('start');
         // @ts-ignore
         this.dragstart();
       }

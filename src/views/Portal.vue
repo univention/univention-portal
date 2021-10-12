@@ -62,16 +62,14 @@
         </span>
       </screen-reader-announcer>
 
-      <template v-if="categories">
-        <portal-category
-          v-for="category in categories"
-          :key="category.id"
-          :title="category.title"
-          :dn="category.dn"
-          :virtual="category.virtual"
-          :tiles="category.tiles"
-        />
-      </template>
+      <portal-category
+        v-for="category in categories"
+        :key="category.id"
+        :title="category.title"
+        :dn="category.dn"
+        :virtual="category.virtual"
+        :tiles="category.tiles"
+      />
 
       <h2
         v-if="editMode"
@@ -96,7 +94,7 @@
         v-for="(item, index) in tabs"
         :key="index"
         :link="item.iframeLink"
-        :is-active="activeTabIndex == index + 1"
+        :is-active="activeTabIndex === index + 1"
         :tab-id="index"
         :title="item.tabLabel"
       />
@@ -201,22 +199,13 @@ export default defineComponent({
       return this.editMode;
     },
     announceUserInEditMode(): boolean {
-      if (this.editMode) {
-        return true;
-      }
-      return false;
+      return this.editMode;
     },
     announceUserIsLoggedIn(): boolean {
-      if (this.userState.username) {
-        return true;
-      }
-      return false;
+      return this.userState.username !== null;
     },
     announceUserIsLoggedOut(): boolean {
-      if (this.userState.username === null) {
-        return true;
-      }
-      return false;
+      return this.userState.username === null;
     },
   },
   methods: {
@@ -276,7 +265,7 @@ export default defineComponent({
 .portal-iframes
   position: fixed
   top: var(--portal-header-height)
-  border: 0px solid var(--portal-tab-background)
+  border: 0 solid var(--portal-tab-background)
   border-top-width: var(--layout-height-header-separator)
   right: 0
   bottom: 0

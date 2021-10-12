@@ -81,12 +81,13 @@ export type LocalizedString = Record<string, string>;
 export type PortalContent = [string, string[]][];
 
 export interface PortalEntry {
+  id: string,
+  dn: string,
   activated: boolean,
   allowedGroups: string[],
   anonymous: boolean,
   backgroundColor: string | null,
   description: Description,
-  dn: string,
   linkTarget: LinkTargetOrDefault,
   links: Link[],
   logo_name: string | null,
@@ -94,12 +95,14 @@ export interface PortalEntry {
 }
 
 export interface PortalFolder {
+  id: string,
   dn: string,
   entries: string[],
   name: LocalizedString,
 }
 
 export interface PortalCategory {
+  id: string,
   dn: string,
   entries: string[],
   virtual: boolean,
