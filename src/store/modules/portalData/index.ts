@@ -29,6 +29,7 @@
 import { Commit, Dispatch, ActionContext } from 'vuex';
 import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
+import { randomId } from '@/jsHelper/tools';
 
 import { PortalModule, RootState } from '../../root.models';
 import { PortalData, PortalImageDataBlob, LocalizedString, PortalContent } from './portalData.models';
@@ -84,9 +85,20 @@ const portalData: PortalModule<PortalDataState> = {
       const portal = payload.portal;
       const adminMode = payload.adminMode;
       state.portal.portal = portal.portal;
-      state.portal.entries = portal.entries;
-      state.portal.folders = portal.folders;
-      state.portal.categories = portal.categories;
+      state.portal.entries = portal.entries.map((e) => {
+        e.id = `entry-${randomId()}`;
+        return e;
+      });
+      state.portal.folders = portal.folders.map((f) => {
+        f.id = `folder-${randomId()}`;
+        return f;
+      });
+      // TODO backend should set virtual
+      state.portal.categories = portal.categories.map((c) => {
+        c.virtual = c.virtual ?? false;
+        c.id = `category-${randomId()}`;
+        return c;
+      });
       state.portal.menuLinks = portal.menu_links;
       state.portal.userLinks = portal.user_links;
       if (adminMode) {
@@ -95,6 +107,7 @@ const portalData: PortalModule<PortalDataState> = {
             en_US: _('Portal Menu'),
           },
           virtual: true,
+          id: '$$menu$$',
           dn: '$$menu$$',
           entries: state.portal.menuLinks,
         };
@@ -103,6 +116,7 @@ const portalData: PortalModule<PortalDataState> = {
             en_US: _('User Menu'),
           },
           virtual: true,
+          id: '$$user$$',
           dn: '$$user$$',
           entries: state.portal.userLinks,
         };
@@ -425,6 +439,7 @@ const portalData: PortalModule<PortalDataState> = {
     },
     async setEditMode({ dispatch, commit }: { commit: Commit, dispatch: Dispatch }, editMode: boolean): Promise<void> {
       commit('EDITMODE', editMode);
+      dispatch('dragndrop/dropped', null, { root: true });
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });
     },
     setPortalErrorDisplay({ commit }: { commit: Commit }, payload: number): void {
