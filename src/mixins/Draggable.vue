@@ -41,7 +41,7 @@ const draggableMixin = {
     },
   },
   methods: {
-    dragstart(e) {
+    dragstart() {
       if (!this.isDraggable) {
         return;
       }

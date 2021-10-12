@@ -62,7 +62,10 @@ const dragndrop: PortalModule<DraggedItem> = {
     },
   },
 
-  getters: { getId: (state) => state },
+  getters: {
+    getId: (state) => state,
+    inDragnDropMode: (state) => !!state.dn,
+  },
 
   actions: {
     startDragging({ commit, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {

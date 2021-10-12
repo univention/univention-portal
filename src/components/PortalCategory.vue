@@ -60,10 +60,10 @@
     >
       <template
         v-for="tile in tiles"
+        :key="tile.id"
       >
         <div
           v-if="tileMatchesQuery(tile)"
-          :key="tile.id"
         >
           <portal-folder
             v-if="tile.isFolder"
@@ -215,7 +215,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .portal-category
   margin-bottom: calc(8 * var(--layout-spacing-unit));
 

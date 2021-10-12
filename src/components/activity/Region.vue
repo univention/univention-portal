@@ -61,6 +61,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
+      inDragnDropMode: 'dragndrop/inDragnDropMode',
       activityLevel: 'activity/level',
       activityRegion: 'activity/region',
       focus: 'activity/focus',
@@ -103,6 +104,9 @@ export default defineComponent({
       }
     },
     goUp(ev: KeyboardEvent): void {
+      if (this.inDragnDropMode) {
+        return;
+      }
       if (this.direction === 'topdown') {
         if (!this.focusPrev(ev)) {
           this.focusLast(ev);
@@ -110,6 +114,9 @@ export default defineComponent({
       }
     },
     goDown(ev: KeyboardEvent): void {
+      if (this.inDragnDropMode) {
+        return;
+      }
       if (this.direction === 'topdown') {
         if (!this.focusNext(ev)) {
           this.focusFirst(ev);
@@ -117,6 +124,9 @@ export default defineComponent({
       }
     },
     goLeft(ev: KeyboardEvent): void {
+      if (this.inDragnDropMode) {
+        return;
+      }
       if (this.direction === 'leftright') {
         if (!this.focusPrev(ev)) {
           this.focusLast(ev);
@@ -124,6 +134,9 @@ export default defineComponent({
       }
     },
     goRight(ev: KeyboardEvent): void {
+      if (this.inDragnDropMode) {
+        return;
+      }
       if (this.direction === 'leftright') {
         if (!this.focusNext(ev)) {
           this.focusFirst(ev);
@@ -138,6 +151,7 @@ export default defineComponent({
         });
         elem.focus();
         ev?.stopPropagation();
+        ev?.preventDefault();
         return true;
       }
       return false;
