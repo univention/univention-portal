@@ -57,7 +57,8 @@
         :style="backgroundColor ? `background: ${backgroundColor}` : ''"
         :class="[
           'portal-tile__box',
-          { 'portal-tile__box--draggable': editMode
+          { 'portal-tile__box--draggable': editMode,
+            'portal-tile__box--dragging': isBeingDragged,
           }
         ]"
       >
@@ -73,14 +74,30 @@
         {{ $localized(title) }}
       </span>
 
-      <icon-button
-        v-if="!minified && editMode"
-        icon="edit-2"
-        :active-at="activeAtEdit"
-        class="portal-tile__edit-button icon-button--admin"
-        :aria-label-prop="EDIT_TILE"
-        @click="editTile"
-      />
+      <div class="portal-tile__icon-bar">
+        <icon-button
+          v-if="!minified && editMode && !isTouchDevice"
+          ref="mover"
+          icon="move"
+          :active-at="activeAtEdit"
+          class="portal-tile__edit-button icon-button--admin"
+          :aria-label-prop="MOVE_ENTRY"
+          @click="enterMoveMode"
+          @keydown.esc="cancelMoveMode"
+          @keydown.left.exact.prevent="moveLeft"
+          @keydown.right.exact.prevent="moveRight"
+          @keydown.up.exact.prevent="moveUp"
+          @keydown.down.exact.prevent="moveDown"
+        />
+        <icon-button
+          v-if="!minified && editMode"
+          icon="edit-2"
+          :active-at="activeAtEdit"
+          class="portal-tile__edit-button icon-button--admin"
+          :aria-label-prop="EDIT_ENTRY"
+          @click="editTile"
+        />
+      </div>
     </tabindex-element>
     <icon-button
       v-if="!minified && isTouchDevice && !editMode"
@@ -172,10 +189,19 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
+      inDragnDropMode: 'dragndrop/inDragnDropMode',
+      portalContent: 'portalData/portalContent',
       tooltip: 'tooltip/tooltip',
+      dragndropId: 'dragndrop/getId',
     }),
     wrapperTag(): string {
       return (this.minified || this.editMode) ? 'div' : 'a';
+    },
+    isBeingDragged(): boolean {
+      if (this.minified) {
+        return false;
+      }
+      return this.dragndropId.dn === this.dn;
     },
     isDisabled(): boolean {
       return (this.minified || this.editMode);
@@ -207,8 +233,11 @@ export default defineComponent({
       }
       return ['portal', 'header-search'];
     },
-    EDIT_TILE(): string {
-      return _('Edit tile');
+    MOVE_ENTRY(): string {
+      return _('Move entry');
+    },
+    EDIT_ENTRY(): string {
+      return _('Edit entry');
     },
     SHOW_TOOLTIP(): string {
       return _('Show tooltip');
@@ -220,6 +249,10 @@ export default defineComponent({
   mounted() {
     if (this.hasFocus) {
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
+    }
+    if (this.isBeingDragged) {
+      // @ts-ignore
+      (this.$refs.mover.$el as HTMLElement).focus();
     }
   },
   methods: {
@@ -236,6 +269,99 @@ export default defineComponent({
           ariaId: this.createID(),
         };
         this.$store.dispatch('tooltip/setTooltip', { tooltip });
+      }
+    },
+    moveLeft() {
+      if (!this.inDragnDropMode) {
+        return;
+      }
+      const otherId = this.dn;
+      const myCategory = this.superDn;
+      const myEntries = this.portalContent.find(([categoryDn]) => categoryDn === myCategory)[1];
+      const otherIdx = myEntries.indexOf(otherId);
+      if (otherIdx === 0) {
+        return;
+      }
+      const myIdx = otherIdx - 1;
+      const myId = myEntries[myIdx];
+      this.$store.dispatch('portalData/reshuffleContent', {
+        src: otherId,
+        dst: myId,
+        cat: myCategory,
+      });
+    },
+    moveRight() {
+      if (!this.inDragnDropMode) {
+        return;
+      }
+      const otherId = this.dn;
+      const myCategory = this.superDn;
+      const myEntries = this.portalContent.find(([categoryDn]) => categoryDn === myCategory)[1];
+      const otherIdx = myEntries.indexOf(otherId);
+      const myIdx = otherIdx + 1;
+      const myId = myEntries[myIdx];
+      this.$store.dispatch('portalData/reshuffleContent', {
+        src: otherId,
+        dst: myId,
+        cat: myCategory,
+      });
+    },
+    moveUp() {
+      if (!this.inDragnDropMode) {
+        return;
+      }
+      const otherId = this.dn;
+      const otherCategory = this.superDn;
+      const otherIdx = this.portalContent.findIndex(([categoryDn]) => categoryDn === otherCategory);
+      const myIdx = otherIdx - 1;
+      const my = this.portalContent[myIdx];
+      if (!my) {
+        return;
+      }
+      const myCategory = my[0];
+      const myId = my[1][0];
+      this.$store.dispatch('portalData/moveContent', {
+        src: otherId,
+        origin: otherCategory,
+        dst: myId,
+        cat: myCategory,
+      });
+    },
+    moveDown() {
+      if (!this.inDragnDropMode) {
+        return;
+      }
+      const otherId = this.dn;
+      const otherCategory = this.superDn;
+      const otherIdx = this.portalContent.findIndex(([categoryDn]) => categoryDn === otherCategory);
+      const myIdx = otherIdx + 1;
+      const my = this.portalContent[myIdx];
+      if (!my) {
+        return;
+      }
+      const myCategory = my[0];
+      const myId = my[1][0];
+      this.$store.dispatch('portalData/moveContent', {
+        src: otherId,
+        origin: otherCategory,
+        dst: myId,
+        cat: myCategory,
+      });
+    },
+    cancelMoveMode() {
+      this.$store.dispatch('dragndrop/revert');
+      this.$store.dispatch('dragndrop/dropped');
+    },
+    async enterMoveMode(evt) {
+      if (this.isBeingDragged) {
+        this.$store.dispatch('dragndrop/dropped');
+        this.$store.dispatch('activateLoadingState');
+        await this.$store.dispatch('portalData/saveContent');
+        this.$store.dispatch('deactivateLoadingState');
+      } else {
+        console.log('start');
+        // @ts-ignore
+        this.dragstart();
       }
     },
     editTile() {
@@ -282,9 +408,6 @@ export default defineComponent({
   color: var(--font-color-contrast-high)
   text-decoration: none
 
-  &:-moz-drag-over
-    border: 2px solid red
-
   &__root-element
     display:flex
     justify-content: center
@@ -308,6 +431,8 @@ export default defineComponent({
     &--dragged-line
       border: 3px solid pink
 
+    &--dragging
+      transform: rotate(-10deg)
     &--draggable
       position: relative
 
@@ -329,8 +454,8 @@ export default defineComponent({
     word-wrap: break-word
     hyphens: auto
 
-  &__edit-button,
-  &__info-button
+  &__info-button,
+  &__icon-bar
     position: absolute
     top: -0.75em
     right: -0.75em

@@ -116,7 +116,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus">
 .portal-tooltip
   position: fixed
   bottom: calc(2 * var(--layout-spacing-unit))
