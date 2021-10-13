@@ -27,10 +27,21 @@
   <https://www.gnu.org/licenses/>.
 -->
 <script>
+import { mapGetters } from 'vuex';
+
 const draggableMixin = {
   computed: {
+    ...mapGetters({
+      dragndropId: 'dragndrop/getId',
+    }),
     isDraggable() {
       return this.editMode && !this.minified && !this.inModal && !this.virtual;
+    },
+    isBeingDragged() {
+      if (!this.isDraggable) {
+        return false;
+      }
+      return this.dragndropId.dn === this.dn;
     },
     canDragEnter() {
       if (this.forFolder !== undefined) {
