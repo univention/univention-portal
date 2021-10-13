@@ -193,16 +193,9 @@ export default defineComponent({
       inDragnDropMode: 'dragndrop/inDragnDropMode',
       portalContent: 'portalData/portalContent',
       tooltip: 'tooltip/tooltip',
-      dragndropId: 'dragndrop/getId',
     }),
     wrapperTag(): string {
       return (this.minified || this.editMode) ? 'div' : 'a';
-    },
-    isBeingDragged(): boolean {
-      if (this.minified) {
-        return false;
-      }
-      return this.dragndropId.dn === this.dn;
     },
     isDisabled(): boolean {
       return (this.minified || this.editMode);
@@ -370,7 +363,7 @@ export default defineComponent({
       this.$store.dispatch('dragndrop/revert');
       this.$store.dispatch('dragndrop/dropped');
     },
-    async enterMoveMode(evt) {
+    async enterMoveMode() {
       if (this.isBeingDragged) {
         this.$store.dispatch('dragndrop/dropped');
         this.$store.dispatch('activateLoadingState');

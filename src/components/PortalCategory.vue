@@ -28,7 +28,7 @@
 -->
 <template>
   <div
-    :class="{'portal-category--empty': (!editMode && !hasTiles) }"
+    :class="{'portal-category--empty': (!editMode && !hasTiles), 'portal-category--dragging': isBeingDragged }"
     class="portal-category"
     @drop="dropped"
     @dragover.prevent
@@ -39,6 +39,16 @@
       class="portal-category__title"
       :class="{'portal-category__title-virtual': virtual }"
     >
+      <icon-button
+        v-if="editMode && !virtual && !isTouchDevice"
+        icon="move"
+        class="portal-category__edit-button icon-button--admin"
+        :aria-label-prop="MOVE_CATEGORY"
+        @click="enterMoveMode"
+        @keydown.esc="cancelMoveMode"
+        @keydown.up.exact.prevent="moveUp"
+        @keydown.down.exact.prevent="moveDown"
+      />
       <icon-button
         v-if="editMode && !virtual"
         icon="edit-2"
@@ -160,9 +170,17 @@ export default defineComponent({
       editMode: 'portalData/editMode',
       searchQuery: 'search/searchQuery',
       dragDropIds: 'dragndrop/getId',
+      inDragnDropMode: 'dragndrop/inDragnDropMode',
+      portalContent: 'portalData/portalContent',
     }),
+    isTouchDevice(): boolean {
+      return 'ontouchstart' in document.documentElement;
+    },
     hasTiles(): boolean {
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
+    },
+    MOVE_CATEGORY(): string {
+      return _('Move category');
     },
     EDIT_CATEGORY(): string {
       return _('Edit category');
@@ -186,6 +204,56 @@ export default defineComponent({
         await this.$store.dispatch('portalData/savePortalCategories');
         this.$store.dispatch('deactivateLoadingState');
       }
+    },
+    cancelMoveMode() {
+      this.$store.dispatch('dragndrop/revert');
+      this.$store.dispatch('dragndrop/dropped');
+    },
+    async enterMoveMode() {
+      if (this.isBeingDragged) {
+        this.$store.dispatch('dragndrop/dropped');
+        this.$store.dispatch('activateLoadingState');
+        await this.$store.dispatch('portalData/savePortalCategories');
+        this.$store.dispatch('deactivateLoadingState');
+      } else {
+        // @ts-ignore
+        this.dragstart();
+      }
+    },
+    moveUp(evt) {
+      if (!this.isBeingDragged) {
+        return;
+      }
+      const otherId = this.dn;
+      const otherIdx = this.portalContent.findIndex(([categoryDn]) => categoryDn === otherId);
+      const myIdx = otherIdx - 1;
+      const myId = this.portalContent[myIdx]?.[0];
+      if (!myId || myId === '$$menu$$' || myId === '$$user$$') {
+        return;
+      }
+      this.$store.dispatch('portalData/reshuffleContent', {
+        src: otherId,
+        dst: myId,
+      });
+      this.$nextTick(() => {
+        evt.target.focus();
+      });
+    },
+    moveDown() {
+      if (!this.isBeingDragged) {
+        return;
+      }
+      const otherId = this.dn;
+      const otherIdx = this.portalContent.findIndex(([categoryDn]) => categoryDn === otherId);
+      const myIdx = otherIdx + 1;
+      const myId = this.portalContent[myIdx]?.[0];
+      if (!myId) {
+        return;
+      }
+      this.$store.dispatch('portalData/reshuffleContent', {
+        src: otherId,
+        dst: myId,
+      });
     },
     editCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
@@ -219,18 +287,19 @@ export default defineComponent({
 .portal-category
   margin-bottom: calc(8 * var(--layout-spacing-unit));
 
-  &--empty {
-    margin-bottom: 0;
-  }
+  &--empty
+    margin-bottom: 0
+
+  &--dragging
+    transform: rotate(-1deg)
 
   &__tiles
     display: grid
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
 
-    &--editmode {
+    &--editmode
       display: block
-    }
 
   &__edit-button
     padding 0
