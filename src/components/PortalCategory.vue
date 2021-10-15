@@ -46,8 +46,8 @@
         :aria-label-prop="MOVE_CATEGORY"
         @click="enterMoveMode"
         @keydown.esc="cancelMoveMode"
-        @keydown.up.exact.prevent="moveUp"
-        @keydown.down.exact.prevent="moveDown"
+        @keydown.up.prevent="moveUp"
+        @keydown.down.prevent="moveDown"
       />
       <icon-button
         v-if="editMode && !virtual"
@@ -238,8 +238,15 @@ export default defineComponent({
       this.$nextTick(() => {
         evt.target.focus();
       });
+      this.$store.dispatch('activity/addMessage', {
+        id: 'dnd',
+        msg: _('Categories "%(cat1)s" and "%(cat2)s" changed places', {
+          cat1: this.$localized(this.title),
+          cat2: this.$localized(this.title),
+        }),
+      });
     },
-    moveDown() {
+    moveDown(evt) {
       if (!this.isBeingDragged) {
         return;
       }
@@ -253,6 +260,16 @@ export default defineComponent({
       this.$store.dispatch('portalData/reshuffleContent', {
         src: otherId,
         dst: myId,
+      });
+      this.$nextTick(() => {
+        evt.target.focus();
+      });
+      this.$store.dispatch('activity/addMessage', {
+        id: 'dnd',
+        msg: _('Categories "%(cat1)s" and "%(cat2)s" changed places', {
+          cat1: this.$localized(this.title),
+          cat2: this.$localized(this.title),
+        }),
       });
     },
     editCategory() {

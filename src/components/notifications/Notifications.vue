@@ -66,20 +66,6 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       {{ NO_NOTIFICATIONS }}
     </span>
-    <screen-reader-announcer
-      class="sr-only sr-only-mobile"
-    >
-      <span
-        v-if="allNotificationsRemovedAtOnce"
-      >
-        {{ NOTIFICATIONS_REMOVED }}
-      </span>
-      <span
-        v-if="closedNotification"
-      >
-        {{ NOTIFICATION_REMOVED }}
-      </span>
-    </screen-reader-announcer>
   </region>
 </template>
 
@@ -91,12 +77,6 @@ import _ from '@/jsHelper/translate';
 import Region from '@/components/activity/Region.vue';
 import Notification from '@/components/notifications/Notification.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
-
-interface NotificationsData {
-  closedNotification: boolean,
-  allNotificationsRemovedAtOnce: boolean,
-}
 
 export default defineComponent({
   name: 'Notifications',
@@ -104,19 +84,12 @@ export default defineComponent({
     Notification,
     Region,
     PortalIcon,
-    ScreenReaderAnnouncer,
   },
   props: {
     isInNotificationBar: {
       type: Boolean,
       required: true,
     },
-  },
-  data(): NotificationsData {
-    return {
-      closedNotification: false,
-      allNotificationsRemovedAtOnce: false,
-    };
   },
   computed: {
     ...mapGetters({
@@ -154,10 +127,10 @@ export default defineComponent({
   methods: {
     closeAll(): void {
       this.$store.dispatch('notifications/removeAllNotifications');
-      this.allNotificationsRemovedAtOnce = true;
-      setTimeout(() => {
-        this.allNotificationsRemovedAtOnce = false;
-      }, 100);
+      this.$store.dispatch('activity/addMessage', {
+        id: 'notifications',
+        msg: _('Notifications removed'),
+      });
     },
     closeNotifications(): void {
       if (this.activeButton === 'bell') {
@@ -165,10 +138,10 @@ export default defineComponent({
       }
     },
     alertRemovedNotification() {
-      this.closedNotification = true;
-      setTimeout(() => {
-        this.closedNotification = false;
-      }, 100);
+      this.$store.dispatch('activity/addMessage', {
+        id: 'notifications',
+        msg: _('Notification removed'),
+      });
     },
   },
 });

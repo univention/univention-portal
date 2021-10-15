@@ -441,6 +441,17 @@ const portalData: PortalModule<PortalDataState> = {
       commit('EDITMODE', editMode);
       dispatch('dragndrop/dropped', null, { root: true });
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });
+      if (editMode) {
+        dispatch('activity/addMessage', {
+          id: 'editmode',
+          msg: _('Entered edit mode'),
+        }, { root: true });
+      } else {
+        dispatch('activity/addMessage', {
+          id: 'editmode',
+          msg: _('Left edit mode'),
+        }, { root: true });
+      }
     },
     setPortalErrorDisplay({ commit }: { commit: Commit }, payload: number): void {
       commit('PORTAL_DISPLAY_ERROR', payload);

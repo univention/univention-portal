@@ -80,16 +80,6 @@
       </footer>
     </fieldset>
   </div>
-  <screen-reader-announcer
-    class="sr-only sr-only-mobile"
-  >
-    <p v-if="removedSelection">
-      {{ REMOVED_SELECTION }}
-    </p>
-    <p v-if="addedToSelection">
-      {{ ADDED_TO_SELECTION }}
-    </p>
-  </screen-reader-announcer>
 </template>
 
 <script lang="ts">
@@ -97,19 +87,15 @@ import { defineComponent, PropType } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 
 interface MultiSelectSelection {
   selection: string[],
-  removedSelection: boolean,
-  addedToSelection: boolean,
 }
 
 export default defineComponent({
   name: 'MultiSelect',
   components: {
     PortalIcon,
-    ScreenReaderAnnouncer,
   },
   props: {
     label: {
@@ -129,8 +115,6 @@ export default defineComponent({
   data(): MultiSelectSelection {
     return {
       selection: [],
-      removedSelection: false,
-      addedToSelection: false,
     };
   },
   computed: {
@@ -145,12 +129,6 @@ export default defineComponent({
     },
     REMOVE_SELECTION(): string {
       return _('Remove selection');
-    },
-    REMOVED_SELECTION(): string {
-      return _('Removed selection');
-    },
-    ADDED_TO_SELECTION(): string {
-      return _('Added to selection');
     },
     elementsSelected(): boolean {
       return this.selection.length > 0;
@@ -182,19 +160,19 @@ export default defineComponent({
         const newValues = this.modelValue.concat(values.selection);
         newValues.sort();
         this.$emit('update:modelValue', newValues);
-        this.addedToSelection = true;
-        setTimeout(() => {
-          this.addedToSelection = false;
-        }, 100);
+        this.$store.dispatch('activity/addMessage', {
+          id: 'multiselect',
+          msg: _('Added to selection'),
+        });
       });
     },
     remove() {
       const values = this.modelValue.filter((value) => !this.selection.includes(value));
       this.$emit('update:modelValue', values);
-      this.removedSelection = true;
-      setTimeout(() => {
-        this.removedSelection = false;
-      }, 100);
+      this.$store.dispatch('activity/addMessage', {
+        id: 'multiselect',
+        msg: _('Removed selection'),
+      });
     },
   },
 });

@@ -98,12 +98,12 @@ const actions = {
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
-    Promise.all(portalPromises).then(([metaResponse, languageResponse, portalResponse]) => {
+    Promise.all(portalPromises).then(async ([metaResponse, languageResponse, portalResponse]) => {
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
       if (languageResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
       } else {
-        dispatch('locale/setAvailableLocale', availableLocales);
+        await dispatch('locale/setAvailableLocale', availableLocales);
       }
       if (metaResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${portalMetaPath}`, metaResponse);
