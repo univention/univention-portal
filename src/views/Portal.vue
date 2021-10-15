@@ -28,6 +28,7 @@
 -->
 <template>
   <div class="portal">
+    <screen-reader-announcer />
     <portal-background />
     <portal-header />
     <portal-error v-if="errorContentType" />
@@ -38,30 +39,6 @@
       role="main"
       class="portal-categories"
     >
-      <screen-reader-announcer>
-        <h2 v-if="hasEmptySearchResults">
-          {{ EMPTY_SEARCH_RESULTS }}
-        </h2>
-        <span
-          v-if="announceUserInEditMode"
-          class="sr-only sr-only-mobile"
-        >
-          {{ PORTAL_IS_IN_EDITMODE }}
-        </span>
-        <span
-          v-if="announceUserIsLoggedIn"
-          class="sr-only sr-only-mobile"
-        >
-          {{ USER_IS_LOGGED_IN }}
-        </span>
-        <span
-          v-if="announceUserIsLoggedOut"
-          class="sr-only sr-only-mobile"
-        >
-          {{ USER_IS_LOGGED_OUT }}
-        </span>
-      </screen-reader-announcer>
-
       <portal-category
         v-for="category in categories"
         :key="category.id"
@@ -169,7 +146,6 @@ export default defineComponent({
       activeTabIndex: 'tabs/activeTabIndex',
       editMode: 'portalData/editMode',
       tooltip: 'tooltip/tooltip',
-      hasEmptySearchResults: 'search/hasEmptySearchResults',
       metaData: 'metaData/getMeta',
       getModalState: 'modal/getModalState',
       userState: 'user/userState',
@@ -180,32 +156,8 @@ export default defineComponent({
     ADD_CATEGORY(): string {
       return _('Add category');
     },
-    EMPTY_SEARCH_RESULTS(): string {
-      return _('No search results');
-    },
-    PORTAL_IS_IN_EDITMODE(): string {
-      return _('Portal is in edit mode');
-    },
-    USER_IS_LOGGED_IN(): string {
-      return _('Successfully logged in');
-    },
-    USER_IS_LOGGED_OUT(): string {
-      return _('Successfully logged out');
-    },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
-    },
-    editmode(): boolean {
-      return this.editMode;
-    },
-    announceUserInEditMode(): boolean {
-      return this.editMode;
-    },
-    announceUserIsLoggedIn(): boolean {
-      return this.userState.username !== null;
-    },
-    announceUserIsLoggedOut(): boolean {
-      return this.userState.username === null;
     },
   },
   methods: {

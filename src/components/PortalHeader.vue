@@ -120,14 +120,6 @@ License with the Debian GNU/Linux or Univention distribution in file
   <choose-tabs
     v-if="activeButton === 'copy'"
   />
-  <screen-reader-announcer>
-    <span
-      v-if="announceLeftEditMode"
-      class="sr-only sr-only-mobile"
-    >
-      {{ LEFT_EDITMODE }}
-    </span>
-  </screen-reader-announcer>
 </template>
 
 <script lang="ts">
@@ -143,11 +135,9 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
-import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 
 interface PortalHeaderData {
   tabsOverflow: boolean;
-  announceLeftEditMode: boolean;
 }
 
 export default defineComponent({
@@ -161,12 +151,10 @@ export default defineComponent({
     Region,
     TabindexElement,
     PortalTitle,
-    ScreenReaderAnnouncer,
   },
   data(): PortalHeaderData {
     return {
       tabsOverflow: false,
-      announceLeftEditMode: false,
     };
   },
   computed: {
@@ -207,9 +195,6 @@ export default defineComponent({
     },
     MENU(): string {
       return _('Menu');
-    },
-    LEFT_EDITMODE(): string {
-      return _('Left edit mode');
     },
   },
   watch: {
@@ -255,10 +240,6 @@ export default defineComponent({
     stopEditMode(): void {
       this.$store.dispatch('portalData/setEditMode', false);
       this.$store.dispatch('navigation/setActiveButton', '');
-      this.announceLeftEditMode = true;
-      setTimeout(() => {
-        this.announceLeftEditMode = false;
-      }, 1000);
     },
   },
 });

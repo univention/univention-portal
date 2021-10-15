@@ -27,6 +27,7 @@
  * <https://www.gnu.org/licenses/>.
  */
 import { ActionContext } from 'vuex';
+import _ from '@/jsHelper/translate';
 import { PortalModule, RootState } from '../../root.models';
 import { User, UserWrapper } from './user.models';
 
@@ -56,8 +57,20 @@ const user: PortalModule<UserState> = {
   getters: { userState: (state) => state.user },
 
   actions: {
-    setUser({ commit }: UserActionContext, payload: UserWrapper): void {
+    setUser({ commit, dispatch }: UserActionContext, payload: UserWrapper): void {
       commit('SETUSER', payload);
+      const username = payload.user.username;
+      if (username) {
+        dispatch('activity/addMessage', {
+          id: 'login',
+          msg: _('Logged in as "%(username)s"', { username }),
+        }, { root: true });
+      } else {
+        dispatch('activity/addMessage', {
+          id: 'login',
+          msg: _('Not logged in'),
+        }, { root: true });
+      }
     },
   },
 };
