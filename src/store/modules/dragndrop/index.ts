@@ -33,14 +33,18 @@ import { PortalBaseLayout } from '@/store/modules/portalData/portalData.models';
 export interface DraggedItem {
   layoutId: string,
   draggedType: string,
+  dragType: 'mouse' | 'keyboard',
   originalLayout: null | PortalBaseLayout,
+  lastDir: 'left' | 'right' | 'up' | 'down',
 }
-
+export type DragType = 'mouse' | 'keyboard';
 export interface DraggedItemDragCopy {
   layoutId: string,
   draggedType: undefined | string,
+  dragType: 'mouse' | 'keyboard',
   saveOriginalLayout: undefined | boolean,
   originalLayout: undefined | null | PortalBaseLayout,
+  lastDir: 'left' | 'right' | 'up' | 'down',
 }
 
 type DragAndDropActionContext = ActionContext<DraggedItem, RootState>;
@@ -50,7 +54,9 @@ const dragndrop: PortalModule<DraggedItem> = {
   state: {
     layoutId: '',
     draggedType: '',
+    dragType: 'mouse',
     originalLayout: null,
+    lastDir: 'left',
   },
 
   mutations: {
@@ -62,16 +68,22 @@ const dragndrop: PortalModule<DraggedItem> = {
       if (payload.originalLayout !== undefined) {
         state.originalLayout = payload.originalLayout;
       }
+      state.dragType = payload.dragType || 'mouse';
+    },
+    LAST_DIR(state, payload): void {
+      state.lastDir = payload;
     },
   },
 
   getters: {
     getId: (state) => state,
     inDragnDropMode: (state) => !!state.layoutId,
+    inKeyboardDragnDropMode: (state, getters) => getters.inDragnDropMode && state.dragType === 'keyboard',
+    getLastDir: (state) => state.lastDir,
   },
 
   actions: {
-    startDragging({ commit, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
+    startDragging({ commit, dispatch, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
       let layout;
       if (payload.saveOriginalLayout) {
         layout = JSON.parse(JSON.stringify(rootGetters['portalData/portalLayout']));
@@ -80,7 +92,12 @@ const dragndrop: PortalModule<DraggedItem> = {
         layoutId: payload.layoutId,
         draggedType: payload.draggedType,
         originalLayout: layout,
+        dragType: payload.dragType,
       });
+      dispatch('activity/saveFocus', {
+        region: 'portalCategories',
+        id: `${payload.layoutId}-move-button`,
+      }, { root: true });
     },
     dropped({ commit }: DragAndDropActionContext): void {
       commit('SET_IDS', {
@@ -95,6 +112,10 @@ const dragndrop: PortalModule<DraggedItem> = {
         dispatch('portalData/setLayout', layout, { root: true });
       }
       dispatch('dropped');
+      dispatch('activity/focusElement', 'portalCategories', { root: true });
+    },
+    lastDir({ commit }: DragAndDropActionContext, payload): void {
+      commit('LAST_DIR', payload);
     },
   },
 };
