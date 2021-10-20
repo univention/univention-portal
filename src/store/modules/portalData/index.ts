@@ -265,7 +265,7 @@ const portalData: PortalModule<PortalDataState> = {
               id: `folder-${randomId()}`,
               dn: entryDn,
               tiles: state.portal.baseLayout.folders[entryDn].map((folderDn) => ({
-                id: randomId(),
+                id: `entry-${randomId()}`,
                 dn: folderDn,
               })),
             };
