@@ -284,7 +284,7 @@ export default defineComponent({
       });
     },
     toolTipTouchHandler() {
-      if (this.tooltip) {
+      if (this.tooltip && this.tooltip.description === this.$localized(this.description)) {
         this.hideTooltip();
       } else {
         this.showTooltip();
