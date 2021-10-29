@@ -135,6 +135,7 @@ export default defineComponent({
     closeNotifications(): void {
       if (this.activeButton === 'bell') {
         this.$store.dispatch('navigation/setActiveButton', '');
+        this.$store.dispatch('activity/setRegion', 'portal-header');
       }
     },
     alertRemovedNotification() {
@@ -143,6 +144,9 @@ export default defineComponent({
         msg: _('Notification removed'),
       });
     },
+  },
+  mounted(): void {
+    this.$store.dispatch('activity/setRegion', 'notifications-all');
   },
 });
 

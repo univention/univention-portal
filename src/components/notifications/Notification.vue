@@ -180,6 +180,7 @@ export default defineComponent({
     removeNotification() {
       this.$emit('alertRemovedNotification');
       this.$store.dispatch('notifications/removeNotification', this.token);
+      this.$store.dispatch('activity/setRegion', 'notifications-all');
     },
     hideNotification() {
       this.$store.dispatch('notifications/hideNotification', this.token);
