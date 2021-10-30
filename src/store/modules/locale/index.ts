@@ -101,7 +101,18 @@ const locale: PortalModule<LocaleState> = {
       return dispatch('setLocale', 'en_US');
     },
     setAvailableLocale({ dispatch, commit }: LocaleActionContext, payload: LocaleDefinition[]): Promise<Dispatch> {
-      const locales = payload.map((loc) => loc.id.replace('-', '_'));
+      const locales = payload
+        .map((loc) => loc.id.replace('-', '_'))
+        // sort locales alphabetically but put en_US at the front
+        .sort((a, b) => {
+          if (a === 'en_US') {
+            return -1;
+          }
+          if (b === 'en_US') {
+            return 1;
+          }
+          return a < b ? -1 : 1;
+        });
       commit('AVAILABLE_LOCALES', locales);
       const defaultLocale = payload.find((loc) => loc.default);
       if (defaultLocale) {
