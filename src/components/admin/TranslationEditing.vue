@@ -45,6 +45,7 @@
           <required-field-label />
         </template>
         <input
+          :ref="'ref_input_' + locale"
           v-model="translationObject[locale]"
           :placeholder="hasValue(locale)"
           class="translation-editing__text-input"
@@ -134,6 +135,10 @@ export default defineComponent({
       }
     });
     this.id = 'translation-editing';
+
+    setTimeout(() => {
+      (this.$refs.ref_input_en_US as HTMLElement).focus();
+    }, 100);
   },
   methods: {
     cancel(): void {
