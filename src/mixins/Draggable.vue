@@ -27,10 +27,44 @@
   <https://www.gnu.org/licenses/>.
 -->
 <script>
+import { mapGetters } from 'vuex';
+import { DragType } from '@/store/modules/dragndrop';
+
 const draggableMixin = {
   computed: {
+    ...mapGetters({
+      inDragnDropMode: 'dragndrop/inDragnDropMode',
+      inKeyboardDragnDropMode: 'dragndrop/inKeyboardDragnDropMode',
+      dragndropId: 'dragndrop/getId',
+      editMode: 'portalData/editMode',
+    }),
     isDraggable() {
-      return this.editMode && !this.minified && !this.inModal && !this.virtual;
+      if (!this.editMode) {
+        return false;
+      }
+      switch (this.$options.name) {
+        case 'PortalTile':
+          return !this.minified;
+        case 'PortalFolder':
+          return !this.inModal;
+        case 'PortalCategory':
+          return !this.virtual;
+        case 'TileAdd':
+        default:
+          return false;
+      }
+    },
+    isBeingDragged() {
+      if (!this.isDraggable) {
+        return false;
+      }
+      return this.dragndropId.layoutId === this.layoutId;
+    },
+    showMoveButtonWhileDragging() {
+      return this.inKeyboardDragnDropMode ? this.isBeingDragged : true;
+    },
+    showEditButtonWhileDragging() {
+      return !this.inKeyboardDragnDropMode;
     },
     canDragEnter() {
       if (this.forFolder !== undefined) {
@@ -41,59 +75,105 @@ const draggableMixin = {
     },
   },
   methods: {
-    dragstart(e) {
-      if (!this.isDraggable) {
+    draggedType() {
+      let draggedType = 'tile';
+      if (this.$options.name === 'PortalCategory') {
+        draggedType = 'category';
+      }
+      return draggedType;
+    },
+    dragKeyboardClick() {
+      if (this.isBeingDragged) {
+        this.$store.dispatch('portalData/saveLayout');
+      } else {
+        this.dragstart(null, 'keyboard');
+        window.addEventListener('mousedown', (evt) => {
+          if (this.inDragnDropMode) {
+            this.$store.dispatch('dragndrop/cancelDragging');
+          }
+        }, { once: true, capture: true });
+      }
+    },
+    dragKeyboardDirection(evt, direction) {
+      if (!this.inDragnDropMode) {
         return;
       }
-      this.$store.dispatch('dragndrop/startDragging', {
-        dn: this.dn,
-        superDn: this.superDn,
-        original: true,
+      evt.preventDefault();
+
+      this.$store.dispatch('dragndrop/lastDir', direction);
+      this.$store.dispatch('portalData/changeLayoutDirection', {
+        fromId: this.layoutId,
+        direction,
+      });
+      this.$nextTick(() => {
+        this.handleDragFocus(evt.target, direction);
       });
     },
-    dragenter(e) {
-      if (!this.canDragEnter) {
-        e.preventDefault();
-        return;
-      }
-      const data = this.$store.getters['dragndrop/getId'];
-      const myCategory = this.superDn;
-      const otherCategory = data.superDn;
-      const myId = this.dn;
-      const otherId = data.dn;
-      if (myCategory !== otherCategory) {
-        if (!myCategory || !otherCategory) {
-          // dragging category over tile or vice versa
-          return;
+    handleDragFocus(elem, direction) {
+      if (this.isBeingDragged) {
+        const rect = elem.getBoundingClientRect();
+        const offset = 200;
+        if (rect.top !== 0) {
+          if (direction === 'down' || direction === 'right') {
+            if (rect.top + offset > window.innerHeight) {
+              window.scrollBy(0, rect.top - window.innerHeight + offset);
+            }
+          }
+          if (direction === 'up' || direction === 'left') {
+            if (rect.top - offset < 0) {
+              window.scrollBy(0, rect.top - offset);
+            }
+          }
         }
-        this.$store.dispatch('portalData/moveContent', {
-          src: otherId,
-          origin: otherCategory,
-          dst: myId,
-          cat: myCategory,
-        });
-        this.$store.dispatch('dragndrop/startDragging', {
-          dn: otherId,
-          superDn: myCategory,
-          original: false,
-        });
+        // @ts-ignore
+        elem.focus();
+      }
+    },
+    handleTabWhileMoving() {
+      if (this.isBeingDragged) {
+        this.$store.dispatch('portalData/saveLayout');
+      }
+    },
+    dragstart(evt, dragType) {
+      if (!this.isDraggable) {
         return;
       }
-      if (myId === otherId) {
-        return;
-      }
-      this.$store.dispatch('portalData/reshuffleContent', {
-        src: otherId,
-        dst: myId,
-        cat: myCategory,
+
+      this.$store.dispatch('dragndrop/startDragging', {
+        layoutId: this.layoutId,
+        draggedType: this.draggedType(),
+        dragType,
+        saveOriginalLayout: true,
       });
     },
-    dragend(e) {
-      if (!this.isDraggable) {
-        e.preventDefault();
+    dragenter(evt) {
+      if (!this.canDragEnter) {
+        evt.preventDefault();
         return;
       }
-      this.$store.dispatch('dragndrop/revert');
+
+      const data = this.$store.getters['dragndrop/getId'];
+      if (data.draggedType !== this.draggedType()) {
+        return;
+      }
+
+      const toIsAddTile = this.$options.name === 'TileAdd';
+      const toId = toIsAddTile ? this.superLayoutId : this.layoutId;
+      const position = toIsAddTile ? -1 : null;
+      this.$store.dispatch('portalData/changeLayout', {
+        fromId: data.layoutId,
+        toId,
+        position,
+      });
+    },
+    dragend(evt) {
+      // if dragend is called via esc key we want to stop
+      // the event (if we are in drag mode)
+      if (this.inDragnDropMode) {
+        evt?.preventDefault();
+        evt?.stopImmediatePropagation();
+      }
+      this.$store.dispatch('dragndrop/cancelDragging');
     },
   },
 };

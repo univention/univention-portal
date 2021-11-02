@@ -38,7 +38,9 @@
       :aria-label="ariaLabelPortalTile"
       :draggable="editMode && !minified"
       :disabled="isDisabled"
-      :class="{'portal-tile--minified': minified}"
+      :class="{
+        'portal-tile--minified': minified,
+      }"
       class="portal-tile"
       data-test="tileLink"
       @mouseenter="showTooltip()"
@@ -57,7 +59,8 @@
         :style="backgroundColor ? `background: ${backgroundColor}` : ''"
         :class="[
           'portal-tile__box',
-          { 'portal-tile__box--draggable': editMode
+          { 'portal-tile__box--draggable': editMode,
+            'portal-tile__box--dragging': isBeingDragged,
           }
         ]"
       >
@@ -73,14 +76,32 @@
         {{ $localized(title) }}
       </span>
 
-      <icon-button
-        v-if="!minified && editMode"
-        icon="edit-2"
-        :active-at="activeAtEdit"
-        class="portal-tile__edit-button icon-button--admin"
-        :aria-label-prop="EDIT_TILE"
-        @click="editTile"
-      />
+      <div class="portal-tile__icon-bar">
+        <icon-button
+          v-if="!minified && editMode && showEditButtonWhileDragging"
+          icon="edit-2"
+          :active-at="activeAtEdit"
+          class="icon-button--admin"
+          :aria-label-prop="EDIT_ENTRY"
+          @click="editTile"
+        />
+        <icon-button
+          v-if="!minified && editMode && !isTouchDevice && showMoveButtonWhileDragging"
+          :id="`${layoutId}-move-button`"
+          ref="mover"
+          icon="move"
+          :active-at="activeAtEdit"
+          class="icon-button--admin"
+          :aria-label-prop="MOVE_ENTRY"
+          @click="dragKeyboardClick"
+          @keydown.esc="dragend"
+          @keydown.left="dragKeyboardDirection($event, 'left')"
+          @keydown.right="dragKeyboardDirection($event, 'right')"
+          @keydown.up="dragKeyboardDirection($event, 'up')"
+          @keydown.down="dragKeyboardDirection($event, 'down')"
+          @keydown.tab="handleTabWhileMoving"
+        />
+      </div>
     </tabindex-element>
     <icon-button
       v-if="!minified && isTouchDevice && !editMode"
@@ -123,6 +144,10 @@ export default defineComponent({
     id: {
       type: String,
       default: '',
+    },
+    layoutId: {
+      type: String,
+      required: true,
     },
     dn: {
       type: String,
@@ -173,6 +198,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       tooltip: 'tooltip/tooltip',
+      lastDir: 'dragndrop/getLastDir',
     }),
     wrapperTag(): string {
       return (this.minified || this.editMode) ? 'div' : 'a';
@@ -207,8 +233,11 @@ export default defineComponent({
       }
       return ['portal', 'header-search'];
     },
-    EDIT_TILE(): string {
-      return _('Edit tile');
+    MOVE_ENTRY(): string {
+      return _('Move entry');
+    },
+    EDIT_ENTRY(): string {
+      return _('Edit entry');
     },
     SHOW_TOOLTIP(): string {
       return _('Show tooltip');
@@ -220,6 +249,10 @@ export default defineComponent({
   mounted() {
     if (this.hasFocus) {
       this.$el.children[0].focus(); // sets focus to first Element in opened Folder
+    }
+    if (this.$refs.mover) {
+      // @ts-ignore
+      this.handleDragFocus(this.$refs.mover.$el, this.lastDir);
     }
   },
   methods: {
@@ -251,7 +284,7 @@ export default defineComponent({
       });
     },
     toolTipTouchHandler() {
-      if (this.tooltip) {
+      if (this.tooltip && this.tooltip.description === this.$localized(this.description)) {
         this.hideTooltip();
       } else {
         this.showTooltip();
@@ -282,9 +315,6 @@ export default defineComponent({
   color: var(--font-color-contrast-high)
   text-decoration: none
 
-  &:-moz-drag-over
-    border: 2px solid red
-
   &__root-element
     display:flex
     justify-content: center
@@ -308,6 +338,8 @@ export default defineComponent({
     &--dragged-line
       border: 3px solid pink
 
+    &--dragging
+      transform: rotate(-10deg)
     &--draggable
       position: relative
 
@@ -329,8 +361,8 @@ export default defineComponent({
     word-wrap: break-word
     hyphens: auto
 
-  &__edit-button,
-  &__info-button
+  &__info-button,
+  &__icon-bar
     position: absolute
     top: -0.75em
     right: -0.75em

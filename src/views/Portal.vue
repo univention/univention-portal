@@ -28,49 +28,26 @@
 -->
 <template>
   <div class="portal">
+    <screen-reader-announcer />
     <portal-background />
     <portal-header />
     <portal-error v-if="errorContentType" />
     <region
+      v-if="!errorContentType"
       v-show="!activeTabIndex"
       id="portalCategories"
       role="main"
       class="portal-categories"
     >
-      <screen-reader-announcer>
-        <h2 v-if="hasEmptySearchResults">
-          {{ EMPTY_SEARCH_RESULTS }}
-        </h2>
-        <span
-          v-if="announceUserInEditMode"
-          class="sr-only sr-only-mobile"
-        >
-          {{ PORTAL_IS_IN_EDITMODE }}
-        </span>
-        <span
-          v-if="announceUserIsLoggedIn"
-          class="sr-only sr-only-mobile"
-        >
-          {{ USER_IS_LOGGED_IN }}
-        </span>
-        <span
-          v-if="announceUserIsLoggedOut"
-          class="sr-only sr-only-mobile"
-        >
-          {{ USER_IS_LOGGED_OUT }}
-        </span>
-      </screen-reader-announcer>
-
-      <template v-if="categories">
-        <portal-category
-          v-for="category in categories"
-          :key="category.id"
-          :title="category.title"
-          :dn="category.dn"
-          :virtual="category.virtual"
-          :tiles="category.tiles"
-        />
-      </template>
+      <portal-category
+        v-for="category in portalFinalLayout"
+        :key="category.id"
+        :layout-id="category.layoutId"
+        :title="category.title"
+        :dn="category.dn"
+        :virtual="category.virtual"
+        :tiles="category.tiles"
+      />
 
       <h2
         v-if="editMode"
@@ -95,7 +72,7 @@
         v-for="(item, index) in tabs"
         :key="index"
         :link="item.iframeLink"
-        :is-active="activeTabIndex == index + 1"
+        :is-active="activeTabIndex === index + 1"
         :tab-id="index"
         :title="item.tabLabel"
       />
@@ -160,62 +137,21 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      portalContent: 'portalData/portalContent',
-      portalEntries: 'portalData/portalEntries',
-      portalFolders: 'portalData/portalFolders',
+      portalFinalLayout: 'portalData/portalFinalLayout',
       errorContentType: 'portalData/errorContentType',
-      portalCategories: 'portalData/portalCategories',
-      portalDefaultLinkTarget: 'portalData/portalDefaultLinkTarget',
       tabs: 'tabs/allTabs',
       activeTabIndex: 'tabs/activeTabIndex',
       editMode: 'portalData/editMode',
       tooltip: 'tooltip/tooltip',
-      hasEmptySearchResults: 'search/hasEmptySearchResults',
       metaData: 'metaData/getMeta',
       getModalState: 'modal/getModalState',
       userState: 'user/userState',
     }),
-    categories(): Category[] {
-      return createCategories(this.portalContent, this.portalCategories, this.portalEntries, this.portalFolders, this.portalDefaultLinkTarget, this.editMode);
-    },
     ADD_CATEGORY(): string {
       return _('Add category');
     },
-    EMPTY_SEARCH_RESULTS(): string {
-      return _('No search results');
-    },
-    PORTAL_IS_IN_EDITMODE(): string {
-      return _('Portal is in editmode');
-    },
-    USER_IS_LOGGED_IN(): string {
-      return _('Successfully logged in');
-    },
-    USER_IS_LOGGED_OUT(): string {
-      return _('Successfully logged out');
-    },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
-    },
-    editmode(): boolean {
-      return this.editMode;
-    },
-    announceUserInEditMode(): boolean {
-      if (this.editMode) {
-        return true;
-      }
-      return false;
-    },
-    announceUserIsLoggedIn(): boolean {
-      if (this.userState.username) {
-        return true;
-      }
-      return false;
-    },
-    announceUserIsLoggedOut(): boolean {
-      if (this.userState.username === null) {
-        return true;
-      }
-      return false;
     },
   },
   methods: {
@@ -275,7 +211,7 @@ export default defineComponent({
 .portal-iframes
   position: fixed
   top: var(--portal-header-height)
-  border: 0px solid var(--portal-tab-background)
+  border: 0 solid var(--portal-tab-background)
   border-top-width: var(--layout-height-header-separator)
   right: 0
   bottom: 0
