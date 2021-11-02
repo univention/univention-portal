@@ -49,6 +49,9 @@ const navigation: PortalModule<NavigationState> = {
   actions: {
     setActiveButton({ commit, dispatch } : { commit: Commit, dispatch: Dispatch }, id: NavigationButton): void {
       dispatch('modal/hideAndClearModal', undefined, { root: true });
+      if (id === 'search') {
+        dispatch('tabs/setActiveTab', 0, { root: true });
+      }
       if (id === 'bell') {
         dispatch('notifications/hideAllNotifications', undefined, { root: true });
       }
@@ -58,6 +61,12 @@ const navigation: PortalModule<NavigationState> = {
         dispatch('activity/setLevel', 'portal', { root: true });
       }
       commit('ACTIVEBUTTON', id);
+    },
+    closeNotificationsSidebar({ dispatch, getters }: { dispatch: Dispatch, getters: any }): void {
+      if (getters.getActiveButton === 'bell') {
+        dispatch('setActiveButton', '');
+        dispatch('activity/setRegion', 'portal-header', { root: true });
+      }
     },
   },
 };

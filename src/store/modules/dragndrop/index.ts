@@ -28,18 +28,23 @@
  */
 import { PortalModule, RootState } from '@/store/root.models';
 import { ActionContext } from 'vuex';
+import { PortalBaseLayout } from '@/store/modules/portalData/portalData.models';
 
 export interface DraggedItem {
-  dn: string,
-  superDn: string,
-  originalContent: string[][],
+  layoutId: string,
+  draggedType: string,
+  dragType: 'mouse' | 'keyboard',
+  originalLayout: null | PortalBaseLayout,
+  lastDir: 'left' | 'right' | 'up' | 'down',
 }
-
+export type DragType = 'mouse' | 'keyboard';
 export interface DraggedItemDragCopy {
-  dn: string,
-  superDn: string,
-  original: boolean,
-  originalContent: string[][],
+  layoutId: string,
+  draggedType: undefined | string,
+  dragType: 'mouse' | 'keyboard',
+  saveOriginalLayout: undefined | boolean,
+  originalLayout: undefined | null | PortalBaseLayout,
+  lastDir: 'left' | 'right' | 'up' | 'down',
 }
 
 type DragAndDropActionContext = ActionContext<DraggedItem, RootState>;
@@ -47,47 +52,70 @@ type DragAndDropActionContext = ActionContext<DraggedItem, RootState>;
 const dragndrop: PortalModule<DraggedItem> = {
   namespaced: true,
   state: {
-    dn: '',
-    superDn: '',
-    originalContent: [],
+    layoutId: '',
+    draggedType: '',
+    dragType: 'mouse',
+    originalLayout: null,
+    lastDir: 'left',
   },
 
   mutations: {
-    SET_IDS(state: DraggedItem, payload: DraggedItemDragCopy): void {
-      state.dn = payload.dn;
-      state.superDn = payload.superDn;
-      if (payload.originalContent) {
-        state.originalContent = payload.originalContent;
+    SET_IDS(state: DraggedItem, payload: DraggedItem): void {
+      state.layoutId = payload.layoutId;
+      if (payload.draggedType !== undefined) {
+        state.draggedType = payload.draggedType;
       }
+      if (payload.originalLayout !== undefined) {
+        state.originalLayout = payload.originalLayout;
+      }
+      state.dragType = payload.dragType || 'mouse';
+    },
+    LAST_DIR(state, payload): void {
+      state.lastDir = payload;
     },
   },
 
-  getters: { getId: (state) => state },
+  getters: {
+    getId: (state) => state,
+    inDragnDropMode: (state) => !!state.layoutId,
+    inKeyboardDragnDropMode: (state, getters) => getters.inDragnDropMode && state.dragType === 'keyboard',
+    getLastDir: (state) => state.lastDir,
+  },
 
   actions: {
-    startDragging({ commit, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
-      let content = null;
-      if (payload.original) {
-        content = rootGetters['portalData/portalContent'];
+    startDragging({ commit, dispatch, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
+      let layout;
+      if (payload.saveOriginalLayout) {
+        layout = JSON.parse(JSON.stringify(rootGetters['portalData/portalLayout']));
       }
       commit('SET_IDS', {
-        dn: payload.dn,
-        superDn: payload.superDn,
-        originalContent: content,
+        layoutId: payload.layoutId,
+        draggedType: payload.draggedType,
+        originalLayout: layout,
+        dragType: payload.dragType,
       });
+      dispatch('activity/saveFocus', {
+        region: 'portalCategories',
+        id: `${payload.layoutId}-move-button`,
+      }, { root: true });
     },
     dropped({ commit }: DragAndDropActionContext): void {
       commit('SET_IDS', {
-        dn: '',
-        superDn: '',
-        originalContent: [],
+        layoutId: '',
+        draggedType: '',
+        originalLayout: null,
       });
     },
-    revert({ dispatch, getters }: DragAndDropActionContext): void {
-      const content = getters.getId.originalContent;
-      if (content.length) {
-        dispatch('portalData/replaceContent', content, { root: true });
+    cancelDragging({ dispatch, getters }: DragAndDropActionContext): void {
+      const layout = getters.getId.originalLayout;
+      if (layout) {
+        dispatch('portalData/setLayout', layout, { root: true });
       }
+      dispatch('dropped');
+      dispatch('activity/focusElement', 'portalCategories', { root: true });
+    },
+    lastDir({ commit }: DragAndDropActionContext, payload): void {
+      commit('LAST_DIR', payload);
     },
   },
 };

@@ -72,6 +72,9 @@ function changePasswordCallback(tileClick) {
 }
 
 export default function createUserMenu(portalData) {
+  if (!portalData) {
+    return [];
+  }
   const menuTitle = {
     de_DE: 'Benutzereinstellungen',
     en_US: 'User settings',

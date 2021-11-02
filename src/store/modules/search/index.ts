@@ -27,47 +27,33 @@
  * <https://www.gnu.org/licenses/>.
  */
 import { Commit } from 'vuex';
+import _ from '@/jsHelper/translate';
 import { PortalModule } from '@/store/root.models';
 import { SearchQuery } from './search.models';
 
 export interface SearchState {
   searchQuery: string,
-  emptySearchResults: boolean,
 }
 
 const search: PortalModule<SearchState> = {
   namespaced: true,
   state: {
     searchQuery: '',
-    emptySearchResults: false,
   },
 
   mutations: {
     SET_SEARCH_QUERY(state: SearchState, payload: SearchQuery): void {
       state.searchQuery = payload;
     },
-    SET_SEARCH_RESULTS_EMPTY(state: SearchState): void {
-      state.emptySearchResults = true;
-    },
-    SET_SEARCH_RESULTS_NOT_EMPTY(state: SearchState): void {
-      state.emptySearchResults = false;
-    },
   },
 
   getters: {
     searchQuery: (state) => state.searchQuery,
-    hasEmptySearchResults: (state) => !!state.searchQuery && state.emptySearchResults,
   },
 
   actions: {
     setSearchQuery({ commit }: { commit: Commit }, payload: SearchQuery): void {
       commit('SET_SEARCH_QUERY', payload);
-    },
-    setSearchResultsEmpty({ commit }: { commit: Commit }): void {
-      commit('SET_SEARCH_RESULTS_EMPTY');
-    },
-    setSearchResultsNotEmpty({ commit }: { commit: Commit }): void {
-      commit('SET_SEARCH_RESULTS_NOT_EMPTY');
     },
   },
 };

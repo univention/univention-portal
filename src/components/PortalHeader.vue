@@ -72,7 +72,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         :aria-label-prop="NOTIFICATIONS"
         icon="bell"
         :counter="numNotifications"
-        @keydown.esc="closeNotifications"
+        @keydown.esc="closeNotificationsSidebar"
+        @keydown.right="closeNotificationsSidebar"
+        @keydown.left="closeNotificationsSidebar"
       />
       <header-button
         data-test="settingsbutton"
@@ -104,7 +106,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         :aria-label-prop="NOTIFICATIONS"
         icon="bell"
         :counter="numNotifications"
-        @keydown.esc="closeNotifications"
+        @keydown.esc="closeNotificationsSidebar"
+        @keydown.right="closeNotificationsSidebar"
+        @keydown.left="closeNotificationsSidebar"
       />
       <header-button
         :aria-label-prop="MENU"
@@ -120,14 +124,6 @@ License with the Debian GNU/Linux or Univention distribution in file
   <choose-tabs
     v-if="activeButton === 'copy'"
   />
-  <screen-reader-announcer>
-    <span
-      v-if="announceLeftEditMode"
-      class="sr-only sr-only-mobile"
-    >
-      {{ LEFT_EDITMODE }}
-    </span>
-  </screen-reader-announcer>
 </template>
 
 <script lang="ts">
@@ -143,11 +139,9 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
-import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 
 interface PortalHeaderData {
   tabsOverflow: boolean;
-  announceLeftEditMode: boolean;
 }
 
 export default defineComponent({
@@ -161,12 +155,10 @@ export default defineComponent({
     Region,
     TabindexElement,
     PortalTitle,
-    ScreenReaderAnnouncer,
   },
   data(): PortalHeaderData {
     return {
       tabsOverflow: false,
-      announceLeftEditMode: false,
     };
   },
   computed: {
@@ -208,9 +200,6 @@ export default defineComponent({
     MENU(): string {
       return _('Menu');
     },
-    LEFT_EDITMODE(): string {
-      return _('Left editmode');
-    },
   },
   watch: {
     numTabs(): void {
@@ -235,10 +224,8 @@ export default defineComponent({
       }
       this.tabsOverflow = tabs.scrollWidth > tabs.clientWidth;
     },
-    closeNotifications(): void {
-      if (this.activeButton === 'bell') {
-        this.$store.dispatch('navigation/setActiveButton', '');
-      }
+    closeNotificationsSidebar(): void {
+      this.$store.dispatch('navigation/closeNotificationsSidebar');
     },
     chooseTab(): void {
       this.$store.dispatch('modal/setAndShowModal', {
@@ -255,10 +242,6 @@ export default defineComponent({
     stopEditMode(): void {
       this.$store.dispatch('portalData/setEditMode', false);
       this.$store.dispatch('navigation/setActiveButton', '');
-      this.announceLeftEditMode = true;
-      setTimeout(() => {
-        this.announceLeftEditMode = false;
-      }, 1000);
     },
   },
 });

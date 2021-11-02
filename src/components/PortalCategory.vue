@@ -28,7 +28,7 @@
 -->
 <template>
   <div
-    :class="{'portal-category--empty': (!editMode && !hasTiles) }"
+    :class="{'portal-category--empty': (!editMode && !hasTiles), 'portal-category--dragging': isBeingDragged }"
     class="portal-category"
     @drop="dropped"
     @dragover.prevent
@@ -40,11 +40,23 @@
       :class="{'portal-category__title-virtual': virtual }"
     >
       <icon-button
-        v-if="editMode && !virtual"
+        v-if="editMode && !virtual && showEditButtonWhileDragging"
         icon="edit-2"
         class="portal-category__edit-button icon-button--admin"
         :aria-label-prop="EDIT_CATEGORY"
         @click="editCategory"
+      />
+      <icon-button
+        v-if="editMode && !virtual && !isTouchDevice && showMoveButtonWhileDragging"
+        :id="`${layoutId}-move-button`"
+        icon="move"
+        class="portal-category__edit-button icon-button--admin"
+        :aria-label-prop="MOVE_CATEGORY"
+        @click="dragKeyboardClick"
+        @keydown.esc="dragend"
+        @keydown.up="dragKeyboardDirection($event, 'up')"
+        @keydown.down="dragKeyboardDirection($event, 'down')"
+        @keydown.tab="handleTabWhileMoving"
       />
       <span
         :draggable="editMode && !virtual"
@@ -59,41 +71,40 @@
       class="portal-category__tiles"
     >
       <template
-        v-for="tile in tiles"
+        v-for="tile in filteredTiles"
+        :key="tile.id"
       >
-        <div
-          v-if="tileMatchesQuery(tile)"
-          :key="tile.id"
-        >
-          <portal-folder
-            v-if="tile.isFolder"
-            :id="tile.id"
-            :dn="tile.dn"
-            :super-dn="dn"
-            :title="tile.title"
-            :tiles="tile.tiles"
-          />
-          <portal-tile
-            v-else
-            :id="tile.id"
-            :dn="tile.dn"
-            :super-dn="dn"
-            :title="tile.title"
-            :description="tile.description"
-            :activated="tile.activated"
-            :anonymous="tile.anonymous"
-            :background-color="tile.backgroundColor"
-            :links="tile.links"
-            :allowed-groups="tile.allowedGroups"
-            :link-target="tile.linkTarget"
-            :original-link-target="tile.originalLinkTarget"
-            :path-to-logo="tile.pathToLogo"
-          />
-        </div>
+        <portal-folder
+          v-if="tile.isFolder"
+          :id="tile.id"
+          :layout-id="tile.layoutId"
+          :dn="tile.dn"
+          :super-dn="dn"
+          :title="tile.title"
+          :tiles="tile.tiles"
+        />
+        <portal-tile
+          v-else
+          :id="tile.id"
+          :layout-id="tile.layoutId"
+          :dn="tile.dn"
+          :super-dn="dn"
+          :title="tile.title"
+          :description="tile.description"
+          :activated="tile.activated"
+          :anonymous="tile.anonymous"
+          :background-color="tile.backgroundColor"
+          :links="tile.links"
+          :allowed-groups="tile.allowedGroups"
+          :link-target="tile.linkTarget"
+          :original-link-target="tile.originalLinkTarget"
+          :path-to-logo="tile.pathToLogo"
+        />
       </template>
       <tile-add
         v-if="editMode"
         :super-dn="dn"
+        :super-layout-id="layoutId"
       />
     </div>
   </div>
@@ -133,6 +144,10 @@ export default defineComponent({
     Draggable,
   ],
   props: {
+    layoutId: {
+      type: String,
+      required: true,
+    },
     dn: {
       type: String,
       required: true,
@@ -157,15 +172,22 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      editMode: 'portalData/editMode',
       searchQuery: 'search/searchQuery',
-      dragDropIds: 'dragndrop/getId',
     }),
+    isTouchDevice(): boolean {
+      return 'ontouchstart' in document.documentElement;
+    },
     hasTiles(): boolean {
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
     },
+    MOVE_CATEGORY(): string {
+      return _('Move category');
+    },
     EDIT_CATEGORY(): string {
       return _('Edit category');
+    },
+    filteredTiles(): Tile[] {
+      return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
     },
   },
   methods: {
@@ -174,19 +196,19 @@ export default defineComponent({
       if (evt.dataTransfer === null) {
         return;
       }
-      const data = this.dragDropIds;
-      if (this.dn === data.superDn) {
-        this.$store.dispatch('dragndrop/dropped');
-        this.$store.dispatch('activateLoadingState');
-        await this.$store.dispatch('portalData/saveContent');
-        this.$store.dispatch('deactivateLoadingState');
-      } else if (!data.superDn) {
-        this.$store.dispatch('dragndrop/dropped');
-        this.$store.dispatch('activateLoadingState');
-        await this.$store.dispatch('portalData/savePortalCategories');
-        this.$store.dispatch('deactivateLoadingState');
-      }
+      await this.$store.dispatch('portalData/saveLayout');
     },
+    /*
+    moveDirection(evt, direction) {
+      this.$store.dispatch('activity/addMessage', {
+        id: 'dnd',
+        msg: _('Categories "%(cat1)s" and "%(cat2)s" changed places', {
+          cat1: this.$localized(this.title),
+          cat2: this.$localized(this.title),
+        }),
+      });
+    },
+    */
     editCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminCategory',
@@ -215,22 +237,27 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .portal-category
   margin-bottom: calc(8 * var(--layout-spacing-unit));
 
-  &--empty {
-    margin-bottom: 0;
-  }
+  &--empty
+    margin-bottom: 0
+
+  &--dragging
+    .portal-tile__box,
+    .tile-add__button
+      transform: rotate(-10deg)
+    .portal-tile--minified .portal-tile__box
+      transform: none
 
   &__tiles
     display: grid
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
 
-    &--editmode {
+    &--editmode
       display: block
-    }
 
   &__edit-button
     padding 0

@@ -28,6 +28,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <region
+    ref="region"
     :id="`notifications-${!isInNotificationBar ? 'visible' : 'all'}`"
     :aria-live="ariaLiveStatus"
     direction="topdown"
@@ -36,7 +37,7 @@ License with the Debian GNU/Linux or Univention distribution in file
                'notifications--in-bar' : isInNotificationBar,
                'notifications--floating' : !isInNotificationBar,
              }]"
-    @keydown.esc="closeNotifications"
+    @keydown.esc="closeNotificationsSidebar"
   >
     <div
       v-if="isInNotificationBar && notifications.length > 1"
@@ -44,7 +45,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       <button
         type="button"
-        @click.prevent="closeAll"
+        @click.prevent="removeAllNotifications"
       >
         <portal-icon
           icon="trash"
@@ -58,7 +59,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-for="notification in notifications"
       :key="notification.token"
       v-bind="notification"
-      @alertRemovedNotification="alertRemovedNotification"
+      @notificationRemoved="onNotificationRemoved"
     />
     <span
       v-if="isInNotificationBar && notifications.length === 0"
@@ -66,20 +67,6 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       {{ NO_NOTIFICATIONS }}
     </span>
-    <screen-reader-announcer
-      class="sr-only sr-only-mobile"
-    >
-      <span
-        v-if="allNotificationsRemovedAtOnce"
-      >
-        {{ NOTIFICATIONS_REMOVED }}
-      </span>
-      <span
-        v-if="closedNotification"
-      >
-        {{ NOTIFICATION_REMOVED }}
-      </span>
-    </screen-reader-announcer>
   </region>
 </template>
 
@@ -91,12 +78,6 @@ import _ from '@/jsHelper/translate';
 import Region from '@/components/activity/Region.vue';
 import Notification from '@/components/notifications/Notification.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
-
-interface NotificationsData {
-  closedNotification: boolean,
-  allNotificationsRemovedAtOnce: boolean,
-}
 
 export default defineComponent({
   name: 'Notifications',
@@ -104,7 +85,6 @@ export default defineComponent({
     Notification,
     Region,
     PortalIcon,
-    ScreenReaderAnnouncer,
   },
   props: {
     isInNotificationBar: {
@@ -112,16 +92,11 @@ export default defineComponent({
       required: true,
     },
   },
-  data(): NotificationsData {
-    return {
-      closedNotification: false,
-      allNotificationsRemovedAtOnce: false,
-    };
-  },
   computed: {
     ...mapGetters({
       allNotifications: 'notifications/allNotifications',
       visibleNotifications: 'notifications/visibleNotifications',
+      numNotifications: 'notifications/numNotifications',
       activeButton: 'navigation/getActiveButton',
     }),
     notifications() {
@@ -152,24 +127,32 @@ export default defineComponent({
     }
   },
   methods: {
-    closeAll(): void {
+    removeAllNotifications(): void {
       this.$store.dispatch('notifications/removeAllNotifications');
-      this.allNotificationsRemovedAtOnce = true;
-      setTimeout(() => {
-        this.allNotificationsRemovedAtOnce = false;
-      }, 100);
+      this.$store.dispatch('activity/addMessage', {
+        id: 'notifications',
+        msg: _('Notifications removed'),
+      });
+      this.closeNotificationsSidebar();
     },
-    closeNotifications(): void {
-      if (this.activeButton === 'bell') {
-        this.$store.dispatch('navigation/setActiveButton', '');
+    closeNotificationsSidebar(): void {
+      this.$store.dispatch('navigation/closeNotificationsSidebar');
+    },
+    onNotificationRemoved() {
+      this.$store.dispatch('activity/addMessage', {
+        id: 'notifications',
+        msg: _('Notification removed'),
+      });
+      if (this.numNotifications === 0) {
+        this.closeNotificationsSidebar();
+      } else {
+        // @ts-ignore
+        this.$refs.region.goUp();
       }
     },
-    alertRemovedNotification() {
-      this.closedNotification = true;
-      setTimeout(() => {
-        this.closedNotification = false;
-      }, 100);
-    },
+  },
+  mounted(): void {
+    this.$store.dispatch('activity/setRegion', 'notifications-all');
   },
 });
 

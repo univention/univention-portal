@@ -43,6 +43,7 @@ export interface Link {
 
 export interface Tile {
   id: string,
+  layoutId: string,
   dn: string,
   title: Title,
   isFolder: boolean,
@@ -70,6 +71,7 @@ export type TileOrFolder = BaseTile | FolderTile;
 
 export interface Category {
   id: string,
+  layoutId: string,
   title: Record<Locale, string>,
   dn: string,
   virtual: boolean,
@@ -81,12 +83,13 @@ export type LocalizedString = Record<string, string>;
 export type PortalContent = [string, string[]][];
 
 export interface PortalEntry {
+  id: string,
+  dn: string,
   activated: boolean,
   allowedGroups: string[],
   anonymous: boolean,
   backgroundColor: string | null,
   description: Description,
-  dn: string,
   linkTarget: LinkTargetOrDefault,
   links: Link[],
   logo_name: string | null,
@@ -94,12 +97,14 @@ export interface PortalEntry {
 }
 
 export interface PortalFolder {
+  id: string,
   dn: string,
   entries: string[],
   name: LocalizedString,
 }
 
 export interface PortalCategory {
+  id: string,
   dn: string,
   entries: string[],
   virtual: boolean,
@@ -116,7 +121,23 @@ export interface Portal {
     showUmc: boolean,
     ensureLogin: boolean,
     content: PortalContent,
-  }
+}
+
+export interface PortalBaseLayout {
+  layout: string[],
+  categories: {[index:string]: string[]},
+  folders: {[index:string]: string[]},
+}
+
+export interface PortalLayoutEntry {
+  id: string,
+  dn: string,
+  tiles?: PortalLayoutEntry[],
+}
+export interface PortalLayoutCategory extends PortalLayoutEntry {
+  tiles: PortalLayoutEntry[],
+}
+export type PortalLayout = PortalLayoutCategory[];
 
 export interface PortalData {
   entries: PortalEntry[],
@@ -125,6 +146,8 @@ export interface PortalData {
   userLinks: string[],
   menuLinks: string[],
   portal: Portal;
+  baseLayout: PortalBaseLayout,
+  layout: PortalLayout,
 }
 
 export interface PortalImageDataBlob {

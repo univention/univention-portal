@@ -23,10 +23,10 @@
     </div>
 
     <h1
-      v-if="$localized(portalName)"
-      class="portal-title__portal-name sr-only-mobile"
+        v-if="portalNameString"
+        class="portal-title__portal-name sr-only-mobile"
     >
-      {{ $localized(portalName) }}
+      {{ portalNameString }}
     </h1>
   </tabindex-element>
 </template>
@@ -53,6 +53,9 @@ export default defineComponent({
     }),
     SHOW_PORTAL(): string {
       return _('Show portal');
+    },
+    portalNameString(): string {
+      return this.$localized(this.portalName);
     },
   },
   methods: {

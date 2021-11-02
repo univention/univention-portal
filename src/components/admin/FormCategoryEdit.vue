@@ -149,7 +149,7 @@ export default defineComponent({
         categories: this.categories.filter((catDn) => catDn !== dn),
       };
       // console.info('Removing', dn, 'from', this.portalDn);
-      const success = await put(this.portalDn, portalAttrs, this.$store, _('Category could not be removed'), _('Category successfully removed'));
+      const success = await put(this.portalDn, portalAttrs, this.$store, _('Category could not be unlinked'), _('Category successfully unlinked'));
       this.$store.dispatch('deactivateLoadingState');
       if (success) {
         this.cancel();

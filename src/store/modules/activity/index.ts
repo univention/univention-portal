@@ -30,10 +30,16 @@ import { ActionContext } from 'vuex';
 
 import { PortalModule, RootState } from '../../root.models';
 
+interface Message {
+  id: string,
+  msg: string,
+}
+
 export interface Activity {
   level: string,
   focus: Record<string, string>,
   region: string | null,
+  messages: Record<string, Message>,
 }
 
 type ActivityActionContext = ActionContext<Activity, RootState>;
@@ -49,6 +55,7 @@ const activity: PortalModule<Activity> = {
     level: 'portal',
     focus: {},
     region: 'portal-header',
+    messages: {},
   },
 
   mutations: {
@@ -60,6 +67,12 @@ const activity: PortalModule<Activity> = {
     },
     SET_LEVEL(state: Activity, level: string): void {
       state.level = level;
+    },
+    ADD_MESSAGE(state: Activity, message: Message): void {
+      state.messages[message.id] = message;
+    },
+    REMOVE_MESSAGE(state: Activity, id: string): void {
+      delete state.messages[id];
     },
     SAVE_FOCUS(state: Activity, payload: SaveFocusArgs): void {
       let region = payload.region;
@@ -97,6 +110,7 @@ const activity: PortalModule<Activity> = {
     level: (state: Activity) => state.level,
     focus: (state: Activity) => state.focus,
     region: (state: Activity) => state.region,
+    announce: (state: Activity) => Object.values(state.messages),
   },
 
   actions: {
@@ -109,6 +123,12 @@ const activity: PortalModule<Activity> = {
     },
     setLevel({ commit }: ActivityActionContext, level: string): void {
       commit('SET_LEVEL', level);
+    },
+    addMessage({ commit }: ActivityActionContext, message: Message): void {
+      commit('ADD_MESSAGE', message);
+    },
+    removeMessage({ commit }: ActivityActionContext, id: string): void {
+      commit('REMOVE_MESSAGE', id);
     },
     async focusElement({ getters }: ActivityActionContext, region: string | null): Promise<void> {
       if (!region) {
