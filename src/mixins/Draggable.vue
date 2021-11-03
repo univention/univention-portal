@@ -87,11 +87,6 @@ const draggableMixin = {
         this.$store.dispatch('portalData/saveLayout');
       } else {
         this.dragstart(null, 'keyboard');
-        window.addEventListener('mousedown', (evt) => {
-          if (this.inDragnDropMode) {
-            this.$store.dispatch('dragndrop/cancelDragging');
-          }
-        }, { once: true, capture: true });
       }
     },
     dragKeyboardDirection(evt, direction) {
