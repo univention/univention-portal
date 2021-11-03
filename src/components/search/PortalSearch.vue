@@ -104,8 +104,8 @@ export default defineComponent({
       });
     },
     closeSearchInput(): void {
-      this.$store.dispatch('navigation/setActiveButton', '');
       this.$store.dispatch('activity/setRegion', 'portal-header');
+      this.$store.dispatch('navigation/setActiveButton', '');
     },
   },
 });
