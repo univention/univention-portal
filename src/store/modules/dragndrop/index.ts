@@ -28,13 +28,13 @@
  */
 import { PortalModule, RootState } from '@/store/root.models';
 import { ActionContext } from 'vuex';
-import { PortalBaseLayout } from '@/store/modules/portalData/portalData.models';
+import { PortalBaseLayout, PortalLayout } from '@/store/modules/portalData/portalData.models';
 
 export interface DraggedItem {
   layoutId: string,
   draggedType: string,
   dragType: 'mouse' | 'keyboard',
-  originalLayout: null | PortalBaseLayout,
+  originalLayout: null | {layout: PortalLayout, baseLayout: PortalBaseLayout},
   lastDir: 'left' | 'right' | 'up' | 'down',
 }
 export type DragType = 'mouse' | 'keyboard';
@@ -43,7 +43,7 @@ export interface DraggedItemDragCopy {
   draggedType: undefined | string,
   dragType: 'mouse' | 'keyboard',
   saveOriginalLayout: undefined | boolean,
-  originalLayout: undefined | null | PortalBaseLayout,
+  originalLayout: undefined | null | {layout: PortalLayout, baseLayout: PortalBaseLayout},
   lastDir: 'left' | 'right' | 'up' | 'down',
 }
 
@@ -86,7 +86,10 @@ const dragndrop: PortalModule<DraggedItem> = {
     startDragging({ commit, dispatch, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
       let layout;
       if (payload.saveOriginalLayout) {
-        layout = JSON.parse(JSON.stringify(rootGetters['portalData/portalLayout']));
+        layout = {
+          layout: JSON.parse(JSON.stringify(rootGetters['portalData/portalLayout'])),
+          baseLayout: JSON.parse(JSON.stringify(rootGetters['portalData/portalBaseLayout'])),
+        };
       }
       commit('SET_IDS', {
         layoutId: payload.layoutId,
