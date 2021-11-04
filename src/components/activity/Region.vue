@@ -177,6 +177,7 @@ export default defineComponent({
     },
     focusPrev(ev?: KeyboardEvent): boolean {
       const elem = this.findPrev();
+      console.log('test');
       return this.focusElem(elem, ev);
     },
     findPrev(): HTMLElement | null {
