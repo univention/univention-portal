@@ -28,14 +28,15 @@
  */
 import { PortalModule, RootState } from '@/store/root.models';
 import { ActionContext } from 'vuex';
-import { PortalBaseLayout } from '@/store/modules/portalData/portalData.models';
+import { PortalBaseLayout, PortalLayout } from '@/store/modules/portalData/portalData.models';
 
 export interface DraggedItem {
   layoutId: string,
   draggedType: string,
   dragType: 'mouse' | 'keyboard',
-  originalLayout: null | PortalBaseLayout,
+  originalLayout: null | {layout: PortalLayout, baseLayout: PortalBaseLayout},
   lastDir: 'left' | 'right' | 'up' | 'down',
+  isWindowMouseListenerSet: boolean,
 }
 export type DragType = 'mouse' | 'keyboard';
 export interface DraggedItemDragCopy {
@@ -43,7 +44,7 @@ export interface DraggedItemDragCopy {
   draggedType: undefined | string,
   dragType: 'mouse' | 'keyboard',
   saveOriginalLayout: undefined | boolean,
-  originalLayout: undefined | null | PortalBaseLayout,
+  originalLayout: undefined | null | {layout: PortalLayout, baseLayout: PortalBaseLayout},
   lastDir: 'left' | 'right' | 'up' | 'down',
 }
 
@@ -57,6 +58,7 @@ const dragndrop: PortalModule<DraggedItem> = {
     dragType: 'mouse',
     originalLayout: null,
     lastDir: 'left',
+    isWindowMouseListenerSet: false,
   },
 
   mutations: {
@@ -73,6 +75,9 @@ const dragndrop: PortalModule<DraggedItem> = {
     LAST_DIR(state, payload): void {
       state.lastDir = payload;
     },
+    IS_WINDOW_MOUSE_LISTENER_SET(state, payload): void {
+      state.isWindowMouseListenerSet = payload;
+    },
   },
 
   getters: {
@@ -80,13 +85,17 @@ const dragndrop: PortalModule<DraggedItem> = {
     inDragnDropMode: (state) => !!state.layoutId,
     inKeyboardDragnDropMode: (state, getters) => getters.inDragnDropMode && state.dragType === 'keyboard',
     getLastDir: (state) => state.lastDir,
+    isWindowMouseListenerSet: (state) => state.isWindowMouseListenerSet,
   },
 
   actions: {
-    startDragging({ commit, dispatch, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
+    startDragging({ commit, dispatch, getters, rootGetters }: DragAndDropActionContext, payload: DraggedItemDragCopy): void {
       let layout;
       if (payload.saveOriginalLayout) {
-        layout = JSON.parse(JSON.stringify(rootGetters['portalData/portalLayout']));
+        layout = {
+          layout: JSON.parse(JSON.stringify(rootGetters['portalData/portalLayout'])),
+          baseLayout: JSON.parse(JSON.stringify(rootGetters['portalData/portalBaseLayout'])),
+        };
       }
       commit('SET_IDS', {
         layoutId: payload.layoutId,
@@ -98,6 +107,13 @@ const dragndrop: PortalModule<DraggedItem> = {
         region: 'portalCategories',
         id: `${payload.layoutId}-move-button`,
       }, { root: true });
+      if (payload.dragType === 'keyboard' && !getters.isWindowMouseListenerSet) {
+        window.addEventListener('mousedown', (evt) => {
+          dispatch('maybeCancelDragging');
+          commit('IS_WINDOW_MOUSE_LISTENER_SET', false);
+        }, { once: true, capture: true });
+        commit('IS_WINDOW_MOUSE_LISTENER_SET', true);
+      }
     },
     dropped({ commit }: DragAndDropActionContext): void {
       commit('SET_IDS', {
@@ -113,6 +129,11 @@ const dragndrop: PortalModule<DraggedItem> = {
       }
       dispatch('dropped');
       dispatch('activity/focusElement', 'portalCategories', { root: true });
+    },
+    maybeCancelDragging({ dispatch, getters }: DragAndDropActionContext): void {
+      if (getters.inKeyboardDragnDropMode) {
+        dispatch('cancelDragging');
+      }
     },
     lastDir({ commit }: DragAndDropActionContext, payload): void {
       commit('LAST_DIR', payload);
