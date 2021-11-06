@@ -23,8 +23,8 @@
     </div>
 
     <h1
-        v-if="portalNameString"
-        class="portal-title__portal-name sr-only-mobile"
+      v-if="portalNameString"
+      class="portal-title__portal-name sr-only-mobile"
     >
       {{ portalNameString }}
     </h1>

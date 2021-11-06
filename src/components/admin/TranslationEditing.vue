@@ -134,6 +134,7 @@ export default defineComponent({
         this.translationObject[this.locales[index]] = this.inputValue[this.locales[index]];
       }
     });
+
     this.id = 'translation-editing';
 
     setTimeout(() => {
