@@ -28,8 +28,8 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <region
-    ref="region"
     :id="`notifications-${!isInNotificationBar ? 'visible' : 'all'}`"
+    ref="region"
     :aria-live="ariaLiveStatus"
     direction="topdown"
     :class="['notifications',
@@ -126,6 +126,9 @@ export default defineComponent({
       this.$store.dispatch('modal/disableBodyScrolling');
     }
   },
+  mounted(): void {
+    this.$store.dispatch('activity/setRegion', 'notifications-all');
+  },
   methods: {
     removeAllNotifications(): void {
       this.$store.dispatch('notifications/removeAllNotifications');
@@ -150,9 +153,6 @@ export default defineComponent({
         this.$refs.region.goUp();
       }
     },
-  },
-  mounted(): void {
-    this.$store.dispatch('activity/setRegion', 'notifications-all');
   },
 });
 
