@@ -75,6 +75,7 @@
         Links
       </label>
       <link-widget
+        v-if="isMultiLink"
         v-model="links"
         name="links"
         :tabindex="tabindex"
@@ -224,6 +225,7 @@ export default defineComponent({
       portalCategories: 'portalData/portalCategories',
       portalFolders: 'portalData/portalFolders',
       activityLevel: 'activity/level',
+      availableLocales: 'locale/getAvailableLocales',
     }),
     tabindex(): number {
       return activity(['modal'], this.activityLevel);
@@ -272,6 +274,27 @@ export default defineComponent({
     },
     ALLOWED_GROUPS(): string {
       return _('Can only be seen by these groups');
+    },
+    isMultiLink(): boolean {
+      let displayMultiLink = false;
+
+      this.availableLocales.forEach((locale) => {
+        const appearanceOfEachLocale = this.links.filter((link) => link.locale === locale);
+        if (appearanceOfEachLocale.length > 1) {
+          displayMultiLink = true;
+        }
+      });
+
+      const localeMap = this.links.map((link) => {
+        if (link.locale === 'en_US') {
+          return link.locale;
+        }
+        return null;
+      });
+      if (localeMap.length === 0) {
+        displayMultiLink = true;
+      }
+      return displayMultiLink;
     },
   },
   created(): void {
