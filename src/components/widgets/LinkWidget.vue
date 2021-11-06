@@ -28,6 +28,9 @@
 -->
 <template>
   <div>
+    <label>
+      {{ LINKS }}
+    </label>
     <div
       v-for="(link, index) in modelValueData"
       :key="index"
@@ -141,6 +144,9 @@ export default defineComponent({
     },
     ADD_LINK(): string {
       return _('Add link');
+    },
+    LINKS(): string {
+      return _('Links');
     },
   },
   created() {

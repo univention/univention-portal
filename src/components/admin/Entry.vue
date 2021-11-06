@@ -71,14 +71,19 @@
       {{ ACTIVATED }}
     </label>
     <div>
-      <label>
-        Links
-      </label>
       <link-widget
         v-if="isMultiLink"
         v-model="links"
         name="links"
         :tabindex="tabindex"
+      />
+      <locale-input
+        v-else
+        v-model="links"
+        name="links"
+        :i18n-label="LINKS"
+        :tabindex="tabindex"
+        :is-link="true"
       />
     </div>
     <label>
@@ -168,6 +173,16 @@ function getErrors(this: AdminEntryData) {
   if (!this.description.en_US) {
     errors.description = _('Please enter a description');
   }
+
+  // LINK PREP
+  const links: LocaleAndValue[] = [];
+  Object.keys(this.links).forEach((key) => {
+    links.push({
+      locale: key,
+      value: this.links[key],
+    });
+  });
+  this.links = links;
   if (!this.links.some((link) => link.locale === 'en_US' && !!link.value)) {
     errors.links = _('Please enter at least one English link');
   }
@@ -275,24 +290,29 @@ export default defineComponent({
     ALLOWED_GROUPS(): string {
       return _('Can only be seen by these groups');
     },
+    LINKS(): string {
+      return _('Links');
+    },
     isMultiLink(): boolean {
       let displayMultiLink = false;
-
       this.availableLocales.forEach((locale) => {
-        const appearanceOfEachLocale = this.links.filter((link) => link.locale === locale);
-        if (appearanceOfEachLocale.length > 1) {
+        if (Array.isArray(this.links)) {
+          const appearanceOfEachLocale = this.links.filter((link) => link.locale === locale);
+          if (appearanceOfEachLocale.length > 1) {
+            displayMultiLink = true;
+          }
+        }
+      });
+      if (Array.isArray(this.links)) {
+        const localeMap = this.links.map((link) => {
+          if (link.locale === 'en_US') {
+            return link.locale;
+          }
+          return null;
+        });
+        if (localeMap.length === 0) {
           displayMultiLink = true;
         }
-      });
-
-      const localeMap = this.links.map((link) => {
-        if (link.locale === 'en_US') {
-          return link.locale;
-        }
-        return null;
-      });
-      if (localeMap.length === 0) {
-        displayMultiLink = true;
       }
       return displayMultiLink;
     },

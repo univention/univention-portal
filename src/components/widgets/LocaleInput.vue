@@ -90,6 +90,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    isLink: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'update:modelValue',
@@ -110,7 +114,7 @@ export default defineComponent({
       getModalError: 'modal/getModalError',
       savedFocus: 'activity/focus',
     }),
-    I18N_LABEL():string {
+    I18N_LABEL(): string {
       return _('%(key1)s', { key1: this.i18nLabel });
     },
     TRANSLATE_TEXT_INPUT(): string {
@@ -122,15 +126,22 @@ export default defineComponent({
     translationEditingDialogLevel(): number {
       return this.isInModal ? 2 : 1;
     },
+    correctModelValue(): Record<string, unknown> {
+      return this.isLink ? this.modelValueData : this.modelValue;
+    },
   },
   created() {
-    const model = this.modelValue;
-    const newModel = {};
-    if ('locale' in model) {
-      newModel[model.locale] = model.value;
-      Object.assign(this.modelValueData, newModel);
+    if (!this.isLink) {
+      const model = this.modelValue;
+      const newModel = {};
+      if ('locale' in model) {
+        newModel[model.locale] = model.value;
+        Object.assign(this.modelValueData, newModel);
+      } else {
+        Object.assign(this.modelValueData, model);
+      }
     } else {
-      Object.assign(this.modelValueData, model);
+      this.adjustDataStructureForLinks();
     }
   },
   updated() {
@@ -143,7 +154,7 @@ export default defineComponent({
         name: 'TranslationEditing',
         stubborn: true,
         props: {
-          inputValue: this.modelValue,
+          inputValue: this.correctModelValue,
           title: this.i18nLabel,
           modalLevelProp: this.translationEditingDialogLevel,
         },
@@ -161,6 +172,15 @@ export default defineComponent({
       this.$store.dispatch('activity/saveFocus', {
         region: 'modal-wrapper--isVisible',
         id: `locale-input__icon--${this.I18N_LABEL}`,
+      });
+    },
+    adjustDataStructureForLinks() {
+      Object.values(this.modelValue).forEach((link) => {
+        if (typeof link === 'object') {
+          const locale = (link as Record<string, string>).locale;
+          const value = (link as Record<string, unknown>).value;
+          this.modelValueData[locale] = (value as string);
+        }
       });
     },
   },
