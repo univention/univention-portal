@@ -190,6 +190,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       lastDir: 'dragndrop/getLastDir',
+      searchQuery: 'search/searchQuery',
     }),
     hasTiles(): boolean {
       return this.tiles.length > 0;
@@ -221,6 +222,9 @@ export default defineComponent({
     },
     MOVE_FOLDER(): string {
       return _('Move folder');
+    },
+    filteredTiles(): Tile[] {
+      return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
     },
   },
   mounted() {
@@ -284,6 +288,14 @@ export default defineComponent({
       // MOBILE ZOOM DEFAULT: 100 - 150
       // BROWSER ZOOM WCAG2.1 AA: 200
       return !!browserZoomLevel && browserZoomLevel >= 200;
+    },
+    titleMatchesQuery(title: Title): boolean {
+      return this.$localized(title).toLowerCase()
+        .includes(this.searchQuery.toLowerCase());
+    },
+    tileMatchesQuery(tile: Tile): boolean {
+      const titleMatch = this.titleMatchesQuery(tile.title);
+      return titleMatch;
     },
   },
 });
