@@ -61,7 +61,7 @@
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
       >
         <div
-          v-for="(tile, index) in tiles"
+          v-for="(tile, index) in filteredTiles"
           :key="tile.id"
           :class="`portal-folder__thumbnail ${isMoreThanFiveOrTen(index)}`"
         >
@@ -224,6 +224,9 @@ export default defineComponent({
       return _('Move folder');
     },
     filteredTiles(): Tile[] {
+      if (this.tiles.filter((tile) => this.tileMatchesQuery(tile)).length === 0) {
+        return this.tiles;
+      }
       return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
     },
   },
