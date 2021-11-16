@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-11-06 23:43+0100\n"
+"POT-Creation-Date: 2021-11-16 19:00+0100\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -105,7 +105,7 @@ msgid "Can only be seen by these groups"
 msgstr "Kann nur von diesen Gruppen gesehen werden"
 
 #: src/tmp/ts/src/components/widgets/AddObjects.vue:46
-#: src/tmp/ts/src/components/admin/TranslationEditing.vue:49
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:55
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
 #: src/tmp/ts/src/components/admin/EditWidget.vue:44
 #: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
@@ -227,8 +227,8 @@ msgstr "Kategorie bearbeiten"
 msgid "Edit entry"
 msgstr "Eintrag bearbeiten"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:85
-#: src/tmp/ts/src/components/PortalFolder.vue:131
+#: src/tmp/ts/src/components/PortalFolder.vue:86
+#: src/tmp/ts/src/components/PortalFolder.vue:138
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
@@ -306,7 +306,7 @@ msgstr "Fehler"
 msgid "Error on validation"
 msgstr "Fehler bei der Validierung"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:79
+#: src/tmp/ts/src/components/PortalFolder.vue:80
 msgid "Folder"
 msgstr "Ordner"
 
@@ -372,12 +372,12 @@ msgstr ""
 "mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
 "beginnen und enden."
 
-#: src/tmp/ts/src/components/PortalFolder.vue:74
+#: src/tmp/ts/src/components/PortalFolder.vue:75
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:61
 msgid "Item"
 msgstr "Eintrag"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:76
+#: src/tmp/ts/src/components/PortalFolder.vue:77
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:63
 msgid "Items"
 msgstr "Einträge"
@@ -420,7 +420,7 @@ msgstr "Kategorie verschieben"
 msgid "Move entry"
 msgstr "Eintrag verschieben"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:88
+#: src/tmp/ts/src/components/PortalFolder.vue:89
 #, fuzzy
 msgid "Move folder"
 msgstr "Eintrag verschieben"
@@ -443,7 +443,7 @@ msgstr "Neues Passwort"
 msgid "New tab"
 msgstr "Neuer Tab"
 
-#: src/tmp/ts/src/components/PortalFolder.vue:72
+#: src/tmp/ts/src/components/PortalFolder.vue:73
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:59
 msgid "No items"
 msgstr "Keine Einträge"
@@ -457,7 +457,7 @@ msgid "Not logged in"
 msgstr "Nicht angemeldet"
 
 #: src/tmp/ts/src/components/notifications/Notifications.vue:45
-#: src/tmp/ts/src/components/notifications/Notifications.vue:71
+#: src/tmp/ts/src/components/notifications/Notifications.vue:74
 msgid "Notification removed"
 msgstr "Benachrichtigungen gelöscht"
 
@@ -466,7 +466,7 @@ msgid "Notifications"
 msgstr "Benachrichtigungen"
 
 #: src/tmp/ts/src/components/notifications/Notifications.vue:42
-#: src/tmp/ts/src/components/notifications/Notifications.vue:61
+#: src/tmp/ts/src/components/notifications/Notifications.vue:64
 msgid "Notifications removed"
 msgstr "Benachrichtigungen gelöscht"
 
@@ -502,6 +502,11 @@ msgstr "Bitte geben Sie einen Anzeigenamen ein"
 #: src/tmp/ts/src/components/admin/Folder.vue:20
 msgid "Please enter an internal name"
 msgstr "Bitte geben Sie einen internen Namen ein"
+
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:61
+#, fuzzy
+msgid "Please enter at least an english value."
+msgstr "Bitte geben Sie mindestens einen englischen Link ein"
 
 #: src/tmp/ts/src/components/admin/Entry.vue:54
 #: src/tmp/ts/src/components/admin/Entry.vue:57
@@ -553,7 +558,7 @@ msgstr "Auswahl entfernt"
 msgid "Same tab"
 msgstr "Gleicher Tab"
 
-#: src/tmp/ts/src/components/admin/TranslationEditing.vue:52
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:58
 #: src/tmp/ts/src/components/admin/EditWidget.vue:41
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:73
 msgid "Save"
@@ -625,7 +630,7 @@ msgstr ""
 "Das Portal ist momentan nicht verfügbar. Wenn das Problem weiterhin besteht,"
 " wenden Sie sich bitte an Ihren Systemadministrator."
 
-#: src/tmp/ts/src/components/admin/TranslationEditing.vue:46
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:52
 msgid "Translation: %(key1)s"
 msgstr "Übersetzung: %(key1)s"
 

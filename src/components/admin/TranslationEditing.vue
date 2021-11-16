@@ -43,6 +43,10 @@
           v-if="locale === 'en_US'"
         >
           <required-field-label />
+          <input-error-message
+            :display-condition="!englishValueSet && saveButtonClicked"
+            :error-message="VALUE_MISSING_ERROR_MESSAGE"
+          />
         </template>
         <input
           :ref="'ref_input_' + locale"
@@ -77,6 +81,8 @@ import _ from '@/jsHelper/translate';
 import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
+import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
+import { setInvalidity } from '@/jsHelper/tools';
 
 import { Locale } from '@/store/modules/locale/locale.models';
 
@@ -86,6 +92,7 @@ export default defineComponent({
     ModalDialog,
     ModalWrapper,
     RequiredFieldLabel,
+    InputErrorMessage,
   },
   props: {
     title: {
@@ -103,8 +110,11 @@ export default defineComponent({
   },
   data() {
     return {
-      translationObject: {},
+      translationObject: {
+        en_US: '',
+      },
       id: '',
+      saveButtonClicked: false,
     };
   },
   computed: {
@@ -123,9 +133,15 @@ export default defineComponent({
     SAVE(): string {
       return _('Save');
     },
+    VALUE_MISSING_ERROR_MESSAGE(): string {
+      return _('Please enter at least an english value.');
+    },
     modalLevel(): string {
       // Modal 2 Because it set the correct tabindizies for elements in modal Level 1
       return 'modal2';
+    },
+    englishValueSet(): boolean {
+      return !!this.translationObject.en_US;
     },
   },
   mounted() {
@@ -149,11 +165,18 @@ export default defineComponent({
       clickedButton?.focus();
     },
     closeDialog(): void {
-      const translations = this.translationObject;
-      this.$store.dispatch('modal/resolve', {
-        level: this.modalLevelProp,
-        translations,
-      });
+      this.saveButtonClicked = true;
+      setInvalidity(this, 'ref_input_en_US', !this.englishValueSet);
+      if (this.englishValueSet) {
+        const translations = this.translationObject;
+        this.$store.dispatch('modal/resolve', {
+          level: this.modalLevelProp,
+          translations,
+        });
+      } else {
+        console.log('this.$refs', this.$refs);
+        (this.$refs.ref_input_en_US as HTMLElement).focus();
+      }
     },
     hasValue(locale): string {
       return this.inputValue[locale] ? null : this.inputValue.en_US;
