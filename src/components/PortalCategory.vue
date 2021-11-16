@@ -228,10 +228,10 @@ export default defineComponent({
         .includes(this.searchQuery.toLowerCase());
     },
     tileMatchesQuery(tile: Tile): boolean {
+      // Todo Refactor tileMatch Logic into some kind of helper function, because it's used twice (in Portalfolder.vue)
       const titleMatch = this.titleMatchesQuery(tile.title);
-      const descriptionMatch = (tile as BaseTile).description ? this.descriptionMatchesQuery((tile as BaseTile).description as Description) : false;
       const folderMatch = tile.isFolder && (tile as FolderTile).tiles.some((t) => this.titleMatchesQuery(t.title));
-      return titleMatch || folderMatch || descriptionMatch;
+      return titleMatch || folderMatch;
     },
   },
 });

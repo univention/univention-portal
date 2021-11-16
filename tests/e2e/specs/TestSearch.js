@@ -63,18 +63,33 @@ describe('Test Seach Component', () => {
     // TODO: Assert that folder containing Blog is there
   });
 
-
-  it('Searches also for tile description', () => {
-    // make inputfield visible
+  it('displays all the tiles in folder, when folder name is search query', () => {
     clickOnSearchButton();
-
-    // make sure the first tile is not our expected search result
-    cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen').should("not.exist");
-    cy.get(searchInput).type('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
-    // ensure that the first result is not by coincidence the search result
-    cy.get('.portal-tile').should('have.length', 1);
-    cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen');
+    cy.contains('System- und Domäneneinstellungen');
+    cy.get(searchInput).type('Apps');
+    cy.get('.portal-folder').should('exist');
+    cy.contains('System- und Domäneneinstellungen').should('not.exist');
+    cy.get('.portal-folder__thumbnails').find('.portal-folder__thumbnail').should('have.length', 4);
   });
+
+  it('displays only certain tiles in folder', () => {
+    clickOnSearchButton();
+    cy.get(searchInput).type('Blog');
+    cy.get('.portal-folder').should('exist');
+    cy.get('.portal-folder__thumbnails').find('.portal-folder__thumbnail').should('have.length', 1);
+  });
+
+  // it('Searches also for tile description', () => {
+  //   make inputfield visible
+  //   clickOnSearchButton();
+
+  //   make sure the first tile is not our expected search result
+  //   cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen').should("not.exist");
+  //   cy.get(searchInput).type('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
+  //   ensure that the first result is not by coincidence the search result
+  //   cy.get('.portal-tile').should('have.length', 1);
+  //   cy.get('.portal-tile').first().contains('System- und Domäneneinstellungen');
+  // });
 
   it('Escape is working', () => {
     // make inputfield visible
