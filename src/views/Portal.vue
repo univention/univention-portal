@@ -114,9 +114,6 @@ import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vu
 import PortalError from '@/components/globals/PortalError.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 
-import { Category } from '@/store/modules/portalData/portalData.models';
-import createCategories from '@/jsHelper/createCategories';
-
 export default defineComponent({
   name: 'Portal',
   components: {

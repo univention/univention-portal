@@ -96,7 +96,7 @@ export default defineComponent({
     },
   },
   emits: [
-    'update:modelValue', 'localeInputUsed',
+    'update:modelValue',
   ],
   data() {
     return {
@@ -106,7 +106,6 @@ export default defineComponent({
       translations: {
         en_US: '',
       },
-      neededLocaleInput: false,
     };
   },
   computed: {
@@ -150,9 +149,6 @@ export default defineComponent({
   },
   methods: {
     openTranslationEditingDialog() {
-      if (this.isLink) {
-        this.$emit('localeInputUsed');
-      }
       this.$store.dispatch('modal/setShowModalPromise', {
         level: this.translationEditingDialogLevel,
         name: 'TranslationEditing',
