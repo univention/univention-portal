@@ -72,7 +72,7 @@
     </label>
     <div>
       <link-widget
-        v-if="isMultiLink"
+        v-if="isMultiLink && modelValue.dn"
         v-model="links"
         name="links"
         :tabindex="tabindex"
@@ -160,6 +160,20 @@ interface AdminEntryData extends ValidatableData {
   localeInputUsed: boolean,
 }
 
+function reModelLinks(links): LocaleAndValue[] {
+  if (links.en_US) {
+    const newLinks: LocaleAndValue[] = [];
+    Object.keys(links).forEach((key) => {
+      newLinks.push({
+        locale: key,
+        value: links[key],
+      });
+    });
+    return newLinks;
+  }
+  return links;
+}
+
 function getErrors(this: AdminEntryData) {
   const errors: Record<string, string> = {};
   if (!this.name) {
@@ -178,6 +192,7 @@ function getErrors(this: AdminEntryData) {
   }
 
   // LINK PREP
+  this.links = reModelLinks(this.links);
   const links: LocaleAndValue[] = [];
   if (!this.isMultiLink && this.localeInputUsed) {
     Object.keys(this.links).forEach((key) => {
