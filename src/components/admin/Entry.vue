@@ -84,6 +84,7 @@
         :i18n-label="LINKS"
         :tabindex="tabindex"
         :is-link="true"
+        @localeInputUsed="setLocaleInputUsedTrue"
       />
     </div>
     <label>
@@ -152,9 +153,11 @@ interface AdminEntryData extends ValidatableData {
   title: Record<string, string>,
   description: Record<string, string>,
   links: Array<LocaleAndValue>,
+  isMultiLink: boolean,
   allowedGroups: string[],
   linkTarget: 'useportaldefault' | 'samewindow' | 'newwindow' | 'embedded',
   anonymous: boolean,
+  localeInputUsed: boolean,
 }
 
 function getErrors(this: AdminEntryData) {
@@ -176,13 +179,15 @@ function getErrors(this: AdminEntryData) {
 
   // LINK PREP
   const links: LocaleAndValue[] = [];
-  Object.keys(this.links).forEach((key) => {
-    links.push({
-      locale: key,
-      value: this.links[key],
+  if (!this.isMultiLink && this.localeInputUsed) {
+    Object.keys(this.links).forEach((key) => {
+      links.push({
+        locale: key,
+        value: this.links[key],
+      });
     });
-  });
-  this.links = links;
+    this.links = links;
+  }
   if (!this.links.some((link) => link.locale === 'en_US' && !!link.value)) {
     errors.links = _('Please enter at least one English link');
   }
@@ -229,10 +234,12 @@ export default defineComponent({
       description: {},
       backgroundColor: null,
       links: [],
+      isMultiLink: false,
       allowedGroups: [],
       linkTarget: 'useportaldefault',
       anonymous: false,
       getErrors,
+      localeInputUsed: false,
     };
   },
   computed: {
@@ -293,29 +300,6 @@ export default defineComponent({
     LINKS(): string {
       return _('Links');
     },
-    isMultiLink(): boolean {
-      let displayMultiLink = false;
-      this.availableLocales.forEach((locale) => {
-        if (Array.isArray(this.links)) {
-          const appearanceOfEachLocale = this.links.filter((link) => link.locale === locale);
-          if (appearanceOfEachLocale.length > 1) {
-            displayMultiLink = true;
-          }
-        }
-      });
-      if (Array.isArray(this.links)) {
-        const localeMap = this.links.map((link) => {
-          if (link.locale === 'en_US') {
-            return link.locale;
-          }
-          return null;
-        });
-        if (localeMap.length === 0) {
-          displayMultiLink = true;
-        }
-      }
-      return displayMultiLink;
-    },
   },
   created(): void {
     // console.info('Edit entry', this.modelValue);
@@ -335,6 +319,7 @@ export default defineComponent({
     this.allowedGroups.push(...(this.modelValue.allowedGroups || []));
     this.linkTarget = this.modelValue.originalLinkTarget || 'useportaldefault';
     this.anonymous = this.modelValue.anonymous;
+    this.setIsMultiLink();
   },
   methods: {
     cancel() {
@@ -400,6 +385,25 @@ export default defineComponent({
       if (success) {
         this.cancel();
       }
+    },
+    setIsMultiLink(): void {
+      this.availableLocales.forEach((locale) => {
+        if (Array.isArray(this.links)) {
+          const appearanceOfEachLocale = this.links.filter((link) => link.locale === locale);
+          if (appearanceOfEachLocale.length > 1) {
+            this.isMultiLink = true;
+          }
+        }
+      });
+      if (Array.isArray(this.links)) {
+        const localeMap = this.links.filter((link) => link.locale === 'en_US');
+        if (localeMap.length === 0) {
+          this.isMultiLink = true;
+        }
+      }
+    },
+    setLocaleInputUsedTrue(): void {
+      this.localeInputUsed = true;
     },
   },
 });

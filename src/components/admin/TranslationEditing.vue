@@ -115,6 +115,7 @@ export default defineComponent({
       },
       id: '',
       saveButtonClicked: false,
+
     };
   },
   computed: {
@@ -174,7 +175,6 @@ export default defineComponent({
           translations,
         });
       } else {
-        console.log('this.$refs', this.$refs);
         (this.$refs.ref_input_en_US as HTMLElement).focus();
       }
     },
