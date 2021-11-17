@@ -141,7 +141,7 @@ import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 import TileAdd from '@/components/admin/TileAdd.vue';
-import { Title, Tile } from '@/store/modules/portalData/portalData.models';
+import { Title, Tile, Description, BaseTile } from '@/store/modules/portalData/portalData.models';
 import _ from '@/jsHelper/translate';
 import { mapGetters } from 'vuex';
 
@@ -296,9 +296,14 @@ export default defineComponent({
       return this.$localized(title).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
+    descriptionMatchesQuery(description: Description): boolean {
+      return this.$localized(description).toLowerCase()
+        .includes(this.searchQuery.toLowerCase());
+    },
     tileMatchesQuery(tile: Tile): boolean {
       const titleMatch = this.titleMatchesQuery(tile.title);
-      return titleMatch;
+      const descriptionMatch = this.descriptionMatchesQuery((tile as BaseTile).description);
+      return titleMatch || descriptionMatch;
     },
   },
 });
