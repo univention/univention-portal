@@ -54,7 +54,7 @@ const activity: PortalModule<Activity> = {
   state: {
     level: 'portal',
     focus: {},
-    region: 'portal-header',
+    region: '',
     messages: {},
   },
 
