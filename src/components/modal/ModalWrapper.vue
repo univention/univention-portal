@@ -103,6 +103,7 @@ export default defineComponent({
       position: fixed;
       width: 100%;
       height: 100%;
+      height: -webkit-fill-available; /* ios safari*/
       top: 0;
       right: 0;
       bottom: 0;
