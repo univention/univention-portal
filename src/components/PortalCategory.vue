@@ -200,9 +200,7 @@ export default defineComponent({
     },
     /*
     moveDirection(evt, direction) {
-      this.$store.dispatch('activity/addMessage', {
-        id: 'dnd',
-        msg: _('Categories "%(cat1)s" and "%(cat2)s" changed places', {
+      this.$store.dispatch('activity/setMessage', _('Categories "%(cat1)s" and "%(cat2)s" changed places', {
           cat1: this.$localized(this.title),
           cat2: this.$localized(this.title),
         }),

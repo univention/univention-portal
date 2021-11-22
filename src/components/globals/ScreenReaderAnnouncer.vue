@@ -2,19 +2,13 @@
   <div
     class="sr-only sr-only-mobile"
   >
-    <div
-      v-for="message in messages"
-      :key="message.id"
+    <span
+      aria-live="assertive"
+      aria-relevant="additions removals"
+      aria-atomic="true"
     >
-      <span
-        :id="'sreen-reader-' + message.id"
-        aria-live="assertive"
-        aria-relevant="additions removals"
-        aria-atomic="false"
-      >
-        {{ message.msg }}
-      </span>
-    </div>
+      {{ message }}
+    </span>
   </div>
 </template>
 <script lang="ts">
@@ -27,7 +21,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      messages: 'activity/announce',
+      message: 'activity/message',
     }),
   },
 });
