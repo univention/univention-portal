@@ -160,19 +160,13 @@ export default defineComponent({
         const newValues = this.modelValue.concat(values.selection);
         newValues.sort();
         this.$emit('update:modelValue', newValues);
-        this.$store.dispatch('activity/addMessage', {
-          id: 'multiselect',
-          msg: _('Added to selection'),
-        });
+        this.$store.dispatch('activity/setMessage', _('Added to selection'));
       });
     },
     remove() {
       const values = this.modelValue.filter((value) => !this.selection.includes(value));
       this.$emit('update:modelValue', values);
-      this.$store.dispatch('activity/addMessage', {
-        id: 'multiselect',
-        msg: _('Removed selection'),
-      });
+      this.$store.dispatch('activity/setMessage', _('Removed selection'));
     },
   },
 });

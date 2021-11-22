@@ -97,10 +97,7 @@ export default defineComponent({
       this.$store.dispatch('search/setSearchQuery', this.portalSearch.toLowerCase());
       this.$nextTick(() => {
         const num = document.querySelectorAll('.portal-tile').length.toString();
-        this.$store.dispatch('activity/addMessage', {
-          id: 'search',
-          msg: _('%(num)s search results', { num }),
-        });
+        this.$store.dispatch('activity/setMessage', _('%(num)s search results', { num }));
       });
     },
     closeSearchInput(): void {

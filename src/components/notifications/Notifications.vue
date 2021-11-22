@@ -132,20 +132,14 @@ export default defineComponent({
   methods: {
     removeAllNotifications(): void {
       this.$store.dispatch('notifications/removeAllNotifications');
-      this.$store.dispatch('activity/addMessage', {
-        id: 'notifications',
-        msg: _('Notifications removed'),
-      });
+      this.$store.dispatch('activity/setMessage', _('Notifications removed'));
       this.closeNotificationsSidebar();
     },
     closeNotificationsSidebar(): void {
       this.$store.dispatch('navigation/closeNotificationsSidebar');
     },
     onNotificationRemoved() {
-      this.$store.dispatch('activity/addMessage', {
-        id: 'notifications',
-        msg: _('Notification removed'),
-      });
+      this.$store.dispatch('activity/setMessage', _('Notification removed'));
       if (this.numNotifications === 0) {
         this.closeNotificationsSidebar();
       } else {
