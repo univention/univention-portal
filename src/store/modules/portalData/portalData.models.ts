@@ -153,3 +153,8 @@ export interface PortalData {
 export interface PortalImageDataBlob {
   data: string,
 }
+
+export interface PositionInfo {
+  tilePosition: number,
+  categoryLength: number,
+}
