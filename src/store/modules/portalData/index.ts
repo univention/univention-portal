@@ -449,6 +449,7 @@ const portalData: PortalModule<PortalDataState> = {
     },
     changeLayoutDirection({ commit, dispatch, rootGetters, getters }: PortalDataActionContext, payload: { fromId: string, direction: 'left' | 'right' | 'up' | 'down'}) {
       const fromId = payload.fromId;
+      console.log('changeLayoutDirection', fromId);
       const direction = payload.direction;
 
       const layout = getters.portalLayout;

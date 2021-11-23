@@ -95,10 +95,10 @@
           :aria-label-prop="MOVE_ENTRY"
           @click="dragKeyboardClick"
           @keydown.esc="dragend"
-          @keydown.left="dragKeyboardDirection($event, 'left')"
-          @keydown.right="dragKeyboardDirection($event, 'right')"
-          @keydown.up="dragKeyboardDirection($event, 'up')"
-          @keydown.down="dragKeyboardDirection($event, 'down')"
+          @keydown.left="dragKeyboardDirection($event, 'left', dragAndDropData)"
+          @keydown.right="dragKeyboardDirection($event, 'right', dragAndDropData)"
+          @keydown.up="dragKeyboardDirection($event, 'up',dragAndDropData)"
+          @keydown.down="dragKeyboardDirection($event, 'down', dragAndDropData)"
           @keydown.tab="handleTabWhileMoving"
         />
       </div>
@@ -124,7 +124,7 @@ import TabindexElement from '@/components/activity/TabindexElement.vue';
 import TileClick from '@/mixins/TileClick.vue';
 import Draggable from '@/mixins/Draggable.vue';
 
-import { Title, Description } from '@/store/modules/portalData/portalData.models';
+import { Title, Description, PositionInfo } from '@/store/modules/portalData/portalData.models';
 
 interface PortalTile {
   tileId: string,
@@ -189,6 +189,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    positionInfo: {
+      type: Object as PropType<PositionInfo>,
+      required: false,
+    },
   },
   data(): PortalTile {
     return {
@@ -244,6 +248,12 @@ export default defineComponent({
     },
     anchorTarget(): string {
       return this.linkTarget === 'newwindow' ? '_blank' : '';
+    },
+    dragAndDropData(): Record<string, unknown> {
+      return {
+        tileTitle: this.$localized(this.title),
+        positionInfo: this.positionInfo,
+      };
     },
   },
   mounted() {
