@@ -28,27 +28,23 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <teleport
-    v-if="teleportToBody"
+    :disabled="!teleportToBody"
     to="body"
   >
     <div
+      v-bind="$attrs"
       :id="setID"
-      :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
-                'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
+      :class="{
+        'modal-wrapper': !isActive,
+        'modal-wrapper--isVisible': isActive,
+        'modal-wrapper--isVisibleFullscreen': isActive && full,
+        'modal-wrapper--isSecondLayer': isSecondModalActive
+      }"
       @click.self="$emit('backgroundClick', $event);"
     >
       <slot />
     </div>
   </teleport>
-  <div v-else>
-    <div
-      :class="{ 'modal-wrapper': !isActive, 'modal-wrapper--isVisible': isActive,
-                'modal-wrapper--isVisibleFullscreen': isActive && full, 'modal-wrapper--isSecondLayer': isSecondModalActive }"
-      @click.self="$emit('backgroundClick', $event);"
-    >
-      <slot />
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -56,6 +52,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ModalWrapper',
+  inheritAttrs: false,
   props: {
     isActive: {
       type: Boolean,
