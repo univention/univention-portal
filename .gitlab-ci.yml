@@ -179,8 +179,8 @@ master-env:
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
     - *remove-env-instance
-    - terraform apply -auto-approve -var snapshot=46209159 -var create-dns-record=false -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
-    - terraform apply -auto-approve -var snapshot=46209159 -var create-dns-record=true -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
+    - terraform apply -auto-approve -var snapshot=54003148 -var ssh-keys=["4820687"] -var create-dns-record=false -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
+    - terraform apply -auto-approve -var snapshot=54003148 -var ssh-keys=["4820687"] -var create-dns-record=true -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
   stage: master-env
   variables:
     TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}
