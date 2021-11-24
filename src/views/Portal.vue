@@ -36,7 +36,7 @@
       v-if="!errorContentType"
       v-show="!activeTabIndex"
       id="portalCategories"
-      role="main"
+      :aria-role="portalRole"
       class="portal-categories"
     >
       <portal-category
@@ -149,6 +149,9 @@ export default defineComponent({
     },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
+    },
+    portalRole(): string {
+      return this.editMode ? 'application' : '';
     },
   },
   methods: {

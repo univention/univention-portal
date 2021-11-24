@@ -71,7 +71,7 @@
       class="portal-category__tiles"
     >
       <template
-        v-for="(tile, index) in filteredTiles"
+        v-for="tile in filteredTiles"
         :key="tile.id"
       >
         <portal-folder
@@ -99,7 +99,6 @@
           :link-target="tile.linkTarget"
           :original-link-target="tile.originalLinkTarget"
           :path-to-logo="tile.pathToLogo"
-          :position-info="positionInfo(index)"
         />
       </template>
       <tile-add
@@ -234,13 +233,6 @@ export default defineComponent({
       const folderMatch = tile.isFolder && (tile as FolderTile).tiles.some((t) => this.titleMatchesQuery(t.title) ||
         this.descriptionMatchesQuery((t as BaseTile).description as Description));
       return titleMatch || descriptionMatch || folderMatch;
-    },
-    positionInfo(index: number): PositionInfo {
-      const test = {
-        tilePosition: index + 1,
-        categoryLength: this.filteredTiles.length,
-      };
-      return test;
     },
   },
 });

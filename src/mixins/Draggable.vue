@@ -90,20 +90,10 @@ const draggableMixin = {
       }
     },
     dragKeyboardDirection(evt, direction, dragAndDropData) {
-      console.log('dragKeyboardDirection', dragAndDropData);
       if (!this.inDragnDropMode) {
         return;
       }
       evt.preventDefault();
-
-      if (direction === 'left' || direction === 'right') {
-        console.log(`TILE MOVED: ${dragAndDropData.tileTitle}`);
-        console.log(`New Position: ${dragAndDropData.positionInfo.tilePosition} of ${dragAndDropData.positionInfo.categoryLength}`);
-        this.$store.dispatch('activity/setMessage', 'TILE MOVED');
-      } else if (direction === 'up' || direction === 'down') {
-        this.$store.dispatch('activity/setMessage', 'TILE MOVED');
-        console.log('TILE MOVED into CAT NAME');
-      }
 
       this.$store.dispatch('dragndrop/lastDir', direction);
       this.$store.dispatch('portalData/changeLayoutDirection', {
