@@ -81,7 +81,7 @@ test('Test Portalsearch', async () => {
 
     // ensure search is triggered by typing
     await input.setValue('univention')
-    expect(store.dispatch).toHaveBeenLastCalledWith("activity/addMessage", {"id": "search", "msg": "0 search results"})
+    expect(store.dispatch).toHaveBeenLastCalledWith("activity/setMessage", "0 search results")
 
     // ensure that after hitting escape the activebutton is set to ''
     await input.trigger('keyup.esc');
