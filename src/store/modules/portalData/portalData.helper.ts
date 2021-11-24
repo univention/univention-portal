@@ -38,28 +38,44 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
   if (categoryPositionBefore && (tilePositionBefore !== null) && (tilePositionAfter !== null) && (categoryPositionAfter !== null)) {
     const titleOfMovedElement = getPortalLayout[categoryPositionBefore].tiles[tilePositionBefore]?.title;
     const numberOfTiles = getPortalLayout[categoryPositionAfter].tiles.length;
-    const positionInNewArray = tilePositionAfter + 1;
+    const newPositionInArray = tilePositionAfter + 1;
     const titleOfCategory = getPortalLayout[categoryPositionAfter].title;
 
     if (fromPosition.categoryIdx !== toPosition.categoryIdx) {
-      setMessage(_(`Moving ${vm.$localized(titleOfMovedElement)} into category ${vm.$localized(titleOfCategory)}`));
+      setMessage(_('Moving %(tile)s into category %(category)s', {
+        tile: vm.$localized(titleOfMovedElement),
+        category: vm.$localized(titleOfCategory),
+      }));
     } else if (fromPosition.contextType === 'category') {
-      setMessage(_(`Moving ${vm.$localized(titleOfMovedElement)} into position ${positionInNewArray} of ${numberOfTiles}`));
+      setMessage(_('Moving %(titleOfMovedElement)s into position %(positionInArray)s of %(numberOfTiles)s', {
+        titleOfMovedElement: vm.$localized(titleOfMovedElement),
+        positionInArray: newPositionInArray.toString(),
+        numberOfTiles: numberOfTiles.toString(),
+      }));
     } else if (fromPosition.contextType === 'folder') {
       const folderIndex = fromPosition.folderIdx ? fromPosition.folderIdx : -1;
       const tileTitle = vm.$localized(getPortalLayout[categoryPositionBefore].tiles[folderIndex].tiles[tilePositionBefore].title);
       const folderTitle = vm.$localized(getPortalLayout[categoryPositionBefore].tiles[folderIndex].title);
       const numberOfTilesInFolder = getPortalLayout[categoryPositionBefore].tiles[folderIndex].tiles.length;
-      setMessage(_(`Moving ${tileTitle} in Folder ${folderTitle} into position ${positionInNewArray} of ${numberOfTilesInFolder}`));
+      setMessage(_('Moving %(tileTitle)s in Folder %(folderTitle)s into position %(newPositionInArray)s of %(numberOfTilesInFolder)s', {
+        tileTitle,
+        folderTitle,
+        newPositionInArray: newPositionInArray.toString(),
+        numberOfTilesInFolder: numberOfTilesInFolder.toString(),
+      }));
     }
   }
   if (fromPosition.contextType === 'root') {
     if (fromPosition.entryIdx && toPosition.entryIdx) {
       const movedCategory = fromPosition.entryIdx;
       const movedCategoryTitle = vm.$localized(getPortalLayout[movedCategory].title);
-      const newCategoryPosition = toPosition.entryIdx - 2;
+      const newCategoryPosition = toPosition.entryIdx;
       const numberOfCategories = getPortalLayout.filter((category) => (!category.dn.includes('$$menu$$') && !category.dn.includes('$$user$$') && !category.dn.includes('cn=new'))).length;
-      setMessage(_(`Moving ${movedCategoryTitle} to position ${newCategoryPosition} of ${numberOfCategories}`));
+      setMessage(_('Moving %(movedCategoryTitle)s to position %(newCategoryPosition)s of %(numberOfCategories)s', {
+        movedCategoryTitle,
+        newCategoryPosition: newCategoryPosition.toString(),
+        numberOfCategories: numberOfCategories.toString(),
+      }));
     }
   }
 }

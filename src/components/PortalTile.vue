@@ -125,7 +125,7 @@ import TabindexElement from '@/components/activity/TabindexElement.vue';
 import TileClick from '@/mixins/TileClick.vue';
 import Draggable from '@/mixins/Draggable.vue';
 
-import { Title, Description, PositionInfo } from '@/store/modules/portalData/portalData.models';
+import { Title, Description } from '@/store/modules/portalData/portalData.models';
 
 interface PortalTile {
   tileId: string,
@@ -235,10 +235,10 @@ export default defineComponent({
       return ['portal', 'header-search'];
     },
     MOVE_ENTRY(): string {
-      return _('Move entry');
+      return _('Move tile: %(entry)s', { entry: this.$localized(this.title) });
     },
     EDIT_ENTRY(): string {
-      return _('Edit entry');
+      return _('Edit tile: %(entry)s', { entry: this.$localized(this.title) });
     },
     SHOW_TOOLTIP(): string {
       return _('Show tooltip');

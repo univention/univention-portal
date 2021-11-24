@@ -396,9 +396,11 @@ const portalData: PortalModule<PortalDataState> = {
       const fromId = payload.fromId;
       const toId = payload.toId;
       if (fromId === toId) {
+        dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
         return;
       }
       if (!fromId || !toId) {
+        dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
         return;
       }
 
@@ -427,7 +429,7 @@ const portalData: PortalModule<PortalDataState> = {
       const toChange = orderChange(layout, toPosition);
       const content = layout.map((cat) => cat.dn);
 
-      const dispatchFunction = ( message: string ) => {
+      const dispatchFunction = (message: string) => {
         dispatch('activity/setMessage', message, { root: true });
       };
       setScreenReaderAccouncement(fromPosition, toPosition, getters.portalFinalLayout, dispatchFunction);

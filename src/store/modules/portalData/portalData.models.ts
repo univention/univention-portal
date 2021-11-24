@@ -162,11 +162,6 @@ export interface PortalImageDataBlob {
   data: string,
 }
 
-export interface PositionInfo {
-  tilePosition: number,
-  categoryLength: number,
-}
-
 export type Position = {
   categoryIdx: null | number;
   folderIdx: null | number;
