@@ -93,6 +93,7 @@
           :active-at="activeAtEdit"
           class="icon-button--admin"
           :aria-label-prop="MOVE_ENTRY"
+          role="button"
           @click="dragKeyboardClick"
           @keydown.esc="dragend"
           @keydown.left="dragKeyboardDirection($event, 'left', dragAndDropData)"
@@ -189,10 +190,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    positionInfo: {
-      type: Object as PropType<PositionInfo>,
-      required: false,
-    },
   },
   data(): PortalTile {
     return {
@@ -248,12 +245,6 @@ export default defineComponent({
     },
     anchorTarget(): string {
       return this.linkTarget === 'newwindow' ? '_blank' : '';
-    },
-    dragAndDropData(): Record<string, unknown> {
-      return {
-        tileTitle: this.$localized(this.title),
-        positionInfo: this.positionInfo,
-      };
     },
   },
   mounted() {

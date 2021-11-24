@@ -31,9 +31,10 @@ import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
 import { randomId } from '@/jsHelper/tools';
 import createCategories from '@/jsHelper/createCategories';
+import setScreenReaderAccouncement from './portalData.helper';
 
-import { PortalModule, RootState } from '../../root.models';
-import { PortalData, PortalImageDataBlob, LocalizedString, PortalContent, PortalBaseLayout, PortalLayout } from './portalData.models';
+import { PortalModule } from '../../root.models';
+import { PortalDataState, PortalImageDataBlob, LocalizedString, PortalContent, PortalBaseLayout, PortalLayout, Position, PortalDataActionContext } from './portalData.models';
 
 function isEqual(arr1, arr2) {
   if (arr1.length !== arr2.length) {
@@ -47,21 +48,6 @@ interface WaitForChangePayload {
   adminMode: boolean;
 }
 
-export interface PortalDataState {
-  portal: PortalData;
-  editMode: boolean;
-  cacheId: string;
-  errorContentType: number | null;
-}
-type PortalDataActionContext = ActionContext<PortalDataState, RootState>;
-
-type Position = {
-  categoryIdx: null | number;
-  folderIdx: null | number;
-  entryIdx: null | number;
-  entryType: null | 'category' | 'tile';
-  contextType: null | 'root' | 'category' | 'folder';
-}
 function getPosition(layout, id: string, targetIdx: null | number = null, fromPosition: null | Position = null): Position {
   const position: Position = {
     categoryIdx: null,
@@ -224,6 +210,7 @@ const portalData: PortalModule<PortalDataState> = {
           display_name: {
             en_US: _('Portal Menu'),
           },
+          test: 'Portal Menu',
           virtual: true,
           id: '$$menu$$',
           dn: '$$menu$$',
@@ -233,6 +220,7 @@ const portalData: PortalModule<PortalDataState> = {
           display_name: {
             en_US: _('User Menu'),
           },
+          test: 'User Menu',
           virtual: true,
           id: '$$user$$',
           dn: '$$user$$',
@@ -258,6 +246,7 @@ const portalData: PortalModule<PortalDataState> = {
       state.portal.layout = state.portal.baseLayout.layout.map((categoryDn) => ({
         id: `category-${randomId()}`,
         dn: categoryDn,
+        testTitle: categoryDn,
         tiles: state.portal.baseLayout.categories[categoryDn].map((entryDn) => {
           const isFolderDn = entryDn in state.portal.baseLayout.folders;
           if (isFolderDn) {
@@ -404,7 +393,6 @@ const portalData: PortalModule<PortalDataState> = {
         }
         return change;
       }
-
       const fromId = payload.fromId;
       const toId = payload.toId;
       if (fromId === toId) {
@@ -438,6 +426,12 @@ const portalData: PortalModule<PortalDataState> = {
       const fromChange = orderChange(layout, fromPosition);
       const toChange = orderChange(layout, toPosition);
       const content = layout.map((cat) => cat.dn);
+
+      const dispatchFunction = ( message: string ) => {
+        dispatch('activity/setMessage', message, { root: true });
+      };
+      setScreenReaderAccouncement(fromPosition, toPosition, getters.portalFinalLayout, dispatchFunction);
+
       commit('CHANGELAYOUT', {
         fromChange,
         toChange,
@@ -449,7 +443,6 @@ const portalData: PortalModule<PortalDataState> = {
     },
     changeLayoutDirection({ commit, dispatch, rootGetters, getters }: PortalDataActionContext, payload: { fromId: string, direction: 'left' | 'right' | 'up' | 'down'}) {
       const fromId = payload.fromId;
-      console.log('changeLayoutDirection', fromId);
       const direction = payload.direction;
 
       const layout = getters.portalLayout;
@@ -518,7 +511,6 @@ const portalData: PortalModule<PortalDataState> = {
         default:
           break;
       }
-
       const toId = getLayoutId(layout, toPosition);
       dispatch('changeLayout', {
         fromId,

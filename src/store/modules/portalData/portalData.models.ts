@@ -26,7 +26,9 @@
   * /usr/share/common-licenses/AGPL-3; if not, see
   * <https://www.gnu.org/licenses/>.
  */
+import { ActionContext } from 'vuex';
 import { Locale } from '../locale/locale.models';
+import { RootState } from '../../root.models';
 
 export type Title = Record<Locale, string>;
 
@@ -149,6 +151,12 @@ export interface PortalData {
   baseLayout: PortalBaseLayout,
   layout: PortalLayout,
 }
+export interface PortalDataState {
+  portal: PortalData;
+  editMode: boolean;
+  cacheId: string;
+  errorContentType: number | null;
+}
 
 export interface PortalImageDataBlob {
   data: string,
@@ -158,3 +166,13 @@ export interface PositionInfo {
   tilePosition: number,
   categoryLength: number,
 }
+
+export type Position = {
+  categoryIdx: null | number;
+  folderIdx: null | number;
+  entryIdx: null | number;
+  entryType: null | 'category' | 'tile';
+  contextType: null | 'root' | 'category' | 'folder';
+}
+
+export type PortalDataActionContext = ActionContext<PortalDataState, RootState>;
