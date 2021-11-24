@@ -117,7 +117,6 @@ const activity: PortalModule<Activity> = {
       commit('SET_LEVEL', level);
     },
     setMessage({ commit }: ActivityActionContext, message: string): void {
-      console.log('Set Message', message);
       commit('SET_MESSAGE', message);
     },
     async focusElement({ getters }: ActivityActionContext, region: string | null): Promise<void> {

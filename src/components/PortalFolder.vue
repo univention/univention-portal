@@ -110,7 +110,7 @@
         v-if="editMode && !inModal && showEditButtonWhileDragging"
         icon="edit-2"
         class="portal-folder__edit-button icon-button--admin"
-        :aria-label-prop="translateEditFolder"
+        :aria-label-prop="EDIT_FOLDER"
         @click="editFolder"
       />
       <icon-button
@@ -217,11 +217,11 @@ export default defineComponent({
     isOpened(): string {
       return this.inModal ? 'div' : 'button';
     },
-    translateEditFolder(): string {
-      return _('Edit folder');
+    EDIT_FOLDER(): string {
+      return _('Edit Folder: %(folder)s', { folder: this.$localized(this.title) });
     },
     MOVE_FOLDER(): string {
-      return _('Move folder');
+      return _('Move Folder: %(folder)s', { folder: this.$localized(this.title) });
     },
     filteredTiles(): Tile[] {
       if (this.tiles.filter((tile) => this.tileMatchesQuery(tile)).length === 0) {
