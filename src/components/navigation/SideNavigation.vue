@@ -268,6 +268,7 @@ export default defineComponent({
     },
     async startEditMode(): Promise<void> {
       await this.$store.dispatch('portalData/setEditMode', true);
+      (this.$refs.editModeButton as HTMLElement).blur();
       this.$store.dispatch('navigation/setActiveButton', '');
       this.$store.dispatch('tabs/setActiveTab', 0);
     },
