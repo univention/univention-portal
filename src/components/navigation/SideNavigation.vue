@@ -310,13 +310,9 @@ export default defineComponent({
 <style lang="stylus">
 $userRow = 6rem
 .portal-sidenavigation
-  height: calc(100vh - (var(--portal-header-height) + 0.5rem))
+  height: 100%
   display: flex
   flex-direction: column
-
-  @media $mqSmartphone
-    height: 100%
-    overflow-y: auto
 
   &__link
     padding: 1em 0 1em 20px
@@ -390,9 +386,9 @@ $userRow = 6rem
     border-bottom: 4px solid var(--bgc-content-body)
 
   &__menu
-    margin: 0
-    margin-bottom: auto
-    padding-left: 0
+    flex: 1 1 auto
+    overflow-y: auto
+    overflow-x: hidden
 
   &__menu-item
     margin-left: 0
@@ -429,10 +425,6 @@ $userRow = 6rem
 
   &__fade-left-right
     animation-name: fadeInLeft
-
-  &__submenu
-    height: 'calc(%s - (%s + %s) - %s - %s)' % (100vh var(--portal-header-height) 0.5rem $userRow 3rem)
-    overflow-y: auto
 
 // keyframes
 @keyframes fadeInLeft {
