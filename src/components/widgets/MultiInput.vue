@@ -1,0 +1,198 @@
+<template>
+  <div
+    class="multi-input"
+  >
+    <div
+      v-for="(val, valIdx) in modelValue"
+      :key="valIdx"
+      :class="[
+        'multi-input__row',
+        {
+          'multi-input__row--multiline': subtypes.length > 1,
+          'multi-input__row--singleline': subtypes.length === 1,
+          'multi-input__row--invalid': rowInvalidMessage(valIdx) !== '',
+        },
+      ]"
+    >
+      <div
+        v-for="(type, typeIdx) in subtypes"
+        :key="typeIdx"
+        class="multi-input__row__elem"
+      >
+        <form-element
+          :widget="getSubtypeWidget(type, valIdx, typeIdx)"
+          :model-value="Array.isArray(val) ? val[typeIdx] : val"
+          @update:model-value="onUpdate(valIdx, typeIdx, $event)"
+        />
+      </div>
+      <icon-button
+        icon="trash"
+        :has-button-style="true"
+        :aria-label-prop="REMOVE_ENTRY"
+        @click="removeEntry(valIdx)"
+      />
+      <input-error-message
+        :display-condition="rowInvalidMessage(valIdx) !== ''"
+        :error-message="rowInvalidMessage(valIdx)"
+      />
+    </div>
+    <button
+      type="button"
+      @click="addEntry"
+    >
+      {{ ADD_ENTRY }}
+    </button>
+  </div>
+</template>
+
+<script lang="ts">
+// TODO handling of 'name' attribute
+import { defineComponent, defineAsyncComponent } from 'vue';
+import _ from '@/jsHelper/translate';
+
+import IconButton from '@/components/globals/IconButton.vue';
+import InputErrorMessage from 'components/forms/InputErrorMessage.vue';
+
+import ComboBox from '@/components/widgets/ComboBox.vue';
+import DateBox from '@/components/widgets/DateBox.vue';
+import PasswordBox from '@/components/widgets/PasswordBox.vue';
+import TextBox from '@/components/widgets/TextBox.vue';
+import { initialValue } from '@/jsHelper/forms';
+
+export default defineComponent({
+  name: 'MultiInput',
+  components: {
+    InputErrorMessage,
+    // break circular dependency
+    FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
+    IconButton,
+    ComboBox,
+    DateBox,
+    PasswordBox,
+    TextBox,
+  },
+  props: {
+    modelValue: {
+      type: Array,
+      required: true,
+    },
+    subtypes: {
+      type: Array,
+      required: true,
+    },
+    invalidMessage: {
+      type: Object,
+      default() {
+        return {
+          all: '',
+          values: [],
+        };
+      },
+    },
+  },
+  emits: ['update:modelValue'],
+  computed: {
+    ADD_ENTRY(): string {
+      return _('Add entry');
+    },
+    REMOVE_ENTRY(): string {
+      return _('Remove entry');
+    },
+  },
+  methods: {
+    onUpdate(valIdx, typeIdx, val) {
+      const newVal = JSON.parse(JSON.stringify(this.modelValue));
+      if (this.subtypes.length === 1) {
+        newVal[valIdx] = val;
+      } else {
+        newVal[valIdx][typeIdx] = val;
+      }
+      this.$emit('update:modelValue', newVal);
+    },
+    addEntry() {
+      const newVal = JSON.parse(JSON.stringify(this.modelValue));
+      newVal.push(this.newRow());
+      this.$emit('update:modelValue', newVal);
+    },
+    newRow() {
+      return initialValue({
+        type: 'MultiInput',
+        subtypes: this.subtypes,
+      }, null)[0];
+    },
+    removeEntry(valIdx) {
+      const newVal = JSON.parse(JSON.stringify(this.modelValue));
+      newVal.splice(valIdx, 1);
+      if (newVal.length === 0) {
+        newVal.push(this.newRow());
+      }
+      this.$emit('update:modelValue', newVal);
+    },
+    rowInvalidMessage(valIdx) {
+      // show invalidMessage for row only if we have multiple subtypes
+      if (this.subtypes.length === 1) {
+        return '';
+      }
+      const message = this.invalidMessage.values[valIdx];
+      if (Array.isArray(message)) {
+        return '';
+      }
+      return message ?? '';
+    },
+    getSubtypeWidget(type, valIdx, typeIdx) {
+      let message = this.invalidMessage.values[valIdx];
+      if (Array.isArray(message)) {
+        message = message[typeIdx];
+      } else if (this.subtypes.length > 1) {
+        message = '';
+      }
+
+      return {
+        ...type,
+        invalidMessage: message ?? '',
+      };
+    },
+  },
+});
+</script>
+
+<style lang="stylus">
+$groupingStyle
+  --local-stripeColor: var(--bgc-inputfield-on-container)
+  padding-top: var(--layout-spacing-unit-small)
+  padding-left: var(--layout-spacing-unit)
+  margin-left: 2px
+  box-shadow: inset 2px 0 var(--local-stripeColor)
+
+.multi-input
+  @extends $groupingStyle
+
+.multi-input__row
+  label
+    margin-top: 0
+
+  &--singleline
+    display: flex
+    align-items: flex-start
+    gap: var(--layout-spacing-unit)
+    margin-bottom: calc(1 * var(--layout-spacing-unit))
+
+    .icon-button
+      flex: 0 0 auto
+
+    .multi-input__row__elem
+      flex: 1 1 auto
+
+  &--multiline
+    @extends $groupingStyle
+    display: flex
+    flex-direction: column
+    margin-bottom: calc(2 * var(--layout-spacing-unit))
+    .multi-input__row__elem
+      margin-bottom: var(--layout-spacing-unit)
+  &--invalid
+    --local-stripeColor: var(--font-color-error)
+
+.multi-input__row__elem .form-element
+  margin-top: 0
+</style>

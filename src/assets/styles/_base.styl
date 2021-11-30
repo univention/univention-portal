@@ -84,8 +84,9 @@ input, select
     outline-style: none
     box-shadow: none
 
-  &[invalid]
-    border-color: var(--bgc-error)
+  &[invalid],
+  &[aria-invalid=true]
+    border-color: var(--font-color-error)
 
   &[disabled]
     cursor: var(--cursor-disabled)
