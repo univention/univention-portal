@@ -51,21 +51,16 @@ export default defineComponent({
 
 <style lang="stylus">
 .flyout-wrapper
-  width: 23rem
+  width: 100%
   max-width: 23rem
-  min-height: 100vh
   position: fixed
-  top:  calc(var(--portal-header-height) + 0.5rem)
+  top:  calc(var(--portal-header-height) + var(--layout-spacing-unit))
+  bottom: env(safe-area-inset-bottom, 0)
   right: 0
   z-index: 100
   background-color: var(--bgc-content-container)
   transform: translate3d(110%, 0, 0)
   transition: transform cubic-bezier(0, 0, 0.2, 1) 0.5s
-
-  @media $mqSmartphone
-    min-height: unset;
-    height: calc(100vh - 1 * var(--portal-header-height) - 0.5rem)
-    height: calc(100% - (var(--portal-header-height) + 0.5rem) - env(safe-area-inset-bottom))
 
   &--isVisible
     transform: translate3d(0, 0, 0) scale(1, 1)
