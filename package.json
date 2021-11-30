@@ -19,12 +19,15 @@
     "lint:fix:all": "yarn lint:fix && stylelint --fix \"{**/*.{scss,vue,styl}\""
   },
   "dependencies": {
+    "@types/lodash": "^4.14.177",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "cypress-axe": "^0.13.0",
+    "lodash": "^4.17.21",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "^3.0.11",
     "vue-dompurify-html": "^3.0.0-alpha.3",
+    "vue-router": "4",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

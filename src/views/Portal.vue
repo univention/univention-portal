@@ -90,6 +90,7 @@
     <portal-modal
       :modal-level="2"
     />
+    <router-view />
     <loading-overlay />
   </div>
 </template>

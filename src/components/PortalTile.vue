@@ -33,6 +33,7 @@
       :tag="wrapperTag"
       :active-at="activeAt"
       :href="link"
+      :to="link"
       :target="anchorTarget"
       :aria-describedby="tileId"
       :aria-label="ariaLabelPortalTile"
@@ -115,6 +116,8 @@
 </template>
 
 <script lang="ts">
+// TODO remove extra attributes on tabindex-element depending on tag (?) e.g. in edit mode the <div>s have href set
+
 import { defineComponent, PropType } from 'vue';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
@@ -202,6 +205,9 @@ export default defineComponent({
       lastDir: 'dragndrop/getLastDir',
     }),
     wrapperTag(): string {
+      if (this.linkTarget === 'internalrouter') {
+        return 'router-link';
+      }
       return (this.minified || this.editMode) ? 'div' : 'a';
     },
     isDisabled(): boolean {
