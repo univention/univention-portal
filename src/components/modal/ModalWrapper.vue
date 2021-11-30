@@ -102,8 +102,7 @@ export default defineComponent({
     &--isVisible
       position: fixed;
       width: 100%;
-      height: 100%;
-      height: -webkit-fill-available; /* ios safari*/
+      height: 100vh;
       top: 0;
       right: 0;
       bottom: 0;
