@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-11-24 21:19+0100\n"
+"POT-Creation-Date: 2021-12-02 17:09+0100\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -443,31 +443,35 @@ msgid "Move tile: %(entry)s"
 msgstr "Kachel  %(entry)s verschieben"
 
 #: src/store/modules/portalData/portalData.helper.ts:74
+#, fuzzy
 msgid ""
-"Moving %(movedCategoryTitle)s to position %(newCategoryPosition)s of "
-"%(numberOfCategories)s"
+"Moving Category %(movedCategoryTitle)s to position %(newCategoryPosition)s "
+"of %(numberOfCategories)s"
 msgstr ""
-"Bewege %(movedCategoryTitle)s zu Position %(newCategoryPosition)s von "
+"Bewege Kategorie %(movedCategoryTitle)s zu Position %(newCategoryPosition)s von "
 "%(numberOfCategories)s"
 
 #: src/store/modules/portalData/portalData.helper.ts:45
-msgid "Moving %(tile)s into category %(category)s"
-msgstr "Bewege %(tile)s zu Kategorie %(category)s"
+#, fuzzy
+msgid "Moving tile %(tile)s into category %(category)s"
+msgstr "Bewege Kachel %(tile)s zu Kategorie %(category)s"
 
 #: src/store/modules/portalData/portalData.helper.ts:60
+#, fuzzy
 msgid ""
-"Moving %(tileTitle)s in Folder %(folderTitle)s into position "
+"Moving tile %(tileTitle)s in Folder %(folderTitle)s into position "
 "%(newPositionInArray)s of %(numberOfTilesInFolder)s"
 msgstr ""
-"Bewege %(tileTitle)s im Ordner %(folderTitle)s zu Position "
+"Bewege Kachel %(tileTitle)s im Ordner %(folderTitle)s zu Position "
 "%(newPositionInArray)s von %(numberOfTilesInFolder)s"
 
 #: src/store/modules/portalData/portalData.helper.ts:50
+#, fuzzy
 msgid ""
-"Moving %(titleOfMovedElement)s into position %(positionInArray)s of "
+"Moving tile %(titleOfMovedElement)s into position %(positionInArray)s of "
 "%(numberOfTiles)s"
 msgstr ""
-"Bewege %(titleOfMovedElement)s zu Position %(positionInArray)s von "
+"Bewege Kachel %(titleOfMovedElement)s zu Position %(positionInArray)s von "
 "%(numberOfTiles)s"
 
 #: src/tmp/ts/src/components/admin/Entry.vue:176
