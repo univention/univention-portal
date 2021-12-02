@@ -42,12 +42,12 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
     const titleOfCategory = getPortalLayout[categoryPositionAfter].title;
 
     if (fromPosition.categoryIdx !== toPosition.categoryIdx) {
-      setMessage(_('Moving %(tile)s into category %(category)s', {
+      setMessage(_('Moving tile %(tile)s into category %(category)s', {
         tile: vm.$localized(titleOfMovedElement),
         category: vm.$localized(titleOfCategory),
       }));
     } else if (fromPosition.contextType === 'category') {
-      setMessage(_('Moving %(titleOfMovedElement)s into position %(positionInArray)s of %(numberOfTiles)s', {
+      setMessage(_('Moving tile %(titleOfMovedElement)s into position %(positionInArray)s of %(numberOfTiles)s', {
         titleOfMovedElement: vm.$localized(titleOfMovedElement),
         positionInArray: newPositionInArray.toString(),
         numberOfTiles: numberOfTiles.toString(),
@@ -57,7 +57,7 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
       const tileTitle = vm.$localized(getPortalLayout[categoryPositionBefore].tiles[folderIndex].tiles[tilePositionBefore].title);
       const folderTitle = vm.$localized(getPortalLayout[categoryPositionBefore].tiles[folderIndex].title);
       const numberOfTilesInFolder = getPortalLayout[categoryPositionBefore].tiles[folderIndex].tiles.length;
-      setMessage(_('Moving %(tileTitle)s in Folder %(folderTitle)s into position %(newPositionInArray)s of %(numberOfTilesInFolder)s', {
+      setMessage(_('Moving tile %(tileTitle)s in Folder %(folderTitle)s into position %(newPositionInArray)s of %(numberOfTilesInFolder)s', {
         tileTitle,
         folderTitle,
         newPositionInArray: newPositionInArray.toString(),
@@ -71,7 +71,7 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
       const movedCategoryTitle = vm.$localized(getPortalLayout[movedCategory].title);
       const newCategoryPosition = toPosition.entryIdx;
       const numberOfCategories = getPortalLayout.filter((category) => (!category.dn.includes('$$menu$$') && !category.dn.includes('$$user$$') && !category.dn.includes('cn=new'))).length;
-      setMessage(_('Moving %(movedCategoryTitle)s to position %(newCategoryPosition)s of %(numberOfCategories)s', {
+      setMessage(_('Moving Category %(movedCategoryTitle)s to position %(newCategoryPosition)s of %(numberOfCategories)s', {
         movedCategoryTitle,
         newCategoryPosition: newCategoryPosition.toString(),
         numberOfCategories: numberOfCategories.toString(),
