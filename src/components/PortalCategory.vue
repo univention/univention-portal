@@ -181,10 +181,10 @@ export default defineComponent({
       return this.tiles.some((tile) => this.tileMatchesQuery(tile));
     },
     MOVE_CATEGORY(): string {
-      return _('Move category');
+      return _('Move category: %(category)s', { category: this.$localized(this.title) });
     },
     EDIT_CATEGORY(): string {
-      return _('Edit category');
+      return _('Edit category: %(category)s', { category: this.$localized(this.title) });
     },
     filteredTiles(): Tile[] {
       return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
@@ -198,15 +198,6 @@ export default defineComponent({
       }
       await this.$store.dispatch('portalData/saveLayout');
     },
-    /*
-    moveDirection(evt, direction) {
-      this.$store.dispatch('activity/setMessage', _('Categories "%(cat1)s" and "%(cat2)s" changed places', {
-          cat1: this.$localized(this.title),
-          cat2: this.$localized(this.title),
-        }),
-      });
-    },
-    */
     editCategory() {
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'AdminCategory',

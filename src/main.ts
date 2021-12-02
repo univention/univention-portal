@@ -61,3 +61,4 @@ const app = createApp(App)
   });
 
 const vm = app.mount('#app');
+export default vm;

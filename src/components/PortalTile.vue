@@ -93,12 +93,13 @@
           :active-at="activeAtEdit"
           class="icon-button--admin"
           :aria-label-prop="MOVE_ENTRY"
+          role="button"
           @click="dragKeyboardClick"
           @keydown.esc="dragend"
-          @keydown.left="dragKeyboardDirection($event, 'left')"
-          @keydown.right="dragKeyboardDirection($event, 'right')"
-          @keydown.up="dragKeyboardDirection($event, 'up')"
-          @keydown.down="dragKeyboardDirection($event, 'down')"
+          @keydown.left="dragKeyboardDirection($event, 'left', dragAndDropData)"
+          @keydown.right="dragKeyboardDirection($event, 'right', dragAndDropData)"
+          @keydown.up="dragKeyboardDirection($event, 'up',dragAndDropData)"
+          @keydown.down="dragKeyboardDirection($event, 'down', dragAndDropData)"
           @keydown.tab="handleTabWhileMoving"
         />
       </div>
@@ -234,10 +235,10 @@ export default defineComponent({
       return ['portal', 'header-search'];
     },
     MOVE_ENTRY(): string {
-      return _('Move entry');
+      return _('Move tile: %(entry)s', { entry: this.$localized(this.title) });
     },
     EDIT_ENTRY(): string {
-      return _('Edit entry');
+      return _('Edit tile: %(entry)s', { entry: this.$localized(this.title) });
     },
     SHOW_TOOLTIP(): string {
       return _('Show tooltip');

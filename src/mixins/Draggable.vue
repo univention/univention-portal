@@ -89,7 +89,7 @@ const draggableMixin = {
         this.dragstart(null, 'keyboard');
       }
     },
-    dragKeyboardDirection(evt, direction) {
+    dragKeyboardDirection(evt, direction, dragAndDropData) {
       if (!this.inDragnDropMode) {
         return;
       }
