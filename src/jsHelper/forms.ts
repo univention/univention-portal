@@ -56,17 +56,49 @@ export function allValid(widgets): boolean {
 }
 
 export function validate(widget, value): void {
+  function required(_widget, _value) {
+    switch (_widget.type) {
+      case 'TextBox':
+      case 'DateBox':
+      case 'ComboBox':
+      case 'PasswordBox':
+      case 'MultiInput':
+        return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
+      default:
+        return '';
+    }
+  }
+
+  function getFirstInvalidMessage(_widget, _value) {
+    const validators = [required, ...(_widget.validators ?? [])];
+    let message = '';
+    validators.some((validator) => {
+      const iMessage = validator(_widget, _value);
+      if ((iMessage ?? '') !== '') {
+        message = iMessage;
+        return true;
+      }
+      return false;
+    });
+    return message;
+  }
+
   switch (widget.type) {
     case 'TextBox':
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
-      widget.invalidMessage = widget.required && isEmpty(widget, value) ? _('This value is required') : '';
+      widget.invalidMessage = getFirstInvalidMessage(widget, value);
       break;
     case 'MultiInput':
       widget.invalidMessage = {
-        all: widget.required && isEmpty(widget, value) ? _('This value is required') : '',
-        values: [], // TODO handling of required for subtypes.
+        all: getFirstInvalidMessage(widget, value),
+        values: value.map((row) => {
+          if (Array.isArray(row)) {
+            return row.map((vv, idx) => getFirstInvalidMessage(widget.subtypes[idx], vv));
+          }
+          return getFirstInvalidMessage(widget.subtypes[0], row);
+        }),
       };
       break;
     default:
