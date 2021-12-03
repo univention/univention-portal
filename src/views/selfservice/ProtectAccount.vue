@@ -1,6 +1,7 @@
 <template>
   <site
     :title="TITLE"
+    :ucr-var-for-frontend-enabling="'umc/self-service/protect-account/frontend/enabled'"
   >
     <div>{{ SUBTITLE }}</div>
     <my-form
