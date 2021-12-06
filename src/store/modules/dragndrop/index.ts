@@ -141,11 +141,14 @@ const dragndrop: PortalModule<DraggedItem> = {
     lastDir({ commit }: DragAndDropActionContext, payload): void {
       commit('LAST_DIR', payload);
     },
-    createCloneNodes({ commit }: DragAndDropActionContext): void {
+    createCloneNodes(): void {
       createCloneNodes(false);
     },
-    createCloneNodesInFolder({ commit }: DragAndDropActionContext): void {
+    createCloneNodesInFolder(): void {
       createCloneNodes(true);
+    },
+    removeCloneNodes(): void {
+      document.getElementById('cloneNodes')?.remove();
     },
   },
 };
