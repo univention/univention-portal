@@ -38,7 +38,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { isEmpty, isEqual } from 'lodash';
+import isEmpty from 'lodash.isempty';
+import isEqual from 'lodash.isequal';
 import { umc } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import FormElement from '@/components/forms/FormElement.vue';
