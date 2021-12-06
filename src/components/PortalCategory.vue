@@ -63,6 +63,7 @@
         @dragstart="dragstart"
         @dragenter="dragenter"
         @dragend="dragend"
+        :id="categoryId"
       >
         {{ $localized(title) }}
       </span>
@@ -188,6 +189,9 @@ export default defineComponent({
     },
     filteredTiles(): Tile[] {
       return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
+    },
+    categoryId(): string {
+      return `cat__${this.$.uid}`;
     },
   },
   methods: {
