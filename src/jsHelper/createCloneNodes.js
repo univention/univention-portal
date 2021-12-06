@@ -9,13 +9,19 @@ export default function(inFolder) {
   }
   const draggableElementsClones = [];
   const appElement = document.getElementById('app');
-  const container = document.createElement('div');
-  appElement.after(container);
+  let container;
+  if (!document.getElementById('cloneNodes')) {
+    container = document.createElement('div');
+    container.id = 'cloneNodes';
+    appElement.after(container);
+  } else {
+    container = document.getElementById('cloneNodes');
+  }
   draggableElements.forEach((key, index) => {
     draggableElementsClones[index] = draggableElements[index].cloneNode(true);
     draggableElementsClones[index].style.transform = 'rotate(0)';
     draggableElementsClones[index].style.position = 'absolute';
-    draggableElementsClones[index].style.left = '-10000';
+    draggableElementsClones[index].style.left = '-10000px';
     console.log(draggableElementsClones[index].id);
     draggableElementsClones[index].id = `clone__${draggableElementsClones[index].id.toString()}`;
     console.log(draggableElementsClones[index].children[2]);
