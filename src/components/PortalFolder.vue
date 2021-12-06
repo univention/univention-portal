@@ -30,6 +30,7 @@
   <div
     v-if="hasTiles || editMode"
     class="portal-folder"
+    :id="id"
     :draggable="editMode && !inModal"
     :class="[
       { 'portal-folder__in-modal': inModal },
@@ -191,6 +192,7 @@ export default defineComponent({
     ...mapGetters({
       lastDir: 'dragndrop/getLastDir',
       searchQuery: 'search/searchQuery',
+
     }),
     hasTiles(): boolean {
       return this.tiles.length > 0;
@@ -253,6 +255,7 @@ export default defineComponent({
       this.$store.dispatch('modal/closeFolder');
     },
     openFolder(ev: Event) {
+      console.log('this.editMode', this.editMode);
       if (this.inModal) {
         return;
       }
@@ -261,6 +264,11 @@ export default defineComponent({
         props: { ...this.$props, id: `${this.id}-modal`, inModal: true },
       });
       this.$store.dispatch('activity/setRegion', `${this.id}-modal-content`);
+      if (this.editMode) {
+        setTimeout(() => {
+          this.$store.dispatch('dragndrop/createCloneNodesInFolder');
+        }, 100);
+      }
       ev.stopPropagation();
     },
     editFolder() {
