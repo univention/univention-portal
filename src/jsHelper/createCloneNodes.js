@@ -1,9 +1,8 @@
-export default function(inFolder) {
+export default function (inFolder) {
   let draggableElements;
   if (inFolder) {
     const folderContainer = document.querySelector('.portal-folder__thumbnails--in-modal');
     draggableElements = folderContainer.querySelectorAll('[draggable=true]');
-    console.log('folderContainer', draggableElements);
   } else {
     draggableElements = document.querySelectorAll('[draggable=true]');
   }
@@ -22,9 +21,7 @@ export default function(inFolder) {
     draggableElementsClones[index].style.transform = 'rotate(0)';
     draggableElementsClones[index].style.position = 'absolute';
     draggableElementsClones[index].style.left = '-10000px';
-    console.log(draggableElementsClones[index].id);
     draggableElementsClones[index].id = `clone__${draggableElementsClones[index].id.toString()}`;
-    console.log(draggableElementsClones[index].children[2]);
     if (draggableElementsClones[index].children[2]) {
       draggableElementsClones[index].removeChild(draggableElementsClones[index].children[2]);
     }
