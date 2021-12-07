@@ -36,30 +36,23 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
   const tilePositionBefore = fromPosition.entryIdx;
   const tilePositionAfter = toPosition.entryIdx;
   if (categoryPositionBefore && (tilePositionBefore !== null) && (tilePositionAfter !== null) && (categoryPositionAfter !== null)) {
-    const titleOfMovedElement = getPortalLayout[categoryPositionBefore].tiles[tilePositionBefore]?.title;
     const numberOfTiles = getPortalLayout[categoryPositionAfter].tiles.length;
     const newPositionInArray = tilePositionAfter + 1;
     const titleOfCategory = getPortalLayout[categoryPositionAfter].title;
 
     if (fromPosition.categoryIdx !== toPosition.categoryIdx) {
-      setMessage(_('Moving tile %(tile)s into category %(category)s', {
-        tile: vm.$localized(titleOfMovedElement),
+      setMessage(_('Tile moved into category %(category)s', {
         category: vm.$localized(titleOfCategory),
       }));
     } else if (fromPosition.contextType === 'category') {
-      setMessage(_('Moving tile %(titleOfMovedElement)s into position %(positionInArray)s of %(numberOfTiles)s', {
-        titleOfMovedElement: vm.$localized(titleOfMovedElement),
+      setMessage(_('Tile moved into position %(positionInArray)s of %(numberOfTiles)s', {
         positionInArray: newPositionInArray.toString(),
         numberOfTiles: numberOfTiles.toString(),
       }));
     } else if (fromPosition.contextType === 'folder') {
       const folderIndex = fromPosition.folderIdx ? fromPosition.folderIdx : -1;
-      const tileTitle = vm.$localized(getPortalLayout[categoryPositionBefore].tiles[folderIndex].tiles[tilePositionBefore].title);
-      const folderTitle = vm.$localized(getPortalLayout[categoryPositionBefore].tiles[folderIndex].title);
       const numberOfTilesInFolder = getPortalLayout[categoryPositionBefore].tiles[folderIndex].tiles.length;
-      setMessage(_('Moving tile %(tileTitle)s in Folder %(folderTitle)s into position %(newPositionInArray)s of %(numberOfTilesInFolder)s', {
-        tileTitle,
-        folderTitle,
+      setMessage(_('Tile in Folder moved into position %(newPositionInArray)s of %(numberOfTilesInFolder)s', {
         newPositionInArray: newPositionInArray.toString(),
         numberOfTilesInFolder: numberOfTilesInFolder.toString(),
       }));
@@ -67,12 +60,9 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
   }
   if (fromPosition.contextType === 'root') {
     if (fromPosition.entryIdx && toPosition.entryIdx) {
-      const movedCategory = fromPosition.entryIdx;
-      const movedCategoryTitle = vm.$localized(getPortalLayout[movedCategory].title);
       const newCategoryPosition = toPosition.entryIdx;
       const numberOfCategories = getPortalLayout.filter((category) => (!category.dn.includes('$$menu$$') && !category.dn.includes('$$user$$') && !category.dn.includes('cn=new'))).length;
-      setMessage(_('Moving Category %(movedCategoryTitle)s to position %(newCategoryPosition)s of %(numberOfCategories)s', {
-        movedCategoryTitle,
+      setMessage(_('Category moved to position %(newCategoryPosition)s of %(numberOfCategories)s', {
         newCategoryPosition: newCategoryPosition.toString(),
         numberOfCategories: numberOfCategories.toString(),
       }));
