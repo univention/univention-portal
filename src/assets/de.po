@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2021-12-02 17:09+0100\n"
+"POT-Creation-Date: 2021-12-07 10:53+0100\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -142,6 +142,14 @@ msgstr "Kategorie konnte nicht gelöscht werden"
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:92
 msgid "Category could not be unlinked"
 msgstr "Kategorie konnte nicht entfernt werden"
+
+#: src/store/modules/portalData/portalData.helper.ts:65
+#, fuzzy
+msgid ""
+"Category moved to position %(newCategoryPosition)s of %(numberOfCategories)s"
+msgstr ""
+"Kategorie zu Position %(newCategoryPosition)s "
+"von %(numberOfCategories)s bewegt"
 
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:127
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:72
@@ -442,38 +450,6 @@ msgstr "Kategorie %(category)s verschieben"
 msgid "Move tile: %(entry)s"
 msgstr "Kachel  %(entry)s verschieben"
 
-#: src/store/modules/portalData/portalData.helper.ts:74
-#, fuzzy
-msgid ""
-"Moving Category %(movedCategoryTitle)s to position %(newCategoryPosition)s "
-"of %(numberOfCategories)s"
-msgstr ""
-"Bewege Kategorie %(movedCategoryTitle)s zu Position %(newCategoryPosition)s von "
-"%(numberOfCategories)s"
-
-#: src/store/modules/portalData/portalData.helper.ts:45
-#, fuzzy
-msgid "Moving tile %(tile)s into category %(category)s"
-msgstr "Bewege Kachel %(tile)s zu Kategorie %(category)s"
-
-#: src/store/modules/portalData/portalData.helper.ts:60
-#, fuzzy
-msgid ""
-"Moving tile %(tileTitle)s in Folder %(folderTitle)s into position "
-"%(newPositionInArray)s of %(numberOfTilesInFolder)s"
-msgstr ""
-"Bewege Kachel %(tileTitle)s im Ordner %(folderTitle)s zu Position "
-"%(newPositionInArray)s von %(numberOfTilesInFolder)s"
-
-#: src/store/modules/portalData/portalData.helper.ts:50
-#, fuzzy
-msgid ""
-"Moving tile %(titleOfMovedElement)s into position %(positionInArray)s of "
-"%(numberOfTiles)s"
-msgstr ""
-"Bewege Kachel %(titleOfMovedElement)s zu Position %(positionInArray)s von "
-"%(numberOfTiles)s"
-
 #: src/tmp/ts/src/components/admin/Entry.vue:176
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:67
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
@@ -679,6 +655,27 @@ msgstr ""
 "Das Portal ist momentan nicht verfügbar. Wenn das Problem weiterhin besteht,"
 " wenden Sie sich bitte an Ihren Systemadministrator."
 
+#: src/store/modules/portalData/portalData.helper.ts:55
+#, fuzzy
+msgid ""
+"Tile in Folder moved into position %(newPositionInArray)s of "
+"%(numberOfTilesInFolder)s"
+msgstr ""
+"Kachel im Ordner %(folderTitle)s zu Position "
+"%(newPositionInArray)s von %(numberOfTilesInFolder)s verschoben"
+
+#: src/store/modules/portalData/portalData.helper.ts:44
+#, fuzzy
+msgid "Tile moved into category %(category)s"
+msgstr "Kachel in Kategorie %(category)s verschoben"
+
+#: src/store/modules/portalData/portalData.helper.ts:48
+#, fuzzy
+msgid "Tile moved into position %(positionInArray)s of %(numberOfTiles)s"
+msgstr ""
+"Kachel zu Position %(positionInArray)s von "
+"%(numberOfTiles)s verschoben"
+
 #: src/tmp/ts/src/components/admin/TranslationEditing.vue:53
 msgid "Translation: %(key1)s"
 msgstr "Übersetzung: %(key1)s"
@@ -779,6 +776,10 @@ msgstr "schreibgeschützt"
 
 #~ msgid "Move category"
 #~ msgstr "Kategorie verschieben"
+
+#, fuzzy
+#~ msgid "Moving tile %(tile)s into category %(category)s"
+#~ msgstr "Bewege Kachel %(tile)s zu Kategorie %(category)s"
 
 #~ msgid "Portal is in edit mode"
 #~ msgstr "Portal ist im Editiermodus"
