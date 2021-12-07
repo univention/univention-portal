@@ -597,6 +597,7 @@ const portalData: PortalModule<PortalDataState> = {
           title: _('Entries successfully re-sorted'),
         }, { root: true });
       }
+      dispatch('dragndrop/createCloneNodes', null, { root: true });
 
       if (folderPosition !== null && folderPosition.entryIdx !== null) {
         const folder = getters.portalFinalLayout[folderPosition.categoryIdx as number].tiles[folderPosition.entryIdx as number];
