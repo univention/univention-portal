@@ -63,6 +63,13 @@
         - upx_frontend
         - upx_frontend_execute_fill_portal
 
+    - name: "Execute Install Self-Service (FE + BE)"
+      ansible.builtin.command:
+        cmd: "univention-app install self-service --noninteractive"
+      tags:
+        - upx_frontend
+        - upx_frontend_execute_fill_portal
+
     - name: "Set execute permission on demodata"
       ansible.builtin.file:
         path: "/tmp/demodata/demodata.sh"

@@ -40,10 +40,10 @@ export default defineComponent({
 .input-error-message
     display: flex
     align-items: center
-    color: var(--font-color-contrast-middle)
+    color: var(--font-color-error)
     margin-bottom: var(--layout-spacing-unit)
 
     &__icon
         margin-right: var(--layout-spacing-unit-small)
-        color: var(--font-color-contrast-middle)
+        color: var(--font-color-error)
 </style>
