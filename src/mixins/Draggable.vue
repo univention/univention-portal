@@ -133,10 +133,8 @@ const draggableMixin = {
       if (!this.isDraggable) {
         return;
       }
-      console.log('Evenrt', evt);
       const draggedElement = evt.srcElement;
       const draggedElementClone = document.getElementById(`clone__${draggedElement.id}`);
-      console.log('element', draggedElementClone);
       evt.dataTransfer.setDragImage(draggedElementClone, 75, 75);
 
       this.$store.dispatch('dragndrop/startDragging', {
