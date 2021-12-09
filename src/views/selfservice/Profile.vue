@@ -5,6 +5,10 @@
   >
     <div>{{ SUBTITLE }}</div>
     <my-form
+      v-model="radioModel"
+      :widgets="radioWidget"
+    />
+    <my-form
       v-model="loginValues"
       :widgets="loginWidgets"
     >
@@ -12,7 +16,9 @@
         <button
           type="submit"
           @click.prevent="onContinue"
-        >{{ CONTINUE }}</button>
+        >
+          {{ CONTINUE }}
+        </button>
       </footer>
     </my-form>
     <my-form
@@ -24,12 +30,16 @@
         <button
           type="button"
           @click="onCancel"
-        >{{ CANCEL }}</button>
+        >
+          {{ CANCEL }}
+        </button>
         <button
           type="submit"
           class="primary"
           @click.prevent="onSave"
-        >{{ SAVE }}</button>
+        >
+          {{ SAVE }}
+        </button>
       </footer>
     </my-form>
   </site>
@@ -53,6 +63,8 @@ interface Data {
   attributeWidgets: any[],
   attributeValues: any,
   origFormValues: any,
+  radioModel: any,
+  radioWidget: any,
 }
 
 export default defineComponent({
@@ -84,6 +96,26 @@ export default defineComponent({
       },
       attributeWidgets: [],
       attributeValues: {},
+      radioModel: {
+        xMasRadio: '',
+      },
+      radioWidget: [{
+        type: 'RadioBox',
+        name: 'xMasRadio',
+        label: 'Do you like Christmas?',
+        invalidMessage: '',
+        options: [{
+          option: 'yes',
+          label: _('Yes'),
+        }, {
+          option: 'no',
+          label: _('No'),
+        }, {
+          option: 'maybe',
+          label: _('Maybe'),
+        }],
+        required: true,
+      }],
       origFormValues: {},
     };
   },
@@ -116,6 +148,7 @@ export default defineComponent({
   methods: {
     onContinue() {
       validateAll(this.loginWidgets, this.loginValues);
+      validateAll(this.radioWidget, this.radioModel);
       if (allValid(this.loginWidgets)) {
         this.loginWidgets.forEach((widget) => {
           widget.disabled = true;
