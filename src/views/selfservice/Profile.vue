@@ -5,6 +5,10 @@
   >
     <div>{{ SUBTITLE }}</div>
     <my-form
+      v-model="radioModel"
+      :widgets="radioWidget"
+    />
+    <my-form
       v-model="loginValues"
       :widgets="loginWidgets"
     >
@@ -59,6 +63,8 @@ interface Data {
   attributeWidgets: any[],
   attributeValues: any,
   origFormValues: any,
+  radioModel: any,
+  radioWidget: any,
 }
 
 export default defineComponent({
@@ -90,6 +96,26 @@ export default defineComponent({
       },
       attributeWidgets: [],
       attributeValues: {},
+      radioModel: {
+        xMasRadio: '',
+      },
+      radioWidget: [{
+        type: 'RadioBox',
+        name: 'xMasRadio',
+        label: 'Do you like Christmas?',
+        invalidMessage: '',
+        options: [{
+          option: 'yes',
+          label: _('Yes'),
+        }, {
+          option: 'no',
+          label: _('No'),
+        }, {
+          option: 'maybe',
+          label: _('Maybe'),
+        }],
+        required: true,
+      }],
       origFormValues: {},
     };
   },
@@ -122,6 +148,7 @@ export default defineComponent({
   methods: {
     onContinue() {
       validateAll(this.loginWidgets, this.loginValues);
+      validateAll(this.radioWidget, this.radioModel);
       if (allValid(this.loginWidgets)) {
         this.loginWidgets.forEach((widget) => {
           widget.disabled = true;
