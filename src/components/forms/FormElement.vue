@@ -36,6 +36,7 @@ import DateBox from '@/components/widgets/DateBox.vue';
 import MultiInput from '@/components/widgets/MultiInput.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
+import RadioBox from '@/components/widgets/RadioBox.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -47,6 +48,7 @@ export default defineComponent({
     MultiInput,
     PasswordBox,
     TextBox,
+    RadioBox,
   },
   props: {
     widget: {
