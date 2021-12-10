@@ -12,7 +12,9 @@
         <button
           type="submit"
           @click.prevent="onContinue"
-        >{{ CONTINUE }}</button>
+        >
+          {{ CONTINUE }}
+        </button>
       </footer>
     </my-form>
   </site>

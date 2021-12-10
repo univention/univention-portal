@@ -12,7 +12,9 @@
         <button
           type="submit"
           @click.prevent="onContinue"
-        >{{ CONTINUE }}</button>
+        >
+          {{ CONTINUE }}
+        </button>
       </footer>
     </my-form>
     <my-form
@@ -24,12 +26,16 @@
         <button
           type="button"
           @click="onCancel"
-        >{{ CANCEL }}</button>
+        >
+          {{ CANCEL }}
+        </button>
         <button
           type="submit"
           class="primary"
           @click.prevent="onSave"
-        >{{ SAVE }}</button>
+        >
+          {{ SAVE }}
+        </button>
       </footer>
     </my-form>
   </site>
