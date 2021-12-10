@@ -124,7 +124,7 @@ export default defineComponent({
       outline: none;
   &__wrapper
     background-color: rgba(0,0,0,0)
-    min-height: auto
+    bottom: unset
 
 .slide-enter-active,
 .slide-leave-active {
