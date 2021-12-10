@@ -42,6 +42,7 @@
         v-if="!modelValue.dn"
       />
       <input
+        v-if="!modelValue.dn"
         v-model="name"
         :readonly="modelValue.dn"
         :tabindex="tabindex"
@@ -49,6 +50,11 @@
         name="name"
         autocomplete="off"
       >
+      <read-only-field
+        v-if="modelValue.dn"
+        :label="name"
+        :tabindex="tabindex"
+      />
     </label>
     <locale-input
       v-model="title"
@@ -140,6 +146,7 @@ import { removeEntryFromSuperObj, addEntryToSuperObj, put, add, remove } from '@
 import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
+import ReadOnlyField from '@/components/forms/ReadOnlyField.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import MultiSelect from '@/components/widgets/MultiSelect.vue';
@@ -221,6 +228,7 @@ export default defineComponent({
     MultiSelect,
     LinkWidget,
     RequiredFieldLabel,
+    ReadOnlyField,
   },
   props: {
     label: {

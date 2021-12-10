@@ -45,6 +45,7 @@
         v-if="!modelValue.dn"
       />
       <input
+        v-if="!modelValue.dn"
         v-model="name"
         :tabindex="tabindex"
         :readonly="modelValue.dn"
@@ -53,6 +54,11 @@
         autocomplete="off"
       >
     </label>
+    <read-only-field
+      v-if="modelValue.dn"
+      :label="name"
+      :tabindex="tabindex"
+    />
     <locale-input
       v-model="title"
       :i18n-label="NAME"
@@ -73,6 +79,7 @@ import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
+import ReadOnlyField from '@/components/forms/ReadOnlyField.vue';
 
 interface AdminFolderData extends ValidatableData {
   name: string,
@@ -102,6 +109,7 @@ export default defineComponent({
     EditWidget,
     LocaleInput,
     RequiredFieldLabel,
+    ReadOnlyField,
   },
   props: {
     label: {

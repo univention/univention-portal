@@ -121,7 +121,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.$el.querySelector('input:enabled:not([readonly])')?.focus();
+    this.$el.querySelector('input:enabled')?.focus();
   },
   methods: {
     cancel() {
