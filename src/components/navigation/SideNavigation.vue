@@ -271,7 +271,6 @@ export default defineComponent({
       (this.$refs.editModeButton as HTMLElement).blur();
       this.$store.dispatch('navigation/setActiveButton', '');
       this.$store.dispatch('tabs/setActiveTab', 0);
-      this.$store.dispatch('dragndrop/createCloneNodes');
     },
     setFadeClass(): string {
       let ret = '';
