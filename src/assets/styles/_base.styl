@@ -92,6 +92,32 @@ input, select
     cursor: var(--cursor-disabled)
     color: var(--font-color-contrast-low)
 
+  &[type="radio"]
+    height: 1rem
+    width: @height
+    margin-right: var(--layout-spacing-unit)
+    appearance: none
+    border-radius: 100%
+    padding: 0 !important
+    display: flex
+
+    &:focus,
+    &:focus:checked
+      border-color: var(--color-focus)
+    &:checked
+      border-color: var(--color-accent)
+
+    &:checked:after
+      display: block;
+      content: '';
+      border-radius: 100%;
+      height: 0.6rem;
+      width: @height
+      top: 5px;
+      left: 5px;
+      margin: auto;
+      background: var(--color-accent)
+
 fieldset
   border: 0
   padding: 0
