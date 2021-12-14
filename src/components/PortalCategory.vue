@@ -64,7 +64,6 @@
         @dragstart="dragstart"
         @dragenter="dragenter"
         @dragend="dragend"
-        :id="categoryId"
       >
         {{ $localized(title) }}
       </span>
