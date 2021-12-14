@@ -9,6 +9,7 @@ export function isEmpty(widget, value): boolean {
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
+    case 'RadioBox':
       return value === '';
     case 'MultiInput':
       return value.every((row) => {
@@ -31,6 +32,7 @@ export function isValid(widget): boolean {
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
+    case 'RadioBox':
       return widget.invalidMessage === '';
     case 'MultiInput':
       return widget.invalidMessage.all === '' &&
@@ -63,6 +65,7 @@ export function validate(widget, value): void {
       case 'ComboBox':
       case 'PasswordBox':
       case 'MultiInput':
+      case 'RadioBox':
         return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
       default:
         return '';
@@ -88,6 +91,7 @@ export function validate(widget, value): void {
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
+    case 'RadioBox':
       widget.invalidMessage = getFirstInvalidMessage(widget, value);
       break;
     case 'MultiInput':
@@ -118,6 +122,7 @@ export function initialValue(widget, value): any {
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
+    case 'RadioBox':
       return typeof value === 'string' ? value : '';
     case 'MultiInput':
       if (!Array.isArray(value)) {
@@ -147,6 +152,7 @@ export function invalidMessage(widget): string {
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
+    case 'RadioBox':
       return widget.invalidMessage;
     case 'MultiInput':
       return widget.invalidMessage.all;
