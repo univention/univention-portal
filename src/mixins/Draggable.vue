@@ -133,6 +133,9 @@ const draggableMixin = {
       if (!this.isDraggable) {
         return;
       }
+      const draggedElement = evt.srcElement;
+      const draggedElementClone = document.getElementById(`clone__${draggedElement.id}`);
+      evt.dataTransfer.setDragImage(draggedElementClone, 75, 75);
 
       if (evt) {
         const draggedElement = evt.srcElement;

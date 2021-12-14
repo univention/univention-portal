@@ -29,6 +29,7 @@
 import { PortalModule, RootState } from '@/store/root.models';
 import { ActionContext } from 'vuex';
 import { PortalBaseLayout, PortalLayout, Title } from '@/store/modules/portalData/portalData.models';
+import createCloneNodes from '@/jsHelper/createCloneNodes';
 
 export interface DraggedItem {
   layoutId: string,
@@ -139,6 +140,15 @@ const dragndrop: PortalModule<DraggedItem> = {
     },
     lastDir({ commit }: DragAndDropActionContext, payload): void {
       commit('LAST_DIR', payload);
+    },
+    createCloneNodes(): void {
+      createCloneNodes(false);
+    },
+    createCloneNodesInFolder(): void {
+      createCloneNodes(true);
+    },
+    removeCloneNodes(): void {
+      document.getElementById('cloneNodes')?.remove();
     },
   },
 };
