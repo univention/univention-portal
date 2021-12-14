@@ -242,6 +242,7 @@ export default defineComponent({
     stopEditMode(): void {
       this.$store.dispatch('portalData/setEditMode', false);
       this.$store.dispatch('navigation/setActiveButton', '');
+      this.$store.dispatch('dragndrop/removeCloneNodes');
     },
   },
 });
