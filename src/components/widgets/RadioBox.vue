@@ -3,16 +3,16 @@
     <label
       v-for="option in options"
       :key="option"
-      :for="`${name}--${option.option}`"
+      :for="`${name}--${option.id}`"
       class="radio-box__label"
     >
       <input
         type="radio"
         name="radio-input"
-        :value="option.option"
-        :id="`${name}--${option.option}`"
+        :value="option.id"
+        :id="`${name}--${option.id}`"
         class="radio-box__input"
-        @change="$emit('update:modelValue', option.option)"
+        @change="$emit('update:modelValue', option.id)"
       >
       {{ option.label }}
     </label>
