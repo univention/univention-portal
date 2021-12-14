@@ -59,11 +59,11 @@
         @keydown.tab="handleTabWhileMoving"
       />
       <span
+        :id="categoryId"
         :draggable="editMode && !virtual"
         @dragstart="dragstart"
         @dragenter="dragenter"
         @dragend="dragend"
-        :id="categoryId"
       >
         {{ $localized(title) }}
       </span>

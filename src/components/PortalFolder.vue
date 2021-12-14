@@ -29,8 +29,8 @@
 <template>
   <div
     v-if="hasTiles || editMode"
-    class="portal-folder"
     :id="id"
+    class="portal-folder"
     :draggable="editMode && !inModal"
     :class="[
       { 'portal-folder__in-modal': inModal },
@@ -264,11 +264,6 @@ export default defineComponent({
         props: { ...this.$props, id: `${this.id}-modal`, inModal: true },
       });
       this.$store.dispatch('activity/setRegion', `${this.id}-modal-content`);
-      if (this.editMode) {
-        setTimeout(() => {
-          this.$store.dispatch('dragndrop/createCloneNodesInFolder');
-        }, 100);
-      }
       ev.stopPropagation();
     },
     editFolder() {
