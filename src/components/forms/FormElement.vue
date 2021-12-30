@@ -4,6 +4,7 @@
       'form-element',
       { 'form-element--invalid': invalid },
     ]"
+    data-test="form-element"
   >
     <form-label
       :label="widget.label"
