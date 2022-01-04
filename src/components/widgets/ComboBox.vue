@@ -2,6 +2,7 @@
   <select
     :aria-invalid="invalid"
     :value="modelValue"
+    data-test="combo-box"
     @change="$emit('update:modelValue', $event.target.value)"
   >
     <option
