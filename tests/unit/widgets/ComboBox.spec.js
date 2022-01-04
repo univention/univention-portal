@@ -29,42 +29,44 @@
 
 import { mount } from '@vue/test-utils';
 
-import DateBox from '@/components/widgets/DateBox';
+import ComboBox from '@/components/widgets/ComboBox';
+import CombinedStream from 'combined-stream';
 
-describe('DateBox Component', () => {
+const comboBoxOptions = [
+  {
+    id: 'red', 
+    label: 'Red'
+  }, 
+  {
+    id: 'green', 
+    label: 'Green'
+  }, 
+  {
+    id: 'blue', 
+    label: 'Blue'
+  }, 
+]
+
+describe('ComboBox Component', () => {
   test('test input value', async () => {
-      // to check focus, we need to attach to an actual document, normally we don't do this
-      const div = document.createElement('div');
-      div.id = 'root';
-      document.body.appendChild(div);
-
-
-      const wrapper = await mount(DateBox, {
+      const wrapper = await mount(ComboBox, {
         propsData: {
           modelValue: '',
+          options: comboBoxOptions 
         },
-        attachTo: "#root"
       });
 
-      const dateBox = await wrapper.find('[data-test="date-box"]');
-      
-      // Expect input value to be empty on mount. 
-      expect(dateBox.element.value).toBe("");
-      await dateBox.setValue('2017-06-01');
-      expect(dateBox.element.value).toBe("2017-06-01");
-      
-      await dateBox.setValue('text string');
-      expect(dateBox.element.value).not.toBe("text string");
-      expect(dateBox.element.value).toBe("");
-      
-      wrapper.unmount();
-
+      const comboBox = await wrapper.find('[data-test="combo-box"]');
+      const options = comboBox.findAll('option');
+      await options[0].setSelected();
+      expect(comboBox.element.value).toBe(comboBoxOptions[0].id);
   });
 
   test('computed property', async () => {
-    const wrapper = await mount(DateBox, {
+    const wrapper = await mount(ComboBox, {
       propsData: {
         modelValue: '',
+        options: comboBoxOptions 
       },
     });
 
@@ -74,14 +76,20 @@ describe('DateBox Component', () => {
     expect(wrapper.vm.invalid).toBe(true);
   });
 
-  test('its actually a date input field', async () => {
-    const wrapper = await mount(DateBox, {
+  test('No other values than option array are possible', async () => {
+    const wrapper = await mount(ComboBox, {
       propsData: {
         modelValue: '',
+        options: comboBoxOptions 
       },
     });
-    const dateBox = await wrapper.find('[data-test="date-box"]');
-  
-    expect(dateBox.attributes('type')).toBe('date');
+    const comboBox = await wrapper.find('[data-test="combo-box"]');
+    
+    const select = wrapper.find('select');
+    
+    await select.setValue('wrong-input');
+
+    expect(comboBox.element.value).not.toBe('wrong-input');
+
   });
 });
