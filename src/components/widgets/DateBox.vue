@@ -3,6 +3,7 @@
     type="date"
     :value="modelValue"
     :aria-invalid="invalid"
+    data-test="date-box"
     @input="$emit('update:modelValue', $event.target.value)"
   >
 </template>
