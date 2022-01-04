@@ -1,5 +1,5 @@
 <template>
-  <div class="radio-box">
+  <div class="radio-box" data-test="radio-box">
     <label
       v-for="option in options"
       :key="option"
