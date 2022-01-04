@@ -3,6 +3,7 @@
     type="password"
     :value="modelValue"
     :aria-invalid="invalid"
+    data-test="password-box"
     @input="$emit('update:modelValue', $event.target.value)"
   >
 </template>
