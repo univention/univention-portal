@@ -73,8 +73,8 @@ test('Test Portalsearch', async () => {
             plugins: [store, localize]
         },
         attachTo: "#root"
-    })
-
+    });
+    
     const input = await wrapper.find('.portal-search__input')
     // ensure that input is focussed after mounting
     expect(input.element).toBe(document.activeElement)
