@@ -30,7 +30,6 @@
 import { mount } from '@vue/test-utils';
 
 import ComboBox from '@/components/widgets/ComboBox';
-import CombinedStream from 'combined-stream';
 
 const comboBoxOptions = [
   {

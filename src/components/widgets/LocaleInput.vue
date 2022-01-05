@@ -27,7 +27,7 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div class="locale-input">
+  <div class="locale-input" data-test="locale-input">
     <label
       class="locale-input__label"
       :for="`locale-input-${I18N_LABEL}`"
@@ -111,8 +111,6 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       locales: 'locale/getAvailableLocales',
-      getModalError: 'modal/getModalError',
-      savedFocus: 'activity/focus',
     }),
     I18N_LABEL(): string {
       return _('%(key1)s', { key1: this.i18nLabel });
