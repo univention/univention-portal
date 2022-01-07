@@ -36,8 +36,7 @@ describe('DateBox Component', () => {
       const wrapper = await mount(DateBox, {
         propsData: {
           modelValue: '',
-        },
-        attachTo: "#root"
+        }
       });
 
       const dateBox = await wrapper.find('[data-test="date-box"]');

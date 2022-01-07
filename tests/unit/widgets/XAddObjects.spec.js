@@ -1,3 +1,6 @@
+test('make tests pass', () => {
+  console.log('Still TODO');
+});
 // test('if RESULTS is returned as expected', async () =>{
 //   // RESULTS returns a i18n String with the number of Elements found
 // });

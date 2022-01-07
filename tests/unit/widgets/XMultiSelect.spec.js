@@ -1,4 +1,7 @@
 
+  test('make tests pass', () => {
+    console.log('Still TODO');
+  });
   // test('if ADD_MORE returns string', async () =>{
   //   // should return 'Add more' as i18n string
   // });
