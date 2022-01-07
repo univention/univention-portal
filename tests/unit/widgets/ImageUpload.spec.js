@@ -33,7 +33,7 @@ import ImageUpload from '@/components/widgets/ImageUpload';
 
 
 describe('ImageUpload.vue', () => {
-  test('uploading image', async () => {
+  test('an image can be uploaded', async () => {
     const vueProps = {
       label: 'Example Image',
       modelValue: '',
@@ -128,4 +128,28 @@ describe('ImageUpload.vue', () => {
 
     expect(imagePreview.exists()).toBe(false);
   });
+
+
+// test('if SELECT_FILE is returned as expected', async () =>{
+//   // Returns a i18n String 
+// });
+
+// test('if UPLOAD is returned as expected', async () =>{
+//   // Returns a i18n String 
+// });
+
+// test('if REMOVE is returned as expected', async () =>{
+//   // Returns a i18n String 
+// });
+
+// test('if IMAGE_UPLOAD_STATE is returned as expected', async () =>{
+//   // Returns a i18n String with desired content 
+// });
+
+// test('if hasImage is returning the correct string', async () =>{
+//   // if no image then _('no file selected')
+//  // else this.filename
+// });
+
+
 }); 

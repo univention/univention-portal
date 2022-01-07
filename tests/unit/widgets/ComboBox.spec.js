@@ -47,35 +47,41 @@ const comboBoxOptions = [
 ]
 
 describe('ComboBox Component', () => {
-  test('test input value', async () => {
-      const wrapper = await mount(ComboBox, {
-        propsData: {
-          modelValue: '',
-          options: comboBoxOptions 
-        },
-      });
-
-      const comboBox = await wrapper.find('[data-test="combo-box"]');
-      const options = comboBox.findAll('option');
-      await options[0].setSelected();
-      expect(comboBox.element.value).toBe(comboBoxOptions[0].id);
-  });
-
-  test('computed property', async () => {
+  test('select input is working as expeced', async () => {
+    // Test if emit is also working? 
     const wrapper = await mount(ComboBox, {
       propsData: {
         modelValue: '',
         options: comboBoxOptions 
       },
     });
+    const comboBox = await wrapper.find('[data-test="combo-box"]');
+    
+    // select an option and expect the selectvalue to be that option
+    const options = comboBox.findAll('option');
+    await options[0].setSelected();
 
-    // Expect Aria-Invalid to be set correctly
+    expect(comboBox.element.value).toBe(comboBoxOptions[0].id);
+  });
+
+  test('this.invalid should return correct boolean', async () => {
+    const wrapper = await mount(ComboBox, {
+      propsData: {
+        modelValue: '',
+        options: comboBoxOptions 
+      },
+    });
+    
+    // this.invalid returns true if this.invalidMessage has a non-empty string
     expect(wrapper.vm.invalid).toBe(false);
     await wrapper.setProps({ invalidMessage: "Invalid Message" })
     expect(wrapper.vm.invalid).toBe(true);
+
+    // TODO select element should have aria-invalid true or false
+    // depending on this.invalid
   });
 
-  test('No other values than option array are possible', async () => {
+  test('No other values than those in options array are possible', async () => {
     const wrapper = await mount(ComboBox, {
       propsData: {
         modelValue: '',
@@ -91,4 +97,12 @@ describe('ComboBox Component', () => {
     expect(comboBox.element.value).not.toBe('wrong-input');
 
   });
+
+  // test('if option tag is rendered correctly', async () => {
+  // 1. Array is given by prop
+  // 2. count amount of options and compare with original array.lengh
+  // attributes: key="option.id" value="option.id"
+  // label: option.label
+  // }
+
 });
