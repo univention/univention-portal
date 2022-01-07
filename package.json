@@ -8,6 +8,7 @@
     "serve:wait": "yarn serve & wait-on http://localhost:8080",
     "deploy:firebase": "yarn build && firebase deploy",
     "test:unit": "vue-cli-service test:unit",
+    "test:coverage": "vue-cli-service test:unit --coverage",
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch",
     "test:e2e": "NODE_ENV=development vue-cli-service test:e2e",
