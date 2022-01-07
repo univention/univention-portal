@@ -1,3 +1,7 @@
+test('make tests pass', () => {
+  console.log('Still TODO');
+});
+
   // test('if ADD_ENTRY returns string', async () =>{
   //   // should return 'Add entry' as i18n string
   // });
