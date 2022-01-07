@@ -53,11 +53,5 @@ test('make tests pass', () => {
   // //  2. .multi-input__row has class .multi-input__row--multiline
  // });
 
- // test('if the .multi-input__row is working for multiline', async () =>{
-  // //  1. Prop subtypes must have more than one element
-  // //  2. .multi-input__row has class .multi-input__row--multiline
- // });
-
-
 
 

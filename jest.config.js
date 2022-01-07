@@ -15,4 +15,9 @@ module.exports = {
     '^(globals)($|/.*)$': '<rootDir>/src/components/$1$2',
     '^(components|assets|mixins|views)($|/.*)$': '<rootDir>/src/$1$2',
   },
+  // collectCoverage: true,
+  // collectCoverageFrom: [
+  //   'src/**/*.{js,vue}',
+  //   '!src/main.js', // No need to cover bootstrap file
+  // ],
 };
