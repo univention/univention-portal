@@ -32,13 +32,7 @@ import { mount } from '@vue/test-utils';
 import DateBox from '@/components/widgets/DateBox';
 
 describe('DateBox Component', () => {
-  test('test input value', async () => {
-      // to check focus, we need to attach to an actual document, normally we don't do this
-      const div = document.createElement('div');
-      div.id = 'root';
-      document.body.appendChild(div);
-
-
+  test('date input is working as expected', async () => {
       const wrapper = await mount(DateBox, {
         propsData: {
           modelValue: '',
@@ -53,35 +47,38 @@ describe('DateBox Component', () => {
       await dateBox.setValue('2017-06-01');
       expect(dateBox.element.value).toBe("2017-06-01");
       
+      // TODO check if wrong date input return false eg: 30.02.1993
+
       await dateBox.setValue('text string');
       expect(dateBox.element.value).not.toBe("text string");
       expect(dateBox.element.value).toBe("");
       
       wrapper.unmount();
-
   });
 
-  test('computed property', async () => {
+  test('this.invalid should return correct boolean', async () => {
     const wrapper = await mount(DateBox, {
       propsData: {
         modelValue: '',
       },
     });
 
-    // Expect Aria-Invalid to be set correctly
+    // this.invalid returns true if this.invalidMessage has a non-empty string
     expect(wrapper.vm.invalid).toBe(false);
     await wrapper.setProps({ invalidMessage: "Invalid Message" })
     expect(wrapper.vm.invalid).toBe(true);
+
+    // TODO select element should have aria-invalid true or false
+    // depending on this.invalid
   });
 
-  test('its actually a date input field', async () => {
+  test('it is an input type=date', async () => {
     const wrapper = await mount(DateBox, {
       propsData: {
         modelValue: '',
       },
     });
     const dateBox = await wrapper.find('[data-test="date-box"]');
-  
     expect(dateBox.attributes('type')).toBe('date');
   });
 });

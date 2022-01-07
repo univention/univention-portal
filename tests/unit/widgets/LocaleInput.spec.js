@@ -116,61 +116,46 @@ describe('LocaleInput Component', () => {
     expect(wrapper.vm.translationEditingDialogLevel).toBe(1);
   });
   
-  test('if the correct object will be given to translationEditingDialog', async () =>{
-    // the translationEditingDialog accepts only a certain type of object, therefore we need
-    // to ensure, that the modelValueData is set correctly
-    const wrapper = mountComponent();
+  // test('if the correct object will be given to translationEditingDialog', async () =>{
+  //   // the translationEditingDialog accepts only a certain type of object, therefore we need
+  //   // to ensure, that the modelValueData is set correctly
+  // });
 
+  // test('if adjustDataStructureForLinks is working as expected', async () => { 
+  //   // Pass a link object type as modelValue
+  //   // expect new object to be passed, needed for LocaleInput 
+  // });
 
-    // TODO 
-    /*
-    1. mount component only with english locale 
-    -> modelValueData should have only one key    
-    
-    2. mount component with english and german locale
-    -> modelValueData should habe both keys
-    await wrapper.vm.$nextTick();
-    console.log('###', wrapper.vm.isLink);
-    console.log('###', wrapper.vm.correctModelValue);
-    console.log('###', wrapper.vm.modelValue);
-    console.log('###', wrapper.vm.modelValueData);
-    
-    expect(wrapper.vm.correctModelValue).toMatchObject({
-      en_US: expect.any(String),
-      de_DE: expect.any(String)
-    });
-    
-    wrapper.setProps({ isLink: false });
-    expect(wrapper.vm.correctModelValue).not.toMatchObject({
-      en_US: expect.any(String),
-      de_DE: expect.any(String)
-    });
-    
-    expect(wrapper.vm.correctModelValue).toMatchObject({
-      en_US: expect.any(String),
-    });
-    */
-    
-  });
+  // test('if openTranslationEditingDialog will be called', async () => { 
+  //   // ...
+  // });
 
-  /*
-  Test if adjustDataStructureForLinks is working well
-  Pass a a link object type as modelValue
-  expect new object to be ass needed for LocaleInput  
-  */
+  // test('if setShowModalPromise will be called', async () => { 
+  //   // Check if Props are prepared
+  //   // Check if dispatch is working
+  //   // Check if Promise is working
+  // });
 
+  // test('if hideAndClearModal will be called', async () => { 
+  //   // There a two hide and clear promises:
+  //   // 1) A "succesful" hide and clear -> with new data
+  //   // 2) A Promise called by cancel
+  // });
 
-  /*
-
-  Test if openTranslationEditingDialog can be called 
-  Test if setShowModalPromise is called correctly with neccecary input. 
-  Test if hideAndClearModal is called correcrly
-  
-  Test if I18N_LABEL is returning the Label
-
-  Test if TRANSLATE_TEXT_INPUT is returning the test 
-
-  */
+  // test('if I18N_LABEL is returning the correct labelValue', async () => { 
+  //   // It seems to be an easy thing, but I guess it is not bad, to just start
+  //   // to test also the "simple things" for better documentation
+  //   // Pass I18n-label as Prop
+  //   // Expect computered Property to be desired Output. 
+  // });
+ 
+  // test('if TRANSLATE_TEXT_INPUT is returning the correct labelValue', async () => { 
+  //   // same as above 
+  //   // It seems to be an easy thing, but I guess it is not bad, to just start
+  //   // to test also the "simple things" for better documentation
+  //   // Pass I18n-label as Prop
+  //   // Expect computered Property to be desired Output. 
+  // });
   
 });
 
