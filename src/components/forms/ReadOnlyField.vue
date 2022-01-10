@@ -58,4 +58,5 @@ export default defineComponent({
   font-size: var(--font-size-3);
   &:focus
     border-color: var(--font-color-contrast-high)
+    outline: 0
 </style>
