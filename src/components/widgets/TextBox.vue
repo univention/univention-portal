@@ -3,6 +3,7 @@
     type="text"
     :value="modelValue"
     :aria-invalid="invalid"
+    :id="inputId"
     data-test="text-box"
     @input="$emit('update:modelValue', $event.target.value)"
   >
@@ -22,6 +23,10 @@ export default defineComponent({
     invalidMessage: {
       type: String,
       default: '',
+    },
+    inputId: {
+      type: String,
+      required: true,
     },
   },
   emits: ['update:modelValue'],
