@@ -32,7 +32,7 @@ import { mount } from '@vue/test-utils';
 import Textbox from '@/components/widgets/TextBox';
 
 describe('TextBox Component', () => {
-  test('test input value', async () => {
+  test('user can type in input field', async () => {
       // to check focus, we need to attach to an actual document, normally we don't do this
       const div = document.createElement('div');
       div.id = 'root';
@@ -59,7 +59,7 @@ describe('TextBox Component', () => {
 
   });
 
-  test('computed property', async () => {
+  test('computed property "invalud" is working', async () => {
     const wrapper = await mount(Textbox, {
       propsData: {
         modelValue: '',
@@ -70,5 +70,16 @@ describe('TextBox Component', () => {
     expect(wrapper.vm.invalid).toBe(false);
     await wrapper.setProps({ invalidMessage: "Invalid Message" })
     expect(wrapper.vm.invalid).toBe(true);
-  })
+  });
+
+  test('input field has id attribute with value (needed for A11y reasons)', async () => {
+    const wrapper = await mount(Textbox, {
+      propsData: {
+        modelValue: '',
+        inputId: 'testString',
+      },
+    });
+    const textBox = await wrapper.find('[data-test="text-box"]');
+    expect(textBox.attributes('id')).toBe('testString');
+  });
 });
