@@ -80,4 +80,15 @@ describe('DateBox Component', () => {
     const dateBox = await wrapper.find('[data-test="date-box"]');
     expect(dateBox.attributes('type')).toBe('date');
   });
+
+  test('it has the attribute id with a value from Prop //A11y',async () => {
+    const wrapper = await mount(DateBox, {
+      propsData: {
+        modelValue: '',
+        inputId: 'testString',
+      },
+    });
+    const dateBox = await wrapper.find('[data-test="date-box"]');
+    expect(dateBox.attributes('id')).toBe('testString');
+  });
 });
