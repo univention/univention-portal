@@ -1,5 +1,6 @@
 <template>
   <select
+    :id="inputId"
     :aria-invalid="invalid"
     :value="modelValue"
     data-test="combo-box"
@@ -33,6 +34,10 @@ export default defineComponent({
     invalidMessage: {
       type: String,
       default: '',
+    },
+    inputId: {
+      type: String,
+      required: true,
     },
   },
   emits: ['update:modelValue'],

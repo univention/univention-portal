@@ -98,6 +98,17 @@ describe('ComboBox Component', () => {
 
   });
 
+  test('it has the attribute id with a value from Prop //A11y',async () => {
+    const wrapper = await mount(ComboBox, {
+      propsData: {
+        modelValue: '',
+        inputId: 'testString',
+      },
+    });
+    const dateBox = await wrapper.find('[data-test="combo-box"]');
+    expect(dateBox.attributes('id')).toBe('testString');
+  });
+
   // test('if option tag is rendered correctly', async () => {
   // 1. Array is given by prop
   // 2. count amount of options and compare with original array.lengh
