@@ -1,9 +1,9 @@
 <template>
   <input
+    :id="inputId"
     type="date"
     :value="modelValue"
     :aria-invalid="invalid"
-    :id="inputId"
     data-test="date-box"
     @input="$emit('update:modelValue', $event.target.value)"
   >

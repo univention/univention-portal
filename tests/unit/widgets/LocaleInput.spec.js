@@ -146,7 +146,7 @@ describe('LocaleInput Component', () => {
   //   // It seems to be an easy thing, but I guess it is not bad, to just start
   //   // to test also the "simple things" for better documentation
   //   // Pass I18n-label as Prop
-  //   // Expect computered Property to be desired Output. 
+  //   // Expect computed Property to be desired Output. 
   // });
  
   // test('if TRANSLATE_TEXT_INPUT is returning the correct labelValue', async () => { 
@@ -154,7 +154,7 @@ describe('LocaleInput Component', () => {
   //   // It seems to be an easy thing, but I guess it is not bad, to just start
   //   // to test also the "simple things" for better documentation
   //   // Pass I18n-label as Prop
-  //   // Expect computered Property to be desired Output. 
+  //   // Expect computed Property to be desired Output. 
   // });
   
 });

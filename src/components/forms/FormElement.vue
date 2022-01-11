@@ -9,12 +9,16 @@
     <form-label
       :label="widget.label"
       :required="widget.required"
+      :for="inputLabelString"
+      data-test="form-element-label"
     />
     <div class="form-element__wrapper">
       <component
         :is="widget.type"
         v-bind="component"
         :model-value="modelValue"
+        :input-id="inputLabelString"
+        data-test="form-element-component"
         @update:model-value="$emit('update:modelValue', $event)"
       />
       <input-error-message
@@ -74,6 +78,9 @@ export default defineComponent({
     },
     invalidMessage(): string {
       return invalidMessage(this.widget);
+    },
+    inputLabelString(): string {
+      return `${this.widget.label}--${this.$.uid}`;
     },
   },
 });
