@@ -27,7 +27,10 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div class="locale-input" data-test="locale-input">
+  <div
+    class="locale-input"
+    data-test="locale-input"
+  >
     <label
       class="locale-input__label"
       :for="`locale-input-${I18N_LABEL}`"
