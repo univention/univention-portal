@@ -30,6 +30,7 @@
         :has-button-style="true"
         :aria-label-prop="REMOVE_ENTRY"
         @click="removeEntry(valIdx)"
+        :data-test="`multi-input-remove-entry-button-${valIdx}`"
       />
       <input-error-message
         :display-condition="rowInvalidMessage(valIdx) !== ''"
@@ -38,6 +39,7 @@
     </div>
     <button
       type="button"
+      data-test="multi-input-add-entry-button"
       @click="addEntry"
     >
       {{ ADD_ENTRY }}

@@ -1,5 +1,6 @@
 <template>
   <input
+    :id="inputId"
     type="password"
     :value="modelValue"
     :aria-invalid="invalid"
@@ -22,6 +23,10 @@ export default defineComponent({
     invalidMessage: {
       type: String,
       default: '',
+    },
+    inputId: {
+      type: String,
+      required: true,
     },
   },
   emits: ['update:modelValue'],
