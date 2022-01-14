@@ -35,6 +35,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     class="icon-button"
     tag="button"
     type="button"
+    ref="icon-button"
     @click.prevent.stop="$emit('click')"
   >
     <slot />

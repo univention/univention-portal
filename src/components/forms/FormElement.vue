@@ -7,7 +7,7 @@
     data-test="form-element"
   >
     <form-label
-      :label="widget.label"
+      :label="correctLabel"
       :required="widget.required"
       :for="inputLabelString"
       data-test="form-element-label"
@@ -81,6 +81,9 @@ export default defineComponent({
     },
     inputLabelString(): string {
       return `${this.widget.label}--${this.$.uid}`;
+    },
+    correctLabel(): string {
+      return this.widget.index ? `${this.widget.label}-${this.widget.index.toString()}` : this.widget.label;
     },
   },
 });

@@ -194,4 +194,5 @@ test('Can render a widget component', async () => {
     expect(label.attributes('for')).toBe(inputLabelString);
     expect(inputComponent.attributes('id')).toBe(inputLabelString);
   });
+  // test('this.correct label is working depending on if input is in multiinput', async () => {});
 });
