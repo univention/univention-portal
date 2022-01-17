@@ -13,6 +13,7 @@
           'multi-input__row--invalid': rowInvalidMessage(valIdx) !== '',
         },
       ]"
+      data-test="multi-input-row"
     >
       <div
         v-for="(type, typeIdx) in subtypes"
@@ -22,6 +23,7 @@
         <form-element
           :widget="getSubtypeWidget(type, valIdx, typeIdx)"
           :model-value="Array.isArray(val) ? val[typeIdx] : val"
+          :data-test="`form-element-${getSubtypeWidget(type, valIdx, typeIdx).type}-${valIdx}`"
           @update:model-value="onUpdate(valIdx, typeIdx, $event)"
         />
       </div>
@@ -29,8 +31,8 @@
         icon="trash"
         :has-button-style="true"
         :aria-label-prop="REMOVE_ENTRY"
-        @click="removeEntry(valIdx)"
         :data-test="`multi-input-remove-entry-button-${valIdx}`"
+        @click="removeEntry(valIdx)"
       />
       <input-error-message
         :display-condition="rowInvalidMessage(valIdx) !== ''"
