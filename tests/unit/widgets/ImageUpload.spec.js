@@ -31,14 +31,27 @@ import { mount } from '@vue/test-utils';
 
 import ImageUpload from '@/components/widgets/ImageUpload';
 
+const imageUploadProps = {
+  label: 'Example Image',
+  modelValue: '',
+}
+
+const imageResult = 'data:image/png;base64__TEST';
+
+let wrapper;
+
+beforeEach( async () => {
+  wrapper = await mount(ImageUpload, {
+    propsData: imageUploadProps,
+  });
+});
+
+afterEach(() => {
+  wrapper.unmount();
+});
 
 describe('ImageUpload.vue', () => {
   test('an image can be uploaded', async () => {
-    const vueProps = {
-      label: 'Example Image',
-      modelValue: '',
-    }
-
     const event = {
       target: {
         files: [
@@ -52,10 +65,6 @@ describe('ImageUpload.vue', () => {
     }
     const imageResult = 'data:image/png;base64__TEST';
 
-    const wrapper = await mount(ImageUpload, {
-      propsData: vueProps,
-    });
-
     // Spy on Filereader
     jest.spyOn(global, 'FileReader').mockImplementation(function () {
         this.readAsDataURL = jest.fn();
@@ -64,7 +73,7 @@ describe('ImageUpload.vue', () => {
     // Spy on handleFile method
     const handleFileSpy = jest.spyOn(wrapper.vm, 'handleFile');
     
-    let imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);    
+    let imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);    
 
     expect(imagePreview.exists()).toBe(false);
 
@@ -87,26 +96,18 @@ describe('ImageUpload.vue', () => {
     await wrapper.vm.$nextTick();
 
     // reassign since instance is updated. 
-    imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);
+    imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);
 
     expect(imagePreview.attributes('src')).toContain(imageResult);
   });
+
   test('removing existing image', async () => {
-    const imageResult = 'data:image/png;base64__TEST';
-
-    const vueProps = {
-      label: 'Example Image',
-      modelValue: imageResult,
-    }
-
-    const wrapper = await mount(ImageUpload, {
-      propsData: vueProps,
-    });
+    await wrapper.setProps({modelValue: imageResult});
 
     // Spy on remove method
     const removeSpy = jest.spyOn(wrapper.vm, 'remove');
     
-    let imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);    
+    let imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);    
 
     expect(imagePreview.exists()).toBe(true);
     expect(imagePreview.attributes('src')).toContain(imageResult);
@@ -124,32 +125,45 @@ describe('ImageUpload.vue', () => {
     await wrapper.vm.$nextTick();
 
     // reassign since instance is updated. 
-    imagePreview = wrapper.find(`[data-test="imagePreview--${vueProps.label}"]`);
+    imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);
 
     expect(imagePreview.exists()).toBe(false);
   });
 
 
-// test('if SELECT_FILE is returned as expected', async () =>{
-//   // Returns a i18n String 
-// });
+  test('if "Select File"-Button is rendered', async () =>{
+    const uploadButton = await wrapper.find(`[data-test="imageUploadButton--${imageUploadProps.label}"]`);
+    expect(uploadButton.text()).toBe(`Upload ${wrapper.vm.IMAGE_UPLOAD_STATE}`);
+  });
 
-// test('if UPLOAD is returned as expected', async () =>{
-//   // Returns a i18n String 
-// });
-
-// test('if REMOVE is returned as expected', async () =>{
-//   // Returns a i18n String 
-// });
-
-// test('if IMAGE_UPLOAD_STATE is returned as expected', async () =>{
-//   // Returns a i18n String with desired content 
-// });
-
-// test('if hasImage is returning the correct string', async () =>{
-//   // if no image then _('no file selected')
-//  // else this.filename
-// });
+  test('if "Remove"-Button is rendered and working as expected', async () =>{
+    const removeButton = await wrapper.find(`[data-test="imageRemoveButton--${imageUploadProps.label}"]`);
+    
+    // We expect the following text from the removeButton: "Remove "
+    expect(removeButton.text()).toBe(`Remove ${imageUploadProps.label}`);
+    // since there in no file uploaded, the remove button should be disabled
+    expect(removeButton.attributes('disabled')).toBe('');
+    
+    await wrapper.setProps({modelValue: imageResult});
+    expect(removeButton.attributes('disabled')).toBe(undefined);
+    
+    
+  });
 
 
+  test('if IMAGE_UPLOAD_STATE is returning necessary string (A11y)', async () =>{
+    expect(wrapper.vm.IMAGE_UPLOAD_STATE).toBe(`${wrapper.vm.label}, ${wrapper.vm.hasImage}`);
+  });
+
+  test('if hasImage is returning the correct string', async () =>{
+    // hasImage should check if a value in set in modelvalue. 
+    // if modelValue is set hasImage should return the filename
+    // If no image is set, hasImage should return 'no file selected'
+    
+    expect(wrapper.vm.hasImage).toBe('no file selected');
+    
+    await wrapper.setProps({modelValue: imageResult});
+    
+    expect(wrapper.vm.hasImage).toBe(wrapper.vm.fileName);
+  });
 }); 
