@@ -49,6 +49,7 @@
         <button
           type="button"
           :tabindex="tabindex"
+          data-test="multi-select-add-more-button"
           @click.prevent="add"
         >
           <portal-icon
@@ -65,6 +66,7 @@
           type="button"
           :disabled="!elementsSelected || modelValue.length === 0"
           :tabindex="tabindex"
+          data-test="multi-select-remove-button"
           @click.prevent="remove"
         >
           <portal-icon
@@ -128,7 +130,7 @@ export default defineComponent({
       return _('Remove');
     },
     REMOVE_SELECTION(): string {
-      return _('Remove selection');
+      return ` ${_('Remove selection')}`;
     },
     elementsSelected(): boolean {
       return this.selection.length > 0;
