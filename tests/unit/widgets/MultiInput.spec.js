@@ -183,6 +183,3 @@ describe('MultiInput.vue', () => {
     expect(getSubtypeWidgetSpy).toHaveBeenCalledWith(multiInputProps.subtypes[0], 0, 0);
   });
 });
-
-
-
