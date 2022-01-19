@@ -1,13 +1,12 @@
 <template>
   <input
-    :id="forAttrOfLabel"
+    :id="name"
     ref="input"
     :name="name"
-    type="text"
-    :value="modelValue"
+    type="checkbox"
+    :checked="modelValue"
     :aria-invalid="invalid"
-    data-test="text-box"
-    @input="$emit('update:modelValue', $event.target.value)"
+    @change="$emit('update:modelValue', $event.target.checked)"
   >
 </template>
 
@@ -16,21 +15,17 @@ import { defineComponent } from 'vue';
 import { isValid } from '@/jsHelper/forms';
 
 export default defineComponent({
-  name: 'TextBox',
+  name: 'CheckBox',
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
     modelValue: {
-      type: String,
+      type: Boolean,
       required: true,
     },
     invalidMessage: {
       type: String,
       default: '',
     },
-    forAttrOfLabel: {
+    name: {
       type: String,
       required: true,
     },
@@ -39,7 +34,7 @@ export default defineComponent({
   computed: {
     invalid(): boolean {
       return !isValid({
-        type: 'TextBox',
+        type: 'CheckBox',
         invalidMessage: this.invalidMessage,
       });
     },

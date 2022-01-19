@@ -33,25 +33,25 @@ import ComboBox from '@/components/widgets/ComboBox';
 
 const comboBoxOptions = [
   {
-    id: 'red', 
+    id: 'red',
     label: 'Red'
-  }, 
+  },
   {
-    id: 'green', 
+    id: 'green',
     label: 'Green'
-  }, 
+  },
   {
-    id: 'blue', 
+    id: 'blue',
     label: 'Blue'
-  }, 
+  },
 ];
 
-const comboBoxInputId = 'testString';
+const forAttrOfComboBoxLabel = 'testString';
 
 const comboBoxProps = {
   modelValue: '',
   options: comboBoxOptions,
-  inputId: comboBoxInputId,
+  forAttrOfLabel: forAttrOfComboBoxLabel,
 };
 
 let wrapper;
@@ -111,12 +111,12 @@ describe('ComboBox Component', () => {
 
   test('it has the attribute id with a value from Prop //A11y',async () => {
     const dateBox = await wrapper.find('[data-test="combo-box"]');
-    expect(dateBox.attributes('id')).toBe(comboBoxInputId);
+    expect(dateBox.attributes('id')).toBe(forAttrOfComboBoxLabel);
   });
 
   test('if option tag is rendered correctly', async () => {
     const options = wrapper.findAll('option');
-    
+
     expect(options.length).toBe(comboBoxOptions.length);
     expect(options[0].attributes('value')).toBe('red');
   });

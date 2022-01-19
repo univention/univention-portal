@@ -28,9 +28,6 @@
 -->
 <template>
   <div>
-    <label>
-      {{ LINKS }}
-    </label>
     <div
       v-for="(link, index) in modelValueData"
       :key="index"
@@ -77,6 +74,7 @@
     </div>
     <div class="modal-admin__button">
       <button
+        ref="addButton"
         type="button"
         class="modal-admin__button--inner"
         :tabindex="tabindex"
@@ -145,9 +143,6 @@ export default defineComponent({
     ADD_LINK(): string {
       return _('Add link');
     },
-    LINKS(): string {
-      return _('Links');
-    },
   },
   created() {
     this.modelValue.forEach((val) => {
@@ -189,6 +184,10 @@ export default defineComponent({
     removeLink(index: number): string {
       return `${this.LINK(index + 1)} ${this.REMOVE}`;
     },
+    focus() {
+      // @ts-ignore TODO
+      this.$refs.addButton.focus();
+    },
   },
 });
 
@@ -200,23 +199,18 @@ export { LocaleAndValue };
 .link-widget
   display: flex
   align-items: center
+  margin-bottom: var(--layout-spacing-unit)
 
   &__select
-    max-width: 5rem
-
-    select
-      width: 5rem
+    flex: 0 0 auto
 
   &__input
-    width: 100%
-    margin-left: 0.5rem
+    margin-left: var(--layout-spacing-unit)
     margin-right: var(--layout-spacing-unit)
 
     input
       width: 100%
-      box-sizing: border-box
 
   &__remove
-    width: 3rem
-    margin-bottom: var(--layout-spacing-unit)
+    flex: 0 0 auto
 </style>

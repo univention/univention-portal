@@ -1,6 +1,8 @@
 <template>
   <select
-    :id="inputId"
+    :id="forAttrOfLabel"
+    ref="select"
+    :name="name"
     :aria-invalid="invalid"
     :value="modelValue"
     data-test="combo-box"
@@ -23,6 +25,10 @@ import { isValid } from '@/jsHelper/forms';
 export default defineComponent({
   name: 'ComboBox',
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     modelValue: {
       type: String,
       required: true,
@@ -35,7 +41,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    inputId: {
+    forAttrOfLabel: {
       type: String,
       required: true,
     },
@@ -47,6 +53,12 @@ export default defineComponent({
         type: 'ComboBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      // @ts-ignore
+      this.$refs.select.focus();
     },
   },
 });

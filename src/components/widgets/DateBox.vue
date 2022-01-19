@@ -1,6 +1,8 @@
 <template>
   <input
-    :id="inputId"
+    :id="forAttrOfLabel"
+    ref="input"
+    :name="name"
     type="date"
     :value="modelValue"
     :aria-invalid="invalid"
@@ -16,6 +18,10 @@ import { isValid } from '@/jsHelper/forms';
 export default defineComponent({
   name: 'DateBox',
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     modelValue: {
       type: String,
       required: true,
@@ -24,7 +30,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    inputId: {
+    forAttrOfLabel: {
       type: String,
       required: true,
     },
@@ -36,6 +42,12 @@ export default defineComponent({
         type: 'DateBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      // @ts-ignore
+      this.$refs.input.focus();
     },
   },
 });

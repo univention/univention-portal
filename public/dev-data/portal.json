@@ -315,6 +315,7 @@
      "defaultLinkTarget": "embedded",
      "dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "ensureLogin": false,
+     "showUmc": false,
      "fontColor": "black",
      "logo": "./data/icons/logo.svg",
      "name": {

@@ -32,7 +32,7 @@ import { mount } from '@vue/test-utils';
 import ImageUpload from '@/components/widgets/ImageUpload';
 
 const imageUploadProps = {
-  label: 'Example Image',
+  extraLabel: 'Example Image',
   modelValue: '',
 }
 
@@ -72,8 +72,8 @@ describe('ImageUpload.vue', () => {
 
     // Spy on handleFile method
     const handleFileSpy = jest.spyOn(wrapper.vm, 'handleFile');
-    
-    let imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);    
+
+    let imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.extraLabel}"]`);
 
     expect(imagePreview.exists()).toBe(false);
 
@@ -83,7 +83,7 @@ describe('ImageUpload.vue', () => {
 
     expect(reader.readAsDataURL).toHaveBeenCalledWith(event.target.files[0]);
     expect(reader.onload).toStrictEqual(expect.any(Function));
-    
+
     reader.onload({ target: { result: imageResult } });
 
     // expect update emmiter to be triggered
@@ -95,8 +95,8 @@ describe('ImageUpload.vue', () => {
     // await instance to update
     await wrapper.vm.$nextTick();
 
-    // reassign since instance is updated. 
-    imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);
+    // reassign since instance is updated.
+    imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.extraLabel}"]`);
 
     expect(imagePreview.attributes('src')).toContain(imageResult);
   });
@@ -106,8 +106,8 @@ describe('ImageUpload.vue', () => {
 
     // Spy on remove method
     const removeSpy = jest.spyOn(wrapper.vm, 'remove');
-    
-    let imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);    
+
+    let imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.extraLabel}"]`);
 
     expect(imagePreview.exists()).toBe(true);
     expect(imagePreview.attributes('src')).toContain(imageResult);
@@ -124,46 +124,46 @@ describe('ImageUpload.vue', () => {
     // await instance to update
     await wrapper.vm.$nextTick();
 
-    // reassign since instance is updated. 
-    imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.label}"]`);
+    // reassign since instance is updated.
+    imagePreview = wrapper.find(`[data-test="imagePreview--${imageUploadProps.extraLabel}"]`);
 
     expect(imagePreview.exists()).toBe(false);
   });
 
 
   test('if "Select File"-Button is rendered', async () =>{
-    const uploadButton = await wrapper.find(`[data-test="imageUploadButton--${imageUploadProps.label}"]`);
+    const uploadButton = await wrapper.find(`[data-test="imageUploadButton--${imageUploadProps.extraLabel}"]`);
     expect(uploadButton.text()).toBe(`Upload ${wrapper.vm.IMAGE_UPLOAD_STATE}`);
   });
 
   test('if "Remove"-Button is rendered and working as expected', async () =>{
-    const removeButton = await wrapper.find(`[data-test="imageRemoveButton--${imageUploadProps.label}"]`);
-    
+    const removeButton = await wrapper.find(`[data-test="imageRemoveButton--${imageUploadProps.extraLabel}"]`);
+
     // We expect the following text from the removeButton: "Remove "
-    expect(removeButton.text()).toBe(`Remove ${imageUploadProps.label}`);
+    expect(removeButton.text()).toBe(`Remove ${imageUploadProps.extraLabel}`);
     // since there in no file uploaded, the remove button should be disabled
     expect(removeButton.attributes('disabled')).toBe('');
-    
+
     await wrapper.setProps({modelValue: imageResult});
     expect(removeButton.attributes('disabled')).toBe(undefined);
-    
-    
+
+
   });
 
 
   test('if IMAGE_UPLOAD_STATE is returning necessary string (A11y)', async () =>{
-    expect(wrapper.vm.IMAGE_UPLOAD_STATE).toBe(`${wrapper.vm.label}, ${wrapper.vm.hasImage}`);
+    expect(wrapper.vm.IMAGE_UPLOAD_STATE).toBe(`${wrapper.vm.extraLabel}, ${wrapper.vm.hasImage}`);
   });
 
   test('if hasImage is returning the correct string', async () =>{
-    // hasImage should check if a value in set in modelvalue. 
+    // hasImage should check if a value in set in modelvalue.
     // if modelValue is set hasImage should return the filename
     // If no image is set, hasImage should return 'no file selected'
-    
+
     expect(wrapper.vm.hasImage).toBe('no file selected');
-    
+
     await wrapper.setProps({modelValue: imageResult});
-    
+
     expect(wrapper.vm.hasImage).toBe(wrapper.vm.fileName);
   });
-}); 
+});
