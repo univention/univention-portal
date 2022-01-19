@@ -30,7 +30,7 @@
 import FormElement from '@/components/forms/FormElement';
 import { mount, shallowMount  } from '@vue/test-utils';
 
-describe('FormElement Component', () => { 
+describe('FormElement Component', () => {
 
 test('Can render a widget component', async () => {
   const widget  = {
@@ -40,9 +40,9 @@ test('Can render a widget component', async () => {
     invalidMessage: '',
     required: true,
   };
-  
+
   const widgetValue = '';
-  
+
   const wrapper = await mount(FormElement, {
     propsData: {
         widget,
@@ -51,11 +51,11 @@ test('Can render a widget component', async () => {
     }
     );
     const expectedComponent = widget;
-    
+
     delete expectedComponent.type;
     delete expectedComponent.label;
     delete expectedComponent.validators;
-    
+
     // Based by the values in the widget object we have following expectacions
     expect(wrapper.vm.widget).toStrictEqual(widget);
     expect(wrapper.vm.modelValue).toBe('');
@@ -64,7 +64,7 @@ test('Can render a widget component', async () => {
 
   test('computed property invalid is returning expected boolean', async () => {
     // this.invalid should return false if widget.invalidMessage === ''
-    // this.invalid should return true if widget.invalidMessage has actually Text in it. 
+    // this.invalid should return true if widget.invalidMessage has actually Text in it.
     const widget  = {
       type: 'TextBox',
       name: 'userInput',
@@ -72,9 +72,9 @@ test('Can render a widget component', async () => {
       invalidMessage: '',
       required: true,
     };
-    
+
     const widgetValue = '';
-    
+
     const wrapper = await mount(FormElement, {
       propsData: {
           widget,
@@ -83,8 +83,8 @@ test('Can render a widget component', async () => {
     });
 
     expect(wrapper.vm.invalid).toBe(false);
-      
-    // By setting a message in invalidMessage wrapper.vm.invalid should be true. 
+
+    // By setting a message in invalidMessage wrapper.vm.invalid should be true.
     const updatedWidget  = {
       type: 'TextBox',
       name: 'userInput',
@@ -92,7 +92,7 @@ test('Can render a widget component', async () => {
       invalidMessage: 'Test String.',
       required: true,
     };
-  
+
     await wrapper.setProps({widget: updatedWidget});
     expect(wrapper.vm.invalid).toBe(true);
   });
@@ -105,9 +105,9 @@ test('Can render a widget component', async () => {
       invalidMessage: 'This is an invalid Message',
       required: true,
     };
-    
+
     const widgetValue = '';
-    
+
     const wrapper = await mount(FormElement, {
       propsData: {
           widget,
@@ -139,9 +139,9 @@ test('Can render a widget component', async () => {
       invalidMessage: '',
       required: true,
     };
-    
+
     const widgetValue = '';
-    
+
     const wrapper = await mount(FormElement, {
       propsData: {
           widget,
@@ -176,9 +176,9 @@ test('Can render a widget component', async () => {
       invalidMessage: '',
       required: true,
     };
-    
+
     const widgetValue = '';
-    
+
     const wrapper = await mount(FormElement, {
       propsData: {
           widget,
@@ -189,10 +189,10 @@ test('Can render a widget component', async () => {
     const label = await wrapper.find('[data-test="form-element-label"]');
     const inputComponent = await wrapper.find('[data-test="form-element-component"]');
 
-    const inputLabelString = wrapper.vm.inputLabelString;
+    const forAttrOfLabel = wrapper.vm.forAttrOfLabel;
 
-    expect(label.attributes('for')).toBe(inputLabelString);
-    expect(inputComponent.attributes('id')).toBe(inputLabelString);
+    expect(label.attributes('for')).toBe(forAttrOfLabel);
+    expect(inputComponent.attributes('id')).toBe(forAttrOfLabel);
   });
   // test('this.correct label is working depending on if input is in multiinput', async () => {});
 });
