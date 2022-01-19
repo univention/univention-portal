@@ -48,7 +48,6 @@ import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
 import { umc } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
-import FormElement from '@/components/forms/FormElement.vue';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid } from '@/jsHelper/forms';
 import Site from '@/views/selfservice/Site.vue';
@@ -65,7 +64,6 @@ export default defineComponent({
   name: 'Profile',
   components: {
     MyForm,
-    FormElement,
     Site,
   },
   data(): Data {
