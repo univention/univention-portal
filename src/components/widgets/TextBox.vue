@@ -1,6 +1,7 @@
 <template>
   <input
     :id="inputId"
+    :name="name"
     type="text"
     :value="modelValue"
     :aria-invalid="invalid"
@@ -16,6 +17,10 @@ import { isValid } from '@/jsHelper/forms';
 export default defineComponent({
   name: 'TextBox',
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     modelValue: {
       type: String,
       required: true,
