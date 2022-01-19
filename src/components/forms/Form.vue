@@ -1,13 +1,15 @@
 <template>
   <form>
-    <form-element
-      v-for="widget in widgets"
-      :key="widget.name"
-      :ref="widget.name"
-      :widget="widget"
-      :model-value="modelValue[widget.name]"
-      @update:model-value="onUpdate(widget.name, $event)"
-    />
+    <main>
+      <form-element
+        v-for="widget in widgets"
+        :key="widget.name"
+        :ref="widget.name"
+        :widget="widget"
+        :model-value="modelValue[widget.name]"
+        @update:model-value="onUpdate(widget.name, $event)"
+      />
+    </main>
     <slot />
   </form>
 </template>

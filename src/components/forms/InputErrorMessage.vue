@@ -44,6 +44,7 @@ export default defineComponent({
     margin-bottom: var(--layout-spacing-unit)
 
     &__icon
+        flex: 0 0 auto
         margin-right: var(--layout-spacing-unit-small)
         color: var(--font-color-error)
 </style>
