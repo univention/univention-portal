@@ -42,7 +42,7 @@
             :tabindex="tabindex"
             @change="toggleSelection(value)"
           >
-          <span>{{ dnToLabel(value) }}</span>
+          <span data-test="multi-select-checkbox-span">{{ dnToLabel(value) }}</span>
         </label>
       </div>
       <footer class="multi-select__footer">
@@ -161,6 +161,7 @@ export default defineComponent({
       }).then((values) => {
         this.$store.dispatch('modal/hideAndClearModal', 2);
         const newValues = this.modelValue.concat(values.selection);
+        console.log('newValues', newValues);
         newValues.sort();
         this.$emit('update:modelValue', newValues);
         this.$store.dispatch('activity/setMessage', _('Added to selection'));

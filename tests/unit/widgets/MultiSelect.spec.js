@@ -28,6 +28,10 @@
 **/
 import { mount } from '@vue/test-utils';
 import MultiSelect from '@/components/widgets/MultiSelect';
+import AddObjects from '@/components/widgets/AddObjects';
+import Vuex from 'vuex';
+import modal from '@/store/modules/modal';
+import activity from '@/store/modules/activity';
 
 const fullModelValue = ["cn=Backup Join,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net","cn=Computers,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net","cn=DC Backup Hosts,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net","cn=DC Slave Hosts,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net"];
 
@@ -92,16 +96,70 @@ describe('MultiInput.vue', () => {
       expect(wrapper.vm.selection).toEqual(["cn=Backup Join,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net"]);
     });
       
-    it.todo('if dnToLabel returning string correctly');
+    test('if dnToLabel returning string correctly', async () => {
+      // hoping that the dn-string, will always have the same structure :)
       // recieves argument
+      const dnToLabelSelectionSpy = jest.spyOn(wrapper.vm, 'dnToLabel');
+      const newModelvalue = ["cn=Backup Join,xxxxx"];
+      wrapper.setProps({modelValue: newModelvalue});
+      await wrapper.vm.$nextTick();
+
       // retrieves the desired label
-     // label is rendered in after checkbox
+      const label = await wrapper.find('[data-test="multi-select-checkbox-span"]');
+      expect(label.text()).toBe('Backup Join');
+      expect(dnToLabelSelectionSpy).toHaveBeenCalledWith(newModelvalue[0]);
+    });
         
-    it.todo('if add is working as expected');
-    //  // add is called on @click
-    //  // Props are ready
-    //  // calls dispatch setShowModalPromise
-    //  // hideAndClearModal is called
+    test.skip('if add is working as expected', async () => {
+      wrapper.unmount();
+      const div = document.createElement('div');
+      div.id = 'root';
+      document.body.appendChild(div);
+
+      const store = new Vuex.Store({
+        modules: {
+          modal: {
+              namespaced: true
+            },
+          activity: {
+              namespaced: true
+            },
+          }
+      });
+
+      wrapper = await mount(MultiSelect, {
+        propsData: multiSelectProps,
+        attachTo: "#root",    
+        global: {
+          plugins: [store]
+        },
+      });
+
+      store.dispatch = jest.fn().mockImplementation(() => Promise.resolve());
+      
+      wrapper.setProps({modelValue: fullModelValue});
+      const addButton = await wrapper.find('[data-test="multi-select-add-more-button"]');
+      
+      await addButton.trigger('click');
+      
+      await wrapper.vm.$nextTick();
+      
+      expect(store.dispatch).toHaveBeenCalledWith('modal/setShowModalPromise', {
+        level: 2,
+        name: 'AddObjects',
+        props: {
+          alreadyAdded: wrapper.vm.modelValue,
+        },
+        stubborn: true,
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith('modal/hideAndClearModal', 2);
+      // expect(store.dispatch).toHaveBeenCalledWith('activity/setMessage', 'Added to selection');
+      // expect(wrapper.emitted()).toHaveProperty('update:modelValue');
+      
+      // mock values
+      // const newValues = 
+    });
     //  // update:modelValue is called with newValues
     // // dispatch setMessage is called
           
