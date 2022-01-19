@@ -1,6 +1,6 @@
 <template>
   <input
-    :id="inputId"
+    :id="forAttrOfLabel"
     ref="input"
     :name="name"
     type="password"
@@ -30,7 +30,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    inputId: {
+    forAttrOfLabel: {
       type: String,
       required: true,
     },

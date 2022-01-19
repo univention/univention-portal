@@ -90,7 +90,7 @@ export default defineComponent({
         label: _('Portal logo'),
         extraLabel: _('Portal logo'),
       }, {
-        type: 'LocaleInputNew',
+        type: 'LocaleInput',
         name: 'displayName',
         label: _('Name'),
         i18nLabel: _('Name'),
@@ -136,7 +136,7 @@ export default defineComponent({
     };
   },
   watch: {
-    'formValues.logo': function() {
+    'formValues.logo': function () {
       this.$store.dispatch('portalData/setPortalLogo', this.formValues.logo);
     },
     'formValues.displayName': {
@@ -145,7 +145,7 @@ export default defineComponent({
       },
       deep: true,
     },
-    'formValues.background': function() {
+    'formValues.background': function () {
       this.$store.dispatch('portalData/setPortalBackground', this.formValues.background);
     },
   },

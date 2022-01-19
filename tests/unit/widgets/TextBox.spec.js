@@ -47,12 +47,12 @@ describe('TextBox Component', () => {
       });
 
       const textBox = await wrapper.find('[data-test="text-box"]');
-      
-      // Expect input value to be empty on mount. 
+
+      // Expect input value to be empty on mount.
       expect(textBox.element.value).toBe("");
-      
+
       await textBox.setValue('test input value');
-      
+
       expect(textBox.element.value).toBe("test input value");
 
       wrapper.unmount();
@@ -76,7 +76,7 @@ describe('TextBox Component', () => {
     const wrapper = await mount(Textbox, {
       propsData: {
         modelValue: '',
-        inputId: 'testString',
+        forAttrOfLabel: 'testString',
       },
     });
     const textBox = await wrapper.find('[data-test="text-box"]');

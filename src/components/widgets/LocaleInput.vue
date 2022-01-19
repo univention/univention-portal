@@ -27,33 +27,27 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div
-    class="locale-input"
-    data-test="locale-input"
-  >
-    <label
-      class="locale-input__label"
-      :for="`locale-input-${I18N_LABEL}`"
-    >
-      {{ I18N_LABEL }}
-    </label>
+  <div class="locale-input">
     <div class="locale-input__wrapper">
       <input
-        :id="`locale-input-${I18N_LABEL}`"
-        v-model="modelValueData.en_US"
+        :id="`locale-input-${i18nLabel}`"
+        ref="input"
+        :value="modelValue.en_US"
         class="locale-input__text-field"
         autocomplete="off"
         :name="name"
         :tabindex="tabindex"
-        :data-test="`localeInput--${I18N_LABEL}`"
+        :data-test="`localeInput--${i18nLabel}`"
+        @input="onInputEN"
       >
       <icon-button
-        :id="`locale-input__icon--${I18N_LABEL}`"
+        :id="`locale-input__icon--${i18nLabel}`"
         icon="globe"
+        class="locale-input__button"
         :has-button-style="true"
         :aria-label-prop="TRANSLATE_TEXT_INPUT"
         :tabindex="tabindex"
-        :data-test="`iconButton--${I18N_LABEL}`"
+        :data-test="`iconButton--${i18nLabel}`"
         @click="openTranslationEditingDialog"
       />
     </div>
@@ -93,76 +87,38 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    isLink: {
-      type: Boolean,
-      default: false,
-    },
   },
-  emits: [
-    'update:modelValue',
-  ],
-  data() {
-    return {
-      modelValueData: {
-        en_US: '',
-      },
-      translations: {
-        en_US: '',
-      },
-    };
-  },
+  emits: ['update:modelValue'],
   computed: {
     ...mapGetters({
       locales: 'locale/getAvailableLocales',
     }),
-    I18N_LABEL(): string {
-      return _('%(key1)s', { key1: this.i18nLabel });
-    },
     TRANSLATE_TEXT_INPUT(): string {
       return _('Edit Translations');
-    },
-    hasNewTranslation(): string {
-      return !this.translations.en_US ? this.translations.en_US : this.modelValueData.en_US;
     },
     translationEditingDialogLevel(): number {
       return this.isInModal ? 2 : 1;
     },
-    correctModelValue(): Record<string, unknown> {
-      return this.isLink ? this.modelValueData : this.modelValue;
-    },
-  },
-  created() {
-    if (!this.isLink) {
-      const model = this.modelValue;
-      const newModel = {};
-      if ('locale' in model) {
-        newModel[model.locale] = model.value;
-        Object.assign(this.modelValueData, newModel);
-      } else {
-        Object.assign(this.modelValueData, model);
-      }
-    } else {
-      this.adjustDataStructureForLinks();
-    }
-  },
-  updated() {
-    this.$emit('update:modelValue', this.modelValueData);
   },
   methods: {
+    onInputEN(evt) {
+      const newVal = JSON.parse(JSON.stringify(this.modelValue));
+      newVal.en_US = evt.target.value;
+      this.$emit('update:modelValue', newVal);
+    },
     openTranslationEditingDialog() {
       this.$store.dispatch('modal/setShowModalPromise', {
         level: this.translationEditingDialogLevel,
         name: 'TranslationEditing',
         stubborn: true,
         props: {
-          inputValue: this.correctModelValue,
+          inputValue: this.modelValue,
           title: this.i18nLabel,
           modalLevelProp: this.translationEditingDialogLevel,
         },
       })
         .then((data) => {
-          this.modelValueData = data.translations;
-          this.translations = data.translations;
+          this.$emit('update:modelValue', data.translations);
         }, () => {
           // catch modal/reject to prevent uncaught reject error in console
         })
@@ -173,35 +129,24 @@ export default defineComponent({
       this.$store.dispatch('activity/setLevel', 'modal2');
       this.$store.dispatch('activity/saveFocus', {
         region: 'modal-wrapper--isVisible',
-        id: `locale-input__icon--${this.I18N_LABEL}`,
+        id: `locale-input__icon--${this.i18nLabel}`,
       });
     },
-    adjustDataStructureForLinks() {
-      Object.values(this.modelValue).forEach((link) => {
-        if (typeof link === 'object') {
-          const locale = (link as Record<string, string>).locale;
-          const value = (link as Record<string, unknown>).value;
-          this.modelValueData[locale] = (value as string);
-        }
-      });
+    focus() {
+      // @ts-ignore TODO
+      this.$refs.input.focus();
     },
   },
 });
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .locale-input
-  margin-top: calc(3 * var(--layout-spacing-unit))
-  margin-bottom: var(--layout-spacing-unit)
-
-  label
-    margin-top: 0
   &__wrapper
     display: flex
     align-items: center
+    gap: var(--layout-spacing-unit)
 
-  &__text-field
-    margin-bottom: 0
-    margin-right: var(--layout-spacing-unit)
-
+  &__button
+    flex: 0 0 auto
 </style>

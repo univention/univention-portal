@@ -96,4 +96,7 @@ export default defineComponent({
     width: 100%
   form
     min-width: calc(var(--inputfield-width) + 3rem)
+
+  form main
+    max-height: unset
 </style>

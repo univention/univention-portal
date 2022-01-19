@@ -29,7 +29,6 @@
 <template>
   <div class="multi-select">
     <fieldset>
-      <legend>{{ label }}</legend>
       <div
         class="multi-select__select"
       >
@@ -38,6 +37,7 @@
           :key="value"
         >
           <input
+            :ref="`checkbox-${value}`"
             type="checkbox"
             :tabindex="tabindex"
             @change="toggleSelection(value)"
@@ -47,6 +47,7 @@
       </div>
       <footer class="multi-select__footer">
         <button
+          ref="addButton"
           type="button"
           :tabindex="tabindex"
           data-test="multi-select-add-more-button"
@@ -100,12 +101,12 @@ export default defineComponent({
     PortalIcon,
   },
   props: {
-    label: {
-      type: String,
-      required: true,
-    },
     modelValue: {
       type: Array as PropType<string[]>,
+      required: true,
+    },
+    name: {
+      type: String,
       required: true,
     },
     tabindex: {
@@ -170,6 +171,16 @@ export default defineComponent({
       this.$emit('update:modelValue', values);
       this.$store.dispatch('activity/setMessage', _('Removed selection'));
     },
+    focus() {
+      if (this.modelValue.length > 0) {
+        const name = this.modelValue[0];
+        // @ts-ignore TODO
+        this.$refs[`checkbox-${name}`].focus();
+      } else {
+        // @ts-ignore TODO
+        this.$refs.addButton.focus();
+      }
+    },
   },
 });
 </script>
@@ -185,7 +196,7 @@ export default defineComponent({
     overflow: auto
 
     label
-      margin-top: var(--layout-spacing-unit)
+      margin-top: var(--layout-spacing-unit) !important
       display: flex
 
       input

@@ -1,6 +1,6 @@
 <template>
   <select
-    :id="inputId"
+    :id="forAttrOfLabel"
     ref="select"
     :name="name"
     :aria-invalid="invalid"
@@ -41,7 +41,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    inputId: {
+    forAttrOfLabel: {
       type: String,
       required: true,
     },

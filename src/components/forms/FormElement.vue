@@ -10,7 +10,7 @@
     <form-label
       :label="correctLabel"
       :required="widget.required"
-      :for="inputLabelString"
+      :for-attr="forAttrOfLabel"
       data-test="form-element-label"
     />
     <!-- <div class="form-element__wrapper"> -->
@@ -19,7 +19,7 @@
       ref="component"
       v-bind="component"
       :model-value="modelValue"
-      :input-id="inputLabelString"
+      :for-attr-of-label="forAttrOfLabel"
       data-test="form-element-component"
       @update:model-value="$emit('update:modelValue', $event)"
     />
@@ -46,7 +46,9 @@ import TextBox from '@/components/widgets/TextBox.vue';
 import CheckBox from '@/components/widgets/CheckBox.vue';
 import RadioBox from '@/components/widgets/RadioBox.vue';
 import ImageUpload from 'components/widgets/ImageUpload.vue';
-import LocaleInputNew from 'components/widgets/LocaleInputNew.vue';
+import LocaleInput from 'components/widgets/LocaleInput.vue';
+import MultiSelect from 'components/widgets/MultiSelect.vue';
+import LinkWidget from 'components/widgets/LinkWidget.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -61,7 +63,9 @@ export default defineComponent({
     CheckBox,
     RadioBox,
     ImageUpload,
-    LocaleInputNew,
+    LocaleInput,
+    MultiSelect,
+    LinkWidget,
   },
   props: {
     widget: {
@@ -87,7 +91,7 @@ export default defineComponent({
     invalidMessage(): string {
       return invalidMessage(this.widget);
     },
-    inputLabelString(): string {
+    forAttrOfLabel(): string {
       return `${this.widget.label}--${this.$.uid}`;
     },
     correctLabel(): string {
