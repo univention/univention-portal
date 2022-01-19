@@ -76,7 +76,6 @@ import _ from '@/jsHelper/translate';
 import { removeEntryFromSuperObj, addEntryToSuperObj, put, add, remove } from '@/jsHelper/admin';
 import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
-import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
 import ReadOnlyField from '@/components/forms/ReadOnlyField.vue';
@@ -105,7 +104,6 @@ function getErrors(this: AdminFolderData) {
 export default defineComponent({
   name: 'FormFolderEdit',
   components: {
-    ImageUpload,
     EditWidget,
     LocaleInput,
     RequiredFieldLabel,

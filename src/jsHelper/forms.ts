@@ -10,6 +10,7 @@ export function isEmpty(widget, value): boolean {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
+    case 'ImageUpload':
       return value === '';
     case 'MultiInput':
       return value.every((row) => {
@@ -18,6 +19,9 @@ export function isEmpty(widget, value): boolean {
         }
         return isEmpty(widget.subtypes[0], row);
       });
+    case 'LocaleInputNew':
+      return value.en_US === '';
+    case 'CheckBox':
     default:
       return false;
   }
@@ -33,6 +37,9 @@ export function isValid(widget): boolean {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
+    case 'ImageUpload':
+    case 'LocaleInputNew':
+    case 'CheckBox':
       return widget.invalidMessage === '';
     case 'MultiInput':
       return widget.invalidMessage.all === '' &&
@@ -66,7 +73,10 @@ export function validate(widget, value): void {
       case 'PasswordBox':
       case 'MultiInput':
       case 'RadioBox':
+      case 'ImageUpload':
+      case 'LocaleInputNew':
         return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
+      case 'CheckBox':
       default:
         return '';
     }
@@ -92,6 +102,9 @@ export function validate(widget, value): void {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
+    case 'ImageUpload':
+    case 'LocaleInputNew':
+    case 'CheckBox':
       widget.invalidMessage = getFirstInvalidMessage(widget, value);
       break;
     case 'MultiInput':
@@ -123,7 +136,13 @@ export function initialValue(widget, value): any {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
+    case 'ImageUpload':
       return typeof value === 'string' ? value : '';
+    case 'LocaleInputNew':
+      // TODO typecheck of value
+      return value ?? { en_US: '' };
+    case 'CheckBox':
+      return typeof value === 'boolean' ? value : false;
     case 'MultiInput':
       if (!Array.isArray(value)) {
         const row = widget.subtypes.map((subtype) => initialValue(subtype, null));
@@ -153,6 +172,9 @@ export function invalidMessage(widget): string {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
+    case 'ImageUpload':
+    case 'LocaleInputNew':
+    case 'CheckBox':
       return widget.invalidMessage;
     case 'MultiInput':
       return widget.invalidMessage.all;

@@ -147,7 +147,6 @@ import activity from '@/jsHelper/activity';
 import EditWidget, { ValidatableData } from '@/components/admin/EditWidget.vue';
 import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
 import ReadOnlyField from '@/components/forms/ReadOnlyField.vue';
-import ImageUpload from '@/components/widgets/ImageUpload.vue';
 import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import MultiSelect from '@/components/widgets/MultiSelect.vue';
 import LinkWidget, { LocaleAndValue } from '@/components/widgets/LinkWidget.vue';
@@ -222,7 +221,6 @@ function getErrors(this: AdminEntryData) {
 export default defineComponent({
   name: 'FormEntryEdit',
   components: {
-    ImageUpload,
     EditWidget,
     LocaleInput,
     MultiSelect,
