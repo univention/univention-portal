@@ -116,47 +116,40 @@ describe('LocaleInput Component', () => {
     expect(wrapper.vm.translationEditingDialogLevel).toBe(1);
   });
   
-  // test('if the correct object will be given to translationEditingDialog', async () =>{
+  it.todo('if the correct object will be given to translationEditingDialog');
   //   // the translationEditingDialog accepts only a certain type of object, therefore we need
   //   // to ensure, that the modelValueData is set correctly
-  // });
 
-  // test('if adjustDataStructureForLinks is working as expected', async () => { 
+  it.todo('if adjustDataStructureForLinks is working as expected'); 
   //   // Pass a link object type as modelValue
   //   // expect new object to be passed, needed for LocaleInput 
-  // });
 
-  // test('if openTranslationEditingDialog will be called', async () => { 
+  it.todo('if openTranslationEditingDialog will be called'); 
   //   // ...
-  // });
 
-  // test('if setShowModalPromise will be called', async () => { 
+  it.todo('if setShowModalPromise will be called'); 
   //   // Check if Props are prepared
   //   // Check if dispatch is working
   //   // Check if Promise is working
-  // });
 
-  // test('if hideAndClearModal will be called', async () => { 
+  it.todo('if hideAndClearModal will be called'); 
   //   // There a two hide and clear promises:
   //   // 1) A "succesful" hide and clear -> with new data
   //   // 2) A Promise called by cancel
-  // });
 
-  // test('if I18N_LABEL is returning the correct labelValue', async () => { 
+  it.todo('if I18N_LABEL is returning the correct labelValue'); 
   //   // It seems to be an easy thing, but I guess it is not bad, to just start
   //   // to test also the "simple things" for better documentation
   //   // Pass I18n-label as Prop
   //   // Expect computed Property to be desired Output. 
-  // });
- 
-  // test('if TRANSLATE_TEXT_INPUT is returning the correct labelValue', async () => { 
+
+  it.todo('if TRANSLATE_TEXT_INPUT is returning the correct labelValue'); 
   //   // same as above 
   //   // It seems to be an easy thing, but I guess it is not bad, to just start
   //   // to test also the "simple things" for better documentation
   //   // Pass I18n-label as Prop
   //   // Expect computed Property to be desired Output. 
-  // });
-  
+
 });
 
 
