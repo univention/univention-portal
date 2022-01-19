@@ -3,6 +3,7 @@
     :class="[
       'form-element',
       { 'form-element--invalid': invalid },
+      `form-element--${widget.type}`
     ]"
     data-test="form-element"
   >
@@ -12,21 +13,21 @@
       :for="inputLabelString"
       data-test="form-element-label"
     />
-    <div class="form-element__wrapper">
-      <component
-        :is="widget.type"
-        ref="component"
-        v-bind="component"
-        :model-value="modelValue"
-        :input-id="inputLabelString"
-        data-test="form-element-component"
-        @update:model-value="$emit('update:modelValue', $event)"
-      />
-      <input-error-message
-        :display-condition="invalidMessage !== ''"
-        :error-message="invalidMessage"
-      />
-    </div>
+    <!-- <div class="form-element__wrapper"> -->
+    <component
+      :is="widget.type"
+      ref="component"
+      v-bind="component"
+      :model-value="modelValue"
+      :input-id="inputLabelString"
+      data-test="form-element-component"
+      @update:model-value="$emit('update:modelValue', $event)"
+    />
+    <input-error-message
+      :display-condition="invalidMessage !== ''"
+      :error-message="invalidMessage"
+    />
+    <!-- </div> -->
   </div>
 </template>
 
@@ -42,7 +43,10 @@ import DateBox from '@/components/widgets/DateBox.vue';
 import MultiInput from '@/components/widgets/MultiInput.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
+import CheckBox from '@/components/widgets/CheckBox.vue';
 import RadioBox from '@/components/widgets/RadioBox.vue';
+import ImageUpload from 'components/widgets/ImageUpload.vue';
+import LocaleInputNew from 'components/widgets/LocaleInputNew.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -54,7 +58,10 @@ export default defineComponent({
     MultiInput,
     PasswordBox,
     TextBox,
+    CheckBox,
     RadioBox,
+    ImageUpload,
+    LocaleInputNew,
   },
   props: {
     widget: {
@@ -109,6 +116,18 @@ export default defineComponent({
     margin: 0
     margin-top: var(--layout-spacing-unit)
 
+  &--CheckBox
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-template-rows: auto auto
+    grid-template-areas: "checkbox label" "invalidMessage invalidMessage"
+
+    input
+      grid-area: checkbox
+    label
+      grid-area: label
+    .input-error-message
+      grid-area: invalidMessage
   /*
   &--invalid
     > .form-element__wrapper
