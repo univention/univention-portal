@@ -5,6 +5,7 @@
   >
     <div>{{ SUBTITLE }}</div>
     <my-form
+      ref="loginForm"
       v-model="loginValues"
       :widgets="loginWidgets"
     >
@@ -18,7 +19,8 @@
       </footer>
     </my-form>
     <my-form
-      v-if="attributesLoaded"
+      ref="attributesForm"
+      v-show="attributesLoaded"
       v-model="attributeValues"
       :widgets="attributeWidgets"
     >
@@ -91,6 +93,10 @@ export default defineComponent({
       origFormValues: {},
     };
   },
+  mounted() {
+    // @ts-ignore
+    this.$refs.loginForm.focusFirstInteractable();
+  },
   computed: {
     TITLE(): string {
       return _('Profile');
@@ -120,12 +126,15 @@ export default defineComponent({
   methods: {
     onContinue() {
       validateAll(this.loginWidgets, this.loginValues);
-      if (allValid(this.loginWidgets)) {
-        this.loginWidgets.forEach((widget) => {
-          widget.disabled = true;
-        });
-        this.loadAttributes();
+      if (!allValid(this.loginWidgets)) {
+        // @ts-ignore TODO
+        this.$refs.loginForm.focusFirstInvalid();
+        return;
       }
+      this.loginWidgets.forEach((widget) => {
+        widget.disabled = true;
+      });
+      this.loadAttributes();
     },
     onCancel() {
       this.attributeWidgets = [];
@@ -137,6 +146,10 @@ export default defineComponent({
         username: '',
         password: '',
       };
+      this.$nextTick(() => {
+        // @ts-ignore
+        this.$refs.loginForm.focusFirstInteractable();
+      });
     },
     onSave() {
       validateAll(this.attributeWidgets, this.attributeValues);
@@ -198,19 +211,22 @@ export default defineComponent({
               }
             }
           });
-          if (allValid(this.attributeWidgets)) {
-            umc('command/passwordreset/set_user_attributes', {
-              username: this.loginValues.username,
-              password: this.loginValues.password,
-              attributes: values,
-            }).then(() => {
-              this.$store.dispatch('notifications/addSuccessNotification', {
-                title: _('Profile changes'),
-                description: 'Successfully saved changes',
-              });
-              this.updateOrigFormValues();
-            });
+          if (!allValid(this.attributeWidgets)) {
+            // @ts-ignore TODO
+            this.$refs.attributesForm.focusFirstInvalid();
+            return;
           }
+          umc('command/passwordreset/set_user_attributes', {
+            username: this.loginValues.username,
+            password: this.loginValues.password,
+            attributes: values,
+          }).then(() => {
+            this.$store.dispatch('notifications/addSuccessNotification', {
+              title: _('Profile changes'),
+              description: 'Successfully saved changes',
+            });
+            this.updateOrigFormValues();
+          });
         })
         .catch((error) => {
           // TODO get real error message from request
@@ -267,7 +283,10 @@ export default defineComponent({
             this.attributeWidgets = sanitized;
             this.attributeValues = values;
             this.updateOrigFormValues();
-            // TODO focus first interactable widget
+            this.$nextTick(() => {
+              // @ts-ignore
+              this.$refs.attributesForm.focusFirstInteractable();
+            });
           });
         })
         .catch((error) => {

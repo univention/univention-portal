@@ -62,6 +62,7 @@ import ComboBox from '@/components/widgets/ComboBox.vue';
 import DateBox from '@/components/widgets/DateBox.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
+import FormElement from '@/components/forms/FormElementCopyNeededForMultiInput.vue';
 import { initialValue } from '@/jsHelper/forms';
 
 export default defineComponent({
@@ -69,7 +70,11 @@ export default defineComponent({
   components: {
     InputErrorMessage,
     // break circular dependency
-    FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
+    // FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
+    // TODO look for better solution
+    // When loading FormElement as asynccomponent then ref="" is not immediately set (which is needed for focus).
+    // For now we copy @/components/forms/FormElement.vue to @/components/forms/FormElement2.vue
+    FormElement,
     IconButton,
     ComboBox,
     DateBox,
@@ -159,14 +164,12 @@ export default defineComponent({
     },
     focus() {
       // @ts-ignore
-      this.$nextTick(() => {
-        // @ts-ignore
-        const firstWidget = this.$refs['component-0-0'];
-        if (firstWidget) {
-          // @ts-ignore TODO
-          firstWidget.focus();
-        }
-      });
+      const firstWidget = this.$refs['component-0-0'];
+      // TODO find first interactable?
+      if (firstWidget) {
+        // @ts-ignore TODO
+        firstWidget.focus();
+      }
     },
   },
 });
