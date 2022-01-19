@@ -40,18 +40,18 @@ describe('DateBox Component', () => {
       });
 
       const dateBox = await wrapper.find('[data-test="date-box"]');
-      
-      // Expect input value to be empty on mount. 
+
+      // Expect input value to be empty on mount.
       expect(dateBox.element.value).toBe("");
       await dateBox.setValue('2017-06-01');
       expect(dateBox.element.value).toBe("2017-06-01");
-      
+
       // TODO check if wrong date input return false eg: 30.02.1993
 
       await dateBox.setValue('text string');
       expect(dateBox.element.value).not.toBe("text string");
       expect(dateBox.element.value).toBe("");
-      
+
       wrapper.unmount();
   });
 
@@ -85,7 +85,7 @@ describe('DateBox Component', () => {
     const wrapper = await mount(DateBox, {
       propsData: {
         modelValue: '',
-        inputId: 'testString',
+        forAttrOfLabel: 'testString',
       },
     });
     const dateBox = await wrapper.find('[data-test="date-box"]');

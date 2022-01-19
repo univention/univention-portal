@@ -1,7 +1,6 @@
 <template>
   <modal-wrapper
-    v-if="initialLoadDone"
-    :is-active="true"
+    :is-active="initialLoadDone"
     :full="true"
     class="modal-wrapper--selfservice"
   >
@@ -10,11 +9,9 @@
       class="dialog--selfservice"
       @cancel="cancel"
     >
-      <slot
-        v-if="frontendEnabled"
-      />
+      <slot />
       <div
-        v-else
+        v-if="!frontendEnabled"
       >
         {{ DISABLED_NOTICE }}
       </div>
@@ -99,4 +96,7 @@ export default defineComponent({
     width: 100%
   form
     min-width: calc(var(--inputfield-width) + 3rem)
+
+  form main
+    max-height: unset
 </style>

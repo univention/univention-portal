@@ -1,5 +1,5 @@
 <template>
-  <label>
+  <label :for="forAttr">
     {{ label }}
     <required-field-label v-if="required" />
   </label>
@@ -15,6 +15,10 @@ export default defineComponent({
     RequiredFieldLabel,
   },
   props: {
+    forAttr: {
+      type: String,
+      required: true,
+    },
     label: {
       type: String,
       required: true,
