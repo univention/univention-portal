@@ -73,11 +73,9 @@ describe('Test Editmode Side navigation', () => {
     cy.get('[data-test="editModeSideNavigation--Save"]').click();
 
     // assert Error Notification due to empty input
-    cy.get('[data-test="notification--error"]').should('exist');
+    cy.get('.form-element--LocaleInput.form-element--invalid .input-error-message').contains('This value is required');
 
-    cy.get('[data-test="closeNotification--error"]').click();
-
-    // Enter Text and Save then. 
+    // Enter Text and Save then.
     cy.get('[data-test="localeInput--Name"]').type('Univention Portal');
     cy.get('[data-test="editModeSideNavigation--Save"]').click();
 
@@ -87,7 +85,7 @@ describe('Test Editmode Side navigation', () => {
   it('make a11y test', () => {
     // Inject the axe-core library
     // first a11y test
-    cy.checkA11y('.edit-mode-side-navigation__form', 
+    cy.checkA11y('.edit-mode-side-navigation__form',
     {
       runOnly: {
         type: 'tag',
