@@ -15,6 +15,7 @@
     <div class="form-element__wrapper">
       <component
         :is="widget.type"
+        ref="component"
         v-bind="component"
         :model-value="modelValue"
         :input-id="inputLabelString"
@@ -84,6 +85,12 @@ export default defineComponent({
     },
     correctLabel(): string {
       return this.widget.index ? `${this.widget.label}-${this.widget.index.toString()}` : this.widget.label;
+    },
+  },
+  methods: {
+    focus() {
+      // @ts-ignore TODO
+      this.$refs.component.focus();
     },
   },
 });

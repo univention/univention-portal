@@ -1,6 +1,7 @@
 <template>
   <select
     :id="inputId"
+    ref="select"
     :name="name"
     :aria-invalid="invalid"
     :value="modelValue"
@@ -52,6 +53,12 @@ export default defineComponent({
         type: 'ComboBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      // @ts-ignore
+      this.$refs.select.focus();
     },
   },
 });

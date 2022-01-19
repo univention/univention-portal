@@ -21,6 +21,7 @@
         class="multi-input__row__elem"
       >
         <form-element
+          :ref="`component-${valIdx}-${typeIdx}`"
           :widget="getSubtypeWidget(type, valIdx, typeIdx)"
           :model-value="Array.isArray(val) ? val[typeIdx] : val"
           :data-test="`form-element-${getSubtypeWidget(type, valIdx, typeIdx).type}-${valIdx}`"
@@ -155,6 +156,17 @@ export default defineComponent({
         ...type,
         invalidMessage: message ?? '',
       };
+    },
+    focus() {
+      // @ts-ignore
+      this.$nextTick(() => {
+        // @ts-ignore
+        const firstWidget = this.$refs['component-0-0'];
+        if (firstWidget) {
+          // @ts-ignore TODO
+          firstWidget.focus();
+        }
+      });
     },
   },
 });

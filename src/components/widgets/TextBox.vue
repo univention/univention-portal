@@ -1,6 +1,7 @@
 <template>
   <input
     :id="inputId"
+    ref="input"
     :name="name"
     type="text"
     :value="modelValue"
@@ -41,6 +42,12 @@ export default defineComponent({
         type: 'TextBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      // @ts-ignore TODO
+      this.$refs.input.focus();
     },
   },
 });
