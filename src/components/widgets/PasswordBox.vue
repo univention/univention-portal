@@ -1,6 +1,7 @@
 <template>
   <input
     :id="inputId"
+    ref="input"
     :name="name"
     type="password"
     :value="modelValue"
@@ -41,6 +42,12 @@ export default defineComponent({
         type: 'PasswordBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      // @ts-ignore
+      this.$refs.input.focus();
     },
   },
 });
