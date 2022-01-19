@@ -3,26 +3,31 @@
     :class="[
       'form-element',
       { 'form-element--invalid': invalid },
+      `form-element--${widget.type}`
     ]"
+    data-test="form-element"
   >
     <form-label
-      :label="widget.label"
+      :label="correctLabel"
       :required="widget.required"
-      :for-attr="widget.name"
+      :for-attr="forAttrOfLabel"
+      data-test="form-element-label"
     />
-    <div class="form-element__wrapper">
-      <component
-        :is="widget.type"
-        ref="component"
-        v-bind="component"
-        :model-value="modelValue"
-        @update:model-value="$emit('update:modelValue', $event)"
-      />
-      <input-error-message
-        :display-condition="invalidMessage !== ''"
-        :error-message="invalidMessage"
-      />
-    </div>
+    <!-- <div class="form-element__wrapper"> -->
+    <component
+      :is="widget.type"
+      ref="component"
+      v-bind="component"
+      :model-value="modelValue"
+      :for-attr-of-label="forAttrOfLabel"
+      data-test="form-element-component"
+      @update:model-value="$emit('update:modelValue', $event)"
+    />
+    <input-error-message
+      :display-condition="invalidMessage !== ''"
+      :error-message="invalidMessage"
+    />
+    <!-- </div> -->
   </div>
 </template>
 
@@ -38,7 +43,12 @@ import DateBox from '@/components/widgets/DateBox.vue';
 import MultiInput from '@/components/widgets/MultiInput.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
+import CheckBox from '@/components/widgets/CheckBox.vue';
 import RadioBox from '@/components/widgets/RadioBox.vue';
+import ImageUpload from 'components/widgets/ImageUpload.vue';
+import LocaleInput from 'components/widgets/LocaleInput.vue';
+import MultiSelect from 'components/widgets/MultiSelect.vue';
+import LinkWidget from 'components/widgets/LinkWidget.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -50,7 +60,12 @@ export default defineComponent({
     MultiInput,
     PasswordBox,
     TextBox,
+    CheckBox,
     RadioBox,
+    ImageUpload,
+    LocaleInput,
+    MultiSelect,
+    LinkWidget,
   },
   props: {
     widget: {
@@ -76,6 +91,12 @@ export default defineComponent({
     invalidMessage(): string {
       return invalidMessage(this.widget);
     },
+    forAttrOfLabel(): string {
+      return `${this.widget.label}--${this.$.uid}`;
+    },
+    correctLabel(): string {
+      return this.widget.index ? `${this.widget.label}-${this.widget.index.toString()}` : this.widget.label;
+    },
   },
   methods: {
     focus() {
@@ -99,6 +120,18 @@ export default defineComponent({
     margin: 0
     margin-top: var(--layout-spacing-unit)
 
+  &--CheckBox
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-template-rows: auto auto
+    grid-template-areas: "checkbox label" "invalidMessage invalidMessage"
+
+    input
+      grid-area: checkbox
+    label
+      grid-area: label
+    .input-error-message
+      grid-area: invalidMessage
   /*
   &--invalid
     > .form-element__wrapper
