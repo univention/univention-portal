@@ -159,16 +159,17 @@ export default defineComponent({
           title: this.i18nLabel,
           modalLevelProp: this.translationEditingDialogLevel,
         },
-      }).then((data) => {
-        this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
-        this.modelValueData = data.translations;
-        this.translations = data.translations;
-        const clickedButton = document.getElementById(`locale-input__icon--${this.I18N_LABEL}`);
-        clickedButton?.focus();
-      }, () => {
-        this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
-      });
-      this.$store.dispatch('activity/setRegion', 'translation-editing');
+      })
+        .then((data) => {
+          this.modelValueData = data.translations;
+          this.translations = data.translations;
+        }, () => {
+          // catch modal/reject to prevent uncaught reject error in console
+        })
+        .finally(() => {
+          this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
+          this.$store.dispatch('activity/setRegion', 'modal-wrapper--isVisible');
+        });
       this.$store.dispatch('activity/setLevel', 'modal2');
       this.$store.dispatch('activity/saveFocus', {
         region: 'modal-wrapper--isVisible',
