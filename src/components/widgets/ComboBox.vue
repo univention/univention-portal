@@ -3,8 +3,9 @@
     :id="forAttrOfLabel"
     ref="select"
     :name="name"
-    :aria-invalid="invalid"
     :value="modelValue"
+    :aria-invalid="invalid"
+    :aria-describedby="invalidMessageId"
     data-test="combo-box"
     @change="$emit('update:modelValue', $event.target.value)"
   >
@@ -42,6 +43,10 @@ export default defineComponent({
       default: '',
     },
     forAttrOfLabel: {
+      type: String,
+      required: true,
+    },
+    invalidMessageId: {
       type: String,
       required: true,
     },

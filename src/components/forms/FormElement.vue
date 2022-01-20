@@ -11,6 +11,7 @@
       :label="correctLabel"
       :required="widget.required"
       :for-attr="forAttrOfLabel"
+      :invalid-message="invalidMessage"
       data-test="form-element-label"
     />
     <!-- <div class="form-element__wrapper"> -->
@@ -21,9 +22,11 @@
       :model-value="modelValue"
       :for-attr-of-label="forAttrOfLabel"
       data-test="form-element-component"
+      :invalid-message-id="invalidMessageId"
       @update:model-value="$emit('update:modelValue', $event)"
     />
     <input-error-message
+      :id="invalidMessageId"
       :display-condition="invalidMessage !== ''"
       :error-message="invalidMessage"
     />
@@ -93,6 +96,9 @@ export default defineComponent({
     },
     forAttrOfLabel(): string {
       return `${this.widget.label}--${this.$.uid}`;
+    },
+    invalidMessageId(): string {
+      return `${this.forAttrOfLabel}--error`;
     },
     correctLabel(): string {
       return this.widget.index ? `${this.widget.label}-${this.widget.index.toString()}` : this.widget.label;
