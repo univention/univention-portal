@@ -1,19 +1,19 @@
 <template>
   <label :for="forAttr">
     {{ label }}
-    <required-field-label v-if="required" />
+    <span
+      v-if="required"
+      aria-hidden="true"
+    >*</span>
   </label>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import RequiredFieldLabel from '@/components/forms/RequiredFieldLabel.vue';
+import _ from '@/jsHelper/translate';
 
 export default defineComponent({
   name: 'Label',
-  components: {
-    RequiredFieldLabel,
-  },
   props: {
     forAttr: {
       type: String,
@@ -26,6 +26,10 @@ export default defineComponent({
     required: {
       type: Boolean,
       default: false,
+    },
+    invalidMessage: {
+      type: String,
+      default: '',
     },
   },
 });

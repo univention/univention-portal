@@ -6,6 +6,7 @@
     type="date"
     :value="modelValue"
     :aria-invalid="invalid"
+    :aria-describedby="invalidMessageId"
     data-test="date-box"
     @input="$emit('update:modelValue', $event.target.value)"
   >
@@ -31,6 +32,10 @@ export default defineComponent({
       default: '',
     },
     forAttrOfLabel: {
+      type: String,
+      required: true,
+    },
+    invalidMessageId: {
       type: String,
       required: true,
     },
