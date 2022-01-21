@@ -59,7 +59,6 @@
         @keydown.tab="handleTabWhileMoving"
       />
       <span
-        :id="categoryId"
         :draggable="editMode && !virtual"
         @dragstart="dragstart"
         @dragenter="dragenter"
@@ -189,9 +188,6 @@ export default defineComponent({
     },
     filteredTiles(): Tile[] {
       return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
-    },
-    categoryId(): string {
-      return `cat__${this.$.uid}`;
     },
   },
   methods: {
