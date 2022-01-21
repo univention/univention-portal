@@ -1,6 +1,6 @@
 <template>
   <input
-    :id="name"
+    :id="forAttrOfLabel"
     ref="input"
     :name="name"
     type="checkbox"
@@ -17,6 +17,10 @@ import { isValid } from '@/jsHelper/forms';
 export default defineComponent({
   name: 'CheckBox',
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     modelValue: {
       type: Boolean,
       required: true,
@@ -25,7 +29,7 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    name: {
+    forAttrOfLabel: {
       type: String,
       required: true,
     },
