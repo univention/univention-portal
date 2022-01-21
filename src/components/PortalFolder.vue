@@ -29,7 +29,6 @@
 <template>
   <div
     v-if="hasTiles || editMode"
-    :id="id"
     class="portal-folder"
     :draggable="editMode && !inModal"
     :class="[
@@ -255,7 +254,6 @@ export default defineComponent({
       this.$store.dispatch('modal/closeFolder');
     },
     openFolder(ev: Event) {
-      console.log('this.editMode', this.editMode);
       if (this.inModal) {
         return;
       }
