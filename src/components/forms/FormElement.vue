@@ -95,7 +95,7 @@ export default defineComponent({
       return invalidMessage(this.widget);
     },
     forAttrOfLabel(): string {
-      return `${this.widget.label}--${this.$.uid}`;
+      return `${this.widget.name}--${this.$.uid}`;
     },
     invalidMessageId(): string {
       return `${this.forAttrOfLabel}--error`;
