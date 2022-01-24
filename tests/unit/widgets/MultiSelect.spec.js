@@ -112,10 +112,6 @@ describe('MultiInput.vue', () => {
         
     test.skip('if add is working as expected', async () => {
       wrapper.unmount();
-      const div = document.createElement('div');
-      div.id = 'root';
-      document.body.appendChild(div);
-
       const store = new Vuex.Store({
         modules: {
           modal: {
@@ -129,7 +125,6 @@ describe('MultiInput.vue', () => {
 
       wrapper = await mount(MultiSelect, {
         propsData: multiSelectProps,
-        attachTo: "#root",    
         global: {
           plugins: [store]
         },
@@ -154,19 +149,40 @@ describe('MultiInput.vue', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith('modal/hideAndClearModal', 2);
-      // expect(store.dispatch).toHaveBeenCalledWith('activity/setMessage', 'Added to selection');
-      // expect(wrapper.emitted()).toHaveProperty('update:modelValue');
-      
-      // mock values
-      // const newValues = 
+
+      //  // update:modelValue is called with newValues
+      // // dispatch setMessage is called
     });
-    //  // update:modelValue is called with newValues
-    // // dispatch setMessage is called
           
-    it.todo('if remove is working as expected');
-            //  // remove is called on @click
-            //  // values are modified as expacted
-            //  // update:modelValue is emmitted with values
-            // // dispatch setMessage is called
-                  
+    test('if remove is working as expected', async () => {
+      wrapper.unmount();
+      const store = new Vuex.Store({
+        modules: {
+          activity: {
+              namespaced: true
+            },
+          }
+      });
+
+      wrapper = await mount(MultiSelect, {
+        propsData: {
+          label: 'multi select',
+          modelValue: fullModelValue,
+        },
+        global: {
+          plugins: [store]
+        },
+      });
+
+      store.dispatch = jest.fn();
+
+      const firstCheckbox = wrapper.find('[data-test="multi-select-checkbox-span"]');
+      const removeButton = await wrapper.find('[data-test="multi-select-remove-button"]');
+      await firstCheckbox.trigger('click');
+      await removeButton.trigger('click');
+      
+      await wrapper.vm.$nextTick();
+      expect(wrapper.emitted()).toHaveProperty('update:modelValue');
+      expect(store.dispatch).toHaveBeenCalledWith('activity/setMessage', 'Removed selection');
+    });                  
   });
