@@ -33,13 +33,16 @@
   >
     <div class="locale-input__wrapper">
       <input
-        :id="`locale-input-${i18nLabel}`"
+        :id="forAttrOfLabel"
         ref="input"
         :value="modelValue.en_US"
         class="locale-input__text-field"
         autocomplete="off"
         :name="name"
         :tabindex="tabindex"
+        :required="required"
+        :aria-invalid="invalid"
+        :aria-describedby="invalidMessageId"
         :data-test="`localeInput--${i18nLabel}`"
         @input="onInputEN"
       >
@@ -63,6 +66,7 @@ import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
+import { isValid } from '@/jsHelper/forms';
 
 export default defineComponent({
   name: 'LocaleInput',
@@ -90,6 +94,22 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    invalidMessage: {
+      type: String,
+      default: '',
+    },
+    forAttrOfLabel: {
+      type: String,
+      required: true,
+    },
+    invalidMessageId: {
+      type: String,
+      required: true,
+    },
+    required: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue'],
   computed: {
@@ -101,6 +121,12 @@ export default defineComponent({
     },
     translationEditingDialogLevel(): number {
       return this.isInModal ? 2 : 1;
+    },
+    invalid(): boolean {
+      return !isValid({
+        type: 'TextBox',
+        invalidMessage: this.invalidMessage,
+      });
     },
   },
   methods: {

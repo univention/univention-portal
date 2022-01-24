@@ -120,6 +120,14 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    forAttrOfLabel: {
+      type: String,
+      required: true,
+    },
+    invalidMessageId: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['update:modelValue'],
   data(): ImageUploadData {

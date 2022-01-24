@@ -6,6 +6,7 @@
     type="checkbox"
     :checked="modelValue"
     :aria-invalid="invalid"
+    :aria-describedby="invalidMessageId"
     @change="$emit('update:modelValue', $event.target.checked)"
   >
 </template>
@@ -30,6 +31,10 @@ export default defineComponent({
       default: '',
     },
     forAttrOfLabel: {
+      type: String,
+      required: true,
+    },
+    invalidMessageId: {
       type: String,
       required: true,
     },
