@@ -25,24 +25,24 @@
   License with the Debian GNU/Linux or Univention distribution in file
   /usr/share/common-licenses/AGPL-3; if not, see
   <https://www.gnu.org/licenses/>.
-**/
+* */
 
 import { mount } from '@vue/test-utils';
 
-import ComboBox from '@/components/widgets/ComboBox';
+import ComboBox from '@/components/widgets/ComboBox.vue';
 
 const comboBoxOptions = [
   {
     id: 'red',
-    label: 'Red'
+    label: 'Red',
   },
   {
     id: 'green',
-    label: 'Green'
+    label: 'Green',
   },
   {
     id: 'blue',
-    label: 'Blue'
+    label: 'Blue',
   },
 ];
 
@@ -56,7 +56,7 @@ const comboBoxProps = {
 
 let wrapper;
 
-beforeEach( async () => {
+beforeEach(async () => {
   wrapper = await mount(ComboBox, {
     propsData: comboBoxProps,
   });
@@ -92,24 +92,22 @@ describe('ComboBox Component', () => {
     expect(wrapper.vm.invalid).toBe(false);
     expect(comboBox.attributes('aria-invalid')).toBe('false');
 
-    await wrapper.setProps({ invalidMessage: "Invalid Message" });
+    await wrapper.setProps({ invalidMessage: 'Invalid Message' });
 
     expect(comboBox.attributes('aria-invalid')).toBe('true');
     expect(wrapper.vm.invalid).toBe(true);
   });
 
   test('No other values than those in option array are possible', async () => {
-
     const comboBox = await wrapper.find('[data-test="combo-box"]');
     const select = wrapper.find('select');
     const textInput = 'wrong-input';
     await select.setValue(textInput);
 
     expect(comboBox.element.value).not.toBe(textInput);
-
   });
 
-  test('it has the attribute id with a value from Prop //A11y',async () => {
+  test('it has the attribute id with a value from Prop //A11y', async () => {
     const dateBox = await wrapper.find('[data-test="combo-box"]');
     expect(dateBox.attributes('id')).toBe(forAttrOfComboBoxLabel);
   });

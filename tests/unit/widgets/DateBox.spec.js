@@ -25,34 +25,34 @@
   License with the Debian GNU/Linux or Univention distribution in file
   /usr/share/common-licenses/AGPL-3; if not, see
   <https://www.gnu.org/licenses/>.
-**/
+* */
 
 import { mount } from '@vue/test-utils';
 
-import DateBox from '@/components/widgets/DateBox';
+import DateBox from '@/components/widgets/DateBox.vue';
 
 describe('DateBox Component', () => {
   test('date input is working as expected', async () => {
-      const wrapper = await mount(DateBox, {
-        propsData: {
-          modelValue: '',
-        }
-      });
+    const wrapper = await mount(DateBox, {
+      propsData: {
+        modelValue: '',
+      },
+    });
 
-      const dateBox = await wrapper.find('[data-test="date-box"]');
+    const dateBox = await wrapper.find('[data-test="date-box"]');
 
-      // Expect input value to be empty on mount.
-      expect(dateBox.element.value).toBe("");
-      await dateBox.setValue('2017-06-01');
-      expect(dateBox.element.value).toBe("2017-06-01");
+    // Expect input value to be empty on mount.
+    expect(dateBox.element.value).toBe('');
+    await dateBox.setValue('2017-06-01');
+    expect(dateBox.element.value).toBe('2017-06-01');
 
-      // TODO check if wrong date input return false eg: 30.02.1993
+    // TODO check if wrong date input return false eg: 30.02.1993
 
-      await dateBox.setValue('text string');
-      expect(dateBox.element.value).not.toBe("text string");
-      expect(dateBox.element.value).toBe("");
+    await dateBox.setValue('text string');
+    expect(dateBox.element.value).not.toBe('text string');
+    expect(dateBox.element.value).toBe('');
 
-      wrapper.unmount();
+    wrapper.unmount();
   });
 
   test('this.invalid should return correct boolean', async () => {
@@ -64,7 +64,7 @@ describe('DateBox Component', () => {
 
     // this.invalid returns true if this.invalidMessage has a non-empty string
     expect(wrapper.vm.invalid).toBe(false);
-    await wrapper.setProps({ invalidMessage: "Invalid Message" })
+    await wrapper.setProps({ invalidMessage: 'Invalid Message' });
     expect(wrapper.vm.invalid).toBe(true);
 
     // TODO select element should have aria-invalid true or false
@@ -81,7 +81,7 @@ describe('DateBox Component', () => {
     expect(dateBox.attributes('type')).toBe('date');
   });
 
-  test('it has the attribute id with a value from Prop //A11y',async () => {
+  test('it has the attribute id with a value from Prop //A11y', async () => {
     const wrapper = await mount(DateBox, {
       propsData: {
         modelValue: '',

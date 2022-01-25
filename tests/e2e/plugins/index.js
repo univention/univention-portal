@@ -17,14 +17,13 @@ module.exports = (on, config) => {
   on('task', {
     log(message) {
       console.log(message);
-      return null
+      return null;
     },
     table(message) {
       console.table(message);
-      return null
-    }
+      return null;
+    },
   });
-
 
   return {
     ...config,
@@ -35,3 +34,4 @@ module.exports = (on, config) => {
     supportFile: 'tests/e2e/support/index.js',
   };
 };
+/* eslint-enable arrow-body-style */

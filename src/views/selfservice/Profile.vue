@@ -19,8 +19,8 @@
       </footer>
     </my-form>
     <my-form
-      ref="attributesForm"
       v-show="attributesLoaded"
+      ref="attributesForm"
       v-model="attributeValues"
       :widgets="attributeWidgets"
     >
@@ -93,10 +93,6 @@ export default defineComponent({
       origFormValues: {},
     };
   },
-  mounted() {
-    // @ts-ignore
-    this.$refs.loginForm.focusFirstInteractable();
-  },
   computed: {
     TITLE(): string {
       return _('Profile');
@@ -122,6 +118,10 @@ export default defineComponent({
     attributesLoaded(): boolean {
       return this.attributeWidgets.length > 0;
     },
+  },
+  mounted() {
+    // @ts-ignore
+    this.$refs.loginForm.focusFirstInteractable();
   },
   methods: {
     onContinue() {
