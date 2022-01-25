@@ -1,69 +1,52 @@
 <template>
-  <site
+  <guarded-site
     :title="TITLE"
+    :subtitle="SUBTITLE"
     :ucr-var-for-frontend-enabling="'umc/self-service/protect-account/frontend/enabled'"
+    path="passwordreset/get_contact"
+    @loaded="loaded"
+    @save="setContactInfo"
   >
-    <div>{{ SUBTITLE }}</div>
-    <my-form
-      v-model="loginValues"
-      :widgets="loginWidgets"
+    <label
+      v-for="info in contactInformation"
+      :key="info.id"
     >
-      <footer v-if="!renewOptionsLoaded">
-        <button
-          type="submit"
-          @click.prevent="onContinue"
-        >
-          {{ CONTINUE }}
-        </button>
-      </footer>
-    </my-form>
-  </site>
+      {{ info.label }}
+      <input
+        v-model="info.value"
+        :name="info.id"
+      >
+    </label>
+  </guarded-site>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { umc } from '@/jsHelper/umc';
+import { mapGetters } from 'vuex';
+
+import { umcCommand } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
-import Site from '@/views/selfservice/Site.vue';
-import MyForm from '@/components/forms/Form.vue';
+import GuardedSite from '@/views/selfservice/GuardedSite.vue';
 import { allValid, initialValue, validateAll } from '@/jsHelper/forms';
 
+interface ContactInfo {
+  id: string,
+  label: string,
+  value: string,
+}
+
 interface Data {
-  loginWidgets: any[],
-  loginValues: any,
-  renewWidgets: any[],
-  renewValues: any,
-  origFormValues: any,
+  contactInformation: ContactInfo[],
 }
 
 export default defineComponent({
   name: 'ProtectAccount',
   components: {
-    Site,
-    MyForm,
+    GuardedSite,
   },
   data(): Data {
     return {
-      loginWidgets: [{
-        type: 'TextBox',
-        name: 'username',
-        label: _('Username'),
-        invalidMessage: '',
-        required: true,
-      }, {
-        type: 'PasswordBox',
-        name: 'password',
-        label: _('Password'),
-        invalidMessage: '',
-        required: true,
-      }],
-      loginValues: {
-        username: 'user', // TODO
-        password: 'univention', // TODO
-      },
-      renewWidgets: [],
-      renewValues: {},
-      origFormValues: {},
+      contactInformation: [],
     };
   },
   computed: {
@@ -73,51 +56,35 @@ export default defineComponent({
     SUBTITLE(): string {
       return _('Everyone forgets his password now and then. Protect yourself and activate the opportunity to set a new password.');
     },
-    CONTINUE(): string {
-      return _('Continue');
-    },
-    renewOptionsLoaded(): boolean {
-      return this.renewWidgets.length > 0;
-    },
   },
   methods: {
-    onContinue() {
-      validateAll(this.loginWidgets, this.loginValues);
-      if (allValid(this.loginWidgets)) {
-        this.loginWidgets.forEach((widget) => {
-          widget.disabled = true;
-        });
-        this.loadRenewOptions();
-      }
+    loaded(result: ContactInfo[]) {
+      console.log(result);
+      this.contactInformation = result;
     },
-    onCancel() {
-      this.renewWidgets = [];
-      this.renewValues = {};
-      this.loginWidgets.forEach((widget) => {
-        widget.disabled = false;
-      });
-      this.loginValues = {
-        username: '',
-        password: '',
-      };
-    },
-    loadRenewOptions() {
+    setContactInfo(username: string, password: string) {
       this.$store.dispatch('activateLoadingState');
-      umc('command/passwordreset/get_contact', {
-        username: this.loginValues.username,
-        password: this.loginValues.password,
-      })
-        .then((answer) => {
-          const renewOptions = answer.data.result;
+      const params = {
+        username,
+        password,
+      };
+      this.contactInformation.forEach((info) => {
+        params[info.id] = info.value;
+      });
+      umcCommand('passwordreset/set_contact', params)
+        .then((result) => {
+          console.log(result);
+          this.$store.dispatch('notifications/addSuccessNotification', {
+            title: _('Save successful'),
+            description: _('Your contact data was successfully changed.'),
+          });
         })
         .catch((error) => {
-          // TODO get real error message from request
-          // TODO put error message in modal
+          console.log(error);
           this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to retrieve renew options'),
-            description: 'Failed to retrieve renew options',
+            title: _('Failed to save'),
+            description: error.message,
           });
-          this.onCancel();
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');

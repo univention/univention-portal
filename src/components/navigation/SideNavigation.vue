@@ -106,6 +106,7 @@
           @keydown.space.exact="menuClickAction($event, index, item)"
           @keydown.right.exact.prevent="hasSubmenu(item) ? toggleMenu(index) : null"
           @keydown.esc="closeNavigation"
+          @clickAction="closeNavigation"
         />
         <template v-if="hasSubmenu(item)">
           <region
@@ -127,6 +128,7 @@
               @keydown.space.exact.prevent="toggleMenu()"
               @keydown.left.exact="toggleMenu()"
               @keydown.esc="closeNavigation"
+              @clickAction="closeNavigation"
             />
             <div
               v-for="(subItem, subindex) in item.subMenu"
@@ -146,6 +148,7 @@
                 :is-subitem="true"
                 class="portal-sidenavigation__menu-subItem"
                 @keydown.esc="closeNavigation"
+                @clickAction="closeNavigation"
               />
             </div>
           </region>
@@ -173,7 +176,6 @@ import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import MenuItem from '@/components/navigation/MenuItem.vue';
-import SubMenuItem from '@/components/navigation/SubMenuItem.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import TileClick from '@/mixins/TileClick.vue';
 
@@ -195,7 +197,6 @@ export default defineComponent({
   components: {
     PortalIcon,
     MenuItem,
-    SubMenuItem,
     Region,
   },
   mixins: [
