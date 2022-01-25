@@ -31,6 +31,14 @@ import 'cypress-file-upload';
 import 'cypress-axe';
 // import terminalLog from './terminallog';
 
+const openEditmode = () => {
+  // Open Editmode
+  cy.get('[data-test="navigationbutton"]').click();
+  cy.get('[data-test="openEditmodeButton"]').click();
+  cy.get('[data-test="settingsbutton"]').click();
+  cy.get('.edit-mode-side-navigation__form').should('be.visible');
+};
+
 beforeEach(() => {
   cy.setCookie('UMCLang', 'de_DE');
   cy.intercept('GET', 'portal.json', { fixture: 'portal_logged_in.json' });
@@ -53,8 +61,8 @@ describe('Test Editmode Side navigation', () => {
     // programmatically upload the logo
     const fileName = 'images/logo.svg';
 
-    cy.fixture(fileName).then(fileContent => {
-      cy.get('[data-test=imageUploadFileInput--Portal-Logo]').attachFile(
+    cy.fixture(fileName).then((fileContent) => {
+      await cy.get('[data-test=imageUploadFileInput--Portal-Logo]').attachFile(
         { fileContent, fileName, mimeType: 'image/svg+xml' },
       );
     });
@@ -86,22 +94,14 @@ describe('Test Editmode Side navigation', () => {
     // Inject the axe-core library
     // first a11y test
     cy.checkA11y('.edit-mode-side-navigation__form',
-    {
-      runOnly: {
-        type: 'tag',
-        values: ['wcag21aa'],
-      }
-    },
-    cy.terminalLog, {
-      skipFailures: true
-    });
+      {
+        runOnly: {
+          type: 'tag',
+          values: ['wcag21aa'],
+        },
+      },
+      cy.terminalLog, {
+        skipFailures: true,
+      });
   });
 });
-
-const openEditmode = () => {
-    // Open Editmode
-    cy.get('[data-test="navigationbutton"]').click();
-    cy.get('[data-test="openEditmodeButton"]').click();
-    cy.get('[data-test="settingsbutton"]').click();
-    cy.get('.edit-mode-side-navigation__form').should('be.visible');
-}

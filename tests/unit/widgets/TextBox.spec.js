@@ -25,38 +25,36 @@
   License with the Debian GNU/Linux or Univention distribution in file
   /usr/share/common-licenses/AGPL-3; if not, see
   <https://www.gnu.org/licenses/>.
-**/
+* */
 
 import { mount } from '@vue/test-utils';
 
-import Textbox from '@/components/widgets/TextBox';
+import Textbox from '@/components/widgets/TextBox.vue';
 
 describe('TextBox Component', () => {
   test('user can type in input field', async () => {
-      // to check focus, we need to attach to an actual document, normally we don't do this
-      const div = document.createElement('div');
-      div.id = 'root';
-      document.body.appendChild(div);
+    // to check focus, we need to attach to an actual document, normally we don't do this
+    const div = document.createElement('div');
+    div.id = 'root';
+    document.body.appendChild(div);
 
+    const wrapper = await mount(Textbox, {
+      propsData: {
+        modelValue: '',
+      },
+      attachTo: '#root',
+    });
 
-      const wrapper = await mount(Textbox, {
-        propsData: {
-          modelValue: '',
-        },
-        attachTo: "#root"
-      });
+    const textBox = await wrapper.find('[data-test="text-box"]');
 
-      const textBox = await wrapper.find('[data-test="text-box"]');
+    // Expect input value to be empty on mount.
+    expect(textBox.element.value).toBe('');
 
-      // Expect input value to be empty on mount.
-      expect(textBox.element.value).toBe("");
+    await textBox.setValue('test input value');
 
-      await textBox.setValue('test input value');
+    expect(textBox.element.value).toBe('test input value');
 
-      expect(textBox.element.value).toBe("test input value");
-
-      wrapper.unmount();
-
+    wrapper.unmount();
   });
 
   test('computed property "invalud" is working', async () => {
@@ -68,7 +66,7 @@ describe('TextBox Component', () => {
 
     // Expect Aria-Invalid to be set correctly
     expect(wrapper.vm.invalid).toBe(false);
-    await wrapper.setProps({ invalidMessage: "Invalid Message" })
+    await wrapper.setProps({ invalidMessage: 'Invalid Message' });
     expect(wrapper.vm.invalid).toBe(true);
   });
 

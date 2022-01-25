@@ -25,14 +25,13 @@
   License with the Debian GNU/Linux or Univention distribution in file
   /usr/share/common-licenses/AGPL-3; if not, see
   <https://www.gnu.org/licenses/>.
-**/
+* */
 
 import { mount } from '@vue/test-utils';
 
-import RadioBox from '@/components/widgets/RadioBox';
+import RadioBox from '@/components/widgets/RadioBox.vue';
 
 const radioBoxName = 'radio-selection';
-
 
 const radioElementProps = {
   modelValue: '',
@@ -40,53 +39,51 @@ const radioElementProps = {
   options: [
     {
       id: 'yes',
-      label: 'Yes'
+      label: 'Yes',
     },
     {
       id: 'no',
-      label: 'No'
-    }
-  ]
+      label: 'No',
+    },
+  ],
 };
 
 describe('RadioBox Component', () => {
-  test('test input setting', async () => {
-      const wrapper = await mount(RadioBox, {
-        propsData: radioElementProps,
-      });
+  test('input setting', async () => {
+    const wrapper = await mount(RadioBox, {
+      propsData: radioElementProps,
+    });
 
-      const radioBoxInputYes = await wrapper.find(`[id="${radioElementProps.name}--${radioElementProps.options[0].id}"]`);
-      
-      const radioBoxInputNo = await wrapper.find(`[id="${radioElementProps.name}--${radioElementProps.options[1].id}"]`);
-      
-      // Expect after mounting that none of both radio options is checked
-      expect(radioBoxInputYes.element.checked).toBeFalsy();
-      expect(radioBoxInputNo.element.checked).toBeFalsy();
-      expect(wrapper.vm.modelValue).toBe('');
+    const radioBoxInputYes = await wrapper.find(`[id="${radioElementProps.name}--${radioElementProps.options[0].id}"]`);
 
-      
-      await radioBoxInputYes.trigger('click');
+    const radioBoxInputNo = await wrapper.find(`[id="${radioElementProps.name}--${radioElementProps.options[1].id}"]`);
 
-      expect(radioBoxInputYes.element.checked).toBeTruthy();
-      expect(radioBoxInputNo.element.checked).toBeFalsy();
-      expect(wrapper.vm.modelValue).toBe(radioElementProps.options[0].id);
+    // Expect after mounting that none of both radio options is checked
+    expect(radioBoxInputYes.element.checked).toBeFalsy();
+    expect(radioBoxInputNo.element.checked).toBeFalsy();
+    expect(wrapper.vm.modelValue).toBe('');
 
-      wrapper.unmount();
+    await radioBoxInputYes.trigger('click');
 
+    expect(radioBoxInputYes.element.checked).toBeTruthy();
+    expect(radioBoxInputNo.element.checked).toBeFalsy();
+    expect(wrapper.vm.modelValue).toBe(radioElementProps.options[0].id);
+
+    wrapper.unmount();
   });
 
   test('click on label should set modelValue', async () => {
     const wrapper = await mount(RadioBox, {
       propsData: radioElementProps,
     });
-    
+
     const radioBoxLabelYes = await wrapper.find(`[for="${radioElementProps.name}--${radioElementProps.options[0].id}"]`);
     const radioBoxInputYes = await wrapper.find(`[id="${radioElementProps.name}--${radioElementProps.options[0].id}"]`);
 
     expect(radioBoxInputYes.element.checked).toBeFalsy();
-    
+
     await radioBoxLabelYes.trigger('click');
-    
+
     expect(radioBoxInputYes.element.checked).toBeTruthy();
   });
 
@@ -98,14 +95,14 @@ describe('RadioBox Component', () => {
 
     const wrapper = await mount(RadioBox, {
       propsData: radioElementProps,
-      attachTo: "#root"
+      attachTo: '#root',
     });
     const radioBoxInputYes = await wrapper.find(`[id="${radioElementProps.name}--${radioElementProps.options[0].id}"]`);
-    
+
     expect(radioBoxInputYes.element).not.toBe(document.activeElement);
 
     await radioBoxInputYes.setChecked();
-    
+
     // TODO Fix test for focus. For some reason it is not working
     // expect(radioBoxInputYes.element).toBe(document.activeElement);
   });
