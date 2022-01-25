@@ -52,6 +52,18 @@ function umc(path: string, options: any, flavor?: string): Promise<AxiosResponse
   return axios.post(`/univention/${path}`, params, { headers });
 }
 
+function umcCommand(path: string, options: any, flavor?: string): Promise<any> {
+  return umc(`command/${path}`, options, flavor)
+    .then((answer) => answer.data.result)
+    .catch((error) => {
+      if ('response' in error && 'data' in error.response) {
+        throw error.response.data;
+      }
+      console.error(error);
+      throw new Error('Unknown error');
+    });
+}
+
 function changePassword(oldPassword: string, newPassword: string): Promise<AxiosResponse<any>> {
   return umc('set', {
     password: {
@@ -100,4 +112,4 @@ function udmChoices(objectType: string, syntax: string, searchString: string): P
   'portals/all');
 }
 
-export { changePassword, umc, udmPut, udmAdd, udmRemove, udmChoices, Choice };
+export { changePassword, umc, umcCommand, udmPut, udmAdd, udmRemove, udmChoices, Choice };

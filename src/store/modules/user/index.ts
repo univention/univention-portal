@@ -54,7 +54,9 @@ const user: PortalModule<UserState> = {
     },
   },
 
-  getters: { userState: (state) => state.user },
+  getters: {
+    userState: (state: UserState) => state.user,
+  },
 
   actions: {
     setUser({ commit, dispatch }: UserActionContext, payload: UserWrapper): void {
