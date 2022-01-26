@@ -31,7 +31,7 @@
       <icon-button
         icon="trash"
         :has-button-style="true"
-        :aria-label-prop="REMOVE_ENTRY"
+        :aria-label-prop="removeButtonLabel(valIdx)"
         :data-test="`multi-input-remove-entry-button-${valIdx}`"
         @click="removeEntry(valIdx)"
       />
@@ -40,13 +40,13 @@
         :error-message="rowInvalidMessage(valIdx)"
       />
     </div>
-    <button
-      type="button"
+    <icon-button
+      icon="plus"
+      :has-button-style="true"
+      :aria-label-prop="addButtonLabel"
       data-test="multi-input-add-entry-button"
       @click="addEntry"
-    >
-      {{ ADD_ENTRY }}
-    </button>
+    />
   </div>
 </template>
 
@@ -90,6 +90,10 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    extraLabel: {
+      type: String,
+      required: true,
+    },
     invalidMessage: {
       type: Object,
       default() {
@@ -102,11 +106,10 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   computed: {
-    ADD_ENTRY(): string {
-      return _('Add entry');
-    },
-    REMOVE_ENTRY(): string {
-      return _('Remove entry');
+    addButtonLabel(): string {
+      return _('Add new %(label)s', {
+        label: this.extraLabel,
+      });
     },
   },
   methods: {
@@ -157,8 +160,14 @@ export default defineComponent({
         message = '';
       }
 
+      let labelScreenReader = `${this.extraLabel} ${valIdx + 1}`;
+      if (type.label !== undefined && type.label !== this.extraLabel) {
+        labelScreenReader += `: ${type.label}`;
+      }
+
       return {
         ...type,
+        ariaLabel: labelScreenReader,
         invalidMessage: message ?? '',
       };
     },
@@ -170,6 +179,12 @@ export default defineComponent({
         // @ts-ignore TODO
         firstWidget.focus();
       }
+    },
+    removeButtonLabel(idx) {
+      return _('Remove %(label)s %(idx)s', {
+        label: this.extraLabel,
+        idx: idx + 1,
+      });
     },
   },
 });
@@ -183,9 +198,6 @@ $groupingStyle
   margin-left: 2px
   box-shadow: inset 2px 0 var(--local-stripeColor)
 
-.multi-input
-  @extends $groupingStyle
-
 .multi-input__row
   label
     margin-top: 0
@@ -195,6 +207,16 @@ $groupingStyle
     align-items: flex-start
     gap: var(--layout-spacing-unit)
     margin-bottom: calc(1 * var(--layout-spacing-unit))
+
+    label
+      position: absolute
+      width: 1px
+      height: 1px
+      padding: 0
+      margin: -1px
+      overflow: hidden
+      clip: rect(0,0,0,0)
+      border: 0
 
     .icon-button
       flex: 0 0 auto

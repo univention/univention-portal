@@ -9,6 +9,7 @@
   >
     <form-label
       :label="correctLabel"
+      :aria-label="widget.ariaLabel || widget.label"
       :required="widget.required"
       :for-attr="forAttrOfLabel"
       :invalid-message="invalidMessage"
@@ -85,6 +86,7 @@ export default defineComponent({
       const component = JSON.parse(JSON.stringify(this.widget));
       delete component.type;
       delete component.label;
+      delete component.ariaLabel;
       delete component.validators;
       return component;
     },
