@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import FormElement from '@/components/forms/FormElement.vue';
-import { isValid } from '@/jsHelper/forms';
+import { isValid, allValid, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 
 function isInteractable(widget) {
   return !(widget.readonly ?? false) && !(widget.disabled ?? false);
@@ -35,12 +35,16 @@ export default defineComponent({
       required: true,
     },
     widgets: {
-      // type: Array<Object> TODO
+      type: Array as PropType<WidgetDefinition[]>,
       required: true,
     },
   },
   emits: ['update:modelValue'],
   methods: {
+    validate(): boolean {
+      validateAll(this.widgets, this.modelValue);
+      return allValid(this.widgets);
+    },
     onUpdate(widgetName, value) {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       newVal[widgetName] = value;

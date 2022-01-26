@@ -9,12 +9,13 @@
       class="dialog--selfservice"
       @cancel="cancel"
     >
-      <slot />
+      <div>{{ subtitle }}</div>
       <div
         v-if="!frontendEnabled"
       >
         {{ DISABLED_NOTICE }}
       </div>
+      <slot v-else />
     </modal-dialog>
   </modal-wrapper>
 </template>
@@ -37,6 +38,10 @@ export default defineComponent({
   },
   props: {
     title: {
+      type: String,
+      required: true,
+    },
+    subtitle: {
       type: String,
       required: true,
     },
