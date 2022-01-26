@@ -55,6 +55,11 @@ export default defineComponent({
       });
     },
   },
+  methods: {
+    focus(): void {
+      console.warn('Focus not implemented');
+    },
+  },
 });
 </script>
 <style lang="stylus">
