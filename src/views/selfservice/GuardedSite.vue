@@ -1,75 +1,52 @@
 <template>
-  <modal-wrapper
-    :is-active="initialLoadDone"
-    :full="true"
-    class="modal-wrapper--selfservice"
+  <site
+    :title="title"
+    :subtitle="subtitle"
+    :ucr-var-for-frontend-enabling="ucrVarForFrontendEnabling"
   >
-    <modal-dialog
-      :i18n-title-key="title"
-      class="dialog--selfservice"
-      @cancel="cancel"
+    <my-form
+      ref="form"
+      v-model="formValues"
+      :widgets="formWidgets"
     >
-      <div>{{ subtitle }}</div>
-      <div
-        v-if="!frontendEnabled"
-      >
-        {{ DISABLED_NOTICE }}
-      </div>
-      <form
-        v-else
-        ref="form"
-      >
-        <label>
-          Username
-          <input
-            v-model="username"
-            :disabled="username !== ''"
-            name="username"
-          >
-        </label>
-        <label>
-          Password
-          <input
-            v-model="password"
-            :disabled="loaded"
-            type="password"
-            name="username"
-          >
-        </label>
-        <slot />
+      <footer>
         <button
           type="submit"
           @click.prevent="submit"
         >
           {{ SUBMIT_LABEL }}
         </button>
-      </form>
-    </modal-dialog>
-  </modal-wrapper>
+      </footer>
+    </my-form>
+  </site>
 </template>
 
 <script lang="ts">
-// FIXME if using 'initialLoadDone' for is-active there are weird z-indexing css issues with the opacity animation
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import { umcCommand } from '@/jsHelper/umc';
-import ModalWrapper from '@/components/modal/ModalWrapper.vue';
-import ModalDialog from '@/components/modal/ModalDialog.vue';
+import Site from '@/views/selfservice/Site.vue';
+import MyForm from '@/components/forms/Form.vue';
+import { WidgetDefinition } from '@/jsHelper/forms';
 import { mapGetters } from 'vuex';
-import { isTrue } from '@/jsHelper/ucr';
 import _ from '@/jsHelper/translate';
 
-interface Data {
+interface FormData {
   username: string,
-  password: string,
+  password?: string,
+}
+
+interface Data {
+  formValues: FormData,
   loaded: boolean,
+  usernameGiven: boolean,
 }
 
 export default defineComponent({
   name: 'GuardedSite',
   components: {
-    ModalDialog,
-    ModalWrapper,
+    MyForm,
+    Site,
   },
   props: {
     title: {
@@ -84,6 +61,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    passwordNeeded: {
+      type: Boolean,
+      default: true,
+    },
+    guardedWidgets: {
+      type: Array as PropType<WidgetDefinition[]>,
+      required: true,
+    },
     ucrVarForFrontendEnabling: {
       type: String,
       default: '',
@@ -91,64 +76,92 @@ export default defineComponent({
   },
   emits: ['loaded', 'save'],
   data(): Data {
-    return {
+    const formValues: FormData = {
       username: '',
-      password: '',
+    };
+    if (this.passwordNeeded) {
+      formValues.password = '';
+    }
+    return {
+      formValues,
       loaded: false,
+      usernameGiven: false,
     };
   },
   computed: {
     ...mapGetters({
       metaData: 'metaData/getMeta',
-      initialLoadDone: 'getInitialLoadDone',
       userState: 'user/userState',
     }),
-    DISABLED_NOTICE(): string {
-      return _('This site has been disabled');
+    formWidgets(): WidgetDefinition[] {
+      const widgets: WidgetDefinition[] = [{
+        type: 'TextBox',
+        name: 'username',
+        label: _('Username'),
+        readonly: this.loaded || this.usernameGiven,
+        invalidMessage: '',
+        required: true,
+      }];
+      if (this.passwordNeeded) {
+        widgets.push({
+          type: 'PasswordBox',
+          name: 'password',
+          label: _('Password'),
+          readonly: this.loaded,
+          invalidMessage: '',
+          required: true,
+        });
+      }
+      if (this.loaded) {
+        this.guardedWidgets.forEach((widget) => widgets.push(widget));
+      }
+      return widgets;
     },
     SUBMIT_LABEL(): string {
       if (this.loaded) {
-        return _('Save');
+        return _('Submit');
       }
-      return _('Continue');
+      return _('Next');
     },
-    frontendEnabled(): boolean {
-      if (this.ucrVarForFrontendEnabling === '') {
-        return true;
-      }
-      return isTrue(this.metaData[this.ucrVarForFrontendEnabling]);
+    form(): typeof MyForm {
+      return this.$refs.form as typeof MyForm;
     },
   },
   mounted() {
-    this.$store.dispatch('modal/disableBodyScrolling');
     setTimeout(() => {
-      this.username = this.userState.username;
+      if (this.userState.username) {
+        this.formValues.username = this.userState.username;
+        this.usernameGiven = true;
+      }
       this.refocus();
     }, 100); // TODO...
-  },
-  unmounted() {
-    // TODO restore previous state instead of enabling
-    this.$store.dispatch('modal/enableBodyScrolling');
   },
   methods: {
     refocus() {
       setTimeout(() => {
-        ((this.$refs.form as HTMLElement).querySelector('input:not([disabled])') as HTMLElement)?.focus();
+        this.form.focusFirstInteractable();
       }, 100); // TODO...
     },
     submit() {
+      if (!this.form.validate()) {
+        this.form.focusFirstInvalid();
+        return;
+      }
       if (this.loaded) {
-        this.$emit('save', this.username, this.password);
+        this.$emit('save', this.formValues);
         return;
       }
       this.$store.dispatch('activateLoadingState');
-      umcCommand(this.path, {
-        username: this.username,
-        password: this.password,
-      })
+      const params: FormData = {
+        username: this.formValues.username,
+      };
+      if (this.passwordNeeded) {
+        params.password = this.formValues.password;
+      }
+      umcCommand(this.path, params)
         .then((result) => {
           this.loaded = true;
-          this.$emit('loaded', result);
+          this.$emit('loaded', result, this.formValues);
           this.refocus();
         })
         .catch((error) => {
@@ -157,44 +170,16 @@ export default defineComponent({
             title: _('Authentication failed'),
             description: error.message,
           });
-          this.username = '';
-          this.password = '';
+          this.formValues.username = '';
+          if (this.passwordNeeded) {
+            this.formValues.password = '';
+          }
+          this.usernameGiven = false;
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');
         });
     },
-    cancel() {
-      this.$router.push({ name: 'portal' });
-    },
   },
 });
 </script>
-
-<style lang="stylus">
-.modal-wrapper--selfservice
-  padding: calc(4 * var(--layout-spacing-unit)) 0
-  overflow: auto
-  box-sizing: border-box
-  // z-index: $zindex-4 TODO notifications are also $zindex-4
-  z-index: 399
-
-.dialog--selfservice
-  margin: auto
-  box-sizing: border-box
-  min-width: s('min(350px, 90%)')
-  min-height: s('min(200px, 90%)')
-  max-width: unset
-
-  input,
-  select,
-  form
-    width: 100%
-  form
-    min-width: calc(var(--inputfield-width) + 3rem)
-    button
-      float: right
-
-  form main
-    max-height: unset
-</style>

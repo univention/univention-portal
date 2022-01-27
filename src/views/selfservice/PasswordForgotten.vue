@@ -2,11 +2,12 @@
   <guarded-site
     :title="TITLE"
     :subtitle="SUBTITLE"
-    :ucr-var-for-frontend-enabling="'umc/self-service/protect-account/frontend/enabled'"
-    path="passwordreset/get_contact"
+    :ucr-var-for-frontend-enabling="'umc/self-service/passwordreset/frontend/enabled'"
+    path="passwordreset/get_reset_methods"
+    :password-needed="false"
     :guarded-widgets="widgets"
     @loaded="loaded"
-    @save="setContactInfo"
+    @save="sendToken"
   />
 </template>
 
@@ -18,65 +19,65 @@ import _ from '@/jsHelper/translate';
 import GuardedSite from '@/views/selfservice/GuardedSite.vue';
 import { WidgetDefinition } from '@/jsHelper/forms';
 
-interface ContactInfo {
+interface MethodInfo {
   id: string,
   label: string,
-  value: string,
 }
 
 interface Data {
-  contactInformation: ContactInfo[],
+  methodInformation: MethodInfo[],
 }
 
 export default defineComponent({
-  name: 'ProtectAccount',
+  name: 'PasswordForgotten',
   components: {
     GuardedSite,
   },
   data(): Data {
     return {
-      contactInformation: [],
+      methodInformation: [],
     };
   },
   computed: {
     TITLE(): string {
-      return _('Protect account');
+      return _('Password forgotten');
     },
     SUBTITLE(): string {
-      return _('Everyone forgets his password now and then. Protect yourself and activate the opportunity to set a new password.');
+      return _('Forgot your password? Set a new one:');
     },
     widgets(): WidgetDefinition[] {
-      return this.contactInformation.map((info) => ({
-        type: 'TextBox',
-        name: info.id,
-        label: info.label,
+      return [{
+        type: 'RadioBox',
+        name: 'method',
+        options: this.methodInformation,
+        label: _('Please choose an option to renew your password.'),
         invalidMessage: '',
         required: true,
-      }));
+      }];
     },
   },
   methods: {
-    loaded(result: ContactInfo[], formValues) {
+    loaded(result: MethodInfo[], formValues) {
       console.log(result);
-      this.contactInformation = result;
-      this.contactInformation.forEach((info) => {
-        formValues[info.id] = info.value;
-      });
+      this.methodInformation = result;
+      formValues.method = '';
+      if (result.length) {
+        formValues.method = result[0].id;
+      }
     },
-    setContactInfo(values) {
+    sendToken(values) {
       this.$store.dispatch('activateLoadingState');
-      umcCommand('passwordreset/set_contact', values)
-        .then((result) => {
-          console.log(result);
+      umcCommand('passwordreset/send_token', values)
+        .then(() => {
           this.$store.dispatch('notifications/addSuccessNotification', {
-            title: _('Save successful'),
-            description: _('Your contact data has been successfully changed.'),
+            title: _('Token sent'),
+            description: _('Successfully sent Token.'),
           });
+          this.$router.push({ name: 'selfserviceNewPassword', params: { username: values.username } });
         })
         .catch((error) => {
-          console.log(error);
           this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to save'),
+            title: _('Failed to send token'),
             description: error.message,
           });
         })

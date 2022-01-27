@@ -2,6 +2,28 @@
 
 import _ from '@/jsHelper/translate';
 
+type WidgetType = 'TextBox' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUpload' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect';
+
+interface OptionsDefinition {
+  id: string,
+  label: string,
+}
+
+type Validator = (widget, value) => string;
+
+export interface WidgetDefinition {
+  type: WidgetType,
+  name: string,
+  label: string,
+  invalidMessage?: string,
+  required?: boolean,
+  readonly?: boolean,
+  options?: OptionsDefinition[],
+  validators?: Validator[],
+  index?: number,
+  subtypes?: WidgetDefinition[],
+}
+
 export function isEmpty(widget, value): boolean {
   switch (widget.type) {
     case 'TextBox':
