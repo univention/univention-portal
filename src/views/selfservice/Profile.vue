@@ -45,6 +45,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
@@ -94,6 +95,9 @@ export default defineComponent({
     };
   },
   computed: {
+    ...mapGetters({
+      userState: 'user/userState',
+    }),
     TITLE(): string {
       return _('Profile');
     },
@@ -120,6 +124,10 @@ export default defineComponent({
     },
   },
   mounted() {
+    if (this.userState?.username) {
+      this.loginValues.username = this.userState.username ? this.userState.username : null;
+      this.loginWidgets[0].disabled = true;
+    }
     // @ts-ignore
     this.$refs.loginForm.focusFirstInteractable();
   },
