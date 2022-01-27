@@ -35,10 +35,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import FormLabel from '@/components/forms/FormLabel.vue';
 import InputErrorMessage from 'components/forms/InputErrorMessage.vue';
-import { isValid, invalidMessage } from '@/jsHelper/forms';
+import { isValid, invalidMessage, WidgetDefinition } from '@/jsHelper/forms';
 
 // TODO load components on demand (?)
 import ComboBox from '@/components/widgets/ComboBox.vue';
@@ -72,7 +72,7 @@ export default defineComponent({
   },
   props: {
     widget: {
-      type: Object,
+      type: Object as PropType<WidgetDefinition>,
       required: true,
     },
     modelValue: {

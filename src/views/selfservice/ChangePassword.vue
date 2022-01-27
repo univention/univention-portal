@@ -4,10 +4,20 @@
     :subtitle="SUBTITLE"
     :ucr-var-for-frontend-enabling="'umc/self-service/protect-account/frontend/enabled'"
     path="passwordreset/get_contact"
-    :guarded-widgets="widgets"
     @loaded="loaded"
     @save="setContactInfo"
-  />
+  >
+    <label
+      v-for="info in contactInformation"
+      :key="info.id"
+    >
+      {{ info.label }}
+      <input
+        v-model="info.value"
+        :name="info.id"
+      >
+    </label>
+  </guarded-site>
 </template>
 
 <script lang="ts">
@@ -16,7 +26,6 @@ import { defineComponent } from 'vue';
 import { umcCommand } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import GuardedSite from '@/views/selfservice/GuardedSite.vue';
-import { WidgetDefinition } from '@/jsHelper/forms';
 
 interface ContactInfo {
   id: string,
@@ -29,7 +38,7 @@ interface Data {
 }
 
 export default defineComponent({
-  name: 'ProtectAccount',
+  name: 'ChangePassword',
   components: {
     GuardedSite,
   },
@@ -45,32 +54,27 @@ export default defineComponent({
     SUBTITLE(): string {
       return _('Everyone forgets his password now and then. Protect yourself and activate the opportunity to set a new password.');
     },
-    widgets(): WidgetDefinition[] {
-      return this.contactInformation.map((info) => ({
-        type: 'TextBox',
-        name: info.id,
-        label: info.label,
-        invalidMessage: '',
-        required: true,
-      }));
-    },
   },
   methods: {
-    loaded(result: ContactInfo[], formValues) {
+    loaded(result: ContactInfo[]) {
       console.log(result);
       this.contactInformation = result;
-      this.contactInformation.forEach((info) => {
-        formValues[info.id] = info.value;
-      });
     },
-    setContactInfo(values) {
+    setContactInfo(username: string, password: string) {
       this.$store.dispatch('activateLoadingState');
-      umcCommand('passwordreset/set_contact', values)
+      const params = {
+        username,
+        password,
+      };
+      this.contactInformation.forEach((info) => {
+        params[info.id] = info.value;
+      });
+      umcCommand('passwordreset/set_contact', params)
         .then((result) => {
           console.log(result);
           this.$store.dispatch('notifications/addSuccessNotification', {
             title: _('Save successful'),
-            description: _('Your contact data has been successfully changed.'),
+            description: _('Your contact data was successfully changed.'),
           });
         })
         .catch((error) => {
