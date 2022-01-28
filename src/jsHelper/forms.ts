@@ -47,6 +47,7 @@ export function isEmpty(widget, value): boolean {
       // TODO check for empty row(s)?
       return value.length === 0;
     case 'CheckBox':
+      return !value;
     default:
       return false;
   }
@@ -104,8 +105,8 @@ export function validate(widget, value): void {
       case 'LocaleInput':
       case 'MultiSelect':
       case 'LinkWidget':
-        return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
       case 'CheckBox':
+        return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
       default:
         return '';
     }
