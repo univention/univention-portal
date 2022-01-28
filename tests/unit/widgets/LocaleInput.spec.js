@@ -39,6 +39,8 @@ const localeInputProps = {
   modelValue: {
     en_US: '',
   },
+  forAttrOfLabel: '',
+  invalidMessageId: '',
   name: 'Name of LocaleInput',
   i18nLabel: 'Label of LocaleInput',
 

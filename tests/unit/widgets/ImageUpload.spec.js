@@ -34,6 +34,8 @@ import ImageUpload from '@/components/widgets/ImageUpload.vue';
 const imageUploadProps = {
   extraLabel: 'Example Image',
   modelValue: '',
+  forAttrOfLabel: '',
+  invalidMessageId: '',
 };
 
 const imageResult = 'data:image/png;base64__TEST';

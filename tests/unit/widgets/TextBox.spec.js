@@ -31,6 +31,8 @@ import { mount } from '@vue/test-utils';
 
 import Textbox from '@/components/widgets/TextBox.vue';
 
+
+
 describe('TextBox Component', () => {
   test('user can type in input field', async () => {
     // to check focus, we need to attach to an actual document, normally we don't do this
@@ -41,6 +43,9 @@ describe('TextBox Component', () => {
     const wrapper = await mount(Textbox, {
       propsData: {
         modelValue: '',
+        forAttrOfLabel: '',
+        name: 'textBox',
+        invalidMessageId: '',
       },
       attachTo: '#root',
     });
@@ -61,7 +66,10 @@ describe('TextBox Component', () => {
     const wrapper = await mount(Textbox, {
       propsData: {
         modelValue: '',
-      },
+        forAttrOfLabel: '',
+        invalidMessageId: '',
+        name: 'textBox',
+      }
     });
 
     // Expect Aria-Invalid to be set correctly
@@ -75,6 +83,8 @@ describe('TextBox Component', () => {
       propsData: {
         modelValue: '',
         forAttrOfLabel: 'testString',
+        name: 'textBox',
+        invalidMessageId: '',
       },
     });
     const textBox = await wrapper.find('[data-test="text-box"]');
