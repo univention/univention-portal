@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { umcCommand } from '@/jsHelper/umc';
+import { umcCommandWithStandby } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import GuardedSite from '@/views/selfservice/GuardedSite.vue';
 import { WidgetDefinition } from '@/jsHelper/forms';
@@ -57,31 +57,29 @@ export default defineComponent({
   },
   methods: {
     loaded(result: ContactInfo[], formValues) {
-      console.log(result);
       this.contactInformation = result;
       this.contactInformation.forEach((info) => {
         formValues[info.id] = info.value;
       });
     },
     setContactInfo(values) {
-      this.$store.dispatch('activateLoadingState');
-      umcCommand('passwordreset/set_contact', values)
+      umcCommandWithStandby(this.$store, 'passwordreset/set_contact', values)
         .then((result) => {
-          console.log(result);
+          let description = _('Your contact data has been successfully changed.');
+          if (result.verificationEmailSend) {
+            description = `${description}. ${_('Your account has to be verified again after changing your email. We have sent you an email to %(email)s. Please follow the instructions in the email to verify your account.', { email: result.email })}`;
+          }
           this.$store.dispatch('notifications/addSuccessNotification', {
             title: _('Save successful'),
-            description: _('Your contact data has been successfully changed.'),
+            description,
           });
+          this.$router.push({ name: 'portal' });
         })
         .catch((error) => {
-          console.log(error);
           this.$store.dispatch('notifications/addErrorNotification', {
             title: _('Failed to save'),
             description: error.message,
           });
-        })
-        .finally(() => {
-          this.$store.dispatch('deactivateLoadingState');
         });
     },
   },

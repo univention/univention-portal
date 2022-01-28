@@ -65,17 +65,12 @@ const routes = [
         name: 'selfserviceProtectAccount',
       },
       {
-        path: 'selfservice/passwordchange',
-        component: ChangePassword,
-        name: 'selfserviceChangePassword',
-      },
-      {
         path: 'selfservice/passwordforgotten',
         component: PasswordForgotten,
         name: 'selfservicePasswordForgotten',
       },
       {
-        path: 'selfservice/newpassword/:username?/:token?',
+        path: 'selfservice/newpassword',
         component: NewPassword,
         name: 'selfserviceNewPassword',
       },
