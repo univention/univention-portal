@@ -36,6 +36,9 @@ describe('DateBox Component', () => {
     const wrapper = await mount(DateBox, {
       propsData: {
         modelValue: '',
+        name: 'datebox',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
     });
 
@@ -59,6 +62,9 @@ describe('DateBox Component', () => {
     const wrapper = await mount(DateBox, {
       propsData: {
         modelValue: '',
+        name: 'datebox',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
     });
 
@@ -75,6 +81,9 @@ describe('DateBox Component', () => {
     const wrapper = await mount(DateBox, {
       propsData: {
         modelValue: '',
+        name: 'datebox',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
     });
     const dateBox = await wrapper.find('[data-test="date-box"]');
@@ -86,6 +95,8 @@ describe('DateBox Component', () => {
       propsData: {
         modelValue: '',
         forAttrOfLabel: 'testString',
+        name: 'datebox',
+        invalidMessageId: '',
       },
     });
     const dateBox = await wrapper.find('[data-test="date-box"]');

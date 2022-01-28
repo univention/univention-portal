@@ -38,6 +38,7 @@ const multiInputProps = {
   modelValue: [''],
   subtypes: [{ type: 'TextBox', name: '', label: '', required: false, readonly: false }],
   invalidMessage: { all: '', values: [] },
+  invalidMessageId: '',
 };
 
 const store = new Vuex.Store({
@@ -87,7 +88,7 @@ describe('MultiInput.vue', () => {
   test('if the .multi-input__row is working for multiline', async () => {
   //  Setting the needed props to test the component
     const multiSubType = [{ type: 'TextBox', name: '', label: 'Street', required: false, readonly: false }, { type: 'TextBox', name: '', label: 'Postal code', required: false, readonly: false }];
-    wrapper.setProps({ subtypes: multiSubType });
+    wrapper.setProps({ subtypes: multiSubType, invalidMessageId: '' });
     await wrapper.vm.$nextTick();
 
     const multiInputRow = wrapper.find('[data-test="multi-input-row"]');
@@ -99,7 +100,7 @@ describe('MultiInput.vue', () => {
     // Set wrapperprops with needed values to recieve the desired results
     const newInvalidMessage = { all: '', values: ['not enough arguments'] };
 
-    wrapper.setProps({ invalidMessage: newInvalidMessage });
+    wrapper.setProps({ invalidMessage: newInvalidMessage, invalidMessageId: '' });
     await wrapper.vm.$nextTick();
 
     const multiInputRow = wrapper.find('[data-test="multi-input-row"]');

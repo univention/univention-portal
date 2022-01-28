@@ -41,6 +41,9 @@ describe('PasswordBox Component', () => {
     const wrapper = await mount(PasswordBox, {
       propsData: {
         modelValue: '',
+        name: 'password',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
       attachTo: '#root',
     });
@@ -61,6 +64,9 @@ describe('PasswordBox Component', () => {
     const wrapper = await mount(PasswordBox, {
       propsData: {
         modelValue: '',
+        name: 'password',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
     });
 
@@ -74,6 +80,9 @@ describe('PasswordBox Component', () => {
     const wrapper = await mount(PasswordBox, {
       propsData: {
         modelValue: '',
+        name: 'password',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
     });
     const passwordBox = await wrapper.find('[data-test="password-box"]');

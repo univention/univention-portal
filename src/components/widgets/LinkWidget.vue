@@ -68,6 +68,7 @@
           :aria-label-prop="removeLink(index)"
           :active-at="['modal']"
           :has-button-style="true"
+          :data-test="`link-widget-remove-button-${index}`"
           @click="removeField(index, modelValueData)"
         />
       </div>
@@ -77,6 +78,7 @@
         ref="addButton"
         type="button"
         class="modal-admin__button--inner"
+        data-test="add-field"
         :tabindex="tabindex"
         @click.prevent="addField"
       >

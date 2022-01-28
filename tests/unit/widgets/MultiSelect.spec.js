@@ -35,6 +35,7 @@ const fullModelValue = ['cn=Backup Join,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=
 const multiSelectProps = {
   label: 'multi select',
   modelValue: [],
+  name: '',
 };
 
 let wrapper;
@@ -163,6 +164,7 @@ describe('MultiInput.vue', () => {
       propsData: {
         label: 'multi select',
         modelValue: fullModelValue,
+        name: '',
       },
       global: {
         plugins: [store],

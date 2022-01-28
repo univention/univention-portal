@@ -31,7 +31,6 @@ import { mount } from '@vue/test-utils';
 
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import navigation from '@/store/modules/navigation';
-import localize from '@/plugins/localize';
 import Vuex from 'vuex';
 
 test('Portalsearch', async () => {
@@ -68,7 +67,7 @@ test('Portalsearch', async () => {
 
   const wrapper = await mount(PortalSearch, {
     global: {
-      plugins: [store, localize],
+      plugins: [store],
     },
     attachTo: '#root',
   });

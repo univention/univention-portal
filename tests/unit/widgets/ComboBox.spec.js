@@ -52,6 +52,8 @@ const comboBoxProps = {
   modelValue: '',
   options: comboBoxOptions,
   forAttrOfLabel: forAttrOfComboBoxLabel,
+  name: 'comboBox',
+  invalidMessageId: '',
 };
 
 let wrapper;
