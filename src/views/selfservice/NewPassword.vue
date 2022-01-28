@@ -12,6 +12,7 @@
       <footer>
         <button
           type="submit"
+          class="primary"
           @click.prevent="submit"
         >
           {{ SUBMIT_LABEL }}
@@ -28,7 +29,7 @@ import { umcCommand } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
-import { isEmpty, WidgetDefinition } from '@/jsHelper/forms';
+import { validateAll, isEmpty, WidgetDefinition } from '@/jsHelper/forms';
 
 interface FormData {
   username: string,
@@ -39,6 +40,7 @@ interface FormData {
 
 interface Data {
   formValues: FormData,
+  formWidgets: WidgetDefinition[],
   usernameGiven: boolean,
   tokenGiven: boolean,
 }
@@ -50,6 +52,40 @@ export default defineComponent({
     Site,
   },
   data(): Data {
+    const formWidgets: WidgetDefinition[] = [{
+      type: 'TextBox',
+      name: 'username',
+      label: _('Username'),
+      readonly: false, // TODO
+      invalidMessage: '',
+      required: true,
+    }, {
+      type: 'TextBox',
+      name: 'token',
+      label: _('Token'),
+      readonly: false, // TODO
+      invalidMessage: '',
+      required: true,
+    }, {
+      type: 'PasswordBox',
+      name: 'newPassword',
+      label: _('New password'),
+      invalidMessage: '',
+      required: true,
+    }, {
+      type: 'PasswordBox',
+      name: 'newPassword2',
+      label: _('New password (retype)'),
+      validators: [(widget, value) => (
+        isEmpty(widget, value) ? _('Please confirm your new password') : ''
+      ), (widget, value) => {
+        // @ts-ignore TODO
+        if (this.formValues.newPassword !== value) {
+          return _('The new passwords do not match');
+        }
+        return '';
+      }],
+    }];
     return {
       formValues: {
         username: '',
@@ -57,6 +93,7 @@ export default defineComponent({
         newPassword: '',
         newPassword2: '',
       },
+      formWidgets,
       usernameGiven: false,
       tokenGiven: false,
     };
@@ -71,53 +108,18 @@ export default defineComponent({
     SUBMIT_LABEL(): string {
       return _('Change password');
     },
-    formWidgets(): WidgetDefinition[] {
-      return [{
-        type: 'TextBox',
-        name: 'username',
-        label: _('Username'),
-        readonly: this.usernameGiven,
-        invalidMessage: '',
-        required: true,
-      }, {
-        type: 'TextBox',
-        name: 'token',
-        label: _('Token'),
-        readonly: this.tokenGiven,
-        invalidMessage: '',
-        required: true,
-      }, {
-        type: 'PasswordBox',
-        name: 'newPassword',
-        label: _('New Password'),
-        invalidMessage: '',
-        required: true,
-      }, {
-        type: 'PasswordBox',
-        name: 'newPassword2',
-        label: _('New password (retype)'),
-        validators: [(widget, value) => (
-          isEmpty(widget, value) ? _('Please confirm your new password') : ''
-        ), (widget, value) => {
-          if (this.formValues.newPassword !== value) {
-            return _('The new passwords do not match');
-          }
-          return '';
-        }],
-      }];
-    },
     form(): typeof MyForm {
       return this.$refs.form as typeof MyForm;
     },
   },
   mounted() {
     setTimeout(() => {
-      if (typeof this.$route.params.username === 'string' && this.$route.params.username) {
-        this.formValues.username = this.$route.params.username;
+      if (typeof this.$route.query.username === 'string' && this.$route.query.username) {
+        this.formValues.username = this.$route.query.username;
         this.usernameGiven = true;
       }
-      if (typeof this.$route.params.token === 'string' && this.$route.params.token) {
-        this.formValues.token = this.$route.params.token;
+      if (typeof this.$route.query.token === 'string' && this.$route.query.token) {
+        this.formValues.token = this.$route.query.token;
         this.tokenGiven = true;
       }
       setTimeout(() => {
@@ -127,8 +129,7 @@ export default defineComponent({
   },
   methods: {
     submit() {
-      if (!this.form.validate()) {
-        console.log('??????');
+      if (!validateAll(this.formWidgets, this.formValues)) {
         this.form.focusFirstInvalid();
         return;
       }

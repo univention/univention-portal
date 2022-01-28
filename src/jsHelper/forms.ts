@@ -154,10 +154,11 @@ export function validate(widget, value): void {
   }
 }
 
-export function validateAll(widgets, values): void {
+export function validateAll(widgets, values): boolean {
   widgets.forEach((widget) => {
     validate(widget, values[widget.name]);
   });
+  return allValid(widgets);
 }
 
 export function initialValue(widget, value): any {

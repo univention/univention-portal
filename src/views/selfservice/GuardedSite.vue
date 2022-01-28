@@ -12,6 +12,7 @@
       <footer>
         <button
           type="submit"
+          :class="{'primary' : loaded}"
           @click.prevent="submit"
         >
           {{ SUBMIT_LABEL }}
@@ -24,10 +25,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import { umcCommand } from '@/jsHelper/umc';
+import { umcCommandWithStandby } from '@/jsHelper/umc';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
-import { WidgetDefinition } from '@/jsHelper/forms';
+import { WidgetDefinition, validateAll } from '@/jsHelper/forms';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
@@ -38,6 +39,7 @@ interface FormData {
 
 interface Data {
   formValues: FormData,
+  formWidgets: WidgetDefinition[],
   loaded: boolean,
   usernameGiven: boolean,
 }
@@ -82,8 +84,27 @@ export default defineComponent({
     if (this.passwordNeeded) {
       formValues.password = '';
     }
+    const formWidgets: WidgetDefinition[] = [{
+      type: 'TextBox',
+      name: 'username',
+      label: _('Username'),
+      readonly: false, // TODO
+      invalidMessage: '',
+      required: true,
+    }];
+    if (this.passwordNeeded) {
+      formWidgets.push({
+        type: 'PasswordBox',
+        name: 'password',
+        label: _('Password'),
+        readonly: false,
+        invalidMessage: '',
+        required: true,
+      });
+    }
     return {
       formValues,
+      formWidgets,
       loaded: false,
       usernameGiven: false,
     };
@@ -93,30 +114,6 @@ export default defineComponent({
       metaData: 'metaData/getMeta',
       userState: 'user/userState',
     }),
-    formWidgets(): WidgetDefinition[] {
-      const widgets: WidgetDefinition[] = [{
-        type: 'TextBox',
-        name: 'username',
-        label: _('Username'),
-        readonly: this.loaded || this.usernameGiven,
-        invalidMessage: '',
-        required: true,
-      }];
-      if (this.passwordNeeded) {
-        widgets.push({
-          type: 'PasswordBox',
-          name: 'password',
-          label: _('Password'),
-          readonly: this.loaded,
-          invalidMessage: '',
-          required: true,
-        });
-      }
-      if (this.loaded) {
-        this.guardedWidgets.forEach((widget) => widgets.push(widget));
-      }
-      return widgets;
-    },
     SUBMIT_LABEL(): string {
       if (this.loaded) {
         return _('Submit');
@@ -127,23 +124,33 @@ export default defineComponent({
       return this.$refs.form as typeof MyForm;
     },
   },
+  watch: {
+    guardedWidgets(newValue) {
+      newValue.forEach((widget) => {
+        this.formWidgets.push({ ...widget });
+      });
+    },
+  },
   mounted() {
     setTimeout(() => {
-      if (this.userState.username) {
+      if (typeof this.$route.query.username === 'string' && this.$route.query.username) {
+        this.formValues.username = this.$route.query.username;
+        this.usernameGiven = true;
+      } else if (this.userState.username) {
         this.formValues.username = this.userState.username;
         this.usernameGiven = true;
       }
       this.refocus();
-    }, 100); // TODO...
+    }, 300); // TODO...
   },
   methods: {
     refocus() {
       setTimeout(() => {
         this.form.focusFirstInteractable();
-      }, 100); // TODO...
+      }, 300); // TODO...
     },
     submit() {
-      if (!this.form.validate()) {
+      if (!validateAll(this.formWidgets, this.formValues)) {
         this.form.focusFirstInvalid();
         return;
       }
@@ -151,14 +158,13 @@ export default defineComponent({
         this.$emit('save', this.formValues);
         return;
       }
-      this.$store.dispatch('activateLoadingState');
       const params: FormData = {
         username: this.formValues.username,
       };
       if (this.passwordNeeded) {
         params.password = this.formValues.password;
       }
-      umcCommand(this.path, params)
+      umcCommandWithStandby(this.$store, this.path, params)
         .then((result) => {
           this.loaded = true;
           this.$emit('loaded', result, this.formValues);
@@ -167,7 +173,7 @@ export default defineComponent({
         .catch((error) => {
           console.log(error);
           this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Authentication failed'),
+            title: _('Authentification failed'),
             description: error.message,
           });
           this.formValues.username = '';
@@ -175,9 +181,6 @@ export default defineComponent({
             this.formValues.password = '';
           }
           this.usernameGiven = false;
-        })
-        .finally(() => {
-          this.$store.dispatch('deactivateLoadingState');
         });
     },
   },

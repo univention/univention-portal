@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { umcCommand } from '@/jsHelper/umc';
+import { umcCommandWithStandby } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import GuardedSite from '@/views/selfservice/GuardedSite.vue';
 import { WidgetDefinition } from '@/jsHelper/forms';
@@ -58,7 +58,6 @@ export default defineComponent({
   },
   methods: {
     loaded(result: MethodInfo[], formValues) {
-      console.log(result);
       this.methodInformation = result;
       formValues.method = '';
       if (result.length) {
@@ -66,23 +65,19 @@ export default defineComponent({
       }
     },
     sendToken(values) {
-      this.$store.dispatch('activateLoadingState');
-      umcCommand('passwordreset/send_token', values)
+      umcCommandWithStandby(this.$store, 'passwordreset/send_token', values)
         .then(() => {
           this.$store.dispatch('notifications/addSuccessNotification', {
             title: _('Token sent'),
             description: _('Successfully sent Token.'),
           });
-          this.$router.push({ name: 'selfserviceNewPassword', params: { username: values.username } });
+          this.$router.push({ name: 'selfserviceNewPassword', query: { username: values.username } });
         })
         .catch((error) => {
           this.$store.dispatch('notifications/addErrorNotification', {
             title: _('Failed to send token'),
             description: error.message,
           });
-        })
-        .finally(() => {
-          this.$store.dispatch('deactivateLoadingState');
         });
     },
   },
