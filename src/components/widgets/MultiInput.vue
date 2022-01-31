@@ -45,7 +45,7 @@
       :has-button-style="true"
       :aria-label-prop="addButtonLabel"
       data-test="multi-input-add-entry-button"
-      @click="addEntry"
+      @click="addEntry()"
     />
   </div>
 </template>
