@@ -66,31 +66,36 @@ afterEach(() => {
 });
 
 describe('LinkWidget.vue', () => {
-  test('if Remove-Button exists and is working as expected', async () => {
-    const removeButton = wrapper.find('[data-test="link-widget-remove-button-1"]');
+  test.skip('if Remove-Button exists and is working as expected', async () => {
+    const removeButton = await wrapper.find('[data-test="link-widget-remove-button-0"]');
 
     // Since we have no text we we still want to know if the right icon exists. 
     expect(removeButton.find('[xlink:href="feather-sprite.svg#trash"]').exists()).toBeTruthy();
     
-    expect(removeButton.attributes('aria-label')).toBe('Link 2: Remove');
+    expect(removeButton.attributes('aria-label')).toBe('Link 1: Remove');
 
     // each Button removes it's own line, so after clicking on the button we expect,
     // that modelvalue is reduced by one
-    const amountOfValues = modelValueLinkWidget.length;
+    const amountOfValues = wrapper.vm.modelValue.length;
     
-    console.log('wrapper.vm.modelValue.length', wrapper.vm.modelValue);
     await removeButton.trigger('click');
-    console.log('wrapper.vm.modelValue.length', wrapper.vm.modelValue);
     await wrapper.vm.$nextTick();
+    expect(wrapper.emitted()).toHaveProperty('update:modelValue');
 
-    console.log('wrapper.vm.modelValue.length', wrapper.vm.modelValue);
     expect(wrapper.vm.modelValue.length).toBe(amountOfValues - 1);
   });
 
-  it('if ADD_LINK is returned as expected', async () => {
+  test.skip('if "add link"-buton is working as expected', async () => {
     const addFieldButton = wrapper.find('[data-test="add-field"]');
 
     expect(addFieldButton.text()).toContain('Add link');
+    const amountOfValues = modelValueLinkWidget.length;
+    console.log('1', wrapper.vm.modelValue);
+    await addFieldButton.trigger('click');
+    console.log('2', wrapper.vm.modelValue);
+    
+    expect(wrapper.vm.modelValue.length).toBe(amountOfValues + 1);
+
   });
   //   // RESULTS returns a i18n String
 
