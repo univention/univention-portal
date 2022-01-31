@@ -33,7 +33,6 @@ import Profile from '@/views/selfservice/Profile.vue';
 import ProtectAccount from '@/views/selfservice/ProtectAccount.vue';
 import CreateAccount from '@/views/selfservice/CreateAccount.vue';
 import VerifyAccount from '@/views/selfservice/VerifyAccount.vue';
-import ChangePassword from '@/views/selfservice/ChangePassword.vue';
 import PasswordForgotten from '@/views/selfservice/PasswordForgotten.vue';
 import NewPassword from '@/views/selfservice/NewPassword.vue';
 
