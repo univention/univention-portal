@@ -433,7 +433,7 @@ msgstr "Gehe zurück"
 #: src/tmp/ts/src/views/selfservice/CreateAccount.vue:77
 #: src/tmp/ts/src/views/selfservice/VerifyAccount.vue:86
 msgid "Hello, %(username)s"
-msgstr "Hallo \"%(username)s\""
+msgstr "Hallo %(username)s"
 
 #: src/tmp/ts/src/components/admin/Entry.vue:89
 #: src/tmp/ts/src/components/admin/Entry.vue:90
