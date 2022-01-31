@@ -15,6 +15,7 @@ export interface WidgetDefinition {
   type: WidgetType,
   name: string,
   label: string,
+  ariaLabel?: string,
   invalidMessage?: string,
   required?: boolean,
   readonly?: boolean,

@@ -39,6 +39,7 @@ const multiInputProps = {
   subtypes: [{ type: 'TextBox', name: '', label: '', required: false, readonly: false }],
   invalidMessage: { all: '', values: [] },
   invalidMessageId: '',
+  extraLabel: 'Label',
 };
 
 const store = new Vuex.Store({
@@ -69,12 +70,12 @@ afterEach(() => {
 describe('MultiInput.vue', () => {
   test('if Button with label "Add entry" exists', async () => {
     const addEntryButton = await wrapper.find('[data-test="multi-input-add-entry-button"]');
-    expect(addEntryButton.text()).toContain('Add entry');
+    expect(addEntryButton.attributes('aria-label')).toBe(`Add new ${multiInputProps.extraLabel}`);
   });
 
   test('if remove-entry button exists', async () => {
     const removeEntryButton = await wrapper.find('[data-test="multi-input-remove-entry-button-0"]');
-    expect(removeEntryButton.attributes('aria-label')).toBe('Remove entry');
+    expect(removeEntryButton.attributes('aria-label')).toBe(`Remove ${multiInputProps.extraLabel} 1`);
   });
 
   test('if the .multi-input__row is working for singleline', async () => {
