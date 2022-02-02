@@ -32,6 +32,7 @@ import { mount } from '@vue/test-utils';
 import LinkWidget from '@/components/widgets/LinkWidget.vue';
 import Vuex from 'vuex';
 import locale from '@/store/modules/locale';
+import activity from '@/store/modules/activity';
 
 const modelValueLinkWidget = [{ locale: 'en_US', value: 'http://10.200.4.60/owncloud' }, { locale: 'en_US', value: 'https://master60.intranet.portal.de/owncloud' }, { locale: 'en_US', value: 'www.duckduckgo.com' }];
 
@@ -49,8 +50,13 @@ const store = new Vuex.Store({
       getters: locale.getters,
       namespaced: true,
     },
+    activity: {
+      getters: activity.getters,
+      namespaced: true,
+    },
   },
 });
+
 
 beforeEach(async () => {
   wrapper = await mount(LinkWidget, {
@@ -58,6 +64,7 @@ beforeEach(async () => {
     global: {
       plugins: [store],
     },
+    attachTo: document.body
   });
 });
 
@@ -66,7 +73,7 @@ afterEach(() => {
 });
 
 describe('LinkWidget.vue', () => {
-  test.skip('if Remove-Button exists and is working as expected', async () => {
+  test('if Remove-Button exists and is working as expected', async () => {
     const removeButton = await wrapper.find('[data-test="link-widget-remove-button-0"]');
 
     // Since we have no text we we still want to know if the right icon exists. 
@@ -76,56 +83,57 @@ describe('LinkWidget.vue', () => {
 
     // each Button removes it's own line, so after clicking on the button we expect,
     // that modelvalue is reduced by one
-    const amountOfValues = wrapper.vm.modelValue.length;
+    const amountOfValues = wrapper.vm.modelValueData.length;
     
     await removeButton.trigger('click');
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
-
-    expect(wrapper.vm.modelValue.length).toBe(amountOfValues - 1);
+    expect(wrapper.vm.modelValueData.length).toBe(amountOfValues - 1);
   });
 
-  test.skip('if "add link"-buton is working as expected', async () => {
+  test('if "add link"-button is working as expected', async () => {
     const addFieldButton = wrapper.find('[data-test="add-field"]');
+    const amountOfValues = wrapper.vm.modelValueData.length;
+    const inputs = wrapper.findAll('input');
 
     expect(addFieldButton.text()).toContain('Add link');
-    const amountOfValues = modelValueLinkWidget.length;
-    console.log('1', wrapper.vm.modelValue);
     await addFieldButton.trigger('click');
-    console.log('2', wrapper.vm.modelValue);
-    
-    expect(wrapper.vm.modelValue.length).toBe(amountOfValues + 1);
-
+    expect(wrapper.vm.modelValueData.length).toBe(amountOfValues + 1);
   });
-  //   // RESULTS returns a i18n String
 
-  it.todo('if LINKS is returned as expected');
-  //   // RESULTS returns a i18n String
 
-  it.todo('if created remodels the given modalValueObject');
+  test('if each Select-Element in a row has an individual aria label', async () => {
+    const listOfSelectElements = wrapper.findAll('select');
+    listOfSelectElements.forEach((element, index) => {
+      expect(element.attributes('aria-label')).toBe(`${wrapper.vm.LINK(index + 1)} Select locale for Link`);
+    });
+  });
 
-  it.todo('addField');
-  // is called on @click
-  // updated this.modelValueData
-  // sets the correct element focus
+  test('if each Input-Element in a row has an individual aria label', async () => {
+    const listOfInputElements = wrapper.findAll('input');
+    listOfInputElements.forEach((element, index) => {
+      expect(element.attributes('aria-label')).toBe(`${wrapper.vm.LINK(index + 1)} insert valid Link`);
+    });
+  });
 
-  it.todo('removeField');
-  // is called on @click
-  // updates this.modelValueData
+  test('if each Select-Element in a row has an individual aria label', async () => {
+    const listOfRemoveButtonElements = wrapper.findAll('.link-widget__remove button');
+    listOfRemoveButtonElements.forEach((element, index) => {
+      expect(element.attributes('aria-label')).toBe(`${wrapper.vm.LINK(index + 1)} ${wrapper.vm.REMOVE}`);
+    });
+  });
+  
+  test('if remove actually returns "remove & link actally returns link + index', async ()=> {
+    expect(wrapper.vm.REMOVE).toBe('Remove');
+    expect(wrapper.vm.LINK(0)).toBe('Link 0:');
+  });
 
-  it.todo('LINK');
-  // returns the correct index and link label
-
-  it.todo('localeSelect');
-  // returns correct localeSelect string with index
-
-  it.todo('linkInput');
-  // returns correct string with index
-
-  it.todo('removeLink');
-  // returns correct string with index
-
-  it.todo('if option has correct attributes');
+  test.skip('if option in select has correct data', async () => {
+    const availableLocales = wrapper.vm.locales;
+    const options = wrapper.find('select option');
+    // availableLocales.forEach(locale => {
+    // });
+  });
   // :selected="modelValueData[index].locale || select
 
   it.todo('if select has correct attributes');
@@ -133,4 +141,7 @@ describe('LinkWidget.vue', () => {
 
   it.todo('if input has correct attributes');
   // :aria-label="linkInput(index)"
+
+  it.todo('if created remodels the given modalValueObject');
+
 });
