@@ -80,7 +80,7 @@
         class="modal-admin__button--inner"
         data-test="add-field"
         :tabindex="tabindex"
-        @click.prevent="addField"
+        @click.prevent="addField()"
       >
         <portal-icon
           icon="plus"
