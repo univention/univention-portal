@@ -32,7 +32,7 @@ import 'cypress-axe';
 describe('Test Tabs', () => {
   it('shows Iframe Tabs', () => {
     // TODO: Same origin html fake for linktarget tests
-    await cy.readFile('public/data/portal.json').then((portal) => {
+      cy.readFile('public/data/portal.json').then((portal) => {
       portal.entries[0].linkTarget = 'embedded';
       cy.intercept('GET', 'portal.json', portal);
       cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
@@ -81,7 +81,7 @@ describe('Test Tabs', () => {
     });
   });
   it('test store', () => {
-    await cy.readFile('public/data/portal.json').then((portal) => {
+    cy.readFile('public/data/portal.json').then((portal) => {
       portal.entries[0].linkTarget = 'embedded';
       cy.intercept('GET', 'portal.json', portal);
       cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
@@ -108,7 +108,7 @@ describe('Test Tabs', () => {
   });
 
   it('test scroll position', () => {
-    await cy.readFile('public/data/portal.json').then((portal) => {
+    cy.readFile('public/data/portal.json').then((portal) => {
       portal.entries[0].linkTarget = 'embedded';
       cy.intercept('GET', 'portal.json', portal);
       cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
