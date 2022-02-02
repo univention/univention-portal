@@ -62,7 +62,7 @@ describe('Test Editmode Side navigation', () => {
     const fileName = 'images/logo.svg';
 
     cy.fixture(fileName).then((fileContent) => {
-      await cy.get('[data-test=imageUploadFileInput--Portal-Logo]').attachFile(
+      cy.get('[data-test=imageUploadFileInput--Portal-Logo]').attachFile(
         { fileContent, fileName, mimeType: 'image/svg+xml' },
       );
     });

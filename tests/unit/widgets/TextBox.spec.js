@@ -31,8 +31,6 @@ import { mount } from '@vue/test-utils';
 
 import Textbox from '@/components/widgets/TextBox.vue';
 
-
-
 describe('TextBox Component', () => {
   test('user can type in input field', async () => {
     // to check focus, we need to attach to an actual document, normally we don't do this
@@ -69,7 +67,7 @@ describe('TextBox Component', () => {
         forAttrOfLabel: '',
         invalidMessageId: '',
         name: 'textBox',
-      }
+      },
     });
 
     // Expect Aria-Invalid to be set correctly

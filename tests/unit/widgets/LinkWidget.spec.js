@@ -57,14 +57,13 @@ const store = new Vuex.Store({
   },
 });
 
-
 beforeEach(async () => {
   wrapper = await mount(LinkWidget, {
     propsData: linkWidgetProps,
     global: {
       plugins: [store],
     },
-    attachTo: document.body
+    attachTo: document.body,
   });
 });
 
@@ -76,15 +75,15 @@ describe('LinkWidget.vue', () => {
   test('if Remove-Button exists and is working as expected', async () => {
     const removeButton = await wrapper.find('[data-test="link-widget-remove-button-0"]');
 
-    // Since we have no text we we still want to know if the right icon exists. 
+    // Since we have no text we we still want to know if the right icon exists.
     expect(removeButton.find('[xlink:href="feather-sprite.svg#trash"]').exists()).toBeTruthy();
-    
+
     expect(removeButton.attributes('aria-label')).toBe('Link 1: Remove');
 
     // each Button removes it's own line, so after clicking on the button we expect,
     // that modelvalue is reduced by one
     const amountOfValues = wrapper.vm.modelValueData.length;
-    
+
     await removeButton.trigger('click');
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
@@ -100,7 +99,6 @@ describe('LinkWidget.vue', () => {
     await addFieldButton.trigger('click');
     expect(wrapper.vm.modelValueData.length).toBe(amountOfValues + 1);
   });
-
 
   test('if each Select-Element in a row has an individual aria label', async () => {
     const listOfSelectElements = wrapper.findAll('select');
@@ -122,8 +120,8 @@ describe('LinkWidget.vue', () => {
       expect(element.attributes('aria-label')).toBe(`${wrapper.vm.LINK(index + 1)} ${wrapper.vm.REMOVE}`);
     });
   });
-  
-  test('if remove actually returns "remove & link actally returns link + index', async ()=> {
+
+  test('if remove actually returns "remove & link actally returns link + index', async () => {
     expect(wrapper.vm.REMOVE).toBe('Remove');
     expect(wrapper.vm.LINK(0)).toBe('Link 0:');
   });
@@ -143,5 +141,4 @@ describe('LinkWidget.vue', () => {
   // :aria-label="linkInput(index)"
 
   it.todo('if created remodels the given modalValueObject');
-
 });
