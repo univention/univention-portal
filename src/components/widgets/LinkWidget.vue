@@ -175,16 +175,16 @@ export default defineComponent({
       this.modelValueData.splice(index, 1);
     },
     LINK(index: number): string {
-      return `${_('Link')} ${index}:`;
+      return `${_('Link')} ${index + 1}:`;
     },
     localeSelect(index: number): string {
-      return `${this.LINK(index + 1)} ${_('Select locale for Link')}`;
+      return `${this.LINK(index)} ${_('Select locale for Link')}`;
     },
     linkInput(index: number): string {
-      return `${this.LINK(index + 1)} ${_('insert valid Link')}`;
+      return `${this.LINK(index)} ${_('insert valid Link')}`;
     },
     removeLink(index: number): string {
-      return `${this.LINK(index + 1)} ${this.REMOVE}`;
+      return `${this.LINK(index)} ${this.REMOVE}`;
     },
     focus() {
       // @ts-ignore TODO
