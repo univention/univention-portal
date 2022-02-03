@@ -44,12 +44,8 @@ const linkWidgetProps = {
 let wrapper;
 
 const mockedLocaleGetter = {
-  getAvailableLocales: () => {
-    return ["en_US","de_DE"];
-  },
-  getLocale: () => {
-    return "en_US"
-  }
+  getAvailableLocales: () => ['en_US', 'de_DE'],
+  getLocale: () => 'en_US',
 };
 
 const store = new Vuex.Store({
@@ -83,15 +79,15 @@ describe('LinkWidget.vue', () => {
   test('if Remove-Button exists and is working as expected', async () => {
     const removeButton = await wrapper.find('[data-test="link-widget-remove-button-0"]');
 
-    // Since we have no text we we still want to know if the right icon exists. 
+    // Since we have no text we we still want to know if the right icon exists.
     expect(removeButton.find('[xlink:href="feather-sprite.svg#trash"]').exists()).toBeTruthy();
-    
+
     expect(removeButton.attributes('aria-label')).toBe('Link 1: Remove');
 
     // each Button removes it's own line, so after clicking on the button we expect,
     // that modelvalue is reduced by one
     const amountOfValues = wrapper.vm.modelValueData.length;
-    
+
     await removeButton.trigger('click');
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
@@ -120,13 +116,13 @@ describe('LinkWidget.vue', () => {
     });
   });
 
-  test('if each Select-Element in a row has an individual aria label', () => {
+  test('if each Remove-button in a row has an individual aria label', () => {
     const listOfRemoveButtonElements = wrapper.findAll('.link-widget__remove button');
     listOfRemoveButtonElements.forEach((element, index) => {
       expect(element.attributes('aria-label')).toBe(`${wrapper.vm.LINK(index)} ${wrapper.vm.REMOVE}`);
     });
   });
-  
+
   test('if computed properties actually return desired values', () => {
     expect(wrapper.vm.REMOVE).toBe('Remove');
     expect(wrapper.vm.LINK(0)).toBe('Link 1:');
@@ -155,7 +151,7 @@ describe('LinkWidget.vue', () => {
     allTextInputs.forEach((input, index) => {
       expect(input.attributes('aria-label')).toBe(wrapper.vm.linkInput(index));
       expect(input.attributes('autocomplete')).toBe('off');
-      if(index === 0) {
+      if (index === 0) {
         expect(input.attributes('name')).toBe(wrapper.vm.name);
       } else {
         expect(input.attributes('name')).toBe(`${wrapper.vm.name}-${index}`);
@@ -165,7 +161,7 @@ describe('LinkWidget.vue', () => {
 
   test('if created remodels the given modalValueObject', () => {
     const expectedArray = modelValueLinkWidget;
-    expectedArray.push({locale: 'en_US', value: ''});
+    expectedArray.push({ locale: 'en_US', value: '' });
     expect(wrapper.vm.modelValueData).toEqual(expectedArray);
   });
 });
