@@ -33,7 +33,7 @@
     <portal-header />
     <portal-sidebar />
     <notifications :is-in-notification-bar="false" />
-    <portal-error :errorType="404" />
+    <portal-error :error-type="404" />
 
     <router-view />
     <loading-overlay />
