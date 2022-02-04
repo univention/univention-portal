@@ -31,7 +31,10 @@
     <screen-reader-announcer />
     <portal-background />
     <portal-header />
-    <portal-error v-if="errorContentType" />
+    <portal-sidebar />
+    <notifications :is-in-notification-bar="false" />
+    <portal-error :errorType="404" />
+
     <router-view />
     <loading-overlay />
   </div>
