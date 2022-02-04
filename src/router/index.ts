@@ -76,7 +76,6 @@ const routes = [
       },
     ],
   },
-  { path: '/404', component: NotFound },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 

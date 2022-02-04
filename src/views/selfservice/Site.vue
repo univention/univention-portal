@@ -10,11 +10,9 @@
       @cancel="cancel"
     >
       <div>{{ subtitle }}</div>
-      <div
+      <self-service-disabled
         v-if="!frontendEnabled"
-      >
-        {{ DISABLED_NOTICE }}
-      </div>
+      />
       <slot v-else />
     </modal-dialog>
   </modal-wrapper>
@@ -26,15 +24,16 @@ import { defineComponent } from 'vue';
 
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
+import SelfServiceDisabled from '@/views/selfservice/SelfServiceDisabled.vue';
 import { mapGetters } from 'vuex';
 import { isTrue } from '@/jsHelper/ucr';
-import _ from '@/jsHelper/translate';
 
 export default defineComponent({
   name: 'Site',
   components: {
     ModalDialog,
     ModalWrapper,
+    SelfServiceDisabled,
   },
   props: {
     title: {
@@ -55,9 +54,6 @@ export default defineComponent({
       metaData: 'metaData/getMeta',
       initialLoadDone: 'getInitialLoadDone',
     }),
-    DISABLED_NOTICE(): string {
-      return _('This site has been disabled');
-    },
     frontendEnabled(): boolean {
       if (this.ucrVarForFrontendEnabling === '') {
         return true;

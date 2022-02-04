@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-02-04 16:13+0100\n"
+"POT-Creation-Date: 2022-02-04 16:51+0100\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -442,6 +442,15 @@ msgstr "Hallo %(username)s"
 msgid "Icon"
 msgstr "Icon"
 
+#: src/tmp/ts/src/views/selfservice/SelfServiceDisabled.vue:11
+#, fuzzy
+msgid ""
+"If you have problems using the self service instance, please contact your "
+"system administrator."
+msgstr ""
+"Das Portal ist momentan nicht verfügbar. Wenn das Problem weiterhin besteht,"
+" wenden Sie sich bitte an Ihren Systemadministrator."
+
 #: src/tmp/ts/src/components/notifications/Notification.vue:55
 msgid "Info"
 msgstr "Info"
@@ -783,8 +792,9 @@ msgstr ""
 msgid "This URL does not exist (anymore)."
 msgstr "Diese URL existiert nicht (mehr)."
 
-#: src/tmp/ts/src/views/selfservice/Site.vue:36
-msgid "This site has been disabled"
+#: src/tmp/ts/src/views/selfservice/SelfServiceDisabled.vue:8
+#, fuzzy
+msgid "This service is disabled"
 msgstr "Diese Seite wurde abgeschaltet"
 
 #: src/jsHelper/forms.ts:110
