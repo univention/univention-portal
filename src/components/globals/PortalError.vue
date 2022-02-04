@@ -1,7 +1,11 @@
 <template>
   <main class="portal-error">
-    <h1 class="portal-error__title"> {{ ERROR_MESSAGE }} </h1>
-    <p class="portal-error__text"> {{ ERROR_SUBTEXT }} </p>
+    <h1 class="portal-error__title">
+      {{ ERROR_MESSAGE }}
+    </h1>
+    <p class="portal-error__text">
+      {{ ERROR_SUBTEXT }}
+    </p>
   </main>
 </template>
 <script lang="ts">
