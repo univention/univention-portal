@@ -29,6 +29,7 @@
 
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Portal from '@/views/Portal.vue';
+import NotFound from '@/views/NotFound.vue';
 import Profile from '@/views/selfservice/Profile.vue';
 import ProtectAccount from '@/views/selfservice/ProtectAccount.vue';
 import CreateAccount from '@/views/selfservice/CreateAccount.vue';
@@ -75,6 +76,8 @@ const routes = [
       },
     ],
   },
+  { path: '/404', component: NotFound },
+  { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
 // eslint-disable-next-line import/prefer-default-export
