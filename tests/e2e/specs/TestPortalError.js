@@ -67,7 +67,7 @@ describe('Test Portal Error Components', () => {
 
   });
 
-  it.todo('should show disabled component if selfservice not enabled.');
+  // TODO
   // it('should show disabled component if selfservice not enabled.', () => {
   //   cy.intercept('GET', 'portal.json', { fixture: 'portal_logged_in.json' });
   //   loadOtherFiles();
