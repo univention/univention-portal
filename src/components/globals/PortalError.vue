@@ -38,6 +38,9 @@ export default defineComponent({
       return _('The portal is temporarily unavailable. If the problem persists, please contact your system administrator.');
     },
   },
+  mounted() {
+    this.$store.dispatch('activity/setMessage', `${this.ERROR_MESSAGE}. ${this.ERROR_SUBTEXT}`);
+  },
 });
 </script>
 <style lang="stylus">

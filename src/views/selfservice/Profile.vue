@@ -129,7 +129,7 @@ export default defineComponent({
       this.loginWidgets[0].disabled = true;
     }
     // @ts-ignore
-    this.$refs.loginForm.focusFirstInteractable();
+    this.$refs.loginForm?.focusFirstInteractable();
   },
   methods: {
     onContinue() {

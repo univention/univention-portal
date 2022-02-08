@@ -50,6 +50,9 @@ export default defineComponent({
       return _('If you have problems using the self service instance, please contact your system administrator.');
     },
   },
+  mounted() {
+    this.$store.dispatch('activity/setMessage', `${this.TITLE}. ${this.TEXT}`);
+  },
 });
 </script>
 <style lang="stylus">
