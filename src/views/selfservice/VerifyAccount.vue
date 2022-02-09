@@ -55,6 +55,9 @@
         </button>
       </footer>
     </my-form>
+    <error-dialog
+      ref="errorDialog"
+    />
   </site>
 </template>
 
@@ -66,6 +69,7 @@ import Site from '@/views/selfservice/Site.vue';
 import { validateAll, WidgetDefinition } from '@/jsHelper/forms';
 import { umcCommandWithStandby } from '@/jsHelper/umc';
 import MyForm from '@/components/forms/Form.vue';
+import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 
 interface FormData {
   username: string,
@@ -84,6 +88,7 @@ export default defineComponent({
   components: {
     Site,
     MyForm,
+    ErrorDialog,
   },
   data(): Data {
     return {
@@ -121,6 +126,9 @@ export default defineComponent({
     form(): typeof MyForm {
       return this.$refs.form as typeof MyForm;
     },
+    errorDialog(): typeof ErrorDialog {
+      return this.$refs.errorDialog as typeof ErrorDialog;
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -131,6 +139,8 @@ export default defineComponent({
         this.formValues.token = this.$route.query.token;
       }
     }, 300); // TODO...
+    // @ts-ignore
+    this.$refs.form.focusFirstInteractable();
   },
   methods: {
     requestNewToken() {
@@ -148,17 +158,17 @@ export default defineComponent({
               description: _('We have sent you an email to your registered address. Please follow the instructions in the email to verify your account.'),
             });
           } else if (result.failType === 'INVALID_INFORMATION') {
-            this.$store.dispatch('notifications/addErrorNotification', {
-              title: _('Sending token failed'),
-              description: _('The verification token could not be sent. Please verify your input.'),
-            });
+            this.errorDialog.showError(_('The verification token could not be sent. Please verify your input.'), _('Verification failed'))
+              .then(() => {
+                this.form.focusFirstInteractable();
+              });
           }
         })
         .catch((error) => {
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Sending token failed'),
-            description: error.message,
-          });
+          this.errorDialog.showError(error.message)
+            .then(() => {
+              this.form.focusFirstInteractable();
+            });
         });
     },
     verifyAccount() {
@@ -185,18 +195,18 @@ export default defineComponent({
             });
             this.$router.push({ name: 'portal' });
           } else if (result.failType === 'INVALID_INFORMATION') {
-            this.$store.dispatch('notifications/addErrorNotification', {
-              title: _('Verification failed'),
-              description: _('The account could not be verified. Please verify your input.'),
-            });
+            this.errorDialog.showError(_('The account could not be verified. Please verify your input.'), _('Verification failed'))
+              .then(() => {
+                this.form.focusFirstInteractable();
+              });
             this.formValues.token = '';
           }
         })
         .catch((error) => {
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Verification failed'),
-            description: error.message,
-          });
+          this.errorDialog.showError(error.message)
+            .then(() => {
+              this.form.focusFirstInteractable();
+            });
           this.formValues.token = '';
         });
     },
