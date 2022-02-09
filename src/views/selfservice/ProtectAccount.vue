@@ -28,6 +28,7 @@
 -->
 <template>
   <guarded-site
+    ref="guardedSite"
     :title="TITLE"
     :subtitle="SUBTITLE"
     :ucr-var-for-frontend-enabling="'umc/self-service/protect-account/frontend/enabled'"
@@ -104,10 +105,10 @@ export default defineComponent({
           this.$router.push({ name: 'portal' });
         })
         .catch((error) => {
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to save'),
-            description: error.message,
-          });
+          (this.$refs.guardedSite as typeof GuardedSite).showError(error.message)
+            .then(() => {
+              (this.$refs.guardedSite as typeof GuardedSite).refocus();
+            });
         });
     },
   },
