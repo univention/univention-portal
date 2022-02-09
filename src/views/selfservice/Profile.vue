@@ -228,8 +228,7 @@ export default defineComponent({
         password: this.loginValues.password,
         attributes: values,
       })
-        .then((answer) => {
-          const result = answer.data.result;
+        .then((result) => {
           this.attributeWidgets.forEach((widget) => {
             const validationObj = result[widget.name];
             if (validationObj !== undefined) {
