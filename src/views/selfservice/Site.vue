@@ -41,7 +41,13 @@
       <self-service-disabled
         v-if="!frontendEnabled"
       />
-      <slot v-else />
+      <div
+        :class="{
+          'selfservice--hidden': !frontendEnabled
+        }"
+      >
+        <slot />
+      </div>
     </modal-dialog>
   </modal-wrapper>
 </template>
@@ -128,4 +134,9 @@ export default defineComponent({
 
   form main
     max-height: unset
+
+.selfservice--hidden
+  opacity: 0
+  pointer-events: none
+  display: fixed
 </style>
