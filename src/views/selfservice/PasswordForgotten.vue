@@ -28,6 +28,7 @@
 -->
 <template>
   <guarded-site
+    ref="guardedSite"
     :title="TITLE"
     :subtitle="SUBTITLE"
     :ucr-var-for-frontend-enabling="'umc/self-service/passwordreset/frontend/enabled'"
@@ -102,10 +103,10 @@ export default defineComponent({
           this.$router.push({ name: 'selfserviceNewPassword', query: { username: values.username } });
         })
         .catch((error) => {
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to send token'),
-            description: error.message,
-          });
+          (this.$refs.guardedSite as typeof GuardedSite).showError(error.message)
+            .then(() => {
+              (this.$refs.guardedSite as typeof GuardedSite).refocus();
+            });
         });
     },
   },
