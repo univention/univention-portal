@@ -156,21 +156,28 @@ export default defineComponent({
     attributesLoaded(): boolean {
       return this.attributeWidgets.length > 0;
     },
+    loginForm(): typeof MyForm {
+      return this.$refs.loginForm as typeof MyForm;
+    },
+    attributesForm(): typeof MyForm {
+      return this.$refs.attributesForm as typeof MyForm;
+    },
+    errorDialog(): typeof ErrorDialog {
+      return this.$refs.errorDialog as typeof ErrorDialog;
+    },
   },
   mounted() {
     if (this.userState?.username) {
       this.loginValues.username = this.userState.username ? this.userState.username : null;
       this.loginWidgets[0].disabled = true;
     }
-    // @ts-ignore
-    this.$refs.loginForm?.focusFirstInteractable();
+    this.loginForm.focusFirstInteractable();
   },
   methods: {
     onContinue() {
       validateAll(this.loginWidgets, this.loginValues);
       if (!allValid(this.loginWidgets)) {
-        // @ts-ignore TODO
-        this.$refs.loginForm.focusFirstInvalid();
+        this.loginForm.focusFirstInvalid();
         return;
       }
       this.loginWidgets.forEach((widget) => {
@@ -189,8 +196,7 @@ export default defineComponent({
         password: '',
       };
       this.$nextTick(() => {
-        // @ts-ignore
-        this.$refs.loginForm.focusFirstInteractable();
+        this.loginForm.focusFirstInteractable();
       });
     },
     onSave() {
@@ -254,8 +260,7 @@ export default defineComponent({
             }
           });
           if (!allValid(this.attributeWidgets)) {
-            // @ts-ignore TODO
-            this.$refs.attributesForm.focusFirstInvalid();
+            this.attributesForm.focusFirstInvalid();
             return;
           }
           umcCommand('passwordreset/set_user_attributes', {
@@ -271,11 +276,9 @@ export default defineComponent({
           });
         })
         .catch((error) => {
-          // @ts-ignore
-          this.$refs.errorDialog.showError(error.message)
+          this.errorDialog.showError(error.message)
             .then(() => {
-              // @ts-ignore
-              this.$refs.saveButton.focus();
+              (this.$refs.saveButton as HTMLButtonElement).focus();
             });
         })
         .finally(() => {
@@ -325,14 +328,12 @@ export default defineComponent({
             this.attributeValues = values;
             this.updateOrigFormValues();
             this.$nextTick(() => {
-              // @ts-ignore
-              this.$refs.attributesForm.focusFirstInteractable();
+              this.attributesForm.focusFirstInteractable();
             });
           });
         })
         .catch((error) => {
-          // @ts-ignore
-          this.$refs.errorDialog.showError(error.message)
+          this.errorDialog.showError(error.message)
             .then(() => {
               this.onCancel();
             });
