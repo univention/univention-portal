@@ -37,6 +37,7 @@
       v-model="formValues"
       :widgets="formWidgets"
     >
+      <slot />
       <footer>
         <button
           type="submit"
@@ -103,6 +104,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    submitLabelAfterLoaded: {
+      type: String,
+      default: _('Submit'),
+    },
   },
   emits: ['loaded', 'save'],
   data(): Data {
@@ -144,7 +149,7 @@ export default defineComponent({
     }),
     SUBMIT_LABEL(): string {
       if (this.loaded) {
-        return _('Submit');
+        return this.submitLabelAfterLoaded;
       }
       return _('Next');
     },

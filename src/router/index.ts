@@ -36,6 +36,7 @@ import CreateAccount from '@/views/selfservice/CreateAccount.vue';
 import VerifyAccount from '@/views/selfservice/VerifyAccount.vue';
 import PasswordForgotten from '@/views/selfservice/PasswordForgotten.vue';
 import NewPassword from '@/views/selfservice/NewPassword.vue';
+import ServiceSpecificPasswords from '@/views/selfservice/ServiceSpecificPasswords.vue';
 
 const routes = [
   {
@@ -73,6 +74,11 @@ const routes = [
         path: 'selfservice/newpassword',
         component: NewPassword,
         name: 'selfserviceNewPassword',
+      },
+      {
+        path: 'selfservice/servicespecificpasswords',
+        component: ServiceSpecificPasswords,
+        name: 'selfserviceServiceSpecificPasswords',
       },
     ],
   },
