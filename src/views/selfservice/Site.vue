@@ -33,9 +33,11 @@
     class="modal-wrapper--selfservice"
   >
     <modal-dialog
+      ref="dialog"
       :i18n-title-key="title"
       class="dialog--selfservice"
       @cancel="cancel"
+      @keydown.tab="onTab"
     >
       <div>{{ subtitle }}</div>
       <self-service-disabled
@@ -61,6 +63,7 @@ import ModalDialog from '@/components/modal/ModalDialog.vue';
 import SelfServiceDisabled from '@/views/selfservice/SelfServiceDisabled.vue';
 import { mapGetters } from 'vuex';
 import { isTrue } from '@/jsHelper/ucr';
+import ErrorDialog from "views/selfservice/ErrorDialog.vue";
 
 export default defineComponent({
   name: 'Site',
@@ -106,6 +109,20 @@ export default defineComponent({
     cancel() {
       this.$router.push({ name: 'portal' });
     },
+    onTab(evt): void {
+      const els = (this.$refs.dialog as typeof ErrorDialog).$el.querySelectorAll('button:not([tabindex="-1"]), [href]:not([tabindex="-1"]), input:not([tabindex="-1"]), select:not([tabindex="-1"]), textarea:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])');
+      const firstEl = els[0];
+      const lastEl = els[els.length - 1];
+      if (document.activeElement === firstEl && evt.shiftKey) {
+        evt.preventDefault();
+        lastEl.focus();
+        return;
+      }
+      if (document.activeElement === lastEl && !evt.shiftKey) {
+        evt.preventDefault();
+        firstEl.focus();
+      }
+    },
   },
 });
 </script>
@@ -115,25 +132,25 @@ export default defineComponent({
   padding: calc(4 * var(--layout-spacing-unit)) 0
   overflow: auto
   box-sizing: border-box
-  // z-index: $zindex-4 TODO notifications are also $zindex-4
-  z-index: 399
+  &.modal-wrapper--isVisible
+    // z-index: $zindex-4 TODO notifications are also $zindex-4
+    z-index: 399
 
 .dialog--selfservice
   margin: auto
   box-sizing: border-box
-  min-width: s('min(350px, 90%)')
+  min-width: s('min(calc(var(--inputfield-width) + calc(12 * var(--layout-spacing-unit))), 90%)')
   min-height: s('min(200px, 90%)')
-  max-width: unset
+  max-height: unset
 
   input,
   select,
   form
     width: 100%
-  form
-    min-width: calc(var(--inputfield-width) + 3rem)
 
   form main
     max-height: unset
+    padding: 0
 
 .selfservice--hidden
   opacity: 0

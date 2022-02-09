@@ -29,9 +29,9 @@
 <template>
   <site
     :title="TITLE"
+    :subtitle="SUBTITLE"
     :ucr-var-for-frontend-enabling="'umc/self-service/profiledata/enabled'"
   >
-    <div>{{ SUBTITLE }}</div>
     <my-form
       ref="loginForm"
       v-model="loginValues"
@@ -47,7 +47,7 @@
       </footer>
     </my-form>
     <my-form
-      v-show="attributesLoaded"
+      v-if="attributesLoaded"
       ref="attributesForm"
       v-model="attributeValues"
       :widgets="attributeWidgets"
@@ -60,6 +60,7 @@
           {{ CANCEL }}
         </button>
         <button
+          ref="saveButton"
           type="submit"
           class="primary"
           @click.prevent="onSave"
@@ -68,6 +69,9 @@
         </button>
       </footer>
     </my-form>
+    <error-dialog
+      ref="errorDialog"
+    />
   </site>
 </template>
 
@@ -77,11 +81,12 @@ import { mapGetters } from 'vuex';
 
 import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
-import { umc } from '@/jsHelper/umc';
+import { umc, umcCommand } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid } from '@/jsHelper/forms';
 import Site from '@/views/selfservice/Site.vue';
+import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 
 interface Data {
   loginWidgets: any[],
@@ -96,6 +101,7 @@ export default defineComponent({
   components: {
     MyForm,
     Site,
+    ErrorDialog,
   },
   data(): Data {
     // TODO translations
@@ -211,7 +217,7 @@ export default defineComponent({
     },
     save(values) {
       this.$store.dispatch('activateLoadingState');
-      umc('command/passwordreset/validate_user_attributes', {
+      umcCommand('passwordreset/validate_user_attributes', {
         username: this.loginValues.username,
         password: this.loginValues.password,
         attributes: values,
@@ -252,7 +258,7 @@ export default defineComponent({
             this.$refs.attributesForm.focusFirstInvalid();
             return;
           }
-          umc('command/passwordreset/set_user_attributes', {
+          umcCommand('passwordreset/set_user_attributes', {
             username: this.loginValues.username,
             password: this.loginValues.password,
             attributes: values,
@@ -265,12 +271,12 @@ export default defineComponent({
           });
         })
         .catch((error) => {
-          // TODO get real error message from request
-          // TODO put error message in modal
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to save profile'),
-            description: 'Failed to save profile',
-          });
+          // @ts-ignore
+          this.$refs.errorDialog.showError(error.message)
+            .then(() => {
+              // @ts-ignore
+              this.$refs.saveButton.focus();
+            });
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');
@@ -281,16 +287,14 @@ export default defineComponent({
     },
     loadAttributes() {
       this.$store.dispatch('activateLoadingState');
-      umc('command/passwordreset/get_user_attributes_descriptions', {})
-        .then((answer) => {
-          const widgets = answer.data.result;
+      umcCommand('passwordreset/get_user_attributes_descriptions', {})
+        .then((widgets) => {
           const attributes = widgets.map((widget) => widget.id);
-          return umc('command/passwordreset/get_user_attributes_values', {
+          return umcCommand('passwordreset/get_user_attributes_values', {
             username: this.loginValues.username,
             password: this.loginValues.password,
             attributes,
-          }).then((answer2) => {
-            const values = answer2.data.result;
+          }).then((values) => {
             const sanitizeWidget = (widget) => {
               const w: any = {
                 // TODO unhandled fields that come from command/passwordreset/get_user_attributes_descriptions
@@ -308,6 +312,7 @@ export default defineComponent({
                 w.options = widget.staticValues;
               }
               if (widget.type === 'MultiInput') {
+                w.extraLabel = w.label;
                 w.subtypes = widget.subtypes.map((subtype) => sanitizeWidget(subtype));
               }
               return w;
@@ -326,13 +331,11 @@ export default defineComponent({
           });
         })
         .catch((error) => {
-          // TODO get real error message from request
-          // TODO put error message in modal
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to retrieve profile'),
-            description: 'Failed to retrieve profile',
-          });
-          this.onCancel();
+          // @ts-ignore
+          this.$refs.errorDialog.showError(error.message)
+            .then(() => {
+              this.onCancel();
+            });
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');
