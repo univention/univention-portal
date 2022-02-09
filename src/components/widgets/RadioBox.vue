@@ -15,6 +15,7 @@
         name="radio-input"
         :value="option.id"
         class="radio-box__input"
+        :checked="modelValue === option.id"
         @change="$emit('update:modelValue', option.id)"
       >
       {{ option.label }}
