@@ -48,6 +48,9 @@
         </button>
       </footer>
     </my-form>
+    <error-dialog
+      ref="errorDialog"
+    />
   </site>
 </template>
 
@@ -60,6 +63,7 @@ import MyForm from '@/components/forms/Form.vue';
 import { WidgetDefinition, validateAll } from '@/jsHelper/forms';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
+import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 
 interface FormData {
   username: string,
@@ -78,6 +82,7 @@ export default defineComponent({
   components: {
     MyForm,
     Site,
+    ErrorDialog,
   },
   props: {
     title: {
@@ -178,9 +183,7 @@ export default defineComponent({
   },
   methods: {
     refocus() {
-      setTimeout(() => {
-        this.form.focusFirstInteractable();
-      }, 300); // TODO...
+      this.form.focusFirstInteractable();
     },
     submit() {
       if (!validateAll(this.formWidgets, this.formValues)) {
@@ -204,17 +207,19 @@ export default defineComponent({
           this.refocus();
         })
         .catch((error) => {
-          console.log(error);
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Authentification failed'),
-            description: error.message,
-          });
           this.formValues.username = '';
           if (this.passwordNeeded) {
             this.formValues.password = '';
           }
           this.usernameGiven = false;
+          this.showError(error.message, _('Authentification failed'))
+            .then(() => {
+              this.refocus();
+            });
         });
+    },
+    showError(message: string | string[], title = ''): Promise<undefined> {
+      return (this.$refs.errorDialog as typeof ErrorDialog).showError(message, title);
     },
   },
 });
