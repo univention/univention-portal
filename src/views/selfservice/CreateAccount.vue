@@ -33,6 +33,7 @@
     :ucr-var-for-frontend-enabling="'umc/self-service/account-registration/frontend/enabled'"
   >
     <my-form
+      v-if="formWidgets.length > 0"
       ref="form"
       v-model="formValues"
       :widgets="formWidgets"
@@ -47,6 +48,9 @@
         </button>
       </footer>
     </my-form>
+    <error-dialog
+      ref="errorDialog"
+    />
   </site>
 </template>
 
@@ -57,7 +61,8 @@ import _ from '@/jsHelper/translate';
 import { umcCommandWithStandby } from '@/jsHelper/umc';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
-import { validateAll, WidgetDefinition } from '@/jsHelper/forms';
+import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
+import { allValid, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 
 interface Data {
   formValues: Record<string, string>,
@@ -69,6 +74,7 @@ export default defineComponent({
   components: {
     Site,
     MyForm,
+    ErrorDialog,
   },
   data(): Data {
     return {
@@ -85,6 +91,9 @@ export default defineComponent({
     },
     form(): typeof MyForm {
       return this.$refs.form as typeof MyForm;
+    },
+    errorDialog(): typeof ErrorDialog {
+      return this.$refs.errorDialog as typeof ErrorDialog;
     },
   },
   mounted() {
@@ -105,6 +114,12 @@ export default defineComponent({
             });
           });
         });
+        this.$nextTick(() => {
+          this.form.focusFirstInteractable();
+        });
+      })
+      .catch((error) => {
+        this.errorDialog.showError(error.message);
       });
   },
   methods: {
@@ -113,7 +128,6 @@ export default defineComponent({
         this.form.focusFirstInvalid();
         return;
       }
-      console.log(this.formValues);
       umcCommandWithStandby(this.$store, 'passwordreset/create_self_registered_account', {
         attributes: this.formValues,
       })
@@ -126,11 +140,13 @@ export default defineComponent({
               });
               this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
             } else {
-              this.$store.dispatch('notifications/addErrorNotification', {
-                title: _('Hello, %(username)s', { username: result.data.username }),
-                description: _('An error occurred while sending the verification token for your account. Please request a new one.'),
-              });
-              this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
+              this.errorDialog.showError([
+                _('Hello, %(username)s', { username: result.data.username }),
+                _('An error occurred while sending the verification token for your account. Please request a new one.'),
+              ])
+                .then(() => {
+                  this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
+                });
             }
           } else if (result.failType === 'INVALID_ATTRIBUTES') {
             Object.entries(result.data).forEach(([name, info]: [string, any]) => {
@@ -144,11 +160,17 @@ export default defineComponent({
                 widget.invalidMessage = info.message;
               });
             });
+            if (!allValid(this.formWidgets)) {
+              this.form.focusFirstInvalid();
+            }
           } else if (result.failType === 'CREATION_FAILED') {
-            this.$store.dispatch('notifications/addErrorNotification', {
-              title: _('Creating a new user failed.'),
-              description: result.data,
-            });
+            this.errorDialog.showError([
+              _('Creating a new user failed.'),
+              result.data,
+            ])
+              .then(() => {
+                this.form.focusFirstInteractable();
+              });
           }
         });
     },
