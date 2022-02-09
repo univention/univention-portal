@@ -47,6 +47,9 @@
         </button>
       </footer>
     </my-form>
+    <error-dialog
+      ref="errorDialog"
+    />
   </site>
 </template>
 
@@ -58,6 +61,7 @@ import _ from '@/jsHelper/translate';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, isEmpty, WidgetDefinition } from '@/jsHelper/forms';
+import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 
 interface FormData {
   username: string,
@@ -78,6 +82,7 @@ export default defineComponent({
   components: {
     MyForm,
     Site,
+    ErrorDialog,
   },
   data(): Data {
     const formWidgets: WidgetDefinition[] = [{
@@ -175,10 +180,10 @@ export default defineComponent({
           });
         })
         .catch((error) => {
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to send token'),
-            description: error.message,
-          });
+          (this.$refs.errorDialog as typeof ErrorDialog).showError(error.message)
+            .then(() => {
+              (this.$refs.saveButton as HTMLButtonElement).focus();
+            });
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');
