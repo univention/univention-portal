@@ -63,7 +63,6 @@ import ModalDialog from '@/components/modal/ModalDialog.vue';
 import SelfServiceDisabled from '@/views/selfservice/SelfServiceDisabled.vue';
 import { mapGetters } from 'vuex';
 import { isTrue } from '@/jsHelper/ucr';
-import ErrorDialog from "views/selfservice/ErrorDialog.vue";
 
 export default defineComponent({
   name: 'Site',
@@ -110,7 +109,7 @@ export default defineComponent({
       this.$router.push({ name: 'portal' });
     },
     onTab(evt): void {
-      const els = (this.$refs.dialog as typeof ErrorDialog).$el.querySelectorAll('button:not([tabindex="-1"]), [href]:not([tabindex="-1"]), input:not([tabindex="-1"]), select:not([tabindex="-1"]), textarea:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])');
+      const els = (this.$refs.dialog as typeof ModalDialog).$el.querySelectorAll('button:not([tabindex="-1"]), [href]:not([tabindex="-1"]), input:not([tabindex="-1"]), select:not([tabindex="-1"]), textarea:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])');
       const firstEl = els[0];
       const lastEl = els[els.length - 1];
       if (document.activeElement === firstEl && evt.shiftKey) {
