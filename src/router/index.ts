@@ -29,10 +29,14 @@
 
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Portal from '@/views/Portal.vue';
+import NotFound from '@/views/NotFound.vue';
 import Profile from '@/views/selfservice/Profile.vue';
 import ProtectAccount from '@/views/selfservice/ProtectAccount.vue';
 import CreateAccount from '@/views/selfservice/CreateAccount.vue';
 import VerifyAccount from '@/views/selfservice/VerifyAccount.vue';
+import PasswordForgotten from '@/views/selfservice/PasswordForgotten.vue';
+import NewPassword from '@/views/selfservice/NewPassword.vue';
+import ServiceSpecificPasswords from '@/views/selfservice/ServiceSpecificPasswords.vue';
 
 const routes = [
   {
@@ -61,8 +65,24 @@ const routes = [
         component: ProtectAccount,
         name: 'selfserviceProtectAccount',
       },
+      {
+        path: 'selfservice/passwordforgotten',
+        component: PasswordForgotten,
+        name: 'selfservicePasswordForgotten',
+      },
+      {
+        path: 'selfservice/newpassword',
+        component: NewPassword,
+        name: 'selfserviceNewPassword',
+      },
+      {
+        path: 'selfservice/servicespecificpasswords',
+        component: ServiceSpecificPasswords,
+        name: 'selfserviceServiceSpecificPasswords',
+      },
     ],
   },
+  { path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
 // eslint-disable-next-line import/prefer-default-export

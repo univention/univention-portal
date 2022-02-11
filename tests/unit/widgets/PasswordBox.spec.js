@@ -25,60 +25,68 @@
   License with the Debian GNU/Linux or Univention distribution in file
   /usr/share/common-licenses/AGPL-3; if not, see
   <https://www.gnu.org/licenses/>.
-**/
+* */
 
 import { mount } from '@vue/test-utils';
 
-import PasswordBox from '@/components/widgets/PasswordBox';
+import PasswordBox from '@/components/widgets/PasswordBox.vue';
 
 describe('PasswordBox Component', () => {
-  test('test input value', async () => {
-      // to check focus, we need to attach to an actual document, normally we don't do this
-      const div = document.createElement('div');
-      div.id = 'root';
-      document.body.appendChild(div);
+  test('input value', async () => {
+    // to check focus, we need to attach to an actual document, normally we don't do this
+    const div = document.createElement('div');
+    div.id = 'root';
+    document.body.appendChild(div);
 
-      const wrapper = await mount(PasswordBox, {
-        propsData: {
-          modelValue: '',
-        },
-        attachTo: "#root"
-      });
+    const wrapper = await mount(PasswordBox, {
+      propsData: {
+        modelValue: '',
+        name: 'password',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
+      },
+      attachTo: '#root',
+    });
 
-      const passwordBox = await wrapper.find('[data-test="password-box"]');
-      
-      // Expect input value to be empty on mount. 
-      expect(passwordBox.element.value).toBe("");
-      
-      await passwordBox.setValue('test input value');
-      
-      expect(passwordBox.element.value).toBe("test input value");
+    const passwordBox = await wrapper.find('[data-test="password-box"]');
 
-      wrapper.unmount();
+    // Expect input value to be empty on mount.
+    expect(passwordBox.element.value).toBe('');
 
+    await passwordBox.setValue('test input value');
+
+    expect(passwordBox.element.value).toBe('test input value');
+
+    wrapper.unmount();
   });
 
   test('computed property', async () => {
     const wrapper = await mount(PasswordBox, {
       propsData: {
         modelValue: '',
+        name: 'password',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
     });
 
     // Expect Aria-Invalid to be set correctly
     expect(wrapper.vm.invalid).toBe(false);
-    await wrapper.setProps({ invalidMessage: "Invalid Message" })
+    await wrapper.setProps({ invalidMessage: 'Invalid Message' });
     expect(wrapper.vm.invalid).toBe(true);
-  })
+  });
 
   test('its actually a password input field', async () => {
     const wrapper = await mount(PasswordBox, {
       propsData: {
         modelValue: '',
+        name: 'password',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
       },
     });
     const passwordBox = await wrapper.find('[data-test="password-box"]');
-  
+
     expect(passwordBox.attributes('type')).toBe('password');
   });
 });

@@ -29,7 +29,6 @@
 <template>
   <div class="multi-select">
     <fieldset>
-      <legend>{{ label }}</legend>
       <div
         class="multi-select__select"
       >
@@ -38,17 +37,20 @@
           :key="value"
         >
           <input
+            :ref="`checkbox-${value}`"
             type="checkbox"
             :tabindex="tabindex"
             @change="toggleSelection(value)"
           >
-          <span>{{ dnToLabel(value) }}</span>
+          <span data-test="multi-select-checkbox-span">{{ dnToLabel(value) }}</span>
         </label>
       </div>
       <footer class="multi-select__footer">
         <button
+          ref="addButton"
           type="button"
           :tabindex="tabindex"
+          data-test="multi-select-add-more-button"
           @click.prevent="add"
         >
           <portal-icon
@@ -65,6 +67,7 @@
           type="button"
           :disabled="!elementsSelected || modelValue.length === 0"
           :tabindex="tabindex"
+          data-test="multi-select-remove-button"
           @click.prevent="remove"
         >
           <portal-icon
@@ -98,12 +101,12 @@ export default defineComponent({
     PortalIcon,
   },
   props: {
-    label: {
-      type: String,
-      required: true,
-    },
     modelValue: {
       type: Array as PropType<string[]>,
+      required: true,
+    },
+    name: {
+      type: String,
       required: true,
     },
     tabindex: {
@@ -128,7 +131,7 @@ export default defineComponent({
       return _('Remove');
     },
     REMOVE_SELECTION(): string {
-      return _('Remove selection');
+      return ` ${_('Remove selection')}`;
     },
     elementsSelected(): boolean {
       return this.selection.length > 0;
@@ -158,6 +161,7 @@ export default defineComponent({
       }).then((values) => {
         this.$store.dispatch('modal/hideAndClearModal', 2);
         const newValues = this.modelValue.concat(values.selection);
+        console.log('newValues', newValues);
         newValues.sort();
         this.$emit('update:modelValue', newValues);
         this.$store.dispatch('activity/setMessage', _('Added to selection'));
@@ -167,6 +171,16 @@ export default defineComponent({
       const values = this.modelValue.filter((value) => !this.selection.includes(value));
       this.$emit('update:modelValue', values);
       this.$store.dispatch('activity/setMessage', _('Removed selection'));
+    },
+    focus() {
+      if (this.modelValue.length > 0) {
+        const name = this.modelValue[0];
+        // @ts-ignore TODO
+        this.$refs[`checkbox-${name}`].focus();
+      } else {
+        // @ts-ignore TODO
+        this.$refs.addButton.focus();
+      }
     },
   },
 });
@@ -183,7 +197,7 @@ export default defineComponent({
     overflow: auto
 
     label
-      margin-top: var(--layout-spacing-unit)
+      margin-top: var(--layout-spacing-unit) !important
       display: flex
 
       input

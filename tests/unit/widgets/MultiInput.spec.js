@@ -25,39 +25,40 @@
   License with the Debian GNU/Linux or Univention distribution in file
   /usr/share/common-licenses/AGPL-3; if not, see
   <https://www.gnu.org/licenses/>.
-**/
+* */
 
 import { mount } from '@vue/test-utils';
-import MultiInput from '@/components/widgets/MultiInput';
+import MultiInput from '@/components/widgets/MultiInput.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 import FormElement from '@/components/forms/FormElement.vue';
 import Vuex from 'vuex';
 import activity from '@/store/modules/activity';
 
-
 const multiInputProps = {
-  modelValue: [""],
-  subtypes: [{"type":"TextBox","name":"","label":"","required":false,"readonly":false}],
-  invalidMessage: {"all":"","values":[]},
-}
+  modelValue: [''],
+  subtypes: [{ type: 'TextBox', name: '', label: '', required: false, readonly: false }],
+  invalidMessage: { all: '', values: [] },
+  invalidMessageId: '',
+  extraLabel: 'Label',
+};
 
 const store = new Vuex.Store({
   modules: {
     activity: {
-        getters: activity.getters,
-        namespaced: true
-      }
-    }
-})
+      getters: activity.getters,
+      namespaced: true,
+    },
+  },
+});
 
 let wrapper;
 
-beforeEach( async () => {
+beforeEach(async () => {
   wrapper = await mount(MultiInput, {
     propsData: multiInputProps,
     children: [IconButton, FormElement],
     global: {
-      plugins: [store]
+      plugins: [store],
     },
   });
 });
@@ -67,15 +68,14 @@ afterEach(() => {
 });
 
 describe('MultiInput.vue', () => {
-
-  test('if Button with label "Add entry" exists', async () =>{
+  test('if Button with label "Add entry" exists', async () => {
     const addEntryButton = await wrapper.find('[data-test="multi-input-add-entry-button"]');
-    expect(addEntryButton.text()).toContain('Add entry');
+    expect(addEntryButton.attributes('aria-label')).toBe(`Add new ${multiInputProps.extraLabel}`);
   });
 
-  test('if remove-entry button exists', async () =>{
+  test('if remove-entry button exists', async () => {
     const removeEntryButton = await wrapper.find('[data-test="multi-input-remove-entry-button-0"]');
-    expect(removeEntryButton.attributes('aria-label')).toBe('Remove entry');
+    expect(removeEntryButton.attributes('aria-label')).toBe(`Remove ${multiInputProps.extraLabel} 1`);
   });
 
   test('if the .multi-input__row is working for singleline', async () => {
@@ -86,23 +86,22 @@ describe('MultiInput.vue', () => {
     expect(multiInputRow.classes()).not.toContain('multi-input__row--multiline');
   });
 
-  test('if the .multi-input__row is working for multiline', async () =>{
+  test('if the .multi-input__row is working for multiline', async () => {
   //  Setting the needed props to test the component
-  const multiSubType =  [{"type":"TextBox","name":"","label":"Street","required":false,"readonly":false},{"type":"TextBox","name":"","label":"Postal code","required":false,"readonly":false}];
-  wrapper.setProps({subtypes: multiSubType});
-  await wrapper.vm.$nextTick();
+    const multiSubType = [{ type: 'TextBox', name: '', label: 'Street', required: false, readonly: false }, { type: 'TextBox', name: '', label: 'Postal code', required: false, readonly: false }];
+    wrapper.setProps({ subtypes: multiSubType, invalidMessageId: '' });
+    await wrapper.vm.$nextTick();
 
-  const multiInputRow = wrapper.find('[data-test="multi-input-row"]');
-  expect(multiInputRow.classes()).toContain('multi-input__row--multiline');
-  expect(multiInputRow.classes()).not.toContain('multi-input__row--singleline');
+    const multiInputRow = wrapper.find('[data-test="multi-input-row"]');
+    expect(multiInputRow.classes()).toContain('multi-input__row--multiline');
+    expect(multiInputRow.classes()).not.toContain('multi-input__row--singleline');
   });
 
-
-  test('if the .multi-input__row has class multi-input__row--invalid if rowInvalidMessage(valIdx) !== ""', async () =>{
+  test('if the .multi-input__row has class multi-input__row--invalid if rowInvalidMessage(valIdx) !== ""', async () => {
     // Set wrapperprops with needed values to recieve the desired results
-    const newInvalidMessage = {"all":"","values":["not enough arguments"]};
+    const newInvalidMessage = { all: '', values: ['not enough arguments'] };
 
-    wrapper.setProps({invalidMessage: newInvalidMessage});
+    wrapper.setProps({ invalidMessage: newInvalidMessage, invalidMessageId: '' });
     await wrapper.vm.$nextTick();
 
     const multiInputRow = wrapper.find('[data-test="multi-input-row"]');
@@ -111,8 +110,8 @@ describe('MultiInput.vue', () => {
     // even if newInvalidMessage has a value set.
     expect(multiInputRow.classes()).not.toContain('multi-input__row--invalid');
 
-    const multiSubType =  [{"type":"TextBox","name":"","label":"Street","required":false,"readonly":false},{"type":"TextBox","name":"","label":"Postal code","required":false,"readonly":false}];
-    wrapper.setProps({subtypes: multiSubType});
+    const multiSubType = [{ type: 'TextBox', name: '', label: 'Street', required: false, readonly: false }, { type: 'TextBox', name: '', label: 'Postal code', required: false, readonly: false }];
+    wrapper.setProps({ subtypes: multiSubType });
     await wrapper.vm.$nextTick();
 
     // after updating the wrapper with an multiSubType Object we
@@ -124,7 +123,6 @@ describe('MultiInput.vue', () => {
     const input = wrapper.find('input');
     await input.setValue('test input value');
     await wrapper.vm.$nextTick();
-
 
     expect(onUpdateSpy).toHaveBeenCalled();
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
@@ -165,8 +163,7 @@ describe('MultiInput.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
   });
 
-
-  test('if the getSubtypeWidget is called correctly', async () =>{
+  test('if the getSubtypeWidget is called correctly', async () => {
     // getSubtypeWidget is called in each iteration in the subtypes for loop.
     // It is used to pass the correct widget object in form-element
     wrapper.unmount();
@@ -175,7 +172,7 @@ describe('MultiInput.vue', () => {
       propsData: multiInputProps,
       children: [IconButton, FormElement],
       global: {
-        plugins: [store]
+        plugins: [store],
       },
     });
     await wrapper.vm.$nextTick();
@@ -183,6 +180,3 @@ describe('MultiInput.vue', () => {
     expect(getSubtypeWidgetSpy).toHaveBeenCalledWith(multiInputProps.subtypes[0], 0, 0);
   });
 });
-
-
-

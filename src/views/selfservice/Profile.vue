@@ -1,10 +1,39 @@
+<!--
+  Copyright 2021 Univention GmbH
+
+  https://www.univention.de/
+
+  All rights reserved.
+
+  The source code of this program is made available
+  under the terms of the GNU Affero General Public License version 3
+  (GNU AGPL V3) as published by the Free Software Foundation.
+
+  Binary versions of this program provided by Univention to you as
+  well as other copyrighted, protected or trademarked materials like
+  Logos, graphics, fonts, specific documentations and configurations,
+  cryptographic keys etc. are subject to a license agreement between
+  you and Univention and not subject to the GNU AGPL V3.
+
+  In the case you use this program under the terms of the GNU AGPL V3,
+  the program is provided in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public
+  License with the Debian GNU/Linux or Univention distribution in file
+  /usr/share/common-licenses/AGPL-3; if not, see
+  <https://www.gnu.org/licenses/>.
+-->
 <template>
   <site
     :title="TITLE"
+    :subtitle="SUBTITLE"
     :ucr-var-for-frontend-enabling="'umc/self-service/profiledata/enabled'"
   >
-    <div>{{ SUBTITLE }}</div>
     <my-form
+      ref="loginForm"
       v-model="loginValues"
       :widgets="loginWidgets"
     >
@@ -19,6 +48,7 @@
     </my-form>
     <my-form
       v-if="attributesLoaded"
+      ref="attributesForm"
       v-model="attributeValues"
       :widgets="attributeWidgets"
     >
@@ -30,6 +60,7 @@
           {{ CANCEL }}
         </button>
         <button
+          ref="saveButton"
           type="submit"
           class="primary"
           @click.prevent="onSave"
@@ -38,20 +69,24 @@
         </button>
       </footer>
     </my-form>
+    <error-dialog
+      ref="errorDialog"
+    />
   </site>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
-import { umc } from '@/jsHelper/umc';
+import { umc, umcCommand } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
-import FormElement from '@/components/forms/FormElement.vue';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid } from '@/jsHelper/forms';
 import Site from '@/views/selfservice/Site.vue';
+import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 
 interface Data {
   loginWidgets: any[],
@@ -65,8 +100,8 @@ export default defineComponent({
   name: 'Profile',
   components: {
     MyForm,
-    FormElement,
     Site,
+    ErrorDialog,
   },
   data(): Data {
     // TODO translations
@@ -94,6 +129,9 @@ export default defineComponent({
     };
   },
   computed: {
+    ...mapGetters({
+      userState: 'user/userState',
+    }),
     TITLE(): string {
       return _('Profile');
     },
@@ -118,16 +156,34 @@ export default defineComponent({
     attributesLoaded(): boolean {
       return this.attributeWidgets.length > 0;
     },
+    loginForm(): typeof MyForm {
+      return this.$refs.loginForm as typeof MyForm;
+    },
+    attributesForm(): typeof MyForm {
+      return this.$refs.attributesForm as typeof MyForm;
+    },
+    errorDialog(): typeof ErrorDialog {
+      return this.$refs.errorDialog as typeof ErrorDialog;
+    },
+  },
+  mounted() {
+    if (this.userState?.username) {
+      this.loginValues.username = this.userState.username ? this.userState.username : null;
+      this.loginWidgets[0].disabled = true;
+    }
+    this.loginForm.focusFirstInteractable();
   },
   methods: {
     onContinue() {
       validateAll(this.loginWidgets, this.loginValues);
-      if (allValid(this.loginWidgets)) {
-        this.loginWidgets.forEach((widget) => {
-          widget.disabled = true;
-        });
-        this.loadAttributes();
+      if (!allValid(this.loginWidgets)) {
+        this.loginForm.focusFirstInvalid();
+        return;
       }
+      this.loginWidgets.forEach((widget) => {
+        widget.disabled = true;
+      });
+      this.loadAttributes();
     },
     onCancel() {
       this.attributeWidgets = [];
@@ -139,6 +195,9 @@ export default defineComponent({
         username: '',
         password: '',
       };
+      this.$nextTick(() => {
+        this.loginForm.focusFirstInteractable();
+      });
     },
     onSave() {
       validateAll(this.attributeWidgets, this.attributeValues);
@@ -164,13 +223,12 @@ export default defineComponent({
     },
     save(values) {
       this.$store.dispatch('activateLoadingState');
-      umc('command/passwordreset/validate_user_attributes', {
+      umcCommand('passwordreset/validate_user_attributes', {
         username: this.loginValues.username,
         password: this.loginValues.password,
         attributes: values,
       })
-        .then((answer) => {
-          const result = answer.data.result;
+        .then((result) => {
           this.attributeWidgets.forEach((widget) => {
             const validationObj = result[widget.name];
             if (validationObj !== undefined) {
@@ -200,27 +258,27 @@ export default defineComponent({
               }
             }
           });
-          if (allValid(this.attributeWidgets)) {
-            umc('command/passwordreset/set_user_attributes', {
-              username: this.loginValues.username,
-              password: this.loginValues.password,
-              attributes: values,
-            }).then(() => {
-              this.$store.dispatch('notifications/addSuccessNotification', {
-                title: _('Profile changes'),
-                description: 'Successfully saved changes',
-              });
-              this.updateOrigFormValues();
-            });
+          if (!allValid(this.attributeWidgets)) {
+            this.attributesForm.focusFirstInvalid();
+            return;
           }
+          umcCommand('passwordreset/set_user_attributes', {
+            username: this.loginValues.username,
+            password: this.loginValues.password,
+            attributes: values,
+          }).then(() => {
+            this.$store.dispatch('notifications/addSuccessNotification', {
+              title: _('Profile changes'),
+              description: 'Successfully saved changes',
+            });
+            this.updateOrigFormValues();
+          });
         })
         .catch((error) => {
-          // TODO get real error message from request
-          // TODO put error message in modal
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to save profile'),
-            description: 'Failed to save profile',
-          });
+          this.errorDialog.showError(error.message)
+            .then(() => {
+              (this.$refs.saveButton as HTMLButtonElement).focus();
+            });
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');
@@ -231,16 +289,14 @@ export default defineComponent({
     },
     loadAttributes() {
       this.$store.dispatch('activateLoadingState');
-      umc('command/passwordreset/get_user_attributes_descriptions', {})
-        .then((answer) => {
-          const widgets = answer.data.result;
+      umcCommand('passwordreset/get_user_attributes_descriptions', {})
+        .then((widgets) => {
           const attributes = widgets.map((widget) => widget.id);
-          return umc('command/passwordreset/get_user_attributes_values', {
+          return umcCommand('passwordreset/get_user_attributes_values', {
             username: this.loginValues.username,
             password: this.loginValues.password,
             attributes,
-          }).then((answer2) => {
-            const values = answer2.data.result;
+          }).then((values) => {
             const sanitizeWidget = (widget) => {
               const w: any = {
                 // TODO unhandled fields that come from command/passwordreset/get_user_attributes_descriptions
@@ -258,6 +314,7 @@ export default defineComponent({
                 w.options = widget.staticValues;
               }
               if (widget.type === 'MultiInput') {
+                w.extraLabel = w.label;
                 w.subtypes = widget.subtypes.map((subtype) => sanitizeWidget(subtype));
               }
               return w;
@@ -269,17 +326,16 @@ export default defineComponent({
             this.attributeWidgets = sanitized;
             this.attributeValues = values;
             this.updateOrigFormValues();
-            // TODO focus first interactable widget
+            this.$nextTick(() => {
+              this.attributesForm.focusFirstInteractable();
+            });
           });
         })
         .catch((error) => {
-          // TODO get real error message from request
-          // TODO put error message in modal
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to retrieve profile'),
-            description: 'Failed to retrieve profile',
-          });
-          this.onCancel();
+          this.errorDialog.showError(error.message)
+            .then(() => {
+              this.onCancel();
+            });
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');

@@ -38,7 +38,7 @@ export DH_VERBOSE=1
 override_dh_auto_build:
 	./process_vue_files.sh
 	npm set prefix=$$HOME/.node
-	npm install -g npm@latest
+	npm install -g npm@8.1.3
 	cp ./.env.production .env
 	$$HOME/.node/bin/npm install -g yarn
 	$$HOME/.node/bin/yarn install

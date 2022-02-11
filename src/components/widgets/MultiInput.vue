@@ -21,6 +21,7 @@
         class="multi-input__row__elem"
       >
         <form-element
+          :ref="`component-${valIdx}-${typeIdx}`"
           :widget="getSubtypeWidget(type, valIdx, typeIdx)"
           :model-value="Array.isArray(val) ? val[typeIdx] : val"
           :data-test="`form-element-${getSubtypeWidget(type, valIdx, typeIdx).type}-${valIdx}`"
@@ -30,7 +31,7 @@
       <icon-button
         icon="trash"
         :has-button-style="true"
-        :aria-label-prop="REMOVE_ENTRY"
+        :aria-label-prop="removeButtonLabel(valIdx)"
         :data-test="`multi-input-remove-entry-button-${valIdx}`"
         @click="removeEntry(valIdx)"
       />
@@ -39,13 +40,13 @@
         :error-message="rowInvalidMessage(valIdx)"
       />
     </div>
-    <button
-      type="button"
+    <icon-button
+      icon="plus"
+      :has-button-style="true"
+      :aria-label-prop="addButtonLabel"
       data-test="multi-input-add-entry-button"
-      @click="addEntry"
-    >
-      {{ ADD_ENTRY }}
-    </button>
+      @click="addEntry()"
+    />
   </div>
 </template>
 
@@ -61,6 +62,7 @@ import ComboBox from '@/components/widgets/ComboBox.vue';
 import DateBox from '@/components/widgets/DateBox.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
+import FormElement from '@/components/forms/FormElementCopyNeededForMultiInput.vue';
 import { initialValue } from '@/jsHelper/forms';
 
 export default defineComponent({
@@ -68,7 +70,11 @@ export default defineComponent({
   components: {
     InputErrorMessage,
     // break circular dependency
-    FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
+    // FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
+    // TODO look for better solution
+    // When loading FormElement as asynccomponent then ref="" is not immediately set (which is needed for focus).
+    // For now we copy @/components/forms/FormElement.vue to @/components/forms/FormElement2.vue
+    FormElement,
     IconButton,
     ComboBox,
     DateBox,
@@ -84,6 +90,10 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    extraLabel: {
+      type: String,
+      required: true,
+    },
     invalidMessage: {
       type: Object,
       default() {
@@ -96,11 +106,10 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   computed: {
-    ADD_ENTRY(): string {
-      return _('Add entry');
-    },
-    REMOVE_ENTRY(): string {
-      return _('Remove entry');
+    addButtonLabel(): string {
+      return _('Add new %(label)s', {
+        label: this.extraLabel,
+      });
     },
   },
   methods: {
@@ -151,10 +160,31 @@ export default defineComponent({
         message = '';
       }
 
+      let labelScreenReader = `${this.extraLabel} ${valIdx + 1}`;
+      if (type.label !== undefined && type.label !== this.extraLabel) {
+        labelScreenReader += `: ${type.label}`;
+      }
+
       return {
         ...type,
+        ariaLabel: labelScreenReader,
         invalidMessage: message ?? '',
       };
+    },
+    focus() {
+      // @ts-ignore
+      const firstWidget = this.$refs['component-0-0'];
+      // TODO find first interactable?
+      if (firstWidget) {
+        // @ts-ignore TODO
+        firstWidget.focus();
+      }
+    },
+    removeButtonLabel(idx) {
+      return _('Remove %(label)s %(idx)s', {
+        label: this.extraLabel,
+        idx: idx + 1,
+      });
     },
   },
 });
@@ -168,9 +198,6 @@ $groupingStyle
   margin-left: 2px
   box-shadow: inset 2px 0 var(--local-stripeColor)
 
-.multi-input
-  @extends $groupingStyle
-
 .multi-input__row
   label
     margin-top: 0
@@ -180,6 +207,16 @@ $groupingStyle
     align-items: flex-start
     gap: var(--layout-spacing-unit)
     margin-bottom: calc(1 * var(--layout-spacing-unit))
+
+    label
+      position: absolute
+      width: 1px
+      height: 1px
+      padding: 0
+      margin: -1px
+      overflow: hidden
+      clip: rect(0,0,0,0)
+      border: 0
 
     .icon-button
       flex: 0 0 auto

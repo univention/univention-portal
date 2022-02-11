@@ -31,7 +31,10 @@
     <screen-reader-announcer />
     <portal-background />
     <portal-header />
-    <portal-error v-if="errorContentType" />
+    <portal-error
+      v-if="errorContentType"
+      :error-type="undefined"
+    />
     <region
       v-if="!errorContentType"
       v-show="!activeTabIndex"

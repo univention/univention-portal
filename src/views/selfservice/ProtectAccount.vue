@@ -1,69 +1,70 @@
+<!--
+  Copyright 2021 Univention GmbH
+
+  https://www.univention.de/
+
+  All rights reserved.
+
+  The source code of this program is made available
+  under the terms of the GNU Affero General Public License version 3
+  (GNU AGPL V3) as published by the Free Software Foundation.
+
+  Binary versions of this program provided by Univention to you as
+  well as other copyrighted, protected or trademarked materials like
+  Logos, graphics, fonts, specific documentations and configurations,
+  cryptographic keys etc. are subject to a license agreement between
+  you and Univention and not subject to the GNU AGPL V3.
+
+  In the case you use this program under the terms of the GNU AGPL V3,
+  the program is provided in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public
+  License with the Debian GNU/Linux or Univention distribution in file
+  /usr/share/common-licenses/AGPL-3; if not, see
+  <https://www.gnu.org/licenses/>.
+-->
 <template>
-  <site
+  <guarded-site
+    ref="guardedSite"
     :title="TITLE"
+    :subtitle="SUBTITLE"
     :ucr-var-for-frontend-enabling="'umc/self-service/protect-account/frontend/enabled'"
-  >
-    <div>{{ SUBTITLE }}</div>
-    <my-form
-      v-model="loginValues"
-      :widgets="loginWidgets"
-    >
-      <footer v-if="!renewOptionsLoaded">
-        <button
-          type="submit"
-          @click.prevent="onContinue"
-        >
-          {{ CONTINUE }}
-        </button>
-      </footer>
-    </my-form>
-  </site>
+    path="passwordreset/get_contact"
+    :guarded-widgets="widgets"
+    @loaded="loaded"
+    @save="setContactInfo"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { umc } from '@/jsHelper/umc';
+
+import { umcCommandWithStandby } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
-import Site from '@/views/selfservice/Site.vue';
-import MyForm from '@/components/forms/Form.vue';
-import { allValid, initialValue, validateAll } from '@/jsHelper/forms';
+import GuardedSite from '@/views/selfservice/GuardedSite.vue';
+import { WidgetDefinition } from '@/jsHelper/forms';
+
+interface ContactInfo {
+  id: string,
+  label: string,
+  value: string,
+}
 
 interface Data {
-  loginWidgets: any[],
-  loginValues: any,
-  renewWidgets: any[],
-  renewValues: any,
-  origFormValues: any,
+  contactInformation: ContactInfo[],
 }
 
 export default defineComponent({
   name: 'ProtectAccount',
   components: {
-    Site,
-    MyForm,
+    GuardedSite,
   },
   data(): Data {
     return {
-      loginWidgets: [{
-        type: 'TextBox',
-        name: 'username',
-        label: _('Username'),
-        invalidMessage: '',
-        required: true,
-      }, {
-        type: 'PasswordBox',
-        name: 'password',
-        label: _('Password'),
-        invalidMessage: '',
-        required: true,
-      }],
-      loginValues: {
-        username: 'user', // TODO
-        password: 'univention', // TODO
-      },
-      renewWidgets: [],
-      renewValues: {},
-      origFormValues: {},
+      contactInformation: [],
     };
   },
   computed: {
@@ -73,54 +74,41 @@ export default defineComponent({
     SUBTITLE(): string {
       return _('Everyone forgets his password now and then. Protect yourself and activate the opportunity to set a new password.');
     },
-    CONTINUE(): string {
-      return _('Continue');
-    },
-    renewOptionsLoaded(): boolean {
-      return this.renewWidgets.length > 0;
+    widgets(): WidgetDefinition[] {
+      return this.contactInformation.map((info) => ({
+        type: 'TextBox',
+        name: info.id,
+        label: info.label,
+        invalidMessage: '',
+        required: true,
+      }));
     },
   },
   methods: {
-    onContinue() {
-      validateAll(this.loginWidgets, this.loginValues);
-      if (allValid(this.loginWidgets)) {
-        this.loginWidgets.forEach((widget) => {
-          widget.disabled = true;
-        });
-        this.loadRenewOptions();
-      }
-    },
-    onCancel() {
-      this.renewWidgets = [];
-      this.renewValues = {};
-      this.loginWidgets.forEach((widget) => {
-        widget.disabled = false;
+    loaded(result: ContactInfo[], formValues) {
+      this.contactInformation = result;
+      this.contactInformation.forEach((info) => {
+        formValues[info.id] = info.value;
       });
-      this.loginValues = {
-        username: '',
-        password: '',
-      };
     },
-    loadRenewOptions() {
-      this.$store.dispatch('activateLoadingState');
-      umc('command/passwordreset/get_contact', {
-        username: this.loginValues.username,
-        password: this.loginValues.password,
-      })
-        .then((answer) => {
-          const renewOptions = answer.data.result;
+    setContactInfo(values) {
+      umcCommandWithStandby(this.$store, 'passwordreset/set_contact', values)
+        .then((result) => {
+          let description = _('Your contact data has been successfully changed.');
+          if (result.verificationEmailSend) {
+            description = `${description}. ${_('Your account has to be verified again after changing your email. We have sent you an email to %(email)s. Please follow the instructions in the email to verify your account.', { email: result.email })}`;
+          }
+          this.$store.dispatch('notifications/addSuccessNotification', {
+            title: _('Save successful'),
+            description,
+          });
+          this.$router.push({ name: 'portal' });
         })
         .catch((error) => {
-          // TODO get real error message from request
-          // TODO put error message in modal
-          this.$store.dispatch('notifications/addErrorNotification', {
-            title: _('Failed to retrieve renew options'),
-            description: 'Failed to retrieve renew options',
-          });
-          this.onCancel();
-        })
-        .finally(() => {
-          this.$store.dispatch('deactivateLoadingState');
+          (this.$refs.guardedSite as typeof GuardedSite).showError(error.message)
+            .then(() => {
+              (this.$refs.guardedSite as typeof GuardedSite).refocus();
+            });
         });
     },
   },

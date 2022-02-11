@@ -25,38 +25,53 @@
   License with the Debian GNU/Linux or Univention distribution in file
   /usr/share/common-licenses/AGPL-3; if not, see
   <https://www.gnu.org/licenses/>.
-**/
+* */
 
 import { mount } from '@vue/test-utils';
 
-import ComboBox from '@/components/widgets/ComboBox';
+import ComboBox from '@/components/widgets/ComboBox.vue';
 
 const comboBoxOptions = [
   {
-    id: 'red', 
-    label: 'Red'
-  }, 
+    id: 'red',
+    label: 'Red',
+  },
   {
-    id: 'green', 
-    label: 'Green'
-  }, 
+    id: 'green',
+    label: 'Green',
+  },
   {
-    id: 'blue', 
-    label: 'Blue'
-  }, 
-]
+    id: 'blue',
+    label: 'Blue',
+  },
+];
+
+const forAttrOfComboBoxLabel = 'testString';
+
+const comboBoxProps = {
+  modelValue: '',
+  options: comboBoxOptions,
+  forAttrOfLabel: forAttrOfComboBoxLabel,
+  name: 'comboBox',
+  invalidMessageId: '',
+};
+
+let wrapper;
+
+beforeEach(async () => {
+  wrapper = await mount(ComboBox, {
+    propsData: comboBoxProps,
+  });
+});
+
+afterEach(() => {
+  wrapper.unmount();
+});
 
 describe('ComboBox Component', () => {
-  test('select input is working as expeced', async () => {
-    // Test if emit is also working? 
-    const wrapper = await mount(ComboBox, {
-      propsData: {
-        modelValue: '',
-        options: comboBoxOptions 
-      },
-    });
+  test('if user can select option as input', async () => {
     const comboBox = await wrapper.find('[data-test="combo-box"]');
-    
+
     // select an option and expect the selectvalue to be that option
     const options = comboBox.findAll('option');
     await options[0].setSelected();
@@ -64,45 +79,45 @@ describe('ComboBox Component', () => {
     expect(comboBox.element.value).toBe(comboBoxOptions[0].id);
   });
 
+  test('if update:modelValue is emmited on change', async () => {
+    // select an option and expect the selectvalue to be that option
+    const options = wrapper.findAll('option');
+    await options[0].setSelected();
+
+    expect(wrapper.emitted()).toHaveProperty('update:modelValue');
+  });
+
   test('this.invalid should return correct boolean', async () => {
-    const wrapper = await mount(ComboBox, {
-      propsData: {
-        modelValue: '',
-        options: comboBoxOptions 
-      },
-    });
-    
+    const comboBox = await wrapper.find('[data-test="combo-box"]');
+
     // this.invalid returns true if this.invalidMessage has a non-empty string
     expect(wrapper.vm.invalid).toBe(false);
-    await wrapper.setProps({ invalidMessage: "Invalid Message" })
+    expect(comboBox.attributes('aria-invalid')).toBe('false');
+
+    await wrapper.setProps({ invalidMessage: 'Invalid Message' });
+
+    expect(comboBox.attributes('aria-invalid')).toBe('true');
     expect(wrapper.vm.invalid).toBe(true);
-
-    // TODO select element should have aria-invalid true or false
-    // depending on this.invalid
   });
 
-  test('No other values than those in options array are possible', async () => {
-    const wrapper = await mount(ComboBox, {
-      propsData: {
-        modelValue: '',
-        options: comboBoxOptions 
-      },
-    });
+  test('No other values than those in option array are possible', async () => {
     const comboBox = await wrapper.find('[data-test="combo-box"]');
-    
     const select = wrapper.find('select');
-    
-    await select.setValue('wrong-input');
+    const textInput = 'wrong-input';
+    await select.setValue(textInput);
 
-    expect(comboBox.element.value).not.toBe('wrong-input');
-
+    expect(comboBox.element.value).not.toBe(textInput);
   });
 
-  // test('if option tag is rendered correctly', async () => {
-  // 1. Array is given by prop
-  // 2. count amount of options and compare with original array.lengh
-  // attributes: key="option.id" value="option.id"
-  // label: option.label
-  // }
+  test('it has the attribute id with a value from Prop //A11y', async () => {
+    const dateBox = await wrapper.find('[data-test="combo-box"]');
+    expect(dateBox.attributes('id')).toBe(forAttrOfComboBoxLabel);
+  });
 
+  test('if option tag is rendered correctly', async () => {
+    const options = wrapper.findAll('option');
+
+    expect(options.length).toBe(comboBoxOptions.length);
+    expect(options[0].attributes('value')).toBe('red');
+  });
 });

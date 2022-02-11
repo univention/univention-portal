@@ -1,8 +1,12 @@
 <template>
   <input
+    :id="forAttrOfLabel"
+    ref="input"
+    :name="name"
     type="text"
     :value="modelValue"
     :aria-invalid="invalid"
+    :aria-describedby="invalidMessageId"
     data-test="text-box"
     @input="$emit('update:modelValue', $event.target.value)"
   >
@@ -15,6 +19,10 @@ import { isValid } from '@/jsHelper/forms';
 export default defineComponent({
   name: 'TextBox',
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     modelValue: {
       type: String,
       required: true,
@@ -22,6 +30,14 @@ export default defineComponent({
     invalidMessage: {
       type: String,
       default: '',
+    },
+    forAttrOfLabel: {
+      type: String,
+      required: true,
+    },
+    invalidMessageId: {
+      type: String,
+      required: true,
     },
   },
   emits: ['update:modelValue'],
@@ -31,6 +47,12 @@ export default defineComponent({
         type: 'TextBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      // @ts-ignore TODO
+      this.$refs.input.focus();
     },
   },
 });

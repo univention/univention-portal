@@ -1,5 +1,8 @@
 <template>
-  <div class="radio-box" data-test="radio-box">
+  <div
+    class="radio-box"
+    data-test="radio-box"
+  >
     <label
       v-for="option in options"
       :key="option"
@@ -7,11 +10,12 @@
       class="radio-box__label"
     >
       <input
+        :id="`${name}--${option.id}`"
         type="radio"
         name="radio-input"
         :value="option.id"
-        :id="`${name}--${option.id}`"
         class="radio-box__input"
+        :checked="modelValue === option.id"
         @change="$emit('update:modelValue', option.id)"
       >
       {{ option.label }}
@@ -50,6 +54,11 @@ export default defineComponent({
         type: 'RadioBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus(): void {
+      console.warn('Focus not implemented');
     },
   },
 });

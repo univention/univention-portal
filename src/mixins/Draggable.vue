@@ -141,7 +141,7 @@ const draggableMixin = {
         dragClone.style.transform = 'rotate(0)';
         dragClone.style.position = 'absolute';
         dragClone.style.left = '-10000px';
-        dragClone.id = `clone__${draggedElement.id.toString()}`;
+        dragClone.id = 'dragndropCloneNode';
         if (dragClone.children[2]) {
           dragClone.removeChild(dragClone.children[2]);
         }
@@ -182,8 +182,7 @@ const draggableMixin = {
         evt?.preventDefault();
         evt?.stopImmediatePropagation();
       }
-      const draggedElement = evt.srcElement;
-      const clone = document.getElementById(`clone__${draggedElement.id.toString()}`);
+      const clone = document.getElementById('dragndropCloneNode');
       clone?.remove();
       this.$store.dispatch('dragndrop/cancelDragging');
     },
