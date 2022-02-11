@@ -111,7 +111,7 @@ export default defineComponent({
     },
     submitLabelAfterLoaded: {
       type: String,
-      default: _('Submit'),
+      default: '',
     },
   },
   emits: ['loaded', 'save'],
@@ -154,7 +154,7 @@ export default defineComponent({
     }),
     SUBMIT_LABEL(): string {
       if (this.loaded) {
-        return this.submitLabelAfterLoaded;
+        return this.submitLabelAfterLoaded || _('Submit');
       }
       return _('Next');
     },
