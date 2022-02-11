@@ -5,8 +5,8 @@
     class="modal-wrapper--selfservice"
   >
     <modal-dialog
-      ref="dialog"
       v-if="isActive"
+      ref="dialog"
       :i18n-title-key="title"
       class="dialog--selfservice"
       @cancel="cancel"
