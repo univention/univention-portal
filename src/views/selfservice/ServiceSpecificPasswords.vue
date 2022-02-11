@@ -77,6 +77,12 @@ export default defineComponent({
   components: {
     GuardedSite,
   },
+  data(): Data {
+    return {
+      radiusPasswordSet: false,
+      newRadiusPassword: '',
+    };
+  },
   computed: {
     TITLE(): string {
       return _('Wireless LAN Password');
@@ -96,12 +102,6 @@ export default defineComponent({
     NEW_RADIUS_PASSWORD_2(): string {
       return _('Please add it to your device now. You will not be able to see it again.');
     },
-  },
-  data(): Data {
-    return {
-      radiusPasswordSet: false,
-      newRadiusPassword: '',
-    };
   },
   methods: {
     loaded(result: ServiceSpecificPasswordInfo[]) {

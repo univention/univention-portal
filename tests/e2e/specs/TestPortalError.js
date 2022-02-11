@@ -79,7 +79,6 @@ describe('Test Portal Error Components', () => {
     errorContainer.should((container) => {
       expect(container.first()).to.contain('This service is disabled');
     });
-
   });
 
   it('General a11y test', () => {
