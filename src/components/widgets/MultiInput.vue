@@ -25,7 +25,6 @@
           :widget="getSubtypeWidget(type, valIdx, typeIdx)"
           :model-value="Array.isArray(val) ? val[typeIdx] : val"
           :data-test="`form-element-${getSubtypeWidget(type, valIdx, typeIdx).type}-${valIdx}`"
-          :is-multi-input-child="true"
           @update:model-value="onUpdate(valIdx, typeIdx, $event)"
         />
       </div>
@@ -167,7 +166,6 @@ export default defineComponent({
       if (type.label !== undefined && type.label !== this.extraLabel) {
         labelScreenReader += `: ${type.label}`;
       }
-      console.log('type', type);
       return {
         ...type,
         ariaLabel: labelScreenReader,

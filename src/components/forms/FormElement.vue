@@ -135,9 +135,6 @@ export default defineComponent({
       return `${this.forAttrOfLabel}--error`;
     },
     correctLabel(): string {
-      if (this.isMultiInputChild) {
-        return 'lolol';
-      }
       return this.widget.index ? `${this.widget.label}-${this.widget.index.toString()}` : this.widget.label;
     },
   },
