@@ -51,6 +51,8 @@ const store = new Vuex.Store({
   },
 });
 
+store.dispatch = jest.fn();
+
 let wrapper;
 
 beforeEach(async () => {
@@ -138,6 +140,8 @@ describe('MultiInput.vue', () => {
     expect(addEntrySpy).toHaveBeenCalled();
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
     expect(wrapper.vm.modelValue.length).toBe(2);
+    expect(store.dispatch).toHaveBeenCalledWith('activity/setMessage', `${wrapper.vm.extraLabel} ${wrapper.vm.modelValue.length} added`);
+
   });
 
   test('if the newRow is called in addEntry Method', async () => {
@@ -153,6 +157,7 @@ describe('MultiInput.vue', () => {
     // newRow needs to be called, if user tries to remove last row
     // we will also test removeEntry and update:modelValue
     const newRowSpy = jest.spyOn(wrapper.vm, 'newRow');
+
     const removeEntrySpy = jest.spyOn(wrapper.vm, 'removeEntry');
     const removeEntryButton = await wrapper.find('[data-test="multi-input-remove-entry-button-0"]');
     removeEntryButton.trigger('click');
@@ -160,6 +165,7 @@ describe('MultiInput.vue', () => {
 
     expect(newRowSpy).toHaveBeenCalled();
     expect(removeEntrySpy).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith('activity/setMessage', `${wrapper.vm.extraLabel} 1 removed`);
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
   });
 
