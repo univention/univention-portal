@@ -25,6 +25,7 @@
           :widget="getSubtypeWidget(type, valIdx, typeIdx)"
           :model-value="Array.isArray(val) ? val[typeIdx] : val"
           :data-test="`form-element-${getSubtypeWidget(type, valIdx, typeIdx).type}-${valIdx}`"
+          :is-multi-input-child="true"
           @update:model-value="onUpdate(valIdx, typeIdx, $event)"
         />
       </div>
@@ -126,6 +127,7 @@ export default defineComponent({
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       newVal.push(this.newRow());
       this.$emit('update:modelValue', newVal);
+      this.$store.dispatch('activity/setMessage', `${this.extraLabel} ${newVal.length} ${_('added')}`);
     },
     newRow() {
       return initialValue({
@@ -140,6 +142,7 @@ export default defineComponent({
         newVal.push(this.newRow());
       }
       this.$emit('update:modelValue', newVal);
+      this.$store.dispatch('activity/setMessage', `${this.extraLabel} ${valIdx + 1} ${_('removed')}`);
     },
     rowInvalidMessage(valIdx) {
       // show invalidMessage for row only if we have multiple subtypes
@@ -164,7 +167,7 @@ export default defineComponent({
       if (type.label !== undefined && type.label !== this.extraLabel) {
         labelScreenReader += `: ${type.label}`;
       }
-
+      console.log('type', type);
       return {
         ...type,
         ariaLabel: labelScreenReader,
