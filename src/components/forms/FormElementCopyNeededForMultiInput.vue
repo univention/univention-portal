@@ -36,7 +36,7 @@
     data-test="form-element"
   >
     <form-label
-      :label="correctLabel"
+      :label="correctLabel ? correctLabel : widget.ariaLabel"
       :aria-label="widget.ariaLabel || widget.label"
       :required="widget.required"
       :for-attr="forAttrOfLabel"
@@ -129,6 +129,9 @@ export default defineComponent({
     },
     invalidMessageId(): string {
       return `${this.forAttrOfLabel}--error`;
+    },
+    isIDK(): boolean {
+      return false;
     },
     correctLabel(): string {
       return this.widget.index ? `${this.widget.label}-${this.widget.index.toString()}` : this.widget.label;

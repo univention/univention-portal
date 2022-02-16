@@ -161,7 +161,6 @@ export default defineComponent({
       }).then((values) => {
         this.$store.dispatch('modal/hideAndClearModal', 2);
         const newValues = this.modelValue.concat(values.selection);
-        console.log('newValues', newValues);
         newValues.sort();
         this.$emit('update:modelValue', newValues);
         this.$store.dispatch('activity/setMessage', _('Added to selection'));
