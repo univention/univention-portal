@@ -74,4 +74,6 @@
   --box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
   --serveroverview-tile-hover-bgc: #00acb6;
   --serveroverview-tile-hover-color: #1e1e1d;
+
+	--select-arrow: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABkSURBVHgB7Y3BCQAhDAS3BEtICVeCJdi5JVwpGsGHiGLECD4ysL9lBjCMpwk8En6p/kV4XuL9WAeo/sr/gwDHi4JAK47YYBXoxQ6bzALH4lnAa4lHgaQpHgVUxW0g4ILYMC6TAZ0BJA3bxN3RAAAAAElFTkSuQmCC');
 }
