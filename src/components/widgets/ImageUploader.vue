@@ -103,7 +103,7 @@ interface ImageUploadData {
 }
 
 export default defineComponent({
-  name: 'ImageUpload',
+  name: 'ImageUploader',
   components: {
     PortalIcon,
   },

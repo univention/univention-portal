@@ -128,7 +128,7 @@ export default defineComponent({
           label: _('Embedded'),
         }],
       }, {
-        type: 'ImageUpload',
+        type: 'ImageUploader',
         name: 'logo',
         label: _('Icon'),
         extraLabel: _('Icon'),

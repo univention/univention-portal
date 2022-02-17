@@ -77,7 +77,7 @@ import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
 import CheckBox from '@/components/widgets/CheckBox.vue';
 import RadioBox from '@/components/widgets/RadioBox.vue';
-import ImageUpload from 'components/widgets/ImageUpload.vue';
+import ImageUploader from 'components/widgets/ImageUploader.vue';
 import LocaleInput from 'components/widgets/LocaleInput.vue';
 import MultiSelect from 'components/widgets/MultiSelect.vue';
 import LinkWidget from 'components/widgets/LinkWidget.vue';
@@ -94,7 +94,7 @@ export default defineComponent({
     TextBox,
     CheckBox,
     RadioBox,
-    ImageUpload,
+    ImageUploader,
     LocaleInput,
     MultiSelect,
     LinkWidget,

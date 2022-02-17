@@ -85,7 +85,7 @@ export default defineComponent({
   data(): EditModeSideNavigationData {
     return {
       formWidgets: [{
-        type: 'ImageUpload',
+        type: 'ImageUploader',
         name: 'logo',
         label: _('Portal logo'),
         extraLabel: _('Portal logo'),
@@ -96,7 +96,7 @@ export default defineComponent({
         i18nLabel: _('Name'),
         required: true,
       }, {
-        type: 'ImageUpload',
+        type: 'ImageUploader',
         name: 'background',
         label: _('Background'),
         extraLabel: _('Background'),
