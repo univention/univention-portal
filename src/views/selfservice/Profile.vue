@@ -94,6 +94,7 @@ interface Data {
   attributeWidgets: any[],
   attributeValues: any,
   origFormValues: any,
+  showModal: boolean,
 }
 
 export default defineComponent({
@@ -126,6 +127,7 @@ export default defineComponent({
       attributeWidgets: [],
       attributeValues: {},
       origFormValues: {},
+      showModal: false,
     };
   },
   computed: {
@@ -167,6 +169,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    this.showModal = true;
     if (this.userState?.username) {
       this.loginValues.username = this.userState.username ? this.userState.username : null;
       this.loginWidgets[0].disabled = true;
@@ -186,18 +189,7 @@ export default defineComponent({
       this.loadAttributes();
     },
     onCancel() {
-      this.attributeWidgets = [];
-      this.attributeValues = {};
-      this.loginWidgets.forEach((widget) => {
-        widget.disabled = false;
-      });
-      this.loginValues = {
-        username: '',
-        password: '',
-      };
-      this.$nextTick(() => {
-        this.loginForm.focusFirstInteractable();
-      });
+      this.$router.push({ name: 'portal' });
     },
     onSave() {
       validateAll(this.attributeWidgets, this.attributeValues);
