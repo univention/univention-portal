@@ -31,7 +31,7 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'TextBox' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUpload' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect';
+type WidgetType = 'TextBox' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect';
 
 interface OptionsDefinition {
   id: string,
@@ -61,7 +61,7 @@ export function isEmpty(widget, value): boolean {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
-    case 'ImageUpload':
+    case 'ImageUploader':
       return value === '';
     case 'MultiInput':
       return value.every((row) => {
@@ -93,7 +93,7 @@ export function isValid(widget): boolean {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
-    case 'ImageUpload':
+    case 'ImageUploader':
     case 'LocaleInput':
     case 'CheckBox':
     case 'MultiSelect':
@@ -131,7 +131,7 @@ export function validate(widget, value): void {
       case 'PasswordBox':
       case 'MultiInput':
       case 'RadioBox':
-      case 'ImageUpload':
+      case 'ImageUploader':
       case 'LocaleInput':
       case 'MultiSelect':
       case 'LinkWidget':
@@ -162,7 +162,7 @@ export function validate(widget, value): void {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
-    case 'ImageUpload':
+    case 'ImageUploader':
     case 'LocaleInput':
     case 'CheckBox':
     case 'MultiSelect':
@@ -199,7 +199,7 @@ export function initialValue(widget, value): any {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
-    case 'ImageUpload':
+    case 'ImageUploader':
       return typeof value === 'string' ? value : '';
     case 'LocaleInput':
       // TODO typecheck of value
@@ -239,7 +239,7 @@ export function invalidMessage(widget): string {
     case 'ComboBox':
     case 'PasswordBox':
     case 'RadioBox':
-    case 'ImageUpload':
+    case 'ImageUploader':
     case 'LocaleInput':
     case 'CheckBox':
     case 'MultiSelect':
