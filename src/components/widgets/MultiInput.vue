@@ -31,7 +31,7 @@
       <icon-button
         icon="trash"
         :has-button-style="true"
-        :aria-label-prop="removeButtonLabel(valIdx)"
+        :aria-label-prop="REMOVE_BUTTON_LABEL(valIdx)"
         :data-test="`multi-input-remove-entry-button-${valIdx}`"
         @click="removeEntry(valIdx)"
       />
@@ -52,7 +52,7 @@
 
 <script lang="ts">
 // TODO handling of 'name' attribute
-import { defineComponent, defineAsyncComponent } from 'vue';
+import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
@@ -113,7 +113,7 @@ export default defineComponent({
     },
   },
   methods: {
-    onUpdate(valIdx, typeIdx, val) {
+    onUpdate(valIdx, typeIdx, val) :void {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       if (this.subtypes.length === 1) {
         newVal[valIdx] = val;
@@ -122,19 +122,21 @@ export default defineComponent({
       }
       this.$emit('update:modelValue', newVal);
     },
-    addEntry() {
+    addEntry(): void {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       newVal.push(this.newRow());
+      console.log('REFS', Object.keys(this.$refs).length);
       this.$emit('update:modelValue', newVal);
       this.$store.dispatch('activity/setMessage', `${this.extraLabel} ${newVal.length} ${_('added')}`);
+      this.focusLastInputField();
     },
-    newRow() {
+    newRow(): void {
       return initialValue({
         type: 'MultiInput',
         subtypes: this.subtypes,
       }, null)[0];
     },
-    removeEntry(valIdx) {
+    removeEntry(valIdx): void {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       newVal.splice(valIdx, 1);
       if (newVal.length === 0) {
@@ -143,7 +145,7 @@ export default defineComponent({
       this.$emit('update:modelValue', newVal);
       this.$store.dispatch('activity/setMessage', `${this.extraLabel} ${valIdx + 1} ${_('removed')}`);
     },
-    rowInvalidMessage(valIdx) {
+    rowInvalidMessage(valIdx): string {
       // show invalidMessage for row only if we have multiple subtypes
       if (this.subtypes.length === 1) {
         return '';
@@ -154,7 +156,7 @@ export default defineComponent({
       }
       return message ?? '';
     },
-    getSubtypeWidget(type, valIdx, typeIdx) {
+    getSubtypeWidget(type, valIdx, typeIdx): Record<any, any> {
       let message = this.invalidMessage.values[valIdx];
       if (Array.isArray(message)) {
         message = message[typeIdx];
@@ -172,7 +174,7 @@ export default defineComponent({
         invalidMessage: message ?? '',
       };
     },
-    focus() {
+    focus(): void {
       // @ts-ignore
       const firstWidget = this.$refs['component-0-0'];
       // TODO find first interactable?
@@ -181,11 +183,19 @@ export default defineComponent({
         firstWidget.focus();
       }
     },
-    removeButtonLabel(idx) {
+    REMOVE_BUTTON_LABEL(idx): string {
       return _('Remove %(label)s %(idx)s', {
         label: this.extraLabel,
         idx: idx + 1,
       });
+    },
+    focusLastInputField(): void {
+      setTimeout(() => {
+        const refArray = Object.keys(this.$refs).map((item) => item);
+        const lastItemRef = refArray[refArray.length - 1];
+        console.log('asdasdasd', (this.$refs[lastItemRef] as HTMLElement));
+        (this.$refs[lastItemRef] as HTMLElement).focus();
+      }, 50);
     },
   },
 });
