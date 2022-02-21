@@ -268,14 +268,23 @@ export default defineComponent({
     },
     showTooltip(): void {
       if (!this.editMode && !this.minified) {
+        const rect = this.$el.getBoundingClientRect();
         const tooltip = {
-          title: this.$localized(this.title),
           backgroundColor: this.backgroundColor,
-          icon: this.pathToLogo,
           description: this.$localized(this.description),
           ariaId: this.createID(),
+          position: {
+            top: rect.top,
+            right: rect.right,
+            bottom: rect.bottom,
+            left: rect.left,
+            x: rect.x,
+            y: rect.y,
+          },
         };
-        this.$store.dispatch('tooltip/setTooltip', { tooltip });
+        setTimeout(() => {
+          this.$store.dispatch('tooltip/setTooltip', { tooltip });
+        }, 200);
       }
     },
     editTile() {
