@@ -27,29 +27,22 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <teleport to="body">
+    <transition
+        name="fade"
+        appear
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+      >
     <div
       class="portal-tooltip"
       role="tooltip"
       data-test="portal-tooltip"
+      :style="tooltipPosition"
     >
       <div
         class="portal-tooltip__header"
       >
-        <div
-          class="portal-tooltip__thumbnail"
-          :style="backgroundColor ? `background: ${backgroundColor}` : ''"
-        >
-          <img
-            :src="icon || './questionMark.svg'"
-            onerror="this.src='./questionMark.svg'"
-            alt=""
-            class="portal-tooltip__logo"
-          >
-        </div>
-        <div class="portal-tooltip__title">
-          {{ title }}
-        </div>
         <icon-button
           icon="x"
           class="portal-tooltip__close-icon"
@@ -67,11 +60,12 @@ License with the Debian GNU/Linux or Univention distribution in file
       />
     <!-- eslint-enable vue/no-v-html -->
     </div>
-  </teleport>
+      </transition>
+
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
@@ -82,14 +76,6 @@ export default defineComponent({
     IconButton,
   },
   props: {
-    title: {
-      type: String,
-      default: '',
-    },
-    icon: {
-      type: String,
-      default: './questionMark.svg',
-    },
     backgroundColor: {
       type: String,
       default: '',
@@ -102,15 +88,38 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    position: {
+      type: Object as PropType<Record<string, number>>,
+      required: true,
+    },
   },
   computed: {
     CLOSE_TOOLTIP(): string {
       return _('Close Tooltip');
     },
+    tooltipPosition(): string {
+      return `left:${this.position.x}px;`;
+    },
+  },
+  mounted() {
+    console.log('PortalToolTip', this);
   },
   methods: {
     closeToolTip() {
       this.$store.dispatch('tooltip/unsetTooltip');
+    },
+    beforeEnter(el) {
+      el.style.top = `${this.position.bottom}px`;
+      el.style.transition = 'all 0.5s ease-out';
+    },
+    enter(el, done) {
+      // setTimeout(() => {
+      //   el.style.top = `${this.position.bottom - 5}px`;
+      // }, 200);
+    },
+    leave(el, done) {
+      el.style.top = `${this.position.bottom}px`;
+      el.style.transition = 'all 0.5s ease-out';
     },
   },
 });
@@ -119,8 +128,6 @@ export default defineComponent({
 <style lang="stylus">
 .portal-tooltip
   position: fixed
-  bottom: calc(2 * var(--layout-spacing-unit))
-  right: calc(2 * var(--layout-spacing-unit))
   background-color: var(--bgc-content-container)
   border-radius: var(--border-radius-container)
   min-width: calc(20 * 1rem)
@@ -147,7 +154,6 @@ export default defineComponent({
   &__header
     display: flex
     align-items: center
-    margin-bottom: 1rem
 
     @media $mqSmartphone
       margin-bottom: calc(1 * var(--layout-spacing-unit))
@@ -182,4 +188,18 @@ export default defineComponent({
     @media $mqSmartphone
       display: block
       margin-left: auto
+
+.fade-enter-active {
+  transition: all 0.8s ease-out
+}
+
+.fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1)
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateY(45px)
+  opacity: 0;
+}
 </style>
