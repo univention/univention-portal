@@ -98,11 +98,11 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.$store.dispatch('modal/disableBodyScrolling');
+    // this.$store.dispatch('modal/disableBodyScrolling');
   },
   unmounted() {
     // TODO restore previous state instead of enabling
-    this.$store.dispatch('modal/enableBodyScrolling');
+    // this.$store.dispatch('modal/enableBodyScrolling');
   },
   methods: {
     cancel() {
