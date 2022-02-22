@@ -30,7 +30,6 @@
   <site
     :title="TITLE"
     :subtitle="SUBTITLE"
-    :ucr-var-for-frontend-enabling="'umc/self-service/profiledata/enabled'"
   >
     <my-form
       ref="loginForm"

@@ -29,7 +29,7 @@
 <template>
   <site
     :title="TITLE"
-    :ucr-var-for-frontend-enabling="'umc/self-service/account-registration/frontend/enabled'"
+    subtitle=""
   >
     <my-form
       v-if="formWidgets.length > 0"
