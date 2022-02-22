@@ -35,11 +35,16 @@
     <modal-dialog
       ref="dialog"
       :i18n-title-key="title"
+      modal-level="selfservice"
       class="dialog--selfservice"
       @cancel="cancel"
-      @keydown.tab="onTab"
     >
-      <div>{{ subtitle }}</div>
+      <template
+        v-if="subtitle"
+        #description
+      >
+        {{ subtitle }}
+      </template>
       <self-service-disabled
         v-if="!frontendEnabled"
       />
@@ -78,7 +83,7 @@ export default defineComponent({
     },
     subtitle: {
       type: String,
-      required: true,
+      default: '',
     },
     ucrVarForFrontendEnabling: {
       type: String,
@@ -98,35 +103,25 @@ export default defineComponent({
     },
   },
   mounted() {
-    // this.$store.dispatch('modal/disableBodyScrolling');
+    this.$store.dispatch('activity/setLevel', 'selfservice');
+    document.body.classList.add('body--has-selfservice');
   },
   unmounted() {
-    // TODO restore previous state instead of enabling
-    // this.$store.dispatch('modal/enableBodyScrolling');
+    this.$store.dispatch('activity/setLevel', 'portal');
+    document.body.classList.remove('body--has-selfservice');
   },
   methods: {
     cancel() {
       this.$router.push({ name: 'portal' });
-    },
-    onTab(evt): void {
-      const els = (this.$refs.dialog as typeof ModalDialog).$el.querySelectorAll('button:not([tabindex="-1"]), [href]:not([tabindex="-1"]), input:not([tabindex="-1"]), select:not([tabindex="-1"]), textarea:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])');
-      const firstEl = els[0];
-      const lastEl = els[els.length - 1];
-      if (document.activeElement === firstEl && evt.shiftKey) {
-        evt.preventDefault();
-        lastEl.focus();
-        return;
-      }
-      if (document.activeElement === lastEl && !evt.shiftKey) {
-        evt.preventDefault();
-        firstEl.focus();
-      }
     },
   },
 });
 </script>
 
 <style lang="stylus">
+body.body--has-selfservice
+  overflow: hidden
+
 .modal-wrapper--selfservice
   padding: calc(4 * var(--layout-spacing-unit)) 0
   overflow: auto
