@@ -29,7 +29,6 @@
 <template>
   <site
     :title="TITLE"
-    subtitle=""
   >
     <my-form
       v-if="formWidgets.length > 0"
