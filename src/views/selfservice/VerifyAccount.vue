@@ -29,7 +29,7 @@
 <template>
   <site
     :title="TITLE"
-    :ucr-var-for-frontend-enabling="'umc/self-service/account-verification/frontend/enabled'"
+    subtitle=""
   >
     <my-form
       ref="form"

@@ -45,14 +45,7 @@
       >
         {{ subtitle }}
       </template>
-      <self-service-disabled
-        v-if="!frontendEnabled"
-      />
-      <div
-        :class="{
-          'selfservice--hidden': !frontendEnabled
-        }"
-      >
+      <div>
         <slot />
       </div>
     </modal-dialog>
@@ -65,16 +58,13 @@ import { defineComponent } from 'vue';
 
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
-import SelfServiceDisabled from '@/views/selfservice/SelfServiceDisabled.vue';
 import { mapGetters } from 'vuex';
-import { isTrue } from '@/jsHelper/ucr';
 
 export default defineComponent({
   name: 'Site',
   components: {
     ModalDialog,
     ModalWrapper,
-    SelfServiceDisabled,
   },
   props: {
     title: {
@@ -85,22 +75,12 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    ucrVarForFrontendEnabling: {
-      type: String,
-      default: '',
-    },
   },
   computed: {
     ...mapGetters({
       metaData: 'metaData/getMeta',
       initialLoadDone: 'getInitialLoadDone',
     }),
-    frontendEnabled(): boolean {
-      if (this.ucrVarForFrontendEnabling === '') {
-        return true;
-      }
-      return isTrue(this.metaData[this.ucrVarForFrontendEnabling]);
-    },
   },
   mounted() {
     this.$store.dispatch('activity/setLevel', 'selfservice');
@@ -145,9 +125,4 @@ body.body--has-selfservice
   form main
     max-height: unset
     padding: 0
-
-.selfservice--hidden
-  opacity: 0
-  pointer-events: none
-  display: fixed
 </style>

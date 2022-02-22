@@ -30,7 +30,6 @@
   <site
     :title="title"
     :subtitle="subtitle"
-    :ucr-var-for-frontend-enabling="ucrVarForFrontendEnabling"
   >
     <my-form
       ref="form"
@@ -106,10 +105,6 @@ export default defineComponent({
     guardedWidgets: {
       type: Array as PropType<WidgetDefinition[]>,
       required: true,
-    },
-    ucrVarForFrontendEnabling: {
-      type: String,
-      default: '',
     },
     submitLabelAfterLoaded: {
       type: String,
