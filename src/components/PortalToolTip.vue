@@ -27,41 +27,47 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-    <transition
-        name="fade"
-        appear
-        @before-enter="beforeEnter"
-        @enter="enter"
-        @leave="leave"
-      >
+  <transition
+    name="fade"
+    appear
+    @before-enter="beforeEnter"
+    @enter="enter"
+    @leave="leave"
+  >
     <div
+      ref="toolTip"
       class="portal-tooltip"
       role="tooltip"
       data-test="portal-tooltip"
       :style="tooltipPosition"
     >
-      <div
-        class="portal-tooltip__header"
-      >
-        <icon-button
-          icon="x"
-          class="portal-tooltip__close-icon"
-          :aria-label-prop="CLOSE_TOOLTIP"
-          @click="closeToolTip()"
+      <div class="portal-tooltip__inner-wrap">
+        <div
+          class="portal-tooltip__arrow"
+          :style="arrowPosition"
         />
+        <div
+          class="portal-tooltip__header"
+        >
+          <icon-button
+            icon="x"
+            class="portal-tooltip__close-icon"
+            :aria-label-prop="CLOSE_TOOLTIP"
+            @click="closeToolTip()"
+          />
+        </div>
+
+        <!-- eslint-disable vue/no-v-html -->
+        <div
+          v-if="description"
+          :id="ariaId"
+          class="portal-tooltip__description"
+          v-html="description"
+        />
+        <!-- eslint-enable vue/no-v-html -->
       </div>
-
-      <!-- eslint-disable vue/no-v-html -->
-      <div
-        v-if="description"
-        :id="ariaId"
-        class="portal-tooltip__description"
-        v-html="description"
-      />
-    <!-- eslint-enable vue/no-v-html -->
     </div>
-      </transition>
-
+  </transition>
 </template>
 
 <script lang="ts">
@@ -69,6 +75,10 @@ import { defineComponent, PropType } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
+
+interface Data {
+  calculatedPosition: Record<string, number|string>,
+}
 
 export default defineComponent({
   name: 'PortalToolTip',
@@ -93,12 +103,35 @@ export default defineComponent({
       required: true,
     },
   },
+  data(): Data {
+    return {
+      calculatedPosition: {
+        left: this.position.left,
+        bottom: this.position.bottom,
+        zone: 'REGULAR',
+      },
+    };
+  },
   computed: {
     CLOSE_TOOLTIP(): string {
       return _('Close Tooltip');
     },
     tooltipPosition(): string {
-      return `left:${this.position.x}px;`;
+      this.calculatePosition();
+      return `left:${this.calculatedPosition.left}px;`;
+    },
+    arrowPosition(): string {
+      if (this.calculatedPosition.zone === 'REGULAR') {
+        console.log(this.calculatedPosition.zone);
+        return 'top: -1.9rem; left: 2 * var(--layout-spacing-unit);';
+      } if (this.calculatedPosition.zone === 'RIGHT') {
+        return 'top: -1.9rem; right: 2 * var(--layout-spacing-unit);';
+      } if (this.calculatedPosition.zone === 'BOTTOM') {
+        return 'bottom: -2rem; left: 2 * var(--layout-spacing-unit); transform: rotate(180deg);';
+      } if (this.calculatedPosition.zone === 'BOTTOM RIGHT') {
+        return 'bottom: -2rem; right: 2 * var(--layout-spacing-unit); transform: rotate(180deg);';
+      }
+      return '';
     },
   },
   mounted() {
@@ -109,7 +142,7 @@ export default defineComponent({
       this.$store.dispatch('tooltip/unsetTooltip');
     },
     beforeEnter(el) {
-      el.style.top = `${this.position.bottom}px`;
+      el.style.top = `${this.calculatedPosition.bottom}px`;
       el.style.transition = 'all 0.5s ease-out';
     },
     enter(el, done) {
@@ -118,8 +151,43 @@ export default defineComponent({
       // }, 200);
     },
     leave(el, done) {
-      el.style.top = `${this.position.bottom}px`;
+      el.style.top = `${this.calculatedPosition.bottom}px`;
       el.style.transition = 'all 0.5s ease-out';
+    },
+    calculatePosition() {
+      console.log('calculatePosition');
+      const tile = document.querySelector<HTMLElement>('.portal-tile__root-element');
+      if (tile) {
+        const regularZone = {
+          x: (window.innerWidth - tile?.offsetWidth * 2),
+          y: (window.innerHeight - tile?.offsetHeight * 2),
+        };
+        console.log('regularZone', regularZone);
+        if (this.position.x <= regularZone.x && this.position.y <= regularZone.y) {
+          console.log('IS IN REGULAR ZONE');
+        } else if (this.position.x > regularZone.x && this.position.y <= regularZone.y) {
+          console.log('IS IN IRR REGULAR ZONE: RIGHT');
+          this.calculatedPosition = {
+            left: this.position.right - tile?.offsetWidth * 2,
+            bottom: this.position.bottom - tile?.offsetHeight * 2,
+            zone: 'RIGHT',
+          };
+        } else if (this.position.x <= regularZone.x && this.position.y > regularZone.y) {
+          console.log('IS IN IRR REGULAR ZONE: BOTTOM');
+          this.calculatedPosition = {
+            bottom: this.position.bottom - tile?.offsetHeight * 2,
+            left: this.position.right - tile?.offsetWidth * 2,
+            zone: 'BOTTOM',
+          };
+        } else if (this.position.x > regularZone.x && this.position.y > regularZone.y) {
+          console.log('IS IN IRR REGULAR ZONE: BOTTOM RIGHT');
+          this.calculatedPosition = {
+            left: this.position.left - tile?.offsetWidth * 2,
+            bottom: this.position.bottom - tile?.offsetHeight * 2,
+            zone: 'BOTTOM RIGHT',
+          };
+        }
+      }
     },
   },
 });
@@ -189,12 +257,25 @@ export default defineComponent({
       display: block
       margin-left: auto
 
+  &__arrow
+    display: block
+    position: absolute
+    width: 0;
+    height: 0;
+    border: solid var(--layout-spacing-unit);
+    border-color: transparent transparent black transparent;
+
+  &__inner-wrap
+    position: relative
+    width: 100%
+    height: 100%
+
 .fade-enter-active {
-  transition: all 0.8s ease-out
+  transition: all 0.25s ease-out
 }
 
 .fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1)
+  transition: all 0.25s cubic-bezier(1, 0.5, 0.8, 1)
 }
 
 .fade-enter-from,
