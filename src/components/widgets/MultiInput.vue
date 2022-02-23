@@ -132,7 +132,10 @@ export default defineComponent({
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       newVal.push(this.newRow());
       this.$emit('update:modelValue', newVal);
-      this.$store.dispatch('activity/setMessage', `${this.extraLabel} ${newVal.length} ${_('added')}`);
+      this.$store.dispatch('activity/setMessage', _('%(label)s %(idx)s added', {
+        label: this.extraLabel,
+        idx: newVal.length,
+      }));
       this.focusLastInputField();
     },
     newRow(): any {
@@ -148,7 +151,10 @@ export default defineComponent({
         newVal.push(this.newRow());
       }
       this.$emit('update:modelValue', newVal);
-      this.$store.dispatch('activity/setMessage', `${this.extraLabel} ${valIdx + 1} ${_('removed')}`);
+      this.$store.dispatch('activity/setMessage', _('%(label)s %(idx)s removed', {
+        label: this.extraLabel,
+        idx: valIdx + 1,
+      }));
     },
     rowInvalidMessage(valIdx): string {
       // show invalidMessage for row only if we have multiple subtypes
