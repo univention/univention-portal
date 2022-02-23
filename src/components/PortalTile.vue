@@ -283,8 +283,9 @@ export default defineComponent({
           },
         };
         setTimeout(() => {
+          // debugger;
           this.$store.dispatch('tooltip/setTooltip', { tooltip });
-        }, 200);
+        }, 350);
       }
     },
     editTile() {
