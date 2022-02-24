@@ -38,9 +38,6 @@ from typing import Dict, List
 
 import univention.debug as ud
 
-import listener
-
-
 description = 'Tell portal server to refresh when something important changed'
 filter = '(|(univentionObjectType=portals/portal)(univentionObjectType=portals/category)(univentionObjectType=portals/entry)(univentionObjectType=portals/folder)(univentionObjectType=portals/announcement))'
 
