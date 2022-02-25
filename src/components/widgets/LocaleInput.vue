@@ -103,7 +103,7 @@ export default defineComponent({
       required: true,
     },
     invalidMessageId: {
-      type: String,
+      type: String || null,
       required: true,
     },
     required: {
