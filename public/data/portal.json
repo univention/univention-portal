@@ -1,5 +1,7 @@
 {
-   "user_links": [],
+   "user_links": [
+     "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+   ],
    "menu_links": [
      "cn=certificates,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
      "cn=folder,cn=folder,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
@@ -8,6 +10,28 @@
      "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
    ],
    "entries": [
+     {
+       "activated": true,
+       "allowedGroups": ["cn=Domain Users,cn=groups,dc=intranet,dc=portal,dc=de"],
+       "anonymous": false,
+       "backgroundColor": null,
+       "description": {
+         "de_DE": "Ihr Passwort ändern",
+         "en_US": "Change your password"
+       },
+       "dn": "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+       "in_portal": true,
+       "linkTarget": "samewindow",
+       "links": [{
+         "locale": "en_US",
+         "value": "#/selfservice/passwordchange"
+       }],
+       "logo_name": null,
+       "name": {
+         "de_DE": "Passwort ändern",
+         "en_US": "Change password"
+       }
+     },
      {
        "activated": true,
        "allowedGroups": [],
