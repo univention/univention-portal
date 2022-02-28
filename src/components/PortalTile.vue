@@ -202,6 +202,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       tooltip: 'tooltip/tooltip',
+      tooltipIsHovered: 'tooltip/tooltipIsHovered',
       lastDir: 'dragndrop/getLastDir',
     }),
     wrapperTag(): string {
@@ -252,6 +253,9 @@ export default defineComponent({
     anchorTarget(): string {
       return this.linkTarget === 'newwindow' ? '_blank' : '';
     },
+    isMobile(): boolean {
+      return this.isTouchDevice && !this.minified;
+    },
   },
   mounted() {
     if (this.hasFocus) {
@@ -264,12 +268,18 @@ export default defineComponent({
   },
   methods: {
     hideTooltip(): void {
-      this.$store.dispatch('tooltip/unsetTooltip');
+      setTimeout(() => {
+        if (!this.tooltipIsHovered) {
+          this.$store.dispatch('tooltip/unsetTooltip');
+        }
+      }, 350);
     },
     showTooltip(): void {
       if (!this.editMode && !this.minified) {
         const rect = this.$el.getBoundingClientRect();
         const tooltip = {
+          isMobile: this.isMobile,
+          title: this.$localized(this.title),
           backgroundColor: this.backgroundColor,
           description: this.$localized(this.description),
           ariaId: this.createID(),
@@ -283,7 +293,6 @@ export default defineComponent({
           },
         };
         setTimeout(() => {
-          // debugger;
           this.$store.dispatch('tooltip/setTooltip', { tooltip });
         }, 350);
       }
