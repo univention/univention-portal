@@ -31,7 +31,6 @@ License with the Debian GNU/Linux or Univention distribution in file
     name="fade"
     appear
     @before-enter="beforeEnter"
-    @enter="enter"
     @leave="leave"
   >
     <div
@@ -47,6 +46,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         <div
           v-if="!this.isMobile"
           class="portal-tooltip__arrow"
+          data-test="portal-tooltip-arrow"
           :style="arrowPosition"
         />
         <div
@@ -55,6 +55,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           <template v-if="this.isMobile">
             <div
               class="portal-tooltip__thumbnail"
+              data-test="portal-tooltip-image"
               :style="backgroundColor ? `background: ${backgroundColor}` : ''"
             >
               <img
@@ -64,13 +65,16 @@ License with the Debian GNU/Linux or Univention distribution in file
                 class="portal-tooltip__logo"
               >
             </div>
-            <div class="portal-tooltip__title">
+            <div class="portal-tooltip__title"
+              data-test="portal-tooltip-title"
+            >
               {{ title }}
             </div>
           </template>
           <icon-button
             icon="x"
             class="portal-tooltip__close-icon"
+            data-test="portal-tooltip-close-icon"
             :aria-label-prop="CLOSE_TOOLTIP"
             @click="closeToolTip()"
           />
@@ -82,6 +86,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           :id="ariaId"
           class="portal-tooltip__description"
           v-html="description"
+          data-test="portal-tooltip-description"
         />
         <!-- eslint-enable vue/no-v-html -->
       </div>
