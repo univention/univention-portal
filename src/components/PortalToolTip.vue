@@ -40,15 +40,34 @@ License with the Debian GNU/Linux or Univention distribution in file
       role="tooltip"
       data-test="portal-tooltip"
       :style="tooltipPosition"
+      @mouseenter="keepTooltip()"
+      @mouseleave="closeToolTip"
     >
       <div class="portal-tooltip__inner-wrap">
         <div
+          v-if="!this.isMobile"
           class="portal-tooltip__arrow"
           :style="arrowPosition"
         />
         <div
           class="portal-tooltip__header"
         >
+          <template v-if="this.isMobile">
+            <div
+              class="portal-tooltip__thumbnail"
+              :style="backgroundColor ? `background: ${backgroundColor}` : ''"
+            >
+              <img
+                :src="icon || './questionMark.svg'"
+                onerror="this.src='./questionMark.svg'"
+                alt=""
+                class="portal-tooltip__logo"
+              >
+            </div>
+            <div class="portal-tooltip__title">
+              {{ title }}
+            </div>
+          </template>
           <icon-button
             icon="x"
             class="portal-tooltip__close-icon"
@@ -90,6 +109,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    title: {
+      type: String,
+      default: '',
+    },
     description: {
       type: String,
       default: '',
@@ -98,8 +121,16 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    icon: {
+      type: String,
+      default: './questionMark.svg',
+    },
     position: {
       type: Object as PropType<Record<string, number>>,
+      required: true,
+    },
+    isMobile: {
+      type: Boolean,
       required: true,
     },
   },
@@ -117,70 +148,65 @@ export default defineComponent({
       return _('Close Tooltip');
     },
     tooltipPosition(): string {
-      this.calculatePosition();
-      return `left:${this.calculatedPosition.left}px;`;
-    },
-    arrowPosition(): string {
-      if (this.calculatedPosition.zone === 'REGULAR') {
-        console.log(this.calculatedPosition.zone);
-        return 'top: -1.9rem; left: 2 * var(--layout-spacing-unit);';
-      } if (this.calculatedPosition.zone === 'RIGHT') {
-        return 'top: -1.9rem; right: 2 * var(--layout-spacing-unit);';
-      } if (this.calculatedPosition.zone === 'BOTTOM') {
-        return 'bottom: -2rem; left: 2 * var(--layout-spacing-unit); transform: rotate(180deg);';
-      } if (this.calculatedPosition.zone === 'BOTTOM RIGHT') {
-        return 'bottom: -2rem; right: 2 * var(--layout-spacing-unit); transform: rotate(180deg);';
+      if (!this.isMobile) {
+        this.calculatePosition();
+        return `left:${this.calculatedPosition.left}px;`;
       }
       return '';
     },
-  },
-  mounted() {
-    console.log('PortalToolTip', this);
+    arrowPosition(): string {
+      if (this.calculatedPosition.zone === 'RIGHT') {
+        return 'top: -1.9rem; right: 0.5rem;';
+      }
+      if (this.calculatedPosition.zone === 'BOTTOM') {
+        return 'bottom: -2rem; left: 0.2rem; transform: rotate(180deg);';
+      }
+      if (this.calculatedPosition.zone === 'BOTTOM RIGHT') {
+        return 'bottom: -2rem; right: 0.5rem; transform: rotate(180deg);';
+      }
+      return 'top: -1.9rem; left:  0.2rem;';
+    },
   },
   methods: {
+    keepTooltip(): void {
+      this.$store.dispatch('tooltip/setHoverOnTooltip', true);
+    },
     closeToolTip() {
+      this.$store.dispatch('tooltip/setHoverOnTooltip', false);
       this.$store.dispatch('tooltip/unsetTooltip');
     },
-    beforeEnter(el) {
-      el.style.top = `${this.calculatedPosition.bottom}px`;
-      el.style.transition = 'all 0.5s ease-out';
+    beforeEnter(el): void {
+      if (!this.isMobile) {
+        el.style.top = `${this.calculatedPosition.bottom}px`;
+        el.style.transition = 'all 0.5s ease-out';
+      }
     },
-    enter(el, done) {
-      // setTimeout(() => {
-      //   el.style.top = `${this.position.bottom - 5}px`;
-      // }, 200);
+    leave(el, done): void {
+      if (!this.isMobile) {
+        el.style.top = `${this.calculatedPosition.bottom}px`;
+        el.style.transition = 'all 0.5s ease-out';
+      }
     },
-    leave(el, done) {
-      el.style.top = `${this.calculatedPosition.bottom}px`;
-      el.style.transition = 'all 0.5s ease-out';
-    },
-    calculatePosition() {
-      console.log('calculatePosition');
+    calculatePosition(): void {
       const tile = document.querySelector<HTMLElement>('.portal-tile__root-element');
       if (tile) {
         const regularZone = {
           x: (window.innerWidth - tile?.offsetWidth * 2),
           y: (window.innerHeight - tile?.offsetHeight * 2),
         };
-        console.log('regularZone', regularZone);
-        if (this.position.x <= regularZone.x && this.position.y <= regularZone.y) {
-          console.log('IS IN REGULAR ZONE');
-        } else if (this.position.x > regularZone.x && this.position.y <= regularZone.y) {
-          console.log('IS IN IRR REGULAR ZONE: RIGHT');
+        if (this.position.x > regularZone.x && this.position.y <= regularZone.y) {
           this.calculatedPosition = {
-            left: this.position.right - tile?.offsetWidth * 2,
-            bottom: this.position.bottom - tile?.offsetHeight * 2,
+            left: this.position.left - tile?.offsetWidth * 2,
+            bottom: this.position.bottom,
             zone: 'RIGHT',
           };
         } else if (this.position.x <= regularZone.x && this.position.y > regularZone.y) {
-          console.log('IS IN IRR REGULAR ZONE: BOTTOM');
           this.calculatedPosition = {
             bottom: this.position.bottom - tile?.offsetHeight * 2,
-            left: this.position.right - tile?.offsetWidth * 2,
+            left: this.position.left,
             zone: 'BOTTOM',
           };
         } else if (this.position.x > regularZone.x && this.position.y > regularZone.y) {
-          console.log('IS IN IRR REGULAR ZONE: BOTTOM RIGHT');
           this.calculatedPosition = {
             left: this.position.left - tile?.offsetWidth * 2,
             bottom: this.position.bottom - tile?.offsetHeight * 2,
@@ -204,7 +230,6 @@ export default defineComponent({
   box-shadow: var(--box-shadow)
   z-index: $zindex-3
   display: block
-  pointer-events: none
 
   @media $mqSmartphone
     bottom: unset;
@@ -263,7 +288,7 @@ export default defineComponent({
     width: 0;
     height: 0;
     border: solid var(--layout-spacing-unit);
-    border-color: transparent transparent black transparent;
+    border-color: transparent transparent var(--bgc-content-container) transparent;
 
   &__inner-wrap
     position: relative
