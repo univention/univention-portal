@@ -161,7 +161,7 @@ export default defineComponent({
     },
     arrowPosition(): string {
       if (this.calculatedPosition.zone === 'RIGHT') {
-        return 'top: -1.9rem; right: 0.5rem;';
+        return 'top: -2rem; right: 0.5rem;';
       }
       if (this.calculatedPosition.zone === 'BOTTOM') {
         return 'bottom: -2rem; left: 0.2rem; transform: rotate(180deg);';
@@ -169,7 +169,7 @@ export default defineComponent({
       if (this.calculatedPosition.zone === 'BOTTOM RIGHT') {
         return 'bottom: -2rem; right: 0.5rem; transform: rotate(180deg);';
       }
-      return 'top: -1.9rem; left:  0.2rem;';
+      return 'top: -2rem; left:  0.2rem;';
     },
   },
   methods: {
@@ -235,6 +235,7 @@ export default defineComponent({
   box-shadow: var(--box-shadow)
   z-index: $zindex-3
   display: block
+  border: 1px solid var(--font-color-contrast-high)
 
   @media $mqSmartphone
     bottom: unset;
@@ -293,7 +294,7 @@ export default defineComponent({
     width: 0;
     height: 0;
     border: solid var(--layout-spacing-unit);
-    border-color: transparent transparent var(--bgc-content-container) transparent;
+    border-color: transparent transparent var(--font-color-contrast-high) transparent;
 
   &__inner-wrap
     position: relative
