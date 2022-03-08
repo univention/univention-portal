@@ -68,4 +68,8 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
       }));
     }
   }
+
+  if (fromPosition.contextType === 'folder' && !categoryPositionBefore) {
+    // TODO Setmessage for Folder in Menu
+  }
 }

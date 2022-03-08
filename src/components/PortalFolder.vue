@@ -56,7 +56,7 @@
     >
       <region
         :id="`${id}-content`"
-        :role="inModal ? 'section' : 'none'"
+        :aria-role="ariaRole"
         class="portal-folder__thumbnails"
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
       >
@@ -229,6 +229,12 @@ export default defineComponent({
         return this.tiles;
       }
       return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
+    },
+    ariaRole(): string {
+      if (this.inModal && this.editMode) {
+        return 'application';
+      }
+      return this.inModal ? 'section' : 'none';
     },
   },
   mounted() {
