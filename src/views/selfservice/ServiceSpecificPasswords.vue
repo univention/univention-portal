@@ -30,7 +30,6 @@
   <guarded-site
     :title="TITLE"
     :subtitle="SUBTITLE"
-    :ucr-var-for-frontend-enabling="'umc/self-service/service-specific-passwords/frontend/enabled'"
     path="passwordreset/get_service_specific_passwords"
     :guarded-widgets="[]"
     :submit-label-after-loaded="SUBMIT_LABEL_AFTER_LOADED"
@@ -77,6 +76,12 @@ export default defineComponent({
   components: {
     GuardedSite,
   },
+  data(): Data {
+    return {
+      radiusPasswordSet: false,
+      newRadiusPassword: '',
+    };
+  },
   computed: {
     TITLE(): string {
       return _('Wireless LAN Password');
@@ -96,12 +101,6 @@ export default defineComponent({
     NEW_RADIUS_PASSWORD_2(): string {
       return _('Please add it to your device now. You will not be able to see it again.');
     },
-  },
-  data(): Data {
-    return {
-      radiusPasswordSet: false,
-      newRadiusPassword: '',
-    };
   },
   methods: {
     loaded(result: ServiceSpecificPasswordInfo[]) {
@@ -131,6 +130,7 @@ export default defineComponent({
 .service-specific-passwords__hint
   margin: calc(2 * var(--layout-spacing-unit))
   pre
+    overflow-x: auto
     padding: calc(2 * var(--layout-spacing-unit))
     background-color: var(--bgc-inputfield-on-container)
 </style>

@@ -30,8 +30,9 @@
       </div>
       <icon-button
         icon="trash"
+        :tabindex="tabindex"
         :has-button-style="true"
-        :aria-label-prop="removeButtonLabel(valIdx)"
+        :aria-label-prop="REMOVE_BUTTON_LABEL(valIdx)"
         :data-test="`multi-input-remove-entry-button-${valIdx}`"
         @click="removeEntry(valIdx)"
       />
@@ -42,6 +43,7 @@
     </div>
     <icon-button
       icon="plus"
+      :tabindex="tabindex"
       :has-button-style="true"
       :aria-label-prop="addButtonLabel"
       data-test="multi-input-add-entry-button"
@@ -52,7 +54,7 @@
 
 <script lang="ts">
 // TODO handling of 'name' attribute
-import { defineComponent, defineAsyncComponent } from 'vue';
+import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
@@ -103,6 +105,10 @@ export default defineComponent({
         };
       },
     },
+    tabindex: {
+      type: Number,
+      default: 0,
+    },
   },
   emits: ['update:modelValue'],
   computed: {
@@ -113,7 +119,7 @@ export default defineComponent({
     },
   },
   methods: {
-    onUpdate(valIdx, typeIdx, val) {
+    onUpdate(valIdx, typeIdx, val): void {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       if (this.subtypes.length === 1) {
         newVal[valIdx] = val;
@@ -122,26 +128,35 @@ export default defineComponent({
       }
       this.$emit('update:modelValue', newVal);
     },
-    addEntry() {
+    addEntry(): void {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       newVal.push(this.newRow());
       this.$emit('update:modelValue', newVal);
+      this.$store.dispatch('activity/setMessage', _('%(label)s %(idx)s added', {
+        label: this.extraLabel,
+        idx: newVal.length,
+      }));
+      this.focusLastInputField();
     },
-    newRow() {
+    newRow(): any {
       return initialValue({
         type: 'MultiInput',
         subtypes: this.subtypes,
       }, null)[0];
     },
-    removeEntry(valIdx) {
+    removeEntry(valIdx): void {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
       newVal.splice(valIdx, 1);
       if (newVal.length === 0) {
         newVal.push(this.newRow());
       }
       this.$emit('update:modelValue', newVal);
+      this.$store.dispatch('activity/setMessage', _('%(label)s %(idx)s removed', {
+        label: this.extraLabel,
+        idx: valIdx + 1,
+      }));
     },
-    rowInvalidMessage(valIdx) {
+    rowInvalidMessage(valIdx): string {
       // show invalidMessage for row only if we have multiple subtypes
       if (this.subtypes.length === 1) {
         return '';
@@ -152,7 +167,7 @@ export default defineComponent({
       }
       return message ?? '';
     },
-    getSubtypeWidget(type, valIdx, typeIdx) {
+    getSubtypeWidget(type, valIdx, typeIdx): Record<any, any> {
       let message = this.invalidMessage.values[valIdx];
       if (Array.isArray(message)) {
         message = message[typeIdx];
@@ -164,26 +179,45 @@ export default defineComponent({
       if (type.label !== undefined && type.label !== this.extraLabel) {
         labelScreenReader += `: ${type.label}`;
       }
-
       return {
         ...type,
+        tabindex: this.tabindex,
         ariaLabel: labelScreenReader,
         invalidMessage: message ?? '',
       };
     },
-    focus() {
-      // @ts-ignore
+    focus(): void {
       const firstWidget = this.$refs['component-0-0'];
       // TODO find first interactable?
       if (firstWidget) {
-        // @ts-ignore TODO
-        firstWidget.focus();
+        (firstWidget as HTMLElement).focus();
       }
     },
-    removeButtonLabel(idx) {
+    REMOVE_BUTTON_LABEL(idx): string {
       return _('Remove %(label)s %(idx)s', {
         label: this.extraLabel,
         idx: idx + 1,
+      });
+    },
+    focusLastInputField(): void {
+      // MultiInput can have multiple widgets per row.
+      // Focus first widget in last row.
+
+      // @ts-ignore FIXME not sure how to fix this error
+      this.$nextTick(() => {
+        const firstRowEntryRefs = Object.keys(this.$refs)
+          .filter((ref) => {
+            // Filter out widgets that are not the first of their row.
+            const column = ref.split('-')[2];
+            try {
+              return parseInt(column, 10) === 0;
+            } catch (e) {
+              return true;
+            }
+          })
+          .sort();
+        const lastItemRef = firstRowEntryRefs[firstRowEntryRefs.length - 1];
+        (this.$refs[lastItemRef] as HTMLElement).focus();
       });
     },
   },

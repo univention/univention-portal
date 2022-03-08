@@ -36,7 +36,7 @@
     data-test="form-element"
   >
     <form-label
-      :label="correctLabel"
+      :label="widget.label"
       :aria-label="widget.ariaLabel || widget.label"
       :required="widget.required"
       :for-attr="forAttrOfLabel"
@@ -77,7 +77,7 @@ import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
 import CheckBox from '@/components/widgets/CheckBox.vue';
 import RadioBox from '@/components/widgets/RadioBox.vue';
-import ImageUpload from 'components/widgets/ImageUpload.vue';
+import ImageUploader from 'components/widgets/ImageUploader.vue';
 import LocaleInput from 'components/widgets/LocaleInput.vue';
 import MultiSelect from 'components/widgets/MultiSelect.vue';
 import LinkWidget from 'components/widgets/LinkWidget.vue';
@@ -94,7 +94,7 @@ export default defineComponent({
     TextBox,
     CheckBox,
     RadioBox,
-    ImageUpload,
+    ImageUploader,
     LocaleInput,
     MultiSelect,
     LinkWidget,
@@ -127,11 +127,8 @@ export default defineComponent({
     forAttrOfLabel(): string {
       return `${this.widget.name}--${this.$.uid}`;
     },
-    invalidMessageId(): string {
-      return `${this.forAttrOfLabel}--error`;
-    },
-    correctLabel(): string {
-      return this.widget.index ? `${this.widget.label}-${this.widget.index.toString()}` : this.widget.label;
+    invalidMessageId(): string | null {
+      return this.invalidMessage !== '' ? `${this.forAttrOfLabel}--error` : null;
     },
   },
   methods: {

@@ -103,7 +103,7 @@ interface ImageUploadData {
 }
 
 export default defineComponent({
-  name: 'ImageUpload',
+  name: 'ImageUploader',
   components: {
     PortalIcon,
   },
@@ -125,7 +125,7 @@ export default defineComponent({
       required: true,
     },
     invalidMessageId: {
-      type: String,
+      type: String || null,
       required: true,
     },
   },

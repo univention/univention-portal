@@ -30,17 +30,17 @@
   <site
     :title="title"
     :subtitle="subtitle"
-    :ucr-var-for-frontend-enabling="ucrVarForFrontendEnabling"
   >
     <my-form
       ref="form"
       v-model="formValues"
-      :widgets="formWidgets"
+      :widgets="formWidgetsWithTabindex"
     >
       <slot />
       <footer>
         <button
           type="submit"
+          :tabindex="tabindex"
           :class="{'primary' : loaded}"
           @click.prevent="submit"
         >
@@ -64,6 +64,7 @@ import { WidgetDefinition, validateAll } from '@/jsHelper/forms';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
+import activity from '@/jsHelper/activity';
 
 interface FormData {
   username: string,
@@ -74,7 +75,6 @@ interface Data {
   formValues: FormData,
   formWidgets: WidgetDefinition[],
   loaded: boolean,
-  usernameGiven: boolean,
 }
 
 export default defineComponent({
@@ -91,7 +91,7 @@ export default defineComponent({
     },
     subtitle: {
       type: String,
-      required: true,
+      default: '',
     },
     path: {
       type: String,
@@ -105,13 +105,9 @@ export default defineComponent({
       type: Array as PropType<WidgetDefinition[]>,
       required: true,
     },
-    ucrVarForFrontendEnabling: {
-      type: String,
-      default: '',
-    },
     submitLabelAfterLoaded: {
       type: String,
-      default: _('Submit'),
+      default: '',
     },
   },
   emits: ['loaded', 'save'],
@@ -144,22 +140,31 @@ export default defineComponent({
       formValues,
       formWidgets,
       loaded: false,
-      usernameGiven: false,
     };
   },
   computed: {
     ...mapGetters({
       metaData: 'metaData/getMeta',
       userState: 'user/userState',
+      activityLevel: 'activity/level',
     }),
     SUBMIT_LABEL(): string {
       if (this.loaded) {
-        return this.submitLabelAfterLoaded;
+        return this.submitLabelAfterLoaded || _('Submit');
       }
       return _('Next');
     },
     form(): typeof MyForm {
       return this.$refs.form as typeof MyForm;
+    },
+    tabindex(): number {
+      return activity(['selfservice'], this.activityLevel);
+    },
+    formWidgetsWithTabindex(): WidgetDefinition[] {
+      return this.formWidgets.map((widget) => {
+        widget.tabindex = this.tabindex;
+        return widget;
+      });
     },
   },
   watch: {
@@ -173,10 +178,8 @@ export default defineComponent({
     setTimeout(() => {
       if (typeof this.$route.query.username === 'string' && this.$route.query.username) {
         this.formValues.username = this.$route.query.username;
-        this.usernameGiven = true;
       } else if (this.userState.username) {
         this.formValues.username = this.userState.username;
-        this.usernameGiven = true;
       }
       this.refocus();
     }, 300); // TODO...
@@ -211,7 +214,6 @@ export default defineComponent({
           if (this.passwordNeeded) {
             this.formValues.password = '';
           }
-          this.usernameGiven = false;
           this.showError(error.message, _('Authentification failed'))
             .then(() => {
               this.refocus();

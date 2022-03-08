@@ -30,16 +30,16 @@
   <site
     :title="TITLE"
     :subtitle="SUBTITLE"
-    :ucr-var-for-frontend-enabling="'umc/self-service/passwordreset/frontend/enabled'"
   >
     <my-form
       ref="form"
       v-model="formValues"
-      :widgets="formWidgets"
+      :widgets="formWidgetsWithTabindex"
     >
       <footer>
         <button
           type="submit"
+          :tabindex="tabindex"
           class="primary"
           @click.prevent="submit"
         >
@@ -62,6 +62,8 @@ import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, isEmpty, WidgetDefinition } from '@/jsHelper/forms';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
+import activity from '@/jsHelper/activity';
+import { mapGetters } from 'vuex';
 
 interface FormData {
   username: string,
@@ -73,7 +75,6 @@ interface FormData {
 interface Data {
   formValues: FormData,
   formWidgets: WidgetDefinition[],
-  usernameGiven: boolean,
   tokenGiven: boolean,
 }
 
@@ -127,11 +128,13 @@ export default defineComponent({
         newPassword2: '',
       },
       formWidgets,
-      usernameGiven: false,
       tokenGiven: false,
     };
   },
   computed: {
+    ...mapGetters({
+      activityLevel: 'activity/level',
+    }),
     TITLE(): string {
       return _('Set new password');
     },
@@ -144,12 +147,20 @@ export default defineComponent({
     form(): typeof MyForm {
       return this.$refs.form as typeof MyForm;
     },
+    tabindex(): number {
+      return activity(['selfservice'], this.activityLevel);
+    },
+    formWidgetsWithTabindex(): WidgetDefinition[] {
+      return this.formWidgets.map((widget) => {
+        widget.tabindex = this.tabindex;
+        return widget;
+      });
+    },
   },
   mounted() {
     setTimeout(() => {
       if (typeof this.$route.query.username === 'string' && this.$route.query.username) {
         this.formValues.username = this.$route.query.username;
-        this.usernameGiven = true;
       }
       if (typeof this.$route.query.token === 'string' && this.$route.query.token) {
         this.formValues.token = this.$route.query.token;

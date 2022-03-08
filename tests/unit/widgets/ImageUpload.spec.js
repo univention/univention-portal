@@ -29,7 +29,7 @@
 
 import { mount } from '@vue/test-utils';
 
-import ImageUpload from '@/components/widgets/ImageUpload.vue';
+import ImageUploader from '@/components/widgets/ImageUploader.vue';
 
 const imageUploadProps = {
   extraLabel: 'Example Image',
@@ -43,7 +43,7 @@ const imageResult = 'data:image/png;base64__TEST';
 let wrapper;
 
 beforeEach(async () => {
-  wrapper = await mount(ImageUpload, {
+  wrapper = await mount(ImageUploader, {
     propsData: imageUploadProps,
   });
 });
@@ -52,7 +52,7 @@ afterEach(() => {
   wrapper.unmount();
 });
 
-describe('ImageUpload.vue', () => {
+describe('ImageUploader.vue', () => {
   test('an image can be uploaded', async () => {
     const event = {
       target: {
