@@ -51,6 +51,7 @@
           type="button"
           :tabindex="tabindex"
           data-test="multi-select-add-more-button"
+          id="multi-select-add-more-button"
           @click.prevent="add"
         >
           <portal-icon
@@ -164,6 +165,12 @@ export default defineComponent({
         newValues.sort();
         this.$emit('update:modelValue', newValues);
         this.$store.dispatch('activity/setMessage', _('Added to selection'));
+        this.$store.dispatch('activity/setRegion', 'modal-wrapper--isVisible-1');
+      });
+      this.$store.dispatch('activity/setLevel', 'modal2');
+      this.$store.dispatch('activity/saveFocus', {
+        region: 'modal-wrapper--isVisible-1',
+        id: 'multi-select-add-more-button',
       });
     },
     remove() {
