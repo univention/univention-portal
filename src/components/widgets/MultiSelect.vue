@@ -47,11 +47,11 @@
       </div>
       <footer class="multi-select__footer">
         <button
+          id="multi-select-add-more-button"
           ref="addButton"
           type="button"
           :tabindex="tabindex"
           data-test="multi-select-add-more-button"
-          id="multi-select-add-more-button"
           @click.prevent="add"
         >
           <portal-icon
