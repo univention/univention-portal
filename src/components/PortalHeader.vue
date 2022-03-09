@@ -57,7 +57,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="portal-header__edit-mode-label"
     >
       {{ EDIT_MODE }}
-      <header-button
+      <icon-button
         :aria-label-prop="STOP_EDIT_PORTAL"
         icon="x"
         @click="stopEditMode"
@@ -139,6 +139,7 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
+import IconButton from '@/components/globals/IconButton.vue';
 
 interface PortalHeaderData {
   tabsOverflow: boolean;
@@ -155,6 +156,7 @@ export default defineComponent({
     Region,
     TabindexElement,
     PortalTitle,
+    IconButton,
   },
   data(): PortalHeaderData {
     return {
@@ -287,6 +289,9 @@ export default defineComponent({
 
     @media $mqSmartphone
       top: calc(var(--layout-height-header) - 62%)
+
+    & button
+      margin-left: var(--layout-spacing-unit)
 
 #header-button-copy
     display: none
