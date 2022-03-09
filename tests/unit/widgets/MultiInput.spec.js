@@ -141,7 +141,6 @@ describe('MultiInput.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
     expect(wrapper.vm.modelValue.length).toBe(2);
     expect(store.dispatch).toHaveBeenCalledWith('activity/setMessage', `${wrapper.vm.extraLabel} ${wrapper.vm.modelValue.length} added`);
-
   });
 
   test('if the newRow is called in addEntry Method', async () => {
