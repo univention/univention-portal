@@ -77,7 +77,7 @@ export default defineComponent({
       return this.modalLevel === 2 && this.isActive;
     },
     setID(): string | null {
-      return this.isActive ? 'modal-wrapper--isVisible' : null;
+      return this.isActive ? `modal-wrapper--isVisible-${this.modalLevel}` : null;
     },
   },
 });
