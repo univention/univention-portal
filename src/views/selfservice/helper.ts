@@ -80,3 +80,22 @@ export function setBackendInvalidMessage(widgets, invalidData) {
     }
   });
 }
+
+export function sanitizeFrontendValues(values) {
+  const sanitized = JSON.parse(JSON.stringify(values));
+  Object.entries(sanitized).forEach(([name, value]) => {
+    if (Array.isArray(value)) {
+      sanitized[name] = value.reduce((arr, arrValue) => {
+        if (Array.isArray(arrValue)) {
+          if (arrValue.some((v) => !!v)) {
+            arr.push(arrValue);
+          }
+        } else if (arrValue) {
+          arr.push(arrValue);
+        }
+        return arr;
+      }, []);
+    }
+  });
+  return sanitized;
+}
