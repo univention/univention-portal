@@ -154,6 +154,9 @@ export default defineComponent({
     form(): typeof MyForm {
       return this.$refs.form as typeof MyForm;
     },
+    errorDialog(): typeof ErrorDialog {
+      return this.$refs.errorDialog as typeof ErrorDialog;
+    },
     tabindex(): number {
       return activity(['selfservice'], this.activityLevel);
     },
@@ -207,15 +210,15 @@ export default defineComponent({
       this.$store.dispatch('activateLoadingState');
       umcCommand('passwordreset/set_password', params)
         .then(() => {
-          this.$store.dispatch('notifications/addSuccessNotification', {
-            title: _('Token sent'),
-            description: _('Successfully sent Token.'),
-          });
+          this.errorDialog.showError(_('Your password has been successfully changed.'), _('Password change successful'), 'dialog')
+            .then(() => {
+              this.$router.push({ name: 'portal' });
+            });
         })
         .catch((error) => {
-          (this.$refs.errorDialog as typeof ErrorDialog).showError(error.message)
+          this.errorDialog.showError(error.message)
             .then(() => {
-              (this.$refs.saveButton as HTMLButtonElement).focus();
+              this.form.focusFirstInteractable();
             });
         })
         .finally(() => {
