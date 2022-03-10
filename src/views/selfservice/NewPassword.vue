@@ -75,7 +75,6 @@ interface FormData {
 interface Data {
   formValues: FormData,
   formWidgets: WidgetDefinition[],
-  tokenGiven: boolean,
 }
 
 export default defineComponent({
@@ -84,6 +83,16 @@ export default defineComponent({
     MyForm,
     Site,
     ErrorDialog,
+  },
+  props: {
+    queryParamUsername: {
+      type: String,
+      default: '',
+    },
+    queryParamToken: {
+      type: String,
+      default: '',
+    },
   },
   data(): Data {
     const formWidgets: WidgetDefinition[] = [{
@@ -121,13 +130,12 @@ export default defineComponent({
     }];
     return {
       formValues: {
-        username: '',
-        token: '',
+        username: this.queryParamUsername,
+        token: this.queryParamToken,
         newPassword: '',
         newPassword2: '',
       },
       formWidgets,
-      tokenGiven: false,
     };
   },
   computed: {
@@ -149,23 +157,33 @@ export default defineComponent({
     tabindex(): number {
       return activity(['selfservice'], this.activityLevel);
     },
+    visibleWidgets(): WidgetDefinition[] {
+      return this.formWidgets.filter((widget) => {
+        if (widget.name === 'username') {
+          return this.queryParamUsername === '';
+        }
+        if (widget.name === 'token') {
+          return this.queryParamToken === '';
+        }
+        return true;
+      });
+    },
     formWidgetsWithTabindex(): WidgetDefinition[] {
-      return this.formWidgets.map((widget) => {
+      return this.visibleWidgets.map((widget) => {
         widget.tabindex = this.tabindex;
         return widget;
       });
     },
   },
+  watch: {
+    queryParamUsername(value) {
+      this.formValues.username = value;
+    },
+    queryParamToken(value) {
+      this.formValues.token = value;
+    },
+  },
   mounted() {
-    setTimeout(() => {
-      if (typeof this.$route.query.username === 'string' && this.$route.query.username) {
-        this.formValues.username = this.$route.query.username;
-      }
-      if (typeof this.$route.query.token === 'string' && this.$route.query.token) {
-        this.formValues.token = this.$route.query.token;
-        this.tokenGiven = true;
-      }
-    }, 300); // TODO...
     // FIXME (would like to get rid of setTimeout)
     // when this site is opening via a SideNavigation.vue entry then
     // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
@@ -177,7 +195,7 @@ export default defineComponent({
   },
   methods: {
     submit() {
-      if (!validateAll(this.formWidgets, this.formValues)) {
+      if (!validateAll(this.visibleWidgets, this.formValues)) {
         this.form.focusFirstInvalid();
         return;
       }
