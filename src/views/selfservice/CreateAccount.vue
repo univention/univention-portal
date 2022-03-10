@@ -138,8 +138,7 @@ export default defineComponent({
         this.$nextTick(() => {
           this.form.focusFirstInteractable();
         });
-      })
-      .catch((error) => {
+      }, (error) => {
         this.errorDialog.showError(error.message);
       });
   },
@@ -193,6 +192,11 @@ export default defineComponent({
                 this.form.focusFirstInteractable();
               });
           }
+        }, (error) => {
+          this.errorDialog.showError(error.message)
+            .then(() => {
+              this.form.focusFirstInteractable();
+            });
         });
     },
   },
