@@ -52,6 +52,16 @@
       v-model="attributeValues"
       :widgets="attributeWidgetsWithTabindex"
     >
+      <footer
+        v-if="renderDeregistration"
+      >
+        <button
+          ref="deregistrationButton"
+          type="button"
+          :tabindex="tabindex"
+          @click="deleteAccount"
+        >{{ DELETE_ACCOUNT }}</button>
+      </footer>
       <footer>
         <button
           type="button"
@@ -74,6 +84,9 @@
     <error-dialog
       ref="errorDialog"
     />
+    <confirm-deregistration
+      ref="confirmDeregistrationDialog"
+    />
   </site>
 </template>
 
@@ -83,12 +96,14 @@ import { mapGetters } from 'vuex';
 
 import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
-import { umc, umcCommand } from '@/jsHelper/umc';
+import { umcCommand, umcCommandWithStandby } from '@/jsHelper/umc';
+import { isTrue } from '@/jsHelper/ucr';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid, WidgetDefinition } from '@/jsHelper/forms';
 import Site from '@/views/selfservice/Site.vue';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
+import ConfirmDeregistration from '@/views/selfservice/ConfirmDeregistration.vue';
 import activity from '@/jsHelper/activity';
 
 interface Data {
@@ -105,6 +120,7 @@ export default defineComponent({
     MyForm,
     Site,
     ErrorDialog,
+    ConfirmDeregistration,
   },
   data(): Data {
     // TODO translations
@@ -135,7 +151,11 @@ export default defineComponent({
     ...mapGetters({
       userState: 'user/userState',
       activityLevel: 'activity/level',
+      metaData: 'metaData/getMeta',
     }),
+    renderDeregistration(): boolean {
+      return isTrue(this.metaData['umc/self-service/account-deregistration/enabled'] ?? false);
+    },
     TITLE(): string {
       return _('Profile');
     },
@@ -157,6 +177,9 @@ export default defineComponent({
     SAVE(): string {
       return _('Save');
     },
+    DELETE_ACCOUNT(): string {
+      return _('Delete my account');
+    },
     attributesLoaded(): boolean {
       return this.attributeWidgets.length > 0;
     },
@@ -168,6 +191,9 @@ export default defineComponent({
     },
     errorDialog(): typeof ErrorDialog {
       return this.$refs.errorDialog as typeof ErrorDialog;
+    },
+    confirmDeregistrationDialog(): typeof ConfirmDeregistration {
+      return this.$refs.confirmDeregistrationDialog as typeof ConfirmDeregistration;
     },
     tabindex(): number {
       return activity(['selfservice'], this.activityLevel);
@@ -371,6 +397,26 @@ export default defineComponent({
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');
+        });
+    },
+    deleteAccount(): void {
+      this.confirmDeregistrationDialog.show()
+        .then(() => {
+          umcCommandWithStandby(this.$store, 'passwordreset/deregister_account', {
+            username: this.loginValues.username,
+            password: this.loginValues.password,
+          })
+            .then(() => {
+              this.errorDialog.showError(_('Your account has been successfully deleted.'), _('Account deletion'))
+                .then(() => {
+                  this.resetToLogin();
+                });
+            }, (err) => {
+              this.errorDialog.showError(err.message)
+                .then(() => {
+                  (this.$refs.deregistrationButton as HTMLButtonElement).focus();
+                });
+            });
         });
     },
   },
