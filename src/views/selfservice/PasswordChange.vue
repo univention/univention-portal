@@ -139,7 +139,6 @@ export default defineComponent({
     setTimeout(() => {
       (this.$refs.form as typeof MyForm).focusFirstInteractable();
     }, 100);
-    this.$store.dispatch('navigation/setActiveButton', '');
   },
   methods: {
     finish() {
