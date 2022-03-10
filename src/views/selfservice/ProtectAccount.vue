@@ -32,7 +32,7 @@
     :title="TITLE"
     :subtitle="SUBTITLE"
     path="passwordreset/get_contact"
-    :guarded-widgets="widgets"
+    :guarded-widgets="formWidgets"
     @loaded="loaded"
     @save="setContactInfo"
   />
@@ -44,7 +44,7 @@ import { defineComponent } from 'vue';
 import { umcCommandWithStandby } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import GuardedSite from '@/views/selfservice/GuardedSite.vue';
-import { WidgetDefinition } from '@/jsHelper/forms';
+import { initialValue, isEmpty, WidgetDefinition } from '@/jsHelper/forms';
 
 interface ContactInfo {
   id: string,
@@ -53,7 +53,7 @@ interface ContactInfo {
 }
 
 interface Data {
-  contactInformation: ContactInfo[],
+  formWidgets: WidgetDefinition[],
 }
 
 export default defineComponent({
@@ -63,7 +63,7 @@ export default defineComponent({
   },
   data(): Data {
     return {
-      contactInformation: [],
+      formWidgets: [],
     };
   },
   computed: {
@@ -73,22 +73,35 @@ export default defineComponent({
     SUBTITLE(): string {
       return _('Add or update your account recovery options.');
     },
-    widgets(): WidgetDefinition[] {
-      return this.contactInformation.map((info) => ({
-        type: 'TextBox',
-        name: info.id,
-        label: info.label,
-        invalidMessage: '',
-        required: true,
-      }));
-    },
   },
   methods: {
     loaded(result: ContactInfo[], formValues) {
-      this.contactInformation = result;
-      this.contactInformation.forEach((info) => {
-        formValues[info.id] = info.value;
+      const widgets: WidgetDefinition[] = [];
+      result.forEach((info) => {
+        const widget: WidgetDefinition = {
+          type: 'TextBox',
+          name: info.id,
+          label: info.label,
+        };
+        const retype: WidgetDefinition = {
+          type: 'TextBox',
+          name: `${info.id}--retype`,
+          label: `${info.label} (retype)`,
+          validators: [(_widget, _value) => (
+            isEmpty(_widget, _value) ? _('Please confirm your %(label)s', { label: info.label }) : ''
+          ), (_widget, _value, _widgets, _values) => {
+            if (_values[widget.name] !== _value) {
+              return _('The inputs do not match');
+            }
+            return '';
+          }],
+        };
+        widgets.push(widget);
+        widgets.push(retype);
+        formValues[widget.name] = initialValue(widget, info.value);
+        formValues[retype.name] = initialValue(retype, info.value);
       });
+      this.formWidgets = widgets;
     },
     setContactInfo(values) {
       umcCommandWithStandby(this.$store, 'passwordreset/set_contact', values)
