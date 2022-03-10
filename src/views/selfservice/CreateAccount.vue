@@ -65,7 +65,7 @@ import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 import { allValid, initialValue, isEmpty, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 import activity from '@/jsHelper/activity';
 import { mapGetters } from 'vuex';
-import { sanitizeBackendWidget, setBackendInvalidMessage } from '@/views/selfservice/helper';
+import { sanitizeBackendWidget, setBackendInvalidMessage, sanitizeFrontendValues } from '@/views/selfservice/helper';
 
 interface Data {
   formValues: Record<string, string>,
@@ -155,7 +155,7 @@ export default defineComponent({
         return;
       }
       umcCommandWithStandby(this.$store, 'passwordreset/create_self_registered_account', {
-        attributes: this.formValues,
+        attributes: sanitizeFrontendValues(this.formValues),
       })
         .then((result) => {
           if (result.success) {

@@ -98,7 +98,7 @@ import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
 import { umcCommand, umcCommandWithStandby } from '@/jsHelper/umc';
 import { isTrue } from '@/jsHelper/ucr';
-import { sanitizeBackendWidget, setBackendInvalidMessage } from '@/views/selfservice/helper';
+import { sanitizeBackendWidget, sanitizeFrontendValues, setBackendInvalidMessage } from '@/views/selfservice/helper';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid, WidgetDefinition } from '@/jsHelper/forms';
@@ -275,7 +275,7 @@ export default defineComponent({
         });
         return;
       }
-      this.save(alteredValues);
+      this.save(sanitizeFrontendValues(alteredValues));
     },
     save(values) {
       this.$store.dispatch('activateLoadingState');
