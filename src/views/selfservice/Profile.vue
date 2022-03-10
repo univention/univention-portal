@@ -108,6 +108,8 @@ import ConfirmDeregistration from '@/views/selfservice/ConfirmDeregistration.vue
 import activity from '@/jsHelper/activity';
 
 interface Data {
+  initiated: boolean,
+  forceLogin: boolean,
   loginWidgets: WidgetDefinition[],
   loginValues: Record<string, string>,
   attributeWidgets: WidgetDefinition[],
@@ -146,6 +148,8 @@ export default defineComponent({
       attributeWidgets: [],
       attributeValues: {},
       origFormValues: {},
+      initiated: false,
+      forceLogin: false,
     };
   },
   computed: {
@@ -153,6 +157,7 @@ export default defineComponent({
       userState: 'user/userState',
       activityLevel: 'activity/level',
       metaData: 'metaData/getMeta',
+      initialLoadDone: 'getInitialLoadDone',
     }),
     renderDeregistration(): boolean {
       return isTrue(this.metaData['umc/self-service/account-deregistration/enabled'] ?? false);
@@ -199,8 +204,17 @@ export default defineComponent({
     tabindex(): number {
       return activity(['selfservice'], this.activityLevel);
     },
+    skipLogin(): boolean {
+      return !this.forceLogin && this.userState.username && this.metaData['umc/self-service/allow-authenticated-use'];
+    },
+    loginWidgetsVisible(): WidgetDefinition[] {
+      if (this.skipLogin) {
+        return [this.loginWidgets[0]];
+      }
+      return this.loginWidgets;
+    },
     loginWidgetsWithTabindex(): WidgetDefinition[] {
-      return this.loginWidgets.map((widget) => {
+      return this.loginWidgetsVisible.map((widget) => {
         widget.tabindex = this.tabindex;
         return widget;
       });
@@ -211,27 +225,56 @@ export default defineComponent({
         return widget;
       });
     },
+    credentials(): { username?: string, password?: string } {
+      if (this.skipLogin) {
+        return {};
+      }
+      return {
+        username: this.loginValues.username,
+        password: this.loginValues.password,
+      };
+    },
+  },
+  watch: {
+    initialLoadDone(loadDone) {
+      if (loadDone && !this.initiated) {
+        this.init();
+      }
+    },
   },
   mounted() {
-    if (this.userState?.username) {
-      this.loginValues.username = this.userState.username ? this.userState.username : null;
-      this.loginWidgets[0].disabled = true;
+    if (this.initialLoadDone) {
+      this.init();
     }
-    // FIXME (would like to get rid of setTimeout)
-    // when this site is opening via a SideNavigation.vue entry then
-    // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
-    // which calls focusElement which uses setTimeout, 50
-    // so we have to also use setTimeout
-    setTimeout(() => {
-      this.loginForm.focusFirstInteractable();
-    }, 100);
   },
   methods: {
+    init() {
+      this.initiated = true;
+      if (this.userState?.username) {
+        this.loginValues.username = this.userState.username ? this.userState.username : null;
+        this.loginWidgets[0].disabled = true;
+      }
+
+      if (this.skipLogin) {
+        this.onContinue();
+      } else {
+        // FIXME (would like to get rid of setTimeout)
+        // when this site is opening via a SideNavigation.vue entry then
+        // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
+        // which calls focusElement which uses setTimeout, 50
+        // so we have to also use setTimeout
+        setTimeout(() => {
+          this.loginForm.focusFirstInteractable();
+        }, 100);
+      }
+    },
     onContinue() {
-      validateAll(this.loginWidgets, this.loginValues);
-      if (!allValid(this.loginWidgets)) {
-        this.loginForm.focusFirstInvalid();
-        return;
+      if (!this.skipLogin) {
+        validateAll(this.loginWidgets, this.loginValues);
+        if (!allValid(this.loginWidgets)) {
+          this.loginForm.focusFirstInvalid();
+          return;
+        }
       }
       this.loginWidgets.forEach((widget) => {
         widget.disabled = true;
@@ -239,6 +282,7 @@ export default defineComponent({
       this.loadAttributes();
     },
     resetToLogin() {
+      this.forceLogin = true;
       this.attributeWidgets = [];
       this.attributeValues = {};
       this.loginWidgets.forEach((widget) => {
@@ -280,9 +324,8 @@ export default defineComponent({
     save(values) {
       this.$store.dispatch('activateLoadingState');
       umcCommand('passwordreset/validate_user_attributes', {
-        username: this.loginValues.username,
-        password: this.loginValues.password,
         attributes: values,
+        ...this.credentials,
       })
         .then((result) => {
           setBackendInvalidMessage(this.attributeWidgets, result);
@@ -291,9 +334,8 @@ export default defineComponent({
             return undefined;
           }
           return umcCommand('passwordreset/set_user_attributes', {
-            username: this.loginValues.username,
-            password: this.loginValues.password,
             attributes: values,
+            ...this.credentials,
           }).then(() => {
             this.$store.dispatch('notifications/addSuccessNotification', {
               title: _('Profile changes'),
@@ -321,9 +363,8 @@ export default defineComponent({
         .then((widgets) => {
           const attributes = widgets.map((widget) => widget.id);
           return umcCommand('passwordreset/get_user_attributes_values', {
-            username: this.loginValues.username,
-            password: this.loginValues.password,
             attributes,
+            ...this.credentials,
           }).then((values) => {
             const sanitized = widgets.map((widget) => sanitizeBackendWidget(widget));
             sanitized.forEach((widget) => {
@@ -348,11 +389,11 @@ export default defineComponent({
         });
     },
     deleteAccount(): void {
-      this.confirmDeregistrationDialog.show()
-        .then(() => {
+      this.confirmDeregistrationDialog.show(this.skipLogin)
+        .then((password) => {
           umcCommandWithStandby(this.$store, 'passwordreset/deregister_account', {
             username: this.loginValues.username,
-            password: this.loginValues.password,
+            password: this.skipLogin ? password : this.loginValues.password,
           })
             .then(() => {
               this.errorDialog.showError(_('Your account has been successfully deleted.'), _('Account deletion'))
