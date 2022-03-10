@@ -339,6 +339,9 @@ export default defineComponent({
                 required: widget.required ?? false,
                 readonly: !(widget.editable ?? true) || (widget.readonly ?? false),
               };
+              if (widget.type === 'ImageUploader') {
+                w.extraLabel = w.label;
+              }
               if (widget.type === 'ComboBox') {
                 w.options = widget.staticValues;
               }
