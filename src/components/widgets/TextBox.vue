@@ -51,8 +51,7 @@ export default defineComponent({
   },
   methods: {
     focus() {
-      // @ts-ignore TODO
-      this.$refs.input.focus();
+      (this.$refs.input as HTMLInputElement).focus();
     },
   },
 });
