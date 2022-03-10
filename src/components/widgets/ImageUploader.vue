@@ -60,6 +60,7 @@
         @change="upload"
       >
       <button
+        ref="uploadButton"
         type="button"
         :tabindex="tabindex"
         :data-test="`imageUploadButton--${extraLabel}`"
@@ -182,6 +183,9 @@ export default defineComponent({
     remove() {
       this.$emit('update:modelValue', '');
       this.fileName = '';
+    },
+    focus() {
+      (this.$refs.uploadButton as HTMLButtonElement).focus();
     },
   },
 });
