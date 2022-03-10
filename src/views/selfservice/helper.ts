@@ -27,8 +27,24 @@
  * <https://www.gnu.org/licenses/>.
  */
 
-// eslint-disable-next-line import/prefer-default-export
-export function sanitizeBackendWidget(widget) {
+import { WidgetDefinition } from '@/jsHelper/forms';
+
+interface BackendWidgetDefinition {
+  // description: string, not used atm
+  // multivalue: boolean, not used atm
+  // size: string, not used atm
+  // syntax: string, not used atm
+  editable: boolean,
+  readonly: boolean,
+  type: string,
+  id: string,
+  label: string,
+  required: boolean,
+  staticValues?: any[],
+  subtypes?: BackendWidgetDefinition[],
+}
+
+export function sanitizeBackendWidget(widget: BackendWidgetDefinition): WidgetDefinition {
   const w: any = {
     // TODO unhandled fields that come from command/passwordreset/get_user_attributes_descriptions
     // description: ""
@@ -49,12 +65,21 @@ export function sanitizeBackendWidget(widget) {
   }
   if (widget.type === 'MultiInput') {
     w.extraLabel = w.label;
-    w.subtypes = widget.subtypes.map((subtype) => sanitizeBackendWidget(subtype));
+    w.subtypes = widget.subtypes?.map((subtype) => sanitizeBackendWidget(subtype));
   }
   return w;
 }
 
-export function setBackendInvalidMessage(widgets, invalidData) {
+interface ValidationObject {
+  isValid: boolean | boolean[],
+  message: string | string[],
+}
+
+interface ValidationData {
+  [key: string]: ValidationObject,
+}
+
+export function setBackendInvalidMessage(widgets: WidgetDefinition[], invalidData: ValidationData): void {
   widgets.forEach((widget) => {
     const validationObj = invalidData[widget.name];
     if (validationObj !== undefined) {
@@ -74,7 +99,7 @@ export function setBackendInvalidMessage(widgets, invalidData) {
           }
           break;
         default:
-          widget.invalidMessage = validationObj.message;
+          widget.invalidMessage = validationObj.message as string;
           break;
       }
     }
