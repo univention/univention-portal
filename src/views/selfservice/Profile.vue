@@ -282,9 +282,9 @@ export default defineComponent({
           });
           if (!allValid(this.attributeWidgets)) {
             this.attributesForm.focusFirstInvalid();
-            return;
+            return undefined;
           }
-          umcCommand('passwordreset/set_user_attributes', {
+          return umcCommand('passwordreset/set_user_attributes', {
             username: this.loginValues.username,
             password: this.loginValues.password,
             attributes: values,
