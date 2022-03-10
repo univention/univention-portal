@@ -132,8 +132,14 @@ export default defineComponent({
     },
   },
   mounted(): void {
-    // @ts-ignore TODO
-    this.$refs.form.focusFirstInteractable();
+    // FIXME (would like to get rid of setTimeout)
+    // when this site is opening via a SideNavigation.vue entry then
+    // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
+    // which calls focusElement which uses setTimeout, 50
+    // so we have to also use setTimeout
+    setTimeout(() => {
+      (this.$refs.form as typeof MyForm).focusFirstInteractable();
+    }, 100);
     this.$store.dispatch('navigation/setActiveButton', '');
   },
   methods: {

@@ -166,10 +166,15 @@ export default defineComponent({
         this.formValues.token = this.$route.query.token;
         this.tokenGiven = true;
       }
-      setTimeout(() => {
-        this.form.focusFirstInteractable();
-      }, 300); // TODO...
     }, 300); // TODO...
+    // FIXME (would like to get rid of setTimeout)
+    // when this site is opening via a SideNavigation.vue entry then
+    // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
+    // which calls focusElement which uses setTimeout, 50
+    // so we have to also use setTimeout
+    setTimeout(() => {
+      this.form.focusFirstInteractable();
+    }, 100);
   },
   methods: {
     submit() {
