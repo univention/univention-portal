@@ -112,9 +112,8 @@ export default defineComponent({
       label: _('New password (retype)'),
       validators: [(widget, value) => (
         isEmpty(widget, value) ? _('Please confirm your new password') : ''
-      ), (widget, value) => {
-        // @ts-ignore TODO
-        if (this.formValues.newPassword !== value) {
+      ), (widget, value, widgets, values) => {
+        if (values.newPassword !== value) {
           return _('The new passwords do not match');
         }
         return '';

@@ -128,8 +128,8 @@ export default defineComponent({
         retype.label = `${retype.label} ${_('(retype)')}`;
         retype.validators = [(widget, value) => (
           isEmpty(widget, value) ? _('Please confirm your new password') : ''
-        ), (widget, value) => {
-          if (this.formValues[passwordWidget.name] !== value) {
+        ), (widget, value, widgets, values) => {
+          if (values[passwordWidget.name] !== value) {
             return _('The new passwords do not match');
           }
           return '';
