@@ -10,7 +10,6 @@
       modal-level="selfservice2"
       :i18n-title-key="TITLE"
       class="dialog--selfservice"
-      role="alertdialog"
       @cancel="cancel"
     >
       <template #description>

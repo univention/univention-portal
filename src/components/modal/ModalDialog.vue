@@ -59,7 +59,6 @@ License with the Debian GNU/Linux or Univention distribution in file
       />
     </header>
     <div
-      v-if="describedbyId"
       :id="describedbyId"
     >
       <slot name="description" />
@@ -113,11 +112,7 @@ export default defineComponent({
     labelledbyId(): string {
       return `${this.$.uid}-labelledby`;
     },
-    describedbyId(): string | null {
-      const children = this.$slots.description?.();
-      if (children === undefined || children.length === 0) {
-        return null;
-      }
+    describedbyId(): string {
       return `${this.$.uid}-describedby`;
     },
     isFocusable(): boolean {
