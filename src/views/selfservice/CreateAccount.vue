@@ -64,7 +64,7 @@ import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 import { allValid, initialValue, isEmpty, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 import activity from '@/jsHelper/activity';
 import { mapGetters } from 'vuex';
-import { sanitizeBackendWidget } from '@/views/selfservice/helper';
+import { sanitizeBackendWidget, setBackendInvalidMessage } from '@/views/selfservice/helper';
 
 interface Data {
   formValues: Record<string, string>,
@@ -169,17 +169,7 @@ export default defineComponent({
                 });
             }
           } else if (result.failType === 'INVALID_ATTRIBUTES') {
-            Object.entries(result.data).forEach(([name, info]: [string, any]) => {
-              if (info.isValid) {
-                return;
-              }
-              this.formWidgets.forEach((widget) => {
-                if ((widget.name) !== name) {
-                  return;
-                }
-                widget.invalidMessage = info.message;
-              });
-            });
+            setBackendInvalidMessage(this.formWidgets, result.data);
             if (!allValid(this.formWidgets)) {
               this.form.focusFirstInvalid();
             }
