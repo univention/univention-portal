@@ -98,7 +98,7 @@ import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
 import { umcCommand, umcCommandWithStandby } from '@/jsHelper/umc';
 import { isTrue } from '@/jsHelper/ucr';
-import { sanitizeBackendWidget } from '@/views/selfservice/helper';
+import { sanitizeBackendWidget, setBackendInvalidMessage } from '@/views/selfservice/helper';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid, WidgetDefinition } from '@/jsHelper/forms';
@@ -285,35 +285,7 @@ export default defineComponent({
         attributes: values,
       })
         .then((result) => {
-          this.attributeWidgets.forEach((widget) => {
-            const validationObj = result[widget.name];
-            if (validationObj !== undefined) {
-              switch (widget.type) {
-                case 'TextBox':
-                case 'DateBox':
-                case 'ComboBox':
-                case 'PasswordBox':
-                  widget.invalidMessage = validationObj.message;
-                  break;
-                case 'MultiInput':
-                  // TODO test if non array can come from backend
-                  if (Array.isArray(validationObj.message)) {
-                    widget.invalidMessage = {
-                      all: '',
-                      values: validationObj.message,
-                    };
-                  } else {
-                    widget.invalidMessage = {
-                      all: validationObj.message,
-                      values: [],
-                    };
-                  }
-                  break;
-                default:
-                  break;
-              }
-            }
-          });
+          setBackendInvalidMessage(this.attributeWidgets, result);
           if (!allValid(this.attributeWidgets)) {
             this.attributesForm.focusFirstInvalid();
             return undefined;

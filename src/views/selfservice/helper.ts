@@ -53,3 +53,30 @@ export function sanitizeBackendWidget(widget) {
   }
   return w;
 }
+
+export function setBackendInvalidMessage(widgets, invalidData) {
+  widgets.forEach((widget) => {
+    const validationObj = invalidData[widget.name];
+    if (validationObj !== undefined) {
+      switch (widget.type) {
+        case 'MultiInput':
+          // TODO test if non array can come from backend
+          if (Array.isArray(validationObj.message)) {
+            widget.invalidMessage = {
+              all: '',
+              values: validationObj.message,
+            };
+          } else {
+            widget.invalidMessage = {
+              all: validationObj.message,
+              values: [],
+            };
+          }
+          break;
+        default:
+          widget.invalidMessage = validationObj.message;
+          break;
+      }
+    }
+  });
+}
