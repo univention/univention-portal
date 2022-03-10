@@ -61,9 +61,10 @@ import { umcCommandWithStandby } from '@/jsHelper/umc';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
-import { allValid, validateAll, WidgetDefinition } from '@/jsHelper/forms';
+import { allValid, initialValue, isEmpty, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 import activity from '@/jsHelper/activity';
 import { mapGetters } from 'vuex';
+import { sanitizeBackendWidget } from '@/views/selfservice/helper';
 
 interface Data {
   formValues: Record<string, string>,
@@ -112,21 +113,28 @@ export default defineComponent({
   mounted() {
     umcCommandWithStandby(this.$store, 'passwordreset/get_registration_attributes')
       .then((result) => {
-        result.layout.forEach((name) => {
-          result.widget_descriptions.forEach((widget) => {
-            if (widget.id !== name) {
-              return;
-            }
-            this.formValues[widget.id] = '';
-            this.formWidgets.push({
-              type: widget.type === 'PasswordInputBox' ? 'PasswordBox' : widget.type,
-              name: widget.id,
-              label: widget.label,
-              invalidMessage: '',
-              required: widget.required,
-            });
-          });
+        const sanitized = result.widget_descriptions.map((widget) => sanitizeBackendWidget(widget));
+        const passwordIdx = sanitized.findIndex((widget) => widget.type === 'PasswordInputBox');
+        const passwordWidget = sanitized[passwordIdx];
+        passwordWidget.type = 'PasswordBox';
+        const retype = JSON.parse(JSON.stringify(passwordWidget));
+        retype.name = `${retype.name}--retype`;
+        retype.label = `${retype.label} ${_('(retype)')}`;
+        retype.validators = [(widget, value) => (
+          isEmpty(widget, value) ? _('Please confirm your new password') : ''
+        ), (widget, value) => {
+          if (this.formValues[passwordWidget.name] !== value) {
+            return _('The new passwords do not match');
+          }
+          return '';
+        }];
+        sanitized.splice(passwordIdx + 1, 0, retype);
+        const values = {};
+        sanitized.forEach((widget) => {
+          values[widget.name] = initialValue(widget, values[widget.name]);
         });
+        this.formValues = values;
+        this.formWidgets = sanitized;
         this.$nextTick(() => {
           this.form.focusFirstInteractable();
         });

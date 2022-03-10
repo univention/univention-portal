@@ -98,6 +98,7 @@ import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
 import { umcCommand, umcCommandWithStandby } from '@/jsHelper/umc';
 import { isTrue } from '@/jsHelper/ucr';
+import { sanitizeBackendWidget } from '@/views/selfservice/helper';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid, WidgetDefinition } from '@/jsHelper/forms';
@@ -352,32 +353,7 @@ export default defineComponent({
             password: this.loginValues.password,
             attributes,
           }).then((values) => {
-            const sanitizeWidget = (widget) => {
-              const w: any = {
-                // TODO unhandled fields that come from command/passwordreset/get_user_attributes_descriptions
-                // description: ""
-                // multivalue: false
-                // size: "TwoThirds"
-                // syntax: "TwoThirdsString"
-                type: widget.type,
-                name: widget.id ?? '',
-                label: widget.label ?? '',
-                required: widget.required ?? false,
-                readonly: !(widget.editable ?? true) || (widget.readonly ?? false),
-              };
-              if (widget.type === 'ImageUploader') {
-                w.extraLabel = w.label;
-              }
-              if (widget.type === 'ComboBox') {
-                w.options = widget.staticValues;
-              }
-              if (widget.type === 'MultiInput') {
-                w.extraLabel = w.label;
-                w.subtypes = widget.subtypes.map((subtype) => sanitizeWidget(subtype));
-              }
-              return w;
-            };
-            const sanitized = widgets.map((widget) => sanitizeWidget(widget));
+            const sanitized = widgets.map((widget) => sanitizeBackendWidget(widget));
             sanitized.forEach((widget) => {
               values[widget.name] = initialValue(widget, values[widget.name]);
             });
