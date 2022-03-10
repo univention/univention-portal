@@ -190,7 +190,14 @@ export default defineComponent({
       this.loginValues.username = this.userState.username ? this.userState.username : null;
       this.loginWidgets[0].disabled = true;
     }
-    this.loginForm.focusFirstInteractable();
+    // FIXME (would like to get rid of setTimeout)
+    // when this site is opening via a SideNavigation.vue entry then
+    // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
+    // which calls focusElement which uses setTimeout, 50
+    // so we have to also use setTimeout
+    setTimeout(() => {
+      this.loginForm.focusFirstInteractable();
+    }, 100);
   },
   methods: {
     onContinue() {
