@@ -80,6 +80,7 @@ const routes = [
         path: 'selfservice/newpassword',
         component: NewPassword,
         name: 'selfserviceNewPassword',
+        props: (route) => ({ queryParamUsername: route.query.username, queryParamToken: route.query.token }),
       },
       {
         path: 'selfservice/servicespecificpasswords',
