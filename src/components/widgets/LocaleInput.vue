@@ -42,7 +42,7 @@
         :tabindex="tabindex"
         :required="required"
         :aria-invalid="invalid"
-        :aria-describedby="invalidMessageId"
+        :aria-describedby="invalidMessageId || null"
         :data-test="`localeInput--${i18nLabel}`"
         @input="onInputEN"
       >
@@ -103,7 +103,7 @@ export default defineComponent({
       required: true,
     },
     invalidMessageId: {
-      type: String || null,
+      type: String,
       required: true,
     },
     required: {

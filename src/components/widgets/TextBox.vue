@@ -6,7 +6,7 @@
     type="text"
     :value="modelValue"
     :aria-invalid="invalid"
-    :aria-describedby="invalidMessageId"
+    :aria-describedby="invalidMessageId || null"
     data-test="text-box"
     @input="$emit('update:modelValue', $event.target.value)"
   >
@@ -36,7 +36,7 @@ export default defineComponent({
       required: true,
     },
     invalidMessageId: {
-      type: String || null,
+      type: String,
       required: true,
     },
   },

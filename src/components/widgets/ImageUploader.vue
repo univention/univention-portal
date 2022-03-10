@@ -125,7 +125,7 @@ export default defineComponent({
       required: true,
     },
     invalidMessageId: {
-      type: String || null,
+      type: String,
       required: true,
     },
   },
