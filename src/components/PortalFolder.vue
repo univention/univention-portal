@@ -58,6 +58,7 @@
         :id="`${id}-content`"
         :aria-role="ariaRole"
         class="portal-folder__thumbnails"
+        tabindex="0"
         role="none"
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
       >
@@ -390,6 +391,7 @@ export default defineComponent({
     padding: 0.3rem;
     box-sizing: border-box;
     overflow: hidden
+    outline: 0
     > div
         display: flex
         align-content: center
