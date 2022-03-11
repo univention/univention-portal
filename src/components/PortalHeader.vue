@@ -30,8 +30,9 @@ License with the Debian GNU/Linux or Univention distribution in file
   <region
     id="portal-header"
     role="banner"
-    :class="{ 'portal-header__tabs-overflow': tabsOverflow }"
+    :class="{ 'portal-header__tabs-overflow': tabsOverflow}"
     class="portal-header"
+    :style="inEditModeAndSideNavopenExtraPadding"
   >
     <portal-title />
 
@@ -55,6 +56,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     <div
       v-if="editMode"
       class="portal-header__edit-mode-label"
+      :style="inEditModeAndSideNavopenPositioningAdjustment"
     >
       {{ EDIT_MODE }}
       <icon-button
@@ -141,8 +143,11 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 
+import getScrollbarWidth from '@/jsHelper/getScrollbar';
+
 interface PortalHeaderData {
-  tabsOverflow: boolean;
+  tabsOverflow: boolean,
+  scrollbarWidth: number,
 }
 
 export default defineComponent({
@@ -161,6 +166,7 @@ export default defineComponent({
   data(): PortalHeaderData {
     return {
       tabsOverflow: false,
+      scrollbarWidth: 0,
     };
   },
   computed: {
@@ -202,6 +208,12 @@ export default defineComponent({
     MENU(): string {
       return _('Menu');
     },
+    inEditModeAndSideNavopenExtraPadding(): string {
+      return this.activeButton === 'settings' ? `padding-right: calc(2 * var(--layout-spacing-unit) + ${this.scrollbarWidth}px)` : '';
+    },
+    inEditModeAndSideNavopenPositioningAdjustment(): string {
+      return this.activeButton === 'settings' ? `right: calc(50% - 75px + ${this.scrollbarWidth / 2}px)` : '';
+    },
   },
   watch: {
     numTabs(): void {
@@ -211,6 +223,7 @@ export default defineComponent({
     },
   },
   mounted() {
+    this.scrollbarWidth = getScrollbarWidth();
     this.$nextTick(() => {
       window.addEventListener('resize', this.updateOverflow);
     });
@@ -261,6 +274,8 @@ export default defineComponent({
   height: var(--portal-header-height)
   display: flex
   padding: 0 calc(2 * var(--layout-spacing-unit))
+  width: 100%
+  box-sizing: border-box
 
   &__tabs
     display: flex;
@@ -286,9 +301,11 @@ export default defineComponent({
     align-items: center
     justify-content: center
     padding-left: calc(var(--button-size) / 2)
+    transition: top 0.1s ease-in;
 
-    @media $mqSmartphone
+    @media only screen and (max-width: 884px) //special mediaquery, since opened sidenav can cause layout irritaions
       top: calc(var(--layout-height-header) - 62%)
+      transition: top 0.1s ease-in;
 
     & button
       margin-left: var(--layout-spacing-unit)
