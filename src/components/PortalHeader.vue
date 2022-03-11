@@ -184,9 +184,6 @@ export default defineComponent({
     showTabButton(): boolean {
       return this.numTabs > 0 && this.tabsOverflow;
     },
-    SHOW_PORTAL(): string {
-      return _('Show portal');
-    },
     EDIT_MODE(): string {
       return _('Edit mode');
     },
