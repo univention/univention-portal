@@ -37,7 +37,7 @@
     >
       <footer>
         <button
-          v-if="formValues.token"
+          v-if="formValues.username && formValues.token"
           type="submit"
           :tabindex="tabindex"
           class="primary"
@@ -92,11 +92,21 @@ export default defineComponent({
     MyForm,
     ErrorDialog,
   },
+  props: {
+    queryParamUsername: {
+      type: String,
+      default: '',
+    },
+    queryParamToken: {
+      type: String,
+      default: '',
+    },
+  },
   data(): Data {
     return {
       formValues: {
-        username: '',
-        token: '',
+        username: this.queryParamUsername,
+        token: this.queryParamToken,
       },
       failType: '',
       successType: '',
@@ -144,15 +154,15 @@ export default defineComponent({
       });
     },
   },
+  watch: {
+    queryParamUsername(value) {
+      this.formValues.username = value;
+    },
+    queryParamToken(value) {
+      this.formValues.token = value;
+    },
+  },
   mounted() {
-    setTimeout(() => {
-      if (typeof this.$route.query.username === 'string' && this.$route.query.username) {
-        this.formValues.username = this.$route.query.username;
-      }
-      if (typeof this.$route.query.token === 'string' && this.$route.query.token) {
-        this.formValues.token = this.$route.query.token;
-      }
-    }, 300); // TODO...
     // FIXME (would like to get rid of setTimeout)
     // when this site is opening via a SideNavigation.vue entry then
     // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
@@ -173,12 +183,15 @@ export default defineComponent({
       })
         .then((result) => {
           if (result.success) {
-            this.$store.dispatch('notifications/addSuccessNotification', {
-              title: _('Hello, %(username)s', { username: result.data.username }),
-              description: _('We have sent you an email to your registered address. Please follow the instructions in the email to verify your account.'),
-            });
+            this.errorDialog.showError([
+              _('Hello, %(username)s', { username: result.data.username }),
+              _('We have sent you an email to your registered address. Please follow the instructions in the email to verify your account.'),
+            ], _('Verification token send'), 'dialog')
+              .then(() => {
+                this.form.focusFirstInteractable();
+              });
           } else if (result.failType === 'INVALID_INFORMATION') {
-            this.errorDialog.showError(_('The verification token could not be sent. Please verify your input.'), _('Verification failed'))
+            this.errorDialog.showError(_('The verification token could not be sent. Please verify your input.'), _('Failed to send verification token'))
               .then(() => {
                 this.form.focusFirstInteractable();
               });

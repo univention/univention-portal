@@ -65,6 +65,7 @@ const routes = [
         path: 'selfservice/verifyaccount',
         component: VerifyAccount,
         name: 'selfserviceVerifyAccount',
+        props: (route) => ({ queryParamUsername: route.query.username, queryParamToken: route.query.token }),
       },
       {
         path: 'selfservice/protectaccount',
