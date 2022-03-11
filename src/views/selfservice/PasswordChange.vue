@@ -129,6 +129,9 @@ export default defineComponent({
     CHANGE_PASSWORD(): string {
       return _('Change password');
     },
+    form(): typeof MyForm {
+      return this.$refs.form as typeof MyForm;
+    },
   },
   mounted(): void {
     // FIXME (would like to get rid of setTimeout)
@@ -137,15 +140,14 @@ export default defineComponent({
     // which calls focusElement which uses setTimeout, 50
     // so we have to also use setTimeout
     setTimeout(() => {
-      (this.$refs.form as typeof MyForm).focusFirstInteractable();
+      this.form.focusFirstInteractable();
     }, 100);
   },
   methods: {
     finish() {
       validateAll(this.formWidgets, this.formValues);
       if (!allValid(this.formWidgets)) {
-        // @ts-ignore TODO
-        this.$refs.form.focusFirstInvalid();
+        this.form.focusFirstInvalid();
         return;
       }
       this.$store.dispatch('activateLoadingState');
