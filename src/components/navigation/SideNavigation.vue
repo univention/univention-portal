@@ -114,6 +114,7 @@
             id="portal-sidenavigation-sub"
             class="portal-sidenavigation__submenu"
             role="navigation"
+            aria-role="navigation"
             direction="topdown"
             :aria-expanded="subMenuVisible"
           >
