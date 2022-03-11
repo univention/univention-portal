@@ -29,10 +29,9 @@
 <template>
   <site
     :title="TITLE"
-    :subtitle="successMessage"
   >
     <my-form
-      v-if="!successMessage && formWidgets.length > 0"
+      v-if="formWidgets.length > 0"
       ref="form"
       v-model="formValues"
       :widgets="formWidgetsWithTabindex"
@@ -70,7 +69,6 @@ import { sanitizeBackendWidget, setBackendInvalidMessage, sanitizeFrontendValues
 interface Data {
   formValues: Record<string, string>,
   formWidgets: WidgetDefinition[],
-  successMessage: string,
 }
 
 export default defineComponent({
@@ -82,7 +80,6 @@ export default defineComponent({
   },
   data(): Data {
     return {
-      successMessage: '',
       formValues: {},
       formWidgets: [],
     };
@@ -92,9 +89,6 @@ export default defineComponent({
       activityLevel: 'activity/level',
     }),
     TITLE(): string {
-      if (this.successMessage) {
-        return _('Account creation successful');
-      }
       return _('Create an account');
     },
     SUBMIT_LABEL(): string {
@@ -158,17 +152,22 @@ export default defineComponent({
         attributes: sanitizeFrontendValues(this.formValues),
       })
         .then((result) => {
+          console.log(result);
           if (result.success) {
             if (result.verifyTokenSuccessfullySend) {
-              this.successMessage = _('Hello %(username)s, we have sent you an email to %(email)s. Please follow the instructions in the email to verify your account.', {
-                username: result.data.username,
-                email: result.data.email,
-              });
-              this.$store.dispatch('activity/setMessage', `${this.TITLE}. ${this.successMessage}`);
+              this.errorDialog.showError([
+                _('Hello %(username)s,', { username: result.data.username }),
+                _('we have sent you an email to %(email)s. Please follow the instructions in the email to verify your account.', {
+                  email: result.data.email,
+                }),
+              ], _('Account creation successful'), 'dialog')
+                .then(() => {
+                  this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
+                });
             } else {
               this.errorDialog.showError([
-                _('Hello, %(username)s', { username: result.data.username }),
-                _('An error occurred while sending the verification token for your account. Please request a new one.'),
+                _('Hello, %(username)s,', { username: result.data.username }),
+                _('an error occurred while sending the verification token for your account. Please request a new one.'),
               ])
                 .then(() => {
                   this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
