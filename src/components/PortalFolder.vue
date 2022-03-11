@@ -58,6 +58,7 @@
         :id="`${id}-content`"
         :aria-role="ariaRole"
         class="portal-folder__thumbnails"
+        role="none"
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
       >
         <div
@@ -234,7 +235,7 @@ export default defineComponent({
       if (this.inModal && this.editMode) {
         return 'application';
       }
-      return this.inModal ? 'section' : 'none';
+      return this.inModal ? 'region' : 'none';
     },
   },
   mounted() {
