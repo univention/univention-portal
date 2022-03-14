@@ -26,8 +26,6 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import _ from '@/jsHelper/translate';
-import { changePassword } from '@/jsHelper/umc';
 import { randomId } from '@/jsHelper/tools';
 
 function makeEntry(entryID, availableTiles, defaultLinkTarget) {
