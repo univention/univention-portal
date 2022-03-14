@@ -186,7 +186,10 @@ export default defineComponent({
   },
   methods: {
     refocus() {
-      this.form.focusFirstInteractable();
+      // @ts-ignore TODO
+      this.$nextTick(() => {
+        this.form.focusFirstInteractable();
+      });
     },
     submit() {
       if (!validateAll(this.formWidgets, this.formValues)) {
@@ -205,11 +208,13 @@ export default defineComponent({
       }
       umcCommandWithStandby(this.$store, this.path, params)
         .then((result) => {
+          this.disableLoginWidgets(true);
           this.loaded = true;
           this.$emit('loaded', result, this.formValues);
           this.refocus();
         })
         .catch((error) => {
+          this.disableLoginWidgets(false);
           this.formValues.username = '';
           if (this.passwordNeeded) {
             this.formValues.password = '';
@@ -222,6 +227,14 @@ export default defineComponent({
     },
     showError(message: string | string[], title = ''): Promise<undefined> {
       return (this.$refs.errorDialog as typeof ErrorDialog).showError(message, title);
+    },
+    disableLoginWidgets(disabled: boolean): void {
+      ['username', 'password'].forEach((attrName) => {
+        const widget = this.formWidgets.find((w) => w.name === attrName);
+        if (widget) {
+          widget.disabled = disabled;
+        }
+      });
     },
   },
 });
