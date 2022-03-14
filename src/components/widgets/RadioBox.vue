@@ -11,6 +11,7 @@
     >
       <input
         :id="`${name}--${option.id}`"
+        :ref="`option--${option.id}`"
         type="radio"
         :tabindex="tabindex"
         name="radio-input"
@@ -25,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { isValid } from '@/jsHelper/forms';
 
 export default defineComponent({
@@ -40,7 +41,7 @@ export default defineComponent({
       default: '',
     },
     options: {
-      type: Array,
+      type: Array as PropType<{ id: string, label: string }[]>,
       required: true,
     },
     name: {
@@ -63,7 +64,8 @@ export default defineComponent({
   },
   methods: {
     focus(): void {
-      console.warn('Focus not implemented');
+      const firstOptionId = this.options[0]?.id;
+      (this.$refs[`option--${firstOptionId}`] as HTMLInputElement)?.focus();
     },
   },
 });
