@@ -32,7 +32,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     role="banner"
     :class="{ 'portal-header__tabs-overflow': tabsOverflow}"
     class="portal-header"
-    :style="inEditModeAndSideNavopenExtraPadding"
+    :style="SideNavopenExtraPadding"
   >
     <portal-title />
 
@@ -205,8 +205,8 @@ export default defineComponent({
     MENU(): string {
       return _('Menu');
     },
-    inEditModeAndSideNavopenExtraPadding(): string {
-      return this.activeButton === 'settings' ? `padding-right: calc(2 * var(--layout-spacing-unit) + ${this.scrollbarWidth}px)` : '';
+    SideNavopenExtraPadding(): string {
+      return this.activeButton === 'settings' || this.activeButton === 'bell' ? `padding-right: calc(2 * var(--layout-spacing-unit) + ${this.scrollbarWidth}px)` : '';
     },
     inEditModeAndSideNavopenPositioningAdjustment(): string {
       return this.activeButton === 'settings' ? `right: calc(50% - 75px + ${this.scrollbarWidth / 2}px)` : '';
