@@ -33,7 +33,7 @@
     :subtitle="SUBTITLE"
     path="passwordreset/get_reset_methods"
     :password-needed="false"
-    :guarded-widgets="widgets"
+    :guarded-widgets="formWidgets"
     @loaded="loaded"
     @save="sendToken"
   />
@@ -53,7 +53,7 @@ interface MethodInfo {
 }
 
 interface Data {
-  methodInformation: MethodInfo[],
+  formWidgets: WidgetDefinition[],
 }
 
 export default defineComponent({
@@ -63,7 +63,7 @@ export default defineComponent({
   },
   data(): Data {
     return {
-      methodInformation: [],
+      formWidgets: [],
     };
   },
   computed: {
@@ -73,24 +73,18 @@ export default defineComponent({
     SUBTITLE(): string {
       return _('Forgot your password? Set a new one:');
     },
-    widgets(): WidgetDefinition[] {
-      return [{
+  },
+  methods: {
+    loaded(result: MethodInfo[], formValues) {
+      this.formWidgets = [{
         type: 'RadioBox',
         name: 'method',
-        options: this.methodInformation,
+        options: result,
         label: _('Please choose an option to renew your password.'),
         invalidMessage: '',
         required: true,
       }];
-    },
-  },
-  methods: {
-    loaded(result: MethodInfo[], formValues) {
-      this.methodInformation = result;
-      formValues.method = '';
-      if (result.length) {
-        formValues.method = result[0].id;
-      }
+      formValues.method = result[0]?.id ?? '';
     },
     sendToken(values) {
       umcCommandWithStandby(this.$store, 'passwordreset/send_token', values)
