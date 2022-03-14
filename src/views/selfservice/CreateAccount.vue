@@ -166,7 +166,7 @@ export default defineComponent({
                 });
             } else {
               this.errorDialog.showError([
-                _('Hello, %(username)s,', { username: result.data.username }),
+                _('Hello %(username)s,', { username: result.data.username }),
                 _('an error occurred while sending the verification token for your account. Please request a new one.'),
               ])
                 .then(() => {
