@@ -155,9 +155,10 @@ export default defineComponent({
         .then((response) => {
           this.$store.dispatch('notifications/addSuccessNotification', {
             title: _('Change password'),
-            description: response.data.message,
+            description: response.message,
           });
           this.$store.dispatch('deactivateLoadingState');
+          this.$router.push({ name: 'portal' });
         })
         .catch((error) => {
           console.error('Error while changing password', error);

@@ -78,7 +78,7 @@ function changePassword(oldPassword: string, newPassword: string): Promise<any> 
       password: oldPassword,
       new_password: newPassword,
     },
-  }).then((answer) => answer.data.result)
+  }).then((answer) => answer.data)
     .catch((error) => {
       if ('response' in error && 'data' in error.response) {
         throw error.response.data;
