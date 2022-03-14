@@ -184,7 +184,7 @@ export default defineComponent({
         .then((result) => {
           if (result.success) {
             this.errorDialog.showError([
-              _('Hello, %(username)s', { username: result.data.username }),
+              _('Hello %(username)s,', { username: result.data.username }),
               _('We have sent you an email to your registered address. Please follow the instructions in the email to verify your account.'),
             ], _('Verification token send'), 'dialog')
               .then(() => {
