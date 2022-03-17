@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -60,6 +60,7 @@
         @change="upload"
       >
       <button
+        ref="uploadButton"
         type="button"
         :tabindex="tabindex"
         :data-test="`imageUploadButton--${extraLabel}`"
@@ -125,7 +126,7 @@ export default defineComponent({
       required: true,
     },
     invalidMessageId: {
-      type: String || null,
+      type: String,
       required: true,
     },
   },
@@ -182,6 +183,9 @@ export default defineComponent({
     remove() {
       this.$emit('update:modelValue', '');
       this.fileName = '';
+    },
+    focus() {
+      (this.$refs.uploadButton as HTMLButtonElement).focus();
     },
   },
 });

@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -75,7 +75,6 @@ interface FormData {
 interface Data {
   formValues: FormData,
   formWidgets: WidgetDefinition[],
-  tokenGiven: boolean,
 }
 
 export default defineComponent({
@@ -84,6 +83,16 @@ export default defineComponent({
     MyForm,
     Site,
     ErrorDialog,
+  },
+  props: {
+    queryParamUsername: {
+      type: String,
+      default: '',
+    },
+    queryParamToken: {
+      type: String,
+      default: '',
+    },
   },
   data(): Data {
     const formWidgets: WidgetDefinition[] = [{
@@ -112,9 +121,8 @@ export default defineComponent({
       label: _('New password (retype)'),
       validators: [(widget, value) => (
         isEmpty(widget, value) ? _('Please confirm your new password') : ''
-      ), (widget, value) => {
-        // @ts-ignore TODO
-        if (this.formValues.newPassword !== value) {
+      ), (widget, value, widgets, values) => {
+        if (values.newPassword !== value) {
           return _('The new passwords do not match');
         }
         return '';
@@ -122,13 +130,12 @@ export default defineComponent({
     }];
     return {
       formValues: {
-        username: '',
-        token: '',
+        username: this.queryParamUsername,
+        token: this.queryParamToken,
         newPassword: '',
         newPassword2: '',
       },
       formWidgets,
-      tokenGiven: false,
     };
   },
   computed: {
@@ -147,33 +154,51 @@ export default defineComponent({
     form(): typeof MyForm {
       return this.$refs.form as typeof MyForm;
     },
+    errorDialog(): typeof ErrorDialog {
+      return this.$refs.errorDialog as typeof ErrorDialog;
+    },
     tabindex(): number {
       return activity(['selfservice'], this.activityLevel);
     },
+    visibleWidgets(): WidgetDefinition[] {
+      return this.formWidgets.filter((widget) => {
+        if (widget.name === 'username') {
+          return this.queryParamUsername === '';
+        }
+        if (widget.name === 'token') {
+          return this.queryParamToken === '';
+        }
+        return true;
+      });
+    },
     formWidgetsWithTabindex(): WidgetDefinition[] {
-      return this.formWidgets.map((widget) => {
+      return this.visibleWidgets.map((widget) => {
         widget.tabindex = this.tabindex;
         return widget;
       });
     },
   },
+  watch: {
+    queryParamUsername(value) {
+      this.formValues.username = value;
+    },
+    queryParamToken(value) {
+      this.formValues.token = value;
+    },
+  },
   mounted() {
+    // FIXME (would like to get rid of setTimeout)
+    // when this site is opening via a SideNavigation.vue entry then
+    // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
+    // which calls focusElement which uses setTimeout, 50
+    // so we have to also use setTimeout
     setTimeout(() => {
-      if (typeof this.$route.query.username === 'string' && this.$route.query.username) {
-        this.formValues.username = this.$route.query.username;
-      }
-      if (typeof this.$route.query.token === 'string' && this.$route.query.token) {
-        this.formValues.token = this.$route.query.token;
-        this.tokenGiven = true;
-      }
-      setTimeout(() => {
-        this.form.focusFirstInteractable();
-      }, 300); // TODO...
-    }, 300); // TODO...
+      this.form.focusFirstInteractable();
+    }, 100);
   },
   methods: {
     submit() {
-      if (!validateAll(this.formWidgets, this.formValues)) {
+      if (!validateAll(this.visibleWidgets, this.formValues)) {
         this.form.focusFirstInvalid();
         return;
       }
@@ -185,15 +210,15 @@ export default defineComponent({
       this.$store.dispatch('activateLoadingState');
       umcCommand('passwordreset/set_password', params)
         .then(() => {
-          this.$store.dispatch('notifications/addSuccessNotification', {
-            title: _('Token sent'),
-            description: _('Successfully sent Token.'),
-          });
+          this.errorDialog.showError(_('Your password has been successfully changed.'), _('Password change successful'), 'dialog')
+            .then(() => {
+              this.$router.push({ name: 'portal' });
+            });
         })
         .catch((error) => {
-          (this.$refs.errorDialog as typeof ErrorDialog).showError(error.message)
+          this.errorDialog.showError(error.message)
             .then(() => {
-              (this.$refs.saveButton as HTMLButtonElement).focus();
+              this.form.focusFirstInteractable();
             });
         })
         .finally(() => {

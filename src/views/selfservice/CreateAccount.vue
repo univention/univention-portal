@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -61,9 +61,10 @@ import { umcCommandWithStandby } from '@/jsHelper/umc';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
-import { allValid, validateAll, WidgetDefinition } from '@/jsHelper/forms';
+import { allValid, initialValue, isEmpty, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 import activity from '@/jsHelper/activity';
 import { mapGetters } from 'vuex';
+import { sanitizeBackendWidget, setBackendInvalidMessage, sanitizeFrontendValues } from '@/views/selfservice/helper';
 
 interface Data {
   formValues: Record<string, string>,
@@ -112,26 +113,32 @@ export default defineComponent({
   mounted() {
     umcCommandWithStandby(this.$store, 'passwordreset/get_registration_attributes')
       .then((result) => {
-        result.layout.forEach((name) => {
-          result.widget_descriptions.forEach((widget) => {
-            if (widget.id !== name) {
-              return;
-            }
-            this.formValues[widget.id] = '';
-            this.formWidgets.push({
-              type: widget.type === 'PasswordInputBox' ? 'PasswordBox' : widget.type,
-              name: widget.id,
-              label: widget.label,
-              invalidMessage: '',
-              required: widget.required,
-            });
-          });
+        const sanitized = result.widget_descriptions.map((widget) => sanitizeBackendWidget(widget));
+        const passwordIdx = sanitized.findIndex((widget) => widget.type === 'PasswordInputBox');
+        const passwordWidget = sanitized[passwordIdx];
+        passwordWidget.type = 'PasswordBox';
+        const retype = JSON.parse(JSON.stringify(passwordWidget));
+        retype.name = `${retype.name}--retype`;
+        retype.label = `${retype.label} ${_('(retype)')}`;
+        retype.validators = [(widget, value) => (
+          isEmpty(widget, value) ? _('Please confirm your new password') : ''
+        ), (widget, value, widgets, values) => {
+          if (values[passwordWidget.name] !== value) {
+            return _('The new passwords do not match');
+          }
+          return '';
+        }];
+        sanitized.splice(passwordIdx + 1, 0, retype);
+        const values = {};
+        sanitized.forEach((widget) => {
+          values[widget.name] = initialValue(widget, values[widget.name]);
         });
+        this.formValues = values;
+        this.formWidgets = sanitized;
         this.$nextTick(() => {
           this.form.focusFirstInteractable();
         });
-      })
-      .catch((error) => {
+      }, (error) => {
         this.errorDialog.showError(error.message);
       });
   },
@@ -142,37 +149,32 @@ export default defineComponent({
         return;
       }
       umcCommandWithStandby(this.$store, 'passwordreset/create_self_registered_account', {
-        attributes: this.formValues,
+        attributes: sanitizeFrontendValues(this.formValues),
       })
         .then((result) => {
+          console.log(result);
           if (result.success) {
             if (result.verifyTokenSuccessfullySend) {
-              this.$store.dispatch('notifications/addSuccessNotification', {
-                title: _('Hello, %(username)s', { username: result.data.username }),
-                description: _('We have sent you an email to %(email)s. Please follow the instructions in the email to verify your account.', { email: result.data.email }),
-              });
-              this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
+              this.errorDialog.showError([
+                _('Hello %(username)s,', { username: result.data.username }),
+                _('we have sent you an email to %(email)s. Please follow the instructions in the email to verify your account.', {
+                  email: result.data.email,
+                }),
+              ], _('Account creation successful'), 'dialog')
+                .then(() => {
+                  this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
+                });
             } else {
               this.errorDialog.showError([
-                _('Hello, %(username)s', { username: result.data.username }),
-                _('An error occurred while sending the verification token for your account. Please request a new one.'),
+                _('Hello %(username)s,', { username: result.data.username }),
+                _('an error occurred while sending the verification token for your account. Please request a new one.'),
               ])
                 .then(() => {
                   this.$router.push({ name: 'selfserviceVerifyAccount', query: { username: result.data.username } });
                 });
             }
           } else if (result.failType === 'INVALID_ATTRIBUTES') {
-            Object.entries(result.data).forEach(([name, info]: [string, any]) => {
-              if (info.isValid) {
-                return;
-              }
-              this.formWidgets.forEach((widget) => {
-                if ((widget.name) !== name) {
-                  return;
-                }
-                widget.invalidMessage = info.message;
-              });
-            });
+            setBackendInvalidMessage(this.formWidgets, result.data);
             if (!allValid(this.formWidgets)) {
               this.form.focusFirstInvalid();
             }
@@ -185,6 +187,11 @@ export default defineComponent({
                 this.form.focusFirstInteractable();
               });
           }
+        }, (error) => {
+          this.errorDialog.showError(error.message)
+            .then(() => {
+              this.form.focusFirstInteractable();
+            });
         });
     },
   },

@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -127,8 +127,8 @@ export default defineComponent({
     forAttrOfLabel(): string {
       return `${this.widget.name}--${this.$.uid}`;
     },
-    invalidMessageId(): string | null {
-      return this.invalidMessage !== '' ? `${this.forAttrOfLabel}--error` : null;
+    invalidMessageId(): string {
+      return this.invalidMessage !== '' ? `${this.forAttrOfLabel}--error` : '';
     },
   },
   methods: {

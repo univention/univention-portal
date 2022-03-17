@@ -1,5 +1,5 @@
 /*
-  * Copyright 2021 Univention GmbH
+  * Copyright 2021-2022 Univention GmbH
   *
   * https://www.univention.de/
   *
@@ -65,6 +65,7 @@ const routes = [
         path: 'selfservice/verifyaccount',
         component: VerifyAccount,
         name: 'selfserviceVerifyAccount',
+        props: (route) => ({ queryParamUsername: route.query.username, queryParamToken: route.query.token }),
       },
       {
         path: 'selfservice/protectaccount',
@@ -80,6 +81,7 @@ const routes = [
         path: 'selfservice/newpassword',
         component: NewPassword,
         name: 'selfserviceNewPassword',
+        props: (route) => ({ queryParamUsername: route.query.username, queryParamToken: route.query.token }),
       },
       {
         path: 'selfservice/servicespecificpasswords',

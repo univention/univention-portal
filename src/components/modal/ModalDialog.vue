@@ -1,5 +1,5 @@
 <!--
-Copyright 2021 Univention GmbH
+Copyright 2021-2022 Univention GmbH
 
 https://www.univention.de/
 
@@ -28,7 +28,11 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <section
-    class="dialog"
+    :class="[
+      'dialog',
+      {'dialog--unfocusable': !isFocusable}
+    ]
+    "
     role="dialog"
     aria-modal="true"
     :aria-labelledby="labelledbyId"
@@ -55,7 +59,6 @@ License with the Debian GNU/Linux or Univention distribution in file
       />
     </header>
     <div
-      v-if="describedbyId"
       :id="describedbyId"
     >
       <slot name="description" />
@@ -66,6 +69,7 @@ License with the Debian GNU/Linux or Univention distribution in file
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
@@ -96,6 +100,9 @@ export default defineComponent({
   },
   emits: ['cancel'],
   computed: {
+    ...mapGetters({
+      getModalState: 'modal/getModalState',
+    }),
     I18N_TITLE_KEY(): string {
       return _('%(key1)s', { key1: this.i18nTitleKey });
     },
@@ -105,12 +112,11 @@ export default defineComponent({
     labelledbyId(): string {
       return `${this.$.uid}-labelledby`;
     },
-    describedbyId(): string | null {
-      const children = this.$slots.description?.();
-      if (children === undefined || children.length === 0) {
-        return null;
-      }
+    describedbyId(): string {
       return `${this.$.uid}-describedby`;
+    },
+    isFocusable(): boolean {
+      return !this.getModalState('secondLevelModal');
     },
   },
   methods: {
@@ -157,7 +163,9 @@ export default defineComponent({
     @media $mqSmartphone
       max-height: none
       overflow: unset
-
+  &--unfocusable
+    main
+      overflow: hidden
   footer:not(.image-upload__footer):not(.multi-select__footer)
     margin-top: calc(2 * var(--layout-spacing-unit))
     padding-top: calc(2 * var(--layout-spacing-unit))

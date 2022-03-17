@@ -1,5 +1,5 @@
 <!--
-Copyright 2021 Univention GmbH
+Copyright 2021-2022 Univention GmbH
 
 https://www.univention.de/
 
@@ -44,6 +44,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       class="notifications__close-all"
     >
       <button
+        ref="removeAllNotificationsButton"
         type="button"
         @click.prevent="removeAllNotifications"
       >
@@ -127,7 +128,11 @@ export default defineComponent({
     }
   },
   mounted(): void {
-    this.$store.dispatch('activity/setRegion', 'notifications-all');
+    if (this.isInNotificationBar && this.notifications.length > 1) {
+      (this.$refs.removeAllNotificationsButton as HTMLElement).focus();
+    } else {
+      this.$store.dispatch('activity/setRegion', 'notifications-all');
+    }
   },
   methods: {
     removeAllNotifications(): void {

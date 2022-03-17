@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -56,8 +56,10 @@
     >
       <region
         :id="`${id}-content`"
-        :role="inModal ? 'section' : 'none'"
+        :aria-role="ariaRole"
         class="portal-folder__thumbnails"
+        tabindex="0"
+        role="none"
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
       >
         <div
@@ -230,6 +232,12 @@ export default defineComponent({
       }
       return this.tiles.filter((tile) => this.tileMatchesQuery(tile));
     },
+    ariaRole(): string {
+      if (this.inModal && this.editMode) {
+        return 'application';
+      }
+      return this.inModal ? 'region' : 'none';
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -383,6 +391,7 @@ export default defineComponent({
     padding: 0.3rem;
     box-sizing: border-box;
     overflow: hidden
+    outline: 0
     > div
         display: flex
         align-content: center

@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -42,7 +42,7 @@
         :tabindex="tabindex"
         :required="required"
         :aria-invalid="invalid"
-        :aria-describedby="invalidMessageId"
+        :aria-describedby="invalidMessageId || null"
         :data-test="`localeInput--${i18nLabel}`"
         @input="onInputEN"
       >
@@ -103,7 +103,7 @@ export default defineComponent({
       required: true,
     },
     invalidMessageId: {
-      type: String || null,
+      type: String,
       required: true,
     },
     required: {
@@ -153,11 +153,12 @@ export default defineComponent({
         })
         .finally(() => {
           this.$store.dispatch('modal/hideAndClearModal', this.translationEditingDialogLevel);
-          this.$store.dispatch('activity/setRegion', 'modal-wrapper--isVisible');
+          this.$store.dispatch('activity/setRegion', 'modal-wrapper--isVisible-1');
+          console.log('SET REGION');
         });
       this.$store.dispatch('activity/setLevel', 'modal2');
       this.$store.dispatch('activity/saveFocus', {
-        region: 'modal-wrapper--isVisible',
+        region: 'modal-wrapper--isVisible-1',
         id: `locale-input__icon--${this.i18nLabel}`,
       });
     },

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Univention GmbH
+ * Copyright 2021-2022 Univention GmbH
  *
  * https://www.univention.de/
  *
@@ -67,5 +67,9 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
         numberOfCategories: numberOfCategories.toString(),
       }));
     }
+  }
+
+  if (fromPosition.contextType === 'folder' && !categoryPositionBefore) {
+    // TODO Setmessage for Folder in Menu
   }
 }

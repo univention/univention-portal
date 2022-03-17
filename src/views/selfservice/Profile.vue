@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -52,6 +52,16 @@
       v-model="attributeValues"
       :widgets="attributeWidgetsWithTabindex"
     >
+      <footer
+        v-if="renderDeregistration"
+      >
+        <button
+          ref="deregistrationButton"
+          type="button"
+          :tabindex="tabindex"
+          @click="deleteAccount"
+        >{{ DELETE_ACCOUNT }}</button>
+      </footer>
       <footer>
         <button
           type="button"
@@ -74,6 +84,9 @@
     <error-dialog
       ref="errorDialog"
     />
+    <confirm-deregistration
+      ref="confirmDeregistrationDialog"
+    />
   </site>
 </template>
 
@@ -83,15 +96,20 @@ import { mapGetters } from 'vuex';
 
 import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
-import { umc, umcCommand } from '@/jsHelper/umc';
+import { umcCommand, umcCommandWithStandby } from '@/jsHelper/umc';
+import { isTrue } from '@/jsHelper/ucr';
+import { sanitizeBackendWidget, sanitizeFrontendValues, setBackendInvalidMessage } from '@/views/selfservice/helper';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid, WidgetDefinition } from '@/jsHelper/forms';
 import Site from '@/views/selfservice/Site.vue';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
+import ConfirmDeregistration from '@/views/selfservice/ConfirmDeregistration.vue';
 import activity from '@/jsHelper/activity';
 
 interface Data {
+  initiated: boolean,
+  forceLogin: boolean,
   loginWidgets: WidgetDefinition[],
   loginValues: Record<string, string>,
   attributeWidgets: WidgetDefinition[],
@@ -105,6 +123,7 @@ export default defineComponent({
     MyForm,
     Site,
     ErrorDialog,
+    ConfirmDeregistration,
   },
   data(): Data {
     // TODO translations
@@ -129,13 +148,20 @@ export default defineComponent({
       attributeWidgets: [],
       attributeValues: {},
       origFormValues: {},
+      initiated: false,
+      forceLogin: false,
     };
   },
   computed: {
     ...mapGetters({
       userState: 'user/userState',
       activityLevel: 'activity/level',
+      metaData: 'metaData/getMeta',
+      initialLoadDone: 'getInitialLoadDone',
     }),
+    renderDeregistration(): boolean {
+      return isTrue(this.metaData['umc/self-service/account-deregistration/enabled'] ?? false);
+    },
     TITLE(): string {
       return _('Profile');
     },
@@ -157,6 +183,9 @@ export default defineComponent({
     SAVE(): string {
       return _('Save');
     },
+    DELETE_ACCOUNT(): string {
+      return _('Delete my account');
+    },
     attributesLoaded(): boolean {
       return this.attributeWidgets.length > 0;
     },
@@ -169,11 +198,23 @@ export default defineComponent({
     errorDialog(): typeof ErrorDialog {
       return this.$refs.errorDialog as typeof ErrorDialog;
     },
+    confirmDeregistrationDialog(): typeof ConfirmDeregistration {
+      return this.$refs.confirmDeregistrationDialog as typeof ConfirmDeregistration;
+    },
     tabindex(): number {
       return activity(['selfservice'], this.activityLevel);
     },
+    skipLogin(): boolean {
+      return !this.forceLogin && this.userState.username && this.metaData['umc/self-service/allow-authenticated-use'];
+    },
+    loginWidgetsVisible(): WidgetDefinition[] {
+      if (this.skipLogin) {
+        return [this.loginWidgets[0]];
+      }
+      return this.loginWidgets;
+    },
     loginWidgetsWithTabindex(): WidgetDefinition[] {
-      return this.loginWidgets.map((widget) => {
+      return this.loginWidgetsVisible.map((widget) => {
         widget.tabindex = this.tabindex;
         return widget;
       });
@@ -184,20 +225,56 @@ export default defineComponent({
         return widget;
       });
     },
+    credentials(): { username?: string, password?: string } {
+      if (this.skipLogin) {
+        return {};
+      }
+      return {
+        username: this.loginValues.username,
+        password: this.loginValues.password,
+      };
+    },
+  },
+  watch: {
+    initialLoadDone(loadDone) {
+      if (loadDone && !this.initiated) {
+        this.init();
+      }
+    },
   },
   mounted() {
-    if (this.userState?.username) {
-      this.loginValues.username = this.userState.username ? this.userState.username : null;
-      this.loginWidgets[0].disabled = true;
+    if (this.initialLoadDone) {
+      this.init();
     }
-    this.loginForm.focusFirstInteractable();
   },
   methods: {
+    init() {
+      this.initiated = true;
+      if (this.userState?.username) {
+        this.loginValues.username = this.userState.username ? this.userState.username : null;
+        this.loginWidgets[0].disabled = true;
+      }
+
+      if (this.skipLogin) {
+        this.onContinue();
+      } else {
+        // FIXME (would like to get rid of setTimeout)
+        // when this site is opening via a SideNavigation.vue entry then
+        // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
+        // which calls focusElement which uses setTimeout, 50
+        // so we have to also use setTimeout
+        setTimeout(() => {
+          this.loginForm.focusFirstInteractable();
+        }, 100);
+      }
+    },
     onContinue() {
-      validateAll(this.loginWidgets, this.loginValues);
-      if (!allValid(this.loginWidgets)) {
-        this.loginForm.focusFirstInvalid();
-        return;
+      if (!this.skipLogin) {
+        validateAll(this.loginWidgets, this.loginValues);
+        if (!allValid(this.loginWidgets)) {
+          this.loginForm.focusFirstInvalid();
+          return;
+        }
       }
       this.loginWidgets.forEach((widget) => {
         widget.disabled = true;
@@ -205,6 +282,7 @@ export default defineComponent({
       this.loadAttributes();
     },
     resetToLogin() {
+      this.forceLogin = true;
       this.attributeWidgets = [];
       this.attributeValues = {};
       this.loginWidgets.forEach((widget) => {
@@ -241,53 +319,23 @@ export default defineComponent({
         });
         return;
       }
-      this.save(alteredValues);
+      this.save(sanitizeFrontendValues(alteredValues));
     },
     save(values) {
       this.$store.dispatch('activateLoadingState');
       umcCommand('passwordreset/validate_user_attributes', {
-        username: this.loginValues.username,
-        password: this.loginValues.password,
         attributes: values,
+        ...this.credentials,
       })
         .then((result) => {
-          this.attributeWidgets.forEach((widget) => {
-            const validationObj = result[widget.name];
-            if (validationObj !== undefined) {
-              switch (widget.type) {
-                case 'TextBox':
-                case 'DateBox':
-                case 'ComboBox':
-                case 'PasswordBox':
-                  widget.invalidMessage = validationObj.message;
-                  break;
-                case 'MultiInput':
-                  // TODO test if non array can come from backend
-                  if (Array.isArray(validationObj.message)) {
-                    widget.invalidMessage = {
-                      all: '',
-                      values: validationObj.message,
-                    };
-                  } else {
-                    widget.invalidMessage = {
-                      all: validationObj.message,
-                      values: [],
-                    };
-                  }
-                  break;
-                default:
-                  break;
-              }
-            }
-          });
+          setBackendInvalidMessage(this.attributeWidgets, result);
           if (!allValid(this.attributeWidgets)) {
             this.attributesForm.focusFirstInvalid();
-            return;
+            return undefined;
           }
-          umcCommand('passwordreset/set_user_attributes', {
-            username: this.loginValues.username,
-            password: this.loginValues.password,
+          return umcCommand('passwordreset/set_user_attributes', {
             attributes: values,
+            ...this.credentials,
           }).then(() => {
             this.$store.dispatch('notifications/addSuccessNotification', {
               title: _('Profile changes'),
@@ -315,33 +363,10 @@ export default defineComponent({
         .then((widgets) => {
           const attributes = widgets.map((widget) => widget.id);
           return umcCommand('passwordreset/get_user_attributes_values', {
-            username: this.loginValues.username,
-            password: this.loginValues.password,
             attributes,
+            ...this.credentials,
           }).then((values) => {
-            const sanitizeWidget = (widget) => {
-              const w: any = {
-                // TODO unhandled fields that come from command/passwordreset/get_user_attributes_descriptions
-                // description: ""
-                // multivalue: false
-                // size: "TwoThirds"
-                // syntax: "TwoThirdsString"
-                type: widget.type,
-                name: widget.id ?? '',
-                label: widget.label ?? '',
-                required: widget.required ?? false,
-                readonly: !(widget.editable ?? true) || (widget.readonly ?? false),
-              };
-              if (widget.type === 'ComboBox') {
-                w.options = widget.staticValues;
-              }
-              if (widget.type === 'MultiInput') {
-                w.extraLabel = w.label;
-                w.subtypes = widget.subtypes.map((subtype) => sanitizeWidget(subtype));
-              }
-              return w;
-            };
-            const sanitized = widgets.map((widget) => sanitizeWidget(widget));
+            const sanitized = widgets.map((widget) => sanitizeBackendWidget(widget));
             sanitized.forEach((widget) => {
               values[widget.name] = initialValue(widget, values[widget.name]);
             });
@@ -361,6 +386,26 @@ export default defineComponent({
         })
         .finally(() => {
           this.$store.dispatch('deactivateLoadingState');
+        });
+    },
+    deleteAccount(): void {
+      this.confirmDeregistrationDialog.show(this.skipLogin)
+        .then((password) => {
+          umcCommandWithStandby(this.$store, 'passwordreset/deregister_account', {
+            username: this.loginValues.username,
+            password: this.skipLogin ? password : this.loginValues.password,
+          })
+            .then(() => {
+              this.errorDialog.showError(_('Your account has been successfully deleted.'), _('Account deletion'))
+                .then(() => {
+                  this.resetToLogin();
+                });
+            }, (err) => {
+              this.errorDialog.showError(err.message)
+                .then(() => {
+                  (this.$refs.deregistrationButton as HTMLButtonElement).focus();
+                });
+            });
         });
     },
   },

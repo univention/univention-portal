@@ -10,7 +10,7 @@
       modal-level="selfservice2"
       :i18n-title-key="title"
       class="dialog--selfservice"
-      role="alertdialog"
+      :role="role"
       @cancel="cancel"
     >
       <template #description>
@@ -46,6 +46,7 @@ interface Data {
   errors: string[],
   givenTitle: string,
   promiseResolve: null,
+  role: 'alertDialog' | 'dialog',
 }
 
 export default defineComponent({
@@ -59,6 +60,7 @@ export default defineComponent({
       errors: [],
       givenTitle: '',
       promiseResolve: null, // TODO | Promise resolve callback
+      role: 'alertDialog',
     };
   },
   computed: {
@@ -80,8 +82,9 @@ export default defineComponent({
       // @ts-ignore TODO
       this.promiseResolve();
     },
-    showError(message: string | string[], title = ''): Promise<undefined> {
+    showError(message: string | string[], title = '', role: 'alertDialog' | 'dialog' = 'alertDialog'): Promise<undefined> {
       this.$store.dispatch('activity/setLevel', 'selfservice2');
+      this.role = role;
       this.givenTitle = title;
       if (Array.isArray(message)) {
         this.errors = [];

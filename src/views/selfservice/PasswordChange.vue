@@ -1,5 +1,5 @@
 <!--
-Copyright 2021 Univention GmbH
+Copyright 2021-2022 Univention GmbH
 
 https://www.univention.de/
 
@@ -102,9 +102,8 @@ export default defineComponent({
         label: _('New password (retype)'),
         validators: [(widget, value) => (
           isEmpty(widget, value) ? _('Please confirm your new password') : ''
-        ), (widget, value) => {
-          // @ts-ignore TODO
-          if (this.formValues.newPassword !== value) {
+        ), (widget, value, widgets, values) => {
+          if (values.newPassword !== value) {
             return _('The new passwords do not match');
           }
           return '';
@@ -130,18 +129,25 @@ export default defineComponent({
     CHANGE_PASSWORD(): string {
       return _('Change password');
     },
+    form(): typeof MyForm {
+      return this.$refs.form as typeof MyForm;
+    },
   },
   mounted(): void {
-    // @ts-ignore TODO
-    this.$refs.form.focusFirstInteractable();
-    this.$store.dispatch('navigation/setActiveButton', '');
+    // FIXME (would like to get rid of setTimeout)
+    // when this site is opening via a SideNavigation.vue entry then
+    // 'activity/setRegion', 'portal-header' is called when SideNavigation is closed
+    // which calls focusElement which uses setTimeout, 50
+    // so we have to also use setTimeout
+    setTimeout(() => {
+      this.form.focusFirstInteractable();
+    }, 100);
   },
   methods: {
     finish() {
       validateAll(this.formWidgets, this.formValues);
       if (!allValid(this.formWidgets)) {
-        // @ts-ignore TODO
-        this.$refs.form.focusFirstInvalid();
+        this.form.focusFirstInvalid();
         return;
       }
       this.$store.dispatch('activateLoadingState');
@@ -149,9 +155,10 @@ export default defineComponent({
         .then((response) => {
           this.$store.dispatch('notifications/addSuccessNotification', {
             title: _('Change password'),
-            description: response.data.message,
+            description: response.message,
           });
           this.$store.dispatch('deactivateLoadingState');
+          this.$router.push({ name: 'portal' });
         })
         .catch((error) => {
           console.error('Error while changing password', error);

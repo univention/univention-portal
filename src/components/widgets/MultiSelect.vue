@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -47,6 +47,7 @@
       </div>
       <footer class="multi-select__footer">
         <button
+          id="multi-select-add-more-button"
           ref="addButton"
           type="button"
           :tabindex="tabindex"
@@ -164,6 +165,12 @@ export default defineComponent({
         newValues.sort();
         this.$emit('update:modelValue', newValues);
         this.$store.dispatch('activity/setMessage', _('Added to selection'));
+        this.$store.dispatch('activity/setRegion', 'modal-wrapper--isVisible-1');
+      });
+      this.$store.dispatch('activity/setLevel', 'modal2');
+      this.$store.dispatch('activity/saveFocus', {
+        region: 'modal-wrapper--isVisible-1',
+        id: 'multi-select-add-more-button',
       });
     },
     remove() {

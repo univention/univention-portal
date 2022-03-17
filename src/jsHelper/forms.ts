@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Univention GmbH
+ * Copyright 2021-2022 Univention GmbH
  *
  * https://www.univention.de/
  *
@@ -38,7 +38,7 @@ interface OptionsDefinition {
   label: string,
 }
 
-type Validator = (widget, value) => string;
+type Validator = (widget, value, widgets, values) => string;
 
 export interface WidgetDefinition {
   type: WidgetType,
@@ -124,7 +124,7 @@ export function allValid(widgets): boolean {
   return widgets.every((widget) => isValid(widget));
 }
 
-export function validate(widget, value): void {
+export function validate(widget, value, widgets, values): void {
   function required(_widget, _value) {
     switch (_widget.type) {
       case 'TextBox':
@@ -148,7 +148,7 @@ export function validate(widget, value): void {
     const validators = [required, ...(_widget.validators ?? [])];
     let message = '';
     validators.some((validator) => {
-      const iMessage = validator(_widget, _value);
+      const iMessage = validator(_widget, _value, widgets, values);
       if ((iMessage ?? '') !== '') {
         message = iMessage;
         return true;
@@ -189,7 +189,7 @@ export function validate(widget, value): void {
 
 export function validateAll(widgets, values): boolean {
   widgets.forEach((widget) => {
-    validate(widget, values[widget.name]);
+    validate(widget, values[widget.name], widgets, values);
   });
   return allValid(widgets);
 }

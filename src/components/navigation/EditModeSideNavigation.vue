@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021 Univention GmbH
+  Copyright 2021-2022 Univention GmbH
 
   https://www.univention.de/
 
@@ -40,7 +40,10 @@
       ref="form"
       v-model="formValues"
       :widgets="formWidgetsWithTabindex"
-      class="edit-mode-side-navigation__form"
+      :class="['edit-mode-side-navigation__form',
+               {
+                 'edit-mode-side-navigation__form--unfocusable': !isFocusable
+               }]"
     >
       <button
         class="primary edit-mode-side-navigation__save-button"
@@ -159,6 +162,7 @@ export default defineComponent({
       portalEnsureLogin: 'portalData/portalEnsureLogin',
       portalDefaultLinkTarget: 'portalData/portalDefaultLinkTarget',
       activityLevel: 'activity/level',
+      getModalState: 'modal/getModalState',
     }),
     PORTAL_SETTINGS(): string {
       return _('Portal settings');
@@ -174,6 +178,9 @@ export default defineComponent({
         widget.tabindex = this.tabindex;
         return widget;
       });
+    },
+    isFocusable(): boolean {
+      return !this.getModalState('secondLevelModal');
     },
   },
   updated() {
@@ -259,6 +266,9 @@ export default defineComponent({
     height: auto
     overflow: auto
     padding: calc(2 * var(--layout-spacing-unit))
+
+    &--unfocusable
+      overflow: hidden
 
     input
       width: 18rem
