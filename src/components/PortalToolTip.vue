@@ -32,6 +32,8 @@ License with the Debian GNU/Linux or Univention distribution in file
     appear
     @before-enter="beforeEnter"
     @leave="leave"
+    :enter-from-class="transitionClassEnter"
+    :leave-to-class="transitionClassLeave"
   >
     <div
       ref="toolTip"
@@ -65,7 +67,8 @@ License with the Debian GNU/Linux or Univention distribution in file
                 class="portal-tooltip__logo"
               >
             </div>
-            <div class="portal-tooltip__title"
+            <div
+              class="portal-tooltip__title"
               data-test="portal-tooltip-title"
             >
               {{ title }}
@@ -83,10 +86,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         <!-- eslint-disable vue/no-v-html -->
         <div
           v-if="description"
-          :id="ariaId"
           class="portal-tooltip__description"
-          v-html="description"
           data-test="portal-tooltip-description"
+          v-html="description"
         />
         <!-- eslint-enable vue/no-v-html -->
       </div>
@@ -171,6 +173,18 @@ export default defineComponent({
       }
       return 'top: -2rem; left:  0.2rem;';
     },
+    transitionClassEnter(): string {
+      if (this.calculatedPosition.zone === 'BOTTOM') {
+        return 'fade-enter-from-top';
+      }
+      return 'fade-enter-from';
+    },
+    transitionClassLeave(): string {
+      if (this.calculatedPosition.zone === 'BOTTOM') {
+        return 'fade-leave-from-top';
+      }
+      return 'fade-leave-from';
+    },
   },
   methods: {
     keepTooltip(): void {
@@ -183,13 +197,14 @@ export default defineComponent({
     beforeEnter(el): void {
       if (!this.isMobile) {
         el.style.top = `${this.calculatedPosition.bottom}px`;
-        el.style.transition = 'all 0.5s ease-out';
+        el.style.transition = 'all 0.25s ease-out';
       }
     },
     leave(el, done): void {
       if (!this.isMobile) {
         el.style.top = `${this.calculatedPosition.bottom}px`;
-        el.style.transition = 'all 0.5s ease-out';
+        el.style.transition = 'all 0.25s ease-out';
+        el.style.transition = this.calculatedPosition.zone === 'BOTTOM' ? 'transform: translateY(-115px)' : 'transform: translateY(15px)';
       }
     },
     calculatePosition(): void {
@@ -311,7 +326,15 @@ export default defineComponent({
 
 .fade-enter-from,
 .fade-leave-to {
-  transform: translateY(45px)
+  transform: translateY(15px)
   opacity: 0;
+  // border: 10px solid green;
+}
+
+.fade-enter-from-top,
+.fade-leave-to-top {
+  transform: translateY(-115px)
+  opacity: 0;
+  // border: 10px solid red;
 }
 </style>

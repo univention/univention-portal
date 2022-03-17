@@ -60,7 +60,9 @@
           type="button"
           :tabindex="tabindex"
           @click="deleteAccount"
-        >{{ DELETE_ACCOUNT }}</button>
+        >
+          {{ DELETE_ACCOUNT }}
+        </button>
       </footer>
       <footer>
         <button

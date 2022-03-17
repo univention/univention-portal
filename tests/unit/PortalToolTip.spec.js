@@ -104,7 +104,7 @@ describe('PortalToolTip.vue', () => {
     expect(closeToolTipIcon.attributes('aria-label')).toBe(wrapper.vm.CLOSE_TOOLTIP);
   });
 
-  test('tooltipPosition ', async () => {
+  test('tooltipPosition', async () => {
     // tooltip position is calculated only for desktop
     expect(wrapper.vm.tooltipPosition).toBe(`left:${wrapper.vm.calculatedPosition.left}px;`);
   });
@@ -116,14 +116,14 @@ describe('PortalToolTip.vue', () => {
 
   test('keepTooltip is working on mouseover', async () => {
     const toolTip = wrapper.find('[data-test="portal-tooltip"]');
-    toolTip.trigger("mouseenter");
+    toolTip.trigger('mouseenter');
     await wrapper.vm.$nextTick();
     expect(store.dispatch).toHaveBeenCalledWith('tooltip/setHoverOnTooltip', true);
   });
 
   test('closeToolTip is triggered on mouseleave', async () => {
     const toolTip = wrapper.find('[data-test="portal-tooltip"]');
-    toolTip.trigger("mouseleave");
+    toolTip.trigger('mouseleave');
     await wrapper.vm.$nextTick();
     expect(store.dispatch).toHaveBeenCalledWith('tooltip/setHoverOnTooltip', false);
     expect(store.dispatch).toHaveBeenCalledWith('tooltip/unsetTooltip');

@@ -112,6 +112,12 @@
       :aria-label-prop="SHOW_TOOLTIP"
       @click="toolTipTouchHandler()"
     />
+    <div
+      :id="tileId"
+      class="sr-only sr-only-mobile"
+    >
+      {{ $localized(description) }}
+    </div>
   </div>
 </template>
 
