@@ -401,7 +401,7 @@ export default defineComponent({
             password: this.skipLogin ? password : this.loginValues.password,
           })
             .then(() => {
-              this.errorDialog.showError(_('Your account has been successfully deleted.'), _('Account deletion'))
+              this.errorDialog.showError(_('Your account has been successfully deleted.'), _('Account deletion'), 'dialog')
                 .then(() => {
                   this.resetToLogin();
                 });
