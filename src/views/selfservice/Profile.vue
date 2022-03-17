@@ -98,7 +98,12 @@ import isEmpty from 'lodash.isempty';
 import isEqual from 'lodash.isequal';
 import { umcCommand, umcCommandWithStandby } from '@/jsHelper/umc';
 import { isTrue } from '@/jsHelper/ucr';
-import { sanitizeBackendWidget, sanitizeFrontendValues, setBackendInvalidMessage } from '@/views/selfservice/helper';
+import {
+  sanitizeBackendValues,
+  sanitizeBackendWidget,
+  sanitizeFrontendValues,
+  setBackendInvalidMessage,
+} from '@/views/selfservice/helper';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import { validateAll, initialValue, isValid, allValid, WidgetDefinition } from '@/jsHelper/forms';
@@ -113,8 +118,8 @@ interface Data {
   loginWidgets: WidgetDefinition[],
   loginValues: Record<string, string>,
   attributeWidgets: WidgetDefinition[],
-  attributeValues: Record<string, string>,
-  origFormValues: Record<string, string>,
+  attributeValues: Record<string, unknown>,
+  origFormValues: Record<string, unknown>,
 }
 
 export default defineComponent({
@@ -319,7 +324,7 @@ export default defineComponent({
         });
         return;
       }
-      this.save(sanitizeFrontendValues(alteredValues));
+      this.save(sanitizeFrontendValues(alteredValues, this.attributeWidgets));
     },
     save(values) {
       this.$store.dispatch('activateLoadingState');
@@ -371,7 +376,7 @@ export default defineComponent({
               values[widget.name] = initialValue(widget, values[widget.name]);
             });
             this.attributeWidgets = sanitized;
-            this.attributeValues = values;
+            this.attributeValues = sanitizeBackendValues(values, sanitized);
             this.updateOrigFormValues();
             this.$nextTick(() => {
               this.attributesForm.focusFirstInteractable();
