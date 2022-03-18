@@ -31,6 +31,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     name="fade"
     appear
     @before-enter="beforeEnter"
+    @after-enter="onAfterEnter"
     @leave="leave"
     :enter-from-class="transitionClassEnter"
     :leave-to-class="transitionClassLeave"
@@ -168,7 +169,7 @@ export default defineComponent({
       if (this.calculatedPosition.zone === 'BOTTOM') {
         return 'bottom: -2rem; left: 0.2rem; transform: rotate(180deg);';
       }
-      if (this.calculatedPosition.zone === 'BOTTOM RIGHT') {
+      if (this.calculatedPosition.zone === 'BOTTOM_RIGHT') {
         return 'bottom: -2rem; right: 0.5rem; transform: rotate(180deg);';
       }
       return 'top: -2rem; left:  0.2rem;';
@@ -195,16 +196,27 @@ export default defineComponent({
       this.$store.dispatch('tooltip/unsetTooltip');
     },
     beforeEnter(el): void {
+      const prePosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? -15 : 15;
       if (!this.isMobile) {
-        el.style.top = `${this.calculatedPosition.bottom}px`;
-        el.style.transition = 'all 0.25s ease-out';
+        el.style.top = `${(this.calculatedPosition.bottom as number) + prePosition}px`;
+        el.style.transition = 'all 0.2s ease-out';
+        el.style.transition = this.calculatedPosition.zone === 'BOTTOM' ? 'transform: translateY(-115px)' : 'transform: translateY(15px)';
+        el.style.opacity = '0';
       }
+    },
+    onAfterEnter(el): void {
+      el.style.top = `${this.calculatedPosition.bottom}px`;
+      el.style.opacity = '1';
+      el.style.transition = 'transform: translateY(0)';
+      debugger;
     },
     leave(el, done): void {
       if (!this.isMobile) {
         el.style.top = `${this.calculatedPosition.bottom}px`;
         el.style.transition = 'all 0.25s ease-out';
         el.style.transition = this.calculatedPosition.zone === 'BOTTOM' ? 'transform: translateY(-115px)' : 'transform: translateY(15px)';
+        el.style.opacity = '0';
+        // el.style.transition = this.calculatedPosition.zone === 'BOTTOM' ? 'transform: translateY(-115px)' : 'transform: translateY(15px)';
       }
     },
     calculatePosition(): void {
@@ -230,7 +242,7 @@ export default defineComponent({
           this.calculatedPosition = {
             left: this.position.left - tile?.offsetWidth * 2,
             bottom: this.position.bottom - tile?.offsetHeight * 2,
-            zone: 'BOTTOM RIGHT',
+            zone: 'BOTTOM_RIGHT',
           };
         }
       }
@@ -322,19 +334,5 @@ export default defineComponent({
 
 .fade-leave-active {
   transition: all 0.25s cubic-bezier(1, 0.5, 0.8, 1)
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  transform: translateY(15px)
-  opacity: 0;
-  // border: 10px solid green;
-}
-
-.fade-enter-from-top,
-.fade-leave-to-top {
-  transform: translateY(-115px)
-  opacity: 0;
-  // border: 10px solid red;
 }
 </style>
