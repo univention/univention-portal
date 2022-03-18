@@ -209,10 +209,12 @@ export default defineComponent({
       }
     },
     onAfterEnter(el): void {
-      const correctedPosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? 0 : 10;
-      el.style.top = `${(this.calculatedPosition.bottom as number) + correctedPosition}px`;
-      el.style.opacity = '1';
-      el.style.transition = 'transform: translateY(0)';
+      if (!this.isMobile) {
+        const correctedPosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? 0 : 10;
+        el.style.top = `${(this.calculatedPosition.bottom as number) + correctedPosition}px`;
+        el.style.opacity = '1';
+        el.style.transition = 'transform: translateY(0)';
+      }
     },
     leave(el): void {
       if (!this.isMobile) {

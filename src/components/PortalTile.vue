@@ -76,6 +76,12 @@
       <span class="portal-tile__name">
         {{ $localized(title) }}
       </span>
+      <div
+        :id="tileId"
+        class="sr-only sr-only-mobile"
+      >
+        {{ $localized(description) }}
+      </div>
 
       <div class="portal-tile__icon-bar">
         <icon-button
@@ -112,12 +118,6 @@
       :aria-label-prop="SHOW_TOOLTIP"
       @click="toolTipTouchHandler()"
     />
-    <div
-      :id="tileId"
-      class="sr-only sr-only-mobile"
-    >
-      {{ $localized(description) }}
-    </div>
   </div>
 </template>
 
@@ -319,8 +319,13 @@ export default defineComponent({
     toolTipTouchHandler() {
       if (this.tooltip && this.tooltip.description === this.$localized(this.description)) {
         this.hideTooltip();
+        this.$store.dispatch('activity/setMessage', _('Tooltip hidden'));
       } else {
         this.showTooltip();
+        this.$store.dispatch('activity/setMessage', _('Tooltip displayed'));
+        setTimeout(() => {
+          this.$store.dispatch('activity/setMessage', this.$localized(this.description));
+        }, 50);
       }
     },
     createID() {
