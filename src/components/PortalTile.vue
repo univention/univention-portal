@@ -138,6 +138,7 @@ import { Title, Description } from '@/store/modules/portalData/portalData.models
 
 interface PortalTile {
   tileId: string,
+  mouseIsOverTile: boolean,
 }
 
 export default defineComponent({
@@ -203,6 +204,7 @@ export default defineComponent({
   data(): PortalTile {
     return {
       tileId: '',
+      mouseIsOverTile: false,
     };
   },
   computed: {
@@ -274,6 +276,7 @@ export default defineComponent({
   },
   methods: {
     hideTooltip(): void {
+      this.mouseIsOverTile = false;
       setTimeout(() => {
         if (!this.tooltipIsHovered) {
           this.$store.dispatch('tooltip/unsetTooltip');
@@ -281,6 +284,7 @@ export default defineComponent({
       }, 350);
     },
     showTooltip(): void {
+      this.mouseIsOverTile = true;
       if (!this.editMode && !this.minified) {
         const portalTileNameRect = this.$el.querySelector('.portal-tile__name').getBoundingClientRect();
         const portalTileRect = this.$el.getBoundingClientRect();
@@ -300,8 +304,10 @@ export default defineComponent({
           },
         };
         setTimeout(() => {
-          this.$store.dispatch('tooltip/setTooltip', { tooltip });
-        }, 350);
+          if (this.mouseIsOverTile === true) {
+            this.$store.dispatch('tooltip/setTooltip', { tooltip });
+          }
+        }, 650);
       }
     },
     editTile() {
