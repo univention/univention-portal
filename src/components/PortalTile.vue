@@ -282,7 +282,8 @@ export default defineComponent({
     },
     showTooltip(): void {
       if (!this.editMode && !this.minified) {
-        const rect = this.$el.getBoundingClientRect();
+        const portalTileNameRect = this.$el.querySelector('.portal-tile__name').getBoundingClientRect();
+        const portalTileRect = this.$el.getBoundingClientRect();
         const tooltip = {
           isMobile: this.isMobile,
           title: this.$localized(this.title),
@@ -290,12 +291,12 @@ export default defineComponent({
           description: this.$localized(this.description),
           ariaId: this.createID(),
           position: {
-            top: rect.top,
-            right: rect.right,
-            bottom: rect.bottom,
-            left: rect.left,
-            x: rect.x,
-            y: rect.y,
+            top: portalTileRect.top,
+            right: portalTileRect.right,
+            bottom: portalTileNameRect.bottom,
+            left: portalTileRect.left,
+            x: portalTileRect.x,
+            y: portalTileRect.y,
           },
         };
         setTimeout(() => {

@@ -33,8 +33,6 @@ License with the Debian GNU/Linux or Univention distribution in file
     @before-enter="beforeEnter"
     @after-enter="onAfterEnter"
     @leave="leave"
-    :enter-from-class="transitionClassEnter"
-    :leave-to-class="transitionClassLeave"
   >
     <div
       ref="toolTip"
@@ -47,7 +45,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     >
       <div class="portal-tooltip__inner-wrap">
         <div
-          v-if="!this.isMobile"
+          v-if="!isMobile"
           class="portal-tooltip__arrow"
           data-test="portal-tooltip-arrow"
           :style="arrowPosition"
@@ -55,7 +53,7 @@ License with the Debian GNU/Linux or Univention distribution in file
         <div
           class="portal-tooltip__header"
         >
-          <template v-if="this.isMobile">
+          <template v-if="isMobile">
             <div
               class="portal-tooltip__thumbnail"
               data-test="portal-tooltip-image"
@@ -187,6 +185,12 @@ export default defineComponent({
       return 'fade-leave-from';
     },
   },
+  created(): void {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  unmounted(): void {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
     keepTooltip(): void {
       this.$store.dispatch('tooltip/setHoverOnTooltip', true);
@@ -196,7 +200,7 @@ export default defineComponent({
       this.$store.dispatch('tooltip/unsetTooltip');
     },
     beforeEnter(el): void {
-      const prePosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? -15 : 15;
+      const prePosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? -15 : 20;
       if (!this.isMobile) {
         el.style.top = `${(this.calculatedPosition.bottom as number) + prePosition}px`;
         el.style.transition = 'all 0.2s ease-out';
@@ -205,12 +209,12 @@ export default defineComponent({
       }
     },
     onAfterEnter(el): void {
-      el.style.top = `${this.calculatedPosition.bottom}px`;
+      const correctedPosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? 0 : 10;
+      el.style.top = `${(this.calculatedPosition.bottom as number) + correctedPosition}px`;
       el.style.opacity = '1';
       el.style.transition = 'transform: translateY(0)';
-      debugger;
     },
-    leave(el, done): void {
+    leave(el): void {
       if (!this.isMobile) {
         el.style.top = `${this.calculatedPosition.bottom}px`;
         el.style.transition = 'all 0.25s ease-out';
@@ -246,6 +250,9 @@ export default defineComponent({
           };
         }
       }
+    },
+    handleScroll(): void {
+      this.$store.dispatch('tooltip/unsetTooltip');
     },
   },
 });
