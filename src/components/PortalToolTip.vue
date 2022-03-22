@@ -202,7 +202,11 @@ export default defineComponent({
     beforeEnter(el): void {
       const prePosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? -15 : 20;
       if (!this.isMobile) {
-        el.style.top = `${(this.calculatedPosition.bottom as number) + prePosition}px`;
+        if (this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT') {
+          el.style.bottom = `${(this.calculatedPosition.bottom as number) - prePosition}px`;
+        } else {
+          el.style.top = `${(this.calculatedPosition.bottom as number) + prePosition}px`;
+        }
         el.style.transition = 'all 0.2s ease-out';
         el.style.transition = this.calculatedPosition.zone === 'BOTTOM' ? 'transform: translateY(-115px)' : 'transform: translateY(15px)';
         el.style.opacity = '0';
@@ -211,7 +215,11 @@ export default defineComponent({
     onAfterEnter(el): void {
       if (!this.isMobile) {
         const correctedPosition = this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT' ? 0 : 10;
-        el.style.top = `${(this.calculatedPosition.bottom as number) + correctedPosition}px`;
+        if (this.calculatedPosition.zone === 'BOTTOM' || this.calculatedPosition.zone === 'BOTTOM_RIGHT') {
+          el.style.bottom = `${(this.calculatedPosition.bottom as number) + correctedPosition}px`;
+        } else {
+          el.style.top = `${(this.calculatedPosition.bottom as number) + correctedPosition}px`;
+        }
         el.style.opacity = '1';
         el.style.transition = 'transform: translateY(0)';
       }
@@ -222,7 +230,6 @@ export default defineComponent({
         el.style.transition = 'all 0.25s ease-out';
         el.style.transition = this.calculatedPosition.zone === 'BOTTOM' ? 'transform: translateY(-115px)' : 'transform: translateY(15px)';
         el.style.opacity = '0';
-        // el.style.transition = this.calculatedPosition.zone === 'BOTTOM' ? 'transform: translateY(-115px)' : 'transform: translateY(15px)';
       }
     },
     calculatePosition(): void {
@@ -240,14 +247,14 @@ export default defineComponent({
           };
         } else if (this.position.x <= regularZone.x && this.position.y > regularZone.y) {
           this.calculatedPosition = {
-            bottom: this.position.bottom - tile?.offsetHeight * 2,
+            bottom: window.innerHeight - (this.position.y - 20),
             left: this.position.left,
             zone: 'BOTTOM',
           };
         } else if (this.position.x > regularZone.x && this.position.y > regularZone.y) {
           this.calculatedPosition = {
             left: this.position.left - tile?.offsetWidth * 2,
-            bottom: this.position.bottom - tile?.offsetHeight * 2,
+            bottom: window.innerHeight - (this.position.y - 20),
             zone: 'BOTTOM_RIGHT',
           };
         }
