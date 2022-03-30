@@ -75,7 +75,6 @@
       </div>
       <span class="portal-tile__name">
         {{ $localized(title) }}
-        <span class="sr-only sr-only-mobile"> {{ LINK_TYPE(linkTarget) }} </span>
       </span>
       <div
         :id="tileId"
@@ -227,7 +226,7 @@ export default defineComponent({
       return 'ontouchstart' in document.documentElement;
     },
     ariaLabelPortalTile(): null | string {
-      return (this.minified || this.editMode) ? null : this.$localized(this.title);
+      return (this.minified || this.editMode) ? null : `${this.$localized(this.title)} ${this.LINK_TYPE(this.linkTarget)}`;
     },
     activeAtEdit(): string[] {
       if (!this.editMode) {
@@ -345,12 +344,14 @@ export default defineComponent({
       this.tileId = '';
     },
     LINK_TYPE(linkTarget): string {
+      const target = (linkTarget === 'samewindow') && ((this.link as string).includes('.crt') || (this.link as string).includes('.crl')) ? 'download' : linkTarget;
       const linkTypes = {
-        samewindow: _('Opens in the same tab'),
-        newwindow: _('Opens in a new Tab'),
-        embedded: _('Opens in an iFrame'),
+        samewindow: _('Same tab'),
+        newwindow: _('New Tab'),
+        embedded: _('iFrame'),
+        download: _('Download'),
       };
-      return linkTypes[linkTarget];
+      return linkTypes[target];
     },
   },
 });
