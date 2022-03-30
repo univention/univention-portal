@@ -75,6 +75,7 @@
       </div>
       <span class="portal-tile__name">
         {{ $localized(title) }}
+        <span class="sr-only sr-only-mobile"> {{ LINK_TYPE(linkTarget) }} </span>
       </span>
       <div
         :id="tileId"
@@ -334,14 +335,22 @@ export default defineComponent({
         }, 50);
       }
     },
-    createID() {
+    createID(): string {
       return `element-${this.$.uid}`;
     },
-    setAriaDescribedBy() {
+    setAriaDescribedBy(): void {
       this.tileId = this.createID();
     },
-    removeAriaDescribedBy() {
+    removeAriaDescribedBy():void {
       this.tileId = '';
+    },
+    LINK_TYPE(linkTarget): string {
+      const linkTypes = {
+        samewindow: _('Opens in the same tab'),
+        newwindow: _('Opens in a new Tab'),
+        embedded: _('Opens in an iFrame'),
+      };
+      return linkTypes[linkTarget];
     },
   },
 });
