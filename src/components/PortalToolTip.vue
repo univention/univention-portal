@@ -376,6 +376,7 @@ export default defineComponent({
 
   &__link-type-icon
     margin-left: 0.3rem
+    width: 0.8rem
     &--same-tab
       transform: rotate(90deg)
 
