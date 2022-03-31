@@ -288,7 +288,9 @@ export default defineComponent({
       if (!this.editMode && !this.minified) {
         const portalTileNameRect = this.$el.querySelector('.portal-tile__name').getBoundingClientRect();
         const portalTileRect = this.$el.getBoundingClientRect();
+        const linkTypeText = this.LINK_TYPE(this.linkTarget);
         const tooltip = {
+          linkType: linkTypeText,
           isMobile: this.isMobile,
           title: this.$localized(this.title),
           backgroundColor: this.backgroundColor,
@@ -346,10 +348,22 @@ export default defineComponent({
     LINK_TYPE(linkTarget): string {
       const target = (linkTarget === 'samewindow') && ((this.link as string).includes('.crt') || (this.link as string).includes('.crl')) ? 'download' : linkTarget;
       const linkTypes = {
-        samewindow: _('Same tab'),
-        newwindow: _('New Tab'),
-        embedded: _('iFrame'),
-        download: _('Download'),
+        samewindow: {
+          label: _('Same tab'),
+          icon: 'sidebar',
+        },
+        newwindow: {
+          label: _('New Tab'),
+          icon: 'external-link',
+        },
+        embedded: {
+          label: _('iFrame'),
+          icon: 'layout',
+        },
+        download: {
+          label: _('Download'),
+          icon: 'download',
+        },
       };
       return linkTypes[target];
     },
