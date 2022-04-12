@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-03-31 16:28+0200\n"
+"POT-Creation-Date: 2022-04-12 21:29+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -29,7 +29,7 @@ msgstr "%(label)s %(idx)s entfernt"
 msgid "%(num)s result(s)"
 msgstr "%(num)s Ergebnis(se)"
 
-#: src/tmp/ts/src/components/search/PortalSearch.vue:41
+#: src/tmp/ts/src/components/search/PortalSearch.vue:40
 msgid "%(num)s search results"
 msgstr "%(num)s Suchergebnisse"
 
@@ -315,7 +315,7 @@ msgstr "Ordner %(folder)s bearbeiten"
 msgid "Edit Translations"
 msgstr "Übersetzungen bearbeiten"
 
-#: src/tmp/ts/src/components/PortalCategory.vue:74
+#: src/tmp/ts/src/components/PortalCategory.vue:78
 msgid "Edit category: %(category)s"
 msgstr "Kategorie %(category)s bearbeiten"
 
@@ -534,7 +534,7 @@ msgstr "Menü"
 msgid "Move Folder: %(folder)s"
 msgstr "Ordner %(folder)s verschieben"
 
-#: src/tmp/ts/src/components/PortalCategory.vue:71
+#: src/tmp/ts/src/components/PortalCategory.vue:75
 msgid "Move category: %(category)s"
 msgstr "Kategorie %(category)s verschieben"
 
@@ -588,6 +588,11 @@ msgstr "Keine Einträge"
 #: src/tmp/ts/src/components/notifications/Notifications.vue:39
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
+
+#: src/tmp/ts/src/components/PortalCategory.vue:81
+#, fuzzy
+msgid "No search results"
+msgstr "Keine Suchergebnisse"
 
 #: src/store/modules/user/index.ts:68
 msgid "Not logged in"
@@ -1047,7 +1052,7 @@ msgid "no file selected"
 msgstr "keine Datei ausgewählt"
 
 #: src/tmp/ts/src/components/PortalHeader.vue:69
-#: src/tmp/ts/src/components/search/PortalSearch.vue:25
+#: src/tmp/ts/src/components/search/PortalSearch.vue:24
 msgid "search"
 msgstr "suche"
 
