@@ -47,7 +47,7 @@
     - name: "Fix for 'dhcp lease gets lost'-issue"
       ansible.builtin.lineinfile:
         path: /etc/crontab
-        line: */5 *    * * *   root    /usr/sbin/dhclient >/dev/null 2>&1
+        line: "*/5 *    * * *   root    /usr/sbin/dhclient >/dev/null 2>&1"
       tags:
         - upx_frontend
 
