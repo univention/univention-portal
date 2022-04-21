@@ -39,6 +39,18 @@
         - upx_frontend
         - upx_frontend_install_portal_package
 
+    - name: "Set theme to light as default"
+      shell: "ucr set ucs/web/theme=light"
+      tags:
+        - upx_frontend
+
+    - name: "Fix for 'dhcp lease gets lost'-issue"
+      ansible.builtin.lineinfile:
+        path: /etc/crontab
+        line: "*/5 *    * * *   root    /usr/sbin/dhclient >/dev/null 2>&1"
+      tags:
+        - upx_frontend
+
     - name: "Copy demodata to new UCS machine"
       ansible.builtin.copy:
         src: "{{ lookup('env', 'CI_BUILDS_DIR') }}/demodata"
