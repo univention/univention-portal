@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-04-12 21:29+0200\n"
+"POT-Creation-Date: 2022-04-25 13:10+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -65,8 +65,8 @@ msgid "Activated"
 msgstr "Aktiviert"
 
 #: src/tmp/ts/src/components/widgets/AddObjects.vue:49
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:61
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:61
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -74,7 +74,7 @@ msgstr "Hinzufügen"
 msgid "Add Groups"
 msgstr "Gruppen hinzufügen"
 
-#: src/tmp/ts/src/views/NotFound.vue:51 src/tmp/ts/src/views/Portal.vue:51
+#: src/tmp/ts/src/views/Portal.vue:51 src/tmp/ts/src/views/NotFound.vue:51
 #: src/tmp/ts/src/components/admin/CategoryAddModal.vue:29
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
@@ -152,12 +152,12 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:69
 #: src/tmp/ts/src/views/selfservice/ConfirmDeregistration.vue:54
 #: src/tmp/ts/src/components/widgets/AddObjects.vue:46
-#: src/tmp/ts/src/components/admin/TranslationEditing.vue:45
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
-#: src/tmp/ts/src/components/admin/EditWidget.vue:46
-#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
-#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
 #: src/tmp/ts/src/components/modal/ModalDialog.vue:40
+#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:45
+#: src/tmp/ts/src/components/admin/EditWidget.vue:46
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -211,11 +211,11 @@ msgstr "Kategorie erfolgreich entfernt"
 msgid "Change language"
 msgstr "Sprache ändern"
 
+#: src/tmp/ts/src/views/selfservice/NewPassword.vue:96
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:63
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:72
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:99
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:108
-#: src/tmp/ts/src/views/selfservice/NewPassword.vue:96
 msgid "Change password"
 msgstr "Passwort ändern"
 
@@ -413,9 +413,9 @@ msgstr "Passwort setzen ist fehlgeschlagen"
 msgid "Folder"
 msgstr "Ordner"
 
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 #: src/tmp/ts/src/components/admin/Folder.vue:120
 #: src/tmp/ts/src/components/admin/Folder.vue:123
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 msgid "Folder could not be added"
 msgstr "Ordner konnte nicht hinzugefügt werden"
 
@@ -431,8 +431,8 @@ msgstr "Ordner konnte nicht gelöscht werden"
 msgid "Folder could not be unlinked"
 msgstr "Ordner konnte nicht entfernt werden"
 
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 #: src/tmp/ts/src/components/admin/Folder.vue:123
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 msgid "Folder successfully added"
 msgstr "Ordner erfolgreich hinzugefügt"
 
@@ -475,8 +475,8 @@ msgstr "Icon"
 msgid "Info"
 msgstr "Info"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:45
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:35
+#: src/tmp/ts/src/components/admin/Entry.vue:45
 #: src/tmp/ts/src/components/admin/Folder.vue:39
 msgid "Internal name"
 msgstr "Interner Name"
@@ -542,14 +542,14 @@ msgstr "Kategorie %(category)s verschieben"
 msgid "Move tile: %(entry)s"
 msgstr "Kachel %(entry)s verschieben"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:53
-#: src/tmp/ts/src/components/admin/Entry.vue:54
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:43
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:44
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
+#: src/tmp/ts/src/components/admin/Entry.vue:53
+#: src/tmp/ts/src/components/admin/Entry.vue:54
 #: src/tmp/ts/src/components/admin/Folder.vue:47
 #: src/tmp/ts/src/components/admin/Folder.vue:48
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:31
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:32
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:33
 msgid "Name"
@@ -557,17 +557,16 @@ msgstr "Name"
 
 #: src/tmp/ts/src/components/PortalTile.vue:232
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:82
-#, fuzzy
 msgid "New Tab"
 msgstr "Neuer Tab"
 
-#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:37
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:59
+#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:37
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:44
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:65
+#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:44
 msgid "New password (retype)"
 msgstr "Neues Passwort (Wiederholung)"
 
@@ -590,7 +589,6 @@ msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
 #: src/tmp/ts/src/components/PortalCategory.vue:81
-#, fuzzy
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
@@ -658,9 +656,9 @@ msgstr "Bitte wählen Sie eine Wiederherstellungsoption aus."
 msgid "Please confirm your %(label)s"
 msgstr "Bitte bestätigen Sie Ihr %(label)s"
 
-#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:46
-#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:68
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:67
+#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:68
+#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:46
 msgid "Please confirm your new password"
 msgstr "Bitte bestätigen Sie Ihr neues Passwort"
 
@@ -711,10 +709,10 @@ msgid "Protect account"
 msgstr "Kontozugang schützen"
 
 #: src/tmp/ts/src/components/widgets/MultiSelect.vue:43
-#: src/tmp/ts/src/components/widgets/ImageUploader.vue:51
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
-#: src/tmp/ts/src/components/admin/EditWidget.vue:49
+#: src/tmp/ts/src/components/widgets/ImageUploader.vue:51
 #: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
+#: src/tmp/ts/src/components/admin/EditWidget.vue:49
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -740,8 +738,8 @@ msgstr "Neuen Token anfordern"
 
 #: src/tmp/ts/src/components/PortalTile.vue:228
 #: src/tmp/ts/src/components/admin/Entry.vue:78
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:46
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:81
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:46
 msgid "Same tab"
 msgstr "Gleicher Tab"
 
@@ -824,9 +822,9 @@ msgstr ""
 msgid "The inputs do not match"
 msgstr "Die Eingaben stimmen nicht überein."
 
-#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:49
-#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:71
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:70
+#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:71
+#: src/tmp/ts/src/views/selfservice/PasswordChange.vue:49
 msgid "The new passwords do not match"
 msgstr "Die Passwörter stimmen nicht überein."
 
@@ -881,8 +879,8 @@ msgstr ""
 " wird. Sie können das Passwort einmalig beim Anlegen ansehen. Ein neues "
 "Passwort kann jederzeit erzeugt werden, womit das alte ungültig wird."
 
-#: src/tmp/ts/src/views/selfservice/VerifyAccount.vue:58
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:52
+#: src/tmp/ts/src/views/selfservice/VerifyAccount.vue:58
 msgid "Token"
 msgstr "Token"
 
@@ -914,11 +912,11 @@ msgstr "Portal-Vorgabe nutzen"
 msgid "User Menu"
 msgstr "Benutzer-Menü"
 
+#: src/tmp/ts/src/views/selfservice/NewPassword.vue:45
 #: src/tmp/ts/src/views/selfservice/GuardedSite.vue:67
 #: src/tmp/ts/src/views/selfservice/Profile.vue:46
 #: src/tmp/ts/src/views/selfservice/Profile.vue:84
 #: src/tmp/ts/src/views/selfservice/VerifyAccount.vue:52
-#: src/tmp/ts/src/views/selfservice/NewPassword.vue:45
 msgid "Username"
 msgstr "Benutzername"
 
@@ -1013,16 +1011,14 @@ msgid "Your new password is:"
 msgstr "Ihr neues Passwort lautet:"
 
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:157
-#, fuzzy
 msgid "Your password has been successfully changed."
-msgstr "Ihre Kontaktdaten wurden erfolgreich geändert."
+msgstr "Ihr Passwort wurden erfolgreich geändert."
 
 #: src/tmp/ts/src/components/ChooseTabs.vue:25
 msgid "active"
 msgstr "aktiv"
 
 #: src/tmp/ts/src/views/selfservice/CreateAccount.vue:114
-#, fuzzy
 msgid ""
 "an error occurred while sending the verification token for your account. "
 "Please request a new one."
@@ -1057,7 +1053,6 @@ msgid "search"
 msgstr "suche"
 
 #: src/tmp/ts/src/views/selfservice/CreateAccount.vue:104
-#, fuzzy
 msgid ""
 "we have sent you an email to %(email)s. Please follow the instructions in "
 "the email to verify your account."
