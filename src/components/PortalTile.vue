@@ -196,6 +196,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    target: {
+      type: String,
+      default: '',
+    },
     fromFolder: {
       type: Boolean,
       default: false,
@@ -259,7 +263,10 @@ export default defineComponent({
       return _('Show tooltip');
     },
     anchorTarget(): string {
-      return this.linkTarget === 'newwindow' ? '_blank' : '';
+      if (this.linkTarget !== 'newwindow') {
+        return '';
+      }
+      return this.target || '_blank';
     },
     isMobile(): boolean {
       return this.isTouchDevice && !this.minified;
