@@ -230,7 +230,7 @@ export default defineComponent({
       return 'ontouchstart' in document.documentElement;
     },
     ariaLabelPortalTile(): null | string {
-      return (this.minified || this.editMode) ? null : `${this.$localized(this.title)} ${this.LINK_TYPE(this.linkTarget)}`;
+      return (this.minified || this.editMode) ? null : `${this.$localized(this.title)} ${this.LINK_TYPE(this.linkTarget).label}`;
     },
     activeAtEdit(): string[] {
       if (!this.editMode) {
@@ -261,6 +261,9 @@ export default defineComponent({
     },
     SHOW_TOOLTIP(): string {
       return _('Show tooltip');
+    },
+    LINK_TYPE_LABEL(): string {
+      return this.LINK_TYPE(this.linkTarget).label;
     },
     anchorTarget(): string {
       if (this.linkTarget !== 'newwindow') {
@@ -352,7 +355,7 @@ export default defineComponent({
     removeAriaDescribedBy():void {
       this.tileId = '';
     },
-    LINK_TYPE(linkTarget): string {
+    LINK_TYPE(linkTarget): Record<string, string> {
       const target = (linkTarget === 'samewindow') && ((this.link as string).includes('.crt') || (this.link as string).includes('.crl')) ? 'download' : linkTarget;
       const linkTypes = {
         samewindow: {
