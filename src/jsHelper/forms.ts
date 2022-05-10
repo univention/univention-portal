@@ -54,6 +54,7 @@ export interface WidgetDefinition {
   subtypes?: WidgetDefinition[],
   tabindex?: number,
   disabled?: boolean,
+  canShowPassword?: boolean,
 }
 
 export function isEmpty(widget, value): boolean {

@@ -50,7 +50,7 @@ const tooltipProps = {
   linkType: {
     label: 'embedded',
     icon: 'layout',
-  }
+  },
 };
 
 const state = { tooltip: tooltipProps, hoverOnToolip: false };

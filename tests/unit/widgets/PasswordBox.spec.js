@@ -30,6 +30,18 @@
 import { mount } from '@vue/test-utils';
 
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
+import IconButton from '@/components/globals/IconButton.vue';
+import Vuex from 'vuex';
+import activity from '@/store/modules/activity';
+
+const store = new Vuex.Store({
+  modules: {
+    activity: {
+      getters: activity.getters,
+      namespaced: true,
+    },
+  },
+});
 
 describe('PasswordBox Component', () => {
   test('input value', async () => {
@@ -88,5 +100,32 @@ describe('PasswordBox Component', () => {
     const passwordBox = await wrapper.find('[data-test="password-box"]');
 
     expect(passwordBox.attributes('type')).toBe('password');
+  });
+
+  test('show/hide password icon button', async () => {
+    const wrapper = await mount(PasswordBox, {
+      propsData: {
+        modelValue: '',
+        name: 'password',
+        forAttrOfLabel: '',
+        invalidMessageId: '',
+        canShowPassword: true,
+      },
+      children: [IconButton],
+      global: {
+        plugins: [store],
+      },
+    });
+
+    const passwordBox = await wrapper.find('[data-test="password-box"]');
+    const passwordBoxButton = await wrapper.find('[data-test="password-box-icon"]');
+
+    expect(passwordBoxButton.attributes('aria-label')).toBe('Show password');
+    expect(passwordBox.attributes('type')).toBe('password');
+
+    await passwordBoxButton.trigger('click');
+
+    expect(passwordBoxButton.attributes('aria-label')).toBe('Hide password');
+    expect(passwordBox.attributes('type')).toBe('text');
   });
 });
