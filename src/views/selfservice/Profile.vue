@@ -147,7 +147,6 @@ export default defineComponent({
         label: _('Password'),
         invalidMessage: '',
         required: true,
-        canShowPassword: true,
       }],
       loginValues: {
         username: '',
