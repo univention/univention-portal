@@ -151,6 +151,7 @@ export default defineComponent({
       loginValues: {
         username: '',
         password: '',
+        abc: 'asdasd',
       },
       attributeWidgets: [],
       attributeValues: {},

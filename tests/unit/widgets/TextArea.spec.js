@@ -29,16 +29,16 @@
 
 import { mount } from '@vue/test-utils';
 
-import Textbox from '@/components/widgets/TextBox.vue';
+import TextArea from '@/components/widgets/TextArea.vue';
 
-describe('TextBox Component', () => {
-  test('user can type in input field', async () => {
+describe('TextArea Component', () => {
+  test('user can type in text field', async () => {
     // to check focus, we need to attach to an actual document, normally we don't do this
     const div = document.createElement('div');
     div.id = 'root';
     document.body.appendChild(div);
 
-    const wrapper = await mount(Textbox, {
+    const wrapper = await mount(TextArea, {
       propsData: {
         modelValue: '',
         forAttrOfLabel: '',
@@ -48,7 +48,7 @@ describe('TextBox Component', () => {
       attachTo: '#root',
     });
 
-    const textBox = await wrapper.find('[data-test="text-box"]');
+    const textBox = await wrapper.find('[data-test="textarea"]');
 
     // Expect input value to be empty on mount.
     expect(textBox.element.value).toBe('');
@@ -61,7 +61,7 @@ describe('TextBox Component', () => {
   });
 
   test('computed property "invalud" is working', async () => {
-    const wrapper = await mount(Textbox, {
+    const wrapper = await mount(TextArea, {
       propsData: {
         modelValue: '',
         forAttrOfLabel: '',
@@ -77,7 +77,7 @@ describe('TextBox Component', () => {
   });
 
   test('input field has id attribute with value (needed for A11y reasons)', async () => {
-    const wrapper = await mount(Textbox, {
+    const wrapper = await mount(TextArea, {
       propsData: {
         modelValue: '',
         forAttrOfLabel: 'testString',
