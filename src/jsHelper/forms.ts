@@ -31,7 +31,7 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'TextBox' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect';
+type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect';
 
 interface OptionsDefinition {
   id: string,
@@ -60,6 +60,7 @@ export interface WidgetDefinition {
 export function isEmpty(widget, value): boolean {
   switch (widget.type) {
     case 'TextBox':
+    case 'TextArea':
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
@@ -92,6 +93,7 @@ export function isValid(widget): boolean {
   }
   switch (widget.type) {
     case 'TextBox':
+    case 'TextArea':
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
@@ -129,6 +131,7 @@ export function validate(widget, value, widgets, values): void {
   function required(_widget, _value) {
     switch (_widget.type) {
       case 'TextBox':
+      case 'TextArea':
       case 'DateBox':
       case 'ComboBox':
       case 'PasswordBox':
@@ -161,6 +164,7 @@ export function validate(widget, value, widgets, values): void {
 
   switch (widget.type) {
     case 'TextBox':
+    case 'TextArea':
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
@@ -198,6 +202,7 @@ export function validateAll(widgets, values): boolean {
 export function initialValue(widget, value): any {
   switch (widget.type) {
     case 'TextBox':
+    case 'TextArea':
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
@@ -238,6 +243,7 @@ export function invalidMessage(widget): string {
   }
   switch (widget.type) {
     case 'TextBox':
+    case 'TextArea':
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
