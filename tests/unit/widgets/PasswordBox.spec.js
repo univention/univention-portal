@@ -30,7 +30,7 @@
 import { mount } from '@vue/test-utils';
 
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
-import IconButton from '@/components/globals/IconButton.vue';
+import ToggleButton from '@/components/widgets/ToggleButton.vue';
 import Vuex from 'vuex';
 import activity from '@/store/modules/activity';
 
@@ -111,7 +111,7 @@ describe('PasswordBox Component', () => {
         invalidMessageId: '',
         canShowPassword: true,
       },
-      children: [IconButton],
+      children: [ToggleButton],
       global: {
         plugins: [store],
       },

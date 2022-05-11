@@ -12,14 +12,15 @@
         data-test="password-box"
         @input="$emit('update:modelValue', $event.target.value)"
       >
-      <icon-button
+      <toggle-button
         v-if="canShowPassword"
-        :icon="showPassword ? 'eye' : 'eye-off'"
-        :aria-label-prop="TOGGLE_PASSWORD"
+        :toggle-icon="passwordIcons"
+        :toggle-label="TOGGLE_PASSWORD"
         :active-at="['selfservice']"
+        :display-initial="true"
         class="password-box__icon"
         data-test="password-box-icon"
-        @click="togglePassword()"
+        @click="toogleFunction()"
       />
     </div>
   </div>
@@ -30,12 +31,12 @@ import { defineComponent } from 'vue';
 import { isValid } from '@/jsHelper/forms';
 import _ from '@/jsHelper/translate';
 
-import IconButton from '@/components/globals/IconButton.vue';
+import ToggleButton from '@/components/widgets/ToggleButton.vue';
 
 export default defineComponent({
   name: 'PasswordBox',
   components: {
-    IconButton,
+    ToggleButton,
   },
   props: {
     name: {
@@ -76,8 +77,17 @@ export default defineComponent({
         invalidMessage: this.invalidMessage,
       });
     },
-    TOGGLE_PASSWORD(): string {
-      return this.showPassword ? _('Show password') : _('Hide password');
+    TOGGLE_PASSWORD(): Record<string, string> {
+      return {
+        firstStateLabel: _('Show password'),
+        secondStateLabel: _('Hide password'),
+      };
+    },
+    passwordIcons(): Record<string, string> {
+      return {
+        firstStateIcon: 'eye',
+        secondStateIcon: 'eye-off',
+      };
     },
   },
   methods: {
@@ -85,7 +95,7 @@ export default defineComponent({
       // @ts-ignore
       this.$refs.input.focus();
     },
-    togglePassword(): void {
+    toogleFunction(): void {
       if (this.showPassword) {
         this.showPassword = !this.showPassword;
         (this.$refs.input as HTMLInputElement).type = 'text';
