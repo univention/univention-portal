@@ -4,7 +4,7 @@
     :aria-label-prop="TOGGLE_LABEL"
     :active-at="activeAt"
     class="toggle-button"
-    data-isInitialState="toggle-button"
+    data-test="toggle-button"
     @click="toggleButton()"
   />
 </template>
