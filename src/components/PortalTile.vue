@@ -196,6 +196,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    target: {
+      type: String,
+      default: '',
+    },
     fromFolder: {
       type: Boolean,
       default: false,
@@ -226,7 +230,7 @@ export default defineComponent({
       return 'ontouchstart' in document.documentElement;
     },
     ariaLabelPortalTile(): null | string {
-      return (this.minified || this.editMode) ? null : this.$localized(this.title);
+      return (this.minified || this.editMode) ? null : `${this.$localized(this.title)} ${this.LINK_TYPE(this.linkTarget).label}`;
     },
     activeAtEdit(): string[] {
       if (!this.editMode) {
@@ -258,8 +262,14 @@ export default defineComponent({
     SHOW_TOOLTIP(): string {
       return _('Show tooltip');
     },
+    LINK_TYPE_LABEL(): string {
+      return this.LINK_TYPE(this.linkTarget).label;
+    },
     anchorTarget(): string {
-      return this.linkTarget === 'newwindow' ? '_blank' : '';
+      if (this.linkTarget !== 'newwindow') {
+        return '';
+      }
+      return this.target || '_blank';
     },
     isMobile(): boolean {
       return this.isTouchDevice && !this.minified;
@@ -288,7 +298,9 @@ export default defineComponent({
       if (!this.editMode && !this.minified) {
         const portalTileNameRect = this.$el.querySelector('.portal-tile__name').getBoundingClientRect();
         const portalTileRect = this.$el.getBoundingClientRect();
+        const linkTypeText = this.LINK_TYPE(this.linkTarget);
         const tooltip = {
+          linkType: linkTypeText,
           isMobile: this.isMobile,
           title: this.$localized(this.title),
           backgroundColor: this.backgroundColor,
@@ -334,14 +346,36 @@ export default defineComponent({
         }, 50);
       }
     },
-    createID() {
+    createID(): string {
       return `element-${this.$.uid}`;
     },
-    setAriaDescribedBy() {
+    setAriaDescribedBy(): void {
       this.tileId = this.createID();
     },
-    removeAriaDescribedBy() {
+    removeAriaDescribedBy():void {
       this.tileId = '';
+    },
+    LINK_TYPE(linkTarget): Record<string, string> {
+      const target = (linkTarget === 'samewindow') && ((this.link as string).includes('.crt') || (this.link as string).includes('.crl')) ? 'download' : linkTarget;
+      const linkTypes = {
+        samewindow: {
+          label: _('Same tab'),
+          icon: 'sidebar',
+        },
+        newwindow: {
+          label: _('New Tab'),
+          icon: 'external-link',
+        },
+        embedded: {
+          label: _('iFrame'),
+          icon: 'layout',
+        },
+        download: {
+          label: _('Download'),
+          icon: 'download',
+        },
+      };
+      return linkTypes[target];
     },
   },
 });

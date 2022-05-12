@@ -34,7 +34,7 @@
     <my-form
       ref="loginForm"
       v-model="loginValues"
-      :widgets="loginWidgetsWithTabindex"
+      :widgets="loginWidgetsVisible"
     >
       <footer v-if="!attributesLoaded">
         <button
@@ -108,7 +108,7 @@ import {
 } from '@/views/selfservice/helper';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
-import { validateAll, initialValue, isValid, allValid, WidgetDefinition } from '@/jsHelper/forms';
+import { validateAll, initialValue, allValid, WidgetDefinition } from '@/jsHelper/forms';
 import Site from '@/views/selfservice/Site.vue';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
 import ConfirmDeregistration from '@/views/selfservice/ConfirmDeregistration.vue';
@@ -147,10 +147,12 @@ export default defineComponent({
         label: _('Password'),
         invalidMessage: '',
         required: true,
+        canShowPassword: true,
       }],
       loginValues: {
         username: '',
         password: '',
+        abc: 'asdasd',
       },
       attributeWidgets: [],
       attributeValues: {},
@@ -219,12 +221,6 @@ export default defineComponent({
         return [this.loginWidgets[0]];
       }
       return this.loginWidgets;
-    },
-    loginWidgetsWithTabindex(): WidgetDefinition[] {
-      return this.loginWidgetsVisible.map((widget) => {
-        widget.tabindex = this.tabindex;
-        return widget;
-      });
     },
     attributeWidgetsWithTabindex(): WidgetDefinition[] {
       return this.attributeWidgets.map((widget) => {
@@ -348,7 +344,7 @@ export default defineComponent({
               title: _('Profile changes'),
               description: 'Successfully saved changes',
             });
-            this.updateOrigFormValues();
+            this.$router.push({ name: 'portal' });
           });
         })
         .catch((error) => {
