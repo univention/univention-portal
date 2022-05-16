@@ -27,79 +27,83 @@ License with the Debian GNU/Linux or Univention distribution in file
 <https://www.gnu.org/licenses/>.
 -->
 <template>
-    <transition
-      name="fade"
-      appear
-      @before-enter="beforeEnter"
-      @after-enter="onAfterEnter"
-      @leave="leave"
+  <transition
+    name="fade"
+    appear
+    @before-enter="beforeEnter"
+    @after-enter="onAfterEnter"
+    @leave="leave"
+  >
+    <div
+      ref="toolTip"
+      class="portal-tooltip"
+      role="tooltip"
+      data-test="portal-tooltip"
+      :style="tooltipPosition"
+      @mouseenter="keepTooltip()"
+      @mouseleave="closeToolTip"
     >
-      <div
-        ref="toolTip"
-        class="portal-tooltip"
-        role="tooltip"
-        data-test="portal-tooltip"
-        :style="tooltipPosition"
-        @mouseenter="keepTooltip()"
-        @mouseleave="closeToolTip"
-      >
-        <div class="portal-tooltip__inner-wrap">
-          <div
-            v-if="!isMobile"
-            class="portal-tooltip__arrow"
-            data-test="portal-tooltip-arrow"
-            :style="arrowPosition"
-          />
-          <div
-            class="portal-tooltip__header"
-          >
-            <template v-if="isMobile">
-              <div
-                class="portal-tooltip__thumbnail"
-                data-test="portal-tooltip-image"
-                :style="backgroundColor ? `background: ${backgroundColor}` : ''"
-              >
-                <img
-                  :src="icon || './questionMark.svg'"
-                  onerror="this.src='./questionMark.svg'"
-                  alt=""
-                  class="portal-tooltip__logo"
-                >
-              </div>
-              <div
-                class="portal-tooltip__title"
-                data-test="portal-tooltip-title"
-              >
-                {{ title }}
-              </div>
-            </template>
-            <icon-button
-              icon="x"
-              class="portal-tooltip__close-icon"
-              data-test="portal-tooltip-close-icon"
-              :aria-label-prop="CLOSE_TOOLTIP"
-              @click="closeToolTip()"
-            />
-          </div>
-          <!-- eslint-disable vue/no-v-html -->
-          <div
-            v-if="description"
-            class="portal-tooltip__description"
-            data-test="portal-tooltip-description"
-            v-html="description"
-          />
-          <!-- eslint-enable vue/no-v-html -->
-          <div class="portal-tooltip__link-type">
-            {{ linkTypeText }}
-            <portal-icon
-              class="portal-tooltip__link-type-icon"
-              :class="{'portal-tooltip__link-type-icon--same-tab': sameTab}"
-              :icon="linkTypeIcon"
-            />
-          </div>
-        </div>
+      <div class="portal-tooltip__inner-wrap">
+        <div
+          v-if="!isMobile"
+          class="portal-tooltip__arrow"
+          data-test="portal-tooltip-arrow"
+          :style="arrowPosition"
+        />
+              <div class="cheat">
       </div>
-    </transition>
+        <div
+          class="portal-tooltip__header"
+        >
+          <template v-if="isMobile">
+            <div
+              class="portal-tooltip__thumbnail"
+              data-test="portal-tooltip-image"
+              :style="backgroundColor ? `background: ${backgroundColor}` : ''"
+            >
+              <img
+                :src="icon || './questionMark.svg'"
+                onerror="this.src='./questionMark.svg'"
+                alt=""
+                class="portal-tooltip__logo"
+              >
+            </div>
+            <div
+              class="portal-tooltip__title"
+              data-test="portal-tooltip-title"
+            >
+              {{ title }}
+            </div>
+          </template>
+          <icon-button
+            icon="x"
+            class="portal-tooltip__close-icon"
+            data-test="portal-tooltip-close-icon"
+            :aria-label-prop="CLOSE_TOOLTIP"
+            @click="closeToolTip()"
+          />
+        </div>
+        <!-- eslint-disable vue/no-v-html -->
+        <div
+          v-if="description"
+          class="portal-tooltip__description"
+          data-test="portal-tooltip-description"
+          v-html="description"
+        />
+        <!-- eslint-enable vue/no-v-html -->
+        <div class="portal-tooltip__link-type">
+          {{ linkTypeText }}
+          <portal-icon
+            class="portal-tooltip__link-type-icon"
+            :class="{'portal-tooltip__link-type-icon--same-tab': sameTab}"
+            :icon="linkTypeIcon"
+          />
+        </div>
+
+      </div>
+
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -380,6 +384,13 @@ export default defineComponent({
     width: 0.8rem
     &--same-tab
       transform: rotate(90deg)
+  .cheat
+    width: calc(100%);
+    height: calc(100% + 75%);
+    position absolute
+    z-index: -1
+    top: -38%;
+    left: 0;
 
 .fade-enter-active {
   transition: all 0.25s ease-out

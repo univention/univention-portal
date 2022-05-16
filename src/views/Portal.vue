@@ -83,12 +83,13 @@
     </div>
 
     <notifications :is-in-notification-bar="false" />
-
-    <portal-tool-tip
-      v-if="tooltip"
-      v-bind="tooltip"
-    />
-
+    <div>
+      hahahaha
+      <portal-tool-tip
+        v-if="tooltip"
+        v-bind="tooltip"
+      />
+    </div>
     <portal-sidebar />
     <portal-modal />
     <portal-modal
