@@ -50,8 +50,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           data-test="portal-tooltip-arrow"
           :style="arrowPosition"
         />
-              <div class="cheat">
-      </div>
+        <div class="cheat" />
         <div
           class="portal-tooltip__header"
         >
@@ -99,9 +98,7 @@ License with the Debian GNU/Linux or Univention distribution in file
             :icon="linkTypeIcon"
           />
         </div>
-
       </div>
-
     </div>
   </transition>
 </template>
