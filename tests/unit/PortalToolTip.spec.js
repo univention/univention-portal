@@ -35,7 +35,6 @@ import IconButton from '@/components/globals/IconButton.vue';
 import Vuex from 'vuex';
 import activity from '@/store/modules/activity';
 
-
 const tooltipProps = {
   title: 'Tooltip title',
   description: 'Tooltip description',
