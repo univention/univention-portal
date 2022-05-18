@@ -85,7 +85,7 @@ describe('TextBox Component', () => {
         invalidMessageId: '',
       },
     });
-    const textBox = await wrapper.find('[data-test="textarea"]');
+    const textBox = await wrapper.find('[data-test="text-box"]');
     expect(textBox.attributes('id')).toBe('testString');
   });
 });
