@@ -14,13 +14,13 @@
       >
       <toggle-button
         v-if="canShowPassword"
-        :toggle-icon="passwordIcons"
-        :toggle-label="TOGGLE_PASSWORD"
+        :toggle-icons="passwordIcons"
+        :toggle-labels="TOGGLE_PASSWORD"
         :active-at="['selfservice']"
-        :display-initial="true"
         class="password-box__icon"
         data-test="password-box-icon"
-        @click="toogleFunction()"
+        :is-toggled="showPassword"
+        @update:is-toggled="updateShowPassword"
       />
     </div>
   </div>
@@ -67,7 +67,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   data() {
     return {
-      showPassword: this.canShowPassword,
+      showPassword: false,
     };
   },
   computed: {
@@ -79,14 +79,14 @@ export default defineComponent({
     },
     TOGGLE_PASSWORD(): Record<string, string> {
       return {
-        firstStateLabel: _('Show password'),
-        secondStateLabel: _('Hide password'),
+        initial: _('Show password'),
+        toggled: _('Hide password'),
       };
     },
     passwordIcons(): Record<string, string> {
       return {
-        firstStateIcon: 'eye',
-        secondStateIcon: 'eye-off',
+        initial: 'eye-off',
+        toggled: 'eye',
       };
     },
   },
@@ -95,14 +95,9 @@ export default defineComponent({
       // @ts-ignore
       this.$refs.input.focus();
     },
-    toogleFunction(): void {
-      if (this.showPassword) {
-        this.showPassword = !this.showPassword;
-        (this.$refs.input as HTMLInputElement).type = 'text';
-      } else {
-        this.showPassword = !this.showPassword;
-        (this.$refs.input as HTMLInputElement).type = 'password';
-      }
+    updateShowPassword(newValue) {
+      this.showPassword = newValue;
+      (this.$refs.input as HTMLInputElement).type = newValue ? 'text' : 'password';
     },
   },
 });
