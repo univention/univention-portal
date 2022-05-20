@@ -232,7 +232,7 @@ export default defineComponent({
           fileInputNode.value = '';
           this.$store.dispatch('notifications/addErrorNotification', {
             title: '',
-            description: _('The file "%(filename)s" could not be uploaded because it is not an accepted file type.', {
+            description: _('The file "%(filename)s" could not be uploaded because it is an unaccepted file type.', {
               filename: file.name,
             }),
           });
