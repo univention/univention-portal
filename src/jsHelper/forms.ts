@@ -31,7 +31,7 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect';
+type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner';
 
 interface OptionsDefinition {
   id: string,
@@ -67,6 +67,7 @@ export function isEmpty(widget, value): boolean {
     case 'PasswordBox':
     case 'RadioBox':
     case 'ImageUploader':
+    case 'NumberSpinner':
       return value === '';
     case 'MultiInput':
       return value.every((row) => {
@@ -104,6 +105,7 @@ export function isValid(widget): boolean {
     case 'CheckBox':
     case 'MultiSelect':
     case 'LinkWidget':
+    case 'NumberSpinner':
       return widget.invalidMessage === '';
     case 'MultiInput':
       return widget.invalidMessage.all === '' &&
@@ -143,6 +145,7 @@ export function validate(widget, value, widgets, values): void {
       case 'MultiSelect':
       case 'LinkWidget':
       case 'CheckBox':
+      case 'NumberSpinner':
         return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
       default:
         return '';
@@ -215,6 +218,8 @@ export function initialValue(widget, value): any {
       return value ?? { en_US: '' };
     case 'CheckBox':
       return typeof value === 'boolean' ? value : false;
+    case 'NumberSpinner':
+      return typeof value === 'number' ? value : false;
     case 'MultiInput':
       if (!Array.isArray(value)) {
         const row = widget.subtypes.map((subtype) => initialValue(subtype, null));
@@ -253,6 +258,7 @@ export function invalidMessage(widget): string {
     case 'LocaleInput':
     case 'CheckBox':
     case 'MultiSelect':
+    case 'NumberSpinner':
     case 'LinkWidget':
       return widget.invalidMessage;
     case 'MultiInput':
