@@ -37,6 +37,7 @@ interface BackendWidgetDefinition {
   editable: boolean,
   readonly: boolean,
   type: string,
+  syntax: string,
   id: string,
   label: string,
   required: boolean,
@@ -66,6 +67,12 @@ export function sanitizeBackendWidget(widget: BackendWidgetDefinition): WidgetDe
   if (widget.type === 'MultiInput') {
     w.extraLabel = w.label;
     w.subtypes = widget.subtypes?.map((subtype) => sanitizeBackendWidget(subtype));
+  }
+
+  // syntax specific adjustments
+  if (widget.syntax === 'jpegPhoto') {
+    // it says the syntax is 'jpegPhoto' but pngs will be converted in the backend so they can still be uploaded
+    w.accept = 'image/png,image/jpeg';
   }
   return w;
 }

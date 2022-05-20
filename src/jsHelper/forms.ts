@@ -44,6 +44,7 @@ export interface WidgetDefinition {
   type: WidgetType,
   name: string,
   label: string,
+  extraLabel?: string,
   ariaLabel?: string,
   invalidMessage?: string | { all: string, values: string[] },
   required?: boolean,

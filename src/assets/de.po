@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-04-25 13:10+0200\n"
+"POT-Creation-Date: 2022-05-18 12:50+0200\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -45,7 +45,7 @@ msgstr "Akzeptieren"
 msgid "Account creation successful"
 msgstr "Kontoerstellung erfolgreich"
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:311
+#: src/tmp/ts/src/views/selfservice/Profile.vue:307
 #: src/tmp/ts/src/views/selfservice/ConfirmDeregistration.vue:45
 msgid "Account deletion"
 msgstr "Kontolöschung"
@@ -64,9 +64,9 @@ msgstr ""
 msgid "Activated"
 msgstr "Aktiviert"
 
-#: src/tmp/ts/src/components/widgets/AddObjects.vue:49
-#: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:61
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:37
+#: src/tmp/ts/src/components/widgets/AddObjects.vue:49
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -74,8 +74,8 @@ msgstr "Hinzufügen"
 msgid "Add Groups"
 msgstr "Gruppen hinzufügen"
 
-#: src/tmp/ts/src/views/Portal.vue:51 src/tmp/ts/src/views/NotFound.vue:51
 #: src/tmp/ts/src/components/admin/CategoryAddModal.vue:29
+#: src/tmp/ts/src/views/NotFound.vue:51 src/tmp/ts/src/views/Portal.vue:51
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
 
@@ -149,15 +149,15 @@ msgstr "Hintergrundfarbe"
 msgid "Can only be seen by these groups"
 msgstr "Kann nur von diesen Gruppen gesehen werden"
 
+#: src/tmp/ts/src/components/modal/ModalDialog.vue:40
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
+#: src/tmp/ts/src/components/admin/EditWidget.vue:46
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:45
+#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
+#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
+#: src/tmp/ts/src/components/widgets/AddObjects.vue:46
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:69
 #: src/tmp/ts/src/views/selfservice/ConfirmDeregistration.vue:54
-#: src/tmp/ts/src/components/widgets/AddObjects.vue:46
-#: src/tmp/ts/src/components/modal/ModalDialog.vue:40
-#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:26
-#: src/tmp/ts/src/components/admin/TranslationEditing.vue:45
-#: src/tmp/ts/src/components/admin/EditWidget.vue:46
-#: src/tmp/ts/src/components/admin/ExistingCategory.vue:34
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:58
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -227,10 +227,10 @@ msgstr "Passwort ändern"
 msgid "Choose a tab"
 msgstr "Tab wählen"
 
-#: src/tmp/ts/src/views/selfservice/ErrorDialog.vue:35
-#: src/tmp/ts/src/views/selfservice/Profile.vue:93
 #: src/tmp/ts/src/components/ChooseTabs.vue:45
 #: src/tmp/ts/src/components/navigation/HeaderTab.vue:51
+#: src/tmp/ts/src/views/selfservice/Profile.vue:95
+#: src/tmp/ts/src/views/selfservice/ErrorDialog.vue:35
 msgid "Close"
 msgstr "schließen"
 
@@ -238,7 +238,7 @@ msgstr "schließen"
 msgid "Close Tooltip"
 msgstr "Tooltip schließen"
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:90
+#: src/tmp/ts/src/views/selfservice/Profile.vue:92
 msgid "Continue"
 msgstr "Weiter"
 
@@ -262,7 +262,7 @@ msgstr "Konto erstellen"
 msgid "Creating a new user failed."
 msgstr "Anlegen eines neuen Nutzers fehlgeschlagen."
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:81
+#: src/tmp/ts/src/views/selfservice/Profile.vue:83
 msgid "Customize your profile"
 msgstr "Passen Sie Ihre Profildaten an"
 
@@ -274,7 +274,7 @@ msgstr "Standardverhalten für Links von Portaleinträgen"
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:99
+#: src/tmp/ts/src/views/selfservice/Profile.vue:101
 #: src/tmp/ts/src/views/selfservice/ConfirmDeregistration.vue:57
 msgid "Delete my account"
 msgstr "Mein Konto löschen"
@@ -302,7 +302,7 @@ msgstr ""
 "oder nur die Verbindung des Objektes hierhin entfernen, sodass Sie es noch "
 "anderswo nutzen können."
 
-#: src/tmp/ts/src/components/PortalTile.vue:240
+#: src/tmp/ts/src/components/PortalTile.vue:255
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:84
 msgid "Download"
 msgstr "Download"
@@ -319,7 +319,7 @@ msgstr "Übersetzungen bearbeiten"
 msgid "Edit category: %(category)s"
 msgstr "Kategorie %(category)s bearbeiten"
 
-#: src/tmp/ts/src/components/PortalTile.vue:199
+#: src/tmp/ts/src/components/PortalTile.vue:214
 msgid "Edit entry"
 msgstr "Eintrag bearbeiten"
 
@@ -335,12 +335,12 @@ msgstr "Editiermodus"
 msgid "Edit portal"
 msgstr "Portal bearbeiten"
 
-#: src/tmp/ts/src/components/PortalTile.vue:132
+#: src/tmp/ts/src/components/PortalTile.vue:139
 msgid "Edit tile: %(entry)s"
 msgstr "Kachel %(entry)s bearbeiten"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:84
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:52
+#: src/tmp/ts/src/components/admin/Entry.vue:84
 msgid "Embedded"
 msgstr "Eingebettet"
 
@@ -358,11 +358,11 @@ msgstr "Einträge konnten nicht umsortiert werden"
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:262
-#: src/tmp/ts/src/components/admin/Entry.vue:265
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:95
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:100
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:107
+#: src/tmp/ts/src/components/admin/Entry.vue:262
+#: src/tmp/ts/src/components/admin/Entry.vue:265
 msgid "Entry could not be added"
 msgstr "Eintrag konnte nicht hinzugefügt werden"
 
@@ -378,10 +378,10 @@ msgstr "Eintrag konnte nicht gelöscht werden"
 msgid "Entry could not be unlinked"
 msgstr "Eintrag konnte nicht entfernt werden"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:265
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:95
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:100
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:107
+#: src/tmp/ts/src/components/admin/Entry.vue:265
 msgid "Entry successfully added"
 msgstr "Eintrag erfolgreich hinzugefügt"
 
@@ -413,9 +413,9 @@ msgstr "Passwort setzen ist fehlgeschlagen"
 msgid "Folder"
 msgstr "Ordner"
 
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 #: src/tmp/ts/src/components/admin/Folder.vue:120
 #: src/tmp/ts/src/components/admin/Folder.vue:123
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
 msgid "Folder could not be added"
 msgstr "Ordner konnte nicht hinzugefügt werden"
 
@@ -431,8 +431,8 @@ msgstr "Ordner konnte nicht gelöscht werden"
 msgid "Folder could not be unlinked"
 msgstr "Ordner konnte nicht entfernt werden"
 
-#: src/tmp/ts/src/components/admin/Folder.vue:123
 #: src/tmp/ts/src/components/admin/ExistingEntry.vue:109
+#: src/tmp/ts/src/components/admin/Folder.vue:123
 msgid "Folder successfully added"
 msgstr "Ordner erfolgreich hinzugefügt"
 
@@ -460,11 +460,15 @@ msgstr "WLAN-Passwort erzeugen"
 msgid "Go Back"
 msgstr "Gehe zurück"
 
+#: src/tmp/ts/src/views/selfservice/VerifyAccount.vue:123
 #: src/tmp/ts/src/views/selfservice/CreateAccount.vue:103
 #: src/tmp/ts/src/views/selfservice/CreateAccount.vue:113
-#: src/tmp/ts/src/views/selfservice/VerifyAccount.vue:123
 msgid "Hello %(username)s,"
 msgstr "Hallo %(username)s,"
+
+#: src/tmp/ts/src/components/widgets/PasswordBox.vue:54
+msgid "Hide password"
+msgstr "Passwort verstecken"
 
 #: src/tmp/ts/src/components/admin/Entry.vue:89
 #: src/tmp/ts/src/components/admin/Entry.vue:90
@@ -476,12 +480,12 @@ msgid "Info"
 msgstr "Info"
 
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:35
-#: src/tmp/ts/src/components/admin/Entry.vue:45
 #: src/tmp/ts/src/components/admin/Folder.vue:39
+#: src/tmp/ts/src/components/admin/Entry.vue:45
 msgid "Internal name"
 msgstr "Interner Name"
 
-#: src/jsHelper/forms.ts:260
+#: src/jsHelper/forms.ts:268
 msgid ""
 "Internal name must not contain anything other than digits, letters or dots, "
 "must be at least 2 characters long, and start and end with a digit or "
@@ -538,24 +542,24 @@ msgstr "Ordner %(folder)s verschieben"
 msgid "Move category: %(category)s"
 msgstr "Kategorie %(category)s verschieben"
 
-#: src/tmp/ts/src/components/PortalTile.vue:129
+#: src/tmp/ts/src/components/PortalTile.vue:136
 msgid "Move tile: %(entry)s"
 msgstr "Kachel %(entry)s verschieben"
 
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:32
+#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:33
+#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:43
 #: src/tmp/ts/src/components/admin/FormCategoryEdit.vue:44
-#: src/tmp/ts/src/components/admin/Entry.vue:53
-#: src/tmp/ts/src/components/admin/Entry.vue:54
 #: src/tmp/ts/src/components/admin/Folder.vue:47
 #: src/tmp/ts/src/components/admin/Folder.vue:48
 #: src/tmp/ts/src/components/admin/ExistingCategory.vue:31
-#: src/tmp/ts/src/components/admin/ExistingEntry.vue:55
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:32
-#: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:33
+#: src/tmp/ts/src/components/admin/Entry.vue:53
+#: src/tmp/ts/src/components/admin/Entry.vue:54
 msgid "Name"
 msgstr "Name"
 
-#: src/tmp/ts/src/components/PortalTile.vue:232
+#: src/tmp/ts/src/components/PortalTile.vue:247
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:82
 msgid "New Tab"
 msgstr "Neuer Tab"
@@ -570,8 +574,8 @@ msgstr "Neues Passwort"
 msgid "New password (retype)"
 msgstr "Neues Passwort (Wiederholung)"
 
-#: src/tmp/ts/src/components/admin/Entry.vue:81
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:49
+#: src/tmp/ts/src/components/admin/Entry.vue:81
 msgid "New tab"
 msgstr "Neuer Tab"
 
@@ -626,9 +630,9 @@ msgstr "Editierseite öffnen"
 msgid "Page not found"
 msgstr "Seite nicht gefunden"
 
-#: src/tmp/ts/src/views/selfservice/GuardedSite.vue:76
 #: src/tmp/ts/src/views/selfservice/Profile.vue:52
-#: src/tmp/ts/src/views/selfservice/Profile.vue:87
+#: src/tmp/ts/src/views/selfservice/Profile.vue:89
+#: src/tmp/ts/src/views/selfservice/GuardedSite.vue:76
 #: src/tmp/ts/src/views/selfservice/ConfirmDeregistration.vue:36
 msgid "Password"
 msgstr "Passwort"
@@ -657,8 +661,8 @@ msgid "Please confirm your %(label)s"
 msgstr "Bitte bestätigen Sie Ihr %(label)s"
 
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:67
-#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:68
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:46
+#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:68
 msgid "Please confirm your new password"
 msgstr "Bitte bestätigen Sie Ihr neues Passwort"
 
@@ -695,12 +699,12 @@ msgstr "Portal-Logo"
 msgid "Portal settings"
 msgstr "Portal-Einstellungen"
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:78
+#: src/tmp/ts/src/views/selfservice/Profile.vue:80
 msgid "Profile"
 msgstr "Profil"
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:229
-#: src/tmp/ts/src/views/selfservice/Profile.vue:253
+#: src/tmp/ts/src/views/selfservice/Profile.vue:225
+#: src/tmp/ts/src/views/selfservice/Profile.vue:249
 msgid "Profile changes"
 msgstr "Profil-Änderungen"
 
@@ -708,11 +712,11 @@ msgstr "Profil-Änderungen"
 msgid "Protect account"
 msgstr "Kontozugang schützen"
 
+#: src/tmp/ts/src/components/admin/EditWidget.vue:49
+#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
 #: src/tmp/ts/src/components/widgets/MultiSelect.vue:43
 #: src/tmp/ts/src/components/widgets/LinkWidget.vue:49
-#: src/tmp/ts/src/components/widgets/ImageUploader.vue:51
-#: src/tmp/ts/src/components/admin/ConfirmDialog.vue:32
-#: src/tmp/ts/src/components/admin/EditWidget.vue:49
+#: src/tmp/ts/src/components/widgets/ImageUploader.vue:66
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -736,17 +740,17 @@ msgstr "Auswahl entfernt"
 msgid "Request new token"
 msgstr "Neuen Token anfordern"
 
-#: src/tmp/ts/src/components/PortalTile.vue:228
-#: src/tmp/ts/src/components/admin/Entry.vue:78
+#: src/tmp/ts/src/components/PortalTile.vue:243
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:81
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:46
+#: src/tmp/ts/src/components/admin/Entry.vue:78
 msgid "Same tab"
 msgstr "Gleicher Tab"
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:96
-#: src/tmp/ts/src/components/admin/TranslationEditing.vue:48
-#: src/tmp/ts/src/components/admin/EditWidget.vue:43
 #: src/tmp/ts/src/components/navigation/EditModeSideNavigation.vue:105
+#: src/tmp/ts/src/components/admin/EditWidget.vue:43
+#: src/tmp/ts/src/components/admin/TranslationEditing.vue:48
+#: src/tmp/ts/src/views/selfservice/Profile.vue:98
 msgid "Save"
 msgstr "Speichern"
 
@@ -763,7 +767,7 @@ msgstr "Suchen"
 msgid "Select"
 msgstr "auswählen"
 
-#: src/tmp/ts/src/components/widgets/ImageUploader.vue:45
+#: src/tmp/ts/src/components/widgets/ImageUploader.vue:60
 msgid "Select file"
 msgstr "Datei auswählen"
 
@@ -779,11 +783,15 @@ msgstr "Neues Passwort setzen"
 msgid "Show local UMC modules"
 msgstr "UMC-Module anzeigen"
 
+#: src/tmp/ts/src/components/widgets/PasswordBox.vue:53
+msgid "Show password"
+msgstr "Passwort anzeigen"
+
 #: src/tmp/ts/src/components/header/PortalTitle.vue:22
 msgid "Show portal"
 msgstr "Portal anzeigen"
 
-#: src/tmp/ts/src/components/PortalTile.vue:135
+#: src/tmp/ts/src/components/PortalTile.vue:142
 msgid "Show tooltip"
 msgstr "Kurzinfo anzeigen"
 
@@ -795,8 +803,8 @@ msgstr "Entschuldigung."
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
 
-#: src/tmp/ts/src/views/selfservice/GuardedSite.vue:96
 #: src/tmp/ts/src/components/globals/PortalButton.vue:14
+#: src/tmp/ts/src/views/selfservice/GuardedSite.vue:96
 msgid "Submit"
 msgstr "Abschicken"
 
@@ -818,13 +826,29 @@ msgstr ""
 "Das Konto konnte nicht verifiziert werden. Bitte überprüfen Sie Ihre "
 "Eingabe."
 
+#: src/tmp/ts/src/components/widgets/ImageUploader.vue:132
+msgid ""
+"The file \"%(filename)s\" could not be uploaded because it is an unaccepted "
+"file type."
+msgstr ""
+"Die Datei \"%(filename)s\" konnte nicht hochgeladen werden, da es sich um "
+"einen nicht akzeptierten Dateityp handelt."
+
+#: src/tmp/ts/src/components/widgets/ImageUploader.vue:100
+msgid ""
+"The image \"%(filename)s\" could not be uploaded because it exceeds the "
+"maximum file size of %(maxSize)s MB."
+msgstr ""
+"Das Bild \"%(filename)s\" konnte nicht hochgeladen werden, da es die "
+"maximale Dateigröße von %(maxSize)s MB überschreitet."
+
 #: src/tmp/ts/src/views/selfservice/ProtectAccount.vue:53
 msgid "The inputs do not match"
 msgstr "Die Eingaben stimmen nicht überein."
 
 #: src/tmp/ts/src/views/selfservice/NewPassword.vue:70
-#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:71
 #: src/tmp/ts/src/views/selfservice/PasswordChange.vue:49
+#: src/tmp/ts/src/views/selfservice/CreateAccount.vue:71
 msgid "The new passwords do not match"
 msgstr "Die Passwörter stimmen nicht überein."
 
@@ -846,7 +870,7 @@ msgstr ""
 msgid "This URL does not exist (anymore)."
 msgstr "Diese URL existiert nicht (mehr)."
 
-#: src/jsHelper/forms.ts:141
+#: src/jsHelper/forms.ts:146
 msgid "This value is required"
 msgstr "Dieser Wert ist erforderlich"
 
@@ -888,11 +912,11 @@ msgstr "Token"
 msgid "Token sent"
 msgstr "Token versendet"
 
-#: src/tmp/ts/src/components/PortalTile.vue:209
+#: src/tmp/ts/src/components/PortalTile.vue:224
 msgid "Tooltip displayed"
 msgstr "Tooltip angezeigt"
 
-#: src/tmp/ts/src/components/PortalTile.vue:206
+#: src/tmp/ts/src/components/PortalTile.vue:221
 msgid "Tooltip hidden"
 msgstr "Tooltip versteckt"
 
@@ -900,7 +924,7 @@ msgstr "Tooltip versteckt"
 msgid "Translation: %(key1)s"
 msgstr "Übersetzung: %(key1)s"
 
-#: src/tmp/ts/src/components/widgets/ImageUploader.vue:48
+#: src/tmp/ts/src/components/widgets/ImageUploader.vue:63
 msgid "Upload"
 msgstr "Hochladen"
 
@@ -912,11 +936,11 @@ msgstr "Portal-Vorgabe nutzen"
 msgid "User Menu"
 msgstr "Benutzer-Menü"
 
-#: src/tmp/ts/src/views/selfservice/NewPassword.vue:45
-#: src/tmp/ts/src/views/selfservice/GuardedSite.vue:67
 #: src/tmp/ts/src/views/selfservice/Profile.vue:46
-#: src/tmp/ts/src/views/selfservice/Profile.vue:84
+#: src/tmp/ts/src/views/selfservice/Profile.vue:86
+#: src/tmp/ts/src/views/selfservice/NewPassword.vue:45
 #: src/tmp/ts/src/views/selfservice/VerifyAccount.vue:52
+#: src/tmp/ts/src/views/selfservice/GuardedSite.vue:67
 msgid "Username"
 msgstr "Benutzername"
 
@@ -984,7 +1008,7 @@ msgstr ""
 msgid "Your account has already been verified."
 msgstr "Ihr Konto wurde bereits verifiziert"
 
-#: src/tmp/ts/src/views/selfservice/Profile.vue:311
+#: src/tmp/ts/src/views/selfservice/Profile.vue:307
 msgid "Your account has been successfully deleted."
 msgstr "Ihr Konto wurde erfolgreich gelöscht"
 
@@ -1026,7 +1050,7 @@ msgstr ""
 "beim Senden des Verifizierungs-Tokens für Ihr Konto ist ein Fehler "
 "aufgetreten. Bitte fordern Sie einen neuen an."
 
-#: src/tmp/ts/src/components/PortalTile.vue:236
+#: src/tmp/ts/src/components/PortalTile.vue:251
 #: src/tmp/ts/src/components/navigation/MenuItem.vue:83
 msgid "iFrame"
 msgstr "iFrame"
@@ -1043,7 +1067,7 @@ msgstr "Eintrag"
 msgid "items"
 msgstr "Einträge"
 
-#: src/tmp/ts/src/components/widgets/ImageUploader.vue:57
+#: src/tmp/ts/src/components/widgets/ImageUploader.vue:72
 msgid "no file selected"
 msgstr "keine Datei ausgewählt"
 
