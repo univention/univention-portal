@@ -189,9 +189,7 @@ export default defineComponent({
       const fileInputNode = this.$refs.fileInput as HTMLInputElement;
 
       // validate max file size
-      console.log('maxsize urcr', this.metaData['umc/server/upload/max']);
       let maxSize = parseInt(this.metaData['umc/server/upload/max'], 10);
-      console.log('maxsize parsed', maxSize);
       const maxSizeFallBack = 2048;
       if (Number.isNaN(maxSize)) {
         console.warn(`The value of the ucr variable "umc/server/upload/max" (${this.metaData['umc/server/upload/max']}) can't be converted to a number. Using default of ${maxSizeFallBack} KiB.`);
