@@ -1,7 +1,8 @@
 <template>
   <icon-button
     :icon="isToggled ? toggleIcons.toggled : toggleIcons.initial"
-    :aria-label-prop="TOGGLE_LABEL"
+    :aria-label-prop="toggleLabel"
+    :title="toggleLabel"
     :active-at="activeAt"
     class="toggle-button"
     data-test="toggle-button"
@@ -38,7 +39,7 @@ export default defineComponent({
   },
   emits: ['update:isToggled'],
   computed: {
-    TOGGLE_LABEL(): string {
+    toggleLabel(): string {
       return this.isToggled ? this.toggleLabels.toggled : this.toggleLabels.initial;
     },
   },
