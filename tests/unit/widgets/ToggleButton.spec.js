@@ -44,20 +44,20 @@ const store = new Vuex.Store({
 });
 
 const toggleLabelProp = {
-  firstStateLabel: 'Display as List',
-  secondStateLabel: 'Display as Grid',
+  initial: 'Display as List',
+  toggled: 'Display as Grid',
 };
 const toggleIconProp = {
-  firstStateIcon: 'list',
-  secondStateIcon: 'grid',
+  initial: 'list',
+  toggled: 'grid',
 };
 
 describe('ToggleButton Component', () => {
   test('Button displays initial Icon and text', async () => {
     const wrapper = await mount(ToggleButton, {
       propsData: {
-        toggleLabel: toggleLabelProp,
-        toggleIcon: toggleIconProp,
+        toggleLabels: toggleLabelProp,
+        toggleIcons: toggleIconProp,
       },
       children: [IconButton],
       global: {
