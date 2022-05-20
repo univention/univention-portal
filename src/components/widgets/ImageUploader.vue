@@ -34,7 +34,7 @@
       @dragenter.prevent=""
       @dragover.prevent=""
       @drop.prevent="drop"
-      @click="startUpload"
+      @click="triggerUpload"
     >
       <img
         v-if="modelValue"
@@ -53,18 +53,19 @@
     </div>
     <footer class="image-upload__footer">
       <input
-        ref="file_input"
+        ref="fileInput"
         class="image-upload__file-input"
         type="file"
         :data-test="`imageUploadFileInput--${extraLabel}`"
-        @change="upload"
+        :accept="accept"
+        @change="onUpload"
       >
       <button
         ref="uploadButton"
         type="button"
         :tabindex="tabindex"
         :data-test="`imageUploadButton--${extraLabel}`"
-        @click.prevent="startUpload"
+        @click.prevent="triggerUpload"
       >
         <portal-icon
           icon="upload"
@@ -98,6 +99,7 @@ import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import { mapGetters } from 'vuex';
 
 interface ImageUploadData {
   fileName: string,
@@ -129,6 +131,17 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    // defines the 'accept' attribute of the <input type=file> node
+    // valid values are:
+    // A valid case-insensitive filename extension, starting with a period (".") character. For example: .jpg, .pdf, or .doc.
+    // A valid MIME type string, with no extensions.
+    // The string audio/* meaning "any audio file".
+    // The string video/* meaning "any video file".
+    // The string image/* meaning "any image file".
+    accept: {
+      type: String,
+      default: 'image/*',
+    },
   },
   emits: ['update:modelValue'],
   data(): ImageUploadData {
@@ -137,6 +150,9 @@ export default defineComponent({
     };
   },
   computed: {
+    ...mapGetters({
+      metaData: 'metaData/getMeta',
+    }),
     SELECT_FILE(): string {
       return _('Select file');
     },
@@ -154,24 +170,77 @@ export default defineComponent({
     },
   },
   methods: {
+    triggerUpload() {
+      (this.$refs.fileInput as HTMLElement).click();
+    },
     drop(evt: DragEvent) {
       const dt = evt.dataTransfer;
-      if (dt && dt.files) {
-        this.handleFile(dt.files);
+      if (dt && dt.files && dt.files.length) {
+        this.setFile(dt.files[0]);
       }
     },
-    startUpload() {
-      (this.$refs.file_input as HTMLElement).click();
-    },
-    upload(evt: Event) {
+    onUpload(evt: Event) {
       const target = evt.target as HTMLInputElement;
-      if (target.files) {
-        this.fileName = target.files[0].name;
-        this.handleFile(target.files[0]);
+      if (target.files && target.files.length) {
+        this.setFile(target.files[0]);
       }
     },
-    handleFile(file) {
-      // const file = files[0];
+    setFile(file) {
+      const fileInputNode = this.$refs.fileInput as HTMLInputElement;
+
+      // validate max file size
+      console.log('maxsize urcr', this.metaData['umc/server/upload/max']);
+      let maxSize = parseInt(this.metaData['umc/server/upload/max'], 10);
+      console.log('maxsize parsed', maxSize);
+      const maxSizeFallBack = 2048;
+      if (Number.isNaN(maxSize)) {
+        console.warn(`The value of the ucr variable "umc/server/upload/max" (${this.metaData['umc/server/upload/max']}) can't be converted to a number. Using default of ${maxSizeFallBack} KiB.`);
+      }
+      maxSize = (maxSize || maxSizeFallBack) * 1024; // 'umc/server/upload/max' is in kibibytes; we want bytes
+      if (file.size > maxSize) {
+        fileInputNode.value = '';
+        this.$store.dispatch('notifications/addErrorNotification', {
+          title: '',
+          description: _('The image "%(filename)s" could not be uploaded because it exceeds the maximum file size of %(maxSize)s MB.', {
+            filename: file.name,
+            // show maxSize in MiB (Mebibyte - 1024² bytes)
+            maxSize: (maxSize / (1024 * 1024)).toFixed(1).toString(),
+          }),
+        });
+        return;
+      }
+
+      // validate file type
+      const accepted = this.accept?.split(',').map((type) => type.trim());
+      if (accepted) {
+        const valid = accepted.some((accept) => {
+          if (accept.startsWith('.')) {
+            const fileExtension = file.name
+              .split('.')
+              .pop()
+              .toLowerCase();
+            return `.${fileExtension}` === accept.toLowerCase();
+          }
+          if (['image/*', 'audio/*', 'video/*'].includes(accept)) {
+            const acceptStart = accept.split('*')[0];
+            return file.type.startsWith(acceptStart);
+          }
+          return file.type === accept;
+        });
+
+        if (!valid) {
+          fileInputNode.value = '';
+          this.$store.dispatch('notifications/addErrorNotification', {
+            title: '',
+            description: _('The file "%(filename)s" could not be uploaded because it is not an accepted file type.', {
+              filename: file.name,
+            }),
+          });
+          return;
+        }
+      }
+
+      this.fileName = file.name;
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target) {
