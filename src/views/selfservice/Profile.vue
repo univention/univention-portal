@@ -118,7 +118,7 @@ interface Data {
   initiated: boolean,
   forceLogin: boolean,
   loginWidgets: WidgetDefinition[],
-  loginValues: Record<string, string>,
+  loginValues: Record<string, any>,
   attributeWidgets: WidgetDefinition[],
   attributeValues: Record<string, unknown>,
   origFormValues: Record<string, unknown>,

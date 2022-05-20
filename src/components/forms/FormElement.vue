@@ -82,6 +82,7 @@ import ImageUploader from 'components/widgets/ImageUploader.vue';
 import LocaleInput from 'components/widgets/LocaleInput.vue';
 import MultiSelect from 'components/widgets/MultiSelect.vue';
 import LinkWidget from 'components/widgets/LinkWidget.vue';
+import NumberSpinner from 'components/widgets/NumberSpinner.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -100,6 +101,7 @@ export default defineComponent({
     MultiSelect,
     LinkWidget,
     TextArea,
+    NumberSpinner,
   },
   props: {
     widget: {
