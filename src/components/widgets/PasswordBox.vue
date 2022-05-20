@@ -1,28 +1,30 @@
 <template>
-  <div tabindex="-1">
-    <div class="password-box">
-      <input
-        :id="forAttrOfLabel"
-        ref="input"
-        :name="name"
-        type="password"
-        :value="modelValue"
-        :aria-invalid="invalid"
-        :aria-describedby="invalidMessageId || null"
-        data-test="password-box"
-        @input="$emit('update:modelValue', $event.target.value)"
-      >
-      <toggle-button
-        v-if="canShowPassword"
-        :toggle-icons="passwordIcons"
-        :toggle-labels="TOGGLE_PASSWORD"
-        :active-at="['selfservice']"
-        class="password-box__icon"
-        data-test="password-box-icon"
-        :is-toggled="showPassword"
-        @update:is-toggled="updateShowPassword"
-      />
-    </div>
+  <div class="password-box">
+    <input
+      :id="forAttrOfLabel"
+      ref="input"
+      :disabled="disabled"
+      :tabindex="tabindex"
+      :required="required"
+      :name="name"
+      type="password"
+      :value="modelValue"
+      :aria-invalid="invalid"
+      :aria-describedby="invalidMessageId || null"
+      data-test="password-box"
+      @input="$emit('update:modelValue', $event.target.value)"
+    >
+    <toggle-button
+      v-if="canShowPassword"
+      :disabled="disabled"
+      :tabindex="tabindex"
+      :toggle-icons="passwordIcons"
+      :toggle-labels="TOGGLE_PASSWORD"
+      class="password-box__icon"
+      data-test="password-box-icon"
+      :is-toggled="showPassword"
+      @update:is-toggled="updateShowPassword"
+    />
   </div>
 </template>
 
@@ -58,6 +60,18 @@ export default defineComponent({
     invalidMessageId: {
       type: String,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    tabindex: {
+      type: Number,
+      default: 0,
+    },
+    required: {
+      type: Boolean,
+      default: false,
     },
     canShowPassword: {
       type: Boolean,
