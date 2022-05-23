@@ -27,7 +27,14 @@
   <https://www.gnu.org/licenses/>.
 -->
 <template>
-  <div class="image-upload">
+  <div
+    :class="[
+      'image-upload',
+      {
+        'image-upload--loading': loading
+      }
+    ]"
+  >
     <div
       class="image-upload__canvas"
       :data-test="`imageUploadCanvas--${extraLabel}`"
@@ -50,6 +57,12 @@
           {{ SELECT_FILE }}
         </span>
       </div>
+      <Transition name="loading">
+        <standby-wrapper
+          v-if="loading"
+          class="image-upload__standby"
+        />
+      </Transition>
     </div>
     <footer class="image-upload__footer">
       <input
@@ -99,16 +112,19 @@ import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import StandbyWrapper from '@/components/StandbyWrapper.vue';
 import { mapGetters } from 'vuex';
 
 interface ImageUploadData {
   fileName: string,
+  loading: boolean,
 }
 
 export default defineComponent({
   name: 'ImageUploader',
   components: {
     PortalIcon,
+    StandbyWrapper,
   },
   props: {
     extraLabel: {
@@ -147,6 +163,7 @@ export default defineComponent({
   data(): ImageUploadData {
     return {
       fileName: '',
+      loading: false,
     };
   },
   computed: {
@@ -238,9 +255,11 @@ export default defineComponent({
         }
       }
 
+      this.loading = true;
       this.fileName = file.name;
       const reader = new FileReader();
       reader.onload = (e) => {
+        this.loading = false;
         if (e.target) {
           this.$emit('update:modelValue', e.target.result);
         }
@@ -261,6 +280,7 @@ export default defineComponent({
 <style lang="stylus">
 .image-upload
   &__canvas
+    position: relative
     height: 10rem
     width: 10rem
     cursor: pointer
@@ -285,4 +305,20 @@ export default defineComponent({
     background-color: var(--bgc-inputfield-on-container)
     span
       margin: auto
+
+.image-upload__standby
+  position: absolute
+  top: 0
+  left: 0
+  background: var(--bgc-inputfield-on-container)
+
+.loading-enter-active,
+.loading-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.loading-enter-from,
+.loading-leave-to {
+  opacity: 0;
+}
 </style>
