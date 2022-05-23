@@ -64,6 +64,7 @@
         />
       </Transition>
     </div>
+    <div class="image-upload__maxFileSize">{{ UPLOAD_MAX }}</div>
     <footer class="image-upload__footer">
       <input
         ref="fileInput"
@@ -118,6 +119,7 @@ import { mapGetters } from 'vuex';
 interface ImageUploadData {
   fileName: string,
   loading: boolean,
+  maxFileSize: number,
 }
 
 export default defineComponent({
@@ -164,6 +166,7 @@ export default defineComponent({
     return {
       fileName: '',
       loading: false,
+      maxFileSize: 2048 * 1024, // 2048 kibibytes
     };
   },
   computed: {
@@ -182,9 +185,24 @@ export default defineComponent({
     IMAGE_UPLOAD_STATE(): string {
       return `${this.extraLabel}, ${this.hasImage}`;
     },
+    UPLOAD_MAX(): string {
+      // show maxFileSize in MiB (Mebibyte - 1024² bytes)
+      return _('(maximum file size is %(maxFileSize)s MB)', {
+        maxFileSize: (this.maxFileSize / (1024 * 1024)).toFixed(1).toString(),
+      });
+    },
     hasImage(): string {
       return this.modelValue ? this.fileName : _('no file selected');
     },
+  },
+  created() {
+    const uploadMax = parseInt(this.metaData['umc/server/upload/max'], 10);
+    if (Number.isNaN(uploadMax)) {
+      console.warn(`The value of the ucr variable "umc/server/upload/max" (${this.metaData['umc/server/upload/max']}) can't be converted to a number. Using default of ${(this.maxFileSize / 1024).toFixed(1)} KiB.`);
+    } else {
+      // 'umc/server/upload/max' is in kibibytes; we want bytes
+      this.maxFileSize = uploadMax * 1024;
+    }
   },
   methods: {
     triggerUpload() {
@@ -206,20 +224,14 @@ export default defineComponent({
       const fileInputNode = this.$refs.fileInput as HTMLInputElement;
 
       // validate max file size
-      let maxSize = parseInt(this.metaData['umc/server/upload/max'], 10);
-      const maxSizeFallBack = 2048;
-      if (Number.isNaN(maxSize)) {
-        console.warn(`The value of the ucr variable "umc/server/upload/max" (${this.metaData['umc/server/upload/max']}) can't be converted to a number. Using default of ${maxSizeFallBack} KiB.`);
-      }
-      maxSize = (maxSize || maxSizeFallBack) * 1024; // 'umc/server/upload/max' is in kibibytes; we want bytes
-      if (file.size > maxSize) {
+      if (file.size > this.maxFileSize) {
         fileInputNode.value = '';
         this.$store.dispatch('notifications/addErrorNotification', {
           title: '',
-          description: _('The image "%(filename)s" could not be uploaded because it exceeds the maximum file size of %(maxSize)s MB.', {
+          description: _('The image "%(filename)s" could not be uploaded because it exceeds the maximum file size of %(maxFileSize)s MB.', {
             filename: file.name,
-            // show maxSize in MiB (Mebibyte - 1024² bytes)
-            maxSize: (maxSize / (1024 * 1024)).toFixed(1).toString(),
+            // show maxFileSize in MiB (Mebibyte - 1024² bytes)
+            maxFileSize: (this.maxFileSize / (1024 * 1024)).toFixed(1).toString(),
           }),
         });
         return;
@@ -305,6 +317,10 @@ export default defineComponent({
     background-color: var(--bgc-inputfield-on-container)
     span
       margin: auto
+  &__maxFileSize
+    color: var(--font-color-contrast-middle)
+    font-size: var(--font-size-5)
+    padding-top: var(--layout-spacing-unit-small)
 
 .image-upload__standby
   position: absolute
