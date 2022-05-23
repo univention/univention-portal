@@ -139,7 +139,6 @@ import { LocalizedString } from '@/store/modules/portalData/portalData.models';
 interface PortalTile {
   tileId: string,
   mouseIsOverTile: boolean,
-  timeoutID: number | null,
 }
 
 export default defineComponent({
@@ -210,7 +209,6 @@ export default defineComponent({
     return {
       tileId: '',
       mouseIsOverTile: false,
-      timeoutID: null,
     };
   },
   computed: {
@@ -295,6 +293,8 @@ export default defineComponent({
       }
     },
     showTooltip(): void {
+      this.$store.dispatch('tooltip/unsetTooltip');
+      clearTimeout(this.tooltipID);
       this.mouseIsOverTile = true;
       if (!this.editMode && !this.minified) {
         const portalTileNameRect = this.$el.querySelector('.portal-tile__name').getBoundingClientRect();
@@ -321,6 +321,7 @@ export default defineComponent({
     },
     setToolTipTimeOut(tooltip): void {
       const id = setTimeout(() => {
+        console.log('Already IN');
         if (this.mouseIsOverTile === true) {
           this.$store.dispatch('tooltip/setTooltip', { tooltip });
         }
