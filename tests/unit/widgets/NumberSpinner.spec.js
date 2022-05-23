@@ -29,44 +29,46 @@
 
 import { mount } from '@vue/test-utils';
 
-import Textbox from '@/components/widgets/TextBox.vue';
+import NumberSpinner from '@/components/widgets/NumberSpinner.vue';
 
-describe('TextBox Component', () => {
+describe('NumberSpinner Component', () => {
   test('user can type in input field', async () => {
     // to check focus, we need to attach to an actual document, normally we don't do this
     const div = document.createElement('div');
     div.id = 'root';
     document.body.appendChild(div);
 
-    const wrapper = await mount(Textbox, {
+    const wrapper = await mount(NumberSpinner, {
       propsData: {
         modelValue: '',
         forAttrOfLabel: '',
-        name: 'textBox',
+        name: 'numberSpinner',
         invalidMessageId: '',
       },
       attachTo: '#root',
     });
 
-    const textBox = await wrapper.find('[data-test="text-box"]');
+    const numberSpinner = await wrapper.find('[data-test="number-spinner"]');
 
     // Expect input value to be empty on mount.
-    expect(textBox.element.value).toBe('');
+    expect(numberSpinner.element.value).toBe('');
 
-    await textBox.setValue('test input value');
-
-    expect(textBox.element.value).toBe('test input value');
+    await numberSpinner.setValue('test input value');
+    
+    expect(numberSpinner.element.value).not.toBe('test input value');
+    await numberSpinner.setValue(12);
+    expect(numberSpinner.element.value).toBe("12");
 
     wrapper.unmount();
   });
 
   test('computed property "invalud" is working', async () => {
-    const wrapper = await mount(Textbox, {
+    const wrapper = await mount(NumberSpinner, {
       propsData: {
         modelValue: '',
         forAttrOfLabel: '',
         invalidMessageId: '',
-        name: 'textBox',
+        name: 'numberSpinner',
       },
     });
 
@@ -77,15 +79,15 @@ describe('TextBox Component', () => {
   });
 
   test('input field has id attribute with value (needed for A11y reasons)', async () => {
-    const wrapper = await mount(Textbox, {
+    const wrapper = await mount(NumberSpinner, {
       propsData: {
         modelValue: '',
         forAttrOfLabel: 'testString',
-        name: 'textBox',
+        name: 'numberSpinner',
         invalidMessageId: '',
       },
     });
-    const textBox = await wrapper.find('[data-test="text-box"]');
-    expect(textBox.attributes('id')).toBe('testString');
+    const numberSpinner = await wrapper.find('[data-test="number-spinner"]');
+    expect(numberSpinner.attributes('id')).toBe('testString');
   });
 });

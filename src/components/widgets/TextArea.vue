@@ -3,13 +3,12 @@
     :id="forAttrOfLabel"
     ref="textarea"
     :name="name"
-    :model="modelValue"
-    type="text"
+    :value="modelValue"
     :aria-invalid="invalid"
     :aria-describedby="invalidMessageId || null"
     data-test="textarea"
     class="textarea"
-    @input="$emit('update:modelValue', $event.target?.value)"
+    @input="$emit('update:modelValue', $event.target.value)"
   />
 </template>
 
@@ -52,7 +51,7 @@ export default defineComponent({
   },
   methods: {
     focus(): void {
-      (this.$refs.input as HTMLInputElement).focus();
+      (this.$refs.textarea as HTMLTextAreaElement).focus();
     },
   },
 });

@@ -139,6 +139,7 @@ import { Title, Description } from '@/store/modules/portalData/portalData.models
 interface PortalTile {
   tileId: string,
   mouseIsOverTile: boolean,
+  timeoutID: number | null,
 }
 
 export default defineComponent({
@@ -209,12 +210,14 @@ export default defineComponent({
     return {
       tileId: '',
       mouseIsOverTile: false,
+      timeoutID: null,
     };
   },
   computed: {
     ...mapGetters({
       tooltip: 'tooltip/tooltip',
       tooltipIsHovered: 'tooltip/tooltipIsHovered',
+      tooltipID: 'tooltip/getTooltipID',
       lastDir: 'dragndrop/getLastDir',
     }),
     wrapperTag(): string {
@@ -287,11 +290,9 @@ export default defineComponent({
   methods: {
     hideTooltip(): void {
       this.mouseIsOverTile = false;
-      setTimeout(() => {
-        if (!this.tooltipIsHovered) {
-          this.$store.dispatch('tooltip/unsetTooltip');
-        }
-      }, 350);
+      if (this.tooltipID && !this.tooltipIsHovered) {
+        this.$store.dispatch('tooltip/unsetTooltip');
+      }
     },
     showTooltip(): void {
       this.mouseIsOverTile = true;
@@ -315,12 +316,16 @@ export default defineComponent({
             y: portalTileRect.y,
           },
         };
-        setTimeout(() => {
-          if (this.mouseIsOverTile === true) {
-            this.$store.dispatch('tooltip/setTooltip', { tooltip });
-          }
-        }, 650);
+        this.setToolTipTimeOut(tooltip);
       }
+    },
+    setToolTipTimeOut(tooltip): void {
+      const id = setTimeout(() => {
+        if (this.mouseIsOverTile === true) {
+          this.$store.dispatch('tooltip/setTooltip', { tooltip });
+        }
+      }, 650);
+      this.$store.dispatch('tooltip/setTooltipID', id);
     },
     editTile() {
       this.$store.dispatch('modal/setAndShowModal', {

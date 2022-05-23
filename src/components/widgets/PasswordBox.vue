@@ -1,28 +1,30 @@
 <template>
-  <div tabindex="-1">
-    <div class="password-box">
-      <input
-        :id="forAttrOfLabel"
-        ref="input"
-        :name="name"
-        type="password"
-        :value="modelValue"
-        :aria-invalid="invalid"
-        :aria-describedby="invalidMessageId || null"
-        data-test="password-box"
-        @input="$emit('update:modelValue', $event.target.value)"
-      >
-      <toggle-button
-        v-if="canShowPassword"
-        :toggle-icon="passwordIcons"
-        :toggle-label="TOGGLE_PASSWORD"
-        :active-at="['selfservice']"
-        :display-initial="true"
-        class="password-box__icon"
-        data-test="password-box-icon"
-        @click="toogleFunction()"
-      />
-    </div>
+  <div class="password-box">
+    <input
+      :id="forAttrOfLabel"
+      ref="input"
+      :disabled="disabled"
+      :tabindex="tabindex"
+      :required="required"
+      :name="name"
+      type="password"
+      :value="modelValue"
+      :aria-invalid="invalid"
+      :aria-describedby="invalidMessageId || null"
+      data-test="password-box"
+      @input="$emit('update:modelValue', $event.target.value)"
+    >
+    <toggle-button
+      v-if="canShowPassword"
+      :disabled="disabled"
+      :tabindex="tabindex"
+      :toggle-icons="passwordIcons"
+      :toggle-labels="TOGGLE_PASSWORD"
+      class="password-box__icon"
+      data-test="password-box-icon"
+      :is-toggled="showPassword"
+      @update:is-toggled="updateShowPassword"
+    />
   </div>
 </template>
 
@@ -59,6 +61,18 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    tabindex: {
+      type: Number,
+      default: 0,
+    },
+    required: {
+      type: Boolean,
+      default: false,
+    },
     canShowPassword: {
       type: Boolean,
       default: false,
@@ -67,7 +81,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   data() {
     return {
-      showPassword: this.canShowPassword,
+      showPassword: false,
     };
   },
   computed: {
@@ -79,14 +93,14 @@ export default defineComponent({
     },
     TOGGLE_PASSWORD(): Record<string, string> {
       return {
-        firstStateLabel: _('Show password'),
-        secondStateLabel: _('Hide password'),
+        initial: _('Show password'),
+        toggled: _('Hide password'),
       };
     },
     passwordIcons(): Record<string, string> {
       return {
-        firstStateIcon: 'eye',
-        secondStateIcon: 'eye-off',
+        initial: 'eye-off',
+        toggled: 'eye',
       };
     },
   },
@@ -95,14 +109,9 @@ export default defineComponent({
       // @ts-ignore
       this.$refs.input.focus();
     },
-    toogleFunction(): void {
-      if (this.showPassword) {
-        this.showPassword = !this.showPassword;
-        (this.$refs.input as HTMLInputElement).type = 'text';
-      } else {
-        this.showPassword = !this.showPassword;
-        (this.$refs.input as HTMLInputElement).type = 'password';
-      }
+    updateShowPassword(newValue) {
+      this.showPassword = newValue;
+      (this.$refs.input as HTMLInputElement).type = newValue ? 'text' : 'password';
     },
   },
 });

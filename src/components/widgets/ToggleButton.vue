@@ -1,11 +1,12 @@
 <template>
   <icon-button
-    :icon="isInitialState ? toggleIcon.firstStateIcon : toggleIcon.secondStateIcon"
-    :aria-label-prop="TOGGLE_LABEL"
+    :icon="isToggled ? toggleIcons.toggled : toggleIcons.initial"
+    :aria-label-prop="toggleLabel"
+    :title="toggleLabel"
     :active-at="activeAt"
     class="toggle-button"
-    data-isInitialState="toggle-button"
-    @click="toggleButton()"
+    data-test="toggle-button"
+    @click="$emit('update:isToggled', !isToggled)"
   />
 </template>
 <script lang="ts">
@@ -19,15 +20,15 @@ export default defineComponent({
     IconButton,
   },
   props: {
-    displayInitial: {
+    isToggled: {
       type: Boolean,
-      default: true,
+      required: true,
     },
-    toggleLabel: {
+    toggleLabels: {
       type: Object as PropType<Record<string, string>>,
       required: true,
     },
-    toggleIcon: {
+    toggleIcons: {
       type: Object as PropType<Record<string, string>>,
       required: true,
     },
@@ -36,21 +37,10 @@ export default defineComponent({
       default: () => ['portal'],
     },
   },
-  emits: ['toogleFunction'],
-  data() {
-    return {
-      isInitialState: this.displayInitial,
-    };
-  },
+  emits: ['update:isToggled'],
   computed: {
-    TOGGLE_LABEL(): string {
-      return this.isInitialState ? this.toggleLabel.firstStateLabel : this.toggleLabel.secondStateLabel;
-    },
-  },
-  methods: {
-    toggleButton(): void {
-      this.isInitialState = !this.isInitialState;
-      this.$emit('toogleFunction');
+    toggleLabel(): string {
+      return this.isToggled ? this.toggleLabels.toggled : this.toggleLabels.initial;
     },
   },
 });

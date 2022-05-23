@@ -88,7 +88,6 @@
       v-if="tooltip"
       v-bind="tooltip"
     />
-
     <portal-sidebar />
     <portal-modal />
     <portal-modal

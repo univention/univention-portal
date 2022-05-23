@@ -75,6 +75,7 @@ import DateBox from '@/components/widgets/DateBox.vue';
 import MultiInput from '@/components/widgets/MultiInput.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
+import TextArea from '@/components/widgets/TextArea.vue';
 import CheckBox from '@/components/widgets/CheckBox.vue';
 import RadioBox from '@/components/widgets/RadioBox.vue';
 import ImageUploader from 'components/widgets/ImageUploader.vue';
@@ -98,6 +99,7 @@ export default defineComponent({
     LocaleInput,
     MultiSelect,
     LinkWidget,
+    TextArea,
   },
   props: {
     widget: {

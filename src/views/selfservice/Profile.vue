@@ -34,7 +34,7 @@
     <my-form
       ref="loginForm"
       v-model="loginValues"
-      :widgets="loginWidgetsVisible"
+      :widgets="loginWidgetsWithTabindex"
     >
       <footer v-if="!attributesLoaded">
         <button
@@ -118,7 +118,7 @@ interface Data {
   initiated: boolean,
   forceLogin: boolean,
   loginWidgets: WidgetDefinition[],
-  loginValues: Record<string, string>,
+  loginValues: Record<string, any>,
   attributeWidgets: WidgetDefinition[],
   attributeValues: Record<string, unknown>,
   origFormValues: Record<string, unknown>,
@@ -147,12 +147,10 @@ export default defineComponent({
         label: _('Password'),
         invalidMessage: '',
         required: true,
-        canShowPassword: true,
       }],
       loginValues: {
         username: '',
         password: '',
-        abc: 'asdasd',
       },
       attributeWidgets: [],
       attributeValues: {},
@@ -221,6 +219,12 @@ export default defineComponent({
         return [this.loginWidgets[0]];
       }
       return this.loginWidgets;
+    },
+    loginWidgetsWithTabindex(): WidgetDefinition[] {
+      return this.loginWidgetsVisible.map((widget) => {
+        widget.tabindex = this.tabindex;
+        return widget;
+      });
     },
     attributeWidgetsWithTabindex(): WidgetDefinition[] {
       return this.attributeWidgets.map((widget) => {
