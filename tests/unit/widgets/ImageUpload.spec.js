@@ -39,7 +39,7 @@ const imageUploadProps = {
 };
 const $store = {
   getters: {
-    'metaData/getMeta': function() {
+    'metaData/getMeta': function () {
       return {
         'umc/server/upload/max': '2048',
       };

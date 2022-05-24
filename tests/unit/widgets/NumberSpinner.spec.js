@@ -54,10 +54,10 @@ describe('NumberSpinner Component', () => {
     expect(numberSpinner.element.value).toBe('');
 
     await numberSpinner.setValue('test input value');
-    
+
     expect(numberSpinner.element.value).not.toBe('test input value');
     await numberSpinner.setValue(12);
-    expect(numberSpinner.element.value).toBe("12");
+    expect(numberSpinner.element.value).toBe('12');
 
     wrapper.unmount();
   });

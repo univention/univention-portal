@@ -64,7 +64,9 @@
         />
       </Transition>
     </div>
-    <div class="image-upload__maxFileSize">{{ UPLOAD_MAX }}</div>
+    <div class="image-upload__maxFileSize">
+      {{ UPLOAD_MAX }}
+    </div>
     <footer class="image-upload__footer">
       <input
         ref="fileInput"
