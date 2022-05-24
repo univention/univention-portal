@@ -27,19 +27,16 @@
   * <https://www.gnu.org/licenses/>.
  */
 import { ActionContext } from 'vuex';
-import { Locale } from '../locale/locale.models';
 import { RootState } from '../../root.models';
 
-export type Title = Record<Locale, string>;
-
-export type Description = Record<Locale, string>;
+export type LocalizedString = Record<string, string>;
 
 export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
 
 export type LinkTargetOrDefault = 'newwindow' | 'samewindow' | 'embedded' | 'function' | 'useportaldefault';
 
 export interface Link {
-  locale: Locale,
+  locale: string,
   link: string,
 }
 
@@ -47,7 +44,7 @@ export interface Tile {
   id: string,
   layoutId: string,
   dn: string,
-  title: Title,
+  title: LocalizedString,
   isFolder: boolean,
 }
 
@@ -57,7 +54,7 @@ export interface BaseTile extends Tile {
   anonymous: boolean,
   selectedGroups: string[],
   backgroundColor: string | null,
-  description: Description,
+  description: LocalizedString,
   linkTarget: LinkTarget,
   target: string | null,
   originalLinkTarget: LinkTargetOrDefault,
@@ -75,13 +72,11 @@ export type TileOrFolder = BaseTile | FolderTile;
 export interface Category {
   id: string,
   layoutId: string,
-  title: Record<Locale, string>,
+  title: LocalizedString,
   dn: string,
   virtual: boolean,
   tiles: TileOrFolder[],
 }
-
-export type LocalizedString = Record<string, string>;
 
 export type PortalContent = [string, string[]][];
 
@@ -92,7 +87,7 @@ export interface PortalEntry {
   allowedGroups: string[],
   anonymous: boolean,
   backgroundColor: string | null,
-  description: Description,
+  description: LocalizedString,
   linkTarget: LinkTargetOrDefault,
   target: string | null,
   links: Link[],
