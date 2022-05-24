@@ -35,6 +35,10 @@ export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
 
 export type LinkTargetOrDefault = 'newwindow' | 'samewindow' | 'embedded' | 'function' | 'useportaldefault';
 
+export interface PortalImageDataBlob {
+  data: string,
+}
+
 export interface Link {
   locale: string,
   link: string,
@@ -153,10 +157,6 @@ export interface PortalDataState {
   editMode: boolean;
   cacheId: string;
   errorContentType: number | null;
-}
-
-export interface PortalImageDataBlob {
-  data: string,
 }
 
 export type Position = {

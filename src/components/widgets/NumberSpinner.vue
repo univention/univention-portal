@@ -28,8 +28,8 @@
 -->
 <template>
   <input
-    type="number"
     :id="forAttrOfLabel"
+    type="number"
     :name="name"
     :value="modelValue"
     :aria-invalid="invalid"
@@ -38,7 +38,7 @@
     max="5"
     data-test="number-spinner"
     @input="$emit('update:modelValue', $event.target.value)"
-    >
+  >
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
