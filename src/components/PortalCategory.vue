@@ -125,10 +125,9 @@ import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import {
-  Title,
   Tile,
   FolderTile,
-  Description,
+  LocalizedString,
   BaseTile,
 } from '@/store/modules/portalData/portalData.models';
 
@@ -157,7 +156,7 @@ export default defineComponent({
       required: true,
     },
     title: {
-      type: Object as PropType<Title>,
+      type: Object as PropType<LocalizedString>,
       required: true,
     },
     virtual: {
@@ -222,20 +221,20 @@ export default defineComponent({
         },
       });
     },
-    titleMatchesQuery(title: Title): boolean {
+    titleMatchesQuery(title: LocalizedString): boolean {
       return this.$localized(title).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
-    descriptionMatchesQuery(description: Description): boolean {
+    descriptionMatchesQuery(description: LocalizedString): boolean {
       return this.$localized(description).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
     tileMatchesQuery(tile: Tile): boolean {
       // Todo Refactor tileMatch Logic into some kind of helper function, because it's used twice (in Portalfolder.vue)
       const titleMatch = this.titleMatchesQuery(tile.title);
-      const descriptionMatch = (tile as BaseTile).description ? this.descriptionMatchesQuery((tile as BaseTile).description as Description) : false;
+      const descriptionMatch = (tile as BaseTile).description ? this.descriptionMatchesQuery((tile as BaseTile).description as LocalizedString) : false;
       const folderMatch = tile.isFolder && (tile as FolderTile).tiles.some((t) => this.titleMatchesQuery(t.title) ||
-        this.descriptionMatchesQuery((t as BaseTile).description as Description));
+        this.descriptionMatchesQuery((t as BaseTile).description as LocalizedString));
       return titleMatch || descriptionMatch || folderMatch;
     },
   },

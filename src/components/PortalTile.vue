@@ -134,7 +134,7 @@ import TabindexElement from '@/components/activity/TabindexElement.vue';
 import TileClick from '@/mixins/TileClick.vue';
 import Draggable from '@/mixins/Draggable.vue';
 
-import { Title, Description } from '@/store/modules/portalData/portalData.models';
+import { LocalizedString } from '@/store/modules/portalData/portalData.models';
 
 interface PortalTile {
   tileId: string,
@@ -170,11 +170,11 @@ export default defineComponent({
       required: true,
     },
     title: {
-      type: Object as PropType<Title>,
+      type: Object as PropType<LocalizedString>,
       required: true,
     },
     description: {
-      type: Object as PropType<Description>,
+      type: Object as PropType<LocalizedString>,
       required: true,
     },
     activated: {

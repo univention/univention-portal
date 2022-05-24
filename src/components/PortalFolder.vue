@@ -143,7 +143,7 @@ import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 import TileAdd from '@/components/admin/TileAdd.vue';
-import { Title, Tile, Description, BaseTile } from '@/store/modules/portalData/portalData.models';
+import { LocalizedString, Tile, BaseTile } from '@/store/modules/portalData/portalData.models';
 import _ from '@/jsHelper/translate';
 import { mapGetters } from 'vuex';
 
@@ -177,7 +177,7 @@ export default defineComponent({
       required: true,
     },
     title: {
-      type: Object as PropType<Title>,
+      type: Object as PropType<LocalizedString>,
       required: true,
     },
     tiles: {
@@ -301,11 +301,11 @@ export default defineComponent({
       // BROWSER ZOOM WCAG2.1 AA: 200
       return !!browserZoomLevel && browserZoomLevel >= 200;
     },
-    titleMatchesQuery(title: Title): boolean {
+    titleMatchesQuery(title: LocalizedString): boolean {
       return this.$localized(title).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },
-    descriptionMatchesQuery(description: Description): boolean {
+    descriptionMatchesQuery(description: LocalizedString): boolean {
       return this.$localized(description).toLowerCase()
         .includes(this.searchQuery.toLowerCase());
     },

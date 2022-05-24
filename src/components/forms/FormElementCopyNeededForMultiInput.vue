@@ -66,7 +66,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import FormLabel from '@/components/forms/FormLabel.vue';
-import InputErrorMessage from 'components/forms/InputErrorMessage.vue';
+import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
 import { isValid, invalidMessage, WidgetDefinition } from '@/jsHelper/forms';
 
 // TODO load components on demand (?)
@@ -78,10 +78,10 @@ import TextBox from '@/components/widgets/TextBox.vue';
 import TextArea from '@/components/widgets/TextArea.vue';
 import CheckBox from '@/components/widgets/CheckBox.vue';
 import RadioBox from '@/components/widgets/RadioBox.vue';
-import ImageUploader from 'components/widgets/ImageUploader.vue';
-import LocaleInput from 'components/widgets/LocaleInput.vue';
-import MultiSelect from 'components/widgets/MultiSelect.vue';
-import LinkWidget from 'components/widgets/LinkWidget.vue';
+import ImageUploader from '@/components/widgets/ImageUploader.vue';
+import LocaleInput from '@/components/widgets/LocaleInput.vue';
+import MultiSelect from '@/components/widgets/MultiSelect.vue';
+import LinkWidget from '@/components/widgets/LinkWidget.vue';
 
 export default defineComponent({
   name: 'FormElement',

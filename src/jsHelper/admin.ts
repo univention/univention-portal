@@ -36,7 +36,7 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
       throw new Error(result.details);
     }
     return result.$dn$;
-  } catch (err) {
+  } catch (err: any) {
     store.dispatch('notifications/addErrorNotification', {
       title: errorMessage,
       description: err.message,
@@ -63,7 +63,7 @@ async function put(dn, attrs, { dispatch }, errorMessage, successMessage?): Prom
     }, { root: true });
     await dispatch('loadPortal', { adminMode: true }, { root: true });
     return true;
-  } catch (err) {
+  } catch (err: any) {
     dispatch('notifications/addErrorNotification', {
       title: errorMessage,
       description: err.message,
@@ -88,7 +88,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
     }, { root: true });
     await dispatch('loadPortal', { adminMode: true }, { root: true });
     return true;
-  } catch (err) {
+  } catch (err: any) {
     dispatch('notifications/addErrorNotification', {
       title: errorMessage,
       description: err.message,

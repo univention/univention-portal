@@ -49,7 +49,6 @@ import _ from '@/jsHelper/translate';
 import { removeEntryFromSuperObj, addEntryToSuperObj, put, add, remove } from '@/jsHelper/admin';
 import activity from '@/jsHelper/activity';
 import EditWidget from '@/components/admin/EditWidget.vue';
-import LinkWidget, { LocaleAndValue } from '@/components/widgets/LinkWidget.vue';
 import { validateAll, allValid, validateInternalName } from '@/jsHelper/forms';
 
 interface AdminEntryData {
@@ -61,7 +60,6 @@ export default defineComponent({
   name: 'FormEntryEdit',
   components: {
     EditWidget,
-    LinkWidget,
   },
   props: {
     label: {
