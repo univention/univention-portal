@@ -42,8 +42,14 @@
       :aria-role="portalRole"
       class="portal-categories"
     >
+      <h2
+        v-if="portalFinalLayoutFiltered.length === 0"
+        class="portal-category__title"
+      >
+        {{ NO_SEARCH_RESULTS }}
+      </h2>
       <portal-category
-        v-for="(category, index) in portalFinalLayout"
+        v-for="(category, index) in portalFinalLayoutFiltered"
         :key="category.id"
         :layout-id="category.layoutId"
         :title="category.title"
@@ -136,7 +142,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      portalFinalLayout: 'portalData/portalFinalLayout',
+      portalFinalLayoutFiltered: 'portalData/portalFinalLayoutFiltered',
       errorContentType: 'portalData/errorContentType',
       tabs: 'tabs/allTabs',
       activeTabIndex: 'tabs/activeTabIndex',
@@ -148,6 +154,9 @@ export default defineComponent({
     }),
     ADD_CATEGORY(): string {
       return _('Add category');
+    },
+    NO_SEARCH_RESULTS(): string {
+      return _('No search results');
     },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
