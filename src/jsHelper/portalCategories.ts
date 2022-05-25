@@ -41,8 +41,8 @@ import {
 } from '@/store/modules/portalData/portalData.models';
 import { localized } from '@/plugins/localize';
 
-function isBaseTile(value: any): value is BaseTile {
-  return (value !== null) && !value.isFolder;
+function isBaseTile(value: TileOrFolder | null): boolean {
+  return !value?.isFolder;
 }
 
 function makeEntry(

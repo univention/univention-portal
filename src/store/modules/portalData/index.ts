@@ -44,6 +44,7 @@ import {
   Position,
   PortalDataActionContext,
   Category,
+  TileOrFolder,
 } from './portalData.models';
 
 function isEqual(arr1, arr2) {
@@ -150,7 +151,7 @@ function getPosition(layout, id: string, targetIdx: null | number = null, fromPo
   return position;
 }
 
-function getContext(layout, route: Position): any[] {
+function getContext(layout, route: Position): TileOrFolder[] {
   let context = layout;
 
   if (route.categoryIdx !== null) {
@@ -384,7 +385,7 @@ const portalData: PortalModule<PortalDataState> = {
       commit('SETLAYOUT', layout);
       dispatch('changeLayoutUpdateFolder');
     },
-    changeLayout({ commit, dispatch, getters }: PortalDataActionContext, payload: { fromId: string, toId: string, position: null | number }) {
+    changeLayout({ commit, dispatch, getters }: PortalDataActionContext, payload: { fromId: string, toId: string, position: null | number }): void {
       function move(layout, fromRoute: Position, toRoute: Position): boolean {
         if (fromRoute.entryIdx === null || toRoute.entryIdx === null) {
           return false;
@@ -469,7 +470,7 @@ const portalData: PortalModule<PortalDataState> = {
 
       dispatch('changeLayoutUpdateFolder');
     },
-    changeLayoutDirection({ dispatch, getters }: PortalDataActionContext, payload: { fromId: string, direction: 'left' | 'right' | 'up' | 'down'}) {
+    changeLayoutDirection({ dispatch, getters }: PortalDataActionContext, payload: { fromId: string, direction: 'left' | 'right' | 'up' | 'down'}): void {
       const fromId = payload.fromId;
       const direction = payload.direction;
 
