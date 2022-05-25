@@ -122,9 +122,7 @@ import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import {
   Tile,
-  FolderTile,
   LocalizedString,
-  BaseTile,
 } from '@/store/modules/portalData/portalData.models';
 
 export default defineComponent({
