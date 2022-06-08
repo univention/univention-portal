@@ -83,6 +83,7 @@ import LocaleInput from '@/components/widgets/LocaleInput.vue';
 import MultiSelect from '@/components/widgets/MultiSelect.vue';
 import LinkWidget from '@/components/widgets/LinkWidget.vue';
 import NumberSpinner from '@/components/widgets/NumberSpinner.vue';
+import TimeBox from '@/components/widgets/TimeBox.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -102,6 +103,7 @@ export default defineComponent({
     LinkWidget,
     TextArea,
     NumberSpinner,
+    TimeBox,
   },
   props: {
     widget: {

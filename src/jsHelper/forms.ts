@@ -31,7 +31,7 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner';
+type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox';
 
 interface OptionsDefinition {
   id: string,
@@ -58,6 +58,10 @@ export interface WidgetDefinition {
   canShowPassword?: boolean,
 }
 
+export interface WidgetTimeBox extends WidgetDefinition {
+  timeBoxStep: number,
+}
+
 export function isEmpty(widget, value): boolean {
   switch (widget.type) {
     case 'TextBox':
@@ -68,6 +72,7 @@ export function isEmpty(widget, value): boolean {
     case 'RadioBox':
     case 'ImageUploader':
     case 'NumberSpinner':
+    case 'TimeBox':
       return value === '';
     case 'MultiInput':
       return value.every((row) => {
@@ -106,6 +111,7 @@ export function isValid(widget): boolean {
     case 'MultiSelect':
     case 'LinkWidget':
     case 'NumberSpinner':
+    case 'TimeBox':
       return widget.invalidMessage === '';
     case 'MultiInput':
       return widget.invalidMessage.all === '' &&
@@ -146,6 +152,7 @@ export function validate(widget, value, widgets, values): void {
       case 'LinkWidget':
       case 'CheckBox':
       case 'NumberSpinner':
+      case 'TimeBox':
         return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
       default:
         return '';
@@ -178,6 +185,7 @@ export function validate(widget, value, widgets, values): void {
     case 'CheckBox':
     case 'MultiSelect':
     case 'LinkWidget':
+    case 'TimeBox':
       widget.invalidMessage = getFirstInvalidMessage(widget, value);
       break;
     case 'MultiInput':
@@ -212,6 +220,7 @@ export function initialValue(widget, value): any {
     case 'PasswordBox':
     case 'RadioBox':
     case 'ImageUploader':
+    case 'TimeBox':
       return typeof value === 'string' ? value : '';
     case 'LocaleInput':
       // TODO typecheck of value
@@ -260,6 +269,7 @@ export function invalidMessage(widget): string {
     case 'MultiSelect':
     case 'NumberSpinner':
     case 'LinkWidget':
+    case 'TimeBox':
       return widget.invalidMessage;
     case 'MultiInput':
       return widget.invalidMessage.all;
