@@ -56,6 +56,7 @@ export interface WidgetDefinition {
   tabindex?: number,
   disabled?: boolean,
   canShowPassword?: boolean,
+  description?: string,
 }
 
 export interface WidgetTimeBox extends WidgetDefinition {

@@ -87,12 +87,6 @@ export default defineComponent({
       });
     },
   },
-  updated() {
-    console.log('Updated', this.modelValueData);
-  },
-  methods: {
-
-  },
 });
 
 </script>

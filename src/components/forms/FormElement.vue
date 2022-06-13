@@ -41,9 +41,15 @@
       :required="widget.required"
       :for-attr="forAttrOfLabel"
       :invalid-message="invalidMessage"
+      :show-help-icon="hasDescription"
       data-test="form-element-label"
+      :display-description="displayDescription"
+      @toggle-description="toggleDescription"
     />
     <!-- <div class="form-element__wrapper"> -->
+    <p v-if="displayDescription" class="form-element__help-text">
+      {{ widget.description }}
+    </p>
     <component
       :is="widget.type"
       ref="component"
@@ -115,6 +121,11 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  data() {
+    return {
+      displayDescription: false,
+    };
+  },
   computed: {
     component(): any {
       const component = JSON.parse(JSON.stringify(this.widget));
@@ -136,11 +147,20 @@ export default defineComponent({
     invalidMessageId(): string {
       return this.invalidMessage !== '' ? `${this.forAttrOfLabel}--error` : '';
     },
+    hasDescription(): boolean {
+      if (this.widget.description === undefined) {
+        return false;
+      }
+      return this.widget.description.length > 0;
+    },
   },
   methods: {
     focus() {
       // @ts-ignore TODO
       this.$refs.component.focus();
+    },
+    toggleDescription() {
+      this.displayDescription = !this.displayDescription;
     },
   },
 });
@@ -171,6 +191,10 @@ export default defineComponent({
       grid-area: label
     .input-error-message
       grid-area: invalidMessage
+
+  &__help-text
+    margin-top: 0
+    font-size: var(--font-size-5)
   /*
   &--invalid
     > .form-element__wrapper

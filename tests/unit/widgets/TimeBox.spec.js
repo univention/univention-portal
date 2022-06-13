@@ -55,7 +55,7 @@ describe('TimeBox Component', () => {
 
     await timeBox.setValue('test input value');
     expect(timeBox.element.value).toBe('');
-    
+
     await timeBox.setValue('13:00');
     expect(timeBox.element.value).toBe('13:00');
 
@@ -105,5 +105,4 @@ describe('TimeBox Component', () => {
     await timeBox.setValue('13:00:05');
     expect(timeBox.element.value).toBe('13:00:05');
   });
-
 });
