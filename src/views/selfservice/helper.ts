@@ -30,7 +30,6 @@
 import { WidgetDefinition } from '@/jsHelper/forms';
 
 interface BackendWidgetDefinition {
-  // description: string, not used atm
   // multivalue: boolean, not used atm
   // size: string, not used atm
   // syntax: string, not used atm
@@ -43,12 +42,12 @@ interface BackendWidgetDefinition {
   required: boolean,
   staticValues?: any[],
   subtypes?: BackendWidgetDefinition[],
+  description: string,
 }
 
 export function sanitizeBackendWidget(widget: BackendWidgetDefinition): WidgetDefinition {
   const w: any = {
     // TODO unhandled fields that come from command/passwordreset/get_user_attributes_descriptions
-    // description: ""
     // multivalue: false
     // size: "TwoThirds"
     // syntax: "TwoThirdsString"
@@ -57,6 +56,7 @@ export function sanitizeBackendWidget(widget: BackendWidgetDefinition): WidgetDe
     label: widget.label ?? '',
     required: widget.required ?? false,
     readonly: !(widget.editable ?? true) || (widget.readonly ?? false),
+    description: widget.description,
   };
   if (widget.type === 'ImageUploader') {
     w.extraLabel = w.label;
