@@ -43,6 +43,10 @@ const tileClickMixin = {
     linkTarget: {
       type: String,
     },
+    target: {
+      type: String,
+      default: '',
+    },
     pathToLogo: {
       type: String,
       required: false,
@@ -67,7 +71,7 @@ const tileClickMixin = {
       if (this.editMode || this.linkTarget !== 'newwindow') {
         return null;
       }
-      return '_blank';
+      return this.target || '_blank';
     },
   },
   emits: [
@@ -110,6 +114,7 @@ const tileClickMixin = {
         backgroundColor: this.backgroundColor,
         logo: this.pathToLogo,
         iframeLink: this.link,
+        target: this.target,
       };
       this.$store.dispatch('navigation/setActiveButton', '');
       this.$store.dispatch('tabs/addTab', tab);

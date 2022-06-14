@@ -80,6 +80,7 @@
             :links="tile.links"
             :allowed-groups="tile.allowedGroups"
             :link-target="tile.linkTarget"
+            :target="tile.target"
             :original-link-target="tile.originalLinkTarget"
             :path-to-logo="tile.pathToLogo"
             :minified="!inModal"

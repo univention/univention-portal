@@ -91,7 +91,8 @@
        "name": {
          "de_DE": "Admin Handbuch",
          "en_US": "Admin Handbook"
-       }
+       },
+       "target": "docs"
      },
      {
        "activated": true,
@@ -111,7 +112,8 @@
        "name": {
          "de_DE": "Benutzer Handbuch",
          "en_US": "User Manual"
-       }
+       },
+       "target": "docs"
      },
      {
        "activated": true,
