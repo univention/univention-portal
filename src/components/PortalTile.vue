@@ -196,10 +196,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    target: {
-      type: String,
-      default: '',
-    },
     fromFolder: {
       type: Boolean,
       default: false,
@@ -265,12 +261,6 @@ export default defineComponent({
     },
     LINK_TYPE_LABEL(): string {
       return this.LINK_TYPE(this.linkTarget).label;
-    },
-    anchorTarget(): string {
-      if (this.linkTarget !== 'newwindow') {
-        return '';
-      }
-      return this.target || '_blank';
     },
     isMobile(): boolean {
       return this.isTouchDevice && !this.minified;
