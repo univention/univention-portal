@@ -43,7 +43,7 @@
       class="portal-categories"
     >
       <h2
-        v-if="portalFinalLayoutFiltered.length === 0"
+        v-if="noSearchResults"
         class="portal-category__title"
       >
         {{ NO_SEARCH_RESULTS }}
@@ -143,6 +143,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       portalFinalLayoutFiltered: 'portalData/portalFinalLayoutFiltered',
+      portalLoaded: 'portalData/loaded',
       errorContentType: 'portalData/errorContentType',
       tabs: 'tabs/allTabs',
       activeTabIndex: 'tabs/activeTabIndex',
@@ -157,6 +158,9 @@ export default defineComponent({
     },
     NO_SEARCH_RESULTS(): string {
       return _('No search results');
+    },
+    noSearchResults(): boolean {
+      return this.portalLoaded && this.portalFinalLayoutFiltered.length === 0;
     },
     isSecondModalActive(): boolean {
       return this.getModalState('secondLevelModal');
