@@ -89,10 +89,13 @@ export default defineComponent({
   emits: ['toggleDescription'],
   computed: {
     HELP_TEXT(): string {
-      return _('Show Description');
+      return `${this.label}: ${this.buttonText}`;
     },
     icon(): string {
       return this.displayDescription ? 'x-circle' : 'help-circle';
+    },
+    buttonText(): string {
+      return this.displayDescription ? _('Hide Description') : _('Show Description');
     },
   },
   methods: {
@@ -113,13 +116,15 @@ export default defineComponent({
     padding: unset
     background-color: unset
     border-radius: 100rem
-    width: 2rem
-    height: 2rem
+    width: 1.5rem
+    height: 1.5rem
     border-width: 0.1rem
+    margin-left:0.2rem
 
   &__portal-icon
-    color: currentColor
+    color: var(--font-color-contrast-middle);
     width: 0.8rem
-    margin-left: 0.2rem
+    margin-left: 0
+    margin-right: 0 !important
 
 </style>

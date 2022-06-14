@@ -47,9 +47,11 @@
       @toggle-description="toggleDescription"
     />
     <!-- <div class="form-element__wrapper"> -->
+      <Transition>
     <p v-if="displayDescription" class="form-element__help-text">
       {{ widget.description }}
     </p>
+    </Transition>
     <component
       :is="widget.type"
       ref="component"
@@ -195,6 +197,17 @@ export default defineComponent({
   &__help-text
     margin-top: 0
     font-size: var(--font-size-5)
+    color: var(--font-color-contrast-middle)
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
   /*
   &--invalid
     > .form-element__wrapper
