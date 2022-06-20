@@ -30,7 +30,7 @@ import { Commit, Dispatch } from 'vuex';
 import { put, getAdminState } from '@/jsHelper/admin';
 import _ from '@/jsHelper/translate';
 import { randomId } from '@/jsHelper/tools';
-import { createCategories, doesDescriptionMatch, doesFolderMatch, doesTitleMatch } from '@/jsHelper/portalCategories';
+import { createCategories, doesDescriptionMatch, doesKeywordsMatch, doesFolderMatch, doesTitleMatch } from '@/jsHelper/portalCategories';
 import { PortalModule, RootState } from '@/store/root.models';
 
 import setScreenReaderAccouncement from './portalData.helper';
@@ -361,6 +361,7 @@ const portalData: PortalModule<PortalDataState> = {
           category.tiles = category.tiles.filter((entry) => (
             doesTitleMatch(entry, searchQuery) ||
             doesDescriptionMatch(entry, searchQuery) ||
+            doesKeywordsMatch(entry, searchQuery) ||
             doesFolderMatch(entry, searchQuery)
           ));
           return category;

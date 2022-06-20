@@ -74,6 +74,7 @@
             :super-dn="dn"
             :title="tile.title"
             :description="tile.description"
+            :keywords="tile.keywords"
             :activated="tile.activated"
             :anonymous="tile.anonymous"
             :background-color="tile.backgroundColor"
@@ -145,7 +146,7 @@ import IconButton from '@/components/globals/IconButton.vue';
 import TileAdd from '@/components/admin/TileAdd.vue';
 import { LocalizedString, Tile, TileOrFolder } from '@/store/modules/portalData/portalData.models';
 import _ from '@/jsHelper/translate';
-import { doesTitleMatch, doesDescriptionMatch } from '@/jsHelper/portalCategories';
+import { doesTitleMatch, doesKeywordsMatch, doesDescriptionMatch } from '@/jsHelper/portalCategories';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
@@ -227,7 +228,8 @@ export default defineComponent({
     filteredTiles(): Tile[] {
       const filteredTiles = this.tiles.filter((tile) => (
         doesTitleMatch(tile as TileOrFolder, this.searchQuery) ||
-        doesDescriptionMatch(tile as TileOrFolder, this.searchQuery)
+        doesDescriptionMatch(tile as TileOrFolder, this.searchQuery) ||
+        doesKeywordsMatch(tile as TileOrFolder, this.searchQuery)
       ));
       if (filteredTiles.length === 0) {
         return this.tiles;
