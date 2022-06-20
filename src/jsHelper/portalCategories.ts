@@ -67,6 +67,7 @@ function makeEntry(
       selectedGroups: [], // needed for storing selected groups
       backgroundColor: entry.backgroundColor,
       description: entry.description,
+      keywords: entry.keywords,
       links: entry.links,
       linkTarget: entry.linkTarget === 'useportaldefault' ? defaultLinkTarget : entry.linkTarget,
       target: entry.target,
@@ -114,6 +115,12 @@ export function doesTitleMatch(entry: TileOrFolder, searchQuery: string): boolea
 
 export function doesDescriptionMatch(entry: TileOrFolder, searchQuery: string): boolean {
   return !entry.isFolder && localized((entry as BaseTile).description)
+    .toLowerCase()
+    .includes(searchQuery.toLowerCase());
+}
+
+export function doesKeywordsMatch(entry: TileOrFolder, searchQuery: string): boolean {
+  return !entry.isFolder && localized((entry as BaseTile).keywords)
     .toLowerCase()
     .includes(searchQuery.toLowerCase());
 }
