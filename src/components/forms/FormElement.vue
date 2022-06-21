@@ -47,10 +47,13 @@
       @toggle-description="toggleDescription"
     />
     <!-- <div class="form-element__wrapper"> -->
-      <Transition>
-    <p v-if="displayDescription" class="form-element__help-text">
-      {{ widget.description }}
-    </p>
+    <Transition>
+      <p
+        v-if="displayDescription"
+        class="form-element__help-text"
+      >
+        {{ widget.description }}
+      </p>
     </Transition>
     <component
       :is="widget.type"

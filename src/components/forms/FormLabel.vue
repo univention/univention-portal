@@ -37,7 +37,7 @@
       aria-hidden="true"
     >*</span>
     <button
-    v-if="showHelpIcon"
+      v-if="showHelpIcon"
       class="form-label__button"
       @click="toggleHelpText"
     >
