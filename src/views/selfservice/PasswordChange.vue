@@ -67,6 +67,7 @@ interface FormValues {
   oldPassword: string,
   newPassword: string,
   newPasswordRetype: string,
+  setNewPassword: string,
 }
 
 interface ChangePasswordData {
@@ -108,11 +109,16 @@ export default defineComponent({
           }
           return '';
         }],
+      }, {
+        type: 'NewPasswordBox',
+        name: 'setNewPassword',
+        label: _('New password'),
       }],
       formValues: {
         oldPassword: '',
         newPassword: '',
         newPasswordRetype: '',
+        setNewPassword: '',
       },
     };
   },
