@@ -57,6 +57,7 @@ export interface WidgetDefinition {
   disabled?: boolean,
   canShowPassword?: boolean,
   description?: string,
+  [attribute: string]: any, // for native HTML attributes
 }
 
 export interface WidgetTimeBox extends WidgetDefinition {
@@ -187,6 +188,7 @@ export function validate(widget, value, widgets, values): void {
     case 'MultiSelect':
     case 'LinkWidget':
     case 'TimeBox':
+    case 'NumberSpinner':
       widget.invalidMessage = getFirstInvalidMessage(widget, value);
       break;
     case 'MultiInput':
