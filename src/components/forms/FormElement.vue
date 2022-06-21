@@ -86,6 +86,7 @@ import ComboBox from '@/components/widgets/ComboBox.vue';
 import DateBox from '@/components/widgets/DateBox.vue';
 import MultiInput from '@/components/widgets/MultiInput.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
+import NewPasswordBox from '@/components/widgets/NewPasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
 import TextArea from '@/components/widgets/TextArea.vue';
 import CheckBox from '@/components/widgets/CheckBox.vue';
@@ -106,6 +107,7 @@ export default defineComponent({
     DateBox,
     MultiInput,
     PasswordBox,
+    NewPasswordBox,
     TextBox,
     CheckBox,
     RadioBox,
