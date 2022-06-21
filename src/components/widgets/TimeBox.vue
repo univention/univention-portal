@@ -5,7 +5,7 @@
     :name="name"
     type="time"
     :value="modelValue"
-    :step="timeBoxStep"
+    :step="step"
     :aria-invalid="invalid"
     :aria-describedby="invalidMessageId || null"
     data-test="time-box"
@@ -40,7 +40,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    timeBoxStep: {
+    step: {
       type: Number,
       default: 60,
     },
@@ -52,6 +52,11 @@ export default defineComponent({
         type: 'TimeBox',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      (this.$refs.input as HTMLInputElement).focus();
     },
   },
 });

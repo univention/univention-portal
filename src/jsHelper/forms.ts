@@ -60,7 +60,7 @@ export interface WidgetDefinition {
 }
 
 export interface WidgetTimeBox extends WidgetDefinition {
-  timeBoxStep: number,
+  step: number,
 }
 
 export function isEmpty(widget, value): boolean {
