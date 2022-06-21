@@ -29,13 +29,12 @@
 <template>
   <input
     :id="forAttrOfLabel"
+    ref="input"
     type="number"
     :name="name"
     :value="modelValue"
     :aria-invalid="invalid"
     :aria-describedby="invalidMessageId || null"
-    min="1"
-    max="5"
     data-test="number-spinner"
     @input="$emit('update:modelValue', $event.target.value)"
   >
@@ -45,10 +44,6 @@ import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 import { isValid } from '@/jsHelper/forms';
 
-interface NumberSpinnerData {
-  modelValueData: Array<unknown>,
-}
-
 export default defineComponent({
   name: 'NumberSpinner',
   props: {
@@ -57,7 +52,7 @@ export default defineComponent({
       required: true,
     },
     modelValue: {
-      type: Number,
+      type: String,
       required: true,
     },
     invalidMessage: {
@@ -74,17 +69,17 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
-  data(): NumberSpinnerData {
-    return {
-      modelValueData: [],
-    };
-  },
   computed: {
     invalid(): boolean {
       return !isValid({
         type: 'NumberSpinner',
         invalidMessage: this.invalidMessage,
       });
+    },
+  },
+  methods: {
+    focus() {
+      (this.$refs.input as HTMLInputElement).focus();
     },
   },
 });
