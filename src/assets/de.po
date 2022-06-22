@@ -1096,6 +1096,10 @@ msgstr ""
 "wir haben Ihnen eine E-Mail an %(email)s gesendet. Bitte folgen Sie den "
 "Anweisungen in der E-Mail, um Ihr Konto zu verifizieren."
 
+#: src/tmp/ts/src/components/admin/Entry.vue:106
+msgid "Keywords"
+msgstr "Schlüsselwörter"
+
 #~ msgid "Categories \"%(cat1)s\" and \"%(cat2)s\" changed places"
 #~ msgstr "Kategorien \"%(cat1)s\" und \"%(cat2)s\" wurden getauscht"
 
