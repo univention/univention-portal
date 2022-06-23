@@ -67,6 +67,7 @@ interface FormValues {
   oldPassword: string,
   newPassword: string,
   newPasswordRetype: string,
+  progressBar: number,
 }
 
 interface ChangePasswordData {
@@ -108,11 +109,17 @@ export default defineComponent({
           }
           return '';
         }],
-      }],
+      }, {
+        type: 'ProgressBar',
+        name: 'progressBar',
+        label: 'Progress BarX',
+      },
+      ],
       formValues: {
         oldPassword: '',
         newPassword: '',
         newPasswordRetype: '',
+        progressBar: 50,
       },
     };
   },
