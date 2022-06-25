@@ -5,9 +5,8 @@
       :value="modelValue"
       max="100"
       @change="$emit('update:modelValue')"
-
-      aaaa
   />
+  aaaa
 </template>
 
 <script lang="ts">
