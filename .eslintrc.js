@@ -30,10 +30,15 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none' }],
-    '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/no-explicit-any': 'off', // removed rule, since vue mixins and typescript are causing errors
+    '@typescript-eslint/ban-ts-comment': 'off', // removed rule, since vue mixins and typescript are causing errors
     'arrow-parens': ['error', 'always'],
-    'comma-spacing': ['error', { before: false, after: true }],
+    'comma-spacing': [
+      'error',
+      {
+        before: false,
+        after: true,
+      },
+    ],
     // 'import/extensions': ['error', 'always', { ignorePackages: true }],
     'max-len': [
       'error',
@@ -45,14 +50,10 @@ module.exports = {
         ignoreUrls: true,
       },
     ],
-    'newline-per-chained-call': ['error', {
-      ignoreChainWithDepth: 2
-    }],
+    'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-param-reassign': ['error', {
-      props: false
-    }],
+    'no-param-reassign': ['error', { props: false }],
     'no-useless-escape': 'off',
     // 'object-curly-newline': ['error', {
     //   ImportDeclaration: 'never',
@@ -78,29 +79,28 @@ module.exports = {
     'quotes': ['error', 'single', { avoidEscape: true }],
     'space-in-parens': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'space-before-function-paren': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+
     // Disabled rules from ESLint core that don't work together with TypeScript code
     'no-unused-vars': 'off',
     'no-unused-expressions': 'off',
     // TODO: Temporay rule settings that should be deleted when code issues are fixed
     'import/no-extraneous-dependencies': 'warn', // e.g. no use of 'require' -> Convert all .js to .ts files and use import!
     'vue/no-unused-components': 'off',
+
     // TEST new Plugin
     'import/no-cycle': 'off',
   },
-  overrides: [{
-    files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
-    env: {
-      jest: true
-    }
-  }],
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue']
-      }
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
+      ],
+      env: { jest: true },
     },
-    'jest': {
-      version: 26
-    }
-  }
+  ],
+  settings: {
+    'import/resolver': { node: { extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'] } },
+    'jest': { version: 26 },
+  },
 };

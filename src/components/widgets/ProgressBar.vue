@@ -37,7 +37,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css">
+<style lang="stylus">
 .progress-bar {
   border: 0;
   height: 1rem;
