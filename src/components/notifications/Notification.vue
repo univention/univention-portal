@@ -84,7 +84,7 @@ import _ from '@/jsHelper/translate';
 import IconButton from '@/components/globals/IconButton.vue';
 
 interface NotificationData {
-  dismissalTimeout: number | null,
+  dismissalTimeout: ReturnType<typeof setTimeout> | null,
 }
 
 export default defineComponent({

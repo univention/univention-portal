@@ -21,7 +21,7 @@ export default defineComponent({
     },
     modelValue: {
       type: Boolean,
-      required: true,
+      // required: true,
     },
   },
   emits: ['update:modelValue'],
@@ -37,7 +37,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus">
+<style lang="css">
 .progress-bar {
   border: 0;
   height: 1rem;
