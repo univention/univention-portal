@@ -3,30 +3,35 @@
     <div class="password-box">
       <input
         :id="forAttrOfLabel"
-        ref="input"
+        ref="inputNew"
         :disabled="disabled"
         :tabindex="tabindex"
         :required="required"
         :name="name"
         type="password"
-        :value="modelValue"
+        :value="modelValue.newPassword"
         :aria-invalid="invalidNew"
         :aria-describedby="invalidMessageId || null"
-        data-test="password-box"
-        @input="$emit('update:modelValue', $event.target.value)"
+        data-test="new-password-box"
+        @input="updateModelValue($event?.target?.value, 'newPassword')"
       >
       <toggle-button
-        v-if="canShowPasswordNew"
+        v-if="canShowPassword"
         :disabled="disabled"
         :tabindex="tabindex"
         :toggle-icons="passwordIconsNew"
         :toggle-labels="TOGGLE_PASSWORD"
         class="password-box__icon"
         data-test="password-box-icon"
-        :is-toggled="showPassword"
-        @update:is-toggled="updateShowPassword"
+        :is-toggled="showPasswordNew"
+        @update:is-toggled="updateShowPasswordNew"
       />
     </div>
+    <input-error-message
+      :id="invalidMessageId"
+      :display-condition="errorDisplayConditionNew"
+      :error-message="invalidMessage.invalidMessageNew"
+    />
     <form-label
       :label="PASSWORD_RETYPE_LABEL"
       aria-label="widget.ariaLabel || widget.label"
@@ -38,52 +43,50 @@
     <div class="password-box">
       <input
         :id="forAttrOfLabelRetype"
-        ref="input"
+        ref="inputRetype"
+        :value="modelValue.retypePassword"
         :disabled="disabled"
         :tabindex="tabindex"
         :required="required"
         :name="name"
         type="password"
-        v-model="modelValueRetype"
         :aria-invalid="invalidRetype"
         :aria-describedby="invalidMessageIdRetype || null"
-        data-test="password-box"
-        @input="newPasswordValidation"
+        data-test="retype-password-box"
+        @input="updateModelValue($event?.target?.value, 'retypePassword')"
       >
       <toggle-button
-        v-if="canShowPasswordRetype"
+        v-if="canShowPassword"
         :disabled="disabled"
         :tabindex="tabindex"
         :toggle-icons="passwordIconsRetype"
         :toggle-labels="TOGGLE_PASSWORD"
         class="password-box__icon"
         data-test="password-box-icon"
-        :is-toggled="showPassword"
-        @update:is-toggled="updateShowPassword"
+        :is-toggled="showPasswordRetype"
+        @update:is-toggled="updateShowPasswordRetype"
       />
     </div>
-    <input-error-message
-      :id="invalidMessageIdRetype"
-      :display-condition="invalidMessageRetype !== ''"
-      :error-message="invalidMessageRetype"
-    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import _ from '@/jsHelper/translate';
+import { isValid } from '@/jsHelper/forms';
 
 import FormLabel from '@/components/forms/FormLabel.vue';
 import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
+import ToggleButton from './ToggleButton.vue';
 
 export default defineComponent({
-  name: 'PasswordBox',
+  name: 'NewPasswordBox',
   components: {
     PasswordBox,
     FormLabel,
     InputErrorMessage,
+    ToggleButton,
   },
   props: {
     name: {
@@ -91,11 +94,11 @@ export default defineComponent({
       required: true,
     },
     modelValue: {
-      type: String,
+      type: Object as PropType<Record<string, string>>,
       required: true,
     },
     invalidMessage: {
-      type: String,
+      type: Object as PropType<Record<string, string>>,
       default: '',
     },
     forAttrOfLabel: {
@@ -127,18 +130,24 @@ export default defineComponent({
   data() {
     return {
       showPassword: false,
-      modelValueRetype: '',
-      invalidNew: '',
-      invalidRetype: false,
+      newModelValue: {
+        newPassword: this.modelValue.newPassword,
+        retypePassword: this.modelValue.retypePassword,
+      },
       invalidMessageRetype: '',
       invalidMessageIdRetype: '',
       forAttrOfLabelRetype: '',
-      canShowPasswordNew: false,
-      canShowPasswordRetype: false,
-
+      showPasswordNew: false,
+      showPasswordRetype: false,
     };
   },
   computed: {
+    invalid(): boolean {
+      return !isValid({
+        type: 'NewPasswordBox',
+        invalidMessage: this.invalidMessage,
+      });
+    },
     TOGGLE_PASSWORD(): Record<string, string> {
       return {
         initial: _('Show password'),
@@ -160,8 +169,14 @@ export default defineComponent({
     PASSWORD_RETYPE_LABEL(): string {
       return _('New password (retype)');
     },
-    INVALID_MESSAGE_RETYPE(): string {
-      return _('The new passwords do not match');
+    errorDisplayConditionNew():boolean {
+      return this.invalidMessage.invalidMessageNew !== '' && typeof this.invalidMessage !== 'string';
+    },
+    invalidNew(): boolean {
+      return this.invalidMessage.invalidMessageNew !== '' && typeof this.invalidMessage !== 'string';
+    },
+    invalidRetype(): boolean {
+      return this.invalidMessage.invalidMessageRetype !== '' && typeof this.invalidMessage !== 'string';
     },
   },
   methods: {
@@ -170,18 +185,16 @@ export default defineComponent({
       this.$refs.input.focus();
     },
     updateShowPasswordNew(newValue) {
-      this.showPassword = newValue;
-      (this.$refs.input as HTMLInputElement).type = newValue ? 'text' : 'password';
+      this.showPasswordNew = newValue;
+      (this.$refs.inputNew as HTMLInputElement).type = newValue ? 'text' : 'password';
     },
     updateShowPasswordRetype(newValue) {
-      this.showPassword = newValue;
-      (this.$refs.input as HTMLInputElement).type = newValue ? 'text' : 'password';
+      this.showPasswordRetype = newValue;
+      (this.$refs.inputRetype as HTMLInputElement).type = newValue ? 'text' : 'password';
     },
-    newPasswordValidation(): void {
-      if (this.modelValue !== this.modelValueRetype) {
-        this.invalidMessageRetype = this.INVALID_MESSAGE_RETYPE;
-        this.invalidRetype = true;
-      }
+    updateModelValue(value, inputType) {
+      this.newModelValue[inputType] = value;
+      this.$emit('update:modelValue', this.newModelValue);
     },
   },
 });

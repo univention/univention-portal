@@ -68,7 +68,7 @@
     />
     <input-error-message
       :id="invalidMessageId"
-      :display-condition="invalidMessage !== ''"
+      :display-condition="invalidMessageCondition"
       :error-message="invalidMessage"
     />
     <!-- </div> -->
@@ -147,7 +147,17 @@ export default defineComponent({
       return !isValid(this.widget);
     },
     invalidMessage(): string {
+      if (this.widget.type === 'NewPasswordBox') {
+        const invalidMessageObject = invalidMessage(this.widget);
+        return invalidMessageObject?.invalidMessageRetype;
+      }
       return invalidMessage(this.widget);
+    },
+    invalidMessageCondition():boolean {
+      // if (this.widget.type === 'NewPasswordBox') {
+      //   return this.invalidMessage !== '';
+      // }
+      return this.invalidMessage !== '';
     },
     forAttrOfLabel(): string {
       return `${this.widget.name}--${this.$.uid}`;
