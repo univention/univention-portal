@@ -84,7 +84,7 @@ describe('NewPasswordBox Component', () => {
         invalidMessageId: '',
       },
     });
-    
+
     // Expect Aria-Invalid to be set correctly
     expect(wrapper.vm.invalid).toBe(false);
     await wrapper.setProps({ invalidMessage: 'Invalid Message' });
