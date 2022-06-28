@@ -34,6 +34,11 @@ module.exports = {
     //   ],
     // });
 
+    config.resolve.modules = [
+      path.resolve(__dirname, "..", "src"),
+      "node_modules",
+    ]
+
     config.resolve.alias = {
       '@': path.resolve(__dirname, "../src"),
       'vue': "vue/dist/vue.esm-bundler.js",

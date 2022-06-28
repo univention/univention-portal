@@ -1,25 +1,23 @@
 import { Meta, StoryFn } from '@storybook/vue3';
-import ProgressBar from '/src/components/widgets/ProgressBar';
+
+import ProgressBar from '@/components/widgets/ProgressBar';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'ProgressBar',
+  title: 'Widgets/ProgressBar',
   components: ProgressBar,
-} as Meta;
+  parameters: {
+    layout: 'centered',
+  },
+} as Meta<typeof ProgressBar>;
 
-// // create the base template
-const Template = (args) => ({
+// Base Template
+const Template: StoryFn<typeof ProgressBar> = (args) => ({
   components: { ProgressBar },
-  // Then, those values can be accessed directly in the template
-  template: '<div>TEST <ProgressBar name="progress" model-value="10" /> xxx</div>',
+  setup() {
+    return { args };
+  },
+  template: '<div style="width: 500px"><ProgressBar v-bind="args" /></div>',
 });
 
 export const Basic = Template.bind({});
-
-export const Primary: StoryFn = () => ({
-  components: { ProgressBar },
-  template: '<div>TEST <ProgressBar name="progress" model-value="50">yy</ProgressBar>xxxx</div>',
-});
+Basic.args = { label: 'My ProgressBar', modelValue: 50, message: 'Installing packages x' };

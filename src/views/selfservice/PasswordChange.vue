@@ -109,12 +109,7 @@ export default defineComponent({
           }
           return '';
         }],
-      }, {
-        type: 'ProgressBar',
-        name: 'progressBar',
-        label: 'Progress BarX',
-      },
-      ],
+      }],
       formValues: {
         oldPassword: '',
         newPassword: '',
