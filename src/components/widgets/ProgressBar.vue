@@ -74,6 +74,7 @@ export default defineComponent({
   padding: 1rem;
   border-radius: var(--border-radius-interactable)
   background-color: var(--bgc-content-body);
+  color: var(--font-color-contrast-high);
 
   &__label {
     display: block;
@@ -83,7 +84,6 @@ export default defineComponent({
 
   &__field {
     line-height: 1rem;
-    background-color: red;
     border-radius: 1rem;
     border: 0;
     width: 100%;

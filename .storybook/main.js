@@ -11,28 +11,17 @@ module.exports = {
     "@storybook/addon-interactions"
   ],
   framework: "@storybook/vue3",
+  staticDirs: ['../public'],
   webpackFinal: async (config, {configType}) => {
-    // console.log(JSON.stringify(config.module.rules, null, 4));
-    // console.log(path.resolve(__dirname, '../src/assets/styles/_variables.styl'));
-
     config.module.rules.push({
       test: /\.styl(us)?$/,
       use: ['style-loader', 'css-loader', 'stylus-loader'],
       include: [
         path.resolve(__dirname, '../src'),
         path.resolve(__dirname, '../stories'),
-        path.resolve(__dirname, '../src/assets/styles/_variables.styl'),
+        path.resolve(__dirname, '../src/assets/styles'),
       ],
     });
-
-    // config.module.rules.push({
-    //   test: /\.scss$/,
-    //   use: ['style-loader', 'css-loader', 'stylus-loader'],
-    //   include: [
-    //     path.resolve(__dirname, '../src'),
-    //     path.resolve(__dirname, '../stories'),
-    //   ],
-    // });
 
     config.resolve.modules = [
       path.resolve(__dirname, "..", "src"),
