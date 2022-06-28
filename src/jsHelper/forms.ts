@@ -287,7 +287,7 @@ export function initialValue(widget, value): any {
         return initialValue(widget.subtypes[0], v);
       });
     case 'NewPasswordBox':
-      return typeof value ?? { newPassword: '', retypePassword: '' };
+      return { newPassword: '', retypePassword: '' };
     // case 'MultiSelect':
     //  return TODO
     // case 'LinkWidget':

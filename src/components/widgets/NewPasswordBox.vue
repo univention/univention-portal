@@ -36,7 +36,7 @@
       :label="PASSWORD_RETYPE_LABEL"
       aria-label="widget.ariaLabel || widget.label"
       for-attr="forAttrOfLabel"
-      :invalid-message="invalidMessage"
+      :invalid-message="invalidMessage.invalidMessageRetype"
       data-test="form-element-label"
       class="password-box__retype-formlabel"
     />
@@ -99,7 +99,10 @@ export default defineComponent({
     },
     invalidMessage: {
       type: Object as PropType<Record<string, string>>,
-      default: '',
+      default: {
+        invalidMessageNew: '',
+        invalidMessageRetype: '',
+      },
     },
     forAttrOfLabel: {
       type: String,

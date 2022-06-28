@@ -153,10 +153,7 @@ export default defineComponent({
       }
       return invalidMessage(this.widget);
     },
-    invalidMessageCondition():boolean {
-      // if (this.widget.type === 'NewPasswordBox') {
-      //   return this.invalidMessage !== '';
-      // }
+    invalidMessageCondition(): boolean {
       return this.invalidMessage !== '';
     },
     forAttrOfLabel(): string {

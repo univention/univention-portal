@@ -60,13 +60,11 @@ import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import Site from '@/views/selfservice/Site.vue';
-import { allValid, isEmpty, validateAll, WidgetDefinition, validateNewPassword } from '@/jsHelper/forms';
+import { allValid, validateAll, WidgetDefinition, validateNewPassword } from '@/jsHelper/forms';
 import { changePassword } from '@/jsHelper/umc';
 
 interface FormValues {
   oldPassword: string,
-  newPassword: string,
-  newPasswordRetype: string,
   setNewPassword: Record<string, string>,
 }
 
@@ -91,16 +89,6 @@ export default defineComponent({
 
         required: true,
       }, {
-        type: 'PasswordBox',
-        name: 'newPassword',
-        label: _('New password'),
-        required: true,
-      }, {
-        type: 'PasswordBox',
-        name: 'newPasswordRetype',
-        label: _('New password (retype)'),
-        required: true,
-      }, {
         type: 'NewPasswordBox',
         name: 'setNewPassword',
         label: _('New password'),
@@ -110,8 +98,6 @@ export default defineComponent({
       }],
       formValues: {
         oldPassword: '',
-        newPassword: '',
-        newPasswordRetype: '',
         setNewPassword: {
           newPassword: '',
           retypePassword: '',
@@ -154,7 +140,7 @@ export default defineComponent({
         return;
       }
       this.$store.dispatch('activateLoadingState');
-      changePassword(this.formValues.oldPassword, this.formValues.newPassword)
+      changePassword(this.formValues.oldPassword, this.formValues.setNewPassword.newPassword)
         .then((response) => {
           this.$store.dispatch('notifications/addSuccessNotification', {
             title: _('Change password'),
