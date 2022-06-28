@@ -148,6 +148,10 @@
          "fr_FR": "Nouvelles, conseils et bonne pratique"
        },
        "dn": "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+       "keywords": {
+         "en_US": "foo",
+         "de_DE": "bar"
+       },
        "linkTarget": "newwindow",
        "links": [
          {"locale": "de_DE", "value": "https://www.univention.de/news/blog-de"},
