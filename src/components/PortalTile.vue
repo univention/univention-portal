@@ -178,7 +178,7 @@ export default defineComponent({
     },
     keywords: {
       type: Object as PropType<LocalizedString>,
-      required: false,
+      required: true,
     },
     activated: {
       type: Boolean,
