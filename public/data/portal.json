@@ -90,7 +90,6 @@
          {"locale": "en_US", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"},
          {"locale": "de_DE", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"}
        ],
-       "keywords": {},
        "logo_name": "./data/icons/owncloud-admindoc.svg",
        "name": {
          "de_DE": "Admin Handbuch",
