@@ -52,7 +52,7 @@ describe('NewPasswordBox Component', () => {
   test('if user can set value in two inputfields', async () => {
     const wrapper = await mount(NewPasswordBox, {
       propsData: {
-        setNewPasswordModelValue,
+        modelValue: setNewPasswordModelValue,
         name: 'newPassword',
         forAttrOfLabel: '',
         invalidMessageId: '',
@@ -66,11 +66,11 @@ describe('NewPasswordBox Component', () => {
     expect(newPasswordBox.element.value).toBe('');
     expect(retypePasswordBox.element.value).toBe('');
 
-    await newPasswordBox.setValue('test input value');
-    await retypePasswordBox.setValue('test input value');
+    await newPasswordBox.setValue('passwordValuewNew');
+    await retypePasswordBox.setValue('passwordValuewRetype');
 
-    expect(newPasswordBox.element.value).toBe('test input value');
-    expect(retypePasswordBox.element.value).toBe('test input value');
+    expect(newPasswordBox.element.value).toBe('passwordValuewNew');
+    expect(retypePasswordBox.element.value).toBe('passwordValuewRetype');
 
     wrapper.unmount();
   });
@@ -78,7 +78,7 @@ describe('NewPasswordBox Component', () => {
   test('is components uses computed properties correctly', async () => {
     const wrapper = await mount(NewPasswordBox, {
       propsData: {
-        setNewPasswordModelValue,
+        modelValue: setNewPasswordModelValue,
         name: 'password',
         forAttrOfLabel: '',
         invalidMessageId: '',
@@ -86,29 +86,35 @@ describe('NewPasswordBox Component', () => {
     });
 
     // Expect Aria-Invalid to be set correctly
-    expect(wrapper.vm.invalid).toBe(false);
-    await wrapper.setProps({ invalidMessage: 'Invalid Message' });
-    expect(wrapper.vm.invalid).toBe(true);
+    expect(wrapper.vm.invalidNew).toBe(false);
+    await wrapper.setProps({ invalidMessage: { invalidMessageNew: 'is invalid', invalidMessageRetype: '' } });
+    expect(wrapper.vm.invalidNew).toBe(true);
+    
+    expect(wrapper.vm.invalidRetype).toBe(false);
+    await wrapper.setProps({ invalidMessage: { invalidMessageNew: '', invalidMessageRetype: 'is invalid' } });
+    expect(wrapper.vm.invalidRetype).toBe(true);
   });
 
-  test('its actually a password input field', async () => {
+  test('They are both actually a password input field', async () => {
     const wrapper = await mount(NewPasswordBox, {
       propsData: {
-        setNewPasswordModelValue,
+        modelValue: setNewPasswordModelValue,
         name: 'password',
         forAttrOfLabel: '',
         invalidMessageId: '',
       },
     });
-    const passwordBox = await wrapper.find('[data-test="password-box"]');
+    const passwordBoxNew = await wrapper.find('[data-test="new-password-box"]');
+    const passwordBoxRetype = await wrapper.find('[data-test="retype-password-box"]');
 
-    expect(passwordBox.attributes('type')).toBe('password');
+    expect(passwordBoxNew.attributes('type')).toBe('password');
+    expect(passwordBoxRetype.attributes('type')).toBe('password');
   });
 
   test('show/hide password icon button', async () => {
     const wrapper = await mount(NewPasswordBox, {
       propsData: {
-        setNewPasswordModelValue,
+        modelValue: setNewPasswordModelValue,
         name: 'password',
         forAttrOfLabel: '',
         invalidMessageId: '',
@@ -120,15 +126,15 @@ describe('NewPasswordBox Component', () => {
       },
     });
 
-    const passwordBox = await wrapper.find('[data-test="password-box"]');
+    const passwordBoxNew = await wrapper.find('[data-test="new-password-box"]');
     const passwordBoxButton = await wrapper.find('[data-test="password-box-icon"]');
 
     expect(passwordBoxButton.attributes('aria-label')).toBe('Show password');
-    expect(passwordBox.attributes('type')).toBe('password');
+    expect(passwordBoxNew.attributes('type')).toBe('password');
 
     await passwordBoxButton.trigger('click');
 
     expect(passwordBoxButton.attributes('aria-label')).toBe('Hide password');
-    expect(passwordBox.attributes('type')).toBe('text');
+    expect(passwordBoxNew.attributes('type')).toBe('text');
   });
 });
