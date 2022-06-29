@@ -73,13 +73,11 @@ export default defineComponent({
   min-height: 1rem;
   padding: 1rem;
   border-radius: var(--border-radius-interactable)
-  background-color: var(--bgc-content-body);
   color: var(--font-color-contrast-high);
 
   &__label {
     display: block;
     line-height: 2rem;
-    background-color: var(--bgc-content-header);
   }
 
   &__field {
@@ -87,6 +85,22 @@ export default defineComponent({
     border-radius: 1rem;
     border: 0;
     width: 100%;
+    color: var(--button-primary-bgc);
+
+    /* Firefox */
+    &::-moz-progress-bar {
+      background-color: var(--button-primary-bgc);
+    }
+
+    /* Chrome */
+    &::-webkit-progress-value {
+      background-color: var(--button-primary-bgc);
+    }
+
+    /* Polyfill */
+    &[aria-valuenow]:before  {
+      background-color: var(--button-primary-bgc);
+    }
   }
 
   &__message {

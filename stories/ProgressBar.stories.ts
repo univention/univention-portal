@@ -16,7 +16,7 @@ const Template: StoryFn<typeof ProgressBar> = (args) => ({
   setup() {
     return { args };
   },
-  template: '<div style="width: 500px"><ProgressBar v-bind="args" /></div>',
+  template: '<div style="width: 500px; padding: 1rem;"><ProgressBar v-bind="args" /></div>',
 });
 
 export const Basic = Template.bind({});
