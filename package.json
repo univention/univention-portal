@@ -24,7 +24,6 @@
     "@storybook/addon-interactions": "6.4.19",
     "@storybook/addon-links": "6.4.19",
     "@storybook/testing-library": "^0.0.13",
-    "@storybook/vue": "6.4.19",
     "@storybook/vue3": "6.4.19",
     "@types/jest": "^24.0.19",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
@@ -63,7 +62,7 @@
     "typescript": "~3.9.3",
     "vue-eslint-parser": "^7.6.0",
     "vue-jest": "^5.0.0-0",
-    "vue-loader": "^16.8.3",
+    "vue-loader": "^17.0.0",
     "wait-on": "^5.3.0",
     "yarn": "^1.22.10"
   },

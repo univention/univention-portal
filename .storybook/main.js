@@ -1,25 +1,32 @@
 const path = require('path');
 
 module.exports = {
-  "stories": [
+  stories: [
     "../stories/**/*.stories.mdx",
-    "../stories/**/*.stories.@(js|jsx|ts|tsx)",
+    "../stories/**/*.stories.@(js|jsx|ts|tsx)"
   ],
-  "addons": [
+  addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
+    "@storybook/addon-interactions"
   ],
-  "framework": "@storybook/vue3",
-  features: {
-    previewCsfV3: true,
-  },
-  webpackFinal: async (config, { configType }) => {
-    // config.module.rules.push({
-    //   test: /\.scss$/,
-    //   use: ['style-loader', 'css-loader', 'sass-loader'],
-    //   include: path.resolve(__dirname, '../'),
-    // });
+  framework: "@storybook/vue3",
+  staticDirs: ['../public'],
+  webpackFinal: async (config, {configType}) => {
+    config.module.rules.push({
+      test: /\.styl(us)?$/,
+      use: ['style-loader', 'css-loader', 'stylus-loader'],
+      include: [
+        path.resolve(__dirname, '../src'),
+        path.resolve(__dirname, '../stories'),
+        path.resolve(__dirname, '../src/assets/styles'),
+      ],
+    });
+
+    config.resolve.modules = [
+      path.resolve(__dirname, "..", "src"),
+      "node_modules",
+    ]
 
     config.resolve.alias = {
       '@': path.resolve(__dirname, "../src"),

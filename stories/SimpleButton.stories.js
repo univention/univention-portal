@@ -1,7 +1,7 @@
 import SimpleButton from './SimpleButton.vue';
 
 export default {
-  title: 'Simple Button',
+  title: 'Example/Simple Button',
   component: SimpleButton,
 };
 
@@ -16,18 +16,17 @@ const Template = (args) => ({
 export const Default = Template.bind({});
 Default.args = {
   title: 'Default Button',
-  variant: 'default'
+  variant: 'default',
 };
 
 export const Light = Template.bind({});
 Light.args = {
   title: 'Light Button',
-  variant: 'light'
-}
+  variant: 'light',
+};
 
 export const Dark = Template.bind({});
 Dark.args = {
   title: 'Dark Button',
-  variant: 'dark'
-}
-
+  variant: 'dark',
+};
