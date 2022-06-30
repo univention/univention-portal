@@ -8,7 +8,9 @@ module.exports = {
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+    "@storybook/addon-interactions",
+    "@storybook/addon-a11y",
+    "addon-screen-reader"
   ],
   framework: "@storybook/vue3",
   staticDirs: ['../public'],
