@@ -57,7 +57,7 @@ channel.on(GLOBALS_UPDATED, ({globals}) => {
   }
 });
 
-// setDefault css
-// document.addEventListener("DOMContentLoaded", function(event) {
-  changeCSS(lightColor);
-// });
+// set global css
+import '!style-loader!css-loader!stylus-loader!../src/assets/styles/style.styl';
+// set default theme
+changeCSS(lightColor);
