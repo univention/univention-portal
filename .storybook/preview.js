@@ -1,5 +1,5 @@
-const light = '#F8F8F8';
-const dark = '#333333';
+const lightColor = '#F8F8F8';
+const darkColor = '#333333';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -14,30 +14,31 @@ export const parameters = {
     values: [
       {
         name: 'light',
-        value: light,
+        value: lightColor,
       },
       {
         name: 'dark',
-        value: dark,
+        value: darkColor,
       },
     ],
   },
 }
 
+
 // look https://github.com/storybookjs/storybook/discussions/17652
 import addons from "@storybook/addons";
 import { GLOBALS_UPDATED } from "@storybook/core-events";
 
-function changeCSS(theme) {
+function changeCSS(themeColor) {
   const themeCss = document.createElement('link');
   themeCss.id = 'current-theme-css';
   themeCss.rel = 'stylesheet';
 
-  if (theme === light) {
+  if (themeColor === lightColor) {
     themeCss.href = `data/light.css`;
   }
 
-  if (theme === dark) {
+  if (themeColor === darkColor) {
     themeCss.href = `data/dark.css`;
   }
 
@@ -56,3 +57,7 @@ channel.on(GLOBALS_UPDATED, ({globals}) => {
   }
 });
 
+// setDefault css
+// document.addEventListener("DOMContentLoaded", function(event) {
+  changeCSS(lightColor);
+// });

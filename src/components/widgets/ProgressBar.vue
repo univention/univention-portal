@@ -1,10 +1,5 @@
 <template>
   <div class="progress-bar">
-    <label
-      class="progress-bar__label"
-      :aria-label="label"
-      :for="forAttrOfLabel"
-    >{{ label }}</label>
     <progress
       :id="forAttrOfLabel"
       ref="progress-bar"
@@ -56,22 +51,13 @@ export default defineComponent({
       default: false,
     },
   },
-  computed: {
-    //
-  },
-  methods: {
-    focus() {
-      // @ts-ignore TODO
-      this.$refs.input.focus();
-    },
-  },
 });
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .progress-bar {
   min-height: 1rem;
-  padding: 1rem;
+  padding: 1rem 0;
   border-radius: var(--border-radius-interactable)
   color: var(--font-color-contrast-high);
 
