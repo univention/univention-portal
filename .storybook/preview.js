@@ -1,3 +1,13 @@
+import Vuex from 'vuex';
+import { store } from '../src/store';
+import { app } from '@storybook/vue3'
+import Portal from '../src/views/Portal';
+import localize from '@/plugins/localize';
+
+
+app.use(store).use(localize);
+app.component('portal', Portal);
+
 const lightColor = '#F8F8F8';
 const darkColor = '#333333';
 
