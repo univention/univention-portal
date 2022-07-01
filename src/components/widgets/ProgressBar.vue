@@ -1,20 +1,21 @@
 <template>
   <div class="progress-bar">
-    <label
-      class="progress-bar__label"
-      :aria-label="label"
-      :for="forAttrOfLabel"
-    >{{ label }}</label>
-    <progress
-      :id="forAttrOfLabel"
-      ref="progress-bar"
-      class="progress-bar__field"
-      :value="modelValue"
-      max="100"
-      :name="name"
-      :tabindex="tabindex"
-      :required="required"
-    />
+    <div
+      class="progress-bar__title"
+      :aria-label="title"
+    >{{ title }}</div>
+
+    <div
+      class="progress-bar__line"
+      role="progressbar"
+      :class="{'progress-bar__line--empty': modelValue <= 0}"
+    >
+      <div
+        class="progress-bar__percent"
+        role="presentation"
+        :style="{ width: (modelValue || 0) + '%'}"
+      />
+    </div>
     <div class="progress-bar__message">
       {{ message }}
     </div>
@@ -31,11 +32,7 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    label: {
+    title: {
       type: String,
       required: true,
     },
@@ -43,68 +40,57 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    tabindex: {
-      type: Number,
-      default: 0,
-    },
-    forAttrOfLabel: {
-      type: String,
-      required: true,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    //
-  },
-  methods: {
-    focus() {
-      // @ts-ignore TODO
-      this.$refs.input.focus();
-    },
   },
 });
 </script>
 
-<style lang="stylus">
+<style lang="stylus" >
+@keyframes loop {
+  0% { background-position-x: 0; }
+  100% { background-position-x: -100px}
+}
+
 .progress-bar {
-  min-height: 1rem;
+  width: 100%;
+  min-width: 20rem;
   padding: 1rem;
   border-radius: var(--border-radius-interactable)
   color: var(--font-color-contrast-high);
 
-  &__label {
-    display: block;
-    line-height: 2rem;
+  &__title {
+    height: 6rem;
+    line-height: 6rem;
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-bold);
   }
 
-  &__field {
-    line-height: 1rem;
-    border-radius: 1rem;
-    border: 0;
-    width: 100%;
-    color: var(--button-primary-bgc);
+  &__line {
+    border: none;
+    background-color: var(--bgc-progressbar-empty);
+    height: 0.5rem;
 
-    /* Firefox */
-    &::-moz-progress-bar {
-      background-color: var(--button-primary-bgc);
+    &--empty {
+      background: repeating-linear-gradient(
+          135deg,
+          var(--font-color-contrast-middle),
+          var(--font-color-contrast-middle) 1.25rem,
+          var(--font-color-contrast-low) 1.25rem,
+          var(--font-color-contrast-low) 2.5rem
+      );
+      animation: loop 3s infinite linear forwards;
     }
+  }
 
-    /* Chrome */
-    &::-webkit-progress-value {
-      background-color: var(--button-primary-bgc);
-    }
-
-    /* Polyfill */
-    &[aria-valuenow]:before  {
-      background-color: var(--button-primary-bgc);
-    }
+  &__percent {
+    border: none;
+    background-color: var(--button-primary-bgc);
+    height: 100%;
   }
 
   &__message {
-    line-height: 2rem;
+    line-height: 3rem;
+    font-size: var(--font-size-4);
+    color: var(--font-color-contrast-middle);
   }
 }
 </style>

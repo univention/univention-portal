@@ -20,4 +20,4 @@ const Template: StoryFn<typeof ProgressBar> = (args) => ({
 });
 
 export const Basic = Template.bind({});
-Basic.args = { label: 'My ProgressBar', modelValue: 50, message: 'Installing packages x' };
+Basic.args = { title: 'My ProgressBar', modelValue: 50, message: 'Installing packages x' };
