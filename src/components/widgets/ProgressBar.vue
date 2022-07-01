@@ -17,7 +17,8 @@
       />
     </div>
     <div class="progress-bar__message">
-      {{ message }}
+      <span>{{ message }}</span>
+      <span>{{ modelValue + '%' }}</span>
     </div>
   </div>
 </template>
@@ -44,7 +45,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus" >
+<style lang="stylus" scoped>
 @keyframes loop {
   0% { background-position-x: 0; }
   100% { background-position-x: -100px}
@@ -88,6 +89,9 @@ export default defineComponent({
   }
 
   &__message {
+    display: flex;
+    justify-content: space-between;
+
     line-height: 3rem;
     font-size: var(--font-size-4);
     color: var(--font-color-contrast-middle);
