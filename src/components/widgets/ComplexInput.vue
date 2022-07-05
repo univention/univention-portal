@@ -1,21 +1,25 @@
 <template>
   <div class="complex-input">
-    <my-form
-      ref="form"
-      v-model="localValue"
-      :widgets="modelWidgets"
+    <form-element
+      v-for="(widget, index) in subtypes"
+      :key="widget.name"
+      :ref="widget.name"
+      :widget="widget"
+      :modelValue="modelValue[index]"
+      @update:modelValue="onUpdate(widget.name, $event, index)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import MyForm from 'components/forms/Form.vue';
+import { defineComponent, PropType } from 'vue';
+import FormElement from 'components/forms/FormElementCopyNeededForMultiInput.vue';
+import { WidgetDefinition } from '@/jsHelper/forms';
 
 export default defineComponent({
   name: 'ComplexInput',
   components: {
-    MyForm,
+    FormElement,
   },
   props: {
     modelValue: {
@@ -23,8 +27,8 @@ export default defineComponent({
       default: () => [],
       required: true,
     },
-    modelWidgets: {
-      type: Array,
+    subtypes: {
+      type: Array as PropType<WidgetDefinition[]>,
       default: () => [],
       required: true,
     },
@@ -38,27 +42,11 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
-  // data() {
-  //   return {
-  //     localValue: this.modelValue,GenaHJDR
-  //   };
-  // },
-  computed: {
-    localValue() {
-      return {
-        get: () => {
-          const localValue: any = {};
-          this.modelWidgets.reduce((widget: any) => {
-            localValue[widget.type] = widget.modelValue;
-          });
-
-          console.log({ localValue });
-          return localValue;
-        },
-        set: (newValue) => {
-          this.$emit('update:modelValue', newValue);
-        },
-      };
+  methods: {
+    onUpdate(widgetName, value, index) {
+      const newVal = JSON.parse(JSON.stringify(this.modelValue));
+      newVal[index] = value;
+      this.$emit('update:modelValue', newVal);
     },
   },
 });

@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/vue3';
 
-import ProgressBar from '../../src/components/widgets/ProgressBar.vue';
+import ProgressBar from '@/components/widgets/ProgressBar';
 
 export default {
   title: 'Widgets/ProgressBar',
@@ -20,4 +20,4 @@ const Template: StoryFn<typeof ProgressBar> = (args) => ({
 });
 
 export const Basic = Template.bind({});
-Basic.args = { name: 'ProgressBar', label: 'My ProgressBar', modelValue: 50, message: 'Installing packages x', forAttrOfLabel: 'forAttrOfLabel' };
+Basic.args = { title: 'My ProgressBar', modelValue: 50, message: 'Installing packages x' };

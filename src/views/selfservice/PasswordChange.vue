@@ -67,7 +67,6 @@ interface FormValues {
   oldPassword: string,
   newPassword: string,
   newPasswordRetype: string,
-  progressBar: number,
 }
 
 interface ChangePasswordData {
@@ -114,7 +113,6 @@ export default defineComponent({
         oldPassword: '',
         newPassword: '',
         newPasswordRetype: '',
-        progressBar: 50,
       },
     };
   },

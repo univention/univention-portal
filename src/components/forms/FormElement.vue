@@ -42,6 +42,7 @@
       :for-attr="forAttrOfLabel"
       :invalid-message="invalidMessage"
       :show-help-icon="hasDescription"
+      :tabindex="component.tabindex"
       data-test="form-element-label"
       :display-description="displayDescription"
       @toggle-description="toggleDescription"
@@ -95,7 +96,7 @@ import MultiSelect from '@/components/widgets/MultiSelect.vue';
 import LinkWidget from '@/components/widgets/LinkWidget.vue';
 import NumberSpinner from '@/components/widgets/NumberSpinner.vue';
 import TimeBox from '@/components/widgets/TimeBox.vue';
-import ProgressBar from '@/components/widgets/ProgressBar.vue';
+import ComplexInput from 'components/widgets/ComplexInput.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -116,7 +117,7 @@ export default defineComponent({
     TextArea,
     NumberSpinner,
     TimeBox,
-    ProgressBar,
+    ComplexInput,
   },
   props: {
     widget: {

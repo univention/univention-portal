@@ -26,6 +26,7 @@
          "locale": "en_US",
          "value": "#/selfservice/passwordchange"
        }],
+       "keywords": {},
        "logo_name": null,
        "name": {
          "de_DE": "Passwort ändern",
@@ -47,6 +48,7 @@
          {"locale": "de_DE", "value": "/ucs-root-ca-de.crt"},
          {"locale": "en_US", "value": "/ucs-root-ca-en.crt"}
        ],
+       "keywords": {},
        "logo_name": null,
        "name": {
          "de_DE": "Wurzelzertifikat",
@@ -67,6 +69,7 @@
        "links": [
          {"locale": "en_US", "value": "/ucsCA.crl"}
        ],
+       "keywords": {},
        "logo_name": null,
        "name": {
          "de_DE": "Zertifikat-Sperrliste",
@@ -87,6 +90,7 @@
          {"locale": "en_US", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"},
          {"locale": "de_DE", "value": "https://doc.owncloud.com/server/10.0/admin_manual/"}
        ],
+       "keywords": {},
        "logo_name": "./data/icons/owncloud-admindoc.svg",
        "name": {
          "de_DE": "Admin Handbuch",
@@ -108,6 +112,7 @@
        "links": [
          {"locale": "en_US", "value": "https://doc.owncloud.com/server/10.0/user_manual/"}
        ],
+       "keywords": {},
        "logo_name": "./data/icons/owncloud-userdoc.svg",
        "name": {
          "de_DE": "Benutzer Handbuch",
@@ -130,6 +135,7 @@
        "links": [
          {"locale": "en_US", "value": "/univention/management/"}
        ],
+       "keywords": {},
        "logo_name": "./data/icons/umc-domain.svg",
        "name": {
          "de_DE": "System- und Domäneneinstellungen",
@@ -148,11 +154,16 @@
          "fr_FR": "Nouvelles, conseils et bonne pratique"
        },
        "dn": "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
+       "keywords": {
+         "en_US": "foo",
+         "de_DE": "bar"
+       },
        "linkTarget": "newwindow",
        "links": [
          {"locale": "de_DE", "value": "https://www.univention.de/news/blog-de"},
          {"locale": "en_US", "value": "https://www.univention.com/news/blog-en"}
        ],
+       "keywords": {"en_US": "key", "de_DE": "word"},
        "logo_name": "./data/icons/univentionblog.png",
        "name": {
          "de_DE": "Univention Blog",
@@ -176,6 +187,7 @@
          {"locale": "en_US", "value": "https://www.univention.de/produkt-feedback/?umc=portal"},
          {"locale": "en_US", "value": "https://www.univention.com/feedback/?umc=portal"}
        ],
+       "keywords": {},
        "logo_name": null,
        "name": {
          "de_DE": "Feedback",
@@ -197,6 +209,7 @@
        "links": [
          {"locale": "en_US", "value": "https://help.univention.com"}
        ],
+       "keywords": {},
        "logo_name": null,
        "name": {
          "de_DE": "Univention Forum \"Hilfe\"",
@@ -219,6 +232,7 @@
          {"locale": "de_DE", "value": "https://www.univention.de"},
          {"locale": "en_US", "value": "https://www.univention.com"}
        ],
+       "keywords": {},
        "logo_name": null,
        "name": {
          "de_DE": "Univention Webseite",

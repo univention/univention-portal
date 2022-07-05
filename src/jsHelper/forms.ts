@@ -31,7 +31,7 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox' | 'ProgressBar';
+type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox' | 'ComplexInput';
 
 interface OptionsDefinition {
   id: string,
@@ -91,6 +91,8 @@ export function isEmpty(widget, value): boolean {
       return value.length === 0;
     case 'CheckBox':
       return !value;
+    case 'ComplexInput':
+      return true;
     default:
       return false;
   }
@@ -232,6 +234,7 @@ export function initialValue(widget, value): any {
       return typeof value === 'boolean' ? value : false;
     case 'NumberSpinner':
       return typeof value === 'number' ? value : false;
+    case 'ComplexInput':
     case 'MultiInput':
       if (!Array.isArray(value)) {
         const row = widget.subtypes.map((subtype) => initialValue(subtype, null));

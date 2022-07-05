@@ -42,6 +42,7 @@
       :for-attr="forAttrOfLabel"
       :invalid-message="invalidMessage"
       :show-help-icon="hasDescription"
+      :tabindex="component.tabindex"
       data-test="form-element-label"
       :display-description="displayDescription"
       @toggle-description="toggleDescription"
@@ -122,6 +123,7 @@ export default defineComponent({
       required: true,
     },
     modelValue: {
+      type: undefined,
       required: true,
     },
   },
