@@ -2,10 +2,26 @@ import Vuex from 'vuex';
 import { store } from '../src/store';
 import { app } from '@storybook/vue3'
 import Portal from '../src/views/Portal';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 import localize from '@/plugins/localize';
 
 
-app.use(store).use(localize);
+app
+  .use(store)
+  .use(localize)
+  .use(VueDOMPurifyHTML, {
+    hooks: {
+      afterSanitizeAttributes: (currentNode) => {
+        // Do something with the node
+        // set all elements owning target to target=_blank
+        if ('target' in currentNode) {
+          currentNode.setAttribute('target', '_blank');
+          currentNode.setAttribute('rel', 'noopener');
+        }
+      },
+    },
+  });
+
 app.component('portal', Portal);
 
 const lightColor = '#F8F8F8';
@@ -31,6 +47,11 @@ export const parameters = {
         value: darkColor,
       },
     ],
+  },
+  options: {
+    storySort: {
+      order: ['Introduction', ['Portal', 'Accessibility'], 'Layout', 'Globals', 'Widgets'],
+    },
   },
 }
 
@@ -71,3 +92,4 @@ channel.on(GLOBALS_UPDATED, ({globals}) => {
 import '!style-loader!css-loader!stylus-loader!../src/assets/styles/style.styl';
 // set default theme
 changeCSS(lightColor);
+

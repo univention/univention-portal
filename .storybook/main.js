@@ -11,7 +11,18 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
-    "addon-screen-reader"
+    "addon-screen-reader",
+    "storybook-addon-pseudo-states",
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        vueDocgenOptions: {
+          alias: {
+            '@': path.resolve(__dirname, '../'),
+          },
+        },
+      },
+    },
   ],
   framework: "@storybook/vue3",
   staticDirs: ['../public'],
