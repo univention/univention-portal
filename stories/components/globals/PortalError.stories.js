@@ -1,7 +1,7 @@
 import PortalError from '@/components/globals/PortalError';
 
 export default {
-  title: 'Globals/PortalError',
+  title: 'Components/Globals/PortalError',
   components: PortalError,
 };
 

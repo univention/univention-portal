@@ -1,7 +1,7 @@
 import PortalIcon from '@/components/globals/PortalIcon';
 
 export default {
-  title: 'Globals/PortalIcon',
+  title: 'Components/Globals/PortalIcon',
   components: PortalIcon,
 };
 

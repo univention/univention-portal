@@ -1,7 +1,7 @@
 import IconButton from '@/components/globals/IconButton';
 
 export default {
-  title: 'Globals/IconButton',
+  title: 'Components/Globals/IconButton',
   components: IconButton,
 };
 
