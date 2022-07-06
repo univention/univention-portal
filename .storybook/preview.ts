@@ -66,7 +66,6 @@ import '!style-loader!css-loader!stylus-loader!../src/assets/styles/style.styl';
 // set default theme
 changeCSS(lightColor);
 
-
 import { useArgs } from '@storybook/client-api'
 
 export const decorators = [
@@ -74,5 +73,5 @@ export const decorators = [
     const [_, updateArgs] = useArgs()
     return story({...context, updateArgs})
   },
-  () => ({template: '<story />'}),
+  () => ({template: '<story class="story-container" />'}),
 ];

@@ -76,6 +76,7 @@ export function isEmpty(widget, value): boolean {
     case 'NumberSpinner':
     case 'TimeBox':
       return value === '';
+    case 'ComplexInput':
     case 'MultiInput':
       return value.every((row) => {
         if (Array.isArray(row)) {
@@ -91,8 +92,6 @@ export function isEmpty(widget, value): boolean {
       return value.length === 0;
     case 'CheckBox':
       return !value;
-    case 'ComplexInput':
-      return true;
     default:
       return false;
   }
@@ -117,6 +116,8 @@ export function isValid(widget): boolean {
     case 'NumberSpinner':
     case 'TimeBox':
       return widget.invalidMessage === '';
+    case 'ComplexInput':
+      return true;
     case 'MultiInput':
       return widget.invalidMessage.all === '' &&
         widget.invalidMessage.values.every((message) => {
@@ -148,6 +149,7 @@ export function validate(widget, value, widgets, values): void {
       case 'DateBox':
       case 'ComboBox':
       case 'PasswordBox':
+      case 'ComplexInput':
       case 'MultiInput':
       case 'RadioBox':
       case 'ImageUploader':
@@ -193,6 +195,7 @@ export function validate(widget, value, widgets, values): void {
     case 'NumberSpinner':
       widget.invalidMessage = getFirstInvalidMessage(widget, value);
       break;
+    case 'ComplexInput':
     case 'MultiInput':
       widget.invalidMessage = {
         all: getFirstInvalidMessage(widget, value),
@@ -277,6 +280,7 @@ export function invalidMessage(widget): string {
     case 'LinkWidget':
     case 'TimeBox':
       return widget.invalidMessage;
+    case 'ComplexInput':
     case 'MultiInput':
       return widget.invalidMessage.all;
     default:

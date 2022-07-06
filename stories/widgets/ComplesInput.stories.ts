@@ -16,10 +16,9 @@ const Template: StoryFn<typeof ComplexInput> = (args, { updateArgs }) => ({
   setup() {
     return { args };
   },
-  template: '<div style="width: 500px; padding: 1rem;"><ComplexInput v-bind="args" @update="handleUpdate" /></div>',
+  template: '<div><ComplexInput v-bind="args" @update="handleUpdate" /></div>',
   methods: {
     handleUpdate(newValue) {
-      console.log('WTF', newValue);
       updateArgs({ ...args, newValue });
     },
   },
@@ -30,8 +29,16 @@ Basic.args = {
   type: 'ComplexInput',
   name: 'complexInput',
   label: 'complexInput',
-  modelValue: ['2022-12-12', '11:20', 'DE'],
+  required: false,
+  readonly: false,
+  modelValue: ['TextBox', '2022-12-12', '11:20', 'DE'],
   subtypes: [
+    {
+      type: 'TextBox',
+      name: 'TextBox',
+      label: 'TextBox',
+      // readonly: true,
+    },
     {
       type: 'DateBox',
       name: 'date',

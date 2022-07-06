@@ -26,7 +26,7 @@ const Template: StoryFn<typeof MyForm> = (args, { updateArgs }) => ({
   methods: {
     handleUpdate(newValue) {
       setTimeout(() => {
-        updateArgs({ ...args, ...{ formValues: newValue } })
+        updateArgs({ ...args, ...{ formValues: newValue } });
       }, 1000);
     },
   },
