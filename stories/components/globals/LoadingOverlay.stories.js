@@ -1,7 +1,7 @@
 import LoadingOverlay from '@/components/globals/LoadingOverlay';
 
 export default {
-  title: 'Globals/LoadingOverlay',
+  title: 'Components/Globals/LoadingOverlay',
   components: LoadingOverlay,
 };
 

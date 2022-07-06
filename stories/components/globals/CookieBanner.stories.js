@@ -1,7 +1,7 @@
 import CookieBanner from '@/components/globals/CookieBanner';
 
 export default {
-  title: 'Globals/CookieBanner',
+  title: 'Components/Globals/CookieBanner',
   components: CookieBanner,
 };
 
