@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/vue3';
 
-import ProgressBar from '@/components/widgets/ProgressBar';
+import ProgressBar from '@/components/widgets/ProgressBar.vue';
 
 export default {
   title: 'Widgets/ProgressBar',

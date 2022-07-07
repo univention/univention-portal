@@ -35,6 +35,7 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 import '@/assets/styles/style.styl';
 import addCustomStyles from '@/jsHelper/addCustomStyles';
+import FormElement from '@/components/forms/FormElement.vue';
 
 addCustomStyles();
 
@@ -61,6 +62,6 @@ const app = createApp(App)
       },
     },
   });
-
+app.component('FormElement', FormElement);
 const vm = app.mount('#app');
 export default vm;

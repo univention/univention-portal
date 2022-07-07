@@ -52,7 +52,6 @@ export default defineComponent({
 }
 
 .progress-bar {
-  width: 100%;
   min-width: 20rem;
   padding: 1rem;
   border-radius: var(--border-radius-interactable)

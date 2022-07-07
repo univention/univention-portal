@@ -117,7 +117,6 @@ export function isValid(widget): boolean {
     case 'TimeBox':
       return widget.invalidMessage === '';
     case 'ComplexInput':
-      return true;
     case 'MultiInput':
       return widget.invalidMessage.all === '' &&
         widget.invalidMessage.values.every((message) => {

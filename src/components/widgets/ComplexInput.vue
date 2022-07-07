@@ -8,24 +8,23 @@
       :model-value="modelValue[index]"
       @update:modelValue="onUpdate(widget.name, $event, index)"
     />
+    <input-error-message
+      :display-condition="hasError"
+      :error-message="getError"
+    />
   </div>
-  <input-error-message
-    :display-condition="hasError"
-    :error-message="getError"
-  />
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import FormElement from 'components/forms/FormElement.vue';
+import { defineAsyncComponent, defineComponent, PropType } from 'vue';
 import { WidgetDefinition } from '@/jsHelper/forms';
-import InputErrorMessage from 'components/forms/InputErrorMessage.vue';
+import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
 
 export default defineComponent({
   name: 'ComplexInput',
   components: {
+    FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
     InputErrorMessage,
-    FormElement,
   },
   props: {
     modelValue: {

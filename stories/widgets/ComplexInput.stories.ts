@@ -1,6 +1,6 @@
 import { Meta, StoryFn } from '@storybook/vue3';
 
-import ComplexInput from '../../src/components/widgets/ComplexInput.vue';
+import ComplexInput from '@/components/widgets/ComplexInput.vue';
 
 export default {
   title: 'Widgets/ComplexInput',
@@ -16,12 +16,7 @@ const Template: StoryFn<typeof ComplexInput> = (args, { updateArgs }) => ({
   setup() {
     return { args };
   },
-  template: '<div><ComplexInput v-bind="args" @update="handleUpdate" /></div>',
-  methods: {
-    handleUpdate(newValue) {
-      updateArgs({ ...args, newValue });
-    },
-  },
+  template: '<div><ComplexInput v-bind="args"/></div>',
 });
 
 export const Basic = Template.bind({});
@@ -35,24 +30,23 @@ Basic.args = {
   subtypes: [
     {
       type: 'TextBox',
-      name: 'TextBox',
+      name: 'text',
       label: 'TextBox',
-      // readonly: true,
     },
     {
       type: 'DateBox',
       name: 'date',
-      label: 'date',
+      label: 'DateBox',
     },
     {
       type: 'TimeBox',
       name: 'time',
-      label: 'time',
+      label: 'TimeBox',
     },
     {
       type: 'ComboBox',
       name: 'timeZone',
-      label: 'timeZone',
+      label: 'ComboBox',
       options: [{
         id: 'DE',
         label: 'Germany',
