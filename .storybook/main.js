@@ -13,6 +13,8 @@ module.exports = {
     "@storybook/addon-a11y",
     "addon-screen-reader",
     "storybook-addon-pseudo-states",
+    "@storybook/addon-postcss",
+    "storybook-css-modules-preset",
     {
       name: '@storybook/addon-docs',
       options: {
@@ -29,6 +31,7 @@ module.exports = {
   webpackFinal: async (config, {configType}) => {
     config.module.rules.push({
       test: /\.styl(us)?$/,
+      sideEffects: true,
       use: ['style-loader', 'css-loader', 'stylus-loader'],
       include: [
         path.resolve(__dirname, '../src'),
