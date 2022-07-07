@@ -81,10 +81,17 @@ Download.args = {
   linkType: linkTypes.download,
 };
 
+
+// not working properly, stylus media querys not working
 export const MobileToolTip = Template.bind({});
 MobileToolTip.args = {
   ...positionMock,
   isMobile: true,
   ...tooltipMock,
   linkType: linkTypes.download,
+};
+MobileToolTip.parameters = {
+  viewport: {
+    defaultViewport: "Small mobile",
+  },
 };

@@ -24,6 +24,13 @@ app
 
 app.component('portal', Portal);
 
+console.log('oj', store);
+console.log('oj', window);
+
+const viewportMeta = document.createElement('meta');
+viewportMeta.name = "viewport";
+viewportMeta.content = "width=device-width,initial-scale=1";
+
 const lightColor = '#F8F8F8';
 const darkColor = '#333333';
 
