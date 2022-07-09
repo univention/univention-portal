@@ -24,9 +24,6 @@ app
 
 app.component('portal', Portal);
 
-console.log('oj', store);
-console.log('oj', window);
-
 const viewportMeta = document.createElement('meta');
 viewportMeta.name = "viewport";
 viewportMeta.content = "width=device-width,initial-scale=1";
@@ -57,7 +54,7 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ['Introduction', ['Portal', 'Accessibility'], 'Layout', 'Globals', 'Widgets'],
+      // order: ['Introduction', ['Portal', 'Accessibility'], 'Layout', 'Globals', 'Widgets'],
     },
   },
 }
