@@ -1,7 +1,7 @@
-import PortalHeader from '../../src/components/PortalHeader.vue';
+import PortalHeader from '@/components/PortalHeader.vue';
 
 export default {
-  title: 'Layout/PortalHeader',
+  title: 'Components/PortalHeader',
   component: PortalHeader,
 };
 
