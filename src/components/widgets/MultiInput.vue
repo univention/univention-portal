@@ -54,7 +54,7 @@
 
 <script lang="ts">
 // TODO handling of 'name' attribute
-import { defineComponent } from 'vue';
+import { defineComponent, defineAsyncComponent, nextTick } from 'vue';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
@@ -64,19 +64,14 @@ import ComboBox from '@/components/widgets/ComboBox.vue';
 import DateBox from '@/components/widgets/DateBox.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
-import FormElement from '@/components/forms/FormElementCopyNeededForMultiInput.vue';
+
 import { initialValue } from '@/jsHelper/forms';
 
 export default defineComponent({
   name: 'MultiInput',
   components: {
     InputErrorMessage,
-    // break circular dependency
-    // FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
-    // TODO look for better solution
-    // When loading FormElement as asynccomponent then ref="" is not immediately set (which is needed for focus).
-    // For now we copy @/components/forms/FormElement.vue to @/components/forms/FormElement2.vue
-    FormElement,
+    FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
     IconButton,
     ComboBox,
     DateBox,
@@ -118,6 +113,17 @@ export default defineComponent({
       });
     },
   },
+  // async mounted() {
+  //   await nextTick();
+  //   await nextTick();
+  //   await nextTick();
+  //   await nextTick();
+  //   await nextTick();
+  //   this.focusLastInputField();
+  // },
+  mounted() {
+    setTimeout(() => this.focusLastInputField(), 0);
+  },
   methods: {
     onUpdate(valIdx, typeIdx, val): void {
       const newVal = JSON.parse(JSON.stringify(this.modelValue));
@@ -136,7 +142,6 @@ export default defineComponent({
         label: this.extraLabel,
         idx: newVal.length,
       }));
-      this.focusLastInputField();
     },
     newRow(): any {
       return initialValue({
@@ -202,23 +207,22 @@ export default defineComponent({
     focusLastInputField(): void {
       // MultiInput can have multiple widgets per row.
       // Focus first widget in last row.
+      const firstRowEntryRefs = Object.keys(this.$refs)
+        .filter((ref) => {
+          // Filter out widgets that are not the first of their row.
+          const column = ref.split('-')[2];
+          try {
+            return parseInt(column, 10) === 0;
+          } catch (e) {
+            return true;
+          }
+        })
+        .sort();
+      const lastItemRef = firstRowEntryRefs[firstRowEntryRefs.length - 1];
 
-      // @ts-ignore FIXME not sure how to fix this error
-      this.$nextTick(() => {
-        const firstRowEntryRefs = Object.keys(this.$refs)
-          .filter((ref) => {
-            // Filter out widgets that are not the first of their row.
-            const column = ref.split('-')[2];
-            try {
-              return parseInt(column, 10) === 0;
-            } catch (e) {
-              return true;
-            }
-          })
-          .sort();
-        const lastItemRef = firstRowEntryRefs[firstRowEntryRefs.length - 1];
+      if (this.$refs[lastItemRef]) {
         (this.$refs[lastItemRef] as HTMLElement).focus();
-      });
+      }
     },
   },
 });
