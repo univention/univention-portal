@@ -95,7 +95,7 @@ build-deb:
       - phoenixportal*.deb
     expire_in: 7 days
   cache: {}
-  image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:latest
+  image: docker-registry.knut.univention.de/phoenix/phoenixportalbuilder:node-14.17
   needs: []
   script:
     - dpkg-buildpackage -uc -us -b
