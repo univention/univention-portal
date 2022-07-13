@@ -24,6 +24,7 @@ Basic.args = {
   type: 'ComplexInput',
   name: 'complexInput',
   label: 'complexInput',
+  direction: 'vertical',
   required: false,
   readonly: false,
   modelValue: ['TextBox', '2022-12-12', '11:20', 'DE'],

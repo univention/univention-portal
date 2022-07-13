@@ -1,5 +1,8 @@
 <template>
-  <div class="complex-input">
+  <div
+    class="complex-input"
+    :class="{'complex-input__vertical' : isVertical}"
+  >
     <form-element
       v-for="(widget, index) in widgets"
       :key="widget.name"
@@ -58,9 +61,9 @@ export default defineComponent({
         };
       },
     },
-    tabindex: {
-      type: Number,
-      default: 0,
+    direction: {
+      type: String,
+      default: 'horizontal',
     },
   },
   emits: ['update:modelValue'],
@@ -91,6 +94,9 @@ export default defineComponent({
 
       return error.join(' \r\n').trim();
     },
+    isVertical(): boolean {
+      return this.direction === 'vertical';
+    },
   },
   methods: {
     onUpdate(widgetName, value, index) {
@@ -101,3 +107,18 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="stylus" scoped>
+.complex-input
+  display: flex
+  flex-direction: column
+
+  &__vertical
+    flex-direction: row
+
+    & > .form-element
+      margin-right: 1rem
+
+      &:last-child
+        margin-right: 0
+</style>
