@@ -31,7 +31,7 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'NewPasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox' | 'MutliChoice' | 'Mailbox' | 'Tree';
+type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'NewPasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox' | 'MutliChoice' | 'Mailbox' | 'Tree' | 'ComplexInput';
 
 interface OptionsDefinition {
   id: string,
@@ -76,6 +76,7 @@ export function isEmpty(widget, value): boolean {
     case 'NumberSpinner':
     case 'TimeBox':
       return value === '';
+    case 'ComplexInput':
     case 'MultiInput':
       return value.every((row) => {
         if (Array.isArray(row)) {
@@ -135,6 +136,7 @@ export function isValid(widget): boolean {
     case 'NumberSpinner':
     case 'TimeBox':
       return widget.invalidMessage === '';
+    case 'ComplexInput':
     case 'MultiInput':
       return widget.invalidMessage.all === '' &&
         widget.invalidMessage.values.every((message) => {
@@ -164,6 +166,7 @@ export function allValid(widgets): boolean {
 }
 
 export function validate(widget, value, widgets, values): void {
+  console.log(widget, value)
   function required(_widget, _value) {
     switch (_widget.type) {
       case 'TextBox':
@@ -171,6 +174,7 @@ export function validate(widget, value, widgets, values): void {
       case 'DateBox':
       case 'ComboBox':
       case 'PasswordBox':
+      case 'ComplexInput':
       case 'MultiInput':
       case 'RadioBox':
       case 'ImageUploader':
@@ -231,6 +235,7 @@ export function validate(widget, value, widgets, values): void {
     case 'NumberSpinner':
       widget.invalidMessage = getFirstInvalidMessage(widget, value);
       break;
+    case 'ComplexInput':
     case 'MultiInput':
       widget.invalidMessage = {
         all: getFirstInvalidMessage(widget, value),
@@ -272,6 +277,7 @@ export function initialValue(widget, value): any {
       return typeof value === 'boolean' ? value : false;
     case 'NumberSpinner':
       return typeof value === 'number' ? value : false;
+    case 'ComplexInput':
     case 'MultiInput':
       if (!Array.isArray(value)) {
         const row = widget.subtypes.map((subtype) => initialValue(subtype, null));
@@ -323,6 +329,7 @@ export function invalidMessage(widget): string | any | Record<string, string> {
     case 'LinkWidget':
     case 'TimeBox':
       return widget.invalidMessage;
+    case 'ComplexInput':
     case 'MultiInput':
       return widget.invalidMessage.all;
     default:
