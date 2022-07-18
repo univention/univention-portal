@@ -101,6 +101,7 @@ import TimeBox from '@/components/widgets/TimeBox.vue';
 import MultiChoice from '@/components/widgets/MultiChoice.vue';
 import MailBox from '@/components/widgets/MailBox.vue';
 import Tree from '@/components/widgets/Tree/Tree.vue';
+import ComplexInput from 'components/widgets/ComplexInput.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -125,6 +126,7 @@ export default defineComponent({
     MultiChoice,
     MailBox,
     Tree,
+    ComplexInput,
   },
   props: {
     widget: {
