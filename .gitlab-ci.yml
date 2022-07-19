@@ -1,12 +1,12 @@
 ---
 
 stages:
-  - master-env
-  - master-deploy
   - build
   - test
   - lint
   - get-demodata
+  - master-env
+  - master-deploy
 
 cache: &global-cache
   key: ${CI_COMMIT_REF_SLUG}
@@ -178,8 +178,8 @@ master-env:
     on_stop: master-stop-env
     auto_stop_in: 4 hours
   extends: .environment-common
-  needs:
-    - build-deb
+  #needs:
+  #  - build-deb
   resource_group: ${CI_COMMIT_REF_SLUG}
   script:
     - *remove-env-instance
