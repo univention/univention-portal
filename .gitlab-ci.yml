@@ -1,12 +1,12 @@
 ---
 
 stages:
-#  - build
-#  - test
-#  - lint
-#  - get-demodata
   - master-env
   - master-deploy
+  - build
+  - test
+  - lint
+  - get-demodata
 
 cache: &global-cache
   key: ${CI_COMMIT_REF_SLUG}
