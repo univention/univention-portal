@@ -107,10 +107,79 @@
         - upx_frontend
         - upx_frontend_install_portal_package
 
+    - name: "Copy Apache Storybook conf"
+      ansible.builtin.copy:
+        src: "univention-storybook.conf"
+        dest: "/etc/apache2/sites-enabled/"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+        - upx_storybook
+
     - name: "Restart Apache"
       ansible.builtin.command:
         cmd: "systemctl reload apache2"
       tags:
         - upx_frontend
         - upx_frontend_install_portal_package
-  
+
+    - name: "Create Storybook Directory"
+      ansible.builtin.state:
+        path: "/storybook"
+        state: "directory"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+        - upx_storybook
+
+
+    - name: "Install Storybook Dev dependencies"
+      ansible.builtin.shell:
+        command: |
+            curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
+            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+            apt-get --assume-yes --verbose-versions --no-install-recommends install nodejs yarn
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+        - upx_storybook
+                    
+
+    - name: "Copy Storybook files"
+      ansible.builtin.copy:
+        src: "storybook/"
+        dest: "/storybook"
+        owner: "www-data"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+        - upx_storybook
+
+    - name: "Copy sytemd unit"
+      ansible.builtin.copy:
+        src: "univention-storybook.service"
+        dest: "/etc/systemd/system"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+        - upx_storybook
+
+    - name: "Enable Storybook"
+      ansible.builtin.systemd:
+        name: "univention-storybook"
+        state: "enabled"
+        daemon_reload: "yes"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+        - upx_storybook
+      
+    - name: "Start Storybook"
+      ansible.builtin.systemd:
+        name: "univention-storybook"
+        state: "started"
+      tags:
+        - upx_frontend
+        - upx_frontend_install_portal_package
+        - upx_storybook

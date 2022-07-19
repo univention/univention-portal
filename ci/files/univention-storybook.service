@@ -1,0 +1,18 @@
+[Unit]
+Description=Storybook Node Server
+After=network.target
+
+[Service]
+WorkingDirectory=/storybook
+
+Type=simple
+User=www-data
+
+ExecStartPre=yarn install
+ExecStart=yarn run storybook
+TimeoutSec=15min
+
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=apache2.service

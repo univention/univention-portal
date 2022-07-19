@@ -1,10 +1,10 @@
 ---
 
 stages:
-  - build
-  - test
-  - lint
-  - get-demodata
+#  - build
+#  - test
+#  - lint
+#  - get-demodata
   - master-env
   - master-deploy
 
@@ -73,6 +73,10 @@ cache: &global-cache
     network_config_static_ip_config: "${MASTER_SERVER_IP}/32"
     EOF
   - cat "${CI_PROJECT_DIR}/ci/inventory/host_vars/${CI_COMMIT_REF_SLUG}/ucs.yml"
+
+  # make code available
+  - cp -r "${CI_PROJECT_DIR}/*" "${CI_PROJECT_DIR}/ci/files/" || /bin/true
+  - cp -r "${CI_PROJECT_DIR}/.storybook" "${CI_PROJECT_DIR}/ci/files/" || /bin/true
 
 build-nodejs:
   artifacts:
