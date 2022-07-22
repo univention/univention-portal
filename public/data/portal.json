@@ -158,7 +158,7 @@
          "en_US": "foo",
          "de_DE": "bar"
        },
-       "linkTarget": "newwindow",
+       "linkTarget": "embedded",
        "links": [
          {"locale": "de_DE", "value": "https://www.univention.de/news/blog-de"},
          {"locale": "en_US", "value": "https://www.univention.com/news/blog-en"}

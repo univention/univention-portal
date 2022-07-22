@@ -5,6 +5,8 @@ import univentionLogo from './../assets/choose-tabs/univention-logo.png';
 import wikipediaLogo from './../assets/choose-tabs/wikipedia-logo.png';
 import storybookLogo from './../assets/choose-tabs/storybook-logo.svg';
 
+// jkeiser: the tab behaviour is broken (the close button is no longer in tabbable) when choosing a tab or closing the selected tab
+// jkeiser: when viewing this component the modal does not disappear for other sites
 
 export default {
   title: 'Components/ChooseTabs',
