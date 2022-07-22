@@ -21,7 +21,7 @@
         class="multi-input__row__elem"
       >
         <form-element
-          :ref="`component-${valIdx}-${typeIdx}`"
+          v-focus-last="`component-${valIdx}-${typeIdx}`"
           :widget="getSubtypeWidget(type, valIdx, typeIdx)"
           :model-value="Array.isArray(val) ? val[typeIdx] : val"
           :data-test="`form-element-${getSubtypeWidget(type, valIdx, typeIdx).type}-${valIdx}`"
@@ -53,9 +53,9 @@
 </template>
 
 <script lang="ts">
-// TODO handling of 'name' attribute
-import { defineComponent, defineAsyncComponent, nextTick } from 'vue';
+import { defineComponent, defineAsyncComponent } from 'vue';
 import _ from '@/jsHelper/translate';
+import focusLast from '@/jsHelper/focusLast.directive';
 
 import IconButton from '@/components/globals/IconButton.vue';
 import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
@@ -69,6 +69,9 @@ import { initialValue } from '@/jsHelper/forms';
 
 export default defineComponent({
   name: 'MultiInput',
+  directives: {
+    focusLast,
+  },
   components: {
     InputErrorMessage,
     FormElement: defineAsyncComponent(() => import('@/components/forms/FormElement.vue')),
@@ -112,17 +115,6 @@ export default defineComponent({
         label: this.extraLabel,
       });
     },
-  },
-  // async mounted() {
-  //   await nextTick();
-  //   await nextTick();
-  //   await nextTick();
-  //   await nextTick();
-  //   await nextTick();
-  //   this.focusLastInputField();
-  // },
-  mounted() {
-    setTimeout(() => this.focusLastInputField(), 0);
   },
   methods: {
     onUpdate(valIdx, typeIdx, val): void {
@@ -191,38 +183,11 @@ export default defineComponent({
         invalidMessage: message ?? '',
       };
     },
-    focus(): void {
-      const firstWidget = this.$refs['component-0-0'];
-      // TODO find first interactable?
-      if (firstWidget) {
-        (firstWidget as HTMLElement).focus();
-      }
-    },
     REMOVE_BUTTON_LABEL(idx): string {
       return _('Remove %(label)s %(idx)s', {
         label: this.extraLabel,
         idx: idx + 1,
       });
-    },
-    focusLastInputField(): void {
-      // MultiInput can have multiple widgets per row.
-      // Focus first widget in last row.
-      const firstRowEntryRefs = Object.keys(this.$refs)
-        .filter((ref) => {
-          // Filter out widgets that are not the first of their row.
-          const column = ref.split('-')[2];
-          try {
-            return parseInt(column, 10) === 0;
-          } catch (e) {
-            return true;
-          }
-        })
-        .sort();
-      const lastItemRef = firstRowEntryRefs[firstRowEntryRefs.length - 1];
-
-      if (this.$refs[lastItemRef]) {
-        (this.$refs[lastItemRef] as HTMLElement).focus();
-      }
     },
   },
 });
