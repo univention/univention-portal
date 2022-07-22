@@ -23,6 +23,7 @@
 <template>
   <div
     class="multi-choice"
+    tabindex="0"
   >
     <select
       :id="forAttrOfLabel"
@@ -34,12 +35,12 @@
       class="multi-choice-select"
     >
       <option
-        v-for="(item, index) in selectedValue"
+        v-for="(item, index) in lists"
         :key="index"
-        :value="item"
-        selected
+        :value="getItemName(item)"
+        :selected="isItemChecked(item)"
       >
-        {{ item }}
+        {{ getItemName(item) }}
       </option>
     </select>
     <div class="multi-choice-checkboxes">
@@ -48,15 +49,25 @@
         :key="index"
         ref="checkboxEls"
         class="multi-choice-checkboxes__checkbox"
+        tabindex="-1"
       >
-        <input
+        <div
           :id="`multi-choice-checkboxes__checkbox--${index}`"
-          :checked="selectedValue.includes(item)"
-          type="checkbox"
-          @click="checkItem(item)"
+          role="checkbox"
+          :aria-checked="isItemChecked(item)"
+          :aria-label="getItemName(item)"
+          :aria-labelledby="`multi-choice-checkboxes__checkbox--${index}-label`"
+          aria-disabled="false"
+          tabindex="-1"
+          @click="onCheck(item)"
+        />
+        <label
+          :id="`multi-choice-checkboxes__checkbox--${index}-label`"
+          :for="`multi-choice-checkboxes__checkbox--${index}`"
+          tabindex="-1"
+          @click="onCheck(item)"
         >
-        <label :for="`multi-choice-checkboxes__checkbox--${index}`">
-          {{ item.label }}
+          {{ getItemName(item) }}
         </label>
       </div>
     </div>
@@ -100,7 +111,8 @@ export default defineComponent({
   emits: ['update:modelValue'],
   data() {
     return {
-      selectedValue: [] as string[],
+      checkByKey: 'id',
+      selectedItems: this.clone(this.modelValue),
     };
   },
   computed: {
@@ -112,14 +124,34 @@ export default defineComponent({
     },
   },
   methods: {
-    checkItem(item: string) {
-      // if the item is already selected, remove it from selectedValue; otherwise push it to modelValue
-      if (this.selectedValue.includes(item)) {
-        this.selectedValue = this.selectedValue.filter((value) => value !== item);
+    clone(data) {
+      return JSON.parse(JSON.stringify(data));
+    },
+    getItemName(item) {
+      return typeof item === 'object' ? item.name : item;
+    },
+    onCheck(item) {
+      // if the item is already selected, remove it from selectedItemsIndex; otherwise push it to modelValue
+      if (this.isItemChecked(item)) {
+        this.selectedItems = this.selectedItems.filter((selectedItem) => {
+          if (typeof selectedItem === 'object') {
+            return item[this.checkByKey] !== selectedItem[this.checkByKey];
+          }
+
+          return selectedItem !== item;
+        });
       } else {
-        this.selectedValue.push(item);
+        this.selectedItems.push(item);
       }
-      this.$emit('update:modelValue', this.selectedValue);
+
+      this.$emit('update:modelValue', this.clone(this.selectedItems));
+    },
+    isItemChecked(item): boolean {
+      if (typeof item === 'object') {
+        return this.selectedItems.some((selectedItem) => selectedItem[this.checkByKey] === item[this.checkByKey]);
+      }
+
+      return this.selectedItems.includes(item);
     },
   },
 });
@@ -127,11 +159,10 @@ export default defineComponent({
 
 <style lang="stylus">
 .multi-choice
-  background-color: var(--bgc-inputfield-on-container);
-  border-radius: var(--border-radius-container);
-  max-height: 10rem
-  min-height: 3rem
-  overflow-y: scroll
+  background-color: var(--bgc-inputfield-on-container)
+  border-radius: var(--border-radius-container)
+  height: calc(5 * var(--inputfield-size))
+  overflow-y: auto
 
   &-select
     width: 0
@@ -141,16 +172,40 @@ export default defineComponent({
   &-checkboxes
     display: flex
     flex-direction: column
-    padding: calc(var(--layout-spacing-unit) / 2) calc(var(--layout-spacing-unit) * 2)
+    padding: calc(var(--layout-spacing-unit) / 2) calc(var(--layout-spacing-unit) * 1.5)
 
     &__checkbox
-      display: flex;
-      margin-bottom: var(--layout-spacing-unit);
-      flex-direction: row;
-      align-items: flex-end;
+      display: flex
+      align-items: center
+      margin-bottom: var(--layout-spacing-unit)
 
-      &::after
-          margin-bottom: 0
       & label
         width: 100%
+
+      & div[id*="multi-choice-checkboxes__checkbox--"]
+        width: var(--font-size-4)
+        height: var(--font-size-4)
+        border: 2px solid
+        border-radius: 2px
+        background-color: transparent
+        transition: background-color 250ms, border-color 250ms
+        margin-right: var(--layout-spacing-unit-small)
+        position: relative
+
+        &[aria-checked=false]
+          border-color: var(--font-color-contrast-low)
+
+        &[aria-checked=true]
+          border-color: var(--color-accent)
+
+          &:after
+            content: "✓"
+            display: block
+            width: 100%
+            height: 100%
+            line-height: 120%
+            font-size: 0.8rem
+            font-weight: bold
+            text-align: center
+            color: var(--color-accent)
 </style>
