@@ -157,7 +157,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .multi-choice
   background-color: var(--bgc-inputfield-on-container)
   border-radius: var(--border-radius-container)
@@ -181,6 +181,7 @@ export default defineComponent({
 
       & label
         width: 100%
+        margin: 0 0.25rem
 
       & div[id*="multi-choice-checkboxes__checkbox--"]
         width: var(--font-size-4)

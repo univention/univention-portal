@@ -19,8 +19,8 @@ const Template: StoryFn<typeof MultiChoice> = (args) => ({
   template: '<div style="width: 500px; padding: 1rem;"><MultiChoice v-bind="args" /></div>',
 });
 
-export const Basic = Template.bind({});
-Basic.args = {
+export const Collection = Template.bind({});
+Collection.args = {
   name: 'MultiChoice',
   label: 'My MultiChoice',
   modelValue: [
@@ -36,4 +36,12 @@ Basic.args = {
     { id: 11, name: 'dupplicate test 11', foo: 'bar yy' },
     { id: 11, name: 'dupplicate test 11', foo: 'bar xx' },
   ],
+};
+
+export const Array = Template.bind({});
+Array.args = {
+  name: 'MultiChoice',
+  label: 'My MultiChoice',
+  modelValue: ['Sun 2-3'],
+  lists: ['Sun 2-3', 'Sun 3-4', 'Sun 4-5', 'Sun 5-6', 'Sun 6-7', 'Sun 7-8', 'Sun 8-9', 'Sun 9-10', 'Sun 10-11'],
 };
