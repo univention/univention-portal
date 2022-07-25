@@ -54,7 +54,7 @@ export const parameters = {
   },
   options: {
     storySort: {
-      // order: ['Introduction', ['Portal', 'Accessibility'], 'Layout', 'Globals', 'Widgets'],
+      order: ['Introduction', ['Portal'], 'Layout', 'Globals', 'Widgets'],
     },
   },
 }
