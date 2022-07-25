@@ -28,12 +28,30 @@ Maybe we can use [Jaws inspect](https://www.tpgi.com/arc-platform/jaws-inspect/)
 
 ## How a user navigates
 
-There are several ways how a screenreader user uses a website:
+Usually developers and designers have to diffenciate between site wide navigation and page wide naviation.
+But the portal doesn't have the typical structure of a webpage, therefore it is ok, if we focus on page navigation
+The user checks the webpage by
 
-## Checking out all headings
+- checking all headings
+- checking all the links
+- looking at the landmarks
+- tabbing though the webpage
 
-## Checking out all links
+**Navigation through headings**
+While NVDA is activated you can jump through headings by pressing the `H`-key. If you want to move backwards you can press `Shift`+ `H`.
+The Screenreader will read you the selected heading. You can also go to the next Heading of the desired Level by pressing the numbers `1` - `6`
+To get a full overview off all headings, press `insert` + `F7`. 
 
-## Checking out all landmarks
+**Navigation through links**
+You can move to the next link by pressing `K`. To change direction press `Shift`+`K`.
+It is also possible to move to the *visited* links only by pressing `V` (`Shift`+`V` to move backwards).
+To move to the next *unvisited* links only press `U` (`Shift`+`U` to move backwards).
+To get a full overview off all links, press `insert` + `F7`. 
 
-## Tabbing
+**Landmarks**
+Landmarks do also provide a way to get an overview of a webpage. A landmark is an important subsection of a page. The `landmark` role is an abstract 
+superclass for the aria role values for sections of content that are important enough that users will likely want to be able to navigate directly 
+to them.
+
+In the current state of the portal the landmarks are not well designed and need improvement. 
+
