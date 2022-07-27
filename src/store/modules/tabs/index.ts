@@ -49,7 +49,6 @@ const tabs: PortalModule<TabState> = {
       state.activeTabIndex = index;
     },
     ADD_TAB(state:TabState, tab: Tab): void {
-      console.log('TAB', tab);
       let index = -1;
       if (tab.target) {
         index = state.tabs.findIndex((stateTab) => stateTab.target === tab.target);
