@@ -167,7 +167,8 @@
     - name: "Enable Storybook"
       ansible.builtin.systemd:
         name: "univention-storybook"
-        state: "enabled"
+        state: "started"
+        enabled: true
         daemon_reload: "yes"
       tags:
         - upx_frontend
