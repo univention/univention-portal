@@ -203,7 +203,7 @@ master-deploy:
   script:
     - export PACKAGE_NAME="$(set -- *.deb; echo "$1")"
     - mkdir -p ci/files/storybook/
-    - cp -r * ci/files/storybook/
+    - cp -r yarn.lock vue.config.js tsconfig.json sync stories/ package.json process_vue_files.sh public/ src/ ci/files/storybook/
     - rm -rf ${CI_BUILDS_DIR}/demodata
     - git -c http.sslVerify=false clone --single-branch --branch main --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.knut.univention.de/univention/customers/dataport/upx/portal/ci-demodata ${CI_BUILDS_DIR}/demodata
     - cd ${CI_PROJECT_DIR}/ci/
