@@ -124,7 +124,7 @@
         - upx_frontend_install_portal_package
 
     - name: "Create Storybook Directory"
-      ansible.builtin.state:
+      ansible.builtin.file:
         path: "/storybook"
         state: "directory"
       tags:
@@ -144,7 +144,7 @@
         - upx_frontend
         - upx_frontend_install_portal_package
         - upx_storybook
-                    
+
 
     - name: "Copy Storybook files"
       ansible.builtin.copy:
@@ -174,7 +174,7 @@
         - upx_frontend
         - upx_frontend_install_portal_package
         - upx_storybook
-      
+
     - name: "Start Storybook"
       ansible.builtin.systemd:
         name: "univention-storybook"
