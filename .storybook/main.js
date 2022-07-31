@@ -20,7 +20,7 @@ module.exports = {
       options: {
         vueDocgenOptions: {
           alias: {
-            '@': path.resolve(__dirname, '../'),
+            '@': path.resolve(__dirname, '../src'),
           },
         },
       },
