@@ -33,6 +33,7 @@ const darkColor = '#333333';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
+  layout: 'centered',
   controls: {
     matchers: {
       color: /(background|color)$/i,
@@ -63,6 +64,7 @@ export const parameters = {
 // look https://github.com/storybookjs/storybook/discussions/17652
 import addons from "@storybook/addons";
 import { GLOBALS_UPDATED } from "@storybook/core-events";
+import { useArgs } from '@storybook/client-api';
 
 function changeCSS(themeColor) {
   const themeCss = document.createElement('link');
@@ -97,3 +99,8 @@ import '!style-loader!css-loader!stylus-loader!../src/assets/styles/style.styl';
 // set default theme
 changeCSS(lightColor);
 
+// set default container && add updateArgs to StoryContext
+export const decorators = [(story, context) => {
+  const [_, updateArgs] = useArgs();
+  return story({...context, updateArgs})
+}, () => ({template: '<story class="story-container" />'})];
