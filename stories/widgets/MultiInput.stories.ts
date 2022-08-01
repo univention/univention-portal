@@ -39,7 +39,7 @@ const Template: StoryFn<typeof MyForm> = (args, { updateArgs }) => ({
 export const Basic = Template.bind({});
 Basic.args = {
   formValues: {
-    multiInput: [],
+    multiInput: [''],
   },
   formWidgets: [
     {
