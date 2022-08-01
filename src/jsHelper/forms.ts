@@ -31,7 +31,7 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'NewPasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox' | 'MutliChoice';
+type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'NewPasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox' | 'MutliChoice' | 'Mailbox';
 
 interface OptionsDefinition {
   id: string,

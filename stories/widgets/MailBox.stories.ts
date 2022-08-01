@@ -24,7 +24,7 @@ Basic.args = {
   name: 'MailBox',
   label: 'My MailBox',
   modelValue: '',
-  mailDomainList: [
+  domainList: [
     'google.com', 'example.de',
   ],
 };
