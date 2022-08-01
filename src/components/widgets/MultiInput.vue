@@ -21,7 +21,9 @@
         class="multi-input__row__elem"
       >
         <form-element
-          v-focus-last="`component-${valIdx}-${typeIdx}`"
+          :ref="`component-${valIdx}-${typeIdx}`"
+          v-focus-last="{name: `component-${valIdx}-${typeIdx}`, 'focusNow': focusNow}"
+          :name="`component-${valIdx}-${typeIdx}`"
           :widget="getSubtypeWidget(type, valIdx, typeIdx)"
           :model-value="Array.isArray(val) ? val[typeIdx] : val"
           :data-test="`form-element-${getSubtypeWidget(type, valIdx, typeIdx).type}-${valIdx}`"
@@ -109,6 +111,9 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  data: () => ({
+    focusNow: false,
+  }),
   computed: {
     addButtonLabel(): string {
       return _('Add new %(label)s', {
@@ -134,6 +139,8 @@ export default defineComponent({
         label: this.extraLabel,
         idx: newVal.length,
       }));
+
+      this.focusNow = !this.focusNow;
     },
     newRow(): any {
       return initialValue({
@@ -152,6 +159,8 @@ export default defineComponent({
         label: this.extraLabel,
         idx: valIdx + 1,
       }));
+
+      this.focusNow = !this.focusNow;
     },
     rowInvalidMessage(valIdx): string {
       // show invalidMessage for row only if we have multiple subtypes
@@ -182,6 +191,13 @@ export default defineComponent({
         ariaLabel: labelScreenReader,
         invalidMessage: message ?? '',
       };
+    },
+    focus(): void {
+      const firstWidget = this.$refs['component-0-0'];
+      // TODO find first interactable?
+      if (firstWidget) {
+        (firstWidget as HTMLElement).focus();
+      }
     },
     REMOVE_BUTTON_LABEL(idx): string {
       return _('Remove %(label)s %(idx)s', {

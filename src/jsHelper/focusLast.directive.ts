@@ -1,5 +1,6 @@
 // place to store the refs
 const refs = {};
+let focusNow;
 
 function focusLastInputField(): void {
   // MultiInput can have multiple widgets per row.
@@ -22,16 +23,25 @@ function focusLastInputField(): void {
 }
 
 export default {
-  mounted(el, { value }) {
-    if (value) {
-      refs[value] = el;
+  mounted(el, binding) {
+    if (binding.value.name) {
+      refs[binding.value.name] = el;
     }
-    focusLastInputField();
+
+    if (focusNow) {
+      focusLastInputField();
+    }
   },
   unmounted(el, { value }) {
-    if (value) {
-      refs[value] = undefined;
-      delete refs[value];
+    if (value.name) {
+      console.log('Deleted', value.name);
+      refs[value.name] = undefined;
+      delete refs[value.name];
+    }
+  },
+  updated(el, binding, vnode) {
+    if (binding.value.focusNow !== binding.oldValue.focusNow) {
+      focusNow = true;
     }
   },
 };
