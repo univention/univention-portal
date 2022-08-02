@@ -99,6 +99,7 @@ import NumberSpinner from '@/components/widgets/NumberSpinner.vue';
 import TimeBox from '@/components/widgets/TimeBox.vue';
 import MultiChoice from '@/components/widgets/MultiChoice.vue';
 import MailBox from '@/components/widgets/MailBox.vue';
+import Tree from '@/components/widgets/Tree.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -122,6 +123,7 @@ export default defineComponent({
     TimeBox,
     MultiChoice,
     MailBox,
+    Tree,
   },
   props: {
     widget: {
