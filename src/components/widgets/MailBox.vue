@@ -2,6 +2,7 @@
   <div
     ref="mailbox"
     class="mailbox"
+    tabindex="0"
     @focusout="toggleDomainList(false)"
   >
     <input
@@ -17,7 +18,6 @@
       :aria-invalid="invalid"
       :aria-describedby="invalidMessageId || undefined"
       data-test="mail-box"
-      autocomplete="off"
       @keydown.enter.prevent="selectDomainOption(activeDomainIndex)"
       @keydown.esc.prevent="toggleDomainList(false)"
       @keydown.arrow-up.prevent="movingDomainOption('up')"
@@ -131,7 +131,7 @@ export default defineComponent({
     },
     mailPrefix(): string {
       if (this.mailValue.includes('@')) return this.mailValue.split('@')[0];
-      return '';
+      return this.mailValue;
     },
     mailDomain(): string {
       if (this.mailValue.includes('@')) return this.mailValue.split('@')[1];
@@ -188,6 +188,10 @@ export default defineComponent({
       return text;
     },
     movingDomainOption(direction: 'up' | 'down') {
+      if (!this.isDomainListOpen) {
+        this.toggleDomainList(true);
+        return;
+      }
       if (direction === 'up') {
         this.activeDomainIndex -= 1;
         if (this.activeDomainIndex < 0) {
