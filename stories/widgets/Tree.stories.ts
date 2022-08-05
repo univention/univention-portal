@@ -1,12 +1,38 @@
-import { ref } from 'vue';
-import MyForm from '../../src/components/forms/Form.vue';
+import { Meta, StoryFn } from '@storybook/vue3';
+
+import { reactive } from 'vue';
+import Tree from '../../src/components/widgets/Tree.vue';
 
 export default {
   title: 'Widgets/Tree',
-  component: MyForm,
+  component: Tree,
+} as Meta<typeof Tree>;
+
+interface Node {
+  id: string;
+  label: string;
+  icon: string;
+  path: string;
+  objectType: string;
+  $operations$: string[];
+  $flags$: string[];
+  $childs$: boolean;
+  $isSuperordinate$: boolean;
+}
+
+const rootNode: Node = {
+  id: 'dc=demo,dc=univention,dc=de',
+  label: 'demo.univention.de:/',
+  icon: 'udm-container-dc',
+  path: 'demo.univention.de:/',
+  objectType: 'container/dc',
+  $operations$: ['search', 'edit'],
+  $flags$: [],
+  $childs$: true,
+  $isSuperordinate$: false,
 };
 
-const tree = [
+const treeNodes: Node[] = [
   {
     id: 'cn=univention,dc=demo,dc=univention,dc=de',
     label: 'univention',
@@ -17,28 +43,6 @@ const tree = [
     $flags$: [],
     $childs$: true,
     $isSuperordinate$: true,
-  },
-  {
-    id: 'cn=dns,dc=demo,dc=univention,dc=de',
-    label: 'dns',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/dns',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
-    id: 'cn=dhcp,dc=demo,dc=univention,dc=de',
-    label: 'dhcp',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/dhcp',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
   },
   {
     id: 'cn=mail,dc=demo,dc=univention,dc=de',
@@ -52,87 +56,10 @@ const tree = [
     $isSuperordinate$: false,
   },
   {
-    id: 'cn=samba,dc=demo,dc=univention,dc=de',
-    label: 'samba',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/samba',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
-    id: 'cn=users,dc=demo,dc=univention,dc=de',
-    label: 'users',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/users',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
-    id: 'cn=groups,dc=demo,dc=univention,dc=de',
-    label: 'groups',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/groups',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
-    id: 'cn=nagios,dc=demo,dc=univention,dc=de',
-    label: 'nagios',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/nagios',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
-    id: 'cn=shares,dc=demo,dc=univention,dc=de',
-    label: 'shares',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/shares',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
     id: 'cn=kerberos,dc=demo,dc=univention,dc=de',
     label: 'kerberos',
     icon: 'udm-container-cn',
     path: 'demo.univention.de:/kerberos',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
-    id: 'cn=networks,dc=demo,dc=univention,dc=de',
-    label: 'networks',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/networks',
-    objectType: 'container/cn',
-    $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
-    $flags$: [],
-    $childs$: true,
-    $isSuperordinate$: false,
-  },
-  {
-    id: 'cn=policies,dc=demo,dc=univention,dc=de',
-    label: 'policies',
-    icon: 'udm-container-cn',
-    path: 'demo.univention.de:/policies',
     objectType: 'container/cn',
     $operations$: ['add', 'edit', 'remove', 'search', 'move', 'subtree_move'],
     $flags$: [],
@@ -163,7 +90,7 @@ const tree = [
   },
 ];
 
-const computerNodes = [{
+const computerNodes: Node[] = [{
   id: 'cn=dc,cn=computers,dc=demo,dc=univention,dc=de',
   label: 'dc',
   icon: 'udm-container-cn',
@@ -200,7 +127,7 @@ const computerNodes = [{
   $isSuperordinate$: false,
 }];
 
-const mailNodes = [{
+const mailNodes: Node[] = [{
   id: 'cn=domain,cn=mail,dc=demo,dc=univention,dc=de',
   label: 'domain',
   icon: 'udm-container-cn',
@@ -255,22 +182,22 @@ const mailNodes = [{
   $isSuperordinate$: false,
 }];
 
-const Template = (args) => ({
-  components: { MyForm },
+const Template: StoryFn<typeof Tree> = (args) => ({
+  components: { Tree },
   setup() {
-    const widgets = ref(args.widgets);
+    const data = reactive(args);
 
     // mock fetch data from server
-    async function fetchNodeChildren(nodeId) {
+    async function fetchNodeChildren(node: Node): Promise<Node[]> {
       const randomTimeResponse = Math.floor(Math.random() * 1000) + 500;
       return new Promise((resolve) => {
         setTimeout(() => {
-          if (nodeId === 'cn=computers,dc=demo,dc=univention,dc=de') {
+          if (node.id === 'cn=computers,dc=demo,dc=univention,dc=de') {
             resolve(computerNodes);
-          } else if (nodeId === 'cn=mail,dc=demo,dc=univention,dc=de') {
+          } else if (node.id === 'cn=mail,dc=demo,dc=univention,dc=de') {
             resolve(mailNodes);
-          } else if (nodeId === 'dc=demo,dc=univention,dc=de') {
-            resolve(tree);
+          } else if (node.id === 'dc=demo,dc=univention,dc=de') {
+            resolve(treeNodes);
           } else {
             resolve([]);
           }
@@ -278,48 +205,73 @@ const Template = (args) => ({
       });
     }
 
-    async function onExpand(nodeId) {
-      widgets.value[0].isLoading = true;
-      const children = await fetchNodeChildren(nodeId);
-      widgets.value[0].lists = [...widgets.value[0].lists, ...children];
-      widgets.value[0].isLoading = false;
+    async function onExpand(expandedNode: Node) {
+      data.isLoading = true;
+      const children = await fetchNodeChildren(expandedNode);
+      data.lists = [...data.lists, ...children];
+      if (children.length === 0) {
+        expandedNode.$childs$ = false;
+      }
+      data.isLoading = false;
     }
 
-    async function onCollapse(nodeId, childrenIds) {
+    async function onCollapse(collapsedNode: Node) {
       // remove children from tree
-      widgets.value[0].lists = widgets.value[0].lists.filter((node) => !childrenIds.includes(node.id));
+      data.lists = data.lists.filter((node: Node) => {
+        if (node.id === collapsedNode.id || !node.id.includes(collapsedNode.id)) return true;
+        return false;
+      });
     }
-    widgets.value[0].onExpand = onExpand;
-    widgets.value[0].onCollapse = onCollapse;
-    return { args, widgets };
+
+    async function onRemove(deletedNode: Node) {
+      // remove node & children of deleted node from tree
+      data.lists = data.lists.filter((node: Node) => !node.id.includes(deletedNode.id));
+    }
+
+    async function onReload(refreshedNode: Node) {
+      await onCollapse(refreshedNode);
+      await onExpand(refreshedNode);
+    }
+
+    data.onExpand = onExpand;
+    data.onCollapse = onCollapse;
+    data.onRemove = onRemove;
+    data.onReload = onReload;
+    return { data };
   },
-  template: '<my-form v-model="args.modelValue" :widgets="widgets"></my-form>',
+  template: '<div><tree v-bind="data"></tree></div>',
 });
 
-export const Default: any = Template.bind({});
+export const Default = Template.bind({});
 Default.args = {
-  modelValue: { tree: '' },
-  widgets: [
-    {
-      type: 'Tree',
-      name: 'tree',
-      label: 'Tree',
-      lists: [
-        {
-          id: 'dc=demo,dc=univention,dc=de',
-          label: 'demo.univention.de:/',
-          icon: 'udm-container-dc',
-          path: 'demo.univention.de:/',
-          objectType: 'container/dc',
-          $operations$: ['search', 'edit'],
-          $flags$: [],
-          $childs$: true,
-          $isSuperordinate$: false,
-        },
-      ],
-      isLoading: false,
-      onExpand: () => ({}),
-      onCollapse: () => ({}),
-    },
-  ],
+  name: 'tree',
+  lists: [rootNode],
+  isLoading: false,
+  onExpand: (node: Node) => {
+    console.log('onExpand', node);
+  },
+  onCollapse: (node: Node) => {
+    console.log('onCollapse', node);
+  },
+  onEdit: (node: Node) => {
+    console.log('onEdit', node);
+  },
+  onRemove: (node: Node) => {
+    console.log('onRemove', node);
+  },
+  onMove: (node: Node) => {
+    console.log('onMove', node);
+  },
+  onSearch: (node: Node) => {
+    console.log('onSearch', node);
+  },
+  onAdd: (node: Node) => {
+    console.log('onAdd', node);
+  },
+  onSubtreeMove: (node: Node) => {
+    console.log('onSubtreeMove', node);
+  },
+  onReload: (node: Node) => {
+    console.log('onReload', node);
+  },
 };
