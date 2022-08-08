@@ -7,7 +7,7 @@
       role="menu"
     >
       <div
-        v-for="(contextMenuOption, index) in contextMenuOptions"
+        v-for="(contextMenuOption, index) in getContextMenuFromOperation()"
         :key="index"
         class="context-menu-item"
         role="menuitem"
@@ -31,19 +31,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import type { ContextMenuOperation } from './types';
+import type { ContextMenuOption, Operation } from './types';
 import Node from './node';
-
-interface ContextMenuOption {
-  label: string;
-  icon: string;
-  operation: ContextMenuOperation;
-}
-
-interface Data {
-  isContextMenuOpen: boolean;
-  contextMenuOptions: ContextMenuOption[];
-}
 
 export default defineComponent({
   components: {
@@ -51,23 +40,23 @@ export default defineComponent({
   },
   props: {
     selectedNode: {
-      type: Object as PropType<Node | null>,
-      default: null,
+      type: Object as PropType<Node>,
+      required: true,
+    },
+    contextMenuOptions: {
+      type: Array as PropType<ContextMenuOption[]>,
+      default: () => [],
+      required: true,
     },
   },
   emits: ['onContextMenuOption'],
-  data(): Data {
+  data() {
     return {
       isContextMenuOpen: false,
-      contextMenuOptions: [
-        { icon: 'edit', label: 'Edit', operation: 'edit' },
-        { icon: 'trash', label: 'Delete', operation: 'remove' },
-        { icon: '', label: 'Move to...', operation: 'move' },
-        { icon: 'refresh-cw', label: 'Reload', operation: 'reload' },
-      ],
     };
   },
   mounted() {
+    console.log('WTF', this);
     this.setUpContextMenu();
     document.addEventListener('click', this.detectOutsideClickContextMenu);
   },
@@ -101,36 +90,32 @@ export default defineComponent({
     },
     isOptionDisabled(contextMenuOption: ContextMenuOption): boolean {
       const selectedNode = this.selectedNode;
-      if (!selectedNode) return true;
+      if (!selectedNode) {
+        return true;
+      }
       // always allow reload option
-      if (contextMenuOption.operation === 'reload') return false;
+      if (contextMenuOption.operation === 'reload') {
+        return false;
+      }
 
       const availableOperations = selectedNode.data.$operations$;
       // disable the option if the operation of the selected node doesn't have the operation of the context menu option
-      if (!availableOperations.includes(contextMenuOption.operation)) return true;
+      if (!availableOperations.includes(contextMenuOption.operation)) {
+        return true;
+      }
+
       return false;
+    },
+    getContextMenuFromOperation(): ContextMenuOption[] {
+      const operation: Operation[] = this.selectedNode && this.selectedNode.data.$operations$;
+      return this.contextMenuOptions.filter((option) => operation && operation.includes(option.operation));
     },
     onContextMenuOptionClick(contextMenuOption: ContextMenuOption) {
       const selectedNode = this.selectedNode;
       if (!selectedNode) return;
       if (this.isOptionDisabled(contextMenuOption)) return;
       this.isContextMenuOpen = false;
-      const operationMethod = this.getOperationMethod(contextMenuOption.operation);
-      if (contextMenuOption.operation === 'reload') {
-        this.$emit('onContextMenuOption', operationMethod);
-        return;
-      }
-      this.$emit('onContextMenuOption', operationMethod);
-    },
-    getOperationMethod(operation: ContextMenuOperation): string {
-      // this method is used to get the method name of the operation
-      // example: 'edit' -> 'onEdit'
-      let method: string = operation;
-      // uppercase first letter of operation
-      method = method.charAt(0).toUpperCase() + method.slice(1);
-      // add 'on' prefix
-      method = `on${method}`;
-      return method;
+      this.$emit('onContextMenuOption', contextMenuOption.operation);
     },
   },
 });

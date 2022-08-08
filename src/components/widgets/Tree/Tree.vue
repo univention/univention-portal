@@ -42,6 +42,7 @@
     <ContextMenu
       v-if="!isContextMenuDisabled"
       :selected-node="contextMenuSelectedNode"
+      :context-menu-options="contextMenuOptions"
       @on-context-menu-option="onContextMenuOption"
     />
   </div>
@@ -54,7 +55,7 @@ import PortalIcon from '@/components/globals/PortalIcon.vue';
 import StandbyCircle from '@/components/StandbyCircle.vue';
 import ContextMenu from './ContextMenu.vue';
 import Node from './node';
-import type { NodeProps } from './types';
+import type { NodeProps, OperationProps, ContextMenuOption } from './types';
 
 interface Data {
   nodes: Node[];
@@ -94,33 +95,12 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: false,
     },
-    onAdd: {
-      type: Function as PropType<(node: NodeProps) => void>,
-      required: true,
+    on: {
+      type: Object as PropType<OperationProps>,
     },
-    onEdit: {
-      type: Function as PropType<(node: NodeProps) => void>,
-      required: true,
-    },
-    onRemove: {
-      type: Function as PropType<(node: NodeProps) => void>,
-      required: true,
-    },
-    onSearch: {
-      type: Function as PropType<(node: NodeProps) => void>,
-      required: true,
-    },
-    onMove: {
-      type: Function as PropType<(node: NodeProps) => void>,
-      required: true,
-    },
-    onSubtreeMove: {
-      type: Function as PropType<(node: NodeProps) => void>,
-      required: true,
-    },
-    onReload: {
-      type: Function as PropType<(node: NodeProps) => void>,
-      required: true,
+    contextMenuOptions: {
+      type: Array as PropType<ContextMenuOption[]>,
+      default: () => [],
     },
   },
   data(): Data {
@@ -225,8 +205,11 @@ export default defineComponent({
     },
     onContextMenuOption(operationMethod: string) {
       const selectedNode = this.contextMenuSelectedNode;
-      if (!selectedNode) return;
-      this[operationMethod](selectedNode.data);
+      if (!selectedNode || !this.on || !this.on[operationMethod] ) {
+        return;
+      }
+
+      this.on[operationMethod](selectedNode.data);
     },
   },
 });

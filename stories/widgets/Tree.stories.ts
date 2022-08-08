@@ -248,25 +248,30 @@ Default.args = {
   },
 
   // all operation methods:
-  onEdit: (node: NodeProps) => {
-    console.log('onEdit', node);
+  on: {
+    edit: (node: NodeProps) => {
+      console.log('onEdit', node);
+    },
+    remove: (node: NodeProps) => {
+      console.log('onRemove', node);
+    },
+    move: (node: NodeProps) => {
+      console.log('onMove', node);
+    },
+    search: (node: NodeProps) => {
+      console.log('onSearch', node);
+    },
+    add: (node: NodeProps) => {
+      console.log('onAdd', node);
+    },
+    reload: (node: NodeProps) => {
+      console.log('onReload', node);
+    },
   },
-  onRemove: (node: NodeProps) => {
-    console.log('onRemove', node);
-  },
-  onMove: (node: NodeProps) => {
-    console.log('onMove', node);
-  },
-  onSearch: (node: NodeProps) => {
-    console.log('onSearch', node);
-  },
-  onAdd: (node: NodeProps) => {
-    console.log('onAdd', node);
-  },
-  onSubtreeMove: (node: NodeProps) => {
-    console.log('onSubtreeMove', node);
-  },
-  onReload: (node: NodeProps) => {
-    console.log('onReload', node);
-  },
+  contextMenuOptions: [
+    { icon: 'edit', label: 'Edit', operation: 'edit' },
+    { icon: 'trash', label: 'Delete', operation: 'remove' },
+    { icon: '', label: 'Move to...', operation: 'move' },
+    { icon: 'refresh-cw', label: 'Reload', operation: 'reload' },
+  ],
 };

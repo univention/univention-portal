@@ -1,6 +1,4 @@
-export type Operation = 'add' | 'edit' | 'remove' | 'search' | 'move' | 'subtree_move';
-
-export type ContextMenuOperation = Operation | 'reload'
+export type Operation = 'add' | 'edit' | 'remove' | 'search' | 'move' | 'subtree_move' | 'reload' | null;
 
 export interface NodeProps {
   id: string;
@@ -19,4 +17,14 @@ export interface Data {
   contextMenuOptions: {icon: string, label: string}[];
   isContextMenuOpen: boolean;
   contextMenuSelectedNode: Node | null;
+}
+
+export interface OperationProps {
+  [operation: string]: (node: NodeProps) => void;
+}
+
+export interface ContextMenuOption {
+  label: string;
+  icon: string;
+  operation: Operation;
 }
