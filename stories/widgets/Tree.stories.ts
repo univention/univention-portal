@@ -1,26 +1,15 @@
 import { Meta, StoryFn } from '@storybook/vue3';
 
 import { reactive } from 'vue';
-import Tree from '../../src/components/widgets/Tree.vue';
+import { NodeProps } from '../../src/components/widgets/Tree/types';
+import Tree from '../../src/components/widgets/Tree/Tree.vue';
 
 export default {
   title: 'Widgets/Tree',
   component: Tree,
 } as Meta<typeof Tree>;
 
-interface Node {
-  id: string;
-  label: string;
-  icon: string;
-  path: string;
-  objectType: string;
-  $operations$: string[];
-  $flags$: string[];
-  $childs$: boolean;
-  $isSuperordinate$: boolean;
-}
-
-const rootNode: Node = {
+const rootNode: NodeProps = {
   id: 'dc=demo,dc=univention,dc=de',
   label: 'demo.univention.de:/',
   icon: 'udm-container-dc',
@@ -32,7 +21,7 @@ const rootNode: Node = {
   $isSuperordinate$: false,
 };
 
-const treeNodes: Node[] = [
+const treeNodes: NodeProps[] = [
   {
     id: 'cn=univention,dc=demo,dc=univention,dc=de',
     label: 'univention',
@@ -90,7 +79,7 @@ const treeNodes: Node[] = [
   },
 ];
 
-const computerNodes: Node[] = [{
+const computerNodes: NodeProps[] = [{
   id: 'cn=dc,cn=computers,dc=demo,dc=univention,dc=de',
   label: 'dc',
   icon: 'udm-container-cn',
@@ -127,7 +116,7 @@ const computerNodes: Node[] = [{
   $isSuperordinate$: false,
 }];
 
-const mailNodes: Node[] = [{
+const mailNodes: NodeProps[] = [{
   id: 'cn=domain,cn=mail,dc=demo,dc=univention,dc=de',
   label: 'domain',
   icon: 'udm-container-cn',
@@ -188,7 +177,7 @@ const Template: StoryFn<typeof Tree> = (args) => ({
     const data = reactive(args);
 
     // mock fetch data from server
-    async function fetchNodeChildren(node: Node): Promise<Node[]> {
+    async function fetchNodeChildren(node: NodeProps): Promise<NodeProps[]> {
       const randomTimeResponse = Math.floor(Math.random() * 1000) + 500;
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -205,7 +194,7 @@ const Template: StoryFn<typeof Tree> = (args) => ({
       });
     }
 
-    async function onExpand(expandedNode: Node) {
+    async function onExpand(expandedNode: NodeProps) {
       data.isLoading = true;
       const children = await fetchNodeChildren(expandedNode);
       data.lists = [...data.lists, ...children];
@@ -215,22 +204,22 @@ const Template: StoryFn<typeof Tree> = (args) => ({
       data.isLoading = false;
     }
 
-    async function onCollapse(collapsedNode: Node) {
+    async function onCollapse(collapsedNode: NodeProps) {
       // remove children from tree
-      data.lists = data.lists.filter((node: Node) => {
+      data.lists = data.lists.filter((node: NodeProps) => {
         if (node.id === collapsedNode.id || !node.id.includes(collapsedNode.id)) return true;
         return false;
       });
     }
 
-    async function onRemove(deletedNode: Node) {
+    async function onRemove(deletedNode: NodeProps) {
       // remove node & children of deleted node from tree
-      data.lists = data.lists.filter((node: Node) => !node.id.includes(deletedNode.id));
+      data.lists = data.lists.filter((node: NodeProps) => !node.id.includes(deletedNode.id));
     }
 
-    async function onReload(refreshedNode: Node) {
-      await onCollapse(refreshedNode);
-      await onExpand(refreshedNode);
+    async function onReload() {
+      await onCollapse(rootNode);
+      await onExpand(rootNode);
     }
 
     data.onExpand = onExpand;
@@ -247,31 +236,37 @@ Default.args = {
   name: 'tree',
   lists: [rootNode],
   isLoading: false,
-  onExpand: (node: Node) => {
+  isContextMenuDisabled: false,
+  onExpand: (node: NodeProps) => {
     console.log('onExpand', node);
   },
-  onCollapse: (node: Node) => {
+  onCollapse: (node: NodeProps) => {
     console.log('onCollapse', node);
   },
-  onEdit: (node: Node) => {
+  onSelect: (node: NodeProps) => {
+    console.log('onSelect', node);
+  },
+
+  // all operation methods:
+  onEdit: (node: NodeProps) => {
     console.log('onEdit', node);
   },
-  onRemove: (node: Node) => {
+  onRemove: (node: NodeProps) => {
     console.log('onRemove', node);
   },
-  onMove: (node: Node) => {
+  onMove: (node: NodeProps) => {
     console.log('onMove', node);
   },
-  onSearch: (node: Node) => {
+  onSearch: (node: NodeProps) => {
     console.log('onSearch', node);
   },
-  onAdd: (node: Node) => {
+  onAdd: (node: NodeProps) => {
     console.log('onAdd', node);
   },
-  onSubtreeMove: (node: Node) => {
+  onSubtreeMove: (node: NodeProps) => {
     console.log('onSubtreeMove', node);
   },
-  onReload: (node: Node) => {
+  onReload: (node: NodeProps) => {
     console.log('onReload', node);
   },
 };

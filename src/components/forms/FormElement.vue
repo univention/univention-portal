@@ -80,6 +80,7 @@ import { defineComponent, PropType } from 'vue';
 import FormLabel from '@/components/forms/FormLabel.vue';
 import InputErrorMessage from '@/components/forms/InputErrorMessage.vue';
 import { isValid, invalidMessage, WidgetDefinition } from '@/jsHelper/forms';
+import cloneDeep from 'lodash/cloneDeep';
 
 // TODO load components on demand (?)
 import ComboBox from '@/components/widgets/ComboBox.vue';
@@ -99,7 +100,7 @@ import NumberSpinner from '@/components/widgets/NumberSpinner.vue';
 import TimeBox from '@/components/widgets/TimeBox.vue';
 import MultiChoice from '@/components/widgets/MultiChoice.vue';
 import MailBox from '@/components/widgets/MailBox.vue';
-import Tree from '@/components/widgets/Tree.vue';
+import Tree from '@/components/widgets/Tree/Tree.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -142,7 +143,7 @@ export default defineComponent({
   },
   computed: {
     component(): any {
-      const component = JSON.parse(JSON.stringify(this.widget));
+      const component = cloneDeep(this.widget);
       delete component.type;
       delete component.label;
       delete component.ariaLabel;
