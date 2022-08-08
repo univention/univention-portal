@@ -24,9 +24,10 @@ class Node {
     const nodePath = this.data.path.split('/');
     // check the root node (all nodes always have at least two elements)
     // but the in the second element of the root node is always empty
-    if (nodePath.length > 1) {
-      if (nodePath[1] === '') return level;
+    if (nodePath.length > 1 && nodePath[1] === '') {
+      return level;
     }
+
     level = nodePath.length;
     return level;
   }
