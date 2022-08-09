@@ -25,15 +25,15 @@ const Template: StoryFn<typeof MyForm> = (args, { updateArgs }) => ({
   },
   template: `
     <div>
-      <MyForm :modelValue="formValues" @update:modelValue="handleUpdate" :widgets="formWidgets" />
-      <button @click="validate" style="margin: 1rem"></button>
+      <MyForm v-model="formValues" :widgets="formWidgets" />
+      <button @click="validate" style="margin: 1rem 0">validate</button>
     </div>`,
   methods: {
-    handleUpdate(newValue) {
-      setTimeout(() => {
-        updateArgs({ ...args, ...{ formValues: newValue } });
-      }, 1000);
-    },
+    // handleUpdate(newValue) {
+    //   setTimeout(() => {
+    //     updateArgs({ ...args, ...{ formValues: newValue } });
+    //   }, 1000);
+    // },
     validate() {
       validateAll(this.formWidgets, this.formValues);
     },
