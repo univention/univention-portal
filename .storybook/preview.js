@@ -33,6 +33,7 @@ const darkColor = '#333333';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
+  layout: 'centered',
   controls: {
     matchers: {
       color: /(background|color)$/i,

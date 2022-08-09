@@ -166,7 +166,6 @@ export function allValid(widgets): boolean {
 }
 
 export function validate(widget, value, widgets, values): void {
-  console.log(widget, value)
   function required(_widget, _value) {
     switch (_widget.type) {
       case 'TextBox':
