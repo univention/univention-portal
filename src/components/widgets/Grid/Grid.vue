@@ -76,7 +76,13 @@ export default defineComponent({
     }));
   },
   methods: {
-    onItemSelected(item: GridItem) {
+    onItemSelected(item: GridItem, deselectAll = true) {
+      // deselect all other items if user clicks on other parts of the row (name, value) but not the checkbox
+      if (deselectAll) {
+        this.gridItems.forEach((gridItem) => {
+          gridItem.selected = false;
+        });
+      }
       item.selected = !item.selected;
     },
     onTableHeaderCheckboxUpdate(selected: HeaderCheckboxState) {
