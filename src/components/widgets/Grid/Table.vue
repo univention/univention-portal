@@ -20,17 +20,25 @@
         v-for="item in items"
         :key="item.name"
         class="grid-table-body-row"
-        @click="onItemSelected(item)"
       >
-        <div class="grid-table-body-row-checkbox">
+        <div
+          class="grid-table-body-row-checkbox"
+          @click="onItemSelected(item, false)"
+        >
           <GridCheckbox
             :checked="item.selected"
           />
         </div>
-        <div class="grid-table-body-row-name">
+        <div
+          class="grid-table-body-row-name"
+          @click="onItemSelected(item)"
+        >
           {{ item.name }}
         </div>
-        <div class="grid-table-body-row-value">
+        <div
+          class="grid-table-body-row-value"
+          @click="onItemSelected(item)"
+        >
           {{ item.path }}
         </div>
       </div>
@@ -62,7 +70,7 @@ export default defineComponent({
       required: true,
     },
     onItemSelected: {
-      type: Function as PropType<(item: GridItem) => void>,
+      type: Function as PropType<(item: GridItem, deselectAll?: boolean) => void>,
       required: true,
     },
   },
