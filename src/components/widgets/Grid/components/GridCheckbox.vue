@@ -29,7 +29,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import { HeaderCheckboxState } from './types';
+import { HeaderCheckboxState } from '../types';
 
 export default defineComponent({
   name: 'GridCheckbox',
