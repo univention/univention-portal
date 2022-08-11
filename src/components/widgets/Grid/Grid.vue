@@ -6,7 +6,9 @@
       :column-label="columnInfo.label"
       :items="gridItems"
       :on-item-selected="onItemSelected"
+      :sorted-column-info="sortedColumnInfo"
       @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
+      @sort-column="onSort"
     />
   </div>
 </template>
@@ -15,11 +17,12 @@
 import { defineComponent, PropType } from 'vue';
 import Header from './Header.vue';
 import Table from './Table.vue';
-import { GridItem, GridItemProps, HeaderCheckboxState } from './types';
+import { GridItem, GridItemProps, HeaderCheckboxState, SortedColumnInfo } from './types';
 
 interface Data {
   tableHeaderCheckbox: HeaderCheckboxState;
   gridItems: GridItem[];
+  sortedColumnInfo: SortedColumnInfo
 }
 
 export default defineComponent({
@@ -42,6 +45,10 @@ export default defineComponent({
     return {
       tableHeaderCheckbox: false,
       gridItems: [],
+      sortedColumnInfo: {
+        column: null,
+        direction: 'asc',
+      },
     };
   },
   computed: {
@@ -54,19 +61,40 @@ export default defineComponent({
   },
   watch: {
     tableHeaderCheckbox(state: HeaderCheckboxState) {
-      console.log(state);
       if (typeof state === 'boolean') {
         this.gridItems.forEach((item) => {
           item.selected = state;
         });
       }
     },
-    isAnyItemSelected(value: boolean) {
-      if (!value) {
-        this.tableHeaderCheckbox = false;
-      } else if (!this.isAllItemsSelected) {
-        this.tableHeaderCheckbox = 'mixed';
+    gridItems: {
+      deep: true,
+      handler() {
+        if (!this.isAnyItemSelected) {
+          // if no items are selected
+          this.tableHeaderCheckbox = false;
+        } else if (!this.isAllItemsSelected) {
+          // if some items are selected but not all
+          this.tableHeaderCheckbox = 'mixed';
+        } else {
+          // if all items are selected
+          this.tableHeaderCheckbox = true;
+        }
+      },
+    },
+    sortedColumnInfo(info: SortedColumnInfo) {
+      let gridItems = this.gridItems.sort((a, b) => {
+        if (info.column === 'name') {
+          return a.name.localeCompare(b.name);
+        } if (info.column === 'value') {
+          return a.path.localeCompare(b.path);
+        }
+        return 0;
+      });
+      if (info.direction === 'desc') {
+        gridItems = this.gridItems.reverse();
       }
+      this.gridItems = gridItems;
     },
   },
   mounted() {
@@ -87,6 +115,12 @@ export default defineComponent({
     },
     onTableHeaderCheckboxUpdate(selected: HeaderCheckboxState) {
       this.tableHeaderCheckbox = selected;
+    },
+    onSort(column: 'name' | 'value') {
+      this.sortedColumnInfo = {
+        column,
+        direction: this.sortedColumnInfo.direction === 'asc' ? 'desc' : 'asc',
+      };
     },
   },
 });
