@@ -3,8 +3,9 @@
     <div class="grid-table-header">
       <div class="grid-table-header-checkbox">
         <GridCheckbox
-          :checked="isAllItemsSelected"
-          @update:checked="$emit('update:isAllItemsSelected', $event)"
+          :checked="tableHeaderCheckbox"
+          :is-header="true"
+          @update:checked="$emit('update:tableHeaderCheckbox', $event)"
         />
       </div>
       <div class="grid-table-header-name">
@@ -14,22 +15,24 @@
         <span>{{ columnLabel }}</span>
       </div>
     </div>
-    <div
-      v-for="item in items"
-      :key="item.name"
-      class="grid-table-row"
-      @click="onItemSelected(item)"
-    >
-      <div class="grid-table-row-checkbox">
-        <GridCheckbox
-          :checked="item.selected"
-        />
-      </div>
-      <div class="grid-table-row-name">
-        {{ item.name }}
-      </div>
-      <div class="grid-table-row-value">
-        {{ item.path }}
+    <div class="grid-table-body">
+      <div
+        v-for="item in items"
+        :key="item.name"
+        class="grid-table-body-row"
+        @click="onItemSelected(item)"
+      >
+        <div class="grid-table-body-row-checkbox">
+          <GridCheckbox
+            :checked="item.selected"
+          />
+        </div>
+        <div class="grid-table-body-row-name">
+          {{ item.name }}
+        </div>
+        <div class="grid-table-body-row-value">
+          {{ item.path }}
+        </div>
       </div>
     </div>
   </div>
@@ -38,7 +41,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import GridCheckbox from './GridCheckbox.vue';
-import { GridItem } from './types';
+import { GridItem, HeaderCheckboxState } from './types';
 
 export default defineComponent({
   name: 'GridTable',
@@ -54,8 +57,8 @@ export default defineComponent({
       type: Array as PropType<GridItem[]>,
       default: () => [],
     },
-    isAllItemsSelected: {
-      type: Boolean as PropType<boolean>,
+    tableHeaderCheckbox: {
+      type: Boolean as PropType<HeaderCheckboxState>,
       required: true,
     },
     onItemSelected: {
@@ -63,7 +66,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:isAllItemsSelected'],
+  emits: ['update:tableHeaderCheckbox'],
 });
 </script>
 
@@ -71,20 +74,44 @@ export default defineComponent({
 .grid-table
   width: 100%
   border-top: 1px solid var(--bgc-content-body);
-  max-height: 30em
-  overflow: auto
 
-  &-header, &-row
+  &-header
     display: flex
     padding: calc(1.5 * var(--layout-spacing-unit-small)) calc(3 * var(--layout-spacing-unit-small))
     border-bottom: 1px solid var(--bgc-content-body);
+    font-size: var(--font-size-3)
 
     &-checkbox
+      display: flex
+      align-items: center
       width: calc(6 * var(--layout-spacing-unit));
       padding-left: var(--layout-spacing-unit);
       padding-right: calc(2 * var(--layout-spacing-unit));
 
-    &-name, &-value
+    &-name
+      // subtract the width of the scrollbar
+      width: calc(100% - 35px)
+
+    &-value
       width: 100%
+
+  &-body
+    width: 100%
+    max-height: 30em
+    overflow: auto
+    &-row
+      display: flex
+      padding: calc(1.5 * var(--layout-spacing-unit-small)) calc(3 * var(--layout-spacing-unit-small))
+      border-bottom: 1px solid var(--bgc-content-body);
+      transition: all 250ms ease-in-out;
+      &-checkbox
+        width: calc(6 * var(--layout-spacing-unit));
+        padding-left: var(--layout-spacing-unit);
+        padding-right: calc(2 * var(--layout-spacing-unit));
+
+      &-name, &-value
+        width: 100%
+      &:hover
+        background-color: var(--bgc-grid-row-hover)
 
 </style>

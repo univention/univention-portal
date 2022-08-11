@@ -6,24 +6,57 @@
     role="checkbox"
     tabindex="0"
     @click="onCheck"
-  />
+  >
+    <Transition>
+      <PortalIcon
+        v-if="checked === true"
+        icon="check"
+        role="presentation"
+        :style="[{ marginBottom: isHeader && '6px' }]"
+      />
+    </Transition>
+    <Transition>
+      <PortalIcon
+        v-if="isHeader && checked === 'mixed'"
+        icon="minus"
+        role="presentation"
+        style="margin-bottom: 8px"
+      />
+    </Transition>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
+import { HeaderCheckboxState } from './types';
 
 export default defineComponent({
   name: 'GridCheckbox',
+  components: {
+    PortalIcon,
+  },
   props: {
     checked: {
-      type: Boolean as PropType<boolean>,
+      type: Boolean as PropType<HeaderCheckboxState>,
       required: true,
+    },
+    isHeader: {
+      type: Boolean as PropType<boolean>,
+      default: false,
     },
   },
   emits: ['update:checked'],
   methods: {
     onCheck() {
-      this.$emit('update:checked', !this.checked);
+      if (!this.isHeader) {
+        this.$emit('update:checked', !this.checked);
+      } else {
+        let checked = false;
+        if (this.checked === false) checked = true;
+        // if this.checked is true or mixed, then set to false (already set)
+        this.$emit('update:checked', checked);
+      }
     },
   },
 });
@@ -45,21 +78,11 @@ export default defineComponent({
     background-color: var(--bgc-checkbox-hover)
   &[aria-checked=false]
     border-color: var(--local-border-color)
-  &[aria-checked=true]
+  &[aria-checked=true], &[aria-checked=mixed]
     border-color: var(--color-accent)
-    &::after
-      opacity: 1
 
-  &::after
-    content: "✓"
-    display: block
-    width: 100%
-    height: 100%
-    line-height: 120%
-    font-size: 0.85rem
-    font-weight: bold
-    text-align: center
+  & svg
+    height: 15px
+    width: 15px
     color: var(--color-accent)
-    opacity: 0
-
 </style>
