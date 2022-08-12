@@ -347,4 +347,29 @@ export const Basic = Template.bind({});
 Basic.args = {
   items: ITEMS,
   columnInfo: { label: 'Path', key: 'path' },
+  // context actions
+  on: {
+    add: (item: GridItemProps) => {
+      console.log('onAdd', item);
+    },
+    edit: (item: GridItemProps) => {
+      console.log('onEdit', item);
+    },
+    remove: (item: GridItemProps) => {
+      console.log('onRemove', item);
+    },
+    search: (item: GridItemProps) => {
+      console.log('onSearch', item);
+    },
+    move: (item: GridItemProps) => {
+      console.log('onMove', item);
+    },
+    copy: (item: GridItemProps) => {
+      console.log('onCopy', item);
+    },
+  },
+  // global actions
+  onAddNewItem: () => {
+    console.log('onAddNewItem');
+  },
 };

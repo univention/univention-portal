@@ -43,7 +43,7 @@
 <script lang='ts'>
 import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import { SortedColumnInfo } from '../types';
+import { SortedColumnInfo, HeaderCheckboxState } from '../types';
 import GridCheckbox from './GridCheckbox.vue';
 
 export default defineComponent({
@@ -54,7 +54,7 @@ export default defineComponent({
   },
   props: {
     tableHeaderCheckbox: {
-      type: Boolean,
+      type: [Boolean, String] as PropType<HeaderCheckboxState>,
       required: true,
     },
     sortedColumnInfo: {

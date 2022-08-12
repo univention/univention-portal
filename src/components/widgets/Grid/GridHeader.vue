@@ -15,9 +15,17 @@
     </div>
     <div class="grid-header-status">
       <span class="grid-header-status--text">
-        {{ numberItemsSelectedText }} groups of 19 selected
+        {{ numberItemsSelectedText }} of {{ numberItems }} selected
       </span>
     </div>
+    <ContextMenu
+      :is-open="isContextMenuOpen"
+      :context-menu-options="contextMenuOptions"
+      :position="contextMenuPosition"
+      parent-element="grid-header-button--more"
+      :disable-right-click="true"
+      @on-outside-click="onContextMenuOutsideClick"
+    />
   </div>
 </template>
 
@@ -25,6 +33,7 @@
 import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import { ContextMenuOption, Operation } from './types';
+import { ContextMenu } from './components';
 
 type OptionButtonOperation = Operation | 'more';
 interface OptionButton extends Omit<ContextMenuOption, 'operation'> {
@@ -35,6 +44,7 @@ export default defineComponent({
   name: 'GridHeader',
   components: {
     PortalIcon,
+    ContextMenu,
   },
   props: {
     isAnyItemSelected: {
@@ -45,8 +55,30 @@ export default defineComponent({
       type: Number as PropType<number>,
       required: true,
     },
+    numberItems: {
+      type: Number as PropType<number>,
+      required: true,
+    },
+    itemType: {
+      type: String as PropType<string>,
+      default: 'row',
+    },
   },
   emits: ['onOperation', 'onOpenContextMenu', 'onOutsideClick'],
+  data() {
+    return {
+      isContextMenuOpen: false,
+      contextMenuOptions: [
+        { label: 'Edit in new tab', icon: '', operation: 'edit' },
+        { label: 'Move to...', icon: '', operation: 'move' },
+        { label: 'Copy', icon: '', operation: 'copy' },
+        { label: 'Create report', icon: 'file-text', operation: 'search' },
+      ],
+      contextMenuPosition: {
+        x: 0, y: 0,
+      },
+    };
+  },
   computed: {
     optionButtons(): OptionButton[] {
       if (!this.isAnyItemSelected) {
@@ -64,8 +96,8 @@ export default defineComponent({
     },
 
     numberItemsSelectedText(): string | number {
-      if (this.numberItemsSelected === 1) return 'One';
-      return this.numberItemsSelected;
+      if (this.numberItemsSelected === 1) return `One ${this.itemType}`;
+      return `${this.numberItemsSelected} ${this.itemType}s`;
     },
   },
   methods: {
@@ -82,7 +114,24 @@ export default defineComponent({
       const rect = moreButton.getBoundingClientRect();
       const x = rect.left;
       const y = rect.top + rect.height;
-      this.$emit('onOpenContextMenu', { x, y });
+      this.onOpenContextMenu({ x, y });
+    },
+    onOpenContextMenu(position: {x: number, y: number}) {
+      this.contextMenuPosition = position;
+      this.isContextMenuOpen = true;
+    },
+    onContextMenuOutsideClick(event: MouseEvent) {
+      const moreButton = document.querySelector('.grid-header-button--more') as HTMLButtonElement;
+      const target = event.target as HTMLElement;
+      if (!moreButton.contains(target)) {
+        this.isContextMenuOpen = false;
+        return;
+      }
+      if (!this.isContextMenuOpen) {
+        this.onMoreButtonClick();
+      } else {
+        console.log('trigger onOutsideClick');
+      }
     },
   },
 });

@@ -6,14 +6,48 @@
     <div class="grid-table-body">
       <slot name="body" />
     </div>
+    <ContextMenu
+      :is-open="isContextMenuOpen"
+      :context-menu-options="contextMenuOptions"
+      :position="contextMenuPosition"
+      parent-element="grid-table-body"
+      @on-open="onOpenContextMenu"
+      @on-outside-click="isContextMenuOpen = false"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { ContextMenu } from './components';
 
 export default defineComponent({
   name: 'GridTable',
+  components: {
+    ContextMenu,
+  },
+  data() {
+    return {
+      isContextMenuOpen: false,
+      contextMenuOptions: [
+        { label: 'Edit', icon: 'edit-2', operation: 'edit' },
+        { label: 'Delete', icon: 'trash', operation: 'remove' },
+        { label: 'Edit in new tab', icon: '', operation: 'edit' },
+        { label: 'Move to...', icon: '', operation: 'move' },
+        { label: 'Copy', icon: '', operation: 'copy' },
+        { label: 'Create report', icon: 'file-text', operation: 'search' },
+      ],
+      contextMenuPosition: {
+        x: 0, y: 0,
+      },
+    };
+  },
+  methods: {
+    onOpenContextMenu(position: {x: number, y: number}) {
+      this.contextMenuPosition = position;
+      this.isContextMenuOpen = true;
+    },
+  },
 });
 </script>
 

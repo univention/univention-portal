@@ -9,9 +9,7 @@
       class="grid-table-body-row-checkbox"
       @click="onItemSelected(item, false)"
     >
-      <GridCheckbox
-        :checked="item.selected"
-      />
+      <GridCheckbox :checked="item.selected" />
     </div>
     <div
       class="grid-table-body-row-name"
