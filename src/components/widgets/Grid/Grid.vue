@@ -1,35 +1,51 @@
 <template>
   <div class="grid">
-    <Header :is-any-item-selected="isAnyItemSelected" />
-    <Table
-      :table-header-checkbox="tableHeaderCheckbox"
-      :column-label="columnInfo.label"
-      :items="gridItems"
-      :on-item-selected="onItemSelected"
-      :sorted-column-info="sortedColumnInfo"
-      @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
-      @sort-column="onSort"
+    <GridHeader
+      :is-any-item-selected="isAnyItemSelected"
+      :number-items-selected="selectedItems.length"
     />
+    <GridTable>
+      <template #header>
+        <TableHeader
+          :table-header-checkbox="tableHeaderCheckbox"
+          :column-label="columnInfo.label"
+          :sorted-column-info="sortedColumnInfo"
+          @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
+          @sort-column="onSort"
+        />
+      </template>
+      <template #body>
+        <TableBody
+          :items="gridItems"
+          :on-item-selected="onItemSelected"
+        />
+      </template>
+    </GridTable>
+    <ContextMenu />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import Header from './Header.vue';
-import Table from './Table.vue';
+import GridHeader from './GridHeader.vue';
+import GridTable from './GridTable.vue';
 import { GridItem, GridItemProps, HeaderCheckboxState, SortedColumnInfo } from './types';
+import { ContextMenu, TableHeader, TableBody } from './components';
 
 interface Data {
   tableHeaderCheckbox: HeaderCheckboxState;
   gridItems: GridItem[];
-  sortedColumnInfo: SortedColumnInfo
+  sortedColumnInfo: SortedColumnInfo;
 }
 
 export default defineComponent({
   name: 'Grid',
   components: {
-    Header,
-    Table,
+    GridHeader,
+    GridTable,
+    TableHeader,
+    TableBody,
+    ContextMenu,
   },
   props: {
     items: {
@@ -57,6 +73,9 @@ export default defineComponent({
     },
     isAllItemsSelected(): boolean {
       return this.gridItems.every((item) => item.selected);
+    },
+    selectedItems(): GridItem[] {
+      return this.gridItems.filter((item) => item.selected);
     },
   },
   watch: {
