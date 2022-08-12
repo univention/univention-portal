@@ -8,11 +8,19 @@ export interface SortedColumnInfo {
   direction: 'asc' | 'desc';
 }
 
+export type Operation = 'add' | 'edit' | 'remove' | 'search' | 'move' | 'copy';
+
+export interface ContextMenuOption {
+  label: string;
+  icon: string;
+  operation: Operation;
+}
+
 export interface GridItemProps {
   $dn$: string;
   $childs$: boolean;
   $flags$: string[];
-  $operations$: string[];
+  $operations$: Operation[];
   objectType: string;
   labelObjectType: string;
   name: string;
