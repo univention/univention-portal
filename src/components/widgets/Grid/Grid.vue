@@ -2,7 +2,9 @@
   <div class="grid">
     <GridHeader
       :is-any-item-selected="isAnyItemSelected"
+      :number-items="gridItems.length"
       :number-items-selected="selectedItems.length"
+      @on-open-context-menu="onOpenContextMenu"
     />
     <GridTable>
       <template #header>
@@ -21,7 +23,6 @@
         />
       </template>
     </GridTable>
-    <ContextMenu />
   </div>
 </template>
 
@@ -29,13 +30,20 @@
 import { defineComponent, PropType } from 'vue';
 import GridHeader from './GridHeader.vue';
 import GridTable from './GridTable.vue';
-import { GridItem, GridItemProps, HeaderCheckboxState, SortedColumnInfo } from './types';
+import { GridItem, GridItemProps, HeaderCheckboxState, SortedColumnInfo, ContextMenuOption } from './types';
 import { ContextMenu, TableHeader, TableBody } from './components';
 
 interface Data {
   tableHeaderCheckbox: HeaderCheckboxState;
   gridItems: GridItem[];
   sortedColumnInfo: SortedColumnInfo;
+
+  isContextMenuOpen: boolean;
+  contextMenuOptions: ContextMenuOption[];
+  contextMenuPosition: {
+    x: number;
+    y: number;
+  };
 }
 
 export default defineComponent({
@@ -64,6 +72,18 @@ export default defineComponent({
       sortedColumnInfo: {
         column: null,
         direction: 'asc',
+      },
+      isContextMenuOpen: false,
+      contextMenuOptions: [
+        { label: 'Edit', icon: 'edit-2', operation: 'edit' },
+        { label: 'Delete', icon: 'trash', operation: 'remove' },
+        { label: 'Edit in new tab', icon: '', operation: 'edit' },
+        { label: 'Move to...', icon: '', operation: 'move' },
+        { label: 'Copy', icon: '', operation: 'copy' },
+        { label: 'Create report', icon: 'file-text', operation: 'search' },
+      ],
+      contextMenuPosition: {
+        x: 0, y: 0,
       },
     };
   },
@@ -140,6 +160,10 @@ export default defineComponent({
         column,
         direction: this.sortedColumnInfo.direction === 'asc' ? 'desc' : 'asc',
       };
+    },
+    onOpenContextMenu(position: {x: number, y: number}) {
+      this.contextMenuPosition = position;
+      this.isContextMenuOpen = true;
     },
   },
 });

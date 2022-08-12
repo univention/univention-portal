@@ -38,7 +38,7 @@ export default defineComponent({
   },
   props: {
     checked: {
-      type: Boolean as PropType<HeaderCheckboxState>,
+      type: [Boolean, String] as PropType<HeaderCheckboxState>,
       required: true,
     },
     isHeader: {

@@ -3,7 +3,7 @@
     <div
       v-show="isOpen"
       ref="contextMenu"
-      :style="{left: `${position.x}px`, top: `${position.y}px`}"
+      :style="{ left: `${position.x}px`, top: `${position.y}px` }"
       class="context-menu"
       role="menu"
     >
@@ -43,18 +43,27 @@ export default defineComponent({
       required: true,
     },
     position: {
-      type: Object as PropType<{x: number; y: number}>,
+      type: Object as PropType<{ x: number; y: number }>,
       required: true,
     },
     isOpen: {
       type: Boolean as PropType<boolean>,
       required: true,
     },
+    parentElement: {
+      type: String as PropType<string | null>,
+      default: null,
+    },
+    disableRightClick: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
   emits: ['onOperation', 'onOpen', 'onOutsideClick'],
   mounted() {
-    this.setUpContextMenu();
-    console.log('mounted');
+    if (!this.disableRightClick) {
+      this.setUpContextMenu();
+    }
     document.addEventListener('click', this.detectOutsideClickContextMenu);
   },
   unmounted() {
@@ -64,19 +73,19 @@ export default defineComponent({
     setUpContextMenu() {
       const parent = this.$parent;
       if (!parent) return;
-
       const parentElement = parent.$el as HTMLDivElement;
 
       parentElement.addEventListener('contextmenu', (e: MouseEvent) => {
-        // const elementClicked = e.target as HTMLElement;
-        // if (!elementClicked.className.includes('grid-table-body')) {
-        //   this.$emit('onOutsideClick');
-        //   return;
-        // }
+        const elementClicked = e.target as HTMLElement;
+
+        if (this.parentElement && !elementClicked.className.includes(this.parentElement)) {
+          this.$emit('onOutsideClick');
+          return;
+        }
         e.preventDefault();
         e.stopPropagation();
-        // set position of context menu
 
+        // set position of context menu
         const x: number = e.pageX;
         const y: number = e.pageY;
         this.$emit('onOpen', { x, y });
@@ -88,7 +97,7 @@ export default defineComponent({
         !contextMenuElement.contains(event.target as HTMLElement) &&
         this.isOpen
       ) {
-        this.$emit('onOutsideClick');
+        this.$emit('onOutsideClick', event);
       }
     },
   },
