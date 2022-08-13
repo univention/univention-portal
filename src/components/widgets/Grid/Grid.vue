@@ -4,16 +4,17 @@
       :is-any-item-selected="isAnyItemSelected"
       :number-items="gridItems.length"
       :number-items-selected="selectedItems.length"
-      @on-open-context-menu="onOpenContextMenu"
+      @on-operation="onOperation"
+      @on-add-new-item="onAddNewItem"
     />
-    <GridTable>
+    <GridTable @on-operation="onOperation">
       <template #header>
         <TableHeader
           :table-header-checkbox="tableHeaderCheckbox"
           :column-label="columnInfo.label"
           :sorted-column-info="sortedColumnInfo"
           @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
-          @sort-column="onSort"
+          @on-sort="onSort"
         />
       </template>
       <template #body>
@@ -30,20 +31,13 @@
 import { defineComponent, PropType } from 'vue';
 import GridHeader from './GridHeader.vue';
 import GridTable from './GridTable.vue';
-import { GridItem, GridItemProps, HeaderCheckboxState, SortedColumnInfo, ContextMenuOption } from './types';
-import { ContextMenu, TableHeader, TableBody } from './components';
+import { GridItem, GridItemProps, HeaderCheckboxState, SortedColumnInfo, Operation, OperationProps } from './types';
+import { TableHeader, TableBody } from './components';
 
 interface Data {
   tableHeaderCheckbox: HeaderCheckboxState;
   gridItems: GridItem[];
   sortedColumnInfo: SortedColumnInfo;
-
-  isContextMenuOpen: boolean;
-  contextMenuOptions: ContextMenuOption[];
-  contextMenuPosition: {
-    x: number;
-    y: number;
-  };
 }
 
 export default defineComponent({
@@ -53,7 +47,6 @@ export default defineComponent({
     GridTable,
     TableHeader,
     TableBody,
-    ContextMenu,
   },
   props: {
     items: {
@@ -64,6 +57,14 @@ export default defineComponent({
       type: Object as PropType<{label: string; key: string}>,
       default: () => ({ label: '', key: '' }),
     },
+    on: {
+      type: Object as PropType<OperationProps>,
+      required: true,
+    },
+    onAddNewItem: {
+      type: Function as PropType<() => void>,
+      required: true,
+    },
   },
   data(): Data {
     return {
@@ -72,18 +73,6 @@ export default defineComponent({
       sortedColumnInfo: {
         column: null,
         direction: 'asc',
-      },
-      isContextMenuOpen: false,
-      contextMenuOptions: [
-        { label: 'Edit', icon: 'edit-2', operation: 'edit' },
-        { label: 'Delete', icon: 'trash', operation: 'remove' },
-        { label: 'Edit in new tab', icon: '', operation: 'edit' },
-        { label: 'Move to...', icon: '', operation: 'move' },
-        { label: 'Copy', icon: '', operation: 'copy' },
-        { label: 'Create report', icon: 'file-text', operation: 'search' },
-      ],
-      contextMenuPosition: {
-        x: 0, y: 0,
       },
     };
   },
@@ -161,9 +150,18 @@ export default defineComponent({
         direction: this.sortedColumnInfo.direction === 'asc' ? 'desc' : 'asc',
       };
     },
-    onOpenContextMenu(position: {x: number, y: number}) {
-      this.contextMenuPosition = position;
-      this.isContextMenuOpen = true;
+    onOperation(operation: Operation) {
+      const selectedIds = this.selectedItems.map((item) => item.$dn$);
+      // find selected items but get the original item (from props)
+      const selectedPropsItems: GridItemProps[] = this.items.filter((item) => selectedIds.includes(item.$dn$));
+      if (!selectedPropsItems.length || !this.on || !this.on[operation]) {
+        return;
+      }
+      // check all selected items are need to have operation in $operations$ property, if not, don't do anything
+      if (!selectedPropsItems.every((item) => item.$operations$ && item.$operations$.includes(operation))) {
+        return;
+      }
+      this.on[operation](selectedPropsItems);
     },
   },
 });
