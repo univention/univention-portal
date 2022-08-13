@@ -3,11 +3,6 @@
 // when the checkbox with the minus sign is clicked, all items will be deselected
 export type HeaderCheckboxState = boolean | 'mixed';
 
-export interface SortedColumnInfo {
-  column: 'name' | 'value' | null;
-  direction: 'asc' | 'desc';
-}
-
 export type Operation = 'add' | 'edit' | 'remove' | 'search' | 'move' | 'copy';
 
 export interface ContextMenuOption {
@@ -29,4 +24,13 @@ export interface GridItemProps {
 
 export interface GridItem extends GridItemProps {
   selected: boolean;
+}
+
+export interface SortedColumnInfo {
+  column: 'name' | 'value' | null;
+  direction: 'asc' | 'desc';
+}
+
+export interface OperationProps {
+  [operation: string]: (items: GridItemProps[]) => void;
 }

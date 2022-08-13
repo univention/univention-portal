@@ -13,6 +13,7 @@
       parent-element="grid-table-body"
       @on-open="onOpenContextMenu"
       @on-outside-click="isContextMenuOpen = false"
+      @on-operation="(operation) => $emit('onOperation', operation)"
     />
   </div>
 </template>
@@ -26,6 +27,7 @@ export default defineComponent({
   components: {
     ContextMenu,
   },
+  emits: ['onOperation'],
   data() {
     return {
       isContextMenuOpen: false,

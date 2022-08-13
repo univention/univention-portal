@@ -8,7 +8,7 @@
   </div>
   <div
     class="grid-table-header-name"
-    @click="$emit('sortColumn', 'name')"
+    @click="$emit('onSort', 'name')"
   >
     <Transition>
       <PortalIcon
@@ -24,7 +24,7 @@
   </div>
   <div
     class="grid-table-header-value"
-    @click="$emit('sortColumn', 'value')"
+    @click="$emit('onSort', 'value')"
   >
     <Transition>
       <PortalIcon
@@ -66,6 +66,6 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:tableHeaderCheckbox', 'sortColumn'],
+  emits: ['update:tableHeaderCheckbox', 'onSort'],
 });
 </script>

@@ -13,6 +13,7 @@
         class="context-menu-item"
         role="menuitem"
         :aria-label="contextMenuOption.label"
+        @click="$emit('onOperation', contextMenuOption.operation)"
       >
         <PortalIcon
           :icon="contextMenuOption.icon"

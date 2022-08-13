@@ -25,6 +25,7 @@
       parent-element="grid-header-button--more"
       :disable-right-click="true"
       @on-outside-click="onContextMenuOutsideClick"
+      @on-operation="onOperation"
     />
   </div>
 </template>
@@ -64,7 +65,7 @@ export default defineComponent({
       default: 'row',
     },
   },
-  emits: ['onOperation', 'onOpenContextMenu', 'onOutsideClick'],
+  emits: ['onOperation', 'onOutsideClick', 'onAddNewItem'],
   data() {
     return {
       isContextMenuOpen: false,
@@ -106,6 +107,10 @@ export default defineComponent({
         this.onMoreButtonClick();
         return;
       }
+      if (operation === 'add') {
+        this.$emit('onAddNewItem');
+        return;
+      }
       this.$emit('onOperation', operation);
     },
     onMoreButtonClick() {
@@ -129,8 +134,6 @@ export default defineComponent({
       }
       if (!this.isContextMenuOpen) {
         this.onMoreButtonClick();
-      } else {
-        console.log('trigger onOutsideClick');
       }
     },
   },
