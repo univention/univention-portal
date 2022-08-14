@@ -11,6 +11,12 @@ export interface ContextMenuOption {
   operation: Operation;
 }
 
+export interface GridColumnProps {
+  order?: number;
+  name: string;
+  label?: string;
+}
+
 export interface GridItemProps {
   $dn$: string;
   $childs$: boolean;

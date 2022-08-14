@@ -6,30 +6,45 @@
     @contextmenu="onContextMenuSelect(item)"
   >
     <div
-      class="grid-table-body-row-checkbox"
-      @click="onItemSelected(item, false)"
+      v-for="column in columns"
+      :key="column.name"
     >
-      <GridCheckbox :checked="item.selected" />
+      <slot
+        :name="`column-body-${column}`"
+        :column="column"
+        :item="item"
+      >
+        {{ item[column] }}
+      </slot>
     </div>
-    <div
-      class="grid-table-body-row-name"
-      @click="onItemSelected(item)"
-    >
-      <ItemIcon />
-      {{ item.name }}
-    </div>
-    <div
-      class="grid-table-body-row-value"
-      @click="onItemSelected(item)"
-    >
-      {{ item.path }}
-    </div>
+
+    <!--    <div-->
+    <!--      class="grid-table-body-row-checkbox"-->
+    <!--      @click="onItemSelected(item, false)"-->
+    <!--    >-->
+    <!--      <GridCheckbox :checked="item.selected" />-->
+    <!--    </div>-->
+
+    <!--    <div-->
+    <!--      class="grid-table-body-row-name"-->
+    <!--      @click="onItemSelected(item)"-->
+    <!--    >-->
+    <!--      <ItemIcon />-->
+    <!--      {{ item.name }}-->
+    <!--    </div>-->
+
+    <!--    <div-->
+    <!--      class="grid-table-body-row-value"-->
+    <!--      @click="onItemSelected(item)"-->
+    <!--    >-->
+    <!--      {{ item.path }}-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { GridItem } from '../types';
+import { GridColumnProps, GridItem } from '../types';
 import GridCheckbox from './GridCheckbox.vue';
 import ItemIcon from './ItemIcon.vue';
 
@@ -40,6 +55,10 @@ export default defineComponent({
     ItemIcon,
   },
   props: {
+    columns: {
+      type: Array as PropType<GridColumnProps[]>,
+      default: () => [],
+    },
     items: {
       type: Array as PropType<GridItem[]>,
       required: true,
@@ -51,7 +70,7 @@ export default defineComponent({
   },
   methods: {
     onContextMenuSelect(item: GridItem) {
-      // if the item is already selected, we dont want to deselect it
+      // if the item is already selected, we don't want to deselect it
       if (item.selected) return;
       // otherwise select the item
       this.onItemSelected(item);
