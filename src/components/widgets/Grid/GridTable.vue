@@ -1,10 +1,25 @@
 <template>
   <div class="grid-table">
     <div class="grid-table-header">
-      <slot name="header" />
+      <!--      <TableHeader-->
+      <!--        :columns="columns"-->
+      <!--        :table-header-checkbox="tableHeaderCheckbox"-->
+      <!--        :column-label="columnInfo.label"-->
+      <!--        :sorted-column-info="sortedColumnInfo"-->
+      <!--        @update:table-header-checkbox="onTableHeaderCheckboxUpdate"-->
+      <!--        @on-sort="onSort"-->
+      <!--      />-->
     </div>
     <div class="grid-table-body">
-      <slot name="body" />
+      <TableBody
+        :items="items"
+        :columns="columns"
+        :on-item-selected="onItemSelected"
+      >
+        <template v-for="(index, name) in $slots" #[name]="data" >
+          <slot :name="name" v-bind="data" />
+        </template>
+      </TableBody>
     </div>
     <ContextMenu
       :is-open="isContextMenuOpen"
@@ -19,15 +34,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { ContextMenu } from './components';
+import { defineComponent, PropType } from 'vue';
+import { GridColumnProps, GridItem } from 'components/widgets/Grid/types';
+import { ContextMenu, TableBody } from './components';
 
 export default defineComponent({
   name: 'GridTable',
   components: {
     ContextMenu,
+    TableBody,
   },
   emits: ['onOperation'],
+  props: {
+    columns: {
+      type: Array as PropType<GridColumnProps[]>,
+      default: () => [],
+    },
+    items: {
+      type: Array as PropType<GridItem[]>,
+      required: true,
+    },
+    onItemSelected: {
+      type: Function as PropType<(item: GridItem, deselectAll?: boolean) => void>,
+      required: true,
+    },
+  },
   data() {
     return {
       isContextMenuOpen: false,

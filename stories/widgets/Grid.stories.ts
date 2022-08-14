@@ -340,12 +340,21 @@ const Template: StoryFn<typeof Grid> = (args) => ({
   setup() {
     return { args };
   },
-  template: '<div style="max-width: 100%; width: calc(100vw - 200px)"><Grid v-bind="args" /></div>',
+  template: `
+    <div style="max-width: 100%; width: calc(100vw - 200px)">
+    <Grid v-bind="args">
+      <template #column-body-name="{item}">
+        wtf XXXXXXXXXXXXXXXXx {{item}}
+      </template>
+    </Grid>
+    </div>
+  `,
 });
 
 export const Basic = Template.bind({});
 Basic.args = {
   items: ITEMS,
+  columns: ['name'],
   columnInfo: { label: 'Path', key: 'path' },
   // context actions
   on: {

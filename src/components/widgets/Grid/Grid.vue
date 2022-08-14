@@ -7,20 +7,19 @@
       @on-operation="onOperation"
       @on-add-new-item="onAddNewItem"
     />
-    <GridTable @on-operation="onOperation">
-      <template #header>
-        <TableHeader
-          :table-header-checkbox="tableHeaderCheckbox"
-          :column-label="columnInfo.label"
-          :sorted-column-info="sortedColumnInfo"
-          @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
-          @on-sort="onSort"
-        />
-      </template>
-      <template #body>
-        <TableBody
-          :items="gridItems"
-          :on-item-selected="onItemSelected"
+    <GridTable
+      :items="gridItems"
+      :columns="columns"
+      :on-item-selected="onItemSelected"
+      @on-operation="onOperation"
+    >
+      <template
+        v-for="(index, name) in $slots"
+        #[name]="data"
+      >
+        <slot
+          :name="name"
+          v-bind="data"
         />
       </template>
     </GridTable>
@@ -31,7 +30,15 @@
 import { defineComponent, PropType } from 'vue';
 import GridHeader from './GridHeader.vue';
 import GridTable from './GridTable.vue';
-import { GridItem, GridItemProps, HeaderCheckboxState, SortedColumnInfo, Operation, OperationProps } from './types';
+import {
+  GridItem,
+  GridItemProps,
+  HeaderCheckboxState,
+  SortedColumnInfo,
+  Operation,
+  OperationProps,
+  GridColumnProps,
+} from './types';
 import { TableHeader, TableBody } from './components';
 
 interface Data {
@@ -46,9 +53,13 @@ export default defineComponent({
     GridHeader,
     GridTable,
     TableHeader,
-    TableBody,
+
   },
   props: {
+    columns: {
+      type: Array as PropType<GridColumnProps[]>,
+      default: () => [],
+    },
     items: {
       type: Array as PropType<GridItemProps[]>,
       default: () => [],
@@ -130,6 +141,8 @@ export default defineComponent({
       ...item,
       selected: false,
     }));
+
+    console.log('WTF!!!', this);
   },
   methods: {
     onItemSelected(item: GridItem, deselectAll = true) {
