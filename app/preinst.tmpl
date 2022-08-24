@@ -1,0 +1,88 @@
+#!/bin/bash
+# -*- coding: utf-8 -*-
+## preinst script, run before download/installation of the app container
+
+## TODO: This is just an example, see:
+## https://docs.software-univention.de/app-center/5.0/en/configurations.html#installation-scripts
+## https://hutten.knut.univention.de/mediawiki/index.php/Intensivschulungen#AppCenter_Development_APIs
+
+app_id="ucs-portal"
+
+set -e
+eval "$(ucr shell)"
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        "--error-file")
+            shift
+            errorfile="$1"
+            shift
+            ;;
+        "--old-version")
+            shift
+            old_version="$1"
+            shift
+            ;;
+        "--version")
+            shift
+            version="$1"
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+
+# if [ "$server_role" != "domaincontroller_master" ]; then
+#     ## Example..
+#     ## Do stuff that needs to be done on a non-master
+# fi
+
+## example:
+## create password
+# pwdfile="/etc/myapp.secret"
+# if ! [ -e "$pwdfile" ]; then
+#     install -m 640 /dev/null "$pwdfile"
+#     makepasswd --chars 20 > "$pwdfile"
+# fi
+
+## example:
+## example: this way we can install files on the host:
+# command -v jq || {
+#    univention-install -qq -y jq
+# }
+
+
+## template example: management tool
+# portal_management_script=/usr/sbin/univention-portal-config
+# echo "Installing (example) Portal management script"
+# cat <<%EOF >"$portal_management_script"
+# %PORTAL-MANAGEMENT-SCRIPT%
+# %EOF
+# chmod 755 "$portal_management_script"
+
+## template example: tar ball
+# echo "Installing Portal theme"
+# base64 -d <<%EOF  | tar xjf - --one-top-level=/var/lib/univention-appcenter/apps/"$app_id"/conf/
+# %ARCHIVE_CONTENT%
+# %EOF
+
+## template example: apache template
+# portal_template_path=/etc/univention/templates/files/etc/apache2/sites-available/"$app_id".conf
+# echo "Installing apache template $portal_template_path"
+# cat <<%EOF >"$portal_template_path"
+# %PORTAL-TEMPLATE-APACHE%
+# %EOF
+# chmod 644 "$portal_template_path"
+
+## template example: UCR info
+# portal_info_path=/etc/univention/templates/info/"$app_id".info
+# echo "Installing UCR template info: $portal_info_path"
+# cat <<%EOF >"$portal_info_path"
+# %PORTAL-INFO-APACHE%
+# %EOF
+# chmod 644 "$portal_info_path"
+# univention-config-registry register "$app_id"  ## that just needs to match the name of the .info file
+
+exit 0

@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+# TODO: License
+
+# TODO Some test code.
+
+# This test will be run when the corresponding Jenkins App-Test is run
+# from https://jenkins2022.knut.univention.de/job/UCS-5.0/job/Apps/

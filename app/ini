@@ -1,0 +1,42 @@
+## TODO: This is just an example, see:
+## https://docs.software-univention.de/app-center/5.0/en/configurations.html#installation-scripts
+## https://hutten.knut.univention.de/mediawiki/index.php/Intensivschulungen#AppCenter_Development_APIs
+
+## This file is just a backup of the app ini file in the provider portal
+## currently it's not uploaded by update-appcenter-test.sh, probably
+## for safety reasons.
+## The Data below is just example stuff and shall be replaced by the actual
+## content of the app ini file downloaded from the provider portal.
+##
+[Application]
+ID = ucs-portal
+Version = 4.0.7-8
+Name = UCS Portal
+LongDescription = <div class="col-sm-7 col-xs-12 left-col">
+	<p>
+	Some description, shown to customers in the UCS Appcenter.
+	</p>
+	<p>
+	For more details go to the <a href="https://docs.software-univention.de/ucs-portal/latest/">UCS Portal App documentation</a>.
+	<br>
+	&nbsp;
+	<br>
+	&nbsp;
+	</p>
+	<p>
+	NOTE: This App should currently only be installed for testing purposes.
+	</p>
+	</div>
+PortsExclusive = 8180
+SupportedUcsVersions = 5.0-0
+
+[de]
+LongDescription = <div class="col-sm-7 col-xs-12 left-col">
+	<p>
+	German description.
+	</p>
+	</div>
+Description = UCS Portal
+Maintainer = Univention GmbH
+WebsiteMaintainer = https://www.univention.de/
+

@@ -1,0 +1,35 @@
+## TODO: This is just an example, see:
+## https://docs.software-univention.de/app-center/5.0/en/configurations.html#installation-scripts
+## https://hutten.knut.univention.de/mediawiki/index.php/Intensivschulungen#AppCenter_Development_APIs
+
+[myapp/admin/user]
+Type = String
+Required = True
+Show = Install
+ShowReadOnly = Settings
+InitialValue = admin
+Scope = outside
+Description = Name of the initial admin user (password file is /etc/myapp.secret)
+Description[de] = Name of the initial admin user (password file is /etc/myapp.secret)
+Group = Administration
+Group[de] = Administration
+
+[myapp/log/level]
+Type = List
+Required = True
+Description = Myapp log level
+Show = Install, Settings
+Values = ALL, DEBUG, ERROR, FATAL, INFO, OFF, TRACE, WARN
+Labels = ALL, DEBUG, ERROR, FATAL, INFO, OFF, TRACE, WARN
+InitialValue = INFO
+Scope = outside
+Group = Administration
+Group[de] = Administration
+
+[myapp/theme]
+Type = String
+Show = Install, Settings
+InitialValue = @%@ucs/web/theme@%@
+Scope = outside
+Description = Name of the theme to be applied to the myapp login interface. Example: "dark" or "light". A CSS file of the same name has to exist in the folder /usr/share/univention-web/themes/.
+Group = Settings

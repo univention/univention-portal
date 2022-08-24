@@ -1,0 +1,37 @@
+## TODO: This is just an example, see:
+## https://docs.software-univention.de/app-center/5.0/en/configurations.html#installation-scripts
+## https://hutten.knut.univention.de/mediawiki/index.php/Intensivschulungen#AppCenter_Development_APIs
+
+### Some example docker compose file, details to be filled in below
+### This is actually treated as an UCR template and autoamtically run thought "| ucr filter"
+version: '3.1'
+
+services:
+  foo:
+    container_name: foo
+    image: quay.io/foo:1.0.0
+    command: some-entrypoint-script
+    restart: unless-stopped
+    environment:
+      MYAPP_HTTP_PORT: "8180"
+      ARBITRARY_CONTAINER_SPECIFIC_VARIABLES: "bar"
+      MAYPP_ADMIN: @%@myapp/admin/user@%@  ## UCR template variable subsitution
+      MAYPP_ADMIN_PASSWORD: @!@
+## Example: arbitrary Python code, as in any UCR template
+import os
+pwdfile="/etc/myapp.secret"
+with open(pwdfile, 'r') as fd:
+    print(fd.read().strip())@!@
+      MAYPP_LOG_LEVEL: @%@myapp/log/level@%@
+    volumes:
+      #- /etc/ssl/certs/ca-certificates.crt:/ca-certificates.crt:ro
+      #- /var/lib/univention-appcenter/apps/ucs-portal/conf/UCS:/opt/ucs-portal/themes/UCS
+    ports:
+      # does not work, see https://forge.univention.org/bugzilla/show_bug.cgi?id=53878
+      # - 127.0.0.1:8180:8080
+      - 8180:8180
+    healthcheck:
+      test: curl http://127.0.0.1:8180/ -k -s -f -o /dev/null || exit 1
+      interval: "2s"
+      timeout: "3s"
+      retries: 20

@@ -1,0 +1,57 @@
+#!/bin/bash
+## configure_host script
+## TODO: This is just an example, see:
+## https://docs.software-univention.de/app-center/5.0/en/configurations.html#installation-scripts
+## https://hutten.knut.univention.de/mediawiki/index.php/Intensivschulungen#AppCenter_Development_APIs
+
+# shellcheck source=/dev/null
+[ -e /usr/share/univention-lib/ucr.sh ] && . /usr/share/univention-lib/ucr.sh
+
+app_id="ucs-portal"
+
+action=$1
+
+apache_config () {
+	# create apache config
+	mkdir -p  /var/lib/univention-appcenter/apps/"$app_id"/config/
+	cat << "EOF" > /var/lib/univention-appcenter/apps/"$app_id"/config/vhost.conf
+ProxyPreserveHost On
+SSLProxyEngine On
+SSLProxyCheckPeerCN on
+SSLProxyCheckPeerExpire on
+RequestHeader set X-Forwarded-Proto "https"
+RequestHeader set X-Forwarded-Port "443"
+ProxyPass / http://127.0.0.1:8180/
+ProxyPassReverse / http://127.0.0.1:8180/
+EOF
+}
+
+theme_config() {
+	THEME_DIR="/usr/share/univention-web/themes"
+	THEME_SRC="$THEME_DIR/$(basename "$(ucr get myapp/theme)").css"
+	THEME_DST="/var/lib/univention-appcenter/apps/"$app_id"/conf/UCS/login/resources/css/theme.css"
+	if [ ! -e "$THEME_SRC" ]; then
+        echo "$THEME_SRC does not exist"
+        exit 1
+	fi
+
+	[ -e "$THEME_DST" ] && rm "$THEME_DST"
+	cp "$THEME_SRC" "$THEME_DST"
+}
+
+if [ -n "$action" ] && [ "$action" = "remove" ]; then 
+    exit 0
+fi
+
+## Run whatever you need to get the app integrated into UCS
+# apache_config
+# theme_config
+
+## Example: This is run on the host as root, you can use UCR variables etc.
+#if is_ucr_true myapp/ucs/setup; then
+#  setup_ucs
+#fi
+
+if [ "$action" = "settings" ]; then
+    univention-app reinitialize "$app_id"
+fi
