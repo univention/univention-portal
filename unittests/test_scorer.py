@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
+#
+# Univention Portal
 #
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# Copyright 2019-2022 Univention GmbH
+# Copyright 2020-2022 Univention GmbH
 #
 # https://www.univention.de/
 #
@@ -30,21 +31,44 @@
 # License with the Debian GNU/Linux or Univention distribution in file
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
-
-from __future__ import absolute_import
-
-import subprocess
-
-from univention.listener import ListenerModuleHandler, ListenerModuleConfiguration
-
-GROUP_CACHE = '/var/cache/univention-portal/groups.json'
+#
 
 
-class PortalGroups(ListenerModuleHandler):
-    def post_run(self):
-        with self.as_root():
-            subprocess.call(['/usr/sbin/univention-portal', 'update', '--reason', 'ldap:group'])
+def test_import(dynamic_class):
+    assert dynamic_class("Scorer")
+    assert dynamic_class("DomainScorer")
+    assert dynamic_class("PathScorer")
 
-    class Configuration(ListenerModuleConfiguration):
-        description = 'Maintain groups cache for Univention Portal'
-        ldap_filter = '(univentionObjectType=groups/group)'
+
+def test_scorer(dynamic_class, mocker):
+    request = mocker.Mock()
+    scorer = dynamic_class("Scorer")()
+    assert scorer.score(request) == 1
+
+
+def test_domain_scorer_hit(dynamic_class, mocker):
+    request = mocker.Mock()
+    request.host = "portal.domain.tld"
+    scorer = dynamic_class("DomainScorer")("portal.domain.tld")
+    assert scorer.score(request) == 10
+
+
+def test_domain_scorer_miss(dynamic_class, mocker):
+    request = mocker.Mock()
+    request.host = "portal2.domain.tld"
+    scorer = dynamic_class("DomainScorer")("portal.domain.tld")
+    assert scorer.score(request) == 0
+
+
+def test_path_scorer_hit(dynamic_class, mocker):
+    request = mocker.Mock()
+    request.path = "/portal2"
+    scorer = dynamic_class("PathScorer")("/portal2")
+    assert scorer.score(request) == 10
+
+
+def test_path_scorer_miss(dynamic_class, mocker):
+    request = mocker.Mock()
+    request.path = "/portal"
+    scorer = dynamic_class("PathScorer")("/portal2")
+    assert scorer.score(request) == 0

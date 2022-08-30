@@ -1,10 +1,9 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# Copyright 2019-2022 Univention GmbH
+# Copyright 2018-2022 Univention GmbH
 #
 # https://www.univention.de/
 #
@@ -18,10 +17,9 @@
 # well as other copyrighted, protected or trademarked materials like
 # Logos, graphics, fonts, specific documentations and configurations,
 # cryptographic keys etc. are subject to a license agreement between
-# you and Univention and not subject to the GNU AGPL V3.
+# you and Univention.
 #
-# In the case you use this program under the terms of the GNU AGPL V3,
-# the program is provided in the hope that it will be useful,
+# This program is provided in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Affero General Public License for more details.
@@ -31,20 +29,25 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import
 
-import subprocess
-
-from univention.listener import ListenerModuleHandler, ListenerModuleConfiguration
-
-GROUP_CACHE = '/var/cache/univention-portal/groups.json'
+import univention.portal.config as config
 
 
-class PortalGroups(ListenerModuleHandler):
-    def post_run(self):
-        with self.as_root():
-            subprocess.call(['/usr/sbin/univention-portal', 'update', '--reason', 'ldap:group'])
+class User(object):
+    def __init__(self, username, display_name, groups, headers):
+        self.username = username
+        self.display_name = display_name
+        self.groups = [group.lower() for group in groups]
+        self.headers = headers
 
-    class Configuration(ListenerModuleConfiguration):
-        description = 'Maintain groups cache for Univention Portal'
-        ldap_filter = '(univentionObjectType=groups/group)'
+    def is_admin(self):
+        if self.is_anonymous():
+            return False
+        admin_groups = config.fetch("admin_groups")
+        return any(self.is_member_of(group) for group in admin_groups)
+
+    def is_anonymous(self):
+        return self.username is None
+
+    def is_member_of(self, group):
+        return group.lower() in self.groups

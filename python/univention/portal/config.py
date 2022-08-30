@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
+#
+# Univention Portal
 #
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# Copyright 2019-2022 Univention GmbH
+# Copyright 2020-2022 Univention GmbH
 #
 # https://www.univention.de/
 #
@@ -31,20 +32,30 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import
 
-import subprocess
+import json
+from glob import glob
 
-from univention.listener import ListenerModuleHandler, ListenerModuleConfiguration
+_CONF = "/usr/lib/univention-portal/config/*.json"
+_DB = {}
 
-GROUP_CACHE = '/var/cache/univention-portal/groups.json'
+
+def load():
+    _DB.clear()
+    try:
+        for fname in sorted(glob(_CONF)):
+            with open(fname) as fd:
+                _DB.update(json.load(fd))
+    except EnvironmentError:
+        pass
+    else:
+        load.never_loaded = False
 
 
-class PortalGroups(ListenerModuleHandler):
-    def post_run(self):
-        with self.as_root():
-            subprocess.call(['/usr/sbin/univention-portal', 'update', '--reason', 'ldap:group'])
+load.never_loaded = True
 
-    class Configuration(ListenerModuleConfiguration):
-        description = 'Maintain groups cache for Univention Portal'
-        ldap_filter = '(univentionObjectType=groups/group)'
+
+def fetch(key):
+    if load.never_loaded:
+        load()
+    return _DB[key]

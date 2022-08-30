@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
+#
+# Univention Portal
 #
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# Copyright 2019-2022 Univention GmbH
+# Copyright 2020-2022 Univention GmbH
 #
 # https://www.univention.de/
 #
@@ -30,21 +31,30 @@
 # License with the Debian GNU/Linux or Univention distribution in file
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
-
-from __future__ import absolute_import
-
-import subprocess
-
-from univention.listener import ListenerModuleHandler, ListenerModuleConfiguration
-
-GROUP_CACHE = '/var/cache/univention-portal/groups.json'
+#
 
 
-class PortalGroups(ListenerModuleHandler):
-    def post_run(self):
-        with self.as_root():
-            subprocess.call(['/usr/sbin/univention-portal', 'update', '--reason', 'ldap:group'])
+import univention.portal.config as config
+from univention.portal import get_dynamic_classes
 
-    class Configuration(ListenerModuleConfiguration):
-        description = 'Maintain groups cache for Univention Portal'
-        ldap_filter = '(univentionObjectType=groups/group)'
+
+def make_arg(arg_definition):
+    arg_type = arg_definition["type"]
+    if arg_type == "static":
+        return arg_definition["value"]
+    elif arg_type == "config":
+        return config.fetch(arg_definition["key"])
+    elif arg_type == "class":
+        Klass = get_dynamic_classes(arg_definition["class"])
+        args = []
+        kwargs = {}
+        for _arg_definition in arg_definition.get("args", []):
+            args.append(make_arg(_arg_definition))
+        for name, _arg_definition in arg_definition.get("kwargs", {}).items():
+            kwargs[name] = make_arg(_arg_definition)
+        return Klass(*args, **kwargs)
+    raise TypeError("Unknown arg_definition: {!r}".format(arg_definition))
+
+
+def make_portal(portal_definition):
+    return make_arg(portal_definition)
