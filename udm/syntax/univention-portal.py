@@ -75,13 +75,12 @@ class NewPortalFolders(UDM_Objects):
 
 
 class NewPortalAnnouncements(UDM_Objects):
-	"""
-	Syntax to select a portal announcement from |LDAP| using :py:class:`univention.admin.handlers.announcement.entry`.
-	"""
-	udm_modules = ('portals/announcement', )
-	label = '%(name)s'
-	empty_value = False
-	simple = True
+    """Syntax to select a portal announcement from |LDAP| using :py:class:`univention.admin.handlers.announcement.entry`."""
+
+    udm_modules = ('portals/announcement', )
+    label = '%(name)s'
+    empty_value = False
+    simple = True
 
 
 class NewPortalComputer(UDM_Objects):
@@ -119,15 +118,14 @@ class NewPortalEntryLinkTarget(select):
 
 
 class NewPortalAnnouncementSeverity(select):
-	"""
-	Syntax to select the severity of an announcement.
-	"""
-	choices = [
-		('info', _('Info')),
-		('warn', _('Warning')),
-		('success', _('Success')),
-		('danger', _('Danger')),
-	]
+    """Syntax to select the severity of an announcement."""
+
+    choices = [
+        ('info', _('Info')),
+        ('warn', _('Warning')),
+        ('success', _('Success')),
+        ('danger', _('Danger')),
+    ]
 
 
 class LocalizedLink(translationTuple):

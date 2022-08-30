@@ -71,7 +71,7 @@ class StubReloader(MtimeBasedLazyFileReloader):
 
 
 class TestPortal:
-    @pytest.fixture()
+    @pytest.fixture
     def mocked_user(self, mocker):
         user = mocker.Mock()
         user.username = "hindenkampp"
@@ -80,7 +80,7 @@ class TestPortal:
         user.headers = {}
         return user
 
-    @pytest.fixture()
+    @pytest.fixture
     def mocked_anonymous_user(self, mocker):
         user = mocker.Mock()
         user.username = None
@@ -111,7 +111,7 @@ class TestPortal:
         authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
         return Portal(scorer, portal_cache, authenticator)
 
-    @pytest.fixture()
+    @pytest.fixture
     def mocked_portal(self, dynamic_class, mocker):
         async def async_magic():
             return
@@ -205,26 +205,26 @@ class TestPortal:
                 "activated": True,
                 "allowedGroups": [
                     "cn=g1,cn=groups,dc=intranet,dc=example,dc=de",
-                    "cn=g2,cn=groups,dc=intranet,dc=example,dc=de",
+                    "cn=g2,cn=groups,dc=intranet,dc=example,dc=de"
                 ],
                 "anonymous": True,
                 "description": {
                     "de_DE": "News, Tipps und Best Practices",
                     "en_US": "News, tips and best practices",
-                    "fr_FR": "Nouvelles, conseils et bonne pratique",
+                    "fr_FR": "Nouvelles, conseils et bonne pratique"
                 },
                 "dn": "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
                 "in_portal": True,
                 "linkTarget": "newwindow",
                 "links": [
-                    "https://www.univention.com/news/blog-en/",
+                    "https://www.univention.com/news/blog-en/"
                 ],
                 "logo_name": "/univention/portal/icons/entries/univentionblog.png",
                 "name": {
                     "de_DE": "Univention Blog",
                     "en_US": "Univention Blog",
-                    "fr_FR": "Univention Blog",
-                },
+                    "fr_FR": "Univention Blog"
+                }
             },
         ]
         assert content == expected_content
@@ -259,7 +259,7 @@ class TestPortal:
                 [
                     u"cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
                     [u"cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", u"cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", u"cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
-                ],
+                ]
             ],
             "defaultLinkTarget": u"embedded",
             "dn": u"cn=domain,cn=portal,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
@@ -385,7 +385,7 @@ class TestPortal:
             past_announcement["dn"]: past_announcement,
             present_announcement["dn"]: present_announcement,
             future_announcement["dn"]: future_announcement,
-           }
+        }
         modifiable_data = portal_data.get_portal_cache_json()
         modifiable_data['announcements'] = input_announcements
 
@@ -458,7 +458,7 @@ class TestPortal:
             visible_announcement_1["dn"]: visible_announcement_1,
             visible_announcement_2["dn"]: visible_announcement_2,
             invisible_announcement["dn"]: invisible_announcement,
-           }
+        }
         modifiable_data = portal_data.get_portal_cache_json()
         modifiable_data['announcements'] = input_announcements
 
