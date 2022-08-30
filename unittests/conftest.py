@@ -40,8 +40,8 @@ import pytest
 
 @pytest.fixture
 def dynamic_class():
-	from univention import portal
-	return portal.get_dynamic_classes
+    from univention import portal
+    return portal.get_dynamic_classes
 
 
 # Helper function fixtures
@@ -49,21 +49,21 @@ def dynamic_class():
 
 @pytest.fixture
 def patch_object_module(mocker):
-	""" Helper to patch module level library imports of an object or class """
+    """ Helper to patch module level library imports of an object or class """
 
-	def _(obj, module_name):
-		return mocker.patch("{}.{}".format(obj.__module__, module_name))
+    def _(obj, module_name):
+        return mocker.patch("{}.{}".format(obj.__module__, module_name))
 
-	return _
+    return _
 
 
 @pytest.fixture
 def get_file_path(request):
-	""" Helper to get the absolute path of test files in the unittests directory """
-	unittest_path = request.fspath.dirname
-	files_directory = "files"
+    """ Helper to get the absolute path of test files in the unittests directory """
+    unittest_path = request.fspath.dirname
+    files_directory = "files"
 
-	def _(file_name):
-		return path.join(unittest_path, files_directory, file_name)
+    def _(file_name):
+        return path.join(unittest_path, files_directory, file_name)
 
-	return _
+    return _
