@@ -35,8 +35,8 @@
 
 
 def test_setup_logger():
-	from univention.portal import log
+    from univention.portal import log
 
-	log.setup_logger()
-	unittest_logger = log.get_logger("unittest")
-	unittest_logger.info("test_setup_logger works")
+    log.setup_logger()
+    unittest_logger = log.get_logger("unittest")
+    unittest_logger.info("test_setup_logger works")
