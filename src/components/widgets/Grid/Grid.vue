@@ -9,42 +9,34 @@
     />
     <GridTable
       :items="gridItems"
-      :columns="columns"
+      :columns="tableHeaderColumns"
       :on-item-selected="onItemSelected"
+      @on-sort="onSort"
       @on-operation="onOperation"
-    >
-      <template
-        v-for="(index, name) in $slots"
-        #[name]="data"
-      >
-        <slot
-          :name="name"
-          v-bind="data"
-        />
-      </template>
-    </GridTable>
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { TableHeader } from './components';
 import GridHeader from './GridHeader.vue';
 import GridTable from './GridTable.vue';
 import {
   GridItem,
   GridItemProps,
   HeaderCheckboxState,
-  SortedColumnInfo,
   Operation,
   OperationProps,
-  GridColumnProps,
+  SortDirection,
+  TableHeaderColumn,
+  TableHeaderColumnProps,
 } from './types';
-import { TableHeader, TableBody } from './components';
 
 interface Data {
   tableHeaderCheckbox: HeaderCheckboxState;
   gridItems: GridItem[];
-  sortedColumnInfo: SortedColumnInfo;
+  tableHeaderColumns: TableHeaderColumn[];
 }
 
 export default defineComponent({
@@ -53,20 +45,15 @@ export default defineComponent({
     GridHeader,
     GridTable,
     TableHeader,
-
   },
   props: {
     columns: {
-      type: Array as PropType<GridColumnProps[]>,
+      type: Array as PropType<TableHeaderColumnProps[]>,
       default: () => [],
     },
     items: {
       type: Array as PropType<GridItemProps[]>,
       default: () => [],
-    },
-    columnInfo: {
-      type: Object as PropType<{label: string; key: string}>,
-      default: () => ({ label: '', key: '' }),
     },
     on: {
       type: Object as PropType<OperationProps>,
@@ -81,10 +68,7 @@ export default defineComponent({
     return {
       tableHeaderCheckbox: false,
       gridItems: [],
-      sortedColumnInfo: {
-        column: null,
-        direction: 'asc',
-      },
+      tableHeaderColumns: [],
     };
   },
   computed: {
@@ -121,28 +105,14 @@ export default defineComponent({
         }
       },
     },
-    sortedColumnInfo(info: SortedColumnInfo) {
-      let gridItems = this.gridItems.sort((a, b) => {
-        if (info.column === 'name') {
-          return a.name.localeCompare(b.name);
-        } if (info.column === 'value') {
-          return a.path.localeCompare(b.path);
-        }
-        return 0;
-      });
-      if (info.direction === 'desc') {
-        gridItems = this.gridItems.reverse();
-      }
-      this.gridItems = gridItems;
-    },
   },
   mounted() {
     this.gridItems = this.items.map((item) => ({
       ...item,
       selected: false,
     }));
-
-    console.log('WTF!!!', this);
+    // init table header columns to be displayed
+    this.initTableHeaderColumns();
   },
   methods: {
     onItemSelected(item: GridItem, deselectAll = true) {
@@ -154,14 +124,37 @@ export default defineComponent({
       }
       item.selected = !item.selected;
     },
+    initTableHeaderColumns() {
+      // if user has not specified any columns, we will show all columns except any columns that have the "$" sign in their property key
+      if (!this.columns || this.columns.length === 0) {
+        const itemPropertyKeys = Object.keys(this.items[0]);
+        this.tableHeaderColumns = itemPropertyKeys
+          .filter((key) => !key.includes('$'))
+          .map((key) => ({ key, label: key, isSorted: false, sortDirection: 'asc' }));
+        return;
+      }
+      this.tableHeaderColumns = this.columns.map((column) => ({
+        ...column,
+        isSorted: false,
+        sortDirection: 'asc',
+      }));
+    },
     onTableHeaderCheckboxUpdate(selected: HeaderCheckboxState) {
       this.tableHeaderCheckbox = selected;
     },
-    onSort(column: 'name' | 'value') {
-      this.sortedColumnInfo = {
-        column,
-        direction: this.sortedColumnInfo.direction === 'asc' ? 'desc' : 'asc',
-      };
+    onSort(column: TableHeaderColumn) {
+      this.tableHeaderColumns = this.tableHeaderColumns.map((headerColumn) => {
+        const isSorted = headerColumn.key === column.key;
+        let sortDirection: SortDirection = 'asc';
+        if (isSorted) {
+          sortDirection = column.sortDirection === 'asc' ? 'desc' : 'asc';
+        }
+        return {
+          ...headerColumn,
+          isSorted,
+          sortDirection,
+        };
+      });
     },
     onOperation(operation: Operation) {
       const selectedIds = this.selectedItems.map((item) => item.$dn$);

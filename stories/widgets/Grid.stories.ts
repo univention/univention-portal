@@ -343,9 +343,9 @@ const Template: StoryFn<typeof Grid> = (args) => ({
   template: `
     <div style="max-width: 100%; width: calc(100vw - 200px)">
     <Grid v-bind="args">
-      <template #column-body-name="{item}">
-        wtf XXXXXXXXXXXXXXXXx {{item}}
-      </template>
+<!--      <template #column-body-name="{item}">-->
+<!--        {{ item }}-->
+<!--      </template>-->
     </Grid>
     </div>
   `,
@@ -354,8 +354,10 @@ const Template: StoryFn<typeof Grid> = (args) => ({
 export const Basic = Template.bind({});
 Basic.args = {
   items: ITEMS,
-  columns: ['name'],
-  columnInfo: { label: 'Path', key: 'path' },
+  // columns: [{
+  //   label: 'Path',
+  //   key: 'path',
+  // }],
   // context actions
   on: {
     add: (item: GridItemProps) => {

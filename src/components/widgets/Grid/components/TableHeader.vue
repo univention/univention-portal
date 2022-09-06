@@ -7,43 +7,29 @@
     />
   </div>
   <div
-    class="grid-table-header-name"
-    @click="$emit('onSort', 'name')"
-  >
-    <Transition>
-      <PortalIcon
-        v-if="sortedColumnInfo.column === 'name'"
-        :class="['grid-table-header-sort-icon', {
-          'grid-table-header-sort-icon-asc': sortedColumnInfo.direction === 'asc',
-          'grid-table-header-sort-icon-desc': sortedColumnInfo.direction === 'desc',
-        }]"
-        icon="chevron-down"
-      />
-    </Transition>
-    <span>Name</span>
-  </div>
-  <div
+    v-for="(column, index) in columns"
+    :key="index"
     class="grid-table-header-value"
-    @click="$emit('onSort', 'value')"
+    @click="$emit('onSort', column)"
   >
     <Transition>
       <PortalIcon
-        v-if="sortedColumnInfo.column === 'value'"
+        v-if="column.isSorted"
         :class="['grid-table-header-sort-icon', {
-          'grid-table-header-sort-icon-asc': sortedColumnInfo.direction === 'asc',
-          'grid-table-header-sort-icon-desc': sortedColumnInfo.direction === 'desc',
+          'grid-table-header-sort-icon-asc': column.sortDirection === 'asc',
+          'grid-table-header-sort-icon-desc': column.sortDirection === 'desc',
         }]"
         icon="chevron-down"
       />
     </Transition>
-    <span>{{ columnLabel }}</span>
+    <span>{{ column.label }}</span>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import { SortedColumnInfo, HeaderCheckboxState } from '../types';
+import { defineComponent, PropType } from 'vue';
+import { HeaderCheckboxState, TableHeaderColumn } from '../types';
 import GridCheckbox from './GridCheckbox.vue';
 
 export default defineComponent({
@@ -53,16 +39,12 @@ export default defineComponent({
     PortalIcon,
   },
   props: {
+    columns: {
+      type: Array as PropType<TableHeaderColumn[]>,
+      default: () => [],
+    },
     tableHeaderCheckbox: {
       type: [Boolean, String] as PropType<HeaderCheckboxState>,
-      required: true,
-    },
-    sortedColumnInfo: {
-      type: Object as PropType<SortedColumnInfo>,
-      required: true,
-    },
-    columnLabel: {
-      type: String,
       required: true,
     },
   },
