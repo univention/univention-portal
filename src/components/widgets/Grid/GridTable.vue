@@ -1,23 +1,10 @@
 <template>
   <div class="grid-table">
     <div class="grid-table-header">
-      <TableHeader
-        :columns="columns"
-        :table-header-checkbox="tableHeaderCheckbox"
-        @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
-        @on-sort="$emit('onSort', $event)"
-      />
+      <slot name="table-header" />
     </div>
     <div class="grid-table-body">
-      <TableBody
-        :items="items"
-        :columns="columns"
-        :on-item-selected="onItemSelected"
-      >
-        <!--        <template v-for="(index, name) in $slots" #[name]="data" >-->
-        <!--          <slot :name="name" v-bind="data" />-->
-        <!--        </template>-->
-      </TableBody>
+      <slot name="table-body" />
     </div>
     <ContextMenu
       :is-open="isContextMenuOpen"
@@ -116,32 +103,5 @@ export default defineComponent({
         transform: rotate(180deg)
       &-desc
         transform: rotate(0deg)
-
-  &-body
-    width: 100%
-    max-height: 30em
-    overflow: auto
-
-    &-row
-      display: flex
-      align-items: center
-      padding: calc(1.5 * var(--layout-spacing-unit-small)) calc(3 * var(--layout-spacing-unit-small))
-      border-bottom: 1px solid var(--bgc-content-body)
-      transition: all 250ms
-
-      > div
-        display: flex
-        align-items: center
-
-      &-checkbox
-        width: calc(6 * var(--layout-spacing-unit))
-        padding-left: var(--layout-spacing-unit)
-        padding-right: calc(2 * var(--layout-spacing-unit))
-
-      &-name, &-value
-        width: 100%
-
-      &:hover
-        background-color: var(--bgc-grid-row-hover)
 
 </style>

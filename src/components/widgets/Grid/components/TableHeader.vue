@@ -12,17 +12,22 @@
     class="grid-table-header-value"
     @click="$emit('onSort', column)"
   >
-    <Transition>
-      <PortalIcon
-        v-if="column.isSorted"
-        :class="['grid-table-header-sort-icon', {
-          'grid-table-header-sort-icon-asc': column.sortDirection === 'asc',
-          'grid-table-header-sort-icon-desc': column.sortDirection === 'desc',
-        }]"
-        icon="chevron-down"
-      />
-    </Transition>
-    <span>{{ column.label }}</span>
+    <slot
+      :name="`table-header-value-${column.key}`"
+      :column="column"
+    >
+      <Transition>
+        <PortalIcon
+          v-if="column.isSorted"
+          :class="['grid-table-header-sort-icon', {
+            'grid-table-header-sort-icon-asc': column.sortDirection === 'asc',
+            'grid-table-header-sort-icon-desc': column.sortDirection === 'desc',
+          }]"
+          icon="chevron-down"
+        />
+      </Transition>
+      <span>{{ column.label }}</span>
+    </slot>
   </div>
 </template>
 

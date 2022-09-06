@@ -6,18 +6,70 @@
       :number-items-selected="selectedItems.length"
       @on-operation="onOperation"
       @on-add-new-item="onAddNewItem"
-    />
+    >
+      <template #header-option-buttons>
+        <slot name="header-option-buttons" />
+      </template>
+      <template #header-status-text="data">
+        <slot
+          name="header-status-text"
+          v-bind="data"
+        />
+      </template>
+    </GridHeader>
     <GridTable
       :items="gridItems"
       :columns="tableHeaderColumns"
       :on-item-selected="onItemSelected"
       @on-sort="onSort"
       @on-operation="onOperation"
-    />
+    >
+      <template #table-header>
+        <GridTableHeader
+          :columns="tableHeaderColumns"
+          :table-header-checkbox="tableHeaderCheckbox"
+          @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
+          @on-sort="onSort"
+        >
+          <template
+            v-for="(index, name) in $slots"
+            :key="index"
+            #[name]="data"
+          >
+            <slot
+              v-if="name.includes('table-header-value')"
+              :name="name"
+              v-bind="data"
+            />
+          </template>
+        </GridTableHeader>
+      </template>
+      <template #table-body>
+        <GridTableBody
+          :items="gridItems"
+          :columns="tableHeaderColumns"
+          :on-item-selected="onItemSelected"
+        >
+          <template
+            v-for="(index, name) in $slots"
+            :key="index"
+            #[name]="data"
+          >
+            <slot
+              v-if="name.includes('table-body-value')"
+              :name="name"
+              v-bind="data"
+            />
+          </template>
+        </GridTableBody>
+      </template>
+    </GridTable>
   </div>
 </template>
 
 <script lang="ts">
+import GridTableBody from 'components/widgets/Grid/components/TableBody.vue';
+import GridTableHeader from 'components/widgets/Grid/components/TableHeader.vue';
 import { defineComponent, PropType } from 'vue';
 import { TableHeader } from './components';
 import GridHeader from './GridHeader.vue';
@@ -42,6 +94,8 @@ interface Data {
 export default defineComponent({
   name: 'Grid',
   components: {
+    GridTableBody,
+    GridTableHeader,
     GridHeader,
     GridTable,
     TableHeader,

@@ -1,22 +1,28 @@
 <template>
   <div class="grid-header">
     <div class="grid-header-button">
-      <TransitionGroup>
-        <button
-          v-for="(button, index) in optionButtons"
-          :key="index"
-          :class="`grid-header-button--${button.label.toLowerCase()}`"
-          @click="onOperation(button.operation)"
-        >
-          <PortalIcon :icon="button.icon" />
-          <span>{{ button.label }}</span>
-        </button>
-      </TransitionGroup>
+      <slot name="header-option-buttons">
+        <TransitionGroup>
+          <button
+            v-for="(button, index) in optionButtons"
+            :key="index"
+            :class="`grid-header-button--${button.label.toLowerCase()}`"
+            @click="onOperation(button.operation)"
+          >
+            <PortalIcon :icon="button.icon" />
+            <span>{{ button.label }}</span>
+          </button>
+        </TransitionGroup>
+      </slot>
     </div>
     <div class="grid-header-status">
-      <span class="grid-header-status--text">
+      <slot
+        name="header-status-text"
+        class="grid-header-status--text"
+        :number-items-selected="numberItemsSelected"
+      >
         {{ numberItemsSelectedText }} of {{ numberItems }} selected
-      </span>
+      </slot>
     </div>
     <ContextMenu
       :is-open="isContextMenuOpen"
@@ -60,10 +66,6 @@ export default defineComponent({
       type: Number as PropType<number>,
       required: true,
     },
-    itemType: {
-      type: String as PropType<string>,
-      default: 'row',
-    },
   },
   emits: ['onOperation', 'onOutsideClick', 'onAddNewItem'],
   data() {
@@ -97,8 +99,8 @@ export default defineComponent({
     },
 
     numberItemsSelectedText(): string | number {
-      if (this.numberItemsSelected === 1) return `One ${this.itemType}`;
-      return `${this.numberItemsSelected} ${this.itemType}s`;
+      if (this.numberItemsSelected === 1) return 'One row';
+      return `${this.numberItemsSelected} rows`;
     },
   },
   methods: {
