@@ -1,7 +1,8 @@
 import { Meta, StoryFn } from '@storybook/vue3';
 
 import Grid from '@/components/widgets/Grid/Grid.vue';
-import { GridItemProps } from '../../src/components/widgets/Grid/types';
+import { GridItemProps } from '@/components/widgets/Grid/types';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 
 const ITEMS: GridItemProps[] = [
   {
@@ -336,28 +337,50 @@ export default {
 
 // Base Template
 const Template: StoryFn<typeof Grid> = (args) => ({
-  components: { Grid },
+  components: { Grid, PortalIcon },
   setup() {
-    return { args };
+    const optionButtons = [
+      { label: 'Add', icon: 'plus', operation: 'add' },
+      { label: 'Edit', icon: 'edit-2', operation: 'edit' },
+      { label: 'Delete', icon: 'trash', operation: 'remove' },
+      { label: 'More', icon: 'more-horizontal', operation: 'more' },
+    ];
+
+    function getNameSlot(index: number) {
+      return `table-body-value-name-${index}`;
+    }
+
+    return { args, optionButtons, getNameSlot };
   },
   template: `
     <div style="max-width: 100%; width: calc(100vw - 200px)">
     <Grid v-bind="args">
-<!--      <template #column-body-name="{item}">-->
-<!--        {{ item }}-->
-<!--      </template>-->
+      
+      <template #header-option-buttons>
+      </template>
+      <template #header-status-text="{numberItemsSelected}">
+      </template>
+     
+      <template #table-header-value-path="{column}">
+      </template>
+      
+      <template v-for="(_, index) in args.items" #[getNameSlot(index)]="{item}">
+      </template>
     </Grid>
     </div>
-  `,
+    `,
 });
 
 export const Basic = Template.bind({});
 Basic.args = {
   items: ITEMS,
-  // columns: [{
-  //   label: 'Path',
-  //   key: 'path',
-  // }],
+  columns: [{
+    label: 'Name',
+    key: 'name',
+  }, {
+    label: 'Path',
+    key: 'path',
+  }],
   // context actions
   on: {
     add: (item: GridItemProps) => {
