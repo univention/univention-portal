@@ -5,10 +5,22 @@ export type HeaderCheckboxState = boolean | 'mixed';
 
 export type Operation = 'add' | 'edit' | 'remove' | 'search' | 'move' | 'copy';
 
+export type SortDirection = 'asc' | 'desc';
+
 export interface ContextMenuOption {
   label: string;
   icon: string;
   operation: Operation;
+}
+
+export interface TableHeaderColumnProps {
+  label: string;
+  key: string;
+}
+
+export interface TableHeaderColumn extends TableHeaderColumnProps {
+  isSorted: boolean;
+  sortDirection: SortDirection;
 }
 
 export interface GridColumnProps {
@@ -30,11 +42,6 @@ export interface GridItemProps {
 
 export interface GridItem extends GridItemProps {
   selected: boolean;
-}
-
-export interface SortedColumnInfo {
-  column: 'name' | 'value' | null;
-  direction: 'asc' | 'desc';
 }
 
 export interface OperationProps {

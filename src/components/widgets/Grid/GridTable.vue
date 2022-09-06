@@ -1,14 +1,12 @@
 <template>
   <div class="grid-table">
     <div class="grid-table-header">
-      <!--      <TableHeader-->
-      <!--        :columns="columns"-->
-      <!--        :table-header-checkbox="tableHeaderCheckbox"-->
-      <!--        :column-label="columnInfo.label"-->
-      <!--        :sorted-column-info="sortedColumnInfo"-->
-      <!--        @update:table-header-checkbox="onTableHeaderCheckboxUpdate"-->
-      <!--        @on-sort="onSort"-->
-      <!--      />-->
+      <TableHeader
+        :columns="columns"
+        :table-header-checkbox="tableHeaderCheckbox"
+        @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
+        @on-sort="$emit('onSort', $event)"
+      />
     </div>
     <div class="grid-table-body">
       <TableBody
@@ -16,9 +14,9 @@
         :columns="columns"
         :on-item-selected="onItemSelected"
       >
-        <template v-for="(index, name) in $slots" #[name]="data" >
-          <slot :name="name" v-bind="data" />
-        </template>
+        <!--        <template v-for="(index, name) in $slots" #[name]="data" >-->
+        <!--          <slot :name="name" v-bind="data" />-->
+        <!--        </template>-->
       </TableBody>
     </div>
     <ContextMenu
@@ -34,20 +32,20 @@
 </template>
 
 <script lang="ts">
+import { GridItem, TableHeaderColumn } from 'components/widgets/Grid/types';
 import { defineComponent, PropType } from 'vue';
-import { GridColumnProps, GridItem } from 'components/widgets/Grid/types';
-import { ContextMenu, TableBody } from './components';
+import { ContextMenu, TableBody, TableHeader } from './components';
 
 export default defineComponent({
   name: 'GridTable',
   components: {
     ContextMenu,
+    TableHeader,
     TableBody,
   },
-  emits: ['onOperation'],
   props: {
     columns: {
-      type: Array as PropType<GridColumnProps[]>,
+      type: Array as PropType<TableHeaderColumn[]>,
       default: () => [],
     },
     items: {
@@ -59,6 +57,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['onOperation', 'onSort'],
   data() {
     return {
       isContextMenuOpen: false,
@@ -105,11 +104,6 @@ export default defineComponent({
       width: calc(6 * var(--layout-spacing-unit));
       padding-left: var(--layout-spacing-unit);
       padding-right: calc(2 * var(--layout-spacing-unit));
-
-    &-name
-      // subtract the width of the scrollbar
-      width: calc(100% - 35px)
-      cursor: pointer
 
     &-value
       width: 100%
