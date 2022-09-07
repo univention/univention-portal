@@ -21,7 +21,7 @@
 <script lang="ts">
 import { GridItem, TableHeaderColumn } from 'components/widgets/Grid/types';
 import { defineComponent, PropType } from 'vue';
-import { ContextMenu, TableBody, TableHeader } from './components';
+import { ContextMenu, TableBody, TableHeader } from './index';
 
 export default defineComponent({
   name: 'GridTable',
@@ -74,34 +74,5 @@ export default defineComponent({
 .grid-table
   width: 100%
   border-top: 1px solid var(--bgc-content-body)
-
-  &-header
-    display: flex
-    padding: calc(1.5 * var(--layout-spacing-unit-small)) calc(3 * var(--layout-spacing-unit-small))
-    border-bottom: 1px solid var(--bgc-content-body)
-    font-size: var(--font-size-3)
-
-    > div
-      display: flex
-      align-items: center
-
-    &-checkbox
-      display: flex
-      align-items: center
-      width: calc(6 * var(--layout-spacing-unit));
-      padding-left: var(--layout-spacing-unit);
-      padding-right: calc(2 * var(--layout-spacing-unit));
-
-    &-value
-      width: 100%
-      cursor: pointer
-
-    &-sort-icon
-      margin-right: 5px
-      transition: transform 250ms
-      &-asc
-        transform: rotate(180deg)
-      &-desc
-        transform: rotate(0deg)
 
 </style>

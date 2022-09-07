@@ -39,8 +39,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import { ContextMenuOption, Operation } from './types';
-import { ContextMenu } from './components';
+import { ContextMenuOption, Operation } from '../types';
+import { ContextMenu } from './index';
 
 type OptionButtonOperation = Operation | 'more';
 interface OptionButton extends Omit<ContextMenuOption, 'operation'> {
@@ -144,14 +144,16 @@ export default defineComponent({
 
 <style lang="stylus">
 .grid-header
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex
+  justify-content: space-between
+  align-items: center
   padding: var(--layout-spacing-unit)
+  width: 100%
 
   &-button
-    display: flex;
-    align-items: center;
+    display: flex
+    align-items: center
+    width: 100%
 
     & button
       background-color: var(--button-text-bgc)
@@ -160,8 +162,13 @@ export default defineComponent({
         background-color: var(--button-text-bgc-hover)
 
   &-status
+    display: flex
+    align-items: center
+    justify-content: right
+    padding-right: calc(var(--layout-spacing-unit) * 2)
+    width: 100%
     &--text
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
 </style>

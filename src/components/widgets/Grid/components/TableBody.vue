@@ -4,10 +4,10 @@
     :key="item.name"
     class="grid-table-body-row"
     @contextmenu="onContextMenuSelect(item)"
+      @click="onItemSelected(item, false)"
   >
     <div
       class="grid-table-body-row-checkbox"
-      @click="onItemSelected(item, false)"
     >
       <GridCheckbox :checked="item.selected" />
     </div>
@@ -20,7 +20,6 @@
         :name="`table-body-value-${column.key}-${index}`"
         :item="item"
         class="grid-table-body-row-value"
-        @click="onItemSelected(item)"
       >
         {{ item[column.key] }}
       </slot>
@@ -32,13 +31,11 @@
 import { defineComponent, PropType } from 'vue';
 import { GridItem, TableHeaderColumn } from '../types';
 import GridCheckbox from './GridCheckbox.vue';
-import ItemIcon from './ItemIcon.vue';
 
 export default defineComponent({
   name: 'GridTableBody',
   components: {
     GridCheckbox,
-    ItemIcon,
   },
   props: {
     columns: {
