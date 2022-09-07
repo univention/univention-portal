@@ -25,7 +25,7 @@
       @on-operation="onOperation"
     >
       <template #table-header>
-        <GridTableHeader
+        <TableHeader
           :columns="tableHeaderColumns"
           :table-header-checkbox="tableHeaderCheckbox"
           @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
@@ -42,10 +42,10 @@
               v-bind="data"
             />
           </template>
-        </GridTableHeader>
+        </TableHeader>
       </template>
       <template #table-body>
-        <GridTableBody
+        <TableBody
           :items="gridItems"
           :columns="tableHeaderColumns"
           :on-item-selected="onItemSelected"
@@ -61,19 +61,18 @@
               v-bind="data"
             />
           </template>
-        </GridTableBody>
+        </TableBody>
       </template>
     </GridTable>
   </div>
 </template>
 
 <script lang="ts">
-import GridTableBody from 'components/widgets/Grid/components/TableBody.vue';
-import GridTableHeader from 'components/widgets/Grid/components/TableHeader.vue';
 import { defineComponent, PropType } from 'vue';
-import { TableHeader } from './components';
-import GridHeader from './GridHeader.vue';
-import GridTable from './GridTable.vue';
+import {
+  GridHeader, GridTable, TableBody, TableHeader,
+} from './components';
+
 import {
   GridItem,
   GridItemProps,
@@ -94,11 +93,10 @@ interface Data {
 export default defineComponent({
   name: 'Grid',
   components: {
-    GridTableBody,
-    GridTableHeader,
+    TableBody,
+    TableHeader,
     GridHeader,
     GridTable,
-    TableHeader,
   },
   props: {
     columns: {

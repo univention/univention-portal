@@ -65,10 +65,10 @@ export default defineComponent({
     if (!this.disableRightClick) {
       this.setUpContextMenu();
     }
-    document.addEventListener('click', this.detectOutsideClickContextMenu);
+    document.addEventListener('click', this.detectOutsideClick);
   },
   unmounted() {
-    document.removeEventListener('click', this.detectOutsideClickContextMenu);
+    document.removeEventListener('click', this.detectOutsideClick);
   },
   methods: {
     setUpContextMenu() {
@@ -92,7 +92,7 @@ export default defineComponent({
         this.$emit('onOpen', { x, y });
       });
     },
-    detectOutsideClickContextMenu(event: MouseEvent) {
+    detectOutsideClick(event: MouseEvent) {
       const contextMenuElement = this.$refs.contextMenu as HTMLDivElement;
       if (
         !contextMenuElement.contains(event.target as HTMLElement) &&
