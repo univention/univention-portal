@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  portal-server: 
+    build:
+      context: .
+      dockerfile: images/portal-server/Dockerfile
+    volumes:
+      - type: bind
+        source: /usr/lib/univention-portal/config
+        target: /usr/lib/univention-portal/config
