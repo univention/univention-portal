@@ -9,3 +9,13 @@ services:
       - type: bind
         source: /usr/lib/univention-portal/config
         target: /usr/lib/univention-portal/config
+  apache:
+    build:
+      context: .
+      dockerfile: images/apache/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - type: bind
+        source: /etc/apache2/sites-available/univention-portal.conf
+        target: /etc/apache2/sites-available/univention-portal.conf
