@@ -1,5 +1,8 @@
 <template>
-  <div class="grid-table-header-checkbox">
+  <div
+    class="grid-table-header-checkbox"
+    role="columnheader"
+  >
     <GridCheckbox
       :checked="tableHeaderCheckbox"
       :is-header="true"
@@ -10,6 +13,8 @@
     v-for="(column, index) in columns"
     :key="index"
     class="grid-table-header-value"
+    role="columnheader"
+    :style="{'width': `calc(100% + ${index * 15}px)`}"
     @click="$emit('onSort', column)"
   >
     <slot
@@ -24,9 +29,10 @@
             'grid-table-header-sort-icon-desc': column.sortDirection === 'desc',
           }]"
           icon="chevron-down"
+          role="presentation"
         />
       </Transition>
-      <span>{{ column.label }}</span>
+      <span role="presentation">{{ column.label }}</span>
     </slot>
   </div>
 </template>
@@ -76,11 +82,6 @@ export default defineComponent({
     padding-right: calc(2 * var(--layout-spacing-unit));
 
   &-value
-    &:nth-of-type(1)
-      width: calc(6 * var(--layout-spacing-unit));
-      padding-left: var(--layout-spacing-unit);
-      padding-right: calc(2 * var(--layout-spacing-unit));
-    width: 100%
     cursor: pointer
 
   &-sort-icon
