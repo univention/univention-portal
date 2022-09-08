@@ -1,7 +1,15 @@
 <template>
-  <div class="grid-table">
-    <div class="grid-table-header">
-      <slot name="table-header" />
+  <div
+    class="grid-table"
+    role="grid"
+  >
+    <div
+      class="grid-table-header"
+      role="row"
+    >
+      <slot
+        name="table-header"
+      />
     </div>
     <div class="grid-table-body">
       <slot name="table-body" />

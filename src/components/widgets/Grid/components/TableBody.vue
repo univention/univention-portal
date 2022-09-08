@@ -3,23 +3,27 @@
     v-for="(item, index) in items"
     :key="item.name"
     class="grid-table-body-row"
+    role="row"
     @contextmenu="onContextMenuSelect(item)"
-      @click="onItemSelected(item, false)"
   >
     <div
       class="grid-table-body-row-checkbox"
+      role="gridcell"
+      @click="onItemSelected(item, false)"
     >
       <GridCheckbox :checked="item.selected" />
     </div>
     <div
       v-for="column in columns"
       :key="column.key"
+      role="gridcell"
       class="grid-table-body-row-value"
     >
       <slot
         :name="`table-body-value-${column.key}-${index}`"
         :item="item"
         class="grid-table-body-row-value"
+        @click="onItemSelected(item)"
       >
         {{ item[column.key] }}
       </slot>

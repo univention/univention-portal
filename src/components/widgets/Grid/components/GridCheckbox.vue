@@ -3,6 +3,7 @@
     class="checkbox"
     aria-disabled="false"
     :aria-checked="checked"
+    :aria-label="isHeader ? 'Select all' : 'Select row'"
     role="checkbox"
     tabindex="0"
     @click="onCheck"

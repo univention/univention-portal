@@ -1,6 +1,8 @@
 <template>
   <div class="grid-header">
-    <div class="grid-header-button">
+    <div
+      class="grid-header-button"
+    >
       <slot name="header-option-buttons">
         <TransitionGroup>
           <button
@@ -9,13 +11,19 @@
             :class="`grid-header-button--${button.label.toLowerCase()}`"
             @click="onOperation(button.operation)"
           >
-            <PortalIcon :icon="button.icon" />
-            <span>{{ button.label }}</span>
+            <PortalIcon
+              :icon="button.icon"
+              role="presentation"
+            />
+            <span role="presentation">{{ button.label }}</span>
           </button>
         </TransitionGroup>
       </slot>
     </div>
-    <div class="grid-header-status">
+    <div
+      class="grid-header-status"
+      role="presentation"
+    >
       <slot
         name="header-status-text"
         class="grid-header-status--text"
