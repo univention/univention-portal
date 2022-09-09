@@ -15,14 +15,19 @@
         :aria-disabled="isOptionDisabled(contextMenuOption)"
         @click="onContextMenuOptionClick(contextMenuOption)"
       >
-        <PortalIcon
-          :icon="contextMenuOption.icon"
-          class="context-menu-item-icon"
-          role="presentation"
-        />
-        <span role="presentation">
-          {{ contextMenuOption.label }}
-        </span>
+        <slot
+          :name="`context-menu-option-${contextMenuOption.operation}`"
+          :option="contextMenuOption"
+        >
+          <PortalIcon
+            :icon="contextMenuOption.icon"
+            class="context-menu-item-icon"
+            role="presentation"
+          />
+          <span role="presentation">
+            {{ contextMenuOption.label }}
+          </span>
+        </slot>
       </div>
     </div>
   </Teleport>
@@ -56,6 +61,7 @@ export default defineComponent({
     };
   },
   mounted() {
+    console.log('WTF', this);
     this.setUpContextMenu();
     document.addEventListener('click', this.detectOutsideClickContextMenu);
   },
@@ -99,11 +105,7 @@ export default defineComponent({
 
       const availableOperations = selectedNode.data.$operations$;
       // disable the option if the operation of the selected node doesn't have the operation of the context menu option
-      if (!availableOperations.includes(contextMenuOption.operation)) {
-        return true;
-      }
-
-      return false;
+      return !availableOperations.includes(contextMenuOption.operation);
     },
     getContextMenuFromOperation(): ContextMenuOption[] {
       const operation: Operation[] = this.selectedNode && this.selectedNode.data.$operations$;

@@ -228,7 +228,12 @@ const Template: StoryFn<typeof Tree> = (args) => ({
     data.onReload = onReload;
     return { data };
   },
-  template: '<div><tree v-bind="data"></tree></div>',
+  template: `<div>
+    <Tree v-bind="data">
+      <template #context-menu-option-edit="{option}">
+      </template>
+    </Tree>
+  </div>`,
 });
 
 export const Default = Template.bind({});
