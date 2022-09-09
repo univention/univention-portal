@@ -44,18 +44,29 @@
       :selected-node="contextMenuSelectedNode"
       :context-menu-options="contextMenuOptions"
       @on-context-menu-option="onContextMenuOption"
-    />
+    >
+      <template
+        v-for="(index, name) in $slots"
+        :key="index"
+        #[name]="data"
+      >
+        <slot
+          v-if="name.includes('context-menu-option')"
+          :name="name"
+          v-bind="data"
+        />
+      </template>
+    </ContextMenu>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import StandbyCircle from '@/components/StandbyCircle.vue';
+import { defineComponent, PropType } from 'vue';
 import ContextMenu from './ContextMenu.vue';
 import Node from './node';
-import type { NodeProps, OperationProps, ContextMenuOption } from './types';
+import type { ContextMenuOption, NodeProps, OperationProps } from './types';
 
 interface Data {
   nodes: Node[];
@@ -130,10 +141,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.nodes = this.lists.map((propNode) => {
-      const node = new Node(propNode, null, []);
-      return node;
-    });
+    this.nodes = this.lists.map((propNode) => new Node(propNode, null, []));
 
     this.updateNodes();
   },
@@ -205,7 +213,7 @@ export default defineComponent({
     },
     onContextMenuOption(operationMethod: string) {
       const selectedNode = this.contextMenuSelectedNode;
-      if (!selectedNode || !this.on || !this.on[operationMethod] ) {
+      if (!selectedNode || !this.on || !this.on[operationMethod]) {
         return;
       }
 
