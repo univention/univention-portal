@@ -6,7 +6,7 @@
     <input
       :id="forAttrOfLabel"
       ref="input"
-      :value="modelValue"
+      :value="value"
       :disabled="disabled"
       :tabindex="tabindex"
       :required="required"
@@ -28,9 +28,10 @@
         class="suggestion-box-suggestion-list"
       >
         <div
-          v-for="option in suggestedOptions"
+          v-for="option in availableOptions"
           :key="option"
           class="suggestion-box-suggestion-list-option"
+          @click="onSelectOption(option)"
         >
           <span
             class="suggestion-box-suggestion-list-option-text"
@@ -95,6 +96,7 @@ export default defineComponent({
   data() {
     return {
       isSuggestionListOpen: false,
+      value: '',
     };
   },
   computed: {
@@ -104,12 +106,23 @@ export default defineComponent({
         invalidMessage: this.invalidMessage,
       });
     },
+    availableOptions(): string[] {
+      if (!this.value) return this.suggestedOptions;
+      return this.suggestedOptions.filter((option) => option.toLowerCase().includes(this.value.toLowerCase()));
+    },
   },
   methods: {
     updateModelValue(event: Event): void {
       const target = event.target as HTMLInputElement;
       const value: string = target.value;
+      this.toggleSuggestionList(!!value);
+      this.value = value;
       this.$emit('update:modelValue', value);
+    },
+    onSelectOption(option: string): void {
+      this.value = option;
+      this.isSuggestionListOpen = false;
+      this.$emit('update:modelValue', option);
     },
     toggleSuggestionList(isOpen?: boolean): void {
       this.isSuggestionListOpen = isOpen !== undefined ? isOpen : !this.isSuggestionListOpen;
