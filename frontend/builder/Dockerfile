@@ -3,9 +3,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get --assume-yes install curl openssh-client
+RUN apt-get update && apt-get --assume-yes --no-install-recommends install curl openssh-client && rm -rf /var/lib/apt/lists/*
 # cypress dependencies for running electron
-RUN apt-get install --assume-yes libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+RUN apt-get update && apt-get install --assume-yes --no-install-recommends libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
