@@ -2,6 +2,7 @@
   <div
     class="suggestion-box"
     tabindex="0"
+    @focusout="toggleSuggestionList(false)"
   >
     <input
       :id="forAttrOfLabel"
@@ -15,12 +16,17 @@
       :aria-describedby="invalidMessageId || undefined"
       data-test="suggestion-box"
       @input="updateModelValue"
+      @keydown.esc.prevent="toggleSuggestionList(false)"
+      @keydown.enter.prevent="onSelectOption(availableOptions[activeOptionIndex])"
+      @keydown.arrow-up.prevent="movingOption('up')"
+      @keydown.arrow-down.prevent="movingOption('down')"
     >
     <IconButton
       class="suggestion-box-icon-button"
       icon="chevron-down"
       aria-label-prop="Open mail domain list"
       @click="toggleSuggestionList"
+      @keydown.esc.prevent="toggleSuggestionList(false)"
     />
     <Transition>
       <div
@@ -28,9 +34,10 @@
         class="suggestion-box-suggestion-list"
       >
         <div
-          v-for="option in availableOptions"
+          v-for="(option, index) in availableOptions"
           :key="option"
           class="suggestion-box-suggestion-list-option"
+          :class="{ 'suggestion-box-suggestion-list-option--selected': index === activeOptionIndex }"
           @click="onSelectOption(option)"
         >
           <span
@@ -96,6 +103,7 @@ export default defineComponent({
   data() {
     return {
       isSuggestionListOpen: false,
+      activeOptionIndex: -1,
       value: '',
     };
   },
@@ -109,6 +117,13 @@ export default defineComponent({
     availableOptions(): string[] {
       if (!this.value) return this.suggestedOptions;
       return this.suggestedOptions.filter((option) => option.toLowerCase().includes(this.value.toLowerCase()));
+    },
+  },
+  watch: {
+    isSuggestionListOpen(isOpen: boolean) {
+      if (!isOpen) {
+        this.activeOptionIndex = -1;
+      }
     },
   },
   methods: {
@@ -126,6 +141,22 @@ export default defineComponent({
     },
     toggleSuggestionList(isOpen?: boolean): void {
       this.isSuggestionListOpen = isOpen !== undefined ? isOpen : !this.isSuggestionListOpen;
+    },
+    movingOption(direction: 'up' | 'down') {
+      if (!this.isSuggestionListOpen) {
+        this.toggleSuggestionList(true);
+      }
+      if (direction === 'up') {
+        this.activeOptionIndex -= 1;
+        if (this.activeOptionIndex < 0) {
+          this.activeOptionIndex = this.availableOptions.length - 1;
+        }
+      } else {
+        this.activeOptionIndex += 1;
+        if (this.activeOptionIndex >= this.availableOptions.length) {
+          this.activeOptionIndex = 0;
+        }
+      }
     },
   },
 });
