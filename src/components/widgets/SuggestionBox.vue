@@ -175,13 +175,12 @@ export default defineComponent({
     flex-direction: column
     &-option
       padding: var(--layout-spacing-unit)
-      background-color: var(--bgc-popup)
+      background-color: var(--bgc-inputfield-on-container)
       font-size: var(--font-size-4)
       cursor: pointer
+
       &--selected, &:hover
-        background-color: var(--bgc-popup-item-hover)
-      &--highlight
-        background-color: var(--bgc-popup-item-selected) !important
+        background-color: var(--bgc-grid-row-hover)
 
       &:first-child
         border-top-left-radius: var(--border-radius-interactable)
