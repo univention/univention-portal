@@ -1,4 +1,4 @@
-import StandbyWrapper from 'components/StandbyWrapper';
+import StandbyWrapper from '@/components/StandbyWrapper';
 
 export default {
   title: 'Components/Globals/Standby',
