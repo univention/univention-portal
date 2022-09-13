@@ -19,3 +19,4 @@ services:
       - type: bind
         source: /etc/apache2/sites-available/univention-portal.conf
         target: /etc/apache2/sites-available/univention-portal.conf
+
