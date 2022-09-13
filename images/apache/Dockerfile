@@ -37,6 +37,8 @@ COPY ./key.svg /var/www/html/key.svg
 COPY ./login.svg /var/www/html/login.svg
 COPY ./univention-management-console.svg /var/www/html/univention-management-console.svg
 
+RUN touch /var/www/custom.css
+
 ENTRYPOINT a2enmod headers \
 	&& a2ensite univention-portal \
 	&& apache2ctl -k start -DFOREGROUND

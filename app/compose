@@ -2,20 +2,21 @@ version: '3.3'
 
 services:
   portal-server: 
-    build:
-      context: .
-      dockerfile: images/portal-server/Dockerfile
+    image: docker-registry.knut.univention.de/portal-server:latest
+    container_name: portal-server-container
+    ports:
+      - "8095:8095"
     volumes:
       - type: bind
         source: /usr/lib/univention-portal/config
         target: /usr/lib/univention-portal/config
   apache:
-    build:
-      context: .
-      dockerfile: images/apache/Dockerfile
+    image: docker-registry.knut.univention.de/apache:latest
+    container_name: apache-container
     ports:
       - "80:80"
     volumes:
       - type: bind
         source: /etc/apache2/sites-available/univention-portal.conf
         target: /etc/apache2/sites-available/univention-portal.conf
+

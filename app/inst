@@ -35,7 +35,7 @@
 # <https://www.gnu.org/licenses/>.
 ## joinscript api: bindpwdfile
 
-VERSION=26
+VERSION=27
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/umc.sh
@@ -341,17 +341,6 @@ if [ $JS_LAST_EXECUTED_VERSION = 0 ]; then
 			ucr set "$key"="$value"
 		fi
 	done
-fi
-
-univention-portal add-default
-univention-portal update
-systemctl restart univention-portal-server
-
-# One time action: Copy example custom css file
-if [ $JS_LAST_EXECUTED_VERSION -lt 8 ]; then
-	# older custom.css are most definitely broken now
-	[ -e /usr/share/univention-portal/custom.css ] && cp /usr/share/univention-portal/custom.css /usr/share/univention-portal/custom.css.bak
-	touch /usr/share/univention-portal/custom.css
 fi
 
 joinscript_save_current_version

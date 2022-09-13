@@ -37,4 +37,6 @@
 
 a2dissite univention-portal.conf
 
+systemctl stop univention-portal-server
+
 exit 0

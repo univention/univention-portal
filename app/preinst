@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mkdir -p /var/univention-portal/udm
+
+systemctl stop univention-portal-server
+systemctl disable univention-portal-server

@@ -53,6 +53,7 @@ COPY ./conffiles/usr ./conffiles/usr
 COPY ./listener ./listener
 COPY ./udm ./udm
 COPY ./univention-portal .
+COPY ./app/install_udm ./install_udm
 COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=build /usr/lib/python3/dist-packages/univention /usr/local/lib/python3.7/univention
 
@@ -66,7 +67,6 @@ RUN mkdir -p /var/log/univention/ \
 
 RUN mkdir -p /usr/share/univention-portal
 
-RUN python univention-portal add-default
-
-CMD [ "/usr/sbin/univention-portal-server" ]
-ENTRYPOINT [ "python" ]
+ENTRYPOINT python univention-portal add-default \
+  && python univention-portal update \
+  && python /usr/sbin/univention-portal-server
