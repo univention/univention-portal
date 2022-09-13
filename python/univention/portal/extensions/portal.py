@@ -43,6 +43,9 @@ import univention.portal.config as config
 from univention.portal import Plugin
 from univention.portal.log import get_logger
 
+from cache import PortalFileCache
+from authenticator import UMCAuthenticator
+
 
 class Portal(metaclass=Plugin):
 	"""
@@ -93,7 +96,7 @@ class Portal(metaclass=Plugin):
 		Object that does the whole auth thing. Meant to the a `Authenticator` object
 	"""
 
-	def __init__(self, scorer, portal_cache, authenticator):
+	def __init__(self, scorer, portal_cache: PortalFileCache, authenticator: UMCAuthenticator):
 		self.scorer = scorer
 		self.portal_cache = portal_cache
 		self.authenticator = authenticator
