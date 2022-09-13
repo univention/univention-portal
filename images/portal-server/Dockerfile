@@ -44,7 +44,6 @@ RUN mkdir -p /var/log/univention/ \
 
 RUN mkdir -p /usr/share/univention-portal
 
-RUN python univention-portal add-default
-
-CMD [ "/usr/sbin/univention-portal-server" ]
-ENTRYPOINT [ "python" ]
+ENTRYPOINT python univention-portal add-default \
+  && python univention-portal update \
+  && python /usr/sbin/univention-portal-server

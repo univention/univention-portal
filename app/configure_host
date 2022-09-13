@@ -1,0 +1,86 @@
+#! /bin/sh
+#
+# Univention Portal
+#  postinst script for the univention-portal debian package
+#
+# Like what you see? Join us!
+# https://www.univention.com/about-us/careers/vacancies/
+#
+# Copyright 2017-2022 Univention GmbH
+#
+# https://www.univention.de/
+#
+# All rights reserved.
+#
+# The source code of this program is made available
+# under the terms of the GNU Affero General Public License version 3
+# (GNU AGPL V3) as published by the Free Software Foundation.
+#
+# Binary versions of this program provided by Univention to you as
+# well as other copyrighted, protected or trademarked materials like
+# Logos, graphics, fonts, specific documentations and configurations,
+# cryptographic keys etc. are subject to a license agreement between
+# you and Univention and not subject to the GNU AGPL V3.
+#
+# In the case you use this program under the terms of the GNU AGPL V3,
+# the program is provided in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License with the Debian GNU/Linux or Univention distribution in file
+# /usr/share/common-licenses/AGPL-3; if not, see
+# <https://www.gnu.org/licenses/>.
+
+#DEBHELPER#
+
+docker cp univention-portal-server-container:/app/udm/ /var/udm
+
+ln -s /var/udm/schema/univention-portal.schema /usr/lib/univention-portal/schema/univention-portal.schema
+ln -s /var/udm/acls/62univention-portal.acl /usr/lib/univention-portal/acl/62univention-portal.acl
+
+for handler in /var/udm/handlers/*.py;
+do
+	ln -s $handler /usr/lib/univention-portal/udm/$handler
+done
+
+for syntax in /var/udm/syntax/*.py;
+do
+	ln -s $syntax /usr/lib/univention-portal/syntax/$syntax
+done
+
+for api in /var/udm/api/*.py;
+do
+	ln -s $api /usr/lib/python3/dist-packages/univention/udm/modules/$api
+done
+
+for icons in /var/udm/icons/scalable/*.svg;
+do
+	ln -s $icons /usr/share/univention-management-console-frontend/js/dijit/themes/umc/icons/scalable/$icons
+done
+
+for icons in /var/udm/icons/50x50/*.png;
+do
+	ln -s $icons /usr/share/univention-management-console-frontend/js/dijit/themes/umc/icons/50x50/$icons
+done
+
+for icons in /var/udm/icons/16x16/*.png;
+do
+	ln -s $icons /usr/share/univention-management-console-frontend/js/dijit/themes/umc/icons/16x16/$icons
+done
+
+ln -s /var/udm/migrate-to-new-portal /usr/lib/univention-portal/migrate-to-new-portal
+ln -s /var/udm/univention-portal.xml /usr/lib/univention-portal/umc/univention-portal.xml
+
+. /usr/share/univention-lib/all.sh
+
+eval "$(ucr shell)"
+
+docker exec portal-server-container python /app/univention-portal add-umc-default
+docker exec portal-server-container python /app/univention-portal update
+
+#configuration for portal when apache2/force_https is setting true
+ucr set apache2/force_https/exclude/request_uri/univention-portal?/univention/get
+
+exit 0

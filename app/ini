@@ -1,0 +1,45 @@
+[Application]
+ID = portal
+Version = x.x.x
+Name = Univention Portal
+LongDescription = <div class="col-sm-7 col-xs-12 left-col">
+	<p>
+    With UCS 5 the Univention Portal is delivered as an app with some improvements. This app is a "preview" of the new portal, can be installed on UCS 4.4 and allows to use the new portal. The preview includes all functionalities of the previous UCS portal. During the installation of the app, the previously used data is migrated once. The setup and maintenance of the new portal is currently still associated with a certain amount of effort. The app is intended to enable UCS users to familiarize themselves with the new functions, test them and provide feedback to the Univention development team.
+    </p>
+	<p>
+    Uninstalling the app is not intended. However, you can return to the portal from UCS 4.4 in manual steps via the command line.
+	</p>
+    <p>
+    The main feature of the new portal is the embedding of, for example, modules of the UCS management system or apps installed in the UCS environment from the App Center via iframes, so that they no longer have to be opened in a new browser tab but are displayed directly in the portal. In this way, for example, individual UMC modules can be accessed directly via the portal. User registration and self service can also be embedded in the central portal. With the self service, the user menu can now be enhanced by the administrator with functions such as "protect account".
+    </p>
+    <p>
+    Since the app is a preview of the new portal, there are still some restrictions. For example, there are apps that do not allow or support iframes. In certain cases, HTTP and HTTPS links are mixed. And the portal entries of apps must currently still be changed manually so that they are displayed in the portal preview.
+    </p>
+	<p>
+	NOTE: This App should currently only be installed for testing purposes.
+	</p>
+	</div>
+PortsExclusive = 8095
+SupportedUcsVersions = x.x.x
+
+[de]
+LongDescription = <div class="col-sm-7 col-xs-12 left-col">
+	<p>
+    Mit UCS 5 wird das Univention Portal mit einigen Verbesserungen als App ausgeliefert. Diese App ist eine "Vorschau" des neuen Portals, kann auf UCS 4.4 installiert werden und erlaubt  das neue Portal zu verwenden. Die Vorschau beinhaltet alle Funktionalitäten des bisherigen UCS Portals. Bei der Installation der App werden die bisher verwendeten Daten einmalig migriert. Das Aufsetzen und die Wartung des neuen Portals sind derzeit noch mit einem gewissen Aufwand verbunden. Was gemacht werden muss und was sich im Detail ändert, wird vor der App-Installation ausführlicher aufgelistet.Die App soll es UCS Nutzern ermöglichen, sich mit den neuen Funktionen vertraut zu machen, diese zu testen und Feedback an das Univention Entwicklungsteam zu geben.
+    </p>
+	<p>
+    Eine Deinstallation der App ist nicht vorgesehen. Über die Kommandozeile kann jedoch in manuellen Schritten auf das Portal aus UCS 4.4 zurück gekehrt werden.
+	</p>
+    <p>
+    Hauptmerkmal des neuen Portals ist das Einbetten von zum Beispiel Modulen des UCS-Managementsystems oder von aus dem App Center in die UCS-Umgebung installierten Apps via IFrames, so dass diese nicht mehr in einem neuen Browsertab geöffnet werden müssen, sondern direkt im Portal angezeigt werden. So können z.B. einzelne UMC Module direkt über das Portal erreicht werden. Auch die Benutzeranmeldung und der Self Service können in das zentrale Portal eingebettet werden. Bei dem Self-Service kann das Benutzermenü jetzt vom Administrator um Funktionen wie zum Beispiel "Konto schützen" erweitert werden.
+    </p>
+    <p>
+    Da es sich bei der App um eine Vorschau auf das neue Portal handelt, gibt es noch Einschränkungen. So gibt es beispielsweise Apps, die eine Darstellung in IFrames nicht erlauben oder unterstützen. In bestimmten Fällen werden HTTP- und HTTPS-Links gemischt. Und die Portaleinträge von Apps müssen derzeit noch manuell geändert werden, damit sie in der Portal Vorschau dargestellt werden.
+    </p>
+	<p>
+	NOTE: Diese App sollte zur Zeit nur zu Testzwecken installiert werden.
+	</p>
+	</div>
+Description = Univention Portal
+Maintainer = Univention GmbH
+WebsiteMaintainer = https://www.univention.de/
