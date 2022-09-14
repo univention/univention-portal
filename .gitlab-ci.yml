@@ -1,0 +1,28 @@
+image: python:3.7-slim-buster
+
+variables:
+  APT_KEY_URL: "https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg"
+
+before_script:
+  - apt-get update
+  - apt-get --assume-yes --no-install-recommends install curl gpg gpg-agent g++ libsasl2-dev python3-dev libldap2-dev
+  - curl -fsSL "${APT_KEY_URL}" | apt-key add -
+  - cp ./sources.list /etc/apt/sources.list.d/15_ucs-online-version.list
+  - apt-get update
+  - apt-get --assume-yes --no-install-recommends install univention-unittests
+  - apt-get clean
+  - pip install pytest
+  - pip install pytest-mock
+  - mkdir -p /var/log/univention && touch /var/log/univention/portal.log
+  - cp -r /usr/lib/python3/dist-packages/univentionunittests/ /usr/local/lib/python3.7/site-packages/
+
+test:
+  script:
+    - pip install -r requirements.txt
+    - pip install .
+    - cd unittests
+    - python -m pytest
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_REF_NAME == 'master'

@@ -1,0 +1,4 @@
+deb https://updates-test.software-univention.de/ ucs500 main
+deb https://updates-test.software-univention.de/ errata500 main
+
+# [EOF]
