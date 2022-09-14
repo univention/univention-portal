@@ -77,6 +77,16 @@ class NewPortalFolders(UDM_Objects):
 	simple = True
 
 
+class NewPortalAnnouncements(UDM_Objects):
+	"""
+	Syntax to select a portal announcements from |LDAP| using :py:class:`univention.admin.handlers.announcement.entry`.
+	"""
+	udm_modules = ('portals/announcement', )
+	label = '%(name)s'
+	empty_value = False
+	simple = True
+
+
 class NewPortalComputer(UDM_Objects):
 	"""
 	Syntax to select a |UCS| host from |LDAP| by |FQDN| running the portal service.
@@ -110,6 +120,18 @@ class NewPortalEntryLinkTarget(select):
 		('samewindow', _('Same tab')),
 		('newwindow', _('New tab')),
 		('embedded', _('Embedded')),
+	]
+
+
+class NewPortalAnnouncementSeverity(select):
+	"""
+	Syntax to select the severity of an announcement.
+	"""
+	choices = [
+		('info', _('Info')),
+		('warn', _('Warn')),
+		('success', _('Success')),
+		('danger', _('Danger')),
 	]
 
 

@@ -52,7 +52,7 @@ default_containers = [
 ]
 
 operations = ['search']
-childmodules = ['portals/portal', 'portals/entry', 'portals/category', 'portals/folder']
+childmodules = ['portals/portal', 'portals/entry', 'portals/category', 'portals/folder', 'portals/announcement']
 virtual = True
 property_descriptions = {
 	'name': univention.admin.property(

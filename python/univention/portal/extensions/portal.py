@@ -43,8 +43,8 @@ import univention.portal.config as config
 from univention.portal import Plugin
 from univention.portal.log import get_logger
 
-from cache import PortalFileCache
-from authenticator import UMCAuthenticator
+from univention.portal.extensions.cache import PortalFileCache
+from univention.portal.extensions.authenticator import UMCAuthenticator
 
 
 class Portal(metaclass=Plugin):

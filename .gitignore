@@ -1,0 +1,4 @@
+debian/univention-portal/usr/share/univention-portal/i18n
+unittests/__pycache__
+*.log
+.pybuild
