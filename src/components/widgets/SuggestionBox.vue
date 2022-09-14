@@ -4,44 +4,54 @@
     tabindex="0"
     @focusout="toggleSuggestionList(false)"
   >
-    <input
-      :id="forAttrOfLabel"
-      ref="input"
-      :value="value"
-      :disabled="disabled"
-      :tabindex="tabindex"
-      :required="required"
-      :name="name"
-      :aria-invalid="invalid"
-      :aria-describedby="invalidMessageId || undefined"
-      data-test="suggestion-box"
-      @input="updateModelValue"
-      @keydown.esc.prevent="toggleSuggestionList(false)"
-      @keydown.enter.prevent="onSelectOption(availableOptions[activeOptionIndex])"
-      @keydown.arrow-up.prevent="movingOption('up')"
-      @keydown.arrow-down.prevent="movingOption('down')"
-    >
-    <IconButton
-      class="suggestion-box-icon-button"
-      icon="chevron-down"
-      aria-label-prop="Open mail domain list"
-      @click="toggleSuggestionList"
-      @keydown.esc.prevent="toggleSuggestionList(false)"
-    />
+    <div class="suggestion-box-input-group">
+      <input
+        :id="forAttrOfLabel"
+        ref="input"
+        :value="value"
+        :disabled="disabled"
+        :tabindex="tabindex"
+        :required="required"
+        :name="name"
+        :aria-invalid="invalid"
+        :aria-describedby="invalidMessageId || undefined"
+        data-test="suggestion-box"
+        class="suggestion-box-input-group__input"
+        @input="updateModelValue"
+        @keydown.esc.prevent="toggleSuggestionList(false)"
+        @keydown.enter.prevent="onSelectOption(availableOptions[activeOptionIndex])"
+        @keydown.arrow-up.prevent="movingOption('up')"
+        @keydown.arrow-down.prevent="movingOption('down')"
+      >
+      <IconButton
+        class="suggestion-box-input-group__show-list-button"
+        icon="chevron-down"
+        aria-label-prop="Open mail domain list"
+        role="button"
+        @click="toggleSuggestionList(!isSuggestionListOpen, true)"
+        @keydown.enter.prevent="activeOptionIndex !== -1 ? onSelectOption(availableOptions[activeOptionIndex]) : toggleSuggestionList(!isSuggestionListOpen, true)"
+        @keydown.esc.prevent="toggleSuggestionList(false)"
+        @keydown.arrow-up.prevent="movingOption('up')"
+        @keydown.arrow-down.prevent="movingOption('down')"
+      />
+    </div>
     <Transition>
       <div
         v-if="isSuggestionListOpen"
         class="suggestion-box-suggestion-list"
+        role="menu"
       >
         <div
           v-for="(option, index) in availableOptions"
           :key="option"
-          class="suggestion-box-suggestion-list-option"
-          :class="{ 'suggestion-box-suggestion-list-option--selected': index === activeOptionIndex }"
-          @click="onSelectOption(option)"
+          class="suggestion-box-suggestion-list__option"
+          role="menuitem"
+          :class="{ 'suggestion-box-suggestion-list__option--selected': index === activeOptionIndex }"
+          @click="onSelectOption(option, true)"
         >
           <span
-            class="suggestion-box-suggestion-list-option-text"
+            class="suggestion-box-suggestion-list__option-text"
+            role="presentation"
           >
             {{ option }}
           </span>
@@ -104,6 +114,9 @@ export default defineComponent({
     return {
       isSuggestionListOpen: false,
       activeOptionIndex: -1,
+      // isShowListButtonClicked is used to detect if the show list button (arrow icon) is clicked
+      // we need this variable because we shouldn't filter options when user click the show list button
+      isShowListButtonClicked: false,
       value: '',
     };
   },
@@ -115,7 +128,7 @@ export default defineComponent({
       });
     },
     availableOptions(): string[] {
-      if (!this.value) return this.suggestedOptions;
+      if (!this.value || this.isShowListButtonClicked) return this.suggestedOptions;
       return this.suggestedOptions.filter((option) => option.toLowerCase().includes(this.value.toLowerCase()));
     },
   },
@@ -123,6 +136,7 @@ export default defineComponent({
     isSuggestionListOpen(isOpen: boolean) {
       if (!isOpen) {
         this.activeOptionIndex = -1;
+        this.isShowListButtonClicked = false;
       }
     },
   },
@@ -134,15 +148,32 @@ export default defineComponent({
       this.value = value;
       this.$emit('update:modelValue', value);
     },
-    onSelectOption(option: string): void {
-      this.value = option;
-      this.isSuggestionListOpen = false;
-      this.$emit('update:modelValue', option);
+    onSelectOption(option: string, isClick?: boolean): void {
+      // if isClick is true, it means that the user clicked on the option (line 47)
+      // so we don't need to close the suggestion list or find the closest form
+      if (isClick || this.activeOptionIndex !== -1) {
+        this.value = option;
+        this.isSuggestionListOpen = false;
+        this.$emit('update:modelValue', option);
+        return;
+      }
+      // if activeOptionIndex === -1 means the suggestion list is closed, so we need to submit the form as natively as possible
+      // we need to do this because we override the keydown.enter event of the input element when the suggestion list is open
+      if (this.activeOptionIndex === -1) {
+        this.onSubmitForm();
+      }
     },
-    toggleSuggestionList(isOpen?: boolean): void {
+    onSubmitForm(): void {
+      const form = this.$el.closest('form');
+      if (form) {
+        form.submit();
+      }
+    },
+    toggleSuggestionList(isOpen?: boolean, isShowListButtonClicked?: boolean): void {
       this.isSuggestionListOpen = isOpen !== undefined ? isOpen : !this.isSuggestionListOpen;
+      if (isShowListButtonClicked !== undefined) this.isShowListButtonClicked = isShowListButtonClicked;
     },
-    movingOption(direction: 'up' | 'down') {
+    movingOption(direction: 'up' | 'down'): void {
       if (!this.isSuggestionListOpen) {
         this.toggleSuggestionList(true);
       }
@@ -165,28 +196,38 @@ export default defineComponent({
 <style lang="stylus">
 .suggestion-box
   width: fit-content
-  position: relative
-  &-icon-button
-    position: absolute
-    top: var(--layout-spacing-unit-small)
-    right: 0
+
+  &-input-group
+    position: relative
+
+    &__input
+      margin-bottom: 0
+
+    &__show-list-button
+      position: absolute
+      top: var(--layout-spacing-unit-small)
+      right: 0
+
   &-suggestion-list
-    display: flex
-    flex-direction: column
-    &-option
-      padding: var(--layout-spacing-unit)
-      background-color: var(--bgc-inputfield-on-container)
-      font-size: var(--font-size-4)
-      cursor: pointer
+      display: flex
+      flex-direction: column
+      width: 100%
+      &__option
+        padding: var(--layout-spacing-unit)
+        background-color: var(--bgc-popup)
+        font-size: var(--font-size-4)
+        cursor: pointer
 
-      &--selected, &:hover
-        background-color: var(--bgc-grid-row-hover)
+        &--selected, &:hover
+          background-color: var(--bgc-popup-item-hover) !important
+        &--highlight
+          background-color: var(--bgc-popup-item-selected) !important
 
-      &:first-child
-        border-top-left-radius: var(--border-radius-interactable)
-        border-top-right-radius: var(--border-radius-interactable)
+        &:first-child
+          border-top-left-radius: var(--border-radius-interactable)
+          border-top-right-radius: var(--border-radius-interactable)
 
-      &:last-child
-        border-bottom-left-radius: var(--border-radius-interactable)
-        border-bottom-right-radius: var(--border-radius-interactable)
+        &:last-child
+          border-bottom-left-radius: var(--border-radius-interactable)
+          border-bottom-right-radius: var(--border-radius-interactable)
 </style>
