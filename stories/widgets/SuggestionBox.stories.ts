@@ -17,7 +17,8 @@ const Template: StoryFn<typeof SuggestionBox> = (args) => ({
 });
 
 export const Basic = Template.bind({});
-Basic.args = { modelValue: '',
+Basic.args = {
+  modelValue: '',
   suggestedOptions: [
-    'Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry',
+    'Apple', 'Banana', 'Cherry', 'Duran', 'Elderberry',
   ] };
