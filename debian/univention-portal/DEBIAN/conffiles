@@ -1,9 +1,0 @@
-/etc/univention/registry.info/categories/univention-portal.cfg
-/etc/univention/registry.info/variables/univention-portal.cfg
-/etc/univention/templates/files/etc/apache2/sites-available/univention-portal.conf
-/etc/univention/templates/files/etc/apache2/ucs-sites.conf.d/univention-portal.conf
-/etc/univention/templates/files/etc/logrotate.d/univention-portal
-/etc/univention/templates/files/usr/lib/univention-portal/config/config.json
-/etc/univention/templates/info/univention-portal.info
-/etc/univention/templates/modules/symlink_portal.py
-/etc/univention/templates/modules/univention_blog.py

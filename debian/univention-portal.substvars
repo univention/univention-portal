@@ -1,2 +1,0 @@
-misc:Depends=univention-config (>= 7.0.25), univention-join (>= 12.0.0-7)
-misc:Pre-Depends=
