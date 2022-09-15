@@ -4,7 +4,10 @@
   >
     <slot name="header">
       <div class="accordions-header">
-        <h2 class="accordions-header__title">
+        <h2
+          class="accordions-header__title"
+          role="presentation"
+        >
           {{ title }}
         </h2>
       </div>
@@ -29,10 +32,11 @@ export default defineComponent({
 
 <style lang="stylus">
 .accordions
+  width: 100%
   &-header
-    padding: calc(2 * var(--layout-spacing-unit));
+    padding: calc(2 * var(--layout-spacing-unit))
     &__title
       font-size: var(--font-size-1)
-      line-height: var(--font-lineheight-header);
-      font-weight: 600;
+      line-height: var(--font-lineheight-header)
+      font-weight: 600
 </style>
