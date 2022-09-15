@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-portal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-09-14 05:08+0200\n"
+"POT-Creation-Date: 2022-09-15 14:47+0200\n"
 "PO-Revision-Date: 2020-05-01 00:20+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -12,9 +12,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: udm/handlers/announcement.py:94
+#: udm/handlers/announcement.py:90
 msgid "A color theme the announcement should appear in."
-msgstr ""
+msgstr "Ein Farbschema in dem die Ansagen erscheinen sollen."
 
 #: udm/handlers/entry.py:101
 msgid "Activated"
@@ -24,10 +24,9 @@ msgstr "Aktiviert"
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: udm/handlers/announcement.py:128
-#, fuzzy
+#: udm/handlers/announcement.py:124
 msgid "Announcement options"
-msgstr "Optionen für Eintrag"
+msgstr "Ansage Optionen"
 
 #: udm/handlers/portal.py:142
 msgid "Appearance"
@@ -65,14 +64,13 @@ msgstr "Kategorien"
 msgid "Category options"
 msgstr "Optionen für Kategorie"
 
-#: udm/handlers/announcement.py:132
-#, fuzzy
+#: udm/handlers/announcement.py:128
 msgid "Content"
-msgstr "Allgemeiner Inhalt"
+msgstr "Inhalt"
 
 #: udm/syntax/univention-portal.py:134
 msgid "Danger"
-msgstr ""
+msgstr "Gefahr"
 
 #: udm/handlers/portal.py:116
 msgid "Default browser tab for portal entries"
@@ -109,7 +107,7 @@ msgstr ""
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: udm/handlers/announcement.py:119
+#: udm/handlers/announcement.py:115
 msgid "End time"
 msgstr ""
 
@@ -134,8 +132,8 @@ msgid "Entry options"
 msgstr "Optionen für Eintrag"
 
 #: udm/handlers/entry.py:137 udm/handlers/entry.py:138
-#: udm/handlers/portal.py:124 udm/handlers/announcement.py:128
-#: udm/handlers/announcement.py:129 udm/handlers/all.py:74
+#: udm/handlers/portal.py:124 udm/handlers/announcement.py:124
+#: udm/handlers/announcement.py:125 udm/handlers/all.py:74
 #: udm/handlers/category.py:85 udm/handlers/category.py:89
 #: udm/handlers/folder.py:85 udm/handlers/folder.py:86
 msgid "General"
@@ -169,17 +167,16 @@ msgstr ""
 msgid "Icon"
 msgstr "Icon"
 
-#: udm/handlers/announcement.py:71
-#, fuzzy
+#: udm/handlers/announcement.py:67
 msgid ""
 "If one or more groups are selected then the portal announcement will only be"
 " visible to logged in users that are in any of the selected groups. If no "
 "groups are selected then the portal entry is always visible."
 msgstr ""
-"Falls ein oder mehrere Gruppen ausgewählt sind, wird der Portaleintrag nur "
-"für angemeldete Benutzer sichtbar sein, die in einer der ausgewählten "
-"Gruppen Mitglied sind. Wenn keine Gruppe ausgewählt wird, ist der "
-"Portaleintrag für alle sichtbar."
+"Falls ein oder mehrere Gruppen ausgewählt sind, wird die Ansage nur für "
+"angemeldete Benutzer sichtbar sein, die in einer der ausgewählten Gruppen "
+"Mitglied sind. Wenn keine Gruppe ausgewählt wird, ist die Ansage für alle "
+"sichtbar."
 
 #: udm/handlers/entry.py:96
 msgid ""
@@ -192,24 +189,28 @@ msgstr ""
 "Gruppen Mitglied sind. Wenn keine Gruppe ausgewählt wird, ist der "
 "Portaleintrag für alle sichtbar."
 
-#: udm/handlers/announcement.py:86
+#: udm/handlers/announcement.py:82
 msgid ""
 "If true, the announcement can't be closed and will persist until the time "
 "ends (or never)."
 msgstr ""
+"When aktiv kann die Ansage nicht geschlossen werden und wird erst nach der "
+"Endzeit verschwinden (oder niemals)."
 
-#: udm/handlers/announcement.py:78
+#: udm/handlers/announcement.py:74
 msgid ""
 "If true, the user will see a \"Confirm\" button and the announcement will "
 "persist until it is clicked."
 msgstr ""
+"Wenn aktiv wird der User die Ansage mit einem \"Bestätigen\"-Knopf "
+"bestätigen müssen bevor die Nachricht verschwindet."
 
 #: udm/syntax/univention-portal.py:131
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: udm/handlers/entry.py:59 udm/handlers/portal.py:60
-#: udm/handlers/announcement.py:61 udm/handlers/all.py:59
+#: udm/handlers/announcement.py:57 udm/handlers/all.py:59
 #: udm/handlers/category.py:61 udm/handlers/folder.py:61
 msgid "Internal name"
 msgstr "Interner Name"
@@ -280,17 +281,17 @@ msgstr "Verwaltung der Portale und ihrer Einträge"
 msgid "Menu"
 msgstr "Menü"
 
-#: udm/handlers/announcement.py:106
+#: udm/handlers/announcement.py:102
 msgid "Message"
-msgstr ""
+msgstr "Nachricht"
 
 #: udm/handlers/portal.py:125 udm/handlers/category.py:86
 msgid "Name"
 msgstr "Name"
 
-#: udm/handlers/announcement.py:77
+#: udm/handlers/announcement.py:73
 msgid "Needs Confirmation"
-msgstr ""
+msgstr "Benötigt Bestätigung"
 
 #: udm/syntax/univention-portal.py:112 udm/syntax/univention-portal.py:121
 msgid "New tab"
@@ -308,15 +309,14 @@ msgstr ""
 "Objekt, unter dem portals/entry Objekte angezeigt werden können. Gehört zu "
 "einem oder mehreren portals/portal Objekten"
 
-#: udm/handlers/announcement.py:51
-#, fuzzy
+#: udm/handlers/announcement.py:47
 msgid ""
 "One folder in https://fqdn/univention/portal which holds one or more "
 "portals/announcement objects. Belongs to one or more portals/portal objects"
 msgstr ""
-"Ein Ordner in https://fqdn/univention/portal der ein oder mehr portals/entry"
-" Objekte enthält. Gehört zu einem oder mehreren portal/category Objekten, "
-"die zu einem oder mehreren portals/portal Objekten gehören"
+"Ein Ordner in https://fqdn/univention/portal der ein oder mehr "
+"portals/announcement Objekte enthält. Gehört zu einem oder mehreren "
+"portal/portal Objekten."
 
 #: udm/handlers/folder.py:51
 msgid ""
@@ -341,24 +341,21 @@ msgstr ""
 msgid "Only visible if not logged in"
 msgstr "Nur sichtbar, wenn nicht angemeldet"
 
-#: udm/handlers/announcement.py:139
-#, fuzzy
+#: udm/handlers/announcement.py:135
 msgid "Options"
-msgstr "Optionen für Eintrag"
+msgstr "Optionen"
 
 #: udm/handlers/portal.py:48
 msgid "Portal"
 msgstr "Portal"
 
-#: udm/handlers/announcement.py:49
-#, fuzzy
+#: udm/handlers/announcement.py:45
 msgid "Portal announcement"
-msgstr "Portal-Eintrag"
+msgstr "Portalansage"
 
-#: udm/handlers/announcement.py:50
-#, fuzzy
+#: udm/handlers/announcement.py:46
 msgid "Portal announcements"
-msgstr "Portaleinträge"
+msgstr "Portalansagen"
 
 #: udm/handlers/category.py:50
 msgid "Portal categories"
@@ -392,10 +389,9 @@ msgstr "Portal-Logo"
 msgid "Portal options"
 msgstr "Optionen für Portal"
 
-#: udm/handlers/announcement.py:48
-#, fuzzy
+#: udm/handlers/announcement.py:44
 msgid "Portal: Announcement"
-msgstr "Portal-Eintrag"
+msgstr "Portal: Ansage"
 
 #: udm/handlers/category.py:48
 msgid "Portal: Category"
@@ -425,7 +421,7 @@ msgstr "Portale"
 msgid "Redirect anonymous visitors to the login"
 msgstr "Anonyme Besucher zum Login umleiten"
 
-#: udm/handlers/entry.py:95 udm/handlers/announcement.py:70
+#: udm/handlers/entry.py:95 udm/handlers/announcement.py:66
 msgid "Restrict visibility to groups"
 msgstr "Sichtbarkeit auf Gruppen beschränken"
 
@@ -433,56 +429,61 @@ msgstr "Sichtbarkeit auf Gruppen beschränken"
 msgid "Same tab"
 msgstr "Gleicher Tab"
 
-#: udm/handlers/announcement.py:93
+#: udm/handlers/announcement.py:89
 msgid "Severity"
-msgstr ""
+msgstr "Schweregrad"
 
 #: udm/handlers/portal.py:76
 msgid "Show UMC categories and modules"
 msgstr "Zeige UMC-Kategorien und -Module"
 
-#: udm/handlers/announcement.py:112
+#: udm/handlers/announcement.py:108
 msgid "Start time"
-msgstr ""
+msgstr "Startzeit"
 
-#: udm/handlers/announcement.py:85
+#: udm/handlers/announcement.py:81
 msgid "Sticky"
-msgstr ""
+msgstr "Feststehend"
 
 #: udm/syntax/univention-portal.py:133
 msgid "Success"
-msgstr ""
+msgstr "Erfolg"
 
-#: udm/handlers/announcement.py:107
+#: udm/handlers/announcement.py:103
 msgid ""
 "The message of the announcement, usually written in normal text below the "
 "title."
-msgstr ""
+msgstr "Die Nachricht der Ansage. Erscheint üblicherweise unter dem Titel."
 
-#: udm/handlers/announcement.py:113
+#: udm/handlers/announcement.py:109
 msgid ""
 "The time when the announcement will first appear. If no time is set, it will"
 " always appear."
 msgstr ""
+"Die Zeit zu der die Ansage initial erscheinen wird. Wenn keine Zeit gesetzt "
+"ist wird sie immer erscheinen."
 
-#: udm/handlers/announcement.py:120
+#: udm/handlers/announcement.py:116
 msgid ""
 "The time when the announcement will stop appearing. If no time is set, it "
 "will appear forever."
 msgstr ""
+"Die Zeit zu der die Ansage verschwinden wird. Wenn keine Zeit gesetzt ist, "
+"wird sie niemals verschwinden."
 
-#: udm/handlers/announcement.py:101
+#: udm/handlers/announcement.py:97
 msgid ""
 "The title of the announcement, usually written in bold above the message."
 msgstr ""
+"Der Titel der Ansage, üblicherweise fett über der Nachricht geschrieben."
 
-#: udm/handlers/announcement.py:136
+#: udm/handlers/announcement.py:132
 msgid "Time"
-msgstr ""
+msgstr "Zeit"
 
-#: udm/handlers/announcement.py:100
+#: udm/handlers/announcement.py:96
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #: udm/syntax/univention-portal.py:119
 msgid "Use default of portal"

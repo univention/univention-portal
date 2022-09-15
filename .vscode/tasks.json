@@ -6,7 +6,7 @@
     {
       "label": "Build & Install",
       "type": "shell",
-      "command": "apt-get build-dep . && (dpkg-buildpackage -b || true) && cd .. && dpkg -i *.deb",
+      "command": "apt-get build-dep . && (dpkg-buildpackage -b || true) && cd .. && dpkg -i *.deb && apt install *.deb",
       "group": "build"
     }
   ]

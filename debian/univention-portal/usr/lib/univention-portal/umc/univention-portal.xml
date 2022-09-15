@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umc version="2.0">
+  <module id="udm" version="1.0">
+    <name></name>
+    <description></description>
+    <flavor id="portals/all" icon="portal">
+      <name>Portal</name>
+      <description>Managing the Univention Portal</description>
+    </flavor>
+    <categories>
+      <category name="domain"/>
+    </categories>
+  </module>
+</umc>
+
