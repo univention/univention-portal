@@ -5,6 +5,18 @@
     - SSH to VM server `$ ssh <ldap-username>@ranarp.knut.univention.de`
     - Create a new KVM Instance with `$ ucs-kt-get`
     - Enter VNC with the provided VNC URL and install UCS
+
+## Develop with PyCharm
+
+- TBD
+
+## Develop with Vim
+
+- TBD
+
+
+## Develop with VSCode
+
 - Install VSCode
   - Install `ms-vscode-remote.vscode-remote-extensionpack` extension in VSCode
 - Open `Remote Explorer` on the left of a VSCode window
@@ -21,7 +33,44 @@
 
 From that point on you can directly open VSCode and directly enter the UCS instance in that repository and develop properly.
 
-# Test changes
+You may also add some VSCode configuration in order to ease up development:
+
+**.vscode/extensions.json**
+```json
+{
+    "recommendations": ["ms-vscode.makefile-tools", "donjayamanne.python-extension-pack", "ms-vscode-remote.vscode-remote-extensionpack"]
+}
+```
+
+**.vscode/settings.json**
+```json
+{
+    "python.testing.pytestArgs": [
+        "unittests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
+```
+
+**.vscode/tasks.json**
+```json
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build & Install",
+      "type": "shell",
+      "command": "apt-get build-dep . && (dpkg-buildpackage -b || true) && cd .. && dpkg -i *.deb && apt install *.deb",
+      "group": "build"
+    }
+  ]
+}
+```
+
+### Test changes
 
 Once you made changes, deploy the new package using the build task
 
