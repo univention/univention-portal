@@ -151,7 +151,7 @@ def unmapTranslationValue(vals, encoding=()):
 
 mapping = univention.admin.mapping.mapping()
 mapping.register('name', 'cn', None, univention.admin.mapping.ListToString)
-mapping.register('allowedGroups', 'univentionNewPortalEntryAllowedUserGroup')
+mapping.register('allowedGroups', 'univentionNewPortalAnnouncementAllowedGroups')
 mapping.register('needsConfirmation', 'univentionNewPortalAnnouncementNeedsConfirmation', None, univention.admin.mapping.ListToString)
 mapping.register('isSticky', 'univentionNewPortalAnnouncementIsSticky', None, univention.admin.mapping.ListToString)
 mapping.register('severity', 'univentionNewPortalAnnouncementSeverity', None, univention.admin.mapping.ListToString)

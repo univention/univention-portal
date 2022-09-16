@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-portal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-09-15 14:53+0200\n"
+"POT-Creation-Date: 2022-09-15 17:34+0200\n"
 "PO-Revision-Date: 2020-05-01 00:20+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -44,7 +44,7 @@ msgstr "Hintergrundfarbe"
 msgid "Background image of the Portal"
 msgstr "Hintergrundbild des Portals"
 
-#: udm/handlers/all.py:74
+#: udm/handlers/all.py:75
 msgid "Basic settings"
 msgstr "Allgemeine Einstellungen"
 
@@ -89,7 +89,7 @@ msgstr ""
 "empfohlen"
 
 #: udm/handlers/entry.py:68 udm/handlers/entry.py:143
-#: udm/handlers/portal.py:69 udm/handlers/all.py:67
+#: udm/handlers/portal.py:69 udm/handlers/all.py:68
 #: udm/handlers/category.py:70 udm/handlers/folder.py:70
 #: udm/handlers/folder.py:89
 msgid "Display name"
@@ -133,7 +133,7 @@ msgstr "Optionen für Eintrag"
 
 #: udm/handlers/entry.py:137 udm/handlers/entry.py:138
 #: udm/handlers/portal.py:124 udm/handlers/announcement.py:124
-#: udm/handlers/announcement.py:125 udm/handlers/all.py:74
+#: udm/handlers/announcement.py:125 udm/handlers/all.py:75
 #: udm/handlers/category.py:85 udm/handlers/category.py:89
 #: udm/handlers/folder.py:85 udm/handlers/folder.py:86
 msgid "General"
@@ -210,7 +210,7 @@ msgid "Info"
 msgstr "Info"
 
 #: udm/handlers/entry.py:59 udm/handlers/portal.py:60
-#: udm/handlers/announcement.py:57 udm/handlers/all.py:59
+#: udm/handlers/announcement.py:57 udm/handlers/all.py:60
 #: udm/handlers/category.py:61 udm/handlers/folder.py:61
 msgid "Internal name"
 msgstr "Interner Name"
@@ -273,7 +273,7 @@ msgstr "Login"
 msgid "Logo image for the portal."
 msgstr "Logo Bild für das Portal."
 
-#: udm/handlers/all.py:46
+#: udm/handlers/all.py:47
 msgid "Management of portals and their entries"
 msgstr "Verwaltung der Portale und ihrer Einträge"
 
@@ -409,7 +409,7 @@ msgstr "Portal: Ordner"
 msgid "Portal: Portal"
 msgstr "Portal: Portal"
 
-#: udm/handlers/all.py:45
+#: udm/handlers/all.py:46
 msgid "Portal: Settings"
 msgstr "Portal: Einstellungen"
 

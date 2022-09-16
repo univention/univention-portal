@@ -291,9 +291,9 @@ objectclass ( univentionNewPortalFolderObjectClass:1 NAME 'univentionNewPortalFo
 
 attributetype ( univentionNewPortalAnnouncementAttributeType:1 NAME 'univentionNewPortalAnnouncementAllowedGroups'
 	DESC 'Portal announcement allowed group DNs'
-	EQUALITY distinguishedNameMatch
-	SUBSTR distinguishedNameMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 attributetype ( univentionNewPortalAnnouncementAttributeType:2 NAME 'univentionNewPortalAnnouncementNeedsConfirmation'
 	DESC 'Portal announcement needs confirmation'
@@ -347,7 +347,7 @@ objectclass ( univentionNewPortalAnnouncementObjectClass:1 NAME 'univentionNewPo
 	SUP top
 	MUST ( cn )
 	MAY (
-			  univentionNewPortalAnnouncementGroupDns
+			  univentionNewPortalAnnouncementAllowedGroups
 			$ univentionNewPortalAnnouncementNeedsConfirmation
 			$ univentionNewPortalAnnouncementIsSticky
 			$ univentionNewPortalAnnouncementSeverity
