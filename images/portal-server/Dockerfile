@@ -32,7 +32,6 @@ COPY ./conffiles/usr ./conffiles/usr
 COPY ./listener ./listener
 COPY ./udm ./udm
 COPY ./univention-portal .
-COPY ./app/install_udm ./install_udm
 COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 
 RUN apt-get update \
