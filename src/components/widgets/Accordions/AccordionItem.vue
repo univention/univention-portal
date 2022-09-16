@@ -14,7 +14,7 @@
           <IconButton
             class="accordion-item-header-default__expanded-button"
             :class="{
-              'accordion-item-header__expanded-button--expanded': isExpanded,
+              'accordion-item-header-default__expanded-button--expanded': isExpanded,
             }"
             aria-label-prop="Expand"
             icon="chevron-down"
