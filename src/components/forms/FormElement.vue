@@ -104,6 +104,7 @@ import Tree from '@/components/widgets/Tree/Tree.vue';
 import ComplexInput from 'components/widgets/ComplexInput.vue';
 import SuggestionBox from '@/components/widgets/SuggestionBox.vue';
 import Accordions from 'components/widgets/Accordions/Accordions.vue';
+import Tabs from 'components/widgets/Tabs/Tabs.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -131,6 +132,7 @@ export default defineComponent({
     ComplexInput,
     SuggestionBox,
     Accordions,
+    Tabs,
   },
   props: {
     widget: {
