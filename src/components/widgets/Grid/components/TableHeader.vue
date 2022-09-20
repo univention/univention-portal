@@ -4,9 +4,9 @@
     role="columnheader"
   >
     <GridCheckbox
-      :checked="tableHeaderCheckbox"
+      :checked="checkboxChecked"
       :is-header="true"
-      @update:checked="$emit('update:tableHeaderCheckbox', $event)"
+      @update:checked="$emit('update:checkboxChecked', $event)"
     />
   </div>
   <div
@@ -24,10 +24,7 @@
       <Transition>
         <PortalIcon
           v-if="column.isSorted"
-          :class="['grid-table-header-sort-icon', {
-            'grid-table-header-sort-icon-asc': column.sortDirection === 'asc',
-            'grid-table-header-sort-icon-desc': column.sortDirection === 'desc',
-          }]"
+          :class="['grid-table-header-sort-icon', `grid-table-header-sort-icon-${column.sortDirection}`]"
           icon="chevron-down"
           role="presentation"
         />
@@ -54,12 +51,12 @@ export default defineComponent({
       type: Array as PropType<TableHeaderColumn[]>,
       default: () => [],
     },
-    tableHeaderCheckbox: {
+    checkboxChecked: {
       type: [Boolean, String] as PropType<HeaderCheckboxState>,
       required: true,
     },
   },
-  emits: ['update:tableHeaderCheckbox', 'onSort'],
+  emits: ['update:checkboxChecked', 'onSort'],
 });
 </script>
 
