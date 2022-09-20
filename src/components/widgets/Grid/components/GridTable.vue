@@ -14,20 +14,10 @@
     <div class="grid-table-body">
       <slot name="table-body" />
     </div>
-    <ContextMenu
-      :is-open="isContextMenuOpen"
-      :context-menu-options="contextMenuOptions"
-      :position="contextMenuPosition"
-      parent-element="grid-table-body"
-      @on-open="onOpenContextMenu"
-      @on-outside-click="isContextMenuOpen = false"
-      @on-operation="(operation) => $emit('onOperation', operation)"
-    />
   </div>
 </template>
 
 <script lang="ts">
-import _ from '@/jsHelper/translate';
 import { GridItem, TableHeaderColumn } from 'components/widgets/Grid/types';
 import { defineComponent, PropType } from 'vue';
 import { ContextMenu, TableBody, TableHeader } from './index';
@@ -57,14 +47,6 @@ export default defineComponent({
   data() {
     return {
       isContextMenuOpen: false,
-      contextMenuOptions: [
-        { label: _('Edit'), icon: 'edit-2', operation: 'edit' },
-        { label: _('Delete'), icon: 'trash', operation: 'remove' },
-        { label: _('Edit in new tab'), icon: '', operation: 'edit' },
-        { label: _('Move to...'), icon: '', operation: 'move' },
-        { label: _('Copy'), icon: '', operation: 'copy' },
-        { label: _('Create report'), icon: 'file-text', operation: 'search' },
-      ],
       contextMenuPosition: {
         x: 0, y: 0,
       },
