@@ -6,7 +6,7 @@
     <GridCheckbox
       :checked="checkboxChecked"
       :is-header="true"
-      @update:checked="$emit('update:checkboxChecked', $event)"
+      @update:checked="$emit('update:tableHeaderCheckbox', $event)"
     />
   </div>
   <div
@@ -56,7 +56,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:checkboxChecked', 'onSort'],
+  emits: ['update:tableHeaderCheckbox', 'onSort'],
 });
 </script>
 
