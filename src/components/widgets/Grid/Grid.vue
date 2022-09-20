@@ -194,19 +194,35 @@ export default defineComponent({
     onTableHeaderCheckboxUpdate(selected: HeaderCheckboxState) {
       this.tableHeaderCheckboxChecked = selected;
     },
-    onSort(column: TableHeaderColumn) {
+    updateTableHeaderColumns(column: TableHeaderColumn) {
       this.tableHeaderColumns = this.tableHeaderColumns.map((headerColumn) => {
         const isSorted = headerColumn.key === column.key;
         let sortDirection: SortDirection = 'asc';
         if (isSorted) {
           sortDirection = column.sortDirection === 'asc' ? 'desc' : 'asc';
         }
+
         return {
           ...headerColumn,
           isSorted,
           sortDirection,
         };
       });
+    },
+    onSort(column: TableHeaderColumn) {
+      this.updateTableHeaderColumns(column);
+
+      if (this.gridItems.length && this.on?.sort) {
+        this.onOperation('sort');
+      } else {
+        // default sort by
+        const isNumeric = (n) => /^-?\d+$/.test(n);
+        const parse = (s) => (isNumeric(s) ? parseInt(s, 10) : String(s));
+        this.gridItems.sort((a, b) => ((parse(a[column.key]) > parse(b[column.key])) ? 1 : -1));
+        if (column.sortDirection !== 'asc') {
+          this.gridItems.reverse();
+        }
+      }
     },
     onOperation(operation: Operation) {
       const selectedIds = this.selectedItems.map((item) => item.$dn$);
