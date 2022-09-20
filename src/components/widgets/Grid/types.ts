@@ -3,7 +3,7 @@
 // when the checkbox with the minus sign is clicked, all items will be deselected
 export type HeaderCheckboxState = boolean | 'mixed';
 
-export type Operation = 'add' | 'edit' | 'remove' | 'search' | 'move' | 'copy';
+export type Operation = 'add' | 'edit' | 'remove' | 'search' | 'move' | 'copy' | 'sort';
 
 export type SortDirection = 'asc' | 'desc';
 
