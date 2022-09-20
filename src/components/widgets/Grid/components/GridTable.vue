@@ -27,6 +27,7 @@
 </template>
 
 <script lang="ts">
+import _ from '@/jsHelper/translate';
 import { GridItem, TableHeaderColumn } from 'components/widgets/Grid/types';
 import { defineComponent, PropType } from 'vue';
 import { ContextMenu, TableBody, TableHeader } from './index';
@@ -57,12 +58,12 @@ export default defineComponent({
     return {
       isContextMenuOpen: false,
       contextMenuOptions: [
-        { label: 'Edit', icon: 'edit-2', operation: 'edit' },
-        { label: 'Delete', icon: 'trash', operation: 'remove' },
-        { label: 'Edit in new tab', icon: '', operation: 'edit' },
-        { label: 'Move to...', icon: '', operation: 'move' },
-        { label: 'Copy', icon: '', operation: 'copy' },
-        { label: 'Create report', icon: 'file-text', operation: 'search' },
+        { label: _('Edit'), icon: 'edit-2', operation: 'edit' },
+        { label: _('Delete'), icon: 'trash', operation: 'remove' },
+        { label: _('Edit in new tab'), icon: '', operation: 'edit' },
+        { label: _('Move to...'), icon: '', operation: 'move' },
+        { label: _('Copy'), icon: '', operation: 'copy' },
+        { label: _('Create report'), icon: 'file-text', operation: 'search' },
       ],
       contextMenuPosition: {
         x: 0, y: 0,

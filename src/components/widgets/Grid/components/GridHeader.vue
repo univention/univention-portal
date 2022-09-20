@@ -47,6 +47,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import _ from '@/jsHelper/translate';
 import { ContextMenuOption, Operation } from '../types';
 import { ContextMenu } from './index';
 
@@ -80,10 +81,10 @@ export default defineComponent({
     return {
       isContextMenuOpen: false,
       contextMenuOptions: [
-        { label: 'Edit in new tab', icon: '', operation: 'edit' },
-        { label: 'Move to...', icon: '', operation: 'move' },
-        { label: 'Copy', icon: '', operation: 'copy' },
-        { label: 'Create report', icon: 'file-text', operation: 'search' },
+        { label: _('Edit in new tab'), icon: '', operation: 'edit' },
+        { label: _('Move to...'), icon: '', operation: 'move' },
+        { label: _('Copy'), icon: '', operation: 'copy' },
+        { label: _('Create report'), icon: 'file-text', operation: 'search' },
       ],
       contextMenuPosition: {
         x: 0, y: 0,
@@ -94,15 +95,15 @@ export default defineComponent({
     optionButtons(): OptionButton[] {
       if (!this.isAnyItemSelected) {
         return [
-          { label: 'Add', icon: 'plus', operation: 'add' },
+          { label: _('Add'), icon: 'plus', operation: 'add' },
         ];
       }
 
       return [
-        { label: 'Add', icon: 'plus', operation: 'add' },
-        { label: 'Edit', icon: 'edit-2', operation: 'edit' },
-        { label: 'Delete', icon: 'trash', operation: 'remove' },
-        { label: 'More', icon: 'more-horizontal', operation: 'more' },
+        { label: _('Add'), icon: 'plus', operation: 'add' },
+        { label: _('Edit'), icon: 'edit-2', operation: 'edit' },
+        { label: _('Delete'), icon: 'trash', operation: 'remove' },
+        { label: _('More'), icon: 'more-horizontal', operation: 'more' },
       ];
     },
 
