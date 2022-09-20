@@ -217,7 +217,7 @@ export default defineComponent({
       } else {
         // default sort by
         const isNumeric = (n) => /^-?\d+$/.test(n);
-        const parse = (s) => (isNumeric(s) ? parseInt(s, 10) : String(s));
+        const parse = (s) => (isNumeric(s) ? parseInt(s, 10) : String(s).toLowerCase());
         this.gridItems.sort((a, b) => ((parse(a[column.key]) > parse(b[column.key])) ? 1 : -1));
         if (column.sortDirection !== 'asc') {
           this.gridItems.reverse();
