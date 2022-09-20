@@ -243,3 +243,23 @@ class TestPortal:
 		assert mocked_portal.score(request) == 5
 		mocked_portal.scorer.score.assert_called_once()
 		mocked_portal.scorer.score.assert_called_with(request)
+	
+	def test_announcements(self, mocked_user, standard_portal):
+		content = standard_portal.get_visible_content(mocked_user, False)
+		announcements = standard_portal.get_announcements(content)
+		expected_content = [
+			{
+				"announcement": {
+					"name": "",
+					"flags": [
+						"sticky"
+					],
+					"severity":"info",
+					"title":"",
+					"message":"",
+					"startTime":"",
+					"endTime":""
+				}
+			}
+		]
+		assert announcements == expected_content
