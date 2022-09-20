@@ -37,7 +37,7 @@
       :context-menu-options="contextMenuOptions"
       :position="contextMenuPosition"
       parent-element="grid-header-button--more"
-      :disable-right-click="false"
+      :disable-right-click="true"
       @on-outside-click="onContextMenuOutsideClick"
       @on-operation="onOperation"
     />
@@ -49,7 +49,7 @@ import { defineComponent, PropType } from 'vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import _ from '@/jsHelper/translate';
 import { ContextMenuOption, Operation } from '../types';
-import { ContextMenu } from './index';
+import ContextMenu from './ContextMenu.vue';
 
 type OptionButtonOperation = Operation | 'more';
 interface OptionButton extends Omit<ContextMenuOption, 'operation'> {
