@@ -30,7 +30,9 @@
 import _ from '@/jsHelper/translate';
 import { GridItem, TableHeaderColumn } from 'components/widgets/Grid/types';
 import { defineComponent, PropType } from 'vue';
-import { ContextMenu, TableBody, TableHeader } from './index';
+import ContextMenu from './ContextMenu.vue';
+import TableHeader from './TableHeader.vue';
+import TableBody from './TableBody.vue';
 
 export default defineComponent({
   name: 'GridTable',
