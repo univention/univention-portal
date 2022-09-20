@@ -27,9 +27,9 @@
       <slot
         name="header-status-text"
         class="grid-header-status--text"
-        :number-items-selected="numberItemsSelected"
+        :selected-item-count="selectedItemCount"
       >
-        {{ numberItemsSelectedText }} of {{ numberItems }} selected
+        {{ selectedItemCountMessage }} of {{ itemCount }} selected
       </slot>
     </div>
     <ContextMenu
@@ -37,7 +37,7 @@
       :context-menu-options="contextMenuOptions"
       :position="contextMenuPosition"
       parent-element="grid-header-button--more"
-      :disable-right-click="true"
+      :disable-right-click="false"
       @on-outside-click="onContextMenuOutsideClick"
       @on-operation="onOperation"
     />
@@ -67,11 +67,11 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       required: true,
     },
-    numberItemsSelected: {
+    selectedItemCount: {
       type: Number as PropType<number>,
       required: true,
     },
-    numberItems: {
+    itemCount: {
       type: Number as PropType<number>,
       required: true,
     },
@@ -107,9 +107,9 @@ export default defineComponent({
       ];
     },
 
-    numberItemsSelectedText(): string | number {
-      if (this.numberItemsSelected === 1) return 'One row';
-      return `${this.numberItemsSelected} rows`;
+    selectedItemCountMessage(): string | number {
+      if (this.selectedItemCount === 1) return 'One row';
+      return `${this.selectedItemCount} rows`;
     },
   },
   methods: {

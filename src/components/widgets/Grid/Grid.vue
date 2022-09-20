@@ -2,8 +2,8 @@
   <div class="grid">
     <GridHeader
       :is-any-item-selected="isAnyItemSelected"
-      :number-items="gridItems.length"
-      :number-items-selected="selectedItems.length"
+      :item-count="gridItems.length"
+      :selected-item-count="selectedItems.length"
       @on-operation="onOperation"
       @on-add-new-item="onAddNewItem"
     >
@@ -27,7 +27,7 @@
       <template #table-header>
         <TableHeader
           :columns="tableHeaderColumns"
-          :table-header-checkbox="tableHeaderCheckbox"
+          :checkbox-checked="tableHeaderCheckboxChecked"
           @update:table-header-checkbox="onTableHeaderCheckboxUpdate"
           @on-sort="onSort"
         >
@@ -85,7 +85,7 @@ import {
 } from './types';
 
 interface Data {
-  tableHeaderCheckbox: HeaderCheckboxState;
+  tableHeaderCheckboxChecked: HeaderCheckboxState;
   gridItems: GridItem[];
   tableHeaderColumns: TableHeaderColumn[];
 }
@@ -118,7 +118,7 @@ export default defineComponent({
   },
   data(): Data {
     return {
-      tableHeaderCheckbox: false,
+      tableHeaderCheckboxChecked: false,
       gridItems: [],
       tableHeaderColumns: [],
     };
@@ -135,7 +135,7 @@ export default defineComponent({
     },
   },
   watch: {
-    tableHeaderCheckbox(state: HeaderCheckboxState) {
+    tableHeaderCheckboxChecked(state: HeaderCheckboxState) {
       if (typeof state === 'boolean') {
         this.gridItems.forEach((item) => {
           item.selected = state;
@@ -147,13 +147,13 @@ export default defineComponent({
       handler() {
         if (!this.isAnyItemSelected) {
           // if no items are selected
-          this.tableHeaderCheckbox = false;
+          this.tableHeaderCheckboxChecked = false;
         } else if (!this.isAllItemsSelected) {
           // if some items are selected but not all
-          this.tableHeaderCheckbox = 'mixed';
+          this.tableHeaderCheckboxChecked = 'mixed';
         } else {
           // if all items are selected
-          this.tableHeaderCheckbox = true;
+          this.tableHeaderCheckboxChecked = true;
         }
       },
     },
@@ -192,7 +192,7 @@ export default defineComponent({
       }));
     },
     onTableHeaderCheckboxUpdate(selected: HeaderCheckboxState) {
-      this.tableHeaderCheckbox = selected;
+      this.tableHeaderCheckboxChecked = selected;
     },
     onSort(column: TableHeaderColumn) {
       this.tableHeaderColumns = this.tableHeaderColumns.map((headerColumn) => {
