@@ -7,6 +7,7 @@
     role="checkbox"
     tabindex="0"
     @click="onCheck"
+    @keydown="onKeydownCheck"
   >
     <Transition>
       <PortalIcon
@@ -59,6 +60,12 @@ export default defineComponent({
         this.$emit('update:checked', checked);
       }
     },
+    onKeydownCheck({ keyCode }) {
+      const spaceBarKeyCode = 32;
+      if (keyCode && keyCode === spaceBarKeyCode) {
+        this.onCheck();
+      }
+    },
   },
 });
 </script>
@@ -77,8 +84,10 @@ export default defineComponent({
 
   &:hover
     background-color: var(--bgc-checkbox-hover)
+
   &[aria-checked=false]
     border-color: var(--local-border-color)
+
   &[aria-checked=true], &[aria-checked=mixed]
     border-color: var(--color-accent)
 
