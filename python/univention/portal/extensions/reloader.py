@@ -46,6 +46,7 @@ from univention.portal import Plugin
 from univention.portal.log import get_logger
 
 
+
 class Reloader(metaclass=Plugin):
 	"""
 	Our base class for reloading
@@ -172,6 +173,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		content["entries"] = self._extract_entries(udm, portal, list(categories.values()), list(folders.values()))
 		content["user_links"] = self._extract_user_links(portal)
 		content["menu_links"] = self._extract_menu_links(portal)
+		content["announcements"] = self._extract_announcements(udm, portal)
 		with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
 			json.dump(content, fd, sort_keys=True, indent=4)
 		return fd
@@ -274,6 +276,28 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 				add(obj, ret, True)
 				continue
 			add(obj, ret, False)
+
+		return ret
+
+	def _extract_announcements(self, udm, portal):
+		ret = {}
+        
+		def add(announcement, ret, in_portal):
+			ret[announcement.dn] = {
+				"dn": announcement.dn,
+				"allowedGroups": obj.props.allowedGroups,
+				"name": obj.props.name,
+				"message": obj.props.message,
+				"title": obj.props.title,
+				"startTime": obj.props.startTime,
+				"endTime": obj.props.endTime,
+				"isSticky": obj.props.isSticky,
+				"needsConfirmation": obj.props.needsConfirmation,
+				"severity": obj.props.severity
+			}
+            
+		for obj in udm.get("portals/announcement").search():
+			add(obj, ret, True)
 
 		return ret
 
