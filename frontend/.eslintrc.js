@@ -26,6 +26,7 @@ module.exports = {
     'plugin:eslint-comments/recommended',
     '@vue/airbnb',
     '@vue/typescript/recommended',
+    'plugin:storybook/recommended',
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none' }],

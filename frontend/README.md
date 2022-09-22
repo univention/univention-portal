@@ -28,6 +28,17 @@ npm install --force -g npm@latest  # newer version
 Have a look at `.env.local_example`. Copy it to `.env.local`. Or copy
 `.env.production` instead.
 
+### Sync frontend files into the ucs repository
+The frontend of the Portal is still released via the
+[UCS](https://git.knut.univention.de/univention/ucs) repository
+while the development of the frontend is done in this repository.
+
+To copy the needed files to the ucs repository execute
+```
+./sync /path/to/git/ucs/management/univention-portal/frontend/
+```
+The [sync](sync) script should be used because it copies only some selected files instead of the whole repository.
+
 ### Sync the files to a UCS
 
 In order to build the project on a UCS, you can sync all dev files from your local git:
