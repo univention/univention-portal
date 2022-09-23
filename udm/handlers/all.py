@@ -50,6 +50,7 @@ default_containers = [
 	'cn=entry,cn=portals,cn=univention',
 	'cn=category,cn=portals,cn=univention',
 	'cn=folder,cn=portals,cn=univention',
+	'cn=announcement,cn=portals,cn=univention',
 ]
 
 operations = ['search']
