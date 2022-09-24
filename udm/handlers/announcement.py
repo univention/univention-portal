@@ -95,7 +95,7 @@ property_descriptions = {
 	'title': univention.admin.property(
 		short_description=_('Title'),
 		long_description=_('The title of the announcement, usually written in bold above the message.'),
-		syntax=univention.admin.syntax.LocalizedDescription,
+		syntax=univention.admin.syntax.LocalizedDisplayName,
 		required=True,
 	),
     'message': univention.admin.property(

@@ -63,7 +63,7 @@ You may also add some VSCode configuration in order to ease up development:
     {
       "label": "Build & Install",
       "type": "shell",
-      "command": "apt-get build-dep . && (dpkg-buildpackage -b || true) && cd .. && dpkg -i *.deb && apt install *.deb",
+      "command": "apt-get build-dep . && (dpkg-buildpackage -b || true); apt install ../*.deb",
       "group": "build"
     }
   ]

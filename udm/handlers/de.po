@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-portal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-09-23 05:04+0200\n"
+"POT-Creation-Date: 2022-09-24 04:26+0200\n"
 "PO-Revision-Date: 2020-05-01 00:20+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -28,7 +28,11 @@ msgstr "Erweitert"
 msgid "Announcement options"
 msgstr "Ansage Optionen"
 
-#: udm/handlers/portal.py:142
+#: udm/handlers/portal.py:116
+msgid "Announcements"
+msgstr "Ansagen"
+
+#: udm/handlers/portal.py:148
 msgid "Appearance"
 msgstr "Erscheinung"
 
@@ -56,7 +60,7 @@ msgstr "Schwarz"
 msgid "Browser tab when opening link"
 msgstr "Browser-Tab beim Öffnen des Links"
 
-#: udm/handlers/portal.py:111 udm/handlers/portal.py:129
+#: udm/handlers/portal.py:111 udm/handlers/portal.py:135
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -72,7 +76,7 @@ msgstr "Inhalt"
 msgid "Danger"
 msgstr "Gefahr"
 
-#: udm/handlers/portal.py:116
+#: udm/handlers/portal.py:122
 msgid "Default browser tab for portal entries"
 msgstr "Standard Browser-Tab für Portaleinträge"
 
@@ -132,7 +136,7 @@ msgid "Entry options"
 msgstr "Optionen für Eintrag"
 
 #: udm/handlers/entry.py:137 udm/handlers/entry.py:138
-#: udm/handlers/portal.py:124 udm/handlers/announcement.py:124
+#: udm/handlers/portal.py:130 udm/handlers/announcement.py:124
 #: udm/handlers/announcement.py:125 udm/handlers/all.py:76
 #: udm/handlers/category.py:85 udm/handlers/category.py:89
 #: udm/handlers/folder.py:85 udm/handlers/folder.py:86
@@ -232,7 +236,7 @@ msgstr "Sprachcode (z.B. de_DE)"
 msgid "Link"
 msgstr "Link"
 
-#: udm/handlers/portal.py:133
+#: udm/handlers/portal.py:139
 msgid "Link behaviour"
 msgstr "Link-Verhalten"
 
@@ -243,6 +247,10 @@ msgstr "Link-Ziel Name"
 #: udm/handlers/entry.py:88
 msgid "Links (best pick based on locale / protocol / hostname)"
 msgstr "Links (wählt aus Sprache / Protokoll / Computername)"
+
+#: udm/handlers/portal.py:117
+msgid "List of announcements that are shown in the portal"
+msgstr "Liste der Ansagen, die im Menü des Portals angezeigt werden"
 
 #: udm/handlers/category.py:78
 msgid "List of portal entries and/or portal folders shown in this category"
@@ -265,7 +273,7 @@ msgstr ""
 msgid "List of portal entries that are shown in the menu of the portal"
 msgstr "Liste der Portaleinträge, die im Menü des Portals angezeigt werden"
 
-#: udm/handlers/portal.py:146
+#: udm/handlers/portal.py:152
 msgid "Login"
 msgstr "Login"
 
@@ -277,7 +285,7 @@ msgstr "Logo Bild für das Portal."
 msgid "Management of portals and their entries"
 msgstr "Verwaltung der Portale und ihrer Einträge"
 
-#: udm/handlers/portal.py:139
+#: udm/handlers/portal.py:145
 msgid "Menu"
 msgstr "Menü"
 
@@ -285,7 +293,7 @@ msgstr "Menü"
 msgid "Message"
 msgstr "Nachricht"
 
-#: udm/handlers/portal.py:125 udm/handlers/category.py:86
+#: udm/handlers/portal.py:131 udm/handlers/category.py:86
 msgid "Name"
 msgstr "Name"
 
@@ -385,7 +393,7 @@ msgstr "Portal-Ordner"
 msgid "Portal logo"
 msgstr "Portal-Logo"
 
-#: udm/handlers/portal.py:124
+#: udm/handlers/portal.py:130
 msgid "Portal options"
 msgstr "Optionen für Portal"
 
@@ -489,7 +497,7 @@ msgstr "Titel"
 msgid "Use default of portal"
 msgstr "Portal-Vorgabe nutzen"
 
-#: udm/handlers/portal.py:136
+#: udm/handlers/portal.py:142
 msgid "User menu"
 msgstr "Benutzermenü"
 
