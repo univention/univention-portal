@@ -60,12 +60,13 @@ import { defineComponent } from 'vue';
 import _ from '@/jsHelper/translate';
 import MyForm from '@/components/forms/Form.vue';
 import Site from '@/views/selfservice/Site.vue';
-import { allValid, validateAll, WidgetDefinition, validateNewPassword } from '@/jsHelper/forms';
+import { allValid, isEmpty, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 import { changePassword } from '@/jsHelper/umc';
 
 interface FormValues {
   oldPassword: string,
-  setNewPassword: Record<string, string>,
+  newPassword: string,
+  newPasswordRetype: string,
 }
 
 interface ChangePasswordData {
@@ -84,24 +85,34 @@ export default defineComponent({
       formWidgets: [{
         type: 'PasswordBox',
         name: 'oldPassword',
-        canShowPassword: true,
         label: _('Old password'),
-
-        required: true,
+        validators: [(widget, value) => (
+          isEmpty(widget, value) ? _('Please enter your old password') : ''
+        )],
       }, {
-        type: 'NewPasswordBox',
-        name: 'setNewPassword',
+        type: 'PasswordBox',
+        name: 'newPassword',
         label: _('New password'),
-        canShowPassword: true,
-        required: true,
-        validators: [validateNewPassword],
+        validators: [(widget, value) => (
+          isEmpty(widget, value) ? _('Please enter your new password') : ''
+        )],
+      }, {
+        type: 'PasswordBox',
+        name: 'newPasswordRetype',
+        label: _('New password (retype)'),
+        validators: [(widget, value) => (
+          isEmpty(widget, value) ? _('Please confirm your new password') : ''
+        ), (widget, value, widgets, values) => {
+          if (values.newPassword !== value) {
+            return _('The new passwords do not match');
+          }
+          return '';
+        }],
       }],
       formValues: {
         oldPassword: '',
-        setNewPassword: {
-          newPassword: '',
-          retypePassword: '',
-        },
+        newPassword: '',
+        newPasswordRetype: '',
       },
     };
   },
@@ -140,7 +151,7 @@ export default defineComponent({
         return;
       }
       this.$store.dispatch('activateLoadingState');
-      changePassword(this.formValues.oldPassword, this.formValues.setNewPassword.newPassword)
+      changePassword(this.formValues.oldPassword, this.formValues.newPassword)
         .then((response) => {
           this.$store.dispatch('notifications/addSuccessNotification', {
             title: _('Change password'),

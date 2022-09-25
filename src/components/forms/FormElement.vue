@@ -68,7 +68,7 @@
     />
     <input-error-message
       :id="invalidMessageId"
-      :display-condition="invalidMessageCondition"
+      :display-condition="invalidMessage !== ''"
       :error-message="invalidMessage"
     />
     <!-- </div> -->
@@ -87,7 +87,6 @@ import ComboBox from '@/components/widgets/ComboBox.vue';
 import DateBox from '@/components/widgets/DateBox.vue';
 import MultiInput from '@/components/widgets/MultiInput.vue';
 import PasswordBox from '@/components/widgets/PasswordBox.vue';
-import NewPasswordBox from '@/components/widgets/NewPasswordBox.vue';
 import TextBox from '@/components/widgets/TextBox.vue';
 import TextArea from '@/components/widgets/TextArea.vue';
 import CheckBox from '@/components/widgets/CheckBox.vue';
@@ -116,7 +115,6 @@ export default defineComponent({
     DateBox,
     MultiInput,
     PasswordBox,
-    NewPasswordBox,
     TextBox,
     CheckBox,
     RadioBox,
@@ -164,14 +162,7 @@ export default defineComponent({
       return !isValid(this.widget);
     },
     invalidMessage(): string {
-      if (this.widget.type === 'NewPasswordBox') {
-        const invalidMessageObject = invalidMessage(this.widget);
-        return invalidMessageObject?.invalidMessageRetype;
-      }
       return invalidMessage(this.widget);
-    },
-    invalidMessageCondition(): boolean {
-      return this.invalidMessage !== '';
     },
     forAttrOfLabel(): string {
       return `${this.widget.name}--${this.$.uid}`;
