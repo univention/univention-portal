@@ -64,7 +64,7 @@ export interface WidgetTimeBox extends WidgetDefinition {
   step: number,
 }
 
-export function isEmpty(widget, value): boolean {
+export function isEmpty(widget: WidgetDefinition, value: any): boolean {
   switch (widget.type) {
     case 'TextBox':
     case 'TextArea':
@@ -79,10 +79,12 @@ export function isEmpty(widget, value): boolean {
     case 'ComplexInput':
     case 'MultiInput':
       return value.every((row) => {
+        const subtypes = widget.subtypes;
+        if (!Array.isArray(subtypes) || subtypes.length === 0) return true;
         if (Array.isArray(row)) {
-          return row.every((rowValue, idx) => isEmpty(widget.subtypes[idx], rowValue));
+          return row.every((rowValue, idx) => isEmpty(subtypes[idx], rowValue));
         }
-        return isEmpty(widget.subtypes[0], row);
+        return isEmpty(subtypes[0], row);
       });
     case 'LocaleInput':
       return value.en_US === '' || value.en_US === undefined;
@@ -97,7 +99,7 @@ export function isEmpty(widget, value): boolean {
   }
 }
 
-export function isValid(widget): boolean {
+export function isValid(widget: any): boolean {
   if (widget.invalidMessage === undefined) {
     return true;
   }
@@ -211,14 +213,14 @@ export function validate(widget, value, widgets, values): void {
   }
 }
 
-export function validateAll(widgets, values): boolean {
+export function validateAll(widgets: WidgetDefinition[], values): boolean {
   widgets.forEach((widget) => {
     validate(widget, values[widget.name], widgets, values);
   });
   return allValid(widgets);
 }
 
-export function initialValue(widget, value): any {
+export function initialValue(widget: any, value): any {
   switch (widget.type) {
     case 'TextBox':
     case 'TextArea':
@@ -239,17 +241,19 @@ export function initialValue(widget, value): any {
     case 'ComplexInput':
     case 'MultiInput':
       if (!Array.isArray(value)) {
-        const row = widget.subtypes.map((subtype) => initialValue(subtype, null));
+        const subtypes = widget.subtypes ?? [];
+        const row = subtypes.map((subtype) => initialValue(subtype, null));
         if (row.length === 1) {
           return row;
         }
         return [row];
       }
       return value.map((v) => {
+        const subtypes = widget.subtypes ?? [];
         if (Array.isArray(v)) {
-          return v.map((vv, idx) => initialValue(widget.subtypes[idx], vv));
+          return v.map((vv, idx) => initialValue(subtypes[idx], vv));
         }
-        return initialValue(widget.subtypes[0], v);
+        return initialValue(subtypes[0], v);
       });
     // case 'MultiSelect':
     //  return TODO
@@ -260,7 +264,7 @@ export function initialValue(widget, value): any {
   }
 }
 
-export function invalidMessage(widget): string {
+export function invalidMessage(widget: WidgetDefinition): string {
   if (widget.invalidMessage === undefined) {
     return '';
   }
@@ -278,16 +282,17 @@ export function invalidMessage(widget): string {
     case 'NumberSpinner':
     case 'LinkWidget':
     case 'TimeBox':
-      return widget.invalidMessage;
+      return widget.invalidMessage as string;
     case 'ComplexInput':
     case 'MultiInput':
+      if (typeof widget.invalidMessage === 'string') return widget.invalidMessage;
       return widget.invalidMessage.all;
     default:
       return '';
   }
 }
 
-export function validateInternalName(_widget: any, value: string): string {
+export function validateInternalName(_widget: WidgetDefinition, value: string): string {
   const regex = new RegExp('(^[a-zA-Z0-9])[a-zA-Z0-9._-]*([a-zA-Z0-9]$)');
   if (!regex.test(value)) {
     return _('Internal name must not contain anything other than digits, letters or dots, must be at least 2 characters long, and start and end with a digit or letter!');
