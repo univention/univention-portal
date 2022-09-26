@@ -7,7 +7,7 @@
     role="checkbox"
     tabindex="0"
     @click="onCheck"
-    @keydown="onKeydownCheck"
+    @keydown.space.prevent="onCheck"
   >
     <Transition>
       <PortalIcon
@@ -58,12 +58,6 @@ export default defineComponent({
         if (this.checked === false) checked = true;
         // if this.checked is true or mixed, then set to false (already set)
         this.$emit('update:checked', checked);
-      }
-    },
-    onKeydownCheck({ keyCode }) {
-      const spaceBarKeyCode = 32;
-      if (keyCode && keyCode === spaceBarKeyCode) {
-        this.onCheck();
       }
     },
   },
