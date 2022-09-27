@@ -2,6 +2,7 @@
   <div
     class="announcement"
     :class="`announcement--${type}`"
+    role="alert"
   >
     <slot />
   </div>
