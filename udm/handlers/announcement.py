@@ -101,20 +101,20 @@ property_descriptions = {
     'message': univention.admin.property(
 		short_description=_('Message'),
 		long_description=_('The message of the announcement, usually written in normal text below the title.'),
-		syntax=univention.admin.syntax.LocalizedDescription,
+		syntax=univention.admin.syntax.TextArea,
 		required=False,
             ),
     'startTime': univention.admin.property(
 		short_description=_('Start time'),
 		long_description=_('The time when the announcement will first appear. If no time is set, it will always appear.'),
-		syntax=univention.admin.syntax.DateTimeTimezone,
+		syntax=univention.admin.syntax.iso8601Date,
 		dontsearch=True,
 		required=False,
             ),
     'endTime': univention.admin.property(
 		short_description=_('End time'),
 		long_description=_('The time when the announcement will stop appearing. If no time is set, it will appear forever.'),
-		syntax=univention.admin.syntax.DateTimeTimezone,
+		syntax=univention.admin.syntax.iso8601Date,
 		dontsearch=True,
 		required=False,
             ),

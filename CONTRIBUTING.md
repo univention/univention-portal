@@ -38,7 +38,7 @@ You may also add some VSCode configuration in order to ease up development:
 **.vscode/extensions.json**
 ```json
 {
-    "recommendations": ["ms-vscode.makefile-tools", "donjayamanne.python-extension-pack", "ms-vscode-remote.vscode-remote-extensionpack"]
+    "recommendations": ["ms-vscode.makefile-tools", "donjayamanne.python-extension-pack", "ms-vscode-remote.vscode-remote-extensionpack", "Vue.volar"]
 }
 ```
 
