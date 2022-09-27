@@ -1,7 +1,6 @@
 <template>
   <div
-    class="announcement"
-    :class="`announcement--${type}`"
+    :class="['announcement', `announcement--${type}`]"
     role="alert"
   >
     <slot />
