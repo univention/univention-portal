@@ -1,17 +1,41 @@
 <template>
-  <div />
+  <div
+    class="announcement"
+    :class="`announcement--${type}`"
+  >
+    <slot />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+type AnnouncementType = 'success' | 'error' | 'warning';
+
 export default defineComponent({
   name: 'Announcement',
   props: {
-    message: {
-      type: String,
-      required: true,
+    type: {
+      type: String as () => AnnouncementType,
+      default: 'success',
     },
   },
 });
 </script>
+
+<style lang="stylus">
+.announcement
+  display: flex
+  align-items: center
+  justify-content: center
+  background-color: var(--bgc-success)
+  min-height: 2rem
+  width: 80vw;
+
+  &--error
+    background-color: var(--bgc-error)
+
+  &--warning
+    background-color: var(--bgc-warning)
+
+</style>
