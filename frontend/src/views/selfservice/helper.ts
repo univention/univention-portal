@@ -1,7 +1,4 @@
 /*
- * Like what you see? Join us!
- * https://www.univention.com/about-us/careers/vacancies/
- *
  * Copyright 2022 Univention GmbH
  *
  * https://www.univention.de/
@@ -67,7 +64,7 @@ export function sanitizeBackendWidget(widget: BackendWidgetDefinition): WidgetDe
   if (widget.type === 'ComboBox') {
     w.options = widget.staticValues;
   }
-  if (widget.type === 'MultiInput') {
+  if (widget.type === 'MultiInput' || widget.type === 'ComplexInput') {
     w.extraLabel = w.label;
     w.subtypes = widget.subtypes?.map((subtype) => sanitizeBackendWidget(subtype));
   }
@@ -94,6 +91,7 @@ export function setBackendInvalidMessage(widgets: WidgetDefinition[], invalidDat
     const validationObj = invalidData[widget.name];
     if (validationObj !== undefined) {
       switch (widget.type) {
+        case 'ComplexInput':
         case 'MultiInput':
           // TODO test if non array can come from backend
           if (Array.isArray(validationObj.message)) {
@@ -136,7 +134,7 @@ export function sanitizeFrontendValues(values: Record<string, unknown>, widgets:
         delete sanitized[widget.name];
       }
     }
-    if (widget.type === 'MultiInput') {
+    if (widget.type === 'MultiInput' || widget.type === 'ComplexInput') {
       if (Array.isArray(value)) {
         sanitized[widget.name] = value.reduce((arr, arrValue) => {
           if (Array.isArray(arrValue)) {
