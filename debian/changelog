@@ -4,6 +4,12 @@ univention-portal (4.0.9-1) unstable; urgency=medium
 
  -- Florian Best <best@univention.de>  Fri, 03 Feb 2023 04:17:41 +0100
 
+univention-portal (4.0.8-2) unstable; urgency=medium
+
+  * Bug #55176: implemented announcement udm module
+
+ -- Torben Köhn <torben.koehn.extern@univention.de>  Mon, 13 Feb 2023 17:59:18 +0100
+
 univention-portal (4.0.8-1) unstable; urgency=medium
 
   * Bug #55554: Fix UCR variable typing
