@@ -28,8 +28,9 @@
  */
 import { ActionContext } from 'vuex';
 import { RootState } from '../../root.models';
+import { Locale } from '../locale/locale.models';
 
-export type LocalizedString = Record<string, string>;
+export type LocalizedString = Record<Locale, string>;
 
 export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
 
@@ -117,21 +118,21 @@ export interface PortalCategory {
 }
 
 export interface Portal {
-    name: LocalizedString;
-    background: PortalImageDataBlob | null;
-    defaultLinkTarget: LinkTarget,
-    dn: string,
-    categories: string[],
-    logo: PortalImageDataBlob | null,
-    showUmc: boolean,
-    ensureLogin: boolean,
-    content: PortalContent,
+  name: LocalizedString;
+  background: PortalImageDataBlob | null;
+  defaultLinkTarget: LinkTarget,
+  dn: string,
+  categories: string[],
+  logo: PortalImageDataBlob | null,
+  showUmc: boolean,
+  ensureLogin: boolean,
+  content: PortalContent,
 }
 
 export interface PortalBaseLayout {
   layout: string[],
-  categories: {[index:string]: string[]},
-  folders: {[index:string]: string[]},
+  categories: { [index: string]: string[] },
+  folders: { [index: string]: string[] },
 }
 
 export interface PortalLayoutEntry {
@@ -150,6 +151,7 @@ export interface PortalData {
   categories: PortalCategory[],
   userLinks: string[],
   menuLinks: string[],
+  announcements: PortalAnnouncement[]
   portal: Portal;
   baseLayout: PortalBaseLayout,
   layout: PortalLayout,
@@ -170,3 +172,18 @@ export type Position = {
 }
 
 export type PortalDataActionContext = ActionContext<PortalDataState, RootState>;
+
+export type PortalAnnouncementSeverity = null | 'info' | 'warn' | 'success' | 'danger'
+
+export type PortalAnnouncement = {
+  id: string;
+  dn: string;
+  allowedGroups: string[];
+  needsConfirmation: boolean;
+  isSticky: boolean;
+  severity: PortalAnnouncementSeverity;
+  title: string;
+  message: string | null;
+  startTime: string | null;
+  endTime: string | null;
+}

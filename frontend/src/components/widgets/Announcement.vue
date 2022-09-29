@@ -1,42 +1,53 @@
 <template>
-    <div
-      :class="['announcement', `announcement--${type}`]"
-      role="alert"
-    >
-      <slot />
-    </div>
-  </template>
+  <div :class="['announcement', `announcement--${severity}`]" role="alert">
+    <h5 class="announcement-title">{{ $localized(title) }}</h5>
+    <div class="announcement-message" v-if="message">{{ $localized(message) }}</div>
+    <slot />
+  </div>
+</template>
   
-  <script lang="ts">
-  import { defineComponent } from 'vue';
-  
-  type AnnouncementType = 'success' | 'error' | 'warning';
-  
-  export default defineComponent({
-    name: 'Announcement',
-    props: {
-      type: {
-        type: String as () => AnnouncementType,
-        default: 'success',
-      },
+<script lang="ts">
+import { LocalizedString, PortalAnnouncementSeverity } from '@/store/modules/portalData/portalData.models';
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  name: 'Announcement',
+  props: {
+    title: {
+      type: Object as PropType<LocalizedString>,
+      required: true
     },
-  });
-  </script>
+    message: {
+      type: Object as PropType<LocalizedString>,
+    },
+    severity: {
+      type: String as PropType<PortalAnnouncementSeverity>,
+      default: 'success',
+    },
+  },
+});
+</script>
   
-  <style lang="stylus">
-  .announcement
-    display: flex
-    align-items: center
-    justify-content: center
+<style lang="stylus">
+.announcement
+  display: flex
+  align-items: center
+  justify-content: center
+  background-color: var(--serveroverview-tile-hover-color)
+  color: white
+  min-height: 2rem
+
+  &--info
+    background-color: var(--color-accent)
+
+  &--danger
+    background-color: var(--bgc-error)
+
+  &--success
     background-color: var(--bgc-success)
-    min-height: 2rem
-    width: 80vw;
-  
-    &--error
-      background-color: var(--bgc-error)
-  
-    &--warning
-      background-color: var(--bgc-warning)
-  
-  </style>
+
+  &--warn
+    background-color: var(--bgc-warning)
+
+</style>
   
