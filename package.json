@@ -90,7 +90,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch",
-    "storybook": "start-storybook -p 6006 --no-manager-cache",
+    "storybook": "start-storybook -p 6006 --no-manager-cache --debug-webpack",
     "build-storybook": "build-storybook -o dist/storybook"
   },
   "version": "0.1.0"
