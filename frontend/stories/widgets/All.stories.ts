@@ -1,7 +1,17 @@
 import { Meta, StoryFn } from '@storybook/vue3';
 
 import MyForm from '@/components/forms/Form.vue';
+import { ref } from 'vue';
 import { validateAll } from '../../src/jsHelper/forms';
+import widgetsJson from '../assets/all/widgets.json';
+
+interface Widget {
+  id: string;
+  type: string;
+  label: string;
+  name: string;
+  [key: string]: any;
+}
 
 export default {
   title: 'Widgets/All Widgets',
@@ -12,28 +22,62 @@ export default {
 } as Meta<typeof MyForm>;
 
 // Base Template
-const Template: StoryFn<typeof MyForm> = (args, { updateArgs }) => ({
+const Template: StoryFn<typeof MyForm> = (args) => ({
   components: { MyForm },
   setup() {
-    return { args };
+    const widgets: Widget[] = [];
+    const widgetsModelValue = ref({});
+
+    function isWidgetIsAlreadyAdded(widget: Widget) {
+      return widgets.find((w) => w.type === widget.type);
+    }
+
+    // check type is some kind of umc/modules/udm/CertificateUploader
+    function isTypeIsIncludeSlash(widget: Widget) {
+      return widget.type.includes('/');
+    }
+
+    widgetsJson.forEach((widget) => {
+      if (!isWidgetIsAlreadyAdded(widget as any)) {
+        if (isTypeIsIncludeSlash(widget as any)) {
+          const widgetType = widget.type.split('/');
+          widget.type = widgetType[widgetType.length - 1];
+        }
+
+        widgets.push({
+          id: widget.type.toLowerCase(),
+          type: widget.type,
+          label: widget.type,
+          name: widget.type,
+        });
+
+        switch (widget.type) {
+          // case 'MultiInput':
+          //   widget.subtypes = [
+          //     { type: 'TextBox', name: 'TextBox', label: 'TextBox in MultiInput' },
+          //   ];
+          //   widgetsModelValue.value[widget.type] = [{ TextBox: 'TextBox in MultiInput' }];
+
+          //   break;
+
+          default:
+            widgetsModelValue.value[widget.type] = '';
+            break;
+        }
+      }
+    });
+
+    console.log(widgets, widgetsModelValue);
+
+    return { args, widgets, widgetsModelValue };
   },
-  data() {
-    return {
-      formValues: args.formValues,
-      formWidgets: args.formWidgets,
-    };
-  },
+
   template: `
     <div>
-      <MyForm v-model="formValues" :widgets="formWidgets" />
-      <button @click="validate" style="margin: 1rem 0">validate</button>
+      <MyForm v-model="widgetsModelValue" :widgets="widgets" />
     </div>`,
+
   methods: {
-    // handleUpdate(newValue) {
-    //   setTimeout(() => {
-    //     updateArgs({ ...args, ...{ formValues: newValue } });
-    //   }, 1000);
-    // },
     validate() {
       validateAll(this.formWidgets, this.formValues);
     },
@@ -50,12 +94,6 @@ function validator(_widget: any, value: string): string {
 
 export const Basic = Template.bind({});
 Basic.args = {
-  formValues: {
-    password: '',
-    text: '',
-    complexInput: ['', '2022-12-12', '11:20', 'DE'],
-    multiInput: [],
-  },
   formWidgets: [
     {
       type: 'PasswordBox',

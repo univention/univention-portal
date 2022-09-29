@@ -105,6 +105,7 @@ import SuggestionBox from '@/components/widgets/SuggestionBox.vue';
 import Accordions from 'components/widgets/Accordions/Accordions.vue';
 import Tabs from 'components/widgets/Tabs/Tabs.vue';
 import Grid from '@/components/widgets/Grid/Grid.vue';
+import Announcement from '@/components/widgets/Announcement.vue';
 
 export default defineComponent({
   name: 'FormElement',
@@ -133,6 +134,7 @@ export default defineComponent({
     Accordions,
     Tabs,
     Grid,
+    Announcement,
   },
   props: {
     widget: {

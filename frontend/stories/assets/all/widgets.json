@@ -1,0 +1,6015 @@
+[
+  {
+    "id": "$dn$",
+    "type": "HiddenInput",
+    "label": "",
+    "searchable": false
+  },
+  {
+    "id": "username",
+    "label": "User name",
+    "description": "",
+    "syntax": "uid",
+    "size": "One",
+    "required": true,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": true,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "uidNumber",
+    "label": "User ID",
+    "description": "",
+    "syntax": "integer",
+    "size": "Half",
+    "required": false,
+    "editable": false,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "gidNumber",
+    "label": "Group ID of the primary group",
+    "description": "",
+    "syntax": "integer",
+    "size": "Half",
+    "required": false,
+    "editable": false,
+    "options": [],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "firstname",
+    "label": "First name",
+    "description": "",
+    "syntax": "TwoThirdsString",
+    "size": "TwoThirds",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "lastname",
+    "label": "Last name",
+    "description": "",
+    "syntax": "string",
+    "size": "One",
+    "required": true,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "displayName",
+    "label": "Display name",
+    "description": "",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "default": "<firstname> <lastname><:strip>",
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "title",
+    "label": "Title",
+    "description": "",
+    "syntax": "OneThirdString",
+    "size": "OneThird",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "sambaPrivileges",
+    "label": "Samba privilege",
+    "description": "Manage Samba privileges",
+    "syntax": "SambaPrivileges",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "ComboBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MultiInput",
+    "staticValues": [
+      {
+        "id": "",
+        "label": ""
+      },
+      {
+        "id": "SeMachineAccountPrivilege",
+        "label": "Add machines to domain"
+      },
+      {
+        "id": "SeSecurityPrivilege",
+        "label": "Manage auditing and security log"
+      },
+      {
+        "id": "SeTakeOwnershipPrivilege",
+        "label": "Take ownership of files or other objects"
+      },
+      {
+        "id": "SeBackupPrivilege",
+        "label": "Back up files and directories"
+      },
+      {
+        "id": "SeRestorePrivilege",
+        "label": "Restore files and directories"
+      },
+      {
+        "id": "SeRemoteShutdownPrivilege",
+        "label": "Force shutdown from a remote system"
+      },
+      {
+        "id": "SePrintOperatorPrivilege",
+        "label": "Manage printers"
+      },
+      {
+        "id": "SeAddUsersPrivilege",
+        "label": "Add users and groups to the domain"
+      },
+      {
+        "id": "SeDiskOperatorPrivilege",
+        "label": "Manage disk shares"
+      }
+    ],
+    "subtypes": [
+      {
+        "type": "ComboBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [
+          {
+            "id": "",
+            "label": ""
+          },
+          {
+            "id": "SeMachineAccountPrivilege",
+            "label": "Add machines to domain"
+          },
+          {
+            "id": "SeSecurityPrivilege",
+            "label": "Manage auditing and security log"
+          },
+          {
+            "id": "SeTakeOwnershipPrivilege",
+            "label": "Take ownership of files or other objects"
+          },
+          {
+            "id": "SeBackupPrivilege",
+            "label": "Back up files and directories"
+          },
+          {
+            "id": "SeRestorePrivilege",
+            "label": "Restore files and directories"
+          },
+          {
+            "id": "SeRemoteShutdownPrivilege",
+            "label": "Force shutdown from a remote system"
+          },
+          {
+            "id": "SePrintOperatorPrivilege",
+            "label": "Manage printers"
+          },
+          {
+            "id": "SeAddUsersPrivilege",
+            "label": "Add users and groups to the domain"
+          },
+          {
+            "id": "SeDiskOperatorPrivilege",
+            "label": "Manage disk shares"
+          }
+        ],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "description",
+    "label": "Description",
+    "description": "",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "organisation",
+    "label": "Organisation",
+    "description": "",
+    "syntax": "string64",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "userexpiry",
+    "label": "Account expiry date",
+    "description": "Specifies the date from when the user is not allowed to login anymore. Enter date as \"day.month.year\".",
+    "syntax": "date",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "1970-01-01",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "DateBox",
+    "staticValues": []
+  },
+  {
+    "id": "passwordexpiry",
+    "label": "Password expiry date",
+    "description": "Specified the date from when the user must change his password. Enter date as \"day.month.year\".",
+    "syntax": "date",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "1970-01-01",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "DateBox",
+    "staticValues": []
+  },
+  {
+    "id": "pwdChangeNextLogin",
+    "label": "User has to change password on next login",
+    "description": "If enabled, the user has to change his password the next time when he logs in.",
+    "syntax": "boolean",
+    "size": "Two",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": false,
+    "search_widget": "CheckBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "CheckBox",
+    "staticValues": []
+  },
+  {
+    "id": "disabled",
+    "label": "Account is deactivated",
+    "description": "Disable the user account for Windows, Kerberos and POSIX.",
+    "syntax": "disabled",
+    "size": "Two",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": false,
+    "search_widget": "CheckBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": "0",
+    "type": "CheckBox",
+    "staticValues": []
+  },
+  {
+    "id": "accountActivationDate",
+    "label": "Activate user account starting from",
+    "description": "This disables the account until the specified time.",
+    "syntax": "ActivationDateTimeTimezone",
+    "size": [
+      "TwoThirds",
+      "TwoThirds",
+      "TwoThirds"
+    ],
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": null,
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": [
+      null,
+      null,
+      "Europe/Berlin"
+    ],
+    "type": "ComplexInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "DateBox",
+        "staticValues": [],
+        "size": "One",
+        "label": "Date"
+      },
+      {
+        "type": "TimeBox",
+        "staticValues": [],
+        "size": "One",
+        "label": "Time"
+      },
+      {
+        "type": "ComboBox",
+        "staticValues": [
+          {
+            "id": "Africa/Abidjan",
+            "label": "Africa/Abidjan"
+          },
+          {
+            "id": "Africa/Accra",
+            "label": "Africa/Accra"
+          },
+          {
+            "id": "Africa/Addis_Ababa",
+            "label": "Africa/Addis_Ababa"
+          },
+          {
+            "id": "Africa/Algiers",
+            "label": "Africa/Algiers"
+          },
+          {
+            "id": "Africa/Asmara",
+            "label": "Africa/Asmara"
+          },
+          {
+            "id": "Africa/Asmera",
+            "label": "Africa/Asmera"
+          },
+          {
+            "id": "Africa/Bamako",
+            "label": "Africa/Bamako"
+          },
+          {
+            "id": "Africa/Bangui",
+            "label": "Africa/Bangui"
+          },
+          {
+            "id": "Africa/Banjul",
+            "label": "Africa/Banjul"
+          },
+          {
+            "id": "Africa/Bissau",
+            "label": "Africa/Bissau"
+          },
+          {
+            "id": "Africa/Blantyre",
+            "label": "Africa/Blantyre"
+          },
+          {
+            "id": "Africa/Brazzaville",
+            "label": "Africa/Brazzaville"
+          },
+          {
+            "id": "Africa/Bujumbura",
+            "label": "Africa/Bujumbura"
+          },
+          {
+            "id": "Africa/Cairo",
+            "label": "Africa/Cairo"
+          },
+          {
+            "id": "Africa/Casablanca",
+            "label": "Africa/Casablanca"
+          },
+          {
+            "id": "Africa/Ceuta",
+            "label": "Africa/Ceuta"
+          },
+          {
+            "id": "Africa/Conakry",
+            "label": "Africa/Conakry"
+          },
+          {
+            "id": "Africa/Dakar",
+            "label": "Africa/Dakar"
+          },
+          {
+            "id": "Africa/Dar_es_Salaam",
+            "label": "Africa/Dar_es_Salaam"
+          },
+          {
+            "id": "Africa/Djibouti",
+            "label": "Africa/Djibouti"
+          },
+          {
+            "id": "Africa/Douala",
+            "label": "Africa/Douala"
+          },
+          {
+            "id": "Africa/El_Aaiun",
+            "label": "Africa/El_Aaiun"
+          },
+          {
+            "id": "Africa/Freetown",
+            "label": "Africa/Freetown"
+          },
+          {
+            "id": "Africa/Gaborone",
+            "label": "Africa/Gaborone"
+          },
+          {
+            "id": "Africa/Harare",
+            "label": "Africa/Harare"
+          },
+          {
+            "id": "Africa/Johannesburg",
+            "label": "Africa/Johannesburg"
+          },
+          {
+            "id": "Africa/Juba",
+            "label": "Africa/Juba"
+          },
+          {
+            "id": "Africa/Kampala",
+            "label": "Africa/Kampala"
+          },
+          {
+            "id": "Africa/Khartoum",
+            "label": "Africa/Khartoum"
+          },
+          {
+            "id": "Africa/Kigali",
+            "label": "Africa/Kigali"
+          },
+          {
+            "id": "Africa/Kinshasa",
+            "label": "Africa/Kinshasa"
+          },
+          {
+            "id": "Africa/Lagos",
+            "label": "Africa/Lagos"
+          },
+          {
+            "id": "Africa/Libreville",
+            "label": "Africa/Libreville"
+          },
+          {
+            "id": "Africa/Lome",
+            "label": "Africa/Lome"
+          },
+          {
+            "id": "Africa/Luanda",
+            "label": "Africa/Luanda"
+          },
+          {
+            "id": "Africa/Lubumbashi",
+            "label": "Africa/Lubumbashi"
+          },
+          {
+            "id": "Africa/Lusaka",
+            "label": "Africa/Lusaka"
+          },
+          {
+            "id": "Africa/Malabo",
+            "label": "Africa/Malabo"
+          },
+          {
+            "id": "Africa/Maputo",
+            "label": "Africa/Maputo"
+          },
+          {
+            "id": "Africa/Maseru",
+            "label": "Africa/Maseru"
+          },
+          {
+            "id": "Africa/Mbabane",
+            "label": "Africa/Mbabane"
+          },
+          {
+            "id": "Africa/Mogadishu",
+            "label": "Africa/Mogadishu"
+          },
+          {
+            "id": "Africa/Monrovia",
+            "label": "Africa/Monrovia"
+          },
+          {
+            "id": "Africa/Nairobi",
+            "label": "Africa/Nairobi"
+          },
+          {
+            "id": "Africa/Ndjamena",
+            "label": "Africa/Ndjamena"
+          },
+          {
+            "id": "Africa/Niamey",
+            "label": "Africa/Niamey"
+          },
+          {
+            "id": "Africa/Nouakchott",
+            "label": "Africa/Nouakchott"
+          },
+          {
+            "id": "Africa/Ouagadougou",
+            "label": "Africa/Ouagadougou"
+          },
+          {
+            "id": "Africa/Porto-Novo",
+            "label": "Africa/Porto-Novo"
+          },
+          {
+            "id": "Africa/Sao_Tome",
+            "label": "Africa/Sao_Tome"
+          },
+          {
+            "id": "Africa/Timbuktu",
+            "label": "Africa/Timbuktu"
+          },
+          {
+            "id": "Africa/Tripoli",
+            "label": "Africa/Tripoli"
+          },
+          {
+            "id": "Africa/Tunis",
+            "label": "Africa/Tunis"
+          },
+          {
+            "id": "Africa/Windhoek",
+            "label": "Africa/Windhoek"
+          },
+          {
+            "id": "America/Adak",
+            "label": "America/Adak"
+          },
+          {
+            "id": "America/Anchorage",
+            "label": "America/Anchorage"
+          },
+          {
+            "id": "America/Anguilla",
+            "label": "America/Anguilla"
+          },
+          {
+            "id": "America/Antigua",
+            "label": "America/Antigua"
+          },
+          {
+            "id": "America/Araguaina",
+            "label": "America/Araguaina"
+          },
+          {
+            "id": "America/Argentina/Buenos_Aires",
+            "label": "America/Argentina/Buenos_Aires"
+          },
+          {
+            "id": "America/Argentina/Catamarca",
+            "label": "America/Argentina/Catamarca"
+          },
+          {
+            "id": "America/Argentina/ComodRivadavia",
+            "label": "America/Argentina/ComodRivadavia"
+          },
+          {
+            "id": "America/Argentina/Cordoba",
+            "label": "America/Argentina/Cordoba"
+          },
+          {
+            "id": "America/Argentina/Jujuy",
+            "label": "America/Argentina/Jujuy"
+          },
+          {
+            "id": "America/Argentina/La_Rioja",
+            "label": "America/Argentina/La_Rioja"
+          },
+          {
+            "id": "America/Argentina/Mendoza",
+            "label": "America/Argentina/Mendoza"
+          },
+          {
+            "id": "America/Argentina/Rio_Gallegos",
+            "label": "America/Argentina/Rio_Gallegos"
+          },
+          {
+            "id": "America/Argentina/Salta",
+            "label": "America/Argentina/Salta"
+          },
+          {
+            "id": "America/Argentina/San_Juan",
+            "label": "America/Argentina/San_Juan"
+          },
+          {
+            "id": "America/Argentina/San_Luis",
+            "label": "America/Argentina/San_Luis"
+          },
+          {
+            "id": "America/Argentina/Tucuman",
+            "label": "America/Argentina/Tucuman"
+          },
+          {
+            "id": "America/Argentina/Ushuaia",
+            "label": "America/Argentina/Ushuaia"
+          },
+          {
+            "id": "America/Aruba",
+            "label": "America/Aruba"
+          },
+          {
+            "id": "America/Asuncion",
+            "label": "America/Asuncion"
+          },
+          {
+            "id": "America/Atikokan",
+            "label": "America/Atikokan"
+          },
+          {
+            "id": "America/Atka",
+            "label": "America/Atka"
+          },
+          {
+            "id": "America/Bahia",
+            "label": "America/Bahia"
+          },
+          {
+            "id": "America/Bahia_Banderas",
+            "label": "America/Bahia_Banderas"
+          },
+          {
+            "id": "America/Barbados",
+            "label": "America/Barbados"
+          },
+          {
+            "id": "America/Belem",
+            "label": "America/Belem"
+          },
+          {
+            "id": "America/Belize",
+            "label": "America/Belize"
+          },
+          {
+            "id": "America/Blanc-Sablon",
+            "label": "America/Blanc-Sablon"
+          },
+          {
+            "id": "America/Boa_Vista",
+            "label": "America/Boa_Vista"
+          },
+          {
+            "id": "America/Bogota",
+            "label": "America/Bogota"
+          },
+          {
+            "id": "America/Boise",
+            "label": "America/Boise"
+          },
+          {
+            "id": "America/Buenos_Aires",
+            "label": "America/Buenos_Aires"
+          },
+          {
+            "id": "America/Cambridge_Bay",
+            "label": "America/Cambridge_Bay"
+          },
+          {
+            "id": "America/Campo_Grande",
+            "label": "America/Campo_Grande"
+          },
+          {
+            "id": "America/Cancun",
+            "label": "America/Cancun"
+          },
+          {
+            "id": "America/Caracas",
+            "label": "America/Caracas"
+          },
+          {
+            "id": "America/Catamarca",
+            "label": "America/Catamarca"
+          },
+          {
+            "id": "America/Cayenne",
+            "label": "America/Cayenne"
+          },
+          {
+            "id": "America/Cayman",
+            "label": "America/Cayman"
+          },
+          {
+            "id": "America/Chicago",
+            "label": "America/Chicago"
+          },
+          {
+            "id": "America/Chihuahua",
+            "label": "America/Chihuahua"
+          },
+          {
+            "id": "America/Coral_Harbour",
+            "label": "America/Coral_Harbour"
+          },
+          {
+            "id": "America/Cordoba",
+            "label": "America/Cordoba"
+          },
+          {
+            "id": "America/Costa_Rica",
+            "label": "America/Costa_Rica"
+          },
+          {
+            "id": "America/Creston",
+            "label": "America/Creston"
+          },
+          {
+            "id": "America/Cuiaba",
+            "label": "America/Cuiaba"
+          },
+          {
+            "id": "America/Curacao",
+            "label": "America/Curacao"
+          },
+          {
+            "id": "America/Danmarkshavn",
+            "label": "America/Danmarkshavn"
+          },
+          {
+            "id": "America/Dawson",
+            "label": "America/Dawson"
+          },
+          {
+            "id": "America/Dawson_Creek",
+            "label": "America/Dawson_Creek"
+          },
+          {
+            "id": "America/Denver",
+            "label": "America/Denver"
+          },
+          {
+            "id": "America/Detroit",
+            "label": "America/Detroit"
+          },
+          {
+            "id": "America/Dominica",
+            "label": "America/Dominica"
+          },
+          {
+            "id": "America/Edmonton",
+            "label": "America/Edmonton"
+          },
+          {
+            "id": "America/Eirunepe",
+            "label": "America/Eirunepe"
+          },
+          {
+            "id": "America/El_Salvador",
+            "label": "America/El_Salvador"
+          },
+          {
+            "id": "America/Ensenada",
+            "label": "America/Ensenada"
+          },
+          {
+            "id": "America/Fort_Nelson",
+            "label": "America/Fort_Nelson"
+          },
+          {
+            "id": "America/Fort_Wayne",
+            "label": "America/Fort_Wayne"
+          },
+          {
+            "id": "America/Fortaleza",
+            "label": "America/Fortaleza"
+          },
+          {
+            "id": "America/Glace_Bay",
+            "label": "America/Glace_Bay"
+          },
+          {
+            "id": "America/Godthab",
+            "label": "America/Godthab"
+          },
+          {
+            "id": "America/Goose_Bay",
+            "label": "America/Goose_Bay"
+          },
+          {
+            "id": "America/Grand_Turk",
+            "label": "America/Grand_Turk"
+          },
+          {
+            "id": "America/Grenada",
+            "label": "America/Grenada"
+          },
+          {
+            "id": "America/Guadeloupe",
+            "label": "America/Guadeloupe"
+          },
+          {
+            "id": "America/Guatemala",
+            "label": "America/Guatemala"
+          },
+          {
+            "id": "America/Guayaquil",
+            "label": "America/Guayaquil"
+          },
+          {
+            "id": "America/Guyana",
+            "label": "America/Guyana"
+          },
+          {
+            "id": "America/Halifax",
+            "label": "America/Halifax"
+          },
+          {
+            "id": "America/Havana",
+            "label": "America/Havana"
+          },
+          {
+            "id": "America/Hermosillo",
+            "label": "America/Hermosillo"
+          },
+          {
+            "id": "America/Indiana/Indianapolis",
+            "label": "America/Indiana/Indianapolis"
+          },
+          {
+            "id": "America/Indiana/Knox",
+            "label": "America/Indiana/Knox"
+          },
+          {
+            "id": "America/Indiana/Marengo",
+            "label": "America/Indiana/Marengo"
+          },
+          {
+            "id": "America/Indiana/Petersburg",
+            "label": "America/Indiana/Petersburg"
+          },
+          {
+            "id": "America/Indiana/Tell_City",
+            "label": "America/Indiana/Tell_City"
+          },
+          {
+            "id": "America/Indiana/Vevay",
+            "label": "America/Indiana/Vevay"
+          },
+          {
+            "id": "America/Indiana/Vincennes",
+            "label": "America/Indiana/Vincennes"
+          },
+          {
+            "id": "America/Indiana/Winamac",
+            "label": "America/Indiana/Winamac"
+          },
+          {
+            "id": "America/Indianapolis",
+            "label": "America/Indianapolis"
+          },
+          {
+            "id": "America/Inuvik",
+            "label": "America/Inuvik"
+          },
+          {
+            "id": "America/Iqaluit",
+            "label": "America/Iqaluit"
+          },
+          {
+            "id": "America/Jamaica",
+            "label": "America/Jamaica"
+          },
+          {
+            "id": "America/Jujuy",
+            "label": "America/Jujuy"
+          },
+          {
+            "id": "America/Juneau",
+            "label": "America/Juneau"
+          },
+          {
+            "id": "America/Kentucky/Louisville",
+            "label": "America/Kentucky/Louisville"
+          },
+          {
+            "id": "America/Kentucky/Monticello",
+            "label": "America/Kentucky/Monticello"
+          },
+          {
+            "id": "America/Knox_IN",
+            "label": "America/Knox_IN"
+          },
+          {
+            "id": "America/Kralendijk",
+            "label": "America/Kralendijk"
+          },
+          {
+            "id": "America/La_Paz",
+            "label": "America/La_Paz"
+          },
+          {
+            "id": "America/Lima",
+            "label": "America/Lima"
+          },
+          {
+            "id": "America/Los_Angeles",
+            "label": "America/Los_Angeles"
+          },
+          {
+            "id": "America/Louisville",
+            "label": "America/Louisville"
+          },
+          {
+            "id": "America/Lower_Princes",
+            "label": "America/Lower_Princes"
+          },
+          {
+            "id": "America/Maceio",
+            "label": "America/Maceio"
+          },
+          {
+            "id": "America/Managua",
+            "label": "America/Managua"
+          },
+          {
+            "id": "America/Manaus",
+            "label": "America/Manaus"
+          },
+          {
+            "id": "America/Marigot",
+            "label": "America/Marigot"
+          },
+          {
+            "id": "America/Martinique",
+            "label": "America/Martinique"
+          },
+          {
+            "id": "America/Matamoros",
+            "label": "America/Matamoros"
+          },
+          {
+            "id": "America/Mazatlan",
+            "label": "America/Mazatlan"
+          },
+          {
+            "id": "America/Mendoza",
+            "label": "America/Mendoza"
+          },
+          {
+            "id": "America/Menominee",
+            "label": "America/Menominee"
+          },
+          {
+            "id": "America/Merida",
+            "label": "America/Merida"
+          },
+          {
+            "id": "America/Metlakatla",
+            "label": "America/Metlakatla"
+          },
+          {
+            "id": "America/Mexico_City",
+            "label": "America/Mexico_City"
+          },
+          {
+            "id": "America/Miquelon",
+            "label": "America/Miquelon"
+          },
+          {
+            "id": "America/Moncton",
+            "label": "America/Moncton"
+          },
+          {
+            "id": "America/Monterrey",
+            "label": "America/Monterrey"
+          },
+          {
+            "id": "America/Montevideo",
+            "label": "America/Montevideo"
+          },
+          {
+            "id": "America/Montreal",
+            "label": "America/Montreal"
+          },
+          {
+            "id": "America/Montserrat",
+            "label": "America/Montserrat"
+          },
+          {
+            "id": "America/Nassau",
+            "label": "America/Nassau"
+          },
+          {
+            "id": "America/New_York",
+            "label": "America/New_York"
+          },
+          {
+            "id": "America/Nipigon",
+            "label": "America/Nipigon"
+          },
+          {
+            "id": "America/Nome",
+            "label": "America/Nome"
+          },
+          {
+            "id": "America/Noronha",
+            "label": "America/Noronha"
+          },
+          {
+            "id": "America/North_Dakota/Beulah",
+            "label": "America/North_Dakota/Beulah"
+          },
+          {
+            "id": "America/North_Dakota/Center",
+            "label": "America/North_Dakota/Center"
+          },
+          {
+            "id": "America/North_Dakota/New_Salem",
+            "label": "America/North_Dakota/New_Salem"
+          },
+          {
+            "id": "America/Ojinaga",
+            "label": "America/Ojinaga"
+          },
+          {
+            "id": "America/Panama",
+            "label": "America/Panama"
+          },
+          {
+            "id": "America/Pangnirtung",
+            "label": "America/Pangnirtung"
+          },
+          {
+            "id": "America/Paramaribo",
+            "label": "America/Paramaribo"
+          },
+          {
+            "id": "America/Phoenix",
+            "label": "America/Phoenix"
+          },
+          {
+            "id": "America/Port-au-Prince",
+            "label": "America/Port-au-Prince"
+          },
+          {
+            "id": "America/Port_of_Spain",
+            "label": "America/Port_of_Spain"
+          },
+          {
+            "id": "America/Porto_Acre",
+            "label": "America/Porto_Acre"
+          },
+          {
+            "id": "America/Porto_Velho",
+            "label": "America/Porto_Velho"
+          },
+          {
+            "id": "America/Puerto_Rico",
+            "label": "America/Puerto_Rico"
+          },
+          {
+            "id": "America/Punta_Arenas",
+            "label": "America/Punta_Arenas"
+          },
+          {
+            "id": "America/Rainy_River",
+            "label": "America/Rainy_River"
+          },
+          {
+            "id": "America/Rankin_Inlet",
+            "label": "America/Rankin_Inlet"
+          },
+          {
+            "id": "America/Recife",
+            "label": "America/Recife"
+          },
+          {
+            "id": "America/Regina",
+            "label": "America/Regina"
+          },
+          {
+            "id": "America/Resolute",
+            "label": "America/Resolute"
+          },
+          {
+            "id": "America/Rio_Branco",
+            "label": "America/Rio_Branco"
+          },
+          {
+            "id": "America/Rosario",
+            "label": "America/Rosario"
+          },
+          {
+            "id": "America/Santa_Isabel",
+            "label": "America/Santa_Isabel"
+          },
+          {
+            "id": "America/Santarem",
+            "label": "America/Santarem"
+          },
+          {
+            "id": "America/Santiago",
+            "label": "America/Santiago"
+          },
+          {
+            "id": "America/Santo_Domingo",
+            "label": "America/Santo_Domingo"
+          },
+          {
+            "id": "America/Sao_Paulo",
+            "label": "America/Sao_Paulo"
+          },
+          {
+            "id": "America/Scoresbysund",
+            "label": "America/Scoresbysund"
+          },
+          {
+            "id": "America/Shiprock",
+            "label": "America/Shiprock"
+          },
+          {
+            "id": "America/Sitka",
+            "label": "America/Sitka"
+          },
+          {
+            "id": "America/St_Barthelemy",
+            "label": "America/St_Barthelemy"
+          },
+          {
+            "id": "America/St_Johns",
+            "label": "America/St_Johns"
+          },
+          {
+            "id": "America/St_Kitts",
+            "label": "America/St_Kitts"
+          },
+          {
+            "id": "America/St_Lucia",
+            "label": "America/St_Lucia"
+          },
+          {
+            "id": "America/St_Thomas",
+            "label": "America/St_Thomas"
+          },
+          {
+            "id": "America/St_Vincent",
+            "label": "America/St_Vincent"
+          },
+          {
+            "id": "America/Swift_Current",
+            "label": "America/Swift_Current"
+          },
+          {
+            "id": "America/Tegucigalpa",
+            "label": "America/Tegucigalpa"
+          },
+          {
+            "id": "America/Thule",
+            "label": "America/Thule"
+          },
+          {
+            "id": "America/Thunder_Bay",
+            "label": "America/Thunder_Bay"
+          },
+          {
+            "id": "America/Tijuana",
+            "label": "America/Tijuana"
+          },
+          {
+            "id": "America/Toronto",
+            "label": "America/Toronto"
+          },
+          {
+            "id": "America/Tortola",
+            "label": "America/Tortola"
+          },
+          {
+            "id": "America/Vancouver",
+            "label": "America/Vancouver"
+          },
+          {
+            "id": "America/Virgin",
+            "label": "America/Virgin"
+          },
+          {
+            "id": "America/Whitehorse",
+            "label": "America/Whitehorse"
+          },
+          {
+            "id": "America/Winnipeg",
+            "label": "America/Winnipeg"
+          },
+          {
+            "id": "America/Yakutat",
+            "label": "America/Yakutat"
+          },
+          {
+            "id": "America/Yellowknife",
+            "label": "America/Yellowknife"
+          },
+          {
+            "id": "Antarctica/Casey",
+            "label": "Antarctica/Casey"
+          },
+          {
+            "id": "Antarctica/Davis",
+            "label": "Antarctica/Davis"
+          },
+          {
+            "id": "Antarctica/DumontDUrville",
+            "label": "Antarctica/DumontDUrville"
+          },
+          {
+            "id": "Antarctica/Macquarie",
+            "label": "Antarctica/Macquarie"
+          },
+          {
+            "id": "Antarctica/Mawson",
+            "label": "Antarctica/Mawson"
+          },
+          {
+            "id": "Antarctica/McMurdo",
+            "label": "Antarctica/McMurdo"
+          },
+          {
+            "id": "Antarctica/Palmer",
+            "label": "Antarctica/Palmer"
+          },
+          {
+            "id": "Antarctica/Rothera",
+            "label": "Antarctica/Rothera"
+          },
+          {
+            "id": "Antarctica/South_Pole",
+            "label": "Antarctica/South_Pole"
+          },
+          {
+            "id": "Antarctica/Syowa",
+            "label": "Antarctica/Syowa"
+          },
+          {
+            "id": "Antarctica/Troll",
+            "label": "Antarctica/Troll"
+          },
+          {
+            "id": "Antarctica/Vostok",
+            "label": "Antarctica/Vostok"
+          },
+          {
+            "id": "Arctic/Longyearbyen",
+            "label": "Arctic/Longyearbyen"
+          },
+          {
+            "id": "Asia/Aden",
+            "label": "Asia/Aden"
+          },
+          {
+            "id": "Asia/Almaty",
+            "label": "Asia/Almaty"
+          },
+          {
+            "id": "Asia/Amman",
+            "label": "Asia/Amman"
+          },
+          {
+            "id": "Asia/Anadyr",
+            "label": "Asia/Anadyr"
+          },
+          {
+            "id": "Asia/Aqtau",
+            "label": "Asia/Aqtau"
+          },
+          {
+            "id": "Asia/Aqtobe",
+            "label": "Asia/Aqtobe"
+          },
+          {
+            "id": "Asia/Ashgabat",
+            "label": "Asia/Ashgabat"
+          },
+          {
+            "id": "Asia/Ashkhabad",
+            "label": "Asia/Ashkhabad"
+          },
+          {
+            "id": "Asia/Atyrau",
+            "label": "Asia/Atyrau"
+          },
+          {
+            "id": "Asia/Baghdad",
+            "label": "Asia/Baghdad"
+          },
+          {
+            "id": "Asia/Bahrain",
+            "label": "Asia/Bahrain"
+          },
+          {
+            "id": "Asia/Baku",
+            "label": "Asia/Baku"
+          },
+          {
+            "id": "Asia/Bangkok",
+            "label": "Asia/Bangkok"
+          },
+          {
+            "id": "Asia/Barnaul",
+            "label": "Asia/Barnaul"
+          },
+          {
+            "id": "Asia/Beirut",
+            "label": "Asia/Beirut"
+          },
+          {
+            "id": "Asia/Bishkek",
+            "label": "Asia/Bishkek"
+          },
+          {
+            "id": "Asia/Brunei",
+            "label": "Asia/Brunei"
+          },
+          {
+            "id": "Asia/Calcutta",
+            "label": "Asia/Calcutta"
+          },
+          {
+            "id": "Asia/Chita",
+            "label": "Asia/Chita"
+          },
+          {
+            "id": "Asia/Choibalsan",
+            "label": "Asia/Choibalsan"
+          },
+          {
+            "id": "Asia/Chongqing",
+            "label": "Asia/Chongqing"
+          },
+          {
+            "id": "Asia/Chungking",
+            "label": "Asia/Chungking"
+          },
+          {
+            "id": "Asia/Colombo",
+            "label": "Asia/Colombo"
+          },
+          {
+            "id": "Asia/Dacca",
+            "label": "Asia/Dacca"
+          },
+          {
+            "id": "Asia/Damascus",
+            "label": "Asia/Damascus"
+          },
+          {
+            "id": "Asia/Dhaka",
+            "label": "Asia/Dhaka"
+          },
+          {
+            "id": "Asia/Dili",
+            "label": "Asia/Dili"
+          },
+          {
+            "id": "Asia/Dubai",
+            "label": "Asia/Dubai"
+          },
+          {
+            "id": "Asia/Dushanbe",
+            "label": "Asia/Dushanbe"
+          },
+          {
+            "id": "Asia/Famagusta",
+            "label": "Asia/Famagusta"
+          },
+          {
+            "id": "Asia/Gaza",
+            "label": "Asia/Gaza"
+          },
+          {
+            "id": "Asia/Harbin",
+            "label": "Asia/Harbin"
+          },
+          {
+            "id": "Asia/Hebron",
+            "label": "Asia/Hebron"
+          },
+          {
+            "id": "Asia/Ho_Chi_Minh",
+            "label": "Asia/Ho_Chi_Minh"
+          },
+          {
+            "id": "Asia/Hong_Kong",
+            "label": "Asia/Hong_Kong"
+          },
+          {
+            "id": "Asia/Hovd",
+            "label": "Asia/Hovd"
+          },
+          {
+            "id": "Asia/Irkutsk",
+            "label": "Asia/Irkutsk"
+          },
+          {
+            "id": "Asia/Istanbul",
+            "label": "Asia/Istanbul"
+          },
+          {
+            "id": "Asia/Jakarta",
+            "label": "Asia/Jakarta"
+          },
+          {
+            "id": "Asia/Jayapura",
+            "label": "Asia/Jayapura"
+          },
+          {
+            "id": "Asia/Jerusalem",
+            "label": "Asia/Jerusalem"
+          },
+          {
+            "id": "Asia/Kabul",
+            "label": "Asia/Kabul"
+          },
+          {
+            "id": "Asia/Kamchatka",
+            "label": "Asia/Kamchatka"
+          },
+          {
+            "id": "Asia/Karachi",
+            "label": "Asia/Karachi"
+          },
+          {
+            "id": "Asia/Kashgar",
+            "label": "Asia/Kashgar"
+          },
+          {
+            "id": "Asia/Kathmandu",
+            "label": "Asia/Kathmandu"
+          },
+          {
+            "id": "Asia/Katmandu",
+            "label": "Asia/Katmandu"
+          },
+          {
+            "id": "Asia/Khandyga",
+            "label": "Asia/Khandyga"
+          },
+          {
+            "id": "Asia/Kolkata",
+            "label": "Asia/Kolkata"
+          },
+          {
+            "id": "Asia/Krasnoyarsk",
+            "label": "Asia/Krasnoyarsk"
+          },
+          {
+            "id": "Asia/Kuala_Lumpur",
+            "label": "Asia/Kuala_Lumpur"
+          },
+          {
+            "id": "Asia/Kuching",
+            "label": "Asia/Kuching"
+          },
+          {
+            "id": "Asia/Kuwait",
+            "label": "Asia/Kuwait"
+          },
+          {
+            "id": "Asia/Macao",
+            "label": "Asia/Macao"
+          },
+          {
+            "id": "Asia/Macau",
+            "label": "Asia/Macau"
+          },
+          {
+            "id": "Asia/Magadan",
+            "label": "Asia/Magadan"
+          },
+          {
+            "id": "Asia/Makassar",
+            "label": "Asia/Makassar"
+          },
+          {
+            "id": "Asia/Manila",
+            "label": "Asia/Manila"
+          },
+          {
+            "id": "Asia/Muscat",
+            "label": "Asia/Muscat"
+          },
+          {
+            "id": "Asia/Nicosia",
+            "label": "Asia/Nicosia"
+          },
+          {
+            "id": "Asia/Novokuznetsk",
+            "label": "Asia/Novokuznetsk"
+          },
+          {
+            "id": "Asia/Novosibirsk",
+            "label": "Asia/Novosibirsk"
+          },
+          {
+            "id": "Asia/Omsk",
+            "label": "Asia/Omsk"
+          },
+          {
+            "id": "Asia/Oral",
+            "label": "Asia/Oral"
+          },
+          {
+            "id": "Asia/Phnom_Penh",
+            "label": "Asia/Phnom_Penh"
+          },
+          {
+            "id": "Asia/Pontianak",
+            "label": "Asia/Pontianak"
+          },
+          {
+            "id": "Asia/Pyongyang",
+            "label": "Asia/Pyongyang"
+          },
+          {
+            "id": "Asia/Qatar",
+            "label": "Asia/Qatar"
+          },
+          {
+            "id": "Asia/Qostanay",
+            "label": "Asia/Qostanay"
+          },
+          {
+            "id": "Asia/Qyzylorda",
+            "label": "Asia/Qyzylorda"
+          },
+          {
+            "id": "Asia/Rangoon",
+            "label": "Asia/Rangoon"
+          },
+          {
+            "id": "Asia/Riyadh",
+            "label": "Asia/Riyadh"
+          },
+          {
+            "id": "Asia/Saigon",
+            "label": "Asia/Saigon"
+          },
+          {
+            "id": "Asia/Sakhalin",
+            "label": "Asia/Sakhalin"
+          },
+          {
+            "id": "Asia/Samarkand",
+            "label": "Asia/Samarkand"
+          },
+          {
+            "id": "Asia/Seoul",
+            "label": "Asia/Seoul"
+          },
+          {
+            "id": "Asia/Shanghai",
+            "label": "Asia/Shanghai"
+          },
+          {
+            "id": "Asia/Singapore",
+            "label": "Asia/Singapore"
+          },
+          {
+            "id": "Asia/Srednekolymsk",
+            "label": "Asia/Srednekolymsk"
+          },
+          {
+            "id": "Asia/Taipei",
+            "label": "Asia/Taipei"
+          },
+          {
+            "id": "Asia/Tashkent",
+            "label": "Asia/Tashkent"
+          },
+          {
+            "id": "Asia/Tbilisi",
+            "label": "Asia/Tbilisi"
+          },
+          {
+            "id": "Asia/Tehran",
+            "label": "Asia/Tehran"
+          },
+          {
+            "id": "Asia/Tel_Aviv",
+            "label": "Asia/Tel_Aviv"
+          },
+          {
+            "id": "Asia/Thimbu",
+            "label": "Asia/Thimbu"
+          },
+          {
+            "id": "Asia/Thimphu",
+            "label": "Asia/Thimphu"
+          },
+          {
+            "id": "Asia/Tokyo",
+            "label": "Asia/Tokyo"
+          },
+          {
+            "id": "Asia/Tomsk",
+            "label": "Asia/Tomsk"
+          },
+          {
+            "id": "Asia/Ujung_Pandang",
+            "label": "Asia/Ujung_Pandang"
+          },
+          {
+            "id": "Asia/Ulaanbaatar",
+            "label": "Asia/Ulaanbaatar"
+          },
+          {
+            "id": "Asia/Ulan_Bator",
+            "label": "Asia/Ulan_Bator"
+          },
+          {
+            "id": "Asia/Urumqi",
+            "label": "Asia/Urumqi"
+          },
+          {
+            "id": "Asia/Ust-Nera",
+            "label": "Asia/Ust-Nera"
+          },
+          {
+            "id": "Asia/Vientiane",
+            "label": "Asia/Vientiane"
+          },
+          {
+            "id": "Asia/Vladivostok",
+            "label": "Asia/Vladivostok"
+          },
+          {
+            "id": "Asia/Yakutsk",
+            "label": "Asia/Yakutsk"
+          },
+          {
+            "id": "Asia/Yangon",
+            "label": "Asia/Yangon"
+          },
+          {
+            "id": "Asia/Yekaterinburg",
+            "label": "Asia/Yekaterinburg"
+          },
+          {
+            "id": "Asia/Yerevan",
+            "label": "Asia/Yerevan"
+          },
+          {
+            "id": "Atlantic/Azores",
+            "label": "Atlantic/Azores"
+          },
+          {
+            "id": "Atlantic/Bermuda",
+            "label": "Atlantic/Bermuda"
+          },
+          {
+            "id": "Atlantic/Canary",
+            "label": "Atlantic/Canary"
+          },
+          {
+            "id": "Atlantic/Cape_Verde",
+            "label": "Atlantic/Cape_Verde"
+          },
+          {
+            "id": "Atlantic/Faeroe",
+            "label": "Atlantic/Faeroe"
+          },
+          {
+            "id": "Atlantic/Faroe",
+            "label": "Atlantic/Faroe"
+          },
+          {
+            "id": "Atlantic/Jan_Mayen",
+            "label": "Atlantic/Jan_Mayen"
+          },
+          {
+            "id": "Atlantic/Madeira",
+            "label": "Atlantic/Madeira"
+          },
+          {
+            "id": "Atlantic/Reykjavik",
+            "label": "Atlantic/Reykjavik"
+          },
+          {
+            "id": "Atlantic/South_Georgia",
+            "label": "Atlantic/South_Georgia"
+          },
+          {
+            "id": "Atlantic/St_Helena",
+            "label": "Atlantic/St_Helena"
+          },
+          {
+            "id": "Atlantic/Stanley",
+            "label": "Atlantic/Stanley"
+          },
+          {
+            "id": "Australia/ACT",
+            "label": "Australia/ACT"
+          },
+          {
+            "id": "Australia/Adelaide",
+            "label": "Australia/Adelaide"
+          },
+          {
+            "id": "Australia/Brisbane",
+            "label": "Australia/Brisbane"
+          },
+          {
+            "id": "Australia/Broken_Hill",
+            "label": "Australia/Broken_Hill"
+          },
+          {
+            "id": "Australia/Canberra",
+            "label": "Australia/Canberra"
+          },
+          {
+            "id": "Australia/Currie",
+            "label": "Australia/Currie"
+          },
+          {
+            "id": "Australia/Darwin",
+            "label": "Australia/Darwin"
+          },
+          {
+            "id": "Australia/Eucla",
+            "label": "Australia/Eucla"
+          },
+          {
+            "id": "Australia/Hobart",
+            "label": "Australia/Hobart"
+          },
+          {
+            "id": "Australia/LHI",
+            "label": "Australia/LHI"
+          },
+          {
+            "id": "Australia/Lindeman",
+            "label": "Australia/Lindeman"
+          },
+          {
+            "id": "Australia/Lord_Howe",
+            "label": "Australia/Lord_Howe"
+          },
+          {
+            "id": "Australia/Melbourne",
+            "label": "Australia/Melbourne"
+          },
+          {
+            "id": "Australia/NSW",
+            "label": "Australia/NSW"
+          },
+          {
+            "id": "Australia/North",
+            "label": "Australia/North"
+          },
+          {
+            "id": "Australia/Perth",
+            "label": "Australia/Perth"
+          },
+          {
+            "id": "Australia/Queensland",
+            "label": "Australia/Queensland"
+          },
+          {
+            "id": "Australia/South",
+            "label": "Australia/South"
+          },
+          {
+            "id": "Australia/Sydney",
+            "label": "Australia/Sydney"
+          },
+          {
+            "id": "Australia/Tasmania",
+            "label": "Australia/Tasmania"
+          },
+          {
+            "id": "Australia/Victoria",
+            "label": "Australia/Victoria"
+          },
+          {
+            "id": "Australia/West",
+            "label": "Australia/West"
+          },
+          {
+            "id": "Australia/Yancowinna",
+            "label": "Australia/Yancowinna"
+          },
+          {
+            "id": "Brazil/Acre",
+            "label": "Brazil/Acre"
+          },
+          {
+            "id": "Brazil/DeNoronha",
+            "label": "Brazil/DeNoronha"
+          },
+          {
+            "id": "Brazil/East",
+            "label": "Brazil/East"
+          },
+          {
+            "id": "Brazil/West",
+            "label": "Brazil/West"
+          },
+          {
+            "id": "CET",
+            "label": "CET"
+          },
+          {
+            "id": "CST6CDT",
+            "label": "CST6CDT"
+          },
+          {
+            "id": "Canada/Atlantic",
+            "label": "Canada/Atlantic"
+          },
+          {
+            "id": "Canada/Central",
+            "label": "Canada/Central"
+          },
+          {
+            "id": "Canada/Eastern",
+            "label": "Canada/Eastern"
+          },
+          {
+            "id": "Canada/Mountain",
+            "label": "Canada/Mountain"
+          },
+          {
+            "id": "Canada/Newfoundland",
+            "label": "Canada/Newfoundland"
+          },
+          {
+            "id": "Canada/Pacific",
+            "label": "Canada/Pacific"
+          },
+          {
+            "id": "Canada/Saskatchewan",
+            "label": "Canada/Saskatchewan"
+          },
+          {
+            "id": "Canada/Yukon",
+            "label": "Canada/Yukon"
+          },
+          {
+            "id": "Chile/Continental",
+            "label": "Chile/Continental"
+          },
+          {
+            "id": "Chile/EasterIsland",
+            "label": "Chile/EasterIsland"
+          },
+          {
+            "id": "Cuba",
+            "label": "Cuba"
+          },
+          {
+            "id": "EET",
+            "label": "EET"
+          },
+          {
+            "id": "EST",
+            "label": "EST"
+          },
+          {
+            "id": "EST5EDT",
+            "label": "EST5EDT"
+          },
+          {
+            "id": "Egypt",
+            "label": "Egypt"
+          },
+          {
+            "id": "Eire",
+            "label": "Eire"
+          },
+          {
+            "id": "Etc/GMT",
+            "label": "Etc/GMT"
+          },
+          {
+            "id": "Etc/GMT+0",
+            "label": "Etc/GMT+0"
+          },
+          {
+            "id": "Etc/GMT+1",
+            "label": "Etc/GMT+1"
+          },
+          {
+            "id": "Etc/GMT+10",
+            "label": "Etc/GMT+10"
+          },
+          {
+            "id": "Etc/GMT+11",
+            "label": "Etc/GMT+11"
+          },
+          {
+            "id": "Etc/GMT+12",
+            "label": "Etc/GMT+12"
+          },
+          {
+            "id": "Etc/GMT+2",
+            "label": "Etc/GMT+2"
+          },
+          {
+            "id": "Etc/GMT+3",
+            "label": "Etc/GMT+3"
+          },
+          {
+            "id": "Etc/GMT+4",
+            "label": "Etc/GMT+4"
+          },
+          {
+            "id": "Etc/GMT+5",
+            "label": "Etc/GMT+5"
+          },
+          {
+            "id": "Etc/GMT+6",
+            "label": "Etc/GMT+6"
+          },
+          {
+            "id": "Etc/GMT+7",
+            "label": "Etc/GMT+7"
+          },
+          {
+            "id": "Etc/GMT+8",
+            "label": "Etc/GMT+8"
+          },
+          {
+            "id": "Etc/GMT+9",
+            "label": "Etc/GMT+9"
+          },
+          {
+            "id": "Etc/GMT-0",
+            "label": "Etc/GMT-0"
+          },
+          {
+            "id": "Etc/GMT-1",
+            "label": "Etc/GMT-1"
+          },
+          {
+            "id": "Etc/GMT-10",
+            "label": "Etc/GMT-10"
+          },
+          {
+            "id": "Etc/GMT-11",
+            "label": "Etc/GMT-11"
+          },
+          {
+            "id": "Etc/GMT-12",
+            "label": "Etc/GMT-12"
+          },
+          {
+            "id": "Etc/GMT-13",
+            "label": "Etc/GMT-13"
+          },
+          {
+            "id": "Etc/GMT-14",
+            "label": "Etc/GMT-14"
+          },
+          {
+            "id": "Etc/GMT-2",
+            "label": "Etc/GMT-2"
+          },
+          {
+            "id": "Etc/GMT-3",
+            "label": "Etc/GMT-3"
+          },
+          {
+            "id": "Etc/GMT-4",
+            "label": "Etc/GMT-4"
+          },
+          {
+            "id": "Etc/GMT-5",
+            "label": "Etc/GMT-5"
+          },
+          {
+            "id": "Etc/GMT-6",
+            "label": "Etc/GMT-6"
+          },
+          {
+            "id": "Etc/GMT-7",
+            "label": "Etc/GMT-7"
+          },
+          {
+            "id": "Etc/GMT-8",
+            "label": "Etc/GMT-8"
+          },
+          {
+            "id": "Etc/GMT-9",
+            "label": "Etc/GMT-9"
+          },
+          {
+            "id": "Etc/GMT0",
+            "label": "Etc/GMT0"
+          },
+          {
+            "id": "Etc/Greenwich",
+            "label": "Etc/Greenwich"
+          },
+          {
+            "id": "Etc/UCT",
+            "label": "Etc/UCT"
+          },
+          {
+            "id": "Etc/UTC",
+            "label": "Etc/UTC"
+          },
+          {
+            "id": "Etc/Universal",
+            "label": "Etc/Universal"
+          },
+          {
+            "id": "Etc/Zulu",
+            "label": "Etc/Zulu"
+          },
+          {
+            "id": "Europe/Amsterdam",
+            "label": "Europe/Amsterdam"
+          },
+          {
+            "id": "Europe/Andorra",
+            "label": "Europe/Andorra"
+          },
+          {
+            "id": "Europe/Astrakhan",
+            "label": "Europe/Astrakhan"
+          },
+          {
+            "id": "Europe/Athens",
+            "label": "Europe/Athens"
+          },
+          {
+            "id": "Europe/Belfast",
+            "label": "Europe/Belfast"
+          },
+          {
+            "id": "Europe/Belgrade",
+            "label": "Europe/Belgrade"
+          },
+          {
+            "id": "Europe/Berlin",
+            "label": "Europe/Berlin"
+          },
+          {
+            "id": "Europe/Bratislava",
+            "label": "Europe/Bratislava"
+          },
+          {
+            "id": "Europe/Brussels",
+            "label": "Europe/Brussels"
+          },
+          {
+            "id": "Europe/Bucharest",
+            "label": "Europe/Bucharest"
+          },
+          {
+            "id": "Europe/Budapest",
+            "label": "Europe/Budapest"
+          },
+          {
+            "id": "Europe/Busingen",
+            "label": "Europe/Busingen"
+          },
+          {
+            "id": "Europe/Chisinau",
+            "label": "Europe/Chisinau"
+          },
+          {
+            "id": "Europe/Copenhagen",
+            "label": "Europe/Copenhagen"
+          },
+          {
+            "id": "Europe/Dublin",
+            "label": "Europe/Dublin"
+          },
+          {
+            "id": "Europe/Gibraltar",
+            "label": "Europe/Gibraltar"
+          },
+          {
+            "id": "Europe/Guernsey",
+            "label": "Europe/Guernsey"
+          },
+          {
+            "id": "Europe/Helsinki",
+            "label": "Europe/Helsinki"
+          },
+          {
+            "id": "Europe/Isle_of_Man",
+            "label": "Europe/Isle_of_Man"
+          },
+          {
+            "id": "Europe/Istanbul",
+            "label": "Europe/Istanbul"
+          },
+          {
+            "id": "Europe/Jersey",
+            "label": "Europe/Jersey"
+          },
+          {
+            "id": "Europe/Kaliningrad",
+            "label": "Europe/Kaliningrad"
+          },
+          {
+            "id": "Europe/Kiev",
+            "label": "Europe/Kiev"
+          },
+          {
+            "id": "Europe/Kirov",
+            "label": "Europe/Kirov"
+          },
+          {
+            "id": "Europe/Lisbon",
+            "label": "Europe/Lisbon"
+          },
+          {
+            "id": "Europe/Ljubljana",
+            "label": "Europe/Ljubljana"
+          },
+          {
+            "id": "Europe/London",
+            "label": "Europe/London"
+          },
+          {
+            "id": "Europe/Luxembourg",
+            "label": "Europe/Luxembourg"
+          },
+          {
+            "id": "Europe/Madrid",
+            "label": "Europe/Madrid"
+          },
+          {
+            "id": "Europe/Malta",
+            "label": "Europe/Malta"
+          },
+          {
+            "id": "Europe/Mariehamn",
+            "label": "Europe/Mariehamn"
+          },
+          {
+            "id": "Europe/Minsk",
+            "label": "Europe/Minsk"
+          },
+          {
+            "id": "Europe/Monaco",
+            "label": "Europe/Monaco"
+          },
+          {
+            "id": "Europe/Moscow",
+            "label": "Europe/Moscow"
+          },
+          {
+            "id": "Europe/Nicosia",
+            "label": "Europe/Nicosia"
+          },
+          {
+            "id": "Europe/Oslo",
+            "label": "Europe/Oslo"
+          },
+          {
+            "id": "Europe/Paris",
+            "label": "Europe/Paris"
+          },
+          {
+            "id": "Europe/Podgorica",
+            "label": "Europe/Podgorica"
+          },
+          {
+            "id": "Europe/Prague",
+            "label": "Europe/Prague"
+          },
+          {
+            "id": "Europe/Riga",
+            "label": "Europe/Riga"
+          },
+          {
+            "id": "Europe/Rome",
+            "label": "Europe/Rome"
+          },
+          {
+            "id": "Europe/Samara",
+            "label": "Europe/Samara"
+          },
+          {
+            "id": "Europe/San_Marino",
+            "label": "Europe/San_Marino"
+          },
+          {
+            "id": "Europe/Sarajevo",
+            "label": "Europe/Sarajevo"
+          },
+          {
+            "id": "Europe/Saratov",
+            "label": "Europe/Saratov"
+          },
+          {
+            "id": "Europe/Simferopol",
+            "label": "Europe/Simferopol"
+          },
+          {
+            "id": "Europe/Skopje",
+            "label": "Europe/Skopje"
+          },
+          {
+            "id": "Europe/Sofia",
+            "label": "Europe/Sofia"
+          },
+          {
+            "id": "Europe/Stockholm",
+            "label": "Europe/Stockholm"
+          },
+          {
+            "id": "Europe/Tallinn",
+            "label": "Europe/Tallinn"
+          },
+          {
+            "id": "Europe/Tirane",
+            "label": "Europe/Tirane"
+          },
+          {
+            "id": "Europe/Tiraspol",
+            "label": "Europe/Tiraspol"
+          },
+          {
+            "id": "Europe/Ulyanovsk",
+            "label": "Europe/Ulyanovsk"
+          },
+          {
+            "id": "Europe/Uzhgorod",
+            "label": "Europe/Uzhgorod"
+          },
+          {
+            "id": "Europe/Vaduz",
+            "label": "Europe/Vaduz"
+          },
+          {
+            "id": "Europe/Vatican",
+            "label": "Europe/Vatican"
+          },
+          {
+            "id": "Europe/Vienna",
+            "label": "Europe/Vienna"
+          },
+          {
+            "id": "Europe/Vilnius",
+            "label": "Europe/Vilnius"
+          },
+          {
+            "id": "Europe/Volgograd",
+            "label": "Europe/Volgograd"
+          },
+          {
+            "id": "Europe/Warsaw",
+            "label": "Europe/Warsaw"
+          },
+          {
+            "id": "Europe/Zagreb",
+            "label": "Europe/Zagreb"
+          },
+          {
+            "id": "Europe/Zaporozhye",
+            "label": "Europe/Zaporozhye"
+          },
+          {
+            "id": "Europe/Zurich",
+            "label": "Europe/Zurich"
+          },
+          {
+            "id": "GB",
+            "label": "GB"
+          },
+          {
+            "id": "GB-Eire",
+            "label": "GB-Eire"
+          },
+          {
+            "id": "GMT",
+            "label": "GMT"
+          },
+          {
+            "id": "GMT+0",
+            "label": "GMT+0"
+          },
+          {
+            "id": "GMT-0",
+            "label": "GMT-0"
+          },
+          {
+            "id": "GMT0",
+            "label": "GMT0"
+          },
+          {
+            "id": "Greenwich",
+            "label": "Greenwich"
+          },
+          {
+            "id": "HST",
+            "label": "HST"
+          },
+          {
+            "id": "Hongkong",
+            "label": "Hongkong"
+          },
+          {
+            "id": "Iceland",
+            "label": "Iceland"
+          },
+          {
+            "id": "Indian/Antananarivo",
+            "label": "Indian/Antananarivo"
+          },
+          {
+            "id": "Indian/Chagos",
+            "label": "Indian/Chagos"
+          },
+          {
+            "id": "Indian/Christmas",
+            "label": "Indian/Christmas"
+          },
+          {
+            "id": "Indian/Cocos",
+            "label": "Indian/Cocos"
+          },
+          {
+            "id": "Indian/Comoro",
+            "label": "Indian/Comoro"
+          },
+          {
+            "id": "Indian/Kerguelen",
+            "label": "Indian/Kerguelen"
+          },
+          {
+            "id": "Indian/Mahe",
+            "label": "Indian/Mahe"
+          },
+          {
+            "id": "Indian/Maldives",
+            "label": "Indian/Maldives"
+          },
+          {
+            "id": "Indian/Mauritius",
+            "label": "Indian/Mauritius"
+          },
+          {
+            "id": "Indian/Mayotte",
+            "label": "Indian/Mayotte"
+          },
+          {
+            "id": "Indian/Reunion",
+            "label": "Indian/Reunion"
+          },
+          {
+            "id": "Iran",
+            "label": "Iran"
+          },
+          {
+            "id": "Israel",
+            "label": "Israel"
+          },
+          {
+            "id": "Jamaica",
+            "label": "Jamaica"
+          },
+          {
+            "id": "Japan",
+            "label": "Japan"
+          },
+          {
+            "id": "Kwajalein",
+            "label": "Kwajalein"
+          },
+          {
+            "id": "Libya",
+            "label": "Libya"
+          },
+          {
+            "id": "MET",
+            "label": "MET"
+          },
+          {
+            "id": "MST",
+            "label": "MST"
+          },
+          {
+            "id": "MST7MDT",
+            "label": "MST7MDT"
+          },
+          {
+            "id": "Mexico/BajaNorte",
+            "label": "Mexico/BajaNorte"
+          },
+          {
+            "id": "Mexico/BajaSur",
+            "label": "Mexico/BajaSur"
+          },
+          {
+            "id": "Mexico/General",
+            "label": "Mexico/General"
+          },
+          {
+            "id": "NZ",
+            "label": "NZ"
+          },
+          {
+            "id": "NZ-CHAT",
+            "label": "NZ-CHAT"
+          },
+          {
+            "id": "Navajo",
+            "label": "Navajo"
+          },
+          {
+            "id": "PRC",
+            "label": "PRC"
+          },
+          {
+            "id": "PST8PDT",
+            "label": "PST8PDT"
+          },
+          {
+            "id": "Pacific/Apia",
+            "label": "Pacific/Apia"
+          },
+          {
+            "id": "Pacific/Auckland",
+            "label": "Pacific/Auckland"
+          },
+          {
+            "id": "Pacific/Bougainville",
+            "label": "Pacific/Bougainville"
+          },
+          {
+            "id": "Pacific/Chatham",
+            "label": "Pacific/Chatham"
+          },
+          {
+            "id": "Pacific/Chuuk",
+            "label": "Pacific/Chuuk"
+          },
+          {
+            "id": "Pacific/Easter",
+            "label": "Pacific/Easter"
+          },
+          {
+            "id": "Pacific/Efate",
+            "label": "Pacific/Efate"
+          },
+          {
+            "id": "Pacific/Enderbury",
+            "label": "Pacific/Enderbury"
+          },
+          {
+            "id": "Pacific/Fakaofo",
+            "label": "Pacific/Fakaofo"
+          },
+          {
+            "id": "Pacific/Fiji",
+            "label": "Pacific/Fiji"
+          },
+          {
+            "id": "Pacific/Funafuti",
+            "label": "Pacific/Funafuti"
+          },
+          {
+            "id": "Pacific/Galapagos",
+            "label": "Pacific/Galapagos"
+          },
+          {
+            "id": "Pacific/Gambier",
+            "label": "Pacific/Gambier"
+          },
+          {
+            "id": "Pacific/Guadalcanal",
+            "label": "Pacific/Guadalcanal"
+          },
+          {
+            "id": "Pacific/Guam",
+            "label": "Pacific/Guam"
+          },
+          {
+            "id": "Pacific/Honolulu",
+            "label": "Pacific/Honolulu"
+          },
+          {
+            "id": "Pacific/Johnston",
+            "label": "Pacific/Johnston"
+          },
+          {
+            "id": "Pacific/Kiritimati",
+            "label": "Pacific/Kiritimati"
+          },
+          {
+            "id": "Pacific/Kosrae",
+            "label": "Pacific/Kosrae"
+          },
+          {
+            "id": "Pacific/Kwajalein",
+            "label": "Pacific/Kwajalein"
+          },
+          {
+            "id": "Pacific/Majuro",
+            "label": "Pacific/Majuro"
+          },
+          {
+            "id": "Pacific/Marquesas",
+            "label": "Pacific/Marquesas"
+          },
+          {
+            "id": "Pacific/Midway",
+            "label": "Pacific/Midway"
+          },
+          {
+            "id": "Pacific/Nauru",
+            "label": "Pacific/Nauru"
+          },
+          {
+            "id": "Pacific/Niue",
+            "label": "Pacific/Niue"
+          },
+          {
+            "id": "Pacific/Norfolk",
+            "label": "Pacific/Norfolk"
+          },
+          {
+            "id": "Pacific/Noumea",
+            "label": "Pacific/Noumea"
+          },
+          {
+            "id": "Pacific/Pago_Pago",
+            "label": "Pacific/Pago_Pago"
+          },
+          {
+            "id": "Pacific/Palau",
+            "label": "Pacific/Palau"
+          },
+          {
+            "id": "Pacific/Pitcairn",
+            "label": "Pacific/Pitcairn"
+          },
+          {
+            "id": "Pacific/Pohnpei",
+            "label": "Pacific/Pohnpei"
+          },
+          {
+            "id": "Pacific/Ponape",
+            "label": "Pacific/Ponape"
+          },
+          {
+            "id": "Pacific/Port_Moresby",
+            "label": "Pacific/Port_Moresby"
+          },
+          {
+            "id": "Pacific/Rarotonga",
+            "label": "Pacific/Rarotonga"
+          },
+          {
+            "id": "Pacific/Saipan",
+            "label": "Pacific/Saipan"
+          },
+          {
+            "id": "Pacific/Samoa",
+            "label": "Pacific/Samoa"
+          },
+          {
+            "id": "Pacific/Tahiti",
+            "label": "Pacific/Tahiti"
+          },
+          {
+            "id": "Pacific/Tarawa",
+            "label": "Pacific/Tarawa"
+          },
+          {
+            "id": "Pacific/Tongatapu",
+            "label": "Pacific/Tongatapu"
+          },
+          {
+            "id": "Pacific/Truk",
+            "label": "Pacific/Truk"
+          },
+          {
+            "id": "Pacific/Wake",
+            "label": "Pacific/Wake"
+          },
+          {
+            "id": "Pacific/Wallis",
+            "label": "Pacific/Wallis"
+          },
+          {
+            "id": "Pacific/Yap",
+            "label": "Pacific/Yap"
+          },
+          {
+            "id": "Poland",
+            "label": "Poland"
+          },
+          {
+            "id": "Portugal",
+            "label": "Portugal"
+          },
+          {
+            "id": "ROC",
+            "label": "ROC"
+          },
+          {
+            "id": "ROK",
+            "label": "ROK"
+          },
+          {
+            "id": "Singapore",
+            "label": "Singapore"
+          },
+          {
+            "id": "Turkey",
+            "label": "Turkey"
+          },
+          {
+            "id": "UCT",
+            "label": "UCT"
+          },
+          {
+            "id": "US/Alaska",
+            "label": "US/Alaska"
+          },
+          {
+            "id": "US/Aleutian",
+            "label": "US/Aleutian"
+          },
+          {
+            "id": "US/Arizona",
+            "label": "US/Arizona"
+          },
+          {
+            "id": "US/Central",
+            "label": "US/Central"
+          },
+          {
+            "id": "US/East-Indiana",
+            "label": "US/East-Indiana"
+          },
+          {
+            "id": "US/Eastern",
+            "label": "US/Eastern"
+          },
+          {
+            "id": "US/Hawaii",
+            "label": "US/Hawaii"
+          },
+          {
+            "id": "US/Indiana-Starke",
+            "label": "US/Indiana-Starke"
+          },
+          {
+            "id": "US/Michigan",
+            "label": "US/Michigan"
+          },
+          {
+            "id": "US/Mountain",
+            "label": "US/Mountain"
+          },
+          {
+            "id": "US/Pacific",
+            "label": "US/Pacific"
+          },
+          {
+            "id": "US/Samoa",
+            "label": "US/Samoa"
+          },
+          {
+            "id": "UTC",
+            "label": "UTC"
+          },
+          {
+            "id": "Universal",
+            "label": "Universal"
+          },
+          {
+            "id": "W-SU",
+            "label": "W-SU"
+          },
+          {
+            "id": "WET",
+            "label": "WET"
+          },
+          {
+            "id": "Zulu",
+            "label": "Zulu"
+          }
+        ],
+        "size": "One",
+        "label": "Timezone"
+      }
+    ]
+  },
+  {
+    "id": "unlock",
+    "label": "Unlock account",
+    "description": "If the account is locked out due to too many login failures, this checkbox allows unlocking.",
+    "syntax": "boolean",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": false,
+    "search_widget": "CheckBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": "0",
+    "type": "CheckBox",
+    "staticValues": []
+  },
+  {
+    "id": "unlockTime",
+    "label": "Lockout till",
+    "description": "Shows the time when the account gets unlocked again according to policy.",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": false,
+    "options": [],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "password",
+    "label": "Password",
+    "description": "",
+    "syntax": "userPasswd",
+    "size": "One",
+    "required": true,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "PasswordInputBox",
+    "staticValues": []
+  },
+  {
+    "id": "street",
+    "label": "Street",
+    "description": "",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "e-mail",
+    "label": "E-mail address",
+    "description": "This e-mail address serves only as contact information. This address has no effect on the UCS mail stack and is not related to a local mailbox.",
+    "syntax": "emailAddress",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "postcode",
+    "label": "Postal code",
+    "description": "",
+    "syntax": "OneThirdString",
+    "size": "OneThird",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "city",
+    "label": "City",
+    "description": "",
+    "syntax": "TwoThirdsString",
+    "size": "TwoThirds",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "country",
+    "label": "Country",
+    "description": "",
+    "syntax": "Country",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "ComboBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "ComboBox",
+    "staticValues": [
+      {
+        "id": "",
+        "label": ""
+      },
+      {
+        "id": "AF",
+        "label": "Afghanistan"
+      },
+      {
+        "id": "AL",
+        "label": "Albania"
+      },
+      {
+        "id": "DZ",
+        "label": "Algeria"
+      },
+      {
+        "id": "AS",
+        "label": "American Samoa"
+      },
+      {
+        "id": "AD",
+        "label": "Andorra"
+      },
+      {
+        "id": "AO",
+        "label": "Angola"
+      },
+      {
+        "id": "AI",
+        "label": "Anguilla"
+      },
+      {
+        "id": "AQ",
+        "label": "Antarctica"
+      },
+      {
+        "id": "AG",
+        "label": "Antigua and Barbuda"
+      },
+      {
+        "id": "AR",
+        "label": "Argentina"
+      },
+      {
+        "id": "AM",
+        "label": "Armenia"
+      },
+      {
+        "id": "AW",
+        "label": "Aruba"
+      },
+      {
+        "id": "AU",
+        "label": "Australia"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "AZ",
+        "label": "Azerbaijan"
+      },
+      {
+        "id": "BS",
+        "label": "Bahamas"
+      },
+      {
+        "id": "BH",
+        "label": "Bahrain"
+      },
+      {
+        "id": "BD",
+        "label": "Bangladesh"
+      },
+      {
+        "id": "BB",
+        "label": "Barbados"
+      },
+      {
+        "id": "BY",
+        "label": "Belarus"
+      },
+      {
+        "id": "BE",
+        "label": "Belgium"
+      },
+      {
+        "id": "BZ",
+        "label": "Belize"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "BM",
+        "label": "Bermuda"
+      },
+      {
+        "id": "BT",
+        "label": "Bhutan"
+      },
+      {
+        "id": "BO",
+        "label": "Bolivia, Plurinational State of"
+      },
+      {
+        "id": "BQ",
+        "label": "Bonaire, Sint Eustatius and Saba"
+      },
+      {
+        "id": "BA",
+        "label": "Bosnia and Herzegovina"
+      },
+      {
+        "id": "BW",
+        "label": "Botswana"
+      },
+      {
+        "id": "BV",
+        "label": "Bouvet Island"
+      },
+      {
+        "id": "BR",
+        "label": "Brazil"
+      },
+      {
+        "id": "IO",
+        "label": "British Indian Ocean Territory"
+      },
+      {
+        "id": "BN",
+        "label": "Brunei Darussalam"
+      },
+      {
+        "id": "BG",
+        "label": "Bulgaria"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso"
+      },
+      {
+        "id": "BI",
+        "label": "Burundi"
+      },
+      {
+        "id": "CV",
+        "label": "Cabo Verde"
+      },
+      {
+        "id": "KH",
+        "label": "Cambodia"
+      },
+      {
+        "id": "CM",
+        "label": "Cameroon"
+      },
+      {
+        "id": "CA",
+        "label": "Canada"
+      },
+      {
+        "id": "KY",
+        "label": "Cayman Islands"
+      },
+      {
+        "id": "CF",
+        "label": "Central African Republic"
+      },
+      {
+        "id": "TD",
+        "label": "Chad"
+      },
+      {
+        "id": "CL",
+        "label": "Chile"
+      },
+      {
+        "id": "CN",
+        "label": "China"
+      },
+      {
+        "id": "CX",
+        "label": "Christmas Island"
+      },
+      {
+        "id": "CC",
+        "label": "Cocos (Keeling) Islands"
+      },
+      {
+        "id": "CO",
+        "label": "Colombia"
+      },
+      {
+        "id": "KM",
+        "label": "Comoros"
+      },
+      {
+        "id": "CG",
+        "label": "Congo"
+      },
+      {
+        "id": "CD",
+        "label": "Congo, The Democratic Republic of the"
+      },
+      {
+        "id": "CK",
+        "label": "Cook Islands"
+      },
+      {
+        "id": "CR",
+        "label": "Costa Rica"
+      },
+      {
+        "id": "HR",
+        "label": "Croatia"
+      },
+      {
+        "id": "CU",
+        "label": "Cuba"
+      },
+      {
+        "id": "CW",
+        "label": "Curaçao"
+      },
+      {
+        "id": "CY",
+        "label": "Cyprus"
+      },
+      {
+        "id": "CZ",
+        "label": "Czechia"
+      },
+      {
+        "id": "CI",
+        "label": "Côte d'Ivoire"
+      },
+      {
+        "id": "DK",
+        "label": "Denmark"
+      },
+      {
+        "id": "DJ",
+        "label": "Djibouti"
+      },
+      {
+        "id": "DM",
+        "label": "Dominica"
+      },
+      {
+        "id": "DO",
+        "label": "Dominican Republic"
+      },
+      {
+        "id": "EC",
+        "label": "Ecuador"
+      },
+      {
+        "id": "EG",
+        "label": "Egypt"
+      },
+      {
+        "id": "SV",
+        "label": "El Salvador"
+      },
+      {
+        "id": "GQ",
+        "label": "Equatorial Guinea"
+      },
+      {
+        "id": "ER",
+        "label": "Eritrea"
+      },
+      {
+        "id": "EE",
+        "label": "Estonia"
+      },
+      {
+        "id": "ET",
+        "label": "Ethiopia"
+      },
+      {
+        "id": "FK",
+        "label": "Falkland Islands (Malvinas)"
+      },
+      {
+        "id": "FO",
+        "label": "Faroe Islands"
+      },
+      {
+        "id": "FJ",
+        "label": "Fiji"
+      },
+      {
+        "id": "FI",
+        "label": "Finland"
+      },
+      {
+        "id": "FR",
+        "label": "France"
+      },
+      {
+        "id": "GF",
+        "label": "French Guiana"
+      },
+      {
+        "id": "PF",
+        "label": "French Polynesia"
+      },
+      {
+        "id": "TF",
+        "label": "French Southern Territories"
+      },
+      {
+        "id": "GA",
+        "label": "Gabon"
+      },
+      {
+        "id": "GM",
+        "label": "Gambia"
+      },
+      {
+        "id": "GE",
+        "label": "Georgia"
+      },
+      {
+        "id": "DE",
+        "label": "Germany"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana"
+      },
+      {
+        "id": "GI",
+        "label": "Gibraltar"
+      },
+      {
+        "id": "GR",
+        "label": "Greece"
+      },
+      {
+        "id": "GL",
+        "label": "Greenland"
+      },
+      {
+        "id": "GD",
+        "label": "Grenada"
+      },
+      {
+        "id": "GP",
+        "label": "Guadeloupe"
+      },
+      {
+        "id": "GU",
+        "label": "Guam"
+      },
+      {
+        "id": "GT",
+        "label": "Guatemala"
+      },
+      {
+        "id": "GG",
+        "label": "Guernsey"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea"
+      },
+      {
+        "id": "GW",
+        "label": "Guinea-Bissau"
+      },
+      {
+        "id": "GY",
+        "label": "Guyana"
+      },
+      {
+        "id": "HT",
+        "label": "Haiti"
+      },
+      {
+        "id": "HM",
+        "label": "Heard Island and McDonald Islands"
+      },
+      {
+        "id": "VA",
+        "label": "Holy See (Vatican City State)"
+      },
+      {
+        "id": "HN",
+        "label": "Honduras"
+      },
+      {
+        "id": "HK",
+        "label": "Hong Kong"
+      },
+      {
+        "id": "HU",
+        "label": "Hungary"
+      },
+      {
+        "id": "IS",
+        "label": "Iceland"
+      },
+      {
+        "id": "IN",
+        "label": "India"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia"
+      },
+      {
+        "id": "IR",
+        "label": "Iran, Islamic Republic of"
+      },
+      {
+        "id": "IQ",
+        "label": "Iraq"
+      },
+      {
+        "id": "IE",
+        "label": "Ireland"
+      },
+      {
+        "id": "IM",
+        "label": "Isle of Man"
+      },
+      {
+        "id": "IL",
+        "label": "Israel"
+      },
+      {
+        "id": "IT",
+        "label": "Italy"
+      },
+      {
+        "id": "JM",
+        "label": "Jamaica"
+      },
+      {
+        "id": "JP",
+        "label": "Japan"
+      },
+      {
+        "id": "JE",
+        "label": "Jersey"
+      },
+      {
+        "id": "JO",
+        "label": "Jordan"
+      },
+      {
+        "id": "KZ",
+        "label": "Kazakhstan"
+      },
+      {
+        "id": "KE",
+        "label": "Kenya"
+      },
+      {
+        "id": "KI",
+        "label": "Kiribati"
+      },
+      {
+        "id": "KP",
+        "label": "Korea, Democratic People's Republic of"
+      },
+      {
+        "id": "KR",
+        "label": "Korea, Republic of"
+      },
+      {
+        "id": "KW",
+        "label": "Kuwait"
+      },
+      {
+        "id": "KG",
+        "label": "Kyrgyzstan"
+      },
+      {
+        "id": "LA",
+        "label": "Lao People's Democratic Republic"
+      },
+      {
+        "id": "LV",
+        "label": "Latvia"
+      },
+      {
+        "id": "LB",
+        "label": "Lebanon"
+      },
+      {
+        "id": "LS",
+        "label": "Lesotho"
+      },
+      {
+        "id": "LR",
+        "label": "Liberia"
+      },
+      {
+        "id": "LY",
+        "label": "Libya"
+      },
+      {
+        "id": "LI",
+        "label": "Liechtenstein"
+      },
+      {
+        "id": "LT",
+        "label": "Lithuania"
+      },
+      {
+        "id": "LU",
+        "label": "Luxembourg"
+      },
+      {
+        "id": "MO",
+        "label": "Macao"
+      },
+      {
+        "id": "MK",
+        "label": "Macedonia, Republic of"
+      },
+      {
+        "id": "MG",
+        "label": "Madagascar"
+      },
+      {
+        "id": "MW",
+        "label": "Malawi"
+      },
+      {
+        "id": "MY",
+        "label": "Malaysia"
+      },
+      {
+        "id": "MV",
+        "label": "Maldives"
+      },
+      {
+        "id": "ML",
+        "label": "Mali"
+      },
+      {
+        "id": "MT",
+        "label": "Malta"
+      },
+      {
+        "id": "MH",
+        "label": "Marshall Islands"
+      },
+      {
+        "id": "MQ",
+        "label": "Martinique"
+      },
+      {
+        "id": "MR",
+        "label": "Mauritania"
+      },
+      {
+        "id": "MU",
+        "label": "Mauritius"
+      },
+      {
+        "id": "YT",
+        "label": "Mayotte"
+      },
+      {
+        "id": "MX",
+        "label": "Mexico"
+      },
+      {
+        "id": "FM",
+        "label": "Micronesia, Federated States of"
+      },
+      {
+        "id": "MD",
+        "label": "Moldova, Republic of"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco"
+      },
+      {
+        "id": "MN",
+        "label": "Mongolia"
+      },
+      {
+        "id": "ME",
+        "label": "Montenegro"
+      },
+      {
+        "id": "MS",
+        "label": "Montserrat"
+      },
+      {
+        "id": "MA",
+        "label": "Morocco"
+      },
+      {
+        "id": "MZ",
+        "label": "Mozambique"
+      },
+      {
+        "id": "MM",
+        "label": "Myanmar"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia"
+      },
+      {
+        "id": "NR",
+        "label": "Nauru"
+      },
+      {
+        "id": "NP",
+        "label": "Nepal"
+      },
+      {
+        "id": "NL",
+        "label": "Netherlands"
+      },
+      {
+        "id": "NC",
+        "label": "New Caledonia"
+      },
+      {
+        "id": "NZ",
+        "label": "New Zealand"
+      },
+      {
+        "id": "NI",
+        "label": "Nicaragua"
+      },
+      {
+        "id": "NE",
+        "label": "Niger"
+      },
+      {
+        "id": "NG",
+        "label": "Nigeria"
+      },
+      {
+        "id": "NU",
+        "label": "Niue"
+      },
+      {
+        "id": "NF",
+        "label": "Norfolk Island"
+      },
+      {
+        "id": "MP",
+        "label": "Northern Mariana Islands"
+      },
+      {
+        "id": "NO",
+        "label": "Norway"
+      },
+      {
+        "id": "OM",
+        "label": "Oman"
+      },
+      {
+        "id": "PK",
+        "label": "Pakistan"
+      },
+      {
+        "id": "PW",
+        "label": "Palau"
+      },
+      {
+        "id": "PS",
+        "label": "Palestine, State of"
+      },
+      {
+        "id": "PA",
+        "label": "Panama"
+      },
+      {
+        "id": "PG",
+        "label": "Papua New Guinea"
+      },
+      {
+        "id": "PY",
+        "label": "Paraguay"
+      },
+      {
+        "id": "PE",
+        "label": "Peru"
+      },
+      {
+        "id": "PH",
+        "label": "Philippines"
+      },
+      {
+        "id": "PN",
+        "label": "Pitcairn"
+      },
+      {
+        "id": "PL",
+        "label": "Poland"
+      },
+      {
+        "id": "PT",
+        "label": "Portugal"
+      },
+      {
+        "id": "PR",
+        "label": "Puerto Rico"
+      },
+      {
+        "id": "QA",
+        "label": "Qatar"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      },
+      {
+        "id": "RU",
+        "label": "Russian Federation"
+      },
+      {
+        "id": "RW",
+        "label": "Rwanda"
+      },
+      {
+        "id": "RE",
+        "label": "Réunion"
+      },
+      {
+        "id": "BL",
+        "label": "Saint Barthélemy"
+      },
+      {
+        "id": "SH",
+        "label": "Saint Helena, Ascension and Tristan da Cunha"
+      },
+      {
+        "id": "KN",
+        "label": "Saint Kitts and Nevis"
+      },
+      {
+        "id": "LC",
+        "label": "Saint Lucia"
+      },
+      {
+        "id": "MF",
+        "label": "Saint Martin (French part)"
+      },
+      {
+        "id": "PM",
+        "label": "Saint Pierre and Miquelon"
+      },
+      {
+        "id": "VC",
+        "label": "Saint Vincent and the Grenadines"
+      },
+      {
+        "id": "WS",
+        "label": "Samoa"
+      },
+      {
+        "id": "SM",
+        "label": "San Marino"
+      },
+      {
+        "id": "ST",
+        "label": "Sao Tome and Principe"
+      },
+      {
+        "id": "SA",
+        "label": "Saudi Arabia"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal"
+      },
+      {
+        "id": "RS",
+        "label": "Serbia"
+      },
+      {
+        "id": "SC",
+        "label": "Seychelles"
+      },
+      {
+        "id": "SL",
+        "label": "Sierra Leone"
+      },
+      {
+        "id": "SG",
+        "label": "Singapore"
+      },
+      {
+        "id": "SX",
+        "label": "Sint Maarten (Dutch part)"
+      },
+      {
+        "id": "SK",
+        "label": "Slovakia"
+      },
+      {
+        "id": "SI",
+        "label": "Slovenia"
+      },
+      {
+        "id": "SB",
+        "label": "Solomon Islands"
+      },
+      {
+        "id": "SO",
+        "label": "Somalia"
+      },
+      {
+        "id": "ZA",
+        "label": "South Africa"
+      },
+      {
+        "id": "GS",
+        "label": "South Georgia and the South Sandwich Islands"
+      },
+      {
+        "id": "SS",
+        "label": "South Sudan"
+      },
+      {
+        "id": "ES",
+        "label": "Spain"
+      },
+      {
+        "id": "LK",
+        "label": "Sri Lanka"
+      },
+      {
+        "id": "SD",
+        "label": "Sudan"
+      },
+      {
+        "id": "SR",
+        "label": "Suriname"
+      },
+      {
+        "id": "SJ",
+        "label": "Svalbard and Jan Mayen"
+      },
+      {
+        "id": "SZ",
+        "label": "Swaziland"
+      },
+      {
+        "id": "SE",
+        "label": "Sweden"
+      },
+      {
+        "id": "CH",
+        "label": "Switzerland"
+      },
+      {
+        "id": "SY",
+        "label": "Syrian Arab Republic"
+      },
+      {
+        "id": "TW",
+        "label": "Taiwan, Province of China"
+      },
+      {
+        "id": "TJ",
+        "label": "Tajikistan"
+      },
+      {
+        "id": "TZ",
+        "label": "Tanzania, United Republic of"
+      },
+      {
+        "id": "TH",
+        "label": "Thailand"
+      },
+      {
+        "id": "TL",
+        "label": "Timor-Leste"
+      },
+      {
+        "id": "TG",
+        "label": "Togo"
+      },
+      {
+        "id": "TK",
+        "label": "Tokelau"
+      },
+      {
+        "id": "TO",
+        "label": "Tonga"
+      },
+      {
+        "id": "TT",
+        "label": "Trinidad and Tobago"
+      },
+      {
+        "id": "TN",
+        "label": "Tunisia"
+      },
+      {
+        "id": "TR",
+        "label": "Turkey"
+      },
+      {
+        "id": "TM",
+        "label": "Turkmenistan"
+      },
+      {
+        "id": "TC",
+        "label": "Turks and Caicos Islands"
+      },
+      {
+        "id": "TV",
+        "label": "Tuvalu"
+      },
+      {
+        "id": "UG",
+        "label": "Uganda"
+      },
+      {
+        "id": "UA",
+        "label": "Ukraine"
+      },
+      {
+        "id": "AE",
+        "label": "United Arab Emirates"
+      },
+      {
+        "id": "GB",
+        "label": "United Kingdom"
+      },
+      {
+        "id": "US",
+        "label": "United States"
+      },
+      {
+        "id": "UM",
+        "label": "United States Minor Outlying Islands"
+      },
+      {
+        "id": "UY",
+        "label": "Uruguay"
+      },
+      {
+        "id": "UZ",
+        "label": "Uzbekistan"
+      },
+      {
+        "id": "VU",
+        "label": "Vanuatu"
+      },
+      {
+        "id": "VE",
+        "label": "Venezuela, Bolivarian Republic of"
+      },
+      {
+        "id": "VN",
+        "label": "Viet Nam"
+      },
+      {
+        "id": "VG",
+        "label": "Virgin Islands, British"
+      },
+      {
+        "id": "VI",
+        "label": "Virgin Islands, U.S."
+      },
+      {
+        "id": "WF",
+        "label": "Wallis and Futuna"
+      },
+      {
+        "id": "EH",
+        "label": "Western Sahara"
+      },
+      {
+        "id": "YE",
+        "label": "Yemen"
+      },
+      {
+        "id": "ZM",
+        "label": "Zambia"
+      },
+      {
+        "id": "ZW",
+        "label": "Zimbabwe"
+      },
+      {
+        "id": "AX",
+        "label": "Åland Islands"
+      }
+    ]
+  },
+  {
+    "id": "phone",
+    "label": "Telephone number",
+    "description": "",
+    "syntax": "phone",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "employeeNumber",
+    "label": "Employee number",
+    "description": "",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "roomNumber",
+    "label": "Room number",
+    "description": "",
+    "syntax": "OneThirdString",
+    "size": "OneThird",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "secretary",
+    "label": "Superior",
+    "description": "",
+    "syntax": "UserDN",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "umc/modules/udm/MultiObjectSelect",
+    "objectType": "users/user"
+  },
+  {
+    "id": "departmentNumber",
+    "label": "Department number",
+    "description": "",
+    "syntax": "OneThirdString",
+    "size": "OneThird",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "employeeType",
+    "label": "Employee type",
+    "description": "",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "homePostalAddress",
+    "label": "Private postal address",
+    "description": "",
+    "syntax": "postalAddress",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": null,
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "staticValues": [],
+        "size": "One",
+        "label": "Street"
+      },
+      {
+        "type": "TextBox",
+        "staticValues": [],
+        "size": "OneThird",
+        "label": "Postal code"
+      },
+      {
+        "type": "TextBox",
+        "staticValues": [],
+        "size": "TwoThirds",
+        "label": "City"
+      }
+    ]
+  },
+  {
+    "id": "homeTelephoneNumber",
+    "label": "Private telephone number",
+    "description": "",
+    "syntax": "phone",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "mobileTelephoneNumber",
+    "label": "Mobile phone number",
+    "description": "",
+    "syntax": "phone",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "pagerTelephoneNumber",
+    "label": "Pager telephone number",
+    "description": "",
+    "syntax": "phone",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "birthday",
+    "label": "Birthdate",
+    "description": "Date of birth",
+    "syntax": "iso8601Date",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "1970-01-01",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "DateBox",
+    "staticValues": []
+  },
+  {
+    "id": "unixhome",
+    "label": "Unix home directory",
+    "description": "",
+    "syntax": "absolutePath",
+    "size": "One",
+    "required": true,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": "/home/<username>",
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "shell",
+    "label": "Login shell",
+    "description": "",
+    "syntax": "OneThirdString",
+    "size": "OneThird",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": "/bin/bash",
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "sambahome",
+    "label": "Windows home path",
+    "description": "The directory path which is used as the user's Windows home directory, e.g. \\\\ucs-file-server\\smith.",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "scriptpath",
+    "label": "Windows logon script",
+    "description": "The user-specific logon script relative to the NETLOGON share, e.g. user.bat.",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "profilepath",
+    "label": "Windows profile directory",
+    "description": "The directory path (resolvable by windows clients) e.g. %LOGONSERVER%\\%USERNAME%\\windows-profiles\\default which is used to configure a roaming profile.",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "homedrive",
+    "label": "Windows home drive",
+    "description": "The drive letter (with trailing colon) where the Windows home directory of this user lies, e.g. M:. Needs only be specified if it is different to the Samba configuration.",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "sambaRID",
+    "label": "Relative ID",
+    "description": "The relative ID (RID) is the local part of the SID and will be assigned automatically to next available RID. It can not be subsequently changed. Valid values are numbers upwards 1000. RIDs below 1000 are reserved to standard groups and other special objects.",
+    "syntax": "integer",
+    "size": "Half",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "groups",
+    "label": "Groups",
+    "description": "",
+    "syntax": "GroupDN",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "",
+    "search_widget": "ComboBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "umc/modules/udm/MultiObjectSelect",
+    "dynamicValues": "udm/syntax/choices",
+    "dynamicOptions": {
+      "syntax": "GroupDN"
+    },
+    "objectType": "groups/group"
+  },
+  {
+    "id": "primaryGroup",
+    "label": "Primary group",
+    "description": "",
+    "syntax": "GroupDN",
+    "size": "One",
+    "required": true,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "",
+    "search_widget": "ComboBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "default": "cn=Domain Users,cn=groups,dc=demo,dc=univention,dc=de",
+    "type": "umc/modules/udm/ComboBox",
+    "dynamicValues": "udm/syntax/choices",
+    "dynamicOptions": {
+      "syntax": "GroupDN"
+    },
+    "dynamicValuesInfo": "udm/syntax/choices/info"
+  },
+  {
+    "id": "mailHomeServer",
+    "label": "Mail home server",
+    "description": "",
+    "syntax": "MailHomeServer",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": true,
+    "readonly_when_synced": false,
+    "type": "umc/modules/udm/ComboBox",
+    "dynamicValues": "udm/syntax/choices",
+    "dynamicOptions": {
+      "syntax": "MailHomeServer"
+    },
+    "dynamicValuesInfo": "udm/syntax/choices/info"
+  },
+  {
+    "id": "mailPrimaryAddress",
+    "label": "Primary e-mail address (mailbox)",
+    "description": "E-mail address that will be used to create the IMAP/POP3 mailbox and that can be used as login for SMTP/IMAP/POP3 connections. The domain must be one of the UCS hosted e-mail domains.",
+    "syntax": "primaryEmailAddressValidDomain",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*@*",
+    "search_widget": "MailBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MailBox",
+    "dynamicValues": "udm/syntax/choices",
+    "dynamicOptions": {
+      "syntax": "primaryEmailAddressValidDomain"
+    },
+    "dynamicValuesInfo": "udm/syntax/choices/info"
+  },
+  {
+    "id": "mailAlternativeAddress",
+    "label": "E-mail alias address",
+    "description": "Additional e-mail addresses for which e-mails will be delivered to the \"Primary e-mail address\". The domain must be one of the UCS hosted e-mail domains.",
+    "syntax": "emailAddressValidDomain",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*@*",
+    "search_widget": "MailBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "MultiInput",
+    "dynamicValues": "udm/syntax/choices",
+    "dynamicOptions": {
+      "syntax": "emailAddressValidDomain"
+    },
+    "dynamicValuesInfo": "udm/syntax/choices/info",
+    "subtypes": [
+      {
+        "type": "MailBox",
+        "dynamicValues": "udm/syntax/choices",
+        "dynamicValuesInfo": "udm/syntax/choices/info",
+        "dynamicOptions": {
+          "syntax": "emailAddressValidDomain"
+        },
+        "staticValues": null,
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "mailForwardAddress",
+    "label": "Forward e-mail address",
+    "description": "Incoming e-mails for this user are copied/redirected to the specified forward e-mail addresses. Depending on the forwarding setting, a local copy of each e-mail is kept. If no forwarding e-mail addresses are specified, the e-mails are always kept in the user's mailbox.",
+    "syntax": "emailAddress",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "mailForwardCopyToSelf",
+    "label": "Forwarding setting",
+    "description": "Specifies if a local copy of each incoming e-mail is kept for this user. If no forwarding e-mail addresses are specified, the e-mails are always kept in the user's mailbox.",
+    "syntax": "emailForwardSetting",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "ComboBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": "0",
+    "type": "ComboBox",
+    "staticValues": [
+      {
+        "id": "0",
+        "label": "Redirect all e-mails to forward addresses"
+      },
+      {
+        "id": "1",
+        "label": "Keep e-mails and forward a copy"
+      }
+    ]
+  },
+  {
+    "id": "overridePWHistory",
+    "label": "Override password history",
+    "description": "No check if the password was already used is performed.",
+    "syntax": "boolean",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": false,
+    "search_widget": "CheckBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "CheckBox",
+    "staticValues": []
+  },
+  {
+    "id": "overridePWLength",
+    "label": "Override password check",
+    "description": "No check for password quality and minimum length is performed.",
+    "syntax": "boolean",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": false,
+    "search_widget": "CheckBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "CheckBox",
+    "staticValues": []
+  },
+  {
+    "id": "homeShare",
+    "label": "Home share",
+    "description": "Share, the user's home directory resides on",
+    "syntax": "WritableShare",
+    "size": "OneAndAHalf",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "umc/modules/udm/ComboBox",
+    "dynamicValues": "udm/syntax/choices",
+    "dynamicOptions": {
+      "syntax": "WritableShare"
+    },
+    "dynamicValuesInfo": "udm/syntax/choices/info"
+  },
+  {
+    "id": "homeSharePath",
+    "label": "Home share path",
+    "description": "Path to the home directory on the home share",
+    "syntax": "HalfString",
+    "size": "Half",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": "<username>",
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "sambaUserWorkstations",
+    "label": "Allow the authentication only on this Microsoft Windows host",
+    "description": "",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "dynamicValues": null,
+        "dynamicValuesInfo": null,
+        "dynamicOptions": null,
+        "staticValues": [],
+        "size": null,
+        "depends": null
+      }
+    ]
+  },
+  {
+    "id": "sambaLogonHours",
+    "label": "Permitted times for Windows logins",
+    "description": "",
+    "syntax": "SambaLogonHours",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "ComboBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": true,
+    "type": "MultiSelect",
+    "staticValues": [
+      {
+        "id": "",
+        "label": ""
+      },
+      {
+        "id": 0,
+        "label": "Sun 0-1"
+      },
+      {
+        "id": 1,
+        "label": "Sun 1-2"
+      },
+      {
+        "id": 2,
+        "label": "Sun 2-3"
+      },
+      {
+        "id": 3,
+        "label": "Sun 3-4"
+      },
+      {
+        "id": 4,
+        "label": "Sun 4-5"
+      },
+      {
+        "id": 5,
+        "label": "Sun 5-6"
+      },
+      {
+        "id": 6,
+        "label": "Sun 6-7"
+      },
+      {
+        "id": 7,
+        "label": "Sun 7-8"
+      },
+      {
+        "id": 8,
+        "label": "Sun 8-9"
+      },
+      {
+        "id": 9,
+        "label": "Sun 9-10"
+      },
+      {
+        "id": 10,
+        "label": "Sun 10-11"
+      },
+      {
+        "id": 11,
+        "label": "Sun 11-12"
+      },
+      {
+        "id": 12,
+        "label": "Sun 12-13"
+      },
+      {
+        "id": 13,
+        "label": "Sun 13-14"
+      },
+      {
+        "id": 14,
+        "label": "Sun 14-15"
+      },
+      {
+        "id": 15,
+        "label": "Sun 15-16"
+      },
+      {
+        "id": 16,
+        "label": "Sun 16-17"
+      },
+      {
+        "id": 17,
+        "label": "Sun 17-18"
+      },
+      {
+        "id": 18,
+        "label": "Sun 18-19"
+      },
+      {
+        "id": 19,
+        "label": "Sun 19-20"
+      },
+      {
+        "id": 20,
+        "label": "Sun 20-21"
+      },
+      {
+        "id": 21,
+        "label": "Sun 21-22"
+      },
+      {
+        "id": 22,
+        "label": "Sun 22-23"
+      },
+      {
+        "id": 23,
+        "label": "Sun 23-24"
+      },
+      {
+        "id": 24,
+        "label": "Mon 0-1"
+      },
+      {
+        "id": 25,
+        "label": "Mon 1-2"
+      },
+      {
+        "id": 26,
+        "label": "Mon 2-3"
+      },
+      {
+        "id": 27,
+        "label": "Mon 3-4"
+      },
+      {
+        "id": 28,
+        "label": "Mon 4-5"
+      },
+      {
+        "id": 29,
+        "label": "Mon 5-6"
+      },
+      {
+        "id": 30,
+        "label": "Mon 6-7"
+      },
+      {
+        "id": 31,
+        "label": "Mon 7-8"
+      },
+      {
+        "id": 32,
+        "label": "Mon 8-9"
+      },
+      {
+        "id": 33,
+        "label": "Mon 9-10"
+      },
+      {
+        "id": 34,
+        "label": "Mon 10-11"
+      },
+      {
+        "id": 35,
+        "label": "Mon 11-12"
+      },
+      {
+        "id": 36,
+        "label": "Mon 12-13"
+      },
+      {
+        "id": 37,
+        "label": "Mon 13-14"
+      },
+      {
+        "id": 38,
+        "label": "Mon 14-15"
+      },
+      {
+        "id": 39,
+        "label": "Mon 15-16"
+      },
+      {
+        "id": 40,
+        "label": "Mon 16-17"
+      },
+      {
+        "id": 41,
+        "label": "Mon 17-18"
+      },
+      {
+        "id": 42,
+        "label": "Mon 18-19"
+      },
+      {
+        "id": 43,
+        "label": "Mon 19-20"
+      },
+      {
+        "id": 44,
+        "label": "Mon 20-21"
+      },
+      {
+        "id": 45,
+        "label": "Mon 21-22"
+      },
+      {
+        "id": 46,
+        "label": "Mon 22-23"
+      },
+      {
+        "id": 47,
+        "label": "Mon 23-24"
+      },
+      {
+        "id": 48,
+        "label": "Tue 0-1"
+      },
+      {
+        "id": 49,
+        "label": "Tue 1-2"
+      },
+      {
+        "id": 50,
+        "label": "Tue 2-3"
+      },
+      {
+        "id": 51,
+        "label": "Tue 3-4"
+      },
+      {
+        "id": 52,
+        "label": "Tue 4-5"
+      },
+      {
+        "id": 53,
+        "label": "Tue 5-6"
+      },
+      {
+        "id": 54,
+        "label": "Tue 6-7"
+      },
+      {
+        "id": 55,
+        "label": "Tue 7-8"
+      },
+      {
+        "id": 56,
+        "label": "Tue 8-9"
+      },
+      {
+        "id": 57,
+        "label": "Tue 9-10"
+      },
+      {
+        "id": 58,
+        "label": "Tue 10-11"
+      },
+      {
+        "id": 59,
+        "label": "Tue 11-12"
+      },
+      {
+        "id": 60,
+        "label": "Tue 12-13"
+      },
+      {
+        "id": 61,
+        "label": "Tue 13-14"
+      },
+      {
+        "id": 62,
+        "label": "Tue 14-15"
+      },
+      {
+        "id": 63,
+        "label": "Tue 15-16"
+      },
+      {
+        "id": 64,
+        "label": "Tue 16-17"
+      },
+      {
+        "id": 65,
+        "label": "Tue 17-18"
+      },
+      {
+        "id": 66,
+        "label": "Tue 18-19"
+      },
+      {
+        "id": 67,
+        "label": "Tue 19-20"
+      },
+      {
+        "id": 68,
+        "label": "Tue 20-21"
+      },
+      {
+        "id": 69,
+        "label": "Tue 21-22"
+      },
+      {
+        "id": 70,
+        "label": "Tue 22-23"
+      },
+      {
+        "id": 71,
+        "label": "Tue 23-24"
+      },
+      {
+        "id": 72,
+        "label": "Wed 0-1"
+      },
+      {
+        "id": 73,
+        "label": "Wed 1-2"
+      },
+      {
+        "id": 74,
+        "label": "Wed 2-3"
+      },
+      {
+        "id": 75,
+        "label": "Wed 3-4"
+      },
+      {
+        "id": 76,
+        "label": "Wed 4-5"
+      },
+      {
+        "id": 77,
+        "label": "Wed 5-6"
+      },
+      {
+        "id": 78,
+        "label": "Wed 6-7"
+      },
+      {
+        "id": 79,
+        "label": "Wed 7-8"
+      },
+      {
+        "id": 80,
+        "label": "Wed 8-9"
+      },
+      {
+        "id": 81,
+        "label": "Wed 9-10"
+      },
+      {
+        "id": 82,
+        "label": "Wed 10-11"
+      },
+      {
+        "id": 83,
+        "label": "Wed 11-12"
+      },
+      {
+        "id": 84,
+        "label": "Wed 12-13"
+      },
+      {
+        "id": 85,
+        "label": "Wed 13-14"
+      },
+      {
+        "id": 86,
+        "label": "Wed 14-15"
+      },
+      {
+        "id": 87,
+        "label": "Wed 15-16"
+      },
+      {
+        "id": 88,
+        "label": "Wed 16-17"
+      },
+      {
+        "id": 89,
+        "label": "Wed 17-18"
+      },
+      {
+        "id": 90,
+        "label": "Wed 18-19"
+      },
+      {
+        "id": 91,
+        "label": "Wed 19-20"
+      },
+      {
+        "id": 92,
+        "label": "Wed 20-21"
+      },
+      {
+        "id": 93,
+        "label": "Wed 21-22"
+      },
+      {
+        "id": 94,
+        "label": "Wed 22-23"
+      },
+      {
+        "id": 95,
+        "label": "Wed 23-24"
+      },
+      {
+        "id": 96,
+        "label": "Thu 0-1"
+      },
+      {
+        "id": 97,
+        "label": "Thu 1-2"
+      },
+      {
+        "id": 98,
+        "label": "Thu 2-3"
+      },
+      {
+        "id": 99,
+        "label": "Thu 3-4"
+      },
+      {
+        "id": 100,
+        "label": "Thu 4-5"
+      },
+      {
+        "id": 101,
+        "label": "Thu 5-6"
+      },
+      {
+        "id": 102,
+        "label": "Thu 6-7"
+      },
+      {
+        "id": 103,
+        "label": "Thu 7-8"
+      },
+      {
+        "id": 104,
+        "label": "Thu 8-9"
+      },
+      {
+        "id": 105,
+        "label": "Thu 9-10"
+      },
+      {
+        "id": 106,
+        "label": "Thu 10-11"
+      },
+      {
+        "id": 107,
+        "label": "Thu 11-12"
+      },
+      {
+        "id": 108,
+        "label": "Thu 12-13"
+      },
+      {
+        "id": 109,
+        "label": "Thu 13-14"
+      },
+      {
+        "id": 110,
+        "label": "Thu 14-15"
+      },
+      {
+        "id": 111,
+        "label": "Thu 15-16"
+      },
+      {
+        "id": 112,
+        "label": "Thu 16-17"
+      },
+      {
+        "id": 113,
+        "label": "Thu 17-18"
+      },
+      {
+        "id": 114,
+        "label": "Thu 18-19"
+      },
+      {
+        "id": 115,
+        "label": "Thu 19-20"
+      },
+      {
+        "id": 116,
+        "label": "Thu 20-21"
+      },
+      {
+        "id": 117,
+        "label": "Thu 21-22"
+      },
+      {
+        "id": 118,
+        "label": "Thu 22-23"
+      },
+      {
+        "id": 119,
+        "label": "Thu 23-24"
+      },
+      {
+        "id": 120,
+        "label": "Fri 0-1"
+      },
+      {
+        "id": 121,
+        "label": "Fri 1-2"
+      },
+      {
+        "id": 122,
+        "label": "Fri 2-3"
+      },
+      {
+        "id": 123,
+        "label": "Fri 3-4"
+      },
+      {
+        "id": 124,
+        "label": "Fri 4-5"
+      },
+      {
+        "id": 125,
+        "label": "Fri 5-6"
+      },
+      {
+        "id": 126,
+        "label": "Fri 6-7"
+      },
+      {
+        "id": 127,
+        "label": "Fri 7-8"
+      },
+      {
+        "id": 128,
+        "label": "Fri 8-9"
+      },
+      {
+        "id": 129,
+        "label": "Fri 9-10"
+      },
+      {
+        "id": 130,
+        "label": "Fri 10-11"
+      },
+      {
+        "id": 131,
+        "label": "Fri 11-12"
+      },
+      {
+        "id": 132,
+        "label": "Fri 12-13"
+      },
+      {
+        "id": 133,
+        "label": "Fri 13-14"
+      },
+      {
+        "id": 134,
+        "label": "Fri 14-15"
+      },
+      {
+        "id": 135,
+        "label": "Fri 15-16"
+      },
+      {
+        "id": 136,
+        "label": "Fri 16-17"
+      },
+      {
+        "id": 137,
+        "label": "Fri 17-18"
+      },
+      {
+        "id": 138,
+        "label": "Fri 18-19"
+      },
+      {
+        "id": 139,
+        "label": "Fri 19-20"
+      },
+      {
+        "id": 140,
+        "label": "Fri 20-21"
+      },
+      {
+        "id": 141,
+        "label": "Fri 21-22"
+      },
+      {
+        "id": 142,
+        "label": "Fri 22-23"
+      },
+      {
+        "id": 143,
+        "label": "Fri 23-24"
+      },
+      {
+        "id": 144,
+        "label": "Sat 0-1"
+      },
+      {
+        "id": 145,
+        "label": "Sat 1-2"
+      },
+      {
+        "id": 146,
+        "label": "Sat 2-3"
+      },
+      {
+        "id": 147,
+        "label": "Sat 3-4"
+      },
+      {
+        "id": 148,
+        "label": "Sat 4-5"
+      },
+      {
+        "id": 149,
+        "label": "Sat 5-6"
+      },
+      {
+        "id": 150,
+        "label": "Sat 6-7"
+      },
+      {
+        "id": 151,
+        "label": "Sat 7-8"
+      },
+      {
+        "id": 152,
+        "label": "Sat 8-9"
+      },
+      {
+        "id": 153,
+        "label": "Sat 9-10"
+      },
+      {
+        "id": 154,
+        "label": "Sat 10-11"
+      },
+      {
+        "id": 155,
+        "label": "Sat 11-12"
+      },
+      {
+        "id": 156,
+        "label": "Sat 12-13"
+      },
+      {
+        "id": 157,
+        "label": "Sat 13-14"
+      },
+      {
+        "id": 158,
+        "label": "Sat 14-15"
+      },
+      {
+        "id": 159,
+        "label": "Sat 15-16"
+      },
+      {
+        "id": 160,
+        "label": "Sat 16-17"
+      },
+      {
+        "id": 161,
+        "label": "Sat 17-18"
+      },
+      {
+        "id": 162,
+        "label": "Sat 18-19"
+      },
+      {
+        "id": 163,
+        "label": "Sat 19-20"
+      },
+      {
+        "id": 164,
+        "label": "Sat 20-21"
+      },
+      {
+        "id": 165,
+        "label": "Sat 21-22"
+      },
+      {
+        "id": 166,
+        "label": "Sat 22-23"
+      },
+      {
+        "id": 167,
+        "label": "Sat 23-24"
+      }
+    ]
+  },
+  {
+    "id": "jpegPhoto",
+    "label": "Picture of the user (JPEG format)",
+    "description": "Picture for user account in JPEG format",
+    "syntax": "jpegPhoto",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "ImageUploader",
+    "staticValues": []
+  },
+  {
+    "id": "userCertificate",
+    "label": "PKI user certificate (DER format)",
+    "description": "Public key infrastructure - user certificate ",
+    "syntax": "Base64Upload",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": "",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "umc/modules/udm/CertificateUploader",
+    "staticValues": []
+  },
+  {
+    "id": "certificateIssuerCountry",
+    "label": "Issuer Country",
+    "description": "Certificate Issuer Country",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateIssuerState",
+    "label": "Issuer State",
+    "description": "Certificate Issuer State",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateIssuerLocation",
+    "label": "Issuer Location",
+    "description": "Certificate Issuer Location",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateIssuerOrganisation",
+    "label": "Issuer Organisation",
+    "description": "Certificate Issuer Organisation",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateIssuerOrganisationalUnit",
+    "label": "Issuer Organisational Unit",
+    "description": "Certificate Issuer Organisational Unit",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateIssuerCommonName",
+    "label": "Issuer Common Name",
+    "description": "Certificate Issuer Common Name",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateIssuerMail",
+    "label": "Issuer Mail",
+    "description": "Certificate Issuer Mail",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSubjectCountry",
+    "label": "Subject Country",
+    "description": "Certificate Subject Country",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSubjectState",
+    "label": "Subject State",
+    "description": "Certificate Subject State",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSubjectLocation",
+    "label": "Subject Location",
+    "description": "Certificate Subject Location",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSubjectOrganisation",
+    "label": "Subject Organisation",
+    "description": "Certificate Subject Organisation",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSubjectOrganisationalUnit",
+    "label": "Subject Organisational Unit",
+    "description": "Certificate Subject Organisational Unit",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSubjectCommonName",
+    "label": "Subject Common Name",
+    "description": "Certificate Subject Common Name",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSubjectMail",
+    "label": "Subject Mail",
+    "description": "Certificate Subject Mail",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateDateNotBefore",
+    "label": "Valid from",
+    "description": "Certificate valid from",
+    "syntax": "date",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "1970-01-01",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "DateBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateDateNotAfter",
+    "label": "Valid until",
+    "description": "Certificate valid until",
+    "syntax": "date",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "1970-01-01",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "DateBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateVersion",
+    "label": "Version",
+    "description": "Certificate Version",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "certificateSerial",
+    "label": "Serial",
+    "description": "Certificate Serial",
+    "syntax": "string",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [
+      "pki"
+    ],
+    "readonly": true,
+    "searchable": false,
+    "default_search_pattern": "*",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "TextBox",
+    "staticValues": []
+  },
+  {
+    "id": "umcProperty",
+    "label": "UMC user preferences",
+    "description": "Key value pairs storing user preferences for UMC",
+    "syntax": "keyAndValue",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": false,
+    "default_search_pattern": null,
+    "search_widget": "TextBox",
+    "multivalue": true,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "type": "MultiInput",
+    "staticValues": [],
+    "subtypes": [
+      {
+        "type": "TextBox",
+        "staticValues": [],
+        "size": "One",
+        "label": "Key"
+      },
+      {
+        "type": "TextBox",
+        "staticValues": [],
+        "size": "One",
+        "label": "Value"
+      }
+    ]
+  },
+  {
+    "id": "serviceprovider",
+    "label": "Enable user for the following service providers",
+    "description": "Enable user to use the specified service providers",
+    "syntax": "samlserviceprovider",
+    "size": "One",
+    "required": false,
+    "editable": true,
+    "options": [],
+    "readonly": false,
+    "searchable": true,
+    "default_search_pattern": "",
+    "search_widget": "TextBox",
+    "multivalue": false,
+    "identifies": false,
+    "threshold": 2000,
+    "nonempty_is_default": false,
+    "readonly_when_synced": false,
+    "default": null,
+    "type": "umc/modules/udm/MultiObjectSelect",
+    "objectType": "saml/serviceprovider"
+  },
+  {
+    "id": "$options$",
+    "type": "WidgetGroup",
+    "widgets": [
+      {
+        "id": "pki",
+        "is_app_option": false,
+        "type": "CheckBox",
+        "icon": "",
+        "label": "Public key infrastructure account",
+        "description": "",
+        "value": false,
+        "editable": true
+      }
+    ]
+  }
+]
