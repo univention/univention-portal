@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-09-28 05:07+0200\n"
+"POT-Creation-Date: 2022-09-29 05:34-0400\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -36,11 +36,15 @@ msgstr "%(num)s Suchergebnisse"
 msgid "(maximum file size is %(maxFileSize)s MB)"
 msgstr "(maximale Dateigröße ist %(maxFileSize)s MB)"
 
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:66
+msgid "(retype)"
+msgstr "(Wiederholung)"
+
 #: frontend/src/tmp/ts/frontend/src/components/globals/CookieBanner.vue:29
 msgid "Accept"
 msgstr "Akzeptieren"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:96
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:107
 msgid "Account creation successful"
 msgstr "Kontoerstellung erfolgreich"
 
@@ -53,8 +57,8 @@ msgstr "Kontolöschung"
 msgid "Account verification"
 msgstr "Kontoverifizierung"
 
-#: frontend/src/store/modules/portalData/index.ts:428
-#: frontend/src/store/modules/portalData/index.ts:432
+#: frontend/src/store/modules/portalData/index.ts:442
+#: frontend/src/store/modules/portalData/index.ts:446
 msgid "Action not possible. Please try another direction."
 msgstr ""
 "Diese Aktion ist nicht möglich. Versuchen Sie bitte eine andere Richtung."
@@ -157,11 +161,11 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 #: frontend/src/tmp/ts/frontend/src/components/admin/TranslationEditing.vue:45
 #: frontend/src/tmp/ts/frontend/src/components/widgets/AddObjects.vue:46
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/ConfirmDeregistration.vue:54
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:58
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:69
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: frontend/src/store/modules/portalData/index.ts:619
+#: frontend/src/store/modules/portalData/index.ts:633
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
@@ -211,15 +215,15 @@ msgstr "Kategorie erfolgreich entfernt"
 msgid "Change language"
 msgstr "Sprache ändern"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:52
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:61
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:88
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:97
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:86
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:63
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:72
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:99
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:108
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:96
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:55
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:66
 msgid "Change your password"
 msgstr "Passwort ändern"
 
@@ -258,7 +262,7 @@ msgstr "Neuen Ordner erstellen"
 msgid "Create an account"
 msgstr "Konto erstellen"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:116
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:127
 msgid "Creating a new user failed."
 msgstr "Anlegen eines neuen Nutzers fehlgeschlagen."
 
@@ -327,7 +331,7 @@ msgstr "Eintrag bearbeiten"
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:53
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:56
 msgid "Edit mode"
 msgstr "Editiermodus"
 
@@ -344,17 +348,17 @@ msgstr "Kachel %(entry)s bearbeiten"
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: frontend/src/store/modules/portalData/index.ts:679
+#: frontend/src/store/modules/portalData/index.ts:693
 msgid "Entered edit mode"
 msgstr "Editiermodus betreten"
 
-#: frontend/src/store/modules/portalData/index.ts:573
-#: frontend/src/store/modules/portalData/index.ts:594
-#: frontend/src/store/modules/portalData/index.ts:604
+#: frontend/src/store/modules/portalData/index.ts:587
+#: frontend/src/store/modules/portalData/index.ts:608
+#: frontend/src/store/modules/portalData/index.ts:618
 msgid "Entries could not be re-sorted"
 msgstr "Einträge konnten nicht umsortiert werden"
 
-#: frontend/src/store/modules/portalData/index.ts:626
+#: frontend/src/store/modules/portalData/index.ts:640
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
@@ -460,8 +464,8 @@ msgstr "WLAN-Passwort erzeugen"
 msgid "Go Back"
 msgstr "Gehe zurück"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:92
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:102
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:103
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:113
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/VerifyAccount.vue:123
 msgid "Hello %(username)s,"
 msgstr "Hallo %(username)s,"
@@ -471,7 +475,6 @@ msgid "Hide Description"
 msgstr "Beschreibung verstecken"
 
 #: frontend/src/tmp/ts/frontend/src/components/widgets/PasswordBox.vue:66
-#: frontend/src/tmp/ts/frontend/src/components/widgets/NewPasswordBox.vue:84
 msgid "Hide password"
 msgstr "Passwort verstecken"
 
@@ -490,7 +493,7 @@ msgstr "Info"
 msgid "Internal name"
 msgstr "Interner Name"
 
-#: frontend/src/jsHelper/forms.ts:342
+#: frontend/src/jsHelper/forms.ts:293
 msgid ""
 "Internal name must not contain anything other than digits, letters or dots, "
 "must be at least 2 characters long, and start and end with a digit or "
@@ -515,7 +518,7 @@ msgstr "Einträge"
 msgid "Keywords"
 msgstr "Schlüsselwörter"
 
-#: frontend/src/store/modules/portalData/index.ts:681
+#: frontend/src/store/modules/portalData/index.ts:695
 msgid "Left edit mode"
 msgstr "Editiermodus verlassen"
 
@@ -540,7 +543,7 @@ msgstr "Anmelden"
 msgid "Logout"
 msgstr "Abmelden"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:71
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:74
 msgid "Menu"
 msgstr "Menü"
 
@@ -574,12 +577,13 @@ msgstr "Name"
 msgid "New Tab"
 msgstr "Neuer Tab"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:36
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:58
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:37
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:59
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: frontend/src/tmp/ts/frontend/src/components/widgets/NewPasswordBox.vue:100
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:44
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:65
 msgid "New password (retype)"
 msgstr "Neues Passwort (Wiederholung)"
 
@@ -614,7 +618,7 @@ msgstr "Nicht angemeldet"
 msgid "Notification removed"
 msgstr "Benachrichtigungen gelöscht"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:68
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:71
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -631,7 +635,7 @@ msgstr "Altes Passwort"
 msgid "Only visible if not logged in"
 msgstr "Nur sichtbar, wenn nicht angemeldet"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:56
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:59
 msgid "Open edit sidebar"
 msgstr "Editierseite öffnen"
 
@@ -646,7 +650,7 @@ msgstr "Seite nicht gefunden"
 msgid "Password"
 msgstr "Passwort"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:147
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:157
 msgid "Password change successful"
 msgstr "Passwortänderung erfolgreich"
 
@@ -669,9 +673,23 @@ msgstr "Bitte wählen Sie eine Wiederherstellungsoption aus."
 msgid "Please confirm your %(label)s"
 msgstr "Bitte bestätigen Sie Ihr %(label)s"
 
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:68
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:46
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:67
+msgid "Please confirm your new password"
+msgstr "Bitte bestätigen Sie Ihr neues Passwort"
+
 #: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:151
 msgid "Please enter at least one English link"
 msgstr "Bitte geben Sie mindestens einen englischen Link ein"
+
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:39
+msgid "Please enter your new password"
+msgstr "Bitte geben Sie ein neues Passwort ein"
+
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:32
+msgid "Please enter your old password"
+msgstr "Bitte geben Sie Ihr altes Passwort ein"
 
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/ConfirmDeregistration.vue:38
 msgid "Please enter your password"
@@ -681,7 +699,18 @@ msgstr "Bitte geben Sie Ihr Passwort ein"
 msgid "Please enter your password to delete your account"
 msgstr "Bitte geben Sie Ihr Passwort ein um Ihr Konto zu löschen"
 
-#: frontend/src/store/modules/portalData/index.ts:222
+#: frontend/src/store/modules/portalData/index.ts:180
+#: frontend/src/store/modules/portalData/index.ts:181
+#: frontend/src/store/modules/portalData/index.ts:182
+#: frontend/src/store/modules/portalData/index.ts:183
+#, fuzzy
+msgid "Portal"
+msgstr "Portal-Menü"
+
+#: frontend/src/store/modules/portalData/index.ts:229
+#: frontend/src/store/modules/portalData/index.ts:230
+#: frontend/src/store/modules/portalData/index.ts:231
+#: frontend/src/store/modules/portalData/index.ts:232
 msgid "Portal Menu"
 msgstr "Portal-Menü"
 
@@ -770,7 +799,7 @@ msgstr "Datei auswählen"
 msgid "Select locale for Link"
 msgstr "Sprache für Link wählen"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:80
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:90
 msgid "Set new password"
 msgstr "Neues Passwort setzen"
 
@@ -783,7 +812,6 @@ msgid "Show local UMC modules"
 msgstr "UMC-Module anzeigen"
 
 #: frontend/src/tmp/ts/frontend/src/components/widgets/PasswordBox.vue:65
-#: frontend/src/tmp/ts/frontend/src/components/widgets/NewPasswordBox.vue:83
 msgid "Show password"
 msgstr "Passwort anzeigen"
 
@@ -799,7 +827,7 @@ msgstr "Kurzinfo anzeigen"
 msgid "Sorry."
 msgstr "Entschuldigung."
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:59
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:62
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
 
@@ -815,7 +843,7 @@ msgstr "Aktion erfolgreich"
 msgid "Successfully sent Token."
 msgstr "Token Erfolgreich versendet"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:62
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:65
 msgid "Tabs"
 msgstr "Tabs"
 
@@ -845,7 +873,9 @@ msgstr ""
 msgid "The inputs do not match"
 msgstr "Die Eingaben stimmen nicht überein."
 
-#: frontend/src/jsHelper/forms.ts:350 frontend/src/jsHelper/forms.ts:351
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:71
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:49
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:70
 msgid "The new passwords do not match"
 msgstr "Die Passwörter stimmen nicht überein."
 
@@ -867,14 +897,8 @@ msgstr ""
 msgid "This URL does not exist (anymore)."
 msgstr "Diese URL existiert nicht (mehr)."
 
-#: frontend/src/jsHelper/forms.ts:186
+#: frontend/src/jsHelper/forms.ts:161
 msgid "This value is required"
-msgstr "Dieser Wert ist erforderlich"
-
-#: frontend/src/jsHelper/forms.ts:107 frontend/src/jsHelper/forms.ts:108
-#: frontend/src/jsHelper/forms.ts:111 frontend/src/jsHelper/forms.ts:114
-#, fuzzy
-msgid "This value is required."
 msgstr "Dieser Wert ist erforderlich"
 
 #: frontend/src/store/modules/portalData/portalData.helper.ts:55
@@ -907,7 +931,7 @@ msgstr ""
 "Passwort kann jederzeit erzeugt werden, womit das alte ungültig wird."
 
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/VerifyAccount.vue:58
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:51
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:52
 msgid "Token"
 msgstr "Token"
 
@@ -935,7 +959,10 @@ msgstr "Hochladen"
 msgid "Use default of portal"
 msgstr "Portal-Vorgabe nutzen"
 
-#: frontend/src/store/modules/portalData/index.ts:232
+#: frontend/src/store/modules/portalData/index.ts:242
+#: frontend/src/store/modules/portalData/index.ts:243
+#: frontend/src/store/modules/portalData/index.ts:244
+#: frontend/src/store/modules/portalData/index.ts:245
 msgid "User Menu"
 msgstr "Benutzer-Menü"
 
@@ -943,7 +970,7 @@ msgstr "Benutzer-Menü"
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:46
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:84
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/GuardedSite.vue:67
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:44
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:45
 msgid "Username"
 msgstr "Benutzername"
 
@@ -1037,7 +1064,7 @@ msgstr "Ihre Konto-Wiederherstellungsoptionen wurden aktualisiert."
 msgid "Your new password is:"
 msgstr "Ihr neues Passwort lautet:"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:147
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:157
 msgid "Your password has been successfully changed."
 msgstr "Ihr Passwort wurden erfolgreich geändert."
 
@@ -1045,7 +1072,7 @@ msgstr "Ihr Passwort wurden erfolgreich geändert."
 msgid "active"
 msgstr "aktiv"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:103
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:114
 msgid ""
 "an error occurred while sending the verification token for your account. "
 "Please request a new one."
@@ -1074,21 +1101,18 @@ msgstr "Einträge"
 msgid "no file selected"
 msgstr "keine Datei ausgewählt"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:65
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:68
 #: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:24
 msgid "search"
 msgstr "suche"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:93
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:104
 msgid ""
 "we have sent you an email to %(email)s. Please follow the instructions in "
 "the email to verify your account."
 msgstr ""
 "wir haben Ihnen eine E-Mail an %(email)s gesendet. Bitte folgen Sie den "
 "Anweisungen in der E-Mail, um Ihr Konto zu verifizieren."
-
-#~ msgid "(retype)"
-#~ msgstr "(Wiederholung)"
 
 #~ msgid "Categories \"%(cat1)s\" and \"%(cat2)s\" changed places"
 #~ msgstr "Kategorien \"%(cat1)s\" und \"%(cat2)s\" wurden getauscht"
@@ -1143,9 +1167,6 @@ msgstr ""
 #~ msgid "Moving tile %(tile)s into category %(category)s"
 #~ msgstr "Bewege Kachel %(tile)s in Kategorie %(category)s"
 
-#~ msgid "Please confirm your new password"
-#~ msgstr "Bitte bestätigen Sie Ihr neues Passwort"
-
 #~ msgid "Please enter a description"
 #~ msgstr "Bitte geben Sie eine Beschreibung ein"
 
@@ -1157,12 +1178,6 @@ msgstr ""
 
 #~ msgid "Please enter at least an english value."
 #~ msgstr "Bitte geben Sie mindestens einen englischen Wert ein."
-
-#~ msgid "Please enter your new password"
-#~ msgstr "Bitte geben Sie ein neues Passwort ein"
-
-#~ msgid "Please enter your old password"
-#~ msgstr "Bitte geben Sie Ihr altes Passwort ein"
 
 #~ msgid "Portal is in edit mode"
 #~ msgstr "Portal ist im Editiermodus"
@@ -1181,6 +1196,10 @@ msgstr ""
 
 #~ msgid "This service is disabled"
 #~ msgstr "Diese Seite wurde abgeschaltet"
+
+#, fuzzy
+#~ msgid "This value is required."
+#~ msgstr "Dieser Wert ist erforderlich"
 
 #~ msgid "added"
 #~ msgstr "hinzugefügt"

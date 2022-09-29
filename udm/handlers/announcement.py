@@ -96,12 +96,14 @@ property_descriptions = {
 		short_description=_('Title'),
 		long_description=_('The title of the announcement, usually written in bold above the message.'),
 		syntax=univention.admin.syntax.LocalizedDisplayName,
+                multivalue=True,
 		required=True,
 	),
     'message': univention.admin.property(
 		short_description=_('Message'),
 		long_description=_('The message of the announcement, usually written in normal text below the title.'),
-		syntax=univention.admin.syntax.TextArea,
+		syntax=univention.admin.syntax.LocalizedDisplayName,
+                multivalue=True,
 		required=False,
             ),
     'startTime': univention.admin.property(

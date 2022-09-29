@@ -285,15 +285,15 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		def add(announcement, ret, in_portal):
 			ret[announcement.dn] = {
 				"dn": announcement.dn,
-				"allowedGroups": obj.props.allowedGroups,
-				"name": obj.props.name,
-				"message": obj.props.message,
-				"title": obj.props.title,
-				"startTime": obj.props.startTime,
-				"endTime": obj.props.endTime,
-				"isSticky": obj.props.isSticky,
-				"needsConfirmation": obj.props.needsConfirmation,
-				"severity": obj.props.severity
+				"allowedGroups": announcement.props.allowedGroups,
+				"name": announcement.props.name,
+				"message": announcement.props.message,
+				"title": announcement.props.title,
+				"startTime": announcement.props.startTime,
+				"endTime": announcement.props.endTime,
+				"isSticky": announcement.props.isSticky,
+				"needsConfirmation": announcement.props.needsConfirmation,
+				"severity": announcement.props.severity
 			}
             
 		for obj in udm.get("portals/announcement").search():

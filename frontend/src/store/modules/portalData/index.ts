@@ -176,7 +176,12 @@ const portalData: PortalModule<PortalDataState> = {
   state: {
     portal: {
       portal: {
-        name: { en_US: '' },
+        name: {
+          en: _('Portal'),
+          en_US: _('Portal'),
+          de_DE: _('Portal'),
+          fr_FR: _('Portal'),
+        },
         background: null,
         defaultLinkTarget: 'embedded',
         dn: 'default',
@@ -221,7 +226,10 @@ const portalData: PortalModule<PortalDataState> = {
       if (adminMode) {
         const menu = {
           display_name: {
+            en: _('Portal Menu'),
             en_US: _('Portal Menu'),
+            de_DE: _('Portal Menu'),
+            fr_FR: _('Portal Menu'),
           },
           test: 'Portal Menu',
           virtual: true,
@@ -231,7 +239,10 @@ const portalData: PortalModule<PortalDataState> = {
         };
         const userMenu = {
           display_name: {
+            en: _('User Menu'),
             en_US: _('User Menu'),
+            de_DE: _('User Menu'),
+            fr_FR: _('User Menu'),
           },
           test: 'User Menu',
           virtual: true,

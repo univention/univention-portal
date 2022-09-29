@@ -5,7 +5,7 @@
     <slot />
   </div>
 </template>
-  
+
 <script lang="ts">
 import { LocalizedString, PortalAnnouncementSeverity } from '@/store/modules/portalData/portalData.models';
 import { defineComponent, PropType } from 'vue';
@@ -15,7 +15,7 @@ export default defineComponent({
   props: {
     title: {
       type: Object as PropType<LocalizedString>,
-      required: true
+      required: true,
     },
     message: {
       type: Object as PropType<LocalizedString>,
@@ -27,7 +27,7 @@ export default defineComponent({
   },
 });
 </script>
-  
+
 <style lang="stylus">
 .announcement
   display: flex
@@ -50,4 +50,3 @@ export default defineComponent({
     background-color: var(--bgc-warning)
 
 </style>
-  
