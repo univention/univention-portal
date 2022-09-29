@@ -9,9 +9,11 @@
     <div
       class="grid-table-body-row-checkbox"
       role="gridcell"
-      @click="onItemSelected(item, false)"
     >
-      <GridCheckbox :checked="item.selected" />
+      <GridCheckbox
+        :checked="item.selected"
+        @update:checked="onItemSelected(item, false)"
+      />
     </div>
     <div
       v-for="column in columns"
