@@ -172,7 +172,6 @@ class PortalsPortalAnnouncementObjectProperties(GenericObjectProperties):
 		'allowedGroups': dn_list_property_encoder_for('groups/group'),
 		'needsConfirmation': StringCaseInsensitiveResultUpperBooleanPropertyEncoder,
 		'isSticky': StringCaseInsensitiveResultUpperBooleanPropertyEncoder,
-		'severity': ListOfListOflTextToDictPropertyEncoder,
 		'title': ListOfListOflTextToDictPropertyEncoder,
 		'message': ListOfListOflTextToDictPropertyEncoder,
 		'startTime': DatePropertyEncoder,

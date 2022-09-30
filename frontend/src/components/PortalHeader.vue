@@ -125,7 +125,7 @@ License with the Debian GNU/Linux or Univention distribution in file
   </region>
   <choose-tabs v-if="activeButton === 'copy'" />
   <div id="announcement-container">
-    <announcement v-for="announcement in portalAnnouncements" :title="announcement.title"
+    <announcement v-for="announcement in portalAnnouncements" :key="announcement.name" :title="announcement.title"
       :message="announcement.message" :severity="announcement.severity" />
   </div>
 </template>
@@ -180,7 +180,7 @@ export default defineComponent({
       editMode: 'portalData/editMode',
       activeButton: 'navigation/getActiveButton',
       numNotifications: 'notifications/numNotifications',
-      portalAnnouncements: 'portalData/portalAnnouncements'
+      portalAnnouncements: 'portalData/portalAnnouncements',
     }),
     showTabButton(): boolean {
       return this.numTabs > 0 && this.tabsOverflow;

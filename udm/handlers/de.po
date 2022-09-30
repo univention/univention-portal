@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-portal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-09-28 05:07+0200\n"
+"POT-Creation-Date: 2022-09-30 06:09+0200\n"
 "PO-Revision-Date: 2020-05-01 00:20+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -24,7 +24,7 @@ msgstr "Aktiviert"
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: udm/handlers/announcement.py:124
+#: udm/handlers/announcement.py:126
 msgid "Announcement options"
 msgstr "Ansage Optionen"
 
@@ -68,7 +68,7 @@ msgstr "Kategorien"
 msgid "Category options"
 msgstr "Optionen für Kategorie"
 
-#: udm/handlers/announcement.py:128
+#: udm/handlers/announcement.py:130
 msgid "Content"
 msgstr "Inhalt"
 
@@ -111,7 +111,7 @@ msgstr ""
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: udm/handlers/announcement.py:115
+#: udm/handlers/announcement.py:117
 msgid "End time"
 msgstr ""
 
@@ -136,8 +136,8 @@ msgid "Entry options"
 msgstr "Optionen für Eintrag"
 
 #: udm/handlers/entry.py:137 udm/handlers/entry.py:138
-#: udm/handlers/portal.py:130 udm/handlers/announcement.py:124
-#: udm/handlers/announcement.py:125 udm/handlers/all.py:76
+#: udm/handlers/portal.py:130 udm/handlers/announcement.py:126
+#: udm/handlers/announcement.py:127 udm/handlers/all.py:76
 #: udm/handlers/category.py:85 udm/handlers/category.py:89
 #: udm/handlers/folder.py:85 udm/handlers/folder.py:86
 msgid "General"
@@ -289,7 +289,7 @@ msgstr "Verwaltung der Portale und ihrer Einträge"
 msgid "Menu"
 msgstr "Menü"
 
-#: udm/handlers/announcement.py:102
+#: udm/handlers/announcement.py:103
 msgid "Message"
 msgstr "Nachricht"
 
@@ -349,7 +349,7 @@ msgstr ""
 msgid "Only visible if not logged in"
 msgstr "Nur sichtbar, wenn nicht angemeldet"
 
-#: udm/handlers/announcement.py:135
+#: udm/handlers/announcement.py:137
 msgid "Options"
 msgstr "Optionen"
 
@@ -445,7 +445,7 @@ msgstr "Schweregrad"
 msgid "Show UMC categories and modules"
 msgstr "Zeige UMC-Kategorien und -Module"
 
-#: udm/handlers/announcement.py:108
+#: udm/handlers/announcement.py:110
 msgid "Start time"
 msgstr "Startzeit"
 
@@ -457,13 +457,13 @@ msgstr "Feststehend"
 msgid "Success"
 msgstr "Erfolg"
 
-#: udm/handlers/announcement.py:103
+#: udm/handlers/announcement.py:104
 msgid ""
 "The message of the announcement, usually written in normal text below the "
 "title."
 msgstr "Die Nachricht der Ansage. Erscheint üblicherweise unter dem Titel."
 
-#: udm/handlers/announcement.py:109
+#: udm/handlers/announcement.py:111
 msgid ""
 "The time when the announcement will first appear. If no time is set, it will"
 " always appear."
@@ -471,7 +471,7 @@ msgstr ""
 "Die Zeit zu der die Ansage initial erscheinen wird. Wenn keine Zeit gesetzt "
 "ist wird sie immer erscheinen."
 
-#: udm/handlers/announcement.py:116
+#: udm/handlers/announcement.py:118
 msgid ""
 "The time when the announcement will stop appearing. If no time is set, it "
 "will appear forever."
@@ -485,7 +485,7 @@ msgid ""
 msgstr ""
 "Der Titel der Ansage, üblicherweise fett über der Nachricht geschrieben."
 
-#: udm/handlers/announcement.py:132
+#: udm/handlers/announcement.py:134
 msgid "Time"
 msgstr "Zeit"
 
