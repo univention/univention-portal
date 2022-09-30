@@ -51,9 +51,6 @@ RE_FQDN = re.compile(r'(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z
 class PortalResource(tornado.web.RequestHandler):
 	def initialize(self, portals):
 		self.portals = portals
-		self.set_header("Access-Control-Allow-Origin", "*")
-		self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-		self.set_header("Access-Control-Allow-Headers", "x-requested-with,access-control-allow-origin,authorization,content-type")
 
 	def write_error(self, status_code, **kwargs):
 		if "exc_info" in kwargs:

@@ -4,6 +4,13 @@
     <div class="announcement-message" v-if="message">{{ $localized(message) }}</div>
     <slot />
   </div>
+  <input
+    :id="`announcement-${title}`"
+    ref="input"
+    :name="`announcement-${title}`"
+    type="checkbox"
+    :checked=false
+  >
 </template>
 
 <script lang="ts">
