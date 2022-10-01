@@ -1,7 +1,7 @@
 <template>
-  <div :class="['announcement', `announcement--${severity}`]" role="alert">
-    <h5 class="announcement-title">{{ $localized(title) }}</h5>
-    <div class="announcement-message" v-if="message">{{ $localized(message) }}</div>
+  <div :class="['announcement', `announcement--${severity}`]" role="alert" v-show="visible">
+    <h4 class="announcement-title">{{ $localized(title) }}</h4>
+    <p class="announcement-message" v-if="message">{{ $localized(message) }}</p>
     <slot />
   </div>
 </template>
@@ -19,11 +19,17 @@ export default defineComponent({
     },
     message: {
       type: Object as PropType<LocalizedString>,
+      default: '',
     },
     severity: {
       type: String as PropType<PortalAnnouncementSeverity>,
       default: 'success',
     },
+  },
+  data() {
+    return {
+      visible: true,
+    };
   },
 });
 </script>
@@ -36,6 +42,12 @@ export default defineComponent({
   background-color: var(--serveroverview-tile-hover-color)
   color: white
   min-height: 2rem
+
+  .announcement-title
+    margin-right: 5px
+
+  .announcement-message
+    margin-right: 5px
 
   &--info
     background-color: var(--color-accent)
