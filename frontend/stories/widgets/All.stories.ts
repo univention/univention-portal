@@ -52,12 +52,18 @@ const Template: StoryFn<typeof MyForm> = (args) => ({
       const additionalProps: Record<string, any> = {};
 
       switch (widget.type) {
+        case 'TextBox': {
+          additionalProps.validators = [validator];
+          break;
+        }
+
         case 'ComplexInput': {
           additionalProps.subtypes = [
             {
               type: 'TextBox',
               name: 'text',
               label: 'TextBox (ComplexInput)',
+              validators: [validator],
             },
           ];
           widgetsModelValue.value[widget.type] = [''];
