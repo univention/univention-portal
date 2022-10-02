@@ -37,11 +37,59 @@ const Template: StoryFn<typeof MyForm> = (args) => ({
       return widget.type.includes('/');
     }
 
+    const ignoreWidgets = ['MultiInput', 'MultiSelect'];
+
     widgetsJson.forEach((widget) => {
+      // ignore widgets
+      if (ignoreWidgets.includes(widget.type)) return;
+
       if (!isWidgetIsAlreadyAdded(widget as any)) {
         if (isTypeIsIncludeSlash(widget as any)) {
           const widgetType = widget.type.split('/');
           widget.type = widgetType[widgetType.length - 1];
+        }
+
+        const additionalProps: Record<string, any> = {};
+
+        switch (widget.type) {
+          case 'ComplexInput': {
+            additionalProps.subtypes = [
+              {
+                type: 'TextBox',
+                name: 'text',
+                label: 'TextBox (ComplexInput)',
+              },
+            ];
+            widgetsModelValue.value[widget.type] = [
+              '',
+            ];
+            break;
+          }
+
+          case 'ComboBox': {
+            additionalProps.options = [
+              { id: 'DE', label: 'Germany' },
+              { id: 'US', label: 'United States' },
+            ];
+            widgetsModelValue.value[widget.type] = '';
+            break;
+          }
+
+          case 'MailBox': {
+            additionalProps.domainList = ['intentive.de', 'gmail.com'];
+            widgetsModelValue.value[widget.type] = '';
+            break;
+          }
+
+          case 'ImageUploader': {
+            additionalProps.extraLabel = 'ImageUploader';
+            widgetsModelValue.value[widget.type] = '';
+            break;
+          }
+
+          default:
+            widgetsModelValue.value[widget.type] = '';
+            break;
         }
 
         widgets.push({
@@ -49,25 +97,10 @@ const Template: StoryFn<typeof MyForm> = (args) => ({
           type: widget.type,
           label: widget.type,
           name: widget.type,
+          ...additionalProps,
         });
-
-        switch (widget.type) {
-          // case 'MultiInput':
-          //   widget.subtypes = [
-          //     { type: 'TextBox', name: 'TextBox', label: 'TextBox in MultiInput' },
-          //   ];
-          //   widgetsModelValue.value[widget.type] = [{ TextBox: 'TextBox in MultiInput' }];
-
-          //   break;
-
-          default:
-            widgetsModelValue.value[widget.type] = '';
-            break;
-        }
       }
     });
-
-    console.log(widgets, widgetsModelValue);
 
     return { args, widgets, widgetsModelValue };
   },
