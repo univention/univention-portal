@@ -126,7 +126,7 @@ License with the Debian GNU/Linux or Univention distribution in file
   <choose-tabs v-if="activeButton === 'copy'" />
   <div id="announcement-container">
     <announcement v-for="announcement in portalAnnouncements" :key="announcement.name" :title="announcement.title"
-      :message="announcement.message" :severity="announcement.severity" />
+      :message="announcement.message" :severity="announcement.severity" :name="announcement.name" />
   </div>
 </template>
 

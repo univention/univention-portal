@@ -2,6 +2,11 @@
   <div :class="['announcement', `announcement--${severity}`]" role="alert" v-show="visible">
     <h4 class="announcement-title">{{ $localized(title) }}</h4>
     <p class="announcement-message" v-if="message">{{ $localized(message) }}</p>
+    <input
+      :id="name"
+      type="checkbox"
+      @change="setAnnouncementVisibility()"
+    />
     <slot />
   </div>
 </template>
@@ -13,6 +18,10 @@ import { defineComponent, PropType } from 'vue';
 export default defineComponent({
   name: 'Announcement',
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     title: {
       type: Object as PropType<LocalizedString>,
       required: true,
@@ -28,10 +37,24 @@ export default defineComponent({
   },
   data() {
     return {
-      visible: true,
+      visible: this.getAnnouncementVisibility(),
     };
   },
+  methods: {
+    setAnnouncementVisibility(): void {
+      this.visible = false;
+      localStorage.setItem(this.name + "_visible", "false");
+    },
+    getAnnouncementVisibility(): Boolean {
+      let readStatus = localStorage.getItem(this.name + "_visible");
+      if (readStatus) {
+        return JSON.parse(readStatus);
+      }
+      return true;
+    },
+  }
 });
+
 </script>
 
 <style lang="stylus">
