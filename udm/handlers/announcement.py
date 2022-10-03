@@ -96,7 +96,7 @@ property_descriptions = {
 		short_description=_('Title'),
 		long_description=_('The title of the announcement, usually written in bold above the message.'),
 		syntax=univention.admin.syntax.LocalizedDisplayName,
-                multivalue=True,
+            multivalue=True,
 		required=True,
 	),
     'message': univention.admin.property(
@@ -105,21 +105,21 @@ property_descriptions = {
 		syntax=univention.admin.syntax.LocalizedDisplayName,
                 multivalue=True,
 		required=False,
-            ),
+    ),
     'startTime': univention.admin.property(
 		short_description=_('Start time'),
 		long_description=_('The time when the announcement will first appear. If no time is set, it will always appear.'),
 		syntax=univention.admin.syntax.iso8601Date,
 		dontsearch=True,
 		required=False,
-            ),
+    ),
     'endTime': univention.admin.property(
 		short_description=_('End time'),
 		long_description=_('The time when the announcement will stop appearing. If no time is set, it will appear forever.'),
 		syntax=univention.admin.syntax.iso8601Date,
 		dontsearch=True,
 		required=False,
-            ),
+    ),
 }
 
 layout = [

@@ -35,7 +35,7 @@
 # <https://www.gnu.org/licenses/>.
 ## joinscript api: bindpwdfile
 
-VERSION=37
+VERSION=38
 
 
 . /usr/share/univention-join/joinscripthelper.lib

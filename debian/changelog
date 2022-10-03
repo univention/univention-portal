@@ -1,4 +1,16 @@
-univention-portal (4.0.7-10) unstable; urgency=medium
+univention-portal (4.0.7-12) unstable; urgency=medium
+
+  * Epic univention&355: corrected title and message schema for announcements
+
+ -- Torben Köhn <torben.koehn.extern@univention.de>  Mon, 05 Oct 2022 13:24:00 +0200
+
+univention-portal (4.0.7-11) unstable; urgency=medium
+
+  * Epic univention&355: corrected styling of announcements
+
+ -- Torben Köhn <torben.koehn.extern@univention.de>  Mon, 05 Oct 2022 13:24:00 +0200
+ 
+ univention-portal (4.0.7-10) unstable; urgency=medium
 
   * Epic univention&355: implemented announcement udm module
 
