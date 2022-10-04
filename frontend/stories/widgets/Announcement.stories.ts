@@ -1,7 +1,6 @@
-import { Meta, StoryFn } from '@storybook/vue3';
+import { Meta, StoryFn } from '@storybook/vue3';"en":"My Title"
 
 import Announcement from '../../src/components/widgets/Announcement.vue';
-import PortalIcon from '../../src/components/globals/PortalIcon.vue';
 
 export default {
   title: 'Widgets/Announcement',
@@ -21,20 +20,20 @@ export default {
 
 // Base Template
 const Template: StoryFn<typeof Announcement> = (args) => ({
-  components: { Announcement, PortalIcon },
+  components: { Announcement },
   setup() {
     return { args };
   },
   template: `
-  <div style="max-width: 100vw; padding: 0">
-    <Announcement v-bind="args">
-      <PortalIcon icon="bell" />
-      <p style="margin-left: 4px; font-weight: bold">Announcement!</p>
-    </Announcement>
-  </div>`,
+  <div>
+    <announcement v-bind="args" />
+  </div>`
 });
 
 export const Basic = Template.bind({});
 Basic.args = {
   type: 'success',
+  severity: 'info',
+  title:{"en":"My Title"},
+  message:{"en":"My Message"},
 };

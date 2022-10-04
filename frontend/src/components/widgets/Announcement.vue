@@ -1,16 +1,17 @@
 <template>
   <div :class="['announcement', `announcement--${severity}`]" role="alert">
     <h5 class="announcement-title">{{ $localized(title) }}</h5>
-    <div class="announcement-message" v-if="message">{{ $localized(message) }}</div>
+    <p class="announcement-message" v-if="message">{{ $localized(message) }}</p>
+    <input
+      class="announcement-checkbox"
+      :id="`announcement-${title}`"
+      ref="input"
+      :name="`announcement-${title}`"
+      type="checkbox"
+      :checked=false
+    >
     <slot />
   </div>
-  <input
-    :id="`announcement-${title}`"
-    ref="input"
-    :name="`announcement-${title}`"
-    type="checkbox"
-    :checked=false
-  >
 </template>
 
 <script lang="ts">
@@ -43,6 +44,12 @@ export default defineComponent({
   background-color: var(--serveroverview-tile-hover-color)
   color: white
   min-height: 2rem
+  
+  .announcement-title
+    margin-right: 5px
+
+  .announcement-message
+    margin-right: 5px
 
   &--info
     background-color: var(--color-accent)
