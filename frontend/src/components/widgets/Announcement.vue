@@ -27,6 +27,7 @@ export default defineComponent({
     },
     message: {
       type: Object as PropType<LocalizedString>,
+      default: '',
     },
     severity: {
       type: String as PropType<PortalAnnouncementSeverity>,
@@ -44,7 +45,7 @@ export default defineComponent({
   background-color: var(--serveroverview-tile-hover-color)
   color: white
   min-height: 2rem
-  
+
   .announcement-title
     margin-right: 5px
 
