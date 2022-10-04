@@ -10,6 +10,9 @@ services:
       - type: bind
         source: /usr/lib/univention-portal/config
         target: /usr/lib/univention-portal/config
+      - type: bind
+        source: /var/cache/univention-portal
+        target: /var/cache/univention-portal
   apache:
     image: docker-registry.knut.univention.de/apache:latest
     container_name: apache-container

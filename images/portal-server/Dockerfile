@@ -62,9 +62,9 @@ RUN apt-get update \
   && apt-get clean
 
 RUN mkdir -p /var/log/univention/ \
-  && touch /var/log/univention/portal.log
-
-RUN mkdir -p /usr/share/univention-portal
+  && touch /var/log/univention/portal.log \
+  && mkdir -p /usr/share/univention-portal \
+  && mkdir -p /var/cache/univention-portal
 
 ENTRYPOINT python univention-portal add-default \
   && python univention-portal update \
