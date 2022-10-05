@@ -36,4 +36,5 @@ Basic.args = {
   severity: 'info',
   title:{"en":"My Title"},
   message:{"en":"My Message"},
+  name:"unique_announcement"
 };
