@@ -1,6 +1,6 @@
 <template>
-  <div :class="['announcement', `announcement--${severity}`]" role="alert">
-    <h5 class="announcement-title">{{ $localized(title) }}</h5>
+  <div :class="['announcement', `announcement--${severity}`]" role="alert" v-show="visible">
+    <h4 class="announcement-title">{{ $localized(title) }}</h4>
     <p class="announcement-message" v-if="message">{{ $localized(message) }}</p>
     <input
       class="announcement-checkbox"
@@ -9,6 +9,7 @@
       :name="`announcement-${title}`"
       type="checkbox"
       :checked=false
+      @change="visible = !visible"
     >
     <slot />
   </div>
@@ -34,6 +35,11 @@ export default defineComponent({
       default: 'success',
     },
   },
+  data: () => {
+    return {
+      visible: true
+    }
+  }
 });
 </script>
 
