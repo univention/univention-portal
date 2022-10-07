@@ -187,3 +187,18 @@ export type Position = {
 }
 
 export type PortalDataActionContext = ActionContext<PortalDataState, RootState>;
+
+export type PortalAnnouncementSeverity = null | 'info' | 'warn' | 'success' | 'danger'
+
+export type PortalAnnouncement = {
+  id: string;
+  dn: string;
+  allowedGroups: string[];
+  needsConfirmation: boolean;
+  isSticky: boolean;
+  severity: PortalAnnouncementSeverity;
+  title: string;
+  message: string | null;
+  startTime: string | null;
+  endTime: string | null;
+}
