@@ -152,7 +152,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
             return False
         if reason_args[0] != "ldap":
             return False
-        return reason_args[1] in ["portal", "category", "entry", "folder"]
+        return reason_args[1] in ["portal", "category", "entry", "folder", "announcement"]
 
     def _refresh(self):
         udm = udm_client.UDM.http(
@@ -184,6 +184,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
         portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
         entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
+        announcements = self._extract_announcements(udm, portal)
 
         with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
             json.dump(
@@ -194,6 +195,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
                     "entries": entries,
                     "user_links": user_links,
                     "menu_links": menu_links,
+                    "announcements": announcements,
                 },
                 fd,
                 sort_keys=True,
@@ -297,6 +299,29 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
             }
 
         return entries
+
+    @classmethod
+    def _extract_announcements(self, udm, portal):
+        ret = {}
+
+        def add(announcement, ret, in_portal):
+            ret[announcement.dn] = {
+                "dn": announcement.dn,
+                "allowedGroups": announcement.props.allowedGroups,
+                "name": announcement.props.name,
+                "message": announcement.props.message,
+                "title": announcement.props.title,
+                "startTime": announcement.props.startTime,
+                "endTime": announcement.props.endTime,
+                "isSticky": announcement.props.isSticky,
+                "needsConfirmation": announcement.props.needsConfirmation,
+                "severity": announcement.props.severity
+            }
+
+        for obj in udm.get("portals/announcement").search():
+            add(obj, ret, True)
+
+        return ret
 
     @classmethod
     def _write_image(cls, image, name, dirname):
