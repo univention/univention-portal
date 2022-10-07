@@ -29,6 +29,9 @@
 - Announcements must come in different styles per severity
   - Severity can be info, alert, emergency
 - an event must be visible for a certain time until it hides in the event tray
+- Delivery of notifications must be filtered by access control lists derived from LDAP group memberships
+- Notifications must not be accessible by unauthorized users
+
 
 ## High Level Architecture
 
