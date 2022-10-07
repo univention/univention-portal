@@ -205,6 +205,10 @@ class Portal(metaclass=Plugin):
 			for category_dn in portal["categories"]
 		]
 		return portal
+	
+	def get_announcements(self, visible_content):
+		announcements = self.portal_cache.get_announcements()
+		return announcements
 
 	def get_announcements(self, visible_content):
 		announcements = self.portal_cache.get_announcements()
