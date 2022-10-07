@@ -49,6 +49,7 @@ from univention.portal import Plugin
 from univention.portal.log import get_logger
 
 
+
 class Reloader(metaclass=Plugin):
     """
     Our base class for reloading
@@ -322,6 +323,30 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
             add(obj, ret, True)
 
         return ret
+
+    @classmethod
+    def _extract_announcements(self, udm, portal):
+        ret = {}
+
+        def add(announcement, ret, in_portal):
+            ret[announcement.dn] = {
+                "dn": announcement.dn,
+                "allowedGroups": announcement.props.allowedGroups,
+                "name": announcement.props.name,
+                "message": announcement.props.message,
+                "title": announcement.props.title,
+                "startTime": announcement.props.startTime,
+                "endTime": announcement.props.endTime,
+                "isSticky": announcement.props.isSticky,
+                "needsConfirmation": announcement.props.needsConfirmation,
+                "severity": announcement.props.severity
+            }
+
+        for obj in udm.get("portals/announcement").search():
+            add(obj, ret, True)
+
+        return ret
+
 
     @classmethod
     def _write_image(cls, image, name, dirname):
