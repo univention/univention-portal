@@ -106,6 +106,21 @@ class TestPortal:
 			"category_dns": ["cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
 			"entry_dns": ["cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
 			"folder_dns": [],
+			"announcements": [
+				{
+					"announcement": {
+						"name": "",
+						"flags": [
+							"sticky"
+						],
+						"severity": "info",
+						"title": "",
+						"message": "",
+						"startTime": "",
+						"endTime": ""
+					}
+				}
+			]
 		}
 		assert content == expected_content
 
@@ -245,15 +260,34 @@ class TestPortal:
 		mocked_portal.scorer.score.assert_called_once()
 		mocked_portal.scorer.score.assert_called_with(request)
 
+	def test_umc_portal_request_umc_get_uses_configured_url(mocker, mock_portal_config):
+		from univention.portal.extensions.portal import UMCPortal
 
-def test_umc_portal_request_umc_get_uses_configured_url(mocker, mock_portal_config):
-	from univention.portal.extensions.portal import UMCPortal
+		requests_post = mocker.patch('requests.post')
+		mock_portal_config({"umc_get_url": "http://ucshost.test/univention/get"})
+		portal = UMCPortal(mock.Mock(), mock.Mock())
+		portal._request_umc_get('stub_path', mock.Mock())
 
-	requests_post = mocker.patch('requests.post')
-	mock_portal_config({"umc_get_url": "http://ucshost.test/univention/get"})
-	portal = UMCPortal(mock.Mock(), mock.Mock())
-	portal._request_umc_get('stub_path', mock.Mock())
+		requests_post.assert_called_with(
+			"http://ucshost.test/univention/get/stub_path",
+			json=mock.ANY, headers=mock.ANY)
 
-	requests_post.assert_called_with(
-		"http://ucshost.test/univention/get/stub_path",
-		json=mock.ANY, headers=mock.ANY)
+	def test_announcements(self, mocked_user, standard_portal):
+		content = standard_portal.get_visible_content(mocked_user, False)
+		announcements = standard_portal.get_announcements(content)
+		expected_content = [
+			{
+				"announcement": {
+					"name": "",
+					"flags": [
+						"sticky"
+					],
+					"severity":"info",
+					"title":"",
+					"message":"",
+					"startTime":"",
+					"endTime":""
+				}
+			}
+		]
+		assert announcements == expected_content
