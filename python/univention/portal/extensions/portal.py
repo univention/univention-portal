@@ -141,7 +141,7 @@ class Portal(metaclass=Plugin):
 				]
 			) > 0
 		]
-		visible_announcements = announcements
+		visible_announcements = []
 		return {
 			"entry_dns": visible_entry_dns,
 			"folder_dns": visible_folder_dns,
@@ -208,7 +208,7 @@ class Portal(metaclass=Plugin):
 	
 	def get_announcements(self, visible_content):
 		announcements = self.portal_cache.get_announcements()
-		return announcements
+		return [announcement for announcement in announcements if announcement in visible_content["announcements"]]
 
 	def get_announcements(self, visible_content):
 		announcements = self.portal_cache.get_announcements()
