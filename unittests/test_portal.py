@@ -34,12 +34,36 @@
 #
 
 import asyncio
-
+from copy import deepcopy
+import json
+import tempfile
 import pytest
+
+from python.univention.portal.extensions.reloader import MtimeBasedLazyFileReloader
+from python.univention.portal.extensions.portal import Portal
 
 
 def test_imports(dynamic_class):
 	assert dynamic_class("Portal")
+
+class TestReloader(MtimeBasedLazyFileReloader):
+
+	def __init__(self, portal_file):
+		super().__init__(portal_file) 
+		self.content = {}
+
+	def get_portal_cache_json(self) -> dict:
+		with open(self._cache_file, "r") as portal_cache:
+			return json.load(portal_cache)
+
+	def update_portal_cache(self, portal_data: dict):
+		self.content = portal_data
+		self.refresh("force")
+
+	def _refresh(self):  # pragma: no cover
+		with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
+			json.dump(self.content, fd, sort_keys=True, indent=4)
+		return fd
 
 
 class TestPortal:
@@ -62,11 +86,24 @@ class TestPortal:
 		return user
 
 	@pytest.fixture
-	def standard_portal(self, dynamic_class, mocker, get_file_path):
-		Portal = dynamic_class("Portal")
-		cache_file_path = get_file_path("portal_cache.json")
+	def portal_file(self, get_file_path):
+		return get_file_path("portal_cache.json")
+
+	@pytest.fixture
+	def reloader(self, portal_file):
+		return TestReloader(portal_file=portal_file)
+
+	@pytest.fixture
+	def portal_data(self, reloader):
+		original_data = reloader.get_portal_cache_json()
+		yield reloader
+		reloader.update_portal_cache(original_data)
+
+	@pytest.fixture
+	def standard_portal(self, dynamic_class, mocker, portal_file, reloader):
+		# Portal = dynamic_class("Portal")
 		scorer = dynamic_class("Scorer")()
-		portal_cache = dynamic_class("PortalFileCache")(cache_file_path)
+		portal_cache = dynamic_class("PortalFileCache")(portal_file, reloader)
 		authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
 		return Portal(scorer, portal_cache, authenticator)
 
@@ -258,23 +295,52 @@ class TestPortal:
 		assert mocked_portal.score(request) == 5
 		mocked_portal.scorer.score.assert_called_once()
 		mocked_portal.scorer.score.assert_called_with(request)
-	
-	def test_announcements(self, mocked_user, standard_portal):
-		content = standard_portal.get_visible_content(mocked_user, False)
-		announcements = standard_portal.get_announcements(content)
-		expected_content = [
-			{
-				"announcement": {
-					"name": "",
-					"flags": [
-						"sticky"
-					],
-					"severity":"info",
-					"title":"",
-					"message":"",
-					"startTime":"",
-					"endTime":""
-				}
+
+	def test_announcement(self, mocked_user, portal_data, standard_portal):
+		input_announcement = {
+			"allowedGroups": [],
+			"dn": "cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
+			"endTime": None,
+			"isSticky": False,
+			"message": {
+				"de_DE": "Dies ist ein Testannouncement das für jeden User, d.h. auch ohne Login sichtbar sein sollte.",
+				"en_US": "This is a test announcement that should be visible for all users, as no group restriction is set."
+			},
+			"name": "Testannouncment",
+			"needsConfirmation": False,
+			"severity": "info",
+			"startTime": None,
+			"title": {
+				"de_DE": "Öffentliches Announcement",
+				"en_US": "Public Announcement"
 			}
-		]
-		assert announcements == expected_content
+		}
+		input_announcements = {}
+		input_announcements["cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet"] = input_announcement
+		modifiable_data = portal_data.get_portal_cache_json()
+		modifiable_data['announcements'] = input_announcements
+
+		portal_data.update_portal_cache(modifiable_data)
+		content = standard_portal.get_visible_content(mocked_user, False)
+
+		output_announcements = standard_portal.get_announcements(content)
+		assert output_announcements == input_announcements
+
+	def test_announcements(self, mocked_user, portal_data, standard_portal):
+		past_announcement = {}
+		present_announcement = {}
+		future_announcement = {}
+		input_announcements = [
+			past_announcement,
+			present_announcement,
+			future_announcement
+   		]
+		modifiable_data = portal_data.get_portal_cache_json()
+		modifiable_data['announcements'] = input_announcements
+
+		portal_data.update_portal_cache(modifiable_data)
+		content = standard_portal.get_visible_content(mocked_user, False)
+
+		output_announcements = standard_portal.get_announcements(content)
+		assert output_announcements == input_announcements
+
