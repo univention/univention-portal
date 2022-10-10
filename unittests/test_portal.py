@@ -35,17 +35,19 @@
 
 from unittest import mock
 import asyncio
-from copy import deepcopy
+from datetime import datetime
+from datetime import timedelta
 import json
 import tempfile
 import pytest
 
-from python.univention.portal.extensions.reloader import MtimeBasedLazyFileReloader
-from python.univention.portal.extensions.portal import Portal
+from univention.portal.extensions.reloader import MtimeBasedLazyFileReloader
+from univention.portal.extensions.portal import Portal
 
 
 def test_imports(dynamic_class):
     assert dynamic_class("Portal")
+
 
 class TestReloader(MtimeBasedLazyFileReloader):
 
@@ -143,21 +145,24 @@ class TestPortal:
             "category_dns": ["cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
             "entry_dns": ["cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
             "folder_dns": [],
-            "announcements": [
-                {
-                    "announcement": {
-                        "name": "",
-                        "flags": [
-                            "sticky"
-                        ],
-                        "severity": "info",
-                        "title": "",
-                        "message": "",
-                        "startTime": "",
-                        "endTime": ""
-                    }
+            "announcements": [{
+                "allowedGroups": [],
+                "dn": "cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
+                "endTime": None,
+                "isSticky": False,
+                "message": {
+                    "de_DE": "Dies ist ein Testannouncement das f\u00fcr jeden User, d.h. auch ohne Login sichtbar sein sollte.",
+                    "en_US": "This is a test announcement that should be visible for all users, as no group restriction is set."
+                },
+                "name": "Testannouncment",
+                "needsConfirmation": False,
+                "severity": "info",
+                "startTime": None,
+                "title": {
+                    "de_DE": "\u00d6ffentliches Announcement",
+                    "en_US": "Public Announcement"
                 }
-            ]
+            }]
         }
         assert content == expected_content
 
@@ -328,21 +333,66 @@ class TestPortal:
                 "en_US": "Public Announcement"
             }
         }
-        input_announcements = {}
-        input_announcements["cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet"] = input_announcement
+        input_announcements = [
+            input_announcement
+        ]
         modifiable_data = portal_data.get_portal_cache_json()
         modifiable_data['announcements'] = input_announcements
 
         portal_data.update_portal_cache(modifiable_data)
         content = standard_portal.get_visible_content(mocked_user, False)
 
-        output_announcements = standard_portal.get_announcements(content)
-        assert output_announcements == input_announcements
+        assert content['announcements'] == input_announcements
 
     def test_announcements(self, mocked_user, portal_data, standard_portal):
-        past_announcement = {}
-        present_announcement = {}
-        future_announcement = {}
+        past_announcement = {
+            "allowedGroups": [],
+            "dn": "cn=Testannouncment1,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
+            "isSticky": False,
+            "message": {
+                "de_DE": "Testannouncement",
+            },
+            "name": "Testannouncment",
+            "needsConfirmation": False,
+            "severity": "info",
+            "startTime": (datetime.now() - timedelta(minutes=2)).isoformat(),
+            "endTime": (datetime.now() - timedelta(minutes=1)).isoformat(),
+            "title": {
+                "de_DE": "Öffentliches Announcement",
+            }
+        }
+        present_announcement = {
+            "allowedGroups": [],
+            "dn": "cn=Testannouncment2,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
+            "isSticky": False,
+            "message": {
+                "de_DE": "Testannouncement",
+            },
+            "name": "Testannouncment",
+            "needsConfirmation": False,
+            "severity": "info",
+            "startTime": (datetime.now() - timedelta(minutes=2)).isoformat(),
+            "endTime": (datetime.now() + timedelta(minutes=2)).isoformat(),
+            "title": {
+                "de_DE": "Öffentliches Announcement",
+            }
+        }
+        future_announcement = {
+            "allowedGroups": [],
+            "dn": "cn=Testannouncment3,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
+            "isSticky": False,
+            "message": {
+                "de_DE": "Testannouncement",
+            },
+            "name": "Testannouncment",
+            "needsConfirmation": False,
+            "severity": "info",
+            "startTime": (datetime.now() + timedelta(minutes=1)).isoformat(),
+            "endTime": (datetime.now() + timedelta(minutes=2)).isoformat(),
+            "title": {
+                "de_DE": "Öffentliches Announcement",
+            }
+        }
         input_announcements = [
             past_announcement,
             present_announcement,
@@ -354,5 +404,4 @@ class TestPortal:
         portal_data.update_portal_cache(modifiable_data)
         content = standard_portal.get_visible_content(mocked_user, False)
 
-        output_announcements = standard_portal.get_announcements(content)
-        assert output_announcements == input_announcements
+        assert content['announcements'] == [present_announcement]
