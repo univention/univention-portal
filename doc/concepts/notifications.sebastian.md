@@ -56,4 +56,6 @@ sequenceDiagram
 
 ```
 
+- DW: Do we need the "User ready to receive notifications" or do we want to listen simply for all notifications?
+
 ## Open Questions
