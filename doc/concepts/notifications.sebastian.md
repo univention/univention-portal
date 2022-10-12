@@ -54,7 +54,9 @@
 - 
 
 
-## High Level Architecture
+## Architecture
+
+### High level control flow
 
 ```mermaid
 
@@ -83,3 +85,5 @@ sequenceDiagram
   - calls could be a specialization of alerts/announcements
 
 - Is it acceptable for call notifications to receive the recipient with some delay (network latency, message routing, etc.?) What other channels are there for a call to reach the recipient?
+- How to handle read status
+  - Information needs to flow from the user, presumably needs to be stored in the backend
