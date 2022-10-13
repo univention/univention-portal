@@ -29,7 +29,6 @@ License with the Debian GNU/Linux or Univention distribution in file
 <template>
   <site
     :title="TITLE"
-    :subtitle="SUBTITLE"
   >
     <my-form
       ref="form"
