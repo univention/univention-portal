@@ -46,6 +46,8 @@
 - Notifications will be visible on any client, the user is logged in with
   - Visual representation might need to be adapted to the clients visual capabilities
 - Notifications must have the necessary attributes for beeing uttered by the screen reader
+- The user must have the opportunity to subscribe and unsubscribe to/from message types
+- The user must have the opportunity to subscribe and unsubscribe to/from message channels
 
 ## UI Elements
 
