@@ -5,14 +5,19 @@
 - **Application**
 
   The application eventually triggering a notification
+
 - **MQ**, Message Queue, CQRS
 
   Usually RabbitMQ or MQTT-Broker that will enable sending messages asynchronically.
+
 - **API**
 
-  A REST-API representing the orchestrator for authorization and message dispatching.
+  An API representing the orchestrator for authorization and message dispatching. Receives message from applications and serves as endpoint for notification subscription clients.
 
-  _Can or can not be UDM-REST-API_
+  _Can or can not be UDM-REST-API_ 
+  
+  >***DW: How can the UDM-REST-API help us here?***
+
 - **RDMBS**, (Relational) Database
   
   A long-term persistent storage for notifications. Allows quick listing, paging and searching for notifications.
@@ -43,11 +48,12 @@ sequenceDiagram
 
 ```
 
-- DW: Do we need the "User ready to receive notifications" or do we want to listen simply for all notifications?
-  - Is it possible to try and call someone who is not logged into the portal?
-    - If yes, the incoming-call info does not need to be routed if the user is not online and does not need to be persisted, either.
+> **DW:** Do we need the "User ready to receive notifications" or do we want to listen simply for all notifications?
+  >> **SKF:** Is it possible to try and call someone who is not logged into the portal?
+    >>> If yes, the incoming-call info does not need to be routed if the user is not online and does not need to be persisted, either.
       It will turn into a missed call information and show up the next time the user logs in.
-  - Another question is, which component keeps track of user status. Will the BE query the status from the FE somehow? I don't know if that is possible at all, since no session exists.
+
+  >> **SKF:** Another question is, which component keeps track of user status. Will the BE query the status from the FE somehow? I don't know if that is possible at all, since no session exists.
 
 # Notification Trigger Process
 
@@ -67,14 +73,22 @@ sequenceDiagram
       "type": "call",
       "acceptUrl": "https://call.univention.de/join?sessionToken=abcdef",
       "rejectUrl": "https://api.univention.de/reject-call?sessionToken=abcdef"
-   } 
+   }
+   ``` 
+  > **DW:** source and target should be some uuid as I understood Arvid correctly last time
+
 2. **API** fills out the rest of the data and
    1. **either** sends it to the MQ (`Client-Mode`)
+   > **DW:** what does client mode mean?
    2. **or** continues on Step 4. (`Listener-Mode`)
 3. **API** listens on MQ channel and continously receives new notifications from MQ
 4. **API** takes received Notifications and
    1. Persists them in the database
    2. Sends them to the **Socket** for the web-frontend to receive it live
+
+**Notes:**
+
+- Target can be a single user, a group or all users within the domain
 
 # Frontend Process
 
@@ -85,9 +99,9 @@ sequenceDiagram
    Host: api.instance
    ```
 
-   It will receive an array of existing notifications
+   It will receive an array of existing notifications - to be defined how much of the latest notifications are queried 
 
-   **API** will make sure that the user can only request notifications their DN fits in
+   **API** will make sure that the user can only request notifications their DN (user_id) fits in
 2. **Frontend** connects **Socket** to continously receive new notifications
 3. **Frontend** will connect to all applications it knows/displays badges for and calls
 
@@ -95,6 +109,7 @@ sequenceDiagram
    GET /.well-known/univention-meta.json HTTP/1.1
    Host: <the application host>
    ```
+   >**DW:** do we really want the frontend to ask every app to request the well-known endpoint or may it be better to let it the backend do?
 
    and receives (if available) a meta information to display proper badge information
 
@@ -114,7 +129,9 @@ sequenceDiagram
 
    This meta-info can be cached properly.
 4. Depending on `type`, the **Frontend** displays the proper notification view
+    > **DW:** which type do you mean?
 5. When going to the notification dashboard, **Frontend** calls **API** to receive and filter _all_ notifications
+    > **DW:** what is the Notification dashboard?
 
 
 ## Initial notifications 
