@@ -1,6 +1,6 @@
+# Architecture
 
-
-# Units
+## Components
 
 - **Application**
 
@@ -26,37 +26,28 @@
   This can either be the Univention-Portal, but it can also be the header bar in applications
   and probably all other instances that want to show notifications
 
-# Notification Structure
 
-A single notification can be represented with a concise object
+## High level control flow
 
-**Notification**
-- `source` - The source DN of the application
-- `target` - The target DN, can target a user or a group
-- `title` - The title of the notification
-- `severity` (optional) A theme the notification can appear in (`info`, `success`, `warn`, `danger`)
-- `message` (optional) - The notification message, shown when notification details are to be shown
-- `sendTime` - The time this notification was sent
-- `receiveTime` - The time this notification was received and persisted
-- `readTime` (optional) - The time at which the notification was read/closed. If not given, it was not read yet
-- `confirmTime` (optional) - The time at which the notification was confirmed. If not given, it was not confirmed yet
-- `expireTime` (optional) - The time at which this notification will expire and delete itself fully
-- `sticky` - A boolean that represents wether this notification should appear fixed at the top and is not closable/readable
-- `needsConfirmation` - A boolean that represents wether this notification needs to be confirmed by the user
-- `type` - Will control further discrimination, can be `event`, `announcement` or `call` for now
+```mermaid
 
-Further discrimination handled by `type`:
+sequenceDiagram
+    participant Apps
+    participant Backend
+    participant Frontend
+    Frontend->>Backend: User logged in
+    Backend->>Apps: User ready to receive notifications
+    Apps->> Backend: New notification content
+    Backend->>Frontend:  Once: Historical notifications from absence time
+    Backend->>Frontend:  Continuous and live notifications
 
-**EventNotification** (type `event`)
-- `callbackUrl` - The URL the user lands on when he clicks on the notification
+```
 
-**AnnouncementNotification** (type `announcement`)
-
-(No special fields for now)
-
-**CallNotification** (type `call`)
-- `acceptUrl` - The URL opened when the user accepts the call
-- `rejectUrl` - The URL requested when the user rejects the call
+- DW: Do we need the "User ready to receive notifications" or do we want to listen simply for all notifications?
+  - Is it possible to try and call someone who is not logged into the portal?
+    - If yes, the incoming-call info does not need to be routed if the user is not online and does not need to be persisted, either.
+      It will turn into a missed call information and show up the next time the user logs in.
+  - Another question is, which component keeps track of user status. Will the BE query the status from the FE somehow? I don't know if that is possible at all, since no session exists.
 
 # Notification Trigger Process
 
@@ -124,3 +115,8 @@ Further discrimination handled by `type`:
    This meta-info can be cached properly.
 4. Depending on `type`, the **Frontend** displays the proper notification view
 5. When going to the notification dashboard, **Frontend** calls **API** to receive and filter _all_ notifications
+
+
+## Initial notifications 
+
+- initial notifications (especially status messages) to get from the app by means of an .well_known endpoint who provides zero state information (this is necessary for information that is related to the tiles - number of unread emails, etc.)
