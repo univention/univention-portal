@@ -21,7 +21,7 @@ A single notification can be represented with a concise object
 - ~~`source` - The source DN of the application~~ (Needs to be redefined, as DN can change, uid can not)
 - ~~`target` - The target DN, can target a user or a group~~ (Needs to be redefined, as DN can change, samAccountName and uid can not)
 - `title` - The title of the notification
-- `severity` (optional) A theme the notification can appear in (`info`, `success`, `warn`, `danger`)
+- `severity` (optional) A theme the notification can appear in (`info`, `success`, `warning`, `error`)
 - `message` (optional) - The notification message, shown when notification details are to be shown
 - `sendTime` - The time this notification was sent
 - `receiveTime` - The time this notification was received and persisted
