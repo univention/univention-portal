@@ -2,7 +2,7 @@
 
 - Header bar
 - Notification bell
-- Tile Circles
+- Tile Circles/Badge
 
 
 - Events and alerts are displayed in the user interface as popups and in a list under a notification bell

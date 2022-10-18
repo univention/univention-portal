@@ -5,6 +5,7 @@
 - **Application**
 
   The application eventually triggering a notification
+  - list of applications: ox, nextcloud, elements, UMC, UDM, portal, ...
 
 - **MQ**, Message Queue, CQRS
 
@@ -24,12 +25,11 @@
 
 - **Socket**, Mercure, SSE/WS
 
-  Enables a web-client to continously receive live messages via a socket mechanism.
+  Enables a web-client to continously receive live messages via a socket mechanism. Runs as a hub that receives messages and publishes them to connected clients. 
 
 - **Frontend**
 
-  This can either be the Univention-Portal, but it can also be the header bar in applications
-  and probably all other instances that want to show notifications
+  This can either be the Univention-Portal, but it can also be the header bar (navigation bar) in applications and probably all other instances that want to show notifications.
 
 
 ## High level control flow
@@ -41,10 +41,10 @@ sequenceDiagram
     participant Backend
     participant Frontend
     Frontend->>Backend: User logged in
-    Backend->>Apps: User ready to receive notifications
-    Apps->> Backend: New notification content
     Backend->>Frontend:  Once: Historical notifications from absence time
+    Apps->> Backend: New notification content
     Backend->>Frontend:  Continuous and live notifications
+    Apps->> Backend: New notification content
 
 ```
 
@@ -69,7 +69,8 @@ sequenceDiagram
       "target": "cn=johndoe,cn=users,cn=univention,dc=intranet,dc=portal,dc=de",
       "title": "Jane is calling you!",
       "message": "Press \"Accept\" or \"Reject\" to answer the call.",
-      "expireTime": "2022-10-10T12:35Z-02:00"
+      "sendTime": "2022-10-05T10:31Z-02:00",
+      "expireTime": "2022-10-10T12:35Z-02:00",
       "type": "call",
       "acceptUrl": "https://call.univention.de/join?sessionToken=abcdef",
       "rejectUrl": "https://api.univention.de/reject-call?sessionToken=abcdef"
@@ -77,14 +78,14 @@ sequenceDiagram
    ``` 
   > **DW:** source and target should be some uuid as I understood Arvid correctly last time
 
-2. **API** fills out the rest of the data and
+2. **API** fills out the rest of the data (see [Notification DataStructure](./15_datamodel.md#notification-structure)) and
    1. **either** sends it to the MQ (`Client-Mode`)
    > **DW:** what does client mode mean?
    2. **or** continues on Step 4. (`Listener-Mode`)
 3. **API** listens on MQ channel and continously receives new notifications from MQ
 4. **API** takes received Notifications and
    1. Persists them in the database
-   2. Sends them to the **Socket** for the web-frontend to receive it live
+   2. Sends them to the **Socket** (Mercure Hub) for the web-frontend to receive it live
 
 **Notes:**
 
@@ -92,16 +93,16 @@ sequenceDiagram
 
 # Frontend Process
 
-1. On load, **Frontend** requests a quick view of the notifications
+1. On load after login, **Frontend** requests a quick view of the notifications
 
    ```http
    GET /notifications?query=latest HTTP/1.1
    Host: api.instance
    ```
 
-   It will receive an array of existing notifications - to be defined how much of the latest notifications are queried 
+   It will receive an array of existing notifications - to be defined how much of the latest notifications are queried (configurable)
 
-   **API** will make sure that the user can only request notifications their DN (user_id) fits in
+   **API** will make sure that the user can only request notifications their DN (user_id) fits in (request header contains the portal access token with user information)
 2. **Frontend** connects **Socket** to continously receive new notifications
 3. **Frontend** will connect to all applications it knows/displays badges for and calls
 
@@ -110,6 +111,8 @@ sequenceDiagram
    Host: <the application host>
    ```
    >**DW:** do we really want the frontend to ask every app to request the well-known endpoint or may it be better to let it the backend do?
+   
+   > this is request should go through the intercom service to get the correct application token
 
    and receives (if available) a meta information to display proper badge information
 
@@ -126,6 +129,7 @@ sequenceDiagram
     }
    }
    ```
+   >DW: this is status information. maybe it is necessary to define a more sophisticated data structure here to have more possibilities in interpreting the data
 
    This meta-info can be cached properly.
 4. Depending on `type`, the **Frontend** displays the proper notification view

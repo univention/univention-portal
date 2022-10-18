@@ -16,6 +16,15 @@
   >> - Information needs to flow from the user, presumably needs to be stored in the backend
   >> - DW: this shoulb be handled by the API
 
+> DW: is Mercure able to deliver the same message to serveral connected devices for one user?
+
+> DW: When unfolding notifications for groups to distinct users, will the request to OpenLDAP to receive the list of users performant enough? Or do we need to duplicate users and groups in the DB?
+
+> DW: When we consider that the navigation bar in each application can subscribe to notifications we would need to consider that they are requesting with their token. Probably need to include ICS
+
+# TODO
+- DW: considering timezones
+- DW: need to check if the user is allowed for a certain application. It is possible that a user is blocked for an application. In this case he should also not receive any messages. 
 
 ---  
 # Results of discussion from 6.10.2022

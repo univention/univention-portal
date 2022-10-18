@@ -11,17 +11,21 @@
 ---
 ## Introduction
 
-[Epic 356](https://git.knut.univention.de/groups/univention/-/epics/356) describes the feature “Events/Alerts by Apps” for the Portal component. The present document describes a technical concept for implementation of such a feature.
+[Epic 356](https://git.knut.univention.de/groups/univention/-/epics/356) describes feature “Events/Alerts by Apps” for the Portal component. The present document describes a technical concept for implementation of such a feature.
 
-1. Solution to have a service process (node.js, nextJS, etc.) that receives messages by an HTTP POST request and publishes them in an async and unblocking way to subscribed recreivers
+Key points for the solution are as follows:
+
+1. Providing a service process (node.js, nextJS, etc.) that receives notifications from applications by an HTTP POST request and publishes them in an async and unblocking way to subscribed receivers
+1. Messages are routed to subscribers by means of a routing key (similar to topic exchange approach in RabbitMQ)
 1. an RDBMS is used to support message persistency and historization of messages
 1. Mercure service (deployed as sidecar) to act as a middleware service for message push support (SSE, WebSocket)
-1. this solution provides notifications as push and only when there is new information available - a current status will only be achieved when a status change get published
+1. The system design allows to use RabbitMQ for the message queuing - but can be operated without it
+1. Notifications are provided as push and only when new information available - to get an initial information set from applications as well-known endpoint needs to be implemented by the apps
 
 ---
 ## Terminology
 
-- **Notification** - 
+- **Notification** - overall concept of a message that is aimed to notify a certain user
 - **Message** - the concrete implementation of a notification
 - **Message Types**
     - _Event_ - the standard notification that informs about system events that do not need immediate attention (e.g. received a new email) 
