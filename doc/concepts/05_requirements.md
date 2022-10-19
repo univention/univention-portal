@@ -13,6 +13,7 @@ The following sample use cases are considered when developing this technical con
   - Incoming e-mail
   - Incoming chat message
   - Document change (creation, update, deletion)
+  - successful/error after installation of an app by AppCenter
 - Alerts:
   - Element: There is an incoming video or phone call
   - OX: Sending an E-Mail failed
