@@ -45,6 +45,17 @@ from urllib.parse import quote
 from univention.portal import Plugin
 from univention.portal.log import get_logger
 
+from univention.admin.rest.client import UDM, HTTPError
+
+USER_NAME = os.environ["LDAP_HOSTDN"]
+PASSWORD = get_secret()
+HOSTNAME_ENV = "UCS_HOSTNAME"
+API_URL = "http://{}/univention/udm".format(os.environ["LDAP_SERVER_NAME"])
+
+def get_secret():
+    with open("/etc/machine.secret") as f:
+        return f.read().strip()
+
 
 class Reloader(metaclass=Plugin):
 	"""
@@ -152,24 +163,18 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		return reason_args[1] in ["portal", "category", "entry", "folder"]
 
 	def _refresh(self):
-		udm_lib = importlib.import_module("univention.udm")
+		udm = UDM.http(API_URL, USER_NAME, PASSWORD)
 		try:
-			udm = udm_lib.UDM.machine().version(2)
 			portal = udm.get("portals/portal").get(self._portal_dn)
-		except udm_lib.ConnectionError:
-			get_logger("cache").warning("Could not establish UDM connection. Is the LDAP server accessible?")
-			return None
-		except udm_lib.UnknownModuleType:
-			get_logger("cache").warning("UDM not up to date? Portal module not found.")
-			return None
-		except udm_lib.NoObject:
-			get_logger("cache").warning("Portal %s not found", self._portal_dn)
-			return None
+		except HTTPError as e:
+			get_logger("cache").warning("Problem with UDM Connection. HTTP Code: {}".format(e))
+		except Exception as e:
+			get_logger("cache").warning("Cannot get portals/portal: {}".format(e))
 		content = {}
 		content["portal"] = self._extract_portal(portal)
-		content["categories"] = categories = self._extract_categories(udm, portal)
-		content["folders"] = folders = self._extract_folders(udm, portal, list(categories.values()))
-		content["entries"] = self._extract_entries(udm, portal, list(categories.values()), list(folders.values()))
+		content["categories"] = categories = self._extract_categories(portal, udm)
+		content["folders"] = folders = self._extract_folders(portal, udm, list(categories.values()))
+		content["entries"] = self._extract_entries(portal, udm, list(categories.values()), list(folders.values()))
 		content["user_links"] = self._extract_user_links(portal)
 		content["menu_links"] = self._extract_menu_links(portal)
 		with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
@@ -179,42 +184,44 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 	def _extract_portal(self, portal):
 		ret = {}
 		ret["dn"] = portal.dn
-		ret["showUmc"] = portal.props.showUmc
-		if portal.props.logo:
-			ret["logo"] = self._write_image(portal.props.name, portal.props.logo.raw, "logos")
-		else:
-			ret["logo"] = None
-		if portal.props.background:
-			ret["background"] = self._write_image(
-				portal.props.name, portal.props.background.raw, "backgrounds"
-			)
-		else:
-			ret["background"] = None
-		ret["name"] = portal.props.displayName
-		ret["defaultLinkTarget"] = portal.props.defaultLinkTarget
-		ret["ensureLogin"] = portal.props.ensureLogin
-		ret["categories"] = portal.props.categories
+		ret["showUmc"] = portal.properties['showUmc']
+		# TODO No .raw property in logo
+		# if portal.properties['logo']:
+		# 	ret["logo"] = self._write_image(portal.properties['name'], portal.properties['logo'].raw, "logos")
+		# else:
+		ret["logo"] = None
+		# TODO No .raw property in background
+		# if portal.properties['background']:
+		# 	ret["background"] = self._write_image(
+		# 		portal.properties['name'], portal.properties['background'].raw, "backgrounds"
+		# 	)
+		# else:
+		ret["background"] = None
+		ret["name"] = portal.properties['displayName']
+		ret["defaultLinkTarget"] = portal.properties['defaultLinkTarget']
+		ret["ensureLogin"] = portal.properties['ensureLogin']
+		ret["categories"] = portal.properties['categories']
 		return ret
 
 	def _extract_user_links(self, portal):
-		return portal.props.userLinks
+		return portal.properties['userLinks']
 
 	def _extract_menu_links(self, portal):
-		return portal.props.menuLinks
+		return portal.properties['menuLinks']
 
-	def _extract_categories(self, udm, portal):
+	def _extract_categories(self, portal, udm):
 		ret = {}
 		for category in udm.get("portals/category").search():
-			in_portal = category.dn in portal.props.categories
+			in_portal = category.dn in portal.properties['categories']
 			ret[category.dn] = {
 				"dn": category.dn,
 				"in_portal": in_portal,
-				"display_name": category.props.displayName,
-				"entries": category.props.entries,
+				"display_name": category.properties['displayName'],
+				"entries": category.properties['entries'],
 			}
 		return ret
 
-	def _extract_entries(self, udm, portal, categories, folders):
+	def _extract_entries(self, portal, udm, categories, folders):
 		ret = {}
 
 		def add(entry, ret, in_portal):
@@ -222,24 +229,24 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 				ret[entry.dn] = {
 					"dn": entry.dn,
 					"in_portal": in_portal,
-					"name": entry.props.displayName,
-					"description": entry.props.description,
-					'keywords': entry.props.keywords,
+					"name": entry.properties['displayName'],
+					"description": entry.properties['description'],
+					'keywords': entry.properties['keywords'],
 					"logo_name": self._save_image(portal, entry),
-					"activated": entry.props.activated,
-					"anonymous": entry.props.anonymous,
-					"allowedGroups": entry.props.allowedGroups,
-					"links": entry.props.link,
-					"linkTarget": entry.props.linkTarget,
-					"target": entry.props.target,
-					"backgroundColor": entry.props.backgroundColor,
+					"activated": entry.properties['activated'],
+					"anonymous": entry.properties['anonymous'],
+					"allowedGroups": entry.properties['allowedGroups'],
+					"links": entry.properties['link'],
+					"linkTarget": entry.properties['linkTarget'],
+					"target": entry.properties['target'],
+					"backgroundColor": entry.properties['backgroundColor'],
 				}
 
 		for obj in udm.get("portals/entry").search():
-			if obj.dn in portal.props.menuLinks:
+			if obj.dn in portal.properties['menuLinks']:
 				add(obj, ret, True)
 				continue
-			if obj.dn in portal.props.userLinks:
+			if obj.dn in portal.properties['userLinks']:
 				add(obj, ret, True)
 				continue
 			if any(obj.dn in category["entries"] for category in categories if category["in_portal"]):
@@ -252,22 +259,22 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
 		return ret
 
-	def _extract_folders(self, udm, portal, categories):
+	def _extract_folders(self, portal, udm, categories):
 		ret = {}
 
 		def add(folder, ret, in_portal):
 			ret[folder.dn] = {
 				"dn": folder.dn,
 				"in_portal": in_portal,
-				"name": folder.props.displayName,
-				"entries": folder.props.entries,
+				"name": folder.properties['displayName'],
+				"entries": folder.properties['entries'],
 			}
 
 		for obj in udm.get("portals/folder").search():
-			if obj.dn in portal.props.menuLinks:
+			if obj.dn in portal.properties['menuLinks']:
 				add(obj, ret, True)
 				continue
-			if obj.dn in portal.props.userLinks:
+			if obj.dn in portal.properties['userLinks']:
 				add(obj, ret, True)
 				continue
 			if any(obj.dn in category["entries"] for category in categories if category["in_portal"]):
@@ -297,9 +304,10 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 			)
 
 	def _save_image(self, portal, entry):
-		img = entry.props.icon
-		if img:
-			return self._write_image(entry.props.name, img.raw, "entries")
+		img = entry.properties['icon']
+		# TODO No raw property in img
+		# if img:
+		# 	return self._write_image(entry.properties['name'], img.raw, "entries")
 
 
 class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):

@@ -21,28 +21,19 @@ RUN apt-get update \
     python3-dev \
     libldap2-dev \
   && apt-get clean
-  
-RUN apt-get update \
-  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    ca-certificates \
-    curl \
-    gpg \
-    gpg-agent \
-    netcat \
-  && apt-get clean
 
-RUN curl -fsSL "https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg" | apt-key add -
+RUN curl -fsSL ${APT_KEY_URL} | apt-key add -
 
 COPY sources.list /etc/apt/sources.list.d/15_ucs-online-version.list
 
 RUN apt-get update \
   && apt-get --assume-yes --no-install-recommends install \
   python3-univention-group-membership-cache \
+  python3-univention-directory-manager-rest-client \
   && apt-get clean
 
 RUN pip install -r requirements.txt \
-  && pip install . \
-  && pip install udm-rest-client
+  && pip install .
 
 FROM python:3.7-slim-buster AS final
 
@@ -67,5 +58,6 @@ RUN mkdir -p /var/log/univention/ \
   && mkdir -p /var/cache/univention-portal
 
 ENTRYPOINT python univention-portal add-default \
+  && python univention-portal add-umc-default \
   && python univention-portal update \
   && python /usr/sbin/univention-portal-server
