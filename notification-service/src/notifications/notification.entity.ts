@@ -4,7 +4,7 @@ import { NotificationSeverity, NotificationType } from './dto/create-notificatio
 @Entity()
 export class Notification {
 
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -16,10 +16,14 @@ export class Notification {
   @Column()
   title: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   message: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   severity: NotificationSeverity;
 
   @Column()
@@ -28,13 +32,19 @@ export class Notification {
   @Column()
   receiveTime: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   readTime: string;
   
-  @Column()
+  @Column({
+    nullable: true
+  })
   confirmationTime: string;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   expireTime: string;
 
   @Column()
