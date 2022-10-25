@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Notification } from './notification.entity';
 import { CreateNotificationDto } from './dto/create-notification.dto';
@@ -8,11 +8,11 @@ import { CreateNotificationDto } from './dto/create-notification.dto';
 export class NotificationsService {
   constructor(
     @InjectRepository(Notification)
-    private notificationsRepository: Repository<Notification>,
-    private dataSource: DataSource,
-  ) {}
+    private readonly notificationsRepository: Repository<Notification>,
+    ) {}
 
   async create(notification: CreateNotificationDto) {
+    notification['receiveTime'] = new Date().toISOString();
     await this.notificationsRepository.insert(notification);
   }
 
@@ -23,8 +23,22 @@ export class NotificationsService {
   findOne(id: string): Promise<Notification> {
     return this.notificationsRepository.findOneBy({ id });
   }
-
+  
   async remove(id: string): Promise<void> {
     await this.notificationsRepository.delete(id);
+  }
+  
+  async markRead(id: string) {
+    await this.notificationsRepository.update(
+      { id },
+      { readTime: new Date().toISOString() }
+    )
+  }
+
+  async confirm(id: string) {
+    await this.notificationsRepository.update(
+      { id },
+      { confirmationTime: new Date().toISOString() }
+    )
   }
 }

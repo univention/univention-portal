@@ -70,14 +70,3 @@ export enum NotificationType {
     Alert = 'alert', 
     Call = 'call'
 };
-
-
-/* 
-open questions/points
-
-- additional API for setting read, confirmed and received times
-  - when is a notification received?
-- ORMing
-  - finding out how enums are mapped
-
-*/
