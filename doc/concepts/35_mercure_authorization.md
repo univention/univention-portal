@@ -41,7 +41,7 @@ sequenceDiagram
    - Cookie is HTTP-only and placed on a sub-domain that Mercure and the backend share (See Mercure View)
 2. User requests a list of all allowed Mercure Hub URLs, so the cookie won't be the only place
    where the backend needs to know all Hub-URLs for a specific user (Frontend can't read the HTTP-only cookie)
-
+3. When Backend sends a message to Mercure, it needs to authenticate with a proper, valid JWT for Mercure
 
 ## Mercure View
 
