@@ -13,6 +13,18 @@
 4. Frontend opens `EventSource` on all Hub URLs. It creates a request which won't stop and
    will contain `mercureAuthorization` cookie to tell Mercure which channels it has access to
 
+```mermaid
+sequenceDiagram
+    User->>Frontend: Open
+    Frontend->>Univention Portal Server: Authorize
+    Univention Portal Server->>Frontend: Univention Cookie, "mercureAuthorization"-Cookie
+    Frontend->>Notification API: Request Endpoints (Hubs)
+    Frontend->>Mercure: link EventSource to Hub(s)
+    Mercure->>Frontend: push Notifications
+```
+
+> SKF: How does the Frontend authenticate with the Notification API?
+
 ## Backend View
 
 1. User authorizes and receives application cookie
