@@ -6,7 +6,7 @@
 2. Frontend authorizes normally and receives:
    - The usual univention cookie
    - Another "mercureAuthorization"-Cookie which contains a JWT for Mercure with
-     a JWT claim called `mercure` with the content `{"publish":["<url to hub>", "<url to hub>"]}`
+     a JWT claim called `mercure` with the content `{"subscribe":["<url to hub>", "<url to hub>"]}`
 
      Notice these `publish`-URLs are not read by the frontend itself (It's a HTTP-Only cookie)
 3. Frontend requests an endpoint, e.g. `/api/hubs`, to know which hubs it can connect to
@@ -41,7 +41,7 @@ sequenceDiagram
    - Cookie is HTTP-only and placed on a sub-domain that Mercure and the backend share (See Mercure View)
 2. User requests a list of all allowed Mercure Hub URLs, so the cookie won't be the only place
    where the backend needs to know all Hub-URLs for a specific user (Frontend can't read the HTTP-only cookie)
-3. When Backend sends a message to Mercure, it needs to authenticate with a proper, valid JWT for Mercure
+3. When Backend sends a message to Mercure, it needs to authenticate with a proper, valid JWT for Mercure with a JWT claim called `mercure` with the content `{"publish":["<url to hub>", "<url to hub>"]}`
 
 ## Mercure View
 
