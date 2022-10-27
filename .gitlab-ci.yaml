@@ -2,12 +2,44 @@ stages:
   - build
   - test
 
-build-job:
-  stage: build
-  script:
-    - echo "Compiling the code..."
+cache: &global-cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - yarn_cache
+  policy: pull
 
-unit-test-job:
-  stage: test
+.node-template:
+  before_script:
+    - yarn install --frozen-lockfile
+  cache:
+    <<: *global-cache
+  dependencies: []
+  image: artifacts.knut.univention.de/dockerhub_proxy_cache/library/node:16.3-buster
+  variables:
+    YARN_CACHE_FOLDER: $CI_PROJECT_DIR/yarn_cache
+
+build-nodejs:
+  artifacts:
+    expire_in: 7 days
+    paths:
+      - dist
+  cache:
+    <<: *global-cache
+    policy: pull-push
+  extends: .node-template
+  needs: []
   script:
-    - echo "Running unit tests..."
+    - yarn build
+  stage: build
+
+test-e2e:
+  artifacts:
+    when: always
+    expire_in: 1 day
+  extends: .node-template
+  image: artifacts.knut.univention.de/dockerhub_proxy_cache/library/node:16.3-buster
+  needs:
+    - build-nodejs
+  script:
+    - yarn test:e2e
+  stage: test
