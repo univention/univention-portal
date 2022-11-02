@@ -19,7 +19,6 @@ Complete authorization flow overview:
 
 ```mermaid
 sequenceDiagram
-   User->>Frontend: Open
    Frontend->>Univention Portal Server: Authorize with UCS (SAML)
    Univention Portal Server-->>Frontend: OIDC Token for Notification-API
    Frontend->>Notification API: Authorize with OIDC-Token
