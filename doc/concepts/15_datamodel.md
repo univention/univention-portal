@@ -14,7 +14,7 @@ A single notification can be represented with a concise object:
 - `target` - The target DN (uuid), can be a user, a group or all
 - `title` - The title of the notification
 - `severity` (optional) A theme the notification can appear in (`info`, `success`, `warning`, `error`)
-- `message` (optional) - The notification message, shown when notification details are to be shown
+- `details` (optional) - The notification details, shown on demand
 - `sendTime` - The time this notification was sent (to be provided by the application)
 - `receiveTime` - The time this notification was received and persisted
 - `readTime` (optional) - The time at which the notification was read/closed. If not given, it was not read yet
