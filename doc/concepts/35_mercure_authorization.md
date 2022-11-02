@@ -19,17 +19,19 @@ Complete authorization flow overview:
 
 ```mermaid
 sequenceDiagram
-    User->>Frontend: Open
-    Frontend->>Univention Portal Server: Authorize
-    Univention Portal Server->>Frontend: Univention Cookie, "mercureAuthorization"-Cookie
-    Frontend->>Notification API: Request Endpoints (Hubs)
-    Frontend->>Mercure: link EventSource to Hub(s)
-    Mercure->>Frontend: push Notifications
+   User->>Frontend: Open
+   Frontend->>Univention Portal Server: Authorize with UCS (SAML)
+   Univention Portal Server-->>Frontend: OIDC Token for Notification-API
+   Frontend->>Notification API: Authorize with OIDC-Token
+   Notification API-->>Frontend: Cookie with Mercure JWT + Channel-Claims
+   Notification API-->>Frontend: Allowed Mercure Channels (JSON-Array)
+   Frontend->>Mercure: Initialize EventSource with Cookie
+   Mercure-->>Frontend: SSE connection, Live notifications
 ```
 
 > SKF: How does the Frontend authenticate with the Notification API?
 
-## Backend View
+## Backend View (Notification API)
 
 1. User authorizes and receives application cookie
    - Backend will retrieve user and respective groups and build a Mercure hub url for each one
@@ -47,6 +49,35 @@ sequenceDiagram
    where the backend needs to know all Hub-URLs for a specific user (Frontend can't read the HTTP-only cookie)
 3. When Backend sends a message to Mercure, it needs to authenticate with a proper, valid JWT for Mercure with a JWT claim called `mercure` with the content `{"publish":["<url to hub>", "<url to hub>"]}`
 
+When Frontend initially wants to connect
+
+```mermaid
+sequenceDiagram
+   Frontend->>Notification API: Authorization with OIDC-Token from Keycloak
+   Notification API-->>Frontend: Cookie with Mercure JWT + Channel-Claims
+   Notification API-->>Frontend: Allowed Mercure Channels (JSON-Array)
+```
+
+When frontend requests latest notifications
+```mermaid
+sequenceDiagram
+   Frontend->>Notification API: Authorization with OIDC-Token from Keycloak
+   Frontend->>Notification API: Request latest notifications
+   Notification API-->>Frontend: JSON-Array of latest notifications
+```
+
+When backend wants to forward a new notification to the user
+
+```mermaid
+sequenceDiagram
+   Notification Source->>Notification API: Authorization with OIDC-Token from Keycloak
+   Notification Source->>Notification API: Send notification JSON
+   Notification API-->>Notification Source: Success, end connection (async)
+   Notification API->>Notification API: Build list of channels to publish on
+   Notification API->>Mercure: Authorize with shared JWT
+   Notification API->>Mercure: Publish new notification on built channel list
+```
+
 ## Mercure View
 
 1. Mercure is configured with:
@@ -59,3 +90,25 @@ sequenceDiagram
 
    This is important als otherwise the cookie placed by the backend can't be consumed by Mercure
    
+On publish:
+
+```mermaid
+sequenceDiagram
+   Notification API->>Mercure: Authorize with shared JWT
+   Notification API->>Mercure: Publish new notification with specific channels
+   Mercure->>Mercure: Collect connected EventSources
+   Mercure->>Frontend: Send new notifications to connected EventSources
+```
+
+On subscribe:
+
+```mermaid
+sequenceDiagram
+   Frontend->>Mercure: Authorize with JWT from Notification API (Cookie)
+   Frontend->>Mercure: Open EventSource connection
+   loop Receive live notifications
+      Mercure->>Frontend: Transmit SSE message
+      Frontend->>Frontend: Display message to user
+      Frontend->>Notification API: (optional) Update status via JSON GET-Request
+   end
+```
