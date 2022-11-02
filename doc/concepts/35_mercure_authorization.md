@@ -1,5 +1,9 @@
 # Mercure Authorization Concept
 
+Complete authorization flow overview:
+
+![mecure_notifications.png](./mecure_notifications.png)
+
 ## Frontend View
 
 1. User opens Frontend
