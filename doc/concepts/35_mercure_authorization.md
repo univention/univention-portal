@@ -46,7 +46,7 @@ sequenceDiagram
    - Cookie is HTTP-only and placed on a sub-domain that Mercure and the backend share (See Mercure View)
 2. User requests a list of all allowed Mercure Hub URLs, so the cookie won't be the only place
    where the backend needs to know all Hub-URLs for a specific user (Frontend can't read the HTTP-only cookie)
-3. When Backend sends a message to Mercure, it needs to authenticate with a proper, valid JWT for Mercure with a JWT claim called `mercure` with the content `{"publish":["<url to hub>", "<url to hub>"]}`
+3. When Backend sends a notification to Mercure, it needs to authenticate with a proper, valid JWT for Mercure with a JWT claim called `mercure` with the content `{"publish":["<url to hub>", "<url to hub>"]}`
 
 When Frontend initially wants to connect
 
@@ -106,8 +106,8 @@ sequenceDiagram
    Frontend->>Mercure: Authorize with JWT from Notification API (Cookie)
    Frontend->>Mercure: Open EventSource connection
    loop Receive live notifications
-      Mercure->>Frontend: Transmit SSE message
-      Frontend->>Frontend: Display message to user
+      Mercure->>Frontend: Transmit SSE notification
+      Frontend->>Frontend: Display notification to user
       Frontend->>Notification API: (optional) Update status via JSON GET-Request
    end
 ```

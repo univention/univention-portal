@@ -9,11 +9,11 @@
 
 - **MQ**, Message Queue, CQRS
 
-  Usually RabbitMQ or MQTT-Broker that will enable sending messages asynchronically.
+  Usually RabbitMQ or MQTT-Broker that will enable sending notifications asynchronically.
 
 - **API**
 
-  An API representing the orchestrator for authorization and message dispatching. Receives message from applications and serves as endpoint for notification subscription clients.
+  An API representing the orchestrator for authorization and notification dispatching. Receives notification from applications and serves as endpoint for notification subscription clients.
 
   _Can or can not be UDM-REST-API_ 
   
@@ -25,7 +25,7 @@
 
 - **Socket**, Mercure, SSE/WS
 
-  Enables a web-client to continously receive live messages via a socket mechanism. Runs as a hub that receives messages and publishes them to connected clients. 
+  Enables a web-client to continously receive live notifications via a socket mechanism. Runs as a hub that receives notifications and publishes them to connected clients. 
 
 - **Frontend**
 

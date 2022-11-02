@@ -16,7 +16,8 @@
   >> - Information needs to flow from the user, presumably needs to be stored in the backend
   >> - DW: this shoulb be handled by the API
 
-> DW: is Mercure able to deliver the same message to serveral connected devices for one user?
+> DW: is Mercure able to deliver the same notification to serveral connected devices for one user?
+  >> SKF: this is what the webpage advertises
 
 > DW: When unfolding notifications for groups to distinct users, will the request to OpenLDAP to receive the list of users performant enough? Or do we need to duplicate users and groups in the DB?
 
@@ -24,13 +25,13 @@
 
 # TODO
 - DW: considering timezones
-- DW: need to check if the user is allowed for a certain application. It is possible that a user is blocked for an application. In this case he should also not receive any messages. 
+- DW: need to check if the user is allowed for a certain application. It is possible that a user is blocked for an application. In this case he should also not receive any notifications. 
 
 ---  
 # Results of discussion from 6.10.2022
 
 - RabbitMQ will make probably more work than it solves real problems
-- Solution to have a service process (node.js, nextJS, etc.) that receives messages and publishes them in an async and unblocking way
-- an RDBMS is used to support message persistency and historization of messages
-- Mercure service (deployed as sidecar) to act as a middleware service for message push support (SSE, WebSocket)
+- Solution to have a service process (node.js, nextJS, etc.) that receives notifications and publishes them in an async and unblocking way
+- an RDBMS is used to support notification persistency and historization of notifications
+- Mercure service (deployed as sidecar) to act as a middleware service for notification push support (SSE, WebSocket)
 - this solution provides notifications as push and only when there is new information available - a current status will only be achieved when a status change get published

@@ -28,7 +28,7 @@ The following sample use cases are considered when developing this technical con
   - Information on downtimes
  
 ## Requirements
-- Applications have the possibility to publish notification messages to single users, group of users or all users
+- Applications have the possibility to publish notifications to single users, group of users or all users
 - Notifications should be real-time
 - Notifications can be status messages 
   - Circle above Tiles
@@ -59,9 +59,9 @@ The following sample use cases are considered when developing this technical con
 - Notifications will be visible on any client, the user is logged in with
   - Visual representation might need to be adapted to the clients visual capabilities
 - Notifications must have the necessary attributes for beeing uttered by the screen reader
-- The user must have the opportunity to subscribe and unsubscribe to/from message types
-- The user must have the opportunity to subscribe and unsubscribe to/from message channels
--	Messages can contain links to application content – e.g., when sending mail failed then message includes a link to the outbox of OX web application
+- The user must have the opportunity to subscribe and unsubscribe to/from notification types
+- The user must have the opportunity to subscribe and unsubscribe to/from notification channels
+-	Notifications can contain links to application content – e.g., when sending mail failed then notification includes a link to the outbox of OX web application
 
 
 
