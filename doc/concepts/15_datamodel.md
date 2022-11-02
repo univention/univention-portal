@@ -9,9 +9,8 @@ A single notification can be represented with a concise object:
 
 ## Notification
 - `id` - (PK) the notification ID (uuid)
-- `source` - The source DN (uuid) of the application
-    > DW: maybe better to name it appId?
-- `target` - The target DN (uuid), can be a user, a group or all
+- `sourceUid` - The source (uuid) of the application
+- `targetUid` - The target (uuid) of a user
 - `title` - The title of the notification
 - `severity` (optional) A theme the notification can appear in (`info`, `success`, `warning`, `error`)
 - `details` (optional) - The notification details, shown on demand
