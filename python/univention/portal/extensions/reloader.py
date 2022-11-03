@@ -47,15 +47,14 @@ from univention.portal.log import get_logger
 
 from univention.admin.rest.client import UDM, HTTPError
 
-USER_NAME = os.environ["LDAP_HOSTDN"]
-PASSWORD = get_secret()
-HOSTNAME_ENV = "UCS_HOSTNAME"
-API_URL = "http://{}/univention/udm".format(os.environ["LDAP_SERVER_NAME"])
-
 def get_secret():
     with open("/etc/machine.secret") as f:
         return f.read().strip()
 
+USER_NAME = os.environ["LDAP_HOSTDN"]
+PASSWORD = get_secret()
+HOSTNAME_ENV = "UCS_HOSTNAME"
+API_URL = "http://{}/univention/udm".format(os.environ["LDAP_SERVER_NAME"])
 
 class Reloader(metaclass=Plugin):
 	"""
