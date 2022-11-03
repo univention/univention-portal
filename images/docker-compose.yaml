@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  portal-server: 
+  portal-server:
     image: docker-registry.knut.univention.de/portal-server:latest
     container_name: portal-server-container
     ports:
@@ -22,4 +22,3 @@ services:
       - type: bind
         source: /etc/apache2/sites-available/univention-portal.conf
         target: /etc/apache2/sites-available/univention-portal.conf
-
