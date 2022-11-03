@@ -1,7 +1,7 @@
 FROM node:14-buster-slim AS build
 
 # Dear Apple M1 processor user, if the node version gets updated
-# and for the purpose of development on your machine you get 
+# and for the purpose of development on your machine you get
 # Fatal process OOM in Failed to reserve virtual memory for CodeRange
 # message, please either continue development/debugging on a different machine
 # or try node version 14.
