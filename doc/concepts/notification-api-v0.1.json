@@ -1,258 +1,310 @@
 {
     "openapi": "3.0.0",
     "paths": {
-      "/": {
-        "get": {
-          "operationId": "AppController_getHello",
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": ""
-            }
-          }
-        }
-      },
-      "/notifications/create": {
-        "post": {
-          "operationId": "NotificationsController_create",
-          "parameters": [],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateNotificationDto"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": ""
-            }
-          }
-        }
-      },
-      "/notifications": {
-        "get": {
-          "operationId": "NotificationsController_findAll",
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": ""
-            }
-          }
-        }
-      },
-      "/notifications/{id}": {
-        "get": {
-          "operationId": "NotificationsController_findOne",
-          "parameters": [
-            {
-              "name": "id",
-              "required": true,
-              "in": "path",
-              "schema": {
-                "type": "object"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "",
-              "content": {
-                  "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/ReadNotificationDto"
+        "/": {
+            "get": {
+                "operationId": "AppController_getHello",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
                     }
-                  }
-              }
+                }
             }
-          }
         },
-        "delete": {
-          "operationId": "NotificationsController_remove",
-          "parameters": [
-            {
-              "name": "id",
-              "required": true,
-              "in": "path",
-              "schema": {
-                "type": "string"
-              }
+        "/notifications/create": {
+            "post": {
+                "operationId": "NotificationsController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "$ref": "#/components/schemas/EventNotification"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/AnnouncementNotification"
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/CallNotification"
+                                    }
+                                ],
+                                "discriminator": {
+                                    "propertyName": "notificationType"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": ""
+        },
+        "/notifications": {
+            "get": {
+                "operationId": "NotificationsController_findAll",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
             }
-          }
+        },
+        "/notifications/{id}": {
+            "get": {
+                "operationId": "NotificationsController_findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notification"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "NotificationsController_remove",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/notifications/{id}/mark_read": {
+            "patch": {
+                "operationId": "NotificationsController_markRead",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/notifications/{id}/confirm": {
+            "patch": {
+                "operationId": "NotificationsController_confirm",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
         }
-      },
-      "/notifications/{id}/mark_read": {
-        "patch": {
-          "operationId": "NotificationsController_markRead",
-          "parameters": [
-            {
-              "name": "id",
-              "required": true,
-              "in": "path",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": ""
-            }
-          }
-        }
-      },
-      "/notifications/{id}/confirm": {
-        "patch": {
-          "operationId": "NotificationsController_confirm",
-          "parameters": [
-            {
-              "name": "id",
-              "required": true,
-              "in": "path",
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": ""
-            }
-          }
-        }
-      }
     },
     "info": {
-      "title": "Notifications",
-      "description": "Send notifications to Univention Portal",
-      "version": "1.0",
-      "contact": {}
+        "title": "Notifications",
+        "description": "Send notifications to Univention Portal",
+        "version": "1.0",
+        "contact": {}
     },
     "tags": [
-      {
-        "name": "notification",
-        "description": ""
-      }
+        {
+            "name": "notification",
+            "description": ""
+        }
     ],
     "servers": [],
     "components": {
-      "schemas": {
-        "CreateNotificationDto": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "the notification ID (uuid)"
+        "schemas": {
+            "CreateNotification": {
+                "description": "Data set handed over with a creation request",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "the notification ID (uuid)"
+                    },
+                    "sourceUid": {
+                        "type": "string",
+                        "description": "The source (uuid) of the application"
+                    },
+                    "targetUid": {
+                        "type": "string",
+                        "description": "The target (uuid) of a user"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The title of the notification"
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "The notification details, shown on demand"
+                    },
+                    "severity": {
+                        "type": "string",
+                        "description": "A theme the notification can appear in"
+                    },
+                    "sendTime": {
+                        "type": "string",
+                        "description": "The time this notification was sent (to be provided by the application)"
+                    },
+                    "expireTime": {
+                        "type": "string",
+                        "description": "The time at which this notification will expire and delete itself fully"
+                    },
+                    "sticky": {
+                        "type": "boolean",
+                        "description": "A boolean that represents if this notification should appear fixed at the top and is not closable/readable"
+                    },
+                    "needsConfirmation": {
+                        "type": "boolean",
+                        "description": "A boolean that represents wether this notification needs to be confirmed by the user"
+                    },
+                    "notificationType": {
+                        "type": "string",
+                        "description": "Will control further discrimination"
+                    }
+                },
+                "required": [
+                    "id",
+                    "sourceUid",
+                    "targetUid",
+                    "title",
+                    "sendTime",
+                    "sticky",
+                    "needsConfirmation",
+                    "notificationType"
+                ]
             },
-            "appId": {
-              "type": "string",
-              "description": "The source DN (uuid) of the application"
+            "EventNotification": {
+                "type": "object",
+                "description": "",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/CreateNotification"
+                    },
+                    {
+                        "properties": {
+                            "callbackUrl": {
+                                "type": "string",
+                                "description": "The URL the user lands on when he clicks on the notification"
+                            }
+                        }
+                    }
+                ]
             },
-            "target": {
-              "type": "string",
-              "description": "The target DN (uuid), can be a user, a group or all"
+            "AnnouncementNotification": {
+                "type": "object",
+                "description": "",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/CreateNotification"
+                    },
+                    {
+                        "properties": {
+                            "infoUrl": {
+                                "type": "string",
+                                "description": "URL to some further additional information"
+                            }
+                        }
+                    }
+                ]
             },
-            "title": {
-              "type": "string",
-              "description": "The title of the notification"
+            "CallNotification": {
+                "type": "object",
+                "description": "",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/CreateNotification"
+                    },
+                    {
+                        "properties": {
+                            "acceptUrl": {
+                                "type": "string",
+                                "description": "The URL opened when the user accepts the call"
+                            },
+                            "rejectUrl": {
+                                "type": "string",
+                                "description": "The URL requested when the user rejects the call"
+                            }
+                        }
+                    }
+                ]
             },
-            "details": {
-              "type": "string",
-              "description": "The notification details, shown on demand"
-            },
-            "severity": {
-              "type": "string",
-              "description": "A theme the notification can appear in"
-            },
-            "sendTime": {
-              "type": "string",
-              "description": "The time this notification was sent (to be provided by the application)"
-            },
-            "expireTime": {
-              "type": "string",
-              "description": "The time at which this notification will expire and delete itself fully"
-            },
-            "sticky": {
-              "type": "boolean",
-              "description": "A boolean that represents if this notification should appear fixed at the top and is not closable/readable"
-            },
-            "needsConfirmation": {
-              "type": "boolean",
-              "description": "A boolean that represents wether this notification needs to be confirmed by the user"
-            },
-            "type": {
-              "type": "string",
-              "description": "Will control further discrimination"
+            "Notification": {
+                "type": "object",
+                "description": "Full data set of a notification object",
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/EventNotification"
+                    },
+                    {
+                        "$ref": "#/components/schemas/AnnouncementNotification"
+                    },
+                    {
+                        "$ref": "#/components/schemas/CallNotification"
+                    }
+                ],
+                "discriminator": {
+                    "propertyName": "notificationType"
+                },
+                "properties": {
+                    "receiveTime": {
+                        "type": "string",
+                        "description": "The time this notification was received and persisted"
+                    },
+                    "readTime": {
+                        "type": "string",
+                        "description": "The time this notification was received and persisted"
+                    },
+                    "confirmationTime": {
+                        "type": "string",
+                        "description": "The time this notification was received and persisted"
+                    }
+                }
             }
-          },
-          "required": [
-            "id",
-            "appId",
-            "target",
-            "title",
-            "sendTime",
-            "sticky",
-            "needsConfirmation",
-            "type"
-          ]
-        },
-        "ReadNotificationDto": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string",
-                "description": "the notification ID (uuid)"
-              },
-              "appId": {
-                "type": "string",
-                "description": "The source DN (uuid) of the application"
-              },
-              "target": {
-                "type": "string",
-                "description": "The target DN (uuid), can be a user, a group or all"
-              },
-              "title": {
-                "type": "string",
-                "description": "The title of the notification"
-              },
-              "details": {
-                "type": "string",
-                "description": "The notification details, shown on demand"
-              },
-              "severity": {
-                "type": "string",
-                "description": "A theme the notification can appear in"
-              },
-              "sendTime": {
-                "type": "string",
-                "description": "The time this notification was sent (to be provided by the application)"
-              },
-              "expireTime": {
-                "type": "string",
-                "description": "The time at which this notification will expire and delete itself fully"
-              },
-              "sticky": {
-                "type": "boolean",
-                "description": "A boolean that represents if this notification should appear fixed at the top and is not closable/readable"
-              },
-              "needsConfirmation": {
-                "type": "boolean",
-                "description": "A boolean that represents wether this notification needs to be confirmed by the user"
-              },
-              "type": {
-                "type": "string",
-                "description": "Will control further discrimination"
-              }
-            }
-          }
-      }
+        }
     }
-  }
+}
