@@ -24,7 +24,7 @@ RUN apt-get update \
 
 RUN curl -fsSL ${APT_KEY_URL} | apt-key add -
 
-COPY sources.list /etc/apt/sources.list.d/15_ucs-online-version.list
+COPY ./sources.list /etc/apt/sources.list.d/15_ucs-online-version.list
 
 RUN apt-get update \
   && apt-get --assume-yes --no-install-recommends install \
