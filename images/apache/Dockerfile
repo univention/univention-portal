@@ -31,14 +31,17 @@ RUN apt-get update \
     apache2-utils \
     && apt-get clean
 
-COPY --from=build /staging/frontend/dist /var/www/html
-COPY ./univention-blog.png /var/www/html/univention-blog.png
-COPY ./key.svg /var/www/html/key.svg
-COPY ./login.svg /var/www/html/login.svg
-COPY ./univention-management-console.svg /var/www/html/univention-management-console.svg
+RUN a2enmod headers \
+ && a2enmod proxy \
+ && a2enmod proxy_http
+
+COPY --from=build /staging/frontend/dist /var/www/html/univention/portal
+COPY ./univention-blog.png /var/www/html/univention/portal/icons/entries/univentionblog.png
+COPY ./key.svg /var/www/html/univention/portal/key.svg
+COPY ./login.svg /var/www/html/univention/portal/login.svg
+COPY ./univention-management-console.svg /var/www/html/univention/portal/univention-management-console.svg
 
 RUN touch /var/www/custom.css
 
-ENTRYPOINT a2enmod headers \
-	&& a2ensite univention-portal \
+ENTRYPOINT a2ensite univention-portal \
 	&& apache2ctl -k start -DFOREGROUND

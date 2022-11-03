@@ -52,7 +52,9 @@ def get_secret():
         return f.read().strip()
 
 USER_NAME = os.environ["LDAP_HOSTDN"]
-PASSWORD = get_secret()
+# TODO: Fix me
+# PASSWORD = get_secret()
+PASSWORD = "stub_password"
 HOSTNAME_ENV = "UCS_HOSTNAME"
 API_URL = "http://{}/univention/udm".format(os.environ["LDAP_SERVER_NAME"])
 
