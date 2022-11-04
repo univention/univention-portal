@@ -7,3 +7,4 @@ nav:
   - 'CLI': cli.md
   - 'Frontend': frontend.md
   - '409 Concept work': 409-concept.md
+  - 'Misc hints': hints-misc.md
