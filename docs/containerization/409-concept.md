@@ -1,6 +1,6 @@
+# Concept Scratchpad
 
-
-# Objective
+## Objective
 
 > Containerization of the Univention Portal compatible to "DVS": "Deutsche
 > Verwaltungscloud Strategie".
@@ -11,7 +11,7 @@
 Source: <https://git.knut.univention.de/groups/univention/-/epics/409#objective>
 
 
-# Concept scratchpad
+## Concept scratchpad
 
 Split "container" and "backend":
 
@@ -35,34 +35,34 @@ Backend steps:
     updated json files into the object store or provide the URL endpoints?
 
 
-# Clarify
+## Clarify
 
 
-## TODO How are "portal" and "UMC" related?
+### TODO How are "portal" and "UMC" related?
 
 Assumption: It seems that UMC does provide tiles into the portal, depending on
 the current user's permissions or groups.
 
 
-## TODO Does the current backend provide json structures dynamic or static?
+### TODO Does the current backend provide json structures dynamic or static?
 
 Check also UMC
 
 
-## TODO Container images and artifacts into registries
+### TODO Container images and artifacts into registries
 
 How do the artifacts arrive in the registry? Do we have to solve this part as
 well or is it already solved?
 
 
-## TODO How to get a "SCS based Kubernetes"
+### TODO How to get a "SCS based Kubernetes"
 
 Speak trossner
 
 This is the target platform, how can we test on it?
 
 
-## TODO Other requirements
+### TODO Other requirements
 
 Speak isteuwer
 
@@ -75,10 +75,10 @@ Are those still relevant? Somehow the existing customer basis still has to be
 supported.
 
 
-# Research
+## Research
 
 
-## App Center
+### App Center
 
 The provider manual does describe how to put an app together.
 
@@ -90,13 +90,13 @@ just the app installed. This does come with UCS included, so that the app
 container has the needed ecosystem available.
 
 
-### Documentation
+#### Documentation
 
 -   For app providers
     <https://docs.software-univention.de/app-center/5.0/en/>#
 
 
-### Example application
+#### Example application
 
 Etherpad Lite seems to be a good candidate for a quick test.
 
@@ -105,8 +105,13 @@ Source code:
 -   Debian package
     <https://git.knut.univention.de/univention/components/etherpad-lite>
 
+Conclusion: It seems to be a bad choice in a sense that it does seem to be based
+on an older concept called "AppBox". This seems to be the idea to make the
+container a "Managed Node" and then install the respective Debian packages into
+it.
 
-## Building the package
+
+### Building the package
 
 See developer manual at
 [2. Packaging software — Univention Corporate Server - Manual for developers](https://docs.software-univention.de/developer-reference/5.0/en/packaging.html)
@@ -114,7 +119,7 @@ See developer manual at
 This is essentially the debian packaging process.
 
 
-## Domain join
+### Domain join
 
 A normal UCS system, Managed Node, joins a domain.
 
