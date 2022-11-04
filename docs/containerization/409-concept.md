@@ -75,13 +75,6 @@ How do the artifacts arrive in the registry? Do we have to solve this part as
 well or is it already solved?
 
 
-### TODO How to get a "SCS based Kubernetes"
-
-Speak trossner
-
-This is the target platform, how can we test on it?
-
-
 ### TODO Other requirements
 
 Speak isteuwer
