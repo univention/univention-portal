@@ -13,27 +13,47 @@ Source: <https://git.knut.univention.de/groups/univention/-/epics/409#objective>
 
 ## Concept scratchpad
 
-Split "container" and "backend":
+Q: Split "container" and "backend" as work areas.
+
+Preparatory steps:
+
+1. Current portal as package -- somehow
+2. Container with installed current portal
+   - alt: above VM for the first steps
+   - head to container once understanding deep enough
+3. Verify that we have all dependencies understood
+   - Precondition: Portal running isolated without any of it's dependencies
+   - add known dependencies
+   - verify it's working
+     - Note: Find out what "working" means, later we would need this knowledge
+       anyway for testing
+   - update concept / plan based on insights
 
 Container steps:
 
-1.  Portal into container, roughly "as-is"
-2.  Deployment via HELM
-3.  Deployment into SCS
-4.  Split container into portal app and backend - overlap with backend steps below
+1. Portal into container, roughly "as-is"
+   - assumption: Debian based base image, install DEB package, done.
+   - tweaking, so that the portal uses the dependencies from the host (via network)
+   - insights will help to refine the future steps
+2. Deployment via HELM
+   - Note: Targeting K8S
+   - Note: Insights from previous steps needed
+3. Deployment into SCS
+   - Fallback: Plain K8S until SCS is fully understood and available
+4. Split container into portal app and backend - overlap with backend steps below
+   - Note: May come earlier, may overlap with dev env container
 
 Q: How does UCS stack know that it must notify the container?
 
-Backend steps:
+Backend steps: (only questions so far)
 
-1.  Clarification: If other backend, how does administration work?
-2.  Flat file interface good enough? Stub for development?
-3.  Q: Do we need a backend still? E.g. client reads out of S3 object store.
-4.  Factor out current backend -> it becomes one "object store" which provides
-    the json structure
-5.  Would the "UCS UDM LDAP" backend become a single component which does put
-    updated json files into the object store or provide the URL endpoints?
-
+1. Clarification: If other backend, how does administration work?
+2. Flat file interface good enough? Stub for development?
+3. Q: Do we need a backend still? E.g. client reads out of S3 object store.
+4. Factor out current backend -> it becomes one "object store" which provides
+   the json structure
+5. Would the "UCS UDM LDAP" backend become a single component which does put
+   updated json files into the object store or provide the URL endpoints?
 
 ## Clarify
 
