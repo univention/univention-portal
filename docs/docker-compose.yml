@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  docs:
+    build:
+      dockerfile: Dockerfile.mkdocs
+      context: .
+    image: univention/docs
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ./:/docs
+    ports:
+      - "127.0.0.1:8000:8000"

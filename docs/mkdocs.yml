@@ -1,0 +1,36 @@
+site_name: UCS Portal
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: blue gray
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - tables
+  - pymdownx.details:
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.snippets
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+plugins:
+  - search:
+  - mkdocstrings:
+  - awesome-pages:
+  - macros:
+  - mermaid2:
+      arguments:
+        theme: 'dark'
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
