@@ -1,4 +1,5 @@
 site_name: UCS Portal
+docs_dir: containerization
 theme:
   name: material
   palette:
