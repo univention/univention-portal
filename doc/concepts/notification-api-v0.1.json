@@ -3,7 +3,7 @@
     "paths": {
         "/": {
             "get": {
-                "operationId": "AppController_getHello",
+                "operationId": "AppController_getHealth",
                 "parameters": [],
                 "responses": {
                     "200": {
@@ -12,7 +12,7 @@
                 }
             }
         },
-        "/notifications/create": {
+        "/notifications": {
             "post": {
                 "operationId": "NotificationsController_create",
                 "parameters": [],
@@ -44,12 +44,19 @@
                         "description": ""
                     }
                 }
-            }
-        },
-        "/notifications": {
+            },
             "get": {
                 "operationId": "NotificationsController_findAll",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "name": "notificationType",
+                        "required": false,
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": ""
@@ -98,6 +105,15 @@
                 "responses": {
                     "200": {
                         "description": ""
+                    }
+                }
+            },
+            "put": {
+                "description": "To be defined",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             }
@@ -185,10 +201,6 @@
                     "severity": {
                         "type": "string",
                         "description": "A theme the notification can appear in"
-                    },
-                    "sendTime": {
-                        "type": "string",
-                        "description": "The time this notification was sent (to be provided by the application)"
                     },
                     "expireTime": {
                         "type": "string",
