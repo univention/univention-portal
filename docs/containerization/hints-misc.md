@@ -33,3 +33,17 @@ Note: Probably this approach should be done in a different way on a UCS system.
 
     git config --global user.name "Johannes Bornhold"
     git config --global user.email johannes.bornhold.extern@univention.de
+
+## Building the containers
+
+There notes are regarding the branch
+[`jbornhold/409-exploration-wip`](https://git.knut.univention.de/univention/components/univention-portal/-/refs/switch?destination=tree&ref=jbornhold%2F409-exploration-wip).
+
+Managed to build the container images based on the following commands:
+
+    docker build --platform=amd64 -f images/portal-server/Dockerfile .
+    docker build --platform=amd64 -f images/apache/Dockerfile .
+
+The important aspect is to include `--platform=amd64` so that it uses the
+matching architecture of the base image. Otherwise the univention packages will
+not all be available.
