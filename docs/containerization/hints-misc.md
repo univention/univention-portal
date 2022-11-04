@@ -47,3 +47,14 @@ Managed to build the container images based on the following commands:
 The important aspect is to include `--platform=amd64` so that it uses the
 matching architecture of the base image. Otherwise the univention packages will
 not all be available.
+
+
+## Configure your meeting settings
+
+There is a setting to allow all to become presenters, that's making it easier to
+collaborate and quickly share a screen.
+
+Otherwise people have to ask the owner of the room to be made presenter which
+can slow down the meeting flow drastically.
+
+Can be done via the room settings on <https://talk.univention.de>.
