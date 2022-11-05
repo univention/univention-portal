@@ -59,7 +59,11 @@ docker compose -f images/docker-compose.yaml up
 ```
 
 
-### TODO: Gitlab CI
+### Gitlab CI
 
-The Gitlab CI integration does not seem to be fully functional at the moment and
-needs further investigation.
+The Gitlab CI integration for this branch has been restored. Images should be
+built on every push to the branch automatically.
+
+See the [Pipelines for this
+branch](https://git.knut.univention.de/univention/components/univention-portal/-/pipelines?page=1&scope=all&ref=jbornhold%2F409-exploration-wip)
+in Gitlab.
