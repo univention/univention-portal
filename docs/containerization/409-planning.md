@@ -7,6 +7,69 @@ Planning preparation for
 Preparing for figuring out reasonable steps to reach the goal.
 
 
+## TODO: Remaining notes from Epic 335 to check if relevant for the plan or not
+
+
+Wo findet die Paketierung statt? In UPX-Repositories?
+
+> UCS Produktstandard (das ist keine Phoenix spezifische Entwicklung)
+
+
+Einbettung von externer custom.css - einfach in den Container kopieren? Selbes
+Problem in keycloak.
+
+> wenn möglich über mounts lösen
+
+
+Einbettung Javascript frontend
+
+> unklar
+
+
+Self-Service läuft im Portal - weiterhin so?
+
+> Aktuell ist das Frontend des Self Service Teil des Javascript-Codes des
+> Portals. Vorschlag: aktuell beibehalten, eine Trennung prüfen wir mit der
+> Umstellung des Self Service im Rahmen dessen Containerisierung & Umstellungen
+> nach dem RAM Projekt
+
+
+UCR-Handler für Web-Overview Variablen, die z.b. noch von Apps wie owncloud
+verwendet werden
+
+> sollten als API des App Centers verstanden werden: die UCR Handler werden in
+> das App Center verschoben und sorgen dort dafür, das Portal-Einträge über UDM
+> angelegt werden
+
+
+Abhängigkeit in UCS auf Docker-App nicht möglich. Im System-Setup per
+univention-app install irgendwie mitinstallieren? Wie bei Upgrades? Portal
+optional machen?
+
+> die Portal App muss in einem zukünftigen UCS Release automatisch installiert
+> werden, daher Anpassung von System-Setup. Zu prüfen: wir haben im Backlog aus
+> UCS 5.0 Release noch offene Punkte für Appliances und Auswahl von Apps während
+> der Installation, evtl. zusammen angehen?
+
+
+Appcenter-Provider Portal kann keine beliebigen Dateien speichern.
+
+> s.o., eigenes Epic zur Verbesserung der App Center Infrastruktur
+
+
+Konflikt der Icon-Pfade / URL's (wird im Code geprüft, ob Datei existiert)
+
+> das Icon wird aktuell vom "reloader" des Portals aus dem LDAP ausgelesen und
+> gespeichert. Der muss angepasst werden, da die Icons nicht im Portal-Container
+> sondern im Apache-Container abgelegt werden müssen. Vermutlich wird ein
+> Listener Plugin für den Apache Container benötigt.
+
+> der Code zur Prüfung des Pfades wird für die UMC-Icons verwendet. Wir müssen
+> uns hier im ersten Schritt auf den UMC Server verlassen und prüfen, ob weitere
+> Schritte notwendig sind.
+
+
+
 ## Container for portal-backend
 
 Compare
@@ -168,6 +231,22 @@ Assumed that we do ADRs, then we should capture:
 > -> Cotainer sollten ihre Logs immer an den Host "abliefern", der Host / eine
 > Implementierung des App Centers auf dem Host muss sich um das Handling der Logs
 > kümmern. Implementierungsbedarf dazu muss in ein eigenes Epic gehen.
+
+Source:
+[Epic 335](https://git.knut.univention.de/groups/univention/-/epics/335).
+
+
+
+## Capture OIDC decision in ADR
+
+Assumed that we do ADRs, then we should capture:
+
+> wollen/können/brauchen wir Maßnahmen für die Entkoppelung des Portals von
+> UCS-Komponenten (UDM, UMC, ,,,)?
+>
+> OIDC in beiden Diensten, um UMC-Kacheln vom UMC-Server zu erhalten
+>
+> UDM-Reloader gegen UDM REST API? Wozu?
 
 Source:
 [Epic 335](https://git.knut.univention.de/groups/univention/-/epics/335).
