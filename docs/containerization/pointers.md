@@ -5,6 +5,18 @@ infrastructure which is relevant for [Epic
 409](https://git.knut.univention.de/groups/univention/-/epics/409).
 
 
+## Tooling around the portal
+
+### Exploration
+
+We've put a branch together with a few options to easily build various artifacts
+out of the sources so that it is possible to experiment with them and understand
+the portal, its behavior and its interaction with the environment better.
+
+The tooling is available in the branch
+[`jbornhold/409-exploration-wip`](https://git.knut.univention.de/univention/components/univention-portal/-/tree/jbornhold/409-exploration-wip).
+
+
 ## Environments
 
 ### SouvAP integration environment
