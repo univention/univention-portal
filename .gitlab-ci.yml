@@ -20,9 +20,6 @@ build_portal_server:
     - docker build --platform linux/amd64 -t $CI_REGISTRY/portal-server:latest -f images/portal-server/Dockerfile .
     - docker push $CI_REGISTRY/portal-server:latest
 
-  rules:
-    - changes:
-        - images/portal-server/Dockerfile
 
 build_apache:
   stage: build
@@ -42,9 +39,13 @@ build_apache:
     - docker build --platform linux/amd64 -t $CI_REGISTRY/apache:latest -f images/apache/Dockerfile .
     - docker push $CI_REGISTRY/apache:latest
 
+  # Note, jbornhold: Kept the rule for now since the frontend in the state of
+  # this branch is quite heavy to build.
   rules:
     - changes:
         - images/apache/Dockerfile
+        - frontend/*
+
 
 run_tests:
   stage: test
