@@ -6,6 +6,7 @@ nav:
   - 'Server': server.md
   - 'CLI': cli.md
   - 'Frontend': frontend.md
+  - 'Dependencies': dependencies.md
   - '409 Concept work': 409-concept.md
   - '409 Clarifications': 409-clarifications.md
   - 'Misc hints': hints-misc.md
