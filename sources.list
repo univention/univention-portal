@@ -1,6 +1,6 @@
 # TODO Use the official mirrors. Can't use them currently, as they don't contain: python3-univention-group-membership-cache
 
-deb http://updates.knut.univention.de/ ucs502 main
-deb http://updates.knut.univention.de/ errata502 main
+deb [arch=amd64] https://updates.software-univention.de/ ucs502 main
+deb [arch=amd64] https://updates.software-univention.de/ errata502 main
 
 # [EOF]
