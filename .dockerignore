@@ -1,0 +1,5 @@
+.git
+
+# Trying to aovid too many rebuilt steps while working on the dockerfile
+images/deb-build/Dockerfile
+out
