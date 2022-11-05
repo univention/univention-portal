@@ -9,5 +9,6 @@ nav:
   - 'Dependencies': dependencies.md
   - '409 Concept work': 409-concept.md
   - '409 Clarifications': 409-clarifications.md
+  - '409 Planning': 409-planning.md
   - 'Misc hints': hints-misc.md
   - 'Pointers': pointers.md
