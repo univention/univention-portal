@@ -1,0 +1,10 @@
+deb [arch=amd64] https://updates.software-univention.de/ ucs502 main
+deb [arch=amd64] https://updates.software-univention.de/ errata502 main
+
+# TODO Pawel stated that the mirros lack the following package:
+# - python3-univention-group-membership-cache
+#
+# Compare the sources.list in the root folder of this repository
+
+# deb http://updates.knut.univention.de/ ucs502 main
+# deb http://updates.knut.univention.de/ errata502 main
