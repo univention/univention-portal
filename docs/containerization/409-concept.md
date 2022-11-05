@@ -11,6 +11,66 @@
 Source: <https://git.knut.univention.de/groups/univention/-/epics/409#objective>
 
 
+## Planning
+
+Preparing for figuring out reasonable steps to reach the goal.
+
+
+
+### Portal can be deployed into Kubernetes
+
+Make it possible, that the portal can be deployed into the following
+environment:
+
+1. Kubernetes
+   - The portal is running in one or multiple containers
+   - The portal can reach the components of the UCS stack via network
+
+This does not contain needed modifications so that the portal can run without a
+full UCS stack.
+
+
+
+### Portal can be deployed into App Center
+
+Make it possible, that the portal can be deployed into the following
+environment:
+
+1. App Center
+   - The portal is running in one or multiple containers
+   - The portal can reach the components of the UCS stack via network
+
+This does not contain needed modifications so that the portal can run without a
+full UCS stack.
+
+
+
+### UCS migration path from Debian Package to App Center
+
+Upgrading a current UCS system would have to replace the portal from a Debian
+package based deployment into an App Center based deployment.
+
+
+
+### Portal can run without a full UCS stack
+
+This modifies the portal, so that it can run based on an alternative backend.
+
+
+
+### Integration with SouvAP environment
+
+Currently the automated deployment does apply quite a few patches regarding the
+portal in order to integrate it.
+
+Assumption: This has to be somehow adapted into the container based deployment.
+
+The sources of the ansible script can be inspected here:
+<https://git.knut.univention.de/univention/customers/dataport/custom/bmiux-hetzner-upgrade-automation/-/blob/master/iam_ucs_portal.yml>
+
+
+
+
 ## Concept scratchpad
 
 Q: Split "container" and "backend" as work areas.
