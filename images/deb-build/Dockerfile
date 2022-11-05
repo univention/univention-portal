@@ -49,15 +49,24 @@ RUN ls /root/ \
 
 RUN mkdir -p /src/debian
 
-COPY debian /src/debian
+WORKDIR /src
 
-RUN cd /src \
-  && apt-get --assume-yes build-dep . \
+
+COPY debian /src/debian
+RUN apt-get --assume-yes build-dep . \
   && rm -fr /src/debian
 
-COPY . /src/
+COPY frontend/package.json /src/frontend/package.json
+COPY frontend/yarn.lock /src/frontend/yarn.lock
 
-WORKDIR /src
+RUN . ~/.nvm/nvm.sh \
+  && npm set prefix=$HOME/.node \
+  && npm install -g npm@8.1.3 \
+  && $HOME/.node/bin/npm install -g yarn \
+  && (cd frontend && $HOME/.node/bin/yarn install)
+
+
+COPY . /src/
 
 RUN debchange --local work 'Private package rebuild' \
   && . ~/.nvm/nvm.sh; dpkg-buildpackage -uc -us -b -rfakeroot
