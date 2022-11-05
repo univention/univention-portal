@@ -5,7 +5,7 @@ stages:
 build_portal_server:
   stage: build
   image: docker:20.10.10
-  
+
   services:
     - docker:dind
 
@@ -30,7 +30,7 @@ build_apache:
 
   services:
     - docker:dind
-  
+
   variables:
     CI_REGISTRY: docker-registry.knut.univention.de
 
