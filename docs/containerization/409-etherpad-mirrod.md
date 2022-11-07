@@ -6,9 +6,10 @@ Planning preparation for
 
 
 
-## Genral issumptions
+## Genral assumptions
 
-1. We go with a focus on Epic 409, which means that containers into the SouvAP Kubernetes environment is our main focus.
+1. We go with a focus on Epic 409, which means that containers into
+   the SouvAP Kubernetes environment is our main focus.
 2. The work for Epic 335 can be put aside for now.
 3. Cleanup is no problem once the containers are there.
    (Currently the portal is deployed into SouvAP as a Debian package.)
@@ -87,20 +88,29 @@ Compare
 
 
 
+
+
 ## "Single Sign On" (UMC connection)
 
-TODO: Needs refinement and Architecture decision.
+It is possible to use the portal without a full UCS stack being available. The portal allows to sign in based on OIDC via the existing IDP (Identity Provider).
 
 AC:
 
 - Given that the portal has been deployed into the SouvAP Kubernetes cluster, I can login to the portal.
 
-Additional Information:
 
-There are options listed in Epic 335 about either opening the current UMC session handling mechanism, or implementing OIDC.
 
-Source
-[Epic 335](https://git.knut.univention.de/groups/univention/-/epics/335).
+
+
+
+## Portal can run with an alternative datastore
+
+This modifies the portal, so that it can run based on an alternative backend and without the full UCS stack being available.
+
+TODO: Needs refinement
+
+
+
 
 
 
@@ -119,7 +129,14 @@ The sources of the ansible script can be inspected here:
 
 
 
+
+
+
 ------ TODO ------- Clarify, decide etc. --------
+
+
+
+
 
 
 ## Self-Service
@@ -153,39 +170,12 @@ Source:
 
 
 
-
-
-
-
-
-
------- TODO ------- Sort stuff below this line --------
-
-
-
-
-
-## Portal can run without a full UCS stack
-
-This modifies the portal, so that it can run based on an alternative backend.
-
-
-
-
-
 ## Capture OIDC decision in ADR
 
 Assumed that we do ADRs, then we should capture:
 
-> wollen/können/brauchen wir Maßnahmen für die Entkoppelung des Portals von
-> UCS-Komponenten (UDM, UMC, ,,,)?
->
-> OIDC in beiden Diensten, um UMC-Kacheln vom UMC-Server zu erhalten
->
-> UDM-Reloader gegen UDM REST API? Wozu?
+The portal is integrated via OIDC to be able to run without a full UCS stack.
 
-Source:
-[Epic 335](https://git.knut.univention.de/groups/univention/-/epics/335).
 
 
 
