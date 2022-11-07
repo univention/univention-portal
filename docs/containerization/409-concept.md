@@ -14,8 +14,6 @@ Source: <https://git.knut.univention.de/groups/univention/-/epics/409#objective>
 
 ## Concept scratchpad
 
-Q: Split "container" and "backend" as work areas.
-
 Preparatory steps:
 
 1. Current portal as package -- somehow
@@ -56,7 +54,39 @@ Backend steps: (only questions so far)
 5. Would the "UCS UDM LDAP" backend become a single component which does put
    updated json files into the object store or provide the URL endpoints?
 
+
 ## Clarify
+
+
+### TODO UCS manual adjustments
+
+Are they needed as part of the Epic 409?
+
+Compare
+<https://docs.software-univention.de/manual/5.0/en/central-management-umc/index.html>
+
+
+### TODO role of `ucs/web/theme` key
+
+The manual states that the design can be adjusted there and refers to
+`univention-web`. Are those relevant aspects here?
+
+See
+<https://docs.software-univention.de/manual/5.0/en/central-management-umc/introduction.html#creating-a-custom-theme-adjusting-the-design-of-ucswebs>
+
+
+
+### TODO Portal authentication mode / SSO
+
+The menu states that the UCR key `portal/auth-mode` can change how the auth mode
+works.
+
+Would this have to be migrated somehow?
+
+Is this relevant for the 409 Epic?
+
+See
+<https://docs.software-univention.de/manual/5.0/en/central-management-umc/login.html#login>
 
 
 ### TODO How are "portal" and "UMC" related?
@@ -140,3 +170,7 @@ A normal UCS system, Managed Node, joins a domain.
 Not yet sure if parts of this process are relevant to containers, or if that's
 provided in a different way. It could be the responsibility of the respective
 container environment to take care of those needs.
+
+The UCS Manual states that App Center is joining containers as Managed Node into
+the domain. See
+<https://docs.software-univention.de/manual/5.0/en/software/app-center.html>.

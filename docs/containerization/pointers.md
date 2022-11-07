@@ -33,9 +33,16 @@ following repository on Gitlab:
 
 ## UCS Documentation
 
+
+### User documentation about the portal
+
+<https://docs.software-univention.de/manual/5.0/en/central-management-umc/portal.html>
+
+
 ### Debian packaging Appendix
 
 <https://docs.software-univention.de/developer-reference/5.0/en/appendix/debian-packaging.html>
+
 
 ### Mapping between UCS release and Debian base release
 
