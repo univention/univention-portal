@@ -6,7 +6,8 @@ Planning preparation for
 
 Preparing for figuring out reasonable steps to reach the goal.
 
-
+Contains also heavily input from
+[Epic 335](https://git.knut.univention.de/groups/univention/-/epics/335).
 
 
 ## Container for portal-backend
