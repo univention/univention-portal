@@ -1,0 +1,9 @@
+.env
+.env.example
+Dockerfile
+docker-compose.yml
+README.md
+.flake8
+.git*
+.idea
+**/__pycache__

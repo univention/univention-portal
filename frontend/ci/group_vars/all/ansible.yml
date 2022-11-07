@@ -1,8 +1,0 @@
----
-
-#############################################################
-## Ansible configuration                                   ##
-#############################################################
-
-# Description: Ansbile root password after changing it from default value
-ansible_become_password: "{{ ansible_become_password_vault }}"

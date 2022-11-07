@@ -1,6 +1,0 @@
-phoenixportal.*.debhelper
-phoenixportal.substvars
-phoenixportal/
-phoenixportal-*/
-files
-debhelper-build-stamp

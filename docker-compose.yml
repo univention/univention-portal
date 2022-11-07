@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  portal-backend:
+    container_name: univention-souv-ap--portal-backend
+    build:
+      context: ./portal-backend
+      args:
+        WORKDIR: /portal-backend
+    image: univention-souv-ap/portal-backend
+    environment:
+      PROJECT_NAME: "${PROJECT_NAME:-Souv AP} Portal"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+
+  notifications-api:
+    container_name: univention-souv-ap--notifications-api
+    build:
+      context: ./notifications-api
+      args:
+        WORKDIR: /notifications-api
+    image: univention-souv-ap/notifications-api
+    environment:
+      PROJECT_NAME: "${PROJECT_NAME:-Souv AP} Notifications API"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+
+  mercure-hub:
+    container_name: univention-souv-ap--mercure-hub
+    image: dunglas/mercure
+
+  keycloak:
+    container_name: univention-souv-ap--keycloak
+    image: quay.io/keycloak/keycloak
+
+  docs:
+    container_name: univention-souv-ap--docs
+    build:
+      context: ./docs
+    image: univention-souv-ap/docs
