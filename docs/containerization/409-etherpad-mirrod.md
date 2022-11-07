@@ -86,6 +86,12 @@ Additional information:
 Compare
 [Issue #5](https://git.knut.univention.de/univention/components/univention-portal/-/issues/5). It may help to understand what has to be covered. The code is in the folder `/app` within the containerization branch of the repository. The App Center integration itself is not present in the Kubernetes cluster. So a queue based mechanism probably will have to be added.
 
+- A vision document
+  https://filestore.knut.univention.de/owncloud/f/1103562
+- https://projects.univention.de/xwiki/wiki/upx/view/UPX%20IAM/
+- UMC container prototype (potentially dated)
+  https://git.knut.univention.de/univention/customers/dataport/upx/container-umc
+
 
 
 
@@ -136,6 +142,13 @@ The sources of the ansible script can be inspected here:
 
 
 
+## Dev / Test environment
+
+We need some way to test our development. Probably we cannot play all at the same time in our one integration environment.
+
+An approach could be to put a single node cluster into our regular UCS VMs and work based on that. Might be good enough for the need.
+
+Adaptations for this could be captured in Ansible.
 
 
 
