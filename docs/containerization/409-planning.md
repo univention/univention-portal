@@ -70,7 +70,7 @@ We would have an early benefit as soon as we touch the portal code.
 ## Change processing (Listener / UDM)
 
 Compare
-[Issue #5](https://git.knut.univention.de/univention/components/univention-portal/-/issues/2).
+[Issue #5](https://git.knut.univention.de/univention/components/univention-portal/-/issues/5).
 
 TODO: We have to find out what is already there, it seems to be inside the app
 center form. Not sure if anything has been captured in the repository so far.
