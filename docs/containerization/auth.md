@@ -105,8 +105,9 @@ sequenceDiagram
 
     User ->> Browser: Click "Logout"
     Browser ->> Apache: GET /univention/logout/?location=/univention/portal/
-
-    Apache -->> Browser: REDIRECT /univention/portal
+    Apache ->> UMC-WS: GET /univention/logout/?location=/univention/portal/
+    UMC-WS -->> Apache: REDIRECT /univention/portal/
+    Apache -->> Browser: REDIRECT /univention/portal/
 ```
 
 
@@ -182,4 +183,4 @@ univentio  2632     root    9u  IPv4 1065186      0t0  TCP localhost:8090 (LISTE
 root@ucs-3058:/etc/apache2# ps aux -q 2632
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root      2632  0.3  3.1 1014420 65248 ?       Sl   05:20   0:19 /usr/bin/python3 /usr/sbin/univention-management-console-web-server start
-```
+    ```
