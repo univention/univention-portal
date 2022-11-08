@@ -59,9 +59,9 @@ sequenceDiagram
     User ->> Browser: Submit credentials
     Browser ->> Apache: POST /univention/auth
     Apache ->> UMC: forward request
-    UMC ->> UMC: TODO: What happens here?
-    UMC -->> Apache: 200 OK
-    Apache -->> Browser: 200 OK
+    UMC ->> UMC: perform login operation
+    UMC -->> Apache: 200 OK, Set-Cookie UMCSessionId
+    Apache -->> Browser: 200 OK, Set-Cookie UMCSessionId
 
     Browser ->> Apache: GET /univention/portal/
     Apache -->> Browser: 200 OK
