@@ -1,0 +1,7 @@
+stages:
+  - build
+
+build_dummy:
+  stage: build
+  script:
+    - echo "Building ..."
