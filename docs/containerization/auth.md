@@ -1,5 +1,6 @@
 # Portal authentication
 
+
 ```mermaid
 sequenceDiagram
     participant F as Frontend
@@ -31,6 +32,23 @@ sequenceDiagram
 The following diagrams show views on the current authentication flow when the
 portal is installed into a UCS system.
 
+After the "Login activity" we see the following important activities:
+
+1. `POST /univention/auth`
+
+    This is handled outside of the portal. This request is forwarded to the
+    `UMC-WS`.
+
+    This activity populates the cookie `UMCSessionId` which is used later.
+
+2. `GET /univention/portal/portal.json`
+
+    This request reaches the `Portal Backend` and it does contain the session
+    cookie `UMCSessionId`.
+
+    The `Portal Backend` itself is now making a request to `UCS-WS` and includes
+    the session cookie. The `UCS-WS` can find out if the session is valid and
+    also find the username. It does pass this information back to the portal.
 
 
 ```mermaid
@@ -38,6 +56,12 @@ portal is installed into a UCS system.
 sequenceDiagram
 
     actor User
+
+    participant Browser
+    participant Apache
+    participant Portal Backend
+    participant UMC-WS
+
 
     Note over Browser,Apache: Initial redirects
 
@@ -58,10 +82,10 @@ sequenceDiagram
 
     User ->> Browser: Submit credentials
     Browser ->> Apache: POST /univention/auth
-    Apache ->> UMC: forward request
-    UMC ->> UMC: perform login operation
-    UMC -->> Apache: 200 OK, Set-Cookie UMCSessionId
-    Apache -->> Browser: 200 OK, Set-Cookie UMCSessionId
+    Apache ->> UMC-WS: forward request
+    UMC-WS ->> UMC-WS: perform login operation
+    UMC-WS -->> Apache: 200 OK, Set-Cookie UMCSessionId
+    Apache -->> Browser: 200 OK, Set-Cookie UMC-WSSessionId
 
     Browser ->> Apache: GET /univention/portal/
     Apache -->> Browser: 200 OK
@@ -71,8 +95,8 @@ sequenceDiagram
     Browser ->> Apache: GET /univention/portal/portal.json
     Apache ->> Portal Backend: GET /univention/portal/portal.json
 
-    Portal Backend ->> UMC: TODO: Add details
-    UMC -->> Portal Backend: TODO: Details about returned data
+    Portal Backend ->> UMC-WS: /univention/get/session-info
+    UMC-WS -->> Portal Backend: returns username
 
     Portal Backend -->> Apache: 200 OK
     Apache -->> Browser: 200 OK
@@ -81,6 +105,7 @@ sequenceDiagram
 
     User ->> Browser: Click "Logout"
     Browser ->> Apache: GET /univention/logout/?location=/univention/portal/
+
     Apache -->> Browser: REDIRECT /univention/portal
 ```
 
