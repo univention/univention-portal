@@ -34,19 +34,7 @@
 
 ## High level control flow
 
-```mermaid
-
-sequenceDiagram
-    participant Apps
-    participant Backend
-    participant Frontend
-    Frontend->>Backend: User logged in
-    Backend->>Frontend:  Once: Historical notifications from absence time
-    Apps->> Backend: New notification content
-    Backend->>Frontend:  Continuous and live notifications
-    Apps->> Backend: New notification content
-
-```
+![dataflow_notification_service.drawio.png](./dataflow_notification_service.drawio.png)
 
 > **DW:** Do we need the "User ready to receive notifications" or do we want to listen simply for all notifications?
   >> **SKF:** Is it possible to try and call someone who is not logged into the portal?
