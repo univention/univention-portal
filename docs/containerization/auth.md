@@ -37,7 +37,7 @@ After the "Login activity" we see the following important activities:
 1. `POST /univention/auth`
 
     This is handled outside of the portal. This request is forwarded to the
-    `UMC-WS`.
+    `UMC WS`.
 
     This activity populates the cookie `UMCSessionId` which is used later.
 
@@ -60,7 +60,7 @@ sequenceDiagram
     participant Browser
     participant Apache
     participant Portal Backend
-    participant UMC-WS
+    participant UMC WS
 
 
     Note over Browser,Apache: Initial redirects
@@ -82,10 +82,10 @@ sequenceDiagram
 
     User ->> Browser: Submit credentials
     Browser ->> Apache: POST /univention/auth
-    Apache ->> UMC-WS: forward request
-    UMC-WS ->> UMC-WS: perform login operation
-    UMC-WS -->> Apache: 200 OK, Set-Cookie UMCSessionId
-    Apache -->> Browser: 200 OK, Set-Cookie UMC-WSSessionId
+    Apache ->> UMC WS: forward request
+    UMC WS ->> UMC WS: perform login operation
+    UMC WS -->> Apache: 200 OK, Set-Cookie UMCSessionId
+    Apache -->> Browser: 200 OK, Set-Cookie UMC WSSessionId
 
     Browser ->> Apache: GET /univention/portal/
     Apache -->> Browser: 200 OK
@@ -95,8 +95,8 @@ sequenceDiagram
     Browser ->> Apache: GET /univention/portal/portal.json
     Apache ->> Portal Backend: GET /univention/portal/portal.json
 
-    Portal Backend ->> UMC-WS: /univention/get/session-info
-    UMC-WS -->> Portal Backend: returns username
+    Portal Backend ->> UMC WS: /univention/get/session-info
+    UMC WS -->> Portal Backend: returns username
 
     Portal Backend -->> Apache: 200 OK
     Apache -->> Browser: 200 OK
@@ -105,29 +105,29 @@ sequenceDiagram
 
     User ->> Browser: Click "Logout"
     Browser ->> Apache: GET /univention/logout/?location=/univention/portal/
-    Apache ->> UMC-WS: GET /univention/logout/?location=/univention/portal/
-    UMC-WS -->> Apache: REDIRECT /univention/portal/
+    Apache ->> UMC WS: GET /univention/logout/?location=/univention/portal/
+    UMC WS -->> Apache: REDIRECT /univention/portal/
     Apache -->> Browser: REDIRECT /univention/portal/
 ```
 
 
 
-## Focus on UMC-WS interaction
+## Focus on UMC WS interaction
 
 The problem will be only in the particular request which is shown in the
-following diagram. All other interactions reaching UMC-WS are between the
-reverse proxy and the UMC-WS process.
+following diagram. All other interactions reaching UMC WS are between the
+reverse proxy and the UMC WS process.
 
 ```mermaid
 
 sequenceDiagram
 
     participant Portal Backend
-    participant UMC-WS
+    participant UMC WS
 
 
-    Portal Backend ->> UMC-WS: /univention/get/session-info
-    UMC-WS -->> Portal Backend: returns username
+    Portal Backend ->> UMC WS: /univention/get/session-info
+    UMC WS -->> Portal Backend: returns username
 
 ```
 
@@ -141,7 +141,7 @@ The following snippets are from the apache configuration on a fresh UCS
 instance.
 
 
-### `auth` and `logout` go to UCM-WS
+### `auth` and `logout` go to UMC WS
 
 ```
 ProxyPassMatch "^/univention/((auth|saml|get|set|command|upload|logout)/?.*)$" http://127.0.0.1:8090/$1 retry=0 timeout=311
