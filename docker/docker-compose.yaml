@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+  portal-frontend:
+    platform: "linux/amd64"
+    build:
+      context: ../
+      dockerfile: docker/frontend/Dockerfile
+    container_name: univention-portal-frontend
+    ports:
+      - "8080:80"
+  portal-server:
+    platform: "linux/amd64"
+    build:
+      context: ../
+      dockerfile: docker/portal-server/Dockerfile
+    container_name: univention-portal-server
+    env_file: .env.portal-server
+    ports:
+      - "8095:80"
+    volumes:
+      # TODO: The config files are dynamic, currently using stub files so that
+      # it is easy to run the univention-portal-server for local inspection.
+      - type: bind
+        source: ./portal-server/stub_config.json
+        target: /usr/lib/univention-portal/config/config.json
+      - type: bind
+        source: ./portal-server/stub_groups.json
+        target: /var/cache/univention-portal/groups.json
+      - type: bind
+        source: ./portal-server/stub_portal.json
+        target: /var/cache/univention-portal/portal.json
