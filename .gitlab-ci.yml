@@ -12,6 +12,13 @@ build-portal-frontend:
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
+build-portal-server:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
 
 # Linting related checks and builds
 
