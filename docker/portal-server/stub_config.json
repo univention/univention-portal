@@ -1,0 +1,14 @@
+{
+  "admin_groups": [
+    "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  ],
+  "auth_mode": "ucs",
+  "default_domain_dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention,dc=test",
+  "editable": true,
+  "fqdn": "primary.univention.test",
+  "hostdn": "cn=primary,cn=dc,cn=computers,dc=univention,dc=test",
+  "ldap_base": "dc=univention,dc=test",
+  "ldap_uri": "ldap://primary.univention.test:7389",
+  "port": "80",
+  "umc_session_url": "http://localhost/univention/get/session-info"
+}
