@@ -34,6 +34,16 @@ Note: Probably this approach should be done in a different way on a UCS system.
     git config --global user.name "Johannes Bornhold"
     git config --global user.email johannes.bornhold.extern@univention.de
 
+
+
+## Gitlab specific references in Markdown
+
+See the following URL
+
+<https://git.knut.univention.de/help/user/markdown#gitlab-specific-references>
+
+
+
 ## Building the containers
 
 There notes are regarding the branch
