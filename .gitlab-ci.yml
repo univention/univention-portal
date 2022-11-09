@@ -1,0 +1,8 @@
+include:
+  - project: univention/dist/docker-services
+    file: kaniko.yml
+
+build portal_server:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "images/portal-server/Dockerfile"
