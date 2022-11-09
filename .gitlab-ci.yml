@@ -48,6 +48,8 @@ pre-commit-linting:
     - "${PIP_CACHE_DIR}"
     - "${PRE_COMMIT_HOME}"
   script:
+    # Compose lint would fail without the referenced env files
+    - for i in docker/.env.*.example; do cp "${i}" "${i/.example}"; done
     - pre-commit run --all-files
 
 commit-message-linting:
