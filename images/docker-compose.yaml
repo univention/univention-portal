@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  portal-server:
+    platform: "linux/amd64"
+    build:
+      context: ../
+      dockerfile: images/portal-server/Dockerfile
+    container_name: univention-portal-server
+    environment:
+      LDAP_HOSTDN: "stub_ldap_hostdn"
+      UCS_HOSTNAME: "stub_ucs_hostname"
+      LDAP_SERVER_NAME: "stub_ldap_server_name"
+    ports:
+      - "8095:8095"
+    volumes:
+      # TODO: The config files are dynamic, currently using stub files so that
+      # it is easy to run the univention-portal-server for local inspection.
+      - type: bind
+        source: ./portal-server/stub_config.json
+        target: /usr/lib/univention-portal/config/config.json
+      - type: bind
+        source: ./portal-server/stub_groups.json
+        target: /var/cache/univention-portal/groups.json
+      - type: bind
+        source: ./portal-server/stub_portal.json
+        target: /var/cache/univention-portal/portal.json

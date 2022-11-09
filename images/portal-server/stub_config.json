@@ -1,0 +1,14 @@
+{
+  "admin_groups": [
+    "cn=Domain Admins,cn=groups,dc=univention,dc=intranet"
+  ],
+  "auth_mode": "ucs",
+  "default_domain_dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention,dc=intranet",
+  "editable": true,
+  "fqdn": "ucs-3058.univention.intranet",
+  "hostdn": "cn=ucs-3058,cn=dc,cn=computers,dc=univention,dc=intranet",
+  "ldap_base": "dc=univention,dc=intranet",
+  "ldap_uri": "ldap://ucs-3058.univention.intranet:7389",
+  "port": "8095",
+  "umc_session_url": "http://localhost/univention/get/session-info"
+}

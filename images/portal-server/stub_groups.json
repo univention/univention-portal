@@ -1,0 +1,30 @@
+{
+    "administrator": [
+        "cn=computers,cn=groups,dc=univention,dc=intranet",
+        "cn=dc backup hosts,cn=groups,dc=univention,dc=intranet",
+        "cn=dc slave hosts,cn=groups,dc=univention,dc=intranet",
+        "cn=domain admins,cn=groups,dc=univention,dc=intranet",
+        "cn=domain users,cn=groups,dc=univention,dc=intranet",
+        "cn=windows hosts,cn=groups,dc=univention,dc=intranet"
+    ],
+    "jbornhold": [
+        "cn=domain admins,cn=groups,dc=univention,dc=intranet",
+        "cn=domain users,cn=groups,dc=univention,dc=intranet"
+    ],
+    "join-backup": [
+        "cn=backup join,cn=groups,dc=univention,dc=intranet",
+        "cn=computers,cn=groups,dc=univention,dc=intranet",
+        "cn=dc backup hosts,cn=groups,dc=univention,dc=intranet",
+        "cn=dc slave hosts,cn=groups,dc=univention,dc=intranet",
+        "cn=slave join,cn=groups,dc=univention,dc=intranet",
+        "cn=windows hosts,cn=groups,dc=univention,dc=intranet"
+    ],
+    "join-slave": [
+        "cn=computers,cn=groups,dc=univention,dc=intranet",
+        "cn=dc slave hosts,cn=groups,dc=univention,dc=intranet",
+        "cn=slave join,cn=groups,dc=univention,dc=intranet"
+    ],
+    "ucs-sso": [
+        "cn=domain users,cn=groups,dc=univention,dc=intranet"
+    ]
+}
