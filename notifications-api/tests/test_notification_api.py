@@ -12,13 +12,43 @@ def test_hello():
 
 
 def test_create_notification():
-    notification_data = {
-        "title": "my notification",
-        "source_uuid": str(uuid4()),
-        "target_uuid": str(uuid4()),
-        "type": "event",
+    id = uuid4().hex
+    sourceUid = uuid4().hex
+    targetUid = uuid4().hex
+    request_data = {
+        "id": id,
+        "sourceUid": sourceUid,
+        "targetUid": targetUid,
+        "title": "Hello from application!",
+        "details": "This is just an example notification.",
         "severity": "info",
-        "send_time": datetime.now().isoformat()
+        "sticky": False,
+        "needsConfirmation": False,
+        "notificationType": "event",
+        "data": {
+            "additionalProperty1": "some value",
+            "additionalProperty2": 45
+        }
     }
-    response = requests.post("http://0.0.0.0:8000/v1/notifications", json.dumps(notification_data))
-    assert response.status_code == 200
+    response = requests.post("http://0.0.0.0:8000/v1/notifications", json.dumps(request_data))
+    assert response.status_code == 201
+    response_content = json.loads(response.text)
+    assert response_content == {
+        "id": id,
+        "sourceUid": sourceUid,
+        "targetUid": targetUid,
+        "title": "Hello from application!",
+        "details": "This is just an example notification.",
+        "severity": "info",
+        "receiveTime": "2022-08-11T16:22:34Z-02:00",
+        "readTime": None,
+        "confirmationTime": None,
+        "expireTime": None,
+        "sticky": False,
+        "needsConfirmation": False,
+        "notificationType": "event",
+        "data": {
+            "additionalProperty1": "some value",
+            "additionalProperty2": 45
+    }
+}

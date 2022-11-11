@@ -9,6 +9,6 @@ def say_hello():
     return {"message": "Hello, world!"}
 
 
-@router.post("/notifications")
+@router.post("/notifications", status_code=201)
 def create_notification(data: NotificationCreate):
     return data

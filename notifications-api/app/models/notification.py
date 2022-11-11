@@ -3,7 +3,7 @@ from enum import Enum
 from uuid import UUID
 from sqlmodel import (
     SQLModel,
-    Field,
+    Field
 )
 
 
@@ -21,17 +21,23 @@ class NotificationSeverity(str, Enum):
 
 
 class NotificationBase(SQLModel):
-    source_uuid: UUID
-    target_uuid: UUID
-    title: str
-    type: NotificationType
-    severity: NotificationSeverity
-    send_time: datetime
+    id: UUID = Field(primary_key=True)
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class Notification(NotificationBase, table=True):
-    id: UUID = Field(primary_key=True)
+    pass
 
 
 class NotificationCreate(NotificationBase):
-    pass
+    sourceUid: UUID
+    targetUid: UUID
+    title: str
+    details: str
+    severity: NotificationSeverity
+    sticky: bool
+    needsConfirmation: bool
+    notificationType: NotificationType
+    data: dict

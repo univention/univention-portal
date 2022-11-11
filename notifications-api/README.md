@@ -6,6 +6,8 @@ for live display.
 
 ## Using the API for HTTP requests
 
+go to 0.0.0.0/docs
+
 ## Data Model
 
 ### Full Notification, as internally stored
@@ -31,17 +33,12 @@ for live display.
         "description": "The title of the notification, as in 'headline'",
         "optional": True /* TBD: why can this be optional? */
     },
-    "title": {
-        "type": "String",
-        "description": "The title of the notification, as in 'headline'",
-        "optional": True
-    },
     "details": {
         "type": "String",
         "description": "A detailed description presented to the user",
         "optional": True
     },
-    "details": {
+    "severity": {
         "type": "NotificationSeverity",
         "description": "A theme the notification can appear in",
         "optional": True,
@@ -52,7 +49,7 @@ for live display.
         "description": "An ISO date-time string, recording when this notification was received and persisted",
         "internal": True,
     },
-    "receiveTime": {
+    "readTime": {
         "type": "String",
         "description": "An ISO date-time string, recording at which time the notification was read/closed.",
         "optional": True,
@@ -79,7 +76,7 @@ for live display.
         "optional": True,
         "default": False
     },
-    "notification_type": {
+    "notificationType": {
         "type": "NotificationType",
         "description": "Will control further discrimination.",
     }    ,
@@ -90,6 +87,17 @@ for live display.
 }
 ```
 
+### `NotificationType`
+
+```json
+["event", "announcement", "alert"]
+```
+
+### `NotificationSeverity`
+
+```json
+["info", "success", "warning", "error"]
+```
 
 ## Create an Event notification (Full example)
 
