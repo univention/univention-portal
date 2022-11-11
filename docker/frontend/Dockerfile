@@ -6,10 +6,7 @@ COPY ./frontend .
 
 RUN yarn install && yarn build
 
-COPY ./univention-blog.png ./dist/univention-blog.png
-COPY ./key.svg ./dist/key.svg
-COPY ./login.svg ./dist/login.svg
-COPY ./univention-management-console.svg ./dist/univention-management-console.svg
+COPY ./docker/frontend/assets/ ./dist/
 RUN echo "{}" > ./dist/i18n/de.json
 
 FROM ${DOCKER_PROXY}debian:buster-slim AS final
