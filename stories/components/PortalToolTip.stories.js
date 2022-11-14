@@ -18,8 +18,8 @@ const positionMock = {
 };
 
 const tooltipMock = {
-  title: 'System and domain settings', 
-  description: 'Univention Management Console for admin­is­tra­ting the UCS domain and the local system', 
+  title: 'System and domain settings',
+  description: 'Univention Management Console for admin­is­tra­ting the UCS domain and the local system',
 };
 
 const linkTypes = {

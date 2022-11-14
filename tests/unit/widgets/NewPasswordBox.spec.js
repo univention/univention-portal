@@ -89,7 +89,7 @@ describe('NewPasswordBox Component', () => {
     expect(wrapper.vm.invalidNew).toBe(false);
     await wrapper.setProps({ invalidMessage: { invalidMessageNew: 'is invalid', invalidMessageRetype: '' } });
     expect(wrapper.vm.invalidNew).toBe(true);
-    
+
     expect(wrapper.vm.invalidRetype).toBe(false);
     await wrapper.setProps({ invalidMessage: { invalidMessageNew: '', invalidMessageRetype: 'is invalid' } });
     expect(wrapper.vm.invalidRetype).toBe(true);

@@ -2,7 +2,7 @@
 
 These guidelines serve as an orientation and checklist, when reviewing new widget implementations or other GUI components in the frontend.
 
-> ⚠️ This is a work-in-progress document. 
+> ⚠️ This is a work-in-progress document.
   The guidelines are by no means complete.
   Especially the _Code_ section should be enhanced with further best practice guidelines.
   Remove this comment, once a more tested and proven status of the document is reached.
