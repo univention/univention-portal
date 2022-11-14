@@ -15,6 +15,8 @@ app = FastAPI(
     debug=settings.debug,
     description=description,
 )
+
+
 app.include_router(api_router)
 
 
