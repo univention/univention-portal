@@ -21,18 +21,18 @@ Default.args = {
 
 export const Focused = Template.bind({});
 Focused.args = {
-  ...Default.args,  
+  ...Default.args,
 };
 Focused.parameters = {pseudo: { focus: true }};
 
 export const ButtonStyle = Template.bind({});
 ButtonStyle.args = {
   ...Default.args,
-  hasButtonStyle: true, 
+  hasButtonStyle: true,
 };
 export const ButtonStyleFocused = Template.bind({});
 ButtonStyleFocused.args = {
   ...Default.args,
-  hasButtonStyle: true, 
+  hasButtonStyle: true,
 };
 ButtonStyleFocused.parameters = {pseudo: { focus: true }};

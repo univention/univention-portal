@@ -10,7 +10,7 @@ To achieve that, following objectives must be accomplished:
 
 > The tabindex global attribute indicates that its element can be focused, and where it participates in sequential keyboard navigation (usually with the Tab key, hence the name). [MDN Doc](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)
 
-The HTML document has a default tab sequence depending on it's elements in the DOM. Sometimes this sequence is not enough or needs some changes via javascript. A opened modal for example, should be the only element that is focusable in a current webpage. The user does not want to tab outside the modal. It can be even more confusing for Screenreader users.  
+The HTML document has a default tab sequence depending on it's elements in the DOM. Sometimes this sequence is not enough or needs some changes via javascript. A opened modal for example, should be the only element that is focusable in a current webpage. The user does not want to tab outside the modal. It can be even more confusing for Screenreader users.
 We have the [Tabindex Component](?path=/story/components-a11y-tabindexelement--page) which help us handle the index of several elements in the portal.
 
 In addition to that, we also have the [`Region` Component](?path=/story/components-a11y-region--page), which we can use to define several sections of the portal to make it easier to handle the tabindex.

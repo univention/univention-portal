@@ -17,10 +17,10 @@ const Template: StoryFn<typeof Tabs> = (args) => ({
     return { args };
   },
   template: `
-    <Tabs v-bind="args" 
+    <Tabs v-bind="args"
           style="max-width: none; width: 80vw; padding: 0; background: none; border-radius: 0; box-shadow: none; min-width: 0"
     >
-      
+
       <TabsHeader v-slot="{activeTab, onActiveTab}">
       </TabsHeader>
       <TabsBody>
@@ -58,7 +58,7 @@ const Template: StoryFn<typeof Tabs> = (args) => ({
 
           </div>
         </TabItem>
-       
+
       </TabsBody>
 
     </Tabs>

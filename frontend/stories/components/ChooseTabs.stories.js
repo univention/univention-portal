@@ -11,7 +11,7 @@ export default {
   components: ChooseTabs,
 };
 store.dispatch('activity/setLevel', ['modal']);
-const Mock = { 
+const Mock = {
   tabs: [{
     tabLabel: 'Univention Corporate Server',
     logo: wikipediaLogo,

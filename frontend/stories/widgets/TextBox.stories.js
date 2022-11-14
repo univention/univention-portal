@@ -13,12 +13,12 @@ max-width: calc(50 * var(--layout-spacing-unit));
 box-shadow: var(--box-shadow);`;
 
 const Template = (args) => ({
-  components: { MyForm }, 
+  components: { MyForm },
   setup() {
     return { args };
   },
   template: `<div style="${modalStyle}"><my-form v-model="args.modelValue" :widgets="args.widgets"></my-Form></div>`,
-}); 
+});
 
 const textBoxProp = [{
   type: 'TextBox',

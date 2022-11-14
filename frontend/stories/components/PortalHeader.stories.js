@@ -9,12 +9,12 @@ export default {
 };
 
 const Template = () => ({
-  components: { PortalHeader }, 
+  components: { PortalHeader },
   setup() {
     return {};
   },
   template: `<portal-header></portal-header>`,
-}); 
+});
 
 
 export const Default = Template.bind({});

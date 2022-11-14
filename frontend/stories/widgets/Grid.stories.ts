@@ -355,15 +355,15 @@ const Template: StoryFn<typeof Grid> = (args) => ({
   template: `
     <div style="max-width: 100%; width: calc(100vw - 200px)">
     <Grid v-bind="args">
-      
+
       <template #header-option-buttons>
       </template>
       <template #header-status-text="{numberItemsSelected}">
       </template>
-     
+
       <template #table-header-value-path="{column}">
       </template>
-      
+
       <template v-for="(_, index) in args.items" #[getNameSlot(index)]="{item}">
       </template>
     </Grid>
