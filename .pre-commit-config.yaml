@@ -19,10 +19,11 @@ repos:
   - id: trailing-whitespace
 
 # "flake8"
-- repo: https://gitlab.com/pycqa/flake8
-  rev: 3.8.4
-  hooks:
-  - id: flake8
+# TODO: Disabled to find out if this upstream repository causes us a headache
+# - repo: https://gitlab.com/pycqa/flake8
+#   rev: 3.8.4
+#   hooks:
+#   - id: flake8
 
 # "Shell Syntax Check"
 # This is a wrapper for shellcheck as long as
