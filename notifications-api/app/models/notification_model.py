@@ -1,7 +1,10 @@
+from datetime import datetime
 from enum import Enum
 from uuid import UUID
-from typing import Optional
+from typing import Dict, Optional
 from sqlmodel import (
+    JSON,
+    Column,
     SQLModel,
     Field,
 )
@@ -29,15 +32,15 @@ class NotificationBase(SQLModel):
     sticky: Optional[bool]
     needsConfirmation: Optional[bool]
     notificationType: NotificationType
-    # data: JSON
-
-    class Config:
-        arbitrary_types_allowed = True
+    data: Dict = Field(default={}, sa_column=Column(JSON))
 
 
 class Notification(NotificationBase, table=True):
     id: UUID = Field(primary_key=True)
-    pass
+    receiveTime: datetime
+    readTime: Optional[datetime]
+    confirmationTime: Optional[datetime]
+    expireTime: Optional[datetime]
 
 
 class NotificationCreate(NotificationBase):

@@ -33,7 +33,7 @@ def upgrade() -> None:
     op.add_column(
         'notification',
         sa.Column('notificationType', sqlmodel.sql.sqltypes.AutoString(), nullable=True)
-    )    
+    )
     op.add_column(
         'notification',
         sa.Column('sticky', sa.BOOLEAN, nullable=True)
@@ -41,6 +41,26 @@ def upgrade() -> None:
     op.add_column(
         'notification',
         sa.Column('needsConfirmation', sa.BOOLEAN, nullable=True),
+    )
+    op.add_column(
+        'notification',
+        sa.Column('receiveTime', sa.DateTime, nullable=False),
+    )
+    op.add_column(
+        'notification',
+        sa.Column('readTime', sa.DateTime, nullable=True),
+    )
+    op.add_column(
+        'notification',
+        sa.Column('confirmationTime', sa.DateTime, nullable=True),
+    )
+    op.add_column(
+        'notification',
+        sa.Column('expireTime', sa.DateTime, nullable=True),
+    )
+    op.add_column(
+        'notification',
+        sa.Column('data', sa.JSON, nullable=True),
     )
     op.drop_column('notification', 'source_uuid')
     op.drop_column('notification', 'target_uuid')
