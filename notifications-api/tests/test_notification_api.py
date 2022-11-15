@@ -1,15 +1,63 @@
 from datetime import datetime
 import json
+import pytest
+from sqlmodel import Session, create_engine, delete
 from uuid import uuid4
+
+from app.db import get_session
+from app.main import app
+from app.models.notification_model import Notification, NotificationBase
 
 from fastapi.testclient import TestClient
 
-from app.main import app
-from app.db import get_session
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test2.db"
 
-app.dependency_overrides[get_session] = get_session
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
 
+
+def override_get_db() -> Session:
+    with Session(engine) as session:
+        yield session
+
+
+NotificationBase.metadata.create_all(bind=engine)
+app.dependency_overrides[get_session] = override_get_db
 client = TestClient(app)
+db = next(override_get_db())
+
+
+@pytest.fixture()
+def empty_db():
+    statement = delete(Notification)
+    db.exec(statement)
+    db.commit()
+
+
+@pytest.fixture()
+def filled_db(empty_db):
+    db.add(Notification(
+        id=str(uuid4()),
+        details="some details",
+        title="some title",
+        notificationType="event",
+        severity="info",
+        sourceUid=str(uuid4()),
+        targetUid=str(uuid4()),
+        receiveTime=datetime.now()
+    ))
+    db.add(Notification(
+        id=str(uuid4()),
+        details="some details",
+        title="some title",
+        notificationType="announcement",
+        severity="info",
+        sourceUid=str(uuid4()),
+        targetUid=str(uuid4()),
+        receiveTime=datetime.now()
+    ))
+    db.commit()
 
 
 def test_hello():
@@ -36,7 +84,7 @@ request_data = json.dumps({
 })
 
 
-def test_create_notification():
+def test_create_notification(empty_db):
     response = client.post('/v1/notifications', request_data)
     assert response.status_code == 201
     response_json = response.json()
@@ -45,13 +93,13 @@ def test_create_notification():
     assert response_json['targetUid'] == targetUid
 
 
-def test_get_latest_notifications():
+def test_get_latest_notifications(filled_db):
     response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
     assert response.status_code == 200
-    assert False, "seed test database and check for validity of results"
+    assert len(response.json()) == 1
 
 
-def test_mark_notification_read():
+def test_mark_notification_read(empty_db):
     response = client.post('/v1/notifications', request_data)
     response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
     id = response.json()[0]['id']
@@ -62,7 +110,7 @@ def test_mark_notification_read():
     assert readDateTime > now
 
 
-def test_confirm_notification():
+def test_confirm_notification(empty_db):
     response = client.post('/v1/notifications', request_data)
     response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
     id = response.json()[0]['id']
