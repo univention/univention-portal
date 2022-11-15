@@ -265,7 +265,7 @@ def make_app():
 
 
 if __name__ == "__main__":
-	setup_logger()
+	setup_logger(logfile=None, stream=True)
 	app = make_app()
 	port = config.fetch("port")
 	get_logger("server").info("firing up portal server at port %s" % port)
