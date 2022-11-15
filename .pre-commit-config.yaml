@@ -38,6 +38,12 @@ repos:
   rev: v0.1.0
   hooks:
   - id: dockerfilelint
+    exclude: |
+      (?x)^(
+        # Avoid that the version of the base image has to be pinned
+        # in this particular case.
+        docker/linter-pre-commit/Dockerfile
+      )$
 
 # "docker-compose.yaml linter"
 - repo: https://gitlab.com/univention/pre-commit/docker-compose-check
