@@ -1,4 +1,4 @@
-from .notification import SQLModel
+from .notification_model import SQLModel
 
 
 def get_metadata():

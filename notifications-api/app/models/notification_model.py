@@ -4,7 +4,6 @@ from typing import Optional
 from sqlmodel import (
     SQLModel,
     Field,
-    JSON
 )
 
 
@@ -22,14 +21,13 @@ class NotificationSeverity(str, Enum):
 
 
 class NotificationBase(SQLModel):
-    id: Optional[UUID] = Field(primary_key=True, default=None)
     sourceUid: UUID
     targetUid: UUID
     title: str
     details: str
     severity: NotificationSeverity
-    sticky: bool
-    needsConfirmation: bool
+    sticky: Optional[bool]
+    needsConfirmation: Optional[bool]
     notificationType: NotificationType
     # data: JSON
 
@@ -38,6 +36,7 @@ class NotificationBase(SQLModel):
 
 
 class Notification(NotificationBase, table=True):
+    id: UUID = Field(primary_key=True)
     pass
 
 

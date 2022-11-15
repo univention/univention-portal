@@ -1,5 +1,3 @@
-from typing import Iterator
-
 from sqlmodel import create_engine, Session
 
 from app.core.config import get_settings
@@ -11,6 +9,6 @@ engine = create_engine(
 )
 
 
-def get_session() -> Iterator[Session]:
+def get_session() -> Session:
     with Session(engine) as session:
         yield session

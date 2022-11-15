@@ -40,7 +40,9 @@ def test_create_notification():
 
 
 def test_get_latest_notifications():
-    raise NotImplementedError()
+    response = client.get("/v1/notifications/test_user/latest")
+    assert response.status_code == 200
+    assert response.json() == []
 
 
 def test_get_notification_by_id():

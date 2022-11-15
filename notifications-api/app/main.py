@@ -1,13 +1,16 @@
 from app.core.config import get_settings
 from .api import router as api_router
 import logging
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, status, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+
 settings = get_settings()
+
 description = """
 """
+
 app = FastAPI(
     root_path=settings.root_path,
     title=settings.project_name,
@@ -16,6 +19,8 @@ app = FastAPI(
     description=description,
 )
 
+def get_db_session():
+    return 
 
 app.include_router(api_router)
 
