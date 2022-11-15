@@ -22,9 +22,10 @@ pre-commit-linting:
   variables:
     PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
     PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
-  cache:
-    paths:
-    - "${PIP_CACHE_DIR}"
-    - "${PRE_COMMIT_HOME}"
+  # TODO: temporarily disabled to investigate an issue
+  # cache:
+  #   paths:
+  #   - "${PIP_CACHE_DIR}"
+  #   - "${PRE_COMMIT_HOME}"
   script:
     - pre-commit run --all-files
