@@ -52,7 +52,7 @@ repos:
       )$
 
 # "docker-compose.yaml linter"
-- repo: https://gitlab.com/univention/pre-commit/docker-compose-check
+- repo: https://gitlab.com/univention/pre-commit-hooks/docker-compose-check
   rev: 7702a8801a158b8595569dd29e2dd655d8a08310
   hooks:
   - id: docker-compose-check
