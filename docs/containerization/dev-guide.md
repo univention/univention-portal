@@ -9,6 +9,9 @@ those placed into an appropriate place in a wiki once that place is found.
 
 - Avoid to state the obvious.
 
+- Use clear prefixes like "TODO:" when stating that something has to be change
+  in the future.
+
 ## Commit messages
 
 - Use conventional commits.
