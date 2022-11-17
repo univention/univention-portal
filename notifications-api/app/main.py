@@ -20,7 +20,7 @@ app = FastAPI(
 )
 
 def get_db_session():
-    return 
+    return
 
 app.include_router(api_router)
 
