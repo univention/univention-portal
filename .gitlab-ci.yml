@@ -54,3 +54,10 @@ commit-message-linting:
       done
       rm "$tmp_file"
       exit "$any_failure"
+
+
+build-notifications-api:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: notifications-api/Dockerfile
+    KANIKO_BUILD_CONTEXT: notifications-api/
