@@ -4,5 +4,5 @@ RUN pip install -U --no-cache-dir pip && \
     pip install --no-cache-dir "poetry==$POETRY_VERSION" && poetry config virtualenvs.create false
 COPY pyproject.toml poetry.lock* ./
 RUN poetry install --no-interaction --no-ansi
-ADD app app
+COPY app app
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
