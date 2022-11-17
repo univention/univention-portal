@@ -5,5 +5,4 @@ RUN pip install -U --no-cache-dir pip && \
 COPY pyproject.toml poetry.lock* ./
 RUN poetry install --no-interaction --no-ansi
 ADD app app
-EXPOSE 8001:80
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

@@ -39,6 +39,12 @@ repos:
     args: [--config=notifications-api/pyproject.toml]
     additional_dependencies: ['click==8.0.4']
 
+- repo: https://github.com/hadialqattan/pycln
+  rev: v1.1.0
+  hooks:
+  - id: pycln
+    args: [--config=notifications-api/pyproject.toml]
+
 # "Shell Syntax Check"
 # This is a wrapper for shellcheck as long as
 # shellcheck doesn't have it's own .pre-commit-hooks.yaml

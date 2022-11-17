@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 from sqlmodel import Session
 from typing import List
-from uuid import UUID
 
 from app.models.notification_model import NotificationCreate, Notification
 from app.crud.notification_service import NotificationService
