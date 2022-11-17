@@ -2,6 +2,19 @@ include:
   - project: univention/dist/docker-services
     file: kaniko.yml
 
+
+# Building artifacts
+
+build-portal-frontend:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/frontend/Dockerfile"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+
+# Linting related checks and builds
+
 # TODO: The pre-commit image is missing hadolint, that's why we are building our
 # own one here until it is integrated upstream.
 #
