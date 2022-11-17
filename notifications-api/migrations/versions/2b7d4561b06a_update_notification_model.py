@@ -11,61 +11,46 @@ import sqlmodel
 
 
 # revision identifiers, used by Alembic.
-revision = '2b7d4561b06a'
-down_revision = 'c83d839fbaad'
+revision = "2b7d4561b06a"
+down_revision = "c83d839fbaad"
 branch_labels = None
 depends_on = None
 
 
 def upgrade() -> None:
+    op.add_column("notification", sa.Column("sourceUid", sqlmodel.sql.sqltypes.GUID(), nullable=False))
+    op.add_column("notification", sa.Column("targetUid", sqlmodel.sql.sqltypes.GUID(), nullable=False))
+    op.add_column("notification", sa.Column("details", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+    op.add_column("notification", sa.Column("notificationType", sqlmodel.sql.sqltypes.AutoString(), nullable=True))
+    op.add_column("notification", sa.Column("sticky", sa.BOOLEAN, nullable=True))
     op.add_column(
-        'notification',
-        sa.Column('sourceUid', sqlmodel.sql.sqltypes.GUID(), nullable=False)
+        "notification",
+        sa.Column("needsConfirmation", sa.BOOLEAN, nullable=True),
     )
     op.add_column(
-        'notification',
-        sa.Column('targetUid', sqlmodel.sql.sqltypes.GUID(), nullable=False)
+        "notification",
+        sa.Column("receiveTime", sa.DateTime, nullable=False),
     )
     op.add_column(
-        'notification',
-        sa.Column('details', sqlmodel.sql.sqltypes.AutoString(), nullable=True)
+        "notification",
+        sa.Column("readTime", sa.DateTime, nullable=True),
     )
     op.add_column(
-        'notification',
-        sa.Column('notificationType', sqlmodel.sql.sqltypes.AutoString(), nullable=True)
+        "notification",
+        sa.Column("confirmationTime", sa.DateTime, nullable=True),
     )
     op.add_column(
-        'notification',
-        sa.Column('sticky', sa.BOOLEAN, nullable=True)
+        "notification",
+        sa.Column("expireTime", sa.DateTime, nullable=True),
     )
     op.add_column(
-        'notification',
-        sa.Column('needsConfirmation', sa.BOOLEAN, nullable=True),
+        "notification",
+        sa.Column("data", sa.JSON, nullable=True),
     )
-    op.add_column(
-        'notification',
-        sa.Column('receiveTime', sa.DateTime, nullable=False),
-    )
-    op.add_column(
-        'notification',
-        sa.Column('readTime', sa.DateTime, nullable=True),
-    )
-    op.add_column(
-        'notification',
-        sa.Column('confirmationTime', sa.DateTime, nullable=True),
-    )
-    op.add_column(
-        'notification',
-        sa.Column('expireTime', sa.DateTime, nullable=True),
-    )
-    op.add_column(
-        'notification',
-        sa.Column('data', sa.JSON, nullable=True),
-    )
-    op.drop_column('notification', 'source_uuid')
-    op.drop_column('notification', 'target_uuid')
-    op.drop_column('notification', 'type')
-    op.drop_column('notification', 'send_time')
+    op.drop_column("notification", "source_uuid")
+    op.drop_column("notification", "target_uuid")
+    op.drop_column("notification", "type")
+    op.drop_column("notification", "send_time")
     pass
 
 

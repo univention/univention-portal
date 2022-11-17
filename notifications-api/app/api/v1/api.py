@@ -20,7 +20,7 @@ def say_hello():
 def create_notification(
     data: NotificationCreate,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_session),
 ) -> Notification:
     return service.create_notification(data, db)
 
@@ -29,31 +29,23 @@ def create_notification(
 def get_latest_notifications_for_user(
     title: str = Query(default=1),
     limit: str = Query(default=10),
-    type: str = Query(default='event'),
+    type: str = Query(default="event"),
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_session),
 ) -> List[Notification]:
-    query_items = {
-        'title': title,
-        'limit': limit,
-        'type': type
-    }
+    query_items = {"title": title, "limit": limit, "type": type}
     return service.get_latest_notifications(query_items, db)
 
 
 @router.patch("/notifications/{id}/read")
 def mark_notification_read(
-    id: str,
-    service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
+    id: str, service: NotificationService = Depends(NotificationService), db: Session = Depends(get_session)
 ) -> Notification:
     return service.mark_notification_read(id, db)
 
 
 @router.patch("/notifications/{id}/confirm")
 def mark_notification_read(
-    id: str,
-    service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
+    id: str, service: NotificationService = Depends(NotificationService), db: Session = Depends(get_session)
 ) -> Notification:
     return service.confirm_notification(id, db)

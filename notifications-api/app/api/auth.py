@@ -11,5 +11,6 @@ api_key_header_auth = APIKeyHeader(name=get_settings().api_key_name, auto_error=
 async def authenticated(api_key_header: str = Security(api_key_header_auth)):
     if api_key_header != get_settings().api_key:
         raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED, detail="Invalid API Key",
+            status_code=HTTP_401_UNAUTHORIZED,
+            detail="Invalid API Key",
         )

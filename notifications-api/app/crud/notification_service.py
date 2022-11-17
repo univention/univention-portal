@@ -11,13 +11,8 @@ def get_db_session():
     return next(get_session())
 
 
-class NotificationService():
-
-    def create_notification(
-        self,
-        notification: NotificationCreate,
-        db: Session
-    ) -> Notification:
+class NotificationService:
+    def create_notification(self, notification: NotificationCreate, db: Session) -> Notification:
         db_notification = Notification(
             id=str(uuid4()),
             sourceUid=notification.sourceUid,
@@ -31,25 +26,17 @@ class NotificationService():
             receiveTime=datetime.now(),
             confirmationTime=None,
             readTime=None,
-            data=notification.data
+            data=notification.data,
         )
         db.add(db_notification)
         db.commit()
         return db_notification
 
-    def get_latest_notifications(
-        self,
-        query: dict,
-        db: Session
-    ) -> List[Notification]:
-        statement = select(Notification).where(Notification.notificationType == query['type']).limit(query['limit'])
+    def get_latest_notifications(self, query: dict, db: Session) -> List[Notification]:
+        statement = select(Notification).where(Notification.notificationType == query["type"]).limit(query["limit"])
         return db.exec(statement).fetchall()
 
-    def mark_notification_read(
-        self,
-        id: str,
-        db: Session
-    ) -> Notification:
+    def mark_notification_read(self, id: str, db: Session) -> Notification:
         statement = select(Notification).where(Notification.id == id)
         notification = db.exec(statement).one()
         notification.readTime = datetime.now()
@@ -58,11 +45,7 @@ class NotificationService():
         db.refresh(notification)
         return notification
 
-    def confirm_notification(
-        self,
-        id: str,
-        db: Session
-    ) -> Notification:
+    def confirm_notification(self, id: str, db: Session) -> Notification:
         statement = select(Notification).where(Notification.id == id)
         notification = db.exec(statement).one()
         notification.confirmationTime = datetime.now()
