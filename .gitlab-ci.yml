@@ -61,3 +61,19 @@ build-notifications-api:
   variables:
     DOCKERFILE_PATH: notifications-api/Dockerfile
     KANIKO_BUILD_CONTEXT: notifications-api/
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+unittests-notification-api:
+  needs:
+    - job: build-notifications-api
+  image: "$IMAGE_TAG"
+  variables:
+    PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+  cache:
+    paths:
+    - "${PIP_CACHE_DIR}"
+  script:
+    - cd /app/
+    - pytest .
