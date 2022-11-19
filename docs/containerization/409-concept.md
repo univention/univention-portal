@@ -109,6 +109,21 @@ It is assumed that this will have no impact on this concept.
 
 
 
+### Aspects which are currently not in focus
+
+
+#### Reference Kubernetes configuration from SCS project
+
+At the moment this topic can be put aside. The SCS project will eventually come
+up with a specific Kubernetes configuration. At that point in the future the
+container will have to be tested in this environment and potentially be adjusted
+depending on the test results.
+
+For the purpose of the concept we work on the basis of assuming a standard
+Kubernetes environment.
+
+
+
 ### Pointers
 
 
