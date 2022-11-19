@@ -85,6 +85,29 @@ Especially the following two documents:
    <https://docs.software-univention.de/architecture/5.0/en/>
 
 
+#### SouvAP Integration Environment
+
+The current classic [deployment
+environment](pointers.md#souvap-integration-environment) looks roughly as
+follows:
+
+![SouvAP classic](./images/souvap-classic-deployment.png)
+
+Source:
+[Souvereign Workplace (SouvAP).pptx](https://filestore.knut.univention.de/owncloud/f/3931975)
+
+This environment does contain the classic setup as shown above, this means there
+is a bunch of Virtual Machines which do reflect the UCS system and there is a
+single node Kubernetes cluster. The portal containers would go into this
+Kubernetes cluster.
+
+Note: There is work on a 2nd generation deployment. The idea is that this would
+be fully managed through Kubernetes. The virtual machines would be handled via
+`kube-virt`. See the presentation linked above regarding more details.
+
+It is assumed that this will have no impact on this concept.
+
+
 
 
 
