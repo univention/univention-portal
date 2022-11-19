@@ -154,6 +154,12 @@ The containers shall meet the following basic requirements:
    successfully reach this process via HTTP. It is acceptable that some
    functionality is not yet working in this stage.
 
+Compare the following implementation Issues:
+
+- univention/components/univention-portal#546
+- univention/components/univention-portal#547
+- univention/components/univention-portal#548
+
 Regarding the SouvAP integration environment and Kubernetes integration we want
 to meet the following state:
 
@@ -168,6 +174,14 @@ to meet the following state:
 
 3. It is possible to reach the portal frontend via HTTP and the portal frontend
    does start inside of the web browser.
+
+Compare the following implementation Issues:
+
+- univention/components/univention-portal#549
+- univention/components/univention-portal#555
+- univention/components/univention-portal#554 - This milestone helps to refine
+  the approach for this Issue.
+
 
 
 
