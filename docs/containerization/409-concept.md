@@ -1,4 +1,4 @@
-# Concept Scratchpad
+# Implementation Concept
 
 ## Objective
 
