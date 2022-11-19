@@ -133,6 +133,14 @@ the work towards (2).
 The initial focus is on having minimal containers deployed successfully into the
 SouvAP integration environment.
 
+It is assumed that we will see missing and broken functionality during this
+milestone. The aim is to prove that the communication from the web browser
+(client) through all intermediate components (e.g. reverse proxy on the UCS
+instance, ingress related aspects of the kubernetes cluster) towards the
+portal server container is working and fully understood. This will reduce the
+risk of later surprises due to wrong assumptions or misunderstanding
+regarding the SouvAP integration environment.
+
 The containers shall meet the following basic requirements:
 
 1. It is possible to both build and run the container locally by a developer.
@@ -161,13 +169,6 @@ to meet the following state:
 3. It is possible to reach the portal frontend via HTTP and the portal frontend
    does start inside of the web browser.
 
-   It is assumed that we will see missing and broken functionality during this
-   milestone. The aim is to prove that the communication from the web browser
-   (client) through all intermediate components (e.g. reverse proxy on the UCS
-   instance, ingress related aspects of the kubernetes cluster) towards the
-   portal server container is working and fully understood. This will reduce the
-   risk of later surprises due to wrong assumptions or misunderstanding
-   regarding the SouvAP integration environment.
 
 
 
