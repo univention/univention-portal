@@ -210,14 +210,23 @@ UCS instance based on the existing Debian packaging mechanism as a result of
 reaching this milestone.
 
 
-Issues:
+Issues regarding configuration and change processing:
 
 - univention/components/univention-portal#553 - Runtime configuration
 - univention/components/univention-portal#550 - Change processing of directory updates
+
+Issues regarding authentication:
+
 - univention/components/univention-portal#551 - Authentication
-- univention/components/univention-portal#554 - Refactor current patching
+  - TODO: May need a split, for this milestone only make authentication work
+    with full UCS stack. OIDC or similar pops in with the requirement to deploy
+    without full UCS stack. See below.
+
+Other issues without integration need:
+
 - univention/components/univention-portal#563 - Translations frontend
 - univention/components/univention-portal#564 - Translations backend
+- univention/components/univention-portal#554 - Refactor current patching
 
 
 #### TODO: Milestone: Portal can be used without a full UCS stack
@@ -226,6 +235,8 @@ Issues:
 Issues:
 
 - univention/components/univention-portal#552 - Alternative datastore
+
+- univention/components/univention-portal#551 - Authentication
 
 
 #### TODO: Other and/or later milestones
