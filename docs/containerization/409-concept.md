@@ -11,6 +11,54 @@
 Source: <https://git.knut.univention.de/groups/univention/-/epics/409#objective>
 
 
+## Implementation Concept
+
+This implementation concept describes on a higher level how we plan to implement
+the containerization of the Univention Portal.
+
+
+### About the concept
+
+
+#### Scope and Context
+
+Around the containerization we have two related but distinct Epics:
+
+1. Epic univention&335 focuses on the integration of a containerized portal into
+   the App Center. This Epic is NOT in scope of this implementation concept.
+
+2. Epic univention&409 has a focus on the integration of a containerized portal
+   into a Kubernetes based environment according to the DVS (Digitale
+   Verwaltungs Strategie). This Epic is in scope of this implementation concept.
+
+This concept has been created based on the assumption that we develop first the
+Epic univention&409. We have incorporated the assumption that we will at some
+point in the future also have to implement Epic univention&335.
+
+
+#### Purpose
+
+This concept shall help to align the stakeholders of an Epic around the
+implementation approach. It does so by giving an overview regarding the
+following questions and it shall provide pointers to the related Issues:
+
+1. How will the containerization of the portal be technically implemented. This
+   could also be called the high level design or the technical architecture.
+
+2. Which steps to we plan to take in order to reach the objective of the Epic
+   univention&409 and in order to meet its Acceptance Criteria.
+
+We assume that the concept will evolve as we progress through the implementation
+Issues of this Epic. The purpose of some Issues will be to help us gain insights
+which will help to clarify open aspects of the concept.
+
+
+#### Responsibility
+
+The *Development Team* is responsible to develop and evolve the Implementation
+Concept based on the Product Requirements from the Epic.
+
+
 
 ## Concept scratchpad
 
