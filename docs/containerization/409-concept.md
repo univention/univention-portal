@@ -60,6 +60,14 @@ Concept based on the Product Requirements from the Epic.
 
 
 
+### TODO
+
+#### Prior Art
+
+
+
+
+
 ## Concept scratchpad
 
 Preparatory steps:
