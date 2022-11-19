@@ -270,6 +270,12 @@ Kubernetes environment.
 
 
 
+#### App Center integration
+
+As stated in the introduction section of this concept, the App Center
+integration will happen in the future and is captured in the Epic
+univention&335.
+
 ### Pointers
 
 
