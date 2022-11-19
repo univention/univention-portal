@@ -184,7 +184,7 @@ Compare the following implementation Issues:
   This milestone helps to refine the approach for this Issue.
 
 
-#### Implementation details regarding this milestone
+##### Implementation details regarding this milestone
 
 During this milestone we assume that most dynamic aspects will be mocked, so
 that we can reach the integration environment fast. Those mocked out aspects
@@ -202,7 +202,7 @@ files:
 
 
 
-### Milestone: Portal functionality inside of the SouvAP integration environment
+#### Milestone: Portal functionality inside of the SouvAP integration environment
 
 Reaching this milestone means to have the currently existing functionality of
 the portal also working inside of the SouvAP integration environment. This must
@@ -223,7 +223,7 @@ Issues:
 - univention/components/univention-portal#564 - Translations backend
 
 
-### TODO: Milestone: Portal can be used without a full UCS stack
+#### TODO: Milestone: Portal can be used without a full UCS stack
 
 
 Issues:
@@ -231,7 +231,7 @@ Issues:
 - univention/components/univention-portal#552 - Alternative datastore
 
 
-### TODO: Other and/or later milestones
+#### TODO: Other and/or later milestones
 
 
 Issues:
@@ -242,7 +242,7 @@ Issues:
 - TODO: Container security / best practice -- USER instead of root
 
 
-### TODO: Clarification required
+#### TODO: Clarification required
 
 Issues:
 
