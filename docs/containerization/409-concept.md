@@ -60,6 +60,34 @@ Concept based on the Product Requirements from the Epic.
 
 
 
+### Technical overview
+
+
+#### Current UCS system
+
+The current UCS system is based on Debian. The various components are installed
+as Debian Packages. The various UCS components use mainly functionality from the
+Debian packaging system to model the dependency tree and also to allow for a
+composition and plug-in mechanism of various components.
+
+The approach in this concept does take this current state into account. Details
+about the architecture and implementation are documented and can be read at
+<https://docs.software-univention.de/>.
+
+We assume that the developers working on the implementation will have to make
+themselves familiar with the documentation in the section "Developers".
+Especially the following two documents:
+
+1. Manual for developers
+   <https://docs.software-univention.de/developer-reference/5.0/en/>
+
+2. Univention Corporate Server Architecture
+   <https://docs.software-univention.de/architecture/5.0/en/>
+
+
+
+
+
 ### TODO
 
 #### Prior Art
