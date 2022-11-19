@@ -156,9 +156,10 @@ The containers shall meet the following basic requirements:
 
 Compare the following implementation Issues:
 
-- univention/components/univention-portal#546
-- univention/components/univention-portal#547
-- univention/components/univention-portal#548
+- univention/components/univention-portal#546 - Backend
+- univention/components/univention-portal#547 - Frontend
+- univention/components/univention-portal#548 - Test suite
+- TODO: add an issue regarding the notification API as stretch goal
 
 Regarding the SouvAP integration environment and Kubernetes integration we want
 to meet the following state:
@@ -177,10 +178,10 @@ to meet the following state:
 
 Compare the following implementation Issues:
 
-- univention/components/univention-portal#549
-- univention/components/univention-portal#555
-- univention/components/univention-portal#554 - This milestone helps to refine
-  the approach for this Issue.
+- univention/components/univention-portal#549 - Kubernetes deployment
+- univention/components/univention-portal#555 - Local development environment for kubernetes
+- univention/components/univention-portal#554 - Refactor current patching --
+  This milestone helps to refine the approach for this Issue.
 
 
 
