@@ -346,14 +346,6 @@ Backend steps: (only questions so far)
 ## Clarify
 
 
-### TODO UCS manual adjustments
-
-Are they needed as part of the Epic 409?
-
-Compare
-<https://docs.software-univention.de/manual/5.0/en/central-management-umc/index.html>
-
-
 ### TODO role of `ucs/web/theme` key
 
 The manual states that the design can be adjusted there and refers to
