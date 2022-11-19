@@ -353,16 +353,3 @@ Check also UMC
 
 How do the artifacts arrive in the registry? Do we have to solve this part as
 well or is it already solved?
-
-
-### TODO Other requirements
-
-Speak isteuwer
-
-Compare 335:
-
--   Deployment via Univention App Center
--   Deployment as native Docker
-
-Are those still relevant? Somehow the existing customer basis still has to be
-supported.

@@ -10,6 +10,7 @@ nav:
   - '409 Concept work': 409-concept.md
   - '409 Clarifications': 409-clarifications.md
   - '409 Planning': 409-planning.md
+  - '335 Concept work': 335-concept.md
   - 'Misc hints': hints-misc.md
   - 'Development Guide': dev-guide.md
   - 'Pointers': pointers.md

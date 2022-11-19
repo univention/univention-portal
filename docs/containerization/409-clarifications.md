@@ -3,7 +3,14 @@
 See <https://git.knut.univention.de/groups/univention/-/epics/409> regarding the Epic itself.
 
 This section logs notes regarding various topics which we managed to clarify
-during the journey.
+during the journey or which still have to be clarified.
+
+
+## Topics which still need a clarification
+
+
+
+## Clarified topics
 
 
 ### App Center
