@@ -109,8 +109,73 @@ It is assumed that this will have no impact on this concept.
 
 
 
+### Implementation approach and plan
+
+Based on the Acceptance Criteria of the epic two milestones have to be achieved:
+
+1. Deployment of the portal via HELM Charts into the Kubernetes cluster. The
+   portal would have to be usable and fully functional based on the existing UCS
+   instance inside of the integration environment.
+
+2. A deployment with reduced dependencies, esp. a deployment without a full UCS
+   stack. The portal will have to work based on an alternative storage backend
+   and an OpenID Connect IDP (Identity Provider).
+
+The implementation plan does focus on achieving (1) first and then catching up
+to also meet (2). The main reason is that it is assumed that during the work
+towards (1) the Dev Team will gain more experience with the portal and also new
+insights will be generated from the work. Those will influence the specifics of
+the work towards (2).
+
+
+#### Milestone: Containers running inside of the SouvAP integration environment
+
+The initial focus is on having minimal containers deployed successfully into the
+SouvAP integration environment.
+
+The containers shall meet the following basic requirements:
+
+1. It is possible to both build and run the container locally by a developer.
+   Developers shall be able to do this based on a simple initial `docker
+   compose` configuration.
+
+2. The Gitlab CI pipeline is successfully building the container images.
+
+3. It is possible to reasonably interact with the containers. We assume that
+   they have already one process running inside and that is possible to
+   successfully reach this process via HTTP. It is acceptable that some
+   functionality is not yet working in this stage.
+
+Regarding the SouvAP integration environment and Kubernetes integration we want
+to meet the following state:
+
+1. The containers can be successfully deployed based on a HELM chart into the
+   Kubernetes cluster inside of the SouvAP integration environment.
+
+   The triggering of the HELM chart MAY be still a manual step at this point in
+   time. Automation is considered for this milestone a stretch goal.
+
+2. We have found an initial setup for developers to work on this in their local
+   development environment.
+
+3. It is possible to reach the portal frontend via HTTP and the portal frontend
+   does start inside of the web browser.
+
+   It is assumed that we will see missing and broken functionality during this
+   milestone. The aim is to prove that the communication from the web browser
+   (client) through all intermediate components (e.g. reverse proxy on the UCS
+   instance, ingress related aspects of the kubernetes cluster) towards the
+   portal server container is working and fully understood. This will reduce the
+   risk of later surprises due to wrong assumptions or misunderstanding
+   regarding the SouvAP integration environment.
+
+
+
 ### Aspects which are currently not in focus
 
+#### User specific configuration
+
+Compare the Epic univention&435.
 
 #### Reference Kubernetes configuration from SCS project
 
