@@ -202,6 +202,55 @@ files:
 
 
 
+### Milestone: Portal functionality inside of the SouvAP integration environment
+
+Reaching this milestone means to have the currently existing functionality of
+the portal also working inside of the SouvAP integration environment. This must
+be achieved based on a Kubernetes based deployment.
+
+It is possible that we will see an integration package being installed into the
+UCS instance based on the existing Debian packaging mechanism as a result of
+reaching this milestone.
+
+
+Issues:
+
+- univention/components/univention-portal#553 - Runtime configuration
+- univention/components/univention-portal#550 - Change processing of directory updates
+- univention/components/univention-portal#551 - Authentication
+- univention/components/univention-portal#554 - Refactor current patching
+- univention/components/univention-portal#563 - Translations frontend
+- univention/components/univention-portal#564 - Translations backend
+
+
+### TODO: Milestone: Portal can be used without a full UCS stack
+
+
+Issues:
+
+- univention/components/univention-portal#552 - Alternative datastore
+
+
+### TODO: Other and/or later milestones
+
+
+Issues:
+
+- univention/components/univention-portal#556 - Capture former decisions into ADRs
+- univention/components/univention-portal#559 - Python scripts properly executable
+- TODO: Container quality -- logging in all containers
+- TODO: Container security / best practice -- USER instead of root
+
+
+### TODO: Clarification required
+
+Issues:
+
+- univention/components/univention-portal#562 - Apache VirtualHost configuration
+  - TODO: needs a check against the target environment and alignment with the devops team
+    - it's possible that the configuration resides on the UCS instance and the
+      portal frontend container only serves out the frontend assets.
+
 
 ### Aspects which are currently not in focus
 
