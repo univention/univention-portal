@@ -195,11 +195,8 @@ Already identified aspects which will most likely be initially replaced by stub
 files:
 
 - configuration files of the portal server
-
 - update mechanisms which react to changes in the LDAP directory
-
 - translations handling in the build process
-
 
 
 #### Milestone: Portal functionality inside of the SouvAP integration environment
