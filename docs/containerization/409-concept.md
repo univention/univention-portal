@@ -88,7 +88,7 @@ Especially the following two documents:
 #### SouvAP Integration Environment
 
 The current classic [deployment
-environment](pointers.md#souvap-integration-environment) looks roughly as
+environment](#souvap-integration-environment) looks roughly as
 follows:
 
 ![SouvAP classic](./images/souvap-classic-deployment.png)
@@ -108,6 +108,20 @@ be fully managed through Kubernetes. The virtual machines would be handled via
 It is assumed that this will have no impact on this concept.
 
 
+
+### Pointers
+
+
+#### SouvAP integration environment
+
+The integration environment can be reached via the following URL:
+
+<https://portal.dpx-univint.at-univention.de/univention/portal/#/>
+
+The code which produces the integration environment is available in the
+following repository on Gitlab:
+
+<https://git.knut.univention.de/univention/customers/dataport/custom/bmiux-hetzner-upgrade-automation/-/tree/master/>
 
 
 
