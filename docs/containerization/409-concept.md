@@ -88,7 +88,7 @@ Especially the following two documents:
 #### SouvAP Integration Environment
 
 The current classic [deployment
-environment](#souvap-integration-environment) looks roughly as
+environment](#souvap-integration-environment-1) looks roughly as
 follows:
 
 ![SouvAP classic](./images/souvap-classic-deployment.png)
