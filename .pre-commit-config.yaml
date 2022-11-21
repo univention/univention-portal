@@ -30,14 +30,10 @@ repos:
   hooks:
   - id: flake8
 
-- repo: https://github.com/psf/black
-  rev: 20.8b1
-  hooks:
-  - id: black
-    files: ^notifications-api/
-    language_version: python3.9
-    args: [--config=notifications-api/pyproject.toml]
-    additional_dependencies: ['click==8.0.4']
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: 'v2.0.0'  # Use the sha / tag you want to point at
+    hooks:
+    -   id: autopep8
 
 - repo: https://github.com/hadialqattan/pycln
   rev: v1.1.0
