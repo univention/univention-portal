@@ -252,6 +252,15 @@ Issues:
 
 #### TODO: Clarification required
 
+- Python packaging, dependencies and changelog
+  - We use currently the tooling from the former debian package
+  - Intention to use poetry
+  - Clarification needed if we keep the changelog around, and if so, how to
+    handle this
+    - at the moment copied into the container and included via the call to setup.py
+  - Dependencies are taken from  / documented in the debian/control section
+    - Intention to use the proper python tooling for this
+
 Issues:
 
 - univention/components/univention-portal#562 - Apache VirtualHost configuration
