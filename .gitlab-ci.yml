@@ -13,8 +13,6 @@ build-linter:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
     KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/pre-commit"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 pre-commit-linting:
   needs:
