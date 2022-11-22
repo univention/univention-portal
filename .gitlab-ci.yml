@@ -19,6 +19,27 @@ build-portal-server:
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
+build-portal-server-test-runner:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
+    KANIKO_ARGS: "--target=test"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+
+# Running tests
+
+test-portal-server:
+  needs:
+    - job: build-portal-server-test-runner
+  image: "$IMAGE_TAG"
+  variables:
+    PYTHONPATH: "./python"
+  script:
+    - pytest unittests
+
 
 # Linting related checks and builds
 
