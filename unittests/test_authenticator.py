@@ -37,13 +37,12 @@ import json
 
 import pytest
 import tornado
-from univentionunittests import import_module
 
 
 @pytest.fixture
 def user_module(request):
-	use_installed = request.config.getoption("--installed-portal")
-	return import_module("univention.portal.user", "python/", "univention.portal.user", use_installed=use_installed)
+	from univention.portal import user
+	return user
 
 
 def test_imports(dynamic_class):
