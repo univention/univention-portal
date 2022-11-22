@@ -28,6 +28,18 @@ COPY ./setup.py .
 RUN pip install --no-cache-dir .
 
 
+FROM build AS test
+WORKDIR /staging/
+COPY ./requirements-test.txt .
+RUN pip install --no-cache-dir -r requirements-test.txt \
+    && mkdir -p /var/log/univention/ \
+    && touch /var/log/univention/portal.log
+
+COPY ./unittests ./unittests
+
+CMD ["pytest", "unittests"]
+
+
 FROM ${DOCKER_PROXY}python:3.7-slim-buster AS final
 
 WORKDIR /app/
