@@ -30,3 +30,21 @@ services:
       - type: bind
         source: ./portal-server/stub_portal.json
         target: /var/cache/univention-portal/portal.json
+  test:
+    profiles:
+      - test
+    platform: "linux/amd64"
+    build:
+      context: ../
+      dockerfile: docker/portal-server/Dockerfile
+      target: test
+    container_name: univention-portal-server-test
+    environment:
+      PYTHONPATH: "./python"
+    volumes:
+      - type: bind
+        source: ../python
+        target: /staging/python
+      - type: bind
+        source: ../unittests
+        target: /staging/unittests
