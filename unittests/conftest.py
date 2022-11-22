@@ -36,37 +36,12 @@
 from os import path
 
 import pytest
-from univentionunittests import import_module
-
-
-def pytest_addoption(parser):
-	parser.addoption("--installed-portal", action="store_true", help="Test against installed portal")
 
 
 @pytest.fixture
-def portal_config(request):
-	use_installed = request.config.getoption("--installed-portal")
-	module = import_module("univention.portal.config", "python/", "univention.portal.config", use_installed=use_installed)
-	return module
-
-
-@pytest.fixture
-def portal_factory(request):
-	use_installed = request.config.getoption("--installed-portal")
-	module = import_module("univention.portal.factory", "python/", "univention.portal.factory", use_installed=use_installed)
-	return module
-
-
-@pytest.fixture
-def portal_lib(request):
-	use_installed = request.config.getoption("--installed-portal")
-	module = import_module("univention.portal", "python/", "univention.portal", use_installed=use_installed)
-	return module
-
-
-@pytest.fixture
-def dynamic_class(portal_lib):
-	return portal_lib.get_dynamic_classes
+def dynamic_class():
+	from univention import portal
+	return portal.get_dynamic_classes
 
 
 # Helper function fixtures
