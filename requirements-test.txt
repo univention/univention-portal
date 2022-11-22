@@ -1,0 +1,9 @@
+# TODO: Our vision is to move over time to the usage of "poetry" and
+# benefit from it's lock file mechanism.
+#
+# Important! The versions in this file match the versions which are in use on a
+# UCS system. We do keep this at least until the App Center integration has been
+# implemented.
+
+pytest==3.10.1
+pytest-mock==1.7.1
