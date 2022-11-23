@@ -35,11 +35,10 @@ test-portal-server:
   needs:
     - job: build-portal-server-test-runner
   image: "$IMAGE_TAG"
+  variables:
+    PYTHONPATH: "./python"
   script:
-    - pwd
-    - ls /
     - pytest unittests
-    - exit 1
 
 
 # Linting related checks and builds

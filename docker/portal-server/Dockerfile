@@ -2,7 +2,7 @@ ARG DOCKER_PROXY
 # Constraint: Keep the python version identical to the one used in the UCS 5
 # system. With the App Center integration this constraint can probably be
 # removed.
-FROM ${DOCKER_PROXY}python:3.7-slim-buster AS build
+FROM ${DOCKER_PROXY}python:3.7-slim-buster AS build-base
 
 RUN apt-get -qq update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
@@ -17,6 +17,8 @@ COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
+FROM build-base AS build
+
 # TODO: The debian packaging files are included by setup.py and copied due to
 # this reason. This will have to be adapted once the former debian packaging will
 # be removed.
@@ -28,14 +30,12 @@ COPY ./setup.py .
 RUN pip install --no-cache-dir .
 
 
-FROM build AS test
+FROM build-base AS test
 WORKDIR /staging/
 COPY ./requirements-test.txt .
 RUN pip install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log
-
-COPY ./unittests ./unittests
 
 CMD ["pytest", "unittests"]
 
