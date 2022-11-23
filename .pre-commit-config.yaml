@@ -39,18 +39,6 @@ repos:
 #  hooks:
 #  - id: shell-lint
 
-# "Dockerfile linter"
-- repo: https://gitlab.com/univention/pre-commit-hooks/dockerfilelint-precommit-hooks
-  rev: v0.1.0
-  hooks:
-  - id: dockerfilelint
-    exclude: |
-      (?x)^(
-        # Avoid that the version of the base image has to be pinned
-        # in this particular case.
-        docker/linter-pre-commit/Dockerfile
-      )$
-
 # "docker-compose.yaml linter"
 - repo: https://gitlab.com/univention/pre-commit-hooks/docker-compose-check
   rev: 7702a8801a158b8595569dd29e2dd655d8a08310
