@@ -36,7 +36,10 @@ test-portal-server:
     - job: build-portal-server-test-runner
   image: "$IMAGE_TAG"
   script:
+    - pwd
+    - ls /
     - pytest unittests
+    - exit 1
 
 
 # Linting related checks and builds
