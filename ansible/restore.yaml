@@ -1,9 +1,9 @@
-- name: Switch to portal server container
+- name: Restore VM to builtin portal
   hosts: vm
 
   tasks:
-    - name: Set Portal Port to 9095
-      ansible.builtin.command: ucr set portal/port=9095
+    - name: Set Portal Port to default (8095)
+      ansible.builtin.command: ucr unset portal/port
 
     - name: Restart Apache in all cases
       ansible.builtin.service:
