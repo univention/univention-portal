@@ -1,5 +1,6 @@
-- name: My first play
+- name: Switch to portal server container
   hosts: vm
+
   tasks:
-    - name: Ping host
-      ansible.builtin.ping:
+    - name: Set Portal Port to 9095
+      ansible.builtin.command: ucr set portal/port=9095

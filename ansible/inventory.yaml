@@ -3,4 +3,4 @@ vm:
     ucsvm:
       ansible_host: 10.200.115.10
   vars:
-    ansible_user: jbornhold
+    ansible_user: root
