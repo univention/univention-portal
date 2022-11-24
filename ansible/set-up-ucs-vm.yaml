@@ -1,0 +1,13 @@
+- name: Set up UCS VM
+  hosts: skurup
+
+  tasks:
+    - name: Ensure state directory exists
+      ansible.builtin.file:
+        path: /home/jbornhold/ansible/
+        state: directory
+
+    - name: Create VM jbornhold_test2
+      ansible.builtin.command:
+        cmd: ucs-kt-get -1 -r ansible/vm-jbornhold-test2.json --version 5.0-2+e339 --label test2 -y generic
+        creates: /home/jbornhold/ansible/vm-jbornhold-test2.json

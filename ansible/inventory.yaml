@@ -4,3 +4,10 @@ vm:
       ansible_host: 10.200.115.10
   vars:
     ansible_user: root
+
+vmhosts:
+  hosts:
+    skurup:
+      ansible_host: skurup.knut.univention.de
+    vars:
+      ansible_user: jbornhold

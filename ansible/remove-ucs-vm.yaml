@@ -1,0 +1,13 @@
+- name: Remove UCS VM
+  hosts: skurup
+
+  tasks:
+    - name: Remove VM jbornhold_test2
+      ansible.builtin.command:
+        cmd: ucs-kt-remove jbornhold_test2
+        removes: /home/jbornhold/ansible/vm-jbornhold-test2.json
+
+    - name: Remove state file of VM jbornhold_test2
+      ansible.builtin.file:
+        path: /home/jbornhold/ansible/vm-jbornhold-test2.json
+        state: absent
