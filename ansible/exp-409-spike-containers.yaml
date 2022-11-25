@@ -35,3 +35,12 @@
         image: portal-server
         published_ports:
           - "9095:80"
+
+    - name: Run the portal frontend container
+      community.docker.docker_container:
+        name: portal-frontend
+        state: started
+        detach: true
+        image: portal-frontend
+        published_ports:
+          - "9080:80"
