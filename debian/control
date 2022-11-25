@@ -22,3 +22,21 @@ Description: Univention Portal - Central portal web page for a UCS domain
  an integrated, directory driven solution for managing
  corporate environments. For more information about UCS,
  refer to: https://www.univention.de/
+
+Package: python3-univention-portal
+Architecture: all
+Depends:
+ python3-ldap,
+ python3-requests,
+ python3-tornado,
+ python3-univention-directory-manager,
+ python3-univention-directory-manager-rest-client,
+ ${python:Depends},
+Provides:
+ ${python:Provides},
+Description: Library for Univention Portal
+ .
+ It is part of Univention Corporate Server (UCS), an
+ integrated, directory driven solution for managing
+ corporate environments. For more information about UCS,
+ refer to: https://www.univention.de/
