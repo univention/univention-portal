@@ -1,0 +1,57 @@
+- name: Initialize UCS VM for development
+  hosts: jbornhold_clean
+  # We don't have any users yet
+  remote_user: root
+
+  tasks:
+    - name: Set authorized key for root user
+      ansible.posix.authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/Users/johannes/.ssh/id_ed25519_univention_2022-11-01.pub') }}"
+
+    - name: Flush nscd cache
+      # Avoid outdated information in the passwd database.
+      # Compare /etc/nscd.conf on your box.
+      ansible.builtin.command: nscd -i passwd
+
+    - name: Check if user "user" exists
+      ansible.builtin.getent:
+        database: passwd
+        key: user
+        fail_key: False
+
+    - ansible.builtin.debug:
+        var: ansible_facts.getent_passwd
+
+    - name: Ensure user "user" exists
+      # Setting the password will fail if the user does already exist and the
+      # value is unchanged
+      when: not ansible_facts.getent_passwd.user
+      block:
+        - name: Create user "user" in directory via udm
+          # when: False
+          univention.ucs_modules.univention_directory_manager:
+            module: users/user
+            state: present
+            set_properties:
+              - property: username
+                value: user
+              - property: lastname
+                value: User
+              - property: password
+                value: univention
+
+        - name: Flush nscd cache
+          ansible.builtin.command: nscd -i passwd
+
+        - name: Trigger home directory creation
+          ansible.builtin.command:
+            cmd: sudo -u user /bin/true
+            creates: /home/user
+
+    - name: Set authorized key for user "user"
+      ansible.posix.authorized_key:
+        user: user
+        state: present
+        key: "{{ lookup('file', '/Users/johannes/.ssh/id_ed25519_univention_2022-11-01.pub') }}"
