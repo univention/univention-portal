@@ -1,7 +1,10 @@
 vm:
   hosts:
-    ucsvm:
+    jbornhold_test:
       ansible_host: 10.200.115.10
+    jbornhold_clean:
+      # Clean UCS system install, then snapshotted
+      ansible_host: 10.200.115.20
   vars:
     ansible_user: root
 

@@ -7,7 +7,7 @@
         path: /home/jbornhold/ansible/
         state: directory
 
-    - name: Create VM jbornhold_test2
+    - name: Create VM jbornhold_clean
       ansible.builtin.command:
-        cmd: ucs-kt-get -1 -r ansible/vm-jbornhold-test2.json --version 5.0-2+e339 --label test2 -y generic
-        creates: /home/jbornhold/ansible/vm-jbornhold-test2.json
+        cmd: ucs-kt-get -1 -r ansible/vm-jbornhold-clean.json --version 5.0-2+e339 --label clean -y generic
+        creates: /home/jbornhold/ansible/vm-jbornhold-clean.json

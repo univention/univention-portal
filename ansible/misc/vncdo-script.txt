@@ -1,0 +1,97 @@
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "Europe"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "/"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key /
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key shift-7
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key shift-/
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key `
+bquote> `
+Traceback (most recent call last):
+  File "/nix/store/whdmb538rhb1rbnmqrbjfwb4c4qljhm3-python3.10-vncdo-0.12.0/bin/.vncdo-wrapped", line 9, in <module>
+    sys.exit(vncdo())
+  File "/nix/store/whdmb538rhb1rbnmqrbjfwb4c4qljhm3-python3.10-vncdo-0.12.0/lib/python3.10/site-packages/vncdotool/command.py", line 406, in vncdo
+    factory = build_tool(options, args)
+  File "/nix/store/whdmb538rhb1rbnmqrbjfwb4c4qljhm3-python3.10-vncdo-0.12.0/lib/python3.10/site-packages/vncdotool/command.py", line 223, in build_tool
+    build_command_list(factory, args, options.delay, options.warp)
+  File "/nix/store/whdmb538rhb1rbnmqrbjfwb4c4qljhm3-python3.10-vncdo-0.12.0/lib/python3.10/site-packages/vncdotool/command.py", line 123, in build_command_list
+    key = args.pop(0)
+IndexError: pop from empty list
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key space
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "Berlin"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key enter
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp bsp
+unknown cmd "bsp"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "Berlin"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key "-"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "Europe-Berlin"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key enter
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key space
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "10.200.115.20"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key enter
+(tmp) johannes@dev-joh univention-portal-409-concept % # wait wait wait
+zsh: command not found: #
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key enter
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key enter
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "Univention"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "johannes.bornhold.extern"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "@"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type ","
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "'"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "\""
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key shift-'
+quote>
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key shift-\'
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key \"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key bsp
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key shift-\"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "univention.de"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "univention"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 type "univention"
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key enter
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key tab
+(tmp) johannes@dev-joh univention-portal-409-concept % vncdo -s skurup.knut.univention.de::5931 key enter
+(tmp) johannes@dev-joh univention-portal-409-concept %
