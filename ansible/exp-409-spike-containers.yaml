@@ -1,0 +1,26 @@
+- name: Ensure the portal repository is present and up to date
+  hosts: jbornhold_clean
+  remote_user: user
+
+  tasks:
+    - name: Checkout the portal repository
+      ansible.builtin.git:
+        repo: "git@git.knut.univention.de:univention/components/univention-portal.git"
+        dest: /home/user/univention-portal
+        version: main
+
+    - name: Build docker image backend
+      community.docker.docker_image:
+        name: portal-server
+        build:
+          dockerfile: docker/portal-server/Dockerfile
+          path: /home/user/univention-portal
+        source: build
+
+    - name: Build docker image frontend
+      community.docker.docker_image:
+        name: portal-frontend
+        build:
+          dockerfile: docker/frontend/Dockerfile
+          path: /home/user/univention-portal
+        source: build
