@@ -55,3 +55,7 @@
         user: user
         state: present
         key: "{{ ssh_key }}"
+
+    - name: Ensure that git is installed
+      ansible.builtin.apt:
+        name: git
