@@ -7,36 +7,111 @@ import os
 import vncdotool.api
 
 
-def main():
-    # TODO: setting?
-    logging.basicConfig(level=logging.DEBUG)
+class InitialConfigurationViaVNC(object):
+    """
+    Implements the initial configuration via a VNC connection.
+    """
 
-    # TODO: should come from somewhere
-    server = "skurup.knut.univention.de"
-    port = "5932"
+    def __init__(self):
+        # TODO: should come from somewhere
+        server = "skurup.knut.univention.de"
+        port = "5932"
 
-    base_path = get_base_path()
-    client = connect_client(server, port)
+        self.base_path = get_base_path()
+        self.client = connect_client(server, port)
 
-    # somewhat deterministic mouse, important if watching and accidentally
-    # moving the mouse
-    client.mouseMove(100, 700)
+    def run(self):
+        # TODO: setting?
+        logging.basicConfig(level=logging.DEBUG)
 
-    client.expectScreen(os.path.join(base_path, 'screens/await-initial-screen.png'))
+        # somewhat deterministic mouse, important if watching and accidentally
+        # moving the mouse
+        self.client.mouseMove(100, 700)
 
-    raise NotImplementedError("expect worked")
+        self.client.captureScreen("screenshot.png")
 
-    client.keyPress('tab')
+        # self.expect_and_fill_first_screen()
+        # self.expect_and_fill_localization_screen()
+        # self.expect_and_fill_domain_and_network()
+        # self.expect_and_fill_domain_setup()
+        self.expect_and_fill_account_information()
 
-    for k in 'Berlin':
-        client.keyPress(k)
+        raise NotImplementedError("expect worked")
 
-    client.keyPress('tab')
-    client.keyPress('enter')
 
-    client.captureScreen(os.path.join(base_path, 'screenshot.png'))
+        client.captureScreen(os.path.join(base_path, 'screenshot.png'))
 
-    raise NotImplementedError("implement me!")
+        raise NotImplementedError("implement me!")
+
+
+    def expect_and_fill_first_screen(self):
+        self.client.expectScreen(
+            os.path.join(self.base_path, "screens/await-initial-screen.png"))
+
+        self.client.keyPress("tab")
+        for k in "Berlin":
+            self.client.keyPress(k)
+        self.client.keyPress("tab")
+        self.client.keyPress("enter")
+
+    def expect_and_fill_localization_screen(self):
+        self.client.expectScreen(
+            os.path.join(self.base_path, "screens/await-localization-settings.png"))
+
+        self.client.keyPress("tab")
+        for k in "Europe-Berlin":
+            self.client.keyPress(k)
+        self.client.keyPress("tab")
+        self.client.keyPress("tab")
+        self.client.keyPress("tab")
+        self.client.keyPress("enter")
+
+    def expect_and_fill_domain_and_network(self):
+        self.client.expectScreen(
+            os.path.join(self.base_path, "screens/await-domain-and-network.png"))
+
+        self.client.keyPress("space")
+        self.client.keyPress("tab")
+        for k in "10.200.115.20":
+            self.client.keyPress(k)
+        for _ in range(7):
+            self.client.keyPress("tab")
+        self.client.keyPress("enter")
+
+    def expect_and_fill_domain_setup(self):
+        self.client.expectScreen(
+            os.path.join(self.base_path, "screens/await-domain-setup.png"))
+
+        for _ in range(3):
+            self.client.keyPress("tab")
+        self.client.keyPress("enter")
+
+    def expect_and_fill_account_information(self):
+        # self.client.expectScreen(
+        #     os.path.join(self.base_path, "screens/await-account-information.png"))
+
+        # TODO: This is too much for the connection to handle. Either the
+        # client is broken, or it's sending things so fast that they get mixed
+        # up on the server end.
+
+        for k in "Univention":
+            self.client.keyPress(k)
+        self.client.keyPress("tab")
+        self.client.keyPress("tab")
+        for k in "johannes.bornhold.extern":
+            self.client.keyPress(k)
+        self.client.keyPress('shift-"')
+        for k in "univention.de":
+            self.client.keyPress(k)
+        self.client.keyPress("tab")
+        for k in "univention":
+            self.client.keyPress(k)
+        self.client.keyPress("tab")
+        for k in "univention":
+            self.client.keyPress(k)
+        self.client.keyPress("tab")
+        self.client.keyPress("tab")
+        self.client.keyPress("enter")
 
 
 def connect_client(server, port):
@@ -50,4 +125,4 @@ def get_base_path():
     return script_directory
 
 
-main()
+InitialConfigurationViaVNC().run()
