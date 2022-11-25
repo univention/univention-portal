@@ -8,7 +8,7 @@
       ansible.posix.authorized_key:
         user: root
         state: present
-        key: "{{ lookup('file', '/Users/johannes/.ssh/id_ed25519_univention_2022-11-01.pub') }}"
+        key: "{{ ssh_key }}"
 
     - name: Flush nscd cache
       # Avoid outdated information in the passwd database.
@@ -54,4 +54,4 @@
       ansible.posix.authorized_key:
         user: user
         state: present
-        key: "{{ lookup('file', '/Users/johannes/.ssh/id_ed25519_univention_2022-11-01.pub') }}"
+        key: "{{ ssh_key }}"
