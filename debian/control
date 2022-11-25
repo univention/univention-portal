@@ -47,6 +47,7 @@ Depends:
  python3-requests,
  python3-tornado,
  python3-univention-directory-manager,
+ python3-univention-directory-manager-rest-client,
  ${python:Depends},
 Provides:
  ${python:Provides},
