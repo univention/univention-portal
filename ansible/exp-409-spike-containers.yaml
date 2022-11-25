@@ -26,3 +26,12 @@
           dockerfile: docker/frontend/Dockerfile
           path: /home/user/univention-portal
         source: build
+
+    - name: Run the portal server container
+      community.docker.docker_container:
+        name: portal-server
+        state: started
+        detach: true
+        image: portal-server
+        published_ports:
+          - "9095:80"
