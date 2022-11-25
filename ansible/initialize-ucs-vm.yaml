@@ -56,6 +56,12 @@
         state: present
         key: "{{ ssh_key }}"
 
+    - name: Add Gitlab to known hosts
+      ansible.builtin.known_hosts:
+        name: git.knut.univention.de
+        path: /etc/ssh/ssh_known_hosts
+        key: "{{ lookup('ansible.builtin.file', 'pubkeys/git.knut.univention.de') }}"
+
     - name: Ensure that git is installed
       ansible.builtin.apt:
         name: git
