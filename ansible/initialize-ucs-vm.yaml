@@ -24,6 +24,7 @@
     - ansible.builtin.debug:
         var: ansible_facts.getent_passwd
 
+    # TODO: Ensure user is in group Domain Admins
     - name: Ensure user "user" exists
       # Setting the password will fail if the user does already exist and the
       # value is unchanged
