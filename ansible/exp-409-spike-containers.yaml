@@ -4,6 +4,7 @@
   vars:
     url_prefix: "univention"
     url_suffix: "-container"
+    ucs_host: "ucs-5746.univention.intranet"
     ports:
       portal_server: "9095"
       portal_frontend: "9080"

@@ -13,7 +13,7 @@ container case.
   "auth_mode": "ucs",
   "default_domain_dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention,dc=intranet",
   "editable": true,
-  "fqdn": "ucs-5746.univention.intranet",
+  "fqdn": "{{ ucs_host }}",
   "hostdn": "cn=ucs-5746,cn=dc,cn=computers,dc=univention,dc=intranet",
   "ldap_base": "dc=univention,dc=intranet",
   "ldap_uri": "ldap://ucs-5746.univention.intranet:7389",
@@ -22,5 +22,11 @@ container case.
      environment.
   -#}
   "port": "80",
-  "umc_session_url": "http://localhost/univention/get/session-info"
+  {# The UMC call goes first through the apache server and is then
+     forwarded to the internal port.
+
+     This means we can publicly access the endpoint (as long as we have the cookie)
+     and things will work.
+  -#}
+  "umc_session_url": "http://{{ ucs_host }}/univention/get/session-info"
 }
