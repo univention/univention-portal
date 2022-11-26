@@ -7,6 +7,18 @@
 # Makes the portal in the container available, so that it can be tested out.
 #
 
+# Redirect base to portal
+#
+# Compare: /etc/apache2/conf-enabled/univention-web.conf
+#
+# TODO: Should have tests which check that this does in fact work in k8s and in
+# app-center.
+
+<LocationMatch "^/univention-container/$">
+  Redirect temp /univention-container/ /univention-container/portal/
+</LocationMatch>
+
+
 ProxyPassMatch /({{ url_prefix }}/portal/.*) http://127.0.0.1:{{ ports.portal_server }}/$1 retry=0
 
 # TODO: Redirect to frontend container
