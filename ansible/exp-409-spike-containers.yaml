@@ -44,3 +44,13 @@
         image: portal-frontend
         published_ports:
           - "9080:80"
+
+    - name: Ensure Apache configuration for backend container
+      ansible.builtin.template:
+        src: etc/exp-univention-portal-container.conf.j2
+        dest: /etc/apache2/ucs-sites.conf.d/exp-univention-portal-container.conf
+
+    - name: Reload Apache configuration
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded
