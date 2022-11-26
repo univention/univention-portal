@@ -19,7 +19,13 @@
 </LocationMatch>
 
 
-ProxyPassMatch /({{ url_prefix }}/portal/.*) http://127.0.0.1:{{ ports.portal_server }}/$1 retry=0
+# Sub-paths which have to go into the backend container
+ProxyPassMatch "^/{{ url_prefix }}/(portal/portal.json)$" "http://127.0.0.1:{{ ports.portal_server }}/univention/$1" retry=0
+
+# Everything else goes into the frontend container
+ProxyPassMatch "^/{{ url_prefix }}/portal/(.*)$" "http://127.0.0.1:{{ ports.portal_frontend }}/$1" retry=0
+
+
 
 # TODO: Redirect to frontend container
 <Directory /var/www/univention/portal/>
