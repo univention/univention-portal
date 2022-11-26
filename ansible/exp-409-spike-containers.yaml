@@ -9,6 +9,17 @@
       portal_frontend: "9080"
 
   tasks:
+    - name: Ensure the configuration file directory exists
+      ansible.builtin.file:
+        path: /etc/spike-epic-409
+        state: directory
+        mode: "0755"
+
+    - name: Prepare the portal configuration config.json
+      ansible.builtin.template:
+        src: ./etc/portal-config.json.j2
+        dest: /etc/spike-epic-409/portal-config.json
+
     - name: Checkout the portal repository
       ansible.builtin.git:
         repo: "git@git.knut.univention.de:univention/components/univention-portal.git"
