@@ -1,0 +1,6 @@
+- name: Fix the date and time inside of the VM
+  hosts: jbornhold_clean
+
+  tasks:
+    - name: Run rdate to fix up date and time
+      ansible.builtin.shell: rdate -n "$(ucr get gateway)"
