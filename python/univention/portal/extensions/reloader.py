@@ -204,7 +204,8 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
 			return fd
 
-	def _extract_portal(self, portal_data):
+	@classmethod
+	def _extract_portal(cls, portal_data):
 		portal = {
 			"dn": portal_data.dn,
 			"showUmc": portal_data.properties["showUmc"],
@@ -219,14 +220,15 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		portal_name = portal_data.properties["name"]
 
 		if portal["logo"]:
-			portal["logo"] = self._write_image(portal_name, portal["logo"], "logos")
+			portal["logo"] = cls._write_image(portal_name, portal["logo"], dirname="logos")
 
 		if portal["background"]:
-			portal["background"] = self._write_image(portal_name, portal["background"], "backgrounds")
+			portal["background"] = cls._write_image(portal_name, portal["background"], dirname="backgrounds")
 
 		return portal
 
-	def _extract_categories(self, udm, portal_categories):
+	@classmethod
+	def _extract_categories(cls, udm, portal_categories):
 		categories = {}
 
 		for category in udm.get("portals/category").search(opened=True):
@@ -239,7 +241,8 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
 		return categories
 
-	def _extract_folders(self, udm, portal_categories, user_links, menu_links):
+	@classmethod
+	def _extract_folders(cls, udm, portal_categories, user_links, menu_links):
 		folders = {}
 
 		for folder in udm.get("portals/folder").search(opened=True):
@@ -258,7 +261,8 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
 		return folders
 
-	def _extract_entries(self, udm, portal_categories, portal_folders, user_links, menu_links):
+	@classmethod
+	def _extract_entries(cls, udm, portal_categories, portal_folders, user_links, menu_links):
 		entries = {}
 
 		for entry in udm.get("portals/entry").search(opened=True):
@@ -274,10 +278,8 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
 			logo_name = None
 			if entry.properties["icon"]:
-				logo_name = self._write_image(
-					entry.properties["name"],
-					entry.properties["icon"],
-					"entries"
+				logo_name = cls._write_image(
+					entry.properties["name"], entry.properties["icon"], dirname="entries"
 				)
 
 			entries[entry.dn] = {
@@ -298,8 +300,8 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
 		return entries
 
-	@staticmethod
-	def _write_image(name, img, dirname):
+	@classmethod
+	def _write_image(cls, name, img, dirname):
 		try:
 			name = name.replace(
 				"/", "-"
