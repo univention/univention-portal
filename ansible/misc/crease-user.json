@@ -1,0 +1,36 @@
+{
+  "options": [
+    {
+      "object": {
+        "username": "user",
+        "lastname": "User",
+        "displayName": "User",
+        "pwdChangeNextLogin": false,
+        "disabled": false,
+        "accountActivationDate": [
+          null,
+          null,
+          "Europe/Berlin"
+        ],
+        "unlock": false,
+        "password": "univention",
+        "unixhome": "/home/user",
+        "shell": "/bin/bash",
+        "primaryGroup": "cn=Domain Users,cn=groups,dc=univention,dc=intranet",
+        "mailForwardCopyToSelf": "0",
+        "overridePWHistory": false,
+        "overridePWLength": false,
+        "homeSharePath": "user",
+        "$options$": {
+          "pki": false
+        }
+      },
+      "options": {
+        "container": "cn=users,dc=univention,dc=intranet",
+        "objectType": "users/user",
+        "objectTemplate": "None"
+      }
+    }
+  ],
+  "flavor": "users/user"
+}
