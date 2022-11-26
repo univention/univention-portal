@@ -27,7 +27,7 @@
         dest: /home/user/univention-portal
         # You may want to ping this to a specific commit to avoid rebuilding the
         # frontend image too frequencly. It is taking time.
-        version: main
+        version: origin/jbornhold/409-concept-and-planning
 
     - name: Build docker image backend
       ansible.builtin.command:
