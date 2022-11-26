@@ -7,6 +7,15 @@
 # Makes the portal in the container available, so that it can be tested out.
 #
 
+
+# TODO: Handling of icons
+#
+# For now rewriting these to the old scheme, so that they are
+# reachable. These items cannot be in the frontend container and need
+# a dedicated solution.
+RewriteRule "^/{{ url_prefix }}/portal{{ url_suffix }}/(icons/.*)$" "/univention/portal/$1"
+
+
 # Sub-paths which have to go into the backend container
 ProxyPassMatch "^/{{ url_prefix }}/portal{{ url_suffix }}/(portal.json)$" "http://127.0.0.1:{{ ports.portal_server }}/univention/portal/$1" retry=0
 
