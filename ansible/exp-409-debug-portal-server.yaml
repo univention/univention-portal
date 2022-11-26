@@ -1,0 +1,55 @@
+- name: Ensure the portal repository is present and up to date
+  hosts: jbornhold_clean
+
+  vars:
+    ports:
+      portal_server: "9095"
+
+  tasks:
+    # TODO: clone repo as user "user" into local home
+
+    - name: Stop portal server container
+      community.docker.docker_container:
+        name: portal-server
+        state: stopped
+
+    - name: Build local docker image backend
+      community.docker.docker_image:
+        name: portal-server-local
+        build:
+          dockerfile: docker/portal-server/Dockerfile
+          path: /home/user/local-univention-portal
+        source: build
+
+    - name: Run the portal server with local code
+      community.docker.docker_container:
+        name: portal-server-local
+        state: started
+        restart: true
+        detach: true
+        image: portal-server-local
+        published_ports:
+          - "{{ ports.portal_server }}:80"
+        env:
+          PYTHONPATH: /app/src/python
+        command: "python3 /app/src/univention-portal-server"
+        mounts:
+          # Local code
+          - source: /home/user/local-univention-portal
+            target: /app/src
+            type: bind
+
+          # The configuration is currently provided as a file.
+          # This has to be provided by the environment.
+          - source: /etc/spike-epic-409/portal-config.json
+            target: /usr/lib/univention-portal/config/config.json
+            type: bind
+          # The environment has to provide this data and ensure that it
+          # will stay up to date. The portal server just expects it to be
+          # provided and will use it.
+          - source: /var/cache/univention-portal/portal.json
+            target: /var/cache/univention-portal/portal.json
+            type: bind
+          - source: /var/cache/univention-portal/groups.json
+            target: /var/cache/univention-portal/groups.json
+            type: bind
