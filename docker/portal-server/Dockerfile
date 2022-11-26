@@ -1,8 +1,5 @@
 ARG DOCKER_PROXY
-# Constraint: Keep the python version identical to the one used in the UCS 5
-# system. With the App Center integration this constraint can probably be
-# removed.
-FROM ${DOCKER_PROXY}python:3.7-slim-buster AS ucs-sources-base
+FROM ${DOCKER_PROXY}debian:buster-slim AS ucs-sources-base
 
 ARG APT_KEY_URL=https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg
 
@@ -27,6 +24,9 @@ RUN apt-get -qq update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
     gcc=4:8.* \
     libsasl2-dev=2.* \
+    python3=3.7.* \
+    python3-pip=18.* \
+    python3-setuptools=40.* \
     python3-dev=3.7.* \
     libldap2-dev=2.* \
     python3-univention-directory-manager-rest-client=10.* \
@@ -34,7 +34,7 @@ RUN apt-get -qq update \
 
 WORKDIR /staging/
 COPY ./requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 
 FROM build-base AS build
@@ -47,20 +47,28 @@ COPY ./debian/control ./debian/control
 COPY ./python ./python
 COPY ./setup.py .
 
-RUN pip install --no-cache-dir .
+RUN pip3 install --no-cache-dir .
 
 
 FROM build-base AS test
 WORKDIR /staging/
 COPY ./requirements-test.txt .
-RUN pip install --no-cache-dir -r requirements-test.txt \
+RUN pip3 install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log
 
 CMD ["pytest", "unittests"]
 
 
-FROM ${DOCKER_PROXY}python:3.7-slim-buster AS final
+FROM ${DOCKER_PROXY}debian:buster-slim AS final
+
+RUN apt-get update \
+  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+    python3=3.7.* \
+    # libldap2-dev is required to make python-ldap work.
+    # Currently this is used in the portal server to parse the DNs via "str2dn".
+    libldap2-dev=2.* \
+  && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /app/
 
@@ -76,13 +84,7 @@ COPY ./docker/portal-server/stub_groups.json /var/cache/univention-portal/groups
 COPY ./docker/portal-server/stub_portal.json /var/cache/univention-portal/portal.json
 COPY ./docker/portal-server/machine.secret /etc/machine.secret
 
-RUN apt-get update \
-  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    # libldap2-dev is required to make python-ldap work.
-    # Currently this is used in the portal server to parse the DNs via "str2dn".
-    libldap2-dev=2.* \
-  && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/* \
-  && mkdir -p /var/log/univention/ \
+RUN mkdir -p /var/log/univention/ \
   && touch /var/log/univention/portal.log \
   && mkdir -p /usr/share/univention-portal \
   && python3 univention-portal add-default
