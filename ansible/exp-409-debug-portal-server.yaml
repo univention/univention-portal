@@ -14,12 +14,9 @@
         state: stopped
 
     - name: Build local docker image backend
-      community.docker.docker_image:
-        name: portal-server-local
-        build:
-          dockerfile: docker/portal-server/Dockerfile
-          path: /home/user/local-univention-portal
-        source: build
+      ansible.builtin.command:
+        cmd: docker build -t portal-server-local -f docker/portal-server/Dockerfile .
+        chdir: /home/user/local-univention-portal
 
     - name: Run the portal server with local code
       community.docker.docker_container:
