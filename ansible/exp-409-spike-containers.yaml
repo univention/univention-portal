@@ -30,12 +30,9 @@
         version: main
 
     - name: Build docker image backend
-      community.docker.docker_image:
-        name: portal-server
-        build:
-          dockerfile: docker/portal-server/Dockerfile
-          path: /home/user/univention-portal
-        source: build
+      ansible.builtin.command:
+        cmd: docker build -t portal-server -f docker/portal-server/Dockerfile .
+        chdir: /home/user/univention-portal
 
     - name: Build docker image frontend
       community.docker.docker_image:
