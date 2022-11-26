@@ -17,6 +17,15 @@ key into your VM:
 
 This should allow to operate with commands like `git clone` or `git push`.
 
+This can be configured in `~/.ssh/config` and then also works for other tools
+which use `ssh` under the hood, e.g. Ansible. An example looks as follows:
+
+```
+Host 10.200.115.*
+  User user
+  ForwardAgent yes
+```
+
 
 ## VM user using Docker
 
