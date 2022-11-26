@@ -41,6 +41,16 @@
         image: portal-server
         published_ports:
           - "{{ ports.portal_server }}:80"
+        mounts:
+          # The environment has to provide this data and ensure that it
+          # will stay up to date. The portal server just expects it to be
+          # provided and will use it.
+          - source: /var/cache/univention-portal/portal.json
+            target: /var/cache/univention-portal/portal.json
+            type: bind
+          - source: /var/cache/univention-portal/groups.json
+            target: /var/cache/univention-portal/groups.json
+            type: bind
 
     - name: Run the portal frontend container
       community.docker.docker_container:
