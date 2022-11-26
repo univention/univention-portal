@@ -1,6 +1,11 @@
 - name: Ensure the portal repository is present and up to date
   hosts: jbornhold_clean
   remote_user: user
+  vars:
+    url_prefix: "univention-container"
+    ports:
+      portal_server: "9095"
+      portal_frontend: "9080"
 
   tasks:
     - name: Checkout the portal repository
@@ -34,7 +39,7 @@
         detach: true
         image: portal-server
         published_ports:
-          - "9095:80"
+          - "{{ ports.portal_server }}:80"
 
     - name: Run the portal frontend container
       community.docker.docker_container:
@@ -43,7 +48,7 @@
         detach: true
         image: portal-frontend
         published_ports:
-          - "9080:80"
+          - "{{ ports.portal_frontend }}:80"
 
     - name: Ensure Apache configuration for backend container
       ansible.builtin.template:

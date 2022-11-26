@@ -7,7 +7,7 @@
 # Makes the portal in the container available, so that it can be tested out.
 #
 
-ProxyPassMatch /(univention-container/portal/.*) http://127.0.0.1:9095/$1 retry=0
+ProxyPassMatch /({{ url_prefix }}/portal/.*) http://127.0.0.1:{{ ports.portal_server }}/$1 retry=0
 
 # TODO: Redirect to frontend container
 <Directory /var/www/univention/portal/>
@@ -21,7 +21,7 @@ ProxyPassMatch /(univention-container/portal/.*) http://127.0.0.1:9095/$1 retry=
 
 
 # TODO: UMC? Double check if we really want this
-ProxyPassMatch /(univention-container/umc/.*) http://127.0.0.1:9095/$1 retry=0
+ProxyPassMatch /({{ url_prefix }}/umc/.*) http://127.0.0.1:{{ ports.portal_server }}/$1 retry=0
 
 <Directory /var/www/univention/umc/>
         <FilesMatch "(portal|apps)\.json|portal\.css">
