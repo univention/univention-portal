@@ -2,7 +2,8 @@
   hosts: jbornhold_clean
   remote_user: user
   vars:
-    url_prefix: "univention-container"
+    url_prefix: "univention"
+    url_suffix: "-container"
     ports:
       portal_server: "9095"
       portal_frontend: "9080"

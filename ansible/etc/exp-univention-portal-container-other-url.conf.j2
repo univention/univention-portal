@@ -1,0 +1,13 @@
+# TODO: Putting the Portal on a different URL path does unveil new issues, e.g.
+# the shared sessions cookie handling with UMC.
+
+# Redirect base to portal
+#
+# Compare: /etc/apache2/conf-enabled/univention-web.conf
+#
+# TODO: Should have tests which check that this does in fact work in k8s and in
+# app-center.
+
+<LocationMatch "^/univention-container/$">
+  Redirect temp /univention-container/ /univention-container/portal/
+</LocationMatch>
