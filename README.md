@@ -22,3 +22,8 @@ This branch should be moved into a personal repository once that's available.
 
 This branch is of temporary nature and can safely be removed once there is no
 value in interim work results anymore.
+
+
+### Contact
+
+<johannes.bornhold.extern@univention.de>
