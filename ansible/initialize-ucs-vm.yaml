@@ -51,6 +51,13 @@
             cmd: sudo -u user /bin/true
             creates: /home/user
 
+    - name: Add user into docker group
+      ansible.builtin.user:
+        name: user
+        append: true
+        groups:
+          - docker
+
     - name: Set authorized key for user "user"
       ansible.posix.authorized_key:
         user: user
