@@ -53,6 +53,11 @@
         published_ports:
           - "{{ ports.portal_server }}:80"
         mounts:
+          # The configuration is currently provided as a file.
+          # This has to be provided by the environment.
+          - source: /etc/spike-epic-409/portal-config.json
+            target: /usr/lib/univention-portal/config/config.json
+            type: bind
           # The environment has to provide this data and ensure that it
           # will stay up to date. The portal server just expects it to be
           # provided and will use it.
