@@ -51,7 +51,7 @@ from univention.portal.log import get_logger
 API_URL = f"https://{config.fetch('fqdn')}/univention/udm"
 USERNAME = "Administrator"
 PASSWORD = "univention"
-IMAGES_ROOT = Path("/usr/share/univention-portal/icons")
+ASSETS_ROOT = Path("/usr/share/univention-portal")
 
 
 class Reloader(metaclass=Plugin):
@@ -220,10 +220,10 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		portal_name = portal_data.properties["name"]
 
 		if portal["logo"]:
-			portal["logo"] = cls._write_image(portal_name, portal["logo"], dirname="logos")
+			portal["logo"] = cls._write_image(portal["logo"], portal_name, dirname="logos")
 
 		if portal["background"]:
-			portal["background"] = cls._write_image(portal_name, portal["background"], dirname="backgrounds")
+			portal["background"] = cls._write_image(portal["background"], portal_name, dirname="backgrounds")
 
 		return portal
 
@@ -279,7 +279,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 			logo_name = None
 			if entry.properties["icon"]:
 				logo_name = cls._write_image(
-					entry.properties["name"], entry.properties["icon"], dirname="entries"
+					entry.properties["icon"], entry.properties["name"], dirname="entries"
 				)
 
 			entries[entry.dn] = {
@@ -301,19 +301,19 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		return entries
 
 	@classmethod
-	def _write_image(cls, name, img, dirname):
+	def _write_image(cls, image, name, dirname):
 		try:
 			name = name.replace(
 				"/", "-"
 			)  # name must not contain / and must be a path which can be accessed via the web!
-			binary_img = a2b_base64(img)
-			suffix = what(None, binary_img) or "svg"
-			image = IMAGES_ROOT / dirname / f"{name}.{suffix}"
-			image.write_bytes(binary_img)
+			binary_image = a2b_base64(image)
+			extension = what(None, binary_image) or "svg"
+			path = ASSETS_ROOT / "icons" / dirname / f"{name}.{extension}"
+			path.write_bytes(binary_image)
 		except (OSError, TypeError):
 			get_logger("img").exception("Error saving image for %s" % name)
 		else:
-			return f"./icons/{quote(dirname)}/{quote(name)}.{quote(suffix)}"
+			return f"./icons/{quote(dirname)}/{quote(name)}.{extension}"
 
 
 class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
