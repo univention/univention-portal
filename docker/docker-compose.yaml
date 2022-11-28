@@ -40,7 +40,8 @@ services:
       target: test
     container_name: univention-portal-server-test
     environment:
-      PYTHONPATH: "./python"
+      # TODO: "dist-packages" part required due to custom interpreter
+      PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
     volumes:
       - type: bind
         source: ../python
