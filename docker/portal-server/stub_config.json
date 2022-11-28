@@ -10,5 +10,9 @@
   "ldap_base": "dc=univention,dc=test",
   "ldap_uri": "ldap://primary.univention.test:7389",
   "port": "80",
-  "umc_session_url": "http://localhost/univention/get/session-info"
+  "umc_session_url": "http://localhost/univention/get/session-info",
+  "udm_api_url": "https://primary.univention.test/univention/udm",
+  "udm_api_username": "Administrator",
+  "udm_api_password_file": "/etc/machine.secret",
+  "assets_root": "/usr/share/univention-portal"
 }
