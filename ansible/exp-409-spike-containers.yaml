@@ -89,3 +89,25 @@
       ansible.builtin.service:
         name: apache2
         state: reloaded
+
+    - name: Ensure Portal login link is updated (login-ucs)
+      univention.ucs_modules.univention_directory_manager:
+        module: portals/entry
+        state: present
+        dn: "cn=login-ucs,cn=entry,cn=portals,cn=univention,dc=univention,dc=intranet"
+        set_properties:
+          - property: link
+            value:
+              - locale: en_US
+                value: "/univention/login/?location=/univention/portal-container/"
+
+    - name: Ensure Portal login link is updated (login-saml)
+      univention.ucs_modules.univention_directory_manager:
+        module: portals/entry
+        state: present
+        dn: "cn=login-saml,cn=entry,cn=portals,cn=univention,dc=univention,dc=intranet"
+        set_properties:
+          - property: link
+            value:
+              - locale: en_US
+                value: "/univention/saml/?location=/univention/portal-container/"
