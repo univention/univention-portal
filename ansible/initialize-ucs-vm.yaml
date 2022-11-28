@@ -72,4 +72,6 @@
 
     - name: Ensure that git is installed
       ansible.builtin.apt:
-        name: git
+        name:
+          - git
+          - tmux
