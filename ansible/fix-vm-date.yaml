@@ -4,3 +4,8 @@
   tasks:
     - name: Run rdate to fix up date and time
       ansible.builtin.shell: rdate -n "$(ucr get gateway)"
+      register: result
+
+    - name: Debug output VM date
+      ansible.builtin.debug:
+        msg: "System {{ inventory_hostname }} time: {{ result.stdout }}"
