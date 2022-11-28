@@ -160,7 +160,6 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 			config.fetch('udm_api_username'),
 			Path(config.fetch("udm_api_password_file")).read_text().strip()
 		)
-
 		try:
 			portal_module = udm.get("portals/portal")
 			if not portal_module:
