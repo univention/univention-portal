@@ -8,10 +8,12 @@ default_admin_groups = "cn=%s,cn=groups,%s" % (
 )
 admin_groups = configRegistry.get("portal/admin-groups", default_admin_groups).split(", ")
 admin_groups = [group.strip() for group in admin_groups]
+hostname = configRegistry.get("hostname")
+fqdn = "%s.%s" % (hostname, configRegistry.get("domainname"))
 config = {
 	"port": configRegistry.get("portal/port"),
 	"admin_groups": admin_groups,
-	"fqdn": "%s.%s" % (configRegistry.get("hostname"), configRegistry.get("domainname")),
+	"fqdn": fqdn,
 	"hostdn": configRegistry.get("ldap/hostdn"),
 	"ldap_base": configRegistry.get("ldap/base"),
 	"ldap_uri": "ldap://%s:%s" % (configRegistry.get("ldap/server/name"), configRegistry.get("ldap/server/port")),
@@ -19,6 +21,10 @@ config = {
 	"umc_session_url": "http://localhost/univention/get/session-info",
 	"default_domain_dn": configRegistry.get("portal/default-dn"),
 	"editable": configRegistry.get("server/role") == "domaincontroller_master",
+	"udm_api_url": "https://%s/univention/udm" % fqdn,
+	"udm_api_username": hostname + "$",
+	"udm_api_password_file": "/etc/machine.secret",
+	"assets_root": "/usr/share/univention-portal",
 }
 print(json.dumps(config, sort_keys=True, indent=2))
 @!@

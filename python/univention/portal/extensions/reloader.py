@@ -48,11 +48,6 @@ import univention.portal.config as config
 from univention.portal import Plugin
 from univention.portal.log import get_logger
 
-API_URL = f"https://{config.fetch('fqdn')}/univention/udm"
-USERNAME = "Administrator"
-PASSWORD = "univention"
-ASSETS_ROOT = Path("/usr/share/univention-portal")
-
 
 class Reloader(metaclass=Plugin):
 	"""
@@ -160,7 +155,11 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		return reason_args[1] in ["portal", "category", "entry", "folder"]
 
 	def _refresh(self):
-		udm = udm_client.UDM.http(API_URL, USERNAME, PASSWORD)
+		udm = udm_client.UDM.http(
+			config.fetch('udm_api_url'),
+			config.fetch('udm_api_username'),
+			Path(config.fetch("udm_api_password_file")).read_text().strip()
+		)
 
 		try:
 			portal_module = udm.get("portals/portal")
@@ -302,13 +301,15 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
 	@classmethod
 	def _write_image(cls, image, name, dirname):
+		assets_root = Path(config.fetch("assets_root"))
+
 		try:
 			name = name.replace(
 				"/", "-"
 			)  # name must not contain / and must be a path which can be accessed via the web!
 			binary_image = a2b_base64(image)
 			extension = what(None, binary_image) or "svg"
-			path = ASSETS_ROOT / "icons" / dirname / f"{name}.{extension}"
+			path = assets_root / "icons" / dirname / f"{name}.{extension}"
 			path.write_bytes(binary_image)
 		except (OSError, TypeError):
 			get_logger("img").exception("Error saving image for %s" % name)
