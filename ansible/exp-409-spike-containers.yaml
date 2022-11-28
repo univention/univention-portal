@@ -25,7 +25,7 @@
       ansible.builtin.git:
         repo: "git@git.knut.univention.de:univention/components/univention-portal.git"
         dest: /home/user/univention-portal
-        # You may want to ping this to a specific commit to avoid rebuilding the
+        # You may want to pin this to a specific commit to avoid rebuilding the
         # frontend image too frequencly. It is taking time.
         version: origin/jbornhold/409-concept-and-planning
 
