@@ -59,11 +59,8 @@
           # The environment has to provide this data and ensure that it
           # will stay up to date. The portal server just expects it to be
           # provided and will use it.
-          - source: /var/cache/univention-portal/portal.json
-            target: /var/cache/univention-portal/portal.json
-            type: bind
-          - source: /var/cache/univention-portal/groups.json
-            target: /var/cache/univention-portal/groups.json
+          - source: /var/cache/univention-portal
+            target: /var/cache/univention-portal
             type: bind
 
     - name: Run the portal frontend container
