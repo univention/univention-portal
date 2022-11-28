@@ -2,7 +2,26 @@ ARG DOCKER_PROXY
 # Constraint: Keep the python version identical to the one used in the UCS 5
 # system. With the App Center integration this constraint can probably be
 # removed.
-FROM ${DOCKER_PROXY}python:3.7-slim-buster AS build-base
+FROM ${DOCKER_PROXY}python:3.7-slim-buster AS ucs-sources-base
+
+ARG APT_KEY_URL=https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# hadolint ignore=DL3008
+RUN apt-get update \
+    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+      ca-certificates \
+      curl \
+      gpg \
+      gpg-agent \
+    && rm -fr /var/lib/apt/lists/*  /var/cache/apt/archives/* \
+    && curl -fsSL ${APT_KEY_URL} | apt-key add -
+
+COPY ./docker/portal-server/sources.list /etc/apt/sources.list.d/15_ucs-online-version.list
+
+
+FROM ucs-sources-base as build-base
 
 RUN apt-get -qq update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
@@ -10,6 +29,7 @@ RUN apt-get -qq update \
     libsasl2-dev=2.* \
     python3-dev=3.7.* \
     libldap2-dev=2.* \
+    python3-univention-directory-manager-rest-client=10.* \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /staging/
