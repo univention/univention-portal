@@ -65,7 +65,9 @@ class Cache(metaclass=Plugin):
 	def get_id(self):
 		try:
 			stat = os.stat(self._cache_file)
-			return str(stat.st_mtime)
+			result = str(stat.st_mtime)
+			get_logger("cache").info("Mtime of cache file {} is {}.".format(
+				self._cache_file, result))
 		except (EnvironmentError):
 			return ""
 
