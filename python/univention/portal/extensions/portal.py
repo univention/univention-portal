@@ -301,9 +301,23 @@ class UMCPortal(Portal):
 		for module in content["umc_modules"]:
 			if "apps" in module["categories"]:
 				continue
+			# TODO: Here is pending work. There is a hidden dependency (or
+			# multiple dependencies) inside of the following lines.
+			#
+			# The entry data is from the UMC. The UMC also includes the
+			# "logo_name" as a plain name. Now we see that the portal does
+			# "translate" this into a URL after doing checks on the filesystem.
+			# The portal frontend does actually expect a "logo_url" or
+			# "logo_link" value inside of "logo_name".
+			#
+			# This does require a refactoring.
 			logo_name = "/univention/management/js/dijit/themes/umc/icons/scalable/{}.svg".format(module["icon"])
-			if not os.path.exists(os.path.join("/usr/share/univention-management-console-frontend/", logo_name[23:])):
-				logo_name = None
+			# HACK: Inside of the container we will never expect to see any
+			# assets of the UMC, commented the if check for the spike #569.
+
+			# if not os.path.exists(os.path.join("/usr/share/univention-management-console-frontend/", logo_name[23:])):
+			# 	logo_name = None
+
 			color = None
 			for cat in module["categories"]:
 				if cat in colors:
