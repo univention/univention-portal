@@ -113,6 +113,26 @@ class Portal(metaclass=Plugin):
 	async def logout_user(self, request):
 		return await self.authenticator.logout_user(request)
 
+	def get_data(self, user, admin_mode=False):
+		visible_content = self.get_visible_content(user, admin_mode)
+		categories = self.get_categories(visible_content)
+
+		answer = {
+			"cache_id": self.get_cache_id(),
+			"user_links": self.get_user_links(visible_content),
+			"menu_links": self.get_menu_links(visible_content),
+			"entries": self.get_entries(visible_content),
+			"folders": self.get_folders(visible_content),
+			"categories": categories,
+			"portal": self.get_meta(visible_content, categories),
+			"filtered": not admin_mode,
+			"username": user.username,
+			"user_displayname": user.display_name,
+			"may_edit_portal": self.may_be_edited(user),
+		}
+
+		return answer
+
 	def get_visible_content(self, user, admin_mode):
 		entries = self.portal_cache.get_entries()
 		folders = self.portal_cache.get_folders()
