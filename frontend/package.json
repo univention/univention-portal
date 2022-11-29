@@ -20,6 +20,7 @@
     "@babel/plugin-proposal-decorators": "^7.12.13",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.17.12",
     "@babel/plugin-proposal-optional-chaining": "^7.17.12",
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@storybook/addon-a11y": "6.4.9",
     "@storybook/addon-actions": "6.4.19",
     "@storybook/addon-essentials": "6.4.19",
@@ -91,7 +92,8 @@
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch",
     "storybook": "start-storybook -p 6006 --no-manager-cache --debug-webpack",
-    "build-storybook": "build-storybook -o dist/storybook"
+    "build-storybook": "build-storybook -o dist/storybook",
+    "generate-apis": "openapi-generator-cli generate"
   },
   "version": "0.1.0"
 }
