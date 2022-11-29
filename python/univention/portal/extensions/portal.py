@@ -272,8 +272,22 @@ class Portal(metaclass=Plugin):
 class UMCPortal:
 	UMC_ROOT_URL = "http://127.0.0.1/univention/get"
 
-	@classmethod
-	def get_visible_content(cls, headers):
+	def __init__(self, user):
+		self._user = user
+
+	def get_data(self, portal_categories):
+		visible_content = self.get_visible_content()
+		categories = self.get_categories(visible_content)
+
+		return {
+			"entries": self.get_entries(visible_content),
+			"folders": self.get_folders(visible_content),
+			"categories": categories,
+			"meta": self.get_meta([*portal_categories, *categories]),
+		}
+
+	def get_visible_content(self):
+		headers = self._user.headers
 		categories = cls._request_umc_get("categories", headers)
 		modules = cls._request_umc_get("modules", headers)
 
