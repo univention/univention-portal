@@ -408,12 +408,12 @@ class UMCPortal:
 
 	@staticmethod
 	def get_meta(categories):
-		content = []
-
 		category_dns = ["umc:category:favorites", "umc:category:umc"]
-		for category_dn in category_dns:
-			category = next(cat for cat in categories if cat["dn"] == category_dn)
-			content.append([category_dn, category["entries"]])
+		content = [
+			[category["dn"], category["entries"]]
+			for category in categories
+			if category["dn"] in category_dns
+		]
 
 		return {
 			"name": {"en_US": "Univention Management Console"},
