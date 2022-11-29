@@ -5,6 +5,8 @@ vms:
     jbornhold_clean:
       # Clean UCS system install, then snapshotted
       ansible_host: 10.200.115.20
+      ucs_host: "ucs-5746.univention.intranet"
+      ucs_host_ip: "{{ ansible_host }}"
   vars:
     ansible_user: root
     ssh_key: "{{ lookup('file', '/Users/johannes/.ssh/id_ed25519_univention_2022-11-01.pub') }}"
