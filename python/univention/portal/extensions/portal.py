@@ -423,26 +423,6 @@ class UMCPortal:
 			"content": content
 		}
 
-	@staticmethod
-	def get_user_links():
-		return []
-
-	@staticmethod
-	def get_menu_links():
-		return []
-
-	@staticmethod
-	def get_cache_id():
-		return str(time.time())
-
-	@staticmethod
-	def auth_mode():
-		return "ucs"
-
-	@staticmethod
-	def may_be_edited():
-		return False
-
 	@classmethod
 	def _request_umc_get(cls, path, headers):
 		uri = f"{cls.UMC_ROOT_URL}/{path}"
