@@ -55,7 +55,10 @@ class UMCPortal:
 		umc_categories = self._request_umc_get("categories", headers)
 		umc_modules = self._request_umc_get("modules", headers)
 
-		categories = self.get_categories(umc_modules, umc_categories)
+		categories = [
+			self.get_favorite_category(umc_modules, umc_categories),
+			self.get_umc_category(umc_categories),
+		]
 
 		return {
 			"entries": self.get_entries(umc_modules, umc_categories),
@@ -137,45 +140,44 @@ class UMCPortal:
 		return folders
 
 	@classmethod
-	def get_categories(cls, modules, categories):
-		ret = []
+	def get_favorite_category(cls, modules, categories):
+		display_name = {"en_US": "Favorites"}
+		entries = []
+
+		for category in categories:
+			if category["id"] == "_favorites_":
+				modules = sorted(
+					modules, key=lambda entry: entry["priority"], reverse=True
+				)
+				display_name = {"en_US": category["name"]}
+				entries = [
+					cls._entry_id(module)
+					for module in modules
+					if "_favorites_" in module.get("categories", [])
+				]
+				break
+
+		return {
+			"display_name": display_name,
+			"dn": "umc:category:favorites",
+			"entries": entries,
+		}
+
+	@staticmethod
+	def get_umc_category(categories):
 		categories = sorted(
 			categories, key=lambda entry: entry["priority"], reverse=True
 		)
-		modules = sorted(
-			modules, key=lambda entry: entry["priority"], reverse=True
-		)
 
-		fav_cat = [cat for cat in categories if cat["id"] == "_favorites_"]
-		if fav_cat:
-			fav_cat = fav_cat[0]
-			ret.append({
-				"display_name": {"en_US": fav_cat["name"]},
-				"dn": "umc:category:favorites",
-				"entries": [
-					cls._entry_id(mod)
-					for mod in modules
-					if "_favorites_" in mod.get("categories", [])
-				]
-			})
-		else:
-			ret.append({
-				"display_name": {"en_US": "Favorites"},
-				"dn": "umc:category:favorites",
-				"entries": [],
-			})
-
-		ret.append({
+		return {
 			"display_name": {"en_US": "Univention Management Console"},
 			"dn": "umc:category:umc",
 			"entries": [
-				cat["id"]
-				for cat in categories
-				if cat["id"] not in ["_favorites_", "apps"]
+				category["id"]
+				for category in categories
+				if category["id"] not in ["_favorites_", "apps"]
 			]
-		})
-
-		return ret
+		}
 
 	@staticmethod
 	def get_meta(categories):
