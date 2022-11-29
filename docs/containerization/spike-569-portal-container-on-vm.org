@@ -1,0 +1,111 @@
+
+#+Title: Spike #569
+#+Subtitle: of Epic 409
+#+REVEAL_TRANS: none
+#+REVEAL_THEME: moon
+#+OPTIONS: toc:nil num:nil
+#+OPTIONS: timestamp:nil
+#+REVEAL_ROOT: ./reveal.js
+
+
+* Overview - Aim
+
+#+begin_quote
+- Understand the communication patterns better
+- Detect hidden problems
+- Change processing: E.g. updates to the directory, be it added portal entries or changes in users and groups
+- Authentication handling
+#+end_quote
+
+See [[https://git.knut.univention.de/univention/components/univention-portal/-/issues/569][Gitlab Issue 569]].
+
+* Approach
+
+- Hammer container into VM
+- Hack things together to make them work
+- Capture into Ansible, as executable documentation
+- Focus: Portal server
+- [[https://git.knut.univention.de/groups/univention/-/epics/409#note_116345][Visual overview]]
+
+
+* Result inspection
+
+** Portal running inside of container
+
+- Take a quick look
+- http://10.200.115.20/univention/portal-container/
+- Intentionally on a different URL
+  - [[https://git.knut.univention.de/univention/components/univention-portal/-/blob/02004d5fa4a83f49ea8a515444062ea1ba73378a/ansible/etc/exp-univention-portal-container.conf.j2#L19][Compare apache config fragment]]
+
+** Authentication flow: Login, Logout
+
+- Insight: Session handling via UMC
+  - [[https://git.knut.univention.de/univention/components/univention-portal/-/blob/02004d5fa4a83f49ea8a515444062ea1ba73378a/ansible/etc/portal-config.json.j2#L31][Compare config.json template]]
+- Insight: Login is not part of the portal
+  - Compare URLs during login
+
+** Communication Patterns 1
+
+- Insight: Two dependencies into UMC
+  - a) session cookie
+  - b) UMC tiles extraction
+- Insight: UMC maps session to IP address
+  - needs approach for container based setup
+  - [[https://git.knut.univention.de/univention/components/univention-portal/-/blob/02004d5fa4a83f49ea8a515444062ea1ba73378a/ansible/etc/exp-univention-umc-hack.conf.j2#L12-17][Compare hack]]
+  - [[https://git.knut.univention.de/univention/ucs/-/blob/5.0-2/management/univention-management-console/univention-management-console-web-server#L295][Compare UMC code]]
+
+** Communication Patterns 2
+
+- Insight: All requests via apache as reverse proxy
+  - similar to [[https://kubernetes.io/docs/concepts/services-networking/ingress/][Ingress in Kubernetes]]
+- Insight: We need a way to reach UMC
+  - session cookie handling can stay for the first part
+  - UMC has to accept a well known source to call with a session cookie
+    - environment configuration
+    - [[https://git.knut.univention.de/univention/components/univention-portal/-/blob/02004d5fa4a83f49ea8a515444062ea1ba73378a/python/univention/portal/extensions/portal.py#L266][Compare ~_request_umc_get~ in portal.py]]
+
+** Displaying tiles
+- Insight: Some tiles came out of UMC, depending on the User
+- Insight: Icons on tiles need special attention
+  - a) regular tiles out of LDAP
+    - [[https://git.knut.univention.de/univention/components/univention-portal/-/blob/02004d5fa4a83f49ea8a515444062ea1ba73378a/ansible/etc/exp-univention-portal-container.conf.j2#L11-16][Compare apache config]]
+  - b) UMC tiles with translation logic
+    - [[https://git.knut.univention.de/univention/components/univention-portal/-/blob/02004d5fa4a83f49ea8a515444062ea1ba73378a/python/univention/portal/extensions/portal.py#L306][Compare spike workaround]]
+
+** Change processing
+- Insight: Keep close to directory
+  - may need an adapted / extended listener module implementation
+  - push towards portal-server container (e.g. storage)
+    - [[https://git.knut.univention.de/groups/univention/-/epics/409#note_115356][Compare early sketch on Epic]]
+
+** Runtime configuration
+- Insight: Providing a ~config.json~ is enough
+  - Kubernetes work will show us if we have to change this
+  - e.g. could be that using environment variables would be better
+  - [[https://git.knut.univention.de/univention/components/univention-portal/-/blob/02004d5fa4a83f49ea8a515444062ea1ba73378a/ansible/etc/portal-config.json.j2#L31][Compare template from Spike]]
+
+** Container images 1
+
+- Insight: Need be careful if we mix Debian packages with a custom compiled
+  interpreter.
+  - [[https://git.knut.univention.de/univention/components/univention-portal/-/merge_requests/92][Compare MR 92]]
+- Insight: Extracting traceback out of a hanging python process in a container
+  - put into dev hints
+
+** Container images 2
+
+- Insight: Container best practices
+  - logging
+    - we should ensure that things arrive on stdout and stderr, at least as
+      long as there is no specific different requirement
+  - signal handling
+    - currently "docker restart portal-server" is hanging 10 secs
+
+* Conclusion
+
+- Quite a few assumptions verified
+- New insights to refine concept
+- Another Spike: Portal without UCS stack
+  - Understand what's needed to break UMC dependencies
+  - Understand implications regarding Authentication
+  - Test out current SAML based authentication
