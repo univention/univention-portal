@@ -10,6 +10,10 @@ Notes can mainly be found inside of [./docs/](./docs/).
 
 ## Experiments
 
+Where reasonably possible, the experiments have been captured into Ansible
+scripts. Those can be found in the subfolder [./ansible/](./ansible/).
+
+
 ### Spike - Containers in UCS VM
 
 The work has been captured in Ansible, see
