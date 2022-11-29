@@ -33,8 +33,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 
-import os.path
 import time
+from pathlib import Path
 
 import requests
 import requests.exceptions
@@ -271,6 +271,9 @@ class Portal(metaclass=Plugin):
 
 class UMCPortal:
 	UMC_ROOT_URL = "http://127.0.0.1/univention/get"
+	UMC_ASSETS_ROOT = Path("/usr/share/univention-management-console-frontend")
+	UMC_ICONS_PATH = Path("js/dijit/themes/umc/icons/scalable")
+	UMC_BASE_PATH = "/univention/management"
 
 	def __init__(self, user):
 		self._user = user
@@ -290,8 +293,8 @@ class UMCPortal:
 		}
 
 	@staticmethod
-	def _entry_id(module):
-		return f"umc:module:{module['id']}:{module.get('flavor', '')}"
+	def _entry_id(module, prefix="umc:module:"):
+		return f"{prefix}{module['id']}:{module.get('flavor', '')}"
 
 	@classmethod
 	def get_entries(cls, modules, categories):
@@ -307,9 +310,9 @@ class UMCPortal:
 			if "apps" in module["categories"]:
 				continue
 
-			logo_name = f"/univention/management/js/dijit/themes/umc/icons/scalable/{module['icon']}.svg"
-			if not os.path.exists(os.path.join("/usr/share/univention-management-console-frontend/", logo_name[23:])):
-				logo_name = None
+			logo_name = None
+			if (cls.UMC_ASSETS_ROOT / cls.UMC_ICONS_PATH / f"{module['icon']}.svg").exists():
+				logo_name = f"{cls.UMC_BASE_PATH}/{cls.UMC_ICONS_PATH}/{module['icon']}.svg"
 
 			color = None
 			for cat in module["categories"]:
@@ -317,7 +320,8 @@ class UMCPortal:
 					color = colors[cat]
 					break
 
-			link_base = "/univention/management/?header=try-hide&overview=false&menu=false"
+			query_string = "?header=try-hide&overview=false&menu=false"
+			href_base = f"{cls.UMC_BASE_PATH}/{query_string}"
 			entries.append({
 				"dn": cls._entry_id(module),
 				"name": {locale: module["name"]},
@@ -329,7 +333,7 @@ class UMCPortal:
 				"backgroundColor": color,
 				"links": [{
 					"locale": locale,
-					"value": f"{link_base}#module={module['id']}:{module.get('flavor', '')}"
+					"value": f"{href_base}#module={cls._entry_id(module, prefix='')}"
 				}],
 				# TODO: missing: in_portal, anonymous, activated, allowedGroups
 			})
