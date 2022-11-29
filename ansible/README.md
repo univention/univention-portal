@@ -29,7 +29,17 @@ univention/components/univention-portal#569 against the prepared VM:
 ansible-playbook -i inventory.yaml exp-409-spike-containers.yaml
 ```
 
+
 ## Important setup steps
+
+
+### Installing Ansible requirements
+
+Example command:
+
+```
+ansible-galaxy collection install -r requirements.yaml
+```
 
 ### ForwardAgent
 
