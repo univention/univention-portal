@@ -276,24 +276,17 @@ class UMCPortal:
 		self._user = user
 
 	def get_data(self, portal_categories):
-		visible_content = self.get_visible_content()
-		categories = self.get_categories(visible_content)
+		headers = self._user.headers
+		umc_categories = self._request_umc_get("categories", headers)
+		umc_modules = self._request_umc_get("modules", headers)
+
+		categories = self.get_categories(umc_modules, umc_categories)
 
 		return {
-			"entries": self.get_entries(visible_content),
-			"folders": self.get_folders(visible_content),
+			"entries": self.get_entries(umc_modules, umc_categories),
+			"folders": self.get_folders(umc_modules, umc_categories),
 			"categories": categories,
 			"meta": self.get_meta([*portal_categories, *categories]),
-		}
-
-	def get_visible_content(self):
-		headers = self._user.headers
-		categories = cls._request_umc_get("categories", headers)
-		modules = cls._request_umc_get("modules", headers)
-
-		return {
-			"umc_categories": categories,
-			"umc_modules": modules,
 		}
 
 	@staticmethod
@@ -301,16 +294,16 @@ class UMCPortal:
 		return f"umc:module:{module['id']}:{module.get('flavor', '')}"
 
 	@classmethod
-	def get_entries(cls, content):
+	def get_entries(cls, modules, categories):
 		entries = []
 		locale = 'en_US'
 		colors = {
 			cat["id"]: cat["color"]
-			for cat in content["umc_categories"]
+			for cat in categories
 			if cat["id"] != "_favorites_"
 		}
 
-		for module in content["umc_modules"]:
+		for module in modules:
 			if "apps" in module["categories"]:
 				continue
 
@@ -344,15 +337,15 @@ class UMCPortal:
 		return entries
 
 	@classmethod
-	def get_folders(cls, content):
+	def get_folders(cls, modules, categories):
 		folders = []
-		for category in content["umc_categories"]:
+		for category in categories:
 			if category["id"] in ["apps",  "_favorites_"]:
 				continue
 
 			entries = sorted([
 				[-module["priority"], module["name"], cls._entry_id(module)]
-				for module in content["umc_modules"]
+				for module in modules
 				if category["id"] in module["categories"]
 			])
 
@@ -368,12 +361,14 @@ class UMCPortal:
 		return folders
 
 	@classmethod
-	def get_categories(cls, content):
+	def get_categories(cls, modules, categories):
 		ret = []
-		categories = content["umc_categories"]
-		categories = sorted(categories, key=lambda entry: entry["priority"], reverse=True)
-		modules = content["umc_modules"]
-		modules = sorted(modules, key=lambda entry: entry["priority"], reverse=True)
+		categories = sorted(
+			categories, key=lambda entry: entry["priority"], reverse=True
+		)
+		modules = sorted(
+			modules, key=lambda entry: entry["priority"], reverse=True
+		)
 
 		fav_cat = [cat for cat in categories if cat["id"] == "_favorites_"]
 		if fav_cat:
