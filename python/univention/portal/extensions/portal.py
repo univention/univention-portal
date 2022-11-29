@@ -265,164 +265,180 @@ class Portal(metaclass=Plugin):
 		touched = self.authenticator.refresh(reason=reason) or touched
 		return touched
 
-	def _get_umc_portal(self):
-		return UMCPortal(self.scorer, self.authenticator)
-
 	def score(self, request):
 		return self.scorer.score(request)
 
 
-class UMCPortal(Portal):
-	def __init__(self, scorer, authenticator):
-		self.scorer = scorer
-		self.authenticator = authenticator
+class UMCPortal:
+	UMC_ROOT_URL = "http://127.0.0.1/univention/get"
 
-	def auth_mode(self, request):
-		return "ucs"
+	@classmethod
+	def get_visible_content(cls, headers):
+		categories = cls._request_umc_get("categories", headers)
+		modules = cls._request_umc_get("modules", headers)
 
-	def may_be_edited(self, user):
-		return False
-
-	def _request_umc_get(self, get_path, headers):
-		uri = "http://127.0.0.1/univention/get/{}".format(get_path)
-		body = {"options": {}}
-		try:
-			response = requests.post(uri, json=body, headers=headers)
-		except requests.exceptions.RequestException as exc:
-			get_logger("umc").warning("Exception while getting %s: %s", get_path, exc)
-			return []
-		else:
-			if response.status_code != 200:
-				get_logger("umc").debug("Status %r while getting %s", response.status_code, get_path)
-				return []
-			return response.json()[get_path]
-
-	def get_visible_content(self, user, admin_mode):
-		headers = user.headers
-		categories = self._request_umc_get("categories", headers)
-		modules = self._request_umc_get("modules", headers)
 		return {
 			"umc_categories": categories,
 			"umc_modules": modules,
 		}
 
-	def get_user_links(self, content):
-		return []
+	@staticmethod
+	def _entry_id(module):
+		return f"umc:module:{module['id']}:{module.get('flavor', '')}"
 
-	def get_menu_links(self, content):
-		return []
-
-	def get_entries(self, content):
+	@classmethod
+	def get_entries(cls, content):
 		entries = []
-		colors = {cat["id"]: cat["color"] for cat in content["umc_categories"] if cat["id"] != "_favorites_"}
 		locale = 'en_US'
+		colors = {
+			cat["id"]: cat["color"]
+			for cat in content["umc_categories"]
+			if cat["id"] != "_favorites_"
+		}
+
 		for module in content["umc_modules"]:
 			if "apps" in module["categories"]:
 				continue
-			logo_name = "/univention/management/js/dijit/themes/umc/icons/scalable/{}.svg".format(module["icon"])
+
+			logo_name = f"/univention/management/js/dijit/themes/umc/icons/scalable/{module['icon']}.svg"
 			if not os.path.exists(os.path.join("/usr/share/univention-management-console-frontend/", logo_name[23:])):
 				logo_name = None
+
 			color = None
 			for cat in module["categories"]:
 				if cat in colors:
 					color = colors[cat]
 					break
+
+			link_base = "/univention/management/?header=try-hide&overview=false&menu=false"
 			entries.append({
-				"dn": self._entry_id(module),
-				"name": {
-					locale: module["name"],
-				},
-				"description": {
-					locale: module["description"],
-				},
-				"keywords": {
-					locale: ' '.join(module["keywords"]),
-				},
+				"dn": cls._entry_id(module),
+				"name": {locale: module["name"]},
+				"description": {locale: module["description"]},
+				"keywords": {locale: ' '.join(module["keywords"])},
 				"linkTarget": "embedded",
 				"target": None,
 				"logo_name": logo_name,
 				"backgroundColor": color,
 				"links": [{
 					"locale": locale,
-					"value": "/univention/management/?header=try-hide&overview=false&menu=false#module={}:{}".format(module["id"], module.get("flavor", ""))
+					"value": f"{link_base}#module={module['id']}:{module.get('flavor', '')}"
 				}],
 				# TODO: missing: in_portal, anonymous, activated, allowedGroups
 			})
+
 		return entries
 
-	def _entry_id(self, module):
-		return "umc:module:{}:{}".format(module["id"], module.get("flavor", ""))
-
-	def get_folders(self, content):
+	@classmethod
+	def get_folders(cls, content):
 		folders = []
 		for category in content["umc_categories"]:
-			if category["id"] == "apps":
+			if category["id"] in ["apps",  "_favorites_"]:
 				continue
-			if category["id"] == "_favorites_":
-				continue
-			entries = [[-module["priority"], module["name"], self._entry_id(module)] for module in content["umc_modules"] if category["id"] in module["categories"]]
-			entries = sorted(entries)
+
+			entries = sorted([
+				[-module["priority"], module["name"], cls._entry_id(module)]
+				for module in content["umc_modules"]
+				if category["id"] in module["categories"]
+			])
+
 			folders.append({
 				"name": {
 					"en_US": category["name"],
 					"de_DE": category["name"],
 				},
 				"dn": category["id"],
-				"entries": [entry[2] for entry in entries],
+				"entries": [entry[-1] for entry in entries],
 			})
+
 		return folders
 
-	def get_categories(self, content):
+	@classmethod
+	def get_categories(cls, content):
 		ret = []
 		categories = content["umc_categories"]
 		categories = sorted(categories, key=lambda entry: entry["priority"], reverse=True)
 		modules = content["umc_modules"]
 		modules = sorted(modules, key=lambda entry: entry["priority"], reverse=True)
+
 		fav_cat = [cat for cat in categories if cat["id"] == "_favorites_"]
 		if fav_cat:
 			fav_cat = fav_cat[0]
 			ret.append({
-				"display_name": {
-					"en_US": fav_cat["name"],
-				},
+				"display_name": {"en_US": fav_cat["name"]},
 				"dn": "umc:category:favorites",
-				"entries": [self._entry_id(mod) for mod in modules if "_favorites_" in mod.get("categories", [])]
+				"entries": [
+					cls._entry_id(mod)
+					for mod in modules
+					if "_favorites_" in mod.get("categories", [])
+				]
 			})
 		else:
 			ret.append({
-				"display_name": {
-					"en_US": "Favorites",
-				},
+				"display_name": {"en_US": "Favorites"},
 				"dn": "umc:category:favorites",
 				"entries": [],
 			})
+
 		ret.append({
-			"display_name": {
-				"en_US": "Univention Management Console",
-			},
+			"display_name": {"en_US": "Univention Management Console"},
 			"dn": "umc:category:umc",
-			"entries": [cat["id"] for cat in categories if cat["id"] not in ["_favorites_", "apps"]]
+			"entries": [
+				cat["id"]
+				for cat in categories
+				if cat["id"] not in ["_favorites_", "apps"]
+			]
 		})
+
 		return ret
 
-	def get_meta(self, content, categories):
-		category_dns = ["umc:category:favorites", "umc:category:umc"]
+	@staticmethod
+	def get_meta(categories):
 		content = []
+
+		category_dns = ["umc:category:favorites", "umc:category:umc"]
 		for category_dn in category_dns:
 			category = next(cat for cat in categories if cat["dn"] == category_dn)
 			content.append([category_dn, category["entries"]])
+
 		return {
-			"name": {
-				"en_US": "Univention Management Console",
-			},
+			"name": {"en_US": "Univention Management Console"},
 			"defaultLinkTarget": "embedded",
 			"ensureLogin": True,
 			"categories": category_dns,
 			"content": content
 		}
 
-	def refresh(self, reason=None):
-		pass
+	@staticmethod
+	def get_user_links():
+		return []
 
-	def get_cache_id(self):
+	@staticmethod
+	def get_menu_links():
+		return []
+
+	@staticmethod
+	def get_cache_id():
 		return str(time.time())
+
+	@staticmethod
+	def auth_mode():
+		return "ucs"
+
+	@staticmethod
+	def may_be_edited():
+		return False
+
+	@classmethod
+	def _request_umc_get(cls, path, headers):
+		uri = f"{cls.UMC_ROOT_URL}/{path}"
+		try:
+			response = requests.post(uri, headers=headers, json={"options": {}})
+		except requests.exceptions.RequestException as exc:
+			get_logger("umc").warning("Exception while getting %s: %s", path, exc)
+			return []
+		else:
+			if response.status_code != 200:
+				get_logger("umc").debug("Status %r while getting %s", response.status_code, path)
+				return []
+			return response.json()[path]

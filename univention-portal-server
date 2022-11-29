@@ -42,6 +42,7 @@ import tornado.web
 from ldap.dn import str2dn
 
 import univention.portal.config as config
+from univention.portal.extensions.portal import UMCPortal
 from univention.portal.factory import make_portal
 from univention.portal.log import setup_logger, get_logger
 
@@ -119,17 +120,13 @@ class PortalEntriesHandler(PortalResource):
 		portal_data["auth_mode"] = portal.auth_mode(self)
 
 		if not user.is_anonymous() and not admin_mode and portal_data["portal"].get("showUmc"):
-			# this is not how the portal-server is supposed to be working
-			# but we need it like that...
-			umc_portal = portal._get_umc_portal()
-			umc_content = umc_portal.get_visible_content(user, admin_mode)
+			# this is not how the portal-server is supposed to be working, but we need it like that...
+			umc_content = UMCPortal.get_visible_content(user.headers)
 
-			portal_data["entries"].extend(umc_portal.get_entries(umc_content))
-			portal_data["folders"].extend(umc_portal.get_folders(umc_content))
-			portal_data["categories"].extend(umc_portal.get_categories(umc_content))
-			portal_data["portal"]["content"].extend(
-				umc_portal.get_meta(umc_content, portal_data["categories"])
-			)
+			portal_data["entries"].extend(UMCPortal.get_entries(umc_content))
+			portal_data["folders"].extend(UMCPortal.get_folders(umc_content))
+			portal_data["categories"].extend(UMCPortal.get_categories(umc_content))
+			portal_data["portal"]["content"].extend(UMCPortal.get_meta(portal_data["categories"]))
 
 		self.write(portal_data)
 
