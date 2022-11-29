@@ -67,6 +67,13 @@ class PortalResource(tornado.web.RequestHandler):
 				best_portal = portal
 		return best_portal
 
+	def get_portal(self):
+		portal = self.find_portal()
+		if not portal:
+			raise tornado.web.HTTPError(404)
+
+		return portal
+
 	def reverse_abs_url(self, name, args=None):
 		if args is None:
 			args = self.path_args
@@ -92,10 +99,7 @@ class LogoutHandler(PortalResource):
 
 class PortalEntriesHandler(PortalResource):
 	async def get(self, portal_name):
-		portal = self.find_portal()
-		if not portal:
-			raise tornado.web.HTTPError(404)
-
+		portal = self.get_portal()
 		user = await portal.get_user(self)
 
 		admin_mode = False
@@ -137,9 +141,7 @@ class PortalEntriesHandler(PortalResource):
 class NavigationHandler(PortalResource):
 
 	async def get(self, portal_name):
-		portal = self.find_portal()
-		if not portal:
-			raise tornado.web.HTTPError(404)
+		portal = self.get_portal()
 
 		self._portal_lang = self.get_query_argument("language", "en-US").replace('-', '_')
 		self._portal_base = self.get_query_argument("base", self.reverse_abs_url('root', ())).rstrip('/')
