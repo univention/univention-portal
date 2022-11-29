@@ -42,7 +42,7 @@ import tornado.web
 from ldap.dn import str2dn
 
 import univention.portal.config as config
-from univention.portal.extensions.portal import UMCPortal
+from univention.portal.extensions.umc_portal import UMCPortal
 from univention.portal.factory import make_portal
 from univention.portal.log import setup_logger, get_logger
 
