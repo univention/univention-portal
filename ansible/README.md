@@ -1,6 +1,37 @@
-# Important setup steps
+# Ansible scripts around Epic 409
 
-## ForwardAgent
+This folder does contain Ansible scripts which have been created as part of the
+work on Epic 409. The scripts are intended to help other developers as
+executable documentation, so that it is easier to reproduce the Spike related
+setups.
+
+Compare Epic univention&409 regarding the context.
+
+## How to run this
+
+You have to first adjust things, so that the scripts do actually run against
+your VM.
+
+- Especially the file `inventory.yaml` will have to be adjusted.
+- The playbooks currently reference a specific host, this needs adjustment as
+  well.
+
+Example preparation of a fresh VM:
+
+```
+ansible-playbook -i inventory.yaml initialize-ucs-vm.yaml
+```
+
+Example command which does apply the work of Spike
+univention/components/univention-portal#569 against the prepared VM:
+
+```
+ansible-playbook -i inventory.yaml exp-409-spike-containers.yaml
+```
+
+## Important setup steps
+
+### ForwardAgent
 
 If you want to be able to clone repositories via SSH on your VMs, then you will
 have to forward the ssh agent so that your local private key can be used.
