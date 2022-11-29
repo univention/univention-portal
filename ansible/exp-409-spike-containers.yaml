@@ -50,6 +50,8 @@
         image: portal-server
         published_ports:
           - "{{ ports.portal_server }}:80"
+        environment:
+          UMC_HOST: "http://10.200.115.20"
         mounts:
           # The configuration is currently provided as a file.
           # This has to be provided by the environment.

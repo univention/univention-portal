@@ -33,7 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
-import os.path
+import os
 import time
 
 import requests
@@ -266,7 +266,9 @@ class UMCPortal(Portal):
 	def _request_umc_get(self, get_path, headers):
 		# TODO: I do not want to be hard coded
 		# Compare config.json, use the data from there
-		uri = "http://10.200.115.20/univention/get/{}".format(get_path)
+		umc_host = os.environ.get("UMC_HOST", "http://127.0.0.1")
+		uri = "{umc_host}/univention/get/{get_path}".format(
+			umc_host=umc_host, get_path=get_path)
 		body = {"options": {}}
 		try:
 			response = requests.post(uri, json=body, headers=headers)
