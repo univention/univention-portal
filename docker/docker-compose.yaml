@@ -49,3 +49,27 @@ services:
       - type: bind
         source: ../unittests
         target: /staging/unittests
+
+  pre-commit:
+    profiles:
+      - test
+    platform: "linux/amd64"
+    build:
+      context: linter-pre-commit
+    container_name: univention-portal-pre-commit
+    environment:
+      PIP_CACHE_DIR: /cache/pip
+      PRE_COMMIT_HOME: /cache/pre-commit
+    working_dir: /work
+    volumes:
+      - type: bind
+        source: ..
+        target: /work
+      - type: volume
+        # pre-commit installs dependencies, having them cached speeds things up
+        # a lot.
+        source: pre-commit-cache
+        target: /cache
+
+volumes:
+  pre-commit-cache:
