@@ -76,11 +76,7 @@ class UMCPortal:
 	def get_entries(cls, modules, categories):
 		entries = []
 		locale = 'en_US'
-		colors = {
-			cat["id"]: cat["color"]
-			for cat in categories
-			if cat["id"] != "_favorites_"
-		}
+		color_lookup = {cat["id"]: cat["color"] for cat in categories}
 
 		for module in modules:
 			if "apps" in module["categories"]:
@@ -91,9 +87,9 @@ class UMCPortal:
 				logo_name = f"{cls.UMC_BASE_PATH}/{cls.UMC_ICONS_PATH}/{module['icon']}.svg"
 
 			color = None
-			for cat in module["categories"]:
-				if cat in colors:
-					color = colors[cat]
+			for category_id in module["categories"]:
+				if category_id != "_favorites_":
+					color = color_lookup.get(category_id)
 					break
 
 			query_string = "?header=try-hide&overview=false&menu=false"
