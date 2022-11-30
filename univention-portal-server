@@ -121,7 +121,7 @@ class PortalEntriesHandler(PortalResource):
 
 		if not user.is_anonymous() and not admin_mode and portal_data["portal"].get("showUmc"):
 			# this is not how the portal-server is supposed to be working, but we need it like that...
-			umc_data = UMCPortal(user).get_data(portal_data["categories"])
+			umc_data = UMCPortal(user).get_data()
 
 			portal_data["entries"].extend(umc_data["entries"])
 			portal_data["folders"].extend(umc_data["folders"])

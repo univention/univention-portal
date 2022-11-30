@@ -51,7 +51,7 @@ class UMCPortal:
 	def __init__(self, user):
 		self._user = user
 
-	def get_data(self, portal_categories):
+	def get_data(self):
 		headers = self._user.headers
 		umc_categories = self._request_umc_get("categories", headers)
 		umc_modules = self._request_umc_get("modules", headers)
@@ -65,7 +65,7 @@ class UMCPortal:
 			"entries": self.get_entries(umc_modules, umc_categories),
 			"folders": self.get_folders(umc_modules, umc_categories),
 			"categories": categories,
-			"meta": self.get_meta([*portal_categories, *categories]),
+			"meta": self.get_meta(categories),
 		}
 
 	@staticmethod
@@ -182,19 +182,12 @@ class UMCPortal:
 
 	@staticmethod
 	def get_meta(categories):
-		category_dns = ["umc:category:favorites", "umc:category:umc"]
-		content = [
-			[category["dn"], category["entries"]]
-			for category in categories
-			if category["dn"] in category_dns
-		]
-
 		return {
 			"name": {"en_US": "Univention Management Console"},
 			"defaultLinkTarget": "embedded",
 			"ensureLogin": True,
-			"categories": category_dns,
-			"content": content
+			"categories": [category["dn"] for category in categories],
+			"content": [[category["dn"], category["entries"]] for category in categories]
 		}
 
 	@classmethod
