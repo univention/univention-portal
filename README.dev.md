@@ -20,6 +20,9 @@ docker compose -f docker/docker-compose.yaml up
 
 # Run the tests locally
 docker compose -f docker/docker-compose.yaml run test
+
+# Run the linter container
+docker compose -f docker/docker-compose.yaml run pre-commit
 ```
 
 A simple interaction example with the running containers:
