@@ -38,14 +38,15 @@ from pathlib import Path
 import requests
 import requests.exceptions
 
+import univention.portal.config as config
 from univention.portal.log import get_logger
 
 
 class UMCPortal:
-	UMC_ROOT_URL = "http://127.0.0.1/univention/get"
-	UMC_ASSETS_ROOT = Path("/usr/share/univention-management-console-frontend")
-	UMC_ICONS_PATH = Path("js/dijit/themes/umc/icons/scalable")
-	UMC_BASE_PATH = "/univention/management"
+	UMC_ROOT_URL = config.fetch("umc_root_url")
+	UMC_ASSETS_ROOT = Path(config.fetch("umc_assets_root"))
+	UMC_ICONS_PATH = Path(config.fetch("umc_icons_path"))
+	UMC_BASE_PATH = config.fetch("umc_base_path")
 
 	def __init__(self, user):
 		self._user = user

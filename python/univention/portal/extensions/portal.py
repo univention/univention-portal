@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+import univention.portal.config as config
 from univention.portal import Plugin
 
 
