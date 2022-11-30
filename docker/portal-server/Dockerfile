@@ -53,6 +53,15 @@ RUN pip3 install --no-cache-dir .
 FROM build-base AS test
 WORKDIR /staging/
 COPY ./requirements-test.txt .
+
+# TODO: We are currently baking stub files directly into the image. The content
+# of the following four files will have to be provided by the environment
+# eventually.
+COPY ./docker/portal-server/stub_config.json /usr/lib/univention-portal/config/config.json
+COPY ./docker/portal-server/stub_groups.json /var/cache/univention-portal/groups.json
+COPY ./docker/portal-server/stub_portal.json /var/cache/univention-portal/portal.json
+COPY ./docker/portal-server/machine.secret /etc/machine.secret
+
 RUN pip3 install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log
