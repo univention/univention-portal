@@ -51,9 +51,23 @@ class UMCPortal:
 	def __init__(self, headers):
 		self._headers = headers
 
+	@classmethod
+	def do_request(cls, path, headers):
+		uri = f"{cls.UMC_ROOT_URL}/{path}"
+		try:
+			response = requests.post(uri, headers=headers, json={"options": {}})
+		except requests.exceptions.RequestException as exc:
+			get_logger("umc").warning("Exception while getting %s: %s", path, exc)
+			return []
+		else:
+			if response.status_code != 200:
+				get_logger("umc").debug("Status %r while getting %s", response.status_code, path)
+				return []
+			return response.json()[path]
+
 	def get_data(self):
-		umc_categories = self._request_umc_get("categories", self._headers)
-		umc_modules = self._request_umc_get("modules", self._headers)
+		umc_categories = self.do_request("categories", self._headers)
+		umc_modules = self.do_request("modules", self._headers)
 
 		categories = [
 			self.get_favorite_category(umc_modules, umc_categories),
@@ -184,17 +198,3 @@ class UMCPortal:
 			"categories": [category["dn"] for category in categories],
 			"content": [[category["dn"], category["entries"]] for category in categories]
 		}
-
-	@classmethod
-	def _request_umc_get(cls, path, headers):
-		uri = f"{cls.UMC_ROOT_URL}/{path}"
-		try:
-			response = requests.post(uri, headers=headers, json={"options": {}})
-		except requests.exceptions.RequestException as exc:
-			get_logger("umc").warning("Exception while getting %s: %s", path, exc)
-			return []
-		else:
-			if response.status_code != 200:
-				get_logger("umc").debug("Status %r while getting %s", response.status_code, path)
-				return []
-			return response.json()[path]
