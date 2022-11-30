@@ -48,13 +48,12 @@ class UMCPortal:
 	UMC_ICONS_PATH = Path(config.fetch("umc_icons_path"))
 	UMC_BASE_PATH = config.fetch("umc_base_path")
 
-	def __init__(self, user):
-		self._user = user
+	def __init__(self, headers):
+		self._headers = headers
 
 	def get_data(self):
-		headers = self._user.headers
-		umc_categories = self._request_umc_get("categories", headers)
-		umc_modules = self._request_umc_get("modules", headers)
+		umc_categories = self._request_umc_get("categories", self._headers)
+		umc_modules = self._request_umc_get("modules", self._headers)
 
 		categories = [
 			self.get_favorite_category(umc_modules, umc_categories),
