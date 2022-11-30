@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+from collections import defaultdict
 from pathlib import Path
 
 import requests
@@ -69,14 +70,18 @@ class UMCPortal:
 		umc_categories = self.do_request("categories", self._headers)
 		umc_modules = self.do_request("modules", self._headers)
 
+		sorted_modules = sorted(
+			umc_modules, key=lambda module: module["priority"], reverse=True
+		)
+
 		categories = [
-			self.get_favorite_category(umc_modules, umc_categories),
+			self.get_favorite_category(umc_categories, sorted_modules),
 			self.get_umc_category(umc_categories),
 		]
 
 		return {
 			"entries": self.get_entries(umc_modules, umc_categories),
-			"folders": self.get_folders(umc_modules, umc_categories),
+			"folders": self.get_folders(umc_categories, sorted_modules),
 			"categories": categories,
 			"meta": self.get_meta(categories),
 		}
@@ -126,17 +131,17 @@ class UMCPortal:
 		return entries
 
 	@classmethod
-	def get_folders(cls, modules, categories):
+	def get_folders(cls, categories, sorted_modules):
 		folders = []
+
+		module_lookup = defaultdict(list)
+		for module in sorted_modules:
+			for category_id in module["categories"]:
+				module_lookup[category_id].append(cls._entry_id(module))
+
 		for category in categories:
 			if category["id"] in ["apps", "_favorites_"]:
 				continue
-
-			entries = sorted([
-				[-module["priority"], module["name"], cls._entry_id(module)]
-				for module in modules
-				if category["id"] in module["categories"]
-			])
 
 			folders.append({
 				"name": {
@@ -144,25 +149,22 @@ class UMCPortal:
 					"de_DE": category["name"],
 				},
 				"dn": category["id"],
-				"entries": [entry[-1] for entry in entries],
+				"entries": module_lookup.get(category["id"]),
 			})
 
 		return folders
 
 	@classmethod
-	def get_favorite_category(cls, modules, categories):
+	def get_favorite_category(cls, categories, sorted_modules):
 		display_name = {"en_US": "Favorites"}
 		entries = []
 
 		for category in categories:
 			if category["id"] == "_favorites_":
-				modules = sorted(
-					modules, key=lambda entry: entry["priority"], reverse=True
-				)
 				display_name = {"en_US": category["name"]}
 				entries = [
 					cls._entry_id(module)
-					for module in modules
+					for module in sorted_modules
 					if "_favorites_" in module.get("categories", [])
 				]
 				break
