@@ -82,44 +82,44 @@ class UMCPortal:
 			self._umc_category(sorted_categories),
 		]
 
-		color_lookup = {cat["id"]: cat["color"] for cat in categories}
+		color_lookup = {category["id"]: category["color"] for category in categories}
 
-		module_lookup = self._module_lookup(sorted_modules)
+		module_lookup = self._build_module_lookup(sorted_modules)
 
 		return {
-			"entries": self._entries(modules, color_lookup),
+			"entries": self._module_entries(modules, color_lookup),
 			"folders": self._folders(categories, module_lookup),
 			"categories": meta_categories,
 			"meta": self._meta(meta_categories),
 		}
 
 	@classmethod
-	def _module_lookup(cls, modules):
+	def _build_module_lookup(cls, modules):
 		module_lookup = defaultdict(list)
 		for module in modules:
 			for category_id in module["categories"]:
-				module_lookup[category_id].append(cls._entry_id(module))
+				module_lookup[category_id].append(cls._module_entry_id(module))
 		return module_lookup
 
 	@staticmethod
-	def _entry_id(module, prefix="umc:module:"):
+	def _module_entry_id(module, prefix="umc:module:"):
 		return f"{prefix}{module['id']}:{module.get('flavor', '')}"
 
 	@classmethod
-	def _entry_link(cls, module):
+	def _module_entry_link(cls, module):
 		query_string = "?header=try-hide&overview=false&menu=false"
 		href_base = f"{cls.UMC_BASE_PATH}/{query_string}"
-		return f"{href_base}#module={cls._entry_id(module, prefix='')}"
+		return f"{href_base}#module={cls._module_entry_id(module, prefix='')}"
 
 	@classmethod
-	def _icon_path(cls, icon_name):
+	def _module_icon_path(cls, icon_name):
 		icon_path = None
 		if (cls.UMC_ASSETS_ROOT / cls.UMC_ICONS_PATH / f"{icon_name}.svg").exists():
 			icon_path = f"{cls.UMC_BASE_PATH}/{cls.UMC_ICONS_PATH}/{icon_name}.svg"
 		return icon_path
 
 	@classmethod
-	def _entries(cls, modules, color_lookup):
+	def _module_entries(cls, modules, color_lookup):
 		entries = []
 		locale = 'en_US'
 
@@ -134,17 +134,17 @@ class UMCPortal:
 					break
 
 			entries.append({
-				"dn": cls._entry_id(module),
+				"dn": cls._module_entry_id(module),
 				"name": {locale: module["name"]},
 				"description": {locale: module["description"]},
 				"keywords": {locale: ' '.join(module["keywords"])},
 				"linkTarget": "embedded",
 				"target": None,
-				"logo_name": cls._icon_path(module.get("icon", "")),
+				"logo_name": cls._module_icon_path(module.get("icon", "")),
 				"backgroundColor": color,
 				"links": [{
 					"locale": locale,
-					"value": cls._entry_link(module)
+					"value": cls._module_entry_link(module)
 				}],
 				# TODO: missing: in_portal, anonymous, activated, allowedGroups
 			})
@@ -179,7 +179,7 @@ class UMCPortal:
 			if category["id"] == "_favorites_":
 				display_name = {"en_US": category["name"]}
 				entries = [
-					cls._entry_id(module)
+					cls._module_entry_id(module)
 					for module in sorted_modules
 					if "_favorites_" in module.get("categories", [])
 				]
