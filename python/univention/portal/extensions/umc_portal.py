@@ -67,30 +67,30 @@ class UMCPortal:
 			return response.json()[path]
 
 	def get_data(self):
-		umc_categories = self._do_request("categories", self._headers)
-		umc_modules = self._do_request("modules", self._headers)
+		categories = self._do_request("categories", self._headers)
+		modules = self._do_request("modules", self._headers)
 
 		sorted_modules = sorted(
-			umc_modules, key=lambda module: module["priority"], reverse=True
+			modules, key=lambda module: module["priority"], reverse=True
 		)
 		sorted_categories = sorted(
-			umc_categories, key=lambda category: category["priority"], reverse=True
+			categories, key=lambda category: category["priority"], reverse=True
 		)
 
-		categories = [
-			self._favorite_category(umc_categories, sorted_modules),
+		meta_categories = [
+			self._favorite_category(categories, sorted_modules),
 			self._umc_category(sorted_categories),
 		]
 
-		color_lookup = {cat["id"]: cat["color"] for cat in umc_categories}
+		color_lookup = {cat["id"]: cat["color"] for cat in categories}
 
 		module_lookup = self._module_lookup(sorted_modules)
 
 		return {
-			"entries": self._entries(umc_modules, color_lookup),
-			"folders": self._folders(umc_categories, module_lookup),
-			"categories": categories,
-			"meta": self._meta(categories),
+			"entries": self._entries(modules, color_lookup),
+			"folders": self._folders(categories, module_lookup),
+			"categories": meta_categories,
+			"meta": self._meta(meta_categories),
 		}
 
 	@classmethod
@@ -204,11 +204,11 @@ class UMCPortal:
 		}
 
 	@staticmethod
-	def _meta(categories):
+	def _meta(meta_categories):
 		return {
 			"name": {"en_US": "Univention Management Console"},
 			"defaultLinkTarget": "embedded",
 			"ensureLogin": True,
-			"categories": [category["dn"] for category in categories],
-			"content": [[category["dn"], category["entries"]] for category in categories]
+			"categories": [category["dn"] for category in meta_categories],
+			"content": [[category["dn"], category["entries"]] for category in meta_categories]
 		}
