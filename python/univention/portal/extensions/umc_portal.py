@@ -91,6 +91,12 @@ class UMCPortal:
 		return f"{prefix}{module['id']}:{module.get('flavor', '')}"
 
 	@classmethod
+	def _entry_link(cls, module):
+		query_string = "?header=try-hide&overview=false&menu=false"
+		href_base = f"{cls.UMC_BASE_PATH}/{query_string}"
+		return f"{href_base}#module={cls._entry_id(module, prefix='')}"
+
+	@classmethod
 	def _entries(cls, modules, categories):
 		entries = []
 		locale = 'en_US'
@@ -110,8 +116,6 @@ class UMCPortal:
 					color = color_lookup.get(category_id)
 					break
 
-			query_string = "?header=try-hide&overview=false&menu=false"
-			href_base = f"{cls.UMC_BASE_PATH}/{query_string}"
 			entries.append({
 				"dn": cls._entry_id(module),
 				"name": {locale: module["name"]},
@@ -123,7 +127,7 @@ class UMCPortal:
 				"backgroundColor": color,
 				"links": [{
 					"locale": locale,
-					"value": f"{href_base}#module={cls._entry_id(module, prefix='')}"
+					"value": cls._entry_link(module)
 				}],
 				# TODO: missing: in_portal, anonymous, activated, allowedGroups
 			})
