@@ -79,8 +79,10 @@ class UMCPortal:
 			self._umc_category(umc_categories),
 		]
 
+		color_lookup = {cat["id"]: cat["color"] for cat in umc_categories}
+
 		return {
-			"entries": self._entries(umc_modules, umc_categories),
+			"entries": self._entries(umc_modules, color_lookup),
 			"folders": self._folders(umc_categories, sorted_modules),
 			"categories": categories,
 			"meta": self._meta(categories),
@@ -104,10 +106,9 @@ class UMCPortal:
 		return icon_path
 
 	@classmethod
-	def _entries(cls, modules, categories):
+	def _entries(cls, modules, color_lookup):
 		entries = []
 		locale = 'en_US'
-		color_lookup = {cat["id"]: cat["color"] for cat in categories}
 
 		for module in modules:
 			if "apps" in module["categories"]:
