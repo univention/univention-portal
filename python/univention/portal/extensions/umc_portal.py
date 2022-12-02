@@ -42,173 +42,173 @@ import requests.exceptions
 import univention.portal.config as config
 from univention.portal.log import get_logger
 
+UMC_ROOT_URL = config.fetch("umc_root_url")
+UMC_ASSETS_ROOT = Path(config.fetch("umc_assets_root"))
+UMC_ICONS_PATH = Path(config.fetch("umc_icons_path"))
+UMC_BASE_PATH = config.fetch("umc_base_path")
 
-class UMCPortal:
-	UMC_ROOT_URL = config.fetch("umc_root_url")
-	UMC_ASSETS_ROOT = Path(config.fetch("umc_assets_root"))
-	UMC_ICONS_PATH = Path(config.fetch("umc_icons_path"))
-	UMC_BASE_PATH = config.fetch("umc_base_path")
 
-	def __init__(self, headers):
-		self._headers = headers
-
-	@classmethod
-	def _do_request(cls, path, headers):
-		uri = f"{cls.UMC_ROOT_URL}/{path}"
-		try:
-			response = requests.post(uri, headers=headers, json={"options": {}})
-		except requests.exceptions.RequestException as exc:
-			get_logger("umc").warning("Exception while getting %s: %s", path, exc)
+def _do_request(path, headers):
+	uri = f"{UMC_ROOT_URL}/{path}"
+	try:
+		response = requests.post(uri, headers=headers, json={"options": {}})
+	except requests.exceptions.RequestException as exc:
+		get_logger("umc").warning("Exception while getting %s: %s", path, exc)
+		return []
+	else:
+		if response.status_code != 200:
+			get_logger("umc").debug("Status %r while getting %s", response.status_code, path)
 			return []
-		else:
-			if response.status_code != 200:
-				get_logger("umc").debug("Status %r while getting %s", response.status_code, path)
-				return []
-			return response.json()[path]
+		return response.json()[path]
 
-	def get_data(self):
-		categories = self._do_request("categories", self._headers)
-		modules = self._do_request("modules", self._headers)
 
-		sorted_modules = sorted(
-			modules, key=lambda module: module["priority"], reverse=True
-		)
-		sorted_categories = sorted(
-			categories, key=lambda category: category["priority"], reverse=True
-		)
+def get_data(headers):
+	categories = _do_request("categories", headers)
+	modules = _do_request("modules", headers)
 
-		meta_categories = [
-			self._favorite_category(categories, sorted_modules),
-			self._umc_category(sorted_categories),
-		]
+	sorted_modules = sorted(
+		modules, key=lambda module: module["priority"], reverse=True
+	)
+	sorted_categories = sorted(
+		categories, key=lambda category: category["priority"], reverse=True
+	)
 
-		color_lookup = {category["id"]: category["color"] for category in categories}
+	meta_categories = [
+		_favorite_category(categories, sorted_modules),
+		_umc_category(sorted_categories),
+	]
 
-		module_lookup = self._build_module_lookup(sorted_modules)
+	color_lookup = {category["id"]: category["color"] for category in categories}
 
-		return {
-			"entries": self._module_entries(modules, color_lookup),
-			"folders": self._folders(categories, module_lookup),
-			"categories": meta_categories,
-			"meta": self._meta(meta_categories),
-		}
+	module_lookup = _build_module_lookup(sorted_modules)
 
-	@classmethod
-	def _build_module_lookup(cls, modules):
-		module_lookup = defaultdict(list)
-		for module in modules:
-			for category_id in module["categories"]:
-				module_lookup[category_id].append(cls._module_entry_id(module))
-		return module_lookup
+	return {
+		"entries": _module_entries(modules, color_lookup),
+		"folders": _folders(categories, module_lookup),
+		"categories": meta_categories,
+		"meta": _meta(meta_categories),
+	}
 
-	@staticmethod
-	def _module_entry_id(module, prefix="umc:module:"):
-		return f"{prefix}{module['id']}:{module.get('flavor', '')}"
 
-	@classmethod
-	def _module_entry_link(cls, module):
-		query_string = "?header=try-hide&overview=false&menu=false"
-		href_base = f"{cls.UMC_BASE_PATH}/{query_string}"
-		return f"{href_base}#module={cls._module_entry_id(module, prefix='')}"
+def _build_module_lookup(modules):
+	module_lookup = defaultdict(list)
+	for module in modules:
+		for category_id in module["categories"]:
+			module_lookup[category_id].append(_module_entry_id(module))
+	return module_lookup
 
-	@classmethod
-	def _module_icon_path(cls, icon_name):
-		icon_path = None
-		if (cls.UMC_ASSETS_ROOT / cls.UMC_ICONS_PATH / f"{icon_name}.svg").exists():
-			icon_path = f"{cls.UMC_BASE_PATH}/{cls.UMC_ICONS_PATH}/{icon_name}.svg"
-		return icon_path
 
-	@classmethod
-	def _module_entries(cls, modules, color_lookup):
-		entries = []
-		locale = 'en_US'
+def _module_entry_id(module, prefix="umc:module:"):
+	return f"{prefix}{module['id']}:{module.get('flavor', '')}"
 
-		for module in modules:
-			if "apps" in module["categories"]:
-				continue
 
-			color = None
-			for category_id in module["categories"]:
-				if category_id != "_favorites_":
-					color = color_lookup.get(category_id)
-					break
+def _module_entry_link(module):
+	query_string = "?header=try-hide&overview=false&menu=false"
+	href_base = f"{UMC_BASE_PATH}/{query_string}"
+	return f"{href_base}#module={_module_entry_id(module, prefix='')}"
 
-			entries.append({
-				"dn": cls._module_entry_id(module),
+
+def _module_icon_path(icon_name):
+	icon_path = None
+	if (UMC_ASSETS_ROOT / UMC_ICONS_PATH / f"{icon_name}.svg").exists():
+		icon_path = f"{UMC_BASE_PATH}/{UMC_ICONS_PATH}/{icon_name}.svg"
+	return icon_path
+
+
+def _module_entries(modules, color_lookup):
+	entries = []
+	locale = 'en_US'
+
+	for module in modules:
+		if "apps" in module["categories"]:
+			continue
+
+		color = None
+		for category_id in module["categories"]:
+			if category_id != "_favorites_":
+				color = color_lookup.get(category_id)
+				break
+
+		entries.append(
+			{
+				"dn": _module_entry_id(module),
 				"name": {locale: module["name"]},
 				"description": {locale: module["description"]},
 				"keywords": {locale: ' '.join(module["keywords"])},
 				"linkTarget": "embedded",
 				"target": None,
-				"logo_name": cls._module_icon_path(module.get("icon", "")),
+				"logo_name": _module_icon_path(module.get("icon", "")),
 				"backgroundColor": color,
 				"links": [{
 					"locale": locale,
-					"value": cls._module_entry_link(module)
+					"value": _module_entry_link(module)
 				}],
 				# TODO: missing: in_portal, anonymous, activated, allowedGroups
-			})
+			}
+		)
 
-		return entries
+	return entries
 
-	@classmethod
-	def _folders(cls, categories, module_lookup):
-		folders = []
 
-		for category in categories:
-			if category["id"] in ["apps", "_favorites_"]:
-				continue
+def _folders(categories, module_lookup):
+	folders = []
 
-			folders.append({
+	for category in categories:
+		if category["id"] in ["apps", "_favorites_"]:
+			continue
+
+		folders.append(
+			{
 				"name": {
 					"en_US": category["name"],
 					"de_DE": category["name"],
 				},
 				"dn": category["id"],
 				"entries": module_lookup.get(category["id"]),
-			})
+			}
+		)
 
-		return folders
+	return folders
 
-	@classmethod
-	def _favorite_category(cls, categories, sorted_modules):
-		display_name = {"en_US": "Favorites"}
-		entries = []
 
-		for category in categories:
-			if category["id"] == "_favorites_":
-				display_name = {"en_US": category["name"]}
-				entries = [
-					cls._module_entry_id(module)
-					for module in sorted_modules
-					if "_favorites_" in module.get("categories", [])
-				]
-				break
+def _favorite_category(categories, sorted_modules):
+	display_name = {"en_US": "Favorites"}
+	entries = []
 
-		return {
-			"display_name": display_name,
-			"dn": "umc:category:favorites",
-			"entries": entries,
-		}
-
-	@staticmethod
-	def _umc_category(sorted_categories):
-		return {
-			"display_name": {"en_US": "Univention Management Console"},
-			"dn": "umc:category:umc",
-			"entries": [
-				category["id"]
-				for category in sorted_categories
-				if category["id"] not in ["_favorites_", "apps"]
+	for category in categories:
+		if category["id"] == "_favorites_":
+			display_name = {"en_US": category["name"]}
+			entries = [
+				_module_entry_id(module)
+				for module in sorted_modules
+				if "_favorites_" in module.get("categories", [])
 			]
-		}
+			break
 
-	@staticmethod
-	def _meta(meta_categories):
-		return {
-			"name": {"en_US": "Univention Management Console"},
-			"defaultLinkTarget": "embedded",
-			"ensureLogin": True,
-			"categories": [category["dn"] for category in meta_categories],
-			"content": [[category["dn"], category["entries"]] for category in meta_categories]
-		}
+	return {
+		"display_name": display_name,
+		"dn": "umc:category:favorites",
+		"entries": entries,
+	}
+
+
+def _umc_category(sorted_categories):
+	return {
+		"display_name": {"en_US": "Univention Management Console"},
+		"dn": "umc:category:umc",
+		"entries": [
+			category["id"]
+			for category in sorted_categories
+			if category["id"] not in ["_favorites_", "apps"]
+		]
+	}
+
+
+def _meta(meta_categories):
+	return {
+		"name": {"en_US": "Univention Management Console"},
+		"defaultLinkTarget": "embedded",
+		"ensureLogin": True,
+		"categories": [category["dn"] for category in meta_categories],
+		"content": [[category["dn"], category["entries"]] for category in meta_categories]
+	}
