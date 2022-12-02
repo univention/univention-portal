@@ -73,10 +73,13 @@ class UMCPortal:
 		sorted_modules = sorted(
 			umc_modules, key=lambda module: module["priority"], reverse=True
 		)
+		sorted_categories = sorted(
+			umc_categories, key=lambda category: category["priority"], reverse=True
+		)
 
 		categories = [
 			self._favorite_category(umc_categories, sorted_modules),
-			self._umc_category(umc_categories),
+			self._umc_category(sorted_categories),
 		]
 
 		color_lookup = {cat["id"]: cat["color"] for cat in umc_categories}
@@ -189,17 +192,13 @@ class UMCPortal:
 		}
 
 	@staticmethod
-	def _umc_category(categories):
-		categories = sorted(
-			categories, key=lambda entry: entry["priority"], reverse=True
-		)
-
+	def _umc_category(sorted_categories):
 		return {
 			"display_name": {"en_US": "Univention Management Console"},
 			"dn": "umc:category:umc",
 			"entries": [
 				category["id"]
-				for category in categories
+				for category in sorted_categories
 				if category["id"] not in ["_favorites_", "apps"]
 			]
 		}
