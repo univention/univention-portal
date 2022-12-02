@@ -97,6 +97,13 @@ class UMCPortal:
 		return f"{href_base}#module={cls._entry_id(module, prefix='')}"
 
 	@classmethod
+	def _icon_path(cls, icon_name):
+		icon_path = None
+		if (cls.UMC_ASSETS_ROOT / cls.UMC_ICONS_PATH / f"{icon_name}.svg").exists():
+			icon_path = f"{cls.UMC_BASE_PATH}/{cls.UMC_ICONS_PATH}/{icon_name}.svg"
+		return icon_path
+
+	@classmethod
 	def _entries(cls, modules, categories):
 		entries = []
 		locale = 'en_US'
@@ -105,10 +112,6 @@ class UMCPortal:
 		for module in modules:
 			if "apps" in module["categories"]:
 				continue
-
-			logo_name = None
-			if (cls.UMC_ASSETS_ROOT / cls.UMC_ICONS_PATH / f"{module['icon']}.svg").exists():
-				logo_name = f"{cls.UMC_BASE_PATH}/{cls.UMC_ICONS_PATH}/{module['icon']}.svg"
 
 			color = None
 			for category_id in module["categories"]:
@@ -123,7 +126,7 @@ class UMCPortal:
 				"keywords": {locale: ' '.join(module["keywords"])},
 				"linkTarget": "embedded",
 				"target": None,
-				"logo_name": logo_name,
+				"logo_name": cls._icon_path(module.get("icon", "")),
 				"backgroundColor": color,
 				"links": [{
 					"locale": locale,
