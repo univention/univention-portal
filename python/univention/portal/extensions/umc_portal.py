@@ -53,7 +53,7 @@ class UMCPortal:
 		self._headers = headers
 
 	@classmethod
-	def do_request(cls, path, headers):
+	def _do_request(cls, path, headers):
 		uri = f"{cls.UMC_ROOT_URL}/{path}"
 		try:
 			response = requests.post(uri, headers=headers, json={"options": {}})
@@ -67,23 +67,23 @@ class UMCPortal:
 			return response.json()[path]
 
 	def get_data(self):
-		umc_categories = self.do_request("categories", self._headers)
-		umc_modules = self.do_request("modules", self._headers)
+		umc_categories = self._do_request("categories", self._headers)
+		umc_modules = self._do_request("modules", self._headers)
 
 		sorted_modules = sorted(
 			umc_modules, key=lambda module: module["priority"], reverse=True
 		)
 
 		categories = [
-			self.get_favorite_category(umc_categories, sorted_modules),
-			self.get_umc_category(umc_categories),
+			self._favorite_category(umc_categories, sorted_modules),
+			self._umc_category(umc_categories),
 		]
 
 		return {
-			"entries": self.get_entries(umc_modules, umc_categories),
-			"folders": self.get_folders(umc_categories, sorted_modules),
+			"entries": self._entries(umc_modules, umc_categories),
+			"folders": self._folders(umc_categories, sorted_modules),
 			"categories": categories,
-			"meta": self.get_meta(categories),
+			"meta": self._meta(categories),
 		}
 
 	@staticmethod
@@ -91,7 +91,7 @@ class UMCPortal:
 		return f"{prefix}{module['id']}:{module.get('flavor', '')}"
 
 	@classmethod
-	def get_entries(cls, modules, categories):
+	def _entries(cls, modules, categories):
 		entries = []
 		locale = 'en_US'
 		color_lookup = {cat["id"]: cat["color"] for cat in categories}
@@ -131,7 +131,7 @@ class UMCPortal:
 		return entries
 
 	@classmethod
-	def get_folders(cls, categories, sorted_modules):
+	def _folders(cls, categories, sorted_modules):
 		folders = []
 
 		module_lookup = defaultdict(list)
@@ -155,7 +155,7 @@ class UMCPortal:
 		return folders
 
 	@classmethod
-	def get_favorite_category(cls, categories, sorted_modules):
+	def _favorite_category(cls, categories, sorted_modules):
 		display_name = {"en_US": "Favorites"}
 		entries = []
 
@@ -176,7 +176,7 @@ class UMCPortal:
 		}
 
 	@staticmethod
-	def get_umc_category(categories):
+	def _umc_category(categories):
 		categories = sorted(
 			categories, key=lambda entry: entry["priority"], reverse=True
 		)
@@ -192,7 +192,7 @@ class UMCPortal:
 		}
 
 	@staticmethod
-	def get_meta(categories):
+	def _meta(categories):
 		return {
 			"name": {"en_US": "Univention Management Console"},
 			"defaultLinkTarget": "embedded",
