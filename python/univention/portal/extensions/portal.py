@@ -117,7 +117,7 @@ class Portal(metaclass=Plugin):
 		entries = self.portal_cache.get_entries()
 		folders = self.portal_cache.get_folders()
 		categories = self.portal_cache.get_categories()
-		visible_entry_dns = self._filter_entry_dns(entries.keys(), entries, user, admin_mode)
+		visible_entry_dns = self._filter_entry_dns(entries, user, admin_mode)
 		visible_folder_dns = [
 			folder_dn
 			for folder_dn in folders.keys()
@@ -203,10 +203,9 @@ class Portal(metaclass=Plugin):
 		]
 		return portal
 
-	def _filter_entry_dns(self, entry_dns, entries, user, admin_mode):
+	def _filter_entry_dns(self, entries, user, admin_mode):
 		filtered_dns = []
-		for entry_dn in entry_dns:
-			entry = entries.get(entry_dn)
+		for entry_dn, entry in entries.items():
 			if entry is None:
 				continue
 			if not admin_mode:
