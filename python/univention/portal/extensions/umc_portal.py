@@ -81,12 +81,22 @@ class UMCPortal:
 
 		color_lookup = {cat["id"]: cat["color"] for cat in umc_categories}
 
+		module_lookup = self._module_lookup(sorted_modules)
+
 		return {
 			"entries": self._entries(umc_modules, color_lookup),
-			"folders": self._folders(umc_categories, sorted_modules),
+			"folders": self._folders(umc_categories, module_lookup),
 			"categories": categories,
 			"meta": self._meta(categories),
 		}
+
+	@classmethod
+	def _module_lookup(cls, modules):
+		module_lookup = defaultdict(list)
+		for module in modules:
+			for category_id in module["categories"]:
+				module_lookup[category_id].append(cls._entry_id(module))
+		return module_lookup
 
 	@staticmethod
 	def _entry_id(module, prefix="umc:module:"):
@@ -139,13 +149,8 @@ class UMCPortal:
 		return entries
 
 	@classmethod
-	def _folders(cls, categories, sorted_modules):
+	def _folders(cls, categories, module_lookup):
 		folders = []
-
-		module_lookup = defaultdict(list)
-		for module in sorted_modules:
-			for category_id in module["categories"]:
-				module_lookup[category_id].append(cls._entry_id(module))
 
 		for category in categories:
 			if category["id"] in ["apps", "_favorites_"]:
