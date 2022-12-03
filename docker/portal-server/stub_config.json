@@ -10,5 +10,5 @@
   "ldap_base": "dc=univention,dc=test",
   "ldap_uri": "ldap://primary.univention.test:7389",
   "port": "80",
-  "umc_session_url": "http://localhost/univention/get/session-info"
+  "umc_session_url": "http://ucs/univention/get/session-info"
 }

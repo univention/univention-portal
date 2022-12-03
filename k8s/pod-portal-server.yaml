@@ -11,8 +11,4 @@ spec:
     imagePullPolicy: Never
     env:
       - name: UMC_HOST
-        value: umc
-
-
-# Test API via kubectl proxy
-# curl http://localhost:8001/api/v1/namespaces/default/pods/portal-server/proxy/univention/portal/portal.json
+        value: http://ucs
