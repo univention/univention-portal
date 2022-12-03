@@ -65,7 +65,13 @@ def _do_request(path, headers):
 def get_data(headers):
 	categories = _do_request("categories", headers)
 
-	color_lookup = {category["id"]: category["color"] for category in categories}
+	favorite_category = None
+	for category in categories:
+		if category["id"] == "_favorites_":
+			favorite_category = category
+			break
+
+	color_lookup = {category["id"]: category.get("color") for category in categories}
 
 	modules = []
 	related_modules_lookup = defaultdict(list)
@@ -83,7 +89,7 @@ def get_data(headers):
 	sorted_categories = _rsort_by_priority(categories)
 
 	meta_categories = [
-		_favorite_category(categories, sorted_modules),
+		_favorite_category(favorite_category, sorted_modules),
 		_umc_category(sorted_categories),
 	]
 
@@ -133,24 +139,22 @@ def _folders(categories, related_modules_lookup):
 	]
 
 
-def _favorite_category(categories, sorted_modules):
-	display_name = {"en_US": "Favorites"}
-	entries = []
-
-	for category in categories:
-		if category["id"] == "_favorites_":
-			display_name = {"en_US": category["name"]}
-			entries = [
-				module["__entry_id"]
-				for module in sorted_modules
-				if "_favorites_" in module.get("categories", [])
-			]
-			break
+def _favorite_category(favorite_category, sorted_modules):
+	if not favorite_category:
+		return {
+			"display_name": {"en_US": "Favorites"},
+			"dn": "umc:category:favorites",
+			"entries": [],
+		}
 
 	return {
-		"display_name": display_name,
+		"display_name": {"en_US": favorite_category["name"]},
 		"dn": "umc:category:favorites",
-		"entries": entries,
+		"entries": [
+			module["__entry_id"]
+			for module in sorted_modules
+			if "_favorites_" in module.get("categories", [])
+		],
 	}
 
 
