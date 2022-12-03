@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: portal-server-dev
+  labels:
+    app: portal-server
+spec:
+  containers:
+  - name: portal-server-dev
+    image: local/portal-server
+    imagePullPolicy: Never
+    env:
+      - name: UMC_HOST
+        value: http://ucs
+      - name: PYTHONPATH
+        value: ./python
+    volumeMounts:
+      - mountPath: /app
+        name: univention-portal-local-code
+    args:
+      - python3
+      - univention-portal-server
+  volumes:
+  - name: univention-portal-local-code
+    hostPath:
+      path: /Users/johannes/wu/univention-portal
