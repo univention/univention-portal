@@ -1,0 +1,22 @@
+- name: Adapt a UCS instance for local run in QEMU with serial console
+  hosts: ucs_vms
+  vars:
+    url_prefix: "univention"
+    url_suffix: ""
+
+  tasks:
+    - name: Adapt GRUB settings for serial console support
+      univention.ucs_modules.univention_config_registry:
+        kvlist:
+          - key: grub/append
+            value: "net.ifnames=0 console=ttyS0"
+          - key: grub/serialcommand
+            value: "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
+          - key: grub/terminal
+            value: "console"
+
+    - name: Change network to be based on DHCP
+      univention.ucs_modules.univention_config_registry:
+        kvlist:
+          - key: interfaces/eth0/type
+            value: "dhcp"
