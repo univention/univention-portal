@@ -119,53 +119,41 @@ def _module_icon_path(icon_name):
 
 
 def _module_entries(modules):
-	entries = []
 	locale = 'en_US'
-
-	for module in modules:
-		if "apps" in module["categories"]:
-			continue
-
-		entries.append(
-			{
-				"dn": module["__entry_id"],
-				"name": {locale: module["name"]},
-				"description": {locale: module["description"]},
-				"keywords": {locale: ' '.join(module["keywords"])},
-				"linkTarget": "embedded",
-				"target": None,
-				"logo_name": module["__icon_path"],
-				"backgroundColor": module["__color"],
-				"links": [{
-					"locale": locale,
-					"value": module["__entry_link"]
-				}],
-				# TODO: missing: in_portal, anonymous, activated, allowedGroups
-			}
-		)
-
-	return entries
+	return [
+		{
+			"dn": module["__entry_id"],
+			"name": {locale: module["name"]},
+			"description": {locale: module["description"]},
+			"keywords": {locale: ' '.join(module["keywords"])},
+			"linkTarget": "embedded",
+			"target": None,
+			"logo_name": module["__icon_path"],
+			"backgroundColor": module["__color"],
+			"links": [{
+				"locale": locale,
+				"value": module["__entry_link"]
+			}],
+			# TODO: missing: in_portal, anonymous, activated, allowedGroups
+		}
+		for module in modules
+		if "apps" not in module["categories"]
+	]
 
 
 def _folders(categories, related_modules_lookup):
-	folders = []
-
-	for category in categories:
-		if category["id"] in ["apps", "_favorites_"]:
-			continue
-
-		folders.append(
-			{
-				"name": {
-					"en_US": category["name"],
-					"de_DE": category["name"],
-				},
-				"dn": category["id"],
-				"entries": related_modules_lookup.get(category["id"]),
-			}
-		)
-
-	return folders
+	return [
+		{
+			"name": {
+				"en_US": category["name"],
+				"de_DE": category["name"],
+			},
+			"dn": category["id"],
+			"entries": related_modules_lookup.get(category["id"]),
+		}
+		for category in categories
+		if category["id"] not in ["apps", "_favorites_"]
+	]
 
 
 def _favorite_category(categories, sorted_modules):
