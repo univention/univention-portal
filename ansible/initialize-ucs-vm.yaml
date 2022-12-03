@@ -1,5 +1,5 @@
 - name: Initialize UCS VM for development
-  hosts: ucs-vms
+  hosts: ucs_vms
   # We don't have any users yet
   remote_user: root
 
@@ -9,6 +9,14 @@
         user: root
         state: present
         key: "{{ ssh_key }}"
+
+    - name: Switch to public repository
+      when: use_public_repository
+      univention.ucs_modules.univention_config_registry:
+        kvlist:
+          - key: repository/online/server
+            value: updates.software-univention.de
+
 
     - name: Flush nscd cache
       # Avoid outdated information in the passwd database.
@@ -75,3 +83,4 @@
         name:
           - git
           - tmux
+        update_cache: true

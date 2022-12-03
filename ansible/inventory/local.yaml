@@ -1,4 +1,7 @@
-ucs-vms:
+all:
+  vars:
+    use_public_repository: false
+ucs_vms:
   hosts:
     local-qemu-vm:
       ansible_host: 192.168.2.154
@@ -6,4 +9,5 @@ ucs-vms:
       ucs_host_ip: "{{ ansible_host }}"
   vars:
     ansible_user: root
+    use_public_repository: true
     ssh_key: "{{ lookup('file', '/Users/johannes/.ssh/id_ed25519_univention_2022-11-01.pub') }}"

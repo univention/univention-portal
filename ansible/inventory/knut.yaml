@@ -1,4 +1,7 @@
-ucs-vms:
+all:
+  vars:
+    use_public_repository: false
+ucs_vms:
   hosts:
     jbornhold_test:
       ansible_host: 10.200.115.10

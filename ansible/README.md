@@ -12,21 +12,21 @@ Compare Epic univention&409 regarding the context.
 You have to first adjust things, so that the scripts do actually run against
 your VM.
 
-- Especially the file `inventory.yaml` will have to be adjusted.
+- Especially the inventory files will have to be adjusted.
 - The playbooks currently reference a specific host, this needs adjustment as
   well.
 
 Example preparation of a fresh VM:
 
 ```
-ansible-playbook -i inventory.yaml initialize-ucs-vm.yaml
+ansible-playbook -i inventory/knut.yaml initialize-ucs-vm.yaml
 ```
 
 Example command which does apply the work of Spike
 univention/components/univention-portal#569 against the prepared VM:
 
 ```
-ansible-playbook -i inventory.yaml exp-409-spike-containers.yaml
+ansible-playbook -i inventory/knut.yaml exp-409-spike-containers.yaml
 ```
 
 
