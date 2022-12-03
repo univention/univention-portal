@@ -66,12 +66,8 @@ def get_data(headers):
 	categories = _do_request("categories", headers)
 	modules = _do_request("modules", headers)
 
-	sorted_modules = sorted(
-		modules, key=lambda module: module["priority"], reverse=True
-	)
-	sorted_categories = sorted(
-		categories, key=lambda category: category["priority"], reverse=True
-	)
+	sorted_modules = _rsort_by_priority(modules)
+	sorted_categories = _rsort_by_priority(categories)
 
 	meta_categories = [
 		_favorite_category(categories, sorted_modules),
@@ -88,6 +84,12 @@ def get_data(headers):
 		"categories": meta_categories,
 		"meta": _meta(meta_categories),
 	}
+
+
+def _rsort_by_priority(collection):
+	return sorted(
+		collection, key=lambda item: item["priority"], reverse=True
+	)
 
 
 def _build_module_lookup(modules):
