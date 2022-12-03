@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: portal-frontend
+  labels:
+    app: portal-frontend
+spec:
+  containers:
+  - name: portal-frontend
+    image: local/portal-frontend
+    imagePullPolicy: Never
