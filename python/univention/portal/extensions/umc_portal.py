@@ -75,6 +75,8 @@ def get_data(headers):
 		module["__icon_path"] = _module_icon_path(module.get("icon"))
 		for category_id in module["categories"]:
 			module_lookup[category_id].append(module["__entry_id"])
+			if category_id != "_favorites_" and "__color" not in module:
+				module["__color"] = color_lookup.get(category_id)
 		modules.append(module)
 
 	sorted_modules = _rsort_by_priority(modules)
@@ -86,7 +88,7 @@ def get_data(headers):
 	]
 
 	return {
-		"entries": _module_entries(modules, color_lookup),
+		"entries": _module_entries(modules),
 		"folders": _folders(categories, module_lookup),
 		"categories": meta_categories,
 		"meta": _meta(meta_categories),
@@ -116,19 +118,13 @@ def _module_icon_path(icon_name):
 	return icon_path
 
 
-def _module_entries(modules, color_lookup):
+def _module_entries(modules):
 	entries = []
 	locale = 'en_US'
 
 	for module in modules:
 		if "apps" in module["categories"]:
 			continue
-
-		color = None
-		for category_id in module["categories"]:
-			if category_id != "_favorites_":
-				color = color_lookup.get(category_id)
-				break
 
 		entries.append(
 			{
@@ -139,7 +135,7 @@ def _module_entries(modules, color_lookup):
 				"linkTarget": "embedded",
 				"target": None,
 				"logo_name": module["__icon_path"],
-				"backgroundColor": color,
+				"backgroundColor": module["__color"],
 				"links": [{
 					"locale": locale,
 					"value": module["__entry_link"]
