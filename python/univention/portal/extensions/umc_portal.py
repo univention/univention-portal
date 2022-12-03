@@ -68,13 +68,13 @@ def get_data(headers):
 	color_lookup = {category["id"]: category["color"] for category in categories}
 
 	modules = []
-	module_lookup = defaultdict(list)
+	related_modules_lookup = defaultdict(list)
 	for module in _do_request("modules", headers):
 		module["__entry_id"] = _module_entry_id(module)
 		module["__entry_link"] = _module_entry_link(module)
 		module["__icon_path"] = _module_icon_path(module.get("icon"))
 		for category_id in module["categories"]:
-			module_lookup[category_id].append(module["__entry_id"])
+			related_modules_lookup[category_id].append(module["__entry_id"])
 			if category_id != "_favorites_" and "__color" not in module:
 				module["__color"] = color_lookup.get(category_id)
 		modules.append(module)
@@ -89,7 +89,7 @@ def get_data(headers):
 
 	return {
 		"entries": _module_entries(modules),
-		"folders": _folders(categories, module_lookup),
+		"folders": _folders(categories, related_modules_lookup),
 		"categories": meta_categories,
 		"meta": _meta(meta_categories),
 	}
@@ -147,7 +147,7 @@ def _module_entries(modules):
 	return entries
 
 
-def _folders(categories, module_lookup):
+def _folders(categories, related_modules_lookup):
 	folders = []
 
 	for category in categories:
@@ -161,7 +161,7 @@ def _folders(categories, module_lookup):
 					"de_DE": category["name"],
 				},
 				"dn": category["id"],
-				"entries": module_lookup.get(category["id"]),
+				"entries": related_modules_lookup.get(category["id"]),
 			}
 		)
 
