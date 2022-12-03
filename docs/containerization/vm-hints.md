@@ -18,6 +18,13 @@ qemu-system-x86_64 \
   fresh-setup-with-ssh-key.qcow2
 ```
 
+## Activating the serial console
+
+Compare the file
+[`ucs-vm-adapted-for-local-run.yaml`](../../ansible/ucs-vm-adapted-for-local-run.yaml)
+to find an example configuration, so that the serial console works in the UCS
+vm.
+
 ## Handling qcow2 images
 
 The correct tool to use is `qemu-img`. It does allow to combine an image with
