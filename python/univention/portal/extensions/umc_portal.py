@@ -68,14 +68,17 @@ def get_data(headers):
 	color_lookup = {category["id"]: category["color"] for category in categories}
 
 	modules = []
+	module_lookup = defaultdict(list)
 	for module in _do_request("modules", headers):
 		module["__entry_id"] = _module_entry_id(module)
+		module["__entry_link"] = _module_entry_link(module)
+		module["__icon_path"] = _module_icon_path(module.get("icon"))
+		for category_id in module["categories"]:
+			module_lookup[category_id].append(module["__entry_id"])
 		modules.append(module)
 
 	sorted_modules = _rsort_by_priority(modules)
 	sorted_categories = _rsort_by_priority(categories)
-
-	module_lookup = _build_module_lookup(sorted_modules)
 
 	meta_categories = [
 		_favorite_category(categories, sorted_modules),
@@ -94,14 +97,6 @@ def _rsort_by_priority(collection):
 	return sorted(
 		collection, key=lambda item: item["priority"], reverse=True
 	)
-
-
-def _build_module_lookup(modules):
-	module_lookup = defaultdict(list)
-	for module in modules:
-		for category_id in module["categories"]:
-			module_lookup[category_id].append(module["__entry_id"])
-	return module_lookup
 
 
 def _module_entry_id(module, prefix="umc:module:"):
@@ -143,11 +138,11 @@ def _module_entries(modules, color_lookup):
 				"keywords": {locale: ' '.join(module["keywords"])},
 				"linkTarget": "embedded",
 				"target": None,
-				"logo_name": _module_icon_path(module.get("icon", "")),
+				"logo_name": module["__icon_path"],
 				"backgroundColor": color,
 				"links": [{
 					"locale": locale,
-					"value": _module_entry_link(module)
+					"value": module["__entry_link"]
 				}],
 				# TODO: missing: in_portal, anonymous, activated, allowedGroups
 			}
