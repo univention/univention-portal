@@ -1,0 +1,43 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portal-ingress
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: ucs
+      port:
+        number: 80
+  rules:
+  - http:
+      paths:
+      - path: /univention/portal/portal.json
+        pathType: Exact
+        backend:
+          service:
+            name: portal-server-service
+            port:
+              number: 80
+      - path: /univention/portal/icons
+        pathType: Prefix
+        backend:
+          service:
+            name: ucs
+            port:
+              number: 80
+      - path: /univention/portal/
+        pathType: Prefix
+        backend:
+          service:
+            name: portal-frontend-service
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ucs
+            port:
+              number: 80
