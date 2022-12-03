@@ -95,29 +95,6 @@ def get_data(headers):
 	}
 
 
-def _rsort_by_priority(collection):
-	return sorted(
-		collection, key=lambda item: item["priority"], reverse=True
-	)
-
-
-def _module_entry_id(module, prefix="umc:module:"):
-	return f"{prefix}{module['id']}:{module.get('flavor', '')}"
-
-
-def _module_entry_link(module):
-	query_string = "?header=try-hide&overview=false&menu=false"
-	href_base = f"{UMC_BASE_PATH}/{query_string}"
-	return f"{href_base}#module={_module_entry_id(module, prefix='')}"
-
-
-def _module_icon_path(icon_name):
-	icon_path = None
-	if (UMC_ASSETS_ROOT / UMC_ICONS_PATH / f"{icon_name}.svg").exists():
-		icon_path = f"{UMC_BASE_PATH}/{UMC_ICONS_PATH}/{icon_name}.svg"
-	return icon_path
-
-
 def _module_entries(modules):
 	locale = 'en_US'
 	return [
@@ -197,3 +174,26 @@ def _meta(meta_categories):
 		"categories": [category["dn"] for category in meta_categories],
 		"content": [[category["dn"], category["entries"]] for category in meta_categories]
 	}
+
+
+def _rsort_by_priority(collection):
+	return sorted(
+		collection, key=lambda item: item["priority"], reverse=True
+	)
+
+
+def _module_entry_id(module, prefix="umc:module:"):
+	return f"{prefix}{module['id']}:{module.get('flavor', '')}"
+
+
+def _module_entry_link(module):
+	query_string = "?header=try-hide&overview=false&menu=false"
+	href_base = f"{UMC_BASE_PATH}/{query_string}"
+	return f"{href_base}#module={_module_entry_id(module, prefix='')}"
+
+
+def _module_icon_path(icon_name):
+	icon_path = None
+	if (UMC_ASSETS_ROOT / UMC_ICONS_PATH / f"{icon_name}.svg").exists():
+		icon_path = f"{UMC_BASE_PATH}/{UMC_ICONS_PATH}/{icon_name}.svg"
+	return icon_path
