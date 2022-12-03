@@ -1,5 +1,5 @@
 - name: Initialize UCS VM for development
-  hosts: jbornhold_clean
+  hosts: ucs-vms
   # We don't have any users yet
   remote_user: root
 

@@ -1,4 +1,4 @@
-vms:
+ucs-vms:
   hosts:
     jbornhold_test:
       ansible_host: 10.200.115.10
