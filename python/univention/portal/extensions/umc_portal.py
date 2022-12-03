@@ -70,7 +70,7 @@ def get_data(headers):
 	modules = []
 	related_modules_lookup = defaultdict(list)
 	for module in _do_request("modules", headers):
-		module["__entry_id"] = _module_entry_id(module)
+		module["__entry_id"] = f"umc:module:{_module_entry_id(module)}"
 		module["__entry_link"] = _module_entry_link(module)
 		module["__icon_path"] = _module_icon_path(module.get("icon"))
 		for category_id in module["categories"]:
@@ -182,14 +182,14 @@ def _rsort_by_priority(collection):
 	)
 
 
-def _module_entry_id(module, prefix="umc:module:"):
-	return f"{prefix}{module['id']}:{module.get('flavor', '')}"
+def _module_entry_id(module):
+	return f"{module['id']}:{module.get('flavor', '')}"
 
 
 def _module_entry_link(module):
 	query_string = "?header=try-hide&overview=false&menu=false"
 	href_base = f"{UMC_BASE_PATH}/{query_string}"
-	return f"{href_base}#module={_module_entry_id(module, prefix='')}"
+	return f"{href_base}#module={_module_entry_id(module)}"
 
 
 def _module_icon_path(icon_name):
