@@ -17,7 +17,7 @@ RUN apt-get update -qq \
     apache2-utils=2.* \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-COPY --from=build /frontend/dist /var/www/html
+COPY --from=build /frontend/dist /var/www/html/univention/portal/
 RUN a2enmod headers
 
 EXPOSE 80
