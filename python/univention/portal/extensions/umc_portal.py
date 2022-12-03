@@ -64,19 +64,23 @@ def _do_request(path, headers):
 
 def get_data(headers):
 	categories = _do_request("categories", headers)
-	modules = _do_request("modules", headers)
+
+	color_lookup = {category["id"]: category["color"] for category in categories}
+
+	modules = []
+	for module in _do_request("modules", headers):
+		module["__entry_id"] = _module_entry_id(module)
+		modules.append(module)
 
 	sorted_modules = _rsort_by_priority(modules)
 	sorted_categories = _rsort_by_priority(categories)
+
+	module_lookup = _build_module_lookup(sorted_modules)
 
 	meta_categories = [
 		_favorite_category(categories, sorted_modules),
 		_umc_category(sorted_categories),
 	]
-
-	color_lookup = {category["id"]: category["color"] for category in categories}
-
-	module_lookup = _build_module_lookup(sorted_modules)
 
 	return {
 		"entries": _module_entries(modules, color_lookup),
@@ -96,7 +100,7 @@ def _build_module_lookup(modules):
 	module_lookup = defaultdict(list)
 	for module in modules:
 		for category_id in module["categories"]:
-			module_lookup[category_id].append(_module_entry_id(module))
+			module_lookup[category_id].append(module["__entry_id"])
 	return module_lookup
 
 
@@ -133,7 +137,7 @@ def _module_entries(modules, color_lookup):
 
 		entries.append(
 			{
-				"dn": _module_entry_id(module),
+				"dn": module["__entry_id"],
 				"name": {locale: module["name"]},
 				"description": {locale: module["description"]},
 				"keywords": {locale: ' '.join(module["keywords"])},
@@ -181,7 +185,7 @@ def _favorite_category(categories, sorted_modules):
 		if category["id"] == "_favorites_":
 			display_name = {"en_US": category["name"]}
 			entries = [
-				_module_entry_id(module)
+				module["__entry_id"]
 				for module in sorted_modules
 				if "_favorites_" in module.get("categories", [])
 			]
