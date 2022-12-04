@@ -42,9 +42,9 @@ import tornado.web
 from ldap.dn import str2dn
 
 import univention.portal.config as config
-import univention.portal.extensions.umc_portal as umc_portal
 from univention.portal.factory import make_portal
 from univention.portal.log import setup_logger, get_logger
+from univention.portal.umc import portal as umc_portal
 
 RE_FQDN = re.compile(r'(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}\.?$)')
 
