@@ -14,6 +14,12 @@ Where reasonably possible, the experiments have been captured into Ansible
 scripts. Those can be found in the subfolder [./ansible/](./ansible/).
 
 
+
+### Issue #555 - Local development with Kubernetes
+
+The results out of early experiments went into the folder [./k8s/](./k8s/).
+
+
 ### Spike - Containers in UCS VM
 
 The work has been captured in Ansible, see
