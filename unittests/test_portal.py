@@ -263,3 +263,14 @@ def test_request_umc_get(mocker):
 	portal._request_umc_get("stub_path", stub_headers)
 	requests.post.assert_called_once_with(
 		"http://127.0.0.1/univention/get/stub_path", json=ANY, headers=ANY)
+
+
+def test_request_umc_get_adheres_to_umc_api_path(mocker):
+	from univention.portal.extensions.portal import UMCPortal
+
+	mocker.patch('requests.post')
+	portal = UMCPortal(None, None, "https://stub_umc_url")
+	stub_headers = {}
+	portal._request_umc_get("stub_path", stub_headers)
+	requests.post.assert_called_once_with(
+		"https://stub_umc_url/get/stub_path", json=ANY, headers=ANY)

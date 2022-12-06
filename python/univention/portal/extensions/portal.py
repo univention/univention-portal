@@ -253,9 +253,10 @@ class Portal(metaclass=Plugin):
 
 
 class UMCPortal(Portal):
-	def __init__(self, scorer, authenticator):
+	def __init__(self, scorer, authenticator, umc_api_url="http://127.0.0.1/univention"):
 		self.scorer = scorer
 		self.authenticator = authenticator
+		self.umc_api_url = umc_api_url
 
 	def auth_mode(self, request):
 		return "ucs"
@@ -264,7 +265,7 @@ class UMCPortal(Portal):
 		return False
 
 	def _request_umc_get(self, get_path, headers):
-		uri = "http://127.0.0.1/univention/get/{}".format(get_path)
+		uri = "{}/get/{}".format(self.umc_api_url, get_path)
 		body = {"options": {}}
 		try:
 			response = requests.post(uri, json=body, headers=headers)
