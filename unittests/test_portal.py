@@ -243,3 +243,10 @@ class TestPortal:
 		assert mocked_portal.score(request) == 5
 		mocked_portal.scorer.score.assert_called_once()
 		mocked_portal.scorer.score.assert_called_with(request)
+
+
+def test_umc_portal_imports(dynamic_class):
+	from univention.portal.extensions.portal import UMCPortal
+
+	UMCPortal_dynamic = dynamic_class("UMCPortal")
+	assert UMCPortal is UMCPortal_dynamic
