@@ -34,8 +34,10 @@
 #
 
 import asyncio
+from unittest.mock import ANY
 
 import pytest
+import requests
 
 
 def test_imports(dynamic_class):
@@ -250,3 +252,14 @@ def test_umc_portal_imports(dynamic_class):
 
 	UMCPortal_dynamic = dynamic_class("UMCPortal")
 	assert UMCPortal is UMCPortal_dynamic
+
+
+def test_request_umc_get(mocker):
+	from univention.portal.extensions.portal import UMCPortal
+
+	mocker.patch('requests.post')
+	portal = UMCPortal(None, None)
+	stub_headers = {}
+	portal._request_umc_get("stub_path", stub_headers)
+	requests.post.assert_called_once_with(
+		"http://127.0.0.1/univention/get/stub_path", json=ANY, headers=ANY)
