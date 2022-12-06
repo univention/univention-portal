@@ -84,3 +84,19 @@ def test_fetch_key(mocker, mocked_portal_config):
 	with pytest.raises(KeyError):
 		mocked_portal_config.fetch("no_key")
 	load_mock.assert_called_once()
+
+
+def test_config_via_environment(mocker, mocked_portal_config):
+	mocker.patch.dict("os.environ", {
+		"PORTAL_UMC_API_URL": "stub_umc_api_url_from_env",
+	})
+	assert mocked_portal_config.fetch("umc_api_url") == "stub_umc_api_url_from_env"
+
+
+def test_config_via_environment_has_priority(mocker, mocked_portal_config):
+	assert mocked_portal_config.fetch("url") == "http://127.0.0.1:8090"
+	reload(mocked_portal_config)
+	mocker.patch.dict("os.environ", {
+		"PORTAL_URL": "https://from-environment.test",
+	})
+	assert mocked_portal_config.fetch("url") == "https://from-environment.test"

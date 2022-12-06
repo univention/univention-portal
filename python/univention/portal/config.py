@@ -34,6 +34,7 @@
 
 
 import json
+import os
 from glob import glob
 
 _CONF = "/usr/lib/univention-portal/config/*.json"
@@ -49,10 +50,20 @@ def load():
 	except EnvironmentError:
 		pass
 	else:
+		_DB.update(_load_from_environment())
 		load.never_loaded = False
 
 
 load.never_loaded = True
+
+
+def _load_from_environment(prefix="PORTAL_"):
+	env_values = {
+		key.replace(prefix, '').lower(): value
+		for key, value in os.environ.items()
+		if key.startswith(prefix)
+	}
+	return env_values
 
 
 def fetch(key):
