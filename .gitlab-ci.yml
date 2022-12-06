@@ -170,6 +170,37 @@ build-notification-api:
     - if: $CI_COMMIT_BRANCH
 
 
+build-debian-package-builder:
+  stage: build
+  extends: .kaniko
+  variables:
+    KANIKO_BUILD_CONTEXT: "docker/deb-build"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+
+build-debian-package:
+  stage: build
+  needs:
+    - job: build-debian-package-builder
+  image: "$IMAGE_TAG"
+  before_script:
+    - apt-get -qq update
+    - apt-get -q --assume-yes build-dep .
+  script:
+    - source ~/.nvm/nvm.sh
+    - dpkg-buildpackage --no-sign
+    - rm -fr public
+    - mkdir public
+    - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
+  artifacts:
+    paths:
+      - public/
+    expire_in: 1 week
+
+
 test-portal-frontend-unit:
   stage: test
   needs:
