@@ -40,6 +40,40 @@ import pytest
 import requests
 
 
+@pytest.fixture
+def mocked_anonymous_user(mocker):
+	user = mocker.Mock()
+	user.username = None
+	user.display_name = None
+	user.groups = []
+	user.headers = {}
+	return user
+
+@pytest.fixture
+def standard_portal(dynamic_class, mocker, get_file_path):
+	Portal = dynamic_class("Portal")
+	cache_file_path = get_file_path("portal_cache.json")
+	scorer = dynamic_class("Scorer")()
+	portal_cache = dynamic_class("PortalFileCache")(cache_file_path)
+	authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
+	return Portal(scorer, portal_cache, authenticator)
+
+@pytest.fixture
+def mocked_portal(dynamic_class, mocker):
+	async def async_magic():
+		return
+
+	Portal = dynamic_class("Portal")
+	scorer = mocker.Mock()
+	portal_cache = mocker.Mock()
+	authenticator = mocker.Mock()
+	mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
+	authenticator.get_user = mocker.MagicMock()
+	authenticator.login_user = mocker.MagicMock()
+	authenticator.login_request = mocker.MagicMock()
+	return Portal(scorer, portal_cache, authenticator)
+
+
 def test_imports(dynamic_class):
 	assert dynamic_class("Portal")
 
@@ -53,39 +87,6 @@ class TestPortal:
 		user.groups = []
 		user.headers = {}
 		return user
-
-	@pytest.fixture
-	def mocked_anonymous_user(self, mocker):
-		user = mocker.Mock()
-		user.username = None
-		user.display_name = None
-		user.groups = []
-		user.headers = {}
-		return user
-
-	@pytest.fixture
-	def standard_portal(self, dynamic_class, mocker, get_file_path):
-		Portal = dynamic_class("Portal")
-		cache_file_path = get_file_path("portal_cache.json")
-		scorer = dynamic_class("Scorer")()
-		portal_cache = dynamic_class("PortalFileCache")(cache_file_path)
-		authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
-		return Portal(scorer, portal_cache, authenticator)
-
-	@pytest.fixture
-	def mocked_portal(self, dynamic_class, mocker):
-		async def async_magic():
-			return
-
-		Portal = dynamic_class("Portal")
-		scorer = mocker.Mock()
-		portal_cache = mocker.Mock()
-		authenticator = mocker.Mock()
-		mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-		authenticator.get_user = mocker.MagicMock()
-		authenticator.login_user = mocker.MagicMock()
-		authenticator.login_request = mocker.MagicMock()
-		return Portal(scorer, portal_cache, authenticator)
 
 	def test_user(self, mocked_portal, mocker):
 		request = "request"
