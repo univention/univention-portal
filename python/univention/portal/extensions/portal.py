@@ -34,7 +34,9 @@
 #
 
 import os.path
+import operator as op
 import time
+from functools import reduce
 
 import requests
 import requests.exceptions
@@ -45,61 +47,10 @@ from univention.portal.log import get_logger
 
 
 class Portal(metaclass=Plugin):
-	"""
-	Base (and maybe only) class for a Portal.
-	It is the only interface exposed to the portal tools, so you could
-	replace it entirely. But these methods need to be implemented:
-
-	`get_user`: Get the user for the current request
-	`login_user`: New login for a user
-	`login_request`: An anonymous user wants to login
-	`get_visible_content`:
-		The content that the frontend shall present.
-		Should be filtered by the "user". Also gets "admin_mode", a
-		boolean indicating whether the user requested all the content
-		(and is authorized to do so)
-	`get_user_links`:
-		Get the user links in the portal, filtered by "user"
-		and "admin_mode"
-	`get_menu_links`:
-		Get the menu links in the portal, filtered by "user"
-		and "admin_mode"
-	`get_entries`:
-		Get all entries of "content", which in turn was the
-		return value of `get_visible_content`
-	`get_folders`:
-		Get all folders of "content", which in turn was the
-		return value of `get_visible_content`
-	`get_categories`:
-		Get all categories of "content", which in turn was the
-		return value of `get_visible_content`
-	`auth_mode`: Mode for auth based on given "request"
-	`may_be_edited`: Whether a "user" may edit this portal
-	`get_meta`:
-		Get some information about the portal itself, given
-		"content" and "categories". Those were return values of
-		`get_visible_content` and `get_categories`.
-	`refresh`:
-		Refresh the portal data if needed ("reason" acts as a hint).
-		Thereby allows the object to cache its content.
-	`score`: If multiple portals are configured, use the one with the
-		highest score for a given "request".
-
-	scorer:
-		Object that does the actual scoring. Meant to get a `Scorer` object
-	portal_cache:
-		Object that holds the cache. Meant to get a `Cache` object
-	authenticator:
-		Object that does the whole auth thing. Meant to the a `Authenticator` object
-	"""
-
 	def __init__(self, scorer, portal_cache, authenticator):
 		self.scorer = scorer
 		self.portal_cache = portal_cache
 		self.authenticator = authenticator
-
-	def get_cache_id(self):
-		return self.portal_cache.get_id()
 
 	async def get_user(self, request):
 		return await self.authenticator.get_user(request)
@@ -113,135 +64,100 @@ class Portal(metaclass=Plugin):
 	async def logout_user(self, request):
 		return await self.authenticator.logout_user(request)
 
-	def get_visible_content(self, user, admin_mode):
+	def get_data(self, user, admin_mode=False):
+		cache_id = self.portal_cache.get_id()
 		entries = self.portal_cache.get_entries()
 		folders = self.portal_cache.get_folders()
 		categories = self.portal_cache.get_categories()
-		visible_entry_dns = self._filter_entry_dns(entries, user, admin_mode)
+		portal = self.portal_cache.get_portal()
 
-		if admin_mode:
-			return {
-				"entry_dns": visible_entry_dns,
-				"folder_dns": folders.keys(),
-				"category_dns": categories.keys(),
+		if not admin_mode:
+			entries = {
+				dn: entry
+				for dn, entry in entries.items()
+				if self._is_visible_entry(entry, user)
+			}
+			folders = self._filter_visible_folders(folders, entries)
+			categories = {
+				dn: entry
+				for dn, entry in categories.items()
+				if dn in entries or dn in folders
 			}
 
-		visible_folder_dns = [
-			folder_dn
-			for folder_dn in folders.keys()
-			if [
-				entry_dn
-				for entry_dn in self._get_all_entries_of_folder(folder_dn, folders, entries)
-				if entry_dn in visible_entry_dns
-			]
+		portal["categories"] = self._unique_intersection(portal["categories"], categories.keys())
+		portal["content"] = [
+			[dn, categories[dn]["entries"]] for dn in portal["categories"]
 		]
-		visible_category_dns = [
-			category_dn
-			for category_dn in categories.keys()
-			if [
-				entry_dn
-				for entry_dn in categories[category_dn]["entries"]
-				if entry_dn in visible_entry_dns or entry_dn in visible_folder_dns
-			]
-		]
+
 		return {
-			"entry_dns": visible_entry_dns,
-			"folder_dns": visible_folder_dns,
-			"category_dns": visible_category_dns,
+			"cache_id": cache_id,
+			"user_links": self._unique_intersection(
+				self.portal_cache.get_user_links(), entries.keys(), folders.keys()
+			),
+			"menu_links": self._unique_intersection(
+				self.portal_cache.get_menu_links(), entries.keys(), folders.keys()
+			),
+			"entries": list(entries.values()),
+			"folders": self._filter_property(
+				folders.values(), property="entries", white_lists=[entries.keys(), folders.keys()]
+			),
+			"categories": self._filter_property(
+				categories.values(), property="entries", white_lists=[entries.keys(), folders.keys()]
+			),
+			"portal": portal,
 		}
 
-	def get_user_links(self, content):
-		links = self.portal_cache.get_user_links()
-		return [
-			dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
-		]
+	@staticmethod
+	def _is_visible_entry(entry, user):
+		if not entry["in_portal"]:
+			return False
+		if not entry["activated"]:
+			return False
+		if entry["anonymous"] and not user.is_anonymous():
+			return False
+		if entry["allowedGroups"]:
+			return set(user.groups) & set(entry["allowedGroups"])
 
-	def get_menu_links(self, content):
-		links = self.portal_cache.get_menu_links()
-		return [
-			dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
-		]
+		return True
 
-	def get_entries(self, content):
-		entries = self.portal_cache.get_entries()
-		return [entries[entry_dn] for entry_dn in content["entry_dns"]]
+	@staticmethod
+	def _filter_visible_folders(folders, visible_entry_dns):
+		visible = set()
+		folder_entries = {}
+		while True:
+			no_change = True
+			for dn, folder in folders.items():
+				if dn in visible:
+					continue
+				if dn not in folder_entries:
+					folder_entries[dn] = set(folder["entries"])
+				if (
+					visible & folder_entries[dn]
+					or visible_entry_dns & folder_entries[dn]
+				):
+					visible.add(dn)
+					no_change = False
+			if no_change:
+				break
 
-	def get_folders(self, content):
-		folders = self.portal_cache.get_folders()
-		folders = [folders[folder_dn] for folder_dn in content["folder_dns"]]
-		for folder in folders:
-			folder["entries"] = [
-				entry_dn
-				for entry_dn in folder["entries"]
-				if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]
-			]
-		return folders
+		return {dn: folder for dn, folder in folders.items() if dn in visible}
 
-	def get_categories(self, content):
-		categories = self.portal_cache.get_categories()
-		categories = [categories[category_dn] for category_dn in content["category_dns"]]
-		for category in categories:
-			category["entries"] = [
-				entry_dn
-				for entry_dn in category["entries"]
-				if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]
-			]
-		return categories
+	@staticmethod
+	def _unique_intersection(*iterables):
+		return list(reduce(op.and_, [set(_) for _ in iterables]))
+
+	@classmethod
+	def _filter_property(cls, collection, property, white_lists):
+		for item in collection:
+			item[property] = cls._unique_intersection(item[property], *white_lists)
+
+		return collection
 
 	def auth_mode(self, request):
 		return self.authenticator.get_auth_mode(request)
 
 	def may_be_edited(self, user):
 		return config.fetch('editable') and user.is_admin()
-
-	def get_meta(self, content, categories):
-		portal = self.portal_cache.get_portal()
-		portal["categories"] = [
-			category_dn
-			for category_dn in portal["categories"]
-			if category_dn in content["category_dns"]
-		]
-		portal["content"] = [
-			[category_dn, next(category for category in categories if category["dn"] == category_dn)["entries"]]
-			for category_dn in portal["categories"]
-		]
-		return portal
-
-	def _filter_entry_dns(self, entries, user, admin_mode):
-		filtered_dns = []
-		for entry_dn, entry in entries.items():
-			if entry is None:
-				continue
-			if not admin_mode:
-				if not entry["in_portal"]:
-					continue
-				if not entry["activated"]:
-					continue
-				if entry["anonymous"] and not user.is_anonymous():
-					continue
-				if entry["allowedGroups"]:
-					for group in entry["allowedGroups"]:
-						if user.is_member_of(group):
-							break
-					else:
-						continue
-			filtered_dns.append(entry_dn)
-		return filtered_dns
-
-	def _get_all_entries_of_folder(self, folder_dn, folders, entries):
-		def _flatten(folder_dn, folders, entries, ret, already_unpacked_folder_dns):
-			for entry_dn in folders[folder_dn]["entries"]:
-				if entry_dn in entries:
-					if entry_dn not in ret:
-						ret.append(entry_dn)
-				elif entry_dn in folders:
-					if entry_dn not in already_unpacked_folder_dns:
-						already_unpacked_folder_dns.append(entry_dn)
-						_flatten(entry_dn, folders, entries, ret, already_unpacked_folder_dns)
-
-		ret = []
-		_flatten(folder_dn, folders, entries, ret, [])
-		return ret
 
 	def refresh(self, reason=None):
 		touched = self.portal_cache.refresh(reason=reason)
