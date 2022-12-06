@@ -246,7 +246,7 @@ class Portal(metaclass=Plugin):
 		return touched
 
 	def _get_umc_portal(self):
-		return UMCPortal(self.scorer, self.authenticator)
+		return UMCPortal(self.scorer, self.authenticator, config.fetch("umc_api_url"))
 
 	def score(self, request):
 		return self.scorer.score(request)

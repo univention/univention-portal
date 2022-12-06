@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+from imp import reload
 from os import path
 
 import pytest
@@ -67,3 +68,13 @@ def get_file_path(request):
 		return path.join(unittest_path, files_directory, file_name)
 
 	return _
+
+
+@pytest.fixture
+def mocked_portal_config(get_file_path):
+	"""Ensures a fresh config module based on the JSON files from the test suite."""
+	from univention.portal import config
+
+	reload(config)
+	config._CONF = get_file_path("config*.json")
+	return config
