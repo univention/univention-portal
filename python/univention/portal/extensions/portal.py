@@ -188,7 +188,7 @@ class Portal(metaclass=Plugin):
 		return self.authenticator.get_auth_mode(request)
 
 	def may_be_edited(self, user):
-		return config.fetch('editable') and user.is_admin()
+		return config.fetch('editable')
 
 	def get_meta(self, content, categories):
 		portal = self.portal_cache.get_portal()
