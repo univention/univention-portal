@@ -75,7 +75,7 @@
   "name": "upx-portal",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode development",
     "deploy:firebase": "yarn build && firebase deploy",
     "lint": "vue-cli-service lint --no-fix",
     "lint:all": "yarn lint && stylelint \"{**/*.{scss,vue,styl}\"",
