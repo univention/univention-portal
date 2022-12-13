@@ -49,7 +49,6 @@ from univention.portal import Plugin
 from univention.portal.log import get_logger
 
 
-
 class Reloader(metaclass=Plugin):
 	"""
 	Our base class for reloading
@@ -185,7 +184,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
 		portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
 		entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
-		announcements = self._extract_announcements(udm, portal)
+		announcements = self._extract_announcements(udm)
 
 		with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
 			json.dump(
@@ -302,25 +301,27 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		return entries
 
 	@classmethod
-	def _extract_announcements(self, udm, portal):
+	def _extract_announcements(cls, udm):
 		ret = {}
 
-		def add(announcement, ret, in_portal):
+		announcement_module = udm.get("portals/announcement")
+		if not announcement_module:
+			get_logger("cache").warning("UDM not up to date? Announcement module not found.")
+			return ret
+
+		for announcement in udm.get("portals/announcement").search(opened=True):
 			ret[announcement.dn] = {
 				"dn": announcement.dn,
-				"allowedGroups": announcement.props.allowedGroups,
-				"name": announcement.props.name,
-				"message": announcement.props.message,
-				"title": announcement.props.title,
-				"startTime": announcement.props.startTime,
-				"endTime": announcement.props.endTime,
-				"isSticky": announcement.props.isSticky,
-				"needsConfirmation": announcement.props.needsConfirmation,
-				"severity": announcement.props.severity
+				"allowedGroups": announcement.properties["allowedGroups"],
+				"name": announcement.properties["name"],
+				"message": announcement.properties["message"],
+				"title": announcement.properties["title"],
+				"startTime": announcement.properties["startTime"],
+				"endTime": announcement.properties["endTime"],
+				"isSticky": announcement.properties["isSticky"],
+				"needsConfirmation": announcement.properties["needsConfirmation"],
+				"severity": announcement.properties["severity"],
 			}
-
-		for obj in udm.get("portals/announcement").search():
-			add(obj, ret, True)
 
 		return ret
 
