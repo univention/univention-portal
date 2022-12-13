@@ -413,5 +413,6 @@
     },
     "user_links": [
         "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=univention,dc=test"
-    ]
+    ],
+    "announcements": {}
 }
