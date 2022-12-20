@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: univention-portal-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: univention-portal-backend
+  template:
+    metadata:
+      labels:
+        app: univention-portal-backend
+    spec:
+      containers:
+        - name: univention-portal-backend
+          image: univention/portal-backend
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /usr/lib/univention-portal/config
+              name: backend-config-volume
+      volumes:
+        - name: backend-config-volume
+          configMap:
+            name: cfg-backend
+            items:
+              - key: config
+                path: config.json
