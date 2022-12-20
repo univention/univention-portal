@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: univention-portal-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: univention-portal-frontend
+  template:
+    metadata:
+      labels:
+        app: univention-portal-frontend
+    spec:
+      containers:
+        - name: univention-portal-frontend
+          image: univention/portal-frontend
+          ports:
+            - containerPort: 80
