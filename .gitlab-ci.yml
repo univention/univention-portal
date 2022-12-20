@@ -9,6 +9,7 @@ build-portal-frontend:
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "docker/frontend/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
@@ -16,6 +17,7 @@ build-portal-server:
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
