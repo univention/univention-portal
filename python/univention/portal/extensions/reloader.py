@@ -290,7 +290,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 				"activated": entry.properties["activated"],
 				"anonymous": entry.properties["anonymous"],
 				"allowedGroups": entry.properties["allowedGroups"],
-				"links": entry.properties["link"],
+				"links": [{'locale': _[0], 'value': _[1]} for _ in entry.properties["link"]],
 				"linkTarget": entry.properties["linkTarget"],
 				"target": entry.properties["target"],
 				"backgroundColor": entry.properties["backgroundColor"],
