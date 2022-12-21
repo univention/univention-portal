@@ -32,6 +32,10 @@
   --bgc-error: #b8233e;
   --bgc-warning: #975607;
   --bgc-success: #4a6d12;
+  --bgc-announcements-info: var(--color-accent);
+  --bgc-announcements-danger: var(--bgc-error);
+  --bgc-announcements-success: var(--bgc-success);
+  --bgc-announcements-warn: var(--bgc-warning);
   --font-size-1: 1.5rem;
   --font-size-2: 1.25rem;
   --font-size-3: 1rem;
