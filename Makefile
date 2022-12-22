@@ -35,6 +35,9 @@
 build:
 	./frontend/process_vue_files.sh
 	npm set prefix=$$HOME/.node
+	npm cache clean -f
+	npm install -g n
+	$$HOME/.node/bin/n 12
 	npm install -g npm@8.1.3
 	$$HOME/.node/bin/npm install -g yarn
 	cd frontend && $$HOME/.node/bin/yarn install
