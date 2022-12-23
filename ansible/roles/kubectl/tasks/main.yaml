@@ -1,0 +1,16 @@
+---
+- name: Install kubectl
+  shell: |
+    curl -fsSLO https://dl.k8s.io/release/v{{ kubectl_version }}/bin/linux/amd64/kubectl
+    chmod 755 ./kubectl
+    mv ./kubectl {{ installation_dir }}/kubectl
+  args:
+    executable: /bin/bash
+    creates: '{{ installation_dir }}/kubectl'
+  tags: [ install, kubectl, ]
+
+- name: Remove kubectl executable
+  file:
+    path: '{{ installation_dir }}/kubectl'
+    state: absent
+  tags: [ remove, kubectl, ]

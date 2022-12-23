@@ -1,0 +1,72 @@
+---
+- name: Install / set up / remove kind environment
+  hosts: '{{ nodes | default("ucs_dev_machines") }}'
+  gather_facts: no
+  vars_files:
+    - vars/k8s-kind.yaml
+
+  tasks:
+    - include_role:
+        name: kind
+      tags: [ install ]
+
+    - include_role:
+        name: kubectl
+      tags: [ install ]
+
+    - include_role:
+        name: helm
+      tags: [ install ]
+
+    - include_role:
+        name: tilt
+      tags: [ install ]
+
+    - name: Make sure apache is not running when ingress requested
+      systemd:
+        name: apache2
+        state: stopped
+        masked: true
+      when: ingress_enable
+      tags: [ setup ]
+
+    - name: Set up kind cluster with local Docker registry
+      shell: |
+        cat <<EOF | ctlptl apply -f -
+        {{ lookup("template", playbook_dir ~ "/templates/k8s-kind/setup-cluster.yaml.j2") }}
+        EOF
+      args:
+        executable: /bin/bash
+      register: setup_cluster
+      tags: [ setup ]
+
+    - name: Tear down kind cluster
+      shell: 'ctlptl delete cluster kind-{{ cluster_name }}'
+      args:
+        executable: /bin/bash
+      register: teardown_cluster
+      tags: [ teardown ]
+
+    - name: Restart apache when ingress had been requested
+      systemd:
+        name: apache2
+        state: started
+        masked: false
+      when: ingress_enable
+      tags: [ teardown ]
+
+    - include_role:
+        name: tilt
+      tags: [ remove ]
+
+    - include_role:
+        name: helm
+      tags: [ remove ]
+
+    - include_role:
+        name: kubectl
+      tags: [ remove ]
+
+    - include_role:
+        name: kind
+      tags: [ remove ]
