@@ -26,10 +26,11 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import { store } from '@/store/';
+import { ComponentCustomProperties } from 'vue'
+import { Store } from 'vuex'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $store: store;
+    $store: Store<any>
   }
 }

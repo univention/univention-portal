@@ -28,8 +28,9 @@
  */
 import { ActionContext } from 'vuex';
 import { RootState } from '../../root.models';
+import { Locale } from '../locale/locale.models';
 
-export type LocalizedString = Record<string, string>;
+export type LocalizedString = Partial<Record<Locale, string>>;
 
 export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
 
