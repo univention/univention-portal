@@ -67,7 +67,7 @@ const notifications: PortalModule<Notifications> = {
       commit('SET_NOTIFICATIONS', latestNotifications);
     },
 
-    async beginReceiveNotifications({ commit }) {
+    async startReceiveNotifications({ commit }) {
       const eventSource = new EventSource(`${process.env.VUE_APP_NOTIFICATION_API_URL}/v1/notifications/stream`);
       commit('SET_EVENT_SOURCE', eventSource);
       eventSource.addEventListener('new_notification', (baseEvent) => {
