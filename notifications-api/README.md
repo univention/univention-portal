@@ -7,9 +7,17 @@ for live display.
 
 ## Running the API locally
 
-TODO: How am I expected to run this?
 
-TODO: What's needed to get the DB set up?
+### Running the API via docker compose
+
+The API server can be brought up with the following example command:
+
+```
+docker compose up
+```
+
+
+### Initialize the database
 
 Example to initialize the database:
 
@@ -27,6 +35,16 @@ INFO  [alembic.runtime.migration] Running upgrade  -> c83d839fbaad, Create table
 ```
 
 And a file called `notifications.db` should be created.
+
+
+### Seed the database
+
+It is possible to put a few example notifications into the database with the
+following command:
+
+```
+docker compose run app python migrations/seed.py
+```
 
 
 ## Using the API for HTTP requests
