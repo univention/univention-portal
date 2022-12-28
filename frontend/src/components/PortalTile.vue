@@ -76,7 +76,10 @@
           class="portal-tile__img"
         >
       </div>
-      <span class="portal-tile__name" ref="tileName">
+      <span
+        ref="tileName"
+        class="portal-tile__name"
+      >
         {{ $localized(title) }}
       </span>
       <div

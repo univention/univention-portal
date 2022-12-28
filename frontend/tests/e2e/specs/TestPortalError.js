@@ -47,7 +47,7 @@ describe('Test Portal Error Components', () => {
     errorContainer.should('be.visible');
     errorContainer.should((container) => {
       // make sure the first contains text "sorry"
-      expect(container.first()).to.contain('Sorry');
+      expect(container.first()).stringContaining('Sorry');
     });
   });
 
@@ -62,7 +62,7 @@ describe('Test Portal Error Components', () => {
     errorContainer.should('be.visible');
     errorContainer.should((container) => {
       // make sure the first contains text "sorry"
-      expect(container.first()).to.contain('Page not found');
+      expect(container.first()).stringContaining('Page not found');
     });
   });
 

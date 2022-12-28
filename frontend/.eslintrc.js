@@ -39,6 +39,7 @@ module.exports = {
         after: true,
       },
     ],
+    'camelcase': ['error', { 'allow': ['logo_name', 'display_name', 'en_US'] }],
     // 'import/extensions': ['error', 'always', { ignorePackages: true }],
     'max-len': [
       'error',

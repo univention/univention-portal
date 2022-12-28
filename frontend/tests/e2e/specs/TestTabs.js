@@ -78,61 +78,57 @@ describe('Test Tabs', () => {
     cy.get('[data-test="portal-iframes"]').children()
       .should('have.length', 0);
   });
-  it('test store', () => {
-    cy.readFile('public/data/portal.json').then((portal) => {
-      portal.entries[0].linkTarget = 'embedded';
-      cy.intercept('GET', 'portal.json', portal);
-      cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
-      cy.intercept('GET', 'de.json', { fixture: 'de.json' });
-      cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
-      cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
-      cy.visit('/');
-      const getStore = () => cy.window().its('store');
-      getStore().its('state')
-        .should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
-      // open Tab to see if it correctly in store
-      getStore().its('state')
-        .its('tabs')
-        .its('tabs')
-        .should('have.length', 0);
-      cy.get('.portal-category .portal-tile').last()
-        .click();
-      cy.get('#iframe-1').should('be.visible');
-      getStore().its('state')
-        .its('tabs')
-        .its('tabs')
-        .should('have.length', 1);
-    });
-  });
+  it('test store', () => cy.readFile('public/data/portal.json').then((portal) => {
+    portal.entries[0].linkTarget = 'embedded';
+    cy.intercept('GET', 'portal.json', portal);
+    cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
+    cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+    cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+    cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
+    cy.visit('/');
+    const getStore = () => cy.window().its('store');
+    getStore().its('state')
+      .should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
+    // open Tab to see if it correctly in store
+    getStore().its('state')
+      .its('tabs')
+      .its('tabs')
+      .should('have.length', 0);
+    cy.get('.portal-category .portal-tile').last()
+      .click();
+    cy.get('#iframe-1').should('be.visible');
+    getStore().its('state')
+      .its('tabs')
+      .its('tabs')
+      .should('have.length', 1);
+  }));
 
-  it('test scroll position', () => {
-    cy.readFile('public/data/portal.json').then((portal) => {
-      portal.entries[0].linkTarget = 'embedded';
-      cy.intercept('GET', 'portal.json', portal);
-      cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
-      cy.intercept('GET', 'de.json', { fixture: 'de.json' });
-      cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
-      cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
+  it('test scroll position', () => cy.readFile('public/data/portal.json').then((portal) => {
+    portal.entries[0].linkTarget = 'embedded';
+    cy.intercept('GET', 'portal.json', portal);
+    cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
+    cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+    cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+    cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
 
-      cy.viewport('iphone-x', 'landscape');
-      cy.visit('/');
-      const getStore = () => cy.window().its('store');
-      getStore().its('state')
-        .should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
-      // open Tab to see if it correctly in store
-      getStore().its('state')
-        .its('tabs')
-        .its('scrollPosition')
-        .should('eq', 0);
-      cy.get('.portal-category .portal-tile').last()
-        .click();
-      // cy.get('#iframe-1').should('be.visible');
-      getStore().its('state')
-        .its('tabs')
-        .its('scrollPosition')
-        .should('be.greaterThan', 0);
-    });
-  });
+    cy.viewport('iphone-x', 'landscape');
+    cy.visit('/');
+    const getStore = () => cy.window().its('store');
+    getStore().its('state')
+      .should('have.any.keys', ['activeTabIndex', 'tabs', 'scrollPosition']);
+    // open Tab to see if it correctly in store
+    getStore().its('state')
+      .its('tabs')
+      .its('scrollPosition')
+      .should('eq', 0);
+    cy.get('.portal-category .portal-tile').last()
+      .click();
+    // cy.get('#iframe-1').should('be.visible');
+    getStore().its('state')
+      .its('tabs')
+      .its('scrollPosition')
+      .should('be.greaterThan', 0);
+  }));
   /* eslint-disable jest/expect-expect */
   it('A11y Test', () => {
     cy.injectAxe();

@@ -27,7 +27,6 @@
  * <https://www.gnu.org/licenses/>.
  */
 import { Commit } from 'vuex';
-import _ from '@/jsHelper/translate';
 import { PortalModule } from '@/store/root.models';
 import { SearchQuery } from './search.models';
 
