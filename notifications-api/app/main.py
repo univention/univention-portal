@@ -2,15 +2,19 @@ import logging
 
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.core.config import get_settings
 
 from .api import router as api_router
 
+origins = ["*"]
+
 settings = get_settings()
 description = """
 """
+
 app = FastAPI(
     root_path=settings.root_path,
     title=settings.project_name,
@@ -18,6 +22,18 @@ app = FastAPI(
     debug=settings.debug,
     description=description,
 )
+
+# TODO: Workaround for locally running this. Must be replaced by a different
+# solution which ensures that this can never be activated in production by
+# accident.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(api_router)
 
 
