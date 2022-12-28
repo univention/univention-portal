@@ -212,7 +212,7 @@ export default defineComponent({
     onSort(column: TableHeaderColumn) {
       this.updateTableHeaderColumns(column);
 
-      if (this.gridItems.length && this.on?.sort) {
+      if (this.gridItems.length) {
         this.onOperation('sort');
       } else {
         // default sort by

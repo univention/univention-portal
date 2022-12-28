@@ -28,6 +28,8 @@
  */
 
 import { Module, ActionContext } from 'vuex';
+import { NavigationState } from './modules/navigation';
+import { Notifications } from './modules/notifications';
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface RootState {
@@ -42,3 +44,8 @@ export const initialRootState: RootState = {
   loadingState: true,
   initialLoadDone: false,
 };
+
+export type AppState = RootState & {
+  navigation: NavigationState
+  notifications: Notifications
+}

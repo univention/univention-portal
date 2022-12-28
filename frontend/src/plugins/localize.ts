@@ -27,14 +27,14 @@
  * <https://www.gnu.org/licenses/>.
  */
 // plugins/localize
-import { Locale } from '@/store/modules/locale/locale.models';
 import { App } from 'vue';
 import { store } from '@/store';
+import { LocalizedString } from '@/store/modules/portalData/portalData.models';
 
-type Localized = (input: Record<Locale, string>) => string;
+type Localized = (input: LocalizedString) => string;
 
 // expects an object, returns a string
-export function localized(input: Record<Locale, string>): string {
+export function localized(input: LocalizedString): string {
   const curLocale = store.getters['locale/getLocale'];
   const shortLocale = curLocale.split('_')[0];
   let ret = '';

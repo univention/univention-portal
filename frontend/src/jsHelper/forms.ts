@@ -41,9 +41,9 @@ interface OptionsDefinition {
 type Validator = (widget, value, widgets, values) => string;
 
 export interface WidgetDefinition {
-  type: WidgetType,
+  type?: WidgetType,
   name: string,
-  label: string,
+  label?: string,
   extraLabel?: string,
   ariaLabel?: string,
   invalidMessage?: string | { all: string, values: string[] },
