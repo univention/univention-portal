@@ -70,7 +70,11 @@ const notifications: PortalModule<Notifications> = {
     async beginReceiveNotifications({ commit }) {
       const eventSource = new EventSource(`${process.env.VUE_APP_NOTIFICATION_API_URL}/v1/notifications/stream`);
       commit('SET_EVENT_SOURCE', eventSource);
-      eventSource.addEventListener('new_notification', event => {
+      eventSource.addEventListener('new_notification', baseEvent => {
+        // TODO: Looks like something is missing here to make Typescript aware of the type
+        // Compare: https://stackoverflow.com/questions/66465969/eventsource-named-events-using-typescript
+        // Currently using a type assertion as interim way to make it work
+        const event = (baseEvent as MessageEvent);
         const data = JSON.parse(event.data);
         commit('RECEIVE_NOTIFICATION', data);
       })
