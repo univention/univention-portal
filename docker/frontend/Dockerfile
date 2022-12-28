@@ -1,10 +1,16 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}node:14-buster-slim AS build
+FROM ${DOCKER_PROXY}node:14-buster-slim AS test
 
 WORKDIR /frontend
 COPY ./frontend .
 
-RUN yarn install && yarn build
+RUN yarn install && yarn cache clean
+
+CMD ["yarn", "test:unit"]
+
+FROM test as build
+
+RUN yarn build
 
 COPY ./docker/frontend/assets/ ./dist/
 RUN echo "{}" > ./dist/i18n/de.json
