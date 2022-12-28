@@ -3,11 +3,8 @@ import uuid
 from faker import Faker
 
 from app.db import get_session
-from app.models import (
-    Notification,
-    NotificationType,
-    NotificationSeverity,
-)
+from app.models.notification_model import (
+    Notification, NotificationType, NotificationSeverity)
 
 fake = Faker()
 
