@@ -53,7 +53,7 @@ beforeEach(() => {
 });
 
 describe('Test Editmode Side navigation', () => {
-  it('Open Editmode sidenavigation and edit general portal data.', () => {
+  it('Open Editmode sidenavigation and edit general portal data.', async () => {
     // Assert: No Image in .image-upload__canvas
     cy.get('[data-test=imageUploadCanvas--Portal-Logo] img').should('not.exist');
     cy.get('[data-test=imageUploadButton--Portal-Logo]').click();
@@ -61,7 +61,7 @@ describe('Test Editmode Side navigation', () => {
     // programmatically upload the logo
     const fileName = 'images/logo.svg';
 
-    cy.fixture(fileName).then((fileContent) => {
+    await cy.fixture(fileName).then((fileContent) => {
       cy.get('[data-test=imageUploadFileInput--Portal-Logo]').attachFile(
         { fileContent, fileName, mimeType: 'image/svg+xml' },
       );

@@ -45,10 +45,10 @@ const tabs: PortalModule<TabState> = {
   },
 
   mutations: {
-    ACTIVE_TAB(state:TabState, index: number): void {
+    ACTIVE_TAB(state: TabState, index: number): void {
       state.activeTabIndex = index;
     },
-    ADD_TAB(state:TabState, tab: Tab): void {
+    ADD_TAB(state: TabState, tab: Tab): void {
       let index = -1;
       if (tab.target) {
         index = state.tabs.findIndex((stateTab) => stateTab.target === tab.target);
@@ -63,7 +63,7 @@ const tabs: PortalModule<TabState> = {
         state.activeTabIndex = index + 1;
       }
     },
-    DELETE_TAB(state:TabState, index: number): void {
+    DELETE_TAB(state: TabState, index: number): void {
       state.tabs.splice(index - 1, 1);
       if (state.activeTabIndex === index) {
         state.activeTabIndex = 0;
@@ -71,7 +71,7 @@ const tabs: PortalModule<TabState> = {
         state.activeTabIndex -= 1;
       }
     },
-    SAVE_SCROLL_POSITION(state:TabState, scrollPosition: number): void {
+    SAVE_SCROLL_POSITION(state: TabState, scrollPosition: number): void {
       state.scrollPosition = scrollPosition;
     },
   },
@@ -84,7 +84,7 @@ const tabs: PortalModule<TabState> = {
   },
 
   actions: {
-    setActiveTab({ getters, commit, dispatch }: { getters: any, commit: Commit, dispatch: Dispatch }, index: number): void {
+    setActiveTab({ getters, commit, dispatch }: { getters: Record<string, unknown>, commit: Commit, dispatch: Dispatch }, index: number): void {
       if (getters.activeTabIndex === index) {
         return;
       }
@@ -99,7 +99,7 @@ const tabs: PortalModule<TabState> = {
       commit('SAVE_SCROLL_POSITION', window.scrollY);
       commit('ADD_TAB', tab);
     },
-    deleteTab({ commit }: { commit: Commit}, index: number): void {
+    deleteTab({ commit }: { commit: Commit }, index: number): void {
       commit('DELETE_TAB', index);
     },
   },

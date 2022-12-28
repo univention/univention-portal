@@ -39,11 +39,9 @@ const imageUploadProps = {
 };
 const $store = {
   getters: {
-    'metaData/getMeta': function () {
-      return {
-        'umc/server/upload/max': '2048',
-      };
-    },
+    'metaData/getMeta': () => ({
+      'umc/server/upload/max': '2048',
+    }),
   },
 };
 
@@ -80,7 +78,7 @@ describe('ImageUploader.vue', () => {
     };
 
     // Spy on Filereader
-    jest.spyOn(global, 'FileReader').mockImplementation(function () {
+    jest.spyOn(global, 'FileReader').mockImplementation(() => {
       this.readAsDataURL = jest.fn();
     });
 

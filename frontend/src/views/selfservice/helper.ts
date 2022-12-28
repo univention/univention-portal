@@ -40,13 +40,13 @@ interface BackendWidgetDefinition {
   id: string,
   label: string,
   required: boolean,
-  staticValues?: any[],
+  staticValues?: unknown[],
   subtypes?: BackendWidgetDefinition[],
   description: string,
 }
 
 export function sanitizeBackendWidget(widget: BackendWidgetDefinition): WidgetDefinition {
-  const w: any = {
+  const w: Record<string, unknown> = {
     // TODO unhandled fields that come from command/passwordreset/get_user_attributes_descriptions
     // multivalue: false
     // size: "TwoThirds"
@@ -74,7 +74,7 @@ export function sanitizeBackendWidget(widget: BackendWidgetDefinition): WidgetDe
     // it says the syntax is 'jpegPhoto' but pngs will be converted in the backend so they can still be uploaded
     w.accept = 'image/png,image/jpeg';
   }
-  return w;
+  return w as WidgetDefinition;
 }
 
 interface ValidationObject {

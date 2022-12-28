@@ -29,8 +29,16 @@
 import vm from '@/main';
 import _ from '@/jsHelper/translate';
 import { Position } from '@/store/modules/portalData/portalData.models';
+import { Locale } from '../locale/locale.models';
 
-export default function setScreenReaderAccouncement(fromPosition: Position, toPosition: Position, getPortalLayout, setMessage): void {
+type PortalLayoutEntry = { tiles: PortalLayoutEntry[], title: Record<Locale, string>, dn: string }
+
+export default function setScreenReaderAccouncement(
+  fromPosition: Position,
+  toPosition: Position,
+  getPortalLayout: PortalLayoutEntry[],
+  setMessage: (message: string, options?: Record<string, unknown>) => unknown,
+): void {
   const categoryPositionBefore = fromPosition.categoryIdx;
   const categoryPositionAfter = toPosition.categoryIdx;
   const tilePositionBefore = fromPosition.entryIdx;

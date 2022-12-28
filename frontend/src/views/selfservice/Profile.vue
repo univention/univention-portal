@@ -119,7 +119,7 @@ interface Data {
   initiated: boolean,
   forceLogin: boolean,
   loginWidgets: WidgetDefinition[],
-  loginValues: Record<string, any>,
+  loginValues: Record<string, unknown>,
   attributeWidgets: WidgetDefinition[],
   attributeValues: Record<string, unknown>,
   origFormValues: Record<string, unknown>,
@@ -241,8 +241,8 @@ export default defineComponent({
         return {};
       }
       return {
-        username: this.loginValues.username,
-        password: this.loginValues.password,
+        username: this.loginValues.username as string,
+        password: this.loginValues.password as string,
       };
     },
   },

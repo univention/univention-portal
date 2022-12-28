@@ -47,37 +47,37 @@ const notifications: PortalModule<Notifications> = {
   },
 
   mutations: {
-    SET_NOTIFICATIONS: (state, notifications: Notification[]) => {
-      state.notifications = notifications;
+    SET_NOTIFICATIONS: (state, newNotifications: Notification[]) => {
+      state.notifications = newNotifications;
     },
     RECEIVE_NOTIFICATION: (state, notification: Notification) => {
-      if (state.notifications.find(n => n.id === notification.id)) {
-        return
+      if (state.notifications.find((n) => n.id === notification.id)) {
+        return;
       }
       state.notifications.push(notification);
     },
     SET_EVENT_SOURCE: (state, eventSource: EventSource) => {
       state.eventSource = eventSource;
-    }
+    },
   },
 
   actions: {
     async fetchNotifications({ commit }) {
-      const notifications = await notificationApi.getLatestNotificationsForUserV1NotificationsLatestGet()
-      commit('SET_NOTIFICATIONS', notifications);
+      const latestNotifications = await notificationApi.getLatestNotificationsForUserV1NotificationsLatestGet();
+      commit('SET_NOTIFICATIONS', latestNotifications);
     },
 
     async beginReceiveNotifications({ commit }) {
       const eventSource = new EventSource(`${process.env.VUE_APP_NOTIFICATION_API_URL}/v1/notifications/stream`);
       commit('SET_EVENT_SOURCE', eventSource);
-      eventSource.addEventListener('new_notification', baseEvent => {
+      eventSource.addEventListener('new_notification', (baseEvent) => {
         // TODO: Looks like something is missing here to make Typescript aware of the type
         // Compare: https://stackoverflow.com/questions/66465969/eventsource-named-events-using-typescript
         // Currently using a type assertion as interim way to make it work
         const event = (baseEvent as MessageEvent);
         const data = JSON.parse(event.data);
         commit('RECEIVE_NOTIFICATION', data);
-      })
+      });
     },
 
     async stopReceiveNotifications({ commit, state }) {
@@ -86,8 +86,8 @@ const notifications: PortalModule<Notifications> = {
         eventSource.close();
         commit('SET_EVENT_SOURCE', null);
       }
-    }
-  }
+    },
+  },
 };
 
 export default notifications;

@@ -65,7 +65,7 @@ export interface BaseTile extends Tile {
   originalLinkTarget: LinkTargetOrDefault,
   links: Link[],
   pathToLogo: string,
-  key: any, // TODO: no idea how to type this object :(
+  key: unknown, // TODO: no idea how to type this object :(
 }
 
 export interface FolderTile extends Tile {
@@ -117,21 +117,21 @@ export interface PortalCategory {
 }
 
 export interface Portal {
-    name: LocalizedString;
-    background: PortalImageDataBlob | null;
-    defaultLinkTarget: LinkTarget,
-    dn: string,
-    categories: string[],
-    logo: PortalImageDataBlob | null,
-    showUmc: boolean,
-    ensureLogin: boolean,
-    content: PortalContent,
+  name: LocalizedString;
+  background: PortalImageDataBlob | null;
+  defaultLinkTarget: LinkTarget,
+  dn: string,
+  categories: string[],
+  logo: PortalImageDataBlob | null,
+  showUmc: boolean,
+  ensureLogin: boolean,
+  content: PortalContent,
 }
 
 export interface PortalBaseLayout {
   layout: string[],
-  categories: {[index:string]: string[]},
-  folders: {[index:string]: string[]},
+  categories: { [index: string]: string[] },
+  folders: { [index: string]: string[] },
 }
 
 export interface PortalLayoutEntry {
