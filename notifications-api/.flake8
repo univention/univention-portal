@@ -1,0 +1,15 @@
+[flake8]
+max-complexity = 140
+ignore =
+	# W191 indentation contains tabs
+	W191,
+	# E265 block comment should start with '# '
+	E265,
+	# E266 too many leading '#' for block comment
+	E266,
+	# F811 redefinition of unused
+	F811,
+	# W503 line break before binary operator
+	W503,
+	# W504 line break after binary operator
+	W504,
