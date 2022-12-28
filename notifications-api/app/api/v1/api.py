@@ -30,6 +30,8 @@ def create_notification(
 def get_latest_notifications_for_user(
     title: str = Query(default=1),
     limit: str = Query(default=10),
+    # TODO: We have constants defined in our models for this, check
+    # why those are not used here.
     type: str = Query(default='event'),
     service: NotificationService = Depends(NotificationService),
     db: Session = Depends(get_session)
