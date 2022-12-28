@@ -1,0 +1,8 @@
+db.sqlite
+.env
+.env.example
+Dockerfile
+docker-compose.yml
+.git*
+.idea
+**/__pycache__
