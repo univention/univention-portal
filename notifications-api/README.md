@@ -4,6 +4,14 @@ Notifications API is a service to route information, relevant for a portal user,
 from an application like OX or NextCloud or an administrative user to the portal frontend
 for live display.
 
+
+## Running the API locally
+
+TODO: How am I expected to run this?
+
+TODO: What's needed to get the DB set up?
+
+
 ## Using the API for HTTP requests
 
 go to 0.0.0.0/docs
