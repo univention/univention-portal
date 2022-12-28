@@ -60,7 +60,9 @@ const notifications: PortalModule<Notifications> = {
       state.eventSource = eventSource;
     },
   },
-
+  getters: {
+    numNotifications: (state) => state.notifications.length,
+  },
   actions: {
     async fetchNotifications({ commit }) {
       const latestNotifications = await notificationApi.getLatestNotificationsForUserV1NotificationsLatestGet();
