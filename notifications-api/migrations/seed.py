@@ -3,27 +3,26 @@ import uuid
 from faker import Faker
 
 from app.db import get_session
-from app.models import (
-    Notification,
-    NotificationType,
-    NotificationSeverity,
-)
+from app.models.notification_model import (
+    Notification, NotificationType, NotificationSeverity)
 
 fake = Faker()
 
-
+# TODO: Check how the seeding logic can be executed in the test suite.
+# Otherwise it will run out of sync with the models over time again.
 def seed_notification_table(n):
     session = next(get_session())
     print(f"Seeding {Notification}.")
     for _ in range(n):
         session.add(Notification(
             id=uuid.uuid4().hex,
-            source_uuid=uuid.uuid4().hex,
-            target_uuid=uuid.uuid4().hex,
+            sourceUid=uuid.uuid4().hex,
+            targetUid=uuid.uuid4().hex,
             title=fake.sentence(),
-            type=NotificationType.ALERT,
+            details=fake.sentence(),
+            notificationType=NotificationType.ALERT,
             severity=NotificationSeverity.INFO,
-            send_time=fake.date_time(),
+            receiveTime=fake.date_time(),
         ))
     session.commit()
     print(f"Seeded {Notification}.")
