@@ -24,6 +24,7 @@ class NotificationSeverity(str, Enum):
 
 
 class NotificationBase(SQLModel):
+    # TODO: Why are the attributes in camel case?
     sourceUid: UUID
     targetUid: UUID
     title: str
