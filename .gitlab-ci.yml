@@ -55,6 +55,8 @@ test-portal-frontend:
   needs:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
+  before_script:
+    - cd /frontend
   script:
     - yarn test:unit
 
