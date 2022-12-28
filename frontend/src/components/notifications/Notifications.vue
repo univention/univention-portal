@@ -101,10 +101,7 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
     }),
     notifications() {
-      if (!this.isInNotificationBar) {
-        return this.visibleNotifications;
-      }
-      return this.allNotifications;
+      return this.$store.state.notifications.notifications
     },
     REMOVE_ALL_NOTIFICATIONS(): string {
       return _('Remove all');

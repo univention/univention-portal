@@ -220,9 +220,11 @@ export default defineComponent({
     this.$nextTick(() => {
       window.addEventListener('resize', this.updateOverflow);
     });
+    this.$store.dispatch('notifications/startReceiveNotifications');
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updateOverflow);
+    this.$store.dispatch('notifications/stopReceiveNotifications');
   },
   methods: {
     updateOverflow() {
