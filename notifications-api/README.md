@@ -11,6 +11,23 @@ TODO: How am I expected to run this?
 
 TODO: What's needed to get the DB set up?
 
+Example to initialize the database:
+
+```
+docker compose run app /bin/bash
+alembic upgrade head
+```
+
+The output does look roughly as follows:
+
+```
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> c83d839fbaad, Create table notification
+```
+
+And a file called `notifications.db` should be created.
+
 
 ## Using the API for HTTP requests
 
