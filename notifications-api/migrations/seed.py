@@ -13,6 +13,7 @@ def seed_notification_table(n):
     session = next(get_session())
     print(f"Seeding {Notification}.")
     for _ in range(n):
+        # TODO: This is not in sync anymore with the model schema
         session.add(Notification(
             id=uuid.uuid4().hex,
             source_uuid=uuid.uuid4().hex,
