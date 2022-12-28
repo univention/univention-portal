@@ -6,7 +6,8 @@ from sse_starlette.sse import EventSourceResponse
 import asyncio
 import json
 
-from app.models.notification_model import NotificationCreate, Notification
+from app.models.notification_model import (
+    Notification, NotificationCreate, NotificationType)
 from app.crud.notification_service import NotificationService
 from app.db import get_session
 
@@ -32,7 +33,7 @@ def create_notification(
 def get_latest_notifications_for_user(
     title: str = Query(default=1),
     limit: str = Query(default=10),
-    type: str = Query(default='event'),
+    type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
     db: Session = Depends(get_session)
 ) -> List[Notification]:
