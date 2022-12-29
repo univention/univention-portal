@@ -1,3 +1,5 @@
+# flake8: noqa
+
 """Add notifications table
 
 Revision ID: 7e3f5108c506
