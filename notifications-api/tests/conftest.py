@@ -29,12 +29,18 @@ app.dependency_overrides[get_session] = override_get_db
 
 @pytest.fixture()
 def client():
+    """
+    Return a prepared instance of FastAPI's TestClient.
+    """
     test_client = TestClient(app)
     return test_client
 
 
 @pytest.fixture()
 def empty_db():
+    """
+    Return an empty database session.
+    """
     db = next(override_get_db())
     statement = delete(Notification)
     db.exec(statement)
@@ -44,6 +50,10 @@ def empty_db():
 
 @pytest.fixture()
 def filled_db(empty_db):
+    """
+    Return a filled database session with two notifications in the
+    database.
+    """
     db = empty_db
     db.add(Notification(
         id=str(uuid4()),
