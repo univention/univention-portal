@@ -51,10 +51,8 @@ class NotificationService():
         self,
         db: Session
     ) -> List[Notification]:
-        # TODO: Test case
-        raise Exception("Implement test case")
         statement = select(Notification).where(
-            Notification.sseSendTime == None)
+            Notification.sseSendTime is None)
         new_notifications = db.exec(statement).fetchall()
         for notification in new_notifications:
             notification.sseSendTime = datetime.now()
