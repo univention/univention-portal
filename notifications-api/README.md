@@ -47,6 +47,30 @@ docker compose run app python migrations/seed.py
 ```
 
 
+## Running the test suite
+
+The test suite is based on `pytest` and can be executed with the following
+command:
+
+```
+docker compose run app pytest
+```
+
+The output should roughly like the following example:
+
+```
+============================== test session starts ===============================
+platform linux -- Python 3.9.16, pytest-7.2.0, pluggy-1.0.0
+rootdir: /app
+plugins: anyio-3.6.2, mock-3.10.0, Faker-15.2.0
+collected 5 items
+
+tests/test_notification_api.py .....                                       [100%]
+
+=============================== 5 passed in 0.38s ================================
+```
+
+
 ## Using the API for HTTP requests
 
 go to 0.0.0.0/docs
