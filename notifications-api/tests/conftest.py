@@ -23,10 +23,6 @@ def override_get_db() -> Session:
         yield session
 
 
-NotificationBase.metadata.create_all(bind=engine)
-app.dependency_overrides[get_session] = override_get_db
-
-
 @pytest.fixture()
 def client():
     """
@@ -36,8 +32,20 @@ def client():
     return test_client
 
 
+@pytest.fixture(scope="session")
+def patch_db_session():
+    """
+    Patch the database session in "app".
+
+    This ensures that the test database is used when testing anything database
+    related.
+    """
+    NotificationBase.metadata.create_all(bind=engine)
+    app.dependency_overrides[get_session] = override_get_db
+
+
 @pytest.fixture()
-def empty_db():
+def empty_db(patch_db_session):
     """
     Return an empty database session.
     """
