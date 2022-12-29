@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Request, Depends, Query
+from fastapi.encoders import jsonable_encoder
 from sqlmodel import Session
 from typing import List
 from sse_starlette.sse import EventSourceResponse
 import asyncio
+import json
 
 from app.models.notification_model import NotificationCreate, Notification
 from app.crud.notification_service import NotificationService
@@ -88,7 +90,7 @@ async def stream_notifications(
                 yield {
                     "event": "new_notification",
                     "retry": RETRY_TIMEOUT,
-                    "data": notification
+                    "data": json.dumps(jsonable_encoder(notification)),
                 }
 
             await asyncio.sleep(STREAM_DELAY)
