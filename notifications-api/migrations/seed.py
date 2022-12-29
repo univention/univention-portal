@@ -37,4 +37,4 @@ def seed_notification_table(n):
 
 
 if __name__ == "__main__":
-    seed_notification_table(25)
+    seed_notification_table(1)
