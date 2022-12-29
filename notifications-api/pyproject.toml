@@ -23,6 +23,7 @@ Faker = "^15.1.0"
 invoke = "^1.7.3"
 ipdb = "*"
 pytest = "*"
+pytest-asyncio = "*"
 pytest-mock = "*"
 requests = "*"
 
