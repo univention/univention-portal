@@ -29,6 +29,7 @@ def create_notification(
     return service.create_notification(data, db)
 
 
+# TODO: Where is the current user actually checked for?
 @router.get("/notifications/latest")
 def get_latest_notifications_for_user(
     title: str = Query(default=1),
