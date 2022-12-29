@@ -25,7 +25,6 @@ def override_get_db() -> Session:
 
 NotificationBase.metadata.create_all(bind=engine)
 app.dependency_overrides[get_session] = override_get_db
-db = next(override_get_db())
 
 
 @pytest.fixture()
@@ -36,6 +35,7 @@ def client():
 
 @pytest.fixture()
 def empty_db():
+    db = next(override_get_db())
     statement = delete(Notification)
     db.exec(statement)
     db.commit()
@@ -44,6 +44,7 @@ def empty_db():
 
 @pytest.fixture()
 def filled_db(empty_db):
+    db = empty_db
     db.add(Notification(
         id=str(uuid4()),
         details="some details",
