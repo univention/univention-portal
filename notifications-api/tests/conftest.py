@@ -25,14 +25,13 @@ def override_get_db() -> Session:
 
 NotificationBase.metadata.create_all(bind=engine)
 app.dependency_overrides[get_session] = override_get_db
-_client = TestClient(app)
 db = next(override_get_db())
 
 
 @pytest.fixture()
 def client():
-    # TODO: cleanup
-    return _client
+    test_client = TestClient(app)
+    return test_client
 
 
 @pytest.fixture()
