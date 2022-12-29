@@ -16,6 +16,8 @@ from fastapi.testclient import TestClient
 
 # TODO: Cleanup the whole database session fixtures, copied from the other test file.
 
+# TODO: Cannot we use an in-memory db here?
+
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test2.db"
 
 engine = create_engine(
@@ -69,5 +71,6 @@ def filled_db(empty_db):
 
 def test_pop_notification_for_sse(filled_db):
     service = NotificationService()
-    result = service.pop_notifications_for_sse(db=filled_db)
+    # TODO: Why is db to be used instead of filled_db?
+    result = service.pop_notifications_for_sse(db=db)
     assert False, "implement me"
