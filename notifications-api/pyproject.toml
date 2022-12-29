@@ -21,6 +21,10 @@ asyncio = "^3.4.3"
 [tool.poetry.group.dev.dependencies]
 Faker = "^15.1.0"
 invoke = "^1.7.3"
+ipdb = "*"
+pytest = "*"
+pytest-mock = "*"
+requests = "*"
 
 [build-system]
 requires = ["poetry-core"]
