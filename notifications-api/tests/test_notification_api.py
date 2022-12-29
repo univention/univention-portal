@@ -1,6 +1,8 @@
 from datetime import datetime
-import json
 from uuid import uuid4
+import json
+
+import pytest
 
 
 def test_hello(client):
@@ -60,3 +62,26 @@ def test_confirm_notification(empty_db, client):
     now = datetime.now()
     response = client.patch(f'/v1/notifications/{id}/confirm')
     assert datetime.fromisoformat(response.json()['confirmationTime']) > now
+
+
+@pytest.mark.asyncio
+async def test_stream_notifications(filled_db, mocker):
+    from app.api.v1.api import stream_notifications
+    from app.crud.notification_service import NotificationService
+
+    request = mocker.MagicMock()
+    request.is_disconnected = mocker.AsyncMock(side_effect=[False, True])
+    mocker.patch('app.api.v1.api.STREAM_DELAY', new=0)
+
+    service = NotificationService()
+
+    result = await stream_notifications(request, service, filled_db)
+    body = [x async for x in result.body_iterator]
+    event = body.pop()
+
+    assert event['event'] == "new_notification"
+    assert_is_valid_json(event['data'])
+
+
+def assert_is_valid_json(value):
+    json.loads(value)
