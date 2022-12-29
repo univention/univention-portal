@@ -11,11 +11,7 @@ from app.models.notification_model import Notification, NotificationBase
 from fastapi.testclient import TestClient
 
 
-# TODO: Cleanup the whole database session fixtures, copied from the other test file.
-
-# TODO: Cannot we use an in-memory db here?
-
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test2.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
@@ -29,8 +25,14 @@ def override_get_db() -> Session:
 
 NotificationBase.metadata.create_all(bind=engine)
 app.dependency_overrides[get_session] = override_get_db
-client = TestClient(app)
+_client = TestClient(app)
 db = next(override_get_db())
+
+
+@pytest.fixture()
+def client():
+    # TODO: cleanup
+    return _client
 
 
 @pytest.fixture()
