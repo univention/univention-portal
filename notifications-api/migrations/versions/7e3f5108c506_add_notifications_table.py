@@ -1,7 +1,9 @@
+# flake8: noqa
+
 """Add notifications table
 
 Revision ID: 7e3f5108c506
-Revises: 
+Revises:
 Create Date: 2022-12-28 20:22:16.722561
 
 """
