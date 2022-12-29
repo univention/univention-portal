@@ -1,6 +1,5 @@
 from datetime import datetime
 import json
-import pytest
 from uuid import uuid4
 
 
