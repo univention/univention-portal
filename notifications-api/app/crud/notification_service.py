@@ -11,6 +11,7 @@ def get_db_session():
     return next(get_session())
 
 
+# TODO: Why is this a class? None of the methods is using "self".
 class NotificationService():
 
     def create_notification(
