@@ -12,6 +12,9 @@ from app.db import get_session
 router = APIRouter()
 
 
+# TODO: Check if this is intentional or clean up Maybe there is a common
+# practice for API entry points like a ping or so, would be useful as a way to
+# troubleshoot issues in deployment.
 @router.get("/")
 def say_hello():
     return {"message": "Hello, world!"}
