@@ -73,4 +73,5 @@ def test_pop_notification_for_sse(filled_db):
     service = NotificationService()
     # TODO: Why is db to be used instead of filled_db?
     result = service.pop_notifications_for_sse(db=db)
+    assert len(result) == 2
     assert False, "implement me"
