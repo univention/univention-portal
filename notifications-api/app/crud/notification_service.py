@@ -52,7 +52,7 @@ class NotificationService():
         db: Session
     ) -> List[Notification]:
         statement = select(Notification).where(
-            Notification.sseSendTime == None)
+            Notification.sseSendTime == None)  # noqa: E711
         new_notifications = db.exec(statement).fetchall()
         for notification in new_notifications:
             notification.sseSendTime = datetime.now()
