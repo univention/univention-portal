@@ -15,7 +15,6 @@ notification_type_provider = DynamicProvider(
 fake.add_provider(notification_type_provider)
 
 
-
 # TODO: Check how the seeding logic can be executed in the test suite.
 # Otherwise it will run out of sync with the models over time again.
 def seed_notification_table(n):
