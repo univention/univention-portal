@@ -1,0 +1,9 @@
+Alias /univention/internal/portal /var/cache/univention-portal/portal.json
+Alias /univention/internal/groups /var/cache/univention-portal/groups.json
+
+# TODO: Add IP Address based restriction
+# Require ${"{{ internal_ip_address }}"}
+<Directory "/var/cache/univention-portal">
+        Require all granted
+        FileETag MTime
+</Directory>

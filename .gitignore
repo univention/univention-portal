@@ -16,6 +16,14 @@ out/
 var/
 downloads/
 package-lock.json
+/ansible/hosts.yml
+ansible.cfg
+/docker/.env.portal-server
+.cache/
+.pybuild/
+build/
+*.buildinfo
+*coverage.xml
 *.egg-info/
 *.egg
 *.manifest
