@@ -73,7 +73,36 @@ tests/test_notification_api.py .....                                       [100%
 
 ## Using the API for HTTP requests
 
-go to 0.0.0.0/docs
+Documentation for the API is automatically generated and available in the local
+development server at the following URL:
+
+http://localhost:8080/docs
+
+The documentation does include tooling to easily create test requests to the API
+endpoints and to explore the API. It also can be used to help generate a curl
+command which can be used from the command line as in the following example
+which creates a new notification:
+
+```
+curl -X 'POST' \
+  'http://localhost:8080/v1/notifications' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "sourceUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "targetUid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "title": "test from browser",
+  "details": "This is the detailed text of the notification",
+  "severity": "info",
+  "sticky": true,
+  "needsConfirmation": true,
+  "notificationType": "event",
+  "data": {}
+}'
+```
+
+
+### Example request
 
 ## Data Model
 
