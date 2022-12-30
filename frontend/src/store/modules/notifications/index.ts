@@ -83,6 +83,14 @@ const notifications: PortalModule<Notifications> = {
       });
     },
 
+    hideNotification({ commit, getters }: PortalActionContext<Notifications>, token: number): void {
+      const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
+      if (!notification) {
+        return;
+      }
+      commit('HIDE_NOTIFICATION', notification);
+    },
+
     async stopReceiveNotifications({ commit, state }) {
       const eventSource = state.eventSource;
       if (eventSource) {
