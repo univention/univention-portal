@@ -9,7 +9,6 @@ from app.core.config import settings
 
 from .api import router as api_router
 
-origins = ["*"]
 
 # TODO: Don't use an empty value
 description = ""
@@ -22,16 +21,15 @@ app = FastAPI(
     description=description,
 )
 
-# TODO: Workaround for locally running this. Must be replaced by a different
-# solution which ensures that this can never be activated in production by
-# accident.
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
+if settings.dev_mode:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 app.include_router(api_router)
 
