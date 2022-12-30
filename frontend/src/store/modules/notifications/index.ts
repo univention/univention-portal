@@ -88,7 +88,11 @@ const notifications: PortalModule<Notifications> = {
   },
   actions: {
     async fetchNotifications({ commit }) {
-      const latestNotifications = await notificationApi.getLatestNotificationsForUserV1NotificationsLatestGet();
+      const response = await notificationApi.getLatestNotificationsForUserV1NotificationsLatestGet();
+      // TODO: Find out how to verify via a test case that "latestNotifications"
+      // does actually contain the correct data. Before the change "response"
+      // has been put accidentally into the call to "commit" below.
+      const latestNotifications = response.data;
       commit('SET_NOTIFICATIONS', latestNotifications);
     },
 
