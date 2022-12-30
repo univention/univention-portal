@@ -67,6 +67,13 @@ const notifications: PortalModule<Notifications> = {
 
     // TODO: Type for "notification" has to be defined, using "any" as a
     // workaround to make the code work. This is not a correct solution though.
+    REMOVE_NOTIFICATION(state: Notifications, notification: any): void {
+      const indexContent = state.notifications.indexOf(notification);
+      state.notifications.splice(indexContent, 1);
+    },
+
+    // TODO: Type for "notification" has to be defined, using "any" as a
+    // workaround to make the code work. This is not a correct solution though.
     HIDE_NOTIFICATION(state: Notifications, notification: any): void {
       // TODO: These attributes do not seem to be supported anymore, needs an
       // adaption. Currently the exception is gone, but the notification stays
