@@ -5,15 +5,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.core.config import get_settings
+from app.core.config import settings
 
 from .api import router as api_router
 
 origins = ["*"]
 
-settings = get_settings()
-description = """
-"""
+# TODO: Don't use an empty value
+description = ""
 
 app = FastAPI(
     root_path=settings.root_path,
