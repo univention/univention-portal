@@ -2,11 +2,11 @@ from typing import Iterator
 
 from sqlmodel import create_engine, Session
 
-from app.core.config import get_settings
+from app.core.config import settings
 
 
 engine = create_engine(
-    get_settings().database_url, echo=True, connect_args=dict(check_same_thread=False),
+    settings.database_url, echo=True, connect_args=dict(check_same_thread=False),
 )
 
 
