@@ -5,12 +5,6 @@ import json
 import pytest
 
 
-def test_hello(client):
-    response = client.get('v1')
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello, world!"}
-
-
 sourceUid = str(uuid4())
 targetUid = str(uuid4())
 request_data = json.dumps({
