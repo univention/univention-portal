@@ -1,8 +1,9 @@
 [tool.poetry]
-name = "Souv AP Notifications"
+name = "notification-api"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "Univention Portal - Notification API"
+authors = ["Univention GmbH <packages@univention.de>"]
+license = "GNU Affero General Public License v3"
 readme = "README.md"
 
 [tool.poetry.dependencies]
