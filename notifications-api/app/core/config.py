@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     project_name: str = "Notifications"
     log_level: str = ""
     debug: bool = True
+    dev_mode: bool = False
     root_path: str = ""
     database_url: str = "sqlite:///./notifications.db"
     allowed_hosts: CommaSeparatedStrings = CommaSeparatedStrings("*")

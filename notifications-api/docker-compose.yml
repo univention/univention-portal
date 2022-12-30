@@ -4,6 +4,8 @@ services:
   app:
     build:
       context: .
+    environment:
+      dev_mode: True
     volumes:
       - .:/app
     ports:
