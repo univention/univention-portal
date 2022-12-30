@@ -61,6 +61,7 @@ const notifications: PortalModule<Notifications> = {
     },
   },
   getters: {
+    allNotifications: (state) => state.notifications,
     numNotifications: (state) => state.notifications.length,
   },
   actions: {
