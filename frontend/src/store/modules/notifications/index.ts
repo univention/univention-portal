@@ -59,6 +59,21 @@ const notifications: PortalModule<Notifications> = {
     SET_EVENT_SOURCE: (state, eventSource: EventSource) => {
       state.eventSource = eventSource;
     },
+    // TODO: The interfaces don't fit anymore. It seems that the previous
+    // implementation had a different notification model defined, and now we are
+    // in this file using directly the notification model from the backend api.
+    // This means that this code will have to be refactored, or in a worse case
+    // that the handling of API models and UI models has to be untangled again.
+
+    // TODO: Type for "notification" has to be defined, using "any" as a
+    // workaround to make the code work. This is not a correct solution though.
+    HIDE_NOTIFICATION(state: Notifications, notification: any): void {
+      // TODO: These attributes do not seem to be supported anymore, needs an
+      // adaption. Currently the exception is gone, but the notification stays
+      // visible.
+      notification.hidingAfter = -1;
+      notification.visible = false;
+    },
   },
   getters: {
     allNotifications: (state) => state.notifications,
