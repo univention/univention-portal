@@ -1,0 +1,26 @@
+Index: univention-portal
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/univention-portal b/univention-portal
+--- a/univention-portal	(revision dcc2075f8d780cb69b531ae81887c42331f67750)
++++ b/univention-portal	(date 1672663051706)
+@@ -37,6 +37,7 @@
+ import datetime
+ import ast
+ import inspect
++from pathlib import Path
+ from textwrap import dedent
+ from typing import Dict, Union
+ 
+@@ -543,6 +544,9 @@
+ 			portal_obj = make_portal(portal_def)
+ 			start = datetime.datetime.now()
+ 			if portal_obj.refresh(reason=reason):
++				permission_mask = int('644', base=8)
++				Path('/var/cache/univention-portal/portal.json').chmod(permission_mask)
++				Path('/var/cache/univention-portal/groups.json').chmod(permission_mask)
+ 				delta = datetime.datetime.now() - start
+ 				success("Portal data updated in {:.2f}s".format(delta.total_seconds()))
+ 			else:
