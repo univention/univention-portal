@@ -15,11 +15,6 @@ from app.db import get_session
 router = APIRouter()
 
 
-@router.get("/")
-def say_hello():
-    return {"message": "Hello, world!"}
-
-
 @router.post("/notifications", status_code=201, response_model=Notification)
 def create_notification(
     data: NotificationCreate,
