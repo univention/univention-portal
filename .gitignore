@@ -23,3 +23,7 @@ build/
 generated-config-*.yml
 .idea/
 .mypy_cache/
+
+
+# Notification API
+notifications-api/*.db
