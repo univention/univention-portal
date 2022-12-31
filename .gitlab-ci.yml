@@ -40,6 +40,16 @@ build-notification-api:
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
+build-portal-frontend-test-runner:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "frontend/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
+    KANIKO_BUILD_CONTEXT: "frontend"
+    KANIKO_ARGS: "--target=test"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
 build-portal-server-test-runner:
   extends: .kaniko
   variables:
@@ -61,6 +71,16 @@ build-notification-api-test-runner:
 
 
 # Running tests
+
+test-portal-frontend:
+  needs:
+    - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - cd frontend
+    - yarn install --frozen-lockfile
+    - yarn lint
+    - yarn test:unit
 
 test-portal-server:
   needs:
