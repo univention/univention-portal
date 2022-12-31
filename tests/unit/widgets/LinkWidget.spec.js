@@ -148,14 +148,17 @@ describe('LinkWidget.vue', () => {
 
   test('if input has correct attributes', () => {
     const allTextInputs = wrapper.findAll('input');
+    let expectedName;
+
     allTextInputs.forEach((input, index) => {
       expect(input.attributes('aria-label')).toBe(wrapper.vm.linkInput(index));
       expect(input.attributes('autocomplete')).toBe('off');
       if (index === 0) {
-        expect(input.attributes('name')).toBe(wrapper.vm.name);
+        expectedName = wrapper.vm.name;
       } else {
-        expect(input.attributes('name')).toBe(`${wrapper.vm.name}-${index}`);
+        expectedName = `${wrapper.vm.name}-${index}`;
       }
+      expect(input.attributes('name')).toBe(expectedName);
     });
   });
 
