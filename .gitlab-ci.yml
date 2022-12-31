@@ -15,9 +15,83 @@ cache: &global-cache
     - yarn_cache
   policy: pull
 
-.node-template:
-  before_script:
-    - yarn install --frozen-lockfile
+build-portal-frontend:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/frontend/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+build-portal-server:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+build-portal-server-test-runner:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
+    KANIKO_ARGS: "--target=test"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+build-notification-api-test-runner:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
+    KANIKO_ARGS: "--target=test"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+# Running tests
+
+test-portal-server:
+  needs:
+    - job: build-portal-server-test-runner
+  image: "$IMAGE_TAG"
+  variables:
+    PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
+  script:
+    - pytest unittests
+
+test-notification-api:
+  needs:
+    - job: build-notification-api-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - cd notifications-api
+    - pytest
+
+# Linting related checks and builds
+
+# TODO: The pre-commit image is missing hadolint, that's why we are building our
+# own one here until it is integrated upstream.
+#
+# Compare: https://git.knut.univention.de/univention/dist/docker-services
+
+build-linter:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
+    KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/pre-commit"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
+pre-commit-linting:
+  needs:
+    - job: build-linter
+  image: "$IMAGE_TAG"
+  variables:
+    PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+    PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
   cache:
     <<: *global-cache
   dependencies: []
