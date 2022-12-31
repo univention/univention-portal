@@ -1,0 +1,15 @@
+version: '3.0'
+
+services:
+  test:
+    profiles:
+      - test
+    build:
+      context: .
+    container_name: portal-frontend-test
+    volumes:
+      - .:/app
+      - portal-frontend-dotcache:/home/app/.cache
+
+volumes:
+  portal-frontend-dotcache:
