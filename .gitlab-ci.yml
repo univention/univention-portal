@@ -30,6 +30,15 @@ build-portal-server-test-runner:
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
+build-notification-api-test-runner:
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
+    KANIKO_ARGS: "--target=dev"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 # Running tests
 
@@ -42,6 +51,13 @@ test-portal-server:
   script:
     - pytest unittests
 
+test-notification-api:
+  needs:
+    - job: build-notification-api-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - cd notifications-api
+    - pytest
 
 # Linting related checks and builds
 
