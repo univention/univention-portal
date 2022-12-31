@@ -11,6 +11,31 @@ Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are ma
 - [Tech Stack](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Tech%20Stack/) (Technical decisions about the frameworks, libraries and tools we use)
 - [Workflow](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Workflow/) (Description and suggestions on how we work together, track issues, review code...)
 
+## Node version
+
+We have seen various issues, esp. issues related to openssl with more recent
+versions of NodeJS.
+
+Currently it is recommended to use `nvm` to provide an older LTS version of NodeJS, e.g. 16.x.
+
+See https://github.com/nvm-sh/nvm
+
+Example commands:
+
+```
+# See what's there and available
+nvm ls
+
+# Install a LTS version, compare details from the command above.
+nvm install lts/gallium
+
+# Use a specific version
+nvm use v16.19.0
+
+# Verify the version
+node --version
+```
+
 ## Project setup
 
 Regardless if you want to run it locally on your Linux machine or on a UCS
