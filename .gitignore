@@ -3,6 +3,7 @@
 .pybuild/
 build/
 *.buildinfo
+*coverage.xml
 *.egg-info/
 */*/debian/debhelper-build-stamp
 */*/debian/files
