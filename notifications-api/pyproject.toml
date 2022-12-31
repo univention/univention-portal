@@ -1,5 +1,5 @@
 [project]
-name = "notification-api"
+name = "notifications-api"
 version = "0.1.0"
 description = "Univention Portal - Notification API"
 # authors = ["Univention GmbH <packages@univention.de>"]
