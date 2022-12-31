@@ -77,6 +77,18 @@ tests/test_notification_api.py .....                                       [100%
 ```
 
 
+## Development tasks
+
+### Freezing requirements
+
+Freezing the requirements should be done via a clean virtual environment. The
+process has been documented in the file `freeze-requirements.sh`. The file can
+be executed as shown below:
+
+```
+docker compose run -it --rm app ./freeze-requirements.sh
+```
+
 ## Using the API for HTTP requests
 
 Documentation for the API is automatically generated and available in the local
