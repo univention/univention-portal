@@ -10,3 +10,14 @@ services:
       - .:/app
     ports:
       - 8080:80
+
+  test:
+    profiles:
+      - test
+    build:
+      target: test
+    container_name: notifications-api-test
+    volumes:
+      - type: bind
+        source: ./
+        target: /app
