@@ -36,7 +36,7 @@ build-notification-api-test-runner:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
-    KANIKO_ARGS: "--target=dev"
+    KANIKO_ARGS: "--target=test"
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
