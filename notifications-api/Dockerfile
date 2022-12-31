@@ -1,4 +1,5 @@
-FROM python:3.9-slim as dev
+FROM python:3.9-slim as test
+
 ARG WORKDIR=/app
 ARG USER=fastapi
 ENV POETRY_VERSION=1.2.0 \
@@ -13,7 +14,13 @@ COPY pyproject.toml poetry.lock* ./
 RUN poetry install --no-root --no-interaction --no-ansi && \
     ln -s "$(poetry env info --path)" "/home/${USER}/venv"
 ENV PATH="/home/${USER}/venv/bin:${PATH}"
+ENV PYTHONPATH="."
+CMD ["pytest"]
+
+
+FROM test as dev
+
 ENV PYTHONPATH="$WORKDIR"
-COPY ./ "$WORKDIR"
+COPY ./ ./
 EXPOSE 80
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
