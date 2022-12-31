@@ -4,6 +4,8 @@ services:
   app:
     build:
       context: .
+      target: dev
+    container_name: notifications-api-dev
     environment:
       dev_mode: True
     volumes:
@@ -18,6 +20,4 @@ services:
       target: test
     container_name: notifications-api-test
     volumes:
-      - type: bind
-        source: ./
-        target: /app
+      - .:/app
