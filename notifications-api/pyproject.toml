@@ -20,13 +20,18 @@ dependencies = [
   'pydantic >= 1.10.2',
   'sse-starlette >= 1.2.1',
   'asyncio >= 3.4.3',
+]
 
+
+[project.optional-dependencies]
+dev = [
   # TODO: Move into optional dependencies
   'Faker',
+  'httpx',
   'invoke',
   'ipdb',
   'pytest',
-  'pytest',
+  'pytest-asyncio',
   'pytest-cov',
   'pytest-mock',
   'requests',
