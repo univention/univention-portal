@@ -1,4 +1,4 @@
-# Souv AP Notifications
+# Notifications API of the Univention Portal
 
 Notifications API is a service to route information, relevant for a portal user,
 from an application like OX or NextCloud or an administrative user to the portal frontend
@@ -14,6 +14,12 @@ The API server can be brought up with the following example command:
 
 ```
 docker compose up
+```
+
+Note that fresh images can be built with the `build` subcommand:
+
+```
+docker compose build
 ```
 
 
@@ -53,7 +59,7 @@ The test suite is based on `pytest` and can be executed with the following
 command:
 
 ```
-docker compose run app pytest
+docker compose run test
 ```
 
 The output should roughly like the following example:
