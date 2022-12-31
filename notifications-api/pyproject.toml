@@ -2,13 +2,12 @@
 name = "notifications-api"
 version = "0.1.0"
 description = "Univention Portal - Notification API"
-# authors = ["Univention GmbH <packages@univention.de>"]
-# license = "GNU Affero General Public License v3"
+maintainers = [
+  {name = "Univention GmbH", email = "packages@univention.de"},
+]
+license = {text = "GNU Affero General Public License v3"}
 readme = "README.md"
-
-# TODO: check
-# python = "^3.9"
-
+requires-python = ">=3.9"
 dependencies = [
   'aiofiles >= 22.1.0',
   'alembic >= 1.8.1',
@@ -22,10 +21,8 @@ dependencies = [
   'asyncio >= 3.4.3',
 ]
 
-
 [project.optional-dependencies]
 dev = [
-  # TODO: Move into optional dependencies
   'Faker',
   'httpx',
   'invoke',
