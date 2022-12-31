@@ -38,7 +38,7 @@ build-notification-api-test-runner:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
     KANIKO_ARGS: "--target=test"
   rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 # Running tests
 
@@ -64,6 +64,8 @@ test-notification-api:
       coverage_report:
         coverage_format: cobertura
         path: notifications-api/coverage.xml
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 
 # Linting related checks and builds
