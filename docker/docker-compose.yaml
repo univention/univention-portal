@@ -2,10 +2,8 @@ version: '3.3'
 
 services:
   portal-frontend:
-    platform: "linux/amd64"
     build:
-      context: ../
-      dockerfile: docker/frontend/Dockerfile
+      context: ../frontend
     container_name: univention-portal-frontend
     ports:
       - "8080:80"

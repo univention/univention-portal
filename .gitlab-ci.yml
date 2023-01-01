@@ -18,7 +18,7 @@ cache: &global-cache
 build-portal-frontend:
   extends: .kaniko
   variables:
-    DOCKERFILE_PATH: "docker/frontend/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
   rules:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
@@ -43,7 +43,6 @@ build-notification-api:
 build-portal-frontend-test-runner:
   extends: .kaniko
   variables:
-    DOCKERFILE_PATH: "frontend/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
     KANIKO_BUILD_CONTEXT: "frontend"
     KANIKO_ARGS: "--target=test"
