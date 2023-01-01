@@ -11,6 +11,7 @@ Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are ma
 - [Tech Stack](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Tech%20Stack/) (Technical decisions about the frameworks, libraries and tools we use)
 - [Workflow](https://projects.univention.de/xwiki/wiki/upx/view/UPX%20Portal/Development%20Guidelines/Workflow/) (Description and suggestions on how we work together, track issues, review code...)
 
+
 ## Node version
 
 We have seen various issues, esp. issues related to openssl with more recent
@@ -35,6 +36,37 @@ nvm use v16.19.0
 # Verify the version
 node --version
 ```
+
+
+## Container based project setup -- experimental
+
+The container based project setup is in active development. It's main focus is
+on providing a test runner environment so that linting and testing can be
+executed within the CI pipeline.
+
+All files except the Gitlab CI configuration are within this folder.
+
+The containers can be used locally to run commands in the same environment as
+the CI pipeline.
+
+
+### Using the test runner container
+
+The container defined in `Dockerfile` does provide the needed environment in
+order to run the linter and the tests. A configuration for docker compose is
+provided for easy local interaction as shown in the following example:
+
+```
+# Build the image
+docker compose build test
+
+# Use the image
+docker compose run -it --rm test /bin/bash
+```
+
+Commands like `yarn install` or `yarn lint` should work within the container.
+
+
 
 ## Project setup
 
