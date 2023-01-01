@@ -76,7 +76,19 @@ test-portal-frontend:
   needs:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
+  cache:
+    key:
+      files:
+        - frontend/yarn.lock
+    paths:
+      - "${CI_PROJECT_DIR}/.cache"
   script:
+    # TODO: This replaces ~/.cache with a symlink, so that Gitlab's caching is
+    # able to grab the files. This has to be replaced by a more correct
+    # solution.
+    - mkdir -p .cache
+    - rm -fr ~/.cache
+    - ln -s "${CI_PROJECT_DIR}/.cache" ~/.cache
     - cd frontend
     - yarn install --frozen-lockfile
     - yarn lint
