@@ -9,7 +9,7 @@ services:
     container_name: portal-frontend-test
     volumes:
       - .:/app
-      - portal-frontend-dotcache:/home/app/.cache
+      - portal-frontend-dotcache:/root/.cache
 
 volumes:
   portal-frontend-dotcache:
