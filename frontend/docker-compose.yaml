@@ -6,6 +6,7 @@ services:
       - test
     build:
       context: .
+      target: test
     container_name: portal-frontend-test
     volumes:
       - .:/app
