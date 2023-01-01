@@ -11,8 +11,4 @@ RUN apt-get update -qq \
     make=4.* \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-# hadolint ignore=DL3059
-RUN useradd -m app
-
-USER app
-RUN mkdir /home/app/.cache
+ENV YARN_CACHE_FOLDER=/root/.cache/yarn
