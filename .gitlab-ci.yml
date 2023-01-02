@@ -4,6 +4,7 @@ include:
 
 
 build-portal-frontend-test-runner:
+  stage: build
   extends: .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
@@ -12,6 +13,7 @@ build-portal-frontend-test-runner:
 
 
 build-portal-frontend:
+  stage: build
   extends: .kaniko
   needs:
       - build-portal-frontend-test-runner
@@ -19,3 +21,33 @@ build-portal-frontend:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
     KANIKO_ARGS: "--cache=true"
+
+
+test-portal-frontend-unit:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  script:
+    - yarn --cwd=app test:unit
+
+
+lint-portal-frontend:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  script:
+    - yarn --cwd=app lint
+
+
+test-portal-frontend-e2e:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  artifacts:
+    when: always
+    paths:
+      - app/tests/e2e/videos/**/*.mp4
+      - app/tests/e2e/screenshots/**/*.png
+    expire_in: 1 day
+  script:
+    - yarn --cwd=app test:e2e:headless --browser chrome
