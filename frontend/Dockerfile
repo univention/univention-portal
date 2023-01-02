@@ -15,4 +15,4 @@ RUN yarn build
 
 
 FROM ${DOCKER_PROXY}nginx:1.23.3 AS final
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /frontend/dist /usr/share/nginx/html
