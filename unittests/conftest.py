@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+from imp import reload
 from os import path
 
 import pytest
@@ -83,3 +84,12 @@ def mock_portal_config(mocker):
 		mocker.patch.object(config, "_DB", values)
 
 	return _mock_portal_config
+
+
+@pytest.fixture
+def mocked_portal_config(get_file_path):
+	from univention.portal import config
+
+	reload(config)
+	config._CONF = get_file_path("config*.json")
+	return config
