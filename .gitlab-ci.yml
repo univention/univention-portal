@@ -29,7 +29,7 @@ test-portal-frontend-unit:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
   script:
-    - yarn --cwd=app test:unit
+    - yarn --cwd=/app test:unit
 
 
 lint-portal-frontend:
@@ -38,7 +38,7 @@ lint-portal-frontend:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
   script:
-    - yarn --cwd=app lint
+    - yarn --cwd=/app lint
 
 
 test-portal-frontend-e2e:
@@ -53,4 +53,4 @@ test-portal-frontend-e2e:
       - app/tests/e2e/screenshots/**/*.png
     expire_in: 1 day
   script:
-    - yarn --cwd=app test:e2e:headless --browser chrome
+    - yarn --cwd=/app test:e2e:headless --browser chrome
