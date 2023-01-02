@@ -28,6 +28,13 @@ services:
       - type: bind
         source: ./portal-server/stub_portal.json
         target: /var/cache/univention-portal/portal.json
+  reverse-proxy:
+    build:
+      context: ./reverse-proxy
+    container_name: univention-portal-dev-reverse-proxy
+    env_file: .env.reverse_proxy
+    ports:
+      - "8000:80"
   test:
     profiles:
       - test
