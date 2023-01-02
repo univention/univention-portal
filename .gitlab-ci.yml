@@ -9,8 +9,8 @@ build-portal-frontend-test-runner:
   extends: .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
-    KANIKO_ARGS: "--target=test --cache=true --cache-repo=$CI_REGISTRY_IMAGE/cache"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
+    KANIKO_ARGS: "--target=test --cache=true"
 
 
 build-portal-frontend:
@@ -20,4 +20,4 @@ build-portal-frontend:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-    KANIKO_ARGS: "--cache=true --cache-repo=$CI_REGISTRY_IMAGE/cache"
+    KANIKO_ARGS: "--cache=true"
