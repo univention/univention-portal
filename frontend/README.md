@@ -17,7 +17,7 @@ Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are ma
 We have seen various issues, esp. issues related to openssl with more recent
 versions of NodeJS.
 
-Currently it is recommended to use `nvm` to provide an older LTS version of NodeJS, e.g. 16.x.
+Currently, it is recommended to use `nvm` to provide an older LTS version of NodeJS, e.g. 16.x.
 
 See https://github.com/nvm-sh/nvm
 
