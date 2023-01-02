@@ -17,8 +17,10 @@ var/
 downloads/
 package-lock.json
 /ansible/hosts.yml
+ansible/hosts.yml
 ansible.cfg
-/docker/.env.portal-server
+!docker/.env.*.example
+docker/.env.*
 .cache/
 .pybuild/
 build/
