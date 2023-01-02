@@ -8,9 +8,3 @@ services:
       context: .
       target: test
     container_name: portal-frontend-test
-    volumes:
-      - .:/app
-      - portal-frontend-dotcache:/root/.cache
-
-volumes:
-  portal-frontend-dotcache:
