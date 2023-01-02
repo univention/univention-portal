@@ -47,11 +47,5 @@ test-portal-frontend-e2e:
   needs:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
-  artifacts:
-    when: always
-    paths:
-      - app/tests/e2e/videos/**/*.mp4
-      - app/tests/e2e/screenshots/**/*.png
-    expire_in: 1 day
   script:
     - yarn --cwd=/app test:e2e:headless --browser chrome
