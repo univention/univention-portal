@@ -48,5 +48,4 @@ test-portal-frontend-e2e:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
   script:
-    - ls -l /app
     - yarn --cwd=/app test:e2e:headless --browser chrome
