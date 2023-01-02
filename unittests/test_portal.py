@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+from unittest import mock
 import asyncio
 
 import pytest
@@ -243,3 +244,15 @@ class TestPortal:
 		assert mocked_portal.score(request) == 5
 		mocked_portal.scorer.score.assert_called_once()
 		mocked_portal.scorer.score.assert_called_with(request)
+
+
+def test_umc_portal_request_umc_get_default_uri(mocker):
+	from univention.portal.extensions.portal import UMCPortal
+
+	requests_post = mocker.patch('requests.post')
+	portal = UMCPortal(mock.Mock(), mock.Mock())
+	portal._request_umc_get('stub_path', mock.Mock())
+
+	requests_post.assert_called_with(
+		"http://127.0.0.1/univention/get/stub_path",
+		json=mock.ANY, headers=mock.ANY)
