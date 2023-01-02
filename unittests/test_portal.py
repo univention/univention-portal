@@ -246,13 +246,14 @@ class TestPortal:
         mocked_portal.scorer.score.assert_called_with(request)
 
 
-def test_umc_portal_request_umc_get_default_uri(mocker):
+def test_umc_portal_request_umc_get_uses_configured_url(mocker, mock_portal_config):
     from univention.portal.extensions.portal import UMCPortal
 
     requests_post = mocker.patch('requests.post')
+    mock_portal_config({"umc_get_url": "http://ucshost.test/univention/get"})
     portal = UMCPortal(mock.Mock(), mock.Mock())
     portal._request_umc_get('stub_path', mock.Mock())
 
     requests_post.assert_called_with(
-        "http://127.0.0.1/univention/get/stub_path",
+        "http://ucshost.test/univention/get/stub_path",
         json=mock.ANY, headers=mock.ANY)

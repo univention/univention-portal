@@ -262,7 +262,8 @@ class UMCPortal(Portal):
         return False
 
     def _request_umc_get(self, get_path, headers):
-        uri = f"http://127.0.0.1/univention/get/{get_path}"
+        umc_get_url = config.fetch("umc_get_url")
+        uri = f"{umc_get_url}/{get_path}"
         body = {"options": {}}
         try:
             response = requests.post(uri, json=body, headers=headers)
