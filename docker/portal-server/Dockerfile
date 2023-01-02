@@ -60,7 +60,7 @@ RUN pip3 install --no-cache-dir -r requirements-test.txt \
 CMD ["pytest", "unittests"]
 
 
-FROM ${DOCKER_PROXY}debian:buster-slim AS final
+FROM ucs-sources-base AS final
 
 RUN apt-get update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
@@ -68,6 +68,7 @@ RUN apt-get update \
     # libldap2-dev is required to make python-ldap work.
     # Currently this is used in the portal server to parse the DNs via "str2dn".
     libldap2-dev=2.* \
+    python3-univention-directory-manager-rest-client=10.* \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /app/
