@@ -1,0 +1,32 @@
+# Configuration template to glue the various components together
+# for a development setup.
+
+server {
+
+  listen 80;
+  listen [::]:80;
+
+  location /univention/portal/portal.json {
+    proxy_pass http://${UCS_HOST_IP}/univention/portal/portal.json;
+  }
+
+  location /univention/portal/icons/ {
+    proxy_pass http://${UCS_HOST_IP}/univention/portal/icons/;
+  }
+
+  location /univention/portal/ {
+    proxy_pass http://localhost:8080/;
+  }
+
+  location /univention/ {
+    proxy_pass http://${UCS_HOST_IP}/univention/;
+  }
+
+  # TODO: missing locations to be added
+  #
+  # - navigation.json
+  # - meta.json
+  # - languages.json
+  # - everything else "/" to UCS
+
+}
