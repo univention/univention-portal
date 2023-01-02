@@ -27,6 +27,7 @@ test-portal-frontend-unit:
   stage: test
   needs:
     - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
   script:
     - yarn --cwd=app test:unit
 
@@ -35,6 +36,7 @@ lint-portal-frontend:
   stage: test
   needs:
     - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
   script:
     - yarn --cwd=app lint
 
@@ -43,6 +45,7 @@ test-portal-frontend-e2e:
   stage: test
   needs:
     - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
   artifacts:
     when: always
     paths:
