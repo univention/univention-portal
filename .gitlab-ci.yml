@@ -41,6 +41,7 @@ lint-portal-frontend:
     - yarn --cwd=/app lint
 
 
+
 test-portal-frontend-e2e:
   stage: test
   needs:
