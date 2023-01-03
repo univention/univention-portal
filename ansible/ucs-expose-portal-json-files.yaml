@@ -17,7 +17,7 @@
 
     - name: Patch univention-portal script
       ansible.builtin.patch:
-        src: "./templates/apache2-portal-updates/univention-portal.patch"
+        src: "./templates/ucs-expose-portal-json-files/univention-portal.patch"
         dest: "{{ script_path }}"
         backup: yes
 
@@ -31,7 +31,7 @@
 
     - name: Add conf file to serve portal.json and groups.json
       ansible.builtin.template:
-        src: "./templates/apache2-portal-updates/{{ conf_filename }}.j2"
+        src: "./templates/ucs-expose-portal-json-files/{{ conf_filename }}.j2"
         dest: "{{ conf_dir }}/{{ conf_filename }}"
       notify: apache2-restart
 
