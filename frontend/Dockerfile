@@ -7,6 +7,7 @@ COPY ./yarn.lock .
 
 RUN yarn install --frozen-lockfile && yarn cache clean
 
+# Copy should come after yarn install to prevent long rebuilding time
 COPY . .
 
 # The test stage gives developers an easy way to run unit and ui tests
