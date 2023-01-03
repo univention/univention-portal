@@ -19,7 +19,7 @@ build-portal-frontend-test-runner-ui:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
-    KANIKO_ARGS: "--target=test --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
+    KANIKO_ARGS: "--skip-unused-stages=true --target=test --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
   # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
