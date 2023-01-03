@@ -1,4 +1,22 @@
-# Working with container images locally
+# Univention Portal - Developer Information
+
+
+
+## Overview
+
+The following components form the Univention portal:
+
+- [Frontend in `frontend/`](./frontend/) -- The client side implementation of
+  the portal.
+- [Server in `./`](./) -- The portal server is currently located in the root
+  folder. The source code is in [`python/`](./python/) and the tests are inside
+  of [`unittests/`](./unittests/).
+- [Notifications API in `notifications-api/`](./notifications-api/) -- The
+  backend api needed for server side notification handling.
+
+
+
+## Working with container images locally
 
 An adjusted docker compose file has been created to make it easier to build the
 current state into container images and to run those images. This file can be found at
