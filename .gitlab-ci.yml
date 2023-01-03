@@ -82,10 +82,12 @@ test-portal-frontend-e2e:
   artifacts:
     when: always
     paths:
-      - /app/tests/e2e/videos/**/*.mp4
-      - /app/tests/e2e/screenshots/**/*.png
+      - app/tests/e2e/videos/**/*.mp4
+      - app/tests/e2e/screenshots/**/*.png
   script:
     - yarn --cwd=/app test:e2e:headless --browser chrome
+  #rules:
+  #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 
 test-portal-server:
@@ -123,7 +125,7 @@ test-notification-api:
 # Compare: https://git.knut.univention.de/univention/dist/docker-services
 
 build-linter:
-  stage: build
+  stage: lint
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
@@ -132,7 +134,7 @@ build-linter:
 
 
 pre-commit-linting:
-  stage: test
+  stage: lint
   needs:
     - job: build-linter
   image: "$IMAGE_TAG"
@@ -150,7 +152,7 @@ pre-commit-linting:
 
 
 commit-message-linting:
-  stage: test
+  stage: lint
   image: docker-registry.knut.univention.de/knut/pre-commit:latest
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -177,7 +179,7 @@ commit-message-linting:
 
 
 lint-portal-frontend:
-  stage: test
+  stage: lint
   needs:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
