@@ -125,7 +125,7 @@ test-notification-api:
 # Compare: https://git.knut.univention.de/univention/dist/docker-services
 
 build-linter:
-  stage: lint
+  stage: test
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
@@ -134,7 +134,7 @@ build-linter:
 
 
 pre-commit-linting:
-  stage: lint
+  stage: test
   needs:
     - job: build-linter
   image: "$IMAGE_TAG"
@@ -152,7 +152,7 @@ pre-commit-linting:
 
 
 commit-message-linting:
-  stage: lint
+  stage: test
   image: docker-registry.knut.univention.de/knut/pre-commit:latest
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -179,7 +179,7 @@ commit-message-linting:
 
 
 lint-portal-frontend:
-  stage: lint
+  stage: test
   needs:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
