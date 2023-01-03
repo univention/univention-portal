@@ -80,11 +80,13 @@ test-portal-frontend-ui:
   artifacts:
     when: always
     paths:
-      - tests/e2e/videos/**/*.mp4
-      - tests/e2e/screenshots/**/*.png
+      - frontend/tests/e2e/videos/**/*.mp4
+      - frontend/tests/e2e/screenshots/**/*.png
   script:
-    - cd /app
-    - yarn test:e2e:headless --browser chrome
+    - yarn --cwd=/app test:e2e:headless --browser chrome
+  after_script:
+    - ln -s /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+    - ln -s /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
   #rules:
   #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
