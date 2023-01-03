@@ -69,7 +69,8 @@ test-portal-frontend-unit:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
   script:
-    - yarn --cwd=/app test:unit
+    - cd /app
+    - yarn test:unit
 
 
 test-portal-frontend-ui:
@@ -86,8 +87,9 @@ test-portal-frontend-ui:
     - cd /app
     - yarn test:e2e:headless --browser chrome
   after_script:
-    - ln -s /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
-    - ln -s /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
+    - cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+    - cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshoCo
+    - ls -al /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
   #rules:
   #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
@@ -186,4 +188,5 @@ lint-portal-frontend:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
   script:
-    - yarn --cwd=/app lint
+    - cd /app
+    - yarn lint
