@@ -204,7 +204,7 @@ pre-commit-linting:
     - "${PRE_COMMIT_HOME}"
   script:
     # Compose lint would fail without the referenced env files
-    - for i in docker/.env.*.example; do cp "${i}" "${i/.example}"; done
+    - cp docker/.env.example docker/.env
     - pre-commit run --all-files
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
