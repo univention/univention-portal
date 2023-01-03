@@ -15,7 +15,7 @@ This location is already excluded from version control such that each developer 
 
 An example is provided in the file [`hosts.yaml.example`](./hosts.yaml.example).
 
-Wherever the inventory is defined, it needs to define a group labelled `ucs_dev_machines`.
+Wherever the inventory is defined, it needs to define a group labeled `ucs_dev_machines`.
 
 Note: make sure that the `ansible_user` is set to `root` for your hosts.
 
@@ -24,12 +24,14 @@ If your inventory (for this project) is defined at `./ansible/hosts.yml` you nee
 Example:
 
 ```shell
-ansible-playbook ./ansible/apache2-portal-updates.yml -i ./ansible/hosts.yml
+ansible-playbook ./ansible/ucs-expose-portal-json-files.yaml -i ./ansible/hosts.yml
 ```
 
 ## Playbooks
 
-- **apache2-portal-updates.yml**:
+- [`ucs-expose-portal-json-files.yaml`](./ucs-expose-portal-json-files.yaml):
   Patches the UCS webserver to serve `portal.json` and `groups.json` from the UCS cache folder.
   You can revert the changes by running the playbook with the additional option `-t restore` (this selects only task with the tag `restore`).
-  This playbook already defines a variable, `internal_ip_address` that can be used to IP-restrict access to these critical resources once the Apache configuration is adapted to support this feature (see `templates/apache2-portal-updates/univention-internal.conf.j2`)
+  This playbook already defines a variable, `internal_ip_address` that can be used to IP-restrict access to these critical resources once the Apache configuration is adapted to support this feature (see `templates/ucs-expose-portal-json-files/univention-internal.conf.j2`)
+- [`ucs-umc-open-from-external.yaml`](./ucs-umc-open-from-external.yaml):
+  Exposes the UMC API publicly on a dev machine.
