@@ -1,3 +1,4 @@
+# This workflow rule prevents duplicate pipelines when pushing to branches that already have a merge request open
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -19,6 +20,7 @@ build-portal-frontend-test-runner:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
     # We cache the Docker layers in the registry to reduce build time of future runs of this job
     KANIKO_ARGS: "--target=base --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
+  # Runs in both branch pipelines and merge request pipelines
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH
