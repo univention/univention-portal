@@ -30,7 +30,7 @@ build-portal-frontend:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-    KANIKO_ARGS: "--cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
+    KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
 
 
 build-portal-server-test-runner:
