@@ -1,5 +1,5 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}node:16.3-buster-slim AS test
+FROM ${DOCKER_PROXY}node:14-buster-slim AS test
 
 RUN apt-get update -qq \
     && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
