@@ -16,6 +16,30 @@ The following components form the Univention portal:
 
 
 
+## Utilities
+
+The following utilities are in use for development, ci integration and
+packaging:
+
+- [Ansible in `ansible/`](./ansible/) -- Ansible scripts which capture useful
+  and needed tweaks to adjust the state of a given UCS machine.
+- [Debian Package in `debian/`](./debian/) -- (deprecated) Configuration and
+  scripts to build a Debian package out of the codebase. This has in the past
+  also been used to develop the portal on a UCS machine. We keep it in a working
+  state until the migration towards containers has been fully achieved and
+  proven to be solid also for all use cases from a developer's perspective.
+- [Docker in `docker/`](./docker) -- Docker based tooling is kept inside of the
+  subdirectory `./docker/`. An exception are the Dockerfiles related to a
+  component, those are typically in the root folder of the respective component.
+  The packaging of new components is only based on docker containers, old
+  components are being migrated into a container based packaging.
+- [Docker Compose in `docker/`](./docker) -- Docker compose is in use as a
+  convenience utility to ease the process of starting the application locally.
+- [Gitlab CI in `.gitlab-ci.yml`](./.gitlab-ci.yml) -- The pipeline
+  configuration shows which checks are automatically run and how they are run.
+
+
+
 ## Working with container images locally
 
 An adjusted docker compose file has been created to make it easier to build the
