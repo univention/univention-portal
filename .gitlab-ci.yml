@@ -8,7 +8,16 @@ build-portal-frontend-test-runner:
   extends: .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
+    KANIKO_ARGS: "--target=base --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
+
+
+build-portal-frontend-test-runner-ui:
+  stage: build
+  extends: .kaniko
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-e2e"
     KANIKO_ARGS: "--target=test --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
 
 
@@ -28,7 +37,7 @@ build-portal-server-test-runner:
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
     KANIKO_ARGS: "--target=test"
 
 
@@ -48,7 +57,7 @@ build-notification-api-test-runner:
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api-test-runner"
     KANIKO_ARGS: "--target=test"
 
 
@@ -69,14 +78,13 @@ test-portal-frontend-unit:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
   script:
-    - cd /app
-    - yarn test:unit
+    - yarn --cwd=/app test:unit
 
 
 test-portal-frontend-ui:
   stage: test
   needs:
-    - job: build-portal-frontend-test-runner
+    - job: build-portal-frontend-test-runner-ui
   image: "$IMAGE_TAG"
   artifacts:
     when: always
@@ -84,11 +92,10 @@ test-portal-frontend-ui:
       - frontend/tests/e2e/videos/**/*.mp4
       - frontend/tests/e2e/screenshots/**/*.png
   script:
-    - cd /app
-    - yarn test:e2e:headless --browser chrome
+    - yarn --cwd=/app test:e2e:headless --browser chrome
   after_script:
-    - cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
-    - cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshoCo
+    - cp -rs /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+    - cp -rs /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
     - ls -al /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
   #rules:
   #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -188,5 +195,4 @@ lint-portal-frontend:
     - job: build-portal-frontend-test-runner
   image: "$IMAGE_TAG"
   script:
-    - cd /app
-    - yarn lint
+    - yarn --cwd=/app lint
