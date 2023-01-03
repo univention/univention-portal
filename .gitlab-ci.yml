@@ -21,8 +21,8 @@ build-portal-frontend-test-runner-ui:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
     KANIKO_ARGS: "--skip-unused-stages=true --target=test --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
   # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  #rules:
+  #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 build-portal-frontend:
   stage: build
@@ -97,8 +97,8 @@ test-portal-frontend-ui:
     # TODO: cp will fail if the folder does not exist. Is there a better way?
     - cp -rs /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
     - cp -rs /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  #rules:
+  #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 
 test-portal-server:
