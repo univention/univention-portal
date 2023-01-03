@@ -72,7 +72,7 @@ test-portal-frontend-unit:
     - yarn --cwd=/app test:unit
 
 
-test-portal-frontend-e2e:
+test-portal-frontend-ui:
   stage: test
   needs:
     - job: build-portal-frontend-test-runner
@@ -83,7 +83,8 @@ test-portal-frontend-e2e:
       - tests/e2e/videos/**/*.mp4
       - tests/e2e/screenshots/**/*.png
   script:
-    - yarn --cwd=/app test:e2e:headless --browser chrome
+    - cd /app
+    - yarn test:e2e:headless --browser chrome
   #rules:
   #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
