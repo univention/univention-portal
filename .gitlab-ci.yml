@@ -24,8 +24,6 @@ build-portal-frontend-test-runner-ui:
 build-portal-frontend:
   stage: build
   extends: .kaniko
-  needs:
-      - build-portal-frontend-test-runner
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
@@ -44,8 +42,6 @@ build-portal-server-test-runner:
 build-portal-server:
   stage: build
   extends: .kaniko
-  needs:
-    - build-portal-server-test-runner
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
@@ -64,8 +60,6 @@ build-notification-api-test-runner:
 build-notification-api:
   stage: build
   extends: .kaniko
-  needs:
-    - build-notification-api-test-runner
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
@@ -96,7 +90,6 @@ test-portal-frontend-ui:
   after_script:
     - cp -rs /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
     - cp -rs /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
-    - ls -al /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
   #rules:
   #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
