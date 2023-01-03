@@ -1,6 +1,21 @@
 ARG DOCKER_PROXY
 FROM ${DOCKER_PROXY}node:14-buster-slim AS base
 
+# The following dependencies are only needed when on an aarch64 platform,
+# because then the package "deasync" does not include ready made binaries
+# for the platform and falls back to compiling them.
+#
+# This is relevant for developers who work on machines with Apple's M1
+# processors.
+RUN if [ "$(uname -m)" != "aarch64" ]; then exit 0; fi && \
+    apt-get update -qq \
+    && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
+    gcc=4:8.* \
+    g++=4:8.* \
+    python3=3.7.* \
+    make=4.* \
+    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+
 WORKDIR /app
 COPY ./package.json .
 COPY ./yarn.lock .
