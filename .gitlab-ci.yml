@@ -6,6 +6,7 @@ include:
 # Building artifacts
 
 build-portal-frontend:
+  stage: build
   extends: .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
@@ -14,6 +15,7 @@ build-portal-frontend:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 build-portal-server:
+  stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
@@ -22,6 +24,7 @@ build-portal-server:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 build-notification-api:
+  stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
@@ -31,6 +34,7 @@ build-notification-api:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 build-portal-frontend-test-runner:
+  stage: build
   extends: .kaniko
   variables:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
@@ -40,6 +44,7 @@ build-portal-frontend-test-runner:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 build-portal-server-test-runner:
+  stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
@@ -49,6 +54,7 @@ build-portal-server-test-runner:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 build-notification-api-test-runner:
+  stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
@@ -90,6 +96,7 @@ prepare-portal-frontend-dependencies:
     - echo "This job only ensures the cache is populated"
 
 test-portal-frontend-unit:
+  stage: test
   extends: .node-template
   needs:
     - job: build-portal-frontend-test-runner
@@ -98,6 +105,7 @@ test-portal-frontend-unit:
     - yarn --cwd=frontend test:unit
 
 lint-portal-frontend:
+  stage: test
   extends: .node-template
   needs:
     - job: build-portal-frontend-test-runner
@@ -106,6 +114,7 @@ lint-portal-frontend:
     - yarn --cwd=frontend lint
 
 test-portal-frontend-e2e:
+  stage: test
   extends: .node-template
   image: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/cypress/browsers:node14.17.0-chrome88-ff89"
   needs:
@@ -120,6 +129,7 @@ test-portal-frontend-e2e:
     - yarn --cwd=frontend test:e2e:headless --browser chrome
 
 test-portal-server:
+  stage: test
   needs:
     - job: build-portal-server-test-runner
   image: "$IMAGE_TAG"
@@ -129,6 +139,7 @@ test-portal-server:
     - pytest unittests
 
 test-notification-api:
+  stage: test
   needs:
     - job: build-notification-api-test-runner
   image: "$IMAGE_TAG"
@@ -153,6 +164,7 @@ test-notification-api:
 # Compare: https://git.knut.univention.de/univention/dist/docker-services
 
 build-linter:
+  stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
@@ -162,6 +174,7 @@ build-linter:
     - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 pre-commit-linting:
+  stage: test
   needs:
     - job: build-linter
   image: "$IMAGE_TAG"
@@ -178,6 +191,7 @@ pre-commit-linting:
     - pre-commit run --all-files
 
 commit-message-linting:
+  stage: test
   image: docker-registry.knut.univention.de/knut/pre-commit:latest
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
