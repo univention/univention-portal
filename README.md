@@ -229,3 +229,12 @@ yarn test:e2e
 
 ## Links and references
 - Feather-Sprite Icons: [Overview](https://feathericons.com/)
+# Univention Portal
+
+This repository contains the Univention Portal.
+
+
+## Information for developers
+
+Please see [`README.dev.md`](./README.dev.md) for information about how to
+develop with this codebase.
