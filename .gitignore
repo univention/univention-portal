@@ -1,7 +1,6 @@
 ansible/hosts.yml
 ansible.cfg
-!docker/.env.*.example
-docker/.env.*
+docker/.env
 .cache/
 .pybuild/
 build/
