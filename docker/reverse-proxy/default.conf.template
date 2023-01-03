@@ -18,8 +18,9 @@ server {
     proxy_pass ${PORTAL_FRONTEND_BASE_URL}/;
   }
 
-  location /univention/ {
-    proxy_pass ${UCS_BASE_URL}/univention/;
+  location / {
+    proxy_pass ${UCS_BASE_URL}/;
+    proxy_redirect ${UCS_BASE_URL}/ http://$host:${PROXY_PORT}/;
   }
 
   # TODO: missing locations to be added
@@ -27,6 +28,5 @@ server {
   # - navigation.json
   # - meta.json
   # - languages.json
-  # - everything else "/" to UCS
 
 }
