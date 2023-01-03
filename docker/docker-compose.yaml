@@ -34,7 +34,7 @@ services:
     container_name: univention-portal-dev-reverse-proxy
     env_file: .env.reverse_proxy
     ports:
-      - "8000:80"
+      - "${PROXY_PORT}:80"
   test:
     profiles:
       - test
