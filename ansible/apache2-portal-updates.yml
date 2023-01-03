@@ -1,6 +1,6 @@
 ---
 - name: Patch apache2 config to serve portal.json and groups.json
-  hosts: univention-vm
+  hosts: ucs_dev_machines
   gather_facts: no
   vars:
     internal_ip_address: INTERNAL_IP_ADDRESS
