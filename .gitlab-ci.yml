@@ -126,10 +126,10 @@ test-portal-frontend-ui:
   after_script:
     # We generate the artifact in the Docker WORKDIR (/app), while Gitlab expects the artifacts in the runner's working
     # directory. https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
-    # So we create symbolic links to link these different locations.
+    # So we copy the artifacts from our build directory to where Gitlab expects.
     # TODO: cp will fail if the folder does not exist. Is there a better way?
-    - cp -rs /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
-    - cp -rs /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
+    - cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+    - cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
