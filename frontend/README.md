@@ -66,6 +66,16 @@ docker compose run -it --rm test /bin/bash
 
 Commands like `yarn install` or `yarn lint` should work within the container.
 
+Tests (both unit and ui tests) can be run using docker
+
+```
+# Run unit tests
+docker compose run --build test
+
+# Run UI tests
+docker compose run --build test yarn test:e2e:headless --browser chrome
+```
+
 
 
 ## Project setup
