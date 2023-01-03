@@ -21,8 +21,7 @@ build-portal-frontend:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
 
 build-portal-server:
   stage: build
@@ -30,8 +29,7 @@ build-portal-server:
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
 
 build-notification-api:
   stage: build
@@ -40,8 +38,7 @@ build-notification-api:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
 
 build-portal-frontend-test-runner:
   stage: build
@@ -60,8 +57,7 @@ build-portal-server-test-runner:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
     KANIKO_ARGS: "--target=test"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
 
 build-notification-api-test-runner:
   stage: build
@@ -71,8 +67,7 @@ build-notification-api-test-runner:
     KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api-test-runner"
     KANIKO_ARGS: "--target=test"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
 
 
 # Running tests
@@ -162,8 +157,6 @@ test-notification-api:
       coverage_report:
         coverage_format: cobertura
         path: notifications-api/coverage.xml
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 
 # Linting related checks and builds
@@ -180,8 +173,7 @@ build-linter:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
     KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/pre-commit"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+
 
 pre-commit-linting:
   stage: test
@@ -202,6 +194,7 @@ pre-commit-linting:
     # Compose lint would fail without the referenced env files
     - for i in docker/.env.*.example; do cp "${i}" "${i/.example}"; done
     - pre-commit run --all-files
+
 
 commit-message-linting:
   stage: test
