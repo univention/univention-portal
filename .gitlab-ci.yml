@@ -9,7 +9,8 @@ build-portal-frontend-test-runner:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
-    KANIKO_ARGS: "--target=base"
+    # We cache the Docker layers in the registry to reduce build time of future runs of this job
+    KANIKO_ARGS: "--target=base --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
 
 
 build-portal-frontend-test-runner-ui:
@@ -18,7 +19,7 @@ build-portal-frontend-test-runner-ui:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
-    KANIKO_ARGS: "--skip-unused-stages=true --target=test"
+    KANIKO_ARGS: "--skip-unused-stages=true --target=test --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
   # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -30,7 +31,7 @@ build-portal-frontend:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-    KANIKO_ARGS: "--skip-unused-stages=true"
+    KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
 
 
 build-portal-server-test-runner:
