@@ -22,6 +22,9 @@ build-portal-frontend:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
     KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 build-portal-server-test-runner:
@@ -31,6 +34,9 @@ build-portal-server-test-runner:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
     KANIKO_ARGS: "--target=test"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 build-portal-server:
@@ -39,6 +45,9 @@ build-portal-server:
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 build-notification-api-test-runner:
@@ -49,6 +58,9 @@ build-notification-api-test-runner:
     KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api-test-runner"
     KANIKO_ARGS: "--target=test"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 build-notification-api:
@@ -58,6 +70,9 @@ build-notification-api:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 test-portal-frontend-unit:
@@ -67,6 +82,9 @@ test-portal-frontend-unit:
   image: "$IMAGE_TAG"
   script:
     - yarn --cwd=/app test:unit
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 test-portal-frontend-ui:
@@ -90,7 +108,7 @@ test-portal-frontend-ui:
     - cp -rs /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
     - cp -rs /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 
 test-portal-server:
@@ -102,6 +120,9 @@ test-portal-server:
     PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
   script:
     - pytest unittests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 test-notification-api:
@@ -118,6 +139,9 @@ test-notification-api:
       coverage_report:
         coverage_format: cobertura
         path: notifications-api/coverage.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 # Linting related checks and builds
@@ -134,6 +158,9 @@ build-linter:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
     KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/pre-commit"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 pre-commit-linting:
@@ -155,13 +182,14 @@ pre-commit-linting:
     # Compose lint would fail without the referenced env files
     - for i in docker/.env.*.example; do cp "${i}" "${i/.example}"; done
     - pre-commit run --all-files
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 commit-message-linting:
   stage: test
   image: docker-registry.knut.univention.de/knut/pre-commit:latest
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   variables:
     CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/cypress_cache
     YARN_CACHE_FOLDER: $CI_PROJECT_DIR/yarn_cache
