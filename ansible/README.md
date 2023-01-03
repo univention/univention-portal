@@ -13,26 +13,11 @@ This allows developers to reuse or define their individual Ansible setup.
 You can always define a (project-specific) `hosts.yml` inside this folder.
 This location is already excluded from version control such that each developer can have its own version of this file.
 
-Here is an example for that file:
+An example is provided in the file [`hosts.yaml.example`](./hosts.yaml.example).
 
-```yaml
-all:
-  hosts:
-  children:
-    univention:
-      hosts:
-        univention-vm:
-          ansible_host: 10.200.112.10
-      vars:
-        ansible_user: root
-```
+Wherever the inventory is defined, it needs to define a group labelled `ucs_dev_machines`.
 
-Wherever the inventory is defined, it needs to define a host labelled `univention-vm`.
-This is the host against the playbooks are defined.
-
-Note: make sure that you define an `univention-vm` host.
-
-Note: make sure that the `ansible_user` is set to `root` for your `univention-vm` host.
+Note: make sure that the `ansible_user` is set to `root` for your hosts.
 
 If your inventory (for this project) is defined at `./ansible/hosts.yml` you need to specify this inventory when running any playbook.
 

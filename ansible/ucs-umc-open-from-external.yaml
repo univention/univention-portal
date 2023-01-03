@@ -1,6 +1,6 @@
 ---
 - name: Make UCS machine's UMC reachable from the outside
-  hosts: univention-vm
+  hosts: ucs_dev_machines
 
   tasks:
 
