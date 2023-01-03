@@ -3,7 +3,26 @@ include:
     file: kaniko.yml
 
 
-# Building artifacts
+build-portal-frontend-test-runner:
+  stage: build
+  extends: .kaniko
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
+    KANIKO_ARGS: "--target=base"
+
+
+build-portal-frontend-test-runner-ui:
+  stage: build
+  extends: .kaniko
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
+    KANIKO_ARGS: "--skip-unused-stages=true --target=test"
+  # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
 
 build-portal-frontend:
   stage: build
@@ -11,6 +30,7 @@ build-portal-frontend:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
+    KANIKO_ARGS: "--skip-unused-stages=true"
 
 
 build-portal-server:
@@ -29,16 +49,6 @@ build-notification-api:
     KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
 
-
-build-portal-frontend-test-runner:
-  stage: build
-  extends: .kaniko
-  variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
-    KANIKO_BUILD_CONTEXT: "frontend"
-    KANIKO_ARGS: "--target=test"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 build-portal-server-test-runner:
   stage: build
@@ -59,61 +69,20 @@ build-notification-api-test-runner:
     KANIKO_ARGS: "--target=test"
 
 
-
-# Running tests
-
-.node-template:
-  before_script:
-    - yarn --cwd=frontend install --frozen-lockfile
-  cache:
-    key:
-      files:
-        - frontend/yarn.lock
-    paths:
-      - "${CI_PROJECT_DIR}/.cache/yarn"
-      - "${CI_PROJECT_DIR}/.cache/cypress"
-    policy: pull
-  image: "$IMAGE_TAG"
-  variables:
-    CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/.cache/cypress
-    YARN_CACHE_FOLDER: $CI_PROJECT_DIR/.cache/yarn
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-
-
-prepare-portal-frontend-dependencies:
-  extends: .node-template
-  needs:
-    - job: build-portal-frontend-test-runner
-  cache:
-    policy: pull-push
-  script:
-    - echo "This job only ensures the cache is populated"
-
 test-portal-frontend-unit:
   stage: test
-  extends: .node-template
   needs:
     - job: build-portal-frontend-test-runner
-    - job: prepare-portal-frontend-dependencies
+  image: "$IMAGE_TAG"
   script:
-    - yarn --cwd=frontend test:unit
+    - yarn --cwd=/app test:unit
 
-lint-portal-frontend:
-  stage: test
-  extends: .node-template
-  needs:
-    - job: build-portal-frontend-test-runner
-    - job: prepare-portal-frontend-dependencies
-  script:
-    - yarn --cwd=frontend lint
 
-test-portal-frontend-e2e:
+test-portal-frontend-ui:
   stage: test
-  extends: .node-template
-  image: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/cypress/browsers:node14.17.0-chrome88-ff89"
   needs:
-    - job: prepare-portal-frontend-dependencies
+    - job: build-portal-frontend-test-runner-ui
+  image: "$IMAGE_TAG"
   artifacts:
     when: always
     paths:
@@ -121,7 +90,17 @@ test-portal-frontend-e2e:
       - frontend/tests/e2e/screenshots/**/*.png
     expire_in: 1 day
   script:
-    - yarn --cwd=frontend test:e2e:headless --browser chrome
+    - yarn --cwd=/app test:e2e:headless --browser chrome
+  after_script:
+    # We generate the artifact in the Docker WORKDIR (/app), while Gitlab expects the artifacts in the runner's working
+    # directory. https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
+    # So we create symbolic links to link these different locations.
+    # TODO: cp will fail if the folder does not exist. Is there a better way?
+    - cp -rs /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+    - cp -rs /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
 
 test-portal-server:
   stage: test
@@ -132,6 +111,7 @@ test-portal-server:
     PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
   script:
     - pytest unittests
+
 
 test-notification-api:
   stage: test
@@ -208,3 +188,12 @@ commit-message-linting:
       done
       rm "$tmp_file"
       exit "$any_failure"
+
+
+lint-portal-frontend:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - yarn --cwd=/app lint
