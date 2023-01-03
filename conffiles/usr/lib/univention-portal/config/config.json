@@ -18,6 +18,7 @@ config = {
 	"ldap_base": configRegistry.get("ldap/base"),
 	"ldap_uri": "ldap://%s:%s" % (configRegistry.get("ldap/server/name"), configRegistry.get("ldap/server/port")),
 	"auth_mode": configRegistry.get("portal/auth-mode"),
+	"ucs_internal_url": "http://localhost/univention/internal",
 	"umc_get_url": "http://localhost/univention/get",
 	"umc_session_url": "http://localhost/univention/get/session-info",
 	"default_domain_dn": configRegistry.get("portal/default-dn"),

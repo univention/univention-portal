@@ -29,7 +29,7 @@
       ansible.builtin.debug:
         var: run_update.stdout_lines
 
-    - name: Add conf file to serve portal.json and groups.json
+    - name: Add conf file to serve portal.json and groups.json to UCS host and restart apache2
       ansible.builtin.template:
         src: "./templates/ucs-expose-portal-json-files/{{ conf_filename }}.j2"
         dest: "{{ conf_dir }}/{{ conf_filename }}"
@@ -51,7 +51,7 @@
       tags: [ never, restore, ]
 
     - name: Restore original univention-portal script
-      command: "mv {{ backup.files[0].path }} {{ script_path }}"
+      ansible.builtin.command: "mv {{ backup.files[0].path }} {{ script_path }}"
       args:
         removes: "{{ backup.files[0].path }}"
       when: backup.files
@@ -74,7 +74,7 @@
 
   handlers:
     - name: Restart apache
-      service:
+      ansible.builtin.service:
         name: apache2
         state: restarted
       listen: apache2-restart
