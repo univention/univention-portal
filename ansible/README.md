@@ -15,7 +15,7 @@ This location is already excluded from version control such that each developer 
 
 Here is an example for that file:
 
-```shell
+```yaml
 all:
   hosts:
   children:
