@@ -33,23 +33,6 @@ build-portal-frontend:
     KANIKO_ARGS: "--skip-unused-stages=true"
 
 
-build-portal-server:
-  stage: build
-  extends: .kaniko
-  variables:
-    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
-
-
-build-notification-api:
-  stage: build
-  extends: .kaniko
-  variables:
-    DOCKERFILE_PATH: "notifications-api/Dockerfile"
-    KANIKO_BUILD_CONTEXT: "notifications-api"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
-
-
 build-portal-server-test-runner:
   stage: build
   extends: .kaniko
@@ -57,6 +40,14 @@ build-portal-server-test-runner:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
     KANIKO_ARGS: "--target=test"
+
+
+build-portal-server:
+  stage: build
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
 
 
 build-notification-api-test-runner:
@@ -67,6 +58,15 @@ build-notification-api-test-runner:
     KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api-test-runner"
     KANIKO_ARGS: "--target=test"
+
+
+build-notification-api:
+  stage: build
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
 
 
 test-portal-frontend-unit:
