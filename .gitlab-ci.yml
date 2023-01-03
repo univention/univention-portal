@@ -17,7 +17,7 @@ build-portal-frontend-test-runner-ui:
   extends: .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-e2e"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
     KANIKO_ARGS: "--target=test --cache=true --cache-ttl=24h --cache-repo=$CI_REGISTRY_IMAGE-cache"
 
 
