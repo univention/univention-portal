@@ -170,6 +170,16 @@ build-notifications-api:
     - if: $CI_COMMIT_BRANCH
 
 
+push-image-souvap-notifications-api-job:
+  stage: build
+  needs:
+    - job: build-notifications-api
+  extends: .push-image-souvap
+  variables:
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
+    SOUVAP_IMAGE_NAME: "notifications-api"
+
+
 build-debian-package-builder:
   stage: build
   extends: .kaniko

@@ -1,0 +1,34 @@
+---
+
+# Deployment-specific values for the `example` environment for portal-server.
+# This is a YAML-formatted file.
+# Include the file with the `--values` parameter
+
+
+## Application-specific
+notificationsapi:
+  dev_mode: "True"
+  environment: "staging"
+  log_level: "DEBUG"
+  database_url: "postgresql://dev:devpassword@db/dev"
+
+
+## Kubernetes ingress
+ingress:
+  host: "portal.example.develop.souvap-univention.de"
+
+
+## Docker image
+image:
+  tag: "branch-feature-example"
+
+
+## Container deployment probes
+probes:
+  liveness:
+    enabled: false
+
+  readiness:
+    enabled: false
+
+...
