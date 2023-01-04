@@ -99,6 +99,64 @@ sequenceDiagram
     UI ->> UI: render Notifications
 ```
 
+
+## Special cases and corner cases
+
+A few cases need special consideration due to the change into a distributed
+system. State management and event handling can otherwise get out of sync and
+cause subtle issues.
+
+
+
+### Fetch latest notifications and starting the event stream
+
+Since we have two asynchronous requests for both actions, we cannot know if
+there were new notifications introduced between fetching the latest
+notifications and starting the event stream.
+
+This can lead to race conditions happening occasionally which would lead to very
+difficult to understand bugs.
+
+
+#### State
+
+Needs decision.
+
+Preferred solution: Remove the call to fetch the latest notifications, and
+extend the event stream endpoint, so that it can stream the relevant events
+again for the latest X notifications. This avoids the issue.
+
+
+#### Current implementation
+
+Currently the implementation does flag notifications as seen when they are
+streamed out as event or fetched via a request to retrieve the latest
+notifications.
+
+
+#### Option: Token
+
+Starting the event stream could accept a Token as query parameter. If given,
+then the API would ensure that for everything after this Token an event would be
+generated.
+
+The Token would be in included in the response of the request to fetch the
+latest notifications.
+
+
+#### Option: Avoid the request to fetch latest notifications
+
+An alternative could be to avoid the call to fetch the latest notifications at
+all. Instead the frontend would open up the event stream and via a query
+parameter request the last X notifications as well.
+
+The API would ensure to re-generate the events in the right order, so that all
+notifications are in the frontend.
+
+This avoids the problem.
+
+
+
 ## Interaction sequence examples
 
 The following examples show various aspects of the interaction patterns as a
