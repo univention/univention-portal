@@ -99,7 +99,10 @@ sequenceDiagram
     UI ->> UI: render Notifications
 ```
 
-## Interaction sequence
+## Interaction sequence examples
+
+The following examples show various aspects of the interaction patterns as a
+sequence.
 
 
 ### User opens the portal
