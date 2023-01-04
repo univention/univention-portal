@@ -176,6 +176,41 @@ sort of pagination. This avoids that we have to solve this topic now.
 
 
 
+### Transactional safety
+
+We can see cases where multiple frontends send a change event regarding the same
+notification, e.g. if the user has more than one window open. For those cases we
+have to work out what the correct behavior would be.
+
+It's not yet clear if guarantees from database transactions are really needed.
+
+
+#### State
+
+Needs investigation.
+
+Assumption: Notifications are immutable events, except for the attribute `seen`
+and the delete operation.
+
+
+#### Preliminary thoughts
+
+If a notification has been `flagged as seen`, then it does not matter how often
+it will be marked as seen, the resulting state will always be the same. If
+multiple events regarding the same notification would come from different
+instances of the frontend, the those events can be processed in any order and we
+would still always see the same resulting state.
+
+The case of `delete notifiation` seems to have similar properties, it does not
+matter which event will be processed first, the notification will be gone
+afterwards. The only caveat is that a delete event for a non-existing
+notification is normal behavior of the application.
+
+Other attributes of a notification are not supposed to change over time. Or one
+could say that the notification itself is actually an *immutable* event.
+
+
+
 ## Interaction sequence examples
 
 The following examples show various aspects of the interaction patterns as a
