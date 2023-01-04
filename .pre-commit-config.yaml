@@ -15,6 +15,7 @@ repos:
   - id: check-merge-conflict
   # "Check Yaml"
   - id: check-yaml
+    exclude: ^helm/.+/templates/
   # "Fix python encoding pragma"
   # - id: fix-encoding-pragma
   # "Trim Trailing Whitespace"

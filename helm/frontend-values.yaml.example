@@ -1,0 +1,25 @@
+---
+# Deployment-specific values for the `example` environment for portal-frontend.
+# This is a YAML-formatted file.
+# Include the file with the `--values` parameter
+
+
+## Kubernetes ingress
+ingress:
+  host: "portal.example.develop.souvap-univention.de"
+
+
+## Docker image
+image:
+  tag: "branch-feature-example"
+
+
+## Container deployment probes
+probes:
+  liveness:
+    enabled: false
+
+  readiness:
+    enabled: false
+
+...
