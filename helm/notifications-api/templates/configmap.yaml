@@ -1,0 +1,13 @@
+---
+
+apiVersion: "v1"
+kind: ConfigMap
+metadata:
+  name: '{{ include "common.names.fullname" . }}'
+data:
+  DATABASE_URL: "{{ .Values.notificationsapi.database_url }}"
+  DEV_MODE: "{{ .Values.notificationsapi.dev_mode }}"
+  ENVIRONMENT: "{{ .Values.notificationsapi.environment }}"
+  LOG_LEVEL: "{{ .Values.notificationsapi.log_level }}"
+
+...
