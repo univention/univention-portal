@@ -143,7 +143,13 @@ test-portal-server:
   variables:
     PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
   script:
-    - pytest unittests
+    - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH
