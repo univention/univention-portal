@@ -157,6 +157,25 @@ This avoids the problem.
 
 
 
+### Latest X notifications
+
+Building a solution to only fetch the latest X unseen Notifications would add
+additional complexity, because the user would need a way to make the other
+"pages" or "chunks" visible somehow.
+
+
+#### State
+
+Needs decision.
+
+Preferred option: Implement now a simple logic, so that all unseen notifications
+are send.
+
+In the future (if needed) a new Feature could be built on top to support some
+sort of pagination. This avoids that we have to solve this topic now.
+
+
+
 ## Interaction sequence examples
 
 The following examples show various aspects of the interaction patterns as a
