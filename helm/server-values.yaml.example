@@ -1,0 +1,33 @@
+---
+# Deployment-specific values for the `example` environment for portal-server.
+# This is a YAML-formatted file.
+# Include the file with the `--values` parameter
+
+
+## Application-specific
+portalserver:
+  admin_group: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  ucs_internal_url: "https://portal.example.develop.souvap-univention.de/univention/internal"
+  umc_get_url: "https://portal.example.develop.souvap-univention.de/univention/get"
+  umc_session_url: "https://portal.example.develop.souvap-univention.de/univention/get/session-info"
+
+
+## Kubernetes ingress
+ingress:
+  host: "portal.example.develop.souvap-univention.de"
+
+
+## Docker image
+image:
+  tag: "branch-feature-example"
+
+
+## Container deployment probes
+probes:
+  liveness:
+    enabled: false
+
+  readiness:
+    enabled: false
+
+...
