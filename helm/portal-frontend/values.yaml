@@ -1,0 +1,98 @@
+---
+# Default values for univention-portal-frontend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Global values
+affinity: {}
+environment: {}
+fullnameOverride: ""
+nameOverride: ""
+nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+replicaCount: 1
+securityContext: {}
+tolerations: []
+
+
+## Application-specific
+## Nothing yet
+
+
+## Kubernetes ingress
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  # host: "portal.example.com"
+  paths:
+    - path: /univention/portal/($|index.html$)
+      pathType: Exact
+    - path: /univention/portal/(css/app.css$)
+      pathType: Exact
+    - path: /univention/portal/([^/]*.svg$)
+      pathType: Exact
+    - path: /univention/portal/(js/.*)
+      pathType: Prefix
+  tls:
+    enabled: true
+    secretName: ""
+
+
+## Docker image
+image:
+  registry: "registry.souvap-univention.de"
+  repository: "souvap/tooling/images/univention-portal/portal-frontend"
+  imagePullPolicy: "Always"
+  tag: "latest"
+
+  ## Define image sha256 as an alternative to `tag`
+  # sha256:
+
+
+## Container deployment probes
+probes:
+  liveness:
+    enabled: true
+    initialDelaySeconds: 120
+    timeoutSeconds: 3
+    periodSeconds: 30
+    failureThreshold: 3
+    successThreshold: 1
+
+  readiness:
+    enabled: true
+    initialDelaySeconds: 30
+    timeoutSeconds: 3
+    periodSeconds: 15
+    failureThreshold: 30
+    successThreshold: 1
+
+
+## Deployment resources
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "4Gi"
+    cpu: "4"
+
+## Kubernetes Service
+service:
+  enabled: true
+  type: "ClusterIP"
+  ports:
+    http:
+      containerPort: 80
+      port: 80
+      protocol: "TCP"
+
+  sessionAffinity:
+    enabled: false
+    timeoutSeconds: 10800
+
+...

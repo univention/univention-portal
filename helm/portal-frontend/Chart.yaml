@@ -1,0 +1,21 @@
+---
+
+apiVersion: "v2"
+type: "application"
+name: "portal-frontend"
+description: "A Helm chart for the Univention Portal Frontend"
+home: "https://www.univention.de/"
+
+# Chart version
+# Apply Semantic Versioning (https://semver.org/)
+version: "0.0.0"
+
+# Portal Version
+appVersion: "1.16.0"
+
+dependencies:
+  - name: "common"
+    repository: "https://charts.bitnami.com/bitnami"
+    version: "^2.2.2"
+
+...
