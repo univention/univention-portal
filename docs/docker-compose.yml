@@ -4,10 +4,10 @@ services:
   docs:
     build:
       dockerfile: Dockerfile.mkdocs
-      context: .
+      context: ..
     image: univention/docs
     user: "${UID:-1000}:${GID:-1000}"
     volumes:
-      - ./:/docs
+      - ../:/docs
     ports:
       - "127.0.0.1:8000:8000"
