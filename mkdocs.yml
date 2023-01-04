@@ -31,8 +31,3 @@ plugins:
   - mermaid2:
       arguments:
         theme: 'dark'
-extra_css:
-  # - stylesheets/extra.css
-extra_javascript:
-  - js/mermaid.min.js
-  # - https://unpkg.com/mermaid/dist/mermaid.min.js

@@ -32,7 +32,7 @@ Usually in the frontend, we see the following approach:
 
 sequenceDiagram
 
-    participant notifications-api
+    participant notifications_api as notifications-api
     participant Store
     participant UI
     actor User
@@ -51,16 +51,16 @@ sequenceDiagram
 ### Backend state as in BackendNotifications
 
 The difference is that the `Store` does not "own" the whole state anymore. The
-backend state is now "owned" by the `notifications-api` and this adds one extra
+backend state is now "owned" by the `notifications_api` and this adds one extra
 layer around the event handling.
 
 1. All changes are introduced by triggering an event (dispatch).
 2. The event handler on the `Store` does then "forward" the event to the
-   `notifications-api` if the affected object is owned by the
-   `notifications-api`. Technically the event is forwarded via an HTTP request.
-3. The `notifications-api` then internally updates it's state. And this does
+   `notifications_api` if the affected object is owned by the
+   `notifications_api`. Technically the event is forwarded via an HTTP request.
+3. The `notifications_api` then internally updates it's state. And this does
    trigger internal events.
-4. The `notifications-api` does deliver this event to the event stream, so that
+4. The `notifications_api` does deliver this event to the event stream, so that
    all frontends of this user will receive the update event.
 5. The `Store` in the frontend receives the event out of the `EventSource` and
    now it mutates the state in the `Store`.
@@ -72,7 +72,7 @@ layer around the event handling.
 
 sequenceDiagram
 
-    participant notifications-api
+    participant notifications_api as notifications-api
     participant Store
     participant UI
     actor User
@@ -80,16 +80,16 @@ sequenceDiagram
     User ->> UI: remove Notification
     UI -) Store: event
 
-    Note over notifications-api, Store: Forward event to API
+    Note over notifications_api, Store: Forward event to API
 
     activate Store
-    Store ->> notifications-api: delete notification
-    notifications-api -->> Store: OK
+    Store ->> notifications_api: delete notification
+    notifications_api -->> Store: OK
     deactivate Store
 
-    Note over notifications-api, Store: Event pushed to all frontends
+    Note over notifications_api, Store: Event pushed to all frontends
 
-    notifications-api --) Store: event: updated notification
+    notifications_api --) Store: event: updated notification
 
     activate Store
     Store ->> Store: mutate state
@@ -116,7 +116,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/EventSource
 
 sequenceDiagram
 
-    participant notifications-api
+    participant notifications_api as notifications-api
     participant Store
     participant UI
     actor User
@@ -125,14 +125,14 @@ sequenceDiagram
     UI -) Store: onload
 
     Note over Store: Bootstrap store
-    Store ->> notifications-api: fetch latest notifications
-    notifications-api -->> Store: return data
+    Store ->> notifications_api: fetch latest notifications
+    notifications_api -->> Store: return data
     Store ->> Store: mutate state
     Store -) UI: event
     UI ->> UI: render Notifications
 
     Note over Store: Open event stream
-    Store ->> notifications-api: open event stream
+    Store ->> notifications_api: open event stream
 
 ```
 
@@ -148,30 +148,30 @@ based on the type and data of the event.
 
 sequenceDiagram
 
-    participant notifications-api
+    participant notifications_api as notifications-api
     participant Store
     participant UI
     actor User
 
     Note over Store: Open event stream
-    Store ->> notifications-api: open event stream
+    Store ->> notifications_api: open event stream
 
-    Note over notifications-api, Store: Response chunk per event
+    Note over notifications_api, Store: Response chunk per event
 
-    notifications-api --) Store: event: ping
+    notifications_api --) Store: event: ping
 
-    notifications-api --) Store: event: created notification
+    notifications_api --) Store: event: created notification
     Store ->> Store: mutate state, add Notification
     Store -) UI: event
     UI ->> UI: render Notifications
 
-    notifications-api --) Store: event: updated notification
+    notifications_api --) Store: event: updated notification
 
     Store ->> Store: mutate state, update Notification
     Store -) UI: event
     UI ->> UI: render Notifications
 
-    notifications-api --) Store: event: deleted notification
+    notifications_api --) Store: event: deleted notification
 
     Store ->> Store: mutate state, delete Notification
     Store -) UI: event
@@ -181,7 +181,7 @@ sequenceDiagram
 
 ### CLARIFY -- User deletes a BackendNotification
 
-The key is, that the event only triggers a request to the `notifications-api`.
+The key is, that the event only triggers a request to the `notifications_api`.
 
 Due to this API call the `Store` will get a push event with the deleted
 notification.
@@ -192,7 +192,7 @@ This way we avoid any smart logic in the frontend.
 
 sequenceDiagram
 
-    participant notifications-api
+    participant notifications_api as notifications-api
     participant Store
     participant UI
     actor User
@@ -200,9 +200,9 @@ sequenceDiagram
     Note over User: Delete Notification
     User ->> UI: Remove notification
     UI -) Store: event
-    Store ->> notifications-api: delete notification
+    Store ->> notifications_api: delete notification
 
-    notifications-api --) Store: event: deleted Notification
+    notifications_api --) Store: event: deleted Notification
 
     Store ->> Store: mutate state, delete Notification
     Store -) UI: event
@@ -211,7 +211,7 @@ sequenceDiagram
 
 ### CLARIFY -- A popup notification has been hidden automatically
 
-The key is, that the event only triggers a request to the `notifications-api`.
+The key is, that the event only triggers a request to the `notifications_api`.
 Same as delete above.
 
 
@@ -219,7 +219,7 @@ Same as delete above.
 
 sequenceDiagram
 
-    participant notifications-api
+    participant notifications_api as notifications-api
     participant Store
     participant UI
     actor User
@@ -227,9 +227,9 @@ sequenceDiagram
     Note over UI: Hide Notification
     UI ->> UI: timeout
     UI -) Store: event: hide Notification
-    Store ->> notifications-api: hide notification
+    Store ->> notifications_api: hide notification
 
-    notifications-api --) Store: event: updated Notification
+    notifications_api --) Store: event: updated Notification
 
     Store ->> Store: mutate state, update Notification
     Store -) UI: event
