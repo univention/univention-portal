@@ -16,6 +16,89 @@
   into account).
 
 
+## State mutation pattern
+
+### No backend state
+
+Usually in the frontend, we see the following approach:
+
+1. All changes are introduced by triggering an event (dispatch).
+2. The event handler on the `Store` triggers a mutation.
+3. Changes of the `Store` do then trigger events for the UI, so that components
+   are rendered again where needed.
+
+
+```mermaid
+
+sequenceDiagram
+
+    participant notifications-api
+    participant Store
+    participant UI
+    actor User
+
+    User ->> UI: remove Notification
+    UI -) Store: event
+
+    Store ->> Store: mutate state, remove notification
+
+    Store -) UI: event
+
+    UI ->> UI: render Notifications
+```
+
+
+### Backend state as in BackendNotifications
+
+The difference is that the `Store` does not "own" the whole state anymore. The
+backend state is now "owned" by the `notifications-api` and this adds one extra
+layer around the event handling.
+
+1. All changes are introduced by triggering an event (dispatch).
+2. The event handler on the `Store` does then "forward" the event to the
+   `notifications-api` if the affected object is owned by the
+   `notifications-api`. Technically the event is forwarded via an HTTP request.
+3. The `notifications-api` then internally updates it's state. And this does
+   trigger internal events.
+4. The `notifications-api` does deliver this event to the event stream, so that
+   all frontends of this user will receive the update event.
+5. The `Store` in the frontend receives the event out of the `EventSource` and
+   now it mutates the state in the `Store`.
+6. Changes of the `Store` do then trigger events for the UI, so that components
+   are rendered again where needed.
+
+
+```mermaid
+
+sequenceDiagram
+
+    participant notifications-api
+    participant Store
+    participant UI
+    actor User
+
+    User ->> UI: remove Notification
+    UI -) Store: event
+
+    Note over notifications-api, Store: Forward event to API
+
+    activate Store
+    Store ->> notifications-api: delete notification
+    notifications-api -->> Store: OK
+    deactivate Store
+
+    Note over notifications-api, Store: Event pushed to all frontends
+
+    notifications-api --) Store: event: updated notification
+
+    activate Store
+    Store ->> Store: mutate state
+    Store -) UI: event
+    deactivate Store
+
+    UI ->> UI: render Notifications
+```
+
 ## Interaction sequence
 
 
