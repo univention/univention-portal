@@ -1,4 +1,4 @@
-FROM squidfunk/mkdocs-material:latest
+FROM squidfunk/mkdocs-material:9.0.2
 RUN pip install \
     mkdocs-macros-plugin \
     mkdocs-awesome-pages-plugin \
