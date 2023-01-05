@@ -37,7 +37,7 @@ class NotificationService():
         db.commit()
         return db_notification
 
-    def get_latest_notifications(
+    def get_notifications(
         self,
         query: dict,
         db: Session
