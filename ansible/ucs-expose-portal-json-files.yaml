@@ -10,6 +10,11 @@
     script_path: /usr/sbin/univention-portal
 
   tasks:
+    - name: Ensure patch command is available
+      ansible.builtin.apt:
+        name: patch
+        state: present
+
     - name: "Update permissions on {{ cache_dir }}"
       ansible.builtin.file:
         path: "{{ cache_dir }}"
