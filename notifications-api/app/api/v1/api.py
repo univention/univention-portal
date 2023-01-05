@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Request, Depends, Query
+from fastapi import APIRouter, HTTPException, Request, Depends, Query
 from fastapi.encoders import jsonable_encoder
 from sqlmodel import Session
 from typing import List
 from sse_starlette.sse import EventSourceResponse
 import asyncio
+from http import HTTPStatus
 import json
 
 from app.models.notification_model import (
@@ -56,6 +57,16 @@ def mark_notification_confirmed(
     db: Session = Depends(get_session)
 ) -> Notification:
     return service.confirm_notification(id, db)
+
+
+@router.post("/notifications/{id}/invalidate")
+def invalidate_notification(
+    id: str,
+    service: NotificationService = Depends(NotificationService),
+    db: Session = Depends(get_session)
+) -> None:
+    raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+
 
 
 STREAM_DELAY = 1  # seconds
