@@ -16,7 +16,9 @@ from app.db import get_session
 router = APIRouter()
 
 
-@router.post("/notifications/", status_code=201, response_model=Notification)
+@router.post(
+    "/notifications/", status_code=201, response_model=Notification,
+    tags=["sender"])
 def create_notification(
     data: NotificationCreate,
     service: NotificationService = Depends(NotificationService),
@@ -25,7 +27,7 @@ def create_notification(
     return service.create_notification(data, db)
 
 
-@router.get("/notifications/latest")
+@router.get("/notifications/latest", tags=["client"])
 def get_latest_notifications_for_user(
     title: str = Query(default=1),
     limit: str = Query(default=10),
@@ -41,7 +43,7 @@ def get_latest_notifications_for_user(
     return service.get_latest_notifications(query_items, db)
 
 
-@router.post("/notifications/{id}/read")
+@router.post("/notifications/{id}/read", tags=["client"])
 def mark_notification_read(
     id: str,
     service: NotificationService = Depends(NotificationService),
@@ -50,7 +52,7 @@ def mark_notification_read(
     return service.mark_notification_read(id, db)
 
 
-@router.post("/notifications/{id}/confirm")
+@router.post("/notifications/{id}/confirm", tags=["client"])
 def mark_notification_confirmed(
     id: str,
     service: NotificationService = Depends(NotificationService),
@@ -59,12 +61,15 @@ def mark_notification_confirmed(
     return service.confirm_notification(id, db)
 
 
-@router.post("/notifications/{id}/invalidate")
-def invalidate_notification(
-    id: str,
-    service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
-) -> None:
+@router.post("/notifications/invalidate", tags=["sender"])
+def bulk_invalidate_notifications():
+    # TODO: Define input model, so that the schema is documented
+    # correctly.
+    raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+
+
+@router.post("/notifications/{id}/invalidate", tags=["sender"])
+def invalidate_notification(id: str) -> None:
     raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
 
 
@@ -73,7 +78,7 @@ STREAM_DELAY = 1  # seconds
 RETRY_TIMEOUT = 15000  # milliseconds
 
 
-@router.get("/notifications/stream")
+@router.get("/notifications/stream", tags=["client"])
 async def stream_notifications(
     request: Request,
     service: NotificationService = Depends(NotificationService),

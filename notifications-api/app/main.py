@@ -26,12 +26,26 @@ The API endpoints can be grouped as follows:
 Note: The groups are not necessarily disjoint.
 """
 
+
+tags_metadata = [
+    {
+        "name": "sender",
+        "description": "Notification Sender API",
+    },
+    {
+        "name": "client",
+        "description": "Notification Client API",
+    },
+]
+
+
 app = FastAPI(
     root_path=settings.root_path,
     title=settings.project_name,
     version=settings.api_version,
     debug=settings.debug,
     description=description,
+    openapi_tags=tags_metadata,
 )
 
 
