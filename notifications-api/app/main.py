@@ -10,8 +10,21 @@ from app.core.config import settings
 from .api import router as api_router
 
 
-# TODO: Don't use an empty value
-description = ""
+description = """
+The Notifications API is intended to be used so that
+applications can send notifications so that they are visible within the
+Univention Portal.
+
+The API endpoints can be grouped as follows:
+
+- *Notification Sender API* -- This subset of endpoints is intended to be used
+  by applications who want to send a notification for a given user.
+
+- *Notification Client API* -- This subset shall fulfill the needs of the
+  Univention Portal, so that it can show the notifications to the user.
+
+Note: The groups are not necessarily disjoint.
+"""
 
 app = FastAPI(
     root_path=settings.root_path,
