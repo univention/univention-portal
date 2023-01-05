@@ -4,7 +4,9 @@ ARG WORKDIR=/app
 ARG USER=fastapi
 RUN useradd -m "$USER"
 WORKDIR "$WORKDIR"
-RUN chown "$USER":"$USER" "$WORKDIR"
+RUN chown "$USER":"$USER" "$WORKDIR" && \
+    mkdir -p /var/local/notifications-api && \
+    chown "$USER":"$USER" /var/local/notifications-api
 USER "$USER"
 ENV PATH="/home/${USER}/.local/bin:${PATH}"
 ENV PYTHONPATH="."
@@ -29,4 +31,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./ ./
 EXPOSE 80
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
