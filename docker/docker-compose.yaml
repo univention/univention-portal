@@ -17,8 +17,12 @@ services:
     ports:
       - "8095:80"
     volumes:
-      # TODO: The config files are dynamic, currently using stub files so that
-      # it is easy to run the univention-portal-server for local inspection.
+      # TODO: On linux machines we see issues with using the name
+      # "host.docker.internal". A workaround is provided in
+      # "stub_config_linux.json". You can use this by adding an override file
+      # as "docker-compose.override.yaml".
+      #
+      # See https://docs.docker.com/compose/reference/#specifying-multiple-compose-files
       - type: bind
         source: ./portal-server/stub_config.json
         target: /usr/lib/univention-portal/config/config.json

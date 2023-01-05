@@ -1,0 +1,20 @@
+{
+  "admin_groups": [
+    "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  ],
+  "auth_mode": "ucs",
+  "default_domain_dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention,dc=test",
+  "editable": true,
+  "fqdn": "primary.univention.test",
+  "hostdn": "cn=primary,cn=dc,cn=computers,dc=univention,dc=test",
+  "ldap_base": "dc=univention,dc=test",
+  "ldap_uri": "ldap://primary.univention.test:7389",
+  "port": "80",
+  "ucs_internal_url": "http://172.17.0.1:8000/univention/internal",
+  "umc_get_url": "http://172.17.0.1:8000/univention/get",
+  "umc_session_url": "http://172.17.0.1:8000/univention/get/session-info",
+  "udm_api_url": "https://primary.univention.test/univention/udm",
+  "udm_api_username": "Administrator",
+  "udm_api_password_file": "/etc/machine.secret",
+  "assets_root": "/usr/share/univention-portal"
+}
