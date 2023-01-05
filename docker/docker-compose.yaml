@@ -27,12 +27,21 @@ services:
       - type: bind
         source: ./portal-server/stub_config.json
         target: /usr/lib/univention-portal/config/config.json
-      - type: bind
-        source: ./portal-server/stub_groups.json
-        target: /var/cache/univention-portal/groups.json
-      - type: bind
-        source: ./portal-server/stub_portal.json
-        target: /var/cache/univention-portal/portal.json
+
+      # You can bind mount stub files into your portal container if you need
+      # to run it alone. In this case make sure that you are not using the
+      # HTTP based cache implementation. See portals.json and the command
+      # "python3 univention-portal add-default" to generate it.
+      #
+      # - type: bind
+      #   source: ./portal-server/stub_groups.json
+      #   target: /var/cache/univention-portal/groups.json
+      # - type: bind
+      #   source: ./portal-server/stub_portal.json
+      #   target: /var/cache/univention-portal/portal.json
+      # - type: bind
+      #   source: ./portal-server/machine.secret
+      #   target: /etc/machine.secret
   reverse-proxy:
     build:
       context: ./reverse-proxy
