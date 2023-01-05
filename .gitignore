@@ -1,4 +1,4 @@
-ansible/hosts.yml
+ansible/hosts.y?ml
 ansible.cfg
 docker/.env
 .cache/
