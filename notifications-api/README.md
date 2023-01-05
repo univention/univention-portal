@@ -94,7 +94,7 @@ docker compose run -it --rm app ./freeze-requirements.sh
 Documentation for the API is automatically generated and available in the local
 development server at the following URL:
 
-http://localhost:8080/docs
+http://localhost:8096/docs
 
 
 ### Example request
@@ -106,7 +106,7 @@ which creates a new notification:
 
 ```
 curl -X 'POST' \
-  'http://localhost:8080/v1/notifications' \
+  'http://localhost:8096/v1/notifications' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
