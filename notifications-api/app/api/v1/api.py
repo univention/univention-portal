@@ -40,7 +40,7 @@ def get_latest_notifications_for_user(
     return service.get_latest_notifications(query_items, db)
 
 
-@router.patch("/notifications/{id}/read")
+@router.post("/notifications/{id}/read")
 def mark_notification_read(
     id: str,
     service: NotificationService = Depends(NotificationService),
@@ -49,7 +49,7 @@ def mark_notification_read(
     return service.mark_notification_read(id, db)
 
 
-@router.patch("/notifications/{id}/confirm")
+@router.post("/notifications/{id}/confirm")
 def mark_notification_read(
     id: str,
     service: NotificationService = Depends(NotificationService),
