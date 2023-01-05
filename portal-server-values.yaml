@@ -1,0 +1,63 @@
+USER-SUPPLIED VALUES:
+global:
+  configMapUcr: ums-stack-data-swp-ucr
+  configMapUcrDefaults: ums-stack-data-ums-ucr
+  configMapUcrForced: null
+image:
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: external-registry
+  registry: external-registry.souvap-univention.de/sovereign-workplace
+  repository: bmi/opendesk/components/supplier/univention/images-mirror/portal-server
+  tag: 0.9.4@sha256:47c825f83b61799b287b11cf5c548e05000c21e7d071d1f2095fbba4c952d84c
+ingress:
+  enabled: false
+  host: portal.uv-jconde.gaia.open-desk.cloud
+  ingressClassName: nginx
+  tls:
+    enabled: false
+    secretName: ""
+istio:
+  enabled: false
+portalServer:
+  adminGroup: cn=Domain Admins,cn=groups,dc=swp-ldap,dc=internal
+  authMode: saml
+  centralNavigation:
+    authenticatorSecret: 91ce77b32245c7e971edec25deb368185e8b8af8
+    enabled: true
+  editable: "false"
+  logLevel: INFO
+  objectStorageAccessKeyId: ums_user
+  objectStorageBucket: ums
+  objectStorageEndpoint: http://minio:9000
+  objectStorageSecretAccessKey: d9a19c9494d0a8271ccd47d89e0cc6dc61df05fa
+  ucsInternalPath: portal-data
+  umcGetUrl: http://ums-umc-server/get
+  umcSessionUrl: http://ums-umc-server/get/session-info
+resources:
+  limits:
+    cpu: 99
+    memory: 1Gi
+  requests:
+    cpu: 0.1
+    memory: 256Mi
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    add:
+    - CHOWN
+    - DAC_OVERRIDE
+    - FOWNER
+    - FSETID
+    - KILL
+    - SETGID
+    - SETUID
+    - SETPCAP
+    - NET_BIND_SERVICE
+    - NET_RAW
+    - SYS_CHROOT
+    drop:
+    - ALL
+  privileged: false
+  seccompProfile:
+    type: RuntimeDefault

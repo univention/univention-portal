@@ -1,0 +1,103 @@
+USER-SUPPLIED VALUES:
+extraIngresses:
+  custom-favicon:
+    annotations:
+      nginx.org/mergeable-ingress-type: minion
+    enabled: false
+    paths:
+    - path: /favicon.ico
+      pathType: Exact
+    tls: {}
+  master:
+    enabled: false
+    tls:
+      enabled: true
+      secretName: opendesk-certificates-tls
+  redirects:
+    enabled: false
+    tls:
+      enabled: false
+extraVolumeMounts:
+- mountPath: /var/www/html/favicon.ico
+  name: opendesk-branding
+  subPath: favicon.ico
+- mountPath: /var/www/html/css/custom.css
+  name: opendesk-branding
+  subPath: custom.css
+- mountPath: /var/www/html/icons/logo.svg
+  name: opendesk-branding
+  subPath: logo.svg
+- mountPath: /var/www/html/icons/logo_small_border.svg
+  name: opendesk-branding
+  subPath: logo_small_border.svg
+- mountPath: /var/www/html/custom/portal_background_image.png
+  name: opendesk-branding
+  subPath: portal_background_image.png
+- mountPath: /var/www/html/custom/portal_background_image.svg
+  name: opendesk-branding
+  subPath: portal_background_image.svg
+extraVolumes:
+- configMap:
+    name: ums-stack-data-swp-branding
+  name: opendesk-branding
+global:
+  configMapUcr: ums-stack-data-swp-ucr
+  configMapUcrDefaults: ums-stack-data-ums-ucr
+  configMapUcrForced: null
+image:
+  custom-branding:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        rewrite ^/univention/portal(/.*)$ $1 break;
+      nginx.org/location-snippets: |
+        rewrite ^/univention/portal(/.*)$ $1 break;
+      nginx.org/mergeable-ingress-type: minion
+    enabled: false
+    paths:
+    - path: /univention/portal/icons/
+      pathType: Prefix
+    - path: /univention/portal/custom/
+      pathType: Prefix
+    tls: {}
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: external-registry
+  registry: external-registry.souvap-univention.de/sovereign-workplace
+  repository: bmi/opendesk/components/supplier/univention/images-mirror/portal-frontend
+  tag: 0.9.4@sha256:97887159fc4a7febdf663761a65b7fac2eb7b99b6dd042c7d63ce6b254ea6fb9
+ingress:
+  enabled: false
+  host: portal.uv-jconde.gaia.open-desk.cloud
+  ingressClassName: nginx
+  tls:
+    enabled: false
+    secretName: ""
+istio:
+  enabled: false
+resources:
+  limits:
+    cpu: 99
+    memory: 1Gi
+  requests:
+    cpu: 0.1
+    memory: 256Mi
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    add:
+    - CHOWN
+    - DAC_OVERRIDE
+    - FOWNER
+    - FSETID
+    - KILL
+    - SETGID
+    - SETUID
+    - SETPCAP
+    - NET_BIND_SERVICE
+    - NET_RAW
+    - SYS_CHROOT
+    drop:
+    - ALL
+  privileged: false
+  seccompProfile:
+    type: RuntimeDefault

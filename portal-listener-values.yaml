@@ -1,0 +1,86 @@
+USER-SUPPLIED VALUES:
+global:
+  configMapUcr: ums-stack-data-swp-ucr
+  configMapUcrDefaults: ums-stack-data-ums-ucr
+  configMapUcrForced: null
+image:
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: external-registry
+  registry: external-registry.souvap-univention.de/sovereign-workplace
+  repository: bmi/opendesk/components/supplier/univention/images-mirror/portal-listener
+  tag: 0.9.4@sha256:1e03db8153cbff0825c4370526d5d44a6b9b92c643b0e605d1bfc762ebac3a31
+  waitForDependency:
+    imagePullPolicy: IfNotPresent
+    registry: external-registry.souvap-univention.de/sovereign-workplace
+    repository: bmi/opendesk/components/supplier/univention/images-mirror/wait-for-dependency
+    tag: 0.9.4@sha256:63451fe519d557e52d5f99e21231594daebb2990eb734931172ad61543c443cb
+ingress:
+  enabled: false
+  host: portal.uv-jconde.gaia.open-desk.cloud
+  ingressClassName: nginx
+  tls:
+    enabled: false
+    secretName: ""
+istio:
+  enabled: false
+persistence:
+  size: 1Gi
+  storageClassName: csi-rbd-sc
+portalListener:
+  adminGroup: cn=Domain Admins,cn=groups,dc=swp-ldap,dc=internal
+  assetsRootPath: portal-assets
+  debugLevel: "1"
+  ldapBaseDn: dc=swp-ldap,dc=internal
+  ldapHost: ums-ldap-server
+  ldapHostDn: cn=admin,dc=swp-ldap,dc=internal
+  ldapSecret: 69cfde2e4998cc4fb37e00805d249ce4f3ec033e
+  machineSecret: 69cfde2e4998cc4fb37e00805d249ce4f3ec033e
+  notifierServer: ums-ldap-notifier
+  objectStorageAccessKeyId: ums_user
+  objectStorageBucket: ums
+  objectStorageEndpoint: http://minio:9000
+  objectStorageSecretAccessKey: d9a19c9494d0a8271ccd47d89e0cc6dc61df05fa
+  portalDefaultDn: cn=domain,cn=portal,cn=portals,cn=univention,dc=swp-ldap,dc=internal
+  tlsMode: "off"
+  ucsInternalPath: portal-data
+  udmApiUrl: http://ums-udm-rest-api/udm/
+  udmApiUsername: cn=admin
+  umcGetUrl: http://ums-umc-server/get
+  umcSessionUrl: http://ums-umc-server/get/session-info
+resources:
+  limits:
+    cpu: 99
+    memory: 1Gi
+  requests:
+    cpu: 0.1
+    memory: 256Mi
+resourcesDependencyWaiter:
+  limits:
+    cpu: 99
+    memory: 1Gi
+  requests:
+    cpu: 0.1
+    memory: 256Mi
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    add:
+    - CHOWN
+    - DAC_OVERRIDE
+    - FOWNER
+    - FSETID
+    - KILL
+    - SETGID
+    - SETUID
+    - SETPCAP
+    - NET_BIND_SERVICE
+    - NET_RAW
+    - SYS_CHROOT
+    drop:
+    - ALL
+  privileged: false
+  seccompProfile:
+    type: RuntimeDefault
+store-dav:
+  bundled: false
