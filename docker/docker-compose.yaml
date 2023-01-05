@@ -48,6 +48,7 @@ services:
     container_name: notifications-api
     environment:
       DATABASE_URL: sqlite:////var/local/notifications-api/db.sqlite
+      APPLY_DATABASE_MIGRATIONS: true
     volumes:
       - type: volume
         source: var-local-notifications-api
