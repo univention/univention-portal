@@ -17,10 +17,11 @@ services:
     ports:
       - "8095:80"
     volumes:
-      # TODO: On linux machines we see issues with using the name
-      # "host.docker.internal". A workaround is provided in
-      # "stub_config_linux.json". You can use this by adding an override file
-      # as "docker-compose.override.yaml".
+      # On non-Linux machines we see issues with using the IP address
+      # "172.17.0.1" to reach the host system. Instead the name
+      # "host.docker.internal" has to be used. A workaround is provided in
+      # "stub_config_non_linux.json". You can use this by adding an override
+      # file as "docker-compose.override.yaml" into this directory.
       #
       # See https://docs.docker.com/compose/reference/#specifying-multiple-compose-files
       - type: bind
