@@ -77,18 +77,16 @@ COPY ./univention-portal-server /usr/sbin/univention-portal-server
 COPY ./univention-portal .
 COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 
-# TODO: We are currently baking stub files directly into the image. The content
-# of the following four files will have to be provided by the environment
-# eventually.
-COPY ./docker/portal-server/stub_config.json /usr/lib/univention-portal/config/config.json
-COPY ./docker/portal-server/stub_groups.json /var/cache/univention-portal/groups.json
-COPY ./docker/portal-server/stub_portal.json /var/cache/univention-portal/portal.json
-COPY ./docker/portal-server/machine.secret /etc/machine.secret
+# Considered to be part of the application.
+#
+# Users MAY provide a different file from the outside if the portal server
+# components shall be configured in a different way. This is not an intended
+# usage of the container though.
+COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/portals.json
 
 RUN mkdir -p /var/log/univention/ \
   && touch /var/log/univention/portal.log \
-  && mkdir -p /usr/share/univention-portal \
-  && python3 univention-portal add-default
+  && mkdir -p /usr/share/univention-portal
 
 EXPOSE 80
 
