@@ -65,10 +65,22 @@ An adjusted docker compose file has been created to make it easier to build the
 current state into container images and to run those images. This file can be found at
 `docker/docker-compose.yaml`.
 
+
 Preparation:
 
-- Ensure that you have a local copy of the files `/docker/.env\..*`, otherwise
+- Ensure that you have a local copy of the file `/docker/.env.example`, otherwise
   `docker compose` will refuse to run your containers.
+
+  ```
+  cp docker/.env.example docker/.env
+  ```
+
+- You have to set at least the correct value for `UCS_BASE_URL`, so that your
+  UCS machine will be reached.
+
+- The other values should work out of the box and only need modification in
+  adjusted setups or non-Linux systems.
+
 
 Example:
 
