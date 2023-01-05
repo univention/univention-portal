@@ -106,7 +106,7 @@ which creates a new notification:
 
 ```
 curl -X 'POST' \
-  'http://localhost:8096/v1/notifications' \
+  'http://localhost:8096/v1/notifications/' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
