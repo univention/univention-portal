@@ -49,7 +49,7 @@ def test_mark_notification_read(empty_db, client):
     assert readDateTime > now
 
 
-def test_confirm_notification(empty_db, client):
+def test_mark_notification_confirmed(empty_db, client):
     response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
     id = response.json()[0]['id']

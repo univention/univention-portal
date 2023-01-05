@@ -50,7 +50,7 @@ def mark_notification_read(
 
 
 @router.post("/notifications/{id}/confirm")
-def mark_notification_read(
+def mark_notification_confirmed(
     id: str,
     service: NotificationService = Depends(NotificationService),
     db: Session = Depends(get_session)
