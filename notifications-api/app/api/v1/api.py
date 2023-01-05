@@ -63,6 +63,13 @@ def mark_notification_confirmed(
 
 @router.post("/notifications/invalidate", tags=["sender"])
 def bulk_invalidate_notifications():
+    """
+    NOT YET IMPLEMENTED
+
+    The bulk notification endpoint shall allow a sender to invalidate a list of
+    notifications. See the endpoint `notifications/{id}/invalidate` regagrding
+    further details.
+    """
     # TODO: Define input model, so that the schema is documented
     # correctly.
     raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
@@ -70,8 +77,15 @@ def bulk_invalidate_notifications():
 
 @router.post("/notifications/{id}/invalidate", tags=["sender"])
 def invalidate_notification(id: str) -> None:
-    raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
+    """
+    NOT YET IMPLEMENTED
 
+    The invalidation endpoint allows to invalidate a single notification.
+
+    The sending application is expected to use this endpoint if a notification
+    is not relevant anymore from the perspective of a sender.
+    """
+    raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
 
 
 STREAM_DELAY = 1  # seconds
