@@ -42,6 +42,18 @@ services:
       # - type: bind
       #   source: ./portal-server/machine.secret
       #   target: /etc/machine.secret
+  notifications-api:
+    build:
+      context: ../notifications-api
+    container_name: notifications-api
+    environment:
+      DATABASE_URL: sqlite:////var/local/notifications-api/db.sqlite
+    volumes:
+      - type: volume
+        source: var-local-notifications-api
+        target: /var/local/notifications-api
+    ports:
+      - 8096:80
   reverse-proxy:
     build:
       context: ./reverse-proxy
@@ -92,3 +104,4 @@ services:
 
 volumes:
   pre-commit-cache:
+  var-local-notifications-api:
