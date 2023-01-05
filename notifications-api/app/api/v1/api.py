@@ -27,20 +27,21 @@ def create_notification(
     return service.create_notification(data, db)
 
 
-@router.get("/notifications/latest", tags=["client"])
-def get_latest_notifications_for_user(
-    title: str = Query(default=1),
+@router.get("/notifications/", tags=["client"])
+def get_notifications(
     limit: str = Query(default=10),
     type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
     db: Session = Depends(get_session)
 ) -> List[Notification]:
-    query_items = {
-        'title': title,
+    """
+    Read the notifications of the current user.
+    """
+    query = {
         'limit': limit,
         'type': type
     }
-    return service.get_latest_notifications(query_items, db)
+    return service.get_latest_notifications(query, db)
 
 
 @router.post("/notifications/{id}/read", tags=["client"])

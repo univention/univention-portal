@@ -32,15 +32,15 @@ def test_create_notification(empty_db, client):
     assert response_json['targetUid'] == targetUid
 
 
-def test_get_latest_notifications(filled_db, client):
-    response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
+def test_get_notifications(filled_db, client):
+    response = client.get('/v1/notifications/')
     assert response.status_code == 200
     assert len(response.json()) == 1
 
 
 def test_mark_notification_read(empty_db, client):
     response = client.post('/v1/notifications/', json=request_data)
-    response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
+    response = client.get('/v1/notifications/')
     id = response.json()[0]['id']
     now = datetime.now()
     response = client.post(f'/v1/notifications/{id}/read')
@@ -51,7 +51,7 @@ def test_mark_notification_read(empty_db, client):
 
 def test_mark_notification_confirmed(empty_db, client):
     response = client.post('/v1/notifications/', json=request_data)
-    response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
+    response = client.get('/v1/notifications/')
     id = response.json()[0]['id']
     now = datetime.now()
     response = client.post(f'/v1/notifications/{id}/confirm')
