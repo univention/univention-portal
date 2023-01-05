@@ -58,6 +58,15 @@ def test_mark_notification_confirmed(empty_db, client):
     assert datetime.fromisoformat(response.json()['confirmationTime']) > now
 
 
+@pytest.mark.xfail(reason="Implementation is pending")
+def test_invalidate_one_notification_by_sender(empty_db, client):
+    response = client.post('/v1/notifications/', json=request_data)
+    id = response.json()['id']
+    response = client.post(f'/v1/notifications/{id}/invalidate')
+    assert response.status_code == "200"
+
+
+
 @pytest.mark.asyncio
 async def test_stream_notifications(filled_db, mocker):
     from app.api.v1.api import stream_notifications
