@@ -3,7 +3,7 @@ from starlette.datastructures import CommaSeparatedStrings
 
 
 class Settings(BaseSettings):
-    project_name: str = "Notifications"
+    project_name: str = "Notifications API"
     log_level: str = ""
     debug: bool = True
     dev_mode: bool = False
