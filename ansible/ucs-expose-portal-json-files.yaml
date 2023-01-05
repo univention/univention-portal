@@ -1,0 +1,80 @@
+---
+- name: Patch apache2 config to serve portal.json and groups.json
+  hosts: ucs_dev_machines
+  gather_facts: no
+  vars:
+    internal_ip_address: INTERNAL_IP_ADDRESS
+    cache_dir: /var/cache/univention-portal
+    conf_dir: /etc/apache2/ucs-sites.conf.d
+    conf_filename: univention-internal.conf
+    script_path: /usr/sbin/univention-portal
+
+  tasks:
+    - name: "Update permissions on {{ cache_dir }}"
+      ansible.builtin.file:
+        path: "{{ cache_dir }}"
+        mode: '0755'
+
+    - name: Patch univention-portal script
+      ansible.builtin.patch:
+        src: "./templates/ucs-expose-portal-json-files/univention-portal.patch"
+        dest: "{{ script_path }}"
+        backup: yes
+
+    - name: Run modified univention-portal script to update permissions
+      ansible.builtin.command: "{{ script_path }} update --reason force"
+      register: run_update
+
+    - name: Run modified univention-portal script to update permissions
+      ansible.builtin.debug:
+        var: run_update.stdout_lines
+
+    - name: Add conf file to serve portal.json and groups.json to UCS host and restart apache2
+      ansible.builtin.template:
+        src: "./templates/ucs-expose-portal-json-files/{{ conf_filename }}.j2"
+        dest: "{{ conf_dir }}/{{ conf_filename }}"
+      notify: apache2-restart
+
+    - name: Remove previously added conf file to serve portal.json and groups.json
+      ansible.builtin.file:
+        path: "{{ conf_dir }}/{{ conf_filename }}"
+        state: absent
+      notify: apache2-restart
+      tags: [ never, restore, ]
+
+    - name: Locate potential backup univention-portal script
+      ansible.builtin.find:
+        paths: /usr/sbin
+        patterns: 'univention-portal.~*~'
+        recurse: false
+      register: backup
+      tags: [ never, restore, ]
+
+    - name: Restore original univention-portal script
+      ansible.builtin.command: "mv {{ backup.files[0].path }} {{ script_path }}"
+      args:
+        removes: "{{ backup.files[0].path }}"
+      when: backup.files
+      tags: [ never, restore, ]
+
+    - name: Restore original file permissions
+      ansible.builtin.file:
+        path: "{{ cache_dir }}/{{ item }}"
+        mode: '0600'
+      loop:
+        - portal.json
+        - groups.json
+      tags: [ never, restore, ]
+
+    - name: "Restore original permissions on {{ cache_dir }}"
+      ansible.builtin.file:
+        path: "{{ cache_dir }}"
+        mode: '0700'
+      tags: [ never, restore, ]
+
+  handlers:
+    - name: Restart apache
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+      listen: apache2-restart

@@ -1,0 +1,15 @@
+---
+- name: Make UCS machine's UMC reachable from the outside
+  hosts: ucs_dev_machines
+
+  tasks:
+
+    - name: Fake client IP for UMC
+      ansible.builtin.template:
+        src: ./templates/exp-univention-umc-hack.conf.j2
+        dest: /etc/apache2/sites-enabled/010-exp-univention-umc-hack.conf
+
+    - name: Reload Apache configuration
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded

@@ -1,0 +1,9 @@
+**/__pycache__
+*.db
+.env
+.env.example
+.git*
+.idea
+.pytest_cache
+Dockerfile
+docker-compose.yml

@@ -1,3 +1,49 @@
+# Warning
+
+This folder is a merge from our progress on `default` and contains also old
+ansible scripts from spikes. See below.
+
+
+# Ansible
+
+This folder contains Ansible playbooks to automate various tasks related to the Univention Portal in the *Sovereign Workplace* project.
+
+## Inventory
+
+In order to run the playbooks the developer needs to define an Ansible inventory.
+This is usually a file named `hosts.yml`.
+
+Where this file is located is up to the individual developer.
+This allows developers to reuse or define their individual Ansible setup.
+
+You can always define a (project-specific) `hosts.yml` inside this folder.
+This location is already excluded from version control such that each developer can have its own version of this file.
+
+An example is provided in the file [`hosts.yaml.example`](./hosts.yaml.example).
+
+Wherever the inventory is defined, it needs to define a group labeled `ucs_dev_machines`.
+
+Note: make sure that the `ansible_user` is set to `root` for your hosts.
+
+If your inventory (for this project) is defined at `./ansible/hosts.yml` you need to specify this inventory when running any playbook.
+
+Example:
+
+```shell
+ansible-playbook ./ansible/ucs-expose-portal-json-files.yaml -i ./ansible/hosts.yml
+```
+
+## Playbooks
+
+- [`ucs-expose-portal-json-files.yaml`](./ucs-expose-portal-json-files.yaml):
+  Patches the UCS webserver to serve `portal.json` and `groups.json` from the UCS cache folder.
+  You can revert the changes by running the playbook with the additional option `-t restore` (this selects only task with the tag `restore`).
+  This playbook already defines a variable, `internal_ip_address` that can be used to IP-restrict access to these critical resources once the Apache configuration is adapted to support this feature (see `templates/ucs-expose-portal-json-files/univention-internal.conf.j2`)
+- [`ucs-umc-open-from-external.yaml`](./ucs-umc-open-from-external.yaml):
+  Exposes the UMC API publicly on a dev machine.
+
+
+
 # Ansible scripts around Epic 409
 
 This folder does contain Ansible scripts which have been created as part of the

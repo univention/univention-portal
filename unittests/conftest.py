@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+from imp import reload
 from os import path
 
 import pytest
@@ -67,3 +68,28 @@ def get_file_path(request):
 		return path.join(unittest_path, files_directory, file_name)
 
 	return _
+
+
+@pytest.fixture
+def mock_portal_config(mocker):
+	"""
+	Returns a callable which can be used to inject configuration values.
+	"""
+	from univention.portal import config
+
+	reload(config)
+	mocker.patch.object(config.load, "never_loaded", False)
+
+	def _mock_portal_config(values):
+		mocker.patch.object(config, "_DB", values)
+
+	return _mock_portal_config
+
+
+@pytest.fixture
+def mocked_portal_config(get_file_path):
+	from univention.portal import config
+
+	reload(config)
+	config._CONF = get_file_path("config*.json")
+	return config

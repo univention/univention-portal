@@ -1,0 +1,46 @@
+{
+    "default": {
+        "class": "Portal",
+        "kwargs": {
+            "authenticator": {
+                "class": "UMCAuthenticator",
+                "kwargs": {
+                    "auth_mode": {
+                        "key": "auth_mode",
+                        "type": "config"
+                    },
+                    "group_cache": {
+                        "class": "GroupFileCacheHTTP",
+                        "kwargs": {
+                            "ucs_internal_url": {
+                                "key": "ucs_internal_url",
+                                "type": "config"
+                            }
+                        },
+                        "type": "class"
+                    },
+                    "umc_session_url": {
+                        "key": "umc_session_url",
+                        "type": "config"
+                    }
+                },
+                "type": "class"
+            },
+            "portal_cache": {
+                "class": "PortalFileCacheHTTP",
+                "kwargs": {
+                    "ucs_internal_url": {
+                        "key": "ucs_internal_url",
+                        "type": "config"
+                    }
+                },
+                "type": "class"
+            },
+            "scorer": {
+                "class": "Scorer",
+                "type": "class"
+            }
+        },
+        "type": "class"
+    }
+}

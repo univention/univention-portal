@@ -1,8 +1,24 @@
 ARG DOCKER_PROXY
-# Constraint: Keep the python version identical to the one used in the UCS 5
-# system. With the App Center integration this constraint can probably be
-# removed.
-FROM ${DOCKER_PROXY}debian:buster-slim AS build-base
+FROM ${DOCKER_PROXY}debian:buster-slim AS ucs-sources-base
+
+ARG APT_KEY_URL=https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# hadolint ignore=DL3008
+RUN apt-get update \
+    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+      ca-certificates \
+      curl \
+      gpg \
+      gpg-agent \
+    && rm -fr /var/lib/apt/lists/*  /var/cache/apt/archives/* \
+    && curl -fsSL ${APT_KEY_URL} | apt-key add -
+
+COPY ./docker/portal-server/sources.list /etc/apt/sources.list.d/15_ucs-online-version.list
+
+
+FROM ucs-sources-base as build-base
 
 RUN apt-get -qq update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
@@ -13,6 +29,7 @@ RUN apt-get -qq update \
     python3-setuptools=40.* \
     python3-dev=3.7.* \
     libldap2-dev=2.* \
+    python3-univention-directory-manager-rest-client=10.* \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /staging/
@@ -43,7 +60,7 @@ RUN pip3 install --no-cache-dir -r requirements-test.txt \
 CMD ["pytest", "unittests"]
 
 
-FROM ${DOCKER_PROXY}debian:buster-slim AS final
+FROM ucs-sources-base AS final
 
 RUN apt-get update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
@@ -51,6 +68,7 @@ RUN apt-get update \
     # libldap2-dev is required to make python-ldap work.
     # Currently this is used in the portal server to parse the DNs via "str2dn".
     libldap2-dev=2.* \
+    python3-univention-directory-manager-rest-client=10.* \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /app/
@@ -60,11 +78,12 @@ COPY ./univention-portal .
 COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 
 # TODO: We are currently baking stub files directly into the image. The content
-# of the following three files will have to be provided by the environment
+# of the following four files will have to be provided by the environment
 # eventually.
 COPY ./docker/portal-server/stub_config.json /usr/lib/univention-portal/config/config.json
 COPY ./docker/portal-server/stub_groups.json /var/cache/univention-portal/groups.json
 COPY ./docker/portal-server/stub_portal.json /var/cache/univention-portal/portal.json
+COPY ./docker/portal-server/machine.secret /etc/machine.secret
 
 RUN mkdir -p /var/log/univention/ \
   && touch /var/log/univention/portal.log \

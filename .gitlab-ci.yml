@@ -1,44 +1,176 @@
+# This workflow rule prevents duplicate pipelines when pushing to branches that already have a merge request open
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+
 include:
   - project: univention/dist/docker-services
     file: kaniko.yml
 
 
-# Building artifacts
+build-portal-frontend-test-runner:
+  stage: build
+  extends: .kaniko
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
+    # We cache the Docker layers in the registry to reduce build time of future runs of this job
+    KANIKO_ARGS: "--target=base --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache"
+  # Runs in both branch pipelines and merge request pipelines
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+
+build-portal-frontend-test-runner-ui:
+  stage: build
+  extends: .kaniko
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
+    KANIKO_ARGS: "--skip-unused-stages=true --target=test --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache"
+  # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
 
 build-portal-frontend:
+  stage: build
   extends: .kaniko
   variables:
-    DOCKERFILE_PATH: "docker/frontend/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
+    KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache"
   rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
-build-portal-server:
-  extends: .kaniko
-  variables:
-    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
 
 build-portal-server-test-runner:
+  stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
     KANIKO_ARGS: "--target=test"
   rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
-# Running tests
+build-portal-server:
+  stage: build
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+
+build-notification-api-test-runner:
+  stage: build
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api-test-runner"
+    KANIKO_ARGS: "--target=test"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+
+build-notification-api:
+  stage: build
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+
+test-portal-frontend-unit:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - yarn --cwd=/app test:unit
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+
+test-portal-frontend-ui:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner-ui
+  image: "$IMAGE_TAG"
+  artifacts:
+    when: always
+    paths:
+      - frontend/tests/e2e/videos/**/*.mp4
+      - frontend/tests/e2e/screenshots/**/*.png
+    expire_in: 1 day
+  script:
+    - yarn --cwd=/app test:e2e:headless --browser chrome
+  after_script:
+    # We generate the artifact in the Docker WORKDIR (/app), while Gitlab expects the artifacts in the runner's working
+    # directory. https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
+    # So we copy the artifacts from our build directory to where Gitlab expects.
+    # TODO: cp will fail if the folder does not exist. Is there a better way?
+    - cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+    - cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
 
 test-portal-server:
+  stage: test
   needs:
     - job: build-portal-server-test-runner
   image: "$IMAGE_TAG"
   variables:
-    PYTHONPATH: "./python"
+    PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
   script:
-    - pytest unittests
+    - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+
+test-notification-api:
+  stage: test
+  needs:
+    - job: build-notification-api-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - cd notifications-api
+    - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: notifications-api/coverage.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
 
 
 # Linting related checks and builds
@@ -49,15 +181,19 @@ test-portal-server:
 # Compare: https://git.knut.univention.de/univention/dist/docker-services
 
 build-linter:
+  stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
     KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/pre-commit"
   rules:
-    - if: '$CI_PIPELINE_SOURCE != "merge_request_event"'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
 
 pre-commit-linting:
+  stage: test
   needs:
     - job: build-linter
   image: "$IMAGE_TAG"
@@ -70,13 +206,16 @@ pre-commit-linting:
     - "${PRE_COMMIT_HOME}"
   script:
     # Compose lint would fail without the referenced env files
-    - for i in docker/.env.*.example; do cp "${i}" "${i/.example}"; done
+    - cp docker/.env.example docker/.env
     - pre-commit run --all-files
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
 
 commit-message-linting:
+  stage: test
   image: docker-registry.knut.univention.de/knut/pre-commit:latest
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   variables:
     PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
     PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
@@ -97,3 +236,17 @@ commit-message-linting:
       done
       rm "$tmp_file"
       exit "$any_failure"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+
+lint-portal-frontend:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - yarn --cwd=/app lint
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH

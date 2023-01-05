@@ -33,15 +33,18 @@
 # <https://www.gnu.org/licenses/>.
 #
 
-import importlib
 import json
 import os.path
 import shutil
 import tempfile
+
+from binascii import a2b_base64
 from imghdr import what
-from io import BytesIO
+from pathlib import Path
 from urllib.parse import quote
 
+import univention.admin.rest.client as udm_client
+import univention.portal.config as config
 from univention.portal import Plugin
 from univention.portal.log import get_logger
 
@@ -152,154 +155,165 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 		return reason_args[1] in ["portal", "category", "entry", "folder"]
 
 	def _refresh(self):
-		udm_lib = importlib.import_module("univention.udm")
+		udm = udm_client.UDM.http(
+			config.fetch('udm_api_url'),
+			config.fetch('udm_api_username'),
+			Path(config.fetch("udm_api_password_file")).read_text().strip()
+		)
 		try:
-			udm = udm_lib.UDM.machine().version(2)
-			portal = udm.get("portals/portal").get(self._portal_dn)
-		except udm_lib.ConnectionError:
+			portal_module = udm.get("portals/portal")
+			if not portal_module:
+				get_logger("cache").warning("UDM not up to date? Portal module not found.")
+				return None
+
+			portal_data = portal_module.get(self._portal_dn)
+
+		except udm_client.ConnectionError:
 			get_logger("cache").warning("Could not establish UDM connection. Is the LDAP server accessible?")
 			return None
-		except udm_lib.UnknownModuleType:
-			get_logger("cache").warning("UDM not up to date? Portal module not found.")
-			return None
-		except udm_lib.NoObject:
+
+		except udm_client.NotFound:
 			get_logger("cache").warning("Portal %s not found", self._portal_dn)
 			return None
-		content = {}
-		content["portal"] = self._extract_portal(portal)
-		content["categories"] = categories = self._extract_categories(udm, portal)
-		content["folders"] = folders = self._extract_folders(udm, portal, list(categories.values()))
-		content["entries"] = self._extract_entries(udm, portal, list(categories.values()), list(folders.values()))
-		content["user_links"] = self._extract_user_links(portal)
-		content["menu_links"] = self._extract_menu_links(portal)
+
+		portal = self._extract_portal(portal_data)
+		categories = self._extract_categories(udm, portal_data.properties["categories"])
+		portal_categories = [category for dn, category in categories.items() if category["in_portal"]]
+		user_links = portal_data.properties["userLinks"]
+		menu_links = portal_data.properties["menuLinks"]
+		folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
+		portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
+		entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
+
 		with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
-			json.dump(content, fd, sort_keys=True, indent=4)
-		return fd
-
-	def _extract_portal(self, portal):
-		ret = {}
-		ret["dn"] = portal.dn
-		ret["showUmc"] = portal.props.showUmc
-		if portal.props.logo:
-			ret["logo"] = self._write_image(portal.props.name, portal.props.logo.raw, "logos")
-		else:
-			ret["logo"] = None
-		if portal.props.background:
-			ret["background"] = self._write_image(
-				portal.props.name, portal.props.background.raw, "backgrounds"
+			json.dump(
+				{
+					"portal": portal,
+					"categories": categories,
+					"folders": folders,
+					"entries": entries,
+					"user_links": user_links,
+					"menu_links": menu_links,
+				},
+				fd,
+				sort_keys=True,
+				indent=4,
 			)
-		else:
-			ret["background"] = None
-		ret["name"] = portal.props.displayName
-		ret["defaultLinkTarget"] = portal.props.defaultLinkTarget
-		ret["ensureLogin"] = portal.props.ensureLogin
-		ret["categories"] = portal.props.categories
-		return ret
 
-	def _extract_user_links(self, portal):
-		return portal.props.userLinks
+			return fd
 
-	def _extract_menu_links(self, portal):
-		return portal.props.menuLinks
+	@classmethod
+	def _extract_portal(cls, portal_data):
+		portal = {
+			"dn": portal_data.dn,
+			"showUmc": portal_data.properties["showUmc"],
+			"logo": portal_data.properties["logo"],
+			"background": portal_data.properties["background"],
+			"name": portal_data.properties["displayName"],
+			"defaultLinkTarget": portal_data.properties["defaultLinkTarget"],
+			"ensureLogin": portal_data.properties["ensureLogin"],
+			"categories": portal_data.properties["categories"],
+		}
 
-	def _extract_categories(self, udm, portal):
-		ret = {}
-		for category in udm.get("portals/category").search():
-			in_portal = category.dn in portal.props.categories
-			ret[category.dn] = {
+		portal_name = portal_data.properties["name"]
+
+		if portal["logo"]:
+			portal["logo"] = cls._write_image(portal["logo"], portal_name, dirname="logos")
+
+		if portal["background"]:
+			portal["background"] = cls._write_image(portal["background"], portal_name, dirname="backgrounds")
+
+		return portal
+
+	@classmethod
+	def _extract_categories(cls, udm, portal_categories):
+		categories = {}
+
+		for category in udm.get("portals/category").search(opened=True):
+			categories[category.dn] = {
 				"dn": category.dn,
-				"in_portal": in_portal,
-				"display_name": category.props.displayName,
-				"entries": category.props.entries,
+				"in_portal": category.dn in portal_categories,
+				"display_name": category.properties["displayName"],
+				"entries": category.properties["entries"],
 			}
-		return ret
 
-	def _extract_entries(self, udm, portal, categories, folders):
-		ret = {}
+		return categories
 
-		def add(entry, ret, in_portal):
-			if entry.dn not in ret:
-				ret[entry.dn] = {
-					"dn": entry.dn,
-					"in_portal": in_portal,
-					"name": entry.props.displayName,
-					"description": entry.props.description,
-					'keywords': entry.props.keywords,
-					"logo_name": self._save_image(portal, entry),
-					"activated": entry.props.activated,
-					"anonymous": entry.props.anonymous,
-					"allowedGroups": entry.props.allowedGroups,
-					"links": entry.props.link,
-					"linkTarget": entry.props.linkTarget,
-					"target": entry.props.target,
-					"backgroundColor": entry.props.backgroundColor,
-				}
+	@classmethod
+	def _extract_folders(cls, udm, portal_categories, user_links, menu_links):
+		folders = {}
 
-		for obj in udm.get("portals/entry").search():
-			if obj.dn in portal.props.menuLinks:
-				add(obj, ret, True)
-				continue
-			if obj.dn in portal.props.userLinks:
-				add(obj, ret, True)
-				continue
-			if any(obj.dn in category["entries"] for category in categories if category["in_portal"]):
-				add(obj, ret, True)
-				continue
-			if any(obj.dn in folder["entries"] for folder in folders if folder["in_portal"]):
-				add(obj, ret, True)
-				continue
-			add(obj, ret, False)
+		for folder in udm.get("portals/folder").search(opened=True):
+			in_portal = (
+				folder.dn in user_links
+				or folder.dn in menu_links
+				or any(folder.dn in category["entries"] for category in portal_categories)
+			)
 
-		return ret
-
-	def _extract_folders(self, udm, portal, categories):
-		ret = {}
-
-		def add(folder, ret, in_portal):
-			ret[folder.dn] = {
+			folders[folder.dn] = {
 				"dn": folder.dn,
 				"in_portal": in_portal,
-				"name": folder.props.displayName,
-				"entries": folder.props.entries,
+				"name": folder.properties["displayName"],
+				"entries": folder.properties["entries"],
 			}
 
-		for obj in udm.get("portals/folder").search():
-			if obj.dn in portal.props.menuLinks:
-				add(obj, ret, True)
-				continue
-			if obj.dn in portal.props.userLinks:
-				add(obj, ret, True)
-				continue
-			if any(obj.dn in category["entries"] for category in categories if category["in_portal"]):
-				add(obj, ret, True)
-				continue
-			add(obj, ret, False)
+		return folders
 
-		return ret
+	@classmethod
+	def _extract_entries(cls, udm, portal_categories, portal_folders, user_links, menu_links):
+		entries = {}
 
-	def _write_image(self, name, img, dirname):
+		for entry in udm.get("portals/entry").search(opened=True):
+			if entry.dn in entries:
+				continue
+
+			in_portal = (
+				entry.dn in user_links
+				or entry.dn in menu_links
+				or any(entry.dn in category["entries"] for category in portal_categories)
+				or any(entry.dn in folder["entries"] for folder in portal_folders)
+			)
+
+			logo_name = None
+			if entry.properties["icon"]:
+				logo_name = cls._write_image(
+					entry.properties["icon"], entry.properties["name"], dirname="entries"
+				)
+
+			entries[entry.dn] = {
+				"dn": entry.dn,
+				"in_portal": in_portal,
+				"name": entry.properties["displayName"],
+				"description": entry.properties["description"],
+				"keywords": entry.properties["keywords"],
+				"logo_name": logo_name,
+				"activated": entry.properties["activated"],
+				"anonymous": entry.properties["anonymous"],
+				"allowedGroups": entry.properties["allowedGroups"],
+				"links": [{'locale': _[0], 'value': _[1]} for _ in entry.properties["link"]],
+				"linkTarget": entry.properties["linkTarget"],
+				"target": entry.properties["target"],
+				"backgroundColor": entry.properties["backgroundColor"],
+			}
+
+		return entries
+
+	@classmethod
+	def _write_image(cls, image, name, dirname):
+		assets_root = Path(config.fetch("assets_root"))
+
 		try:
 			name = name.replace(
 				"/", "-"
 			)  # name must not contain / and must be a path which can be accessed via the web!
-			string_buffer = BytesIO(img)
-			suffix = what(string_buffer) or "svg"
-			fname = "/usr/share/univention-portal/icons/%s/%s.%s" % (dirname, name, suffix)
-			with open(fname, "wb") as fd:
-				fd.write(img)
-		except (EnvironmentError, TypeError, IOError):
+			binary_image = a2b_base64(image)
+			extension = what(None, binary_image) or "svg"
+			path = assets_root / "icons" / dirname / f"{name}.{extension}"
+			path.write_bytes(binary_image)
+		except (OSError, TypeError):
 			get_logger("img").exception("Error saving image for %s" % name)
 		else:
-			return "./icons/%s/%s.%s" % (
-				quote(dirname),
-				quote(name),
-				quote(suffix),
-			)
-
-	def _save_image(self, portal, entry):
-		img = entry.props.icon
-		if img:
-			return self._write_image(entry.props.name, img.raw, "entries")
+			return f"./icons/{quote(dirname)}/{quote(name)}.{extension}"
 
 
 class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):

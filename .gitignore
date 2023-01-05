@@ -1,8 +1,11 @@
-/docker/.env.portal-server
+ansible/hosts.yml
+ansible.cfg
+docker/.env
 .cache/
 .pybuild/
 build/
 *.buildinfo
+*coverage.xml
 *.egg-info/
 */*/debian/debhelper-build-stamp
 */*/debian/files
@@ -23,3 +26,7 @@ build/
 generated-config-*.yml
 .idea/
 .mypy_cache/
+
+
+# Notification API
+notifications-api/*.db

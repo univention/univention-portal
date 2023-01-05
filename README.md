@@ -37,3 +37,10 @@ value in interim work results anymore.
 ### Contact
 
 <johannes.bornhold.extern@univention.de>
+
+
+
+## Information for developers
+
+Please see [`README.dev.md`](./README.dev.md) for information about how to
+develop with this codebase.

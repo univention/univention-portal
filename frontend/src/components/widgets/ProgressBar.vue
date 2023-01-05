@@ -68,11 +68,6 @@ export default defineComponent({
     current: 0,
     randomId: `progress-bar-${randomId()}`,
   }),
-  mounted() {
-    setTimeout(() => {
-      this.current = this.value;
-    }, 0);
-  },
   computed: {
     /**
      * clamp to min, max and cover isNaN value
@@ -95,6 +90,11 @@ export default defineComponent({
         this.current = this.value;
       }
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.current = this.value;
+    }, 0);
   },
 });
 </script>
