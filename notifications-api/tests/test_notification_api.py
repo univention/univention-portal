@@ -73,7 +73,7 @@ def test_bulk_invalidate_many_notifications_by_sender(empty_db, client):
     response = client.post('/v1/notifications/', json=request_data)
     id2 = response.json()['id']
     ids = [id1, id2]
-    response = client.post(f'/v1/notifications/invalidate', json=ids)
+    response = client.post('/v1/notifications/invalidate', json=ids)
     assert response.status_code == "200"
 
 
