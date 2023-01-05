@@ -24,7 +24,7 @@ request_data = {
 
 
 def test_create_notification(empty_db, client):
-    response = client.post('/v1/notifications', json=request_data)
+    response = client.post('/v1/notifications/', json=request_data)
     assert response.status_code == 201
     response_json = response.json()
     assert response_json['id'] is not None
@@ -39,7 +39,7 @@ def test_get_latest_notifications(filled_db, client):
 
 
 def test_mark_notification_read(empty_db, client):
-    response = client.post('/v1/notifications', json=request_data)
+    response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
     id = response.json()[0]['id']
     now = datetime.now()
@@ -50,7 +50,7 @@ def test_mark_notification_read(empty_db, client):
 
 
 def test_confirm_notification(empty_db, client):
-    response = client.post('/v1/notifications', json=request_data)
+    response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/latest?page=1&limit=10&type=event')
     id = response.json()[0]['id']
     now = datetime.now()
