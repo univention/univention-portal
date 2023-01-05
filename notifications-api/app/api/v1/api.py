@@ -41,7 +41,7 @@ def get_notifications(
         'limit': limit,
         'type': type
     }
-    return service.get_latest_notifications(query, db)
+    return service.get_notifications(query, db)
 
 
 @router.post("/notifications/{id}/read", tags=["client"])
