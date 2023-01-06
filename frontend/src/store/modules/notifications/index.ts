@@ -28,7 +28,8 @@
  */
 import { ActionContext } from 'vuex';
 
-import { ClientApi, Configuration } from '@/apis/notifications';
+import {
+  ClientApi, Configuration, Notification as BackendNotification } from '@/apis/notifications';
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
@@ -42,12 +43,14 @@ export type PortalActionContext<S> = ActionContext<S, RootState>;
 
 export interface Notifications {
   notifications: Array<FullNotification>;
+  backendNotifications: Array<BackendNotification>;
 }
 
 const notifications: PortalModule<Notifications> = {
   namespaced: true,
   state: {
     notifications: [],
+    backendNotifications: [],
   },
 
   mutations: {
@@ -61,6 +64,12 @@ const notifications: PortalModule<Notifications> = {
     HIDE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
       notification.hidingAfter = -1;
       notification.visible = false;
+    },
+
+    SET_BACKEND_NOTIFICATIONS(
+      state: Notifications, backendNotifications: Array<BackendNotification>,
+    ): void {
+      state.backendNotifications = backendNotifications;
     },
   },
   getters: {
@@ -109,6 +118,15 @@ const notifications: PortalModule<Notifications> = {
         return;
       }
       commit('HIDE_NOTIFICATION', notification);
+    },
+
+    connectNotificationsApi({ commit, dispatch }) {
+      dispatch('fetchNotifications');
+    },
+    async fetchNotifications({ commit }) {
+      const response = await notificationsApi.getNotificationsV1NotificationsGet();
+      const latestBackendNotifications = response.data;
+      commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
     },
   },
 };
