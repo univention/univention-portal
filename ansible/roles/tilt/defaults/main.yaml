@@ -1,0 +1,6 @@
+---
+tilt_version: 0.30.13
+ctlptl_version: 0.8.14
+tilt_download_mirror: https://github.com/tilt-dev/tilt/releases/download
+ctlptl_download_mirror: https://github.com/tilt-dev/ctlptl/releases/download
+installation_dir: /usr/local/bin

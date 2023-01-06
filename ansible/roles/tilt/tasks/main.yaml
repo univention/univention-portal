@@ -1,0 +1,30 @@
+---
+- name: Install tilt
+  shell: |
+    curl -fsSLo /tmp/tilt.tar.gz {{ tilt_download_mirror }}/v{{ tilt_version }}/tilt.{{ tilt_version }}.linux.x86_64.tar.gz
+    tar -xzvf /tmp/tilt.tar.gz -C {{ installation_dir }} tilt
+  args:
+    executable: /bin/bash
+    creates: '{{ installation_dir }}/tilt'
+  tags: [ install, tilt, ]
+
+- name: Install ctlptl for integrating local Docker registry into cluster
+  shell: |
+    curl -fsSLo /tmp/ctlptl.tar.gz {{ ctlptl_download_mirror }}/v{{ ctlptl_version }}/ctlptl.{{ ctlptl_version }}.linux.x86_64.tar.gz
+    tar -xzvf /tmp/ctlptl.tar.gz -C {{ installation_dir }} ctlptl
+  args:
+    executable: /bin/bash
+    creates: '{{ installation_dir }}/ctlptl'
+  tags: [ install, ctlptl, ]
+
+- name: Remove ctlptl executable
+  file:
+    path: '{{ installation_dir }}/ctlptl'
+    state: absent
+  tags: [ remove, ctlptl, ]
+
+- name: Remove tilt executable
+  file:
+    path: '{{ installation_dir }}/tilt'
+    state: absent
+  tags: [ remove, tilt, ]

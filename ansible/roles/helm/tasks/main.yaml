@@ -1,0 +1,15 @@
+---
+- name: Install HELM
+  shell: |
+    curl -fsSLo /tmp/helm.tar.gz {{ helm_download_mirror }}/helm-v{{ helm_version }}-linux-amd64.tar.gz
+    tar -xzvf /tmp/helm.tar.gz -C {{ installation_dir }} --strip-components 1 linux-amd64/helm
+  args:
+    executable: /bin/bash
+    creates: '{{ installation_dir }}/helm'
+  tags: [ install, helm, ]
+
+- name: Remove HELM executable
+  file:
+    path: '{{ installation_dir }}/helm'
+    state: absent
+  tags: [ remove, helm, ]
