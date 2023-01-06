@@ -27,6 +27,21 @@
  * <https://www.gnu.org/licenses/>.
  */
 
+type JSONValue =
+    | string
+    | number
+    | boolean
+    | JSONObject
+    | JSONArray
+    | Date
+    | null;
+
+interface JSONObject {
+  [x: string]: JSONValue;
+}
+  
+interface JSONArray extends Array<JSONValue> { }
+
 export interface Notification {
   title: string;
   description?: string;
@@ -41,4 +56,19 @@ export interface WeightedNotification extends Notification {
 export interface FullNotification extends WeightedNotification {
   visible: boolean;
   token: number;
+}
+
+export interface ExternalNotification {
+  // sourceUid: string; FIXME: may be needed for something like app that sent the notification?
+  title: string;
+  details: string;
+  severity: string;
+  sticky: boolean | null;
+  needsConfirmation: boolean | null;  // FIXME: are we storing if it has been confirmed?
+  notificationType: string;
+  [data: string]: JSONValue;  // FIXME: may be source for errors, since Python dictionaries are not JSON objects
+  // receiveTime: datetime;  FIXME: IMHO not needed
+  // readTime: Optional[datetime];  FIXME: needed?
+  expireTime: Date | null;
+
 }
