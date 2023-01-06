@@ -29,12 +29,16 @@
 import { ActionContext } from 'vuex';
 
 import { PortalModule, RootState } from '../../root.models';
-import { FullNotification, Notification, WeightedNotification } from './notifications.models';
+import { FullNotification, Notification, WeightedNotification, ExternalNotification } from './notifications.models';
 
 export type PortalActionContext<S> = ActionContext<S, RootState>;
 
 export interface Notifications {
   notifications: Array<FullNotification>;
+}
+
+export interface ExternalNotifications {
+  externalNotifications: Array<ExternalNotification>;
 }
 
 const notifications: PortalModule<Notifications> = {
@@ -105,5 +109,30 @@ const notifications: PortalModule<Notifications> = {
     },
   },
 };
+
+// const externalNotifications: PortalModule<ExternalNotifications> = {
+//   namespaced: true,
+//   state: {
+//     externalNotifications: [],
+//   },
+//   mutations: {
+//     ADD_NOTIFICATION(state: ExternalNotifications, notification: ExternalNotification): void {
+//       state.externalNotifications.push(notification);
+//     },
+//     REMOVE_NOTIFICATION(state: ExternalNotifications, notification: ExternalNotification): void {
+//       const indexContent = state.externalNotifications.indexOf(notification);
+//       state.externalNotifications.splice(indexContent, 1);
+//     }
+//   },
+//   getters: {
+//     allNotifications: (state) => state.externalNotifications,
+//     visibleNotifications: (state) => state.externalNotifications.filter((externalNotification) => externalNotification.visible),
+//     numNotifications: (state) => state.externalNotifications.length,
+//   },
+//   actions: {
+
+//   },
+
+// }
 
 export default notifications;
