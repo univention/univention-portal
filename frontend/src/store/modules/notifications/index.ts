@@ -35,6 +35,7 @@ export type PortalActionContext<S> = ActionContext<S, RootState>;
 
 export interface Notifications {
   notifications: Array<FullNotification>;
+  backendNotifications: Array<any>;
 }
 
 export interface ExternalNotifications {
@@ -45,6 +46,7 @@ const notifications: PortalModule<Notifications> = {
   namespaced: true,
   state: {
     notifications: [],
+    backendNotifications: [],
   },
 
   mutations: {
@@ -58,6 +60,9 @@ const notifications: PortalModule<Notifications> = {
     HIDE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
       notification.hidingAfter = -1;
       notification.visible = false;
+    },
+    SET_BACKEND_NOTIFICATIONS(state: Notifications, latestNotifications: any): void {
+      state.backendNotifications = latestNotifications;
     },
   },
   getters: {
@@ -106,6 +111,25 @@ const notifications: PortalModule<Notifications> = {
         return;
       }
       commit('HIDE_NOTIFICATION', notification);
+    },
+
+    // BackendNotification related actions
+
+    async fetchBackendNotifications({ commit, getters }) {
+      // TODO: Error handling
+
+      // TODO: Replace with generated notificationsApi and configurable URL
+      const response = await fetch(
+        'http://localhost:8000/univention/portal/notifications-api/v1/notifications/',
+      );
+
+      const responseData = await response.json();
+
+      // TODO: Find out how to verify via a test case that "latestNotifications"
+      // does actually contain the correct data. Before the change "response"
+      // has been put accidentally into the call to "commit" below.
+      const latestNotifications = responseData;
+      commit('SET_BACKEND_NOTIFICATIONS', latestNotifications);
     },
   },
 };

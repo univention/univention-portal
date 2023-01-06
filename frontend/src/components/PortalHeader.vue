@@ -220,6 +220,10 @@ export default defineComponent({
     this.$nextTick(() => {
       window.addEventListener('resize', this.updateOverflow);
     });
+
+    // TODO: Would prefer to have this in the notifications related
+    // code.
+    this.$store.dispatch('notifications/fetchBackendNotifications');
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.updateOverflow);

@@ -128,7 +128,6 @@ export default defineComponent({
     }
   },
   mounted(): void {
-    this.subscribe();
     if (this.isInNotificationBar && this.notifications.length > 1) {
       (this.$refs.removeAllNotificationsButton as HTMLElement).focus();
     } else {
@@ -151,25 +150,6 @@ export default defineComponent({
       } else {
         // @ts-ignore
         this.$refs.region.goUp();
-      }
-    },
-    async subscribe() {
-      const response = await fetch('http://localhost:8000/univention/portal/notifications-api/v1/notifications/');
-      if (response.status === 502) {
-        // Connection timeout error, reconnect
-        await this.subscribe();
-      } else if (response.status !== 200) {
-        // Errors
-        console.log(response.statusText);
-        // Reconnect
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        await this.subscribe();
-      } else {
-        // Get and show the message
-        const message = await response.text();
-        console.log(message);
-        // Call subscribe() again to get the next notification
-        await this.subscribe();
       }
     },
   },
