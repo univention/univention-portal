@@ -78,6 +78,21 @@ docker compose run --build test yarn test:e2e:headless --browser chrome
 
 
 
+## Notifications API client
+
+The API client is generated from the OpenAPI spec of the `notifications-api`
+service. You can re-generate the client in the following way:
+
+```
+# Ensure that "notifications-api" is up and running
+curl http://localhost:8096/openapi.json
+
+# Generate the API client
+yarn generate-apis
+```
+
+
+
 ## Project setup
 
 Regardless if you want to run it locally on your Linux machine or on a UCS
