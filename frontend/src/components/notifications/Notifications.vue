@@ -154,7 +154,7 @@ export default defineComponent({
       }
     },
     async subscribe() {
-      const response = await fetch('http://localhost:8000/notifications/v1/notifications/latest');
+      const response = await fetch('http://localhost:8000/univention/portal/notifications-api/v1/notifications/');
       if (response.status === 502) {
         // Connection timeout error, reconnect
         await this.subscribe();
