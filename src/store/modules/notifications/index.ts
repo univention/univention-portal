@@ -28,8 +28,15 @@
  */
 import { ActionContext } from 'vuex';
 
+import { ClientApi, Configuration } from '@/apis/notifications';
+
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
+
+const notificationsApiUrl = process.env.VUE_APP_NOTIFICATIONS_API_URL || './notifications-api';
+const notificationsApi = new ClientApi(new Configuration({
+  basePath: notificationsApiUrl,
+}));
 
 export type PortalActionContext<S> = ActionContext<S, RootState>;
 
