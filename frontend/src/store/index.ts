@@ -136,6 +136,9 @@ const actions = {
             authMode: portal.auth_mode,
           },
         });
+        if (portal.username) {
+          dispatch('userIsLoggedIn');
+        }
         dispatch('initialLoadDone');
         resolve(portal);
       }
@@ -148,6 +151,9 @@ const actions = {
         reject(error);
       });
   }),
+  userIsLoggedIn: ({ dispatch }) => {
+    dispatch('notifications/connectNotificationsApi');
+  },
 };
 
 export const store = createStore<RootState>({
