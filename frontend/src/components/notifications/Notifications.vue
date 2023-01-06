@@ -152,6 +152,25 @@ export default defineComponent({
         this.$refs.region.goUp();
       }
     },
+    async subscribe() {
+      const response = await fetch('http://localhost:8000/notifications/v1/notifications/latest');
+      if (response.status === 502) {
+        // Connection timeout error, reconnect
+        await this.subscribe();
+      } else if (response.status !== 200) {
+        // Errors
+        console.log(response.statusText);
+        // Reconnect
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await this.subscribe();
+      } else {
+        // Get and show the message
+        const message = await response.text();
+        console.log(message);
+        // Call subscribe() again to get the next notification
+        await this.subscribe();
+      }
+    },
   },
 });
 
