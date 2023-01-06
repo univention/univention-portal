@@ -128,6 +128,7 @@ export default defineComponent({
     }
   },
   mounted(): void {
+    this.subscribe();
     if (this.isInNotificationBar && this.notifications.length > 1) {
       (this.$refs.removeAllNotificationsButton as HTMLElement).focus();
     } else {
