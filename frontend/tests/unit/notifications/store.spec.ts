@@ -1,5 +1,5 @@
-import { defaultHideAfter, mapBackendNotification } from '@/store/modules/notifications';
-import { Notification as BackendNotification } from '@/apis/notifications';
+import { defaultHideAfter, mapBackendNotification, severityMapping } from '@/store/modules/notifications';
+import { Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
 
 const backendNotification: BackendNotification = {
   id: 'cd7e52fb-922c-4255-b727-c8d42c1b1f32',
@@ -27,11 +27,15 @@ test('hidingAfter is set correctly', () => {
   expect(result.hidingAfter).toBe(defaultHideAfter);
 });
 
-test.skip('importance is set correctly', () => {
-  // TODO: Find out the correct mapping and fix this test and the
-  // implementation.
-  const result = mapBackendNotification(backendNotification);
-  expect(result.importance).toBe('unclear');
+test.each(
+  Object.entries(severityMapping),
+)('importance is set correctly from severity(%s -> %s)', (severity: any, expected) => {
+  const notification = {
+    ...backendNotification,
+    severity,
+  };
+  const result = mapBackendNotification(notification);
+  expect(result.importance).toBe(expected);
 });
 
 // TODO: Needs working auto-hiding first
