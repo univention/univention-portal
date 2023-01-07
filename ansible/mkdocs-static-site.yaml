@@ -1,0 +1,41 @@
+---
+- name: Setup MkDocs static site as Docker container
+  hosts: ucs_dev_machines
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: '{{ venv_path }}/bin/python'
+    project_dir: /univention/univention-portal
+    image_name: univention/portal-docs
+    container_name: univention-portal-docs
+  vars_files:
+    - vars/venv.yaml
+
+  tasks:
+    - name: Build docs image
+      docker_image:
+        build:
+          path: '{{ project_dir }}/mkdocs'
+          pull: true
+        name: '{{ image_name }}'
+        source: build
+        force_source: true
+
+    - name: Start docs container
+      docker_container:
+        name: '{{ container_name }}'
+        image: '{{ image_name }}'
+        restart_policy: unless-stopped
+        ports:
+          - "0.0.0.0:8000:8000"
+        volumes:
+          - '{{ project_dir }}/mkdocs:/docs'
+        comparisons:
+          '*': strict
+
+    - name: Get infos on container
+      docker_container_info:
+        name: '{{ container_name }}'
+      register: result
+
+    - debug:
+        var: result.container

@@ -1,0 +1,55 @@
+---
+- name: Setup Jupyter Lab
+  hosts: ucs_dev_machines
+  gather_facts: no
+  vars_files:
+    - vars/venv.yaml
+
+  tasks:
+    - name: Install ipython
+      pip:
+        name:
+          - ipython
+        virtualenv: "{{ venv_path }}"
+        virtualenv_command: "{{ venv_command }}"
+      tags: [ install, ipython, ]
+
+    - name: Install JupyterLab Python packages
+      pip:
+        name:
+          - jupyter
+          - bash_kernel
+          - jupyterlab-vim
+        virtualenv: "{{ venv_path }}"
+        virtualenv_command: "{{ venv_command }}"
+      tags: [ install, jupyter, ]
+
+    - name: Copy ipython kernel config to remote host
+      copy:
+        src: "{{ playbook_dir }}/templates/jupyter/ipython_kernel_config.py"
+        dest: ~/.ipython/profile_default/
+      tags: [ setup, ipython, ]
+
+    - name: Copy ipython config to remote host
+      copy:
+        src: "{{ playbook_dir }}/templates/jupyter/ipython_config.py"
+        dest: ~/.ipython/profile_default/
+      tags: [ setup, ipython, ]
+
+    - name: Copy jupyter server config to remote host
+      copy:
+        src: "{{ playbook_dir }}/templates/jupyter/jupyter_server_config.py"
+        dest: ~/.jupyter/
+      tags: [ setup, jupyter, ]
+
+    - name: Copy jupyterlab customizations to remote host
+      copy:
+        src: "{{ playbook_dir }}/templates/jupyter/overrides.json"
+        dest: "{{ venv_path }}/share/jupyter/lab/settings/"
+      tags: [ setup, jupyter, ]
+
+    - name: Activate bash_kernel
+      command: "{{ venv_path }}/bin/python -m bash_kernel.install --prefix={{ venv_path }}"
+      args:
+        creates: "{{ venv_path }}/share/jupyter/kernels/bash"
+      tags: [ setup, jupyter, ]
