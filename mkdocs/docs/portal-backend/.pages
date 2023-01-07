@@ -1,0 +1,4 @@
+nav:
+  - 'Overview': index.md
+  - 'Configuration': config.md
+  - 'Cache mechanism': cache-mechanism.md

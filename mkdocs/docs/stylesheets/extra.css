@@ -1,0 +1,7 @@
+.md-source__facts {
+    display: none !important;
+}
+
+.md-grid {
+    max-width: 100vw !important;
+}
