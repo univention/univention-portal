@@ -54,6 +54,9 @@ const languageJsonPath = process.env.VUE_APP_LANGUAGE_DATA || '/univention/langu
 const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
+// Build time feature toggles
+const featureUseNotificationsApi = process.env.VUE_APP_FEATURE_USE_NOTIFICATIONS_API === 'true';
+
 export const key: InjectionKey<Store<RootState>> = Symbol('');
 
 const mutations = {
@@ -152,7 +155,12 @@ const actions = {
       });
   }),
   userIsLoggedIn: ({ dispatch }) => {
-    dispatch('notifications/connectNotificationsApi');
+    if (featureUseNotificationsApi) {
+      console.info('Feature use notifications api activated.');
+      dispatch('notifications/connectNotificationsApi');
+    } else {
+      console.info('Feature use notifications api disabled.');
+    }
   },
 };
 
