@@ -1,5 +1,5 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}node:14-buster-slim AS base
+FROM ${DOCKER_PROXY}node:14-buster-slim AS dev-env
 
 # The following dependencies are only needed when on an aarch64 platform,
 # because then the package "deasync" does not include ready made binaries
@@ -17,6 +17,10 @@ RUN if [ "$(uname -m)" != "aarch64" ]; then exit 0; fi && \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /app
+CMD ["/bin/bash"]
+
+
+FROM dev-env as base
 COPY ./package.json .
 COPY ./yarn.lock .
 
@@ -24,6 +28,7 @@ RUN yarn install --frozen-lockfile && yarn cache clean
 
 # Copy should come after yarn install to prevent long rebuilding time
 COPY . .
+
 
 # The test stage gives developers an easy way to run unit and ui tests
 # `docker compose run --build test`
