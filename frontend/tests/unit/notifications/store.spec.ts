@@ -10,6 +10,15 @@ const backendNotification: BackendNotification = {
   notificationType: 'event',
   severity: 'info',
   receiveTime: '2023-01-07T09:47:07.789861',
+
+  // optional attributes
+  sticky: undefined,
+  needsConfirmation: undefined,
+  data: undefined,
+  readTime: undefined,
+  sseSendTime: undefined,
+  confirmationTime: undefined,
+  expireTime: undefined,
 };
 
 test('title is set correctly', () => {
