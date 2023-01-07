@@ -39,6 +39,8 @@ const notificationsApi = new ClientApi(new Configuration({
   basePath: notificationsApiUrl,
 }));
 
+export const defaultHideAfter = 4;
+
 export type PortalActionContext<S> = ActionContext<S, RootState>;
 
 export interface Notifications {
@@ -50,7 +52,7 @@ export function mapBackendNotification(notification: BackendNotification): FullN
   const localNotification: FullNotification = {
     title: notification.title,
     description: notification.details,
-    hidingAfter: 4, // TODO: find out
+    hidingAfter: defaultHideAfter,
     importance: 'default', // TODO: severity
     visible: false, // TODO: find out
     token: Math.random(), // TODO: should id be used? what's this good for?
@@ -108,13 +110,13 @@ const notifications: PortalModule<Notifications> = {
       }
     },
     addErrorNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
-      dispatch('addWeightedNotification', { hidingAfter: 4, ...item, importance: 'error' });
+      dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'error' });
     },
     addSuccessNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
-      dispatch('addWeightedNotification', { hidingAfter: 4, ...item, importance: 'success' });
+      dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'success' });
     },
     addNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
-      dispatch('addWeightedNotification', { hidingAfter: 4, ...item, importance: 'default' });
+      dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'default' });
     },
     removeAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
       [...getters.allNotifications].forEach((notification) => {
