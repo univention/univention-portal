@@ -54,8 +54,8 @@ export function mapBackendNotification(notification: BackendNotification): FullN
     description: notification.details,
     hidingAfter: defaultHideAfter,
     importance: 'default', // TODO: severity
-    visible: false, // TODO: find out
     token: Math.random(), // TODO: should id be used? what's this good for?
+    visible: false,
     onClick: () => null,
   };
   return localNotification;
