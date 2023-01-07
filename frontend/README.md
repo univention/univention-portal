@@ -50,6 +50,31 @@ The containers can be used locally to run commands in the same environment as
 the CI pipeline.
 
 
+### Using the dev environment container
+
+The stage `dev-env` in the `Dockerfile` does define a very basic layer which
+just provides a well defined Linux environment. This can be used to run the
+frontend inside of this environment instead of directly on your operating
+system, so that better isolation is achieved. It is integrated via docker
+compose, so that volumes and ports are hooked up automatically.
+
+The following example shows how it can be used:
+
+```sh
+# build it
+docker compose build dev
+
+# enter a shell
+docker compose run -it --rm dev
+
+# inside the container the regular yarn commands work
+yarn install
+yarn lint
+yarn test:unit
+yarn serve
+```
+
+
 ### Using the test runner container
 
 The container defined in `Dockerfile` does provide the needed environment in
