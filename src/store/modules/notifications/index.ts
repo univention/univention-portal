@@ -60,14 +60,18 @@ const importanceFromSeverity = function (severity: NotificationSeverity) {
   return severityMapping[severity];
 };
 
+const generateNotificationToken = function (): number {
+  return Math.random();
+};
+
 export const mapBackendNotification = function (notification: BackendNotification): FullNotification {
   const localNotification: FullNotification = {
     title: notification.title,
     description: notification.details,
     hidingAfter: defaultHideAfter,
     importance: importanceFromSeverity(notification.severity),
-    token: Math.random(), // TODO: should id be used? what's this good for?
     visible: false,
+    token: generateNotificationToken(),
     onClick: () => null,
   };
   return localNotification;
@@ -115,7 +119,7 @@ const notifications: PortalModule<Notifications> = {
 
   actions: {
     addWeightedNotification({ commit, rootGetters }: PortalActionContext<Notifications>, item: WeightedNotification): void {
-      const notification = { ...item, visible: true, token: Math.random() };
+      const notification = { ...item, visible: true, token: generateNotificationToken() };
       commit('ADD_NOTIFICATION', notification);
       if (rootGetters['navigation/getActiveButton'] === 'bell') {
         commit('HIDE_NOTIFICATION', notification);
