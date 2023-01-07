@@ -22,7 +22,7 @@ test('description is set correctly', () => {
   expect(result.description).toBe(backendNotification.details);
 });
 
-test.skip('hidingAfter is set correctly', () => {
+test('hidingAfter is set correctly', () => {
   const result = mapBackendNotification(backendNotification);
   expect(result.hidingAfter).toBe(defaultHideAfter);
 });
@@ -34,11 +34,10 @@ test.skip('importance is set correctly', () => {
   expect(result.importance).toBe('unclear');
 });
 
+// TODO: Needs working auto-hiding first
 test.skip('visible is set correctly', () => {
-  // TODO: Find out the correct mapping and fix this test and the
-  // implementation.
   const result = mapBackendNotification(backendNotification);
-  expect(result.visible).toBe(null);
+  expect(result.visible).toBe(true);
 });
 
 test.skip('token is set correctly', () => {
