@@ -46,6 +46,19 @@ export interface Notifications {
   backendNotifications: Array<BackendNotification>;
 }
 
+export function mapBackendNotification(notification: BackendNotification): FullNotification {
+  const localNotification: FullNotification = {
+    title: notification.title,
+    description: notification.details,
+    hidingAfter: 4, // TODO: find out
+    importance: 'default', // TODO: severity
+    visible: false, // TODO: find out
+    token: Math.random(), // TODO: should id be used? what's this good for?
+    onClick: () => null,
+  };
+  return localNotification;
+}
+
 const notifications: PortalModule<Notifications> = {
   namespaced: true,
   state: {
@@ -73,9 +86,17 @@ const notifications: PortalModule<Notifications> = {
     },
   },
   getters: {
-    allNotifications: (state) => state.notifications,
-    visibleNotifications: (state) => state.notifications.filter((notification) => notification.visible),
-    numNotifications: (state) => state.notifications.length,
+    allNotifications: (state) => {
+      const backendNotifications : Array<FullNotification> = state.backendNotifications.map(
+        (notification) => mapBackendNotification(notification),
+      );
+      const allNotifications = state.notifications.concat(backendNotifications);
+      return allNotifications;
+    },
+    visibleNotifications: (state, getters) => (
+      getters.allNotifications.filter((notification) => notification.visible)
+    ),
+    numNotifications: (state, getters) => getters.allNotifications.length,
   },
 
   actions: {
