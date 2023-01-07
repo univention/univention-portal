@@ -29,7 +29,8 @@
 import { ActionContext } from 'vuex';
 
 import {
-  ClientApi, Configuration, Notification as BackendNotification } from '@/apis/notifications';
+  ClientApi, Configuration, Notification as BackendNotification,
+  NotificationSeverity } from '@/apis/notifications';
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
@@ -48,18 +49,29 @@ export interface Notifications {
   backendNotifications: Array<BackendNotification>;
 }
 
-export function mapBackendNotification(notification: BackendNotification): FullNotification {
+export const severityMapping = Object.fromEntries([
+  [NotificationSeverity.Info, 'default'],
+  [NotificationSeverity.Success, 'success'],
+  [NotificationSeverity.Warning, 'warning'],
+  [NotificationSeverity.Error, 'error'],
+]);
+
+const importanceFromSeverity = function (severity: NotificationSeverity) {
+  return severityMapping[severity];
+};
+
+export const mapBackendNotification = function (notification: BackendNotification): FullNotification {
   const localNotification: FullNotification = {
     title: notification.title,
     description: notification.details,
     hidingAfter: defaultHideAfter,
-    importance: 'default', // TODO: severity
+    importance: importanceFromSeverity(notification.severity),
     token: Math.random(), // TODO: should id be used? what's this good for?
     visible: false,
     onClick: () => null,
   };
   return localNotification;
-}
+};
 
 const notifications: PortalModule<Notifications> = {
   namespaced: true,
