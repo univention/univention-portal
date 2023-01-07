@@ -53,11 +53,11 @@ test.skip('visible is set correctly', () => {
   expect(result.visible).toBe(true);
 });
 
-test.skip('token is set correctly', () => {
-  // TODO: Find out the correct mapping and fix this test and the
-  // implementation.
+test('token is set correctly', () => {
+  jest.spyOn(Math, 'random').mockImplementation(() => 42);
   const result = mapBackendNotification(backendNotification);
-  expect(result.token).toBe(null);
+  expect(result.token).toBe(42);
+  jest.restoreAllMocks();
 });
 
 test.todo('check the expected behavior of onClick');
