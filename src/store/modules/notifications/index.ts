@@ -138,12 +138,19 @@ export const actions = {
       commit('HIDE_NOTIFICATION', notification);
     });
   },
-  removeNotification({ commit, getters }: PortalActionContext<Notifications>, token: number): void {
+  removeNotification({ commit, getters, state }: PortalActionContext<Notifications>, token: string): void {
     const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
     if (!notification) {
       return;
     }
-    commit('REMOVE_NOTIFICATION', notification);
+    if (notification.isBackendNotification) {
+      const backendNotification = state.backendNotifications.find((n) => n.id === token);
+      if (backendNotification) {
+        commit('REMOVE_BACKEND_NOTIFICATION', backendNotification);
+      }
+    } else {
+      commit('REMOVE_NOTIFICATION', notification);
+    }
   },
   hideNotification({ commit, getters }: PortalActionContext<Notifications>, token: number): void {
     const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
