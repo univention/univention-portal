@@ -8,10 +8,23 @@ services:
     container_name: notifications-api-dev
     environment:
       dev_mode: True
+      DATABASE_URL: "postgresql://dev:devpassword@db/dev"
     volumes:
       - .:/app
     ports:
       - 8096:80
+
+  db:
+    image: postgres:12.13-alpine
+    environment:
+      POSTGRES_PASSWORD: "devpassword"
+      POSTGRES_USER: "dev"
+    volumes:
+      - type: volume
+        source: postgresql-data
+        target: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
 
   test:
     profiles:
@@ -21,3 +34,6 @@ services:
     container_name: notifications-api-test
     volumes:
       - .:/app
+
+volumes:
+  postgresql-data:
