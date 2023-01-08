@@ -1,5 +1,7 @@
-import { defaultHideAfter, mapBackendNotification, severityMapping } from '@/store/modules/notifications';
-import { stubBackendNotification } from './stubs';
+import notifications, {
+  defaultHideAfter, mapBackendNotification, severityMapping,
+} from '@/store/modules/notifications';
+import { stubBackendNotification, stubFullNotification } from './stubs';
 
 test('title is set correctly', () => {
   const result = mapBackendNotification(stubBackendNotification);
@@ -44,4 +46,17 @@ test('backend notifications are flagged with isBackendNotification', () => {
   expect(result.isBackendNotification).toBe(true);
 });
 
+test('REMOVE_NOTIFICATION removes local notification', () => {
+  const REMOVE_NOTIFICATION = notifications.mutations?.REMOVE_NOTIFICATION;
+  const stubState = {
+    notifications: [stubFullNotification],
+    backendNotifications: [],
+  };
+  if (!REMOVE_NOTIFICATION) {
+    fail('TODO: pending refactoring');
+    return;
+  }
+  REMOVE_NOTIFICATION(stubState, stubFullNotification);
+  expect(stubState.notifications).toHaveLength(0);
+});
 test.todo('check the expected behavior of onClick');
