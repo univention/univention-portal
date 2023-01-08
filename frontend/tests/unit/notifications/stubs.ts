@@ -21,6 +21,7 @@ export const stubBackendNotification: BackendNotification = {
   notificationType: 'event',
   severity: 'info',
   receiveTime: '2023-01-07T09:47:07.789861',
+  popup: true,
 
   // optional attributes
   sticky: undefined,
@@ -31,3 +32,5 @@ export const stubBackendNotification: BackendNotification = {
   confirmationTime: undefined,
   expireTime: undefined,
 };
+
+export const stubTime = '2023-01-08T09:47:07.789861';
