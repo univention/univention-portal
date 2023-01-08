@@ -8,3 +8,11 @@ test('token is a uuid string', () => {
   };
   expect(myNotification.token).toBe(stubUuid);
 });
+
+test('can be flagged as a backend notification', () => {
+  const myNotification: models.FullNotification = {
+    ...stubFullNotification,
+    isBackendNotification: true,
+  };
+  expect(myNotification.isBackendNotification).toBe(true);
+});
