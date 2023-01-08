@@ -1,10 +1,10 @@
 #!/bin/bash
 
-python -m venv ~/venv
+python3 -m venv ~/venv
 source ~/venv/bin/activate
 
-pip install -e .
-pip freeze | grep -v "notifications-api" > requirements.txt
+pip3 install .
+pip3 freeze | grep -v "notifications-api" > requirements.txt
 
-pip install -e .[dev]
-pip freeze | grep -v "notifications-api" > requirements-dev.txt
+pip3 install .[dev]
+pip3 freeze | grep -v "notifications-api" > requirements-dev.txt
