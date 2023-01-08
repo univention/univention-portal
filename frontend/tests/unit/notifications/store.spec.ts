@@ -1,5 +1,5 @@
 import {
-  defaultHideAfter, mapBackendNotification, mutations, severityMapping,
+  actions, defaultHideAfter, mapBackendNotification, mutations, severityMapping,
 } from '@/store/modules/notifications';
 import { stubBackendNotification, stubFullNotification, stubUuid } from './stubs';
 
@@ -88,6 +88,55 @@ test('REMOVE_BACKEND_NOTIFICATION removes backend notification', () => {
   };
   mutations.REMOVE_BACKEND_NOTIFICATION(stubState, stubBackendNotification);
   expect(stubState.backendNotifications).toHaveLength(0);
+});
+
+test('removeNotification commits REMOVE_NOTIFICATION', () => {
+  const actionContext = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      allNotifications: [stubFullNotification],
+    },
+    rootState: {
+      loadingState: false,
+      initialLoadDone: true,
+    },
+    rootGetters: {},
+    state: {
+      notifications: [],
+      backendNotifications: [],
+    },
+  };
+  const token = stubFullNotification.token;
+  actions.removeNotification(actionContext, token);
+  expect(actionContext.commit).toHaveBeenCalledWith('REMOVE_NOTIFICATION', stubFullNotification);
+  expect(actionContext.commit).toHaveBeenCalledTimes(1);
+});
+
+test('removeNotification commits REMOVE_BACKEND_NOTIFICATION', () => {
+  const stubNotification = mapBackendNotification(stubBackendNotification);
+  const actionContext = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      allNotifications: [stubNotification],
+    },
+    rootState: {
+      loadingState: false,
+      initialLoadDone: true,
+    },
+    rootGetters: {},
+    state: {
+      notifications: [],
+      backendNotifications: [stubBackendNotification],
+    },
+  };
+  const token = stubNotification.token;
+  actions.removeNotification(actionContext, token);
+  expect(actionContext.commit).toHaveBeenCalledWith(
+    'REMOVE_BACKEND_NOTIFICATION', stubBackendNotification,
+  );
+  expect(actionContext.commit).toHaveBeenCalledTimes(1);
 });
 
 test.todo('check the expected behavior of onClick');
