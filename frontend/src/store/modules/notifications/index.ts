@@ -111,6 +111,58 @@ export const mutations = {
   },
 };
 
+export const actions = {
+  addWeightedNotification({ commit, rootGetters }: PortalActionContext<Notifications>, item: WeightedNotification): void {
+    const notification = { ...item, visible: true, token: generateNotificationToken() };
+    commit('ADD_NOTIFICATION', notification);
+    if (rootGetters['navigation/getActiveButton'] === 'bell') {
+      commit('HIDE_NOTIFICATION', notification);
+    }
+  },
+  addErrorNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
+    dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'error' });
+  },
+  addSuccessNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
+    dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'success' });
+  },
+  addNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
+    dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'default' });
+  },
+  removeAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
+    [...getters.allNotifications].forEach((notification) => {
+      commit('REMOVE_NOTIFICATION', notification);
+    });
+  },
+  hideAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
+    getters.visibleNotifications.forEach((notification) => {
+      commit('HIDE_NOTIFICATION', notification);
+    });
+  },
+  removeNotification({ commit, getters }: PortalActionContext<Notifications>, token: number): void {
+    const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
+    if (!notification) {
+      return;
+    }
+    commit('REMOVE_NOTIFICATION', notification);
+  },
+  hideNotification({ commit, getters }: PortalActionContext<Notifications>, token: number): void {
+    const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
+    if (!notification) {
+      return;
+    }
+    commit('HIDE_NOTIFICATION', notification);
+  },
+
+  connectNotificationsApi({ commit, dispatch }) {
+    dispatch('fetchNotifications');
+  },
+  async fetchNotifications({ commit }) {
+    const response = await notificationsApi.getNotificationsV1NotificationsGet();
+    const latestBackendNotifications = response.data;
+    commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
+  },
+};
+
 const notifications: PortalModule<Notifications> = {
   namespaced: true,
   state: {
@@ -132,58 +184,7 @@ const notifications: PortalModule<Notifications> = {
     ),
     numNotifications: (state, getters) => getters.allNotifications.length,
   },
-
-  actions: {
-    addWeightedNotification({ commit, rootGetters }: PortalActionContext<Notifications>, item: WeightedNotification): void {
-      const notification = { ...item, visible: true, token: generateNotificationToken() };
-      commit('ADD_NOTIFICATION', notification);
-      if (rootGetters['navigation/getActiveButton'] === 'bell') {
-        commit('HIDE_NOTIFICATION', notification);
-      }
-    },
-    addErrorNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
-      dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'error' });
-    },
-    addSuccessNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
-      dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'success' });
-    },
-    addNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
-      dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'default' });
-    },
-    removeAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
-      [...getters.allNotifications].forEach((notification) => {
-        commit('REMOVE_NOTIFICATION', notification);
-      });
-    },
-    hideAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
-      getters.visibleNotifications.forEach((notification) => {
-        commit('HIDE_NOTIFICATION', notification);
-      });
-    },
-    removeNotification({ commit, getters }: PortalActionContext<Notifications>, token: number): void {
-      const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
-      if (!notification) {
-        return;
-      }
-      commit('REMOVE_NOTIFICATION', notification);
-    },
-    hideNotification({ commit, getters }: PortalActionContext<Notifications>, token: number): void {
-      const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
-      if (!notification) {
-        return;
-      }
-      commit('HIDE_NOTIFICATION', notification);
-    },
-
-    connectNotificationsApi({ commit, dispatch }) {
-      dispatch('fetchNotifications');
-    },
-    async fetchNotifications({ commit }) {
-      const response = await notificationsApi.getNotificationsV1NotificationsGet();
-      const latestBackendNotifications = response.data;
-      commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
-    },
-  },
+  actions,
 };
 
 export default notifications;
