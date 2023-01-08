@@ -128,9 +128,9 @@ export const actions = {
   addNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
     dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'default' });
   },
-  removeAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
+  removeAllNotifications({ commit, dispatch, getters }: PortalActionContext<Notifications>): void {
     [...getters.allNotifications].forEach((notification) => {
-      commit('REMOVE_NOTIFICATION', notification);
+      dispatch('removeNotification', notification.token);
     });
   },
   hideAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
@@ -178,10 +178,10 @@ export const getters = {
     const allNotifications = state.notifications.concat(backendNotifications);
     return allNotifications;
   },
-  visibleNotifications: (state, getters) => (
-    getters.allNotifications.filter((notification) => notification.visible)
+  visibleNotifications: (state, storeGetters) => (
+    storeGetters.allNotifications.filter((notification) => notification.visible)
   ),
-  numNotifications: (state, getters) => getters.allNotifications.length,
+  numNotifications: (state, storeGetters) => storeGetters.allNotifications.length,
 };
 
 const notifications: PortalModule<Notifications> = {
