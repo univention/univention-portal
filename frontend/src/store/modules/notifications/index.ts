@@ -26,6 +26,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
+import { v4 as uuidv4 } from 'uuid';
 import { ActionContext } from 'vuex';
 
 import {
@@ -60,8 +61,8 @@ const importanceFromSeverity = function (severity: NotificationSeverity) {
   return severityMapping[severity];
 };
 
-const generateNotificationToken = function (): number {
-  return Math.random();
+const generateNotificationToken = function (): string {
+  return uuidv4();
 };
 
 export const mapBackendNotification = function (notification: BackendNotification): FullNotification {
