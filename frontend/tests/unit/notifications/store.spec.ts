@@ -1,9 +1,5 @@
-import * as uuid from 'uuid';
-
 import { defaultHideAfter, mapBackendNotification, severityMapping } from '@/store/modules/notifications';
-import { stubBackendNotification, stubUuid } from './stubs';
-
-jest.mock('uuid');
+import { stubBackendNotification } from './stubs';
 
 test('title is set correctly', () => {
   const result = mapBackendNotification(stubBackendNotification);
@@ -38,9 +34,9 @@ test.skip('visible is set correctly', () => {
 });
 
 test('token is set correctly', () => {
-  uuid.v4.mockReturnValue(stubUuid);
+  const expectedTokenValue = stubBackendNotification.id;
   const result = mapBackendNotification(stubBackendNotification);
-  expect(result.token).toBe(stubUuid);
+  expect(result.token).toBe(expectedTokenValue);
 });
 
 test('backend notifications are flagged with isBackendNotification', () => {
