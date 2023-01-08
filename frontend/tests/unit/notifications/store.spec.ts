@@ -1,5 +1,7 @@
-import {
-  actions, defaultHideAfter, mapBackendNotification, mutations, severityMapping,
+import vuex from 'vuex';
+
+import notifications, {
+  actions, defaultHideAfter, getters, mapBackendNotification, mutations, severityMapping,
 } from '@/store/modules/notifications';
 import { stubBackendNotification, stubFullNotification, stubUuid } from './stubs';
 
@@ -137,6 +139,23 @@ test('removeNotification commits REMOVE_BACKEND_NOTIFICATION', () => {
     'REMOVE_BACKEND_NOTIFICATION', stubBackendNotification,
   );
   expect(actionContext.commit).toHaveBeenCalledTimes(1);
+});
+
+test('removeAllNotifications removes local and backend notifications', async () => {
+  const stubStore = new vuex.Store<any>({
+    modules: {
+      notifications: {
+        ...notifications,
+        state: {
+          notifications: [stubFullNotification],
+          backendNotifications: [stubBackendNotification],
+        },
+      },
+    },
+  });
+  await stubStore.dispatch('notifications/removeAllNotifications');
+  expect(stubStore.state.notifications.notifications).toHaveLength(0);
+  expect(stubStore.state.notifications.backendNotifications).toHaveLength(0);
 });
 
 test.todo('check the expected behavior of onClick');
