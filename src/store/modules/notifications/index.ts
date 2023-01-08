@@ -79,6 +79,32 @@ export const mapBackendNotification = function (notification: BackendNotificatio
   return localNotification;
 };
 
+export const mutations = {
+  ADD_NOTIFICATION(state: Notifications, notification: FullNotification): void {
+    state.notifications.push(notification);
+  },
+  REMOVE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
+    const indexContent = state.notifications.indexOf(notification);
+    state.notifications.splice(indexContent, 1);
+  },
+  HIDE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
+    notification.hidingAfter = -1;
+    notification.visible = false;
+  },
+
+  SET_BACKEND_NOTIFICATIONS(
+    state: Notifications, backendNotifications: Array<BackendNotification>,
+  ): void {
+    state.backendNotifications = backendNotifications;
+  },
+  REMOVE_BACKEND_NOTIFICATION(
+    state: Notifications, backendNotification: BackendNotification,
+  ): void {
+    const indexContent = state.backendNotifications.indexOf(backendNotification);
+    state.backendNotifications.splice(indexContent, 1);
+  },
+};
+
 const notifications: PortalModule<Notifications> = {
   namespaced: true,
   state: {
@@ -86,31 +112,7 @@ const notifications: PortalModule<Notifications> = {
     backendNotifications: [],
   },
 
-  mutations: {
-    ADD_NOTIFICATION(state: Notifications, notification: FullNotification): void {
-      state.notifications.push(notification);
-    },
-    REMOVE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
-      const indexContent = state.notifications.indexOf(notification);
-      state.notifications.splice(indexContent, 1);
-    },
-    HIDE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
-      notification.hidingAfter = -1;
-      notification.visible = false;
-    },
-
-    SET_BACKEND_NOTIFICATIONS(
-      state: Notifications, backendNotifications: Array<BackendNotification>,
-    ): void {
-      state.backendNotifications = backendNotifications;
-    },
-    REMOVE_BACKEND_NOTIFICATION(
-      state: Notifications, backendNotification: BackendNotification,
-    ): void {
-      const indexContent = state.backendNotifications.indexOf(backendNotification);
-      state.backendNotifications.splice(indexContent, 1);
-    },
-  },
+  mutations,
   getters: {
     allNotifications: (state) => {
       const backendNotifications : Array<FullNotification> = state.backendNotifications.map(
