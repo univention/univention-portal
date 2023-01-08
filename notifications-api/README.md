@@ -89,6 +89,16 @@ be executed as shown below:
 docker compose run -it --rm app ./freeze-requirements.sh
 ```
 
+### Changing (migrating) the database schema
+
+The following example helps to generate a new migration script. First the model
+definitions should be adjusted in Python code, and then the example will produce
+something useful:
+
+```
+docker compose run -it --rm app alembic revision --autogenerate
+```
+
 ## Using the API for HTTP requests
 
 Documentation for the API is automatically generated and available in the local
