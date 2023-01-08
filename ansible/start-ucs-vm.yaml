@@ -1,0 +1,7 @@
+- name: Start the UCS VM and fix up the time
+  hosts: skurup
+
+  tasks:
+    - name: Ensure the VM is running
+      name: jbornhold_clean
+      state: running

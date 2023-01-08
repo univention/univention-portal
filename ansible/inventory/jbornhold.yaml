@@ -1,0 +1,22 @@
+all:
+  vars:
+    use_public_repository: false
+ucs_vms:
+  hosts:
+    # jbornhold_test:
+    #   ansible_host: 10.200.115.10
+    jbornhold_clean:
+      # Clean UCS system install, then snapshotted
+      ansible_host: 10.200.115.20
+      ucs_host: "ucs-5746.univention.intranet"
+      ucs_host_ip: "{{ ansible_host }}"
+  vars:
+    ansible_user: root
+    ssh_key: "{{ lookup('file', '/Users/johannes/.ssh/id_ed25519_univention_2022-11-01.pub') }}"
+
+vmhosts:
+  hosts:
+    skurup:
+      ansible_host: skurup.knut.univention.de
+    vars:
+      ansible_user: jbornhold
