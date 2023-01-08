@@ -104,6 +104,12 @@ const notifications: PortalModule<Notifications> = {
     ): void {
       state.backendNotifications = backendNotifications;
     },
+    REMOVE_BACKEND_NOTIFICATION(
+      state: Notifications, backendNotification: BackendNotification,
+    ): void {
+      const indexContent = state.backendNotifications.indexOf(backendNotification);
+      state.backendNotifications.splice(indexContent, 1);
+    },
   },
   getters: {
     allNotifications: (state) => {
