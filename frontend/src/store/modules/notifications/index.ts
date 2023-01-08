@@ -74,6 +74,7 @@ export const mapBackendNotification = function (notification: BackendNotificatio
     visible: false,
     token: generateNotificationToken(),
     onClick: () => null,
+    isBackendNotification: true,
   };
   return localNotification;
 };

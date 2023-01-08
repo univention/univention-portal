@@ -64,4 +64,9 @@ test('token is set correctly', () => {
   expect(result.token).toBe(stubUuid);
 });
 
+test('backend notifications are flagged with isBackendNotification', () => {
+  const result = mapBackendNotification(backendNotification);
+  expect(result.isBackendNotification).toBe(true);
+});
+
 test.todo('check the expected behavior of onClick');
