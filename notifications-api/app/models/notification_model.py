@@ -38,6 +38,7 @@ class NotificationBase(SQLModel):
 class Notification(NotificationBase, table=True):
     id: UUID = Field(primary_key=True)
     receiveTime: datetime
+    popup: bool = True
     readTime: Optional[datetime]
     sseSendTime: Optional[datetime]
     confirmationTime: Optional[datetime]
