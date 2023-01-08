@@ -111,7 +111,7 @@ export default defineComponent({
       required: true,
     },
     token: {
-      type: Number,
+      type: String,
       required: true,
     },
     visible: {
