@@ -40,5 +40,5 @@ export interface WeightedNotification extends Notification {
 
 export interface FullNotification extends WeightedNotification {
   visible: boolean;
-  token: number;
+  token: string;
 }

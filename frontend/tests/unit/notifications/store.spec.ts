@@ -1,5 +1,10 @@
+import * as uuid from 'uuid';
+
 import { defaultHideAfter, mapBackendNotification, severityMapping } from '@/store/modules/notifications';
 import { Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
+import { stubUuid } from './stubs';
+
+jest.mock('uuid');
 
 const backendNotification: BackendNotification = {
   id: 'cd7e52fb-922c-4255-b727-c8d42c1b1f32',
@@ -54,10 +59,9 @@ test.skip('visible is set correctly', () => {
 });
 
 test('token is set correctly', () => {
-  jest.spyOn(Math, 'random').mockImplementation(() => 42);
+  uuid.v4.mockReturnValue(stubUuid);
   const result = mapBackendNotification(backendNotification);
-  expect(result.token).toBe(42);
-  jest.restoreAllMocks();
+  expect(result.token).toBe(stubUuid);
 });
 
 test.todo('check the expected behavior of onClick');
