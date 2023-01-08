@@ -85,6 +85,9 @@ export const mutations = {
   },
   REMOVE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
     const indexContent = state.notifications.indexOf(notification);
+    if (indexContent < 0) {
+      return;
+    }
     state.notifications.splice(indexContent, 1);
   },
   HIDE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
@@ -101,6 +104,9 @@ export const mutations = {
     state: Notifications, backendNotification: BackendNotification,
   ): void {
     const indexContent = state.backendNotifications.indexOf(backendNotification);
+    if (indexContent < 0) {
+      return;
+    }
     state.backendNotifications.splice(indexContent, 1);
   },
 };
