@@ -19,6 +19,8 @@ dependencies = [
   'pydantic >= 1.10.2',
   'sse-starlette >= 1.2.1',
   'asyncio >= 3.4.3',
+  # TODO: Replace with psycopg2
+  'psycopg2-binary',
 ]
 
 [project.optional-dependencies]
