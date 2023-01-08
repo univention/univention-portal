@@ -61,6 +61,13 @@ class NotificationService():
             db.refresh(notification)
         return new_notifications
 
+    def hide_notification(self, id: str, db: Session) -> None:
+        statement = select(Notification).where(Notification.id == id)
+        notification = db.exec(statement).one()
+        notification.popup = False
+        db.add(notification)
+        db.commit()
+
     def mark_notification_read(
         self,
         id: str,

@@ -1,4 +1,5 @@
 from datetime import datetime
+from http import HTTPStatus
 from uuid import uuid4
 import json
 
@@ -36,6 +37,24 @@ def test_get_notifications(filled_db, client):
     response = client.get('/v1/notifications/')
     assert response.status_code == 200
     assert len(response.json()) == 1
+
+
+def test_hide_notification(empty_db, client):
+    client.post('/v1/notifications/', json=request_data)
+    response = client.get('/v1/notifications/')
+    notification_data = response.json()[0]
+    assert notification_data["popup"]
+
+    notification_id = response.json()[0]['id']
+
+    response = client.post(f'/v1/notifications/{notification_id}/hide')
+    assert response.status_code == HTTPStatus.OK
+
+    # TODO: we don't have a GET endpoint yet for a single notification,
+    # refactor once this is implemented.
+    response = client.get('/v1/notifications/')
+    notification_data = response.json()[0]
+    assert not notification_data["popup"]
 
 
 def test_mark_notification_read(empty_db, client):
