@@ -39,11 +39,12 @@ class NotificationService():
 
     def get_notifications(
         self,
+        sub: str,
         query: dict,
         db: Session
     ) -> List[Notification]:
         statement = select(Notification).where(
-            Notification.notificationType == query['type']).limit(query['limit'])
+            Notification.notificationType == query['type']).where(Notification.targetUid == sub).limit(query['limit'])
         return db.exec(statement).fetchall()
 
     def pop_notifications_for_sse(

@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException, Request, Depends, Query
+import os
+
+from fastapi import APIRouter, HTTPException, Request, Depends, Query, status
 from fastapi.encoders import jsonable_encoder
 from sqlmodel import Session
 from typing import List
@@ -11,9 +13,14 @@ from app.models.notification_model import (
     Notification, NotificationCreate, NotificationType)
 from app.crud.notification_service import NotificationService
 from app.db import get_session
+from app.auth import keycloak
 
 
 router = APIRouter()
+
+kc = keycloak.Keycloak()
+
+ldap_id = os.environ.get("KEYCLOAK_LDAP_ID_CLAIM_NAME", "entryuuid")
 
 
 @router.post(
@@ -32,16 +39,23 @@ def get_notifications(
     limit: str = Query(default=10),
     type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_session),
+    claims: dict = Depends(kc.verify_and_decode_token)
 ) -> List[Notification]:
     """
     Read the notifications of the current user.
     """
+    if claims is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     query = {
         'limit': limit,
         'type': type
     }
-    return service.get_notifications(query, db)
+    return service.get_notifications(claims[ldap_id], query, db)
 
 
 @router.post("/notifications/{id}/read", tags=["client"])
