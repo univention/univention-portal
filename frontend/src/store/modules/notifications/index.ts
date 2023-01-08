@@ -170,6 +170,20 @@ export const actions = {
   },
 };
 
+export const getters = {
+  allNotifications: (state) => {
+    const backendNotifications : Array<FullNotification> = state.backendNotifications.map(
+      (notification) => mapBackendNotification(notification),
+    );
+    const allNotifications = state.notifications.concat(backendNotifications);
+    return allNotifications;
+  },
+  visibleNotifications: (state, getters) => (
+    getters.allNotifications.filter((notification) => notification.visible)
+  ),
+  numNotifications: (state, getters) => getters.allNotifications.length,
+};
+
 const notifications: PortalModule<Notifications> = {
   namespaced: true,
   state: {
@@ -178,19 +192,7 @@ const notifications: PortalModule<Notifications> = {
   },
 
   mutations,
-  getters: {
-    allNotifications: (state) => {
-      const backendNotifications : Array<FullNotification> = state.backendNotifications.map(
-        (notification) => mapBackendNotification(notification),
-      );
-      const allNotifications = state.notifications.concat(backendNotifications);
-      return allNotifications;
-    },
-    visibleNotifications: (state, getters) => (
-      getters.allNotifications.filter((notification) => notification.visible)
-    ),
-    numNotifications: (state, getters) => getters.allNotifications.length,
-  },
+  getters,
   actions,
 };
 
