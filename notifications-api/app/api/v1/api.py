@@ -44,6 +44,20 @@ def get_notifications(
     return service.get_notifications(query, db)
 
 
+@router.post("/notifications/{id}/hide", tags=["client"])
+def hide_notification(
+    id: str,
+    service: NotificationService = Depends(NotificationService),
+    db: Session = Depends(get_session)
+):
+    """
+    Flag a notification as hidden.
+
+    This will set the attribute `popup` to `false`.
+    """
+    service.hide_notification(id, db)
+
+
 @router.post("/notifications/{id}/read", tags=["client"])
 def mark_notification_read(
     id: str,
