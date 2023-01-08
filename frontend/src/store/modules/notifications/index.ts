@@ -79,16 +79,20 @@ export const mapBackendNotification = function (notification: BackendNotificatio
   return localNotification;
 };
 
+const removeFromArray = function (array, item) {
+  const indexContent = array.indexOf(item);
+  if (indexContent < 0) {
+    return;
+  }
+  array.splice(indexContent, 1);
+};
+
 export const mutations = {
   ADD_NOTIFICATION(state: Notifications, notification: FullNotification): void {
     state.notifications.push(notification);
   },
   REMOVE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
-    const indexContent = state.notifications.indexOf(notification);
-    if (indexContent < 0) {
-      return;
-    }
-    state.notifications.splice(indexContent, 1);
+    removeFromArray(state.notifications, notification);
   },
   HIDE_NOTIFICATION(state: Notifications, notification: FullNotification): void {
     notification.hidingAfter = -1;
@@ -103,11 +107,7 @@ export const mutations = {
   REMOVE_BACKEND_NOTIFICATION(
     state: Notifications, backendNotification: BackendNotification,
   ): void {
-    const indexContent = state.backendNotifications.indexOf(backendNotification);
-    if (indexContent < 0) {
-      return;
-    }
-    state.backendNotifications.splice(indexContent, 1);
+    removeFromArray(state.backendNotifications, backendNotification);
   },
 };
 
