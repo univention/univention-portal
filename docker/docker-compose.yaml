@@ -4,18 +4,11 @@ services:
   portal-frontend:
     build:
       context: ../frontend
-    container_name: univention-portal-frontend
-    ports:
-      - "8080:80"
   portal-server:
     platform: "linux/amd64"
     build:
       context: ../
       dockerfile: docker/portal-server/Dockerfile
-    container_name: univention-portal-server
-    env_file: .env
-    ports:
-      - "8095:80"
     volumes:
       # On non-Linux machines we see issues with using the IP address
       # "172.17.0.1" to reach the host system. Instead the name
@@ -45,7 +38,6 @@ services:
   notifications-api:
     build:
       context: ../notifications-api
-    container_name: notifications-api
     environment:
       DATABASE_URL: sqlite:////var/local/notifications-api/db.sqlite
       APPLY_DATABASE_MIGRATIONS: true
@@ -53,15 +45,16 @@ services:
       - type: volume
         source: var-local-notifications-api
         target: /var/local/notifications-api
-    ports:
-      - 8096:80
   reverse-proxy:
     build:
       context: ./reverse-proxy
-    container_name: univention-portal-dev-reverse-proxy
-    env_file: .env
+    environment:
+      UCS_BASE_URL: '${UCS_BASE_URL:-http://ucs-host}'
+      PORTAL_FRONTEND_BASE_URL: 'http://portal-frontend:80'
+      PORTAL_SERVER_BASE_URL: 'http://portal-server:80'
+      NOTIFICATIONS_BASE_URL: 'http://notifications-api:80'
     ports:
-      - "${PROXY_PORT}:80"
+      - "${PROXY_PORT}:8000"
 
   test:
     profiles:
