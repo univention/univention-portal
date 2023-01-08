@@ -1,7 +1,28 @@
+---
 - name: Start the UCS VM and fix up the time
   hosts: skurup
 
   tasks:
     - name: Ensure the VM is running
-      name: jbornhold_clean
-      state: running
+      community.libvirt.virt:
+        name: "{{ item }}"
+        state: running
+      loop: "{{ groups['ucs_vms'] }}"
+
+- name: Fix up the time
+  hosts: ucs_vms
+  # cannot gather facts before waiting ;)
+  gather_facts: false
+
+  tasks:
+    - name: "Wait for VM {{ inventory_hostname }} to become available, up to 60 seconds"
+      ansible.builtin.wait_for_connection:
+        timeout: 60
+
+    - name: Run rdate to fix up date and time
+      ansible.builtin.shell: rdate -n "$(ucr get gateway)"
+      register: result
+
+    - name: Debug output VM date
+      ansible.builtin.debug:
+        msg: "System {{ inventory_hostname }} time: {{ result.stdout }}"

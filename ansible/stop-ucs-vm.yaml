@@ -1,0 +1,10 @@
+---
+- name: Stop the UCS VMs
+  hosts: skurup
+
+  tasks:
+    - name: Ensure the VM is stopped
+      community.libvirt.virt:
+        name: "{{ item }}"
+        state: shutdown
+      loop: "{{ groups['ucs_vms'] }}"
