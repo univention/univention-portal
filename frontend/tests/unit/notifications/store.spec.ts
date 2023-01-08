@@ -59,4 +59,21 @@ test('REMOVE_NOTIFICATION removes local notification', () => {
   REMOVE_NOTIFICATION(stubState, stubFullNotification);
   expect(stubState.notifications).toHaveLength(0);
 });
+
+test('REMOVE_BACKEND_NOTIFICATION removes backend notification', () => {
+  const REMOVE_BACKEND_NOTIFICATION = notifications.mutations?.REMOVE_BACKEND_NOTIFICATION;
+  const stubState = {
+    notifications: [],
+    backendNotifications: [
+      stubBackendNotification,
+    ],
+  };
+  if (!REMOVE_BACKEND_NOTIFICATION) {
+    fail('TODO: pending refactoring');
+    return;
+  }
+  REMOVE_BACKEND_NOTIFICATION(stubState, stubBackendNotification);
+  expect(stubState.backendNotifications).toHaveLength(0);
+});
+
 test.todo('check the expected behavior of onClick');
