@@ -1,43 +1,22 @@
 import * as uuid from 'uuid';
 
 import { defaultHideAfter, mapBackendNotification, severityMapping } from '@/store/modules/notifications';
-import { Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
-import { stubUuid } from './stubs';
+import { stubBackendNotification, stubUuid } from './stubs';
 
 jest.mock('uuid');
 
-const backendNotification: BackendNotification = {
-  id: 'cd7e52fb-922c-4255-b727-c8d42c1b1f32',
-  sourceUid: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  targetUid: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  title: 'Example notification',
-  details: 'string',
-  notificationType: 'event',
-  severity: 'info',
-  receiveTime: '2023-01-07T09:47:07.789861',
-
-  // optional attributes
-  sticky: undefined,
-  needsConfirmation: undefined,
-  data: undefined,
-  readTime: undefined,
-  sseSendTime: undefined,
-  confirmationTime: undefined,
-  expireTime: undefined,
-};
-
 test('title is set correctly', () => {
-  const result = mapBackendNotification(backendNotification);
-  expect(result.title).toBe(backendNotification.title);
+  const result = mapBackendNotification(stubBackendNotification);
+  expect(result.title).toBe(stubBackendNotification.title);
 });
 
 test('description is set correctly', () => {
-  const result = mapBackendNotification(backendNotification);
-  expect(result.description).toBe(backendNotification.details);
+  const result = mapBackendNotification(stubBackendNotification);
+  expect(result.description).toBe(stubBackendNotification.details);
 });
 
 test('hidingAfter is set correctly', () => {
-  const result = mapBackendNotification(backendNotification);
+  const result = mapBackendNotification(stubBackendNotification);
   expect(result.hidingAfter).toBe(defaultHideAfter);
 });
 
@@ -45,7 +24,7 @@ test.each(
   Object.entries(severityMapping),
 )('importance is set correctly from severity(%s -> %s)', (severity: any, expected) => {
   const notification = {
-    ...backendNotification,
+    ...stubBackendNotification,
     severity,
   };
   const result = mapBackendNotification(notification);
@@ -54,18 +33,18 @@ test.each(
 
 // TODO: Needs working auto-hiding first
 test.skip('visible is set correctly', () => {
-  const result = mapBackendNotification(backendNotification);
+  const result = mapBackendNotification(stubBackendNotification);
   expect(result.visible).toBe(true);
 });
 
 test('token is set correctly', () => {
   uuid.v4.mockReturnValue(stubUuid);
-  const result = mapBackendNotification(backendNotification);
+  const result = mapBackendNotification(stubBackendNotification);
   expect(result.token).toBe(stubUuid);
 });
 
 test('backend notifications are flagged with isBackendNotification', () => {
-  const result = mapBackendNotification(backendNotification);
+  const result = mapBackendNotification(stubBackendNotification);
   expect(result.isBackendNotification).toBe(true);
 });
 
