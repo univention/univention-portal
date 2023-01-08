@@ -31,10 +31,17 @@ test.each(
   expect(result.importance).toBe(expected);
 });
 
-// TODO: Needs working auto-hiding first
-test.skip('visible is set correctly', () => {
-  const result = mapBackendNotification(stubBackendNotification);
-  expect(result.visible).toBe(true);
+test.each([
+  [true, true],
+  [false, false],
+  [false, undefined],
+])('visible is set %s if popup is %s', (visible, popup) => {
+  const stubNotification = {
+    ...stubBackendNotification,
+    popup,
+  };
+  const result = mapBackendNotification(stubNotification);
+  expect(result.visible).toBe(visible);
 });
 
 test('token is set correctly', () => {
