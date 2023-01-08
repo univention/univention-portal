@@ -38,6 +38,26 @@ node --version
 ```
 
 
+## Project setup: Initial steps
+
+The following steps are typically a one-off operation which have to be done once
+after having a fresh clone of the repository.
+
+### Prepare the environment file
+
+Have a look at `.env.local_example`. Copy it to `.env.local`. Or copy
+`.env.production` instead.
+
+
+### Be aware of potential feature toggles
+
+Some features may be disabled by default if they are still in ongoing
+development. Take a close look into `.env.local_example`.
+
+When we use build time feature toggles, then we prefix those variables with
+`VUE_APP_FEATURE` and explain them in `.env.local_example`.
+
+
 ## Container based project setup -- experimental
 
 The container based project setup is in active development. It's main focus is
@@ -131,9 +151,6 @@ npm install --force -g npm@latest  # newer version
 
 /usr/local/bin/yarn install  # installs all runtime and build dependencies (see yarn.lock)
 ```
-
-Have a look at `.env.local_example`. Copy it to `.env.local`. Or copy
-`.env.production` instead.
 
 ### Sync frontend files into the ucs repository
 The frontend of the Portal is still released via the
