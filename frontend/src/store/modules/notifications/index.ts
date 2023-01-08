@@ -72,7 +72,7 @@ export const mapBackendNotification = function (notification: BackendNotificatio
     hidingAfter: defaultHideAfter,
     importance: importanceFromSeverity(notification.severity),
     visible: false,
-    token: generateNotificationToken(),
+    token: notification.id,
     onClick: () => null,
     isBackendNotification: true,
   };
