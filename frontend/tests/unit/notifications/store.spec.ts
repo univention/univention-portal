@@ -1,7 +1,7 @@
 import {
   defaultHideAfter, mapBackendNotification, mutations, severityMapping,
 } from '@/store/modules/notifications';
-import { stubBackendNotification, stubFullNotification } from './stubs';
+import { stubBackendNotification, stubFullNotification, stubUuid } from './stubs';
 
 test('title is set correctly', () => {
   const result = mapBackendNotification(stubBackendNotification);
@@ -53,6 +53,32 @@ test('REMOVE_NOTIFICATION removes local notification', () => {
   };
   mutations.REMOVE_NOTIFICATION(stubState, stubFullNotification);
   expect(stubState.notifications).toHaveLength(0);
+});
+
+test('REMOVE_NOTIFICATION does not remove missing local notification', () => {
+  const stubState = {
+    notifications: [stubFullNotification],
+    backendNotifications: [],
+  };
+  const otherFullNotification = {
+    ...stubFullNotification,
+    token: stubUuid,
+  };
+  mutations.REMOVE_NOTIFICATION(stubState, otherFullNotification);
+  expect(stubState.notifications).toHaveLength(1);
+});
+
+test('REMOVE_BACKEND_NOTIFICATION does not remove missing backend notification', () => {
+  const stubState = {
+    notifications: [],
+    backendNotifications: [stubBackendNotification],
+  };
+  const otherBackendNotification = {
+    ...stubBackendNotification,
+    id: stubUuid,
+  };
+  mutations.REMOVE_BACKEND_NOTIFICATION(stubState, otherBackendNotification);
+  expect(stubState.backendNotifications).toHaveLength(1);
 });
 
 test('REMOVE_BACKEND_NOTIFICATION removes backend notification', () => {
