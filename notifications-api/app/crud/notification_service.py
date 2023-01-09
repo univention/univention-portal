@@ -50,6 +50,11 @@ class NotificationService():
         statement = select(Notification).where(Notification.id == id_)
         return db.exec(statement).one()
 
+    def delete_notification(self, id_: str, db: Session) -> None:
+        notification = self.get_notification(id_, db)
+        db.delete(notification)
+        db.commit()
+
     def pop_notifications_for_sse(
         self,
         db: Session
