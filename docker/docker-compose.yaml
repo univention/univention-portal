@@ -4,11 +4,16 @@ services:
   portal-frontend:
     build:
       context: ../frontend
+  ports:
+    - "8080:80"
+
   portal-server:
     platform: "linux/amd64"
     build:
       context: ../
       dockerfile: docker/portal-server/Dockerfile
+    ports:
+      - "8095:80"
     volumes:
       # On non-Linux machines we see issues with using the IP address
       # "172.17.0.1" to reach the host system. Instead the name
@@ -48,16 +53,20 @@ services:
       - type: volume
         source: var-local-notifications-api
         target: /var/local/notifications-api
+    ports:
+      - 8096:80
+
   reverse-proxy:
     build:
       context: ./reverse-proxy
     environment:
       UCS_BASE_URL: '${UCS_BASE_URL:-http://ucs-host}'
-      PORTAL_FRONTEND_BASE_URL: 'http://portal-frontend:80'
-      PORTAL_SERVER_BASE_URL: 'http://portal-server:80'
-      NOTIFICATIONS_BASE_URL: 'http://notifications-api:80'
+      PORTAL_FRONTEND_BASE_URL: '${PORTAL_FRONTEND_BASE_URL:-http://portal-frontend:80}'
+      PORTAL_SERVER_BASE_URL: '${PORTAL_SERVER_BASE_URL:-http://portal-server:80}'
+      NOTIFICATIONS_BASE_URL: '${NOTIFICATIONS_BASE_URL:-http://notifications-api:80}'
     ports:
       - "${PROXY_PORT}:80"
+      
   db:
     image: postgres:12.13-alpine
     environment:
