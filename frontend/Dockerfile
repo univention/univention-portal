@@ -1,5 +1,5 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}node:14-buster-slim AS dev-env
+FROM ${DOCKER_PROXY}library/node:14-buster-slim AS dev-env
 
 # The following dependencies are only needed when on an aarch64 platform,
 # because then the package "deasync" does not include ready made binaries
@@ -53,5 +53,5 @@ FROM base as build
 RUN yarn build
 
 
-FROM ${DOCKER_PROXY}nginx:1.23.3 AS final
+FROM ${DOCKER_PROXY}library/nginx:1.23.3 AS final
 COPY --from=build /app/dist /usr/share/nginx/html
