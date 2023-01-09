@@ -69,7 +69,7 @@ export const mapBackendNotification = function (notification: BackendNotificatio
   const localNotification: FullNotification = {
     title: notification.title,
     description: notification.details,
-    hidingAfter: defaultHideAfter,
+    hidingAfter: notification.popup ? defaultHideAfter : -1,
     importance: importanceFromSeverity(notification.severity),
     visible: !!notification.popup,
     token: notification.id,
