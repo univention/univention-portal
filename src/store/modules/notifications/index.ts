@@ -109,6 +109,13 @@ export const mutations = {
   ): void {
     removeFromArray(state.backendNotifications, backendNotification);
   },
+  HIDE_BACKEND_NOTIFICATION(
+    state: Notifications, backendNotification: BackendNotification,
+  ): void {
+    // TODO: Interim implemented in the UI locally. This will have to be
+    // replaced with a call back to the API.
+    backendNotification.popup = false;
+  },
 };
 
 export const actions = {
