@@ -115,6 +115,12 @@ export interface Notification {
     'receiveTime': string;
     /**
      * 
+     * @type {boolean}
+     * @memberof Notification
+     */
+    'popup'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof Notification
      */
@@ -303,6 +309,40 @@ export const ClientApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * Flag a notification as hidden.  This will set the attribute `popup` to `false`.
+         * @summary Hide Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hideNotificationV1NotificationsIdHidePost: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('hideNotificationV1NotificationsIdHidePost', 'id', id)
+            const localVarPath = `/v1/notifications/{id}/hide`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Mark Notification Confirmed
          * @param {string} id 
@@ -418,8 +458,19 @@ export const ClientApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getNotificationsV1NotificationsGet(limit?: string, type?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async getNotificationsV1NotificationsGet(limit?: string, type?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Notification>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getNotificationsV1NotificationsGet(limit, type, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Flag a notification as hidden.  This will set the attribute `popup` to `false`.
+         * @summary Hide Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async hideNotificationV1NotificationsIdHidePost(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.hideNotificationV1NotificationsIdHidePost(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -429,7 +480,7 @@ export const ClientApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async markNotificationConfirmedV1NotificationsIdConfirmPost(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async markNotificationConfirmedV1NotificationsIdConfirmPost(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Notification>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.markNotificationConfirmedV1NotificationsIdConfirmPost(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -440,7 +491,7 @@ export const ClientApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async markNotificationReadV1NotificationsIdReadPost(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+        async markNotificationReadV1NotificationsIdReadPost(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Notification>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.markNotificationReadV1NotificationsIdReadPost(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -472,8 +523,18 @@ export const ClientApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getNotificationsV1NotificationsGet(limit?: string, type?: string, options?: any): AxiosPromise<any> {
+        getNotificationsV1NotificationsGet(limit?: string, type?: string, options?: any): AxiosPromise<Array<Notification>> {
             return localVarFp.getNotificationsV1NotificationsGet(limit, type, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Flag a notification as hidden.  This will set the attribute `popup` to `false`.
+         * @summary Hide Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        hideNotificationV1NotificationsIdHidePost(id: string, options?: any): AxiosPromise<any> {
+            return localVarFp.hideNotificationV1NotificationsIdHidePost(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -482,7 +543,7 @@ export const ClientApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        markNotificationConfirmedV1NotificationsIdConfirmPost(id: string, options?: any): AxiosPromise<any> {
+        markNotificationConfirmedV1NotificationsIdConfirmPost(id: string, options?: any): AxiosPromise<Notification> {
             return localVarFp.markNotificationConfirmedV1NotificationsIdConfirmPost(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -492,7 +553,7 @@ export const ClientApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        markNotificationReadV1NotificationsIdReadPost(id: string, options?: any): AxiosPromise<any> {
+        markNotificationReadV1NotificationsIdReadPost(id: string, options?: any): AxiosPromise<Notification> {
             return localVarFp.markNotificationReadV1NotificationsIdReadPost(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -522,7 +583,17 @@ export interface ClientApiInterface {
      * @throws {RequiredError}
      * @memberof ClientApiInterface
      */
-    getNotificationsV1NotificationsGet(limit?: string, type?: string, options?: AxiosRequestConfig): AxiosPromise<any>;
+    getNotificationsV1NotificationsGet(limit?: string, type?: string, options?: AxiosRequestConfig): AxiosPromise<Array<Notification>>;
+
+    /**
+     * Flag a notification as hidden.  This will set the attribute `popup` to `false`.
+     * @summary Hide Notification
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClientApiInterface
+     */
+    hideNotificationV1NotificationsIdHidePost(id: string, options?: AxiosRequestConfig): AxiosPromise<any>;
 
     /**
      * 
@@ -532,7 +603,7 @@ export interface ClientApiInterface {
      * @throws {RequiredError}
      * @memberof ClientApiInterface
      */
-    markNotificationConfirmedV1NotificationsIdConfirmPost(id: string, options?: AxiosRequestConfig): AxiosPromise<any>;
+    markNotificationConfirmedV1NotificationsIdConfirmPost(id: string, options?: AxiosRequestConfig): AxiosPromise<Notification>;
 
     /**
      * 
@@ -542,7 +613,7 @@ export interface ClientApiInterface {
      * @throws {RequiredError}
      * @memberof ClientApiInterface
      */
-    markNotificationReadV1NotificationsIdReadPost(id: string, options?: AxiosRequestConfig): AxiosPromise<any>;
+    markNotificationReadV1NotificationsIdReadPost(id: string, options?: AxiosRequestConfig): AxiosPromise<Notification>;
 
     /**
      * 
@@ -573,6 +644,18 @@ export class ClientApi extends BaseAPI implements ClientApiInterface {
      */
     public getNotificationsV1NotificationsGet(limit?: string, type?: string, options?: AxiosRequestConfig) {
         return ClientApiFp(this.configuration).getNotificationsV1NotificationsGet(limit, type, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Flag a notification as hidden.  This will set the attribute `popup` to `false`.
+     * @summary Hide Notification
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClientApi
+     */
+    public hideNotificationV1NotificationsIdHidePost(id: string, options?: AxiosRequestConfig) {
+        return ClientApiFp(this.configuration).hideNotificationV1NotificationsIdHidePost(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
