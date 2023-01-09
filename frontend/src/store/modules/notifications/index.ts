@@ -119,11 +119,11 @@ export const mutations = {
 };
 
 export const actions = {
-  addWeightedNotification({ commit, rootGetters }: PortalActionContext<Notifications>, item: WeightedNotification): void {
+  addWeightedNotification({ commit, dispatch, rootGetters }: PortalActionContext<Notifications>, item: WeightedNotification): void {
     const notification = { ...item, visible: true, token: generateNotificationToken() };
     commit('ADD_NOTIFICATION', notification);
     if (rootGetters['navigation/getActiveButton'] === 'bell') {
-      commit('HIDE_NOTIFICATION', notification);
+      dispatch('hideNotification', notification.token);
     }
   },
   addErrorNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
