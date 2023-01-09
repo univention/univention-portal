@@ -229,6 +229,34 @@ test('removeNotification commits REMOVE_BACKEND_NOTIFICATION', () => {
   expect(actionContext.commit).toHaveBeenCalledTimes(1);
 });
 
+test('hideAllNotifications hides local and backend notifications', async () => {
+  const stubLocal = {
+    ...stubFullNotification,
+    visible: true,
+  };
+  const stubBackend = {
+    ...stubBackendNotification,
+    popup: true,
+  };
+  const stubStore = new vuex.Store<any>({
+    modules: {
+      notifications: {
+        ...notifications,
+        state: {
+          notifications: [stubLocal],
+          backendNotifications: [stubBackend],
+        },
+      },
+    },
+  });
+  await stubStore.dispatch('notifications/hideAllNotifications');
+  const allNotifications = stubStore.getters['notifications/allNotifications'];
+  expect(allNotifications).toHaveLength(2);
+  allNotifications.forEach((item) => {
+    expect(item.visible).toBe(false);
+  });
+});
+
 test('removeAllNotifications removes local and backend notifications', async () => {
   const stubStore = new vuex.Store<any>({
     modules: {
