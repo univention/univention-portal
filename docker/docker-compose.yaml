@@ -38,8 +38,11 @@ services:
   notifications-api:
     build:
       context: ../notifications-api
+    container_name: notifications-api
+    depends_on:
+      - db
     environment:
-      DATABASE_URL: sqlite:////var/local/notifications-api/db.sqlite
+      DATABASE_URL: "postgresql://dev:devpassword@db/dev"
       APPLY_DATABASE_MIGRATIONS: true
     volumes:
       - type: volume
@@ -54,7 +57,18 @@ services:
       PORTAL_SERVER_BASE_URL: 'http://portal-server:80'
       NOTIFICATIONS_BASE_URL: 'http://notifications-api:80'
     ports:
-      - "${PROXY_PORT}:8000"
+      - "${PROXY_PORT}:80"
+  db:
+    image: postgres:12.13-alpine
+    environment:
+      POSTGRES_PASSWORD: "devpassword"
+      POSTGRES_USER: "dev"
+    volumes:
+      - type: volume
+        source: postgresql-data
+        target: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
 
   test:
     profiles:
@@ -100,3 +114,4 @@ services:
 volumes:
   pre-commit-cache:
   var-local-notifications-api:
+  postgresql-data:
