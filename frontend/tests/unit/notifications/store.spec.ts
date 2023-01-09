@@ -116,6 +116,19 @@ test('HIDE_NOTIFICATION hides local notification', () => {
   expect(stubNotification.hidingAfter).toBe(-1);
 });
 
+test('HIDE_BACKEND_NOTIFICATION hides backend notification', () => {
+  const stubNotification = {
+    ...stubBackendNotification,
+    popup: true,
+  };
+  const stubState = {
+    notifications: [],
+    backendNotifications: [stubNotification],
+  };
+  mutations.HIDE_BACKEND_NOTIFICATION(stubState, stubNotification);
+  expect(stubNotification.popup).toBe(false);
+});
+
 test('REMOVE_NOTIFICATION removes local notification', () => {
   const stubState = {
     notifications: [stubFullNotification],
