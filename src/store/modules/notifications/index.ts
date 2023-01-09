@@ -29,17 +29,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ActionContext } from 'vuex';
 
-import {
-  ClientApi, Configuration, Notification as BackendNotification,
-  NotificationSeverity } from '@/apis/notifications';
+import { Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
-
-const notificationsApiUrl = process.env.VUE_APP_NOTIFICATIONS_API_URL || './notifications-api';
-const notificationsApi = new ClientApi(new Configuration({
-  basePath: notificationsApiUrl,
-}));
+import notificationsApi from './apiclient';
 
 export const defaultHideAfter = 4;
 
