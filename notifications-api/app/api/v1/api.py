@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request, Depends, Query
 from fastapi.encoders import jsonable_encoder
+from sqlalchemy.exc import NoResultFound
 from sqlmodel import Session
 from typing import List
 from sse_starlette.sse import EventSourceResponse
@@ -42,6 +43,18 @@ def get_notifications(
         'type': type
     }
     return service.get_notifications(query, db)
+
+
+@router.get("/notifications/{id}/", tags=["client"])
+def get_notification(
+    id: str,
+    service=Depends(NotificationService),
+    db=Depends(get_session),
+):
+    try:
+        return service.get_notification(id, db)
+    except NoResultFound:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
 @router.post("/notifications/{id}/hide", tags=["client"])

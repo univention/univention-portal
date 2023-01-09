@@ -57,6 +57,23 @@ def test_hide_notification(empty_db, client):
     assert not notification_data["popup"]
 
 
+def test_get_notification(empty_db, client):
+    response = client.post('/v1/notifications/', json=request_data)
+    notification_data = response.json()
+    notification_id = notification_data['id']
+
+    response = client.get(f'/v1/notifications/{notification_id}/')
+    response_data = response.json()
+    assert response.status_code == HTTPStatus.OK
+    for key, value in request_data.items():
+        assert response_data[key] == value
+
+
+def test_get_notification_missing(stub_uuid, empty_db, client):
+    response = client.get(f'/v1/notifications/{stub_uuid}/')
+    assert response.status_code == HTTPStatus.NOT_FOUND
+
+
 def test_mark_notification_read(empty_db, client):
     response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/')

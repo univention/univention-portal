@@ -46,6 +46,10 @@ class NotificationService():
             Notification.notificationType == query['type']).limit(query['limit'])
         return db.exec(statement).fetchall()
 
+    def get_notification(self, id_: str, db: Session) -> Notification:
+        statement = select(Notification).where(Notification.id == id_)
+        return db.exec(statement).one()
+
     def pop_notifications_for_sse(
         self,
         db: Session
