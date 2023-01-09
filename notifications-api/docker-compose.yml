@@ -9,6 +9,8 @@ services:
     environment:
       dev_mode: True
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
+    depends_on:
+      - db
     volumes:
       - .:/app
     ports:
