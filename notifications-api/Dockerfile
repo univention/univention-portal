@@ -1,4 +1,4 @@
-FROM python:3.9-slim as base
+FROM library/python:3.9-slim as base
 
 ARG WORKDIR=/app
 ARG USER=fastapi
