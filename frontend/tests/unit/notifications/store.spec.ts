@@ -102,6 +102,20 @@ test('hideNotification commits HIDE_BACKEND_NOTIFICATION', () => {
   expect(actionContext.commit).toHaveBeenCalledTimes(1);
 });
 
+test('HIDE_NOTIFICATION hides local notification', () => {
+  const stubNotification = {
+    ...stubFullNotification,
+    visible: true,
+  };
+  const stubState = {
+    notifications: [],
+    backendNotifications: [],
+  };
+  mutations.HIDE_NOTIFICATION(stubState, stubNotification);
+  expect(stubNotification.visible).toBe(false);
+  expect(stubNotification.hidingAfter).toBe(-1);
+});
+
 test('REMOVE_NOTIFICATION removes local notification', () => {
   const stubState = {
     notifications: [stubFullNotification],
