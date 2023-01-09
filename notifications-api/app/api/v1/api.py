@@ -57,6 +57,18 @@ def get_notification(
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
+@router.delete("/notifications/{id}/", tags=["client"])
+def delete_notification(
+    id: str,
+    service=Depends(NotificationService),
+    db=Depends(get_session),
+):
+    try:
+        service.delete_notification(id, db)
+    except NoResultFound:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
+
+
 @router.post("/notifications/{id}/hide", tags=["client"])
 def hide_notification(
     id: str,

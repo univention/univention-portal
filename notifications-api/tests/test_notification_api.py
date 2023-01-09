@@ -74,6 +74,23 @@ def test_get_notification_missing(stub_uuid, empty_db, client):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
+def test_delete_notification(empty_db, client):
+    response = client.post('/v1/notifications/', json=request_data)
+    notification_data = response.json()
+    notification_id = notification_data['id']
+
+    response = client.delete(f'/v1/notifications/{notification_id}/')
+    assert response.status_code == HTTPStatus.OK
+
+    response = client.get(f'/v1/notifications/{notification_id}/')
+    assert response.status_code == HTTPStatus.NOT_FOUND
+
+
+def test_delete_notification_missing(stub_uuid, empty_db, client):
+    response = client.delete(f'/v1/notifications/{stub_uuid}/')
+    assert response.status_code == HTTPStatus.NOT_FOUND
+
+
 def test_mark_notification_read(empty_db, client):
     response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/')
