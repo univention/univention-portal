@@ -146,7 +146,7 @@ export const actions = {
     });
   },
   removeNotification({ commit, getters, state }: PortalActionContext<Notifications>, token: string): void {
-    const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
+    const notification = getters.allNotifications.find((n) => n.token === token);
     if (!notification) {
       return;
     }
@@ -160,7 +160,7 @@ export const actions = {
     }
   },
   hideNotification({ commit, getters, state }: PortalActionContext<Notifications>, token: string): void {
-    const notification = getters.allNotifications.find((ntfctn) => ntfctn.token === token);
+    const notification = getters.allNotifications.find((n) => n.token === token);
     if (!notification) {
       return;
     }
@@ -204,7 +204,6 @@ const notifications: PortalModule<Notifications> = {
     notifications: [],
     backendNotifications: [],
   },
-
   mutations,
   getters,
   actions,
