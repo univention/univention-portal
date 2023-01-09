@@ -274,4 +274,31 @@ test('removeAllNotifications removes local and backend notifications', async () 
   expect(stubStore.state.notifications.backendNotifications).toHaveLength(0);
 });
 
+test('addWeightedNotification hides notification if bell is open', async () => {
+  const stubLocal = {
+    ...stubFullNotification,
+  };
+  const mockHideNotification = jest.fn();
+  const stubStore = new vuex.Store<any>({
+    getters: {
+      'navigation/getActiveButton': () => 'bell',
+    },
+    modules: {
+      notifications: {
+        ...notifications,
+        actions: {
+          ...actions,
+          hideNotification: mockHideNotification,
+        },
+        state: {
+          notifications: [],
+          backendNotifications: [],
+        },
+      },
+    },
+  });
+  await stubStore.dispatch('notifications/addWeightedNotification', stubLocal);
+  expect(mockHideNotification).toHaveBeenCalledTimes(1);
+});
+
 test.todo('check the expected behavior of onClick');
