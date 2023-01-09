@@ -15,9 +15,16 @@ test('description is set correctly', () => {
   expect(result.description).toBe(stubBackendNotification.details);
 });
 
-test('hidingAfter is set correctly', () => {
-  const result = mapBackendNotification(stubBackendNotification);
-  expect(result.hidingAfter).toBe(defaultHideAfter);
+test.each([
+  [defaultHideAfter, true],
+  [-1, false],
+])('hidingAfter is set to correctly to %s, popup = %s', (expected, popup) => {
+  const stubNotification = {
+    ...stubBackendNotification,
+    popup,
+  };
+  const result = mapBackendNotification(stubNotification);
+  expect(result.hidingAfter).toBe(expected);
 });
 
 test.each(
