@@ -1,6 +1,9 @@
 ---
 
 variables:
+  # git.knut.univention.de:443/univention/dependency_proxy/containers/debian:buster-slim
+  #KANIKO_DOCKER_PROXY: "$CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX"
+  KANIKO_DOCKER_PROXY: artifacts.knut.univention.de/dockerhub_proxy_cache/library
   SOUVAP_API_V4_URL: https://gitlab.souvap-univention.de/api/v4
   SOUVAP_HELM_ACCESS_USER: gitlab-ci-knut
   SOUVAP_HELM_PROJECT_ID: 75
@@ -27,6 +30,44 @@ include:
   - project: univention/dist/docker-services
     file: kaniko.yml
 
+.kaniko-cert:
+  before_script:
+    - |
+      echo "-----BEGIN CERTIFICATE-----
+      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
+      qPIOVrVRqJWp40WuzVK2
+      -----END CERTIFICATE-----" >> /kaniko/ssl/certs/additional-ca-cert-bundle.crt
+
 
 .push-image-souvap:
   variables:
@@ -35,6 +76,9 @@ include:
   services:
   - name: docker-registry.knut.univention.de/ucs/docker:dind
     alias: docker
+    command:
+    - --insecure-registry=artifacts.knut.univention.de
+    - --tls=false
   before_script:
     # derived from the .kaniko_pre to define the IMAGE_TAG and IMAGE_VERSION
     - |-
@@ -71,7 +115,9 @@ include:
 
 build-portal-frontend-test-runner:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
@@ -85,7 +131,9 @@ build-portal-frontend-test-runner:
 
 build-portal-frontend-test-runner-ui:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
@@ -97,7 +145,9 @@ build-portal-frontend-test-runner-ui:
 
 build-portal-frontend:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
@@ -121,7 +171,9 @@ push-image-souvap-portal-frontend-job:
 
 build-portal-server-test-runner:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
@@ -133,7 +185,9 @@ build-portal-server-test-runner:
 
 build-portal-server:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
@@ -156,7 +210,9 @@ push-image-souvap-portal-server-job:
 
 build-notifications-api-test-runner:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
@@ -169,7 +225,9 @@ build-notifications-api-test-runner:
 
 build-notifications-api:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
@@ -358,8 +416,11 @@ test-notifications-api:
 
 build-linter:
   stage: build
-  extends: .kaniko
+  extends:
+    - .kaniko-cert
+    - .kaniko
   variables:
+    KANIKO_DOCKER_PROXY: artifacts.knut.univention.de/dockerhub_proxy_cache
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
     KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/pre-commit"
