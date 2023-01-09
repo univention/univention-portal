@@ -155,9 +155,9 @@ export const actions = {
       commit('REMOVE_NOTIFICATION', notification);
     }
   },
-  hideNotification(
+  async hideNotification(
     { commit, getters, state }: PortalActionContext<Notifications>, token: string,
-  ): void {
+  ) {
     const notification = getters.allNotifications.find((n) => n.token === token);
     if (!notification) {
       return;
@@ -166,6 +166,9 @@ export const actions = {
       const backendNotification = state.backendNotifications.find((n) => n.id === token);
       if (backendNotification) {
         commit('HIDE_BACKEND_NOTIFICATION', backendNotification);
+        const response = await notificationsApi.hideNotificationV1NotificationsIdHidePost(
+          backendNotification.id,
+        );
       }
     } else {
       commit('HIDE_NOTIFICATION', notification);

@@ -3,7 +3,10 @@ import vuex from 'vuex';
 import notifications, {
   actions, defaultHideAfter, getters, mapBackendNotification, mutations, severityMapping,
 } from '@/store/modules/notifications';
+import notificationsApi from '@/store/modules/notifications/apiclient';
 import { stubBackendNotification, stubFullNotification, stubUuid } from './stubs';
+
+jest.mock('@/store/modules/notifications/apiclient');
 
 test('title is set correctly', () => {
   const result = mapBackendNotification(stubBackendNotification);
@@ -107,6 +110,27 @@ test('hideNotification commits HIDE_BACKEND_NOTIFICATION', () => {
   actions.hideNotification(actionContext, token);
   expect(actionContext.commit).toHaveBeenCalledWith('HIDE_BACKEND_NOTIFICATION', stubBackendNotification);
   expect(actionContext.commit).toHaveBeenCalledTimes(1);
+});
+
+test('hideNotification calls hide on notifications api', async () => {
+  const stubBackend = {
+    ...stubBackendNotification,
+    popup: true,
+  };
+  const token = stubBackend.id;
+  const stubStore = new vuex.Store<any>({
+    modules: {
+      notifications: {
+        ...notifications,
+        state: {
+          notifications: [],
+          backendNotifications: [stubBackend],
+        },
+      },
+    },
+  });
+  await stubStore.dispatch('notifications/hideNotification', token);
+  expect(notificationsApi.hideNotificationV1NotificationsIdHidePost).toHaveBeenCalledWith(token);
 });
 
 test('HIDE_NOTIFICATION hides local notification', () => {
