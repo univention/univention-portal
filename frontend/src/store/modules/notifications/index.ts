@@ -140,9 +140,9 @@ export const actions = {
       dispatch('removeNotification', notification.token);
     });
   },
-  hideAllNotifications({ commit, getters }: PortalActionContext<Notifications>): void {
+  hideAllNotifications({ commit, dispatch, getters }: PortalActionContext<Notifications>): void {
     getters.visibleNotifications.forEach((notification) => {
-      commit('HIDE_NOTIFICATION', notification);
+      dispatch('hideNotification', notification.token);
     });
   },
   removeNotification({ commit, getters, state }: PortalActionContext<Notifications>, token: string): void {
