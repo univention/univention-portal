@@ -5,9 +5,7 @@ from sqlmodel import create_engine, Session
 from app.core.config import settings
 
 
-engine = create_engine(
-    settings.database_url, echo=True, connect_args=dict(check_same_thread=False),
-)
+engine = create_engine(settings.database_url, echo=True)
 
 
 def get_session() -> Iterator[Session]:
