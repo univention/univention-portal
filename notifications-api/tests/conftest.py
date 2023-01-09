@@ -85,3 +85,11 @@ def filled_db(empty_db):
     ))
     db.commit()
     return db
+
+
+@pytest.fixture()
+def stub_uuid():
+    """
+    An unused uuid value as a string.
+    """
+    return str(uuid4())
