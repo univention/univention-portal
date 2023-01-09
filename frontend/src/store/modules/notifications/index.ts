@@ -145,7 +145,9 @@ export const actions = {
       dispatch('hideNotification', notification.token);
     });
   },
-  removeNotification({ commit, getters, state }: PortalActionContext<Notifications>, token: string): void {
+  removeNotification(
+    { commit, getters, state }: PortalActionContext<Notifications>, token: string
+  ): void {
     const notification = getters.allNotifications.find((n) => n.token === token);
     if (!notification) {
       return;
@@ -159,7 +161,9 @@ export const actions = {
       commit('REMOVE_NOTIFICATION', notification);
     }
   },
-  hideNotification({ commit, getters, state }: PortalActionContext<Notifications>, token: string): void {
+  hideNotification(
+    { commit, getters, state }: PortalActionContext<Notifications>, token: string,
+  ): void {
     const notification = getters.allNotifications.find((n) => n.token === token);
     if (!notification) {
       return;
