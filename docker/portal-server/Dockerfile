@@ -1,5 +1,5 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}debian:buster-slim AS ucs-sources-base
+FROM ${DOCKER_PROXY}library/debian:buster-slim AS ucs-sources-base
 
 ARG APT_KEY_URL=https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg
 
