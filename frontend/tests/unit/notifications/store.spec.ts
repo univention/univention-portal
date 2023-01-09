@@ -55,6 +55,53 @@ test('backend notifications are flagged with isBackendNotification', () => {
   expect(result.isBackendNotification).toBe(true);
 });
 
+test('hideNotification commits HIDE_NOTIFICATION', () => {
+  const actionContext = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      allNotifications: [stubFullNotification],
+    },
+    rootState: {
+      loadingState: false,
+      initialLoadDone: true,
+    },
+    rootGetters: {},
+    state: {
+      notifications: [],
+      backendNotifications: [],
+    },
+  };
+  const token = stubFullNotification.token;
+  actions.hideNotification(actionContext, token);
+  expect(actionContext.commit).toHaveBeenCalledWith('HIDE_NOTIFICATION', stubFullNotification);
+  expect(actionContext.commit).toHaveBeenCalledTimes(1);
+});
+
+test('hideNotification commits HIDE_BACKEND_NOTIFICATION', () => {
+  const stubNotification = mapBackendNotification(stubBackendNotification);
+  const actionContext = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    getters: {
+      allNotifications: [stubNotification],
+    },
+    rootState: {
+      loadingState: false,
+      initialLoadDone: true,
+    },
+    rootGetters: {},
+    state: {
+      notifications: [],
+      backendNotifications: [stubBackendNotification],
+    },
+  };
+  const token = stubNotification.token;
+  actions.hideNotification(actionContext, token);
+  expect(actionContext.commit).toHaveBeenCalledWith('HIDE_BACKEND_NOTIFICATION', stubBackendNotification);
+  expect(actionContext.commit).toHaveBeenCalledTimes(1);
+});
+
 test('REMOVE_NOTIFICATION removes local notification', () => {
   const stubState = {
     notifications: [stubFullNotification],
