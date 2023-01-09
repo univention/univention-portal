@@ -269,6 +269,74 @@ export interface ValidationError {
 export const ClientApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * 
+         * @summary Delete Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteNotificationV1NotificationsIdDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteNotificationV1NotificationsIdDelete', 'id', id)
+            const localVarPath = `/v1/notifications/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getNotificationV1NotificationsIdGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getNotificationV1NotificationsIdGet', 'id', id)
+            const localVarPath = `/v1/notifications/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Read the notifications of the current user.
          * @summary Get Notifications
          * @param {string} [limit] 
@@ -451,6 +519,28 @@ export const ClientApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ClientApiAxiosParamCreator(configuration)
     return {
         /**
+         * 
+         * @summary Delete Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteNotificationV1NotificationsIdDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteNotificationV1NotificationsIdDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getNotificationV1NotificationsIdGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getNotificationV1NotificationsIdGet(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Read the notifications of the current user.
          * @summary Get Notifications
          * @param {string} [limit] 
@@ -516,6 +606,26 @@ export const ClientApiFactory = function (configuration?: Configuration, basePat
     const localVarFp = ClientApiFp(configuration)
     return {
         /**
+         * 
+         * @summary Delete Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteNotificationV1NotificationsIdDelete(id: string, options?: any): AxiosPromise<any> {
+            return localVarFp.deleteNotificationV1NotificationsIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Notification
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getNotificationV1NotificationsIdGet(id: string, options?: any): AxiosPromise<any> {
+            return localVarFp.getNotificationV1NotificationsIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Read the notifications of the current user.
          * @summary Get Notifications
          * @param {string} [limit] 
@@ -575,6 +685,26 @@ export const ClientApiFactory = function (configuration?: Configuration, basePat
  */
 export interface ClientApiInterface {
     /**
+     * 
+     * @summary Delete Notification
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClientApiInterface
+     */
+    deleteNotificationV1NotificationsIdDelete(id: string, options?: AxiosRequestConfig): AxiosPromise<any>;
+
+    /**
+     * 
+     * @summary Get Notification
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClientApiInterface
+     */
+    getNotificationV1NotificationsIdGet(id: string, options?: AxiosRequestConfig): AxiosPromise<any>;
+
+    /**
      * Read the notifications of the current user.
      * @summary Get Notifications
      * @param {string} [limit] 
@@ -633,6 +763,30 @@ export interface ClientApiInterface {
  * @extends {BaseAPI}
  */
 export class ClientApi extends BaseAPI implements ClientApiInterface {
+    /**
+     * 
+     * @summary Delete Notification
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClientApi
+     */
+    public deleteNotificationV1NotificationsIdDelete(id: string, options?: AxiosRequestConfig) {
+        return ClientApiFp(this.configuration).deleteNotificationV1NotificationsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Notification
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ClientApi
+     */
+    public getNotificationV1NotificationsIdGet(id: string, options?: AxiosRequestConfig) {
+        return ClientApiFp(this.configuration).getNotificationV1NotificationsIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Read the notifications of the current user.
      * @summary Get Notifications
