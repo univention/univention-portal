@@ -8,6 +8,10 @@ import { stubBackendNotification, stubFullNotification, stubUuid } from './stubs
 
 jest.mock('@/store/modules/notifications/apiclient');
 
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 test('title is set correctly', () => {
   const result = mapBackendNotification(stubBackendNotification);
   expect(result.title).toBe(stubBackendNotification.title);
