@@ -1,0 +1,28 @@
+---
+- name: Set up fresh Univention VM
+  hosts: univention-vm
+  gather_facts: no
+  connection: paramiko
+
+  tasks:
+    - name: Copy SSH pub-key to VM
+      ansible.posix.authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', ssh_key ~ '.pub') }}"
+      tags: [ ssh-copy-id ]
+
+    - name: Apply blunt fix to keep system time across intermittent system downtime
+      ansible.builtin.replace:
+        path: /etc/ntp.conf
+        regexp: 'restrict default mssntp noquery\nrestrict 127.0.0.1\nrestrict ::1'
+        replace: 'server de.pool.ntp.org'
+      notify: ntp-restart
+      tags: [ fix-ntp ]
+
+  handlers:
+    - name: Restart ntp
+      ansible.builtin.service:
+        name: ntp
+        state: restarted
+      listen: ntp-restart

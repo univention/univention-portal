@@ -1,0 +1,16 @@
+---
+- name: Install minikube
+  shell: |
+    curl -fsSLo ./minikube https://storage.googleapis.com/minikube/releases/v{{ minikube_version }}/minikube-linux-amd64
+    chmod 755 ./minikube
+    mv ./minikube {{ installation_dir }}/minikube
+  args:
+    executable: /bin/bash
+    creates: '{{ installation_dir }}/minikube'
+  tags: [ install, minikube ]
+
+- name: Remove minikube executable
+  file:
+    path: '{{ installation_dir }}/minikube'
+    state: absent
+  tags: [ remove, minikube ]

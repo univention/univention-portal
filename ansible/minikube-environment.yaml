@@ -1,0 +1,162 @@
+---
+- name: Install / set up / remove minikube environment
+  hosts: '{{ nodes | default("ucs_dev_machines") }}'
+  gather_facts: no
+  vars_files:
+    - vars/k8s-minikube.yaml
+  vars:
+    - installation_dir: /usr/local/bin
+
+  tasks:
+    - include_role:
+        name: minikube
+      tags: [ install ]
+
+    - include_role:
+        name: kubectl
+      tags: [ install ]
+
+    - include_role:
+        name: helm
+      tags: [ install ]
+
+    - include_role:
+        name: tilt
+      tags: [ install ]
+
+    - name: Allow kubectl to bind to privileged ports
+      ansible.builtin.shell: 'setcap CAP_NET_BIND_SERVICE=+eip {{ installation_dir }}/kubectl'
+      args:
+        executable: /bin/bash
+      tags: [ set-cap ]
+
+    - name: Remove all additional capabilities from kubectl
+      ansible.builtin.shell: 'setcap -r {{ installation_dir }}/kubectl'
+      args:
+        executable: /bin/bash
+      tags: [ restore-cap ]
+
+    - name: Open port 8080
+      ansible.builtin.shell: 'iptables -I INPUT -p tcp --dport 8080 -j ACCEPT'
+      args:
+        executable: /bin/bash
+      tags: [ open-port-8080 ]
+
+    - name: Patch ports.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/ports.conf
+        regexp: 'Listen 80'
+        replace: 'Listen 8080'
+      notify: apache2-restart
+      tags: [ set-up-apache ]
+
+    - name: Patch 000-default.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/sites-available/000-default.conf
+        regexp: '<VirtualHost \*:80>'
+        replace: '<VirtualHost *:8080>'
+      notify: apache2-restart
+      tags: [ set-up-apache ]
+
+    - name: Patch ssl.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/mods-available/ssl.conf
+        regexp: 'Listen 443'
+        replace: 'Listen 8443'
+      notify: apache2-restart
+      tags: [ set-up-apache ]
+
+    - name: Patch default-ssl.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/sites-available/default-ssl.conf
+        regexp: '<VirtualHost \*:443>'
+        replace: '<VirtualHost *:8443>'
+      notify: apache2-restart
+      tags: [ set-up-apache ]
+
+    - name: Step 1 -- patch univention-saml.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/sites-available/univention-saml.conf
+        regexp: '<VirtualHost \*:80>'
+        replace: '<VirtualHost *:8080>'
+      notify: apache2-restart
+      tags: [ set-up-apache ]
+
+    - name: Step 2 -- patch univention-saml.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/sites-available/univention-saml.conf
+        regexp: '<VirtualHost \*:443>'
+        replace: '<VirtualHost *:8443>'
+      notify: apache2-restart
+      tags: [ set-up-apache ]
+
+    - name: Restore default-ssl.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/sites-available/default-ssl.conf
+        regexp: '<VirtualHost \*:8443>'
+        replace: '<VirtualHost *:443>'
+      notify: apache2-restart
+      tags: [ restore-apache ]
+
+    - name: Restore ssl.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/mods-available/ssl.conf
+        regexp: 'Listen 8443'
+        replace: 'Listen 443'
+      notify: apache2-restart
+      tags: [ restore-apache ]
+
+    - name: Restore 000-default.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/sites-available/000-default.conf
+        regexp: '<VirtualHost \*:8080>'
+        replace: '<VirtualHost *:80>'
+      notify: apache2-restart
+      tags: [ restore-apache ]
+
+    - name: Restore ports.conf
+      ansible.builtin.replace:
+        path: /etc/apache2/ports.conf
+        regexp: 'Listen 8080'
+        replace: 'Listen 80'
+      notify: apache2-restart
+      tags: [ restore-apache ]
+
+    - name: Set up minikube cluster with local Docker registry
+      ansible.builtin.shell: |
+        cat <<EOF | ctlptl apply -f -
+        {{ lookup("template", playbook_dir ~ "/templates/k8s/setup-minikube-cluster.yaml.j2") }}
+        EOF
+      args:
+        executable: /bin/bash
+      tags: [ setup ]
+
+    - name: Tear down minikube cluster
+      ansible.builtin.shell: 'ctlptl delete cluster {{ cluster_name }}'
+      args:
+        executable: /bin/bash
+      register: teardown_cluster
+      tags: [ teardown ]
+
+    - include_role:
+        name: tilt
+      tags: [ remove ]
+
+    - include_role:
+        name: helm
+      tags: [ remove ]
+
+    - include_role:
+        name: kubectl
+      tags: [ remove ]
+
+    - include_role:
+        name: minikube
+      tags: [ remove ]
+
+  handlers:
+    - name: Restart apache
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+      listen: apache2-restart

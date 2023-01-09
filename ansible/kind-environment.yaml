@@ -23,37 +23,49 @@
       tags: [ install ]
 
     - name: Make sure apache is not running when ingress requested
-      systemd:
+      ansible.builtin.systemd:
         name: apache2
         state: stopped
         masked: true
-      when: ingress_enable
-      tags: [ setup ]
+#      when: ingress_enable
+      tags: [ never ]
 
     - name: Set up kind cluster with local Docker registry
-      shell: |
+      ansible.builtin.shell: |
         cat <<EOF | ctlptl apply -f -
-        {{ lookup("template", playbook_dir ~ "/templates/k8s-kind/setup-cluster.yaml.j2") }}
+        {{ lookup("template", playbook_dir ~ "/templates/k8s/setup-kind-cluster.yaml.j2") }}
         EOF
       args:
         executable: /bin/bash
-      register: setup_cluster
       tags: [ setup ]
 
+    - name: Install ingress-nginx
+      ansible.builtin.shell: |
+        cat <<EOF | kubectl apply -f -
+        {{ lookup("template", playbook_dir ~ "/templates/k8s/deploy-ingress-nginx.yaml") }}
+        EOF
+        kubectl wait --namespace ingress-nginx \
+          --for=condition=ready pod \
+          --selector=app.kubernetes.io/component=controller \
+          --timeout=90s
+      args:
+        executable: /bin/bash
+      tags: [ setup-ingress-controller ]
+
     - name: Tear down kind cluster
-      shell: 'ctlptl delete cluster kind-{{ cluster_name }}'
+      ansible.builtin.shell: 'ctlptl delete cluster kind-{{ cluster_name }}'
       args:
         executable: /bin/bash
       register: teardown_cluster
       tags: [ teardown ]
 
     - name: Restart apache when ingress had been requested
-      systemd:
+      ansible.builtin.systemd:
         name: apache2
         state: started
         masked: false
-      when: ingress_enable
-      tags: [ teardown ]
+#      when: ingress_enable
+      tags: [ never ]
 
     - include_role:
         name: tilt

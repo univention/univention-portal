@@ -1,0 +1,10 @@
+apiVersion: ctlptl.dev/v1alpha1
+kind: Registry
+name: {{ local_registry_name }}
+port: {{ local_registry_port }}
+---
+apiVersion: ctlptl.dev/v1alpha1
+kind: Cluster
+name: {{ cluster_name }}
+product: kind
+registry: {{ local_registry_name }}

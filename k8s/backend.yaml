@@ -19,6 +19,7 @@ spec:
           image: univention/portal-backend
           ports:
             - containerPort: 80
+              name: http-backend
           volumeMounts:
             - mountPath: /usr/lib/univention-portal/config
               name: backend-config-volume

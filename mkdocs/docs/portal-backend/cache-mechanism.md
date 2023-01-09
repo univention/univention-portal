@@ -9,6 +9,35 @@ Backend needs to cache computationally expensive results.
     - /var/cache/univention/portal.json
     - /var/cache/univention/groups.json
 
+
+## Loading portal entries
+
+```mermaid
+sequenceDiagram
+    participant F as Frontend
+    participant B as Backend
+    participant C as Portal Cache
+    participant U as UMC API
+    Note over F: App mounted
+    F ->> B: GET /portal.json
+    Note over B: portal.get_user(request)
+    Note over B: authenticator.get_user(request)
+    B ->> U: GET /UMC_SESSION_URL
+    U ->> B: [user]
+    B ->> C: group_cache.get(username)
+    Note over C: from mem / else load cache_file
+    C ->> B: [groups]
+    Note over B: get folders/entries/links/...
+    loop folders/entries/links/...
+        B ->> C: get_...
+        Note over C: from mem / else load cache_file
+        C ->> B: folders/entries/links/...
+    end
+    B ->> F: JSON [portal]
+```
+
+## Reloader process
+
 ```mermaid
 flowchart
     direction LR

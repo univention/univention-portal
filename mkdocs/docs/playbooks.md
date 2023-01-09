@@ -107,7 +107,7 @@ ansible
 │   ├── jupyter
 │   │   ├─── ipython_config.py
 │   │   ├─── ipython_kernel_config.py
-│   │   ├─── jupyter_server_config.py
+│   │   ├─── jupyter_server_config.py.j2
 │   │   └─── overrides.json
 │   └── k8s-kind
 │       └── setup-cluster.yaml.j2

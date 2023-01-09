@@ -1,0 +1,4 @@
+---
+cluster_name: minikube
+local_registry_name: ctlptl-registry
+local_registry_port: 5000

@@ -2,5 +2,6 @@ nav:
   - 'Overview': index.md
   - 'Portal Backend': portal-backend
   - 'UCS Apache Configuration': apache.md
+  - 'K8s test instance': k8s-deployment
   - 'K8s with Tilt': k8s-remote-dev
   - 'Playbooks': playbooks.md

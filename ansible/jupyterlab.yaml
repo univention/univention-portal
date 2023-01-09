@@ -4,10 +4,12 @@
   gather_facts: no
   vars_files:
     - vars/venv.yaml
+  vars:
+    - notebook_dir: /root/notebooks
 
   tasks:
     - name: Install ipython
-      pip:
+      ansible.builtin.pip:
         name:
           - ipython
         virtualenv: "{{ venv_path }}"
@@ -15,7 +17,7 @@
       tags: [ install, ipython, ]
 
     - name: Install JupyterLab Python packages
-      pip:
+      ansible.builtin.pip:
         name:
           - jupyter
           - bash_kernel
@@ -25,31 +27,69 @@
       tags: [ install, jupyter, ]
 
     - name: Copy ipython kernel config to remote host
-      copy:
-        src: "{{ playbook_dir }}/templates/jupyter/ipython_kernel_config.py"
+      ansible.builtin.copy:
+        src: ./templates/jupyter/ipython_kernel_config.py
         dest: ~/.ipython/profile_default/
       tags: [ setup, ipython, ]
 
     - name: Copy ipython config to remote host
-      copy:
-        src: "{{ playbook_dir }}/templates/jupyter/ipython_config.py"
+      ansible.builtin.copy:
+        src: ./templates/jupyter/ipython_config.py
         dest: ~/.ipython/profile_default/
       tags: [ setup, ipython, ]
 
+    - name: Ensure ~/.jupyter directory exists
+      ansible.builtin.file:
+        path: ~/.jupyter
+        state: directory
+        mode: '0700'
+      tags: [ setup, jupyter, ]
+
     - name: Copy jupyter server config to remote host
-      copy:
-        src: "{{ playbook_dir }}/templates/jupyter/jupyter_server_config.py"
-        dest: ~/.jupyter/
+      ansible.builtin.template:
+        src: ./templates/jupyter/jupyter_server_config.py.j2
+        dest: ~/.jupyter/jupyter_server_config.py
       tags: [ setup, jupyter, ]
 
     - name: Copy jupyterlab customizations to remote host
-      copy:
-        src: "{{ playbook_dir }}/templates/jupyter/overrides.json"
+      ansible.builtin.copy:
+        src: ./templates/jupyter/overrides.json
         dest: "{{ venv_path }}/share/jupyter/lab/settings/"
       tags: [ setup, jupyter, ]
 
     - name: Activate bash_kernel
-      command: "{{ venv_path }}/bin/python -m bash_kernel.install --prefix={{ venv_path }}"
+      ansible.builtin.command: "{{ venv_path }}/bin/python -m bash_kernel.install --prefix={{ venv_path }}"
       args:
         creates: "{{ venv_path }}/share/jupyter/kernels/bash"
       tags: [ setup, jupyter, ]
+
+    - name: "Ensure {{ notebook_dir }} exists"
+      ansible.builtin.file:
+        path: "{{ notebook_dir }}"
+        state: directory
+        mode: '0700'
+      tags: [ setup, jupyter, ]
+
+    - name: "Sync from remote {{ notebook_dir }} to local ../jupyter-notebooks"
+      ansible.posix.synchronize:
+        mode: pull
+        src: "{{ notebook_dir }}/"
+        dest: ../jupyter-notebooks/
+        delete: yes
+        recursive: yes
+        rsync_opts:
+          - "--exclude=.ipynb_checkpoints"
+      tags: [ never, sync-notebooks ]
+
+    - name: Start JupyterLab on remote host
+      ansible.builtin.command: "ssh -L 8888:localhost:8888 -N root@10.200.112.10"
+      args:
+        executable: /bin/bash
+      tags: [ never, start ]
+
+    - name: Open SSH tunnel
+      ansible.builtin.raw: "ssh -L 8888:localhost:8888 -N root@10.200.112.10"
+      args:
+        executable: /bin/bash
+      delegate_to: 127.0.0.1
+      tags: [ never, start ]

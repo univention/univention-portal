@@ -19,3 +19,4 @@ spec:
           image: univention/portal-frontend
           ports:
             - containerPort: 80
+              name: http-frontend

@@ -6,6 +6,7 @@ spec:
   selector:
     app: univention-portal-backend
   ports:
-    - protocol: TCP
-      port: 8081
-      targetPort: 80
+    - name: http-backend
+      protocol: TCP
+      port: 8095
+      targetPort: http-backend
