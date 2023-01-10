@@ -38,7 +38,7 @@ export const stubBackendNotification: BackendNotification = {
 
 export const stubTime = '2023-01-08T09:47:07.789861';
 
-export const store = function() {
+export const store = function () {
   const stubStore = new vuex.Store<any>({
     modules: {
       notifications: {
@@ -51,4 +51,10 @@ export const store = function() {
     },
   });
   return stubStore;
+};
+
+export const eventSource = function () {
+  return {
+    addEventListener: jest.fn(),
+  };
 };
