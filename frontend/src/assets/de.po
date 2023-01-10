@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-10-04 19:47+0200\n"
+"POT-Creation-Date: 2023-01-10 17:09+0100\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -241,6 +241,10 @@ msgstr "schließen"
 #: frontend/src/tmp/ts/frontend/src/components/PortalToolTip.vue:63
 msgid "Close Tooltip"
 msgstr "Tooltip schließen"
+
+#: frontend/src/tmp/ts/frontend/src/components/widgets/Announcement.vue:47
+msgid "Confirm"
+msgstr "Bestätigen"
 
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:90
 msgid "Continue"
@@ -668,6 +672,10 @@ msgstr ""
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordForgotten.vue:41
 msgid "Please choose an option to renew your password."
 msgstr "Bitte wählen Sie eine Wiederherstellungsoption aus."
+
+#: frontend/src/tmp/ts/frontend/src/components/widgets/Announcement.vue:50
+msgid "Please confirm"
+msgstr "Bitte bestätigen Sie"
 
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/ProtectAccount.vue:50
 msgid "Please confirm your %(label)s"
