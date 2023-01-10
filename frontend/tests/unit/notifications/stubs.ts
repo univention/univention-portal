@@ -1,4 +1,7 @@
+import vuex from 'vuex';
+
 import { Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
+import notifications from '@/store/modules/notifications';
 import * as models from '@/store/modules/notifications/notifications.models';
 
 export const stubFullNotification: models.FullNotification = {
@@ -34,3 +37,18 @@ export const stubBackendNotification: BackendNotification = {
 };
 
 export const stubTime = '2023-01-08T09:47:07.789861';
+
+export const store = function() {
+  const stubStore = new vuex.Store<any>({
+    modules: {
+      notifications: {
+        ...notifications,
+        state: {
+          notifications: [],
+          backendNotifications: [],
+        },
+      },
+    },
+  });
+  return stubStore;
+};
