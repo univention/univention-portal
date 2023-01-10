@@ -11,4 +11,11 @@ export const connectEventSource = function (): EventSource {
   return eventSource;
 };
 
+export const connectEventListener = function (eventSource, eventName, actionName, dispatch) {
+  eventSource.addEventListener(eventName, (event) => {
+    const eventData = JSON.parse((event as MessageEvent).data);
+    dispatch(actionName, eventData);
+  });
+};
+
 export default notificationsApi;
