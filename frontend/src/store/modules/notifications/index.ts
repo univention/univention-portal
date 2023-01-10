@@ -33,7 +33,7 @@ import { Notification as BackendNotification, NotificationSeverity } from '@/api
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
-import notificationsApi, { connectEventSource } from './apiclient';
+import notificationsApi, { connectEventSource, connectEventListener } from './apiclient';
 
 export const defaultHideAfter = 4;
 
@@ -211,10 +211,15 @@ export const actions = {
     const eventSource = connectEventSource();
     commit('SET_EVENT_SOURCE', eventSource);
 
-    eventSource.addEventListener('new_notification', (event) => {
-      const eventData = JSON.parse((event as MessageEvent).data);
-      dispatch('newBackendNotificationEvent', eventData);
-    });
+    connectEventListener(
+      eventSource, 'new_notification', 'newBackendNotificationEvent', dispatch,
+    );
+    connectEventListener(
+      eventSource, 'updated_notification', 'updateBackendNotificationEvent', dispatch,
+    );
+    connectEventListener(
+      eventSource, 'deleted_notification', 'deleteBackendNotificationEvent', dispatch,
+    );
   },
   newBackendNotificationEvent({ commit, state }, eventData) {
     const item = state.backendNotifications.find((n) => n.id === eventData.id);

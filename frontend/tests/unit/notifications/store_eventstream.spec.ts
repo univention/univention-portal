@@ -1,4 +1,5 @@
-import notificationsApi, { connectEventSource } from '@/store/modules/notifications/apiclient';
+import notificationsApi, {
+  connectEventSource, connectEventListener } from '@/store/modules/notifications/apiclient';
 
 import * as stubs from './stubs';
 import * as utils from '../utils';
@@ -49,12 +50,20 @@ describe('connectNotificationsApi', () => {
 
 describe('connectEventStream', () => {
 
-  test('connects listener for the event "new_notification"', async () => {
+  test('connects listeners for the events', async () => {
     const stubStore = stubs.store();
     const stubEventSource = connectEventSource();
     await stubStore.dispatch('notifications/connectEventStream');
-    expect(stubEventSource.addEventListener)
-      .toHaveBeenCalledWith('new_notification', expect.anything());
+
+    expect(connectEventListener).toHaveBeenNthCalledWith(
+      1, stubEventSource, 'new_notification', 'newBackendNotificationEvent', expect.anything(),
+    );
+    expect(connectEventListener).toHaveBeenNthCalledWith(
+      2, stubEventSource, 'updated_notification', 'updateBackendNotificationEvent', expect.anything(),
+    );
+    expect(connectEventListener).toHaveBeenNthCalledWith(
+      3, stubEventSource, 'deleted_notification', 'deleteBackendNotificationEvent', expect.anything(),
+    );
   });
 });
 
