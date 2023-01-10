@@ -209,6 +209,17 @@ export const actions = {
       commit('ADD_BACKEND_NOTIFICATION', eventData);
     }
   },
+  deleteBackendNotificationEvent({ commit, state }, eventData) {
+    const id = eventData.id;
+    const notification = state.backendNotifications.find((n) => n.id === eventData.id);
+    if (!notification) {
+      console.warn(
+        'Received "delete_notification" event for a non-existing notification', eventData,
+      );
+    } else {
+      commit('REMOVE_BACKEND_NOTIFICATION', notification);
+    }
+  },
 };
 
 export const getters = {
