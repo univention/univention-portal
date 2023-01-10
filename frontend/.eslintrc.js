@@ -97,6 +97,12 @@ module.exports = {
         '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: { jest: true },
+      rules: {
+        // When using "describe" to group tests, then a blank line as a first
+        // element inside of the block is desired, so that test cases are
+        // visually separated still.
+        "padded-blocks": 'off',
+      },
     },
   ],
   settings: {
