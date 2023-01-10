@@ -1,8 +1,6 @@
-import vuex from 'vuex';
-
-import notifications from '@/store/modules/notifications';
 import notificationsApi, { connectEventSource } from '@/store/modules/notifications/apiclient';
 
+import * as stubs from './stubs';
 import * as utils from '../utils';
 
 jest.mock('@/store/modules/notifications/apiclient');
@@ -21,49 +19,19 @@ describe('connectNotificationsApi', () => {
   });
 
   test('loads initial notifications from the api', async () => {
-    const stubStore = new vuex.Store<any>({
-      modules: {
-        notifications: {
-          ...notifications,
-          state: {
-            notifications: [],
-            backendNotifications: [],
-          },
-        },
-      },
-    });
+    const stubStore = stubs.store();
     await stubStore.dispatch('notifications/connectNotificationsApi');
     expect(notificationsApi.getNotificationsV1NotificationsGet).toHaveBeenCalledWith();
   });
 
   test('connects the event stream', async () => {
-    const stubStore = new vuex.Store<any>({
-      modules: {
-        notifications: {
-          ...notifications,
-          state: {
-            notifications: [],
-            backendNotifications: [],
-          },
-        },
-      },
-    });
+    const stubStore = stubs.store();
     await stubStore.dispatch('notifications/connectNotificationsApi');
     expect(connectEventSource).toHaveBeenCalledWith();
   });
 
   test('adds EventSource instance into state', async () => {
-    const stubStore = new vuex.Store<any>({
-      modules: {
-        notifications: {
-          ...notifications,
-          state: {
-            notifications: [],
-            backendNotifications: [],
-          },
-        },
-      },
-    });
+    const stubStore = stubs.store();
     const stubEventSource = { _flagStubEventSource: true };
     (connectEventSource as jest.Mock).mockReturnValue(stubEventSource);
     await stubStore.dispatch('notifications/connectNotificationsApi');
