@@ -38,3 +38,22 @@ describe('connectNotificationsApi', () => {
     expect(stubStore.state.notifications.eventSource).toEqual(stubEventSource);
   });
 });
+
+describe('newBackendNotificationEvent', () => {
+
+  test('adds a new backend notification into the state', () => {
+    const stubStore = stubs.store();
+    const eventData = stubs.stubBackendNotification;
+    stubStore.dispatch('notifications/newBackendNotificationEvent', eventData);
+    expect(stubStore.state.notifications.backendNotifications).toHaveLength(1);
+  });
+
+  test('does not add a known notification into the state', () => {
+    const stubStore = stubs.store();
+    const eventData = stubs.stubBackendNotification;
+    stubStore.dispatch('notifications/newBackendNotificationEvent', eventData);
+    stubStore.dispatch('notifications/newBackendNotificationEvent', eventData);
+    expect(stubStore.state.notifications.backendNotifications).toHaveLength(1);
+  });
+
+});
