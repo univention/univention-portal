@@ -5,6 +5,11 @@ import * as utils from '../utils';
 
 jest.mock('@/store/modules/notifications/apiclient');
 
+beforeEach(() => {
+  const stubEventSource = stubs.eventSource();
+  (connectEventSource as jest.Mock).mockReturnValue(stubEventSource);
+});
+
 afterEach(() => {
   jest.resetAllMocks();
 });
@@ -36,10 +41,20 @@ describe('connectNotificationsApi', () => {
 
   test('adds EventSource instance into state', async () => {
     const stubStore = stubs.store();
-    const stubEventSource = { _flagStubEventSource: true };
-    (connectEventSource as jest.Mock).mockReturnValue(stubEventSource);
+    const stubEventSource = connectEventSource();
     await stubStore.dispatch('notifications/connectNotificationsApi');
     expect(stubStore.state.notifications.eventSource).toEqual(stubEventSource);
+  });
+});
+
+describe('connectEventStream', () => {
+
+  test('connects listener for the event "new_notification"', async () => {
+    const stubStore = stubs.store();
+    const stubEventSource = connectEventSource();
+    await stubStore.dispatch('notifications/connectEventStream');
+    expect(stubEventSource.addEventListener)
+      .toHaveBeenCalledWith('new_notification', expect.anything());
   });
 });
 
@@ -71,7 +86,7 @@ describe('updateBackendNotificationEvent', () => {
     const stubNotification = {
       ...stubs.stubBackendNotification,
       popup: true,
-    }
+    };
     const eventData = {
       ...stubs.stubBackendNotification,
       popup: false,
