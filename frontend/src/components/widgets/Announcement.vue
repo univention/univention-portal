@@ -25,14 +25,51 @@
       X
     </a>
   </div>
+  <modal-wrapper
+    v-if="showModal"
+    :is-active="true"
+    :full="true"
+    :teleport-to-body="false"
+    @background-click="showModal = false"
+  >
+    <modal-dialog
+      :title="DIALOG_TITLE"
+      class="read-confirmation-dialog-modal"
+      @cancel="closeAndKeep()"
+    >
+      <main class="read-confirmation-dialog">
+        <div>
+          {{ $localized(title) }}: {{ $localized(message) }}
+        </div>
+      </main>
+      <footer>
+        <button
+          ref="acceptButton"
+          class="primary"
+          @click="closeAndHide()"
+        >
+          <span>
+            {{ CONFIRM }}
+          </span>
+        </button>
+      </footer>
+    </modal-dialog>
+  </modal-wrapper>
 </template>
 
 <script lang="ts">
 import { LocalizedString, PortalAnnouncementSeverity } from '@/store/modules/portalData/portalData.models';
 import { defineComponent, PropType } from 'vue';
+import ModalDialog from '@/components/modal/ModalDialog.vue';
+import ModalWrapper from '@/components/modal/ModalWrapper.vue';
+import _ from '@/jsHelper/translate';
 
 export default defineComponent({
   name: 'Announcement',
+  components: {
+    ModalWrapper,
+    ModalDialog,
+  },
   props: {
     name: {
       type: String,
@@ -54,11 +91,24 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    needsConfirmation: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       visible: this.getAnnouncementVisibility(),
+      showModal: false,
     };
+  },
+  computed: {
+    CONFIRM(): string {
+      return _('Confirm');
+    },
+    DIALOG_TITLE(): string {
+      return _('Please confirm');
+    },
   },
   methods: {
     setAnnouncementVisibility(visibility: boolean): void {
@@ -73,7 +123,16 @@ export default defineComponent({
       return true;
     },
     onCloseClick() {
+      if (this.needsConfirmation) {
+        this.showModal = true;
+      }
+    },
+    closeAndHide() {
+      this.showModal = false;
       this.setAnnouncementVisibility(false);
+    },
+    closeAndKeep() {
+      this.showModal = false;
     },
   },
 });
@@ -126,4 +185,19 @@ export default defineComponent({
   &--warn
     background-color: var(--bgc-announcements-warn)
 
+.read-confirmation-dialog
+  overflow-y: auto !important
+  a
+    color: inherit
+    transition: color var(--portal-transition-duration), text-decoration-thickness var(--portal-transition-duration)
+    text-decoration: underline
+    text-decoration-thickness: 1px
+
+    &:focus
+      color: var(--color-accent)
+      text-decoration-thickness: 3px
+
+.read-confirmation-dialog-modal
+  display: flex
+  flex-direction: column
 </style>

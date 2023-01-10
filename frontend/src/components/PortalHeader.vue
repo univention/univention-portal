@@ -133,6 +133,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       :severity="announcement.severity"
       :name="announcement.name"
       :sticky="announcement.isSticky"
+      :needs-confirmation="announcement.needsConfirmation"
     />
   </div>
 </template>
