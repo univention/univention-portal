@@ -99,6 +99,11 @@ export const mutations = {
   ): void {
     state.backendNotifications = backendNotifications;
   },
+  ADD_BACKEND_NOTIFICATION(
+    state: Notifications, backendNotification: BackendNotification,
+  ): void {
+    state.backendNotifications.push(backendNotification);
+  },
   REMOVE_BACKEND_NOTIFICATION(
     state: Notifications, backendNotification: BackendNotification,
   ): void {
@@ -195,6 +200,14 @@ export const actions = {
   async connectEventStream({ commit, dispatch }) {
     const eventSource = connectEventSource();
     commit('SET_EVENT_SOURCE', eventSource);
+  },
+  newBackendNotificationEvent({ commit, state }, eventData) {
+    const item = state.backendNotifications.find((n) => n.id === eventData.id);
+    if (item) {
+      console.warn('Received "new_notification" event for an existing notification', eventData);
+    } else {
+      commit('ADD_BACKEND_NOTIFICATION', eventData);
+    }
   },
 };
 
