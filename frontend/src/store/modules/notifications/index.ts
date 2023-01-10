@@ -104,6 +104,16 @@ export const mutations = {
   ): void {
     state.backendNotifications.push(backendNotification);
   },
+  UPDATE_BACKEND_NOTIFICATION(
+    state: Notifications, newNotification: BackendNotification,
+  ): void {
+    const id = newNotification.id;
+    const index = state.backendNotifications.findIndex((n) => n.id === id);
+    if (index < 0) {
+      return;
+    }
+    state.backendNotifications[index] = newNotification;
+  },
   REMOVE_BACKEND_NOTIFICATION(
     state: Notifications, backendNotification: BackendNotification,
   ): void {
@@ -207,6 +217,14 @@ export const actions = {
       console.warn('Received "new_notification" event for an existing notification', eventData);
     } else {
       commit('ADD_BACKEND_NOTIFICATION', eventData);
+    }
+  },
+  updateBackendNotificationEvent({ commit, state }, eventData) {
+    const item = state.backendNotifications.find((n) => n.id === eventData.id);
+    if (!item) {
+      console.warn('Received "update_notification" event for a non-existing notification', eventData);
+    } else {
+    commit('UPDATE_BACKEND_NOTIFICATION', eventData);
     }
   },
   deleteBackendNotificationEvent({ commit, state }, eventData) {

@@ -64,6 +64,40 @@ describe('newBackendNotificationEvent', () => {
 
 });
 
+describe('updateBackendNotificationEvent', () => {
+
+  test('updates a backend notification in the store', () => {
+    const stubStore = stubs.store();
+    const stubNotification = {
+      ...stubs.stubBackendNotification,
+      popup: true,
+    }
+    const eventData = {
+      ...stubs.stubBackendNotification,
+      popup: false,
+    };
+
+    // TODO: Refactor: Allow to inject state into stubs.store()
+    stubStore.dispatch('notifications/newBackendNotificationEvent', stubNotification);
+    expect(stubStore.state.notifications.backendNotifications).toHaveLength(1);
+
+    stubStore.dispatch('notifications/updateBackendNotificationEvent', eventData);
+    const backendNotifications = stubStore.state.notifications.backendNotifications;
+    expect(backendNotifications).toHaveLength(1);
+    expect(backendNotifications[0].popup).toBe(false);
+  });
+
+  test('does ignore an event for a non existing backend notification', () => {
+    const warnMock = jest.spyOn(console, 'warn');
+    const stubStore = stubs.store();
+    const eventData = stubs.stubBackendNotification;
+    stubStore.dispatch('notifications/updateBackendNotificationEvent', eventData);
+    expect(stubStore.state.notifications.backendNotifications).toHaveLength(0);
+    expect(warnMock).toHaveBeenCalled();
+  });
+
+});
+
 describe('deleteBackendNotificationEvent', () => {
 
   test('removes a backend notification from the store', () => {
