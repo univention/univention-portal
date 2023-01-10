@@ -33,7 +33,7 @@ import { Notification as BackendNotification, NotificationSeverity } from '@/api
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
-import notificationsApi from './apiclient';
+import notificationsApi, { connectEventSource } from './apiclient';
 
 export const defaultHideAfter = 4;
 
@@ -42,6 +42,7 @@ export type PortalActionContext<S> = ActionContext<S, RootState>;
 export interface Notifications {
   notifications: Array<FullNotification>;
   backendNotifications: Array<BackendNotification>;
+  eventSource?: EventSource;
 }
 
 export const severityMapping = Object.fromEntries([
@@ -109,6 +110,10 @@ export const mutations = {
     // TODO: Interim implemented in the UI locally. This will have to be
     // replaced with a call back to the API.
     backendNotification.popup = false;
+  },
+
+  SET_EVENT_SOURCE(state: Notifications, eventSource: EventSource): void {
+    state.eventSource = eventSource;
   },
 };
 
@@ -178,13 +183,18 @@ export const actions = {
     }
   },
 
-  connectNotificationsApi({ commit, dispatch }) {
-    dispatch('fetchNotifications');
+  async connectNotificationsApi({ commit, dispatch }) {
+    await dispatch('fetchNotifications');
+    await dispatch('connectEventStream');
   },
   async fetchNotifications({ commit }) {
     const response = await notificationsApi.getNotificationsV1NotificationsGet();
     const latestBackendNotifications = response.data;
     commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
+  },
+  async connectEventStream({ commit, dispatch }) {
+    const eventSource = connectEventSource();
+    commit('SET_EVENT_SOURCE', eventSource);
   },
 };
 
