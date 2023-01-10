@@ -64,6 +64,7 @@ FROM ucs-sources-base AS final
 
 RUN apt-get update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+    jq=1.5+* \
     python3=3.7.* \
     # libldap2-dev is required to make python-ldap work.
     # Currently this is used in the portal server to parse the DNs via "str2dn".
@@ -86,8 +87,15 @@ COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/porta
 
 RUN mkdir -p /var/log/univention/ \
   && touch /var/log/univention/portal.log \
-  && mkdir -p /usr/share/univention-portal
+  && mkdir -p /usr/share/univention-portal \
+  && mkdir -p /usr/lib/univention-portal/config
+
+COPY ./docker/portal-server/docker-entrypoint.sh /
+RUN chmod 540 /docker-entrypoint.sh
 
 EXPOSE 80
 
-CMD ["python3", "/usr/sbin/univention-portal-server"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/usr/bin/python3", "/usr/sbin/univention-portal-server"]
+
+# [EOF]
