@@ -9,6 +9,10 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
+afterAll(() => {
+  jest.restoreAllMocks();
+});
+
 describe('connectNotificationsApi', () => {
 
   beforeEach(() => {
@@ -49,11 +53,13 @@ describe('newBackendNotificationEvent', () => {
   });
 
   test('does not add a known notification into the state', () => {
+    const warnMock = jest.spyOn(console, 'warn');
     const stubStore = stubs.store();
     const eventData = stubs.stubBackendNotification;
     stubStore.dispatch('notifications/newBackendNotificationEvent', eventData);
     stubStore.dispatch('notifications/newBackendNotificationEvent', eventData);
     expect(stubStore.state.notifications.backendNotifications).toHaveLength(1);
+    expect(warnMock).toHaveBeenCalled();
   });
 
 });
@@ -75,12 +81,14 @@ describe('deleteBackendNotificationEvent', () => {
   });
 
   test('does ignore an event for a non existing backend notification', () => {
+    const warnMock = jest.spyOn(console, 'warn');
     const stubStore = stubs.store();
     const eventData = {
       id: stubs.stubBackendNotification.id,
     };
     stubStore.dispatch('notifications/deleteBackendNotificationEvent', eventData);
     expect(stubStore.state.notifications.backendNotifications).toHaveLength(0);
+    expect(warnMock).toHaveBeenCalled();
   });
 
 });
