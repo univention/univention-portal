@@ -57,3 +57,30 @@ describe('newBackendNotificationEvent', () => {
   });
 
 });
+
+describe('deleteBackendNotificationEvent', () => {
+
+  test('removes a backend notification from the store', () => {
+    const stubStore = stubs.store();
+    const eventData = {
+      id: stubs.stubBackendNotification.id,
+    };
+
+    // TODO: Refactor: Allow to inject state into stubs.store()
+    stubStore.dispatch('notifications/newBackendNotificationEvent', stubs.stubBackendNotification);
+    expect(stubStore.state.notifications.backendNotifications).toHaveLength(1);
+
+    stubStore.dispatch('notifications/deleteBackendNotificationEvent', eventData);
+    expect(stubStore.state.notifications.backendNotifications).toHaveLength(0);
+  });
+
+  test('does ignore an event for a non existing backend notification', () => {
+    const stubStore = stubs.store();
+    const eventData = {
+      id: stubs.stubBackendNotification.id,
+    };
+    stubStore.dispatch('notifications/deleteBackendNotificationEvent', eventData);
+    expect(stubStore.state.notifications.backendNotifications).toHaveLength(0);
+  });
+
+});
