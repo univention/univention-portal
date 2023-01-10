@@ -207,9 +207,14 @@ export const actions = {
     const latestBackendNotifications = response.data;
     commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
   },
-  async connectEventStream({ commit, dispatch }) {
+  connectEventStream({ commit, dispatch }) {
     const eventSource = connectEventSource();
     commit('SET_EVENT_SOURCE', eventSource);
+
+    eventSource.addEventListener('new_notification', (event) => {
+      const eventData = JSON.parse((event as MessageEvent).data);
+      dispatch('newBackendNotificationEvent', eventData);
+    });
   },
   newBackendNotificationEvent({ commit, state }, eventData) {
     const item = state.backendNotifications.find((n) => n.id === eventData.id);
@@ -224,7 +229,7 @@ export const actions = {
     if (!item) {
       console.warn('Received "update_notification" event for a non-existing notification', eventData);
     } else {
-    commit('UPDATE_BACKEND_NOTIFICATION', eventData);
+      commit('UPDATE_BACKEND_NOTIFICATION', eventData);
     }
   },
   deleteBackendNotificationEvent({ commit, state }, eventData) {
