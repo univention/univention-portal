@@ -38,7 +38,7 @@ from imp import reload
 import pytest
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_portal_config(get_file_path):
     from univention.portal import config
 

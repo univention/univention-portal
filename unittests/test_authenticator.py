@@ -51,7 +51,7 @@ class TestUMCAuthenticator:
     _username = "TestUser"
     _groups = ["TestGroup"]
 
-    @pytest.fixture
+    @pytest.fixture()
     def mocked_authenticator(self, dynamic_class, patch_object_module, mocker):
         Authenticator = dynamic_class("UMCAuthenticator")
         mocked_group_cache = mocker.Mock()
