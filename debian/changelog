@@ -1,4 +1,4 @@
-univention-portal (4.1.0-1) unstable; urgency=medium
+univention-portal (4.2.0-2) unstable; urgency=medium
 
   * Bug #55176: implemented announcement udm module
 
