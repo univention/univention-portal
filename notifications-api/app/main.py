@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 from app.core.config import settings
 
 from .api import router as api_router
+from .messaging import startup_messaging
 
 
 description = """
@@ -38,7 +39,6 @@ tags_metadata = [
     },
 ]
 
-
 app = FastAPI(
     root_path=settings.root_path,
     title=settings.project_name,
@@ -59,6 +59,11 @@ if settings.dev_mode:
     )
 
 app.include_router(api_router)
+
+
+@app.on_event("startup")
+def trigger_messaging_setup():
+    startup_messaging()
 
 
 @app.exception_handler(RequestValidationError)

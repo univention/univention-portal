@@ -35,6 +35,7 @@ class NotificationService():
         )
         db.add(db_notification)
         db.commit()
+        db.refresh(db_notification)
         return db_notification
 
     def get_notifications(
