@@ -1,18 +1,22 @@
-from fastapi import APIRouter, HTTPException, Request, Depends, Query
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, Depends, Query
 from fastapi.encoders import jsonable_encoder
+from http import HTTPStatus
 from sqlalchemy.exc import NoResultFound
 from sqlmodel import Session
-from typing import List
 from sse_starlette.sse import EventSourceResponse
+from typing import List
 import asyncio
-from http import HTTPStatus
 import json
+import logging
 
-from app.models.notification_model import (
-    Notification, NotificationCreate, NotificationType)
+from app import messaging
 from app.crud.notification_service import NotificationService
 from app.db import get_session
+from app.models.notification_model import (
+    Notification, NotificationCreate, NotificationType)
 
+
+log = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -20,12 +24,17 @@ router = APIRouter()
 @router.post(
     "/notifications/", status_code=201, response_model=Notification,
     tags=["sender"])
-def create_notification(
+async def create_notification(
     data: NotificationCreate,
+    background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_session),
 ) -> Notification:
-    return service.create_notification(data, db)
+    notification = service.create_notification(data, db)
+    notification_data = json.dumps(jsonable_encoder(notification))
+    topic = f"user.{notification.targetUid}"
+    background_tasks.add_task(messaging.publish_notification, topic, notification_data)
+    return notification
 
 
 @router.get("/notifications/", tags=["client"])
@@ -138,21 +147,21 @@ async def stream_notifications(
     service: NotificationService = Depends(NotificationService),
     db: Session = Depends(get_session)
 ):
+
+    # TODO: implement request disconnect check, separate loop?
+    # if await request.is_disconnected():
+    #     break
+
     async def event_generator():
-        while True:
-            # If client closes connection, stop sending events
-            if await request.is_disconnected():
-                break
-
-            new_notifications = service.pop_notifications_for_sse(db)
-            # Checks for new messages and return them to client if any
-            for notification in new_notifications:
-                yield {
-                    "event": "new_notification",
-                    "retry": RETRY_TIMEOUT,
-                    "data": json.dumps(jsonable_encoder(notification)),
-                }
-
-            await asyncio.sleep(STREAM_DELAY)
+        # TODO: Append UUID to the topic once authentication is implemented, so
+        # that we have the current user's ID available.
+        topic = "user."
+        async for notification in messaging.receive_notifications(topic):
+            log.debug("Streaming out event")
+            yield {
+                "event": "new_notification",
+                "retry": RETRY_TIMEOUT,
+                "data": notification,
+            }
 
     return EventSourceResponse(event_generator())
