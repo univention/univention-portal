@@ -75,10 +75,10 @@ async def receive_notifications(topic):
 _thread_local = threading.local()
 
 
-async def publish_notification(topic, notification_data):
+async def publish_notification(topic, event_data):
     socket = await _ensure_socket()
     log.debug("Publishing event for topic: %s", topic)
-    message = (topic.encode(), notification_data.encode())
+    message = (topic.encode(), event_data.encode())
     await socket.send_multipart(message)
 
 
