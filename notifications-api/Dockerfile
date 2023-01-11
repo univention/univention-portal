@@ -10,6 +10,7 @@ RUN chown "$USER":"$USER" "$WORKDIR" && \
 USER "$USER"
 ENV PATH="/home/${USER}/.local/bin:${PATH}"
 ENV PYTHONPATH="."
+ENV WEB_CONCURRENCY=1
 
 
 FROM base as test
