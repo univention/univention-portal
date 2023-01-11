@@ -31,15 +31,15 @@ async def create_notification(
     db: Session = Depends(get_session),
 ) -> Notification:
     notification = service.create_notification(data, db)
-    notification_data = json.dumps(jsonable_encoder(notification))
+    event_data = json.dumps(jsonable_encoder(["new_notification", notification]))
     topic = f"user.{notification.targetUid}"
-    background_tasks.add_task(messaging.publish_notification, topic, notification_data)
+    background_tasks.add_task(messaging.publish_notification, topic, event_data)
     return notification
 
 
 @router.get("/notifications/", tags=["client"])
 def get_notifications(
-    limit: str = Query(default=10),
+    limit: str = Query(default=100),
     type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
     db: Session = Depends(get_session)
@@ -69,20 +69,31 @@ def get_notification(
 @router.delete("/notifications/{id}/", tags=["client"])
 def delete_notification(
     id: str,
+    background_tasks: BackgroundTasks,
     service=Depends(NotificationService),
     db=Depends(get_session),
 ):
     try:
+        # TODO: Once the current user is known we don't have to read this from the
+        # database anymore.
+        notification = service.get_notification(id, db)
+        user_uuid = notification.targetUid
+
         service.delete_notification(id, db)
     except NoResultFound:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
+
+    event_data = json.dumps(["deleted_notification", {"id": id}])
+    topic = f"user.{user_uuid}"
+    background_tasks.add_task(messaging.publish_notification, topic, event_data)
 
 
 @router.post("/notifications/{id}/hide", tags=["client"])
 def hide_notification(
     id: str,
+    background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_session),
 ):
     """
     Flag a notification as hidden.
@@ -90,6 +101,11 @@ def hide_notification(
     This will set the attribute `popup` to `false`.
     """
     service.hide_notification(id, db)
+
+    notification = service.get_notification(id, db)
+    event_data = json.dumps(jsonable_encoder(["updated_notification", notification]))
+    topic = f"user.{notification.targetUid}"
+    background_tasks.add_task(messaging.publish_notification, topic, event_data)
 
 
 @router.post("/notifications/{id}/read", tags=["client"])
@@ -156,12 +172,13 @@ async def stream_notifications(
         # TODO: Append UUID to the topic once authentication is implemented, so
         # that we have the current user's ID available.
         topic = "user."
-        async for notification in messaging.receive_notifications(topic):
+        async for event_data_string in messaging.receive_notifications(topic):
+            event_name, notification_data = json.loads(event_data_string)
             log.debug("Streaming out event")
             yield {
-                "event": "new_notification",
+                "event": event_name,
                 "retry": RETRY_TIMEOUT,
-                "data": notification,
+                "data": json.dumps(notification_data),
             }
 
     return EventSourceResponse(event_generator())
