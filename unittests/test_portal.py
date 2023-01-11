@@ -71,7 +71,7 @@ class StubReloader(MtimeBasedLazyFileReloader):
 
 
 class TestPortal:
-    @pytest.fixture
+    @pytest.fixture()
     def mocked_user(self, mocker):
         user = mocker.Mock()
         user.username = "hindenkampp"
@@ -80,7 +80,7 @@ class TestPortal:
         user.headers = {}
         return user
 
-    @pytest.fixture
+    @pytest.fixture()
     def mocked_anonymous_user(self, mocker):
         user = mocker.Mock()
         user.username = None
@@ -89,21 +89,21 @@ class TestPortal:
         user.headers = {}
         return user
 
-    @pytest.fixture
+    @pytest.fixture()
     def portal_file(self, get_file_path):
         return get_file_path("portal_cache.json")
 
-    @pytest.fixture
+    @pytest.fixture()
     def reloader(self, portal_file):
         return StubReloader(portal_file=portal_file)
 
-    @pytest.fixture
+    @pytest.fixture()
     def portal_data(self, reloader):
         original_data = reloader.get_portal_cache_json()
         yield reloader
         reloader.update_portal_cache(original_data)
 
-    @pytest.fixture
+    @pytest.fixture()
     def standard_portal(self, dynamic_class, mocker, portal_file, reloader):
         # Portal = dynamic_class("Portal")
         scorer = dynamic_class("Scorer")()
@@ -111,7 +111,7 @@ class TestPortal:
         authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
         return Portal(scorer, portal_cache, authenticator)
 
-    @pytest.fixture
+    @pytest.fixture()
     def mocked_portal(self, dynamic_class, mocker):
         async def async_magic():
             return
