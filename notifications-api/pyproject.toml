@@ -21,6 +21,7 @@ dependencies = [
   'asyncio >= 3.4.3',
   # TODO: Replace with psycopg2
   'psycopg2-binary',
+  'pyzmq',
 ]
 
 [project.optional-dependencies]
