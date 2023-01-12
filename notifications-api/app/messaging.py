@@ -64,9 +64,14 @@ async def receive_notifications(topic):
     socket = context.socket(zmq.SUB)
     socket.connect(out_address)
     socket.subscribe(topic.encode())
-    while True:
-        topic, message = await socket.recv_multipart()
-        yield message.decode()
+    try:
+        while True:
+            topic, message = await socket.recv_multipart()
+            yield message.decode()
+    except asyncio.CancelledError as e:
+        log.debug("Stopped receiving, cleanup. Topic: %s", topic)
+        socket.close()
+        raise e
 
 
 # Avoiding to re-create the socket per coroutine. Storing the socket as a
