@@ -153,7 +153,6 @@ def invalidate_notification(id: str) -> None:
     raise HTTPException(status_code=HTTPStatus.NOT_IMPLEMENTED)
 
 
-STREAM_DELAY = 1  # seconds
 RETRY_TIMEOUT = 15000  # milliseconds
 
 
