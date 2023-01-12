@@ -7,7 +7,8 @@ services:
       target: dev
     container_name: notifications-api-dev
     environment:
-      dev_mode: True
+      DEV_MODE: True
+      LOG_LEVEL: DEBUG
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
     depends_on:
       - db
