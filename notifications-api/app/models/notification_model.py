@@ -2,6 +2,7 @@ from datetime import datetime
 from enum import Enum
 from uuid import UUID
 from typing import Dict, Optional
+from pydantic import HttpUrl, validator
 from sqlmodel import (
     JSON,
     Column,
@@ -23,6 +24,12 @@ class NotificationSeverity(str, Enum):
     ERROR = "error"
 
 
+class NotificationLink(SQLModel):
+    url: HttpUrl
+    text: Optional[str]
+    target: Optional[str]
+
+
 class NotificationBase(SQLModel):
     sourceUid: UUID
     targetUid: UUID
@@ -32,7 +39,18 @@ class NotificationBase(SQLModel):
     sticky: Optional[bool]
     needsConfirmation: Optional[bool]
     notificationType: NotificationType
+    link: Optional[NotificationLink] = Field(default=None, sa_column=Column(JSON), nullable=True)
     data: Dict = Field(default={}, sa_column=Column(JSON))
+
+    @validator('link')
+    def validate_link(cls, link: NotificationLink):
+        if link:
+            return link.dict()
+        else:
+            return None
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class Notification(NotificationBase, table=True):

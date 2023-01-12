@@ -8,20 +8,24 @@ import pytest
 
 sourceUid = str(uuid4())
 targetUid = str(uuid4())
-request_data = {
-    "sourceUid": sourceUid,
-    "targetUid": targetUid,
-    "title": "Hello from application!",
-    "details": "This is just an example notification.",
-    "severity": "info",
-    "sticky": False,
-    "needsConfirmation": False,
-    "notificationType": "event",
-    "data": {
-        "additionalProperty1": "some value",
-        "additionalProperty2": 45
+
+
+@pytest.fixture
+def request_data():
+    return {
+        "sourceUid": sourceUid,
+        "targetUid": targetUid,
+        "title": "Hello from application!",
+        "details": "This is just an example notification.",
+        "severity": "info",
+        "sticky": False,
+        "needsConfirmation": False,
+        "notificationType": "event",
+        "data": {
+            "additionalProperty1": "some value",
+            "additionalProperty2": 45
+        }
     }
-}
 
 
 @pytest.fixture(autouse=True)
@@ -29,22 +33,34 @@ def mock_messaging(mocker):
     mocker.patch('app.messaging.publish_notification')
 
 
-def test_create_notification(empty_db, client):
+def test_create_notification(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
-    assert response.status_code == 201
+    assert response.status_code == HTTPStatus.CREATED
     response_json = response.json()
     assert response_json['id'] is not None
     assert response_json['sourceUid'] == sourceUid
     assert response_json['targetUid'] == targetUid
 
 
+def test_create_notification_with_link(empty_db, request_data, client):
+    request_data["link"] = {
+        "url": "https://www.univention.de",
+        "text": "univention web site",
+        "target": "_self"
+    }
+    response = client.post('/v1/notifications/', json=request_data)
+    assert response.status_code == HTTPStatus.CREATED
+    response_json = response.json()
+    assert response_json['link'] == request_data['link']
+
+
 def test_get_notifications(filled_db, client):
     response = client.get('/v1/notifications/')
-    assert response.status_code == 200
+    assert response.status_code == HTTPStatus.OK
     assert len(response.json()) == 1
 
 
-def test_hide_notification(empty_db, client):
+def test_hide_notification(empty_db, request_data, client):
     client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/')
     notification_data = response.json()[0]
@@ -62,7 +78,7 @@ def test_hide_notification(empty_db, client):
     assert not notification_data["popup"]
 
 
-def test_get_notification(empty_db, client):
+def test_get_notification(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     notification_data = response.json()
     notification_id = notification_data['id']
@@ -79,7 +95,7 @@ def test_get_notification_missing(stub_uuid, empty_db, client):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_delete_notification(empty_db, client):
+def test_delete_notification(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     notification_data = response.json()
     notification_id = notification_data['id']
@@ -96,7 +112,7 @@ def test_delete_notification_missing(stub_uuid, empty_db, client):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_mark_notification_read(empty_db, client):
+def test_mark_notification_read(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/')
     id = response.json()[0]['id']
@@ -107,7 +123,7 @@ def test_mark_notification_read(empty_db, client):
     assert readDateTime > now
 
 
-def test_mark_notification_confirmed(empty_db, client):
+def test_mark_notification_confirmed(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/')
     id = response.json()[0]['id']
@@ -117,7 +133,7 @@ def test_mark_notification_confirmed(empty_db, client):
 
 
 @pytest.mark.xfail(reason="Implementation is pending")
-def test_invalidate_one_notification_by_sender(empty_db, client):
+def test_invalidate_one_notification_by_sender(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     id = response.json()['id']
     response = client.post(f'/v1/notifications/{id}/invalidate')
@@ -125,7 +141,7 @@ def test_invalidate_one_notification_by_sender(empty_db, client):
 
 
 @pytest.mark.xfail(reason="Implementation is pending")
-def test_bulk_invalidate_many_notifications_by_sender(empty_db, client):
+def test_bulk_invalidate_many_notifications_by_sender(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     id1 = response.json()['id']
     response = client.post('/v1/notifications/', json=request_data)
