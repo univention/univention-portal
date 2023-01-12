@@ -135,23 +135,24 @@ def test_bulk_invalidate_many_notifications_by_sender(empty_db, client):
     assert response.status_code == "200"
 
 
-@pytest.mark.skip("TODO: Adapt to the zmq interactions")
 @pytest.mark.asyncio
-async def test_stream_notifications(filled_db, mocker):
+async def test_stream_notifications(empty_db, mocker):
+    from app import messaging
     from app.api.v1.api import stream_notifications
     from app.crud.notification_service import NotificationService
 
     request = mocker.MagicMock()
-    request.is_disconnected = mocker.AsyncMock(side_effect=[False, True])
-    mocker.patch('app.api.v1.api.STREAM_DELAY', new=0)
+    mock_receiver = mocker.patch.object(messaging, "receive_notifications")
+    stub_data = json.dumps(["stub_topic", {"stub": "value"}])
+    mock_receiver().__aiter__.return_value = [stub_data]
 
     service = NotificationService()
 
-    result = await stream_notifications(request, service, filled_db)
+    result = await stream_notifications(request, service, empty_db)
     body = [x async for x in result.body_iterator]
     event = body.pop()
 
-    assert event['event'] == "new_notification"
+    assert event['event'] == "stub_topic"
     assert_is_valid_json(event['data'])
 
 
