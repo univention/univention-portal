@@ -1,4 +1,5 @@
 from unittest import mock
+import asyncio
 import json
 import pytest
 
@@ -58,3 +59,25 @@ async def test_message_broker(mocker):
     assert raised_exception.value == stub_exc
     mock_socket_in.recv_multipart.assert_called_once()
     mock_socket_out.send_multipart.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_receive_notifications_generates_events(mocker):
+    mock_socket = mock.Mock()
+    stub_topic = "stub topic"
+    stub_body = "stub body"
+    stub_message = [stub_topic.encode(), stub_body.encode()]
+    stub_exception = asyncio.CancelledError("stub")
+    recv_side_effect = [stub_message, stub_exception]
+    mock_socket.recv_multipart = mock.AsyncMock(side_effect=recv_side_effect)
+    mock_context = mock.Mock()
+    mock_context.socket.return_value = mock_socket
+    mocker.patch.object(messaging, 'context', mock_context)
+
+    receiver = messaging.receive_notifications(stub_topic)
+    first_result = await receiver.__anext__()
+    assert first_result == stub_body
+
+    with pytest.raises(asyncio.CancelledError) as exc_info:
+        await receiver.__anext__()
+    assert exc_info.value == stub_exception
