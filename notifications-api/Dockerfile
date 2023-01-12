@@ -21,7 +21,9 @@ CMD ["pytest"]
 
 FROM test as dev
 EXPOSE 80
-CMD ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", \
+    "--log-config", "logging.yaml", \
+    "--reload", "--host", "0.0.0.0", "--port", "80"]
 
 
 FROM base as final
@@ -33,4 +35,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ./ ./
 EXPOSE 80
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "app.main:app", \
+    "--log-config", "logging.yaml", \
+    "--host", "0.0.0.0", "--port", "80"]
