@@ -31,6 +31,7 @@ class NotificationService():
             receiveTime=datetime.now(),
             confirmationTime=None,
             readTime=None,
+            link=notification.link,
             data=notification.data
         )
         db.add(db_notification)
