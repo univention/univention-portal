@@ -164,21 +164,22 @@ async def stream_notifications(
     db: Session = Depends(get_session)
 ):
 
-    # TODO: implement request disconnect check, separate loop?
-    # if await request.is_disconnected():
-    #     break
-
     async def event_generator():
         # TODO: Append UUID to the topic once authentication is implemented, so
         # that we have the current user's ID available.
         topic = "user."
-        async for event_data_string in messaging.receive_notifications(topic):
-            event_name, notification_data = json.loads(event_data_string)
-            log.debug("Streaming out event")
-            yield {
-                "event": event_name,
-                "retry": RETRY_TIMEOUT,
-                "data": json.dumps(notification_data),
-            }
+
+        try:
+            async for event_data_string in messaging.receive_notifications(topic):
+                event_name, notification_data = json.loads(event_data_string)
+                log.debug("Streaming out event")
+                yield {
+                    "event": event_name,
+                    "retry": RETRY_TIMEOUT,
+                    "data": json.dumps(notification_data),
+                }
+        except asyncio.CancelledError as e:
+            log.info("Client disconnected from event stream: %s", request.client)
+            raise e
 
     return EventSourceResponse(event_generator())
