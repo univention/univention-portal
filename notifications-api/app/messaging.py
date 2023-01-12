@@ -86,9 +86,8 @@ async def _ensure_socket():
     socket = getattr(_thread_local, "socket", None)
     if not socket:
         log.debug("Creating new publishing socket for publish_notification")
-        socket = context.socket(zmq.XPUB)
+        socket = _thread_local.socket = context.socket(zmq.XPUB)
         socket.connect(in_address)
-        _thread_local.socket = socket
         # We have to be sure to await until the corresponding SUB socket has
         # connected. Otherwise the first message would be lost.
         await socket.recv()
