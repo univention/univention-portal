@@ -40,3 +40,21 @@ async def test_ensure_socket_creates_no_socket():
     result = await messaging._ensure_socket()
 
     assert result == mock_socket
+
+
+@pytest.mark.asyncio
+async def test_message_broker(mocker):
+    mock_socket_in = mock.MagicMock()
+    mock_socket_in.recv_multipart = mock.AsyncMock()
+    mock_socket_out = mock.MagicMock()
+    stub_exc = Exception("Helps to break the while true loop.")
+    mock_socket_out.send_multipart.side_effect = stub_exc
+    mock_context = mock.MagicMock()
+    mock_context.socket.side_effect = [mock_socket_in, mock_socket_out]
+    mocker.patch.object(messaging, 'context', mock_context)
+
+    with pytest.raises(Exception) as raised_exception:
+        await messaging.message_broker()
+    assert raised_exception.value == stub_exc
+    mock_socket_in.recv_multipart.assert_called_once()
+    mock_socket_out.send_multipart.assert_called_once()
