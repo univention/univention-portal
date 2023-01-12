@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 from app.core.config import settings
 
 from .api import router as api_router
+from .logs import configure_logging
 from .messaging import startup_messaging
 
 
@@ -38,6 +39,8 @@ tags_metadata = [
         "description": "Notification Client API",
     },
 ]
+
+configure_logging()
 
 app = FastAPI(
     root_path=settings.root_path,
