@@ -26,8 +26,6 @@ services:
       - type: volume
         source: postgresql-data
         target: /var/lib/postgresql/data
-    ports:
-      - 5432:5432
 
   test:
     profiles:
