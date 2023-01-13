@@ -86,40 +86,36 @@ The following example shows how it can be used:
 docker compose build dev
 
 # enter a shell
-docker compose run -it --rm dev
+docker compose run -it --rm --service-ports dev
 
-# inside the container the regular yarn commands work
+# inside the container the regular yarn commands work:
 yarn install
 yarn lint
 yarn test:unit
+yarn test:unit:watch
 yarn serve
+yarn storybook -p 8080
 ```
 
 
 ### Using the test runner container
 
-The container defined in `Dockerfile` does provide the needed environment in
-order to run the linter and the tests. A configuration for docker compose is
-provided for easy local interaction as shown in the following example:
+The container defined in `Dockerfile` as stage `test` does provide the needed
+environment plus the codebase in order to run the linter and the tests. In
+comparison to the `dev-env` stage above which only provides an environment, this
+stage does include everything needed already.
 
-```
+Tests (both unit and ui tests) can be run using docker compose:
+
+```sh
 # Build the image
 docker compose build test
 
-# Use the image
-docker compose run -it --rm test /bin/bash
-```
-
-Commands like `yarn install` or `yarn lint` should work within the container.
-
-Tests (both unit and ui tests) can be run using docker
-
-```
 # Run unit tests
-docker compose run --build test
+docker compose run test
 
 # Run UI tests
-docker compose run --build test yarn test:e2e:headless --browser chrome
+docker compose run test yarn test:e2e:headless --browser chrome
 ```
 
 
@@ -129,7 +125,7 @@ docker compose run --build test yarn test:e2e:headless --browser chrome
 The API client is generated from the OpenAPI spec of the `notifications-api`
 service. You can re-generate the client in the following way:
 
-```
+```sh
 # Ensure that "notifications-api" is up and running
 curl http://localhost:8096/openapi.json
 
