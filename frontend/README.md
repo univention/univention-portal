@@ -58,7 +58,7 @@ When we use build time feature toggles, then we prefix those variables with
 `VUE_APP_FEATURE` and explain them in `.env.local_example`.
 
 
-## Container based project setup -- experimental
+## Container based project setup -- recommended
 
 The container based project setup is in active development. It's main focus is
 on providing a test runner environment so that linting and testing can be
@@ -67,7 +67,8 @@ executed within the CI pipeline.
 All files except the Gitlab CI configuration are within this folder.
 
 The containers can be used locally to run commands in the same environment as
-the CI pipeline.
+the CI pipeline. Those environments can be used to run the development server
+and to run the unit tests with a watcher, see the examples below.
 
 
 ### Using the dev environment container
