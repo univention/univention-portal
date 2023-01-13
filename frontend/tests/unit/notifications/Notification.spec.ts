@@ -25,3 +25,27 @@ test('Notification renders the notification model', () => {
 
   expect(notification.html()).toContain(stubFullNotification.token);
 });
+
+test('Notification renders a link if one is defined', () => {
+  const store = new Vuex.Store({
+    modules: {
+      activity: {
+        namespaced: true,
+        getters: {
+          level: () => 'stub-activity-level',
+        },
+      },
+    },
+  });
+
+  const notification = mount(Notification, {
+    global: {
+      plugins: [store],
+    },
+    props: stubFullNotification,
+  });
+
+  expect(notification.find('a').attributes('href')).toEqual(stubFullNotification.link?.url.toString());
+  expect(notification.find('a').attributes('target')).toEqual(stubFullNotification.link?.target);
+  expect(notification.find('a').text()).toEqual(stubFullNotification.link?.text);
+});

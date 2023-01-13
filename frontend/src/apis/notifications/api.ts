@@ -97,6 +97,12 @@ export interface Notification {
     'notificationType': NotificationType;
     /**
      * 
+     * @type {NotificationLink}
+     * @memberof Notification
+     */
+    'link'?: NotificationLink;
+    /**
+     * 
      * @type {object}
      * @memberof Notification
      */
@@ -200,10 +206,41 @@ export interface NotificationCreate {
     'notificationType': NotificationType;
     /**
      * 
+     * @type {NotificationLink}
+     * @memberof NotificationCreate
+     */
+    'link'?: NotificationLink;
+    /**
+     * 
      * @type {object}
      * @memberof NotificationCreate
      */
     'data'?: object;
+}
+/**
+ * 
+ * @export
+ * @interface NotificationLink
+ */
+export interface NotificationLink {
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationLink
+     */
+    'url': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationLink
+     */
+    'text'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof NotificationLink
+     */
+    'target'?: string;
 }
 /**
  * An enumeration.

@@ -22,6 +22,39 @@ test('description is set correctly', () => {
   expect(result.description).toBe(stubBackendNotification.details);
 });
 
+test('should set a defaults for link properties if none are submitted', async () => {
+  const stubBackend = {
+    ...stubBackendNotification,
+    link: {
+      url: 'https://www.univention.de/',
+    },
+  };
+  const stubStore = new vuex.Store<any>({
+    modules: {
+      notifications: {
+        ...notifications,
+        state: {
+          notifications: [stubFullNotification],
+          backendNotifications: [],
+        },
+      },
+    },
+  });
+
+  await stubStore.dispatch('notifications/newBackendNotificationEvent', stubBackend);
+
+  const allNotifications = stubStore.getters['notifications/allNotifications'];
+  expect(allNotifications).toHaveLength(2);
+
+  const resultingBackendNotifications = allNotifications.filter((it) => it.isBackendNotification);
+  expect(resultingBackendNotifications).toHaveLength(1);
+
+  const resultingNotification = resultingBackendNotifications[0];
+  expect(resultingNotification.link.url.toString()).toBe(stubBackend.link.url);
+  expect(resultingNotification.link.text).toBe(stubBackend.link.url);
+  expect(resultingNotification.link.target).toBe('_blank');
+});
+
 test.each([
   [defaultHideAfter, true],
   [-1, false],
