@@ -100,6 +100,13 @@ services:
         source: ../unittests
         target: /staging/unittests
 
+  healthcheck:
+    profiles:
+      - test
+    env_file: .env
+    build:
+      context: healthcheck
+
   pre-commit:
     profiles:
       - test
