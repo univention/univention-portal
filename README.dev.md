@@ -62,8 +62,9 @@ ansible-playbook -i ansible/hosts.yaml \
 ### Build and run containers locally
 
 An adjusted docker compose file has been created to make it easier to build the
-current state into container images and to run those images. This file can be found at
-`docker/docker-compose.yaml`.
+current state into container images and to run those images. This file can be
+found at `docker/docker-compose.yaml`. It will run the production containers in
+a local setup.
 
 
 Preparation:
@@ -71,7 +72,7 @@ Preparation:
 - Ensure that you have a local copy of the file `/docker/.env.example`, otherwise
   `docker compose` will refuse to run your containers.
 
-  ```
+  ```sh
   cp docker/.env.example docker/.env
   ```
 
@@ -85,11 +86,14 @@ Preparation:
 Example:
 
 ```sh
+# Be inside the folder docker
+cd docker
+
 # Build images
-docker compose -f docker/docker-compose.yaml build
+docker compose build
 
 # Run the containers locally
-docker compose -f docker/docker-compose.yaml up
+docker compose up
 ```
 
 Check if http://localhost:8000/ does give you a "roughly" working portal.
@@ -116,9 +120,10 @@ $ curl http://localhost:8095/univention/portal/portal.json
 You can run a development server of the frontend and then start the other
 services based on the docker compose file:
 
-```
+```sh
 # Bring up proxy and portal server
-docker compose -f docker/docker-compose.yaml up portal-server reverse-proxy
+cd docker
+docker compose up --build portal-server reverse-proxy notifications-api
 
 # Run the frontend dev server locally
 cd frontend
@@ -138,15 +143,18 @@ details.
 Further examples regarding provided containers:
 
 ```sh
+# Make sure you are in the folder "docker"
+cd docker
+
 # Build images
-docker compose -f docker/docker-compose.yaml build portal-server
+docker compose build portal-server
 
 # Run the containers locally
-docker compose -f docker/docker-compose.yaml up portal-server
+docker compose up portal-server
 
 # Run the portal server tests locally
-docker compose -f docker/docker-compose.yaml run test
+docker compose run test
 
 # Run the linter container
-docker compose -f docker/docker-compose.yaml run pre-commit
+docker compose run pre-commit
 ```
