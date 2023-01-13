@@ -135,6 +135,10 @@ class TestUMCAuthenticator:
 		mocker.MagicMock.__await__ = lambda x: async_magic_none().__await__()
 		mocked_authenticator._ask_umc = mocker.MagicMock()
 		assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"})) == (None, None)
+		mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
+		mocked_authenticator._ask_umc = mocker.MagicMock()
+		umc_cookie_name = f"{self._umc_cookie_name}-1234"
+		assert loop.run_until_complete(mocked_authenticator._get_username({umc_cookie_name: "test_session"})) == (self._username.lower(), self._username)
 
 	def test_ask_umc_request_success(self, mocked_authenticator, mocker):
 		def _side_effect(req):
