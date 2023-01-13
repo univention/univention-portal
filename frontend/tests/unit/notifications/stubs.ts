@@ -11,6 +11,11 @@ export const stubFullNotification: models.FullNotification = {
   title: 'Stub Notification Title',
   token: '4eeec048-a8b0-4a36-a3be-16722ad39acd',
   visible: true,
+  link: {
+    url: new URL('https://www.univention.de'),
+    text: 'Univention',
+    target: '_blank',
+  },
 };
 
 export const stubUuid = 'fef230ec-fe26-4541-a4d3-4ee40a1d14e6';

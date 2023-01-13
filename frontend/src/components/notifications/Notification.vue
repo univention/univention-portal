@@ -74,6 +74,16 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-html="description"
     />
     <!-- eslint-enable vue/no-v-html -->
+    <div
+      v-if="link"
+    >
+      <a
+        :href="link.url"
+        :target="link.target"
+      >
+        {{ link.text }}
+      </a>
+    </div>
   </div>
 </template>
 
@@ -101,6 +111,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    link: {
+      type: Object,
+      required: false,
+      default: null,
     },
     importance: {
       type: String,

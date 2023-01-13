@@ -41,6 +41,7 @@ const vueConfig = {
           },
         }
       }]);
+    config.devtool('source-map');
   },
   css: {
     sourceMap: true,

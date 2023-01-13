@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2022 Univention GmbH
+ * Copyright 2021-2023 Univention GmbH
  *
  * https://www.univention.de/
  *
@@ -27,10 +27,17 @@
  * <https://www.gnu.org/licenses/>.
  */
 
+export interface NotificationLink {
+  url: URL
+  text: string
+  target: string
+}
+
 export interface Notification {
   title: string;
   description?: string;
   onClick: () => void | null;
+  link?: NotificationLink;
 }
 
 export interface WeightedNotification extends Notification {
