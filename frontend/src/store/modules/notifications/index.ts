@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2022 Univention GmbH
+ * Copyright 2021-2023 Univention GmbH
  *
  * https://www.univention.de/
  *
@@ -68,9 +68,17 @@ export const mapBackendNotification = function (notification: BackendNotificatio
     importance: importanceFromSeverity(notification.severity),
     visible: !!notification.popup,
     token: notification.id,
+    link: undefined,
     onClick: () => null,
     isBackendNotification: true,
   };
+  if (notification.link) {
+    localNotification.link = {
+      url: new URL(notification.link.url),
+      text: notification.link.text ?? notification.link.url,
+      target: notification.link.target ?? '_blank',
+    };
+  }
   return localNotification;
 };
 
