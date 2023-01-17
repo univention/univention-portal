@@ -320,7 +320,7 @@ class TestPortal:
 					"endTime":""
 				}
 			}
-		}
+		]
 		input_announcements = {
 			input_announcement["dn"]: input_announcement
 		}
