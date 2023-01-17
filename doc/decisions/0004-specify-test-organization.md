@@ -126,10 +126,7 @@ components under test span multiple subprojects.
 The subproject level `tests` folder contains integration tests that test only
 components of that subproject. We make no strict recommendation about the
 location of such integration tests in the subproject level `tests` folder, since
-each language and framework have different best practices for that. For example,
- `cypress` tests are often split into two folders called `unit` and `e2e`, where
- the `e2e` folder actually contain integration tests (and not end-to-end tests,
-as the name seems to imply).
+each language and framework have different best practices for that.
 
 Our recommendation is as follows:
 
@@ -140,7 +137,7 @@ regard to integration tests, you have two options.
     - Create two folders `unit` and `integration` inside the subproject level
     `tests` folder. Unit tests will go in the `unit` folder and integration
     tests go in the `integration` folder.
-    - Don't create any subfolders if you want to consider unit and integration
+    - Don't create any subfolders if you want to treat unit and integration
     tests on the same footing.
 
 Choose what works best for the subproject, but document this in the README
@@ -154,7 +151,7 @@ file.
 │   └── tests
 │       ├── README.md  # organization is explained here
 │       ├── unit
-│       └── e2e  # `cypress` convention for naming integration tests folder
+│       └── e2e  # Actually contains integration tests (backend is mocked)
 ├── notifications-api
 │   └── tests
 │       ├── README.md  # organization is explained here
