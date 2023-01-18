@@ -158,7 +158,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         udm = udm_client.UDM.http(
             config.fetch('udm_api_url'),
             config.fetch('udm_api_username'),
-            Path(config.fetch("udm_api_password_file")).read_text().strip()
+            Path(config.fetch("udm_api_password_file")).read_text().strip(),
         )
         try:
             portal_module = udm.get("portals/portal")
@@ -279,7 +279,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
             logo_name = None
             if entry.properties["icon"]:
                 logo_name = cls._write_image(
-                    entry.properties["icon"], entry.properties["name"], dirname="entries"
+                    entry.properties["icon"], entry.properties["name"], dirname="entries",
                 )
 
             entries[entry.dn] = {
@@ -331,7 +331,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
         try:
             name = name.replace(
-                "/", "-"
+                "/", "-",
             )  # name must not contain / and must be a path which can be accessed via the web!
             binary_image = a2b_base64(image)
             extension = what(None, binary_image) or "svg"
