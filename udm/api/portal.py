@@ -36,7 +36,7 @@ Module and object specific for "portals/portal" UDM module.
 from __future__ import absolute_import, unicode_literals
 from ..encoders import (
     dn_list_property_encoder_for, Base64BinaryPropertyEncoder, StringCaseInsensitiveResultUpperBooleanPropertyEncoder,
-    ListOfListOflTextToDictPropertyEncoder, DatePropertyEncoder, BaseEncoder
+    ListOfListOflTextToDictPropertyEncoder, DatePropertyEncoder, BaseEncoder,
 )
 from .generic import GenericModule, GenericObject, GenericObjectProperties
 
