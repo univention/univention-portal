@@ -55,10 +55,7 @@ WORKDIR /staging/
 COPY ./requirements-test.txt .
 RUN pip3 install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
-    && touch /var/log/univention/portal.log \
-    && apt-get -qq update \
-    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      univention-unittests-python=2.0.2*
+    && touch /var/log/univention/portal.log
 
 CMD ["pytest", "unittests"]
 
