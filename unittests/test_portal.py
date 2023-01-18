@@ -286,7 +286,7 @@ class TestPortal:
 		mocked_portal.scorer.score.assert_called_once()
 		mocked_portal.scorer.score.assert_called_with(request)
 
-	def test_umc_portal_request_umc_get_uses_configured_url(mocker, mock_portal_config):
+	def test_umc_portal_request_umc_get_uses_configured_url(self, mocker, mock_portal_config):
 		from univention.portal.extensions.portal import UMCPortal
 
 		requests_post = mocker.patch('requests.post')
