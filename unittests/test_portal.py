@@ -41,8 +41,7 @@ import json
 import tempfile
 import pytest
 
-from univentionunittests import import_module
-
+from univention.portal import user
 from univention.portal.extensions.reloader import MtimeBasedLazyFileReloader
 from univention.portal.extensions.portal import Portal
 
@@ -126,10 +125,6 @@ class TestPortal:
         authenticator.login_user = mocker.MagicMock()
         authenticator.login_request = mocker.MagicMock()
         return Portal(scorer, portal_cache, authenticator)
-
-    @pytest.fixture
-    def user_module(request):
-        return import_module("univention.portal.user", "python/", "univention.portal.user", use_installed=False)
 
     def test_user(self, mocked_portal, mocker):
         request = "request"
@@ -403,8 +398,9 @@ class TestPortal:
         assert present_announcement in result_announcements
         assert len(result_announcements) == 1
 
-    def test_announcement_groups(self, user_module, portal_data, standard_portal):
-        test_user = user_module.User(
+    def test_announcement_groups(self, portal_data, standard_portal):
+
+        test_user = user.User(
             username="hindenkampp",
             display_name="Hans Hindenkampp",
             groups=["public_society"],
