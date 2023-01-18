@@ -50,7 +50,7 @@ def test_imports(dynamic_class):
 	assert dynamic_class("Portal")
 
 
-class TestReloader(MtimeBasedLazyFileReloader):
+class StubReloader(MtimeBasedLazyFileReloader):
 
 	def __init__(self, portal_file):
 		super().__init__(portal_file)
@@ -95,7 +95,7 @@ class TestPortal:
 
 	@pytest.fixture
 	def reloader(self, portal_file):
-		return TestReloader(portal_file=portal_file)
+		return StubReloader(portal_file=portal_file)
 
 	@pytest.fixture
 	def portal_data(self, reloader):
