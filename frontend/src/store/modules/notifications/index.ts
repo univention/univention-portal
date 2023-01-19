@@ -206,19 +206,26 @@ export const actions = {
     }
   },
 
-  async connectNotificationsApi({ commit, dispatch }) {
-    await dispatch('fetchNotifications');
-    await dispatch('connectEventStream');
+  async connectNotificationsApi(context: PortalActionContext<Notifications>): Promise<void> {
+    await context.dispatch('connectEventStream');
   },
   async fetchNotifications({ commit }) {
     const response = await notificationsApi.getNotificationsV1NotificationsGet();
     const latestBackendNotifications = response.data;
     commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
   },
-  connectEventStream({ commit, dispatch }) {
+  connectEventStream({ commit, dispatch }: PortalActionContext<Notifications>): void {
     const eventSource = connectEventSource();
     commit('SET_EVENT_SOURCE', eventSource);
 
+    connectEventListener(
+      // default event name 'error': failed to connect event stream
+      eventSource, 'error', 'eventStreamErrorEvent', dispatch,
+    );
+    connectEventListener(
+      // default event name 'open': event stream connection opened successfully
+      eventSource, 'open', 'eventStreamOpenEvent', dispatch,
+    );
     connectEventListener(
       eventSource, 'new_notification', 'newBackendNotificationEvent', dispatch,
     );
@@ -228,6 +235,14 @@ export const actions = {
     connectEventListener(
       eventSource, 'deleted_notification', 'deleteBackendNotificationEvent', dispatch,
     );
+  },
+  async eventStreamOpenEvent(context: PortalActionContext<Notifications>): Promise<void> {
+    await context.dispatch('fetchNotifications');
+  },
+  async eventStreamErrorEvent(context: PortalActionContext<Notifications>): Promise<void> {
+    console.warn('EventStream connection failed! Reconnecting in 3 seconds...');
+    await new Promise((res) => { setTimeout(res, 3000); });
+    await context.dispatch('connectEventStream');
   },
   newBackendNotificationEvent({ commit, state }, eventData) {
     const item = state.backendNotifications.find((n) => n.id === eventData.id);
