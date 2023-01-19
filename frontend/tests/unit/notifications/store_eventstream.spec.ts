@@ -28,12 +28,6 @@ describe('connectNotificationsApi', () => {
     utils.mockReturnValue(notificationsApi.getNotificationsV1NotificationsGet, stubResponse);
   });
 
-  test('loads initial notifications from the api', async () => {
-    const stubStore = stubs.store();
-    await stubStore.dispatch('notifications/connectNotificationsApi');
-    expect(notificationsApi.getNotificationsV1NotificationsGet).toHaveBeenCalledWith();
-  });
-
   test('connects the event stream', async () => {
     const stubStore = stubs.store();
     await stubStore.dispatch('notifications/connectNotificationsApi');
@@ -56,15 +50,49 @@ describe('connectEventStream', () => {
     await stubStore.dispatch('notifications/connectEventStream');
 
     expect(connectEventListener).toHaveBeenNthCalledWith(
-      1, stubEventSource, 'new_notification', 'newBackendNotificationEvent', expect.anything(),
+      1, stubEventSource, 'error', 'eventStreamErrorEvent', expect.anything(),
     );
     expect(connectEventListener).toHaveBeenNthCalledWith(
-      2, stubEventSource, 'updated_notification', 'updateBackendNotificationEvent', expect.anything(),
+      2, stubEventSource, 'open', 'eventStreamOpenEvent', expect.anything(),
     );
     expect(connectEventListener).toHaveBeenNthCalledWith(
-      3, stubEventSource, 'deleted_notification', 'deleteBackendNotificationEvent', expect.anything(),
+      3, stubEventSource, 'new_notification', 'newBackendNotificationEvent', expect.anything(),
+    );
+    expect(connectEventListener).toHaveBeenNthCalledWith(
+      4, stubEventSource, 'updated_notification', 'updateBackendNotificationEvent', expect.anything(),
+    );
+    expect(connectEventListener).toHaveBeenNthCalledWith(
+      5, stubEventSource, 'deleted_notification', 'deleteBackendNotificationEvent', expect.anything(),
     );
   });
+});
+
+describe('eventStreamOpenEvent', () => {
+
+  beforeEach(() => {
+    const stubResponse = {
+      data: [],
+    };
+    utils.mockReturnValue(notificationsApi.getNotificationsV1NotificationsGet, stubResponse);
+  });
+
+  test('loads initial notifications from the api', async () => {
+    const stubStore = stubs.store();
+    await stubStore.dispatch('notifications/eventStreamOpenEvent');
+    expect(notificationsApi.getNotificationsV1NotificationsGet).toHaveBeenCalledWith();
+  });
+
+});
+
+describe('eventStreamErrorEvent', () => {
+
+  test('reconnect the event stream', async () => {
+    const stubStore = stubs.store();
+    const errorData = { message: 'some error' };
+    await stubStore.dispatch('notifications/eventStreamErrorEvent', errorData);
+    expect(connectEventSource).toHaveBeenCalledWith();
+  });
+
 });
 
 describe('newBackendNotificationEvent', () => {

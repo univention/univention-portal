@@ -174,6 +174,13 @@ UCS_MACHINE=10.200.4.80
 yarn serve
 ```
 
+#### In-browser debugging and inspection
+
+For inspecting the state of Vue.js and the Vuex store,
+the [Vue.js devtools extension](https://devtools.vuejs.org/guide/installation.html) can be used
+(e.g. directly from [Mozillas Addon Store](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)).
+
+
 ### Compiles and minifies for production
 ```
 yarn build
