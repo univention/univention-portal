@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
 #
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# Copyright 2004-2022 Univention GmbH
+# Copyright 2021-2022 Univention GmbH
 #
 # https://www.univention.de/
 #
@@ -29,33 +28,25 @@
 # You should have received a copy of the GNU Affero General Public
 # License with the Debian GNU/Linux or Univention distribution in file
 # /usr/share/common-licenses/AGPL-3; if not, see
-# <https://www.gnu.org/licenses/>.
-import io
-from distutils.core import setup
-from email.utils import parseaddr
 
-from debian.changelog import Changelog
-from debian.deb822 import Deb822
+from univention.admin.uldap import getMachineConnection
 
 
-dch = Changelog(io.open('debian/changelog', 'r', encoding='utf-8'))
-dsc = Deb822(io.open('debian/control', 'r', encoding='utf-8'))
-realname, email_address = parseaddr(dsc['Maintainer'])
+lo, pos = getMachineConnection()
+entries = lo.search('univentionObjectType=portals/entry')
 
-setup(
-    description='Univention Portal',
-    url='https://www.univention.de/',
-    license='GNU Affero General Public License v3',
-
-    packages=[
-                'univention.portal',
-                'univention.portal.extensions',
-                'univention.portal.handlers',
-    ],
-    package_dir={'univention.portal': 'python/univention/portal'},
-
-    name=dch.package,
-    version=dch.version.full_version,
-    maintainer=realname,
-    maintainer_email=email_address,
-)
+for entry in entries:
+    dn = entry[0]
+    print('Migrating', dn)
+    attr = 'univentionNewPortalEntryLink'
+    old_values = entry[1][attr]
+    new_values = []
+    for value in old_values:
+        print(' ', value)
+        if value.startswith(b'en_US') or value.startswith(b'de_DE'):
+            print('   ', '... ignoring')
+        else:
+            value = b'en_US %s' % value
+        new_values.append(value)
+    print('Modifying...')
+    lo.modify(dn, [(attr, old_values, new_values)])

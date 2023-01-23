@@ -36,8 +36,8 @@
 Create a portal entry for the Univention Blog for all Core Edition users.
 """
 
-import sys
 import subprocess
+import sys
 
 
 def handler(config_registry, changes):
