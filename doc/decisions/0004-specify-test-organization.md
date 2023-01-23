@@ -52,13 +52,21 @@ code files, one has to dive deep inside the test code and the code-under-test to
 figure out which component is tested and which component isn't. This is not only
 inefficient, but also erodes the value of unit tests as documentation.
 4. There is a functional difference between unit, integration and end-to-end
-tests. Clients/devops engineers often focus on end-to-end tests (because those
-are end-user facing), while developers focus more on unit tests during
-development since they run faster. Integration tests lie somewhere in the middle
-of this spectrum and may test multiple subprojects together. As a result of
-these functional differences, there is a need to clearly separate these three
-kinds of tests so that users can selectively run/inspect the tests that they
-care about.
+tests. Unit tests run fast and with minimal setup. Therefore, developers
+run them frequently while programming and pipelines run them during all major
+Git related events e.g. push, merge etc. End-to-end tests typically run slower
+and require more setup. Therefore, they are run less frequently in the
+development cycle and pipelines. But they play the critical role of checking an
+implementation against acceptance criteria set out in the user story/issue and
+also catch regressions not caught by unit tests. Integration tests lie at the
+middle of this spectrum. Because of these differences, it makes sense to
+separate out these types of tests in the repository, so developers can focus on
+each type of test separately as and when needed. Such a separation would also
+benefit the DevOps team, since they see themselves as partially responsible
+for end-to-end tests and the infrastructure for running them e.g. Jenkins. The
+client perspective also distinguishes between these types of tests. End-to-end
+tests test the entire product from the user's perspective and serve as an
+assurance that the product is working as expected by the users.
 5. Since there is a lack of consensus on test location and organization, there
 is a risk of repeated debates (especially at merge time) about these topics
 when new tests are added.
@@ -216,7 +224,8 @@ test the code file under test.
 
 1. Better overview of tests for both clients and developers.
 2. Unit tests more efficiently serve the function of documentation.
-3. Users able to selectively run/inspect tests that concern them.
+3. Users of the repository are able to selectively run/inspect tests that
+concern them.
 4. Agreement in the team regarding test organization. Fewer debates at merge
 time regarding test organization and lower barrier to add tests.
 
@@ -228,6 +237,3 @@ Initial overhead because of the following.
 subproject folder.
 2. We will need to refactor the existing tests and Dockerfiles, and create the
 recommended `README.md` files.
-
-
-
