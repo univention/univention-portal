@@ -32,10 +32,10 @@
 
 
 import univention.admin.handlers
+import univention.admin.handlers.portals.announcement
 import univention.admin.handlers.portals.category
 import univention.admin.handlers.portals.entry
 import univention.admin.handlers.portals.portal
-import univention.admin.handlers.portals.announcement
 from univention.admin.layout import Tab
 
 

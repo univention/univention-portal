@@ -37,6 +37,7 @@ import subprocess
 
 from univention.listener import ListenerModuleConfiguration, ListenerModuleHandler
 
+
 GROUP_CACHE = '/var/cache/univention-portal/groups.json'
 
 

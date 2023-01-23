@@ -40,11 +40,6 @@ import os
 from textwrap import dedent
 from typing import Dict, Union
 
-from univention.portal import get_all_dynamic_classes, get_dynamic_classes
-from univention.portal.factory import make_portal
-from univention.portal.log import setup_logger, get_logger
-from univention.portal import config
-
 import click
 
 from univention.portal import config, get_all_dynamic_classes, get_dynamic_classes
