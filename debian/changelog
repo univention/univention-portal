@@ -1,3 +1,9 @@
+univention-portal (4.2.0-3) unstable; urgency=medium
+
+  *  Issue univention-portal#593: add translations
+
+ -- Sebastian König-Festl <sebastian.koenig.extern@univention.de> Mon, 23 Jan 2023 12:27:37 +0100
+
 univention-portal (4.2.0-2) unstable; urgency=medium
 
   * Bug #55176: implemented announcement udm module
