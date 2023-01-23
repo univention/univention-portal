@@ -31,14 +31,14 @@
 
 import _ from '@/jsHelper/translate';
 
-type WidgetType = 'ComplexInput' | 'TextBox' | 'TextArea' | 'PasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox';
+type WidgetType = 'TextBox' | 'TextArea' | 'PasswordBox' | 'NewPasswordBox' | 'DateBox' | 'ComboBox' | 'RadioBox' | 'ImageUploader' | 'LocaleInput' | 'CheckBox' | 'MultiInput' | 'LinkWidget' | 'MultiSelect' | 'NumberSpinner' | 'TimeBox' | 'MutliChoice' | 'Mailbox' | 'Tree' | 'ComplexInput' | 'SuggestionBox' | 'Accordions' | 'Tabs' | 'Grid';
 
 interface OptionsDefinition {
   id: string,
   label: string,
 }
 
-type Validator = (widget, value, widgets, values) => string;
+type Validator = (widget, value, widgets?, values?) => (string | Record<string, string>);
 
 export interface WidgetDefinition {
   type: WidgetType,
@@ -46,7 +46,7 @@ export interface WidgetDefinition {
   label: string,
   extraLabel?: string,
   ariaLabel?: string,
-  invalidMessage?: string | { all: string, values: string[] },
+  invalidMessage?: string | { all: string, values: string[] } | Record<string, string>,
   required?: boolean,
   readonly?: boolean,
   options?: OptionsDefinition[],
@@ -97,6 +97,26 @@ export function isEmpty(widget, value): boolean {
   }
 }
 
+function isEmptyNewPasswordBox(_widget, value) {
+  const invalidMessageObject = {
+    invalidMessageNew: '',
+    invalidMessageRetype: '',
+  };
+  if (_widget.required) {
+    if (value.newPassword === '' && value.retypePassword === '') {
+      invalidMessageObject.invalidMessageNew = _('This value is required.');
+      invalidMessageObject.invalidMessageRetype = _('This value is required.');
+    }
+    if (value.newPassword === '' && value.retypePassword !== '') {
+      invalidMessageObject.invalidMessageNew = _('This value is required.');
+    }
+    if (value.newPassword !== '' && value.retypePassword === '') {
+      invalidMessageObject.invalidMessageRetype = _('This value is required.');
+    }
+  }
+  return invalidMessageObject;
+}
+
 export function isValid(widget): boolean {
   if (widget.invalidMessage === undefined) {
     return true;
@@ -131,6 +151,11 @@ export function isValid(widget): boolean {
             invalidMessage: message,
           });
         });
+    case 'NewPasswordBox':
+      return widget.invalidMessage === {
+        invalidMessageNew: '',
+        invalidMessageRetype: '',
+      };
     default:
       return true;
   }
@@ -159,6 +184,8 @@ export function validate(widget, value, widgets, values): void {
       case 'NumberSpinner':
       case 'TimeBox':
         return _widget.required && isEmpty(_widget, _value) ? _('This value is required') : '';
+      case 'NewPasswordBox':
+        return isEmptyNewPasswordBox(_widget, _value);
       default:
         return '';
     }
@@ -166,9 +193,21 @@ export function validate(widget, value, widgets, values): void {
 
   function getFirstInvalidMessage(_widget, _value) {
     const validators = [required, ...(_widget.validators ?? [])];
-    let message = '';
+    const iMessagesObject = {
+      invalidMessageNew: '',
+      invalidMessageRetype: '',
+    };
+    let message = _widget.type === 'NewPasswordBox' ? iMessagesObject : '';
     validators.some((validator) => {
       const iMessage = validator(_widget, _value, widgets, values);
+      if (_widget.type === 'NewPasswordBox') {
+        const msg = iMessage ?? iMessagesObject;
+        if (msg.invalidMessageNew !== iMessagesObject.invalidMessageNew || msg.invalidMessageRetype !== iMessagesObject.invalidMessageRetype) {
+          message = iMessage;
+          return true;
+        }
+        return false;
+      }
       if ((iMessage ?? '') !== '') {
         message = iMessage;
         return true;
@@ -184,6 +223,7 @@ export function validate(widget, value, widgets, values): void {
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
+    case 'NewPasswordBox':
     case 'RadioBox':
     case 'ImageUploader':
     case 'LocaleInput':
@@ -251,6 +291,8 @@ export function initialValue(widget, value): any {
         }
         return initialValue(widget.subtypes[0], v);
       });
+    case 'NewPasswordBox':
+      return { newPassword: '', retypePassword: '' };
     // case 'MultiSelect':
     //  return TODO
     // case 'LinkWidget':
@@ -260,7 +302,13 @@ export function initialValue(widget, value): any {
   }
 }
 
-export function invalidMessage(widget): string {
+export function invalidMessage(widget): string | any | Record<string, string> {
+  if (widget.invalidMessage === undefined && widget.type === 'NewPasswordBox') {
+    return {
+      invalidMessageNew: '',
+      invalidMessageRetype: '',
+    };
+  }
   if (widget.invalidMessage === undefined) {
     return '';
   }
@@ -270,6 +318,7 @@ export function invalidMessage(widget): string {
     case 'DateBox':
     case 'ComboBox':
     case 'PasswordBox':
+    case 'NewPasswordBox':
     case 'RadioBox':
     case 'ImageUploader':
     case 'LocaleInput':
@@ -293,4 +342,17 @@ export function validateInternalName(_widget: any, value: string): string {
     return _('Internal name must not contain anything other than digits, letters or dots, must be at least 2 characters long, and start and end with a digit or letter!');
   }
   return '';
+}
+
+export function validateNewPassword(_widget: any, value: Record<string, string>): Record<string, string> {
+  if (value.newPassword !== value.retypePassword) {
+    return {
+      invalidMessageNew: _('The new passwords do not match'),
+      invalidMessageRetype: _('The new passwords do not match'),
+    };
+  }
+  return {
+    invalidMessageNew: '',
+    invalidMessageRetype: '',
+  };
 }
