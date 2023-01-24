@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-portal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2022-12-14 05:23+0100\n"
+"POT-Creation-Date: 2023-01-25 08:52+0100\n"
 "PO-Revision-Date: 2020-05-01 00:20+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -112,8 +112,8 @@ msgid "Embedded"
 msgstr "Eingebettet"
 
 #: udm/handlers/announcement.py:118
-msgid "End time"
-msgstr "Endzeitpunkt"
+msgid "End date"
+msgstr "Enddatum"
 
 #: udm/handlers/folder.py:92
 msgid "Entries"
@@ -447,8 +447,8 @@ msgid "Show UMC categories and modules"
 msgstr "Zeige UMC-Kategorien und -Module"
 
 #: udm/handlers/announcement.py:111
-msgid "Start time"
-msgstr "Startzeit"
+msgid "Start date"
+msgstr "Startdatum"
 
 #: udm/handlers/announcement.py:82
 msgid "Sticky"
@@ -458,27 +458,21 @@ msgstr "Feststehend"
 msgid "Success"
 msgstr "Erfolg"
 
+#: udm/handlers/announcement.py:112
+msgid "The date when the announcement will first appear."
+msgstr "Das Datum, ab welchem das Announcement angezeigt wird."
+
+#: udm/handlers/announcement.py:119
+msgid "The date when the announcement will last appear."
+msgstr "Das Datum, bis zu welchem das Announcement angezeigt wird."
+
 #: udm/handlers/announcement.py:105
 msgid ""
 "The message of the announcement, usually written in normal text below the "
 "title."
-msgstr "Die Nachricht der Ansage. Erscheint üblicherweise unter dem Titel."
-
-#: udm/handlers/announcement.py:112
-msgid ""
-"The time when the announcement will first appear. If no time is set, it will"
-" always appear."
 msgstr ""
-"Der Zeitpunkt ab welchem das Announcement angezeigt wird. Wenn kein "
-"Zeitpunkt gesetzt wird, erscheint das Announcement unmittelbar."
-
-#: udm/handlers/announcement.py:119
-msgid ""
-"The time when the announcement will stop appearing. If no time is set, it "
-"will appear forever."
-msgstr ""
-"Der Zeitpunkt ab dem das Announcement nicht mehr angezeigt wird. Wenn kein "
-"Zeitpunkt gesetzt ist, wird das Announcement immer angezeigt."
+"Die Nachricht des Announcements. Sie erscheint üblicherweise unter dem "
+"Titel."
 
 #: udm/handlers/announcement.py:98
 msgid ""
@@ -553,6 +547,13 @@ msgstr "Weiß"
 #~ msgstr ""
 #~ "Die Kategorien werden nebeneinander angezeigt, wenn genügend Platz vorhanden"
 #~ " ist"
+
+#~ msgid ""
+#~ "The time when the announcement will stop appearing. If no time is set, it "
+#~ "will appear forever."
+#~ msgstr ""
+#~ "Der Zeitpunkt ab dem das Announcement nicht mehr angezeigt wird. Wenn kein "
+#~ "Zeitpunkt gesetzt ist, wird das Announcement immer angezeigt."
 
 #~ msgid "This portal will be used as start site for the given servers"
 #~ msgstr "Dieses Portal wird als Startseite der angegebenen Server dienen"
