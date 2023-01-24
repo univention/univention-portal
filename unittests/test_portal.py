@@ -302,7 +302,7 @@ class TestPortal:
 		input_announcement = {
 			"allowedGroups": [],
 			"dn": "cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
-			"endTime": None,
+			"visibleUntil": None,
 			"isSticky": False,
 			"message": {
 				"de_DE": "Dies ist ein Testannouncement das für jeden User, d.h. auch ohne Login sichtbar sein sollte.",
@@ -311,7 +311,7 @@ class TestPortal:
 			"name": "Testannouncment",
 			"needsConfirmation": False,
 			"severity": "info",
-			"startTime": None,
+			"visibleFrom": None,
 			"title": {
 				"de_DE": "Öffentliches Announcement",
 				"en_US": "Public Announcement"
@@ -343,8 +343,8 @@ class TestPortal:
 			"name": "Testannouncment",
 			"needsConfirmation": False,
 			"severity": "info",
-			"startTime": (datetime.now() - timedelta(minutes=2)).isoformat(),
-			"endTime": (datetime.now() - timedelta(minutes=1)).isoformat(),
+			"visibleFrom": (datetime.now() - timedelta(minutes=2)).isoformat(),
+			"visibleUntil": (datetime.now() - timedelta(minutes=1)).isoformat(),
 			"title": {
 				"de_DE": "Öffentliches Announcement",
 			}
@@ -359,8 +359,8 @@ class TestPortal:
 			"name": "Testannouncment",
 			"needsConfirmation": False,
 			"severity": "info",
-			"startTime": (datetime.now() - timedelta(minutes=2)).isoformat(),
-			"endTime": (datetime.now() + timedelta(minutes=2)).isoformat(),
+			"visibleFrom": (datetime.now() - timedelta(minutes=2)).isoformat(),
+			"visibleUntil": (datetime.now() + timedelta(minutes=2)).isoformat(),
 			"title": {
 				"de_DE": "Öffentliches Announcement",
 			}
@@ -375,8 +375,8 @@ class TestPortal:
 			"name": "Testannouncment",
 			"needsConfirmation": False,
 			"severity": "info",
-			"startTime": (datetime.now() + timedelta(minutes=1)).isoformat(),
-			"endTime": (datetime.now() + timedelta(minutes=2)).isoformat(),
+			"visibleFrom": (datetime.now() + timedelta(minutes=1)).isoformat(),
+			"visibleUntil": (datetime.now() + timedelta(minutes=2)).isoformat(),
 			"title": {
 				"de_DE": "Öffentliches Announcement",
 			}
@@ -416,8 +416,8 @@ class TestPortal:
 			"name": "Testannouncment",
 			"needsConfirmation": False,
 			"severity": "info",
-			"startTime": None,
-			"endTime": None,
+			"visibleFrom": None,
+			"visibleUntil": None,
 			"title": {
 				"de_DE": "Öffentliches Announcement",
 			}
@@ -432,8 +432,8 @@ class TestPortal:
 			"name": "Testannouncment",
 			"needsConfirmation": False,
 			"severity": "info",
-			"startTime": None,
-			"endTime": None,
+			"visibleFrom": None,
+			"visibleUntil": None,
 			"title": {
 				"de_DE": "Öffentliches Announcement",
 			}
@@ -448,8 +448,8 @@ class TestPortal:
 			"name": "Testannouncment",
 			"needsConfirmation": False,
 			"severity": "info",
-			"startTime": None,
-			"endTime": None,
+			"visibleFrom": None,
+			"visibleUntil": None,
 			"title": {
 				"de_DE": "Öffentliches Announcement",
 			}
