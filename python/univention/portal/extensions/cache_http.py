@@ -46,7 +46,6 @@ class CacheHTTP(metaclass=Plugin):
 		self._ucs_internal_url = ucs_internal_url
 		self._etag = None
 		self._cache = {}
-		self._load()
 
 	def get_id(self):
 		return self._etag
@@ -72,11 +71,10 @@ class CacheHTTP(metaclass=Plugin):
 			get_logger('cache').exception(f'Error loading {self._ucs_internal_url}')
 
 	def get(self):
-		self._load()
 		return self._cache
 
 	def refresh(self, reason=None):
-		raise NotImplementedError
+		self._load()
 
 
 class PortalFileCacheHTTP(CacheHTTP):

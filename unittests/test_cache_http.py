@@ -69,7 +69,7 @@ def test_portal_file_cache_http(requests_mock, dynamic_class):
 		json=PORTAL_DATA,
 	)
 	portal_file_cache_http = dynamic_class('PortalFileCacheHTTP')(UCS_INTERNAL_URL)
-	assert ETAG == portal_file_cache_http.get_id()
+	portal_file_cache_http.refresh()
 
 	requests_mock.get(
 		url,
@@ -80,9 +80,6 @@ def test_portal_file_cache_http(requests_mock, dynamic_class):
 	assert PORTAL_DATA == portal_file_cache_http.get()
 	for item in PORTAL_DATA_KEYS:
 		assert item == getattr(portal_file_cache_http, f'get_{item}')()
-
-	with pytest.raises(NotImplementedError):
-		portal_file_cache_http.refresh()
 
 
 def test_group_file_cache_http(requests_mock, dynamic_class):
@@ -95,7 +92,7 @@ def test_group_file_cache_http(requests_mock, dynamic_class):
 		json=GROUPS_DATA,
 	)
 	group_file_cache_http = dynamic_class('GroupFileCacheHTTP')(UCS_INTERNAL_URL)
-	assert ETAG == group_file_cache_http.get_id()
+	group_file_cache_http.refresh()
 
 	requests_mock.get(
 		url,
@@ -104,6 +101,3 @@ def test_group_file_cache_http(requests_mock, dynamic_class):
 		headers={'ETag': ETAG},
 	)
 	assert GROUPS_DATA == group_file_cache_http.get()
-
-	with pytest.raises(NotImplementedError):
-		group_file_cache_http.refresh()

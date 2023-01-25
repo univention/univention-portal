@@ -44,6 +44,7 @@ from ldap.dn import str2dn
 from univention.portal import config
 from univention.portal.factory import make_portal
 from univention.portal.log import get_logger, setup_logger
+from univention.portal.extensions.cache_http import PortalFileCacheHTTP
 
 
 RE_FQDN = re.compile(r'(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}\.?$)')
@@ -99,6 +100,9 @@ class PortalEntriesHandler(PortalResource):
 
         user = await portal.get_user(self)
 
+        if isinstance(portal.portal_cache, PortalFileCacheHTTP):
+            portal.refresh()
+
         admin_mode = False
         if self.request.headers.get("X-Univention-Portal-Admin-Mode", "no") == "yes":
             get_logger("admin").info("Admin mode requested")
@@ -146,6 +150,9 @@ class NavigationHandler(PortalResource):
         self._portal_base = self.get_query_argument("base", self.reverse_abs_url('root', ())).rstrip('/')
 
         user = await portal.get_user(self)
+
+        if isinstance(portal.portal_cache, PortalFileCacheHTTP):
+            portal.refresh()
 
         visible_content = portal.get_visible_content(user, False)
         categories_content = portal.get_categories(visible_content)
