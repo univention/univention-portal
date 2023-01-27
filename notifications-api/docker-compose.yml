@@ -33,6 +33,8 @@ services:
     build:
       target: test
     container_name: notifications-api-test
+    environment:
+      LOG_LEVEL: DEBUG
     volumes:
       - .:/app
 

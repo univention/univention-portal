@@ -9,7 +9,7 @@ import asyncio
 import json
 import logging
 
-from app import messaging
+from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
 from app.db import get_session
 from app.models.notification_model import (
@@ -30,10 +30,18 @@ async def create_notification(
     service: NotificationService = Depends(NotificationService),
     db: Session = Depends(get_session),
 ) -> Notification:
+    if data.has_expired():
+        raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Expiry time is in the past.")
+
     notification = service.create_notification(data, db)
+
     event_data = json.dumps(jsonable_encoder(["new_notification", notification]))
     topic = f"user.{notification.targetUid}"
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
+
+    if notification.expireTime:
+        expiry_pruning.reload_pruner()
+
     return notification
 
 

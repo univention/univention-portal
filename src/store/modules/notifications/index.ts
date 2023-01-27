@@ -65,6 +65,9 @@ export const mapBackendNotification = function (notification: BackendNotificatio
     title: notification.title,
     description: notification.details,
     hidingAfter: notification.popup ? defaultHideAfter : -1,
+    expireAt: notification.expireTime
+      ? new Date(notification.expireTime)
+      : null,
     importance: importanceFromSeverity(notification.severity),
     visible: !!notification.popup,
     token: notification.id,
