@@ -11,6 +11,7 @@ export const stubFullNotification: models.FullNotification = {
   title: 'Stub Notification Title',
   token: '4eeec048-a8b0-4a36-a3be-16722ad39acd',
   visible: true,
+  expireAt: new Date(),
   link: {
     url: new URL('https://www.univention.de'),
     text: 'Univention',

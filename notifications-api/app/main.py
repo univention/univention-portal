@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 from app.core.config import settings
 
 from .api import router as api_router
+from .expiry_pruning import startup_expiry_pruning
 from .logs import configure_logging
 from .messaging import startup_messaging
 
@@ -65,8 +66,9 @@ app.include_router(api_router)
 
 
 @app.on_event("startup")
-def trigger_messaging_setup():
+def startup_tasks():
     startup_messaging()
+    startup_expiry_pruning()
 
 
 @app.exception_handler(RequestValidationError)

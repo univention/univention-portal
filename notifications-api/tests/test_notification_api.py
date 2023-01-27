@@ -1,4 +1,5 @@
-from datetime import datetime
+import asyncio
+from datetime import datetime, timedelta
 from http import HTTPStatus
 from uuid import uuid4
 import json
@@ -34,6 +35,26 @@ def mock_messaging(mocker):
 
 
 def test_create_notification(empty_db, request_data, client):
+    response = client.post('/v1/notifications/', json=request_data)
+    assert response.status_code == HTTPStatus.CREATED
+    response_json = response.json()
+    assert response_json['id'] is not None
+    assert response_json['sourceUid'] == sourceUid
+    assert response_json['targetUid'] == targetUid
+
+
+def test_create_notification_with_expiry_with_tz(empty_db, request_data, client):
+    request_data["expireTime"] = "2099-01-26T12:34:56+01:00"
+    response = client.post('/v1/notifications/', json=request_data)
+    assert response.status_code == HTTPStatus.CREATED
+    response_json = response.json()
+    assert response_json['id'] is not None
+    assert response_json['sourceUid'] == sourceUid
+    assert response_json['targetUid'] == targetUid
+
+
+def test_create_notification_with_expiry_without_tz(empty_db, request_data, client):
+    request_data["expireTime"] = "2099-01-26T12:34:56"
     response = client.post('/v1/notifications/', json=request_data)
     assert response.status_code == HTTPStatus.CREATED
     response_json = response.json()
@@ -170,6 +191,54 @@ async def test_stream_notifications(empty_db, mocker):
 
     assert event['event'] == "stub_topic"
     assert_is_valid_json(event['data'])
+
+
+@pytest.mark.asyncio
+async def test_get_expired_notifications(empty_db, request_data, client):
+    # create a notification that expires in 1 second
+    notification_json = dict(**request_data)
+    notification_json['expireTime'] = (datetime.now() + timedelta(seconds=1)).isoformat()
+    response = client.post('/v1/notifications/', json=notification_json)
+    assert response.status_code == HTTPStatus.CREATED
+    response_json = response.json()
+    assert response_json['id'] is not None
+    assert response_json['sourceUid'] == sourceUid
+    assert response_json['targetUid'] == targetUid
+
+    response = client.get('/v1/notifications/')
+    assert response.status_code == HTTPStatus.OK
+    assert len(response.json()) == 1
+
+    # wait until notification has expired
+    await asyncio.sleep(1.1)
+
+    # notification should not be returned anymore
+    response = client.get('/v1/notifications/')
+    assert response.status_code == HTTPStatus.OK
+    assert len(response.json()) == 0
+
+
+@pytest.mark.asyncio
+async def test_get_expired_notification(empty_db, request_data, client):
+    # create a notification that expires in 100 ms
+    notification_json = dict(**request_data)
+    notification_json['expireTime'] = (datetime.now() + timedelta(seconds=0.1)).isoformat()
+    response = client.post('/v1/notifications/', json=notification_json)
+    assert response.status_code == HTTPStatus.CREATED
+    response_json = response.json()
+    assert response_json['id'] is not None
+    assert response_json['sourceUid'] == sourceUid
+    assert response_json['targetUid'] == targetUid
+
+    response = client.get('/v1/notifications/' + response_json['id'])
+    assert response.status_code == HTTPStatus.OK
+
+    # wait until notification has expired
+    await asyncio.sleep(1.1)
+
+    # notification should not be returned anymore
+    response = client.get('/v1/notifications/' + response_json['id'])
+    assert response.status_code == HTTPStatus.NOT_FOUND
 
 
 def assert_is_valid_json(value):

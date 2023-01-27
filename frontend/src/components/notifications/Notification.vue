@@ -125,6 +125,10 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    expireAt: {
+      type: Date,
+      required: false,
+    },
     token: {
       type: String,
       required: true,
@@ -165,6 +169,7 @@ export default defineComponent({
   },
   mounted() {
     this.startDismissal();
+    this.startExpiry();
   },
   beforeUnmount() {
     this.stopDismissal();
@@ -192,8 +197,17 @@ export default defineComponent({
         this.$el.classList.remove('notification__dismissing');
       }
     },
+    startExpiry() {
+      if (this.expireAt) {
+        const now = new Date();
+        const expireMilliseconds = (this.expireAt.getTime() - now.getTime());
+        setTimeout(
+          () => this.removeNotification(),
+          expireMilliseconds,
+        );
+      }
+    },
     removeNotification() {
-      // this.$emit('notificationRemovedBefore');
       this.$store.dispatch('notifications/removeNotification', this.token);
       this.$emit('notificationRemoved');
     },

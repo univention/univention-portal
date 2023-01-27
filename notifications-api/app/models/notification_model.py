@@ -39,6 +39,7 @@ class NotificationBase(SQLModel):
     sticky: Optional[bool]
     needsConfirmation: Optional[bool]
     notificationType: NotificationType
+    expireTime: Optional[datetime]
     link: Optional[NotificationLink] = Field(default=None, sa_column=Column(JSON), nullable=True)
     data: Dict = Field(default={}, sa_column=Column(JSON))
 
@@ -52,6 +53,13 @@ class NotificationBase(SQLModel):
     class Config:
         arbitrary_types_allowed = True
 
+    def has_expired(self):
+        """
+        Returns `True` when the notification has an expiry time and that time is in the past.
+        """
+        return self.expireTime \
+            and (self.expireTime < datetime.now(self.expireTime.tzinfo))
+
 
 class Notification(NotificationBase, table=True):
     id: UUID = Field(primary_key=True)
@@ -60,7 +68,6 @@ class Notification(NotificationBase, table=True):
     readTime: Optional[datetime]
     sseSendTime: Optional[datetime]
     confirmationTime: Optional[datetime]
-    expireTime: Optional[datetime]
 
 
 class NotificationCreate(NotificationBase):
