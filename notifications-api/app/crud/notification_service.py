@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
+from sqlalchemy.sql.expression import and_, or_, null
 from sqlmodel import Session, select
 from uuid import uuid4
 
@@ -29,6 +30,7 @@ class NotificationService():
             severity=notification.severity,
             notificationType=notification.notificationType,
             receiveTime=datetime.now(),
+            expireTime=notification.expireTime,
             confirmationTime=None,
             readTime=None,
             link=notification.link,
@@ -44,12 +46,54 @@ class NotificationService():
         query: dict,
         db: Session
     ) -> List[Notification]:
-        statement = select(Notification).where(
-            Notification.notificationType == query['type']).limit(query['limit'])
+        if query.get('exclude_expired', True):
+            statement = select(Notification).where(
+                and_(
+                    Notification.notificationType == query['type'],
+                    or_(
+                        Notification.expireTime == null(),
+                        Notification.expireTime >= datetime.now()
+                    )
+                )
+            ).limit(query['limit'])
+        else:
+            statement = select(Notification).where(
+                Notification.notificationType == query['type']
+            ).limit(query['limit'])
         return db.exec(statement).fetchall()
 
+    def prune_expired_notifications(
+        self,
+        db: Session
+    ) -> None:
+        statement = select(Notification).where(
+            Notification.expireTime < datetime.utcnow()
+        )
+
+        expired = db.exec(statement).fetchall()
+        for notification in expired:
+            db.delete(notification)
+
+        db.commit()
+
+    def get_next_notification_expiry(self, db: Session) -> Optional[datetime]:
+        statement = select(Notification) \
+            .where(Notification.expireTime) \
+            .order_by(Notification.expireTime)
+
+        notification = db.exec(statement).first()
+        return notification.expireTime if notification else None
+
     def get_notification(self, id_: str, db: Session) -> Notification:
-        statement = select(Notification).where(Notification.id == id_)
+        statement = select(Notification).where(
+            and_(
+                Notification.id == id_,
+                or_(
+                    Notification.expireTime == null(),
+                    Notification.expireTime >= datetime.now()
+                )
+            )
+        )
         return db.exec(statement).one()
 
     def delete_notification(self, id_: str, db: Session) -> None:
@@ -62,7 +106,14 @@ class NotificationService():
         db: Session
     ) -> List[Notification]:
         statement = select(Notification).where(
-            Notification.sseSendTime == None)  # noqa: E711
+            and_(
+                Notification.sseSendTime == None,  # noqa: E711
+                or_(
+                    Notification.expireTime == null(),
+                    Notification.expireTime >= datetime.now()
+                )
+            )
+        )
         new_notifications = db.exec(statement).fetchall()
         for notification in new_notifications:
             notification.sseSendTime = datetime.now()

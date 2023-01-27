@@ -4,6 +4,7 @@ import pytest
 from sqlmodel import Session, create_engine, delete
 from uuid import uuid4
 
+from app import expiry_pruning
 from app.db import get_session
 from app.main import app
 from app.models.notification_model import Notification, NotificationBase
@@ -42,6 +43,9 @@ def patch_db_session():
     """
     NotificationBase.metadata.create_all(bind=engine)
     app.dependency_overrides[get_session] = override_get_db
+
+    # also patch the expiry pruner
+    expiry_pruning.get_session = override_get_db
 
 
 @pytest.fixture()
