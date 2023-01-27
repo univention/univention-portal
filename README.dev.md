@@ -1,7 +1,5 @@
 # Univention Portal - Developer Information
 
-
-
 ## Overview
 
 The following components form the Univention portal:
@@ -13,8 +11,6 @@ The following components form the Univention portal:
   of [`unittests/`](./unittests/).
 - [Notifications API in `notifications-api/`](./notifications-api/) -- The
   backend api needed for server side notification handling.
-
-
 
 ## Utilities
 
@@ -38,10 +34,7 @@ packaging:
 - [Gitlab CI in `.gitlab-ci.yml`](./.gitlab-ci.yml) -- The pipeline
   configuration shows which checks are automatically run and how they are run.
 
-
-
 ## Working with container images locally
-
 
 ### Preparation of a UCS machine for development
 
@@ -58,6 +51,23 @@ ansible-playbook -i ansible/hosts.yaml \
     ansible/ucs-expose-portal-json-files.yaml
 ```
 
+### Preparation of Keycloak for development
+
+In `docker/docker-compose.yaml` you can find a service called `keycloak` which
+you will need to use the notifications OIDC.
+
+1. Download your UCS CA certificate and place it in `docker/keycloak/ucs-root-ca.crt`.
+1. Run `docker-compose up -d keycloak --build` on the `docker` folder.
+1. Access Keycloak on `localhost:8097` and access with the credentials on the environment variables.
+1. Select the `Ucs` realm on the top left corner.
+1. Go to `User federation` on the bottom left menu.
+1. Select LDAP and configure your `Connection URL` to your UCS IP, like: `ldap://10.200.71.10:7389`
+1. Go to your UCS machine and run `cat /etc/idp-ldap-user.secret`.
+1. Set the LDAP `Bind credentials` to the value from the previous step.
+1. You should be able to test the connection.
+
+> Feel free to play around with `portal-notifications` client and mappings.
+> The default configuration provided might not be valid for your setup for some cases.
 
 ### Build and run containers locally
 
@@ -65,7 +75,6 @@ An adjusted docker compose file has been created to make it easier to build the
 current state into container images and to run those images. This file can be
 found at `docker/docker-compose.yaml`. It will run the production containers in
 a local setup.
-
 
 Preparation:
 
@@ -82,7 +91,6 @@ Preparation:
 - The other values should work out of the box and only need modification in
   adjusted setups or non-Linux systems.
 
-
 Example:
 
 ```sh
@@ -98,7 +106,6 @@ docker compose up
 
 Check if http://localhost:8000/ does give you a "roughly" working portal.
 
-
 ### Interaction from the command line
 
 A simple interaction example with the running containers:
@@ -111,9 +118,7 @@ $ curl http://localhost:8095/univention/portal/portal.json
 {"cache_id": "1667994988.804391", "user_links": [], "menu_links": [...]
 ```
 
-
 ### Local development
-
 
 #### Run a development server
 
@@ -136,7 +141,6 @@ correct ports on the local machine.
 
 See [`docker/reverse-proxy/`](./docker/reverse-proxy/) regarding further
 details.
-
 
 #### Utilities provided via docker compose
 
