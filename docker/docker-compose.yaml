@@ -32,20 +32,20 @@ services:
       PORTAL_SERVER_UMC_GET_URL: "http://172.17.0.1:8000/univention/get"
       PORTAL_SERVER_UMC_SESSION_URL: "http://172.17.0.1:8000/univention/get/session-info"
     # volumes:
-      # You can bind mount stub files into your portal container if you need
-      # to run it alone. In this case make sure that you are not using the
-      # HTTP based cache implementation. See portals.json and the command
-      # "python3 univention-portal add-default" to generate it.
-      #
-      # - type: bind
-      #   source: ./portal-server/stub_groups.json
-      #   target: /var/cache/univention-portal/groups.json
-      # - type: bind
-      #   source: ./portal-server/stub_portal.json
-      #   target: /var/cache/univention-portal/portal.json
-      # - type: bind
-      #   source: ./portal-server/machine.secret
-      #   target: /etc/machine.secret
+    # You can bind mount stub files into your portal container if you need
+    # to run it alone. In this case make sure that you are not using the
+    # HTTP based cache implementation. See portals.json and the command
+    # "python3 univention-portal add-default" to generate it.
+    #
+    # - type: bind
+    #   source: ./portal-server/stub_groups.json
+    #   target: /var/cache/univention-portal/groups.json
+    # - type: bind
+    #   source: ./portal-server/stub_portal.json
+    #   target: /var/cache/univention-portal/portal.json
+    # - type: bind
+    #   source: ./portal-server/machine.secret
+    #   target: /etc/machine.secret
   notifications-api:
     build:
       context: ../notifications-api
@@ -79,6 +79,23 @@ services:
         target: /var/lib/postgresql/data
     ports:
       - 5432:5432
+
+  keycloak:
+    container_name: keycloak
+    # image: quay.io/keycloak/keycloak:19.0.0
+    build: ./keycloak
+    command: start-dev --http-enabled=true --import-realm
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    ports:
+      - 8097:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=univention
+      - PROXY_ADDRESS_FORWARDING=true
+      - KC_PROXY=edge
+      - KEYCLOAK_LOGLEVEL=ALL
+      - ROOT_LOGLEVEL=ALL
 
   test:
     profiles:
