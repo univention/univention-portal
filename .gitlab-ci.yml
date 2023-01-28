@@ -145,26 +145,26 @@ push-image-souvap-portal-server-job:
     SOUVAP_IMAGE_NAME: "portal-server"
 
 
-build-notification-api-test-runner:
+build-notifications-api-test-runner:
   stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api-test-runner"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
     KANIKO_ARGS: "--target=test"
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH
 
 
-build-notification-api:
+build-notifications-api:
   stage: build
   extends: .kaniko
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notification-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH
@@ -257,10 +257,10 @@ test-portal-server:
     - if: $CI_COMMIT_BRANCH
 
 
-test-notification-api:
+test-notifications-api:
   stage: test
   needs:
-    - job: build-notification-api-test-runner
+    - job: build-notifications-api-test-runner
   image: "$IMAGE_TAG"
   script:
     - cd notifications-api
