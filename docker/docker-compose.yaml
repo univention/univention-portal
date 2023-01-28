@@ -100,6 +100,18 @@ services:
         source: ../unittests
         target: /staging/unittests
 
+  deb-builder:
+    profiles:
+      - test
+    platform: "linux/amd64"
+    build:
+      context: ./deb-build
+    container_name: univention-portal-deb-builder
+    volumes:
+      - type: bind
+        source: ../
+        target: /src
+
   pre-commit:
     profiles:
       - test
