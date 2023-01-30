@@ -62,6 +62,16 @@ import pytest
 			True,
 			id="start after end"
 		),
+		pytest.param(
+			(datetime.now() - timedelta(days=1)).date().isoformat(), datetime.now().date().isoformat(),
+			True,
+			id="end is today"
+		),
+		pytest.param(
+			datetime.now().date().isoformat(), datetime.now().date().isoformat(),
+			True,
+			id="start is today, end is today"
+		),
 	]
 )
 def test_is_current_time_between(start, end, expected):
