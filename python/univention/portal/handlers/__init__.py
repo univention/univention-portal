@@ -1,10 +1,9 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
+# Univention Portal
 #
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# Copyright 2004-2022 Univention GmbH
+# Copyright 2020-2022 Univention GmbH
 #
 # https://www.univention.de/
 #
@@ -30,30 +29,9 @@
 # License with the Debian GNU/Linux or Univention distribution in file
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
-import io
-from distutils.core import setup
-from email.utils import parseaddr
-from debian.changelog import Changelog
-from debian.deb822 import Deb822
+#
 
-dch = Changelog(io.open('debian/changelog', 'r', encoding='utf-8'))
-dsc = Deb822(io.open('debian/control', 'r', encoding='utf-8'))
-realname, email_address = parseaddr(dsc['Maintainer'])
-
-setup(
-	description='Univention Portal',
-	url='https://www.univention.de/',
-	license='GNU Affero General Public License v3',
-
-	packages=[
-		'univention.portal',
-		'univention.portal.extensions',
-		'univention.portal.handlers',
-	],
-	package_dir={'univention.portal': 'python/univention/portal'},
-
-	name=dch.package,
-	version=dch.version.full_version,
-	maintainer=realname,
-	maintainer_email=email_address,
-)
+from .portal_resource import PortalResource  # noqa: F401
+from .auth_handlers import LoginHandler, LogoutHandler  # noqa: F401
+from .portal_entries_handler import PortalEntriesHandler  # noqa: F401
+from .navigation_handler import NavigationHandler  # noqa: F401
