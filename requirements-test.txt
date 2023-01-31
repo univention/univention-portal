@@ -10,4 +10,5 @@ pytest-cov==4.0.0
 pytest-mock==1.7.1
 requests-mock==1.10.0
 python-dateutil==2.7.3
+pytest-tornado==0.8.1
 
