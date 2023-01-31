@@ -28,6 +28,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/use-regex: "true"
+  ## Define Hostname
   # host: "portal.example.com"
   paths:
     - pathType: Exact

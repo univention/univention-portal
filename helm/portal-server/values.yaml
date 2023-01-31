@@ -18,14 +18,18 @@ tolerations: []
 
 ## Application-specific
 portalserver:
+  ## Define LDAP Admin Group
   # admin_group: "cn=Domain Admins,cn=groups,dc=example,dc=com"
   auth_mode: "ucs"
   editable: "true"
   environment: "production"
   log_level: "WARNING"
   port: "80"
+  ## Define UCS internal endpoint
   # ucs_internal_url: "https://portal.example.com/univention/internal"
+  ## Define UMC get endpoint
   # umc_get_url: "https://portal.example.com/univention/get"
+  ## Define UMC session-info" endpoint
   # umc_session_url: "https://portal.example.com/univention/get/session-info"
 
 
@@ -34,6 +38,7 @@ ingress:
   enabled: true
   ingressClassName: "nginx"
   annotations: {}
+  ## Define Hostname
   # host: "portal.example.com"
   paths:
     - pathType: "Exact"
