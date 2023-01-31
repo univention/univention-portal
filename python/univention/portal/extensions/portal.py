@@ -39,8 +39,7 @@ import time
 import requests
 import requests.exceptions
 
-import univention.portal.config as config
-from univention.portal import Plugin
+from univention.portal import Plugin, config
 from univention.portal.log import get_logger
 from univention.portal.util import is_current_time_between as is_announcement_visible_now
 
