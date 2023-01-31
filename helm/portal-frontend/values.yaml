@@ -30,14 +30,14 @@ ingress:
     nginx.ingress.kubernetes.io/use-regex: "true"
   # host: "portal.example.com"
   paths:
-    - path: /univention/portal/($|index.html$)
-      pathType: Exact
-    - path: /univention/portal/(css/app.css$)
-      pathType: Exact
-    - path: /univention/portal/([^/]*.svg$)
-      pathType: Exact
-    - path: /univention/portal/(js/.*)
-      pathType: Prefix
+    - pathType: Exact
+      path: /univention/portal/($|index.html$)
+    - pathType: Exact
+      path: /univention/portal/(css/app.css$)
+    - pathType: Exact
+      path: /univention/portal/([^/]*.svg$)
+    - pathType: Prefix
+      path: /univention/portal/(js/.*)
   tls:
     enabled: true
     secretName: ""

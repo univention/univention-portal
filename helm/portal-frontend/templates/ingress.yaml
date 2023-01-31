@@ -26,8 +26,8 @@ spec:
       http:
         paths:
           {{- range .Values.ingress.paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          - pathType: {{ .pathType }}
+            path: {{ .path }}
             backend: {{- include "common.ingress.backend" (dict "serviceName" (include "common.names.fullname" $) "servicePort" "http" "context" $) | nindent 14 }}
           {{- end }}
 

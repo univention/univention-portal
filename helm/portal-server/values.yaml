@@ -36,8 +36,8 @@ ingress:
   annotations: {}
   # host: "portal.example.com"
   paths:
-    - path: "/univention/portal/(portal|navigation).json"
-      pathType: "Exact"
+    - pathType: "Exact"
+      path: "/univention/portal/(portal|navigation).json"
   tls:
     enabled: true
     secretName: ""
