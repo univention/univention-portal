@@ -5,6 +5,8 @@ kind: ConfigMap
 metadata:
   name: '{{ include "common.names.fullname" . }}'
 data:
+  ENVIRONMENT: "{{ .Values.portalserver.environment }}"
+  LOG_LEVEL: "{{ .Values.portalserver.log_level }}"
   PORTAL_SERVER_ADMIN_GROUP: "{{ .Values.portalserver.admin_group }}"
   PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalserver.auth_mode }}"
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalserver.editable }}"

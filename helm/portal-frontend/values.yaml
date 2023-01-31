@@ -17,8 +17,9 @@ tolerations: []
 
 
 ## Application-specific
-## Nothing yet
-
+portalfrontend:
+  environment: "production"
+  log_level: "WARNING"
 
 ## Kubernetes ingress
 ingress:
