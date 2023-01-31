@@ -7,6 +7,8 @@
 ## Application-specific
 portalserver:
   admin_group: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  environment: "staging"
+  log_level: "DEBUG"
   ucs_internal_url: "https://portal.example.develop.souvap-univention.de/univention/internal"
   umc_get_url: "https://portal.example.develop.souvap-univention.de/univention/get"
   umc_session_url: "https://portal.example.develop.souvap-univention.de/univention/get/session-info"

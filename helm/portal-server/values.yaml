@@ -21,6 +21,8 @@ portalserver:
   # admin_group: "cn=Domain Admins,cn=groups,dc=example,dc=com"
   auth_mode: "ucs"
   editable: "true"
+  environment: "production"
+  log_level: "WARNING"
   port: "80"
   # ucs_internal_url: "https://portal.example.com/univention/internal"
   # umc_get_url: "https://portal.example.com/univention/get"
