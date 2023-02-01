@@ -32,11 +32,11 @@ async def expiry_pruner(session: Session):
 
     The process is repeated until there are no expiring notifications left.
     """
-    service = NotificationService()
+    service = NotificationService(session)
 
     while True:
         # wait for the next notification to expire
-        expire_time = service.get_next_notification_expiry(session)
+        expire_time = service.get_next_notification_expiry()
         if expire_time is None:
             log.debug("No notifications about to expire")
             return
@@ -47,7 +47,7 @@ async def expiry_pruner(session: Session):
 
         # prune expired notifications from the database
         log.info("Pruning expired notifications")
-        service.prune_expired_notifications(session)
+        service.prune_expired_notifications()
 
 
 def reload_pruner():

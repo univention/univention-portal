@@ -173,19 +173,16 @@ def test_bulk_invalidate_many_notifications_by_sender(empty_db, request_data, cl
 
 
 @pytest.mark.asyncio
-async def test_stream_notifications(empty_db, mocker):
+async def test_stream_notifications(mocker):
     from app import messaging
     from app.api.v1.api import stream_notifications
-    from app.crud.notification_service import NotificationService
 
     request = mocker.MagicMock()
     mock_receiver = mocker.patch.object(messaging, "receive_notifications")
     stub_data = json.dumps(["stub_topic", {"stub": "value"}])
     mock_receiver().__aiter__.return_value = [stub_data]
 
-    service = NotificationService()
-
-    result = await stream_notifications(request, service, empty_db)
+    result = await stream_notifications(request)
     body = [x async for x in result.body_iterator]
     event = body.pop()
 
