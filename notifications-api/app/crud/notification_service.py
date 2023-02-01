@@ -62,26 +62,23 @@ class NotificationService:
             ).limit(query['limit'])
         return self._db.exec(statement).fetchall()
 
-    def prune_expired_notifications(
-        self,
-        db: Session
-    ) -> None:
+    def prune_expired_notifications(self) -> None:
         statement = select(Notification).where(
             Notification.expireTime < datetime.utcnow()
         )
 
-        expired = db.exec(statement).fetchall()
+        expired = self._db.exec(statement).fetchall()
         for notification in expired:
-            db.delete(notification)
+            self._db.delete(notification)
 
-        db.commit()
+        self._db.commit()
 
-    def get_next_notification_expiry(self, db: Session) -> Optional[datetime]:
+    def get_next_notification_expiry(self) -> Optional[datetime]:
         statement = select(Notification) \
             .where(Notification.expireTime) \
             .order_by(Notification.expireTime)
 
-        notification = db.exec(statement).first()
+        notification = self._db.exec(statement).first()
         return notification.expireTime if notification else None
 
     def get_notification(self, id_: str) -> Notification:
@@ -101,10 +98,7 @@ class NotificationService:
         self._db.delete(notification)
         self._db.commit()
 
-    def pop_notifications_for_sse(
-        self,
-        db: Session
-    ) -> List[Notification]:
+    def pop_notifications_for_sse(self) -> List[Notification]:
         statement = select(Notification).where(
             and_(
                 Notification.sseSendTime == None,  # noqa: E711
@@ -114,13 +108,13 @@ class NotificationService:
                 )
             )
         )
-        new_notifications = db.exec(statement).fetchall()
+        new_notifications = self._db.exec(statement).fetchall()
         for notification in new_notifications:
             notification.sseSendTime = datetime.now()
-            db.add(notification)
-        db.commit()
+            self._db.add(notification)
+        self._db.commit()
         for notification in new_notifications:
-            db.refresh(notification)
+            self._db.refresh(notification)
         return new_notifications
 
     def hide_notification(self, id: str) -> None:
