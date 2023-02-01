@@ -115,9 +115,8 @@ def hide_notification(
 def mark_notification_read(
     id: str,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
 ) -> Notification:
-    return service.mark_notification_read(id, db)
+    return service.mark_notification_read(id)
 
 
 @router.post("/notifications/{id}/confirm", tags=["client"])

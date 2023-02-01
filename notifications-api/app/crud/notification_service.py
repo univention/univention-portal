@@ -133,14 +133,13 @@ class NotificationService:
     def mark_notification_read(
         self,
         id: str,
-        db: Session
     ) -> Notification:
         statement = select(Notification).where(Notification.id == id)
-        notification = db.exec(statement).one()
+        notification = self._db.exec(statement).one()
         notification.readTime = datetime.now()
-        db.add(notification)
-        db.commit()
-        db.refresh(notification)
+        self._db.add(notification)
+        self._db.commit()
+        self._db.refresh(notification)
         return notification
 
     def confirm_notification(
