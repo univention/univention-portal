@@ -1,10 +1,9 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
+# Univention Portal
 #
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# Copyright 2004-2022 Univention GmbH
+# Copyright 2019-2022 Univention GmbH
 #
 # https://www.univention.de/
 #
@@ -30,32 +29,32 @@
 # License with the Debian GNU/Linux or Univention distribution in file
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
-import io
-from distutils.core import setup
-from email.utils import parseaddr
 
-from debian.changelog import Changelog
-from debian.deb822 import Deb822
+import tornado.web
+
+from univention.portal.log import get_logger
 
 
-dch = Changelog(io.open('debian/changelog', 'r', encoding='utf-8'))
-dsc = Deb822(io.open('debian/control', 'r', encoding='utf-8'))
-realname, email_address = parseaddr(dsc['Maintainer'])
+class PortalResource(tornado.web.RequestHandler):
+	def initialize(self, portals):
+		self.portals = portals
 
-setup(
-    description='Univention Portal',
-    url='https://www.univention.de/',
-    license='GNU Affero General Public License v3',
+	def write_error(self, status_code, **kwargs):
+		if "exc_info" in kwargs:
+			get_logger("server").exception("Error during service")
+		return super(PortalResource, self).write_error(status_code, **kwargs)
 
-    packages=[
-        'univention.portal',
-        'univention.portal.extensions',
-        'univention.portal.handlers',
-    ],
-    package_dir={'univention.portal': 'python/univention/portal'},
+	def find_portal(self):
+		best_score = 0
+		best_portal = None
+		for name, portal in self.portals.items():
+			score = portal.score(self.request)
+			if score > best_score:
+				best_score = score
+				best_portal = portal
+		return best_portal
 
-    name=dch.package,
-    version=dch.version.full_version,
-    maintainer=realname,
-    maintainer_email=email_address,
-)
+	def reverse_abs_url(self, name, args=None):
+		if args is None:
+			args = self.path_args
+		return self.request.protocol + "://" + self.request.host + self.reverse_url(name, *args)
