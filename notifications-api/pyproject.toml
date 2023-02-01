@@ -21,6 +21,11 @@ dependencies = [
   # TODO: Replace with psycopg2
   'psycopg2-binary',
   'pyzmq',
+  # TODO: Redis experiment for Spike 27
+  'redis',
+  'PyJWT',
+  'jsonschema',
+  'asgi-correlation-id',
 ]
 
 [project.optional-dependencies]
