@@ -123,9 +123,8 @@ def mark_notification_read(
 def mark_notification_confirmed(
     id: str,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
 ) -> Notification:
-    return service.confirm_notification(id, db)
+    return service.confirm_notification(id)
 
 
 @router.post("/notifications/invalidate", tags=["sender"])
