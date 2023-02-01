@@ -126,6 +126,11 @@ class NotificationService:
         self._db.delete(notification)
         self._db.commit()
 
+        self._redis.delete(f"notification:{id_}")
+        user_id = self._redis.hget("index:notification.user", id_)
+        self._redis.zrem(f"user:{user_id}:notifications", id_)
+        self._redis.hdel("index:notification.user", id_)
+
     def pop_notifications_for_sse(self) -> List[Notification]:
         statement = select(Notification).where(
             and_(
