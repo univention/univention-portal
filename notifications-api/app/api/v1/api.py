@@ -11,7 +11,6 @@ import logging
 
 from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
-from app.db import get_session
 from app.models.notification_model import (
     Notification, NotificationCreate, NotificationType)
 
@@ -158,11 +157,7 @@ RETRY_TIMEOUT = 15000  # milliseconds
 
 
 @router.get("/notifications/stream", tags=["client"])
-async def stream_notifications(
-    request: Request,
-    service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
-):
+async def stream_notifications(request: Request):
 
     async def event_generator():
         # TODO: Append UUID to the topic once authentication is implemented, so
