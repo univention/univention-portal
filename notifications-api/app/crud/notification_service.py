@@ -84,7 +84,7 @@ class NotificationService:
         notification = db.exec(statement).first()
         return notification.expireTime if notification else None
 
-    def get_notification(self, id_: str, db: Session) -> Notification:
+    def get_notification(self, id_: str) -> Notification:
         statement = select(Notification).where(
             and_(
                 Notification.id == id_,
@@ -94,10 +94,10 @@ class NotificationService:
                 )
             )
         )
-        return db.exec(statement).one()
+        return self._db.exec(statement).one()
 
     def delete_notification(self, id_: str, db: Session) -> None:
-        notification = self.get_notification(id_, db)
+        notification = self.get_notification(id_)
         db.delete(notification)
         db.commit()
 

@@ -64,10 +64,9 @@ def get_notifications(
 def get_notification(
     id: str,
     service=Depends(NotificationService),
-    db=Depends(get_session),
 ):
     try:
-        return service.get_notification(id, db)
+        return service.get_notification(id)
     except NoResultFound:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
@@ -82,7 +81,7 @@ def delete_notification(
     try:
         # TODO: Once the current user is known we don't have to read this from the
         # database anymore.
-        notification = service.get_notification(id, db)
+        notification = service.get_notification(id)
         user_uuid = notification.targetUid
 
         service.delete_notification(id, db)
@@ -108,7 +107,7 @@ def hide_notification(
     """
     service.hide_notification(id, db)
 
-    notification = service.get_notification(id, db)
+    notification = service.get_notification(id)
     event_data = json.dumps(jsonable_encoder(["updated_notification", notification]))
     topic = f"user.{notification.targetUid}"
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
