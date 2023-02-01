@@ -1,5 +1,7 @@
 import logging
-import redis.asyncio as redis
+# TODO: Should probably take advantage of the asyncio client
+# import redis.asyncio as redis
+import redis
 
 from app.core.config import settings
 
