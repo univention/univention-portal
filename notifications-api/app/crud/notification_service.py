@@ -8,10 +8,6 @@ from app.db import get_session
 from app.models.notification_model import NotificationCreate, Notification
 
 
-def get_db_session():
-    return next(get_session())
-
-
 class NotificationService:
 
     def create_notification(
