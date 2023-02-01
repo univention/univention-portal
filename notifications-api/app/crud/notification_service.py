@@ -119,6 +119,8 @@ class NotificationService:
 
         self._db.commit()
 
+        # TODO: prune in Redis
+
     def get_next_notification_expiry(self) -> Optional[datetime]:
         statement = select(Notification) \
             .where(Notification.expireTime) \
@@ -127,7 +129,9 @@ class NotificationService:
         notification = self._db.exec(statement).first()
         return notification.expireTime if notification else None
 
-    def get_notification(self, id_: str) -> Notification:
+        # TODO: read from Redis
+
+    def get_notification(self, id_: str, _want_db=False) -> Notification:
         statement = select(Notification).where(
             and_(
                 Notification.id == id_,
@@ -137,13 +141,24 @@ class NotificationService:
                 )
             )
         )
-        return self._db.exec(statement).one()
+        db_result = self._db.exec(statement).one()
+
+        value = self._redis.get(f"notification:{id_}")
+        redis_result = Notification.parse_raw(value)
+        if redis_result.expireTime and redis_result.expireTime < datetime.now():
+            redis_result = None
+
+        if _want_db:
+            return db_result
+        return redis_result
 
     def delete_notification(self, id_: str) -> None:
-        notification = self.get_notification(id_)
+        notification = self.get_notification(id_, _want_db=True)
         self._db.delete(notification)
         self._db.commit()
+        self._delete_redis_notification(id_)
 
+    def _delete_redis_notification(self, id_):
         self._redis.delete(f"notification:{id_}")
         user_id = self._redis.hget("index:notification.user", id_)
         self._redis.zrem(f"user:{user_id}:notifications", id_)
