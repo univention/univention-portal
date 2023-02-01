@@ -77,7 +77,8 @@ class NotificationService:
         self,
         query: dict,
     ) -> List[Notification]:
-        if query.get('exclude_expired', True):
+        exclude_expired = query.get('exclude_expired', True)
+        if exclude_expired:
             statement = select(Notification).where(
                 and_(
                     Notification.notificationType == query['type'],
@@ -101,6 +102,9 @@ class NotificationService:
         values = self._redis.mget(keys)
         notifications = [Notification.parse_raw(n) for n in values]
         redis_result = [n for n in notifications if n.notificationType == query['type']]
+        if exclude_expired:
+            now = datetime.now()
+            redis_result = [n for n in redis_result if not n.expireTime or n.expireTime >= now]
 
         return redis_result
 
