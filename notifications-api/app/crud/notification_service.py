@@ -170,6 +170,11 @@ class NotificationService:
         notification.popup = False
         self._db.add(notification)
         self._db.commit()
+        self._hide_redis_notification(notification)
+
+    def _hide_redis_notification(self, notification):
+        notification_id = str(notification.id)
+        self._redis.set(f"notification:{notification_id}", notification.json())
 
     def mark_notification_read(
         self,
