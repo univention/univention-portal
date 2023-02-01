@@ -8,7 +8,7 @@ class BasePageElement(PageFactory):
     The instance variable `element` holds the playwright locator of the page element,
     in relation to the parent page/part.
 
-    To create locators relative to the page part, you have to use the `self.part`
+    To create locators relative to the page element, you have to use the `self.element`
     instance variable.
 
     ```
@@ -17,7 +17,7 @@ class BasePageElement(PageFactory):
 
     TODO: In the future, we want to make all playwright locator methods
     accessible via the instance directly i.e. using `self.locator(...)`
-    instead of `self.part.locator(...)`.
+    instead of `self.element.locator(...)`.
 
     Expectations regarding the page element should also use `self.element`, e.g.
 
