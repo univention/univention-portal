@@ -29,6 +29,12 @@ def client():
     """
     Return a prepared instance of FastAPI's TestClient.
     """
+    # TODO: Workaround to ensure that the redis connection is up and running
+    # before the test client calls into a worker thread. This would have to be
+    # handled in an appropriate way in production code.
+    from app.redis import get_redis
+    get_redis()
+
     test_client = TestClient(app)
     return test_client
 

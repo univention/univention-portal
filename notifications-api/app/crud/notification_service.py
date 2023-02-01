@@ -1,20 +1,24 @@
 from datetime import datetime
 from fastapi import Depends
-from typing import List, Optional
+from redis.asyncio import Redis
 from sqlalchemy.sql.expression import and_, or_, null
 from sqlmodel import Session, select
+from typing import List, Optional
 from uuid import uuid4
 
 from app.db import get_session
+from app.redis import get_redis
 from app.models.notification_model import NotificationCreate, Notification
 
 
 class NotificationService:
 
     _db: Session
+    _redis: Redis
 
-    def __init__(self, db: Session = Depends(get_session)):
+    def __init__(self, db: Session = Depends(get_session), redis: Redis = Depends(get_redis)):
         self._db = db
+        self._redis = redis
 
     def create_notification(
         self,

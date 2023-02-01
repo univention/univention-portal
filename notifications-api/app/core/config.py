@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     dev_mode: bool = False
     root_path: str = ""
     database_url: str = "sqlite:///./notifications.db"
+    redis_url: str = "redis://:password@redis"
     allowed_hosts: CommaSeparatedStrings = CommaSeparatedStrings("*")
     api_version: str = "v1"
     api_key_name: str = "X-API-KEY"
