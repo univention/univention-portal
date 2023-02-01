@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-pip install requirements_test.txt
+pip install -r requirements_test.txt
 playwright install  # installs required browsers
 ```
 
