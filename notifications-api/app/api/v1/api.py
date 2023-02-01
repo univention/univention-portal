@@ -2,7 +2,6 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, Depends,
 from fastapi.encoders import jsonable_encoder
 from http import HTTPStatus
 from sqlalchemy.exc import NoResultFound
-from sqlmodel import Session
 from sse_starlette.sse import EventSourceResponse
 from typing import List
 import asyncio
@@ -11,7 +10,6 @@ import logging
 
 from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
-from app.db import get_session
 from app.models.notification_model import (
     Notification, NotificationCreate, NotificationType)
 
@@ -28,12 +26,11 @@ async def create_notification(
     data: NotificationCreate,
     background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session),
 ) -> Notification:
     if data.has_expired():
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Expiry time is in the past.")
 
-    notification = service.create_notification(data, db)
+    notification = service.create_notification(data)
 
     event_data = json.dumps(jsonable_encoder(["new_notification", notification]))
     topic = f"user.{notification.targetUid}"
@@ -50,7 +47,6 @@ def get_notifications(
     limit: str = Query(default=100),
     type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
 ) -> List[Notification]:
     """
     Read the notifications of the current user.
@@ -59,17 +55,16 @@ def get_notifications(
         'limit': limit,
         'type': type
     }
-    return service.get_notifications(query, db)
+    return service.get_notifications(query)
 
 
 @router.get("/notifications/{id}/", tags=["client"])
 def get_notification(
     id: str,
     service=Depends(NotificationService),
-    db=Depends(get_session),
 ):
     try:
-        return service.get_notification(id, db)
+        return service.get_notification(id)
     except NoResultFound:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
@@ -79,15 +74,14 @@ def delete_notification(
     id: str,
     background_tasks: BackgroundTasks,
     service=Depends(NotificationService),
-    db=Depends(get_session),
 ):
     try:
         # TODO: Once the current user is known we don't have to read this from the
         # database anymore.
-        notification = service.get_notification(id, db)
+        notification = service.get_notification(id)
         user_uuid = notification.targetUid
 
-        service.delete_notification(id, db)
+        service.delete_notification(id)
     except NoResultFound:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
@@ -101,16 +95,15 @@ def hide_notification(
     id: str,
     background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session),
 ):
     """
     Flag a notification as hidden.
 
     This will set the attribute `popup` to `false`.
     """
-    service.hide_notification(id, db)
+    service.hide_notification(id)
 
-    notification = service.get_notification(id, db)
+    notification = service.get_notification(id)
     event_data = json.dumps(jsonable_encoder(["updated_notification", notification]))
     topic = f"user.{notification.targetUid}"
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
@@ -120,18 +113,16 @@ def hide_notification(
 def mark_notification_read(
     id: str,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
 ) -> Notification:
-    return service.mark_notification_read(id, db)
+    return service.mark_notification_read(id)
 
 
 @router.post("/notifications/{id}/confirm", tags=["client"])
 def mark_notification_confirmed(
     id: str,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
 ) -> Notification:
-    return service.confirm_notification(id, db)
+    return service.confirm_notification(id)
 
 
 @router.post("/notifications/invalidate", tags=["sender"])
@@ -165,11 +156,7 @@ RETRY_TIMEOUT = 15000  # milliseconds
 
 
 @router.get("/notifications/stream", tags=["client"])
-async def stream_notifications(
-    request: Request,
-    service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
-):
+async def stream_notifications(request: Request):
 
     async def event_generator():
         # TODO: Append UUID to the topic once authentication is implemented, so
