@@ -1,4 +1,5 @@
 from datetime import datetime
+from fastapi import Depends
 from typing import List, Optional
 from sqlalchemy.sql.expression import and_, or_, null
 from sqlmodel import Session, select
@@ -9,6 +10,11 @@ from app.models.notification_model import NotificationCreate, Notification
 
 
 class NotificationService:
+
+    _db: Session
+
+    def __init__(self, db: Session = Depends(get_session)):
+        self._db = db
 
     def create_notification(
         self,
