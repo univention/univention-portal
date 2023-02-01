@@ -76,7 +76,6 @@ def delete_notification(
     id: str,
     background_tasks: BackgroundTasks,
     service=Depends(NotificationService),
-    db=Depends(get_session),
 ):
     try:
         # TODO: Once the current user is known we don't have to read this from the
@@ -84,7 +83,7 @@ def delete_notification(
         notification = service.get_notification(id)
         user_uuid = notification.targetUid
 
-        service.delete_notification(id, db)
+        service.delete_notification(id)
     except NoResultFound:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
@@ -98,14 +97,13 @@ def hide_notification(
     id: str,
     background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session),
 ):
     """
     Flag a notification as hidden.
 
     This will set the attribute `popup` to `false`.
     """
-    service.hide_notification(id, db)
+    service.hide_notification(id)
 
     notification = service.get_notification(id)
     event_data = json.dumps(jsonable_encoder(["updated_notification", notification]))

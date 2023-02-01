@@ -96,10 +96,10 @@ class NotificationService:
         )
         return self._db.exec(statement).one()
 
-    def delete_notification(self, id_: str, db: Session) -> None:
+    def delete_notification(self, id_: str) -> None:
         notification = self.get_notification(id_)
-        db.delete(notification)
-        db.commit()
+        self._db.delete(notification)
+        self._db.commit()
 
     def pop_notifications_for_sse(
         self,
@@ -123,12 +123,12 @@ class NotificationService:
             db.refresh(notification)
         return new_notifications
 
-    def hide_notification(self, id: str, db: Session) -> None:
+    def hide_notification(self, id: str) -> None:
         statement = select(Notification).where(Notification.id == id)
-        notification = db.exec(statement).one()
+        notification = self._db.exec(statement).one()
         notification.popup = False
-        db.add(notification)
-        db.commit()
+        self._db.add(notification)
+        self._db.commit()
 
     def mark_notification_read(
         self,
