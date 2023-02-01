@@ -1,10 +1,11 @@
 from datetime import datetime
 from fastapi import Depends
-from redis.asyncio import Redis
+from redis import Redis
 from sqlalchemy.sql.expression import and_, or_, null
 from sqlmodel import Session, select
 from typing import List, Optional
 from uuid import uuid4
+import json
 
 from app.db import get_session
 from app.redis import get_redis
@@ -24,8 +25,10 @@ class NotificationService:
         self,
         notification: NotificationCreate,
     ) -> Notification:
+        receive_time = datetime.now()
+        notification_id = str(uuid4())
         db_notification = Notification(
-            id=str(uuid4()),
+            id=notification_id,
             sourceUid=notification.sourceUid,
             targetUid=notification.targetUid,
             title=notification.title,
@@ -34,7 +37,7 @@ class NotificationService:
             needsConfirmation=notification.needsConfirmation,
             severity=notification.severity,
             notificationType=notification.notificationType,
-            receiveTime=datetime.now(),
+            receiveTime=receive_time,
             expireTime=notification.expireTime,
             confirmationTime=None,
             readTime=None,
@@ -44,6 +47,27 @@ class NotificationService:
         self._db.add(db_notification)
         self._db.commit()
         self._db.refresh(db_notification)
+
+        user_id = "noid"
+
+        # Store the notification itself
+        self._redis.set(f"notification:{notification_id}", db_notification.json())
+
+        # Add the notification_id into a sorted set for the given user_id
+        self._redis.zadd(
+            f"user:{user_id}:notifications",
+            {notification_id: receive_time.timestamp()})
+
+        # Remember that notification_id maps to user_id
+        self._redis.hset("index:notification.user", notification_id, user_id)
+
+        # If needed, remember notification for expiry.
+        # This is only useful if we want to actively prune values.
+        if notification.expireTime:
+            self._redis.zadd(
+                "notification.expiry",
+                {json.dumps([user_id, notification_id]): notification.expireTime.timestamp()})
+
         return db_notification
 
     def get_notifications(
