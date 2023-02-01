@@ -5,9 +5,11 @@ from sqlmodel import Session, create_engine, delete
 from uuid import uuid4
 
 from app import expiry_pruning
+from app.crud.notification_service import NotificationService
 from app.db import get_session
 from app.main import app
 from app.models.notification_model import Notification, NotificationBase
+from app.redis import get_redis
 
 from fastapi.testclient import TestClient
 
@@ -55,7 +57,7 @@ def patch_db_session():
 
 
 @pytest.fixture()
-def empty_db(patch_db_session):
+def empty_db(patch_db_session, redis):
     """
     Return an empty database session.
     """
@@ -63,17 +65,18 @@ def empty_db(patch_db_session):
     statement = delete(Notification)
     db.exec(statement)
     db.commit()
+
+    redis.flushdb()
     return db
 
 
 @pytest.fixture()
-def filled_db(empty_db):
+def filled_db(empty_db, redis):
     """
     Return a filled database session with two notifications in the
     database.
     """
-    db = empty_db
-    db.add(Notification(
+    n1 = Notification(
         id=str(uuid4()),
         details="some details",
         title="some title",
@@ -82,8 +85,8 @@ def filled_db(empty_db):
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
         receiveTime=datetime.now()
-    ))
-    db.add(Notification(
+    )
+    n2 = Notification(
         id=str(uuid4()),
         details="some details",
         title="some title",
@@ -92,10 +95,21 @@ def filled_db(empty_db):
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
         receiveTime=datetime.now()
-    ))
+    )
+    db = empty_db
+    db.add(n1)
+    db.add(n2)
     db.commit()
+
+    service = NotificationService(empty_db, redis)
+    service._create_redis_notification(n1)
+    service._create_redis_notification(n2)
     return db
 
+
+@pytest.fixture()
+def redis():
+    return get_redis()
 
 @pytest.fixture()
 def stub_uuid():

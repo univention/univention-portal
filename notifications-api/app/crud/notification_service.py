@@ -47,11 +47,16 @@ class NotificationService:
         self._db.add(db_notification)
         self._db.commit()
         self._db.refresh(db_notification)
+        self._create_redis_notification(db_notification)
+        return db_notification
 
+    def _create_redis_notification(self, notification):
         user_id = "noid"
+        notification_id = str(notification.id)
+        receive_time = notification.receiveTime
 
         # Store the notification itself
-        self._redis.set(f"notification:{notification_id}", db_notification.json())
+        self._redis.set(f"notification:{notification_id}", notification.json())
 
         # Add the notification_id into a sorted set for the given user_id
         self._redis.zadd(
@@ -67,8 +72,6 @@ class NotificationService:
             self._redis.zadd(
                 "notification.expiry",
                 {json.dumps([user_id, notification_id]): notification.expireTime.timestamp()})
-
-        return db_notification
 
     def get_notifications(
         self,
@@ -88,7 +91,18 @@ class NotificationService:
             statement = select(Notification).where(
                 Notification.notificationType == query['type']
             ).limit(query['limit'])
-        return self._db.exec(statement).fetchall()
+        db_result = self._db.exec(statement).fetchall()
+
+        user_id = "noid"
+
+        ids = self._redis.zrange(f"user:{user_id}:notifications", 0, -1)
+        # TODO: In product we would need a proper handling of binary strings
+        keys = [f"notification:{id_.decode()}" for id_ in ids]
+        values = self._redis.mget(keys)
+        notifications = [Notification.parse_raw(n) for n in values]
+        redis_result = [n for n in notifications if n.notificationType == query['type']]
+
+        return redis_result
 
     def prune_expired_notifications(self) -> None:
         statement = select(Notification).where(

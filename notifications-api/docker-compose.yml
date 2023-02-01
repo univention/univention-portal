@@ -31,7 +31,7 @@ services:
     image: bitnami/redis:7.0.8
     environment:
       - REDIS_PASSWORD=password
-      - REDIS_DISABLE_COMMANDS=FLUSHALL,FLUSHDB
+      - REDIS_DISABLE_COMMANDS=FLUSHALL
       - REDIS_PORT_NUMBER=6379
     ports:
       - 6379:6379
