@@ -45,7 +45,6 @@ class NotificationService:
     def get_notifications(
         self,
         query: dict,
-        db: Session
     ) -> List[Notification]:
         if query.get('exclude_expired', True):
             statement = select(Notification).where(
@@ -61,7 +60,7 @@ class NotificationService:
             statement = select(Notification).where(
                 Notification.notificationType == query['type']
             ).limit(query['limit'])
-        return db.exec(statement).fetchall()
+        return self._db.exec(statement).fetchall()
 
     def prune_expired_notifications(
         self,

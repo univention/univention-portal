@@ -49,7 +49,6 @@ def get_notifications(
     limit: str = Query(default=100),
     type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session)
 ) -> List[Notification]:
     """
     Read the notifications of the current user.
@@ -58,7 +57,7 @@ def get_notifications(
         'limit': limit,
         'type': type
     }
-    return service.get_notifications(query, db)
+    return service.get_notifications(query)
 
 
 @router.get("/notifications/{id}/", tags=["client"])
