@@ -205,7 +205,16 @@ class NotificationService:
         self._db.add(notification)
         self._db.commit()
         self._db.refresh(notification)
+        self._mark_redis_notification_read(id)
         return notification
+
+    def _mark_redis_notification_read(self, id_):
+        # TODO: Would have to be wrapped into a transaction
+        key = f"notification:{id_}"
+        value = self._redis.get(key)
+        notification = Notification.parse_raw(value)
+        notification.readTime = datetime.now()
+        self._redis.set(key, notification.json())
 
     def confirm_notification(
         self,
