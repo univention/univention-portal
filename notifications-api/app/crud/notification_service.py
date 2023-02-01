@@ -12,7 +12,7 @@ def get_db_session():
     return next(get_session())
 
 
-class NotificationService():
+class NotificationService:
 
     def create_notification(
         self,
