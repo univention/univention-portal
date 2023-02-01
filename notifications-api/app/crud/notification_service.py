@@ -19,7 +19,6 @@ class NotificationService:
     def create_notification(
         self,
         notification: NotificationCreate,
-        db: Session
     ) -> Notification:
         db_notification = Notification(
             id=str(uuid4()),
@@ -38,9 +37,9 @@ class NotificationService:
             link=notification.link,
             data=notification.data
         )
-        db.add(db_notification)
-        db.commit()
-        db.refresh(db_notification)
+        self._db.add(db_notification)
+        self._db.commit()
+        self._db.refresh(db_notification)
         return db_notification
 
     def get_notifications(

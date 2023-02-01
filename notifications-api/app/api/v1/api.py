@@ -28,12 +28,11 @@ async def create_notification(
     data: NotificationCreate,
     background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
-    db: Session = Depends(get_session),
 ) -> Notification:
     if data.has_expired():
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Expiry time is in the past.")
 
-    notification = service.create_notification(data, db)
+    notification = service.create_notification(data)
 
     event_data = json.dumps(jsonable_encoder(["new_notification", notification]))
     topic = f"user.{notification.targetUid}"
