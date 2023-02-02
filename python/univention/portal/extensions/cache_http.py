@@ -99,6 +99,9 @@ class PortalFileCacheHTTP(CacheHTTP):
 	def get_menu_links(self):
 		return deepcopy(self.get()['menu_links'])
 
+	def get_announcements(self):
+		return deepcopy(self.get().get('announcements', {}))
+
 	def refresh(self, reason=None):
 		super().refresh(reason)
 
