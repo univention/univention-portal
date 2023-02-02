@@ -44,9 +44,9 @@ class NotificationService:
             link=notification.link,
             data=notification.data
         )
-        self._db.add(db_notification)
-        self._db.commit()
-        self._db.refresh(db_notification)
+        # self._db.add(db_notification)
+        # self._db.commit()
+        # self._db.refresh(db_notification)
         self._create_redis_notification(db_notification)
         return db_notification
 
@@ -78,21 +78,6 @@ class NotificationService:
         query: dict,
     ) -> List[Notification]:
         exclude_expired = query.get('exclude_expired', True)
-        if exclude_expired:
-            statement = select(Notification).where(
-                and_(
-                    Notification.notificationType == query['type'],
-                    or_(
-                        Notification.expireTime == null(),
-                        Notification.expireTime >= datetime.now()
-                    )
-                )
-            ).limit(query['limit'])
-        else:
-            statement = select(Notification).where(
-                Notification.notificationType == query['type']
-            ).limit(query['limit'])
-        db_result = self._db.exec(statement).fetchall()
 
         user_id = "noid"
 
@@ -131,31 +116,31 @@ class NotificationService:
 
         # TODO: read from Redis
 
-    def get_notification(self, id_: str, _want_db=False) -> Notification:
-        statement = select(Notification).where(
-            and_(
-                Notification.id == id_,
-                or_(
-                    Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now()
-                )
-            )
-        )
-        db_result = self._db.exec(statement).one()
+    def get_notification(self, id_: str) -> Notification:
+        # statement = select(Notification).where(
+        #     and_(
+        #         Notification.id == id_,
+        #         or_(
+        #             Notification.expireTime == null(),
+        #             Notification.expireTime >= datetime.now()
+        #         )
+        #     )
+        # )
 
         value = self._redis.get(f"notification:{id_}")
         redis_result = Notification.parse_raw(value)
         if redis_result.expireTime and redis_result.expireTime < datetime.now():
             redis_result = None
 
-        if _want_db:
-            return db_result
+        # if _want_db:
+        #     db_result = self._db.exec(statement).one()
+        #     return db_result
         return redis_result
 
     def delete_notification(self, id_: str) -> None:
-        notification = self.get_notification(id_, _want_db=True)
-        self._db.delete(notification)
-        self._db.commit()
+        # notification = self.get_notification(id_, _want_db=True)
+        # self._db.delete(notification)
+        # self._db.commit()
         self._delete_redis_notification(id_)
 
     def _delete_redis_notification(self, id_):
@@ -164,47 +149,49 @@ class NotificationService:
         self._redis.zrem(f"user:{user_id}:notifications", id_)
         self._redis.hdel("index:notification.user", id_)
 
-    def pop_notifications_for_sse(self) -> List[Notification]:
-        statement = select(Notification).where(
-            and_(
-                Notification.sseSendTime == None,  # noqa: E711
-                or_(
-                    Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now()
-                )
-            )
-        )
-        new_notifications = self._db.exec(statement).fetchall()
-        for notification in new_notifications:
-            notification.sseSendTime = datetime.now()
-            self._db.add(notification)
-        self._db.commit()
-        for notification in new_notifications:
-            self._db.refresh(notification)
-        return new_notifications
+    # def pop_notifications_for_sse(self) -> List[Notification]:
+    #     statement = select(Notification).where(
+    #         and_(
+    #             Notification.sseSendTime == None,  # noqa: E711
+    #             or_(
+    #                 Notification.expireTime == null(),
+    #                 Notification.expireTime >= datetime.now()
+    #             )
+    #         )
+    #     )
+    #     new_notifications = self._db.exec(statement).fetchall()
+    #     for notification in new_notifications:
+    #         notification.sseSendTime = datetime.now()
+    #         self._db.add(notification)
+    #     self._db.commit()
+    #     for notification in new_notifications:
+    #         self._db.refresh(notification)
+    #     return new_notifications
 
     def hide_notification(self, id: str) -> None:
-        statement = select(Notification).where(Notification.id == id)
-        notification = self._db.exec(statement).one()
-        notification.popup = False
-        self._db.add(notification)
-        self._db.commit()
-        self._hide_redis_notification(notification)
+        # statement = select(Notification).where(Notification.id == id)
+        # notification = self._db.exec(statement).one()
+        # notification.popup = False
+        # self._db.add(notification)
+        # self._db.commit()
+        self._hide_redis_notification(id)
 
-    def _hide_redis_notification(self, notification):
-        notification_id = str(notification.id)
-        self._redis.set(f"notification:{notification_id}", notification.json())
+    def _hide_redis_notification(self, id_):
+        key = f"notification:{id_}"
+        value = self._redis.get(key)
+        notification = Notification.parse_raw(value)
+        self._redis.set(key, notification.json())
 
     def mark_notification_read(
         self,
         id: str,
     ) -> Notification:
-        statement = select(Notification).where(Notification.id == id)
-        notification = self._db.exec(statement).one()
-        notification.readTime = datetime.now()
-        self._db.add(notification)
-        self._db.commit()
-        self._db.refresh(notification)
+        # statement = select(Notification).where(Notification.id == id)
+        # notification = self._db.exec(statement).one()
+        # notification.readTime = datetime.now()
+        # self._db.add(notification)
+        # self._db.commit()
+        # self._db.refresh(notification)
         self._mark_redis_notification_read(id)
         return notification
 
@@ -220,12 +207,12 @@ class NotificationService:
         self,
         id: str,
     ) -> Notification:
-        statement = select(Notification).where(Notification.id == id)
-        notification = self._db.exec(statement).one()
-        notification.confirmationTime = datetime.now()
-        self._db.add(notification)
-        self._db.commit()
-        self._db.refresh(notification)
+        # statement = select(Notification).where(Notification.id == id)
+        # notification = self._db.exec(statement).one()
+        # notification.confirmationTime = datetime.now()
+        # self._db.add(notification)
+        # self._db.commit()
+        # self._db.refresh(notification)
         self._confirm_redis_notification(id)
         return notification
 
