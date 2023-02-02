@@ -57,14 +57,16 @@ In `docker/docker-compose.yaml` you can find a service called `keycloak` which
 you will need to use the notifications OIDC.
 
 1. Download your UCS CA certificate and place it in `docker/keycloak/ucs-root-ca.crt`.
-1. Run `docker-compose up -d keycloak --build` on the `docker` folder.
-1. Access Keycloak on `localhost:8097` and access with the credentials on the environment variables.
-1. Select the `Ucs` realm on the top left corner.
-1. Go to `User federation` on the bottom left menu.
-1. Select LDAP and configure your `Connection URL` to your UCS IP, like: `ldap://10.200.71.10:7389`
-1. Go to your UCS machine and run `cat /etc/idp-ldap-user.secret`.
-1. Set the LDAP `Bind credentials` to the value from the previous step.
-1. You should be able to test the connection.
+2. Run `docker-compose up -d keycloak --build` on the `docker` folder.
+3. Access Keycloak on `localhost:8097` and access with the credentials on the environment variables.
+4. Select the `Ucs` realm on the top left corner.
+5. Go to `User federation` on the bottom left menu.
+6. Select LDAP and configure your `Connection URL` to your UCS IP, like: `ldap://10.200.71.10:7389`
+7. Go to your UCS machine and run `cat /etc/idp-ldap-user.secret`.
+8. Set the LDAP `Bind credentials` to the value from the previous step.
+9. You should be able to test the connection.
+10. Go back to your UCS machine and `ucr get ldap/base`.
+11. Change the `Bind DN` base part to the one above.
 
 > Feel free to play around with `portal-notifications` client and mappings.
 > The default configuration provided might not be valid for your setup for some cases.
