@@ -34,6 +34,8 @@
 #
 
 import pytest
+import tornado.ioloop
+import tornado.testing
 import tornado.web
 
 from univention.portal.extensions.cache_http import PortalFileCacheHTTP
@@ -43,7 +45,6 @@ from univention.portal.user import User
 
 def async_method_patch(mocker, callable):
 	mocker.MagicMock.__await__ = lambda _: callable().__await__()
-
 	return mocker.MagicMock()
 
 
@@ -82,37 +83,46 @@ def portal_mock(mocker, user):
 	return portal
 
 
-@pytest.fixture
-def is_http_backed_cache(request):
-	if request.function.__name__.endswith("http_backed_cache"):
-		return True
+class TestPortalEntriesHandlerHttpCache:
 
-	return False
-
-
-@pytest.fixture
-def app(is_http_backed_cache, portal_mock):
-	if is_http_backed_cache:
+	@pytest.fixture
+	def app(self, portal_mock):
 		portal_mock.portal_cache = PortalFileCacheHTTP(
-			ucs_internal_url='https://google.com'
+			ucs_internal_url='https://example.com'
 		)
+		routes = build_routes({
+			"default": portal_mock,
+		})
+		return tornado.web.Application(routes)
 
-	routes = build_routes({
-		"default": portal_mock,
-	})
-
-	return tornado.web.Application(routes)
-
-
-@pytest.mark.gen_test
-def test_get_portals_json_http_backed_cache(http_client, base_url, portal_mock):
-	response = yield http_client.fetch(f"{base_url}/_/portal.json")
-	assert response.code == 200
-	portal_mock.refresh.assert_called_once()
+	@pytest.mark.gen_test
+	def test_get_portals_json_http_backed_cache(self, http_client, base_url, portal_mock):
+		response = yield http_client.fetch(f"{base_url}/_/portal.json")
+		assert response.code == 200
+		portal_mock.refresh.assert_called_once()
 
 
-@pytest.mark.gen_test
-def test_get_portals_json_standard(http_client, base_url, portal_mock):
-	response = yield http_client.fetch(f"{base_url}/_/portal.json")
-	assert response.code == 200
-	portal_mock.refresh.assert_not_called()
+class TestPortalEntriesHandlerNoHttpCache:
+
+	@pytest.fixture
+	def app(self, portal_mock):
+		routes = build_routes({
+			"default": portal_mock,
+		})
+		return tornado.web.Application(routes)
+
+	@pytest.mark.gen_test
+	def test_get_portals_json_standard(self, http_client, base_url, portal_mock):
+		response = yield http_client.fetch(f"{base_url}/_/portal.json")
+		assert response.code == 200
+		portal_mock.refresh.assert_not_called()
+
+
+class TestPortalEntriesHandlerNoPortal(tornado.testing.AsyncHTTPTestCase):
+
+	def get_app(self) -> tornado.web.Application:
+		return tornado.web.Application(build_routes({}))
+
+	def test_no_portals(self):
+		response = self.fetch(r"/_/portal.json")
+		assert response.code == 404
