@@ -100,7 +100,7 @@ class NotificationService:
         # TODO: In product we would need a proper handling of binary strings
         keys = [f"notification:{id_.decode()}" for id_ in ids]
         values = self._redis.mget(keys)
-        notifications = [Notification.parse_raw(n) for n in values]
+        notifications = [Notification.parse_raw(n) for n in values if n]
         redis_result = [n for n in notifications if n.notificationType == query['type']]
         if exclude_expired:
             now = datetime.now()
