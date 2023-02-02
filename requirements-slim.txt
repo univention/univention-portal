@@ -4,8 +4,9 @@
 # TODO: Our vision is to move over time to the usage of "poetry" and
 # benefit from it's lock file mechanism.
 
-python-ldap
 click
+python-dateutil
+python-ldap
 requests
 tornado
 
