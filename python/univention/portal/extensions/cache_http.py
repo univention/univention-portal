@@ -100,7 +100,14 @@ class PortalFileCacheHTTP(CacheHTTP):
 		return deepcopy(self.get()['menu_links'])
 
 	def get_announcements(self):
-		return deepcopy(self.get().get('announcements', {}))
+		# TODO: this needs special handling currently in the
+		#       dev setup, since it relies on a connection to
+		#       a UCS machine which might not have the latest
+		#       portal with announcements installed.
+		announcements = {}
+		if 'announcements' in self.get().keys():
+			announcements = deepcopy(self.get()['announcements'])
+		return announcements
 
 	def refresh(self, reason=None):
 		super().refresh(reason)
