@@ -8,7 +8,7 @@ import threading
 import zmq
 import zmq.asyncio
 
-from app.redis import get_redis
+from app.redis import get_redis, get_async_redis
 
 
 log = logging.getLogger(__name__)
@@ -64,16 +64,16 @@ async def message_broker():
 async def receive_notifications(topic):
     log.debug("Receiving events for topic: %s", topic)
     # TODO: This would be available as an instance attribute or similar
-    redis = get_redis()
+    redis = get_async_redis()
     p = redis.pubsub(ignore_subscribe_messages=True)
-    p.subscribe(topic)
+    await p.psubscribe(topic)
     try:
-        for message in p.listen():
+        async for message in p.listen():
             log.debug("Received message: %s", message)
             yield message['data'].decode()
     except asyncio.CancelledError as e:
         log.debug("Stopped receiving, cleanup. Topic: %s", topic)
-        p.close()
+        await p.close()
         raise e
 
 async def _receive_zmq_notifications(topic):
@@ -98,15 +98,16 @@ _thread_local = threading.local()
 
 
 async def publish_notification(topic, event_data):
+    log.debug("Publishing event for topic: %s", topic)
+    # TODO: Would be something like an instance variable on some object
+    redis = get_async_redis()
+    await redis.publish(topic, event_data)
+
+async def publish_zmq_notification(topic, event_data):
     socket = await _ensure_socket()
     log.debug("Publishing event for topic: %s", topic)
     message = (topic.encode(), event_data.encode())
     await socket.send_multipart(message)
-
-    # TODO: Would be something like an instance variable on some object
-    redis = get_redis()
-    redis.publish(topic, event_data)
-
 
 async def _ensure_socket():
     socket = getattr(_thread_local, "socket", None)
