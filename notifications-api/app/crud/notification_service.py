@@ -180,6 +180,7 @@ class NotificationService:
         key = f"notification:{id_}"
         value = self._redis.get(key)
         notification = Notification.parse_raw(value)
+        notification.popup = False
         self._redis.set(key, notification.json())
 
     def mark_notification_read(
