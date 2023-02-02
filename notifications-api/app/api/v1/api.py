@@ -162,7 +162,7 @@ async def stream_notifications(request: Request):
     async def event_generator():
         # TODO: Append UUID to the topic once authentication is implemented, so
         # that we have the current user's ID available.
-        topic = "user."
+        topic = "user.*"
 
         try:
             async for event_data_string in messaging.receive_notifications(topic):

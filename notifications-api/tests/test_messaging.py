@@ -63,6 +63,7 @@ async def test_message_broker(mocker):
 
 @pytest.mark.asyncio
 async def test_receive_notifications_generates_events(mocker):
+    # TODO: Asyncio related mocks not needed anymore
     mock_socket = mock.Mock()
     stub_topic = "stub topic"
     stub_body = "stub body"
@@ -73,6 +74,18 @@ async def test_receive_notifications_generates_events(mocker):
     mock_context = mock.Mock()
     mock_context.socket.return_value = mock_socket
     mocker.patch.object(messaging, 'context', mock_context)
+
+    # TODO: Would have to be simplified
+    def stub_generator():
+        yield {'data': stub_body.encode()}
+        raise stub_exception
+
+    mock_pubsub = mock.Mock()
+    mock_pubsub.listen.return_value = stub_generator()
+    mock_redis = mock.Mock()
+    mock_redis.pubsub.return_value = mock_pubsub
+
+    mocker.patch('app.messaging.get_redis', return_value=mock_redis)
 
     receiver = messaging.receive_notifications(stub_topic)
     first_result = await receiver.__anext__()

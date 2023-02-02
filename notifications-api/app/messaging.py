@@ -63,6 +63,21 @@ async def message_broker():
 
 async def receive_notifications(topic):
     log.debug("Receiving events for topic: %s", topic)
+    # TODO: This would be available as an instance attribute or similar
+    redis = get_redis()
+    p = redis.pubsub(ignore_subscribe_messages=True)
+    p.subscribe(topic)
+    try:
+        for message in p.listen():
+            log.debug("Received message: %s", message)
+            yield message['data'].decode()
+    except asyncio.CancelledError as e:
+        log.debug("Stopped receiving, cleanup. Topic: %s", topic)
+        p.close()
+        raise e
+
+async def _receive_zmq_notifications(topic):
+    log.debug("Receiving events for topic: %s", topic)
     socket = context.socket(zmq.SUB)
     socket.connect(out_address)
     socket.subscribe(topic.encode())
