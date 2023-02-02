@@ -8,6 +8,8 @@ import threading
 import zmq
 import zmq.asyncio
 
+from app.redis import get_redis
+
 
 log = logging.getLogger(__name__)
 
@@ -85,6 +87,10 @@ async def publish_notification(topic, event_data):
     log.debug("Publishing event for topic: %s", topic)
     message = (topic.encode(), event_data.encode())
     await socket.send_multipart(message)
+
+    # TODO: Would be something like an instance variable on some object
+    redis = get_redis()
+    redis.publish(topic, event_data)
 
 
 async def _ensure_socket():
