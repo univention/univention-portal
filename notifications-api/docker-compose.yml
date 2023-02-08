@@ -15,7 +15,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - 8096:80
+      - 8096:8080
 
   db:
     image: postgres:12.13-alpine
