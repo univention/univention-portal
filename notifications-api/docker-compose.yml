@@ -31,6 +31,7 @@ services:
     profiles:
       - test
     build:
+      context: .
       target: test
     container_name: notifications-api-test
     environment:
