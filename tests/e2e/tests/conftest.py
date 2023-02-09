@@ -112,7 +112,7 @@ def notification(notifications_api_base_url):
     }
     raw_request = requests.Request(
         "POST",
-        url=urljoin(notifications_api_base_url, "/v1/notifications"),
+        url=urljoin(notifications_api_base_url, "./v1/notifications"),
         json=json_data
     )
     prepped_request = raw_request.prepare()
