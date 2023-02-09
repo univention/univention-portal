@@ -18,7 +18,7 @@ def pytest_addoption(parser):
                      help="Portal login password"
                      )
     parser.addoption("--notifications-api-base-url",
-                     default="http://localhost:8096",
+                     default="http://localhost:8000/univention/portal/notifications-api/",
                      help="Base URL of the notification API"
                      )
     parser.addoption("--portal-base-url", default="http://localhost:8000",
