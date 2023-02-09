@@ -22,7 +22,7 @@ We support the following custom command line options defined in `tests/conftest.
 
 1. `username`: Username to use when logging into the portal. Defaults to `"Administator"`
 2. `password` Password to use when logging into the portal. Defaults to `"univention"`
-3. `notifications-api-base-url`: Defaults to `"http://localhost:8096"`
+3. `notifications-api-base-url`: Defaults to `"http://localhost:8000/univention/portal/notifications-api/"`
 4. `portal-base-url`: Defaults to `"https://localhost:8000"`
 
 So you can do the following, for example:
@@ -66,5 +66,3 @@ While this is not strictly necessary to run the tests (`pytest` finds the necess
 packages using the `[tool.pytest.ini_options]` in `pyproject.toml`), this will
 help the IDE in autocompletion etc., and generally improve the development
 experience.
-
-
