@@ -1,6 +1,4 @@
-"""
-Provides the needed infrastructure for messaging events.
-"""
+"""Provides the needed infrastructure for messaging events."""
 
 import asyncio
 import logging
@@ -20,9 +18,7 @@ out_address = "inproc://out"
 
 
 def startup_messaging():
-    """
-    Main entry point to hook up the routing of notification events.
-    """
+    """Main entry point to hook up the routing of notification events."""
     log.info("Setting up messaging for notification events")
     task = asyncio.create_task(message_broker())
     _background_tasks.add(task)

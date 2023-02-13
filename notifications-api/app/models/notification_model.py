@@ -66,9 +66,7 @@ class NotificationBase(SQLModel):
         arbitrary_types_allowed = True
 
     def has_expired(self):
-        """
-        Returns `True` when the notification has an expiry time and that time is in the past.
-        """
+        """Returns `True` when the notification has an expiry time and that time is in the past."""
         return self.expireTime \
             and (self.expireTime < datetime.now(timezone.utc))
 
