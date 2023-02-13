@@ -71,7 +71,6 @@ def stop_pruner():
 
     This is mainly useful in tests.
     """
-    global _background_task
     if _background_task and (not _background_task.done()) and _background_task.get_loop().is_running():
         # cancel previous task
         _background_task.cancel()
