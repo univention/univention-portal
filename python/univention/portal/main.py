@@ -33,8 +33,8 @@
 import tornado.web
 
 from univention.portal.factory import make_portal
-from univention.portal.log import get_logger
 from univention.portal.handlers import LoginHandler, LogoutHandler, NavigationHandler, PortalEntriesHandler
+from univention.portal.log import get_logger
 
 
 def make_app(portal_definitions):

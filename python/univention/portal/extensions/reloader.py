@@ -37,15 +37,13 @@ import json
 import os.path
 import shutil
 import tempfile
-
 from binascii import a2b_base64
 from imghdr import what
 from pathlib import Path
 from urllib.parse import quote
 
 import univention.admin.rest.client as udm_client
-from univention.portal import config
-from univention.portal import Plugin
+from univention.portal import Plugin, config
 from univention.portal.log import get_logger
 
 

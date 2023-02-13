@@ -33,17 +33,17 @@
 # <https://www.gnu.org/licenses/>.
 #
 
-from unittest import mock
 import asyncio
-from datetime import datetime
-from datetime import timedelta
 import json
 import tempfile
+from datetime import datetime, timedelta
+from unittest import mock
+
 import pytest
 
 from univention.portal import user
-from univention.portal.extensions.reloader import MtimeBasedLazyFileReloader
 from univention.portal.extensions.portal import Portal
+from univention.portal.extensions.reloader import MtimeBasedLazyFileReloader
 
 
 def test_imports(dynamic_class):

@@ -1,4 +1,5 @@
-from datetime import datetime, MINYEAR, MAXYEAR
+from datetime import MAXYEAR, MINYEAR, datetime
+
 import dateutil.parser
 
 from univention.portal.log import get_logger

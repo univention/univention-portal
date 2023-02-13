@@ -4,6 +4,7 @@ from fastapi import APIRouter
 
 from app.core.config import settings
 
+
 API_VERSION = settings.api_version
 api = import_module(f".{API_VERSION}", package="app.api")
 router = APIRouter()

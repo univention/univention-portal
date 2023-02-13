@@ -1,14 +1,10 @@
 from datetime import datetime, timezone
 from enum import Enum
-from uuid import UUID
 from typing import Dict, Optional
+from uuid import UUID
+
 from pydantic import HttpUrl, validator
-from sqlmodel import (
-    JSON,
-    Column,
-    SQLModel,
-    Field,
-)
+from sqlmodel import JSON, Column, Field, SQLModel
 
 
 def _datetime_is_tz_aware(dt: datetime) -> bool:

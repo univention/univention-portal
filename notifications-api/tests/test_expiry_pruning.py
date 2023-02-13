@@ -1,7 +1,8 @@
 import asyncio
 from datetime import datetime, timedelta, timezone
-import pytest
 from uuid import uuid4
+
+import pytest
 
 from app import expiry_pruning
 from app.crud.notification_service import NotificationService

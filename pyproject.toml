@@ -1,16 +1,3 @@
-[tool.isort]
-py_version = "37"
-combine_as_imports = true
-filter_files = true
-force_grid_wrap = false
-known_first_party = "ucsschool,univention"
-known_third_party = "apt,apt_pkg,atexit,bzrlib,cherrypy,concurrent,Crypto,cryptography,daemon,debian,defusedxml,genshi,M2Crypto,OpenSSL,PAM,pexpect,PIL,pyasn1,PyQt4,saml2,StringIO,sqlalchemy,StringIO,tornado,unittest,yattag,colorlog,commands,cups,dateutil,dns,DNS,ipaddr,lazy_object_proxy,ldap,ldb,ldif,magic,mock,netifaces,notifier,psutil,pycurl,pytest,pytz,requests,samba,six,smbpasswd,tdb,urllib3,urlparse,utils"
-known_local_folder = "listener,adconnector,appcentertest,appcenteruninstalltest,dockertest,s4connector,dnstests,grep_traceback,essential,samltest,ldap_glue,ldap_glue_s4,quota_test,quota_cache,umc"
-line_length = 120
-multi_line_output = 5
-include_trailing_comma = true
-lines_after_imports = 2
-
 [tool.ruff]
 # ruff 0.0.246
 external = ["W601", "F812", "E403", "E704"]
@@ -22,7 +9,6 @@ select = ["ALL"]
 ignore = [
  "E501",  # ignore line length
  "T20",  # allow use of print()
- "I",  # isort, the original isort is still more acurate
  "N",  # ignore non PEP-8 conform names
  "ANN",  # missing type annotation
  "ERA",  # don't remove commented out code
@@ -168,9 +154,9 @@ ignore-fully-untyped = true
 combine-as-imports = true
 #filter-files = true
 #force-grid-wrap = false
-known-first-party = ["ucsschool", "univention"]
-known-third-party = ["apt", "apt_pkg", "atexit", "bzrlib", "cherrypy", "concurrent", "Crypto", "cryptography", "daemon", "debian", "defusedxml", "genshi", "M2Crypto", "OpenSSL", "PAM", "pexpect", "PIL", "pyasn1", "PyQt4", "saml2", "StringIO", "sqlalchemy", "StringIO", "tornado", "unittest", "yattag", "colorlog", "commands", "cups", "dateutil", "dns", "DNS", "ipaddr", "lazy_object_proxy", "ldap", "ldb", "ldif", "magic", "mock", "netifaces", "notifier", "psutil", "pycurl", "pytest", "pytz", "requests", "samba", "six", "smbpasswd", "tdb", "urllib3", "urlparse", "utils"]
-known-local-folder = ["listener", "adconnector", "appcentertest", "appcenteruninstalltest", "dockertest", "s4connector", "dnstests", "grep_traceback", "essential", "samltest", "ldap_glue", "ldap_glue_s4", "quota_test", "quota_cache", "umc"]
+known-first-party = ["univention"]
+known-third-party = ["dateutil", "debian", "fastapi", "ldap", "pytest", "requests", "sqlalchemy", "starlette", "tornado"]
+known-local-folder = ["app", "pages", "listener"]
 # https://github.com/charliermarsh/ruff/issues/2600 :
 #multi-line-output = 5
 #include-trailing-comma = true

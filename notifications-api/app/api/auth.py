@@ -5,6 +5,7 @@ from starlette.status import HTTP_401_UNAUTHORIZED
 
 from app.core.config import settings
 
+
 api_key_header_auth = APIKeyHeader(name=settings.api_key_name, auto_error=True)
 
 
