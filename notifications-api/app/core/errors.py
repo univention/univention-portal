@@ -17,7 +17,6 @@ async def http_error_handler(request: Request, exc: HTTPException) -> JSONRespon
 
 async def http_422_error_handler(request: Request, exc: HTTPException) -> JSONResponse:
     """Handler for 422 error to transform default pydantic error object to gothinkster format"""
-
     errors = {"body": []}
 
     if _is_pydantic_model_error(exc):
