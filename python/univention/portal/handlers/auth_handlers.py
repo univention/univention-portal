@@ -30,7 +30,7 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
-from univention.portal.handlers import PortalResource
+from univention.portal.handlers.portal_resource import PortalResource
 
 
 class LoginHandler(PortalResource):
