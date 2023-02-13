@@ -50,15 +50,12 @@ services:
     build:
       context: ../notifications-api
     container_name: notifications-api
+    restart: on-failure
     depends_on:
       - db
     environment:
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
       APPLY_DATABASE_MIGRATIONS: true
-    volumes:
-      - type: volume
-        source: var-local-notifications-api
-        target: /var/local/notifications-api
     ports:
       - 8096:80
   reverse-proxy:

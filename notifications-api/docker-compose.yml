@@ -6,10 +6,12 @@ services:
       context: .
       target: dev
     container_name: notifications-api-dev
+    restart: on-failure
     environment:
       DEV_MODE: "True"
       LOG_LEVEL: DEBUG
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
+      APPLY_DATABASE_MIGRATIONS: True
     depends_on:
       - db
     volumes:

@@ -5,7 +5,7 @@ It provides a background task which looks for the soonest-expiring notification
 and prunes it.
 """
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 from typing import Optional
 from sqlmodel import Session
@@ -42,7 +42,7 @@ async def expiry_pruner(session: Session):
             return
         log.debug("Next notification to expire is at %s", expire_time)
 
-        sleep_seconds = (expire_time - datetime.now()).total_seconds()
+        sleep_seconds = (expire_time - datetime.now(timezone.utc)).total_seconds()
         await asyncio.sleep(sleep_seconds)
 
         # prune expired notifications from the database
