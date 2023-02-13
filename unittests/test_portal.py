@@ -57,7 +57,7 @@ class StubReloader(MtimeBasedLazyFileReloader):
         self.content = {}
 
     def get_portal_cache_json(self) -> dict:
-        with open(self._cache_file, "r") as portal_cache:
+        with open(self._cache_file) as portal_cache:
             return json.load(portal_cache)
 
     def update_portal_cache(self, portal_data: dict):
