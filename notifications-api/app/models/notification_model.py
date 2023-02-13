@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from uuid import UUID
 from typing import Dict, Optional
@@ -9,6 +9,18 @@ from sqlmodel import (
     SQLModel,
     Field,
 )
+
+
+def _datetime_is_tz_aware(dt: datetime) -> bool:
+    """
+    Tests whether the given `datetime` object is timezone-aware.
+
+    See: https://docs.python.org/3/library/datetime.html#determining-if-an-object-is-aware-or-naive
+
+    TODO: Once provided by pydantic, we might be able to use `AwareDatetime` for properties such as `expireTime`
+          (see https://github.com/pydantic/pydantic/discussions/3477).
+    """
+    return (dt.tzinfo is not None) and (dt.tzinfo.utcoffset(dt) is not None)
 
 
 class NotificationType(str, Enum):
@@ -44,7 +56,7 @@ class NotificationBase(SQLModel):
     data: Dict = Field(default={}, sa_column=Column(JSON))
 
     @validator('link')
-    def validate_link(cls, link: NotificationLink):
+    def validate_link(cls, link: Optional[NotificationLink]):
         if link:
             return link.dict()
         else:
@@ -58,7 +70,7 @@ class NotificationBase(SQLModel):
         Returns `True` when the notification has an expiry time and that time is in the past.
         """
         return self.expireTime \
-            and (self.expireTime < datetime.now(self.expireTime.tzinfo))
+            and (self.expireTime < datetime.now(timezone.utc))
 
 
 class Notification(NotificationBase, table=True):
@@ -69,6 +81,25 @@ class Notification(NotificationBase, table=True):
     sseSendTime: Optional[datetime]
     confirmationTime: Optional[datetime]
 
+    def _force_to_utc(self):
+        """
+        Sets all naive datetime properties to timezone-aware datetime properties.
+
+        Beware: This merely sets the UTC timezone identifier on all naive datetimes.
+        It does *not* convert between timezones, because it has no way to tell what the original timezone was.
+
+        This method is intended solely for use after database reads which return naive datetimes.
+        """
+        for key in ['confirmationTime', 'expireTime', 'readTime', 'receiveTime', 'sseSendTime']:
+            if value := getattr(self, key):
+                setattr(self, key, value.replace(tzinfo=timezone.utc))
+
 
 class NotificationCreate(NotificationBase):
-    pass
+
+    @validator('expireTime')
+    def expire_time_must_be_timezone_aware(cls, expireTime: Optional[datetime]):
+        if (expireTime is None) or _datetime_is_tz_aware(expireTime):
+            return expireTime
+        else:
+            raise ValueError('must be timezone-aware')
