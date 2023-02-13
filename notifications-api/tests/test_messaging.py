@@ -6,7 +6,7 @@ import pytest
 from app import messaging
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_publish_notification_sends_message_via_socket(mocker):
     mock_socket = mock.AsyncMock()
     mocker.patch.object(
@@ -18,7 +18,7 @@ async def test_publish_notification_sends_message_via_socket(mocker):
     mock_socket.send_multipart.assert_called_once_with(expected_message)
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_ensure_socket_creates_socket(mocker):
     mock_socket = mock.MagicMock()
     mock_socket.recv = mock.AsyncMock()
@@ -32,7 +32,7 @@ async def test_ensure_socket_creates_socket(mocker):
     assert result == mock_socket
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_ensure_socket_creates_no_socket():
     mock_socket = mock.MagicMock()
     mock_socket.recv = mock.AsyncMock()
@@ -43,7 +43,7 @@ async def test_ensure_socket_creates_no_socket():
     assert result == mock_socket
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_message_broker(mocker):
     mock_socket_in = mock.MagicMock()
     mock_socket_in.recv_multipart = mock.AsyncMock()
@@ -61,7 +61,7 @@ async def test_message_broker(mocker):
     mock_socket_out.send_multipart.assert_called_once()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_receive_notifications_generates_events(mocker):
     mock_socket = mock.Mock()
     stub_topic = "stub topic"

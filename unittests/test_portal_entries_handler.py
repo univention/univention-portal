@@ -48,7 +48,7 @@ def async_method_patch(mocker, callable):
     return mocker.MagicMock()
 
 
-@pytest.fixture
+@pytest.fixture()
 def user():
     return User(
         username=None,
@@ -58,7 +58,7 @@ def user():
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def portal_mock(mocker, user):
     async def get_user():
         return user
@@ -85,7 +85,7 @@ def portal_mock(mocker, user):
 
 class TestPortalEntriesHandlerHttpCache:
 
-    @pytest.fixture
+    @pytest.fixture()
     def app(self, portal_mock):
         portal_mock.portal_cache = PortalFileCacheHTTP(
             ucs_internal_url='https://example.com'
@@ -95,7 +95,7 @@ class TestPortalEntriesHandlerHttpCache:
         })
         return tornado.web.Application(routes)
 
-    @pytest.mark.gen_test
+    @pytest.mark.gen_test()
     def test_get_portals_json_http_backed_cache(self, http_client, base_url, portal_mock):
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         assert response.code == 200
@@ -104,14 +104,14 @@ class TestPortalEntriesHandlerHttpCache:
 
 class TestPortalEntriesHandlerNoHttpCache:
 
-    @pytest.fixture
+    @pytest.fixture()
     def app(self, portal_mock):
         routes = build_routes({
             "default": portal_mock,
         })
         return tornado.web.Application(routes)
 
-    @pytest.mark.gen_test
+    @pytest.mark.gen_test()
     def test_get_portals_json_standard(self, http_client, base_url, portal_mock):
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         assert response.code == 200

@@ -70,7 +70,7 @@ def get_file_path(request):
     return _
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_portal_config(mocker):
     """Returns a callable which can be used to inject configuration values."""
     from univention.portal import config
@@ -84,7 +84,7 @@ def mock_portal_config(mocker):
     return _mock_portal_config
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_portal_config(get_file_path):
     from univention.portal import config
 

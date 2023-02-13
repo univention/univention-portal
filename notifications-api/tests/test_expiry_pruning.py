@@ -54,7 +54,7 @@ def test_db(empty_db):
     return db
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_prune_notifications_after_expiry(test_db):
     # the test_db contains one notification to expire very soon
     expiry_pruning.startup_expiry_pruning()
@@ -92,7 +92,7 @@ async def test_prune_notifications_after_expiry(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_pruner_waits_for_expiretime(test_db):
     # the initial database contains sooner- and later-expiring notifications
     service = NotificationService(test_db)
@@ -125,7 +125,7 @@ async def test_pruner_waits_for_expiretime(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_pruner_no_expiry(test_db):
     # prepare the database, so that it only contains non-expiring notifications
     service = NotificationService(test_db)
@@ -151,7 +151,7 @@ async def test_pruner_no_expiry(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_pruner_soon_expiring(test_db):
     # prepare the database, so that it only contains soon- and non-expiring notifications
     service = NotificationService(test_db)
@@ -178,7 +178,7 @@ async def test_pruner_soon_expiring(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_pruner_reload_cancels_old_task(test_db):
     # the database must contain a long-running notification
     service = NotificationService(test_db)
