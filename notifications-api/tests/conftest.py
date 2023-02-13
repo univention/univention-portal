@@ -1,15 +1,15 @@
 
 from datetime import datetime, timezone
-import pytest
-from sqlmodel import Session, create_engine, delete
 from uuid import uuid4
+
+import pytest
+from fastapi.testclient import TestClient
+from sqlmodel import Session, create_engine, delete
 
 from app import expiry_pruning
 from app.db import get_session
 from app.main import app
 from app.models.notification_model import Notification, NotificationBase
-
-from fastapi.testclient import TestClient
 
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"

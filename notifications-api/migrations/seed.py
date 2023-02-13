@@ -4,8 +4,8 @@ from faker import Faker
 from faker.providers import DynamicProvider
 
 from app.db import get_session
-from app.models.notification_model import (
-    Notification, NotificationType, NotificationSeverity)
+from app.models.notification_model import Notification, NotificationSeverity, NotificationType
+
 
 fake = Faker()
 

@@ -5,12 +5,11 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.core.config import settings
-
 from .api import router as api_router
 from .expiry_pruning import startup_expiry_pruning
 from .logs import configure_logging
 from .messaging import startup_messaging
+from app.core.config import settings
 
 
 description = """

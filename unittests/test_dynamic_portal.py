@@ -45,6 +45,7 @@ def test_get_dynamic_classes(dynamic_class):
 
 def test_arg_kwargs(mocker):
     import datetime
+
     from univention.portal import factory
 
     mocker.patch.object(factory, "get_dynamic_classes", return_value=datetime.timedelta)

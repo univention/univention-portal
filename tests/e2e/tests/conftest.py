@@ -1,13 +1,13 @@
-from urllib.parse import urljoin
 import uuid
+from urllib.parse import urljoin
 
-from playwright.sync_api import expect
 import pytest
 import requests
+from playwright.sync_api import expect
 
+from pages.login_page import LoginPage
 from pages.portal_home_page_logged_in import PortalHomePageLoggedIn
 from pages.portal_home_page_public import PortalHomePagePublic
-from pages.login_page import LoginPage
 
 
 def pytest_addoption(parser):

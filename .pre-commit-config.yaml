@@ -56,15 +56,6 @@ repos:
       alias: "ruff-fix"
       stages: [ manual ]
       args: ["--fix"]
-- repo: https://github.com/pycqa/isort
-  rev: 5.11.5
-  hooks:
-    - id: isort
-      entry: isort -c
-    - id: isort
-      alias: "isort-fix"
-      stages: [ manual ]
-      entry: isort
 - repo: https://github.com/pre-commit/mirrors-autopep8
   rev: v2.0.1
   hooks:

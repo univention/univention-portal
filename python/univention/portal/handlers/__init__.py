@@ -31,7 +31,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
-from .portal_resource import PortalResource  # noqa: F401
 from .auth_handlers import LoginHandler, LogoutHandler  # noqa: F401
-from .portal_entries_handler import PortalEntriesHandler  # noqa: F401
 from .navigation_handler import NavigationHandler  # noqa: F401
+from .portal_entries_handler import PortalEntriesHandler  # noqa: F401
+from .portal_resource import PortalResource  # noqa: F401
