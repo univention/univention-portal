@@ -38,7 +38,7 @@ import tornado.web
 from ldap.dn import str2dn
 
 from univention.portal.extensions.cache_http import PortalFileCacheHTTP
-from univention.portal.handlers import PortalResource
+from univention.portal.handlers.portal_resource import PortalResource
 
 
 RE_FQDN = re.compile(r'(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}\.?$)')
