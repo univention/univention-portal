@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import Depends
 from typing import List, Optional
 from sqlalchemy.sql.expression import and_, or_, null
@@ -30,7 +30,7 @@ class NotificationService:
             needsConfirmation=notification.needsConfirmation,
             severity=notification.severity,
             notificationType=notification.notificationType,
-            receiveTime=datetime.now(),
+            receiveTime=datetime.now(timezone.utc),
             expireTime=notification.expireTime,
             confirmationTime=None,
             readTime=None,
@@ -40,6 +40,7 @@ class NotificationService:
         self._db.add(db_notification)
         self._db.commit()
         self._db.refresh(db_notification)
+        db_notification._force_to_utc()
         return db_notification
 
     def get_notifications(
@@ -52,7 +53,7 @@ class NotificationService:
                     Notification.notificationType == query['type'],
                     or_(
                         Notification.expireTime == null(),
-                        Notification.expireTime >= datetime.now()
+                        Notification.expireTime >= datetime.now(timezone.utc)
                     )
                 )
             ).limit(query['limit'])
@@ -60,11 +61,15 @@ class NotificationService:
             statement = select(Notification).where(
                 Notification.notificationType == query['type']
             ).limit(query['limit'])
-        return self._db.exec(statement).fetchall()
+
+        notifications = self._db.exec(statement).fetchall()
+        for notification in notifications:
+            notification._force_to_utc()
+        return notifications
 
     def prune_expired_notifications(self) -> None:
         statement = select(Notification).where(
-            Notification.expireTime < datetime.utcnow()
+            Notification.expireTime < datetime.now(timezone.utc)
         )
 
         expired = self._db.exec(statement).fetchall()
@@ -75,11 +80,14 @@ class NotificationService:
 
     def get_next_notification_expiry(self) -> Optional[datetime]:
         statement = select(Notification) \
-            .where(Notification.expireTime) \
+            .where(Notification.expireTime != null()) \
             .order_by(Notification.expireTime)
 
-        notification = self._db.exec(statement).first()
-        return notification.expireTime if notification else None
+        if notification := self._db.exec(statement).first():
+            notification._force_to_utc()
+            return notification.expireTime
+        else:
+            return None
 
     def get_notification(self, id_: str) -> Notification:
         statement = select(Notification).where(
@@ -87,11 +95,16 @@ class NotificationService:
                 Notification.id == id_,
                 or_(
                     Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now()
+                    Notification.expireTime >= datetime.now(timezone.utc)
                 )
             )
         )
-        return self._db.exec(statement).one()
+
+        if notification := self._db.exec(statement).one():
+            notification._force_to_utc()
+            return notification
+        else:
+            return None
 
     def delete_notification(self, id_: str) -> None:
         notification = self.get_notification(id_)
@@ -104,17 +117,18 @@ class NotificationService:
                 Notification.sseSendTime == None,  # noqa: E711
                 or_(
                     Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now()
+                    Notification.expireTime >= datetime.now(timezone.utc)
                 )
             )
         )
         new_notifications = self._db.exec(statement).fetchall()
         for notification in new_notifications:
-            notification.sseSendTime = datetime.now()
+            notification.sseSendTime = datetime.now(timezone.utc)
             self._db.add(notification)
         self._db.commit()
         for notification in new_notifications:
             self._db.refresh(notification)
+            notification._force_to_utc()
         return new_notifications
 
     def hide_notification(self, id: str) -> None:
@@ -130,10 +144,11 @@ class NotificationService:
     ) -> Notification:
         statement = select(Notification).where(Notification.id == id)
         notification = self._db.exec(statement).one()
-        notification.readTime = datetime.now()
+        notification.readTime = datetime.now(timezone.utc)
         self._db.add(notification)
         self._db.commit()
         self._db.refresh(notification)
+        notification._force_to_utc()
         return notification
 
     def confirm_notification(
@@ -142,8 +157,9 @@ class NotificationService:
     ) -> Notification:
         statement = select(Notification).where(Notification.id == id)
         notification = self._db.exec(statement).one()
-        notification.confirmationTime = datetime.now()
+        notification.confirmationTime = datetime.now(timezone.utc)
         self._db.add(notification)
         self._db.commit()
         self._db.refresh(notification)
+        notification._force_to_utc()
         return notification

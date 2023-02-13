@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from app.models.notification_model import NotificationBase, NotificationSeverity, NotificationType
@@ -16,11 +16,11 @@ def test_notification_has_expired():
     )
 
     # test with `expireTime` in the past
-    notification.expireTime = datetime.now() - timedelta(minutes=1)
+    notification.expireTime = datetime.now(timezone.utc) - timedelta(minutes=1)
     assert notification.has_expired()
 
     # test with `expireTime` in the future
-    notification.expireTime = datetime.now() + timedelta(minutes=1)
+    notification.expireTime = datetime.now(timezone.utc) + timedelta(minutes=1)
     assert not notification.has_expired()
 
     # test with `expireTime` unset

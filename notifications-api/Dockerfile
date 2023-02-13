@@ -21,6 +21,7 @@ CMD ["pytest"]
 
 FROM test as dev
 EXPOSE 8080
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["uvicorn", "app.main:app", \
     "--log-config", "logging.yaml", \
     "--reload", "--host", "0.0.0.0", "--port", "8080"]

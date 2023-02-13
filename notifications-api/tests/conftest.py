@@ -1,5 +1,5 @@
 
-from datetime import datetime
+from datetime import datetime, timezone
 import pytest
 from sqlmodel import Session, create_engine, delete
 from uuid import uuid4
@@ -75,7 +75,7 @@ def filled_db(empty_db):
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now()
+        receiveTime=datetime.now(timezone.utc)
     ))
     db.add(Notification(
         id=str(uuid4()),
@@ -85,7 +85,7 @@ def filled_db(empty_db):
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now()
+        receiveTime=datetime.now(timezone.utc)
     ))
     db.commit()
     return db

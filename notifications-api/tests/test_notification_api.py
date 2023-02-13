@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from http import HTTPStatus
 from uuid import uuid4
 import json
@@ -44,7 +44,7 @@ def test_create_notification(empty_db, request_data, client):
 
 
 def test_create_notification_with_expiry_with_tz(empty_db, request_data, client):
-    request_data["expireTime"] = "2099-01-26T12:34:56+01:00"
+    request_data["expireTime"] = "2099-01-26T12:34:56Z"
     response = client.post('/v1/notifications/', json=request_data)
     assert response.status_code == HTTPStatus.CREATED
     response_json = response.json()
@@ -56,11 +56,19 @@ def test_create_notification_with_expiry_with_tz(empty_db, request_data, client)
 def test_create_notification_with_expiry_without_tz(empty_db, request_data, client):
     request_data["expireTime"] = "2099-01-26T12:34:56"
     response = client.post('/v1/notifications/', json=request_data)
-    assert response.status_code == HTTPStatus.CREATED
-    response_json = response.json()
-    assert response_json['id'] is not None
-    assert response_json['sourceUid'] == sourceUid
-    assert response_json['targetUid'] == targetUid
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+
+
+def test_create_notification_already_expired_with_tz(empty_db, request_data, client):
+    request_data["expireTime"] = "2001-01-26T12:34:56+01:00"
+    response = client.post('/v1/notifications/', json=request_data)
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+
+
+def test_create_notification_already_expired_without_tz(empty_db, request_data, client):
+    request_data["expireTime"] = "2001-01-26T12:34:56"
+    response = client.post('/v1/notifications/', json=request_data)
+    assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
 def test_create_notification_with_link(empty_db, request_data, client):
@@ -137,7 +145,7 @@ def test_mark_notification_read(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/')
     id = response.json()[0]['id']
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     response = client.post(f'/v1/notifications/{id}/read')
     readTime = response.json()['readTime']
     readDateTime = datetime.fromisoformat(readTime)
@@ -148,7 +156,7 @@ def test_mark_notification_confirmed(empty_db, request_data, client):
     response = client.post('/v1/notifications/', json=request_data)
     response = client.get('/v1/notifications/')
     id = response.json()[0]['id']
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     response = client.post(f'/v1/notifications/{id}/confirm')
     assert datetime.fromisoformat(response.json()['confirmationTime']) > now
 
@@ -194,7 +202,7 @@ async def test_stream_notifications(mocker):
 async def test_get_expired_notifications(empty_db, request_data, client):
     # create a notification that expires in 1 second
     notification_json = dict(**request_data)
-    notification_json['expireTime'] = (datetime.now() + timedelta(seconds=1)).isoformat()
+    notification_json['expireTime'] = (datetime.now(timezone.utc) + timedelta(seconds=1)).isoformat()
     response = client.post('/v1/notifications/', json=notification_json)
     assert response.status_code == HTTPStatus.CREATED
     response_json = response.json()
@@ -219,7 +227,7 @@ async def test_get_expired_notifications(empty_db, request_data, client):
 async def test_get_expired_notification(empty_db, request_data, client):
     # create a notification that expires in 100 ms
     notification_json = dict(**request_data)
-    notification_json['expireTime'] = (datetime.now() + timedelta(seconds=0.1)).isoformat()
+    notification_json['expireTime'] = (datetime.now(timezone.utc) + timedelta(seconds=0.1)).isoformat()
     response = client.post('/v1/notifications/', json=notification_json)
     assert response.status_code == HTTPStatus.CREATED
     response_json = response.json()
