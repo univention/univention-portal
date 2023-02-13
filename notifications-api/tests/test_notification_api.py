@@ -24,8 +24,8 @@ def request_data():
         "notificationType": "event",
         "data": {
             "additionalProperty1": "some value",
-            "additionalProperty2": 45
-        }
+            "additionalProperty2": 45,
+        },
     }
 
 
@@ -75,7 +75,7 @@ def test_create_notification_with_link(empty_db, request_data, client):
     request_data["link"] = {
         "url": "https://www.univention.de",
         "text": "univention web site",
-        "target": "_self"
+        "target": "_self",
     }
     response = client.post('/v1/notifications/', json=request_data)
     assert response.status_code == HTTPStatus.CREATED

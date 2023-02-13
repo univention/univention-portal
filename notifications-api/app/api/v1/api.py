@@ -51,7 +51,7 @@ def get_notifications(
     """Read the notifications of the current user."""
     query = {
         'limit': limit,
-        'type': type
+        'type': type,
     }
     return service.get_notifications(query)
 

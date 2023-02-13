@@ -11,7 +11,7 @@ class Header(BasePagePart):
     def __init__(self, page, part, parent):
         super().__init__(page, part, parent)
         self.bell_icon = self.part.get_by_role("button",
-                                               name=re.compile("^Notifications")
+                                               name=re.compile("^Notifications"),
                                                )
 
     def reveal_notification_drawer(self):

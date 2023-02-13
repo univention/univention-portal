@@ -90,7 +90,7 @@ class NavigationHandler(PortalResource):
             categories.append(category)
 
         navigation = {
-            'categories': categories
+            'categories': categories,
         }
         self.write(navigation)
 
