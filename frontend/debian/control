@@ -2,14 +2,16 @@ Source: phoenixportal
 Section: univention
 Priority: optional
 Maintainer: Univention GmbH <packages@univention.de>
-Build-Depends: debhelper,
+Build-Depends:
+ debhelper,
  npm,
  univention-l10n-dev,
 Standards-Version: 3.8.2
 
 Package: phoenixportal
 Architecture: any
-Depends: ${misc:Depends}
+Depends:
+ ${misc:Depends},
 Description: Univention Portal - Central portal web page for a UCS domain
  Univention Portal is a web interface which allows a central view
  to a UCS domain with all installed Apps and services. Univention
