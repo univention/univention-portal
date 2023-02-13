@@ -33,7 +33,7 @@
 import tornado.web
 
 from univention.portal.extensions.cache_http import PortalFileCacheHTTP
-from univention.portal.handlers import PortalResource
+from univention.portal.handlers.portal_resource import PortalResource
 from univention.portal.log import get_logger
 
 
