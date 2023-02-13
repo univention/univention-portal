@@ -25,6 +25,7 @@ class BasePageElement(PageFactory):
     expect(my_page_element.element).to_be_visible()  # this waits for visibility
     ```
     """
+
     def __init__(self, page, element, parent):
         super().__init__(page)
         self.element = element
