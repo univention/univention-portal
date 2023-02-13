@@ -48,9 +48,7 @@ def get_notifications(
     type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
 ) -> List[Notification]:
-    """
-    Read the notifications of the current user.
-    """
+    """Read the notifications of the current user."""
     query = {
         'limit': limit,
         'type': type

@@ -26,9 +26,7 @@ def override_get_db() -> Session:
 
 @pytest.fixture()
 def client():
-    """
-    Return a prepared instance of FastAPI's TestClient.
-    """
+    """Return a prepared instance of FastAPI's TestClient."""
     test_client = TestClient(app)
     return test_client
 
@@ -50,9 +48,7 @@ def patch_db_session():
 
 @pytest.fixture()
 def empty_db(patch_db_session):
-    """
-    Return an empty database session.
-    """
+    """Return an empty database session."""
     db = next(override_get_db())
     statement = delete(Notification)
     db.exec(statement)
@@ -93,7 +89,5 @@ def filled_db(empty_db):
 
 @pytest.fixture()
 def stub_uuid():
-    """
-    An unused uuid value as a string.
-    """
+    """An unused uuid value as a string."""
     return str(uuid4())
