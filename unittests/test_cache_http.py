@@ -77,7 +77,7 @@ def test_portal_file_cache_http(requests_mock, dynamic_class):
         status_code=requests.codes.not_modified,
         headers={'ETag': ETAG},
     )
-    assert PORTAL_DATA == portal_file_cache_http.get()
+    assert portal_file_cache_http.get() == PORTAL_DATA
     for item in PORTAL_DATA_KEYS:
         assert item == getattr(portal_file_cache_http, f'get_{item}')()
 
@@ -100,4 +100,4 @@ def test_group_file_cache_http(requests_mock, dynamic_class):
         status_code=requests.codes.not_modified,
         headers={'ETag': ETAG},
     )
-    assert GROUPS_DATA == group_file_cache_http.get()
+    assert group_file_cache_http.get() == GROUPS_DATA
