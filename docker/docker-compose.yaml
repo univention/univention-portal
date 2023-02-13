@@ -57,7 +57,7 @@ services:
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
       APPLY_DATABASE_MIGRATIONS: true
     ports:
-      - 8096:80
+      - 8096:8080
   reverse-proxy:
     build:
       context: ./reverse-proxy
