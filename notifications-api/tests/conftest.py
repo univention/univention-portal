@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False},
 )
 
 
@@ -71,7 +71,7 @@ def filled_db(empty_db):
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now(timezone.utc)
+        receiveTime=datetime.now(timezone.utc),
     ))
     db.add(Notification(
         id=str(uuid4()),
@@ -81,7 +81,7 @@ def filled_db(empty_db):
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now(timezone.utc)
+        receiveTime=datetime.now(timezone.utc),
     ))
     db.commit()
     return db

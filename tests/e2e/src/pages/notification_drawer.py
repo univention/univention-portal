@@ -14,7 +14,7 @@ class NotificationDrawer(BasePagePart):
     def __init__(self, page, part, parent):
         super().__init__(page, part, parent)
         self.remove_all_button = self.part.get_by_role("button",
-                                                       name="Remove all"
+                                                       name="Remove all",
                                                        )
         self.no_notifications_heading = self.part.get_by_text("No notifications")
         self.notifications = self.part.locator("//*[starts-with(@data-test, 'notification')]")

@@ -26,12 +26,12 @@ class PortalPage(BasePage):
         super().__init__(page)
         self.header = Header(self.page,
                              self.page.locator("#portal-header"),
-                             self
+                             self,
                              )
         self.notification_drawer = NotificationDrawer(self.page,
                                                       self.page.locator("#notifications-all"),
-                                                      self
+                                                      self,
                                                       )
         self.popup_notification_container = PopupNotificationContainer(
-            self.page, self.page.locator("#notifications-visible"), self
+            self.page, self.page.locator("#notifications-visible"), self,
         )

@@ -88,7 +88,7 @@ class TestPortalEntriesHandlerHttpCache:
     @pytest.fixture()
     def app(self, portal_mock):
         portal_mock.portal_cache = PortalFileCacheHTTP(
-            ucs_internal_url='https://example.com'
+            ucs_internal_url='https://example.com',
         )
         routes = build_routes({
             "default": portal_mock,

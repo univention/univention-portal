@@ -26,7 +26,7 @@ def _extend_end_day_to_midnight_if_necessary(end_iso_datetime_str: str, range_en
             hour=23,
             minute=59,
             second=59,
-            microsecond=999999
+            microsecond=999999,
         )
     return new_range_end
 

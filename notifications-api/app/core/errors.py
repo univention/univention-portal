@@ -41,7 +41,7 @@ def _remove_body_from_path_to_invalid_element(error):
 
 
 validation_error_definition["properties"] = {
-    "body": {"title": "Body", "type": "array", "items": {"type": "string"}}
+    "body": {"title": "Body", "type": "array", "items": {"type": "string"}},
 }
 
 validation_error_response_definition["properties"] = {
@@ -49,5 +49,5 @@ validation_error_response_definition["properties"] = {
         "title": "Errors",
         "type": "array",
         "items": {"$ref": REF_PREFIX + "ValidationError"},
-    }
+    },
 }

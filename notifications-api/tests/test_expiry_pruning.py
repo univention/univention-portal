@@ -26,7 +26,7 @@ def test_db(empty_db):
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
         receiveTime=datetime.now(timezone.utc),
-        expireTime=None
+        expireTime=None,
     ))
     db.add(Notification(
         id=str(uuid4()),
@@ -37,7 +37,7 @@ def test_db(empty_db):
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
         receiveTime=datetime.now(timezone.utc),
-        expireTime=datetime.now(timezone.utc) + expire_fast
+        expireTime=datetime.now(timezone.utc) + expire_fast,
     ))
     db.add(Notification(
         id=str(uuid4()),
@@ -48,7 +48,7 @@ def test_db(empty_db):
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
         receiveTime=datetime.now(timezone.utc),
-        expireTime=datetime.now(timezone.utc) + expire_slow
+        expireTime=datetime.now(timezone.utc) + expire_slow,
     ))
     db.commit()
     return db

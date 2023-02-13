@@ -150,7 +150,7 @@ class Portal(metaclass=Plugin):
             "entry_dns": visible_entry_dns,
             "folder_dns": visible_folder_dns,
             "category_dns": visible_category_dns,
-            "announcement_dns": visible_announcement_dns
+            "announcement_dns": visible_announcement_dns,
         }
 
     def get_user_links(self, content):
@@ -216,7 +216,7 @@ class Portal(metaclass=Plugin):
     def _announcement_matches_time(self, announcement: dict):
         return is_announcement_visible_now(
             announcement.get('visibleFrom'),
-            announcement.get('visibleUntil')
+            announcement.get('visibleUntil'),
         )
 
     def _announcement_matches_group(self, user, announcement: dict):
