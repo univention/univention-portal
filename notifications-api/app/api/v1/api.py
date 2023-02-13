@@ -1,17 +1,17 @@
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, Depends, Query
-from fastapi.encoders import jsonable_encoder
-from http import HTTPStatus
-from sqlalchemy.exc import NoResultFound
-from sse_starlette.sse import EventSourceResponse
-from typing import List
 import asyncio
 import json
 import logging
+from http import HTTPStatus
+from typing import List
+
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, Request
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.exc import NoResultFound
+from sse_starlette.sse import EventSourceResponse
 
 from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
-from app.models.notification_model import (
-    Notification, NotificationCreate, NotificationType)
+from app.models.notification_model import Notification, NotificationCreate, NotificationType
 
 
 log = logging.getLogger(__name__)

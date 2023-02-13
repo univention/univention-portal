@@ -1,12 +1,13 @@
 from datetime import datetime, timezone
-from fastapi import Depends
 from typing import List, Optional
-from sqlalchemy.sql.expression import and_, or_, null
-from sqlmodel import Session, select
 from uuid import uuid4
 
+from fastapi import Depends
+from sqlalchemy.sql.expression import and_, null, or_
+from sqlmodel import Session, select
+
 from app.db import get_session
-from app.models.notification_model import NotificationCreate, Notification
+from app.models.notification_model import Notification, NotificationCreate
 
 
 class NotificationService:

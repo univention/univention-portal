@@ -1,6 +1,7 @@
-from unittest import mock
 import asyncio
 import json
+from unittest import mock
+
 import pytest
 
 from app import messaging

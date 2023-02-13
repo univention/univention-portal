@@ -35,8 +35,12 @@
 from __future__ import absolute_import, unicode_literals
 
 from ..encoders import (
-    Base64BinaryPropertyEncoder, BaseEncoder, DatePropertyEncoder, ListOfListOflTextToDictPropertyEncoder,
-    StringCaseInsensitiveResultUpperBooleanPropertyEncoder, dn_list_property_encoder_for,
+    Base64BinaryPropertyEncoder,
+    BaseEncoder,
+    DatePropertyEncoder,
+    ListOfListOflTextToDictPropertyEncoder,
+    StringCaseInsensitiveResultUpperBooleanPropertyEncoder,
+    dn_list_property_encoder_for,
 )
 from .generic import GenericModule, GenericObject, GenericObjectProperties
 

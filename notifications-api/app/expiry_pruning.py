@@ -5,9 +5,10 @@ It provides a background task which looks for the soonest-expiring notification
 and prunes it.
 """
 import asyncio
-from datetime import datetime, timezone
 import logging
+from datetime import datetime, timezone
 from typing import Optional
+
 from sqlmodel import Session
 
 from app.crud.notification_service import NotificationService

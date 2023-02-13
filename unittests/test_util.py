@@ -1,7 +1,8 @@
-from univention.portal.util import is_current_time_between
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
+
 import pytest
+
+from univention.portal.util import is_current_time_between
 
 
 @pytest.mark.parametrize(
