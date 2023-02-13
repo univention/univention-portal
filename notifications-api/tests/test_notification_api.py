@@ -11,7 +11,7 @@ sourceUid = str(uuid4())
 targetUid = str(uuid4())
 
 
-@pytest.fixture
+@pytest.fixture()
 def request_data():
     return {
         "sourceUid": sourceUid,
@@ -180,7 +180,7 @@ def test_bulk_invalidate_many_notifications_by_sender(empty_db, request_data, cl
     assert response.status_code == "200"
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_stream_notifications(mocker):
     from app import messaging
     from app.api.v1.api import stream_notifications
@@ -198,7 +198,7 @@ async def test_stream_notifications(mocker):
     assert_is_valid_json(event['data'])
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_get_expired_notifications(empty_db, request_data, client):
     # create a notification that expires in 1 second
     notification_json = dict(**request_data)
@@ -223,7 +223,7 @@ async def test_get_expired_notifications(empty_db, request_data, client):
     assert len(response.json()) == 0
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_get_expired_notification(empty_db, request_data, client):
     # create a notification that expires in 100 ms
     notification_json = dict(**request_data)

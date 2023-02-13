@@ -26,28 +26,28 @@ def pytest_addoption(parser):
                      )
 
 
-@pytest.fixture
+@pytest.fixture()
 def username(pytestconfig):
     return pytestconfig.option.username
 
 
-@pytest.fixture
+@pytest.fixture()
 def password(pytestconfig):
     return pytestconfig.option.password
 
 
-@pytest.fixture
+@pytest.fixture()
 def notifications_api_base_url(pytestconfig):
     return pytestconfig.getoption("--notifications-api-base-url")
 
 
-@pytest.fixture
+@pytest.fixture()
 def browser_context_args(browser_context_args, pytestconfig):
     browser_context_args["base_url"] = pytestconfig.getoption("--portal-base-url")
     return browser_context_args
 
 
-@pytest.fixture
+@pytest.fixture()
 def portal_home_page_public(page):
     page.goto("/")
     this_page = PortalHomePagePublic(page)
@@ -55,7 +55,7 @@ def portal_home_page_public(page):
     return this_page
 
 
-@pytest.fixture
+@pytest.fixture()
 def login_page(page, portal_home_page_public):
     portal_home_page_public.click_login_widget()
     this_page = LoginPage(page)
@@ -65,7 +65,7 @@ def login_page(page, portal_home_page_public):
     return this_page
 
 
-@pytest.fixture
+@pytest.fixture()
 def portal_home_page_logged_in(page, login_page, username, password):
     login_page.login(username=username,
                      password=password
@@ -75,7 +75,7 @@ def portal_home_page_logged_in(page, login_page, username, password):
     return this_page
 
 
-@pytest.fixture
+@pytest.fixture()
 def login_and_clear_old_notifications(portal_home_page_logged_in):
     header = portal_home_page_logged_in.header
     notification_drawer = portal_home_page_logged_in.notification_drawer
@@ -91,7 +91,7 @@ def login_and_clear_old_notifications(portal_home_page_logged_in):
     expect(notification_drawer.notifications).to_have_count(0)
 
 
-@pytest.fixture
+@pytest.fixture()
 def notification(notifications_api_base_url):
     unique_id = str(uuid.uuid4())
     json_data = {
