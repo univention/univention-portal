@@ -46,6 +46,7 @@ class BasePagePart(PageFactory):
     my_page_part.is_visible()  # this does not wait and returns immediately
     ```
     """
+
     def __init__(self, page, part, parent):
         super().__init__(page)
         self.page = page

@@ -7,6 +7,7 @@ from pages.base.base_page_part import BasePagePart
 
 class Header(BasePagePart):
     """This represents the portal's top navigation header bar."""
+
     def __init__(self, page, part, parent):
         super().__init__(page, part, parent)
         self.bell_icon = self.part.get_by_role("button",
