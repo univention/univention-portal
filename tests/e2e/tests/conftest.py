@@ -12,17 +12,17 @@ from pages.login_page import LoginPage
 
 def pytest_addoption(parser):
     parser.addoption("--username", default="Administrator",
-                     help="Portal login username"
+                     help="Portal login username",
                      )
     parser.addoption("--password", default="univention",
-                     help="Portal login password"
+                     help="Portal login password",
                      )
     parser.addoption("--notifications-api-base-url",
                      default="http://localhost:8000/univention/portal/notifications-api/",
-                     help="Base URL of the notification API"
+                     help="Base URL of the notification API",
                      )
     parser.addoption("--portal-base-url", default="http://localhost:8000",
-                     help="Base URL of the univention portal"
+                     help="Base URL of the univention portal",
                      )
 
 
@@ -68,7 +68,7 @@ def login_page(page, portal_home_page_public):
 @pytest.fixture()
 def portal_home_page_logged_in(page, login_page, username, password):
     login_page.login(username=username,
-                     password=password
+                     password=password,
                      )
     this_page = PortalHomePageLoggedIn(page)
     expect(this_page.umc_heading).to_be_visible()
@@ -106,14 +106,14 @@ def notification(notifications_api_base_url):
         "link": {
             "url": "https://example.org",
             "text": "string",
-            "target": "string"
+            "target": "string",
         },
-        "data": {}
+        "data": {},
     }
     raw_request = requests.Request(
         "POST",
         url=urljoin(notifications_api_base_url, "./v1/notifications"),
-        json=json_data
+        json=json_data,
     )
     prepped_request = raw_request.prepare()
     return prepped_request

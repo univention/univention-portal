@@ -146,7 +146,7 @@ class TestPortal:
             "category_dns": ["cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
             "entry_dns": ["cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
             "folder_dns": [],
-            "announcement_dns": ["cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet"]
+            "announcement_dns": ["cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet"],
         }
         assert content == expected_content
 
@@ -306,7 +306,7 @@ class TestPortal:
             "isSticky": False,
             "message": {
                 "de_DE": "Dies ist ein Testannouncement das für jeden User, d.h. auch ohne Login sichtbar sein sollte.",
-                "en_US": "This is a test announcement that should be visible for all users, as no group restriction is set."
+                "en_US": "This is a test announcement that should be visible for all users, as no group restriction is set.",
             },
             "name": "Testannouncment",
             "needsConfirmation": False,
@@ -314,11 +314,11 @@ class TestPortal:
             "visibleFrom": None,
             "title": {
                 "de_DE": "Öffentliches Announcement",
-                "en_US": "Public Announcement"
-            }
+                "en_US": "Public Announcement",
+            },
         }
         input_announcements = {
-            input_announcement["dn"]: input_announcement
+            input_announcement["dn"]: input_announcement,
         }
         modifiable_data = portal_data.get_portal_cache_json()
         modifiable_data["announcements"] = input_announcements
@@ -347,7 +347,7 @@ class TestPortal:
             "visibleUntil": (datetime.now() - timedelta(minutes=1)).isoformat(),
             "title": {
                 "de_DE": "Öffentliches Announcement",
-            }
+            },
         }
         present_announcement = {
             "allowedGroups": [],
@@ -363,7 +363,7 @@ class TestPortal:
             "visibleUntil": (datetime.now() + timedelta(minutes=2)).isoformat(),
             "title": {
                 "de_DE": "Öffentliches Announcement",
-            }
+            },
         }
         future_announcement = {
             "allowedGroups": [],
@@ -379,7 +379,7 @@ class TestPortal:
             "visibleUntil": (datetime.now() + timedelta(minutes=2)).isoformat(),
             "title": {
                 "de_DE": "Öffentliches Announcement",
-            }
+            },
         }
         input_announcements = {
             past_announcement["dn"]: past_announcement,
@@ -420,7 +420,7 @@ class TestPortal:
             "visibleUntil": None,
             "title": {
                 "de_DE": "Öffentliches Announcement",
-            }
+            },
         }
         visible_announcement_2 = {
             "allowedGroups": ["public_society"],
@@ -436,7 +436,7 @@ class TestPortal:
             "visibleUntil": None,
             "title": {
                 "de_DE": "Öffentliches Announcement",
-            }
+            },
         }
         invisible_announcement = {
             "allowedGroups": ["secret_society"],
@@ -452,7 +452,7 @@ class TestPortal:
             "visibleUntil": None,
             "title": {
                 "de_DE": "Öffentliches Announcement",
-            }
+            },
         }
         input_announcements = {
             visible_announcement_1["dn"]: visible_announcement_1,

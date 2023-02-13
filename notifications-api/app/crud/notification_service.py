@@ -35,7 +35,7 @@ class NotificationService:
             confirmationTime=None,
             readTime=None,
             link=notification.link,
-            data=notification.data
+            data=notification.data,
         )
         self._db.add(db_notification)
         self._db.commit()
@@ -53,13 +53,13 @@ class NotificationService:
                     Notification.notificationType == query['type'],
                     or_(
                         Notification.expireTime == null(),
-                        Notification.expireTime >= datetime.now(timezone.utc)
-                    )
-                )
+                        Notification.expireTime >= datetime.now(timezone.utc),
+                    ),
+                ),
             ).limit(query['limit'])
         else:
             statement = select(Notification).where(
-                Notification.notificationType == query['type']
+                Notification.notificationType == query['type'],
             ).limit(query['limit'])
 
         notifications = self._db.exec(statement).fetchall()
@@ -69,7 +69,7 @@ class NotificationService:
 
     def prune_expired_notifications(self) -> None:
         statement = select(Notification).where(
-            Notification.expireTime < datetime.now(timezone.utc)
+            Notification.expireTime < datetime.now(timezone.utc),
         )
 
         expired = self._db.exec(statement).fetchall()
@@ -95,9 +95,9 @@ class NotificationService:
                 Notification.id == id_,
                 or_(
                     Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now(timezone.utc)
-                )
-            )
+                    Notification.expireTime >= datetime.now(timezone.utc),
+                ),
+            ),
         )
 
         if notification := self._db.exec(statement).one():
@@ -117,9 +117,9 @@ class NotificationService:
                 Notification.sseSendTime == None,  # noqa: E711
                 or_(
                     Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now(timezone.utc)
-                )
-            )
+                    Notification.expireTime >= datetime.now(timezone.utc),
+                ),
+            ),
         )
         new_notifications = self._db.exec(statement).fetchall()
         for notification in new_notifications:
