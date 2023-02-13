@@ -21,6 +21,7 @@ class PortalPage(BasePage):
     header.reveal_notification_drawer()
     ```
     """
+
     def __init__(self, page):
         super().__init__(page)
         self.header = Header(self.page,

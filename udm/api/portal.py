@@ -182,11 +182,13 @@ class PortalsPortalAnnouncementObjectProperties(GenericObjectProperties):
 
 class PortalsPortalAnnouncementObject(GenericObject):
     """Better representation of portals/announcement properties."""
+
     udm_prop_class = PortalsPortalAnnouncementObjectProperties
 
 
 class PortalsPortalAnnouncementModule(GenericModule):
     """PortalsPortalAnnouncementObject factory"""
+
     _udm_object_class = PortalsPortalAnnouncementObject
 
     class Meta:

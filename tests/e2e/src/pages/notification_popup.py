@@ -7,6 +7,7 @@ class PopupNotificationContainer(BasePagePart):
     This represents the invisible container that holds the popup notifications
     (the ones that popup on the screen and disappear after a while)
     """
+
     def __init__(self, page, part, parent):
         super().__init__(page, part, parent)
         self.notifications = self.part.locator("//*[starts-with(@data-test, 'notification')]")
