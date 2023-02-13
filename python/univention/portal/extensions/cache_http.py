@@ -42,80 +42,80 @@ from univention.portal.log import get_logger
 
 
 class CacheHTTP(metaclass=Plugin):
-	def __init__(self, ucs_internal_url):
-		self._ucs_internal_url = ucs_internal_url
-		self._etag = None
-		self._cache = {}
+    def __init__(self, ucs_internal_url):
+        self._ucs_internal_url = ucs_internal_url
+        self._etag = None
+        self._cache = {}
 
-	def get_id(self):
-		return self._etag
+    def get_id(self):
+        return self._etag
 
-	def _load(self):
-		get_logger('cache').info(f'loading data from {self._ucs_internal_url}')
+    def _load(self):
+        get_logger('cache').info(f'loading data from {self._ucs_internal_url}')
 
-		headers = {}
-		if self._etag:
-			headers['If-None-Match'] = self._etag
+        headers = {}
+        if self._etag:
+            headers['If-None-Match'] = self._etag
 
-		try:
-			response = requests.get(self._ucs_internal_url, headers=headers)
+        try:
+            response = requests.get(self._ucs_internal_url, headers=headers)
 
-			if response.status_code == requests.codes.not_modified:
-				get_logger('cache').info(f'Not modified {self._ucs_internal_url}')
-				return
+            if response.status_code == requests.codes.not_modified:
+                get_logger('cache').info(f'Not modified {self._ucs_internal_url}')
+                return
 
-			self._cache = response.json()
-			self._etag = response.headers.get('ETag')
-			get_logger('cache').info(f'Loaded from {self._ucs_internal_url}, ETag: {self._etag}')
-		except Exception:
-			get_logger('cache').exception(f'Error loading {self._ucs_internal_url}')
+            self._cache = response.json()
+            self._etag = response.headers.get('ETag')
+            get_logger('cache').info(f'Loaded from {self._ucs_internal_url}, ETag: {self._etag}')
+        except Exception:
+            get_logger('cache').exception(f'Error loading {self._ucs_internal_url}')
 
-	def get(self):
-		return self._cache
+    def get(self):
+        return self._cache
 
-	def refresh(self, reason=None):
-		self._load()
+    def refresh(self, reason=None):
+        self._load()
 
 
 class PortalFileCacheHTTP(CacheHTTP):
-	def __init__(self, ucs_internal_url):
-		super().__init__(f'{ucs_internal_url}/portal')
+    def __init__(self, ucs_internal_url):
+        super().__init__(f'{ucs_internal_url}/portal')
 
-	def get_user_links(self):
-		return deepcopy(self.get()['user_links'])
+    def get_user_links(self):
+        return deepcopy(self.get()['user_links'])
 
-	def get_entries(self):
-		return deepcopy(self.get()['entries'])
+    def get_entries(self):
+        return deepcopy(self.get()['entries'])
 
-	def get_folders(self):
-		return deepcopy(self.get()['folders'])
+    def get_folders(self):
+        return deepcopy(self.get()['folders'])
 
-	def get_portal(self):
-		return deepcopy(self.get()['portal'])
+    def get_portal(self):
+        return deepcopy(self.get()['portal'])
 
-	def get_categories(self):
-		return deepcopy(self.get()['categories'])
+    def get_categories(self):
+        return deepcopy(self.get()['categories'])
 
-	def get_menu_links(self):
-		return deepcopy(self.get()['menu_links'])
+    def get_menu_links(self):
+        return deepcopy(self.get()['menu_links'])
 
-	def get_announcements(self):
-		# TODO: this needs special handling currently in the
-		#       dev setup, since it relies on a connection to
-		#       a UCS machine which might not have the latest
-		#       portal with announcements installed.
-		announcements = {}
-		if 'announcements' in self.get().keys():
-			announcements = deepcopy(self.get()['announcements'])
-		return announcements
+    def get_announcements(self):
+        # TODO: this needs special handling currently in the
+        #       dev setup, since it relies on a connection to
+        #       a UCS machine which might not have the latest
+        #       portal with announcements installed.
+        announcements = {}
+        if 'announcements' in self.get().keys():
+            announcements = deepcopy(self.get()['announcements'])
+        return announcements
 
-	def refresh(self, reason=None):
-		super().refresh(reason)
+    def refresh(self, reason=None):
+        super().refresh(reason)
 
 
 class GroupFileCacheHTTP(CacheHTTP):
-	def __init__(self, ucs_internal_url):
-		super().__init__(f'{ucs_internal_url}/groups')
+    def __init__(self, ucs_internal_url):
+        super().__init__(f'{ucs_internal_url}/groups')
 
-	def refresh(self, reason=None):
-		super().refresh(reason)
+    def refresh(self, reason=None):
+        super().refresh(reason)
