@@ -12,7 +12,7 @@ def test_notification_has_expired():
         details="bar",
         severity=NotificationSeverity.INFO,
         notificationType=NotificationType.EVENT,
-        data=dict(),
+        data={},
     )
 
     # test with `expireTime` in the past
