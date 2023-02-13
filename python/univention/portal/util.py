@@ -13,7 +13,8 @@ def _sanitize_and_parse_iso_datetime_str(iso_datetime: str, default: datetime):
 
 
 def _extend_end_day_to_midnight_if_necessary(end_iso_datetime_str: str, range_end: datetime):
-    """This is to handle cases, where only an end date is given, but no time.
+    """
+    This is to handle cases, where only an end date is given, but no time.
     In this case isoparse would return a date with hours, mins, ... set to 0.
     This is unintuitive when comparing the current day, as datetime.now()
     returns later hours, mins, ... than 0 but it is still the same day.
@@ -32,7 +33,8 @@ def _extend_end_day_to_midnight_if_necessary(end_iso_datetime_str: str, range_en
 
 
 def is_current_time_between(start_iso_datetime_str: str, end_iso_datetime_str: str) -> bool:
-    """Return if the current system time (datetime.now()) lies within the given range.
+    """
+    Return if the current system time (datetime.now()) lies within the given range.
     In case, start is later than end, ignore both.
 
     start_iso_datetime_str : str
