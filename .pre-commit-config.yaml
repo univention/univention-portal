@@ -21,17 +21,59 @@ repos:
   # "Trim Trailing Whitespace"
   - id: trailing-whitespace
 
+- repo: https://git.knut.univention.de/univention/dist/pre-commit-ucr
+  rev: '0.0.7'
+  hooks:
+    - id: ucr-flake8
+    - id: ucr-ruff
+    - id: ucr-autopep8
+      stages: [ manual ]
+    - id: ucr-ruff-fix
+      stages: [ manual ]
+
 - repo: https://github.com/compilerla/conventional-pre-commit
   rev: v2.1.1
   hooks:
   - id: conventional-pre-commit
     stages: [commit-msg]
 
+- repo: https://git.knut.univention.de/univention/dist/pre-commit-debian.git
+  rev: v1.0.0
+  hooks:
+    - id: debian-control
+
 # "flake8"
 - repo: https://github.com/PyCQA/flake8
   rev: 5.0.4
   hooks:
   - id: flake8
+
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: 'v0.0.246'
+  hooks:
+    - id: ruff
+    - id: ruff
+      alias: "ruff-fix"
+      stages: [ manual ]
+      args: ["--fix"]
+- repo: https://github.com/pycqa/isort
+  rev: 5.11.5
+  hooks:
+    - id: isort
+      entry: isort -c
+    - id: isort
+      alias: "isort-fix"
+      stages: [ manual ]
+      entry: isort
+- repo: https://github.com/pre-commit/mirrors-autopep8
+  rev: v2.0.1
+  hooks:
+  -   id: autopep8
+      args: ["-d"]
+  -   id: autopep8
+      alias: "autopep8-fix"
+      stages: [ manual ]
+      args: ["-i"]
 
 # "Shell Syntax Check"
 # This is a wrapper for shellcheck as long as
