@@ -44,7 +44,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 import univention.admin.rest.client as udm_client
-import univention.portal.config as config
+from univention.portal import config
 from univention.portal import Plugin
 from univention.portal.log import get_logger
 
