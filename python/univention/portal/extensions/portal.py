@@ -35,6 +35,7 @@
 
 import os.path
 import time
+from urllib.parse import urljoin
 
 import requests
 import requests.exceptions
@@ -296,7 +297,9 @@ class UMCPortal(Portal):
 
     def _request_umc_get(self, get_path, headers):
         umc_get_url = config.fetch("umc_get_url")
-        uri = f"{umc_get_url}/{get_path}"
+        if not umc_get_url.endswith("/"):
+            umc_get_url = f"{umc_get_url}/"
+        uri = urljoin(umc_get_url, get_path)
         body = {"options": {}}
         try:
             response = requests.post(uri, json=body, headers=headers)
