@@ -29,6 +29,7 @@ This issue:
 - [ ] … has been estimated by the people that will work on it;
 - [ ] … can be demo-ed by the team in a Review meeting;
 - [ ] … has accounting information available (customer, PXGU nr., etc.), either on the parent epic or in the description;
+- [ ] … justifies a presentation to the team about its concept or architecture (esp. for L-sized tickets);
 
 For a detailed explanation of these points, check out our [Definition of Ready](https://git.knut.univention.de/univention/customers/dataport/team-souvap/-/blob/master/agreements/definition-of-ready.md).
 
