@@ -125,7 +125,7 @@
       }
     ],
     "client": {
-      "portal-notifications": [],
+      "portal-frontend": [],
       "realm-management": [
         {
           "id": "fd3abc9b-ad2e-4709-9cad-ed98c199fc00",
@@ -338,7 +338,7 @@
           "attributes": {}
         }
       ],
-      "https://domain.example.org/univention/saml/metadata": [],
+      "https://localhost:8000/univention/saml/metadata": [],
       "security-admin-console": [],
       "admin-cli": [],
       "account-console": [],
@@ -676,15 +676,13 @@
     },
     {
       "id": "e31982eb-44df-4b62-9ab2-ade7ddef22a1",
-      "clientId": "https://domain.example.org/univention/saml/metadata",
+      "clientId": "https://localhost:8000/univention/saml/metadata",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:8000/univention/saml/",
-        "*",
-        "http://localhost:8000/univention/portal/"
+        "https://localhost:8000/univention/saml/"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -758,7 +756,7 @@
     },
     {
       "id": "8180020a-3fdc-467c-9e93-b3ad8d8417f5",
-      "clientId": "portal-notifications",
+      "clientId": "portal-frontend",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,

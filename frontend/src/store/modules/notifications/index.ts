@@ -29,11 +29,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ActionContext } from 'vuex';
 
-import { Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
+import { ClientApi, Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
-import notificationsApi, { connectEventSource, connectEventListener } from './apiclient';
+import { getNotificationsApi, connectEventSource, connectEventListener } from './apiclient';
 
 export const defaultHideAfter = 4;
 
@@ -43,6 +43,11 @@ export interface Notifications {
   notifications: Array<FullNotification>;
   backendNotifications: Array<BackendNotification>;
   eventSource?: EventSource;
+  api: ClientApi;
+}
+
+interface DeletedNotificationEvent {
+  id: string
 }
 
 export const severityMapping = Object.fromEntries([
@@ -52,15 +57,11 @@ export const severityMapping = Object.fromEntries([
   [NotificationSeverity.Error, 'error'],
 ]);
 
-const importanceFromSeverity = function (severity: NotificationSeverity) {
-  return severityMapping[severity];
-};
+const importanceFromSeverity = (severity: NotificationSeverity) => severityMapping[severity];
 
-const generateNotificationToken = function (): string {
-  return uuidv4();
-};
+const generateNotificationToken = () => uuidv4();
 
-export const mapBackendNotification = function (notification: BackendNotification): FullNotification {
+export const mapBackendNotification = (notification: BackendNotification): FullNotification => {
   const localNotification: FullNotification = {
     title: notification.title,
     description: notification.details,
@@ -85,7 +86,7 @@ export const mapBackendNotification = function (notification: BackendNotificatio
   return localNotification;
 };
 
-const removeFromArray = function (array, item) {
+const removeFromArray = (array, item) => {
   const indexContent = array.indexOf(item);
   if (indexContent < 0) {
     return;
@@ -137,9 +138,11 @@ export const mutations = {
     // replaced with a call back to the API.
     backendNotification.popup = false;
   },
-
   SET_EVENT_SOURCE(state: Notifications, eventSource: EventSource): void {
     state.eventSource = eventSource;
+  },
+  SET_TOKEN(state: Notifications, token?: string): void {
+    state.api = getNotificationsApi(token);
   },
 };
 
@@ -160,19 +163,19 @@ export const actions = {
   addNotification({ dispatch }: PortalActionContext<Notifications>, item: Notification): void {
     dispatch('addWeightedNotification', { hidingAfter: defaultHideAfter, ...item, importance: 'default' });
   },
-  removeAllNotifications({ commit, dispatch, getters }: PortalActionContext<Notifications>): void {
+  removeAllNotifications({ dispatch, getters }: PortalActionContext<Notifications>): void {
     [...getters.allNotifications].forEach((notification) => {
       dispatch('removeNotification', notification.token);
     });
   },
-  hideAllNotifications({ commit, dispatch, getters }: PortalActionContext<Notifications>): void {
+  hideAllNotifications({ dispatch, getters }: PortalActionContext<Notifications>): void {
     getters.visibleNotifications.forEach((notification) => {
       dispatch('hideNotification', notification.token);
     });
   },
   async removeNotification(
     { commit, getters, state }: PortalActionContext<Notifications>, token: string,
-  ) {
+  ): Promise<void> {
     const notification = getters.allNotifications.find((n) => n.token === token);
     if (!notification) {
       return;
@@ -181,9 +184,7 @@ export const actions = {
       const backendNotification = state.backendNotifications.find((n) => n.id === token);
       if (backendNotification) {
         commit('REMOVE_BACKEND_NOTIFICATION', backendNotification);
-        const response = await notificationsApi.deleteNotificationV1NotificationsIdDelete(
-          backendNotification.id,
-        );
+        await state.api.deleteNotificationV1NotificationsIdDelete(backendNotification.id);
       }
     } else {
       commit('REMOVE_NOTIFICATION', notification);
@@ -191,7 +192,7 @@ export const actions = {
   },
   async hideNotification(
     { commit, getters, state }: PortalActionContext<Notifications>, token: string,
-  ) {
+  ): Promise<void> {
     const notification = getters.allNotifications.find((n) => n.token === token);
     if (!notification) {
       return;
@@ -200,9 +201,7 @@ export const actions = {
       const backendNotification = state.backendNotifications.find((n) => n.id === token);
       if (backendNotification) {
         commit('HIDE_BACKEND_NOTIFICATION', backendNotification);
-        const response = await notificationsApi.hideNotificationV1NotificationsIdHidePost(
-          backendNotification.id,
-        );
+        await state.api.hideNotificationV1NotificationsIdHidePost(backendNotification.id);
       }
     } else {
       commit('HIDE_NOTIFICATION', notification);
@@ -212,13 +211,13 @@ export const actions = {
   async connectNotificationsApi(context: PortalActionContext<Notifications>): Promise<void> {
     await context.dispatch('connectEventStream');
   },
-  async fetchNotifications({ commit }) {
-    const response = await notificationsApi.getNotificationsV1NotificationsGet();
+  async fetchNotifications({ commit, state }: PortalActionContext<Notifications>): Promise<void> {
+    const response = await state.api.getNotificationsV1NotificationsGet();
     const latestBackendNotifications = response.data;
     commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
   },
-  connectEventStream({ commit, dispatch }: PortalActionContext<Notifications>): void {
-    const eventSource = connectEventSource();
+  async connectEventStream({ dispatch, commit, getters }: PortalActionContext<Notifications>): Promise<void> {
+    const eventSource = await connectEventSource(getters.token);
     commit('SET_EVENT_SOURCE', eventSource);
 
     connectEventListener(
@@ -247,7 +246,7 @@ export const actions = {
     await new Promise((res) => { setTimeout(res, 3000); });
     await context.dispatch('connectEventStream');
   },
-  newBackendNotificationEvent({ commit, state }, eventData) {
+  newBackendNotificationEvent({ commit, state }: PortalActionContext<Notifications>, eventData: BackendNotification): void {
     const item = state.backendNotifications.find((n) => n.id === eventData.id);
     if (item) {
       console.warn('Received "new_notification" event for an existing notification', eventData);
@@ -255,7 +254,7 @@ export const actions = {
       commit('ADD_BACKEND_NOTIFICATION', eventData);
     }
   },
-  updateBackendNotificationEvent({ commit, state }, eventData) {
+  updateBackendNotificationEvent({ commit, state }: PortalActionContext<Notifications>, eventData: BackendNotification): void {
     const item = state.backendNotifications.find((n) => n.id === eventData.id);
     if (!item) {
       console.warn('Received "update_notification" event for a non-existing notification', eventData);
@@ -263,8 +262,7 @@ export const actions = {
       commit('UPDATE_BACKEND_NOTIFICATION', eventData);
     }
   },
-  deleteBackendNotificationEvent({ commit, state }, eventData) {
-    const id = eventData.id;
+  deleteBackendNotificationEvent({ commit, state }: PortalActionContext<Notifications>, eventData: DeletedNotificationEvent): void {
     const notification = state.backendNotifications.find((n) => n.id === eventData.id);
     if (!notification) {
       console.warn(
@@ -274,20 +272,24 @@ export const actions = {
       commit('REMOVE_BACKEND_NOTIFICATION', notification);
     }
   },
+  setAuthToken({ commit }: PortalActionContext<Notifications>, token: string | undefined): void {
+    commit('SET_TOKEN', token);
+  },
 };
 
 export const getters = {
-  allNotifications: (state) => {
+  token: (_state, _getters, _rootState, rootGetters): string | undefined => rootGetters['oidc/token'],
+  allNotifications: (state: Notifications): Array<FullNotification> => {
     const backendNotifications : Array<FullNotification> = state.backendNotifications.map(
       (notification) => mapBackendNotification(notification),
     );
     const allNotifications = state.notifications.concat(backendNotifications);
     return allNotifications;
   },
-  visibleNotifications: (state, storeGetters) => (
-    storeGetters.allNotifications.filter((notification) => notification.visible)
+  visibleNotifications: (_state, stateGetters): Array<FullNotification> => (
+    stateGetters.allNotifications.filter((notification) => notification.visible)
   ),
-  numNotifications: (state, storeGetters) => storeGetters.allNotifications.length,
+  numNotifications: (_state, stateGetters): number => stateGetters.allNotifications.length,
 };
 
 const notifications: PortalModule<Notifications> = {
@@ -295,6 +297,10 @@ const notifications: PortalModule<Notifications> = {
   state: {
     notifications: [],
     backendNotifications: [],
+    // TODO: Refactor. This stores an instance of the ClientApi with a given token.
+    //       When the token changes, the ClientApi needs to be instanciated again with the new token.
+    //       As with the UMC interface, this should probably go to jsHelper or plugins.
+    api: getNotificationsApi(),
   },
   mutations,
   getters,

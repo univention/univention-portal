@@ -41,6 +41,7 @@ import metaData from './modules/metaData';
 import navigation from './modules/navigation';
 import modal from './modules/modal';
 import notifications from './modules/notifications';
+import oidc from './modules/oidc';
 import portalData from './modules/portalData';
 import search from './modules/search';
 import tabs from './modules/tabs';
@@ -154,7 +155,11 @@ const actions = {
         reject(error);
       });
   }),
-  userIsLoggedIn: ({ dispatch }) => {
+  userIsLoggedIn: ({ dispatch, rootGetters }) => {
+    if (rootGetters['user/userState'].authMode === 'saml') {
+      dispatch('oidc/tryLogin');
+    }
+
     if (featureUseNotificationsApi) {
       console.info('Feature use notifications api activated.');
       dispatch('notifications/connectNotificationsApi');
@@ -179,6 +184,7 @@ export const store = createStore<RootState>({
     modal,
     navigation,
     notifications,
+    oidc,
     portalData,
     search,
     tabs,

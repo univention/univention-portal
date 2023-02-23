@@ -1,0 +1,48 @@
+---
+- name: Enable SAML login with external Keycloak
+  hosts: ucs_dev_machines
+  gather_facts: yes
+  vars:
+    local_reverse_proxy: localhost:8000
+    keycloak_port: 8097
+    keycloak_realm: ucs
+
+  tasks:
+  - name: Set SAML service provider URL to local reverse proxy
+    ansible.builtin.command: "ucr set umc/saml/sp-server={{ local_reverse_proxy }}"
+
+  - name: Link SSL cert for reverse-proxied connections
+    ansible.builtin.file:
+      src: /etc/univention/ssl/{{ ansible_facts["fqdn"] }}
+      dest: /etc/univention/ssl/{{ local_reverse_proxy }}
+      state: link
+
+  - name: Copy UCS certificate to reverse proxy
+    local_action: ansible.builtin.command rsync -aP {{ ansible_user }}@{{ ansible_host }}:/etc/univention/ssl/{{ ansible_facts["fqdn"] }} {{ playbook_dir }}/../docker/reverse-proxy/ssl
+
+  - name: Try to reach local Keycloak from VM
+    vars:
+      ansible_ssh_extra_args: "-R{{ keycloak_port }}:localhost:{{ keycloak_port }}"
+    ansible.builtin.uri:
+      url: "http://localhost:{{ keycloak_port }}/realms/{{ keycloak_realm }}/protocol/saml/descriptor"
+    register: keycloak_http
+
+  - name: Set SAML IdP server to local Keycloak
+    vars:
+      ansible_ssh_extra_args: "-R{{ keycloak_port }}:localhost:{{ keycloak_port }}"
+    ansible.builtin.command: "ucr set umc/saml/idp-server=http://localhost:{{ keycloak_port }}/realms/{{ keycloak_realm }}/protocol/saml/descriptor"
+
+  - name: Get LDAP base
+    ansible.builtin.command: "ucr get ldap/base"
+    register: ldap_base
+
+  - name: Modify the portal to use SAML for login
+    ansible.builtin.command: |
+      udm portals/entry modify --dn "cn=login-saml,cn=entry,cn=portals,cn=univention,{{ ldap_base["stdout"] }}" --set activated=TRUE
+    register: saml_login
+
+  - name: Restart LDAP server
+    ansible.builtin.command: "service slapd restart"
+
+  - name: Restart UMC web server
+    ansible.builtin.command: "service univention-management-console-web-server restart"

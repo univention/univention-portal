@@ -393,7 +393,7 @@ export const ClientApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
+            
             if (limit !== undefined) {
                 localVarQueryParameter['limit'] = limit;
             }
