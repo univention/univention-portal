@@ -1,12 +1,27 @@
 import vuex from 'vuex';
 
 import notifications, {
-  actions, defaultHideAfter, getters, mapBackendNotification, mutations, severityMapping,
+  actions, defaultHideAfter, mapBackendNotification, mutations, severityMapping,
 } from '@/store/modules/notifications';
-import notificationsApi from '@/store/modules/notifications/apiclient';
+import { getNotificationsApi } from '@/store/modules/notifications/apiclient';
+import { ClientApi } from '@/apis/notifications';
 import { stubBackendNotification, stubFullNotification, stubUuid } from './stubs';
+import * as utils from '../utils';
 
 jest.mock('@/store/modules/notifications/apiclient');
+jest.mock('@/apis/notifications');
+
+beforeEach(() => {
+  const stubResponse = {
+    data: [],
+  };
+  (ClientApi as jest.Mock).mockImplementation(() => ({
+    getNotificationsV1NotificationsGet: jest.fn().mockImplementation(() => stubResponse),
+    hideNotificationV1NotificationsIdHidePost: jest.fn(),
+    deleteNotificationV1NotificationsIdDelete: jest.fn(),
+  }));
+  utils.mockReturnValue(getNotificationsApi, new ClientApi());
+});
 
 afterEach(() => {
   jest.resetAllMocks();
@@ -117,6 +132,7 @@ test('hideNotification commits HIDE_NOTIFICATION', () => {
     state: {
       notifications: [],
       backendNotifications: [],
+      api: getNotificationsApi(),
     },
   };
   const token = stubFullNotification.token;
@@ -141,6 +157,7 @@ test('hideNotification commits HIDE_BACKEND_NOTIFICATION', () => {
     state: {
       notifications: [],
       backendNotifications: [stubBackendNotification],
+      api: getNotificationsApi(),
     },
   };
   const token = stubNotification.token;
@@ -162,12 +179,14 @@ test('hideNotification calls hide on notifications api', async () => {
         state: {
           notifications: [],
           backendNotifications: [stubBackend],
+          api: getNotificationsApi(),
         },
       },
     },
   });
+  expect(stubStore.state.notifications.notifications).toBeDefined();
   await stubStore.dispatch('notifications/hideNotification', token);
-  expect(notificationsApi.hideNotificationV1NotificationsIdHidePost).toHaveBeenCalledWith(token);
+  expect(stubStore.state.notifications.api.hideNotificationV1NotificationsIdHidePost).toHaveBeenCalledWith(token);
 });
 
 test('HIDE_NOTIFICATION hides local notification', () => {
@@ -178,6 +197,7 @@ test('HIDE_NOTIFICATION hides local notification', () => {
   const stubState = {
     notifications: [],
     backendNotifications: [],
+    api: getNotificationsApi(),
   };
   mutations.HIDE_NOTIFICATION(stubState, stubNotification);
   expect(stubNotification.visible).toBe(false);
@@ -192,6 +212,7 @@ test('HIDE_BACKEND_NOTIFICATION hides backend notification', () => {
   const stubState = {
     notifications: [],
     backendNotifications: [stubNotification],
+    api: getNotificationsApi(),
   };
   mutations.HIDE_BACKEND_NOTIFICATION(stubState, stubNotification);
   expect(stubNotification.popup).toBe(false);
@@ -201,6 +222,7 @@ test('REMOVE_NOTIFICATION removes local notification', () => {
   const stubState = {
     notifications: [stubFullNotification],
     backendNotifications: [],
+    api: getNotificationsApi(),
   };
   mutations.REMOVE_NOTIFICATION(stubState, stubFullNotification);
   expect(stubState.notifications).toHaveLength(0);
@@ -210,6 +232,7 @@ test('REMOVE_NOTIFICATION does not remove missing local notification', () => {
   const stubState = {
     notifications: [stubFullNotification],
     backendNotifications: [],
+    api: getNotificationsApi(),
   };
   const otherFullNotification = {
     ...stubFullNotification,
@@ -223,6 +246,7 @@ test('REMOVE_BACKEND_NOTIFICATION does not remove missing backend notification',
   const stubState = {
     notifications: [],
     backendNotifications: [stubBackendNotification],
+    api: getNotificationsApi(),
   };
   const otherBackendNotification = {
     ...stubBackendNotification,
@@ -236,6 +260,7 @@ test('REMOVE_BACKEND_NOTIFICATION removes backend notification', () => {
   const stubState = {
     notifications: [],
     backendNotifications: [stubBackendNotification],
+    api: getNotificationsApi(),
   };
   mutations.REMOVE_BACKEND_NOTIFICATION(stubState, stubBackendNotification);
   expect(stubState.backendNotifications).toHaveLength(0);
@@ -256,6 +281,7 @@ test('removeNotification commits REMOVE_NOTIFICATION', () => {
     state: {
       notifications: [],
       backendNotifications: [],
+      api: getNotificationsApi(),
     },
   };
   const token = stubFullNotification.token;
@@ -280,6 +306,7 @@ test('removeNotification commits REMOVE_BACKEND_NOTIFICATION', () => {
     state: {
       notifications: [],
       backendNotifications: [stubBackendNotification],
+      api: getNotificationsApi(),
     },
   };
   const token = stubNotification.token;
@@ -299,12 +326,13 @@ test('removeNotification calls remove on notifications api', async () => {
         state: {
           notifications: [],
           backendNotifications: [stubBackendNotification],
+          api: getNotificationsApi(),
         },
       },
     },
   });
   await stubStore.dispatch('notifications/removeNotification', token);
-  expect(notificationsApi.deleteNotificationV1NotificationsIdDelete).toHaveBeenCalledWith(token);
+  expect(stubStore.state.notifications.api.deleteNotificationV1NotificationsIdDelete).toHaveBeenCalledWith(token);
 });
 
 test('hideAllNotifications hides local and backend notifications', async () => {
@@ -323,6 +351,7 @@ test('hideAllNotifications hides local and backend notifications', async () => {
         state: {
           notifications: [stubLocal],
           backendNotifications: [stubBackend],
+          api: getNotificationsApi(),
         },
       },
     },
@@ -343,6 +372,7 @@ test('removeAllNotifications removes local and backend notifications', async () 
         state: {
           notifications: [stubFullNotification],
           backendNotifications: [stubBackendNotification],
+          api: getNotificationsApi(),
         },
       },
     },
@@ -371,6 +401,7 @@ test('addWeightedNotification hides notification if bell is open', async () => {
         state: {
           notifications: [],
           backendNotifications: [],
+          api: getNotificationsApi(),
         },
       },
     },

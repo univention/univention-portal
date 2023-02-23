@@ -1,8 +1,10 @@
 import vuex from 'vuex';
 
-import { Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
+import { Notification as BackendNotification } from '@/apis/notifications';
 import notifications from '@/store/modules/notifications';
+import { getNotificationsApi } from '@/store/modules/notifications/apiclient';
 import * as models from '@/store/modules/notifications/notifications.models';
+import oidc from '@/store/modules/oidc';
 
 export const stubFullNotification: models.FullNotification = {
   hidingAfter: 4,
@@ -44,7 +46,7 @@ export const stubBackendNotification: BackendNotification = {
 
 export const stubTime = '2023-01-08T09:47:07.789861';
 
-export const store = function () {
+export const store = () => {
   const stubStore = new vuex.Store<any>({
     modules: {
       notifications: {
@@ -52,15 +54,15 @@ export const store = function () {
         state: {
           notifications: [],
           backendNotifications: [],
+          api: getNotificationsApi(),
         },
       },
+      oidc,
     },
   });
   return stubStore;
 };
 
-export const eventSource = function () {
-  return {
-    addEventListener: jest.fn(),
-  };
-};
+export const eventSource = () => ({
+  addEventListener: jest.fn(),
+});

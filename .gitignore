@@ -20,6 +20,7 @@ package-lock.json
 ansible/hosts.yml
 ansible.cfg
 docker/.env
+docker/reverse-proxy/ssl
 .cache/
 .pybuild/
 build/
@@ -108,3 +109,5 @@ celerybeat-schedule.*
 
 # mkdocs documentation
 /site
+# Notification API
+notifications-api/*.db
