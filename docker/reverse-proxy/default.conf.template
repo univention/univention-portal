@@ -3,8 +3,13 @@
 
 server {
 
-  listen 80;
-  listen [::]:80;
+  listen 8080;
+  listen [::]:8080;
+  listen 8081 ssl;
+  listen [::]:8081 ssl;
+
+  ssl_certificate /etc/nginx/ssl/cert.pem;
+  ssl_certificate_key /etc/nginx/ssl/private.key;
 
   location /univention/portal/portal.json {
     proxy_pass ${PORTAL_SERVER_BASE_URL}/univention/portal/portal.json;

@@ -1,10 +1,10 @@
-import notificationsApi, {
-  connectEventSource, connectEventListener } from '@/store/modules/notifications/apiclient';
-
+import { ClientApi } from '@/apis/notifications';
+import { getNotificationsApi, connectEventSource, connectEventListener } from '@/store/modules/notifications/apiclient';
 import * as stubs from './stubs';
 import * as utils from '../utils';
 
 jest.mock('@/store/modules/notifications/apiclient');
+jest.mock('@/apis/notifications');
 
 beforeEach(() => {
   const stubEventSource = stubs.eventSource();
@@ -22,21 +22,22 @@ afterAll(() => {
 describe('connectNotificationsApi', () => {
 
   beforeEach(() => {
-    const stubResponse = {
-      data: [],
-    };
-    utils.mockReturnValue(notificationsApi.getNotificationsV1NotificationsGet, stubResponse);
+    (ClientApi as jest.Mock).mockImplementation(() => ({
+      getNotificationsV1NotificationsGet: jest.fn().mockImplementation(() => ({ data: [] })),
+    }));
   });
 
   test('connects the event stream', async () => {
     const stubStore = stubs.store();
+    const stubToken = undefined;
     await stubStore.dispatch('notifications/connectNotificationsApi');
-    expect(connectEventSource).toHaveBeenCalledWith();
+    expect(connectEventSource).toHaveBeenCalledWith(stubToken);
   });
 
   test('adds EventSource instance into state', async () => {
     const stubStore = stubs.store();
-    const stubEventSource = connectEventSource();
+    const stubToken = undefined;
+    const stubEventSource = await connectEventSource(stubToken);
     await stubStore.dispatch('notifications/connectNotificationsApi');
     expect(stubStore.state.notifications.eventSource).toEqual(stubEventSource);
   });
@@ -46,7 +47,8 @@ describe('connectEventStream', () => {
 
   test('connects listeners for the events', async () => {
     const stubStore = stubs.store();
-    const stubEventSource = connectEventSource();
+    const stubToken = undefined;
+    const stubEventSource = await connectEventSource(stubToken);
     await stubStore.dispatch('notifications/connectEventStream');
 
     expect(connectEventListener).toHaveBeenNthCalledWith(
@@ -69,17 +71,15 @@ describe('connectEventStream', () => {
 
 describe('eventStreamOpenEvent', () => {
 
-  beforeEach(() => {
-    const stubResponse = {
-      data: [],
-    };
-    utils.mockReturnValue(notificationsApi.getNotificationsV1NotificationsGet, stubResponse);
-  });
-
   test('loads initial notifications from the api', async () => {
+    (ClientApi as jest.Mock).mockImplementation(() => ({
+      getNotificationsV1NotificationsGet: jest.fn().mockImplementation(() => ({ data: [] })),
+    }));
+    utils.mockReturnValue(getNotificationsApi, new ClientApi());
+
     const stubStore = stubs.store();
     await stubStore.dispatch('notifications/eventStreamOpenEvent');
-    expect(notificationsApi.getNotificationsV1NotificationsGet).toHaveBeenCalledWith();
+    expect(stubStore.state.notifications.api.getNotificationsV1NotificationsGet).toHaveBeenCalled();
   });
 
 });
@@ -90,7 +90,7 @@ describe('eventStreamErrorEvent', () => {
     const stubStore = stubs.store();
     const errorData = { message: 'some error' };
     await stubStore.dispatch('notifications/eventStreamErrorEvent', errorData);
-    expect(connectEventSource).toHaveBeenCalledWith();
+    expect(connectEventSource).toHaveBeenCalled();
   });
 
 });

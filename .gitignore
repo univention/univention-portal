@@ -1,6 +1,7 @@
 ansible/hosts.y?ml
 ansible.cfg
 docker/.env
+docker/reverse-proxy/ssl
 .cache/
 .pybuild/
 build/
