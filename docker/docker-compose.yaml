@@ -56,6 +56,7 @@ services:
     environment:
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
       APPLY_DATABASE_MIGRATIONS: true
+      ROOT_PATH: "/univention/portal/notifications-api"
     ports:
       - 8096:8080
   reverse-proxy:
