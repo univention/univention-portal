@@ -21,6 +21,7 @@ notificationsapi:
   dev_mode: "False"
   environment: "production"
   log_level: "WARNING"
+  root_path: "/univention/portal/notifications-api"
   ## Define Database Endpoint
   # database_url: "postgresql://dev:devpassword@db/dev"
 
