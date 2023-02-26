@@ -9,5 +9,6 @@ data:
   DEV_MODE: "{{ .Values.notificationsapi.dev_mode }}"
   ENVIRONMENT: "{{ .Values.notificationsapi.environment }}"
   LOG_LEVEL: "{{ .Values.notificationsapi.log_level }}"
+  ROOT_PATH: "{{ .Values.notificationsapi.root_path }}"
 
 ...
