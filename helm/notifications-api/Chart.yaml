@@ -17,5 +17,9 @@ dependencies:
   - name: "common"
     repository: "https://charts.bitnami.com/bitnami"
     version: "^2.2.2"
+  - name: "postgresql"
+    repository: "https://charts.bitnami.com/bitnami"
+    version: "^12.2.1"
+    condition: "postgresql.bundled"
 
 ...

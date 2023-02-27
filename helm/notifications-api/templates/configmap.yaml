@@ -5,7 +5,12 @@ kind: ConfigMap
 metadata:
   name: '{{ include "common.names.fullname" . }}'
 data:
-  DATABASE_URL: "{{ .Values.notificationsapi.database_url }}"
+  APPLY_DATABASE_MIGRATIONS: "{{ .Values.notificationsapi.apply_database_migrations }}"
+  {{- if .Values.postgresql.bundled }}
+  DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ include "common.names.dependency.fullname" (dict "chartName" "postgresql" "chartValues" .Values.postgresql "context" $) }}:{{ .Values.postgresql.primary.service.ports.postgresql }}/{{ .Values.postgresql.auth.database }}"
+  {{- else }}
+  DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.connection.host }}:{{ .Values.postgresql.connection.port }}/{{ .Values.postgresql.auth.database }}"
+  {{- end }}
   DEV_MODE: "{{ .Values.notificationsapi.dev_mode }}"
   ENVIRONMENT: "{{ .Values.notificationsapi.environment }}"
   LOG_LEVEL: "{{ .Values.notificationsapi.log_level }}"
