@@ -1,6 +1,9 @@
 ---
 
 variables:
+  SOUVAP_API_V4_URL: https://gitlab.souvap-univention.de/api/v4
+  SOUVAP_HELM_ACCESS_USER: gitlab-ci-knut
+  SOUVAP_HELM_PROJECT_ID: 75
   SOUVAP_REGISTRY_HOST: registry.souvap-univention.de
   SOUVAP_REGISTRY_PATH: souvap/tooling/images/univention-portal
   SOUVAP_REGISTRY_REPO: ${SOUVAP_REGISTRY_HOST}/${SOUVAP_REGISTRY_PATH}
@@ -207,6 +210,31 @@ package-notifications-api-helm:
     - "helm repo add bitnami https://charts.bitnami.com/bitnami"
     - "helm package --version ${RELEASE_VERSION} --destination ./packages --dependency-update helm/notifications-api"
   variables:
+    # TODO: Extract the release information from Git.
+    # Compare: https://gitlab.souvap-univention.de/souvap/tooling/charts/openproject-helm-chart/-/blob/souvap/.gitlab-ci.yml#L25
+    RELEASE_VERSION: "0.0.0"
+
+
+publish-notifications-api-helm:
+  stage: "publish"
+  dependencies:
+    - "package-notifications-api-helm"
+  needs:
+    - "package-notifications-api-helm"
+  image: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/curlimages/curl:latest"
+  script:
+    - "if [ -z \"${RELEASE_VERSION}\" ]; then exit 0; fi"
+    - |
+      for _filename in `find packages -type f`;
+      do
+        curl \
+        --request "POST" \
+        --user "${SOUVAP_HELM_ACCESS_USER}:${SOUVAP_HELM_ACCESS_TOKEN}" \
+        --form "chart=@$_filename" \
+        "${SOUVAP_API_V4_URL}/projects/${SOUVAP_HELM_PROJECT_ID}/packages/helm/api/stable/charts";
+      done
+  variables:
+    GIT_STRATEGY: "none"
     # TODO: Extract the release information from Git.
     # Compare: https://gitlab.souvap-univention.de/souvap/tooling/charts/openproject-helm-chart/-/blob/souvap/.gitlab-ci.yml#L25
     RELEASE_VERSION: "0.0.0"
