@@ -18,12 +18,11 @@ tolerations: []
 
 ## Application-specific
 notificationsapi:
+  apply_database_migrations: "True"
   dev_mode: "False"
   environment: "production"
   log_level: "WARNING"
   root_path: "/univention/portal/notifications-api"
-  ## Define Database Endpoint
-  # database_url: "postgresql://dev:devpassword@db/dev"
 
 
 ## Kubernetes ingress
@@ -93,5 +92,21 @@ service:
   sessionAffinity:
     enabled: false
     timeoutSeconds: 10800
+
+
+## PostgreSQL settings
+#
+# The bitnami helm chart does contain all details of what can be configured:
+# https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+postgresql:
+  bundled: true
+  connection:
+    host:
+    port:
+  auth:
+    username: "notifications"
+    database: "notifications"
+    password: "easyPassword"
+    postgresPassword: "postgres"
 
 ...

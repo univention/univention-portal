@@ -7,10 +7,11 @@
 
 ## Application-specific
 notificationsapi:
+  apply_database_migrations: "True"
   dev_mode: "True"
   environment: "staging"
   log_level: "DEBUG"
-  database_url: "postgresql://dev:devpassword@db/dev"
+  root_path: "/univention/portal/notifications-api"
 
 
 ## Kubernetes ingress
@@ -30,5 +31,14 @@ probes:
 
   readiness:
     enabled: false
+
+
+## PostgreSQL configuration
+postgresql:
+  bundled: true
+  # You have to define the connection if you are not using the bundled postgresql.
+  # connection:
+  #   host:
+  #   port:
 
 ...
