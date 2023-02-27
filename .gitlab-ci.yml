@@ -2,6 +2,7 @@
 
 variables:
   SOUVAP_API_V4_URL: https://gitlab.souvap-univention.de/api/v4
+  SOUVAP_DOCKER_ACCESS_USER: gitlab-ci-knut
   SOUVAP_HELM_ACCESS_USER: gitlab-ci-knut
   SOUVAP_HELM_PROJECT_ID: 75
   SOUVAP_REGISTRY_HOST: registry.souvap-univention.de
@@ -74,7 +75,9 @@ include:
     - 'echo "tagging image: ${SOUVAP_IMAGE_TAG}"'
     - docker tag "${IMAGE_TAG}" "${SOUVAP_IMAGE_TAG}"
     # Use SouvAP-Repo-Access-Token to push image
-    - echo "${SOUVAP_DOCKER_AUTH_CONFIG}" > "${HOME}/.docker/config.json"
+    - >
+      echo "${SOUVAP_DOCKER_ACCESS_TOKEN}" |
+      docker login --username "${SOUVAP_DOCKER_ACCESS_USER}" --password-stdin "${SOUVAP_REGISTRY_HOST}"
     - docker push "${SOUVAP_IMAGE_TAG}"
 
 
