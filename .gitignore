@@ -20,7 +20,8 @@ package-lock.json
 ansible/hosts.yml
 ansible.cfg
 docker/.env
-docker/reverse-proxy/ssl
+docker/reverse-proxy/ssl/*
+!docker/reverse-proxy/ssl/.gitkeep
 .cache/
 .pybuild/
 build/
