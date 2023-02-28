@@ -180,6 +180,25 @@ push-image-souvap-notifications-api-job:
     SOUVAP_IMAGE_NAME: "notifications-api"
 
 
+package-notifications-api-helm:
+  stage: "build"
+  needs: []
+  artifacts:
+    paths:
+      - "packages/*.tgz"
+  image:
+    name: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/alpine/helm:3.10.2"
+    entrypoint: [""]
+  script:
+    - "if [ -z \"${RELEASE_VERSION}\" ]; then exit 0; fi"
+    - "helm repo add bitnami https://charts.bitnami.com/bitnami"
+    - "helm package --version ${RELEASE_VERSION} --destination ./packages --dependency-update helm/notifications-api"
+  variables:
+    # TODO: Extract the release information from Git.
+    # Compare: https://gitlab.souvap-univention.de/souvap/tooling/charts/openproject-helm-chart/-/blob/souvap/.gitlab-ci.yml#L25
+    RELEASE_VERSION: "0.0.0"
+
+
 build-debian-package-builder:
   stage: build
   extends: .kaniko
