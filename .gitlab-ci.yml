@@ -189,8 +189,11 @@ push-image-souvap-notifications-api-job:
     SOUVAP_IMAGE_NAME: "notifications-api"
 
 
-package-notifications-api-helm:
+package-helm-charts:
   stage: "package"
+  only:
+    - "develop"
+    - "main"
   needs: []
   artifacts:
     paths:
@@ -201,25 +204,32 @@ package-notifications-api-helm:
   script:
     - "if [ -z \"${RELEASE_VERSION}\" ]; then exit 0; fi"
     - "helm repo add bitnami https://charts.bitnami.com/bitnami"
-    - "helm package --version ${RELEASE_VERSION} --destination ./packages --dependency-update helm/notifications-api"
+    - |
+      for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
+        helm_dir=$(basename "${helm_path}")
+        echo "Packaging helm-chart ${helm_dir}"
+        helm package --version "${RELEASE_VERSION}" --destination "./packages" --dependency-update "helm/${helm_dir}"
+      done
   variables:
     # TODO: Extract the release information from Git.
     # Compare: https://gitlab.souvap-univention.de/souvap/tooling/charts/openproject-helm-chart/-/blob/souvap/.gitlab-ci.yml#L25
     RELEASE_VERSION: "0.0.0"
 
 
-publish-notifications-api-helm:
+publish-helm-charts:
   stage: "publish"
+  only:
+    - "develop"
+    - "main"
   dependencies:
-    - "package-notifications-api-helm"
+    - "package-helm-charts"
   needs:
-    - "package-notifications-api-helm"
+    - "package-helm-charts"
   image: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/curlimages/curl:latest"
   script:
     - "if [ -z \"${RELEASE_VERSION}\" ]; then exit 0; fi"
     - |
-      for _filename in `find packages -type f`;
-      do
+      for _filename in `find packages -type f`; do
         curl \
         --request "POST" \
         --user "${SOUVAP_HELM_ACCESS_USER}:${SOUVAP_HELM_ACCESS_TOKEN}" \
