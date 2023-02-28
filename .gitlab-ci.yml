@@ -328,6 +328,7 @@ pre-commit-linting:
 
 commit-message-linting:
   stage: test
+  needs: []
   image: docker-registry.knut.univention.de/knut/pre-commit:latest
   variables:
     PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
