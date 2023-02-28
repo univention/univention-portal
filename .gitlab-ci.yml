@@ -338,6 +338,7 @@ pre-commit-linting:
 
 commit-message-linting:
   stage: test
+  needs: []
   image: docker-registry.knut.univention.de/knut/pre-commit:latest
   variables:
     CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/cypress_cache
