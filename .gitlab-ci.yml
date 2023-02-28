@@ -5,6 +5,12 @@ variables:
   SOUVAP_REGISTRY_PATH: souvap/tooling/images/univention-portal
   SOUVAP_REGISTRY_REPO: ${SOUVAP_REGISTRY_HOST}/${SOUVAP_REGISTRY_PATH}
 
+stages:
+  - build
+  - test
+  - package
+  - publish
+
 # This workflow rule prevents duplicate pipelines when pushing to branches that already have a merge request open
 workflow:
   rules:
@@ -188,7 +194,7 @@ push-image-souvap-notifications-api-job:
 
 
 package-notifications-api-helm:
-  stage: "build"
+  stage: "package"
   needs: []
   artifacts:
     paths:
