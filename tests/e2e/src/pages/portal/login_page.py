@@ -1,4 +1,4 @@
-from pages.portal.portal_page import PortalPage
+from pages.portal.common.portal_page import PortalPage
 
 
 class LoginPage(PortalPage):

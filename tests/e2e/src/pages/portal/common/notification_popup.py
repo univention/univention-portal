@@ -1,5 +1,5 @@
 from pages.base.base_page_part import BasePagePart
-from pages.portal.notification_drawer import NotificationElement
+from pages.portal.common.notification_drawer import NotificationElement
 
 
 class PopupNotificationContainer(BasePagePart):
