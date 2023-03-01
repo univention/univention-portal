@@ -5,9 +5,9 @@ import pytest
 import requests
 from playwright.sync_api import expect
 
-from pages.login_page import LoginPage
-from pages.portal_home_page_logged_in import PortalHomePageLoggedIn
-from pages.portal_home_page_public import PortalHomePagePublic
+from pages.portal.login_page import LoginPage
+from pages.portal.portal_home_page_logged_in import PortalHomePageLoggedIn
+from pages.portal.portal_home_page_public import PortalHomePagePublic
 
 
 def pytest_addoption(parser):

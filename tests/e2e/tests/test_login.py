@@ -1,6 +1,6 @@
 from playwright.sync_api import expect
 
-from pages.portal_home_page_logged_in import PortalHomePageLoggedIn
+from pages.portal.portal_home_page_logged_in import PortalHomePageLoggedIn
 
 
 def test_login(page, login_page, username, password):
