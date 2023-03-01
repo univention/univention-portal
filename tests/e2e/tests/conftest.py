@@ -3,7 +3,6 @@ from urllib.parse import urljoin
 
 import pytest
 import requests
-from playwright.sync_api import expect
 
 from pages.portal.home_page.logged_in import HomePageLoggedIn
 from pages.portal.home_page.logged_out import HomePageLoggedOut
@@ -48,51 +47,41 @@ def browser_context_args(browser_context_args, pytestconfig):
 
 
 @pytest.fixture()
-def portal_home_page_public(page):
-    page.goto("/")
-    this_page = HomePageLoggedOut(page)
-    expect(this_page.login_widget).to_be_visible()
-    return this_page
+def navigate_to_home_page_logged_out(page):
+    home_page_logged_out = HomePageLoggedOut(page)
+    home_page_logged_out.navigate()
+    return page
 
 
 @pytest.fixture()
-def login_page(page, portal_home_page_public):
-    portal_home_page_public.click_login_widget()
-    this_page = LoginPage(page)
-    expect(this_page.username_input).to_be_visible()
-    expect(this_page.password_input).to_be_visible()
-    expect(this_page.login_button).to_be_visible()
-    return this_page
+def navigate_to_login_page(page):
+    login_page = LoginPage(page)
+    login_page.navigate()
+    return page
 
 
 @pytest.fixture()
-def portal_home_page_logged_in(page, login_page, username, password):
-    login_page.login(username=username,
-                     password=password,
-                     )
-    this_page = HomePageLoggedIn(page)
-    expect(this_page.umc_heading).to_be_visible()
-    return this_page
+def navigate_to_home_page_logged_in(page, username, password):
+    home_page_logged_in = HomePageLoggedIn(page)
+    home_page_logged_in.navigate(username, password)
+    return page
 
 
 @pytest.fixture()
-def login_and_clear_old_notifications(portal_home_page_logged_in):
-    header = portal_home_page_logged_in.header
-    notification_drawer = portal_home_page_logged_in.notification_drawer
-    notification_drawer.remove_all_notifications()
-    header.reveal_notification_drawer()
-    expect(notification_drawer.no_notifications_heading).to_be_visible()
-    expect(notification_drawer.notifications).to_have_count(0)
-    header.hide_notification_drawer()
-    yield portal_home_page_logged_in
-    notification_drawer.remove_all_notifications()
-    header.reveal_notification_drawer()
-    expect(notification_drawer.no_notifications_heading).to_be_visible()
-    expect(notification_drawer.notifications).to_have_count(0)
+def login_and_clear_old_notifications(navigate_to_home_page_logged_in, username, password):
+    page = navigate_to_home_page_logged_in
+    home_page_logged_in = HomePageLoggedIn(page)
+    home_page_logged_in.navigate(username, password)
+    home_page_logged_in.check_its_there()
+    home_page_logged_in.remove_all_notifications()
+    yield page
+    home_page_logged_in = HomePageLoggedIn(page)
+    home_page_logged_in.navigate(username, password)
+    home_page_logged_in.remove_all_notifications()
 
 
 @pytest.fixture()
-def notification(notifications_api_base_url):
+def prepped_notification(notifications_api_base_url):
     unique_id = str(uuid.uuid4())
     json_data = {
         "sourceUid": unique_id,
@@ -112,7 +101,7 @@ def notification(notifications_api_base_url):
     }
     raw_request = requests.Request(
         "POST",
-        url=urljoin(notifications_api_base_url, "./v1/notifications"),
+        url=urljoin(notifications_api_base_url, "./v1/notifications/"),
         json=json_data,
     )
     prepped_request = raw_request.prepare()
