@@ -53,8 +53,7 @@ Here are some useful ones:
 
 ## For test engineers
 
-We use the [page object pattern](https://martinfowler.com/bliki/PageObject.html)
-to represent Portal pages. The page objects are in `src/pages`.
+We use the Page Object model in our tests. The page objects are in `src/pages`.
 
 You can pip install the page objects as a package using
 
@@ -66,3 +65,5 @@ While this is not strictly necessary to run the tests (`pytest` finds the necess
 packages using the `[tool.pytest.ini_options]` in `pyproject.toml`), this will
 help the IDE in autocompletion etc., and generally improve the development
 experience.
+
+We have a [guide on writing Page Objects, tests and fixtures](https://univention.gitpages.knut.univention.de/customers/dataport/team-souvap/testing/e2e-testing-guidelines.html).
