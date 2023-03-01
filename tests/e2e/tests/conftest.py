@@ -1,8 +1,4 @@
-import uuid
-from urllib.parse import urljoin
-
 import pytest
-import requests
 
 from pages.portal.home_page.logged_in import HomePageLoggedIn
 from pages.portal.home_page.logged_out import HomePageLoggedOut
@@ -65,44 +61,3 @@ def navigate_to_home_page_logged_in(page, username, password):
     home_page_logged_in = HomePageLoggedIn(page)
     home_page_logged_in.navigate(username, password)
     return page
-
-
-@pytest.fixture()
-def login_and_clear_old_notifications(navigate_to_home_page_logged_in, username, password):
-    page = navigate_to_home_page_logged_in
-    home_page_logged_in = HomePageLoggedIn(page)
-    home_page_logged_in.navigate(username, password)
-    home_page_logged_in.check_its_there()
-    home_page_logged_in.remove_all_notifications()
-    yield page
-    home_page_logged_in = HomePageLoggedIn(page)
-    home_page_logged_in.navigate(username, password)
-    home_page_logged_in.remove_all_notifications()
-
-
-@pytest.fixture()
-def prepped_notification(notifications_api_base_url):
-    unique_id = str(uuid.uuid4())
-    json_data = {
-        "sourceUid": unique_id,
-        "targetUid": unique_id,
-        "title": "string",
-        "details": "string",
-        "severity": "info",
-        "sticky": True,
-        "needsConfirmation": True,
-        "notificationType": "event",
-        "link": {
-            "url": "https://example.org",
-            "text": "string",
-            "target": "string",
-        },
-        "data": {},
-    }
-    raw_request = requests.Request(
-        "POST",
-        url=urljoin(notifications_api_base_url, "./v1/notifications/"),
-        json=json_data,
-    )
-    prepped_request = raw_request.prepare()
-    return prepped_request
