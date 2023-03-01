@@ -1,9 +1,11 @@
-from playwright.sync_api import expect
-
+from pages.base import expect
 from pages.portal.home_page.logged_in import HomePageLoggedIn
+from pages.portal.login_page import LoginPage
 
 
-def test_login(page, login_page, username, password):
+def test_login(navigate_to_login_page, username, password):
+    page = navigate_to_login_page
+    login_page = LoginPage(page)
     login_page.login(username, password)
-    portal_home_page_logged_in = HomePageLoggedIn(page)
-    expect(portal_home_page_logged_in.umc_heading).to_be_visible()
+    home_page_logged_in = HomePageLoggedIn(page)
+    expect(home_page_logged_in.umc_heading).to_be_visible()
