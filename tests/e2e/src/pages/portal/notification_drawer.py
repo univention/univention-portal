@@ -1,8 +1,8 @@
 from playwright.sync_api import expect
 
 from pages.base.base_page_part import BasePagePart
-from pages.exceptions import PortalError
-from pages.notification_element import NotificationElement
+from pages.portal.exceptions import PortalError
+from pages.portal.notification_element import NotificationElement
 
 
 class NotificationDrawer(BasePagePart):
