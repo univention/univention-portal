@@ -5,9 +5,9 @@ import pytest
 import requests
 from playwright.sync_api import expect
 
+from pages.portal.home_page.logged_in import HomePageLoggedIn
+from pages.portal.home_page.logged_out import HomePageLoggedOut
 from pages.portal.login_page import LoginPage
-from pages.portal.portal_home_page_logged_in import PortalHomePageLoggedIn
-from pages.portal.portal_home_page_public import PortalHomePagePublic
 
 
 def pytest_addoption(parser):
@@ -50,7 +50,7 @@ def browser_context_args(browser_context_args, pytestconfig):
 @pytest.fixture()
 def portal_home_page_public(page):
     page.goto("/")
-    this_page = PortalHomePagePublic(page)
+    this_page = HomePageLoggedOut(page)
     expect(this_page.login_widget).to_be_visible()
     return this_page
 
@@ -70,7 +70,7 @@ def portal_home_page_logged_in(page, login_page, username, password):
     login_page.login(username=username,
                      password=password,
                      )
-    this_page = PortalHomePageLoggedIn(page)
+    this_page = HomePageLoggedIn(page)
     expect(this_page.umc_heading).to_be_visible()
     return this_page
 
