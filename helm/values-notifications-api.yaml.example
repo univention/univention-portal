@@ -11,11 +11,18 @@ notificationsapi:
   dev_mode: "True"
   environment: "staging"
   log_level: "DEBUG"
-  root_path: "/univention/portal/notifications-api"
+  api_prefix: "/univention/portal/notifications-api"
 
 
 ## Kubernetes ingress
 ingress:
+  enabled: false
+  host: "portal.example.develop.souvap-univention.de"
+
+
+## Istio based
+istio:
+  enabled: true
   host: "portal.example.develop.souvap-univention.de"
 
 
