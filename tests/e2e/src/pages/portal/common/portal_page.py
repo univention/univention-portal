@@ -1,7 +1,7 @@
 from pages.base.base_page import BasePage
-from pages.portal.header import Header
-from pages.portal.notification_drawer import NotificationDrawer
-from pages.portal.notification_popup import PopupNotificationContainer
+from pages.portal.common.header import Header
+from pages.portal.common.notification_drawer import NotificationDrawer
+from pages.portal.common.notification_popup import PopupNotificationContainer
 
 
 class PortalPage(BasePage):
