@@ -62,18 +62,18 @@ class PortalPage(BasePage):
         expect(self.notification_drawer.notifications).to_have_count(0)
         self.hide_notification_drawer()
 
-    def reveal_side_nav_drawer(self):
+    def reveal_right_side_menu(self):
         if self.right_side_menu.is_hidden():
             self.header.click_hamburger_icon()
         expect(self.right_side_menu).to_be_visible()
 
-    def hide_side_nav_drawer(self):
+    def hide_right_side_menu(self):
         if self.right_side_menu.is_visible():
             self.header.click_hamburger_icon()
         expect(self.right_side_menu).to_be_hidden()
 
     def logout(self):
-        self.reveal_side_nav_drawer()
+        self.reveal_right_side_menu()
         logout_button_visible = self.right_side_menu.logout_button.is_visible()
         login_button_visible = self.right_side_menu.login_button.is_visible()
         if login_button_visible and logout_button_visible:
