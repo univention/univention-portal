@@ -22,22 +22,42 @@ notificationsapi:
   dev_mode: "False"
   environment: "production"
   log_level: "WARNING"
-  root_path: "/univention/portal/notifications-api"
+  api_prefix: "/univention/portal/notifications-api/"
 
 
 ## Kubernetes ingress
 ingress:
-  enabled: true
+  enabled: false
   ingressClassName: "nginx"
-  annotations: {}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
   ## Define Hostname
   # host: "portal.example.com"
   paths:
     - pathType: "Prefix"
-      path: "/univention/portal/notifications-api"
+      path: "/univention/portal/notifications-api/(.*)"
   tls:
     enabled: true
     secretName: ""
+
+
+## Istio support
+istio:
+  enabled: true
+  ## Define Hostname
+  # host: "portal.example.com"
+  virtualService:
+    enabled: true
+    annotations:
+  gateway:
+    enabled: false
+    annotations:
+    selectorIstio: "ingressgateway"
+    externalGatewayName: "swp-istio-gateway"
+    tls:
+      enabled: true
+      httpsRedirect: true
+      secretName: ""
 
 
 ## Docker image
