@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 
 import pytest
 import requests
+from url_normalize import url_normalize
 
 from pages.base import expect
 from pages.portal.home_page.logged_in import HomePageLoggedIn
@@ -77,8 +78,9 @@ def test_two_notifications(login_and_clear_old_notifications,
     expect(link).to_have_count(1)
     expected_url = notification_json_data["link"]["url"]
     actual_url = link.get_attribute("href")
-    assert expected_url == actual_url, \
+    assert url_normalize(expected_url) == url_normalize(actual_url), \
         f"Wrong link in notification pop up. Expected: {expected_url}, actual: {actual_url}"
+
     expected_target = notification_json_data["link"]["target"]
     actual_target = link.get_attribute("target")
     assert expected_target == actual_target, \

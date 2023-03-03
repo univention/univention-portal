@@ -156,7 +156,7 @@ combine-as-imports = true
 #force-grid-wrap = false
 known-first-party = ["univention"]
 known-third-party = ["dateutil", "debian", "fastapi", "ldap", "pytest", "requests", "sqlalchemy", "starlette", "tornado"]
-known-local-folder = ["app", "pages", "listener"]
+known-local-folder = ["app", "listener", "pages"]
 # https://github.com/charliermarsh/ruff/issues/2600 :
 #multi-line-output = 5
 #include-trailing-comma = true
