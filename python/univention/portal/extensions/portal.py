@@ -331,17 +331,25 @@ class UMCPortal(Portal):
         entries = []
         colors = {cat["id"]: cat["color"] for cat in content["umc_categories"] if cat["id"] != "_favorites_"}
         locale = 'en_US'
+
+        umc_check_logos = config.fetch("umc_check_logos")
+        if not umc_check_logos:
+            get_logger("umc").debug("UMC logo check disabled")
+
         for module in content["umc_modules"]:
             if "apps" in module["categories"]:
                 continue
+
             logo_name = "/univention/management/js/dijit/themes/umc/icons/scalable/{}.svg".format(module["icon"])
-            if not os.path.exists(os.path.join("/usr/share/univention-management-console-frontend/", logo_name[23:])):
+            if umc_check_logos and not os.path.exists(os.path.join("/usr/share/univention-management-console-frontend/", logo_name[23:])):
                 logo_name = None
+
             color = None
             for cat in module["categories"]:
                 if cat in colors:
                     color = colors[cat]
                     break
+
             entries.append({
                 "dn": self._entry_id(module),
                 "name": {
