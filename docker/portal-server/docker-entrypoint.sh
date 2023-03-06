@@ -6,6 +6,7 @@ JSON_PATH="/usr/lib/univention-portal/config/config.json"
 PORTAL_SERVER_AUTH_MODE="${PORTAL_SERVER_AUTH_MODE:-ucs}"
 PORTAL_SERVER_EDITABLE="${PORTAL_SERVER_EDITABLE:-true}"
 PORTAL_SERVER_PORT="${PORTAL_SERVER_PORT:-80}"
+PORTAL_SERVER_UMC_CHECK_LOGOS="${PORTAL_SERVER_UMC_CHECK_LOGOS:-false}"
 
 if [[ -z "${PORTAL_SERVER_ADMIN_GROUP:-}" ]]; then
   echo "Please set the environmental variable PORTAL_SERVER_ADMIN_GROUP"
@@ -37,7 +38,8 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "port": $port,
   "ucs_internal_url": $ucs_internal_url,
   "umc_get_url": $umc_get_url,
-  "umc_session_url": $umc_session_url
+  "umc_session_url": $umc_session_url,
+  "umc_check_logos": $umc_check_logos
 }
 EOF
 
@@ -51,6 +53,7 @@ jq -n \
   --arg ucs_internal_url "${PORTAL_SERVER_UCS_INTERNAL_URL}" \
   --arg umc_get_url "${PORTAL_SERVER_UMC_GET_URL}" \
   --arg umc_session_url "${PORTAL_SERVER_UMC_SESSION_URL}" \
+  --argjson umc_check_logos "${PORTAL_SERVER_UMC_CHECK_LOGOS}" \
   "${JQ_TEMPLATE}" > "${JSON_PATH}"
 
 exec "$@"
