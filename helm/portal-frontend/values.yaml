@@ -53,8 +53,40 @@ istio:
     enabled: true
     annotations:
     paths:
+      # TODO: Istio does currently not support a URL rewrite which uses regular
+      # expressions, basically the capture groups are not yet supported. It also
+      # does not support an automatic sorting of rules based on the prefix
+      # length like the nginx ingress does. Interim we mention explicitly every
+      # prefix which is exclusively part of the frontend in this configuration.
+      # This way all other subpaths in "/univention/portal/" can still be
+      # reliably grabbed by other services if they are present.
       - match: "prefix"
+        path: "/univention/portal/css/"
+        rewrite: "/css/"
+      - match: "exact"
+        path: "/univention/portal/feather-sprite.svg"
+        rewrite: "/feather-sprite.svg"
+      - match: "prefix"
+        path: "/univention/portal/fonts/"
+        rewrite: "/fonts/"
+      - match: "prefix"
+        path: "/univention/portal/i18n/"
+        rewrite: "/i18n/"
+      - match: "exact"
         path: "/univention/portal/"
+        rewrite: "/"
+      - match: "exact"
+        path: "/univention/portal/index.html"
+        rewrite: "/index.html"
+      - match: "prefix"
+        path: "/univention/portal/js/"
+        rewrite: "/js/"
+      - match: "prefix"
+        path: "/univention/portal/oidc/"
+        rewrite: "/oidc/"
+      - match: "exact"
+        path: "/univention/portal/questionMark.svg"
+        rewrite: "/questionMark.svg"
   gateway:
     enabled: false
     annotations:
