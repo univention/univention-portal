@@ -13,6 +13,13 @@ portalfrontend:
 
 ## Kubernetes ingress
 ingress:
+  enabled: false
+  host: "portal.example.develop.souvap-univention.de"
+
+
+## Istio based
+istio:
+  enabled: true
   host: "portal.example.develop.souvap-univention.de"
 
 
