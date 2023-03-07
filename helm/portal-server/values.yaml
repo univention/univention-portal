@@ -48,6 +48,30 @@ ingress:
     secretName: ""
 
 
+## Istio support
+istio:
+  enabled: true
+  ## Define Hostname
+  # host: "portal.example.com"
+  virtualService:
+    enabled: true
+    annotations:
+    paths:
+      - match: "exact"
+        path: "/univention/portal/navigation.json"
+      - match: "exact"
+        path: "/univention/portal/portal.json"
+  gateway:
+    enabled: false
+    annotations:
+    selectorIstio: "ingressgateway"
+    externalGatewayName: "swp-istio-gateway"
+    tls:
+      enabled: true
+      httpsRedirect: true
+      secretName: ""
+
+
 ## Docker image
 image:
   registry: "registry.souvap-univention.de"
