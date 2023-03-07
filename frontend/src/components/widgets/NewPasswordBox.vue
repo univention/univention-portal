@@ -13,7 +13,7 @@
         :aria-invalid="invalidNew"
         :aria-describedby="invalidMessageId || null"
         data-test="new-password-box"
-        @input="updateModelValue($event?.target?.value, 'newPassword')"
+        @input="updateModelValue($event, 'newPassword')"
       >
       <toggle-button
         v-if="canShowPassword"
@@ -53,7 +53,7 @@
         :aria-invalid="invalidRetype"
         :aria-describedby="invalidMessageIdRetype || null"
         data-test="retype-password-box"
-        @input="updateModelValue($event?.target?.value, 'retypePassword')"
+        @input="updateModelValue($event, 'retypePassword')"
       >
       <toggle-button
         v-if="canShowPassword"
@@ -195,7 +195,8 @@ export default defineComponent({
       this.showPasswordRetype = newValue;
       (this.$refs.inputRetype as HTMLInputElement).type = newValue ? 'text' : 'password';
     },
-    updateModelValue(value, inputType) {
+    updateModelValue(event, inputType) {
+      const value = event?.target?.value;
       this.newModelValue[inputType] = value;
       this.$emit('update:modelValue', this.newModelValue);
     },
