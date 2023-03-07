@@ -16,21 +16,22 @@ spec:
   gateways:
     - {{ .Values.istio.gateway.externalGatewayName | default (printf "%s-%s" (include "common.names.fullname" .) "-gateway") }}
   http:
+    {{- $parent := . -}}
+    {{- range .Values.istio.virtualService.paths }}
     - match:
-        {{- range .Values.istio.virtualService.paths }}
         - uri:
             {{ .match }}: {{ .path | quote }}
-        {{- end }}
       rewrite:
-        uri: "/"
+        uri: {{ .rewrite | quote }}
       route:
         - destination:
             port:
-              number: {{ .Values.service.ports.http.port }}
-            host: {{ include "common.names.fullname" . | quote }}
+              number: {{ $parent.Values.service.ports.http.port }}
+            host: {{ include "common.names.fullname" $parent | quote }}
       headers:
         request:
           set:
-            x-forwarded-host: "{{ .Values.istio.host }}"
+            x-forwarded-host: "{{ $parent.Values.istio.host }}"
+    {{- end }}
 ...
 {{- end }}
