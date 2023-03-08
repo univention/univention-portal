@@ -1,3 +1,5 @@
+import re
+
 from pages.base import expect
 from pages.portal.common.portal_page import PortalPage
 from pages.portal.home_page.logged_out import HomePageLoggedOut
@@ -6,9 +8,12 @@ from pages.portal.home_page.logged_out import HomePageLoggedOut
 class LoginPage(PortalPage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.username_input = self.page.get_by_label("Username")
-        self.password_input = self.page.get_by_label("Password", exact=True)
-        self.login_button = self.page.get_by_role("button", name="Login")
+        # TODO: Using regular expr to target different langs in SouvAP env. Needs better solution.
+        # In headed mode, default language is English. In headless mode, it is Deutsch.
+        self.username_input = self.page.get_by_label(re.compile("^(Username|Benutzername)"))
+        self.password_input = self.page.get_by_label(re.compile("^Passwor(d|t)"))
+        # TODO: Using regular expression to target both UCS and SouvAP envs. Needs a better solution.
+        self.login_button = self.page.get_by_role("button", name=re.compile("^(Login|Sign In|Anmelden)"))
 
     def navigate(self):
         home_page = HomePageLoggedOut(self.page)
