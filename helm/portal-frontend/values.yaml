@@ -33,16 +33,14 @@ ingress:
   paths:
     - pathType: Exact
       path: /univention/portal/($|index.html$)
-    - pathType: Exact
-      path: /univention/portal/(css/.*)
-    - pathType: Exact
-      path: /univention/portal/([^/]*.svg$)
     - pathType: Prefix
       path: /univention/portal/(css/.*)
     - pathType: Prefix
       path: /univention/portal/(fonts/.*)
     - pathType: Prefix
       path: /univention/portal/(i18n/.*)
+    - pathType: Prefix
+      path: /univention/portal/(media/.*)
     - pathType: Prefix
       path: /univention/portal/(js/.*)
     - pathType: Prefix
@@ -71,9 +69,6 @@ istio:
       - match: "prefix"
         path: "/univention/portal/css/"
         rewrite: "/css/"
-      - match: "exact"
-        path: "/univention/portal/feather-sprite.svg"
-        rewrite: "/feather-sprite.svg"
       - match: "prefix"
         path: "/univention/portal/fonts/"
         rewrite: "/fonts/"
@@ -87,14 +82,14 @@ istio:
         path: "/univention/portal/index.html"
         rewrite: "/index.html"
       - match: "prefix"
+        path: "/univention/portal/media/"
+        rewrite: "/media/"
+      - match: "prefix"
         path: "/univention/portal/js/"
         rewrite: "/js/"
       - match: "prefix"
         path: "/univention/portal/oidc/"
         rewrite: "/oidc/"
-      - match: "exact"
-        path: "/univention/portal/questionMark.svg"
-        rewrite: "/questionMark.svg"
   gateway:
     enabled: false
     annotations:
