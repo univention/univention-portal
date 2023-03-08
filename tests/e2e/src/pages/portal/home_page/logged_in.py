@@ -12,6 +12,12 @@ class HomePageLoggedIn(HomePage):
 
     def navigate(self, username, password):
         self.page.goto("/")
+        try:
+            expect(self.cookie_dialog).to_be_visible()
+        except AssertionError:
+            pass
+        else:
+            self.accept_cookies()
         self.reveal_right_side_menu()
         try:
             # Checking login state only since check_its_there() is currently empty
