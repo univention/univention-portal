@@ -68,12 +68,12 @@ describe('ToggleButton Component', () => {
     const button = await wrapper.find('[data-test="toggle-button"]');
     const svgChild = await wrapper.find('use');
     expect(button.attributes('aria-label')).toBe('Display as List');
-    expect(svgChild.attributes('href')).toBe('feather-sprite.svg#list');
+    expect(svgChild.attributes('href')).toBe('media/feather-sprite.svg#list');
 
     await button.trigger('click');
 
     expect(button.attributes('aria-label')).toBe('Display as Grid');
-    expect(svgChild.attributes('href')).toBe('feather-sprite.svg#grid');
+    expect(svgChild.attributes('href')).toBe('media/feather-sprite.svg#grid');
     wrapper.unmount();
   });
 });

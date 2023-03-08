@@ -62,8 +62,8 @@ License with the Debian GNU/Linux or Univention distribution in file
               :style="backgroundColor ? `background: ${backgroundColor}` : ''"
             >
               <img
-                :src="icon || './questionMark.svg'"
-                onerror="this.src='./questionMark.svg'"
+                :src="icon || './media/questionmark.svg'"
+                onerror="this.src='./media/questionmark.svg'"
                 alt=""
                 class="portal-tooltip__logo"
               >
@@ -140,7 +140,7 @@ export default defineComponent({
     },
     icon: {
       type: String,
-      default: './questionMark.svg',
+      default: './media/questionmark.svg',
     },
     position: {
       type: Object as PropType<Record<string, number>>,

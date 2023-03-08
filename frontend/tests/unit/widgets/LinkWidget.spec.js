@@ -80,7 +80,7 @@ describe('LinkWidget.vue', () => {
     const removeButton = await wrapper.find('[data-test="link-widget-remove-button-0"]');
 
     // Since we have no text we we still want to know if the right icon exists.
-    expect(removeButton.find('[xlink:href="feather-sprite.svg#trash"]').exists()).toBeTruthy();
+    expect(removeButton.find('[xlink:href="media/feather-sprite.svg#trash"]').exists()).toBeTruthy();
 
     expect(removeButton.attributes('aria-label')).toBe('Link 1: Remove');
 
