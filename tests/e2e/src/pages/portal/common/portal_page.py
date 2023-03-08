@@ -1,4 +1,5 @@
 from pages.base import BasePage, expect
+from pages.portal.common.cookie_dialog import CookieDialog
 from pages.portal.common.header import Header
 from pages.portal.common.notifications import NotificationDrawer, PopupNotificationContainer
 from pages.portal.common.right_side_menu import RightSideMenu
@@ -32,16 +33,25 @@ class PortalPage(BasePage):
             self.page.locator("#notifications-visible"),
         )
         self.right_side_menu = RightSideMenu(self.page.locator("#portal-sidenavigation"))
+        self.cookie_dialog = CookieDialog(self.page.get_by_role("dialog", name="Cookie Consent"))
 
     def reveal_notification_drawer(self):
-        if self.notification_drawer.is_hidden():
+        try:
+            expect(self.notification_drawer).to_be_hidden()
+        except AssertionError:
+            pass
+        else:
             self.header.click_bell_icon()
-        expect(self.notification_drawer).to_be_visible()
+            expect(self.notification_drawer).to_be_visible()
 
     def hide_notification_drawer(self):
-        if self.notification_drawer.is_visible():
+        try:
+            expect(self.notification_drawer).to_be_visible()
+        except AssertionError:
+            pass
+        else:
             self.header.click_bell_icon()
-        expect(self.notification_drawer).to_be_hidden()
+            expect(self.notification_drawer).to_be_hidden()
 
     def remove_all_notifications(self):
         self.reveal_notification_drawer()
@@ -63,14 +73,22 @@ class PortalPage(BasePage):
         self.hide_notification_drawer()
 
     def reveal_right_side_menu(self):
-        if self.right_side_menu.is_hidden():
+        try:
+            expect(self.right_side_menu).to_be_hidden()
+        except AssertionError:
+            pass
+        else:
             self.header.click_hamburger_icon()
-        expect(self.right_side_menu).to_be_visible()
+            expect(self.right_side_menu).to_be_visible()
 
     def hide_right_side_menu(self):
-        if self.right_side_menu.is_visible():
+        try:
+            expect(self.right_side_menu).to_be_visible()
+        except AssertionError:
+            pass
+        else:
             self.header.click_hamburger_icon()
-        expect(self.right_side_menu).to_be_hidden()
+            expect(self.right_side_menu).to_be_hidden()
 
     def logout(self):
         self.reveal_right_side_menu()
@@ -80,3 +98,8 @@ class PortalPage(BasePage):
             raise PortalError("Both login and logout buttons are visible in the side navigation drawer")
         elif logout_button_visible:
             self.right_side_menu.click_logout_button()
+
+    def accept_cookies(self):
+        expect(self.cookie_dialog).to_be_visible()
+        self.cookie_dialog.click_accept_button()
+        expect(self.cookie_dialog).to_be_hidden()
