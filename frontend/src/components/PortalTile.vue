@@ -70,8 +70,8 @@
       >
         <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
         <img
-          :src="pathToLogo || './questionMark.svg'"
-          onerror="this.src='./questionMark.svg'"
+          :src="pathToLogo || './media/questionmark.svg'"
+          onerror="this.src='./media/questionmark.svg'"
           alt=""
           class="portal-tile__img"
         >

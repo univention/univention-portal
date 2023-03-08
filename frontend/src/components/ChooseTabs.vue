@@ -54,7 +54,7 @@ License with the Debian GNU/Linux or Univention distribution in file
             <div class="choose-tab__logo-wrapper">
               <img
                 :src="tab.logo"
-                onerror="this.src='./questionMark.svg'"
+                onerror="this.src='./media/questionmark.svg'"
                 alt=""
                 class="choose-tab__img"
               >
