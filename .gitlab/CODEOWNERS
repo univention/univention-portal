@@ -1,0 +1,8 @@
+
+# Code Owners Documentation:
+# https://docs.gitlab.com/ee/user/project/code_owners.html
+
+^[Global]
+* @dchakravorty @fbest @jbornhold @jconde @phahn @pmacha @skoenig @tkintscher
+
+# [EOF]
