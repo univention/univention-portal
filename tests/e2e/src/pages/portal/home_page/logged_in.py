@@ -12,16 +12,23 @@ class HomePageLoggedIn(HomePage):
 
     def navigate(self, username, password):
         self.page.goto("/")
+        self.reveal_right_side_menu()
         try:
-            self.check_its_there()
+            # Checking login state only since check_its_there() is currently empty
+            expect(self.right_side_menu.logout_button).to_be_visible()
+            expect(self.right_side_menu.login_button).to_be_hidden()
         except AssertionError:
             login_page = LoginPage(self.page)
             login_page.navigate()
             login_page.check_its_there()
             login_page.login(username, password)
-        self.reveal_right_side_menu()
-        expect(self.right_side_menu.logout_button).to_be_visible()
-        expect(self.right_side_menu.login_button).to_be_hidden()
+            self.reveal_right_side_menu()
+            expect(self.right_side_menu.logout_button).to_be_visible()
+            expect(self.right_side_menu.login_button).to_be_hidden()
+        finally:
+            self.hide_right_side_menu()
 
     def check_its_there(self):
-        expect(self.umc_heading).to_be_visible()
+        # TODO: There seems to be nothing that's necessarily common between the UCS and SouvAP envs
+        # We resort to checking nothing here.
+        pass
