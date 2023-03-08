@@ -34,11 +34,19 @@ ingress:
     - pathType: Exact
       path: /univention/portal/($|index.html$)
     - pathType: Exact
-      path: /univention/portal/(css/app.css$)
+      path: /univention/portal/(css/.*)
     - pathType: Exact
       path: /univention/portal/([^/]*.svg$)
     - pathType: Prefix
+      path: /univention/portal/(css/.*)
+    - pathType: Prefix
+      path: /univention/portal/(fonts/.*)
+    - pathType: Prefix
+      path: /univention/portal/(i18n/.*)
+    - pathType: Prefix
       path: /univention/portal/(js/.*)
+    - pathType: Prefix
+      path: /univention/portal/(oidc/.*)
   tls:
     enabled: true
     secretName: ""
