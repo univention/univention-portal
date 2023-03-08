@@ -46,13 +46,13 @@ Here are some useful ones:
 
 ## Available tests
 
-| Group         | Test                                                            | Location                             |
-|---------------|-----------------------------------------------------------------|--------------------------------------|
-| General       | User can login to portal                                        | `tests/test_login.py`                |
-| Notifications | Notification pops up when triggered using the notifications API | `tests/test_two_notification.py`     |
-|               | Notification has correct title, detail and link attributes      | `test/test_two_notifications.py`     |
-|               | Two notifications are displayed in the correct order            | `test/test_two_notifications.py`     |
-|               | Notification expiry time is respected                           | `test/test_notification_expiry_time` |
+| Group         | Test                                                            | Location                                |
+|---------------|-----------------------------------------------------------------|-----------------------------------------|
+| General       | User can login to portal                                        | `tests/test_login.py`                   |
+| Notifications | Notification pops up when triggered using the notifications API | `tests/test_two_notification.py`        |
+|               | Notification has correct title, detail and link attributes      | `test/test_two_notifications.py`        |
+|               | Two notifications are displayed in the correct order            | `test/test_two_notifications.py`        |
+|               | Notification expiry time is respected                           | `test/test_notification_expiry_time.py` |
 ## For test engineers
 
 We use the Page Object model in our tests. The page objects are in `src/pages`.
