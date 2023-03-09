@@ -64,3 +64,14 @@ def test_get_entries_returns_logo_name_without_check(
     entries = portal.get_entries(stub_visible_content)
     logo_name = entries[0]["logo_name"]
     assert logo_name == expected
+
+
+def test_get_entries_skips_modules_in_apps(mock_portal_config, stub_visible_content):
+    from univention.portal.extensions.portal import UMCPortal
+
+    stub_visible_content['umc_modules'][0]['categories'].append("apps")
+
+    mock_portal_config({"umc_check_logos": False})
+    portal = UMCPortal(mock.Mock(), mock.Mock())
+    entries = portal.get_entries(stub_visible_content)
+    assert entries == []
