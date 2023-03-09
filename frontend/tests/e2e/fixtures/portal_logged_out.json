@@ -55,7 +55,7 @@
           "value": "http://master60.intranet.portal.de/owncloud"
         }
       ],
-      "logo_name": "./data/icons/owncloud.svg",
+      "icon_url": "./data/icons/owncloud.svg",
       "name": {
         "de_DE": "ownCloud",
         "en_US": "ownCloud"
@@ -82,7 +82,7 @@
           "value": "/ucs-root-ca-en.crt"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Wurzelzertifikat",
         "en_US": "Root certificate"
@@ -105,7 +105,7 @@
           "value": "/ucsCA.crl"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Zertifikat-Sperrliste",
         "en_US": "Certificate revocation list"
@@ -128,7 +128,7 @@
           "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
         }
       ],
-      "logo_name": "./data/icons/owncloud-admindoc.svg",
+      "icon_url": "./data/icons/owncloud-admindoc.svg",
       "name": {
         "de_DE": "Admin Handbuch",
         "en_US": "Admin Manual"
@@ -151,7 +151,7 @@
           "value": "https://doc.owncloud.com/server/10.0/user_manual/"
         }
       ],
-      "logo_name": "./data/icons/owncloud-userdoc.svg",
+      "icon_url": "./data/icons/owncloud-userdoc.svg",
       "name": {
         "de_DE": "Benutzer Handbuch",
         "en_US": "User Manual"
@@ -178,7 +178,7 @@
           "value": "https://de.wikipedia.org/wiki/Univention_Corporate_Server"
         }
       ],
-      "logo_name": "./data/icons/owncloud-userdoc.svg",
+      "icon_url": "./data/icons/owncloud-userdoc.svg",
       "name": {
         "de_DE": "UCS auf Wikipedia",
         "en_US": "UCS at Wikipedia"
@@ -202,7 +202,7 @@
           "value": "/univention/management/"
         }
       ],
-      "logo_name": "./data/icons/umc-domain.svg",
+      "icon_url": "./data/icons/umc-domain.svg",
       "name": {
         "de_DE": "System- und Domäneneinstellungen",
         "en_US": "System and domain settings",
@@ -231,7 +231,7 @@
           "value": "https://www.univention.com/news/blog-en"
         }
       ],
-      "logo_name": "./data/icons/univentionblog.png",
+      "icon_url": "./data/icons/univentionblog.png",
       "name": {
         "de_DE": "Univention Blog",
         "en_US": "Univention Blog",
@@ -260,7 +260,7 @@
           "value": "https://www.univention.com/feedback/?umc=portal"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Feedback",
         "en_US": "Feedback",
@@ -284,7 +284,7 @@
           "value": "https://help.univention.com"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Forum \"Hilfe\"",
         "en_US": "Univention Forum \"Help\""
@@ -312,7 +312,7 @@
           "value": "https://www.univention.com"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Webseite",
         "en_US": "Univention Website",
