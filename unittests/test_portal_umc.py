@@ -2,6 +2,8 @@ from unittest import mock
 
 import pytest
 
+from univention.portal.extensions.portal import UMCPortal
+
 
 @pytest.fixture()
 def stub_module():
@@ -39,12 +41,16 @@ def stub_visible_content(stub_module):
     }
 
 
-def test_get_entries(mock_portal_config, stub_visible_content):
-    from univention.portal.extensions.portal import UMCPortal
+@pytest.fixture()
+def umc_portal():
+    """An instance of UMCPortal with mocked dependencies."""
+    umc_portal = UMCPortal(mock.Mock(), mock.Mock())
+    return umc_portal
 
+
+def test_get_entries(mock_portal_config, umc_portal, stub_visible_content):
     mock_portal_config({"umc_check_icons": True})
-    portal = UMCPortal(mock.Mock(), mock.Mock())
-    entries = portal.get_entries(stub_visible_content)
+    entries = umc_portal.get_entries(stub_visible_content)
     expected_entries = [
         {"backgroundColor": "#00acb6",
          "description": {"en_US": "Managing the Univention Portal"},
@@ -64,34 +70,24 @@ def test_get_entries(mock_portal_config, stub_visible_content):
         (True, None),
         (False, "/univention/management/js/dijit/themes/umc/icons/scalable/portal.svg")])
 def test_get_entries_returns_icon_url_without_check(
-        umc_check_icons_setting, expected, mock_portal_config, stub_visible_content):
-    from univention.portal.extensions.portal import UMCPortal
-
+        umc_check_icons_setting, expected, mock_portal_config, umc_portal, stub_visible_content):
     mock_portal_config({"umc_check_icons": umc_check_icons_setting})
-    portal = UMCPortal(mock.Mock(), mock.Mock())
-    entries = portal.get_entries(stub_visible_content)
+    entries = umc_portal.get_entries(stub_visible_content)
     icon_url = entries[0]["icon_url"]
     assert icon_url == expected
 
 
-def test_get_entries_skips_modules_in_apps(mock_portal_config, stub_visible_content):
-    from univention.portal.extensions.portal import UMCPortal
-
+def test_get_entries_skips_modules_in_apps(mock_portal_config, umc_portal, stub_visible_content):
     stub_visible_content["umc_modules"][0]["categories"].append("apps")
-
     mock_portal_config({"umc_check_icons": False})
-    portal = UMCPortal(mock.Mock(), mock.Mock())
-    entries = portal.get_entries(stub_visible_content)
+    entries = umc_portal.get_entries(stub_visible_content)
     assert entries == []
 
 
-def test_module_icon_url_checks_correct_file_path(mock_portal_config, mocker, stub_module):
-    from univention.portal.extensions.portal import UMCPortal
-
+def test_module_icon_url_checks_correct_file_path(mocker, umc_portal, stub_module):
     exists_mock = mocker.patch("os.path.exists")
-    portal = UMCPortal(mock.Mock(), mock.Mock())
-    portal._module_icon_url(stub_module, umc_check_icons=True)
-    expected_logo_filename = (
+    umc_portal._module_icon_url(stub_module, umc_check_icons=True)
+    expected_icon_filename = (
         "/usr/share/univention-management-console-frontend"
         "/js/dijit/themes/umc/icons/scalable/portal.svg")
-    exists_mock.assert_called_once_with(expected_logo_filename)
+    exists_mock.assert_called_once_with(expected_icon_filename)
