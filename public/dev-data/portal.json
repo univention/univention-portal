@@ -43,7 +43,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": "./data/icons/owncloud.svg",
+      "icon_url": "./data/icons/owncloud.svg",
       "name": {
         "de_DE": "ownCloud",
         "en_US": "ownCloud"
@@ -71,7 +71,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Wurzelzertifikat",
         "en_US": "Root certificate"
@@ -95,7 +95,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Zertifikat-Sperrliste",
         "en_US": "Certificate revocation list"
@@ -119,7 +119,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": "./data/icons/owncloud-admindoc.svg",
+      "icon_url": "./data/icons/owncloud-admindoc.svg",
       "name": {
         "de_DE": "Admin Handbuch",
         "en_US": "Admin Manual"
@@ -143,7 +143,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": "./data/icons/owncloud-userdoc.svg",
+      "icon_url": "./data/icons/owncloud-userdoc.svg",
       "name": {
         "de_DE": "Benutzer Handbuch",
         "en_US": "User Manual"
@@ -168,7 +168,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": "./data/icons/umc-domain.svg",
+      "icon_url": "./data/icons/umc-domain.svg",
       "name": {
         "de_DE": "System- und Domäneneinstellungen",
         "en_US": "System and domain settings",
@@ -201,7 +201,7 @@
         "en_US": "key",
         "de_DE": "word"
       },
-      "logo_name": "./data/icons/univentionblog.png",
+      "icon_url": "./data/icons/univentionblog.png",
       "name": {
         "de_DE": "Univention Blog",
         "en_US": "Univention Blog",
@@ -231,7 +231,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": null,
+      "icon_url": null,
       "keywords": {
         "en_US": ""
       },
@@ -259,7 +259,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Forum \"Hilfe\"",
         "en_US": "Univention Forum \"Help\""
@@ -288,7 +288,7 @@
         }
       ],
       "keywords": {},
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Webseite",
         "en_US": "Univention Website",

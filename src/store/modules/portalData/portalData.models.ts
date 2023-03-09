@@ -99,7 +99,7 @@ export interface PortalEntry {
   target: string | null,
   links: Link[],
   // eslint-disable-next-line camelcase
-  logo_name: string | null,
+  icon_url: string | null,
   name: LocalizedString,
 }
 

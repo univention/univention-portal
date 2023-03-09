@@ -97,7 +97,7 @@
           "value": "https://www.arr-bonn.de/"
         }
       ],
-      "logo_name": "./icons/entries/ano_def_act.svg",
+      "icon_url": "./icons/entries/ano_def_act.svg",
       "name": {
         "de_DE": "ano_def_act for de_DE",
         "en_US": "ano_def_act for en_US",
@@ -123,7 +123,7 @@
           "value": "http://www.schmitz-rauschendorf.de/"
         }
       ],
-      "logo_name": "./icons/entries/ano_embd_act.svg",
+      "icon_url": "./icons/entries/ano_embd_act.svg",
       "name": {
         "de_DE": "ano_embd_act for de_DE",
         "en_US": "ano_embd_act for en_US",
@@ -149,7 +149,7 @@
           "value": "https://www.univention.de/"
         }
       ],
-      "logo_name": "./icons/entries/ano_new_act.svg",
+      "icon_url": "./icons/entries/ano_new_act.svg",
       "name": {
         "de_DE": "ano_new_act for de_DE",
         "en_US": "ano_new_act for en_US",
@@ -175,7 +175,7 @@
           "value": "https://www.heise.de/"
         }
       ],
-      "logo_name": "./icons/entries/ano_same_act.svg",
+      "icon_url": "./icons/entries/ano_same_act.svg",
       "name": {
         "de_DE": "ano_same_act for de_DE",
         "en_US": "ano_same_act for en_US",
@@ -201,7 +201,7 @@
           "value": "/ucsCA.crl"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Zertifikat-Sperrliste",
         "en_US": "Certificate revocation list",
@@ -227,7 +227,7 @@
           "value": "https://www.arr-bonn.de/"
         }
       ],
-      "logo_name": "./icons/entries/log_def_act.svg",
+      "icon_url": "./icons/entries/log_def_act.svg",
       "name": {
         "de_DE": "log_def_act for de_DE",
         "en_US": "log_def_act for en_US",
@@ -253,7 +253,7 @@
           "value": "http://www.schmitz-rauschendorf.de/"
         }
       ],
-      "logo_name": "./icons/entries/log_embd_act.svg",
+      "icon_url": "./icons/entries/log_embd_act.svg",
       "name": {
         "de_DE": "log_embd_act for de_DE",
         "en_US": "log_embd_act for en_US",
@@ -279,7 +279,7 @@
           "value": "https://www.univention.de/"
         }
       ],
-      "logo_name": "./icons/entries/log_new_act.svg",
+      "icon_url": "./icons/entries/log_new_act.svg",
       "name": {
         "de_DE": "log_new_act for de_DE",
         "en_US": "log_new_act for en_US",
@@ -305,7 +305,7 @@
           "value": "https://www.heise.de/"
         }
       ],
-      "logo_name": "./icons/entries/log_same_act.svg",
+      "icon_url": "./icons/entries/log_same_act.svg",
       "name": {
         "de_DE": "log_same_act for de_DE",
         "en_US": "log_same_act for en_US",
@@ -331,7 +331,7 @@
           "value": "/univention/login/?location=/univention/portal/"
         }
       ],
-      "logo_name": "./icons/entries/login-ucs.svg",
+      "icon_url": "./icons/entries/login-ucs.svg",
       "name": {
         "de_DE": "Anmelden",
         "en_US": "Login",
@@ -357,7 +357,7 @@
           "value": "/ucs-root-ca.crt"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Wurzelzertifikat",
         "en_US": "Root certificate",
@@ -383,7 +383,7 @@
           "value": "https://master.dev.upx.mydemoenv.net/univention/self-service/?header=try-hide#page=passwordchange"
         }
       ],
-      "logo_name": "./icons/entries/self-service.svg",
+      "icon_url": "./icons/entries/self-service.svg",
       "name": {
         "de_DE": "Passwort ändern",
         "en_US": "Change password",
@@ -408,7 +408,7 @@
           "value": "https://master.dev.upx.mydemoenv.net/univention/self-service/?header=try-hide#page=profiledata"
         }
       ],
-      "logo_name": "./icons/entries/self-service-my-profile.png",
+      "icon_url": "./icons/entries/self-service-my-profile.png",
       "name": {
         "de_DE": "Mein Profil",
         "en_US": "My Profile"
@@ -432,7 +432,7 @@
           "value": "https://master.dev.upx.mydemoenv.net/univention/self-service/?header=try-hide#page=setcontactinformation"
         }
       ],
-      "logo_name": "./icons/entries/self-service-protect-account.png",
+      "icon_url": "./icons/entries/self-service-protect-account.png",
       "name": {
         "de_DE": "Kontozugang schützen",
         "en_US": "Protect your account"
@@ -457,7 +457,7 @@
           "value": "/univention/umc/"
         }
       ],
-      "logo_name": "./icons/entries/umc-domain.svg",
+      "icon_url": "./icons/entries/umc-domain.svg",
       "name": {
         "de_DE": "System- und Domäneneinstellungen",
         "en_US": "System and domain settings",
@@ -487,7 +487,7 @@
           "value": "https://www.univention.com/news/blog-en"
         }
       ],
-      "logo_name": "./icons/entries/univentionblog.png",
+      "icon_url": "./icons/entries/univentionblog.png",
       "name": {
         "de_DE": "Univention Blog",
         "en_US": "Univention Blog",
@@ -517,7 +517,7 @@
           "value": "https://www.univention.com/feedback/?umc=portal"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Feedback",
         "en_US": "Feedback",
@@ -542,7 +542,7 @@
           "value": "https://help.univention.com"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Forum (Hilfe)",
         "en_US": "Univention Forum (Help)"
@@ -571,7 +571,7 @@
           "value": "https://www.univention.de"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Webseite",
         "en_US": "Univention Website",
