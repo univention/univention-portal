@@ -63,7 +63,7 @@
           "value": "/ucs-root-ca-en.crt"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Wurzelzertifikat",
         "en_US": "Root certificate"
@@ -85,7 +85,7 @@
           "value": "https://de.wikipedia.org/wiki/Test"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "en_US": "Wikipedia Test"
       }
@@ -106,7 +106,7 @@
           "value": "https://de.wikipedia.org/wiki/Vue"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "en_US": "Wikipedia Vue"
       }
@@ -127,7 +127,7 @@
           "value": "https://en.wikipedia.org/wiki/Front_end_and_back_end"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "en_US": "Wikipedia Front end and back end"
       }
@@ -148,7 +148,7 @@
           "value": "https://en.wikipedia.org/wiki/MacBook"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "en_US": "MacBook"
       }
@@ -169,7 +169,7 @@
           "value": "https://en.wikipedia.org/wiki/Climate_change"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "en_US": "Climate change"
       }
@@ -190,7 +190,7 @@
           "value": "https://en.wikipedia.org/wiki/Arctic_Ocean"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "en_US": "Arctic Ocean"
       }
@@ -212,7 +212,7 @@
           "value": "/ucsCA.crl"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Zertifikat-Sperrliste",
         "en_US": "Certificate revocation list"
@@ -238,7 +238,7 @@
           "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
         }
       ],
-      "logo_name": "./data/icons/owncloud-admindoc.svg",
+      "icon_url": "./data/icons/owncloud-admindoc.svg",
       "name": {
         "de_DE": "Admin Handbuch",
         "en_US": "Admin Handbook"
@@ -261,7 +261,7 @@
           "value": "https://doc.owncloud.com/server/10.0/user_manual/"
         }
       ],
-      "logo_name": "./data/icons/owncloud-userdoc.svg",
+      "icon_url": "./data/icons/owncloud-userdoc.svg",
       "name": {
         "de_DE": "Benutzer Handbuch",
         "en_US": "User Manual"
@@ -285,7 +285,7 @@
           "value": "/univention/management/"
         }
       ],
-      "logo_name": "./data/icons/umc-domain.svg",
+      "icon_url": "./data/icons/umc-domain.svg",
       "name": {
         "de_DE": "System- und Domäneneinstellungen",
         "en_US": "System and domain settings",
@@ -314,7 +314,7 @@
           "value": "https://www.univention.com/news/blog-en"
         }
       ],
-      "logo_name": "./data/icons/univentionblog.png",
+      "icon_url": "./data/icons/univentionblog.png",
       "name": {
         "de_DE": "Univention Blog",
         "en_US": "Univention Blog",
@@ -343,7 +343,7 @@
           "value": "https://www.univention.com/feedback/?umc=portal"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Feedback",
         "en_US": "Feedback",
@@ -367,7 +367,7 @@
           "value": "https://help.univention.com"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Forum \"Hilfe\"",
         "en_US": "Univention Forum \"Help\""
@@ -395,7 +395,7 @@
           "value": "https://www.univention.com"
         }
       ],
-      "logo_name": null,
+      "icon_url": null,
       "name": {
         "de_DE": "Univention Webseite",
         "en_US": "Univention Website",
