@@ -42,7 +42,7 @@ def stub_visible_content(stub_module):
 def test_get_entries(mock_portal_config, stub_visible_content):
     from univention.portal.extensions.portal import UMCPortal
 
-    mock_portal_config({"umc_check_logos": True})
+    mock_portal_config({"umc_check_icons": True})
     portal = UMCPortal(mock.Mock(), mock.Mock())
     entries = portal.get_entries(stub_visible_content)
     expected_entries = [
@@ -53,25 +53,25 @@ def test_get_entries(mock_portal_config, stub_visible_content):
          "linkTarget": "embedded",
          "links": [{"locale": "en_US",
                     "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:portals/all"}],
-         "logo_name": None,
+         "icon_url": None,
          "name": {"en_US": "Portal"},
          "target": None}]
     assert expected_entries == entries
 
 
 @pytest.mark.parametrize(
-    "umc_check_logos_setting,expected", [
+    "umc_check_icons_setting,expected", [
         (True, None),
         (False, "/univention/management/js/dijit/themes/umc/icons/scalable/portal.svg")])
-def test_get_entries_returns_logo_name_without_check(
-        umc_check_logos_setting, expected, mock_portal_config, stub_visible_content):
+def test_get_entries_returns_icon_url_without_check(
+        umc_check_icons_setting, expected, mock_portal_config, stub_visible_content):
     from univention.portal.extensions.portal import UMCPortal
 
-    mock_portal_config({"umc_check_logos": umc_check_logos_setting})
+    mock_portal_config({"umc_check_icons": umc_check_icons_setting})
     portal = UMCPortal(mock.Mock(), mock.Mock())
     entries = portal.get_entries(stub_visible_content)
-    logo_name = entries[0]["logo_name"]
-    assert logo_name == expected
+    icon_url = entries[0]["icon_url"]
+    assert icon_url == expected
 
 
 def test_get_entries_skips_modules_in_apps(mock_portal_config, stub_visible_content):
@@ -79,18 +79,18 @@ def test_get_entries_skips_modules_in_apps(mock_portal_config, stub_visible_cont
 
     stub_visible_content["umc_modules"][0]["categories"].append("apps")
 
-    mock_portal_config({"umc_check_logos": False})
+    mock_portal_config({"umc_check_icons": False})
     portal = UMCPortal(mock.Mock(), mock.Mock())
     entries = portal.get_entries(stub_visible_content)
     assert entries == []
 
 
-def test_module_logo_url_checks_correct_file_path(mock_portal_config, mocker, stub_module):
+def test_module_icon_url_checks_correct_file_path(mock_portal_config, mocker, stub_module):
     from univention.portal.extensions.portal import UMCPortal
 
     exists_mock = mocker.patch("os.path.exists")
     portal = UMCPortal(mock.Mock(), mock.Mock())
-    portal._module_logo_url(stub_module, umc_check_logos=True)
+    portal._module_icon_url(stub_module, umc_check_icons=True)
     expected_logo_filename = (
         "/usr/share/univention-management-console-frontend"
         "/js/dijit/themes/umc/icons/scalable/portal.svg")

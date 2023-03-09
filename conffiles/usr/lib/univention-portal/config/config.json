@@ -21,7 +21,7 @@ config = {
     "ucs_internal_url": "http://localhost/univention/internal",
     "umc_get_url": "http://localhost/univention/get",
     "umc_session_url": "http://localhost/univention/get/session-info",
-    "umc_check_logos": true,
+    "umc_check_icons": true,
     "default_domain_dn": configRegistry.get("portal/default-dn"),
     "editable": configRegistry.get("server/role") == "domaincontroller_master",
     "udm_api_url": "https://%s/univention/udm" % fqdn,
