@@ -330,8 +330,6 @@ class UMCPortal(Portal):
     def get_entries(self, content):
         entries = []
         colors = {cat["id"]: cat["color"] for cat in content["umc_categories"] if cat["id"] != "_favorites_"}
-        locale = 'en_US'
-
         umc_check_logos = config.fetch("umc_check_logos")
         if not umc_check_logos:
             get_logger("umc").debug("UMC logo check disabled")
@@ -339,39 +337,56 @@ class UMCPortal(Portal):
         for module in content["umc_modules"]:
             if "apps" in module["categories"]:
                 continue
-
-            logo_name = "/univention/management/js/dijit/themes/umc/icons/scalable/{}.svg".format(module["icon"])
-            if umc_check_logos and not os.path.exists(os.path.join("/usr/share/univention-management-console-frontend/", logo_name[23:])):
-                logo_name = None
-
-            color = None
-            for cat in module["categories"]:
-                if cat in colors:
-                    color = colors[cat]
-                    break
-
-            entries.append({
-                "dn": self._entry_id(module),
-                "name": {
-                    locale: module["name"],
-                },
-                "description": {
-                    locale: module["description"],
-                },
-                "keywords": {
-                    locale: ' '.join(module["keywords"]),
-                },
-                "linkTarget": "embedded",
-                "target": None,
-                "logo_name": logo_name,
-                "backgroundColor": color,
-                "links": [{
-                    "locale": locale,
-                    "value": "/univention/management/?header=try-hide&overview=false&menu=false#module={}:{}".format(module["id"], module.get("flavor", "")),
-                }],
-                # TODO: missing: in_portal, anonymous, activated, allowedGroups
-            })
+            entries.append(self._module_to_entry(module, colors, umc_check_logos))
         return entries
+
+    def _module_to_entry(self, module, colors, umc_check_logos, locale='en_US'):
+        logo_url = self._module_logo_url(module, umc_check_logos)
+        color = self._module_background_color(module, colors)
+
+        entry = {
+            "dn": self._entry_id(module),
+            "name": {
+                locale: module["name"],
+            },
+            "description": {
+                locale: module["description"],
+            },
+            "keywords": {
+                locale: ' '.join(module["keywords"]),
+            },
+            "linkTarget": "embedded",
+            "target": None,
+            "logo_name": logo_url,
+            "backgroundColor": color,
+            "links": [{
+                "locale": locale,
+                "value": "/univention/management/?header=try-hide&overview=false&menu=false#module={}:{}".format(module["id"], module.get("flavor", "")),
+            }],
+            # TODO: missing: in_portal, anonymous, activated, allowedGroups
+        }
+        return entry
+
+    def _module_logo_url(self, module, umc_check_logos):
+        path_prefix = "/univention/management/"
+        sub_path = "js/dijit/themes/umc/icons/scalable/{}.svg".format(module["icon"])
+        umc_frontend_path = '/usr/share/univention-management-console-frontend/'
+        filename = os.path.join(umc_frontend_path, sub_path)
+
+        if umc_check_logos and not os.path.exists(filename):
+            logo_url = None
+        else:
+            logo_url = urljoin(path_prefix, sub_path)
+
+        return logo_url
+
+    def _module_background_color(self, module, colors):
+        color = None
+        for cat in module["categories"]:
+            if cat in colors:
+                color = colors[cat]
+                break
+        return color
 
     def _entry_id(self, module):
         return "umc:module:{}:{}".format(module["id"], module.get("flavor", ""))
