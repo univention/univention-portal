@@ -99,8 +99,9 @@ i18n:
 
 
 build-portal-frontend-test-runner:
-  stage: build
+  stage: prepare
   extends: .kaniko
+  needs: []
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
@@ -113,8 +114,9 @@ build-portal-frontend-test-runner:
 
 
 build-portal-frontend-test-runner-ui:
-  stage: build
+  stage: prepare
   extends: .kaniko
+  needs: []
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
@@ -142,7 +144,7 @@ build-portal-frontend:
 
 
 push-image-souvap-portal-frontend-job:
-  stage: build
+  stage: publish
   needs:
     - job: build-portal-frontend
   extends: .push-image-souvap
@@ -152,8 +154,9 @@ push-image-souvap-portal-frontend-job:
 
 
 build-portal-server-test-runner:
-  stage: build
+  stage: prepare
   extends: .kaniko
+  needs: []
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
@@ -166,6 +169,7 @@ build-portal-server-test-runner:
 build-portal-server:
   stage: build
   extends: .kaniko
+  needs: []
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
@@ -177,7 +181,7 @@ build-portal-server:
 
 
 push-image-souvap-portal-server-job:
-  stage: build
+  stage: publish
   needs:
     - job: build-portal-server
   extends: .push-image-souvap
@@ -187,8 +191,9 @@ push-image-souvap-portal-server-job:
 
 
 build-notifications-api-test-runner:
-  stage: build
+  stage: prepare
   extends: .kaniko
+  needs: []
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
@@ -202,6 +207,7 @@ build-notifications-api-test-runner:
 build-notifications-api:
   stage: build
   extends: .kaniko
+  needs: []
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     KANIKO_BUILD_CONTEXT: "notifications-api"
@@ -212,7 +218,7 @@ build-notifications-api:
 
 
 push-image-souvap-notifications-api-job:
-  stage: build
+  stage: publish
   needs:
     - job: build-notifications-api
   extends: .push-image-souvap
@@ -278,6 +284,7 @@ publish-helm-charts:
 build-debian-package-builder:
   stage: prepare
   extends: .kaniko
+  needs: []
   variables:
     KANIKO_BUILD_CONTEXT: "docker/deb-build"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
@@ -287,7 +294,7 @@ build-debian-package-builder:
 
 
 build-debian-package:
-  stage: build
+  stage: package
   needs:
     - job: build-debian-package-builder
   image: "$IMAGE_TAG"
@@ -389,8 +396,9 @@ test-notifications-api:
 # Compare: https://git.knut.univention.de/univention/dist/docker-services
 
 build-linter:
-  stage: build
+  stage: prepare
   extends: .kaniko
+  needs: []
   variables:
     DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
     KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
