@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2023-01-26 05:17+0100\n"
+"POT-Creation-Date: 2023-03-10 18:51+0000\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -36,15 +36,11 @@ msgstr "%(num)s Suchergebnisse"
 msgid "(maximum file size is %(maxFileSize)s MB)"
 msgstr "(maximale Dateigröße ist %(maxFileSize)s MB)"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:66
-msgid "(retype)"
-msgstr "(Wiederholung)"
-
 #: frontend/src/tmp/ts/frontend/src/components/globals/CookieBanner.vue:29
 msgid "Accept"
 msgstr "Akzeptieren"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:107
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:96
 msgid "Account creation successful"
 msgstr "Kontoerstellung erfolgreich"
 
@@ -78,8 +74,8 @@ msgid "Add Groups"
 msgstr "Gruppen hinzufügen"
 
 #: frontend/src/tmp/ts/frontend/src/components/admin/CategoryAddModal.vue:29
-#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:50
 #: frontend/src/tmp/ts/frontend/src/views/NotFound.vue:51
+#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:50
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
 
@@ -87,8 +83,8 @@ msgstr "Kategorie hinzufügen"
 msgid "Add entry"
 msgstr "Eintrag hinzufügen"
 
-#: frontend/src/tmp/ts/frontend/src/components/admin/ExistingCategory.vue:40
 #: frontend/src/tmp/ts/frontend/src/components/admin/CategoryAddModal.vue:18
+#: frontend/src/tmp/ts/frontend/src/components/admin/ExistingCategory.vue:40
 msgid "Add existing category"
 msgstr "Bestehende Kategorie hinzufügen"
 
@@ -153,15 +149,15 @@ msgstr "Hintergrundfarbe"
 msgid "Can only be seen by these groups"
 msgstr "Kann nur von diesen Gruppen gesehen werden"
 
-#: frontend/src/tmp/ts/frontend/src/components/modal/ModalDialog.vue:40
+#: frontend/src/tmp/ts/frontend/src/components/admin/ConfirmDialog.vue:22
 #: frontend/src/tmp/ts/frontend/src/components/admin/EditWidget.vue:46
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingCategory.vue:34
-#: frontend/src/tmp/ts/frontend/src/components/admin/ConfirmDialog.vue:22
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:58
 #: frontend/src/tmp/ts/frontend/src/components/admin/TranslationEditing.vue:45
+#: frontend/src/tmp/ts/frontend/src/components/modal/ModalDialog.vue:40
 #: frontend/src/tmp/ts/frontend/src/components/widgets/AddObjects.vue:46
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/ConfirmDeregistration.vue:54
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:69
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:58
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -215,15 +211,15 @@ msgstr "Kategorie erfolgreich entfernt"
 msgid "Change language"
 msgstr "Sprache ändern"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:63
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:72
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:99
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:108
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:96
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:86
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:52
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:61
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:88
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:97
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:66
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:55
 msgid "Change your password"
 msgstr "Passwort ändern"
 
@@ -262,7 +258,7 @@ msgstr "Neuen Ordner erstellen"
 msgid "Create an account"
 msgstr "Konto erstellen"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:127
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:116
 msgid "Creating a new user failed."
 msgstr "Anlegen eines neuen Nutzers fehlgeschlagen."
 
@@ -288,7 +284,7 @@ msgstr "Mein Konto löschen"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:73
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:77
 msgid "Dismiss notification"
 msgstr "Benachrichtigung schließen"
 
@@ -343,8 +339,8 @@ msgstr "Portal bearbeiten"
 msgid "Edit tile: %(entry)s"
 msgstr "Kachel %(entry)s bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:52
 #: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:87
+#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:52
 msgid "Embedded"
 msgstr "Eingebettet"
 
@@ -362,11 +358,11 @@ msgstr "Einträge konnten nicht umsortiert werden"
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
+#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:270
+#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:273
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:95
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:100
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:107
-#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:270
-#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:273
 msgid "Entry could not be added"
 msgstr "Eintrag konnte nicht hinzugefügt werden"
 
@@ -382,10 +378,10 @@ msgstr "Eintrag konnte nicht gelöscht werden"
 msgid "Entry could not be unlinked"
 msgstr "Eintrag konnte nicht entfernt werden"
 
+#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:273
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:95
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:100
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:107
-#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:273
 msgid "Entry successfully added"
 msgstr "Eintrag erfolgreich hinzugefügt"
 
@@ -401,7 +397,7 @@ msgstr "Eintrag erfolgreich gelöscht"
 msgid "Entry successfully unlinked"
 msgstr "Eintrag erfolgreich entfernt"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:68
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:72
 msgid "Error"
 msgstr "Fehler"
 
@@ -464,8 +460,8 @@ msgstr "WLAN-Passwort erzeugen"
 msgid "Go Back"
 msgstr "Gehe zurück"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:103
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:113
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:92
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:102
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/VerifyAccount.vue:123
 msgid "Hello %(username)s,"
 msgstr "Hallo %(username)s,"
@@ -474,6 +470,7 @@ msgstr "Hallo %(username)s,"
 msgid "Hide Description"
 msgstr "Beschreibung verstecken"
 
+#: frontend/src/tmp/ts/frontend/src/components/widgets/NewPasswordBox.vue:84
 #: frontend/src/tmp/ts/frontend/src/components/widgets/PasswordBox.vue:66
 msgid "Hide password"
 msgstr "Passwort verstecken"
@@ -483,17 +480,17 @@ msgstr "Passwort verstecken"
 msgid "Icon"
 msgstr "Icon"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:60
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:64
 msgid "Info"
 msgstr "Info"
 
-#: frontend/src/tmp/ts/frontend/src/components/admin/Folder.vue:39
 #: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:43
+#: frontend/src/tmp/ts/frontend/src/components/admin/Folder.vue:39
 #: frontend/src/tmp/ts/frontend/src/components/admin/FormCategoryEdit.vue:35
 msgid "Internal name"
 msgstr "Interner Name"
 
-#: frontend/src/jsHelper/forms.ts:293
+#: frontend/src/jsHelper/forms.ts:342
 msgid ""
 "Internal name must not contain anything other than digits, letters or dots, "
 "must be at least 2 characters long, and start and end with a digit or "
@@ -559,16 +556,16 @@ msgstr "Kategorie %(category)s verschieben"
 msgid "Move tile: %(entry)s"
 msgstr "Kachel %(entry)s verschieben"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:32
-#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:33
+#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:51
+#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:52
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingCategory.vue:31
 #: frontend/src/tmp/ts/frontend/src/components/admin/ExistingEntry.vue:55
 #: frontend/src/tmp/ts/frontend/src/components/admin/Folder.vue:47
 #: frontend/src/tmp/ts/frontend/src/components/admin/Folder.vue:48
-#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:51
-#: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:52
 #: frontend/src/tmp/ts/frontend/src/components/admin/FormCategoryEdit.vue:43
 #: frontend/src/tmp/ts/frontend/src/components/admin/FormCategoryEdit.vue:44
+#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:32
+#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:33
 msgid "Name"
 msgstr "Name"
 
@@ -577,18 +574,17 @@ msgstr "Name"
 msgid "New Tab"
 msgstr "Neuer Tab"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:37
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:59
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:58
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:36
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:44
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:65
+#: frontend/src/tmp/ts/frontend/src/components/widgets/NewPasswordBox.vue:100
 msgid "New password (retype)"
 msgstr "Neues Passwort (Wiederholung)"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:49
 #: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:84
+#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:49
 msgid "New tab"
 msgstr "Neuer Tab"
 
@@ -601,7 +597,7 @@ msgstr "Weiter"
 msgid "No items"
 msgstr "Keine Einträge"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:39
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:40
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
@@ -613,8 +609,8 @@ msgstr "Keine Suchergebnisse"
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:45
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:73
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:46
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:74
 msgid "Notification removed"
 msgstr "Benachrichtigungen gelöscht"
 
@@ -622,8 +618,8 @@ msgstr "Benachrichtigungen gelöscht"
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:42
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:66
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:43
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:67
 msgid "Notifications removed"
 msgstr "Benachrichtigungen gelöscht"
 
@@ -644,13 +640,13 @@ msgid "Page not found"
 msgstr "Seite nicht gefunden"
 
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/ConfirmDeregistration.vue:36
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/GuardedSite.vue:76
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:52
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:87
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/GuardedSite.vue:76
 msgid "Password"
 msgstr "Passwort"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:157
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:147
 msgid "Password change successful"
 msgstr "Passwortänderung erfolgreich"
 
@@ -673,23 +669,9 @@ msgstr "Bitte wählen Sie eine Wiederherstellungsoption aus."
 msgid "Please confirm your %(label)s"
 msgstr "Bitte bestätigen Sie Ihr %(label)s"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:68
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:46
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:67
-msgid "Please confirm your new password"
-msgstr "Bitte bestätigen Sie Ihr neues Passwort"
-
 #: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:151
 msgid "Please enter at least one English link"
 msgstr "Bitte geben Sie mindestens einen englischen Link ein"
-
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:39
-msgid "Please enter your new password"
-msgstr "Bitte geben Sie ein neues Passwort ein"
-
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:32
-msgid "Please enter your old password"
-msgstr "Bitte geben Sie Ihr altes Passwort ein"
 
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/ConfirmDeregistration.vue:38
 msgid "Please enter your password"
@@ -735,8 +717,8 @@ msgstr "Profil-Änderungen"
 msgid "Protect account"
 msgstr "Kontozugang schützen"
 
-#: frontend/src/tmp/ts/frontend/src/components/admin/EditWidget.vue:49
 #: frontend/src/tmp/ts/frontend/src/components/admin/ConfirmDialog.vue:28
+#: frontend/src/tmp/ts/frontend/src/components/admin/EditWidget.vue:49
 #: frontend/src/tmp/ts/frontend/src/components/widgets/ImageUploader.vue:72
 #: frontend/src/tmp/ts/frontend/src/components/widgets/LinkWidget.vue:49
 #: frontend/src/tmp/ts/frontend/src/components/widgets/MultiSelect.vue:43
@@ -747,7 +729,7 @@ msgstr "Entfernen"
 msgid "Remove %(label)s %(idx)s"
 msgstr "%(label)s %(idx)s entfernen"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:36
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notifications.vue:37
 msgid "Remove all"
 msgstr "Entfernen"
 
@@ -764,15 +746,15 @@ msgid "Request new token"
 msgstr "Neuen Token anfordern"
 
 #: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:242
-#: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:81
-#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:46
 #: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:81
+#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:46
+#: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:81
 msgid "Same tab"
 msgstr "Gleicher Tab"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:105
 #: frontend/src/tmp/ts/frontend/src/components/admin/EditWidget.vue:43
 #: frontend/src/tmp/ts/frontend/src/components/admin/TranslationEditing.vue:48
+#: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:105
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:96
 msgid "Save"
 msgstr "Speichern"
@@ -798,7 +780,7 @@ msgstr "Datei auswählen"
 msgid "Select locale for Link"
 msgstr "Sprache für Link wählen"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:90
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:80
 msgid "Set new password"
 msgstr "Neues Passwort setzen"
 
@@ -810,6 +792,7 @@ msgstr "Beschreibung zeigen"
 msgid "Show local UMC modules"
 msgstr "UMC-Module anzeigen"
 
+#: frontend/src/tmp/ts/frontend/src/components/widgets/NewPasswordBox.vue:83
 #: frontend/src/tmp/ts/frontend/src/components/widgets/PasswordBox.vue:65
 msgid "Show password"
 msgstr "Passwort anzeigen"
@@ -834,7 +817,7 @@ msgstr "Bearbeiten abbrechen"
 msgid "Submit"
 msgstr "Abschicken"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:65
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:69
 msgid "Success"
 msgstr "Aktion erfolgreich"
 
@@ -872,9 +855,7 @@ msgstr ""
 msgid "The inputs do not match"
 msgstr "Die Eingaben stimmen nicht überein."
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:71
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/PasswordChange.vue:49
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:70
+#: frontend/src/jsHelper/forms.ts:350 frontend/src/jsHelper/forms.ts:351
 msgid "The new passwords do not match"
 msgstr "Die Passwörter stimmen nicht überein."
 
@@ -896,8 +877,13 @@ msgstr ""
 msgid "This URL does not exist (anymore)."
 msgstr "Diese URL existiert nicht (mehr)."
 
-#: frontend/src/jsHelper/forms.ts:161
+#: frontend/src/jsHelper/forms.ts:186
 msgid "This value is required"
+msgstr "Dieser Wert ist erforderlich"
+
+#: frontend/src/jsHelper/forms.ts:107 frontend/src/jsHelper/forms.ts:108
+#: frontend/src/jsHelper/forms.ts:111 frontend/src/jsHelper/forms.ts:114
+msgid "This value is required."
 msgstr "Dieser Wert ist erforderlich"
 
 #: frontend/src/store/modules/portalData/portalData.helper.ts:55
@@ -929,8 +915,8 @@ msgstr ""
 " wird. Sie können das Passwort einmalig beim Anlegen ansehen. Ein neues "
 "Passwort kann jederzeit erzeugt werden, womit das alte ungültig wird."
 
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:51
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/VerifyAccount.vue:58
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:52
 msgid "Token"
 msgstr "Token"
 
@@ -965,11 +951,11 @@ msgstr "Portal-Vorgabe nutzen"
 msgid "User Menu"
 msgstr "Benutzer-Menü"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/VerifyAccount.vue:52
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/GuardedSite.vue:67
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:44
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:46
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:84
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/GuardedSite.vue:67
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:45
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/VerifyAccount.vue:52
 msgid "Username"
 msgstr "Benutzername"
 
@@ -989,7 +975,7 @@ msgstr "Verifizierung-Token versendet"
 msgid "Verify account"
 msgstr "Konto verifizieren"
 
-#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:62
+#: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:66
 msgid "Warning"
 msgstr "Warnung"
 
@@ -1063,7 +1049,7 @@ msgstr "Ihre Konto-Wiederherstellungsoptionen wurden aktualisiert."
 msgid "Your new password is:"
 msgstr "Ihr neues Passwort lautet:"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:157
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/NewPassword.vue:147
 msgid "Your password has been successfully changed."
 msgstr "Ihr Passwort wurden erfolgreich geändert."
 
@@ -1071,7 +1057,7 @@ msgstr "Ihr Passwort wurden erfolgreich geändert."
 msgid "active"
 msgstr "aktiv"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:114
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:103
 msgid ""
 "an error occurred while sending the verification token for your account. "
 "Please request a new one."
@@ -1105,13 +1091,16 @@ msgstr "keine Datei ausgewählt"
 msgid "search"
 msgstr "suche"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:104
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:93
 msgid ""
 "we have sent you an email to %(email)s. Please follow the instructions in "
 "the email to verify your account."
 msgstr ""
 "wir haben Ihnen eine E-Mail an %(email)s gesendet. Bitte folgen Sie den "
 "Anweisungen in der E-Mail, um Ihr Konto zu verifizieren."
+
+#~ msgid "(retype)"
+#~ msgstr "(Wiederholung)"
 
 #~ msgid "Categories \"%(cat1)s\" and \"%(cat2)s\" changed places"
 #~ msgstr "Kategorien \"%(cat1)s\" und \"%(cat2)s\" wurden getauscht"
@@ -1170,6 +1159,9 @@ msgstr ""
 #~ msgid "Please confirm"
 #~ msgstr "Bitte bestätigen Sie Ihr %(label)s"
 
+#~ msgid "Please confirm your new password"
+#~ msgstr "Bitte bestätigen Sie Ihr neues Passwort"
+
 #~ msgid "Please enter a description"
 #~ msgstr "Bitte geben Sie eine Beschreibung ein"
 
@@ -1181,6 +1173,12 @@ msgstr ""
 
 #~ msgid "Please enter at least an english value."
 #~ msgstr "Bitte geben Sie mindestens einen englischen Wert ein."
+
+#~ msgid "Please enter your new password"
+#~ msgstr "Bitte geben Sie ein neues Passwort ein"
+
+#~ msgid "Please enter your old password"
+#~ msgstr "Bitte geben Sie Ihr altes Passwort ein"
 
 #~ msgid "Portal is in edit mode"
 #~ msgstr "Portal ist im Editiermodus"
@@ -1199,9 +1197,6 @@ msgstr ""
 
 #~ msgid "This service is disabled"
 #~ msgstr "Diese Seite wurde abgeschaltet"
-
-#~ msgid "This value is required."
-#~ msgstr "Dieser Wert ist erforderlich"
 
 #~ msgid "added"
 #~ msgstr "hinzugefügt"
