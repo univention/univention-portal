@@ -47,4 +47,5 @@ l10n-extract:
 l10n-build:
 	univention-l10n-install de
 	mkdir -p ./frontend/public/i18n
+	echo "{}" > ./frontend/public/i18n/en.json
 	cp ./debian/univention-portal/usr/share/univention-portal/i18n/de.json ./frontend/public/i18n/de.json

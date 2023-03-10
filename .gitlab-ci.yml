@@ -9,6 +9,7 @@ variables:
   SOUVAP_REGISTRY_REPO: ${SOUVAP_REGISTRY_HOST}/${SOUVAP_REGISTRY_PATH}
 
 stages:
+  - prepare
   - build
   - test
   - package
@@ -77,6 +78,19 @@ include:
     - docker push "${SOUVAP_IMAGE_TAG}"
 
 
+i18n:
+  stage: prepare
+  needs:
+    - job: build-debian-package-builder
+  image: "$IMAGE_TAG"
+  script:
+    - make l10n-build
+  artifacts:
+    paths:
+      - frontend/public/i18n
+    expire_in: 1 week
+
+
 build-portal-frontend-test-runner:
   stage: build
   extends: .kaniko
@@ -105,6 +119,9 @@ build-portal-frontend-test-runner-ui:
 
 build-portal-frontend:
   stage: build
+  needs:
+    - job: i18n
+      artifacts: true
   extends: .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
@@ -252,7 +269,7 @@ publish-helm-charts:
 
 
 build-debian-package-builder:
-  stage: build
+  stage: prepare
   extends: .kaniko
   variables:
     KANIKO_BUILD_CONTEXT: "docker/deb-build"
