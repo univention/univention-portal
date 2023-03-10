@@ -37,7 +37,7 @@ portalserver:
 
 ## Kubernetes ingress
 ingress:
-  enabled: true
+  enabled: false
   ingressClassName: "nginx"
   annotations: {}
   ## Define Hostname
