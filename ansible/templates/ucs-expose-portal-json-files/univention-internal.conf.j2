@@ -1,9 +1,15 @@
 Alias /univention/internal/portal /var/cache/univention-portal/portal.json
 Alias /univention/internal/groups /var/cache/univention-portal/groups.json
 
-# TODO: Add IP Address based restriction
-# Require ${"{{ internal_ip_address }}"}
 <Directory "/var/cache/univention-portal">
-        Require all granted
+        # Expose the portal and groups data through HTTP so they can be requested by the portal-server.
+        #
+        # These files were previouly not world-readable,
+        # thus access is protected by basic auth with a secret shared with the portal-server.
+        AuthType Basic
+        AuthName "UCS Internal"
+        AuthUserFile /etc/apache2/portal_auth.passwd
+        Require valid-user
+
         FileETag MTime
 </Directory>

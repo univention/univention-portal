@@ -3,10 +3,10 @@
   hosts: ucs_dev_machines
   gather_facts: no
   vars:
-    internal_ip_address: INTERNAL_IP_ADDRESS
     cache_dir: /var/cache/univention-portal
     conf_dir: /etc/apache2/ucs-sites.conf.d
     conf_filename: univention-internal.conf
+    secrets_filename: /etc/apache2/portal_auth.passwd
     script_path: /usr/sbin/univention-portal
 
   tasks:
@@ -33,6 +33,9 @@
     - name: Run modified univention-portal script to update permissions
       ansible.builtin.debug:
         var: run_update.stdout_lines
+
+    - name: Store secret for basic auth
+      ansible.builtin.command: "htpasswd -cb {{ secrets_filename }} portal-server {{ ucs_auth_secret }}"
 
     - name: Add conf file to serve portal.json and groups.json to UCS host and restart apache2
       ansible.builtin.template:
@@ -76,6 +79,12 @@
         path: "{{ cache_dir }}"
         mode: '0700'
       tags: [ never, restore, ]
+
+    - name: "Remove shared secret"
+      ansible.builtin.file:
+        path: "{{ secrets_filename }}"
+        state: absent
+      tags: [ never, restore ]
 
   handlers:
     - name: Restart apache

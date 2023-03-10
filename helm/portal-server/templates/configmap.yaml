@@ -14,5 +14,6 @@ data:
   PORTAL_SERVER_UCS_INTERNAL_URL: "{{ .Values.portalserver.ucs_internal_url }}"
   PORTAL_SERVER_UMC_GET_URL: "{{ .Values.portalserver.umc_get_url }}"
   PORTAL_SERVER_UMC_SESSION_URL: "{{ .Values.portalserver.umc_session_url }}"
+  PORTAL_SERVER_AUTH_SECRET: "{{ .Values.portalserver.auth_secret }}"
 
 ...

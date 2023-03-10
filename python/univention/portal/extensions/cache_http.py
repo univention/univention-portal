@@ -42,10 +42,22 @@ from univention.portal.log import get_logger
 
 
 class CacheHTTP(metaclass=Plugin):
-    def __init__(self, ucs_internal_url):
+    """
+    ucs_internal_url:
+            The URL where the UCS internal portal/groups data are available.
+    _auth:
+            If the portal server and the UCS are running on different hosts,
+            this shared secret will be sent to the UCS endpoints for authentication.
+    """
+
+    def __init__(self, ucs_internal_url, auth_secret=None):
         self._ucs_internal_url = ucs_internal_url
         self._etag = None
         self._cache = {}
+
+        # Set `auth_secret` when the UMC endpoints are secured with Basic auth.
+        # TODO: This is a makeshift measure in the SouvAP environment and should be replaced.
+        self._auth = ("portal-server", auth_secret) if auth_secret else None
 
     def get_id(self):
         return self._etag
@@ -58,17 +70,20 @@ class CacheHTTP(metaclass=Plugin):
             headers['If-None-Match'] = self._etag
 
         try:
-            response = requests.get(self._ucs_internal_url, headers=headers)
+            response = requests.get(self._ucs_internal_url, headers=headers, auth=self._auth)
 
             if response.status_code == requests.codes.not_modified:
-                get_logger('cache').info(f'Not modified {self._ucs_internal_url}')
+                get_logger('cache').info('Not modified %s', self._ucs_internal_url)
+                return
+            elif response.status_code == requests.codes.unauthorized:
+                get_logger('cache').exception('Cannot fetch %s. Wrong `auth_secret` given!', self._ucs_internal_url)
                 return
 
             self._cache = response.json()
             self._etag = response.headers.get('ETag')
-            get_logger('cache').info(f'Loaded from {self._ucs_internal_url}, ETag: {self._etag}')
+            get_logger('cache').info('Loaded from %s, ETag: %s', self._ucs_internal_url, self._etag)
         except Exception:
-            get_logger('cache').exception(f'Error loading {self._ucs_internal_url}')
+            get_logger('cache').exception('Error loading %s', self._ucs_internal_url)
 
     def get(self):
         return self._cache
@@ -78,8 +93,8 @@ class CacheHTTP(metaclass=Plugin):
 
 
 class PortalFileCacheHTTP(CacheHTTP):
-    def __init__(self, ucs_internal_url):
-        super().__init__(f'{ucs_internal_url}/portal')
+    def __init__(self, ucs_internal_url, auth_secret=None):
+        super().__init__(f'{ucs_internal_url}/portal', auth_secret)
 
     def get_user_links(self):
         return deepcopy(self.get()['user_links'])
@@ -114,8 +129,8 @@ class PortalFileCacheHTTP(CacheHTTP):
 
 
 class GroupFileCacheHTTP(CacheHTTP):
-    def __init__(self, ucs_internal_url):
-        super().__init__(f'{ucs_internal_url}/groups')
+    def __init__(self, ucs_internal_url, auth_secret=None):
+        super().__init__(f'{ucs_internal_url}/groups', auth_secret)
 
     def refresh(self, reason=None):
         super().refresh(reason)

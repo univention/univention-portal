@@ -292,9 +292,13 @@ class Portal(metaclass=Plugin):
 
 
 class UMCPortal(Portal):
-    def __init__(self, scorer, authenticator):
+    def __init__(self, scorer, authenticator, auth_secret=None):
         self.scorer = scorer
         self.authenticator = authenticator
+
+        # Set `auth_secret` when the UMC endpoints are secured with Basic auth.
+        # This is a makeshift measure in the SouvAP environment and should be replaced.
+        self._auth = ("portal-server", auth_secret) if auth_secret else None
 
     def auth_mode(self, request):
         return "ucs"
@@ -309,7 +313,7 @@ class UMCPortal(Portal):
         uri = urljoin(umc_get_url, get_path)
         body = {"options": {}}
         try:
-            response = requests.post(uri, json=body, headers=headers)
+            response = requests.post(uri, json=body, headers=headers, auth=self._auth)
         except requests.exceptions.RequestException as exc:
             get_logger("umc").warning("Exception while getting %s: %s", get_path, exc)
             return []

@@ -31,6 +31,8 @@ portalserver:
   # umc_get_url: "https://portal.example.com/univention/get"
   ## Define UMC session-info" endpoint
   # umc_session_url: "https://portal.example.com/univention/get/session-info"
+  ## Define Basic auth password with the UMC
+  # auth_secret: "univention"
 
 
 ## Kubernetes ingress
