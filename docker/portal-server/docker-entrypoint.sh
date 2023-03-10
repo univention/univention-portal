@@ -28,6 +28,11 @@ if [[ -z "${PORTAL_SERVER_UMC_SESSION_URL:-}" ]]; then
   exit 126
 fi
 
+if [[ -z "${PORTAL_SERVER_AUTH_SECRET:-}" ]]; then
+  echo "Please set the environmental variable PORTAL_SERVER_AUTH_SECRET"
+  exit 126
+fi
+
 IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
 {
   "admin_groups": [
@@ -36,6 +41,7 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "auth_mode": $auth_mode,
   "editable": $editable,
   "port": $port,
+  "auth_secret": $auth_secret,
   "ucs_internal_url": $ucs_internal_url,
   "umc_get_url": $umc_get_url,
   "umc_session_url": $umc_session_url,
@@ -50,6 +56,7 @@ jq -n \
   --arg auth_mode "${PORTAL_SERVER_AUTH_MODE}" \
   --argjson editable "${PORTAL_SERVER_EDITABLE}" \
   --arg port "${PORTAL_SERVER_PORT}" \
+  --arg auth_secret "${PORTAL_SERVER_AUTH_SECRET}" \
   --arg ucs_internal_url "${PORTAL_SERVER_UCS_INTERNAL_URL}" \
   --arg umc_get_url "${PORTAL_SERVER_UMC_GET_URL}" \
   --arg umc_session_url "${PORTAL_SERVER_UMC_SESSION_URL}" \

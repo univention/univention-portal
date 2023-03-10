@@ -297,11 +297,12 @@ class TestPortal:
 
         requests_post = mocker.patch('requests.post')
         mock_portal_config({"umc_get_url": umc_get_url})
-        portal = UMCPortal(mock.Mock(), mock.Mock())
+        portal = UMCPortal(mock.Mock(), mock.Mock(), "stub-secret")
         portal._request_umc_get('stub_path', mock.Mock())
 
         requests_post.assert_called_with(
             "http://ucshost.test/univention/get/stub_path",
+            auth=("portal-server", "stub-secret"),
             json=mock.ANY, headers=mock.ANY)
 
     def test_announcement(self, mocked_user, portal_data, standard_portal):

@@ -97,12 +97,19 @@ class UMCAuthenticator(Authenticator):
             The URL where to go to with the cookie. Expects a json answer with the username.
     group_cache:
             As UMC does not return groups, we need a cache object that gets us the groups for the username.
+    _auth:
+            If the UMC and the portal server are running on different hosts,
+            this shared secret will be sent to the UMC endpoints for authentication.
     """
 
-    def __init__(self, auth_mode, umc_session_url, group_cache):
+    def __init__(self, auth_mode, umc_session_url, group_cache, auth_secret=None):
         self.auth_mode = auth_mode
         self.umc_session_url = umc_session_url
         self.group_cache = group_cache
+
+        # Set `auth_secret` when the UMC endpoints are secured with Basic auth.
+        # TODO: This is a makeshift measure in the SouvAP environment and should be replaced.
+        self._auth = ("portal-server", auth_secret)
 
     def get_auth_mode(self, request):
         return self.auth_mode
@@ -140,8 +147,15 @@ class UMCAuthenticator(Authenticator):
 
     async def _ask_umc(self, cookies, headers):
         try:
+            auth_mode, auth_username, auth_password = None, None, None
+            if self._auth:
+                auth_mode = "basic"
+                auth_username, auth_password = self._auth
+
             headers['Cookie'] = '; '.join('='.join(c) for c in cookies.items())
-            req = HTTPRequest(self.umc_session_url, method="GET", headers=headers)
+            req = HTTPRequest(self.umc_session_url, method="GET", headers=headers,
+                              auth_mode=auth_mode, auth_username=auth_username, auth_password=auth_password)
+
             http_client = AsyncHTTPClient()
             response = await http_client.fetch(req)
             data = json.loads(response.body.decode('UTF-8'))

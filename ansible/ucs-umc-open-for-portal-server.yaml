@@ -1,0 +1,17 @@
+---
+- name: Make UCS machine's UMC reachable from the outside
+  hosts: ucs_dev_machines
+
+  tasks:
+    - name: Store secret for basic auth
+      ansible.builtin.command: "htpasswd -cb /etc/apache2/portal_auth.passwd portal-server {{ ucs_auth_secret }}"
+
+    - name: Add basic auth and fake client IP for UMC
+      ansible.builtin.template:
+        src: ./templates/expose-univention-umc.conf.j2
+        dest: /etc/apache2/sites-enabled/010-expose-univention-umc.conf
+
+    - name: Reload Apache configuration
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded

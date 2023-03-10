@@ -6,3 +6,4 @@ ucs_dev_machines:
       ansible_host: 192.0.2.20
   vars:
     ansible_user: root
+    ucs_auth_secret: univention
