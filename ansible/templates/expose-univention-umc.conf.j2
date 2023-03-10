@@ -22,6 +22,9 @@
     AuthUserFile /etc/apache2/portal_auth.passwd
     Require valid-user
 
+    # Remove the Authorization header, to avoid confusing the UMC
+    RequestHeader unset authorization
+
     # Pretend that anyone passing the authorization is from the local machine
     # to satisfy the origin check of the UMC's webserver.
     RequestHeader set X-Forwarded-For 127.0.0.1
