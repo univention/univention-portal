@@ -243,21 +243,31 @@ To enable hot reloading, you need to do
 
 `yarn serve --host portal-dev.intranet`
 
+
 ## Translation
 
-We use the UCS tooling. The configuration is in `debian/phoenixportal.univention-l10n.`
-You need to download the ucs repo to call the following commands: https://git.knut.univention.de/univention/ucs
+We use the UCS tooling and rely on the configuration in the base debian package
+at `/debian/univention-portal.univention-l10n`.
+
+Working with the translations can be done trough the `Makefile`. Using `docker
+compose` does automatically provide a well defined execution environment:
 
 ```
-# creates tempprary files for vue and generates/updates de.po
-./process_vue_files.sh && ~/git/ucs/packaging/univention-l10n/univention-l10n-build de
+cd /docker
 
-# compiles de.po to de.json
-~/git/ucs/packaging/univention-l10n/univention-l10n-install de
+# Update PO files
+docker compose run -it --rm deb-builder make l10n-extract
 
-# copy that json into out public directory
-cp {debian/phoenixportal/,}public/i18n/de.json
+# Compile into MO files and JSON files
+docker compose run -it --rm deb-builder make l10n-build
 ```
+
+The Results of the translation build process can be found in the following
+places:
+
+- The Portable Object (PO) files are in [`./src/assets/`](./src/assets/).
+- The generated JSON Message Objects will be located in `./public/i18n/`.
+
 
 ## Unit tests
 Runs unit tests with Jest
