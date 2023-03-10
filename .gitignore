@@ -30,6 +30,8 @@ generated-config-*.yml
 .idea/
 .mypy_cache/
 
+# Packaging and build process related
+/debian/univention-portal/
 
 # Notification API
 notifications-api/*.db

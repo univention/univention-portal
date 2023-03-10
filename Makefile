@@ -39,3 +39,12 @@ build:
 	$$HOME/.node/bin/npm install -g yarn
 	cd frontend && $$HOME/.node/bin/yarn install
 	cd frontend && $$HOME/.node/bin/yarn build
+
+l10n-extract:
+	./frontend/process_vue_files.sh
+	univention-l10n-build de
+
+l10n-build:
+	univention-l10n-install de
+	mkdir -p ./frontend/public/i18n
+	cp ./debian/univention-portal/usr/share/univention-portal/i18n/de.json ./frontend/public/i18n/de.json
