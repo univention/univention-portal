@@ -7,6 +7,7 @@ RUN apt-get update \
       build-essential \
       devscripts \
       curl \
+      univention-l10n-dev \
     && rm -fr /var/lib/apt/lists/*
 
 ENV NODE_VERSION="14.21.1"
