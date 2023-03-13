@@ -6,7 +6,7 @@ services:
   portal-server:
     environment:
       PORTAL_SERVER_UCS_INTERNAL_URL: "http://host.docker.internal:8000/univention/internal"
-      PORTAL_SERVER_UMC_GET_URL: "http://host.docker.internal:8000/univention/get"
-      PORTAL_SERVER_UMC_SESSION_URL: "http://host.docker.internal:8000/univention/get/session-info"
+      PORTAL_SERVER_UMC_GET_URL: "http://host.docker.internal:8000/univention/internal/umc/get"
+      PORTAL_SERVER_UMC_SESSION_URL: "http://host.docker.internal:8000/univention/internal/umc/get/session-info"
 
 ...
