@@ -57,7 +57,15 @@ istio:
   # host: "portal.example.com"
   virtualService:
     enabled: true
-    annotations:
+    annotations: {}
+    # pathOverrides:
+    #   - match: "exact"
+    #     path: "/univention/portal/css/custom.css"
+    #     route:
+    #       - destination:
+    #           port:
+    #             number: 80
+    #           host: "example-service"
     paths:
       # TODO: Istio does currently not support a URL rewrite which uses regular
       # expressions, basically the capture groups are not yet supported. It also
