@@ -28,9 +28,9 @@ portalserver:
   ## Define UCS internal endpoint
   # ucs_internal_url: "https://portal.example.com/univention/internal"
   ## Define UMC get endpoint
-  # umc_get_url: "https://portal.example.com/univention/get"
+  # umc_get_url: "https://portal.example.com/univention/internal/umc/get"
   ## Define UMC session-info" endpoint
-  # umc_session_url: "https://portal.example.com/univention/get/session-info"
+  # umc_session_url: "https://portal.example.com/univention/internal/umc/get/session-info"
   ## Define Basic auth password with the UMC
   # auth_secret: "univention"
 

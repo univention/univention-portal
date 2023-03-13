@@ -10,8 +10,8 @@ portalserver:
   environment: "staging"
   log_level: "DEBUG"
   ucs_internal_url: "https://portal.example.develop.souvap-univention.de/univention/internal"
-  umc_get_url: "https://portal.example.develop.souvap-univention.de/univention/get"
-  umc_session_url: "https://portal.example.develop.souvap-univention.de/univention/get/session-info"
+  umc_get_url: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get"
+  umc_session_url: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
   auth_secret: "univention"
 
 
