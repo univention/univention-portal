@@ -14,11 +14,18 @@ stages:
   - package
   - publish
 
-# This workflow rule prevents duplicate pipelines when pushing to branches that already have a merge request open
+# This workflow rule prevents duplicate pipelines when pushing to branches that
+# already have a merge request open. Our integration branch "develop" is an
+# explicit exception and shall always trigger.
+#
+# The rules are applied in order, the first matching one decides.
+#
+# Compare https://docs.gitlab.com/ee/ci/yaml/#rules
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_PIPELINE_SOURCE == "web"
     - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
       when: never
     - if: $CI_COMMIT_BRANCH
