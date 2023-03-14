@@ -103,3 +103,7 @@ class PortalPage(BasePage):
         expect(self.cookie_dialog).to_be_visible()
         self.cookie_dialog.click_accept_button()
         expect(self.cookie_dialog).to_be_hidden()
+
+    def get_language(self):
+        html_tag = self.page.locator("html")
+        return html_tag.get_attribute("lang")
