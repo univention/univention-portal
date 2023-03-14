@@ -72,7 +72,30 @@ describe('NewPasswordBox Component', () => {
     expect(newPasswordBox.element.value).toBe('passwordValuewNew');
     expect(retypePasswordBox.element.value).toBe('passwordValuewRetype');
 
+async function withNewPasswordBox(options, callback) {
+  const wrapper = mount(NewPasswordBox, options);
+  try {
+    return await callback(wrapper);
+  } finally {
     wrapper.unmount();
+  }
+}
+
+describe('NewPasswordBox widget', () => {
+  test('accepts password entry', async () => {
+    withNewPasswordBox(optionsBase, async (wrapper) => {
+      const inputValue = 'test password';
+
+      const passwordBox = await wrapper.get('[data-test="new-password-box"]');
+      expect(passwordBox.element.value).toBe('');
+      await passwordBox.setValue(inputValue);
+      expect(passwordBox.element.value).toBe(inputValue);
+
+      const retypeBox = await wrapper.get('[data-test="retype-password-box"]');
+      expect(retypeBox.element.value).toBe('');
+      await retypeBox.setValue(inputValue);
+      expect(retypeBox.element.value).toBe(inputValue);
+    });
   });
 
   test('is components uses computed properties correctly', async () => {
@@ -125,6 +148,7 @@ describe('NewPasswordBox Component', () => {
         plugins: [store],
       },
     });
+  });
 
     const passwordBoxNew = await wrapper.find('[data-test="new-password-box"]');
     const passwordBoxButton = await wrapper.find('[data-test="password-box-icon"]');
@@ -132,7 +156,7 @@ describe('NewPasswordBox Component', () => {
     expect(passwordBoxButton.attributes('aria-label')).toBe('Show password');
     expect(passwordBoxNew.attributes('type')).toBe('password');
 
-    await passwordBoxButton.trigger('click');
+      await passwordBoxButton.trigger('click');
 
     expect(passwordBoxButton.attributes('aria-label')).toBe('Hide password');
     expect(passwordBoxNew.attributes('type')).toBe('text');
