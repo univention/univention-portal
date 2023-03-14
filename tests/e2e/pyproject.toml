@@ -12,6 +12,7 @@ dependencies = [ "playwright==1.30.0" ]
 
 [project.optional-dependencies]
 tests = [
+    "ipdb==0.13.13",
     "pytest-playwright==0.3.0",
     "requests==2.28.2",
     "url-normalize==1.4.3"
@@ -27,3 +28,4 @@ packages = ["src/pages"]
 [tool.pytest.ini_options]
 pythonpath = [ "src" ]
 testpaths = [ "tests" ]
+addopts = [ "--pdbcls=IPython.terminal.debugger:TerminalPdb" ]
