@@ -107,3 +107,18 @@ class PortalPage(BasePage):
     def get_language(self):
         html_tag = self.page.locator("html")
         return html_tag.get_attribute("lang")
+
+    def switch_language(self, name):
+        menu_entry_names = {
+            "en": "Change Language",
+            "de": "Sprache ändern",
+        }
+        # TODO: Always should set the "lang" attribute.
+        # See https://git.knut.univention.de/univention/components/univention-portal/-/issues/708
+        current_language = self.get_language() or "en"
+        change_language_name = menu_entry_names[current_language]
+
+        self.reveal_right_side_menu()
+        self.right_side_menu.click_entry(change_language_name)
+        self.right_side_menu.click_entry(name)
+        self.hide_right_side_menu()
