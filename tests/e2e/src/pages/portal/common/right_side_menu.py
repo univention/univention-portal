@@ -12,3 +12,9 @@ class RightSideMenu(BasePagePart):
 
     def click_login_button(self):
         self.login_button.click()
+
+    def click_entry(self, name):
+        self.menu_entry(name).click()
+
+    def menu_entry(self, name):
+        return self.page_part_locator.get_by_role("button", name=name)
