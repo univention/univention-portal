@@ -26,6 +26,7 @@ class HomePageLoggedOut(HomePage):
         self.reveal_right_side_menu()
         expect(self.right_side_menu.login_button).to_be_visible()
         expect(self.right_side_menu.logout_button).to_be_hidden()
+        self.hide_right_side_menu()
 
     def check_its_there(self):
         expect(self.login_widget).to_be_visible()
