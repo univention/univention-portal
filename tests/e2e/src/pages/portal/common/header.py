@@ -11,7 +11,7 @@ class Header(BasePagePart):
         self.bell_icon = self.get_by_role("button",
                                           name=re.compile("^Notifications"),
                                           )
-        self.hamburger_icon = self.get_by_role("button", name="Menu")
+        self.hamburger_icon = self.locator("#header-button-menu")
 
     def click_bell_icon(self):
         self.bell_icon.click()
