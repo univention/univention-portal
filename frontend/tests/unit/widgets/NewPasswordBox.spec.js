@@ -43,95 +43,86 @@ const store = new Vuex.Store({
   },
 });
 
-describe('NewPasswordBox Component', () => {
-  test('input value', async () => {
+const optionsBase = {
+  propsData: {
+    name: 'password',
+    modelValue: {},
+    forAttrOfLabel: '',
+    invalidMessageId: '',
+    tabindex: 0,
+  },
+};
 
-    const wrapper = mount(NewPasswordBox, {
-      props: {
-        name: 'new password box',
-        modelValue: {},
-        forAttrOfLabel: '',
-        invalidMessageId: '',
-        disabled: false,
-        tabindex: 0,
-        required: true,
-        canShowPassword: false,
-      },
-    });
+const optionsPwVisibilityToggle = {
+  propsData: {
+    ...optionsBase.propsData,
+    canShowPassword: true,
+  },
+  children: [ToggleButton],
+  global: {
+    plugins: [store],
+  },
+};
 
-    const inputValue = 'test input value';
-
-    const passwordBox = await wrapper.find('[data-test="new-password-box"]');
-    expect(passwordBox.element.value).toBe('');
-    await passwordBox.setValue(inputValue);
-    expect(passwordBox.element.value).toBe(inputValue);
-
-    const retypeBox = await wrapper.find('[data-test="retype-password-box"]');
-    expect(retypeBox.element.value).toBe('');
-    await retypeBox.setValue(inputValue);
-    expect(retypeBox.element.value).toBe(inputValue);
-
+async function withNewPasswordBox(options, callback) {
+  const wrapper = mount(NewPasswordBox, options);
+  try {
+    return await callback(wrapper);
+  } finally {
     wrapper.unmount();
+  }
+}
+
+describe('NewPasswordBox widget', () => {
+  test('accepts password entry', async () => {
+    withNewPasswordBox(optionsBase, async (wrapper) => {
+      const inputValue = 'test password';
+
+      const passwordBox = await wrapper.get('[data-test="new-password-box"]');
+      expect(passwordBox.element.value).toBe('');
+      await passwordBox.setValue(inputValue);
+      expect(passwordBox.element.value).toBe(inputValue);
+
+      const retypeBox = await wrapper.get('[data-test="retype-password-box"]');
+      expect(retypeBox.element.value).toBe('');
+      await retypeBox.setValue(inputValue);
+      expect(retypeBox.element.value).toBe(inputValue);
+    });
   });
 
-  test('computed property', async () => {
-    const wrapper = mount(NewPasswordBox, {
-      props: {
-        name: 'new password box',
-        modelValue: {},
-        forAttrOfLabel: '',
-        invalidMessageId: '',
-        disabled: false,
-        tabindex: 0,
-        required: true,
-        canShowPassword: false,
-      },
+  test('computes property aria-invalid correctly', async () => {
+    withNewPasswordBox(optionsBase, async (wrapper) => {
+      expect(wrapper.vm.invalid).toBe(true);
+      await wrapper.setProps({ invalidMessage: {} });
+      expect(wrapper.vm.invalid).toBe(true);
     });
-
-    // Expect Aria-Invalid to be set correctly
-    expect(wrapper.vm.invalid).toBe(true);
-    await wrapper.setProps({ invalidMessage: {} });
-    expect(wrapper.vm.invalid).toBe(true);
   });
 
-  test('its actually a password input field', async () => {
-    const wrapper = await mount(NewPasswordBox, {
-      propsData: {
-        modelValue: '',
-        name: 'password',
-        forAttrOfLabel: '',
-        invalidMessageId: '',
-      },
+  test('renders password input field with correct type', async () => {
+    withNewPasswordBox(optionsBase, async (wrapper) => {
+      const passwordBox = await wrapper.get('[data-test="new-password-box"]');
+      expect(passwordBox.attributes('type')).toBe('password');
     });
-    const passwordBox = await wrapper.find('[data-test="new-password-box"]');
-
-    expect(passwordBox.attributes('type')).toBe('password');
   });
 
-  test('show/hide password icon button', async () => {
-    const wrapper = await mount(NewPasswordBox, {
-      propsData: {
-        modelValue: '',
-        name: 'password',
-        forAttrOfLabel: '',
-        invalidMessageId: '',
-        canShowPassword: true,
-      },
-      children: [ToggleButton],
-      global: {
-        plugins: [store],
-      },
+  test('does not allow to show password by default', async () => {
+    withNewPasswordBox(optionsBase, async (wrapper) => {
+      expect(wrapper.find('[data-test="password-box-icon"]').exists()).toBe(false);
     });
+  });
 
-    const passwordBox = await wrapper.find('[data-test="new-password-box"]');
-    const passwordBoxButton = await wrapper.find('[data-test="password-box-icon"]');
+  test('is able to toggle password visiblity correctly', async () => {
+    withNewPasswordBox(optionsPwVisibilityToggle, async (wrapper) => {
+      const passwordBox = await wrapper.get('[data-test="new-password-box"]');
+      const passwordBoxButton = await wrapper.get('[data-test="password-box-icon"]');
 
-    expect(passwordBoxButton.attributes('aria-label')).toBe('Show password');
-    expect(passwordBox.attributes('type')).toBe('password');
+      expect(passwordBoxButton.attributes('aria-label')).toBe('Show password');
+      expect(passwordBox.attributes('type')).toBe('password');
 
-    await passwordBoxButton.trigger('click');
+      await passwordBoxButton.trigger('click');
 
-    expect(passwordBoxButton.attributes('aria-label')).toBe('Hide password');
-    expect(passwordBox.attributes('type')).toBe('text');
+      expect(passwordBoxButton.attributes('aria-label')).toBe('Hide password');
+      expect(passwordBox.attributes('type')).toBe('text');
+    });
   });
 });
