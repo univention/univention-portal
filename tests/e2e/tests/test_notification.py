@@ -1,3 +1,4 @@
+import copy
 import time
 import uuid
 from datetime import datetime, timedelta, timezone
@@ -49,8 +50,9 @@ def notification_json_data():
 
 @pytest.fixture()
 def notification_json_data_different_details(notification_json_data):
-    notification_json_data["details"] = "Different details"
-    return notification_json_data
+    json_data = copy.deepcopy(notification_json_data)
+    json_data["details"] = "Different details"
+    return json_data
 
 
 @pytest.fixture()
