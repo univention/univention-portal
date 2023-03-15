@@ -53,6 +53,8 @@ Here are some useful ones:
 |               | Notification has correct title, detail and link attributes      | `test/test_two_notifications.py`        |
 |               | Two notifications are displayed in the correct order            | `test/test_two_notifications.py`        |
 |               | Notification expiry time is respected                           | `test/test_notification_expiry_time.py` |
+| Translation   | Logged out user is able to change language                      | `test/test_i18n.py`                     |
+| UMC Tile      | Admin user is able to use the Users tile                        | `test/test_users_page.py`               |
 ## For test engineers
 
 We use the Page Object model in our tests. The page objects are in `src/pages`.
