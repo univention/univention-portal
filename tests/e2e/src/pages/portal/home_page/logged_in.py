@@ -9,6 +9,7 @@ class HomePageLoggedIn(HomePage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.umc_heading = self.page.get_by_text("Univention Management Console", exact=True)
+        self.users_tile = self.page.get_by_role("link", name="User New Tab")
 
     def navigate(self, username, password):
         self.page.goto("/")
@@ -38,3 +39,6 @@ class HomePageLoggedIn(HomePage):
         # TODO: There seems to be nothing that's necessarily common between the UCS and SouvAP envs
         # We resort to checking nothing here.
         pass
+
+    def click_users_tile(self):
+        self.users_tile.click()
