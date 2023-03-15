@@ -60,6 +60,8 @@ def send_notification_endpoint(notifications_api_base_url):
     return urljoin(notifications_api_base_url, "./v1/notifications/")
 
 
+# https://git.knut.univention.de/univention/components/univention-portal/-/issues/712
+@pytest.mark.xfail()
 def test_two_notifications(login_and_clear_old_notifications,
                            send_notification_endpoint,
                            notification_json_data,
