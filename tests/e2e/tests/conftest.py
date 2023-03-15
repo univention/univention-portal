@@ -61,15 +61,3 @@ def navigate_to_home_page_logged_in(page, username, password):
     home_page_logged_in = HomePageLoggedIn(page)
     home_page_logged_in.navigate(username, password)
     return page
-
-
-@pytest.fixture()
-def navigate_to_users_page(page, username, password):
-    home_page_logged_in = HomePageLoggedIn(page)
-    home_page_logged_in.navigate(username, password)
-    # TODO: We don't yet have a concept for popups in our POM.
-    # So we do the navigation in the fixture
-    with page.expect_popup() as tab_admin:
-        home_page_logged_in.click_users_tile()
-    tab_admin.value.wait_for_load_state()
-    return page, tab_admin.value
