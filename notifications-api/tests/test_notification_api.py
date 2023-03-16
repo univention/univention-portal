@@ -161,25 +161,6 @@ def test_mark_notification_confirmed(empty_db, request_data, client):
     assert datetime.fromisoformat(response.json()['confirmationTime']) > now
 
 
-@pytest.mark.xfail(reason="Implementation is pending")
-def test_invalidate_one_notification_by_sender(empty_db, request_data, client):
-    response = client.post('/v1/notifications/', json=request_data)
-    id = response.json()['id']
-    response = client.post(f'/v1/notifications/{id}/invalidate')
-    assert response.status_code == "200"
-
-
-@pytest.mark.xfail(reason="Implementation is pending")
-def test_bulk_invalidate_many_notifications_by_sender(empty_db, request_data, client):
-    response = client.post('/v1/notifications/', json=request_data)
-    id1 = response.json()['id']
-    response = client.post('/v1/notifications/', json=request_data)
-    id2 = response.json()['id']
-    ids = [id1, id2]
-    response = client.post('/v1/notifications/invalidate', json=ids)
-    assert response.status_code == "200"
-
-
 @pytest.mark.asyncio()
 async def test_stream_notifications(mocker):
     from app import messaging
