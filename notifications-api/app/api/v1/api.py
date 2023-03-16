@@ -73,12 +73,26 @@ def get_notification(
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
-@router.delete("/notifications/{id}/", tags=["receiver"])
+@router.delete("/notifications/{id}/", tags=["receiver", "sender"])
 def delete_notification(
     id: str,
     background_tasks: BackgroundTasks,
     service=Depends(NotificationService),
 ):
+    """
+    Delete one notification
+
+    Allows to delete a notification. This is intended to be used in the
+    following two cases:
+
+    1. A *Sender* can delete a notification if it is not valid anymore.
+       A *Sender* is only allowed to delete notifications which it did create
+       itself.
+
+    2. A *Receiver* can delete a notification if the user does want it to
+       disappear. A *Receiver* can only delete notifications which are targeted
+       to the user which it represents.
+    """
     try:
         # TODO: Once the current user is known we don't have to read this from the
         # database anymore.
