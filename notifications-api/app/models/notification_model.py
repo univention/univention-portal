@@ -37,6 +37,15 @@ class NotificationLink(SQLModel):
     text: Optional[str]
     target: Optional[str]
 
+    class Config:
+        fields = {
+            "url": {
+                "description": (
+                    "The accepted URLs are limited to HTTP and HTTPS, they must be absolute URLs."
+                ),
+            },
+        }
+
 
 class NotificationBase(SQLModel):
     sourceUid: UUID
@@ -46,10 +55,83 @@ class NotificationBase(SQLModel):
     severity: NotificationSeverity
     sticky: Optional[bool]
     needsConfirmation: Optional[bool]
-    notificationType: NotificationType
+    notificationType: Optional[NotificationType] = NotificationType.EVENT
     expireTime: Optional[datetime]
     link: Optional[NotificationLink] = Field(default=None, sa_column=Column(JSON), nullable=True)
     data: Dict = Field(default={}, sa_column=Column(JSON))
+
+    class Config:
+        arbitrary_types_allowed = True
+        fields = {
+            "sourceUid": {
+                "title": "LDAP-UID of Sender",
+            },
+            "targetUid": {
+                "title": "LDAP-UID of Receiver",
+            },
+            "title": {
+                "description": (
+                    "The notification title shall be visible to the user in a highlighted way. "
+                    "The title should be kept short."
+                ),
+            },
+            "details": {
+                "description": (
+                    "The notification details shall be visible to the user below the title. "
+                    "The details can be longer than the title."
+                ),
+            },
+            "severity": {
+                "description": (
+                    "The severity influences how the notification will be displayed to the user. "
+                    "Typically this influences the background color. It does not influence "
+                    "if the notification is shown or not."
+                ),
+            },
+            "expireTime": {
+                "description": (
+                    "A point in time at which the notification is not relevant anymore. "
+                    "After this point in time the notification shall not be presented to the "
+                    "user anymore."
+                ),
+            },
+            "sticky": {
+                # TODO: Remove field from model, it's not supported
+                "deprecated": True,
+                "description": (
+                    "This attribute is not supported and will be removed."
+                ),
+            },
+            "needsConfirmation": {
+                # TODO: Remove field from model, it's not supported
+                "deprecated": True,
+                "description": (
+                    "This attribute is not supported and will be removed."
+                ),
+            },
+            "notificationType": {
+                # TODO: Remove field from model, it's not supported
+                "deprecated": True,
+                "description": (
+                    "This attribute is not supported and will be removed."
+                ),
+            },
+            "data": {
+                # TODO: Remove field from model, it's not supported
+                "deprecated": True,
+                "description": (
+                    "This attribute is not supported and will be removed."
+                ),
+            },
+            "link": {
+                "description": (
+                    "Allows to augment the notification with a link. "
+                    "The intended usage is to provide a link which the user can follow "
+                    "to reach the resource which the notification is about."
+                ),
+            },
+
+        }
 
     @validator('link')
     def validate_link(cls, link: Optional[NotificationLink]):
@@ -57,9 +139,6 @@ class NotificationBase(SQLModel):
             return link.dict()
         else:
             return None
-
-    class Config:
-        arbitrary_types_allowed = True
 
     def has_expired(self):
         """Returns `True` when the notification has an expiry time and that time is in the past."""
