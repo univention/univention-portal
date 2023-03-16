@@ -12,7 +12,8 @@ services:
       LOG_LEVEL: DEBUG
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
       APPLY_DATABASE_MIGRATIONS: True
-      ROOT_PATH: "/univention/portal/notifications-api"
+      # Use in override file if you want to run the app behind a reverse proxy
+      # ROOT_PATH: "/univention/portal/notifications-api"
 
     depends_on:
       - db
