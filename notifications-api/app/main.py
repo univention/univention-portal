@@ -28,7 +28,7 @@ the user has a holistic view when using the Portal.
   backend – the API then delivers the notifications to the Portal.
 
 - The notification API service is always available for services to publish
-  notifications or to updated their published notifications.
+  notifications or to remove their published notifications.
 
 - Notifications are pushed to the user if the user is online in the Portal.
 
@@ -55,13 +55,13 @@ A decision about the commitments regarding stability and backwards
 compatibility has not yet been made.
 
 As a rule of thumb, the Sender part of the API is expected to have such a
-commitment once it stabilizes and reaches closer to the point of it's first
+commitment once it stabilizes and reaches closer to the point of its first
 release.
 
-A scenario to have also other clients besides the Portal has not been taken
-into account yet. Currently the Receiver section of the API is considered
-private to the Univention Portal and is not accompanied by any stability
-commitments.
+A scenario to have also other *Receivers* besides the Portal has not
+been taken into account yet. Currently the Receiver section of the API is
+considered private to the Univention Portal and is not accompanied by any
+stability commitments.
 
 """
 
@@ -72,8 +72,8 @@ tags_metadata = [
         "description": "Notification Sender API",
     },
     {
-        "name": "client",
-        "description": "Notification Client API",
+        "name": "receiver",
+        "description": "Notification Receiver API",
     },
 ]
 
