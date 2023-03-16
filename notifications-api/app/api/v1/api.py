@@ -27,6 +27,12 @@ async def create_notification(
     background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
 ) -> Notification:
+    """
+    Create one notification.
+
+    *Senders* are supposed to use this endpoint in order to submit a
+    notification for a specific user.
+    """
     if data.has_expired():
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Expiry time is in the past.")
 
