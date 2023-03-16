@@ -42,7 +42,7 @@ async def create_notification(
     return notification
 
 
-@router.get("/notifications/", tags=["client"])
+@router.get("/notifications/", tags=["receiver"])
 def get_notifications(
     limit: str = Query(default=100),
     type: str = Query(default=NotificationType.EVENT.value),
@@ -56,7 +56,7 @@ def get_notifications(
     return service.get_notifications(query)
 
 
-@router.get("/notifications/{id}/", tags=["client"])
+@router.get("/notifications/{id}/", tags=["receiver"])
 def get_notification(
     id: str,
     service=Depends(NotificationService),
@@ -67,7 +67,7 @@ def get_notification(
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
-@router.delete("/notifications/{id}/", tags=["client"])
+@router.delete("/notifications/{id}/", tags=["receiver"])
 def delete_notification(
     id: str,
     background_tasks: BackgroundTasks,
@@ -88,7 +88,7 @@ def delete_notification(
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
 
 
-@router.post("/notifications/{id}/hide", tags=["client"])
+@router.post("/notifications/{id}/hide", tags=["receiver"])
 def hide_notification(
     id: str,
     background_tasks: BackgroundTasks,
@@ -107,7 +107,7 @@ def hide_notification(
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
 
 
-@router.post("/notifications/{id}/read", tags=["client"])
+@router.post("/notifications/{id}/read", tags=["receiver"])
 def mark_notification_read(
     id: str,
     service: NotificationService = Depends(NotificationService),
@@ -115,7 +115,7 @@ def mark_notification_read(
     return service.mark_notification_read(id)
 
 
-@router.post("/notifications/{id}/confirm", tags=["client"])
+@router.post("/notifications/{id}/confirm", tags=["receiver"])
 def mark_notification_confirmed(
     id: str,
     service: NotificationService = Depends(NotificationService),
@@ -153,7 +153,7 @@ def invalidate_notification(id: str) -> None:
 RETRY_TIMEOUT = 15000  # milliseconds
 
 
-@router.get("/notifications/stream", tags=["client"])
+@router.get("/notifications/stream", tags=["receiver"])
 async def stream_notifications(request: Request):
 
     async def event_generator():
