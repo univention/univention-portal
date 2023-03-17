@@ -7,18 +7,6 @@ from pydantic import HttpUrl, validator
 from sqlmodel import JSON, Column, Field, SQLModel
 
 
-def _datetime_is_tz_aware(dt: datetime) -> bool:
-    """
-    Tests whether the given `datetime` object is timezone-aware.
-
-    See: https://docs.python.org/3/library/datetime.html#determining-if-an-object-is-aware-or-naive
-
-    TODO: Once provided by pydantic, we might be able to use `AwareDatetime` for properties such as `expireTime`
-          (see https://github.com/pydantic/pydantic/discussions/3477).
-    """
-    return (dt.tzinfo is not None) and (dt.tzinfo.utcoffset(dt) is not None)
-
-
 class NotificationSeverity(str, Enum):
     INFO = "info"
     SUCCESS = "success"
@@ -134,3 +122,15 @@ class NotificationCreate(NotificationBase):
             return expireTime
         else:
             raise ValueError('must be timezone-aware')
+
+
+def _datetime_is_tz_aware(dt: datetime) -> bool:
+    """
+    Tests whether the given `datetime` object is timezone-aware.
+
+    See: https://docs.python.org/3/library/datetime.html#determining-if-an-object-is-aware-or-naive
+
+    TODO: Once provided by pydantic, we might be able to use `AwareDatetime` for properties such as `expireTime`
+          (see https://github.com/pydantic/pydantic/discussions/3477).
+    """
+    return (dt.tzinfo is not None) and (dt.tzinfo.utcoffset(dt) is not None)
