@@ -139,19 +139,6 @@ class NotificationService:
         self._db.add(notification)
         self._db.commit()
 
-    def mark_notification_read(
-        self,
-        id: str,
-    ) -> Notification:
-        statement = select(Notification).where(Notification.id == id)
-        notification = self._db.exec(statement).one()
-        notification.readTime = datetime.now(timezone.utc)
-        self._db.add(notification)
-        self._db.commit()
-        self._db.refresh(notification)
-        notification._force_to_utc()
-        return notification
-
     def confirm_notification(
         self,
         id: str,
