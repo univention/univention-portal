@@ -4,7 +4,7 @@ import notifications, {
   actions, defaultHideAfter, mapBackendNotification, mutations, severityMapping,
 } from '@/store/modules/notifications';
 import { getNotificationsApi } from '@/store/modules/notifications/apiclient';
-import { ClientApi } from '@/apis/notifications';
+import { ReceiverApi } from '@/apis/notifications';
 import { stubBackendNotification, stubFullNotification, stubUuid } from './stubs';
 import * as utils from '../utils';
 
@@ -15,12 +15,12 @@ beforeEach(() => {
   const stubResponse = {
     data: [],
   };
-  (ClientApi as jest.Mock).mockImplementation(() => ({
+  (ReceiverApi as jest.Mock).mockImplementation(() => ({
     getNotificationsV1NotificationsGet: jest.fn().mockImplementation(() => stubResponse),
     hideNotificationV1NotificationsIdHidePost: jest.fn(),
     deleteNotificationV1NotificationsIdDelete: jest.fn(),
   }));
-  utils.mockReturnValue(getNotificationsApi, new ClientApi());
+  utils.mockReturnValue(getNotificationsApi, new ReceiverApi());
 });
 
 afterEach(() => {
