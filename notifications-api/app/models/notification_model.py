@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Dict, Optional
+from typing import Optional
 from uuid import UUID
 
 from pydantic import HttpUrl, validator
@@ -53,15 +53,10 @@ class NotificationBase(SQLModel):
     title: str
     details: str
     severity: NotificationSeverity
-    sticky: Optional[bool]
-    needsConfirmation: Optional[bool]
-    notificationType: Optional[NotificationType] = NotificationType.EVENT
     expireTime: Optional[datetime]
     link: Optional[NotificationLink] = Field(default=None, sa_column=Column(JSON), nullable=True)
-    data: Dict = Field(default={}, sa_column=Column(JSON))
 
     class Config:
-        arbitrary_types_allowed = True
         fields = {
             "sourceUid": {
                 "title": "LDAP-UID of Sender",
@@ -95,34 +90,6 @@ class NotificationBase(SQLModel):
                     "user anymore."
                 ),
             },
-            "sticky": {
-                # TODO: Remove field from model, it's not supported
-                "deprecated": True,
-                "description": (
-                    "This attribute is not supported and will be removed."
-                ),
-            },
-            "needsConfirmation": {
-                # TODO: Remove field from model, it's not supported
-                "deprecated": True,
-                "description": (
-                    "This attribute is not supported and will be removed."
-                ),
-            },
-            "notificationType": {
-                # TODO: Remove field from model, it's not supported
-                "deprecated": True,
-                "description": (
-                    "This attribute is not supported and will be removed."
-                ),
-            },
-            "data": {
-                # TODO: Remove field from model, it's not supported
-                "deprecated": True,
-                "description": (
-                    "This attribute is not supported and will be removed."
-                ),
-            },
             "link": {
                 "description": (
                     "Allows to augment the notification with a link. "
@@ -148,11 +115,8 @@ class NotificationBase(SQLModel):
 
 class Notification(NotificationBase, table=True):
     id: UUID = Field(primary_key=True)
-    receiveTime: datetime
     popup: bool = True
-    readTime: Optional[datetime]
     sseSendTime: Optional[datetime]
-    confirmationTime: Optional[datetime]
 
     def _force_to_utc(self):
         """
