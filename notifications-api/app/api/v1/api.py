@@ -65,7 +65,7 @@ def get_notifications(
 def get_notification(
     id: str,
     service=Depends(NotificationService),
-):
+) -> Notification:
     try:
         return service.get_notification(id)
     except NoResultFound:
