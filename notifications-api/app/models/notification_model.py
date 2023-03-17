@@ -95,9 +95,12 @@ class NotificationBase(SQLModel):
             and (self.expireTime < datetime.now(timezone.utc))
 
 
-class Notification(NotificationBase, table=True):
+class NotificationRead(NotificationBase):
     id: UUID = Field(primary_key=True)
     popup: bool = True
+
+
+class Notification(NotificationRead, table=True):
     sseSendTime: Optional[datetime]
 
     def _force_to_utc(self):
