@@ -28,8 +28,7 @@ docker compose build
 Example to initialize the database:
 
 ```
-docker compose run app /bin/bash
-alembic upgrade head
+docker compose run -it --rm app alembic upgrade head
 ```
 
 The output does look roughly as follows:
@@ -97,6 +96,14 @@ something useful:
 
 ```
 docker compose run -it --rm app alembic revision --autogenerate
+```
+
+Afterwards inspect and adapt the generated migration. Testing the migration can
+be easily done with the following commands:
+
+```
+docker compose run -it --rm app alembic upgrade +1
+docker compose run -it --rm app alembic downgrade -1
 ```
 
 ## Using the API for HTTP requests

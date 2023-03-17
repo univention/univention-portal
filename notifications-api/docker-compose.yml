@@ -11,7 +11,12 @@ services:
       DEV_MODE: "True"
       LOG_LEVEL: DEBUG
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
-      APPLY_DATABASE_MIGRATIONS: True
+
+      # Development shall by default not apply migrations, so that while working
+      # on a migration it's easily possible to run "alembic upgrade" and
+      # "alembic downgrade" without any auto-apply to interfere with it.
+      APPLY_DATABASE_MIGRATIONS: False
+
       # Use in override file if you want to run the app behind a reverse proxy
       # ROOT_PATH: "/univention/portal/notifications-api"
 
