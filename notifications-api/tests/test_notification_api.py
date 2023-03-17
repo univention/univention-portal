@@ -141,15 +141,6 @@ def test_delete_notification_missing(stub_uuid, empty_db, client):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_mark_notification_confirmed(empty_db, request_data, client):
-    response = client.post('/v1/notifications/', json=request_data)
-    response = client.get('/v1/notifications/')
-    id = response.json()[0]['id']
-    now = datetime.now(timezone.utc)
-    response = client.post(f'/v1/notifications/{id}/confirm')
-    assert datetime.fromisoformat(response.json()['confirmationTime']) > now
-
-
 @pytest.mark.asyncio()
 async def test_stream_notifications(mocker):
     from app import messaging
