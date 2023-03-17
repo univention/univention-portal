@@ -19,13 +19,6 @@ def request_data():
         "title": "Hello from application!",
         "details": "This is just an example notification.",
         "severity": "info",
-        "sticky": False,
-        "needsConfirmation": False,
-        "notificationType": "event",
-        "data": {
-            "additionalProperty1": "some value",
-            "additionalProperty2": 45,
-        },
     }
 
 

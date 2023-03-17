@@ -11,7 +11,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
-from app.models.notification_model import Notification, NotificationCreate, NotificationType
+from app.models.notification_model import Notification, NotificationCreate
 
 
 log = logging.getLogger(__name__)
@@ -51,7 +51,6 @@ async def create_notification(
 @router.get("/notifications/", tags=["receiver"])
 def get_notifications(
     limit: str = Query(default=100),
-    type: str = Query(default=NotificationType.EVENT.value),
     service: NotificationService = Depends(NotificationService),
 ) -> List[Notification]:
     """Read the notifications of the current user."""

@@ -1,5 +1,4 @@
 
-from datetime import datetime, timezone
 from uuid import uuid4
 
 import pytest
@@ -65,23 +64,11 @@ def filled_db(empty_db):
     db = empty_db
     db.add(Notification(
         id=str(uuid4()),
-        details="some details",
-        title="some title",
-        notificationType="event",
+        details="Test value of attribute details",
+        title="Test value of attribute title",
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now(timezone.utc),
-    ))
-    db.add(Notification(
-        id=str(uuid4()),
-        details="some details",
-        title="some title",
-        notificationType="announcement",
-        severity="info",
-        sourceUid=str(uuid4()),
-        targetUid=str(uuid4()),
-        receiveTime=datetime.now(timezone.utc),
     ))
     db.commit()
     return db

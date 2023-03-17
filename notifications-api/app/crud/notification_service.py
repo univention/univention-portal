@@ -27,16 +27,9 @@ class NotificationService:
             targetUid=notification.targetUid,
             title=notification.title,
             details=notification.details,
-            sticky=notification.sticky,
-            needsConfirmation=notification.needsConfirmation,
             severity=notification.severity,
-            notificationType=notification.notificationType,
-            receiveTime=datetime.now(timezone.utc),
             expireTime=notification.expireTime,
-            confirmationTime=None,
-            readTime=None,
             link=notification.link,
-            data=notification.data,
         )
         self._db.add(db_notification)
         self._db.commit()
@@ -50,18 +43,13 @@ class NotificationService:
     ) -> List[Notification]:
         if query.get('exclude_expired', True):
             statement = select(Notification).where(
-                and_(
-                    Notification.notificationType == query['type'],
-                    or_(
-                        Notification.expireTime == null(),
-                        Notification.expireTime >= datetime.now(timezone.utc),
-                    ),
+                or_(
+                    Notification.expireTime == null(),
+                    Notification.expireTime >= datetime.now(timezone.utc),
                 ),
             ).limit(query['limit'])
         else:
-            statement = select(Notification).where(
-                Notification.notificationType == query['type'],
-            ).limit(query['limit'])
+            statement = select(Notification).limit(query['limit'])
 
         notifications = self._db.exec(statement).fetchall()
         for notification in notifications:

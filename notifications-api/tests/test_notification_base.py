@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
-from app.models.notification_model import NotificationBase, NotificationSeverity, NotificationType
+from app.models.notification_model import NotificationBase, NotificationSeverity
 
 
 def test_notification_has_expired():
@@ -11,8 +11,6 @@ def test_notification_has_expired():
         title="foo",
         details="bar",
         severity=NotificationSeverity.INFO,
-        notificationType=NotificationType.EVENT,
-        data={},
     )
 
     # test with `expireTime` in the past
