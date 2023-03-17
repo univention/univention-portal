@@ -22,33 +22,27 @@ def test_db(empty_db):
         id=str(uuid4()),
         details="some details",
         title="non-expiring notification",
-        notificationType="event",
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now(timezone.utc),
         expireTime=None,
     ))
     db.add(Notification(
         id=str(uuid4()),
         details="some details",
         title="short-lived notification",
-        notificationType="event",
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now(timezone.utc),
         expireTime=datetime.now(timezone.utc) + expire_fast,
     ))
     db.add(Notification(
         id=str(uuid4()),
         details="some details",
         title="long-lived notification",
-        notificationType="event",
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        receiveTime=datetime.now(timezone.utc),
         expireTime=datetime.now(timezone.utc) + expire_slow,
     ))
     db.commit()
@@ -70,23 +64,20 @@ async def test_prune_notifications_after_expiry(test_db):
     notifications = service.get_notifications(query)
 
     # the expired notification should be gone
-    assert not any([
+    assert not any(
         notification.title == "short-lived notification"
-        for notification in notifications
-    ])
+        for notification in notifications)
 
     assert len(notifications) == 2
 
     # the longer-lived notification should still be there
-    assert any([
+    assert any(
         notification.title == "long-lived notification"
-        for notification in notifications
-    ])
+        for notification in notifications)
     # the non-expiring notification should still be there
-    assert any([
+    assert any(
         notification.title == "non-expiring notification"
-        for notification in notifications
-    ])
+        for notification in notifications)
 
     # cancel the pruning task
     expiry_pruning.stop_pruner()

@@ -19,12 +19,6 @@ def _datetime_is_tz_aware(dt: datetime) -> bool:
     return (dt.tzinfo is not None) and (dt.tzinfo.utcoffset(dt) is not None)
 
 
-class NotificationType(str, Enum):
-    EVENT = "event"
-    ANNOUNCEMENT = "announcement"
-    ALERT = "alert"
-
-
 class NotificationSeverity(str, Enum):
     INFO = "info"
     SUCCESS = "success"
@@ -127,7 +121,7 @@ class Notification(NotificationBase, table=True):
 
         This method is intended solely for use after database reads which return naive datetimes.
         """
-        for key in ['confirmationTime', 'expireTime', 'readTime', 'receiveTime', 'sseSendTime']:
+        for key in ['expireTime', 'sseSendTime']:
             if value := getattr(self, key):
                 setattr(self, key, value.replace(tzinfo=timezone.utc))
 
