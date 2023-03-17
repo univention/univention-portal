@@ -1,13 +1,13 @@
 import { Dispatch } from 'vuex';
 import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 
-import { ClientApi, Configuration } from '@/apis/notifications';
+import { ReceiverApi, Configuration } from '@/apis/notifications';
 
 const EventSource = NativeEventSource || EventSourcePolyfill;
 
 export const notificationsApiUrl = process.env.VUE_APP_NOTIFICATIONS_API_URL || './notifications-api';
 
-export const getNotificationsApi = (token?: string): ClientApi => new ClientApi(
+export const getNotificationsApi = (token?: string): ReceiverApi => new ReceiverApi(
   new Configuration({
     accessToken: token,
     basePath: notificationsApiUrl,

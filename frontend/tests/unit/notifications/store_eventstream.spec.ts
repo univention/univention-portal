@@ -1,4 +1,4 @@
-import { ClientApi } from '@/apis/notifications';
+import { ReceiverApi } from '@/apis/notifications';
 import { getNotificationsApi, connectEventSource, connectEventListener } from '@/store/modules/notifications/apiclient';
 import * as stubs from './stubs';
 import * as utils from '../utils';
@@ -22,7 +22,7 @@ afterAll(() => {
 describe('connectNotificationsApi', () => {
 
   beforeEach(() => {
-    (ClientApi as jest.Mock).mockImplementation(() => ({
+    (ReceiverApi as jest.Mock).mockImplementation(() => ({
       getNotificationsV1NotificationsGet: jest.fn().mockImplementation(() => ({ data: [] })),
     }));
   });
@@ -72,10 +72,10 @@ describe('connectEventStream', () => {
 describe('eventStreamOpenEvent', () => {
 
   test('loads initial notifications from the api', async () => {
-    (ClientApi as jest.Mock).mockImplementation(() => ({
+    (ReceiverApi as jest.Mock).mockImplementation(() => ({
       getNotificationsV1NotificationsGet: jest.fn().mockImplementation(() => ({ data: [] })),
     }));
-    utils.mockReturnValue(getNotificationsApi, new ClientApi());
+    utils.mockReturnValue(getNotificationsApi, new ReceiverApi());
 
     const stubStore = stubs.store();
     await stubStore.dispatch('notifications/eventStreamOpenEvent');

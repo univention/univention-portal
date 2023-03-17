@@ -29,7 +29,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ActionContext } from 'vuex';
 
-import { ClientApi, Notification as BackendNotification, NotificationSeverity } from '@/apis/notifications';
+import { ReceiverApi, NotificationRead as BackendNotification, NotificationSeverity } from '@/apis/notifications';
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
@@ -43,7 +43,7 @@ export interface Notifications {
   notifications: Array<FullNotification>;
   backendNotifications: Array<BackendNotification>;
   eventSource?: EventSource;
-  api: ClientApi;
+  api: ReceiverApi;
 }
 
 interface DeletedNotificationEvent {
@@ -297,8 +297,8 @@ const notifications: PortalModule<Notifications> = {
   state: {
     notifications: [],
     backendNotifications: [],
-    // TODO: Refactor. This stores an instance of the ClientApi with a given token.
-    //       When the token changes, the ClientApi needs to be instanciated again with the new token.
+    // TODO: Refactor. This stores an instance of the ReceiverApi with a given token.
+    //       When the token changes, the ReceiverApi needs to be instanciated again with the new token.
     //       As with the UMC interface, this should probably go to jsHelper or plugins.
     api: getNotificationsApi(),
   },

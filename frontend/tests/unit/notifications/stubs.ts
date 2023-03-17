@@ -1,6 +1,6 @@
 import vuex from 'vuex';
 
-import { Notification as BackendNotification } from '@/apis/notifications';
+import { NotificationRead as BackendNotification } from '@/apis/notifications';
 import notifications from '@/store/modules/notifications';
 import { getNotificationsApi } from '@/store/modules/notifications/apiclient';
 import * as models from '@/store/modules/notifications/notifications.models';
@@ -29,18 +29,10 @@ export const stubBackendNotification: BackendNotification = {
   targetUid: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
   title: 'Example notification',
   details: 'string',
-  notificationType: 'event',
   severity: 'info',
-  receiveTime: '2023-01-07T09:47:07.789861',
   popup: true,
 
   // optional attributes
-  sticky: undefined,
-  needsConfirmation: undefined,
-  data: undefined,
-  readTime: undefined,
-  sseSendTime: undefined,
-  confirmationTime: undefined,
   expireTime: undefined,
 };
 
