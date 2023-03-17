@@ -11,7 +11,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
-from app.models.notification_model import Notification, NotificationCreate
+from app.models.notification_model import NotificationCreate, NotificationRead
 
 
 log = logging.getLogger(__name__)
@@ -20,13 +20,13 @@ router = APIRouter()
 
 
 @router.post(
-    "/notifications/", status_code=201, response_model=Notification,
+    "/notifications/", status_code=201, response_model=NotificationRead,
     tags=["sender"])
 async def create_notification(
     data: NotificationCreate,
     background_tasks: BackgroundTasks,
     service: NotificationService = Depends(NotificationService),
-) -> Notification:
+) -> NotificationRead:
     """
     Create one notification.
 
@@ -52,11 +52,10 @@ async def create_notification(
 def get_notifications(
     limit: str = Query(default=100),
     service: NotificationService = Depends(NotificationService),
-) -> List[Notification]:
+) -> List[NotificationRead]:
     """Read the notifications of the current user."""
     query = {
         'limit': limit,
-        'type': type,
     }
     return service.get_notifications(query)
 
@@ -65,7 +64,7 @@ def get_notifications(
 def get_notification(
     id: str,
     service=Depends(NotificationService),
-) -> Notification:
+) -> NotificationRead:
     try:
         return service.get_notification(id)
     except NoResultFound:
