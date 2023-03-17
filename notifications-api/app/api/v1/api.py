@@ -127,14 +127,6 @@ def hide_notification(
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
 
 
-@router.post("/notifications/{id}/confirm", tags=["receiver"])
-def mark_notification_confirmed(
-    id: str,
-    service: NotificationService = Depends(NotificationService),
-) -> Notification:
-    return service.confirm_notification(id)
-
-
 RETRY_TIMEOUT = 15000  # milliseconds
 
 
