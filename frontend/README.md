@@ -294,8 +294,11 @@ yarn test:unit:updatesnapshots
 
 ## End-to-end tests
 Runs e2e tests with Cypress.
+
 ```
 yarn test:e2e
+yarn test:e2e:run
+yarn test:e2e:headless
 ```
 
 ## Links and references
