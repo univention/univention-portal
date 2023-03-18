@@ -4,7 +4,7 @@ import logging
 from http import HTTPStatus
 from typing import List
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, BackgroundTasks, Body, Depends, HTTPException, Query, Request
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.exc import NoResultFound
 from sse_starlette.sse import EventSourceResponse
@@ -23,8 +23,50 @@ router = APIRouter()
     "/notifications/", status_code=201, response_model=NotificationRead,
     tags=["sender"])
 async def create_notification(
-    data: NotificationCreate,
     background_tasks: BackgroundTasks,
+    data: NotificationCreate = Body(
+        examples={
+            "normal": {
+                "summary": "Minimal notification",
+                "value": {
+                    "sourceUid": "b45f9389-a00f-41aa-96b2-e3ce3d15d377",
+                    "targetUid": "13af2f92-9661-4386-b521-daaff8a1bbec",
+                    "title": "New Message",
+                    "details": "You have been mentioned in the channel #api-example.",
+                    "severity": "info",
+                },
+            },
+            "link": {
+                "summary": "Notification with a link",
+                "value": {
+                    "sourceUid": "b45f9389-a00f-41aa-96b2-e3ce3d15d377",
+                    "targetUid": "13af2f92-9661-4386-b521-daaff8a1bbec",
+                    "title": "New Message",
+                    "details": "You have been mentioned in the channel #api-example.",
+                    "severity": "info",
+                    "link": {
+                        "url": "https://chat.example/channel/api-example/msg-id",
+                        "text": "#api-example"
+                    },
+                },
+            },
+            "expiring": {
+                "summary": "Expiring notification",
+                "description": (
+                    "Set expireTime to be in the future when trying this out. "
+                    "Values in the past will be rejected, since it does not make sense "
+                    "to create an already expired notification."
+                ),
+                "value": {
+                    "sourceUid": "b45f9389-a00f-41aa-96b2-e3ce3d15d377",
+                    "targetUid": "13af2f92-9661-4386-b521-daaff8a1bbec",
+                    "title": "New Message",
+                    "details": "You have been mentioned in the channel #api-example.",
+                    "severity": "info",
+                    "expireTime": "2022-03-18T10:00Z",
+                },
+            },
+        }),
     service: NotificationService = Depends(NotificationService),
 ) -> NotificationRead:
     """
