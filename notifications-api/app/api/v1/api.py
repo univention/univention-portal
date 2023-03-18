@@ -71,7 +71,7 @@ def get_notification(
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
-@router.delete("/notifications/{id}/", tags=["receiver", "sender"])
+@router.delete("/notifications/{id}/", tags=["receiver", "sender"], status_code=HTTPStatus.NO_CONTENT)
 def delete_notification(
     id: str,
     background_tasks: BackgroundTasks,
@@ -106,7 +106,7 @@ def delete_notification(
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
 
 
-@router.post("/notifications/{id}/hide", tags=["receiver"])
+@router.post("/notifications/{id}/hide", tags=["receiver"], status_code=HTTPStatus.NO_CONTENT)
 def hide_notification(
     id: str,
     background_tasks: BackgroundTasks,
