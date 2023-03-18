@@ -1,13 +1,14 @@
 import asyncio
 import json
 import logging
+import textwrap
 from http import HTTPStatus
 from typing import List
 
 from fastapi import APIRouter, BackgroundTasks, Body, Depends, HTTPException, Query, Request
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.exc import NoResultFound
-from sse_starlette.sse import EventSourceResponse
+from sse_starlette.sse import EventSourceResponse as EventSourceResponseBase
 
 from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
@@ -46,7 +47,7 @@ async def create_notification(
                     "severity": "info",
                     "link": {
                         "url": "https://chat.example/channel/api-example/msg-id",
-                        "text": "#api-example"
+                        "text": "#api-example",
                     },
                 },
             },
@@ -170,8 +171,76 @@ def hide_notification(
 RETRY_TIMEOUT = 15000  # milliseconds
 
 
-@router.get("/notifications/stream", tags=["receiver"])
+class EventSourceResponse(EventSourceResponseBase):
+    media_type = "text/event-stream"
+
+
+@router.get(
+    "/notifications/stream", tags=["receiver"],
+    response_class=EventSourceResponse,
+    responses={
+        200: {
+            "content": {
+                "text/event-stream": {
+                    "examples": {
+                        "ping": {
+                            "value": textwrap.dedent(
+                                """\
+                                event: ping
+                                data: 2022-03-18 10:00:00.448431
+                                """,
+                            ),
+                        },
+                        "new_notification": {
+                            "value": textwrap.dedent(
+                                """\
+                                event: new_notification
+                                data: {"link": null, "targetUid": "13af2f92-9661-4386-b521-daaff8a1bbec", "details": "You have been mentioned in the channel #api-example.", "expireTime": null, "popup": true, "title": "New Message", "sourceUid": "b45f9389-a00f-41aa-96b2-e3ce3d15d377", "severity": "info", "id": "ae371f63-c9e2-4825-b8da-6dcf215cb9f2", "sseSendTime": null}
+                                retry: 15000
+                                """,
+                            ),
+                        },
+                        "updated_notification": {
+                            "value": textwrap.dedent(
+                                """\
+                                event: updated_notification
+                                data: {"link": null, "targetUid": "13af2f92-9661-4386-b521-daaff8a1bbec", "details": "You have been mentioned in the channel #api-example.", "expireTime": null, "popup": false, "title": "New Message", "sourceUid": "b45f9389-a00f-41aa-96b2-e3ce3d15d377", "severity": "info", "id": "ae371f63-c9e2-4825-b8da-6dcf215cb9f2", "sseSendTime": null}
+                                retry: 15000
+                                """,
+                            ),
+                        },
+                        "deleted_notification": {
+                            "value": textwrap.dedent(
+                                """\
+                                event: deleted_notification
+                                data: {"id": "ae371f63-c9e2-4825-b8da-6dcf215cb9f2"}
+                                retry: 15000
+                                """,
+                            ),
+                        },
+                    },
+                },
+            },
+        },
+    })
 async def stream_notifications(request: Request):
+    """
+    Stream notification events as `event-stream`.
+
+    This endpoint is streaming notification events which shall be consumed on
+    web clients as `EventSource`.
+
+    The supported events are:
+
+    - `new_notification` - This event will be sent if a new notification has been
+      created.
+
+    - `deleted_notification` - This event will be sent if a notification has been deleted.
+      This way multiple clients can stay in sync about the notification state.
+
+    - `updated_notification` - Changed to a notification will trigger this
+      event. This way multiple clients will keep their state in sync.
+    """
 
     async def event_generator():
         # TODO: Append UUID to the topic once authentication is implemented, so

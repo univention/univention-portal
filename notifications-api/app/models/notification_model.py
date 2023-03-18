@@ -69,7 +69,7 @@ class NotificationBase(SQLModel):
                     "The notification details shall be visible to the user below the title. "
                     "The details can be longer than the title."
                 ),
-                "example": "You have been mentioned in the channel #api-example."
+                "example": "You have been mentioned in the channel #api-example.",
             },
             "severity": {
                 "description": (
