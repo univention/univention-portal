@@ -99,6 +99,13 @@ class NotificationRead(NotificationBase):
     id: UUID = Field(primary_key=True)
     popup: bool = True
 
+    class Config:
+        fields = {
+            "id": {
+                "example": "940ebfa5-a416-403a-a233-c5ccae4fec88",
+            },
+        }
+
 
 class Notification(NotificationRead, table=True):
     sseSendTime: Optional[datetime]

@@ -91,7 +91,7 @@ def test_hide_notification(empty_db, request_data, client):
     notification_id = response.json()[0]['id']
 
     response = client.post(f'/v1/notifications/{notification_id}/hide')
-    assert response.status_code == HTTPStatus.OK
+    assert response.status_code == HTTPStatus.NO_CONTENT
 
     # TODO: we don't have a GET endpoint yet for a single notification,
     # refactor once this is implemented.
@@ -123,7 +123,7 @@ def test_delete_notification(empty_db, request_data, client):
     notification_id = notification_data['id']
 
     response = client.delete(f'/v1/notifications/{notification_id}/')
-    assert response.status_code == HTTPStatus.OK
+    assert response.status_code == HTTPStatus.NO_CONTENT
 
     response = client.get(f'/v1/notifications/{notification_id}/')
     assert response.status_code == HTTPStatus.NOT_FOUND
