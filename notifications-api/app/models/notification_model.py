@@ -26,6 +26,15 @@ class NotificationLink(SQLModel):
                     "The accepted URLs are limited to HTTP and HTTPS, they must be absolute URLs."
                 ),
             },
+            "target": {
+                "example": "_blank",
+            },
+        }
+        schema_extra = {
+            "example": {
+                "url": "https://chat.example/channel/api-example/msg-id",
+                "text": "#api-example",
+            },
         }
 
 
@@ -42,21 +51,25 @@ class NotificationBase(SQLModel):
         fields = {
             "sourceUid": {
                 "title": "LDAP-UID of Sender",
+                "example": UUID("b45f9389-a00f-41aa-96b2-e3ce3d15d377"),
             },
             "targetUid": {
                 "title": "LDAP-UID of Receiver",
+                "example": UUID("13af2f92-9661-4386-b521-daaff8a1bbec"),
             },
             "title": {
                 "description": (
                     "The notification title shall be visible to the user in a highlighted way. "
                     "The title should be kept short."
                 ),
+                "example": "New Message",
             },
             "details": {
                 "description": (
                     "The notification details shall be visible to the user below the title. "
                     "The details can be longer than the title."
                 ),
+                "example": "You have been mentioned in the channel #api-example."
             },
             "severity": {
                 "description": (
@@ -64,6 +77,7 @@ class NotificationBase(SQLModel):
                     "Typically this influences the background color. It does not influence "
                     "if the notification is shown or not."
                 ),
+                "example": NotificationSeverity.INFO,
             },
             "expireTime": {
                 "description": (
@@ -71,6 +85,7 @@ class NotificationBase(SQLModel):
                     "After this point in time the notification shall not be presented to the "
                     "user anymore."
                 ),
+                "example": "2023-03-18T10:00Z",
             },
             "link": {
                 "description": (
@@ -102,7 +117,19 @@ class NotificationRead(NotificationBase):
     class Config:
         fields = {
             "id": {
+                "title": "Notification ID",
+                "description": (
+                    "The ID of the notification is automatically generated and "
+                    "stable over the lifetime of this notification."
+                ),
                 "example": "940ebfa5-a416-403a-a233-c5ccae4fec88",
+            },
+            "popup": {
+                "description": (
+                    "A flag to indicate if the notification shall pop up in the "
+                    "*Receiver* UI."
+                ),
+                "example": True,
             },
         }
 
