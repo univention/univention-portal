@@ -22,7 +22,7 @@ spec:
       secretName: "{{ .Values.ingress.tls.secretName }}"
   {{- end }}
   rules:
-    - host: {{ .Values.ingress.host | quote }}
+    - host: {{ required "The hostname has to be set in \"ingress.host\"." .Values.ingress.host | quote }}
       http:
         paths:
           {{- range .Values.ingress.paths }}

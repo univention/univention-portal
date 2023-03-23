@@ -1,5 +1,6 @@
 {{- if .Values.istio.virtualService.enabled -}}
 ---
+
 apiVersion: "networking.istio.io/v1beta1"
 kind: "VirtualService"
 metadata:
@@ -12,7 +13,7 @@ metadata:
   {{- end }}
 spec:
   hosts:
-    - {{ .Values.istio.host | quote }}
+    - {{ required "The hostname has to be set in \"istio.host\"." .Values.istio.host | quote }}
   gateways:
     - {{ .Values.istio.gateway.externalGatewayName | default (printf "%s-%s" (include "common.names.fullname" .) "-gateway") }}
   http:
