@@ -7,13 +7,13 @@ metadata:
 data:
   ENVIRONMENT: "{{ .Values.portalserver.environment }}"
   LOG_LEVEL: "{{ .Values.portalserver.log_level }}"
-  PORTAL_SERVER_ADMIN_GROUP: "{{ .Values.portalserver.admin_group }}"
+  PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portalserver.admin_group\" is required." .Values.portalserver.admin_group | quote }}
   PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalserver.auth_mode }}"
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalserver.editable }}"
   PORTAL_SERVER_PORT: "{{ .Values.portalserver.port }}"
-  PORTAL_SERVER_UCS_INTERNAL_URL: "{{ .Values.portalserver.ucs_internal_url }}"
-  PORTAL_SERVER_UMC_GET_URL: "{{ .Values.portalserver.umc_get_url }}"
-  PORTAL_SERVER_UMC_SESSION_URL: "{{ .Values.portalserver.umc_session_url }}"
-  PORTAL_SERVER_AUTH_SECRET: "{{ .Values.portalserver.auth_secret }}"
+  PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portalserver.ucs_internal_url\" is required." .Values.portalserver.ucs_internal_url | quote }}
+  PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalserver.umc_get_url\" is required." .Values.portalserver.umc_get_url | quote }}
+  PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalserver.umc_session_url\" is required." .Values.portalserver.umc_session_url | quote }}
+  PORTAL_SERVER_AUTH_SECRET: {{ required "The parameter \"portalserver.auth_secret\" is required." .Values.portalserver.auth_secret | quote }}
 
 ...

@@ -16,20 +16,24 @@ securityContext: {}
 tolerations: []
 
 
-## Application-specific
+# -- Application configuration of the Portal Frontend
 portalfrontend:
+  # -- TODO: Clarify usage of this parameter
   environment: "production"
+  # -- TODO: Clarify usage of this parameter
   log_level: "WARNING"
 
 ## Kubernetes ingress
 ingress:
+  # -- Set this to `true` in order to enable the installation on Ingress related objects.
   enabled: false
   ingressClassName: "nginx"
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/use-regex: "true"
-  ## Define Hostname
-  # host: "portal.example.com"
+  # -- The hostname. This parameter has to be supplied. Example `portal.example`.
+  host: null
+  # -- The path configuration. The default only grabs what is known to be part of the frontend.
   paths:
     - pathType: Exact
       path: /univention/portal/($|index.html$)
@@ -52,12 +56,15 @@ ingress:
 
 ## Istio support
 istio:
+  # -- Set this to `true` in order to enable the installation on Istio related objects.
   enabled: true
-  ## Define Hostname
-  # host: "portal.example.com"
+  # -- The hostname. This parameter has to be supplied. Example `portal.example`.
+  host: null
   virtualService:
     enabled: true
     annotations: {}
+    # Example to "inject" a different "custom.css" file:
+    #
     # pathOverrides:
     #   - match: "exact"
     #     path: "/univention/portal/css/custom.css"
@@ -66,14 +73,25 @@ istio:
     #           port:
     #             number: 80
     #           host: "example-service"
+    #
+    # -- Allows to inject deployment specific path configuration which is configured before
+    # the elements from `paths` below. This allows to redirect some paths to other services,
+    # e.g. in order to supply a file `custom.css`.
+    pathOverrides: []
+    # -- The paths configuration. The default only grabs what is known to be
+    # part of the frontend.
+    #
+    # TODO: Istio does currently not support a URL rewrite which uses regular
+    # expressions, basically the capture groups are not yet supported. It also
+    # does not support an automatic sorting of rules based on the prefix
+    # length like the nginx ingress does. Interim we mention explicitly every
+    # prefix which is exclusively part of the frontend in this configuration.
+    # This way all other subpaths in "/univention/portal/" can still be
+    # reliably grabbed by other services if they are present.
+    #
+    # `pathOverrides` is provided as a workaround so that specific sub-paths can
+    # be redirected to other services.
     paths:
-      # TODO: Istio does currently not support a URL rewrite which uses regular
-      # expressions, basically the capture groups are not yet supported. It also
-      # does not support an automatic sorting of rules based on the prefix
-      # length like the nginx ingress does. Interim we mention explicitly every
-      # prefix which is exclusively part of the frontend in this configuration.
-      # This way all other subpaths in "/univention/portal/" can still be
-      # reliably grabbed by other services if they are present.
       - match: "prefix"
         path: "/univention/portal/css/"
         rewrite: "/css/"
