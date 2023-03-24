@@ -150,6 +150,17 @@ services:
         source: pre-commit-cache
         target: /cache
 
+  helm-docs:
+    profiles:
+      - test
+    image: "jnorwood/helm-docs:v1.11.0"
+    command: "-c helm"
+    volumes:
+      - type: bind
+        source: ..
+        target: /helm-docs
+
+
 volumes:
   pre-commit-cache:
   var-local-notifications-api:
