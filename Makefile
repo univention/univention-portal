@@ -32,6 +32,7 @@
 
 .PRECIOUS: build build-dev
 
+.PHONY: build
 build:
 	./frontend/process_vue_files.sh
 	npm set prefix=$$HOME/.node
@@ -40,13 +41,16 @@ build:
 	cd frontend && $$HOME/.node/bin/yarn install
 	cd frontend && $$HOME/.node/bin/yarn build
 
+.PHONY: helm-docs
 helm-docs:
 	helm-docs -c helm
 
+.PHONY: l10n-extract
 l10n-extract:
 	./frontend/process_vue_files.sh
 	univention-l10n-build de
 
+.PHONY: l10n-build
 l10n-build:
 	univention-l10n-install de
 	mkdir -p ./frontend/public/i18n
