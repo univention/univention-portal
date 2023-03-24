@@ -31,6 +31,8 @@ packaging:
   components are being migrated into a container based packaging.
 - [Docker Compose in `docker/`](./docker) -- Docker compose is in use as a
   convenience utility to ease the process of starting the application locally.
+- [Helm in `helm/`](./helm) -- Helm is used as a package manager to ease the
+  installation in Kubernetes.
 - [Gitlab CI in `.gitlab-ci.yml`](./.gitlab-ci.yml) -- The pipeline
   configuration shows which checks are automatically run and how they are run.
 
@@ -175,4 +177,7 @@ docker compose run test
 
 # Run the linter container
 docker compose run pre-commit
+
+# Generate the Helm chart readmes
+docker compose run helm-docs
 ```
