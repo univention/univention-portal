@@ -40,6 +40,9 @@ build:
 	cd frontend && $$HOME/.node/bin/yarn install
 	cd frontend && $$HOME/.node/bin/yarn build
 
+helm-docs:
+	helm-docs -c helm
+
 l10n-extract:
 	./frontend/process_vue_files.sh
 	univention-l10n-build de
