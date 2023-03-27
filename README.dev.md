@@ -49,7 +49,7 @@ it can be integrated into a development environment, see the folder
 
 ```shell
 ansible-playbook -i ansible/hosts.yaml \
-    ansible/ucs-umc-open-from-external.yaml \
+    ansible/ucs-umc-open-for-portal-server.yaml \
     ansible/ucs-expose-portal-json-files.yaml
 ```
 
