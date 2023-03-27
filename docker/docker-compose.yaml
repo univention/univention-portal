@@ -1,12 +1,15 @@
 version: "3.9"
 
 services:
+  # The frontend of the Portal. The context directory contains more details.
   portal-frontend:
     build:
       context: ../frontend
     container_name: univention-portal-frontend
     ports:
       - "8080:80"
+
+  # The server of the Potral. See "./portal-server/" regarding further details.
   portal-server:
     platform: "linux/amd64"
     build:
@@ -48,6 +51,9 @@ services:
     # - type: bind
     #   source: ./portal-server/machine.secret
     #   target: /etc/machine.secret
+
+  # The notifications API of the Portal. The context directory contains more
+  # details.
   notifications-api:
     build:
       context: ../notifications-api
@@ -61,6 +67,9 @@ services:
       ROOT_PATH: "/univention/portal/notifications-api"
     ports:
       - 8096:8080
+
+  # The reverse proxy to support the local setup. The context directory contains
+  # more details.
   reverse-proxy:
     build:
       context: ./reverse-proxy
@@ -68,6 +77,8 @@ services:
     env_file: .env
     ports:
       - "${PROXY_PORT}:80"
+
+  # The database is needed by the notifications API.
   db:
     image: postgres:12.13-alpine
     environment:
@@ -80,6 +91,8 @@ services:
     ports:
       - 5432:5432
 
+  # A keycloak instance to allow simulating a login process based on keycloak
+  # for the Portal. The context directory contains more details.
   keycloak:
     container_name: keycloak
     # image: quay.io/keycloak/keycloak:19.0.0
@@ -97,6 +110,7 @@ services:
       - KEYCLOAK_LOGLEVEL=ALL
       - ROOT_LOGLEVEL=ALL
 
+  # The test runner of the Portal Server.
   test:
     profiles:
       - test
@@ -117,6 +131,8 @@ services:
         source: ../unittests
         target: /staging/unittests
 
+  # Environment to build the Debian package. The context directory contains more
+  # details.
   deb-builder:
     profiles:
       - test
@@ -129,6 +145,8 @@ services:
         source: ../
         target: /src
 
+  # Environment of the pre-commit hook linter. The context directory contains
+  # more details.
   pre-commit:
     profiles:
       - test
@@ -150,6 +168,8 @@ services:
         source: pre-commit-cache
         target: /cache
 
+  # Environment which allows to run the tool "helm-docs". See the directory
+  # "../helm/" for more details.
   helm-docs:
     profiles:
       - test
@@ -163,5 +183,4 @@ services:
 
 volumes:
   pre-commit-cache:
-  var-local-notifications-api:
   postgresql-data:
