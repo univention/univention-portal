@@ -9,4 +9,10 @@ services:
       PORTAL_SERVER_UMC_GET_URL: "http://host.docker.internal:8000/univention/internal/umc/get"
       PORTAL_SERVER_UMC_SESSION_URL: "http://host.docker.internal:8000/univention/internal/umc/get/session-info"
 
+  keycloak:
+    environment:
+      LDAP_BASE: "dc=univention,dc=intranet"
+      LDAP_SECRET: "YOUR CONTENT OF /etc/idp-ldap-user.secret"
+      LDAP_SERVER: "ldap://YOUR_UCS_IP:7389"
+
 ...

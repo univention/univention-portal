@@ -95,20 +95,22 @@ services:
   # for the Portal. The context directory contains more details.
   keycloak:
     container_name: keycloak
-    # image: quay.io/keycloak/keycloak:19.0.0
-    build: ./keycloak
-    command: start-dev --http-enabled=true --import-realm
-    volumes:
-      - ./keycloak:/opt/keycloak/data/import
+    build:
+      context: ../
+      dockerfile: docker/keycloak/Dockerfile
     ports:
       - 8097:8080
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=univention
-      - PROXY_ADDRESS_FORWARDING=true
-      - KC_PROXY=edge
-      - KEYCLOAK_LOGLEVEL=ALL
-      - ROOT_LOGLEVEL=ALL
+      KEYCLOAK_ADMIN: "admin"
+      KEYCLOAK_ADMIN_PASSWORD: "univention"
+      PROXY_ADDRESS_FORWARDING: "true"
+      KC_PROXY: "edge"
+      KEYCLOAK_LOGLEVEL: "ALL"
+      ROOT_LOGLEVEL: "ALL"
+      # override the following values in docker-compose.override.yaml
+      LDAP_BASE: "dc=univention,dc=intranet"
+      LDAP_SECRET: "YOUR CONTENT OF /etc/idp-ldap-user.secret"
+      LDAP_SERVER: "ldap://UCS_IP:7389"
 
   # The test runner of the Portal Server.
   test:

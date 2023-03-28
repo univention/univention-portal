@@ -56,32 +56,38 @@ ansible-playbook -i ansible/hosts.yaml \
 ### Preparation of Keycloak for development
 
 In `docker/docker-compose.yaml` you can find a service called `keycloak` which
-you will need to use the notifications OIDC.
+you will need to test the SAML login and work on the notifications OIDC.
 
 1. Download your UCS CA certificate and place it in `docker/keycloak/ucs-root-ca.crt`.
-2. Run `docker-compose up -d keycloak --build` on the `docker` folder.
-3. Access Keycloak on `localhost:8097` and access with the credentials on the environment variables.
-4. Select the `Ucs` realm on the top left corner.
+2. Create the file `docker-compose.override.yaml` from the example:
+    ```bash
+    cp docker/docker-compose.override.yaml.example docker/docker-compose.override.yaml
+    ```
+3. Go to your UCS machine, run the following commands. You will need the output in the next step.
+    a.
+        ```bash
+        echo `cat /etc/idp-ldap-user.secret`
+        ```
+    b.
+        ```bash
+        ucr get ldap/base
+        ```
+4. Open the file `docker/docker-compose.override.yaml` and fill the following values under `keycloak.environment`:
+  a. `LDAP_BASE`: the value from `ucr get ldap/base`.
+  b. `LDAP_SECRET`: the contents of `/etc/idp-ldap-user.secret`.
+  c. `LDAP_SERVER`: the LDAP server on your UCS machine, e.g. `ldap://10.200.XX.YY:7389`.
 
-5. Go to `User federation` on the bottom left menu.
-  1. Select LDAP and configure your `Connection URL` to your UCS IP, like: `ldap://10.200.71.10:7389`
-  2. You should be able to test the connection.
-  3. Go to your UCS machine and run `` echo `cat /etc/idp-ldap-user.secret` ``.
-  4. Set the LDAP `Bind credentials` to the value from the previous step.
-  5. Go back to your UCS machine and `ucr get ldap/base`.
-  6. Change the `Bind DN` base part to the one above.
-  7. You should be able to test the authentication.
-  8. Under `LDAP searching and updating` change the `Users DN` to the value above.
-  9. Press `Save` at the bottom of the screen.
-
-6. Enable the SAML login on the UCS machine with the playbook:
+5. Enable the SAML login on the UCS machine with the playbook:
   ```shell
   ansible-playbook -i ansible/hosts.yaml ansible/ucs-login-with-local-keycloak.yaml
   ```
-7. Step 7 copied the SSL certificate from the UCS host to the local reverse-proxy.
+6. Step 7 copied the SSL certificate from the UCS host to the local reverse-proxy.
    Follow the next section to rebuild the images (including the SSL certificates)
    and restart the stack.
 
+> Once you have the full stack running (see below), you can reach the Keycloak
+> UI at http://localhost:8097/admin with the username and password set in `docker-compose.yaml`.
+>
 > Feel free to play around with `portal-notifications` client and mappings.
 > The default configuration provided might not be valid for your setup for some cases.
 
