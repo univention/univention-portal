@@ -371,7 +371,7 @@ true
   "editable": "true",
   "environment": "production",
   "log_level": "WARNING",
-  "port": "80xx",
+  "port": 80,
   "ucs_internal_url": null,
   "umc_get_url": null,
   "umc_session_url": null

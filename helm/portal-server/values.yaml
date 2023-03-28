@@ -29,7 +29,7 @@ portalserver:
   environment: "production"
   # -- TODO: Clarify usage of this parameter
   log_level: "WARNING"
-  port: "80xx"
+  port: 80
   # -- Define UCS internal endpoint.
   # Example: `"https://portal.example.com/univention/internal"`
   ucs_internal_url: null
