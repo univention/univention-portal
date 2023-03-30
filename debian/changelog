@@ -1,8 +1,14 @@
-univention-portal (4.1.9-3) unstable; urgency=medium
+univention-portal (4.1.9-4) unstable; urgency=medium
 
   * Bug #55176: implemented announcement udm module
 
  -- Torben Köhn <torben.koehn.extern@univention.de>  Mon, 13 Feb 2023 17:59:18 +0100
+
+univention-portal (4.0.9-4) unstable; urgency=medium
+
+  * Bug #55919: fix background color of tabs in "Choose a tab" dialog box
+
+ -- Ivan Barbecho Delgado <delgado.extern@univention.de>  Thu, 30 Mar 2023 13:08:26 +0200
 
 univention-portal (4.0.9-3) unstable; urgency=medium
 
