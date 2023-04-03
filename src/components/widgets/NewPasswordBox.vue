@@ -172,20 +172,31 @@ export default defineComponent({
     PASSWORD_RETYPE_LABEL(): string {
       return _('New password (retype)');
     },
-    errorDisplayConditionNew():boolean {
-      return this.invalidMessage.invalidMessageNew !== '' && typeof this.invalidMessage !== 'string';
+    errorDisplayConditionNew(): boolean {
+      return typeof this.invalidMessage !== 'string' && this.invalidMessage.invalidMessageNew !== '';
     },
     invalidNew(): boolean {
-      return this.invalidMessage.invalidMessageNew !== '' && typeof this.invalidMessage !== 'string';
+      return typeof this.invalidMessage !== 'string' && this.invalidMessage.invalidMessageNew !== '';
     },
     invalidRetype(): boolean {
-      return this.invalidMessage.invalidMessageRetype !== '' && typeof this.invalidMessage !== 'string';
+      return typeof this.invalidMessage !== 'string' && this.invalidMessage.invalidMessageRetype !== '';
     },
   },
   methods: {
+    /**
+     * Focus either the password input box, or the 'retype' box.
+     *
+     * If one of the inputs is invalid, focus that one.
+     * If both are valid, focus the first one.
+     */
     focus(): void {
-      // @ts-ignore
-      this.$refs.input.focus();
+      if (this.invalidNew) {
+        (this.$refs.inputNew as HTMLInputElement).focus();
+      } else if (this.invalidRetype) {
+        (this.$refs.inputRetype as HTMLInputElement).focus();
+      } else {
+        (this.$refs.inputNew as HTMLInputElement).focus();
+      }
     },
     updateShowPasswordNew(newValue) {
       this.showPasswordNew = newValue;
