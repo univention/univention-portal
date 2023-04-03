@@ -152,10 +152,8 @@ export function isValid(widget): boolean {
           });
         });
     case 'NewPasswordBox':
-      return widget.invalidMessage === {
-        invalidMessageNew: '',
-        invalidMessageRetype: '',
-      };
+      return (widget.invalidMessage.invalidMessageNew === '') &&
+          (widget.invalidMessage.invalidMessageRetype === '');
     default:
       return true;
   }
