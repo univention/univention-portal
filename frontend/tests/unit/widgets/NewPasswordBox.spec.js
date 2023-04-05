@@ -28,10 +28,11 @@
 * */
 
 import { mount } from '@vue/test-utils';
+import Vuex from 'vuex';
 
 import NewPasswordBox from '@/components/widgets/NewPasswordBox.vue';
 import ToggleButton from '@/components/widgets/ToggleButton.vue';
-import Vuex from 'vuex';
+import { validateNewPassword } from '@/jsHelper/forms';
 import activity from '@/store/modules/activity';
 
 const store = new Vuex.Store({
@@ -47,6 +48,10 @@ const optionsBase = {
   propsData: {
     name: 'password',
     modelValue: {},
+    invalidMessage: {
+      invalidMessageNew: '',
+      invalidMessageRetype: ''
+    },
     forAttrOfLabel: '',
     invalidMessageId: '',
     tabindex: 0,
@@ -75,7 +80,7 @@ async function withNewPasswordBox(options, callback) {
 
 describe('NewPasswordBox widget', () => {
   test('accepts password entry', async () => {
-    withNewPasswordBox(optionsBase, async (wrapper) => {
+    await withNewPasswordBox(optionsBase, async (wrapper) => {
       const inputValue = 'test password';
 
       const passwordBox = await wrapper.get('[data-test="new-password-box"]');
@@ -91,28 +96,33 @@ describe('NewPasswordBox widget', () => {
   });
 
   test('computes property aria-invalid correctly', async () => {
-    withNewPasswordBox(optionsBase, async (wrapper) => {
-      expect(wrapper.vm.invalid).toBe(true);
-      await wrapper.setProps({ invalidMessage: {} });
+    await withNewPasswordBox(optionsBase, async (wrapper) => {
+      expect(wrapper.vm.invalid).toBe(false);
+      await wrapper.setProps({
+        invalidMessage: {
+          invalidMessageNew: 'required',
+          invalidMessageRetype: 'required',
+        },
+      });
       expect(wrapper.vm.invalid).toBe(true);
     });
   });
 
   test('renders password input field with correct type', async () => {
-    withNewPasswordBox(optionsBase, async (wrapper) => {
+    await withNewPasswordBox(optionsBase, async (wrapper) => {
       const passwordBox = await wrapper.get('[data-test="new-password-box"]');
       expect(passwordBox.attributes('type')).toBe('password');
     });
   });
 
   test('does not allow to show password by default', async () => {
-    withNewPasswordBox(optionsBase, async (wrapper) => {
+    await withNewPasswordBox(optionsBase, async (wrapper) => {
       expect(wrapper.find('[data-test="password-box-icon"]').exists()).toBe(false);
     });
   });
 
   test('is able to toggle password visiblity correctly', async () => {
-    withNewPasswordBox(optionsPwVisibilityToggle, async (wrapper) => {
+    await withNewPasswordBox(optionsPwVisibilityToggle, async (wrapper) => {
       const passwordBox = await wrapper.get('[data-test="new-password-box"]');
       const passwordBoxButton = await wrapper.get('[data-test="password-box-icon"]');
 
