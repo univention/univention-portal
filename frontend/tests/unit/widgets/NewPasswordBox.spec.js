@@ -32,7 +32,6 @@ import Vuex from 'vuex';
 
 import NewPasswordBox from '@/components/widgets/NewPasswordBox.vue';
 import ToggleButton from '@/components/widgets/ToggleButton.vue';
-import { validateNewPassword } from '@/jsHelper/forms';
 import activity from '@/store/modules/activity';
 
 const store = new Vuex.Store({
@@ -50,7 +49,7 @@ const optionsBase = {
     modelValue: {},
     invalidMessage: {
       invalidMessageNew: '',
-      invalidMessageRetype: ''
+      invalidMessageRetype: '',
     },
     forAttrOfLabel: '',
     invalidMessageId: '',
@@ -135,4 +134,32 @@ describe('NewPasswordBox widget', () => {
       expect(passwordBox.attributes('type')).toBe('text');
     });
   });
+
+  test('can call .focus()', async () => {
+    await withNewPasswordBox(optionsBase, async (wrapper) => {
+      // call `focus` assuming valid inputs
+      await wrapper.setProps({ invalidMessage: { invalidMessageNew: '', invalidMessageRetype: '' } });
+      expect(wrapper.vm.invalidNew).toBe(false);
+      expect(wrapper.vm.invalidRetype).toBe(false);
+      wrapper.vm.focus();
+      // call `focus` assuming invalid first input
+      await wrapper.setProps({ invalidMessage: { invalidMessageNew: 'missing field', invalidMessageRetype: '' } });
+      expect(wrapper.vm.invalidNew).toBe(true);
+      expect(wrapper.vm.invalidRetype).toBe(false);
+      wrapper.vm.focus();
+      // call `focus` assuming invalid retyped input
+      await wrapper.setProps({ invalidMessage: { invalidMessageNew: '', invalidMessageRetype: 'missing field' } });
+      expect(wrapper.vm.invalidNew).toBe(false);
+      expect(wrapper.vm.invalidRetype).toBe(true);
+      wrapper.vm.focus();
+      // call `focus` assuming both invalid inputs
+      await wrapper.setProps({ invalidMessage: { invalidMessageNew: 'missing field', invalidMessageRetype: 'missing field' } });
+      expect(wrapper.vm.invalidNew).toBe(true);
+      expect(wrapper.vm.invalidRetype).toBe(true);
+      wrapper.vm.focus();
+
+      // Note: we cannot test that the browser actually sets the focus, as the DOM is not rendered here.
+    });
+  });
+
 });
