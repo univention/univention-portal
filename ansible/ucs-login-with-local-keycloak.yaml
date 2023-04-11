@@ -1,6 +1,6 @@
 ---
 - name: Enable SAML login with external Keycloak
-  hosts: ucs_dev_machines
+  hosts: ucs_primary
   gather_facts: yes
   vars:
     local_reverse_proxy: localhost:8000
