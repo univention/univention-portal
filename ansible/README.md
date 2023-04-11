@@ -15,7 +15,7 @@ This location is already excluded from version control such that each developer 
 
 An example is provided in the file [`hosts.yaml.example`](./hosts.yaml.example).
 
-Wherever the inventory is defined, it needs to define a group labeled `ucs_dev_machines`.
+Wherever the inventory is defined, it needs to define a group labeled `ucs_primary`.
 
 Note: make sure that the `ansible_user` is set to `root` for your hosts.
 

@@ -1,6 +1,6 @@
 ---
 - name: Make UCS machine's UMC reachable from the outside
-  hosts: ucs_dev_machines
+  hosts: ucs_primary
 
   tasks:
     - name: Store secret for basic auth

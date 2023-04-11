@@ -1,4 +1,4 @@
-ucs_dev_machines:
+ucs_primary:
   hosts:
     my_dev_vm:
       ansible_host: 192.0.2.10
