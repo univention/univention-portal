@@ -81,7 +81,7 @@ you will need to test the SAML login and work on the notifications OIDC.
   ```shell
   ansible-playbook -i ansible/hosts.yaml ansible/ucs-login-with-local-keycloak.yaml
   ```
-6. Step 7 copied the SSL certificate from the UCS host to the local reverse-proxy.
+6. Step 5 copied the SSL certificate from the UCS host to the local reverse-proxy.
    Follow the next section to rebuild the images (including the SSL certificates)
    and restart the stack.
 
