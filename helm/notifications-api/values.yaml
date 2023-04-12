@@ -27,6 +27,8 @@ notificationsapi:
   environment: "production"
   # -- Log level configuration. E.g. "DEBUG", "INFO", "WARNING", "ERROR".
   log_level: "WARNING"
+  # -- SQL command logging, e.g. "True" or "False"
+  sql_echo: "False"
   # -- The URL prefix under which the API shall be deployed.
   api_prefix: "/univention/portal/notifications-api/"
 

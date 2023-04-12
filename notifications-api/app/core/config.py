@@ -5,6 +5,7 @@ from starlette.datastructures import CommaSeparatedStrings
 class Settings(BaseSettings):
     project_name: str = "Notifications API"
     log_level: str = "INFO"
+    sql_echo: bool = True
     debug: bool = True
     dev_mode: bool = False
     root_path: str = ""
