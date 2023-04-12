@@ -1,9 +1,12 @@
 import { Dispatch } from 'vuex';
-import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 import { ReceiverApi, Configuration } from '@/apis/notifications';
 
-const EventSource = NativeEventSource || EventSourcePolyfill;
+// Use the polyfill instead of the browser's native EventSource implementation.
+// The polyfill allows custom headers (e.g. for Authorization)
+// and has consistent reconnecting behavior across browsers.
+export const EventSource = EventSourcePolyfill;
 
 export const notificationsApiUrl = process.env.VUE_APP_NOTIFICATIONS_API_URL || './notifications-api';
 
@@ -14,7 +17,7 @@ export const getNotificationsApi = (token?: string): ReceiverApi => new Receiver
   }),
 );
 
-export const connectEventSource = async (token?: string): Promise<EventSource> => {
+export const createEventSource = (token?: string): EventSource => {
   const streamUrl = `${notificationsApiUrl}/v1/notifications/stream`;
 
   // send OIDC token if we have it

@@ -1,5 +1,5 @@
 import { ReceiverApi } from '@/apis/notifications';
-import { getNotificationsApi, connectEventSource, connectEventListener } from '@/store/modules/notifications/apiclient';
+import { getNotificationsApi, createEventSource, connectEventListener } from '@/store/modules/notifications/apiclient';
 import * as stubs from './stubs';
 import * as utils from '../utils';
 
@@ -8,7 +8,7 @@ jest.mock('@/apis/notifications');
 
 beforeEach(() => {
   const stubEventSource = stubs.eventSource();
-  (connectEventSource as jest.Mock).mockReturnValue(stubEventSource);
+  (createEventSource as jest.Mock).mockReturnValue(stubEventSource);
 });
 
 afterEach(() => {
@@ -31,13 +31,13 @@ describe('connectNotificationsApi', () => {
     const stubStore = stubs.store();
     const stubToken = undefined;
     await stubStore.dispatch('notifications/connectNotificationsApi');
-    expect(connectEventSource).toHaveBeenCalledWith(stubToken);
+    expect(createEventSource).toHaveBeenCalledWith(stubToken);
   });
 
   test('adds EventSource instance into state', async () => {
     const stubStore = stubs.store();
     const stubToken = undefined;
-    const stubEventSource = await connectEventSource(stubToken);
+    const stubEventSource = await createEventSource(stubToken);
     await stubStore.dispatch('notifications/connectNotificationsApi');
     expect(stubStore.state.notifications.eventSource).toEqual(stubEventSource);
   });
@@ -48,7 +48,7 @@ describe('connectEventStream', () => {
   test('connects listeners for the events', async () => {
     const stubStore = stubs.store();
     const stubToken = undefined;
-    const stubEventSource = await connectEventSource(stubToken);
+    const stubEventSource = await createEventSource(stubToken);
     await stubStore.dispatch('notifications/connectEventStream');
 
     expect(connectEventListener).toHaveBeenNthCalledWith(
@@ -90,7 +90,7 @@ describe('eventStreamErrorEvent', () => {
     const stubStore = stubs.store();
     const errorData = { message: 'some error' };
     await stubStore.dispatch('notifications/eventStreamErrorEvent', errorData);
-    expect(connectEventSource).toHaveBeenCalled();
+    expect(createEventSource).toHaveBeenCalled();
   });
 
 });
