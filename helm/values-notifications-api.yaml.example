@@ -11,6 +11,7 @@ notificationsapi:
   dev_mode: "True"
   environment: "staging"
   log_level: "DEBUG"
+  sql_echo: "False"
   api_prefix: "/univention/portal/notifications-api"
 
 

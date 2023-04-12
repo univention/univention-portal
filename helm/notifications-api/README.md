@@ -328,7 +328,8 @@ true
   "apply_database_migrations": "True",
   "dev_mode": "False",
   "environment": "production",
-  "log_level": "WARNING"
+  "log_level": "WARNING",
+  "sql_echo": "False"
 }
 </pre>
 </td>
@@ -378,6 +379,15 @@ true
 </pre>
 </td>
 			<td>Log level configuration. E.g. "DEBUG", "INFO", "WARNING", "ERROR".</td>
+		</tr>
+		<tr>
+			<td>notificationsapi.sql_echo</td>
+			<td>string</td>
+			<td><pre lang="json">
+"False"
+</pre>
+</td>
+			<td>SQL command logging, e.g. "True" or "False"</td>
 		</tr>
 		<tr>
 			<td>podAnnotations</td>

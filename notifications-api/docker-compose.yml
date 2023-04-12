@@ -10,6 +10,7 @@ services:
     environment:
       DEV_MODE: "True"
       LOG_LEVEL: DEBUG
+      SQL_ECHO: "True"
       DATABASE_URL: "postgresql://dev:devpassword@db/dev"
 
       # Development shall by default not apply migrations, so that while working
