@@ -9,8 +9,6 @@ import logging
 from datetime import datetime, timezone
 from typing import Optional
 
-from sqlmodel import Session
-
 from app.crud.notification_service import NotificationService
 from app.db import get_session
 
@@ -26,29 +24,29 @@ def startup_expiry_pruning():
     log.debug("Setup of the the expired notifications pruner is done")
 
 
-async def expiry_pruner(session: Session):
+async def expiry_pruner():
     """
     Background task that looks for the shortest-lived notification,
     goes to sleep, and wakes up to prune that notification once it is expired.
 
     The process is repeated until there are no expiring notifications left.
     """
-    service = NotificationService(session)
+    with next(get_session()) as session:
+        service = NotificationService(session)
+        while True:
+            # wait for the next notification to expire
+            expire_time = service.get_next_notification_expiry()
+            if expire_time is None:
+                log.debug("No notifications about to expire")
+                return
+            log.debug("Next notification to expire is at %s", expire_time)
 
-    while True:
-        # wait for the next notification to expire
-        expire_time = service.get_next_notification_expiry()
-        if expire_time is None:
-            log.debug("No notifications about to expire")
-            return
-        log.debug("Next notification to expire is at %s", expire_time)
+            sleep_seconds = (expire_time - datetime.now(timezone.utc)).total_seconds()
+            await asyncio.sleep(sleep_seconds)
 
-        sleep_seconds = (expire_time - datetime.now(timezone.utc)).total_seconds()
-        await asyncio.sleep(sleep_seconds)
-
-        # prune expired notifications from the database
-        log.info("Pruning expired notifications")
-        service.prune_expired_notifications()
+            # prune expired notifications from the database
+            log.info("Pruning expired notifications")
+            service.prune_expired_notifications()
 
 
 def reload_pruner():
@@ -62,8 +60,7 @@ def reload_pruner():
         # cancel previous task
         _background_task.cancel()
 
-    db_session = next(get_session())
-    _background_task = asyncio.create_task(expiry_pruner(db_session))
+    _background_task = asyncio.create_task(expiry_pruner())
 
 
 def stop_pruner():
