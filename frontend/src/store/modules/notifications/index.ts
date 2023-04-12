@@ -33,7 +33,7 @@ import { ReceiverApi, NotificationRead as BackendNotification, NotificationSever
 
 import { PortalModule, RootState } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
-import { getNotificationsApi, connectEventSource, connectEventListener } from './apiclient';
+import { getNotificationsApi, createEventSource, connectEventListener, EventSource } from './apiclient';
 
 export const defaultHideAfter = 4;
 
@@ -216,33 +216,39 @@ export const actions = {
     const latestBackendNotifications = response.data;
     commit('SET_BACKEND_NOTIFICATIONS', latestBackendNotifications);
   },
-  async connectEventStream({ dispatch, commit, getters }: PortalActionContext<Notifications>): Promise<void> {
-    const eventSource = await connectEventSource(getters.token);
-    commit('SET_EVENT_SOURCE', eventSource);
+  connectEventStream(context: PortalActionContext<Notifications>): void {
+    const connState = context.state.eventSource?.readyState;
+    if (([EventSource.CONNECTING, EventSource.OPEN] as Array<number | undefined>).includes(connState)) {
+      // browser is automatically reconnecting; nothing to do here
+      return;
+    }
+
+    const eventSource = createEventSource(context.getters.token);
+    context.commit('SET_EVENT_SOURCE', eventSource);
 
     connectEventListener(
       // default event name 'error': failed to connect event stream
-      eventSource, 'error', 'eventStreamErrorEvent', dispatch,
+      eventSource, 'error', 'eventStreamErrorEvent', context.dispatch,
     );
     connectEventListener(
       // default event name 'open': event stream connection opened successfully
-      eventSource, 'open', 'eventStreamOpenEvent', dispatch,
+      eventSource, 'open', 'eventStreamOpenEvent', context.dispatch,
     );
     connectEventListener(
-      eventSource, 'new_notification', 'newBackendNotificationEvent', dispatch,
+      eventSource, 'new_notification', 'newBackendNotificationEvent', context.dispatch,
     );
     connectEventListener(
-      eventSource, 'updated_notification', 'updateBackendNotificationEvent', dispatch,
+      eventSource, 'updated_notification', 'updateBackendNotificationEvent', context.dispatch,
     );
     connectEventListener(
-      eventSource, 'deleted_notification', 'deleteBackendNotificationEvent', dispatch,
+      eventSource, 'deleted_notification', 'deleteBackendNotificationEvent', context.dispatch,
     );
   },
   async eventStreamOpenEvent(context: PortalActionContext<Notifications>): Promise<void> {
     await context.dispatch('fetchNotifications');
   },
   async eventStreamErrorEvent(context: PortalActionContext<Notifications>): Promise<void> {
-    console.warn('EventStream connection failed! Reconnecting in 3 seconds...');
+    console.warn('EventStream connection failed! Reconnecting...');
     await new Promise((res) => { setTimeout(res, 3000); });
     await context.dispatch('connectEventStream');
   },
