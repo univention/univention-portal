@@ -5,13 +5,14 @@ import textwrap
 from http import HTTPStatus
 from typing import List
 
-from fastapi import APIRouter, BackgroundTasks, Body, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, BackgroundTasks, Body, HTTPException, Query, Request
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.exc import NoResultFound
 from sse_starlette.sse import EventSourceResponse as EventSourceResponseBase
 
 from app import expiry_pruning, messaging
 from app.crud.notification_service import NotificationService
+from app.db import get_session
 from app.models.notification_model import NotificationCreate, NotificationRead
 
 
@@ -68,7 +69,6 @@ async def create_notification(
                 },
             },
         }),
-    service: NotificationService = Depends(NotificationService),
 ) -> NotificationRead:
     """
     Create one notification.
@@ -79,7 +79,9 @@ async def create_notification(
     if data.has_expired():
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Expiry time is in the past.")
 
-    notification = service.create_notification(data)
+    with next(get_session()) as db:
+        service = NotificationService(db)
+        notification = service.create_notification(data)
 
     event_data = json.dumps(jsonable_encoder(["new_notification", notification]))
     topic = f"user.{notification.targetUid}"
@@ -94,31 +96,33 @@ async def create_notification(
 @router.get("/notifications/", tags=["receiver"])
 def get_notifications(
     limit: str = Query(default=100),
-    service: NotificationService = Depends(NotificationService),
 ) -> List[NotificationRead]:
     """Read the notifications of the current user."""
     query = {
         'limit': limit,
     }
-    return service.get_notifications(query)
+
+    with next(get_session()) as db:
+        service = NotificationService(db)
+        return service.get_notifications(query)
 
 
 @router.get("/notifications/{id}/", tags=["receiver"])
 def get_notification(
     id: str,
-    service=Depends(NotificationService),
 ) -> NotificationRead:
-    try:
-        return service.get_notification(id)
-    except NoResultFound:
-        raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
+    with next(get_session()) as db:
+        service = NotificationService(db)
+        try:
+            return service.get_notification(id)
+        except NoResultFound:
+            raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
 
 @router.delete("/notifications/{id}/", tags=["receiver", "sender"], status_code=HTTPStatus.NO_CONTENT)
 def delete_notification(
     id: str,
     background_tasks: BackgroundTasks,
-    service=Depends(NotificationService),
 ):
     """
     Delete one notification
@@ -137,10 +141,12 @@ def delete_notification(
     try:
         # TODO: Once the current user is known we don't have to read this from the
         # database anymore.
-        notification = service.get_notification(id)
-        user_uuid = notification.targetUid
+        with next(get_session()) as db:
+            service = NotificationService(db)
+            notification = service.get_notification(id)
+            user_uuid = notification.targetUid
 
-        service.delete_notification(id)
+            service.delete_notification(id)
     except NoResultFound:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
 
@@ -153,16 +159,17 @@ def delete_notification(
 def hide_notification(
     id: str,
     background_tasks: BackgroundTasks,
-    service: NotificationService = Depends(NotificationService),
 ):
     """
     Flag a notification as hidden.
 
     This will set the attribute `popup` to `false`.
     """
-    service.hide_notification(id)
+    with next(get_session()) as db:
+        service = NotificationService(db)
+        service.hide_notification(id)
+        notification = service.get_notification(id)
 
-    notification = service.get_notification(id)
     event_data = json.dumps(jsonable_encoder(["updated_notification", notification]))
     topic = f"user.{notification.targetUid}"
     background_tasks.add_task(messaging.publish_notification, topic, event_data)
