@@ -31,7 +31,8 @@ e2e-test:
     - cd docker
     - docker compose build portal-frontend portal-server notifications-api reverse-proxy db
   script:
-    - docker compose up portal-frontend portal-server notifications-api reverse-proxy db
+    - docker compose up -d portal-frontend portal-server notifications-api reverse-proxy db
     - sleep 60
+    - curl localhost:8000/univention/portal/
   after_script:
     - docker compose down
