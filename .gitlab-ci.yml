@@ -19,3 +19,17 @@ test-vm-connection:
     - apt-get update && apt-get --assume-yes --verbose-versions --no-install-recommends install curl
     # Check availability of VM from pipeline
     - curl http://10.200.116.16/univention/portal/
+
+e2e-test:
+  image: tiangolo/docker-with-compose:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker version
+    - docker compose version
+    - cd docker
+    - docker compose build
+  script:
+    - docker compose up
+  after_script:
+    - docker compose down
