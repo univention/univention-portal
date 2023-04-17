@@ -25,6 +25,7 @@ e2e-test:
   services:
     - docker:dind
   before_script:
+    - export DOCKER_API_VERSION=1.41
     - docker version
     - docker compose version
     - cd docker
