@@ -28,8 +28,9 @@ e2e-test:
     - docker version
     - docker compose version
     - cd docker
-    - docker compose build
+    - docker compose build portal-frontend portal-server notifications-api reverse-proxy db
   script:
-    - docker compose up
+    - docker compose up portal-frontend portal-server notifications-api reverse-proxy db
+    - sleep 60
   after_script:
     - docker compose down
