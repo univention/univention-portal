@@ -20,14 +20,14 @@ on a stock UCS VM.
 
 Two potential approaches were considered:
 
-1. Use a stock UCS VM hosted in [UVVM](https://uvmm.knut.univention.de) and
+1. Use a stock UCS VM hosted in [UVMM](https://uvmm.knut.univention.de) and
    reserved for E2E testing.
 2. Use a stock UCS VM running in a Kubernetes cluster (approach taken by the
    [SouvAP Devops Team](https://gitlab.souvap-univention.de/souvap/devops/deploy-souvap-ng))
 
 ## Decisions
 
-We will use the first approach i.e. using a stock UCS VM hosted in UVVM. The
+We will use the first approach i.e. using a stock UCS VM hosted in UVMM. The
 reasons are as follows.
 
 1. This approach has relatively low complexity.
@@ -47,7 +47,7 @@ of the following reasons.
    the long runtimes necessary for spinning up a VM in a clean state
    (~ 30 mins to an hour). This is acceptable in a nightly run, but not in
    pipeline jobs that run on "merge to develop", for instance. Plus, resetting
-   to a clean snapshot of a UVVM VM and then applying ansible patches within the
+   to a clean snapshot of a UVMM VM and then applying ansible patches within the
    pipeline in the chosen approach might be good enough (instead of spinning up
    a VM from scratch).
 2. This approach has relatively high complexity.
@@ -62,7 +62,7 @@ of the following reasons.
 - We will get the E2E tests running in the CI pipelines relatively fast.
 - We may experience some flakiness in the tests due to VM state-related issues
   (since we don't create a VM from scratch on every test run).
-- The UVVM VM exists independently of our repo, and certain things like
+- The UVMM VM exists independently of our repo, and certain things like
   UCS version has to be synced manually to what the latest repo code expects.
   However, most configuration can be managed via our Ansible scripts.
 
