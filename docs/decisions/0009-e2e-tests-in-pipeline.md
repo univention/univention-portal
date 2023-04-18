@@ -1,4 +1,4 @@
-# How to run portal end-to-end tests in the CI pipeline
+# Running Portal End-to-end Tests in the CI pipeline
 
 
 ---
