@@ -24,15 +24,23 @@ e2e-test:
   image: tiangolo/docker-with-compose:latest
   services:
     - docker:dind
+  artifacts:
+    when: on_failure
+    paths:
+      - tests/e2e/test-results/
+    expire_in: 1 day
   before_script:
+    # The Docker client version is automatically downgraded to 1.39 due to version
+    # negotiation.
     - export DOCKER_API_VERSION=1.41
     - docker version
     - docker compose version
     - cd docker
-    - docker compose build portal-frontend portal-server notifications-api reverse-proxy db
+    - docker compose build portal-frontend portal-server notifications-api reverse-proxy db e2e-tests
   script:
     - docker compose up -d portal-frontend portal-server notifications-api reverse-proxy db
     - sleep 60
-    - curl localhost:8000/univention/portal/
+    - docker compose run --name e2e-ci e2e-tests
   after_script:
-    - docker compose down
+    - docker cp e2e-ci:/e2e/test-results/ $CI_PROJECT_DIR/tests/e2e/ || true
+    - docker compose down --remove-orphans

@@ -182,6 +182,23 @@ services:
         source: ..
         target: /helm-docs
 
+  # For running e2e tests in the CI pipeline
+  e2e-tests:
+    container_name: e2e-tests
+    image: e2e-tests:develop
+    init: true # https://playwright.dev/docs/ci#docker
+    build:
+      context: ../tests/e2e
+    depends_on:
+      - portal-frontend
+      - portal-server
+      - notifications-api
+      - db
+      - reverse-proxy
+    network_mode: host
+    command: pytest --video retain-on-failure --tracing retain-on-failure --screenshot only-on-failure
+
+
 
 volumes:
   pre-commit-cache:
