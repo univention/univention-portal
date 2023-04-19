@@ -21,7 +21,11 @@ on a stock UCS VM.
 Two potential approaches were considered:
 
 1. Use a stock UCS VM hosted in [UVMM](https://uvmm.knut.univention.de) and
-   reserved for E2E testing.
+   reserved for E2E testing. The VM is long-running, and doesn't get shut down
+   every night. The UCS installation is done manually and then
+   a snapshot of a clean state is taken. The pipeline restores this snapshot,
+   and executes the ansible patches to prepare the environment in a reproducible
+   state.
 2. Use a stock UCS VM running in a Kubernetes cluster (approach taken by the
    [SouvAP Devops Team](https://gitlab.souvap-univention.de/souvap/devops/deploy-souvap-ng))
 
@@ -42,29 +46,21 @@ reasons are as follows.
 We rejected the second option of using a UCS VM in the Kubernetes cluster because
 of the following reasons.
 
-1. The main advantage of this approach would have been the ability to ensure
-   a clean state of the underlying VM. However, this advantage is neutralized by
-   the long runtimes necessary for spinning up a VM in a clean state
-   (~ 30 mins to an hour). This is acceptable in a nightly run, but not in
-   pipeline jobs that run on "merge to develop", for instance. Plus, resetting
-   to a clean snapshot of a UVMM VM and then applying ansible patches within the
-   pipeline in the chosen approach might be good enough (instead of spinning up
-   a VM from scratch).
-2. This approach has relatively high complexity.
-3. We would need much knowledge exchange with the SouvAP DevOps team to implement
+1. This approach has relatively high complexity.
+2. We would need much knowledge exchange with the SouvAP DevOps team to implement
    it.
-4. Due to the above two reasons, this approach will be slower to implement.
-5. This approach does not mirror the approach used by developers for local testing
+3. Due to the above two reasons, this approach will be slower to implement.
+4. This approach does not mirror the approach used by developers for local testing
    of the second deployment path. It mirrors the first deployment path.
 
 ## Consequences
 
 - We will get the E2E tests running in the CI pipelines relatively fast.
-- We may experience some flakiness in the tests due to VM state-related issues
-  (since we don't create a VM from scratch on every test run).
 - The UVMM VM exists independently of our repo, and certain things like
   UCS version has to be synced manually to what the latest repo code expects.
-  However, most configuration can be managed via our Ansible scripts.
+  However, most configuration can be managed via our Ansible scripts. This is
+  not as clean as a Kubernetes-based solution, but should be good enough for
+  our current needs.
 
 ## Pointers
 
