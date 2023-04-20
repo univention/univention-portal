@@ -392,30 +392,12 @@ test-notifications-api:
 
 
 # Linting related checks and builds
-
-# TODO: The pre-commit image is missing hadolint, that's why we are building our
-# own one here until it is integrated upstream.
-#
-# Compare: https://git.knut.univention.de/univention/dist/docker-services
-
-build-linter:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: docker/linter-pre-commit/Dockerfile
-    KANIKO_BUILD_CONTEXT: docker/linter-pre-commit/
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/pre-commit"
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH
-
-
 pre-commit-linting:
   stage: test
-  needs:
-    - job: build-linter
-  image: "$IMAGE_TAG"
+  needs: []
+  image:
+    name: "gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest"
+    entrypoint: [""]
   variables:
     PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
     PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
@@ -429,6 +411,11 @@ pre-commit-linting:
   script:
     # Compose lint would fail without the referenced env files
     - cp docker/.env.example docker/.env
+    # Helm chart liniting needs the dependency charts present
+    - |
+      for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
+        helm dependency update $helm_path
+      done
     - pre-commit run --all-files
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -438,7 +425,9 @@ pre-commit-linting:
 commit-message-linting:
   stage: test
   needs: []
-  image: docker-registry.knut.univention.de/knut/pre-commit:latest
+  image:
+    name: "gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest"
+    entrypoint: [""]
   variables:
     CYPRESS_CACHE_FOLDER: $CI_PROJECT_DIR/cypress_cache
     YARN_CACHE_FOLDER: $CI_PROJECT_DIR/yarn_cache

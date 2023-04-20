@@ -8,7 +8,7 @@ COPY ./docker/keycloak/ucs-root-ca.crt /usr/lib/jvm/jre/lib/security
 RUN keytool -keystore cacerts -storepass changeit -noprompt -trustcacerts -importcert -alias ldapcert -file ucs-root-ca.crt
 
 # install dependencies for entrypoint script
-RUN microdnf install jq && \
+RUN microdnf install -y jq-1.6 && \
     microdnf clean all
 
 # grab realm export as template

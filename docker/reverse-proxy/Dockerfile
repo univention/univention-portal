@@ -8,6 +8,7 @@ COPY ssl /etc/nginx/ssl/
 
 # create self-signed certificate if no certificates are present
 WORKDIR /etc/nginx
+# hadolint ignore=SC2288
 RUN \[ ! -f ssl/private.key -o ! -f ssl/cert.pem \] && \
     openssl genrsa -des3 -passout pass:x -out ssl/server.pass.key && \
     openssl rsa -passin pass:x -in ssl/server.pass.key -out ssl/private.key && \

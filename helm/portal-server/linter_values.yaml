@@ -1,0 +1,41 @@
+---
+
+# Dummy values for running the Helm linter on the portal-server.
+# Run it like this: helm lint -f values.yaml -f linter_values.yaml .
+
+## Application-specific
+portalserver:
+  admin_group: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  environment: "staging"
+  log_level: "DEBUG"
+  ucs_internal_url: "https://portal.example.develop.souvap-univention.de/univention/internal"
+  umc_get_url: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get"
+  umc_session_url: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
+  auth_secret: "univention"
+
+
+## Kubernetes ingress
+ingress:
+  enabled: false
+  host: "portal.example.develop.souvap-univention.de"
+
+
+## Istio based
+istio:
+  enabled: true
+  host: "portal.example.develop.souvap-univention.de"
+
+## Docker image
+image:
+  tag: "branch-feature-example"
+
+
+## Container deployment probes
+probes:
+  liveness:
+    enabled: false
+
+  readiness:
+    enabled: false
+
+...
