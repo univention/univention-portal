@@ -21,8 +21,9 @@ repos:
   # "Trim Trailing Whitespace"
   - id: trailing-whitespace
 
+# "Python blocks in UCR config templates"
 - repo: https://git.knut.univention.de/univention/dist/pre-commit-ucr
-  rev: '0.0.7'
+  rev: '0.0.9'
   hooks:
     - id: ucr-flake8
     - id: ucr-ruff
@@ -31,16 +32,18 @@ repos:
     - id: ucr-ruff-fix
       stages: [ manual ]
 
+# "Commit messages"
 - repo: https://github.com/compilerla/conventional-pre-commit
   rev: v2.1.1
   hooks:
-  - id: conventional-pre-commit
-    stages: [commit-msg]
+    - id: conventional-pre-commit
+      stages: [commit-msg]
 
+# "Debian package related control fiels"
 - repo: https://git.knut.univention.de/univention/dist/pre-commit-debian.git
   rev: v1.0.0
   hooks:
-    - id: debian-control
+  - id: debian-control
 
 # "flake8"
 - repo: https://github.com/PyCQA/flake8
@@ -57,7 +60,7 @@ repos:
       stages: [ manual ]
       args: ["--fix"]
 - repo: https://github.com/pre-commit/mirrors-autopep8
-  rev: v2.0.1
+  rev: v2.0.2
   hooks:
   -   id: autopep8
       args: ["-d"]
@@ -81,11 +84,17 @@ repos:
   hooks:
   - id: docker-compose-check
 
-# "Runs hadolint installed on the local system"
+# "Dockerfile linter"
 - repo: https://gitlab.com/univention/pre-commit-hooks/docker-pre-commit
   rev: v2.0.0
   hooks:
   - id: hadolint-system
+
+# "Helm chart linter"
+- repo: https://github.com/gruntwork-io/pre-commit
+  rev: v0.1.20
+  hooks:
+  - id: helmlint
 
 # Disable temporarily because gitlab-api can not be accessed.
 # "urllib.error.HTTPError: HTTP Error 401: Unauthorized"
@@ -98,4 +107,24 @@ repos:
 #     - '--server'
 #     - 'https://git.knut.univention.de'
 
+- repo: https://github.com/norwoodj/helm-docs
+  rev: v1.11.0
+  hooks:
+  - id: helm-docs
+    args:
+      - --chart-search-root=helm
+    description: Uses 'helm-docs' to create documentation from the Helm chart's 'values.yaml' file, and inserts the result into a corresponding 'README.md' file.
+    entry: git-hook/helm-docs
+    files: (README\.md\.gotmpl|(Chart|requirements|values)\.yaml)$
+    language: script
+    name: Helm Docs
+    require_serial: true
+  - id: helm-docs-built
+    args: []
+    description: Uses auto built 'helm-docs' to create documentation from the Helm chart's 'values.yaml' file, and inserts the result into a corresponding 'README.md' file.
+    entry: helm-docs
+    files: (README\.md\.gotmpl|(Chart|requirements|values)\.yaml)$
+    language: golang
+    name: Helm Docs Built
+    require_serial: true
 ...

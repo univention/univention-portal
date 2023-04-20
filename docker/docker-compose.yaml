@@ -147,23 +147,16 @@ services:
         source: ../
         target: /src
 
-  # Environment of the pre-commit hook linter. The context directory contains
-  # more details.
+  # Environment of the pre-commit linter.
   pre-commit:
     profiles:
       - test
-    platform: "linux/amd64"
-    build:
-      context: linter-pre-commit
+    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest
     container_name: univention-portal-pre-commit
-    environment:
-      PIP_CACHE_DIR: /cache/pip
-      PRE_COMMIT_HOME: /cache/pre-commit
-    working_dir: /work
     volumes:
       - type: bind
         source: ..
-        target: /work
+        target: /code
       - type: volume
         # pre-commit installs dependencies, having them cached speeds things up
         # a lot.
