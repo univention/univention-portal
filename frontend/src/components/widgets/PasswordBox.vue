@@ -11,7 +11,7 @@
       :value="modelValue"
       :aria-invalid="invalid"
       :aria-describedby="invalidMessageId || null"
-      data-test="password-box"
+      data-testid="password-box"
       @input="$emit('update:modelValue', $event.target.value)"
     >
     <toggle-button

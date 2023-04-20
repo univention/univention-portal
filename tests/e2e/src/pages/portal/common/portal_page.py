@@ -91,6 +91,7 @@ class PortalPage(BasePage):
             expect(self.right_side_menu).to_be_hidden()
 
     def logout(self):
+        self.page.goto('/')
         self.reveal_right_side_menu()
         logout_button_visible = self.right_side_menu.logout_button.is_visible()
         login_button_visible = self.right_side_menu.login_button.is_visible()

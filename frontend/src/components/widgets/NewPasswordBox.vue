@@ -12,7 +12,7 @@
         :value="modelValue.newPassword"
         :aria-invalid="invalidNew"
         :aria-describedby="invalidMessageId || undefined"
-        data-test="new-password-box"
+        data-testid="new-password-box"
         @input="updateModelValue($event, 'newPassword')"
       >
       <toggle-button
@@ -52,7 +52,7 @@
         type="password"
         :aria-invalid="invalidRetype"
         :aria-describedby="invalidMessageIdRetype || undefined"
-        data-test="retype-password-box"
+        data-testid="retype-password-box"
         @input="updateModelValue($event, 'retypePassword')"
       >
       <toggle-button
