@@ -27,7 +27,7 @@ test-tross-connection:
   script:
     - apt-get update && apt-get --assume-yes --verbose-versions --no-install-recommends install curl
     # Check availability of Tross from pipeline
-    - curl http://tross
+    - curl http://tross.knut.univention.de
 
 e2e-test:
   image: tiangolo/docker-with-compose:latest
