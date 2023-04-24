@@ -82,12 +82,12 @@ describe('NewPasswordBox widget', () => {
     await withNewPasswordBox(optionsBase, async (wrapper) => {
       const inputValue = 'test password';
 
-      const passwordBox = await wrapper.get('[data-test="new-password-box"]');
+      const passwordBox = await wrapper.get('[data-testid="new-password-box"]');
       expect(passwordBox.element.value).toBe('');
       await passwordBox.setValue(inputValue);
       expect(passwordBox.element.value).toBe(inputValue);
 
-      const retypeBox = await wrapper.get('[data-test="retype-password-box"]');
+      const retypeBox = await wrapper.get('[data-testid="retype-password-box"]');
       expect(retypeBox.element.value).toBe('');
       await retypeBox.setValue(inputValue);
       expect(retypeBox.element.value).toBe(inputValue);
@@ -109,7 +109,7 @@ describe('NewPasswordBox widget', () => {
 
   test('renders password input field with correct type', async () => {
     await withNewPasswordBox(optionsBase, async (wrapper) => {
-      const passwordBox = await wrapper.get('[data-test="new-password-box"]');
+      const passwordBox = await wrapper.get('[data-testid="new-password-box"]');
       expect(passwordBox.attributes('type')).toBe('password');
     });
   });
@@ -122,7 +122,7 @@ describe('NewPasswordBox widget', () => {
 
   test('is able to toggle password visiblity correctly', async () => {
     await withNewPasswordBox(optionsPwVisibilityToggle, async (wrapper) => {
-      const passwordBox = await wrapper.get('[data-test="new-password-box"]');
+      const passwordBox = await wrapper.get('[data-testid="new-password-box"]');
       const passwordBoxButton = await wrapper.get('[data-test="password-box-icon"]');
 
       expect(passwordBoxButton.attributes('aria-label')).toBe('Show password');
