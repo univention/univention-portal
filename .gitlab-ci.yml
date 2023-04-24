@@ -22,21 +22,21 @@ test-vm-connection:
   rules:
     - when: never
 
-test-tross-connection:
+restore-vm-snapshot:
   stage: test
   before_script:
     # https://docs.gitlab.com/ee/ci/ssh_keys/
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - chmod 400 "$SSH_PRIVATE_KEY_E2E_TESTS"
-    - ssh-add "$SSH_PRIVATE_KEY_E2E_TESTS"
+    - ssh-add "$SSH_PRIVATE_KEY_E2E_TESTS"  # Key must have a newline at end
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     # https://docs.gitlab.com/ee/ci/ssh_keys/#verifying-the-ssh-host-keys
     - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test after_ucs_license_import"
+    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test after_ucs_license_import && virsh start dchakravorty_test"
 
 e2e-test:
   image: tiangolo/docker-with-compose:latest
