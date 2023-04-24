@@ -24,10 +24,15 @@ test-vm-connection:
 
 test-tross-connection:
   stage: test
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "${SSH_PRIVATE_KEY_E2E_TESTS}" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan tross.knut.univention.de >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
-    - apt-get update && apt-get --assume-yes --verbose-versions --no-install-recommends install curl
-    # Check availability of Tross from pipeline
-    - curl http://tross.knut.univention.de
+    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test after_ucs_license_import"
 
 e2e-test:
   image: tiangolo/docker-with-compose:latest
