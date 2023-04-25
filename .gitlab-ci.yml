@@ -36,9 +36,8 @@ restore-vm-snapshot:
     - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    # The ci_pipeline_ssh_keys_authorized snapshot has ucs license imported and pipeline ssh key authorized
-    # If machine is already running, `virsh start ...` will lead to exit status 1. Use `--running` instead.
-    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized"
+    # The --running flag ensures a running state irrespective of the snapshot state
+    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
 
 apply-ansible-patches:
   stage: test
