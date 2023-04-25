@@ -36,7 +36,7 @@ restore-vm-snapshot:
     - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_keys_authorized && virsh start dchakravorty_test"
+    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized && virsh start dchakravorty_test"
 
 e2e-test:
   image: tiangolo/docker-with-compose:latest
