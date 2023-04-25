@@ -37,7 +37,8 @@ restore-vm-snapshot:
     - chmod 644 ~/.ssh/known_hosts
   script:
     # The ci_pipeline_ssh_keys_authorized snapshot has ucs license imported and pipeline ssh key authorized
-    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized && virsh start dchakravorty_test"
+    # If machine is already running, `virsh start ...` will lead to exit status 1. Use `--running` instead.
+    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
 
 e2e-test:
   image: tiangolo/docker-with-compose:latest
