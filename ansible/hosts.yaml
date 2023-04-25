@@ -1,0 +1,7 @@
+ucs_primary:
+  hosts:
+    my_dev_vm:
+      ansible_host: 10.200.116.16
+  vars:
+    ansible_user: root
+    ucs_auth_secret: univention
