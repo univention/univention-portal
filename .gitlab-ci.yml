@@ -38,7 +38,7 @@ restore-vm-snapshot:
   script:
     # The ci_pipeline_ssh_keys_authorized snapshot has ucs license imported and pipeline ssh key authorized
     # If machine is already running, `virsh start ...` will lead to exit status 1. Use `--running` instead.
-    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
+    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized"
 
 apply-ansible-patches:
   stage: test
