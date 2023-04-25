@@ -40,6 +40,24 @@ restore-vm-snapshot:
     # If machine is already running, `virsh start ...` will lead to exit status 1. Use `--running` instead.
     - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
 
+apply-ansible-patches:
+  stage: test
+  before_script:
+    # https://docs.gitlab.com/ee/ci/ssh_keys/
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - chmod 400 "$SSH_PRIVATE_KEY_E2E_TESTS"
+    - ssh-add "$SSH_PRIVATE_KEY_E2E_TESTS"  # Key must have a newline at end
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # https://docs.gitlab.com/ee/ci/ssh_keys/#verifying-the-ssh-host-keys
+    - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml
+  rules:
+    - when: never
+
 e2e-test:
   image: tiangolo/docker-with-compose:latest
   services:
