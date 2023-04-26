@@ -53,6 +53,8 @@ e2e-test:
     - docker version
     - docker compose version
     - cd docker
+    # The e2e-ci container from the old job sometimes remains. We remove everything here first.
+    - docker compose down --remove-orphans
     - docker compose build keycloak
     - docker compose up -d keycloak
     - sleep 60  # 60 seconds is probably too defensive.
