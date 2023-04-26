@@ -38,8 +38,6 @@ restore-vm-snapshot:
   script:
     # The --running flag ensures a running state irrespective of the snapshot state
     - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
-  rules:
-    - when: never
 
 apply-ansible-patches:
   image: tiangolo/docker-with-compose:latest
