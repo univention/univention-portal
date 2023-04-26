@@ -30,15 +30,12 @@ restore-vm-snapshot:
   rules:
     - when: never
 
-test-empty-folder:
+test-rsync:
   image: tiangolo/docker-with-compose:latest
   services:
     - docker:dind
   script:
-    - cd ansible/../docker/reverse-proxy
-    - ls -al
-    - cd ssl
-    - ls -al
+    - rsync --version
 
 e2e-test:
   stage: test
