@@ -27,16 +27,6 @@ restore-vm-snapshot:
     - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
     # wait until machine starts
     - sleep 60
-  rules:
-    - when: never
-
-test-rsync:
-  image: tiangolo/docker-with-compose:latest
-  services:
-    - docker:dind
-  script:
-    - apk --update add rsync
-    - rsync --version
 
 e2e-test:
   stage: test
@@ -51,6 +41,8 @@ e2e-test:
   before_script:
     - *prepare_ssh
     - pip3 install ansible
+    # Needed by ansible/ucs-login-with-local-keycloak.yaml to copy SSL certs from remote server
+    - apk --update add rsync
     - cp "$UCS_ROOT_CA_CERT_E2E_TESTS" docker/keycloak/ucs-root-ca.crt
     - cp "$DOCKER_COMPOSE_ENV_FILE_E2E_TESTS" docker/.env
     - cp "$DOCKER_COMPOSE_OVERRIDE_FILE_E2E_TESTS" docker/docker-compose.override.yaml
@@ -75,5 +67,3 @@ e2e-test:
   after_script:
     - docker cp e2e-ci:/e2e/test-results/ $CI_PROJECT_DIR/tests/e2e/ || true
     - docker compose down --remove-orphans
-  rules:
-    - when: never
