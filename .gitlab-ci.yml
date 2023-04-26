@@ -35,7 +35,7 @@ test-empty-folder:
   services:
     - docker:dind
   script:
-    - cd docker/reverse-proxy
+    - cd ansible/../docker/reverse-proxy
     - ls -al
     - cd ssl
     - ls -al
