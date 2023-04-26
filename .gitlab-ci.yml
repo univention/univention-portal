@@ -45,7 +45,7 @@ apply-ansible-patches:
   image: tiangolo/docker-with-compose:latest
   services:
     - docker:dind
-  before_script:
+  script:
     # https://docs.gitlab.com/ee/ci/ssh_keys/
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
