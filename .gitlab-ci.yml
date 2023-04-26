@@ -1,65 +1,35 @@
 stages:
+  - prepare
   - test
 
-# This workflow rule prevents duplicate pipelines when pushing to branches that
-# already have a merge request open. Our integration branch "develop" is an
-# explicit exception and shall always trigger.
-#
-# The rules are applied in order, the first matching one decides.
-#
-# Compare https://docs.gitlab.com/ee/ci/yaml/#rules
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH
 
-
-test-vm-connection:
-  stage: test
-  script:
-    - apt-get update && apt-get --assume-yes --verbose-versions --no-install-recommends install curl
-    # Check availability of VM from pipeline
-    - curl http://10.200.116.16/univention/portal/
-  rules:
-    - when: never
+.prepare_ssh: &prepare_ssh
+  # https://docs.gitlab.com/ee/ci/ssh_keys/
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - chmod 400 "$SSH_PRIVATE_KEY_E2E_TESTS"
+  - ssh-add "$SSH_PRIVATE_KEY_E2E_TESTS"  # Key must have a newline at end
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  # https://docs.gitlab.com/ee/ci/ssh_keys/#verifying-the-ssh-host-keys
+  - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
 
 restore-vm-snapshot:
-  stage: test
+  stage: prepare
   before_script:
-    # https://docs.gitlab.com/ee/ci/ssh_keys/
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - chmod 400 "$SSH_PRIVATE_KEY_E2E_TESTS"
-    - ssh-add "$SSH_PRIVATE_KEY_E2E_TESTS"  # Key must have a newline at end
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    # https://docs.gitlab.com/ee/ci/ssh_keys/#verifying-the-ssh-host-keys
-    - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+    - *prepare_ssh
   script:
     # The --running flag ensures a running state irrespective of the snapshot state
     - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
-
-apply-ansible-patches:
-  stage: test
-  image: tiangolo/docker-with-compose:latest
-  services:
-    - docker:dind
-  script:
-    # https://docs.gitlab.com/ee/ci/ssh_keys/
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - chmod 400 "$SSH_PRIVATE_KEY_E2E_TESTS"
-    - ssh-add "$SSH_PRIVATE_KEY_E2E_TESTS"  # Key must have a newline at end
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    # https://docs.gitlab.com/ee/ci/ssh_keys/#verifying-the-ssh-host-keys
-    - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-    - pip3 install ansible
-    - cp "$ANSIBLE_HOSTS_FILE_E2E_TESTS" ansible/hosts.yaml
-    - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml
+    # wait until machine starts
+    - sleep 60
 
 e2e-test:
+  stage: test
   image: tiangolo/docker-with-compose:latest
   services:
     - docker:dind
@@ -69,11 +39,23 @@ e2e-test:
       - tests/e2e/test-results/
     expire_in: 1 day
   before_script:
+    - *prepare_ssh
+    - pip3 install ansible
+    - cp "$UCS_ROOT_CA_CERT_E2E_TESTS" docker/keycloak/ucs-root-ca.crt
+    - cp "$DOCKER_COMPOSE_ENV_FILE_E2E_TESTS" docker/.env
+    - cp "$DOCKER_COMPOSE_OVERRIDE_FILE_E2E_TESTS" docker/docker-compose.override.yaml
+    - cp "$ANSIBLE_HOSTS_FILE_E2E_TESTS" ansible/hosts.yaml
     # The Docker client version is automatically downgraded to 1.39 due to version
     # negotiation.
     - export DOCKER_API_VERSION=1.41
     - docker version
     - docker compose version
+    - cd docker
+    - docker compose build keycloak
+    - docker compose up -d keycloak
+    - sleep 60
+    - cd ..
+    - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/ucs-login-with-local-keycloak.yaml
     - cd docker
     - docker compose build portal-frontend portal-server notifications-api reverse-proxy db e2e-tests
   script:
@@ -83,5 +65,3 @@ e2e-test:
   after_script:
     - docker cp e2e-ci:/e2e/test-results/ $CI_PROJECT_DIR/tests/e2e/ || true
     - docker compose down --remove-orphans
-  rules:
-    - when: never
