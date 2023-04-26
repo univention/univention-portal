@@ -35,6 +35,7 @@ test-rsync:
   services:
     - docker:dind
   script:
+    - apk --update add rsync
     - rsync --version
 
 e2e-test:
