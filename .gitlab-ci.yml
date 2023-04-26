@@ -27,6 +27,18 @@ restore-vm-snapshot:
     - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
     # wait until machine starts
     - sleep 60
+  rules:
+    - when: never
+
+test-empty-folder:
+  image: tiangolo/docker-with-compose:latest
+  services:
+    - docker:dind
+  script:
+    - cd docker/reverse-proxy
+    - ls -al
+    - cd ssl
+    - ls -al
 
 e2e-test:
   stage: test
@@ -65,3 +77,5 @@ e2e-test:
   after_script:
     - docker cp e2e-ci:/e2e/test-results/ $CI_PROJECT_DIR/tests/e2e/ || true
     - docker compose down --remove-orphans
+  rules:
+    - when: never
