@@ -25,7 +25,7 @@ restore-vm-snapshot:
   script:
     # The --running flag ensures a running state irrespective of the snapshot state
     - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
-    # wait until machine starts
+    # wait until machine starts. 60 seconds is probably too defensive.
     - sleep 60
 
 e2e-test:
@@ -47,7 +47,7 @@ e2e-test:
     - cp "$DOCKER_COMPOSE_ENV_FILE_E2E_TESTS" docker/.env
     - cp "$DOCKER_COMPOSE_OVERRIDE_FILE_E2E_TESTS" docker/docker-compose.override.yaml
     - cp "$ANSIBLE_HOSTS_FILE_E2E_TESTS" ansible/hosts.yaml
-    # The Docker client version is automatically downgraded to 1.39 due to version
+    # The Docker client version in this job is automatically downgraded to 1.39 due to version
     # negotiation.
     - export DOCKER_API_VERSION=1.41
     - docker version
@@ -55,7 +55,7 @@ e2e-test:
     - cd docker
     - docker compose build keycloak
     - docker compose up -d keycloak
-    - sleep 60
+    - sleep 60  # 60 seconds is probably too defensive.
     - cd ..
     - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/ucs-login-with-local-keycloak.yaml
     - cd docker
