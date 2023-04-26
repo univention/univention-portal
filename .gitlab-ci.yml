@@ -57,7 +57,7 @@ apply-ansible-patches:
     - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - pip3 install ansible
-    - cp "$ANSIBLE_HOSTS_FILE_E2E_TESTS" ansible/
+    - cp "$ANSIBLE_HOSTS_FILE_E2E_TESTS" ansible/hosts.yaml
     - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml
 
 e2e-test:
