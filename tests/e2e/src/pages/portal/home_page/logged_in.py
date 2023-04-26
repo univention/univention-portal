@@ -1,3 +1,5 @@
+import re
+
 from pages.base import expect
 from pages.portal.home_page.base import HomePage
 from pages.portal.login_page import LoginPage
@@ -9,7 +11,7 @@ class HomePageLoggedIn(HomePage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.umc_heading = self.page.get_by_text("Univention Management Console", exact=True)
-        self.users_tile = self.page.get_by_role("link", name="User New Tab")
+        self.users_tile = self.page.get_by_role("link", name=re.compile("User New Tab|Users iFrame"))
 
     def navigate(self, username, password):
         self.page.goto("/")

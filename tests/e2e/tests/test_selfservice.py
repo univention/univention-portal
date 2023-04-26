@@ -1,45 +1,66 @@
+import random
+
 import pytest
+from playwright.sync_api import Page
 
 from pages.base import expect
 from pages.portal.home_page.logged_in import HomePageLoggedIn
+from pages.portal.home_page.logged_out import HomePageLoggedOut
 from pages.portal.selfservice.change_password import ChangePasswordDialogPage
-from pages.portal.users.users_page import UsersPage
+from pages.portal.users.users_page import UCSUsersPage
 
 
-DUMMY_USER_NAME = "dummy"
+DUMMY_USER_NAME = f"dummy_{random.randint(1000,9999)}"  # noqa: S311
 DUMMY_USER_PASSWORD_1 = "firstpass"
 DUMMY_USER_PASSWORD_2 = "secondpass"
 
 
 @pytest.fixture()
-def dummy_user_home(navigate_to_home_page_logged_in, username, password) -> HomePageLoggedIn:
+def dummy_user_home(navigate_to_home_page_logged_in: Page, username, password) -> Page:
     page = navigate_to_home_page_logged_in
-    home_page = HomePageLoggedIn(page)
+    home_page_logged_in = HomePageLoggedIn(page)
+    home_page_logged_out = HomePageLoggedOut(page)
 
-    users_page = UsersPage(page)
-    users_page.navigate()
+    # TODO: This step is necessary, because when using a UCS VM vs. a SouvAP env,
+    # the start page after login is not /umc.
+    home_page_logged_in.page.goto("/umc")
+    home_page_logged_in.click_users_tile()
+    users_page = UCSUsersPage(page)
     users_page.add_user(DUMMY_USER_NAME, DUMMY_USER_PASSWORD_1)
 
-    home_page.logout()
+    home_page_logged_out.navigate()
 
-    yield home_page
+    yield page
 
-    home_page.navigate(username, password)
+    dummy_user_home_logged_out = HomePageLoggedOut(page)
+    dummy_user_home_logged_out.navigate()
 
-    users_page.navigate()
+    home_page_logged_in.navigate(username, password)
+
+    home_page_logged_in.page.goto("/umc")
+    home_page_logged_in.click_users_tile()
     users_page.remove_user(DUMMY_USER_NAME)
 
-    home_page.logout()
+    home_page_logged_out.navigate()
 
 
-def test_non_admin_can_change_password(dummy_user_home: HomePageLoggedIn):
-    dummy_user_home.navigate(DUMMY_USER_NAME, DUMMY_USER_PASSWORD_1)
+def test_non_admin_can_change_password(dummy_user_home: Page):
+    # TODO: this test is currently implemented to work with a UCS VM only.
+    # It is not validated against the SouvAP environment!
+    dummy_user_home_logged_in = HomePageLoggedIn(dummy_user_home)
+    dummy_user_home_logged_in.navigate(DUMMY_USER_NAME, DUMMY_USER_PASSWORD_1)
+    dummy_user_home_logged_in.reveal_right_side_menu()
+    dummy_user_home_logged_in.right_side_menu.click_entry("User settings")
+    dummy_user_home_logged_in.right_side_menu.click_sub_entry("Change your password")
 
-    change_password_page = ChangePasswordDialogPage(dummy_user_home.page)
+    change_password_page = ChangePasswordDialogPage(dummy_user_home)
     change_password_page.navigate()
     change_password_page.change_password(DUMMY_USER_PASSWORD_1, DUMMY_USER_PASSWORD_2)
 
-    dummy_user_home.logout()
-    dummy_user_home.navigate(DUMMY_USER_NAME, DUMMY_USER_PASSWORD_2)
-    expect(dummy_user_home.page).not_to_have_title("Univention Login")
-    dummy_user_home.logout()
+    dummy_user_home_logged_out = HomePageLoggedOut(dummy_user_home)
+    dummy_user_home_logged_out.navigate()
+
+    dummy_user_home_logged_in = HomePageLoggedIn(dummy_user_home)
+    dummy_user_home_logged_in.navigate(DUMMY_USER_NAME, DUMMY_USER_PASSWORD_2)
+    dummy_user_home_logged_in.reveal_right_side_menu()
+    expect(dummy_user_home_logged_in.right_side_menu.logout_button).to_be_visible()

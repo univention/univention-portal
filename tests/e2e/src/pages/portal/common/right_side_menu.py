@@ -18,3 +18,9 @@ class RightSideMenu(BasePagePart):
 
     def menu_entry(self, name):
         return self.page_part_locator.get_by_role("button", name=name)
+
+    def click_sub_entry(self, name):
+        self.sub_menu_entry(name).click()
+
+    def sub_menu_entry(self, name):
+        return self.page_part_locator.get_by_role("link", name=name)
