@@ -58,12 +58,11 @@ ansible-playbook -i ansible/hosts.yaml \
 In `docker/docker-compose.yaml` you can find a service called `keycloak` which
 you will need to test the SAML login and work on the notifications OIDC.
 
-1. Download your UCS CA certificate and place it in `docker/keycloak/ucs-root-ca.crt`.
-2. Create the file `docker-compose.override.yaml` from the example:
+1. Create the file `docker-compose.override.yaml` from the example:
     ```bash
     cp docker/docker-compose.override.yaml.example docker/docker-compose.override.yaml
     ```
-3. Go to your UCS machine, run the following commands. You will need the output in the next step.
+2. Go to your UCS machine, run the following commands. You will need the output in the next step.
     a.
         ```bash
         echo `cat /etc/idp-ldap-user.secret`
@@ -72,18 +71,18 @@ you will need to test the SAML login and work on the notifications OIDC.
         ```bash
         ucr get ldap/base
         ```
-4. Open the file `docker/docker-compose.override.yaml` and fill the following values under `keycloak.environment`:
+3. Open the file `docker/docker-compose.override.yaml` and fill the following values under `keycloak.environment`:
   a. `LDAP_BASE`: the value from `ucr get ldap/base`.
   b. `LDAP_SECRET`: the contents of `/etc/idp-ldap-user.secret`.
   c. `LDAP_SERVER`: the LDAP server on your UCS machine, e.g. `ldap://10.200.XX.YY:7389`.
 
-5. Enable the SAML login on the UCS machine with the playbook:
+4. Enable the SAML login on the UCS machine with the playbook:
   ```shell
   ansible-playbook -i ansible/hosts.yaml ansible/ucs-login-with-local-keycloak.yaml
   ```
-6. Step 5 copied the SSL certificate from the UCS host to the local reverse-proxy.
-   Follow the next section to rebuild the images (including the SSL certificates)
-   and restart the stack.
+5. Step 4 copied the SSL certificates from the UCS host to the local
+   reverse-proxy and keycloak. Follow the next section to rebuild the images
+   (including the SSL certificates) and restart the stack.
 
 > Once you have the full stack running (see below), you can reach the Keycloak
 > UI at http://localhost:8097/admin with the username and password set in `docker-compose.yaml`.
