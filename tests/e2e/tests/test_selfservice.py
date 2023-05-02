@@ -47,14 +47,8 @@ def dummy_user_home(navigate_to_home_page_logged_in: Page, username, password) -
 def test_non_admin_can_change_password(dummy_user_home: Page):
     # TODO: this test is currently implemented to work with a UCS VM only.
     # It is not validated against the SouvAP environment!
-    dummy_user_home_logged_in = HomePageLoggedIn(dummy_user_home)
-    dummy_user_home_logged_in.navigate(DUMMY_USER_NAME, DUMMY_USER_PASSWORD_1)
-    dummy_user_home_logged_in.reveal_right_side_menu()
-    dummy_user_home_logged_in.right_side_menu.click_entry("User settings")
-    dummy_user_home_logged_in.right_side_menu.click_sub_entry("Change your password")
-
     change_password_page = ChangePasswordDialogPage(dummy_user_home)
-    change_password_page.navigate()
+    change_password_page.navigate(DUMMY_USER_NAME, DUMMY_USER_PASSWORD_1)
     change_password_page.change_password(DUMMY_USER_PASSWORD_1, DUMMY_USER_PASSWORD_2)
 
     dummy_user_home_logged_out = HomePageLoggedOut(dummy_user_home)
