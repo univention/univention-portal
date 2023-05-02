@@ -17,6 +17,9 @@
       dest: /etc/univention/ssl/{{ local_reverse_proxy }}
       state: link
 
+  - name: Copy UCS root CA certificate to keycloak
+    local_action: ansible.builtin.command rsync -aP {{ ansible_user }}@{{ ansible_host }}:/var/www/ucs-root-ca.crt {{ playbook_dir }}/../docker/keycloak/
+
   - name: Copy UCS certificate to reverse proxy
     local_action: ansible.builtin.command rsync -aP {{ ansible_user }}@{{ ansible_host }}:/etc/univention/ssl/{{ ansible_facts["fqdn"] }} {{ playbook_dir }}/../docker/reverse-proxy/ssl
 
