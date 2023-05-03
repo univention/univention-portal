@@ -75,6 +75,7 @@ you will need to test the SAML login and work on the notifications OIDC.
   a. `LDAP_BASE`: the value from `ucr get ldap/base`.
   b. `LDAP_SECRET`: the contents of `/etc/idp-ldap-user.secret`.
   c. `LDAP_SERVER`: the LDAP server on your UCS machine, e.g. `ldap://10.200.XX.YY:7389`.
+  d. `PORTAL_SERVER_AUTH_MODE`: set to `saml`
 
 4. Enable the SAML login on the UCS machine with the playbook:
   ```shell

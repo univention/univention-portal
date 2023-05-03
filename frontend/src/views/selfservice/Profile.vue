@@ -166,6 +166,7 @@ export default defineComponent({
       activityLevel: 'activity/level',
       metaData: 'metaData/getMeta',
       initialLoadDone: 'getInitialLoadDone',
+      token: 'oidc/token',
     }),
     renderDeregistration(): boolean {
       return isTrue(this.metaData['umc/self-service/account-deregistration/enabled'] ?? false);
@@ -370,13 +371,13 @@ export default defineComponent({
     },
     loadAttributes() {
       this.$store.dispatch('activateLoadingState');
-      umcCommand('passwordreset/get_user_attributes_descriptions', {})
+      umcCommand('passwordreset/get_user_attributes_descriptions', {}, undefined, this.token)
         .then((widgets) => {
           const attributes = widgets.map((widget) => widget.id);
           return umcCommand('passwordreset/get_user_attributes_values', {
             attributes,
             ...this.credentials,
-          }).then((values) => {
+          }, undefined, this.token).then((values) => {
             const sanitized = widgets.map((widget) => sanitizeBackendWidget(widget));
             sanitized.forEach((widget) => {
               values[widget.name] = initialValue(widget, values[widget.name]);

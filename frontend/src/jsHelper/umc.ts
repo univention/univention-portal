@@ -35,10 +35,14 @@ interface Choice {
   label: string,
 }
 
-function umc(path: string, options?: any, flavor?: string): Promise<AxiosResponse<any>> {
+function umc(path: string, options?: any, flavor?: string, token?: string): Promise<AxiosResponse<any>> {
   const umcSessionId = getCookie('UMCSessionId');
   const umcLang = getCookie('UMCLang');
   const headers = { 'X-Requested-With': 'XMLHttpRequest' };
+  if (token) {
+    // eslint-disable-next-line dot-notation
+    headers['Authorization'] = `Bearer ${token}`;
+  }
   if (umcLang) {
     headers['Accept-Language'] = umcLang;
   }
@@ -52,8 +56,8 @@ function umc(path: string, options?: any, flavor?: string): Promise<AxiosRespons
   return axios.post(`/univention/${path}`, params, { headers });
 }
 
-function umcCommand(path: string, options?: any, flavor?: string): Promise<any> {
-  return umc(`command/${path}`, options, flavor)
+function umcCommand(path: string, options?: any, flavor?: string, token?: string): Promise<any> {
+  return umc(`command/${path}`, options, flavor, token)
     .then((answer) => answer.data.result)
     .catch((error) => {
       if ('response' in error && 'data' in error.response) {

@@ -3,6 +3,7 @@ ansible/inventory/
 ansible.cfg
 docker/.env
 docker/docker-compose.override.yaml
+docker/keycloak/realm-import.json
 docker/reverse-proxy/ssl/*
 !docker/reverse-proxy/ssl/.gitkeep
 .cache/
