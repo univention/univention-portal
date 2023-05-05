@@ -64,6 +64,7 @@
       :for-attr-of-label="forAttrOfLabel"
       data-test="form-element-component"
       :invalid-message-id="invalidMessageId"
+      :disabled="widget.readonly"
       @update:model-value="$emit('update:modelValue', $event)"
     />
     <input-error-message

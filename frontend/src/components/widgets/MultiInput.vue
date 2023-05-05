@@ -35,6 +35,7 @@
         :aria-label-prop="REMOVE_BUTTON_LABEL(valIdx)"
         :data-test="`multi-input-remove-entry-button-${valIdx}`"
         @click="removeEntry(valIdx)"
+        v-if="!readonly"
       />
       <input-error-message
         :display-condition="rowInvalidMessage(valIdx) !== ''"
@@ -48,6 +49,7 @@
       :aria-label-prop="addButtonLabel"
       data-test="multi-input-add-entry-button"
       @click="addEntry()"
+      v-if="!readonly"
     />
   </div>
 </template>
@@ -99,6 +101,10 @@ export default defineComponent({
           values: [],
         };
       },
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
     tabindex: {
       type: Number,
@@ -192,6 +198,7 @@ export default defineComponent({
         tabindex: this.tabindex,
         ariaLabel: labelScreenReader,
         invalidMessage: message ?? '',
+        readonly: this.readonly || type.readonly,
       };
     },
     focus(): void {
