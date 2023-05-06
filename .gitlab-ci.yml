@@ -232,9 +232,6 @@ push-image-souvap-notifications-api-job:
 
 package-helm-charts:
   stage: "package"
-  only:
-    - "develop"
-    - "main"
   needs: []
   artifacts:
     paths:
@@ -243,32 +240,32 @@ package-helm-charts:
     name: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/alpine/helm:3.10.2"
     entrypoint: [""]
   script:
-    - "if [ -z \"${RELEASE_VERSION}\" ]; then exit 0; fi"
     - "helm repo add bitnami https://charts.bitnami.com/bitnami"
     - |
       for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
         helm_dir=$(basename "${helm_path}")
         echo "Packaging helm-chart ${helm_dir}"
+
+        RELEASE_VERSION=$(helm show chart "${helm_path}" | grep "^version:" | sed "s/^version: //")
+
+        # Flag release as pre-release if not on default branch
+        if [ "${CI_COMMIT_REF_NAME:-}" != "${CI_DEFAULT_BRANCH:-}" ]; then
+          RELEASE_VERSION="${RELEASE_VERSION}-pre-${CI_COMMIT_REF_SLUG}"
+        fi
+        echo "Release version set to: '${RELEASE_VERSION}'."
+
         helm package --version "${RELEASE_VERSION}" --destination "./packages" --dependency-update "helm/${helm_dir}"
       done
-  variables:
-    # TODO: Extract the release information from Git.
-    # Compare: https://gitlab.souvap-univention.de/souvap/tooling/charts/openproject-helm-chart/-/blob/souvap/.gitlab-ci.yml#L25
-    RELEASE_VERSION: "0.0.0"
 
 
 publish-helm-charts:
   stage: "publish"
-  only:
-    - "develop"
-    - "main"
   dependencies:
     - "package-helm-charts"
   needs:
     - "package-helm-charts"
   image: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/curlimages/curl:latest"
   script:
-    - "if [ -z \"${RELEASE_VERSION}\" ]; then exit 0; fi"
     - |
       for _filename in `find packages -type f`; do
         curl \
@@ -279,9 +276,6 @@ publish-helm-charts:
       done
   variables:
     GIT_STRATEGY: "none"
-    # TODO: Extract the release information from Git.
-    # Compare: https://gitlab.souvap-univention.de/souvap/tooling/charts/openproject-helm-chart/-/blob/souvap/.gitlab-ci.yml#L25
-    RELEASE_VERSION: "0.0.0"
 
 
 build-debian-package-builder:
