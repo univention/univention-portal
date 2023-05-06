@@ -36,7 +36,8 @@ workflow:
 include:
   - project: univention/dist/docker-services
     file: kaniko.yml
-
+  - project: univention/customers/dataport/upx/common-ci
+    file: jobs/package-and-publish-helm-charts.yaml
 
 .push-image-souvap:
   variables:
@@ -221,54 +222,6 @@ push-image-souvap-notifications-api-job:
   variables:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
     SOUVAP_IMAGE_NAME: "notifications-api"
-
-
-package-helm-charts:
-  stage: "package"
-  needs: []
-  artifacts:
-    paths:
-      - "packages/*.tgz"
-  image:
-    name: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/alpine/helm:3.10.2"
-    entrypoint: [""]
-  script:
-    - "helm repo add bitnami https://charts.bitnami.com/bitnami"
-    - |
-      for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
-        helm_dir=$(basename "${helm_path}")
-        echo "Packaging helm-chart ${helm_dir}"
-
-        RELEASE_VERSION=$(helm show chart "${helm_path}" | grep "^version:" | sed "s/^version: //")
-
-        # Flag release as pre-release if not on default branch
-        if [ "${CI_COMMIT_REF_NAME:-}" != "${CI_DEFAULT_BRANCH:-}" ]; then
-          RELEASE_VERSION="${RELEASE_VERSION}-pre-${CI_COMMIT_REF_SLUG}"
-        fi
-        echo "Release version set to: '${RELEASE_VERSION}'."
-
-        helm package --version "${RELEASE_VERSION}" --destination "./packages" --dependency-update "helm/${helm_dir}"
-      done
-
-
-publish-helm-charts:
-  stage: "publish"
-  dependencies:
-    - "package-helm-charts"
-  needs:
-    - "package-helm-charts"
-  image: "${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/curlimages/curl:latest"
-  script:
-    - |
-      for _filename in `find packages -type f`; do
-        curl \
-        --request "POST" \
-        --user "${SOUVAP_HELM_ACCESS_USER}:${SOUVAP_HELM_ACCESS_TOKEN}" \
-        --form "chart=@$_filename" \
-        "${SOUVAP_API_V4_URL}/projects/${SOUVAP_HELM_PROJECT_ID}/packages/helm/api/stable/charts";
-      done
-  variables:
-    GIT_STRATEGY: "none"
 
 
 build-debian-package-builder:
