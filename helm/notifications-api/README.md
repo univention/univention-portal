@@ -2,7 +2,7 @@
 
 A Helm chart for the Univention Portal Notifications API
 
-- **Version**: 0.0.0
+- **Version**: 0.1.0
 - **Type**: application
 - **AppVersion**: 1.16.0
 - **Homepage:** <https://www.univention.de/>
