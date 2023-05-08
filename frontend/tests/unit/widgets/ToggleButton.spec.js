@@ -56,6 +56,7 @@ describe('ToggleButton Component', () => {
   test('Button displays initial Icon and text', async () => {
     const wrapper = await mount(ToggleButton, {
       propsData: {
+        isToggled: false,
         toggleLabels: toggleLabelProp,
         toggleIcons: toggleIconProp,
       },
