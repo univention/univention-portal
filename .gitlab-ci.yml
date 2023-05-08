@@ -11,6 +11,7 @@ variables:
 
 stages:
   - prepare
+  - lint
   - build
   - test
   - package
@@ -47,6 +48,7 @@ include:
     file:
       - defaults/souvap-workflow.yaml
       - templates/souvap.yaml
+      - jobs/lint-pre-commit.yaml
       - jobs/package-and-publish-helm-charts.yaml
 
 
@@ -293,11 +295,10 @@ pre-commit-linting:
       for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
         helm dependency update $helm_path
       done
-    - pre-commit run --all-files
 
 
 commit-message-linting:
-  stage: test
+  stage: lint
   needs: []
   image:
     name: "gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest"
