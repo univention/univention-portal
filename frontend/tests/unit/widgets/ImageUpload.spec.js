@@ -34,6 +34,7 @@ import ImageUploader from '@/components/widgets/ImageUploader.vue';
 const imageUploadProps = {
   extraLabel: 'Example Image',
   modelValue: '',
+  readonly: false,
   forAttrOfLabel: '',
   invalidMessageId: '',
 };
@@ -170,5 +171,26 @@ describe('ImageUploader.vue', () => {
     await wrapper.setProps({ modelValue: imageResult });
 
     expect(wrapper.vm.hasImage).toBe(wrapper.vm.fileName);
+  });
+
+  test('if readonly flag disables buttons', async () => {
+    // initial state is editable; expect buttons enabled
+    wrapper.setProps({ readonly: false, modelValue: imageResult });
+    await wrapper.vm.$nextTick();
+
+    let addButton = wrapper.find(`[data-test="imageUploadButton--${imageUploadProps.extraLabel}"]`);
+    let removeButton = wrapper.find(`[data-test="imageRemoveButton--${imageUploadProps.extraLabel}"]`);
+    expect(addButton.attributes('disabled')).toBe(undefined);
+    expect(removeButton.attributes('disabled')).toBe(undefined);
+
+    // Pretend an image was uploaded which would usually enable the "remove" button,
+    // but also flag the widget as read-only, expecting to disable the "remove" button.
+    wrapper.setProps({ readonly: true, modelValue: imageResult });
+    await wrapper.vm.$nextTick();
+
+    addButton = wrapper.find(`[data-test="imageUploadButton--${imageUploadProps.extraLabel}"]`);
+    removeButton = wrapper.find(`[data-test="imageRemoveButton--${imageUploadProps.extraLabel}"]`);
+    expect(addButton.attributes('disabled')).toBe('');
+    expect(removeButton.attributes('disabled')).toBe('');
   });
 });
