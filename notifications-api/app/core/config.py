@@ -12,8 +12,6 @@ class Settings(BaseSettings):
     database_url: str = "sqlite:///./notifications.db"
     allowed_hosts: CommaSeparatedStrings = CommaSeparatedStrings("*")
     api_version: str = "v1"
-    api_key_name: str = "X-API-KEY"
-    api_key: str = ""
 
 
 settings = Settings()
