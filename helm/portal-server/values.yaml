@@ -24,6 +24,12 @@ portalserver:
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
   auth_mode: "ucs"
   # -- Defines if members of the Admin group can use the edit mode in the portal.
+  hostdn: null
+  # -- TODO: Clarify usage of this parameter
+  ldap_base: null
+  # -- TODO: Clarify usage of this parameter
+  ldap_uri: null
+  # -- TODO: Clarify usage of this parameter
   editable: "true"
   # -- TODO: Clarify usage of this parameter
   environment: "production"

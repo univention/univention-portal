@@ -3,7 +3,7 @@
         "class": "Portal",
         "kwargs": {
             "authenticator": {
-                "class": "UMCAuthenticator",
+                "class": "UMCAndSecretAuthenticator",
                 "kwargs": {
                     "auth_mode": {
                         "key": "auth_mode",
@@ -12,6 +12,36 @@
                     "group_cache": {
                         "class": "GroupFileCacheHTTP",
                         "kwargs": {
+                            "binddn": {
+                                "key": "hostdn",
+                                "type": "config"
+                            },
+                            "cache_file": {
+                                "type": "static",
+                                "value": "/var/cache/univention-portal/groups.json"
+                            },
+                            "ldap_base": {
+                                "key": "ldap_base",
+                                "type": "config"
+                            },
+                            "ldap_uri": {
+                                "key": "ldap_uri",
+                                "type": "config"
+                            },
+                            "reloader": {
+                                "class": "GroupsReloaderLDAP",
+                                "kwargs": {
+                                    "cache_file": {
+                                        "type": "static",
+                                        "value": "/var/cache/univention-portal/groups.json"
+                                    },
+                                    "password_file": {
+                                        "type": "static",
+                                        "value": "/etc/machine.secret"
+                                    }
+                                },
+                                "type": "class"
+                            },
                             "ucs_internal_url": {
                                 "key": "ucs_internal_url",
                                 "type": "config"
@@ -27,6 +57,10 @@
                         "key": "umc_session_url",
                         "type": "config"
                     },
+                    "ucs_internal_url": {
+                        "key": "ucs_internal_url",
+                        "type": "config"
+                    },
                     "auth_secret": {
                         "key": "auth_secret",
                         "type": "config"
@@ -37,6 +71,24 @@
             "portal_cache": {
                 "class": "PortalFileCacheHTTP",
                 "kwargs": {
+                    "cache_file": {
+                        "type": "static",
+                        "value": "/var/cache/univention-portal/portal.json"
+                    },
+                    "reloader": {
+                        "class": "PortalReloaderUDM",
+                        "kwargs": {
+                            "cache_file": {
+                                "type": "static",
+                                "value": "/var/cache/univention-portal/portal.json"
+                            },
+                            "portal_dn": {
+                                "key": "default_domain_dn",
+                                "type": "config"
+                            }
+                        },
+                        "type": "class"
+                    },
                     "ucs_internal_url": {
                         "key": "ucs_internal_url",
                         "type": "config"
@@ -50,6 +102,176 @@
             },
             "scorer": {
                 "class": "Scorer",
+                "type": "class"
+            }
+        },
+        "type": "class"
+    },
+    "selfservice": {
+        "class": "Portal",
+        "kwargs": {
+            "authenticator": {
+                "class": "UMCAndSecretAuthenticator",
+                "kwargs": {
+                    "auth_mode": {
+                        "key": "auth_mode",
+                        "type": "config"
+                    },
+                    "group_cache": {
+                        "class": "GroupFileCacheHTTP",
+                        "kwargs": {
+                            "cache_file": {
+                                "type": "static",
+                                "value": "/var/cache/univention-portal/groups.json"
+                            }
+                        },
+                        "type": "class"
+                    },
+                    "umc_session_url": {
+                        "key": "umc_session_url",
+                        "type": "config"
+                    },
+                    "ucs_internal_url": {
+                        "key": "ucs_internal_url",
+                        "type": "config"
+                    },
+                    "auth_secret": {
+                        "key": "auth_secret",
+                        "type": "config"
+                    }
+                },
+                "type": "class"
+            },
+            "portal_cache": {
+                "class": "PortalFileCacheHTTP",
+                "kwargs": {
+                    "cache_file": {
+                        "type": "static",
+                        "value": "/var/cache/univention-portal/selfservice.json"
+                    },
+                    "reloader": {
+                        "class": "PortalReloaderUDM",
+                        "kwargs": {
+                            "cache_file": {
+                                "type": "static",
+                                "value": "/var/cache/univention-portal/selfservice.json"
+                            },
+                            "portal_dn": {
+                                "key": "selfservice_portal_dn",
+                                "type": "config"
+                            }
+                        },
+                        "type": "class"
+                    },
+                    "ucs_internal_url": {
+                        "key": "ucs_internal_url",
+                        "type": "config"
+                    },
+                    "auth_secret": {
+                        "key": "auth_secret",
+                        "type": "config"
+                    }
+                },
+                "type": "class"
+            },
+            "scorer": {
+                "class": "PathScorer",
+                "kwargs": {
+                    "fallback_score": {
+                        "type": "static",
+                        "value": 0.5
+                    },
+                    "path": {
+                        "type": "static",
+                        "value": "/univention/selfservice"
+                    }
+                },
+                "type": "class"
+            }
+        },
+        "type": "class"
+    },
+    "umc": {
+        "class": "UMCPortal",
+        "kwargs": {
+            "authenticator": {
+                "class": "UMCAndSecretAuthenticator",
+                "kwargs": {
+                    "auth_mode": {
+                        "key": "auth_mode",
+                        "type": "config"
+                    },
+                    "group_cache": {
+                        "class": "GroupFileCache",
+                        "kwargs": {
+                            "binddn": {
+                                "key": "hostdn",
+                                "type": "config"
+                            },
+                            "cache_file": {
+                                "type": "static",
+                                "value": "/var/cache/univention-portal/groups.json"
+                            },
+                            "ldap_base": {
+                                "key": "ldap_base",
+                                "type": "config"
+                            },
+                            "ldap_uri": {
+                                "key": "ldap_uri",
+                                "type": "config"
+                            },
+                            "reloader": {
+                                "class": "GroupsReloaderLDAP",
+                                "kwargs": {
+                                    "cache_file": {
+                                        "type": "static",
+                                        "value": "/var/cache/univention-portal/groups.json"
+                                    },
+                                    "password_file": {
+                                        "type": "static",
+                                        "value": "/etc/machine.secret"
+                                    }
+                                },
+                                "type": "class"
+                            }
+                        },
+                        "ucs_internal_url": {
+                            "key": "ucs_internal_url",
+                            "type": "config"
+                        },
+                        "auth_secret": {
+                            "key": "auth_secret",
+                            "type": "config"
+                        },
+                        "type": "class"
+                    },
+                    "umc_session_url": {
+                        "key": "umc_session_url",
+                        "type": "config"
+                    },
+                    "ucs_internal_url": {
+                        "key": "ucs_internal_url",
+                        "type": "config"
+                    },
+                    "auth_secret": {
+                        "key": "auth_secret",
+                        "type": "config"
+                    }
+                },
+                "type": "class"
+            },
+            "scorer": {
+                "class": "PathScorer",
+                "kwargs": {
+                    "fallback_score": {
+                        "type": "static",
+                        "value": 0.5
+                    },
+                    "path": {
+                        "type": "static",
+                        "value": "/univention/umc"
+                    }
+                },
                 "type": "class"
             }
         },

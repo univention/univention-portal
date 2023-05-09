@@ -8,6 +8,9 @@ data:
   ENVIRONMENT: "{{ .Values.portalserver.environment }}"
   LOG_LEVEL: "{{ .Values.portalserver.log_level }}"
   PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portalserver.admin_group\" is required." .Values.portalserver.admin_group | quote }}
+  PORTAL_SERVER_HOSTDN: "{{ .Values.portalserver.hostdn }}"
+  PORTAL_SERVER_LDAP_BASE: "{{ .Values.portalserver.ldap_base }}"
+  PORTAL_SERVER_LDAP_URI: "{{ .Values.portalserver.ldap_uri }}"
   PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalserver.auth_mode }}"
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalserver.editable }}"
   PORTAL_SERVER_PORT: "{{ .Values.portalserver.port }}"
