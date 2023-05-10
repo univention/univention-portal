@@ -15,7 +15,8 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: "common"
-    repository: "https://charts.bitnami.com/bitnami"
-    version: "^2.2.2"
+    # TODO: Change to repository instead of local files
+    repository: "file://../../../common-helm/helm/common"
+    version: "^0.1.0"
 
 ...
