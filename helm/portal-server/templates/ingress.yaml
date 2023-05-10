@@ -1,10 +1,22 @@
 {{- if .Values.ingress.enabled -}}
 ---
 
-{{ include "common.ingress" (list . "portal-server.ingress") }}
+{{- /*
+
+This calls the ingress template and does provide named parameters in a dict.
+
+- top: Always needed, this allows the template to find the top level context.
+- ingress: The ingress related values. Ideally this should be optional, and use
+  .Values.ingress by deafault.
+- overrides: Allows for local customization. Ideally this should be optional.
+
+*/}}
+{{- include "common.ingress" (dict "top" . "ingress" .Values.ingress "overrides" "portal-server.ingress") }}
 
 ...
 {{- end -}}
 
 {{- define "portal-server.ingress" -}}
+data:
+  myvalue: "hello world"
 {{- end -}}
