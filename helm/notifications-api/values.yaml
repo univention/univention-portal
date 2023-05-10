@@ -59,6 +59,10 @@ istio:
   virtualService:
     enabled: true
     annotations:
+    paths:
+      - match: "prefix"
+        path: "/univention/portal/notifications-api/"
+        rewrite: "/"
   gateway:
     enabled: false
     annotations:
