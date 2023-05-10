@@ -1,11 +1,10 @@
 ---
+{{ include "common.configMap" (dict "top" . "overrides" "portal-frontend.configMap") }}
 
-apiVersion: "v1"
-kind: ConfigMap
-metadata:
-  name: '{{ include "common.names.fullname" . }}'
+{{- define "portal-frontend.configMap" }}
+{{- with .top }}
 data:
   ENVIRONMENT: "{{ .Values.portalfrontend.environment }}"
   LOG_LEVEL: "{{ .Values.portalfrontend.log_level }}"
-
-...
+{{- end }}
+{{- end }}
