@@ -285,7 +285,8 @@ class Portal(metaclass=Plugin):
         return touched
 
     def _get_umc_portal(self):
-        return UMCPortal(self.scorer, self.authenticator)
+        auth_secret = config.fetch("auth_secret")
+        return UMCPortal(self.scorer, self.authenticator, auth_secret=auth_secret)
 
     def score(self, request):
         return self.scorer.score(request)
