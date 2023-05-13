@@ -69,63 +69,63 @@ class StubReloader(MtimeBasedLazyFileReloader):
             json.dump(self.content, fd, sort_keys=True, indent=4)
         return fd
 
+@pytest.fixture()
+def mocked_user(mocker):
+    user = mocker.Mock()
+    user.username = "hindenkampp"
+    user.display_name = "Hans Hindenkampp"
+    user.groups = []
+    user.headers = {}
+    return user
+
+@pytest.fixture()
+def mocked_anonymous_user(mocker):
+    user = mocker.Mock()
+    user.username = None
+    user.display_name = None
+    user.groups = []
+    user.headers = {}
+    return user
+
+@pytest.fixture()
+def portal_file(get_file_path):
+    return get_file_path("portal_cache.json")
+
+@pytest.fixture()
+def reloader(portal_file):
+    return StubReloader(portal_file=portal_file)
+
+@pytest.fixture()
+def portal_data(reloader):
+    original_data = reloader.get_portal_cache_json()
+    yield reloader
+    reloader.update_portal_cache(original_data)
+
+@pytest.fixture()
+def standard_portal(dynamic_class, mocker, portal_file, reloader):
+    # Portal = dynamic_class("Portal")
+    scorer = dynamic_class("Scorer")()
+    portal_cache = dynamic_class("PortalFileCache")(portal_file, reloader)
+    authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
+    return Portal(scorer, portal_cache, authenticator)
+
+@pytest.fixture()
+def mocked_portal(dynamic_class, mocker):
+    async def async_magic():
+        return
+
+    Portal = dynamic_class("Portal")
+    scorer = mocker.Mock()
+    portal_cache = mocker.Mock()
+    authenticator = mocker.Mock()
+    mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
+    authenticator.get_user = mocker.MagicMock()
+    authenticator.login_user = mocker.MagicMock()
+    authenticator.login_request = mocker.MagicMock()
+    return Portal(scorer, portal_cache, authenticator)
+
 
 class TestPortal:
-    @pytest.fixture()
-    def mocked_user(self, mocker):
-        user = mocker.Mock()
-        user.username = "hindenkampp"
-        user.display_name = "Hans Hindenkampp"
-        user.groups = []
-        user.headers = {}
-        return user
-
-    @pytest.fixture()
-    def mocked_anonymous_user(self, mocker):
-        user = mocker.Mock()
-        user.username = None
-        user.display_name = None
-        user.groups = []
-        user.headers = {}
-        return user
-
-    @pytest.fixture()
-    def portal_file(self, get_file_path):
-        return get_file_path("portal_cache.json")
-
-    @pytest.fixture()
-    def reloader(self, portal_file):
-        return StubReloader(portal_file=portal_file)
-
-    @pytest.fixture()
-    def portal_data(self, reloader):
-        original_data = reloader.get_portal_cache_json()
-        yield reloader
-        reloader.update_portal_cache(original_data)
-
-    @pytest.fixture()
-    def standard_portal(self, dynamic_class, mocker, portal_file, reloader):
-        # Portal = dynamic_class("Portal")
-        scorer = dynamic_class("Scorer")()
-        portal_cache = dynamic_class("PortalFileCache")(portal_file, reloader)
-        authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
-        return Portal(scorer, portal_cache, authenticator)
-
-    @pytest.fixture()
-    def mocked_portal(self, dynamic_class, mocker):
-        async def async_magic():
-            return
-
-        Portal = dynamic_class("Portal")
-        scorer = mocker.Mock()
-        portal_cache = mocker.Mock()
-        authenticator = mocker.Mock()
-        mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-        authenticator.get_user = mocker.MagicMock()
-        authenticator.login_user = mocker.MagicMock()
-        authenticator.login_request = mocker.MagicMock()
-        return Portal(scorer, portal_cache, authenticator)
-
     def test_user(self, mocked_portal, mocker):
         request = "request"
         loop = asyncio.get_event_loop()
@@ -482,3 +482,7 @@ class TestPortal:
         assert visible_announcement_2 in result_announcements
         assert invisible_announcement not in result_announcements
         assert len(result_announcements) == 2
+
+
+def test_get_umc_portal_passes_auth_secret():
+    assert False, "finish me!"
