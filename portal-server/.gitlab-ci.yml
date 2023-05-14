@@ -41,6 +41,15 @@ build-portal-server:
     - docker images --all
 
 
+build-portal-listener:
+  stage: build
+  extends: .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "docker/portal-listener/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-listener"
+
+
 push-image-souvap-portal-server-job:
   stage: publish
   needs:

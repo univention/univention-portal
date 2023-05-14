@@ -1,0 +1,11 @@
+DOMAIN_NAME={{ ansible_domain }}
+LDAP_PORT=389
+LDAP_HOST={{ ansible_fqdn }}
+LDAP_BASE_DN={{ ldap_base.stdout }}
+
+NOTIFIER_SERVER={{ ansible_fqdn }}
+DEBUG_LEVEL=5
+
+LDAP_BIND_SECRET=/run/secrets/ldap_secret
+CA_CERT_FILE=/run/secrets/ca_cert
+CERT_PEM_FILE=/run/secrets/cert_pem
