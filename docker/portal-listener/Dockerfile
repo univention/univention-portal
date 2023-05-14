@@ -31,5 +31,9 @@ COPY --from=portal-server-image /usr/share/univention-portal/portals.json /usr/s
 
 # TODO: remove
 COPY univention-portal /usr/sbin/univention-portal
+COPY ./docker/portal-server/docker-entrypoint.sh /
 
 COPY ./listener/*.py /usr/lib/univention-directory-listener/system/
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/command.sh"]
