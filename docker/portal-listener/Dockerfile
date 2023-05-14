@@ -10,6 +10,7 @@ FROM ${LISTENER_BASE_IMAGE}:${LISTENER_BASE_IMAGE_TAG}
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
+COPY --from=portal-server-image /usr/share/univention-portal/portals.json /usr/share/univention-portal/portals.json
 
 # TODO: remove
 COPY univention-portal /usr/sbin/univention-portal
