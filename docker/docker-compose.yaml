@@ -52,6 +52,19 @@ services:
     #   source: ./portal-server/machine.secret
     #   target: /etc/machine.secret
 
+  portal-listener:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: docker/portal-listener/Dockerfile
+    env_file: .env.listener
+    secrets:
+      - ca_cert
+      - cert_pem
+      - ldap_secret
+    volumes:
+      - listener-data:/var/lib/univention-directory-listener/:rw
+
   # The notifications API of the Portal. The context directory contains more
   # details.
   notifications-api:
@@ -171,6 +184,14 @@ services:
         target: /helm-docs
 
 
+secrets:
+  ca_cert:
+    file: ssl/certs/CAcert.pem
+  cert_pem:
+    file: ssl/certs/cert.pem
+  ldap_secret:
+    file: secret/ldap.secret
 volumes:
+  listener-data:
   pre-commit-cache:
   postgresql-data:
