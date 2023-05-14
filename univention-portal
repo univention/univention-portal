@@ -528,18 +528,19 @@ def rm_localhost(obj) -> Union[bool, None]:
 
 
 @cli.command()
-@click.argument("name", nargs=-1)
+@click.argument("names", nargs=-1)
 @click.option("--reason", default="force")
-def update(name: str, reason: str):
+def update(names: str, reason: str):
     json_content = read_portals_json()
-    if not name:
-        name = json_content.keys()
-    for _name in name:
-        info(f"Updating {_name}")
+    if not names:
+        names = json_content.keys()
+    logger.debug("Names to update: %s", names)
+    for _name in names:
+        logger.debug('Updating %s', _name)
         try:
             portal_def = json_content[_name]
         except KeyError:
-            warn(f"{name} does not exist in config file")
+            warn(f"{_name} does not exist in config file")
         else:
             portal_obj = make_portal(portal_def)
             start = datetime.datetime.now()
