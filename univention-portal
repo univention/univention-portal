@@ -47,6 +47,7 @@ from univention.portal.factory import make_portal
 from univention.portal.log import get_logger, setup_logger
 
 
+logger = get_logger("cli")
 portals_json = "/usr/share/univention-portal/portals.json"
 
 
@@ -66,8 +67,9 @@ def write_portals_json(content: Dict):
 
 
 @click.group()
-def cli():
-    pass
+@click.option("--log-stream/--dont-log-stream", default=False)
+def cli(log_stream: bool):
+    setup_logger(stream=log_stream)
 
 
 @cli.command("add-default")
@@ -612,5 +614,4 @@ def success(msg: str):
 
 
 if __name__ == "__main__":
-    setup_logger(stream=False)
     cli()
