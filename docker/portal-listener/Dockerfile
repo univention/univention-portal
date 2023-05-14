@@ -29,8 +29,10 @@ COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
 COPY --from=portal-server-image /usr/share/univention-portal/portals.json /usr/share/univention-portal/portals.json
 
-# TODO: remove
-COPY univention-portal /usr/sbin/univention-portal
+# TODO: portals.json handling needs a consistent and solid approach
+RUN /usr/sbin/univention-portal add-default --update
+
+# TODO: Check if we want to keep this
 COPY ./docker/portal-server/docker-entrypoint.sh /
 
 COPY ./listener/*.py /usr/lib/univention-directory-listener/system/
