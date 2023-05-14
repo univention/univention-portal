@@ -1,9 +1,12 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}library/debian:buster-slim AS ucs-sources-base
+ARG DEBIAN_BASE_IMAGE_TAG=buster-slim
 
+# TODO: Should become a base image
+# See also "minbase" and similar from "DIST/docker-services" on Gitlab
+FROM ${DOCKER_PROXY}debian:${DEBIAN_BASE_IMAGE_TAG} AS ucs-sources-base
 ARG APT_KEY_URL=https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -12,6 +15,7 @@ RUN apt-get update \
       curl \
       gpg \
       gpg-agent \
+      libterm-readline-gnu-perl \
     && rm -fr /var/lib/apt/lists/*  /var/cache/apt/archives/* \
     && curl -fsSL ${APT_KEY_URL} | apt-key add -
 
