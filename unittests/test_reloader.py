@@ -133,6 +133,30 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
         assert not refreshed
 
 
+def test_write_image_writes_image_to_file(mocker, mock_portal_config):
+    from univention.portal.extensions.reloader import PortalReloaderUDM
+
+    mocker.patch.object(PortalReloaderUDM, "_get_mtime", return_value=2.2)
+    write_mock = mocker.patch.object(PortalReloaderUDM, "_write_image_to_file")
+    mock_portal_config({"assets_root": "/stub_root"})
+
+    reloader = PortalReloaderUDM("portal_dn_stub", "cache_file_stub")
+    reloader._write_image(b"<svg />", "stub_name", "stub_dirname")
+    write_mock.assert_called_once()
+
+
+def test_write_image_returns_relative_image_url(mocker, mock_portal_config):
+    from univention.portal.extensions.reloader import PortalReloaderUDM
+
+    mocker.patch.object(PortalReloaderUDM, "_get_mtime", return_value=2.2)
+    mocker.patch('pathlib.Path.write_bytes')
+    mock_portal_config({"assets_root": "/stub_root"})
+
+    reloader = PortalReloaderUDM("portal_dn_stub", "cache_file_stub")
+    image_url = reloader._write_image(b"<svg />", "stub_name", "stub_dirname")
+    assert image_url == "./icons/stub_dirname/stub_name.svg"
+
+
 class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):
     _ldap_uri = "ldap://ucs:7369"
     _ldap_base = "dc=base,dc=com"
