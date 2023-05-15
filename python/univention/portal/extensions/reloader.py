@@ -106,7 +106,7 @@ class MtimeBasedLazyFileReloader(Reloader):
 
     def refresh(self, reason=None, content=None):
         if self._check_reason(reason, content=content):
-            get_logger("cache").info("refreshing cache")
+            logger.info("Refreshing cache, reason: %s", reason)
             fd = None
             try:
                 fd = self._refresh()
@@ -379,6 +379,7 @@ class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
             return True
 
     def _refresh(self):
+        logger.debug("Refreshing groups cache")
         from univention.ldap_cache.frontend import users_groups
 
         users = users_groups()
