@@ -23,7 +23,11 @@ RUN apt-get update \
 RUN mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log \
     && mkdir -p /usr/share/univention-portal \
-    && mkdir -p /usr/lib/univention-portal/config
+    && mkdir -p /usr/share/univention-portal/icons/entries \
+    && mkdir -p /usr/lib/univention-portal/config \
+    && mkdir -p /var/cache/univention-portal \
+    && touch /var/cache/univention-portal/groups.json \
+    && touch /var/cache/univention-portal/portal.json
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
