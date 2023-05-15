@@ -38,7 +38,7 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "admin_groups": [
     $admin_group
   ],
-  "assets_root": "/usr/share/univention-portal",
+  "assets_root": $assets_root,
   "auth_mode": $auth_mode,
   "auth_secret": $auth_secret,
   "default_domain_dn": $default_domain_dn,
@@ -61,6 +61,7 @@ echo "Generating ${JSON_PATH}"
 
 jq -n \
   --arg admin_group "${PORTAL_SERVER_ADMIN_GROUP}" \
+  --arg assets_root "${PORTAL_SERVER_ASSETS_ROOT:-/usr/share/univention-portal}" \
   --arg auth_mode "${PORTAL_SERVER_AUTH_MODE}" \
   --arg auth_secret "${PORTAL_SERVER_AUTH_SECRET}" \
   --arg default_domain_dn "${PORTAL_DEFAULT_DN:-}" \
