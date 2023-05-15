@@ -47,6 +47,9 @@ from univention.portal import Plugin, config
 from univention.portal.log import get_logger
 
 
+logger = get_logger("cache")
+
+
 class Reloader(metaclass=Plugin):
     """
     Our base class for reloading
@@ -153,6 +156,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         return reason_args[1] in ["portal", "category", "entry", "folder", "announcement"]
 
     def _refresh(self):
+        logger.debug("Connecting to UDM at URL: %s", config.fetch("udm_api_url"))
         udm = udm_client.UDM.http(
             config.fetch('udm_api_url'),
             config.fetch('udm_api_username'),
