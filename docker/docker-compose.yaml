@@ -72,6 +72,7 @@ services:
       - ca_cert
       - cert_pem
       - ldap_secret
+      - machine_secret
     volumes:
       - listener-data:/var/lib/univention-directory-listener/:rw
 
@@ -201,6 +202,8 @@ secrets:
     file: ssl/certs/cert.pem
   ldap_secret:
     file: secret/ldap.secret
+  machine_secret:
+    file: secret/machine.secret
 volumes:
   listener-data:
   pre-commit-cache:

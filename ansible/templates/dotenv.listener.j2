@@ -1,7 +1,12 @@
 DOMAIN_NAME={{ ansible_domain }}
 LDAP_PORT=389
 LDAP_HOST={{ ansible_fqdn }}
+LDAP_HOST_DN={{ ldap_hostdn.stdout }}
 LDAP_BASE_DN={{ ldap_base.stdout }}
+PORTAL_DEFAULT_DN={{ portal_default_dn.stdout }}
+PORTAL_UDM_API_URL=http://{{ ansible_fqdn }}/univention/udm
+PORTAL_UDM_API_USERNAME={{ ansible_hostname }}$
+PORTAL_UDM_API_PASSWORD_FILE=/run/secrets/machine_secret
 
 NOTIFIER_SERVER={{ ansible_fqdn }}
 DEBUG_LEVEL=5
