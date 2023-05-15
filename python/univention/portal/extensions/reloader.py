@@ -329,7 +329,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
     @classmethod
     def _write_image(cls, image, name, dirname):
-        assets_root = Path(config.fetch("assets_root"))
+        assets_root = config.fetch("assets_root")
 
         try:
             name = name.replace(
@@ -337,12 +337,16 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
             )  # name must not contain / and must be a path which can be accessed via the web!
             binary_image = a2b_base64(image)
             extension = what(None, binary_image) or "svg"
-            path = assets_root / "icons" / dirname / f"{name}.{extension}"
-            path.write_bytes(binary_image)
+            cls._write_image_to_file(assets_root, name, dirname, extension, binary_image)
         except (OSError, TypeError):
             get_logger("img").exception("Error saving image for %s" % name)
         else:
             return f"./icons/{quote(dirname)}/{quote(name)}.{extension}"
+
+    @classmethod
+    def _write_image_to_file(cls, assets_root, name, dirname, extension, binary_image):
+        path = Path(assets_root) / "icons" / dirname / f"{name}.{extension}"
+        path.write_bytes(binary_image)
 
 
 class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
