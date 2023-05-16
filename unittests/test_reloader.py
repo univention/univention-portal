@@ -34,6 +34,7 @@
 #
 
 import pytest
+import stub_udm_client
 
 
 def test_imports(dynamic_class):
@@ -106,7 +107,9 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
     _portal_dn = "cn=domain,cn=portal,cn=univention"
 
     @pytest.fixture()
-    def mocked_portal_reloader(self, dynamic_class, patch_object_module, mocker):
+    def mocked_portal_reloader(
+            self, dynamic_class, patch_object_module, mocker, mock_portal_config):
+        mock_portal_config({"assets_root": "/stub_directory"})
         Reloader = dynamic_class("PortalReloaderUDM")
         self.patch_reloader_modules(Reloader, patch_object_module)
         reloader = Reloader(self._portal_dn, self._cache_file)
@@ -115,7 +118,7 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
         return reloader
 
     def generate_mocked_portal(self, mocker):
-        # ToDo Generate sample portal object for reloader
+        # TODO: Generate sample portal object for reloader
         return mocker.Mock()
 
     def test_default_init(self, mocked_portal_reloader):
@@ -133,27 +136,35 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
         assert not refreshed
 
 
-def test_write_image_writes_image_to_file(mocker, mock_portal_config):
+@pytest.fixture()
+def portal_reloader_udm(mocker, mock_portal_config):
+    """Provides an instance of PortalReloaderUDM with mocked dependencies."""
     from univention.portal.extensions.reloader import PortalReloaderUDM
 
+    mocker.patch.object(
+        PortalReloaderUDM, "_create_udm_client", return_value=stub_udm_client.StubUDMClient())
     mocker.patch.object(PortalReloaderUDM, "_get_mtime", return_value=2.2)
-    write_mock = mocker.patch.object(PortalReloaderUDM, "_write_image_to_file")
+    mocker.patch.object(PortalReloaderUDM, "_write_image_to_file")
+    mocker.patch("json.dump")
+    mocker.patch("tempfile.NamedTemporaryFile")
     mock_portal_config({"assets_root": "/stub_root"})
 
-    reloader = PortalReloaderUDM("portal_dn_stub", "cache_file_stub")
-    reloader._write_image(b"<svg />", "stub_name", "stub_dirname")
-    write_mock.assert_called_once()
+    return PortalReloaderUDM("cn=portal,dc=stub,dc=test", "cache_file_stub")
+
+def test_refresh_calls_json_dump(portal_reloader_udm):
+    import json
+
+    portal_reloader_udm._refresh()
+    json.dump.assert_called_once()
 
 
-def test_write_image_returns_relative_image_url(mocker, mock_portal_config):
-    from univention.portal.extensions.reloader import PortalReloaderUDM
+def test_write_image_writes_image_to_file(portal_reloader_udm):
+    portal_reloader_udm._write_image(b"<svg />", "stub_name", "stub_dirname")
+    portal_reloader_udm._write_image_to_file.assert_called_once()
 
-    mocker.patch.object(PortalReloaderUDM, "_get_mtime", return_value=2.2)
-    mocker.patch('pathlib.Path.write_bytes')
-    mock_portal_config({"assets_root": "/stub_root"})
 
-    reloader = PortalReloaderUDM("portal_dn_stub", "cache_file_stub")
-    image_url = reloader._write_image(b"<svg />", "stub_name", "stub_dirname")
+def test_write_image_returns_relative_image_url(portal_reloader_udm):
+    image_url = portal_reloader_udm._write_image(b"<svg />", "stub_name", "stub_dirname")
     assert image_url == "./icons/stub_dirname/stub_name.svg"
 
 

@@ -142,6 +142,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
     def __init__(self, portal_dn, cache_file):
         super(PortalReloaderUDM, self).__init__(cache_file)
         self._portal_dn = portal_dn
+        self.assets_root = config.fetch("assets_root")
 
     def _check_reason(self, reason, content=None):
         if super(PortalReloaderUDM, self)._check_reason(reason, content):
@@ -156,12 +157,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         return reason_args[1] in ["portal", "category", "entry", "folder", "announcement"]
 
     def _refresh(self):
-        logger.debug("Connecting to UDM at URL: %s", config.fetch("udm_api_url"))
-        udm = udm_client.UDM.http(
-            config.fetch('udm_api_url'),
-            config.fetch('udm_api_username'),
-            Path(config.fetch("udm_api_password_file")).read_text().strip(),
-        )
+        udm = self._create_udm_client()
         try:
             portal_module = udm.get("portals/portal")
             if not portal_module:
@@ -206,8 +202,16 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
             return fd
 
-    @classmethod
-    def _extract_portal(cls, portal_data):
+    def _create_udm_client(self):
+        logger.debug("Connecting to UDM at URL: %s", config.fetch("udm_api_url"))
+        udm = udm_client.UDM.http(
+            config.fetch('udm_api_url'),
+            config.fetch('udm_api_username'),
+            Path(config.fetch("udm_api_password_file")).read_text().strip(),
+        )
+        return udm
+
+    def _extract_portal(self, portal_data):
         portal = {
             "dn": portal_data.dn,
             "showUmc": portal_data.properties["showUmc"],
@@ -222,10 +226,11 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         portal_name = portal_data.properties["name"]
 
         if portal["logo"]:
-            portal["logo"] = cls._write_image(portal["logo"], portal_name, dirname="logos")
+            portal["logo"] = self._write_image(portal["logo"], portal_name, dirname="logos")
 
         if portal["background"]:
-            portal["background"] = cls._write_image(portal["background"], portal_name, dirname="backgrounds")
+            portal["background"] = self._write_image(
+                portal["background"], portal_name, dirname="backgrounds")
 
         return portal
 
@@ -263,8 +268,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
         return folders
 
-    @classmethod
-    def _extract_entries(cls, udm, portal_categories, portal_folders, user_links, menu_links):
+    def _extract_entries(self, udm, portal_categories, portal_folders, user_links, menu_links):
         entries = {}
 
         for entry in udm.get("portals/entry").search(opened=True):
@@ -280,7 +284,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
             logo_name = None
             if entry.properties["icon"]:
-                logo_name = cls._write_image(
+                logo_name = self._write_image(
                     entry.properties["icon"], entry.properties["name"], dirname="entries",
                 )
 
@@ -327,24 +331,20 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
         return ret
 
-    @classmethod
-    def _write_image(cls, image, name, dirname):
-        assets_root = config.fetch("assets_root")
-
+    def _write_image(self, image, name, dirname):
         try:
             name = name.replace(
                 "/", "-",
             )  # name must not contain / and must be a path which can be accessed via the web!
             binary_image = a2b_base64(image)
             extension = what(None, binary_image) or "svg"
-            cls._write_image_to_file(assets_root, name, dirname, extension, binary_image)
+            self._write_image_to_file(self.assets_root, name, dirname, extension, binary_image)
         except (OSError, TypeError):
             get_logger("img").exception("Error saving image for %s" % name)
         else:
             return f"./icons/{quote(dirname)}/{quote(name)}.{extension}"
 
-    @classmethod
-    def _write_image_to_file(cls, assets_root, name, dirname, extension, binary_image):
+    def _write_image_to_file(self, assets_root, name, dirname, extension, binary_image):
         path = Path(assets_root) / "icons" / dirname / f"{name}.{extension}"
         path.write_bytes(binary_image)
 
