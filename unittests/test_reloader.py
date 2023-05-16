@@ -54,11 +54,14 @@ def portal_reloader_udm(mocker, mock_portal_config):
     return reloader.PortalReloaderUDM("cn=portal,dc=stub,dc=test", "cache_file_stub")
 
 
-def test_imports(dynamic_class):
-    assert dynamic_class("Reloader")
-    assert dynamic_class("MtimeBasedLazyFileReloader")
-    assert dynamic_class("PortalReloaderUDM")
-    assert dynamic_class("GroupsReloaderLDAP")
+@pytest.mark.parametrize("class_name", [
+    "Reloader",
+    "MtimeBasedLazyFileReloader",
+    "PortalReloaderUDM",
+    "GroupsReloaderLDAP",
+])
+def test_imports(class_name, dynamic_class):
+    assert dynamic_class(class_name)
 
 
 class TestMtimeBasedLazyFileReloader:
