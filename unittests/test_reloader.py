@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 #
 # Univention Portal
 #
@@ -40,21 +41,31 @@ from unittest import mock
 from univention.portal.extensions import reloader
 
 import pytest
-import stub_udm_client
+
+
+stub_portal_dn = "cn=domain,cn=portal,cn=test"
 
 
 @pytest.fixture()
 def portal_reloader_udm(mocker, mock_portal_config):
     """Provides an instance of PortalReloaderUDM with mocked dependencies."""
-    mocker.patch.object(
-        reloader.PortalReloaderUDM, "_create_udm_client", return_value=stub_udm_client.StubUDMClient())
     mocker.patch.object(reloader.PortalReloaderUDM, "_get_mtime", return_value=2.2)
     mocker.patch.object(reloader, "_write_image_to_file")
     mocker.patch.object(reloader, "_write_image_to_http")
     mocker.patch("json.dumps")
     mocker.patch("tempfile.NamedTemporaryFile")
     mock_portal_config({"assets_root": "/stub_root"})
-    return reloader.PortalReloaderUDM("cn=portal,dc=stub,dc=test", "cache_file_stub")
+    return reloader.PortalReloaderUDM(stub_portal_dn, "cache_file_stub")
+
+
+@pytest.fixture()
+def portal_content_fetcher(mocker, mock_portal_config):
+    mock_portal_config({"assets_root": "/stub_root"})
+    mocker.patch.object(reloader, "_write_image_to_http")
+    mocker.patch.object(reloader, "_write_image_to_file")
+    put_mock = mocker.patch("requests.put")
+    put_mock().status_code = 201
+    return reloader.PortalContentFetcher(stub_portal_dn)
 
 
 @pytest.fixture()
@@ -214,15 +225,6 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
         assert mocked_portal_reloader._portal_dn == self._portal_dn
 
 
-def test_check_reason_returns_true_from_super(mocker, portal_reloader_udm):
-    super_check_reason_mock = mocker.patch(
-        'univention.portal.extensions.reloader.MtimeBasedLazyFileReloader._check_reason',
-        return_value=True)
-    result = portal_reloader_udm._check_reason("stub_reason")
-    assert result
-    super_check_reason_mock.assert_called_with("stub_reason", None)
-
-
 @pytest.mark.parametrize(
     "reason,expected", [
         ("stub_reason", False),
@@ -235,18 +237,13 @@ def test_check_reason_returns_expected_value(reason, expected, portal_reloader_u
     assert result == expected
 
 
-def test_refresh_calls_json_dump(portal_reloader_udm):
-    portal_reloader_udm._refresh()
-    json.dumps.assert_called_once()
-
-
-def test_write_image_writes_image_to_file(portal_reloader_udm):
-    portal_reloader_udm._write_image(b"<svg />", "stub_name", "stub_dirname")
+def test_write_image_writes_image_to_file(portal_content_fetcher):
+    portal_content_fetcher._write_image(b"<svg />", "stub_name", "stub_dirname")
     reloader._write_image_to_file.assert_called_once()
 
 
-def test_write_image_returns_relative_image_url(portal_reloader_udm):
-    image_url = portal_reloader_udm._write_image(b"<svg />", "stub_name", "stub_dirname")
+def test_write_image_returns_relative_image_url(portal_content_fetcher):
+    image_url = portal_content_fetcher._write_image(b"<svg />", "stub_name", "stub_dirname")
     assert image_url == "./icons/stub_dirname/stub_name.svg"
 
 
@@ -257,9 +254,9 @@ def test_write_image_returns_relative_image_url(portal_reloader_udm):
     "https://user:pass@stub-host.test/stub-path/",
 ])
 def test_write_image_writes_image_to_http(
-        assets_root, portal_reloader_udm, stub_image, stub_image_base64):
-    portal_reloader_udm._assets_root = assets_root
-    portal_reloader_udm._write_image(stub_image_base64, "stub_name", "stub_dirname")
+        assets_root, stub_image, stub_image_base64, portal_content_fetcher):
+    portal_content_fetcher._assets_root = assets_root
+    portal_content_fetcher._write_image(stub_image_base64, "stub_name", "stub_dirname")
     reloader._write_image_to_http.assert_called_once_with(
         assets_root, "stub_name", "stub_dirname", "svg", stub_image)
 

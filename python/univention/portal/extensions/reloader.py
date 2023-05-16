@@ -73,153 +73,60 @@ class Reloader(metaclass=Plugin):
         pass
 
 
-class MtimeBasedLazyFileReloader(Reloader):
-    """
-    Specialized class that reloads if a certain (cache) file was updated.
-    So if a seconds process updated the file and this class is asked to
-    reload, it just returns True. If the reason fits, it actually refreshes
-    the content and writes it into the file.
+class HttpReloader(Reloader):
+    """A reloader which updates a HTTP resource."""
 
-    cache_file:
-            Filename this object is responsible for
-    """
+    _content_fetcher = None
 
-    def __init__(self, cache_file):
-        logger.debug("init, %s, cache_file %s", self, cache_file)
-        self._cache_file = cache_file
-        cache_file_parts = urlsplit(cache_file)
-        if cache_file_parts.scheme in ("http", "https"):
-            self._asset_writer = AssetWriterHttp()
-        else:
-            self._asset_writer = AssetWriterFile()
-        self._mtime = self._get_mtime()
+    def __init__(self, url):
+        self._ensure_url_is_supported(url)
+        self._url = url
 
-    def _get_mtime(self):
-        try:
-            return os.stat(self._cache_file).st_mtime
-        except (EnvironmentError, AttributeError) as exc:
-            get_logger("cache").warning(f"Unable to get mtime for {exc}")
-            return 0
-
-    def _file_was_updated(self):
-        mtime = self._get_mtime()
-        if mtime > self._mtime:
-            self._mtime = mtime
-            return True
-
-    def _check_reason(self, reason, content=None):
-        if reason is None:
-            return False
-        if reason == "force":
-            return True
-
-    def refresh(self, reason=None, content=None):
+    def refresh(self, reason=None):
         class_name = self.__class__.__name__
-        if not self._check_reason(reason, content=content):
+        if not self._check_reason(reason):
             logger.info("Not refreshing cache, %s, reason: %s", class_name, reason)
-            # TODO: Understand why this is useful
-            return self._file_was_updated()
+            return False
+        content = self._generate_content()
+        return self._write_content(content)
 
-        logger.info("Refreshing cache, %s, reason: %s", class_name, reason)
-        try:
-            binary_data = self._refresh()
-        except Exception:
-            get_logger("cache").exception("Error during refresh")
-            # TODO: Praying and hoping is not really good enough. Refactor.
-            # hopefully, we can still work with an older cache?
-        else:
-            return self._asset_writer.write(self._cache_file, binary_data)
+    def _check_reason(self, reason=None):
+        return _check_reason_base(reason)
 
-        # TODO: Understand why this is useful
-        return self._file_was_updated()
+    def _generate_content(self):
+        self._content_fetcher.fetch()
 
-    def _refresh(self):  # pragma: no cover
-        pass
-
-
-class AssetWriterFile:
-
-    def write(self, path_or_url, binary_data):
-        # TODO: convert from "file://" URL to filename
-        cache_file = path_or_url
-
-        fd = None
-        try:
-            fd = self._write(binary_data)
-        except Exception:
-            get_logger("cache").exception("Error during refresh")
-            # TODO: remove
-            raise
-            # hopefully, we can still work with an older cache?
-        else:
-            if fd:
-                try:
-                    os.makedirs(os.path.dirname(cache_file))
-                except EnvironmentError:
-                    pass
-                shutil.move(fd.name, cache_file)
-                self._mtime = self._get_mtime(cache_file)
-                return True
-
-    def _write(self, binary_data):
-        with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
-            fd.write(binary_data)
-            return fd
-
-    def _get_mtime(self, cache_file):
-        try:
-            return os.stat(cache_file).st_mtime
-        except (EnvironmentError, AttributeError) as exc:
-            get_logger("cache").warning(f"Unable to get mtime for {exc}")
-            return 0
-
-
-class AssetWriterHttp:
-
-    def write(self, path_or_url, binary_data):
-        self._ensure_url_is_supported(path_or_url)
-        logger.debug("PUT asset to URL: %s", log_url_safe(path_or_url))
-        result = requests.put(url=path_or_url, data=binary_data)
+    def _write_content(self, content):
+        logger.debug("PUT asset to URL: %s", log_url_safe(self._url))
+        result = requests.put(url=self._url, data=content)
         if result.status_code >= requests.codes.bad:
             logger.error("Upload of the image did fail: %s, %s", result.status_code, result.text)
             return False
         return True
 
-    def _ensure_url_is_supported(self, path_or_url):
-        url_parts = urlsplit(path_or_url)
+    def _ensure_url_is_supported(self, url):
+        url_parts = urlsplit(url)
         if url_parts.scheme not in ("http", "https"):
-            raise ValueError('Invalid value for "path_or_url."', path_or_url)
+            raise ValueError('Invalid value for "url."', url)
 
 
-class PortalReloaderUDM(MtimeBasedLazyFileReloader):
-    """
-    Specialized class that reloads a cache file with the content of a certain
-    portal object using UDM. Reacts on reasons like "ldap:portal:<correct_dn>".
+class HttpPortalReloader(HttpReloader):
 
-    portal_dn:
-            DN of the portals/portal object
-    cache_file:
-            Filename this object is responsible for
-    """
+    def __init__(self, url, portal_dn):
+        super().__init__(url)
+        self._content_fetcher = PortalContentFetcher(portal_dn)
 
-    def __init__(self, portal_dn, cache_file):
-        super(PortalReloaderUDM, self).__init__(cache_file)
+    def _check_reason(self, reason=None):
+        return _check_portal_reason(reason)
+
+
+class PortalContentFetcher:
+
+    def __init__(self, portal_dn):
         self._portal_dn = portal_dn
         self._assets_root = config.fetch("assets_root")
 
-    def _check_reason(self, reason, content=None):
-        if super(PortalReloaderUDM, self)._check_reason(reason, content):
-            return True
-        if reason is None:
-            return False
-        reason_args = reason.split(":", 2)
-        if len(reason_args) < 2:
-            return False
-        if reason_args[0] != "ldap":
-            return False
-        return reason_args[1] in ["portal", "category", "entry", "folder", "announcement"]
-
-    def _refresh(self):
+    def fetch(self):
         udm = self._create_udm_client()
         try:
             portal_module = udm.get("portals/portal")
@@ -413,6 +320,140 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         return _write_image_to_file
 
 
+class MtimeBasedLazyFileReloader(Reloader):
+    """
+    Specialized class that reloads if a certain (cache) file was updated.
+    So if a seconds process updated the file and this class is asked to
+    reload, it just returns True. If the reason fits, it actually refreshes
+    the content and writes it into the file.
+
+    cache_file:
+            Filename this object is responsible for
+    """
+
+    def __init__(self, cache_file):
+        logger.debug("init, %s, cache_file %s", self, cache_file)
+        self._cache_file = cache_file
+        cache_file_parts = urlsplit(cache_file)
+        if cache_file_parts.scheme in ("http", "https"):
+            self._asset_writer = AssetWriterHttp()
+        else:
+            self._asset_writer = AssetWriterFile()
+        self._mtime = self._get_mtime()
+
+    def _get_mtime(self):
+        try:
+            return os.stat(self._cache_file).st_mtime
+        except (EnvironmentError, AttributeError) as exc:
+            get_logger("cache").warning(f"Unable to get mtime for {exc}")
+            return 0
+
+    def _file_was_updated(self):
+        mtime = self._get_mtime()
+        if mtime > self._mtime:
+            self._mtime = mtime
+            return True
+
+    def _check_reason(self, reason, content=None):
+        return _check_reason_base(reason)
+
+    def refresh(self, reason=None, content=None):
+        class_name = self.__class__.__name__
+        if not self._check_reason(reason, content=content):
+            logger.info("Not refreshing cache, %s, reason: %s", class_name, reason)
+            return self._file_was_updated()
+
+        logger.info("Refreshing cache, %s, reason: %s", class_name, reason)
+        try:
+            binary_data = self._refresh()
+        except Exception:
+            get_logger("cache").exception("Error during refresh")
+            # TODO: Praying and hoping is not really good enough. Refactor.
+            # hopefully, we can still work with an older cache?
+        else:
+            return self._asset_writer.write(self._cache_file, binary_data)
+
+        return self._file_was_updated()
+
+    def _refresh(self):  # pragma: no cover
+        pass
+
+
+class AssetWriterFile:
+
+    def write(self, path_or_url, binary_data):
+        # TODO: convert from "file://" URL to filename
+        cache_file = path_or_url
+
+        fd = None
+        try:
+            fd = self._write(binary_data)
+        except Exception:
+            get_logger("cache").exception("Error during refresh")
+            # hopefully, we can still work with an older cache?
+        else:
+            if fd:
+                try:
+                    os.makedirs(os.path.dirname(cache_file))
+                except EnvironmentError:
+                    pass
+                shutil.move(fd.name, cache_file)
+                self._mtime = self._get_mtime(cache_file)
+                return True
+
+    def _write(self, binary_data):
+        with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
+            fd.write(binary_data)
+            return fd
+
+    def _get_mtime(self, cache_file):
+        try:
+            return os.stat(cache_file).st_mtime
+        except (EnvironmentError, AttributeError) as exc:
+            get_logger("cache").warning(f"Unable to get mtime for {exc}")
+            return 0
+
+
+class AssetWriterHttp:
+
+    def write(self, path_or_url, binary_data):
+        self._ensure_url_is_supported(path_or_url)
+        logger.debug("PUT asset to URL: %s", log_url_safe(path_or_url))
+        result = requests.put(url=path_or_url, data=binary_data)
+        if result.status_code >= requests.codes.bad:
+            logger.error("Upload of the image did fail: %s, %s", result.status_code, result.text)
+            return False
+        return True
+
+    def _ensure_url_is_supported(self, path_or_url):
+        url_parts = urlsplit(path_or_url)
+        if url_parts.scheme not in ("http", "https"):
+            raise ValueError('Invalid value for "path_or_url."', path_or_url)
+
+
+class PortalReloaderUDM(MtimeBasedLazyFileReloader):
+    """
+    Specialized class that reloads a cache file with the content of a certain
+    portal object using UDM. Reacts on reasons like "ldap:portal:<correct_dn>".
+
+    portal_dn:
+            DN of the portals/portal object
+    cache_file:
+            Filename this object is responsible for
+    """
+
+    def __init__(self, portal_dn, cache_file):
+        super(PortalReloaderUDM, self).__init__(cache_file)
+        self._portal_dn = portal_dn
+
+    def _check_reason(self, reason, content=None):
+        return _check_portal_reason(reason)
+
+    def _refresh(self):
+        content_fetcher = PortalContentFetcher(self._portal_dn)
+        return content_fetcher.fetch()
+
+
 def _write_image_to_http(assets_root, name, dirname, extension, binary_image):
     image_sub_path = f"icons/{quote(dirname)}/{quote(name)}.{quote(extension)}"
     image_url = urljoin(assets_root, image_sub_path)
@@ -456,12 +497,7 @@ class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
         super(GroupsReloaderLDAP, self).__init__(cache_file)
 
     def _check_reason(self, reason, content=None):
-        if super(GroupsReloaderLDAP, self)._check_reason(reason, content):
-            return True
-        if reason is None:
-            return False
-        if reason.startswith("ldap:group"):
-            return True
+        return _check_groups_reason(reason)
 
     def _refresh(self):
         logger.debug("Refreshing groups cache")
@@ -469,3 +505,33 @@ class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
 
         users = users_groups()
         return json.dumps(users, sort_keys=True, indent=4)
+
+
+def _check_reason_base(reason):
+    if reason is None:
+        return False
+    if reason == "force":
+        return True
+
+
+def _check_groups_reason(reason):
+    if _check_reason_base(reason):
+        return True
+    if reason is None:
+        return False
+    if reason.startswith("ldap:group"):
+        return True
+    return False
+
+
+def _check_portal_reason(reason):
+    if _check_reason_base(reason):
+        return True
+    if reason is None:
+        return False
+    reason_args = reason.split(":", 2)
+    if len(reason_args) < 2:
+        return False
+    if reason_args[0] != "ldap":
+        return False
+    return reason_args[1] in ["portal", "category", "entry", "folder", "announcement"]
