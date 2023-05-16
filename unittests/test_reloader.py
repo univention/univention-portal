@@ -51,7 +51,7 @@ def portal_reloader_udm(mocker, mock_portal_config):
     mocker.patch.object(reloader.PortalReloaderUDM, "_get_mtime", return_value=2.2)
     mocker.patch.object(reloader, "_write_image_to_file")
     mocker.patch.object(reloader, "_write_image_to_http")
-    mocker.patch("json.dump")
+    mocker.patch("json.dumps")
     mocker.patch("tempfile.NamedTemporaryFile")
     mock_portal_config({"assets_root": "/stub_root"})
     return reloader.PortalReloaderUDM("cn=portal,dc=stub,dc=test", "cache_file_stub")
@@ -125,8 +125,11 @@ class TestMtimeBasedLazyFileReloader:
     def test_refresh_with_reason(self, mocked_reloader, patch_object_module, mocker):
         # Set up
         mocked_reloader._refresh = mocker.Mock()  # Mock _refresh because not implemented in base class
-        mocked_reloader._refresh.return_value.name = "fd"
+        mocked_reloader._refresh.return_value = "{}"
         mocked_reloader._get_mtime = mocker.Mock(return_value=self._rtime)
+        fd_mock = mock.Mock()
+        fd_mock.name = "fd"
+        mocker.patch.object(reloader.AssetWriterFile, "_write", return_value=fd_mock)
         # Execute
         mocked_reloader.refresh("unknown_reason")
         mocked_reloader._refresh.assert_not_called()
@@ -184,7 +187,7 @@ def test_check_reason_returns_expected_value(reason, expected, portal_reloader_u
 
 def test_refresh_calls_json_dump(portal_reloader_udm):
     portal_reloader_udm._refresh()
-    json.dump.assert_called_once()
+    json.dumps.assert_called_once()
 
 
 def test_write_image_writes_image_to_file(portal_reloader_udm):
