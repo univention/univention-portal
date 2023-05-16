@@ -35,7 +35,6 @@
 
 import asyncio
 import json
-import tempfile
 from datetime import datetime, timedelta
 from unittest import mock
 
@@ -65,7 +64,9 @@ class StubReloader(MtimeBasedLazyFileReloader):
         self.refresh("force")
 
     def _refresh(self):  # pragma: no cover
-        return json.dumps(self.content, sort_keys=True, indent=4)
+        content = json.dumps(self.content, sort_keys=True, indent=4)
+        assets = []
+        return (content, assets)
 
 
 @pytest.fixture()
@@ -94,7 +95,8 @@ def portal_file(get_file_path):
 
 
 @pytest.fixture()
-def reloader(portal_file):
+def reloader(portal_file, mock_portal_config):
+    mock_portal_config({"assets_root": "/stub_assets_root"})
     return StubReloader(portal_file=portal_file)
 
 
@@ -106,8 +108,7 @@ def portal_data(reloader):
 
 
 @pytest.fixture()
-def standard_portal(dynamic_class, mocker, portal_file, reloader):
-    # Portal = dynamic_class("Portal")
+def standard_portal(dynamic_class, portal_file, reloader):
     scorer = dynamic_class("Scorer")()
     portal_cache = dynamic_class("PortalFileCache")(portal_file, reloader)
     authenticator = dynamic_class("UMCAuthenticator")("ucs", "session_url", "group_cache")
@@ -131,13 +132,13 @@ def mocked_portal(dynamic_class, mocker):
 
 
 class TestPortal:
-    def test_user(self, mocked_portal, mocker):
+    def test_user(self, mocked_portal):
         request = "request"
         loop = asyncio.get_event_loop()
         loop.run_until_complete(mocked_portal.get_user(request))
         mocked_portal.authenticator.get_user.assert_called_once_with(request)
 
-    def test_login(self, mocked_portal, mocker):
+    def test_login(self, mocked_portal):
         request = "request"
         loop = asyncio.get_event_loop()
         loop.run_until_complete(mocked_portal.login_user(request))

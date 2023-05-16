@@ -17,27 +17,15 @@
                                 "value": "/var/cache/univention-portal/groups.json"
                             },
                             "reloader": {
-                                "class": "GroupsReloaderLDAP",
+                                "class": "HttpGroupsReloader",
                                 "kwargs": {
-                                    "binddn": {
-                                        "key": "hostdn",
-                                        "type": "config"
+                                    "url": {
+                                      "type": "config",
+                                      "key": "groups_cache_url"
                                     },
-                                    "cache_file": {
-                                        "type": "config",
-                                        "key": "groups_cache_url"
-                                    },
-                                    "ldap_base": {
-                                        "key": "ldap_base",
-                                        "type": "config"
-                                    },
-                                    "ldap_uri": {
-                                        "key": "ldap_uri",
-                                        "type": "config"
-                                    },
-                                    "password_file": {
-                                        "type": "static",
-                                        "value": "/etc/machine.secret"
+                                    "assets_root": {
+                                      "type": "config",
+                                      "key": "assets_root"
                                     }
                                 },
                                 "type": "class"
@@ -60,11 +48,15 @@
                         "value": "/var/cache/univention-portal/portal.json"
                     },
                     "reloader": {
-                        "class": "PortalReloaderUDM",
+                        "class": "HttpPortalReloader",
                         "kwargs": {
-                            "cache_file": {
+                            "url": {
                                 "type": "config",
                                 "key": "portal_cache_url"
+                            },
+                            "assets_root": {
+                              "type": "config",
+                              "key": "assets_root"
                             },
                             "portal_dn": {
                                 "key": "default_domain_dn",
