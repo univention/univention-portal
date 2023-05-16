@@ -76,8 +76,6 @@ build-portal-frontend:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
     KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache --compressed-caching=false --snapshotMode=redo"
-  after_script:
-    - docker images --all
 
 
 push-image-souvap-portal-frontend-job:
@@ -107,8 +105,6 @@ build-portal-server:
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
-  after_script:
-    - docker images --all
 
 
 push-image-souvap-portal-server-job:
