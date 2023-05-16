@@ -1,14 +1,6 @@
-.notifications-api-base:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
-      changes:
-      - '/notifications-api/**/*'
-      when: never
-
 build-notifications-api-test-runner:
   stage: prepare
   extends:
-    - .notifications-api-base
     - .kaniko
   needs: []
   variables:
@@ -21,7 +13,6 @@ build-notifications-api-test-runner:
 build-notifications-api:
   stage: build
   extends:
-    - .notifications-api-base
     - .kaniko
   needs: []
   variables:
@@ -35,7 +26,6 @@ push-image-souvap-notifications-api-job:
   needs:
     - job: build-notifications-api
   extends:
-    - .notifications-api-base
     - .push-image-souvap
   variables:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
@@ -46,7 +36,6 @@ test-notifications-api:
   stage: test
   needs:
     - job: build-notifications-api-test-runner
-  extends: .notifications-api-base
   image: "$IMAGE_TAG"
   script:
     - cd notifications-api
