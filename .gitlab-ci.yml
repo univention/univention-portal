@@ -28,30 +28,31 @@ include:
       - jobs/lint-pre-commit.yaml
       - jobs/package-and-publish-helm-charts.yaml
 
+
 trigger-notifications-api:
   trigger:
     include:
       - local: 'notifications-api/.gitlab-ci.yml'
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes: ['notifications-api/**/*']
-      when: never
+
 
 trigger-frontend:
   trigger:
     include:
       - local: 'frontend/.gitlab-ci.yml'
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes: ['frontend/**/*']
-      when: never
+
 
 trigger-portal-server:
   trigger:
     include:
       - local: 'portal-server/.gitlab-ci.yml'
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         - 'portal-server/**/*'
         - 'python/**/*'
@@ -59,7 +60,6 @@ trigger-portal-server:
         - 'unittests/**/*'
         - 'univention-portal'
         - 'univention-portal-server'
-      when: never
 
 
 i18n:
