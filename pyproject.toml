@@ -154,7 +154,7 @@ ignore-fully-untyped = true
 combine-as-imports = true
 #filter-files = true
 #force-grid-wrap = false
-known-first-party = ["univention"]
+known-first-party = ["univention", "stub_udm_client"]
 known-third-party = ["dateutil", "debian", "fastapi", "ldap", "pytest", "requests", "sqlalchemy", "starlette", "tornado"]
 known-local-folder = ["app", "listener", "pages"]
 # https://github.com/charliermarsh/ruff/issues/2600 :

@@ -33,8 +33,6 @@ RUN mkdir -p /var/log/univention/ \
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
 
-# TODO: portals.json handling needs a consistent and solid approach
-# RUN /usr/sbin/univention-portal add-default --update
 COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/portals.json
 
 # TODO: Check if we want to keep this
