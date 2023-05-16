@@ -1,0 +1,132 @@
+stages:
+  - prepare
+  - build
+  - test
+  - package
+  - publish
+  - lint
+
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+
+include:
+  - project: univention/dist/docker-services
+    file: kaniko.yml
+  - project: univention/customers/dataport/upx/common-ci
+    file:
+      - templates/souvap.yaml
+
+
+build-debian-package-builder:
+  stage: prepare
+  extends: .kaniko
+  needs: []
+  variables:
+    KANIKO_BUILD_CONTEXT: "docker/deb-build"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
+
+
+i18n:
+  stage: prepare
+  needs:
+    - job: build-debian-package-builder
+  image: "$IMAGE_TAG"
+  script:
+    - make l10n-build
+  artifacts:
+    paths:
+      - frontend/public/i18n
+    expire_in: 1 week
+
+
+build-portal-frontend-test-runner:
+  stage: prepare
+  extends: .kaniko
+  needs: []
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
+    # We cache the Docker layers in the registry to reduce build time of future runs of this job
+    KANIKO_ARGS: "--target=base --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache --compressed-caching=false --snapshotMode=redo"
+
+
+lint-portal-frontend:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - yarn --cwd=/app lint
+
+
+build-portal-frontend-test-runner-ui:
+  stage: prepare
+  extends: .kaniko
+  needs: []
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
+    KANIKO_ARGS: "--skip-unused-stages=true --target=test --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache  --compressed-caching=false --snapshotMode=redo"
+  # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+
+build-portal-frontend:
+  stage: build
+  needs:
+    - job: i18n
+      artifacts: true
+  extends: .kaniko
+  variables:
+    KANIKO_BUILD_CONTEXT: "frontend"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
+    KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache --compressed-caching=false --snapshotMode=redo"
+  after_script:
+    - docker images --all
+
+
+push-image-souvap-portal-frontend-job:
+  stage: publish
+  needs:
+    - job: build-portal-frontend
+  extends: .push-image-souvap
+  variables:
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
+    SOUVAP_IMAGE_NAME: "portal-frontend"
+
+
+test-portal-frontend-unit:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - yarn --cwd=/app test:unit
+
+
+test-portal-frontend-ui:
+  stage: test
+  needs:
+    - job: build-portal-frontend-test-runner-ui
+  image: "$IMAGE_TAG"
+  artifacts:
+    when: always
+    paths:
+      - frontend/tests/e2e/videos/**/*.mp4
+      - frontend/tests/e2e/screenshots/**/*.png
+    expire_in: 1 day
+  script:
+    - yarn --cwd=/app test:e2e:headless --browser chrome
+  after_script:
+    # We generate the artifact in the Docker WORKDIR (/app), while Gitlab expects the artifacts in the runner's working
+    # directory. https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
+    # So we copy the artifacts from our build directory to where Gitlab expects.
+    # TODO: cp will fail if the folder does not exist. Is there a better way?
+    - cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+    - cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"

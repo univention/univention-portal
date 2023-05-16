@@ -1,0 +1,70 @@
+stages:
+  - prepare
+  - build
+  - test
+  - package
+  - publish
+  - lint
+
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+
+include:
+  - project: univention/dist/docker-services
+    file: kaniko.yml
+  - project: univention/customers/dataport/upx/common-ci
+    file:
+      - templates/souvap.yaml
+
+
+build-notifications-api-test-runner:
+  stage: prepare
+  extends:
+    - .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
+    KANIKO_ARGS: "--target=test"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+
+
+build-notifications-api:
+  stage: build
+  extends:
+    - .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+
+
+test-notifications-api:
+  stage: test
+  needs:
+    - job: build-notifications-api-test-runner
+  image: "$IMAGE_TAG"
+  script:
+    - cd notifications-api
+    - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: notifications-api/coverage.xml
+
+
+push-image-souvap-notifications-api-job:
+  stage: publish
+  needs:
+    - job: build-notifications-api
+  extends:
+    - .push-image-souvap
+  variables:
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
+    SOUVAP_IMAGE_NAME: "notifications-api"
