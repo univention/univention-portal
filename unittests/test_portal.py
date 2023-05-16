@@ -65,9 +65,7 @@ class StubReloader(MtimeBasedLazyFileReloader):
         self.refresh("force")
 
     def _refresh(self):  # pragma: no cover
-        with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
-            json.dump(self.content, fd, sort_keys=True, indent=4)
-        return fd
+        return json.dumps(self.content, sort_keys=True, indent=4)
 
 
 @pytest.fixture()

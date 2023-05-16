@@ -86,6 +86,7 @@ class MtimeBasedLazyFileReloader(Reloader):
 
     def __init__(self, cache_file):
         self._cache_file = cache_file
+        self._asset_writer = AssetWriterFile()
         self._mtime = self._get_mtime()
 
     def _get_mtime(self):
@@ -108,6 +109,25 @@ class MtimeBasedLazyFileReloader(Reloader):
             return True
 
     def refresh(self, reason=None, content=None):
+        if not self._check_reason(reason, content=content):
+            logger.info("Not refreshing cache, reason: %s", reason)
+            # TODO: Understand why this is useful
+            return self._file_was_updated()
+
+        logger.info("Refreshing cache, reason: %s", reason)
+        try:
+            binary_data = self._refresh()
+        except Exception:
+            get_logger("cache").exception("Error during refresh")
+            # TODO: Praying and hoping is not really good enough. Refactor.
+            # hopefully, we can still work with an older cache?
+        else:
+            return self._asset_writer.write(self._cache_file, binary_data)
+
+        # TODO: Understand why this is useful
+        return self._file_was_updated()
+
+    def refresh_(self, reason=None, content=None):
         if self._check_reason(reason, content=content):
             logger.info("Refreshing cache, reason: %s", reason)
             fd = None
@@ -129,6 +149,47 @@ class MtimeBasedLazyFileReloader(Reloader):
 
     def _refresh(self):  # pragma: no cover
         pass
+
+
+class AssetWriterFile:
+
+    def write(self, path_or_url, binary_data):
+        # TODO: convert from "file://" URL to filename
+        cache_file = path_or_url
+
+        fd = None
+        try:
+            fd = self._write(binary_data)
+        except Exception:
+            get_logger("cache").exception("Error during refresh")
+            # TODO: remove
+            raise
+            # hopefully, we can still work with an older cache?
+        else:
+            if fd:
+                try:
+                    os.makedirs(os.path.dirname(cache_file))
+                except EnvironmentError:
+                    pass
+                shutil.move(fd.name, cache_file)
+                self._mtime = self._get_mtime(cache_file)
+                return True
+
+    def _write(self, binary_data):
+        with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
+            fd.write(binary_data)
+            return fd
+
+    def _get_mtime(self, cache_file):
+        try:
+            return os.stat(cache_file).st_mtime
+        except (EnvironmentError, AttributeError) as exc:
+            get_logger("cache").warning(f"Unable to get mtime for {exc}")
+            return 0
+
+
+class AssetWriterHttp:
+    pass
 
 
 class PortalReloaderUDM(MtimeBasedLazyFileReloader):
@@ -187,23 +248,20 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
         announcements = self._extract_announcements(udm)
 
-        with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
-            json.dump(
-                {
-                    "portal": portal,
-                    "categories": categories,
-                    "folders": folders,
-                    "entries": entries,
-                    "user_links": user_links,
-                    "menu_links": menu_links,
-                    "announcements": announcements,
-                },
-                fd,
-                sort_keys=True,
-                indent=4,
-            )
+        return json.dumps(
+            {
+                "portal": portal,
+                "categories": categories,
+                "folders": folders,
+                "entries": entries,
+                "user_links": user_links,
+                "menu_links": menu_links,
+                "announcements": announcements,
+            },
+            sort_keys=True,
+            indent=4,
+        )
 
-            return fd
 
     def _create_udm_client(self):
         logger.debug("Connecting to UDM at URL: %s", config.fetch("udm_api_url"))
@@ -411,6 +469,4 @@ class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
         from univention.ldap_cache.frontend import users_groups
 
         users = users_groups()
-        with tempfile.NamedTemporaryFile(mode="w", delete=False) as fd:
-            json.dump(users, fd, sort_keys=True, indent=4)
-        return fd
+        return json.dumps(users, sort_keys=True, indent=4)
