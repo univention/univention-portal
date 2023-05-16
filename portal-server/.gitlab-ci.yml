@@ -1,0 +1,46 @@
+build-portal-server-test-runner:
+  stage: prepare
+  extends: .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
+    KANIKO_ARGS: "--target=test"
+
+
+build-portal-server:
+  stage: build
+  extends: .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
+  after_script:
+    - docker images --all
+
+
+push-image-souvap-portal-server-job:
+  stage: publish
+  needs:
+    - job: build-portal-server
+  extends: .push-image-souvap
+  variables:
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
+    SOUVAP_IMAGE_NAME: "portal-server"
+
+
+test-portal-server:
+  stage: test
+  needs:
+    - job: build-portal-server-test-runner
+  image: "$IMAGE_TAG"
+  variables:
+    PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
+  script:
+    - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml

@@ -1,0 +1,59 @@
+.notifications-api-base:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+      changes:
+      - '/notifications-api/**/*'
+      when: never
+
+build-notifications-api-test-runner:
+  stage: prepare
+  extends:
+    - .notifications-api-base
+    - .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
+    KANIKO_ARGS: "--target=test"
+
+
+build-notifications-api:
+  stage: build
+  extends:
+    - .notifications-api-base
+    - .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
+
+
+push-image-souvap-notifications-api-job:
+  stage: publish
+  needs:
+    - job: build-notifications-api
+  extends:
+    - .notifications-api-base
+    - .push-image-souvap
+  variables:
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
+    SOUVAP_IMAGE_NAME: "notifications-api"
+
+
+test-notifications-api:
+  stage: test
+  needs:
+    - job: build-notifications-api-test-runner
+  extends: .notifications-api-base
+  image: "$IMAGE_TAG"
+  script:
+    - cd notifications-api
+    - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: notifications-api/coverage.xml
