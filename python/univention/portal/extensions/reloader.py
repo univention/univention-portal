@@ -86,7 +86,11 @@ class MtimeBasedLazyFileReloader(Reloader):
 
     def __init__(self, cache_file):
         self._cache_file = cache_file
-        self._asset_writer = AssetWriterFile()
+        cache_file_parts = urlsplit(cache_file)
+        if cache_file_parts.scheme in ("http", "https"):
+            self._asset_writer = AssetWriterHttp()
+        else:
+            self._asset_writer = AssetWriterFile()
         self._mtime = self._get_mtime()
 
     def _get_mtime(self):
@@ -125,26 +129,6 @@ class MtimeBasedLazyFileReloader(Reloader):
             return self._asset_writer.write(self._cache_file, binary_data)
 
         # TODO: Understand why this is useful
-        return self._file_was_updated()
-
-    def refresh_(self, reason=None, content=None):
-        if self._check_reason(reason, content=content):
-            logger.info("Refreshing cache, reason: %s", reason)
-            fd = None
-            try:
-                fd = self._refresh()
-            except Exception:
-                get_logger("cache").exception("Error during refresh")
-                # hopefully, we can still work with an older cache?
-            else:
-                if fd:
-                    try:
-                        os.makedirs(os.path.dirname(self._cache_file))
-                    except EnvironmentError:
-                        pass
-                    shutil.move(fd.name, self._cache_file)
-                    self._mtime = self._get_mtime()
-                    return True
         return self._file_was_updated()
 
     def _refresh(self):  # pragma: no cover
@@ -189,7 +173,20 @@ class AssetWriterFile:
 
 
 class AssetWriterHttp:
-    pass
+
+    def write(self, path_or_url, binary_data):
+        self._ensure_url_is_supported(path_or_url)
+        logger.debug("PUT asset to URL: %s", log_url_safe(path_or_url))
+        result = requests.put(url=path_or_url, data=binary_data)
+        if result.status_code >= requests.codes.bad:
+            logger.error("Upload of the image did fail: %s, %s", result.status_code, result.text)
+            return False
+        return True
+
+    def _ensure_url_is_supported(self, path_or_url):
+        url_parts = urlsplit(path_or_url)
+        if url_parts.scheme not in ("http", "https"):
+            raise ValueError('Invalid value for "path_or_url."', path_or_url)
 
 
 class PortalReloaderUDM(MtimeBasedLazyFileReloader):
@@ -409,7 +406,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
     def _select_image_writer_from_scheme(self):
         assets_root = urlsplit(self._assets_root)
-        if assets_root.scheme == "http":
+        if assets_root.scheme in ("http", "https"):
             return _write_image_to_http
         return _write_image_to_file
 

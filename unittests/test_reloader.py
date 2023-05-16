@@ -139,6 +139,56 @@ class TestMtimeBasedLazyFileReloader:
         self._shutil.move.assert_called_once_with("fd", self._cache_file)
 
 
+@pytest.mark.parametrize("cache_file,klass", [
+    ("/stub_cache/file.json", reloader.AssetWriterFile),
+    ("file:///stub_cache/file.json", reloader.AssetWriterFile),
+    ("http://stub-host.test/file.json", reloader.AssetWriterHttp),
+    ("http://user:password:stub-host.test/file.json", reloader.AssetWriterHttp),
+    ("https://stub-host.test/file.json", reloader.AssetWriterHttp),
+    ("https://user:password@stub-host.test/file.json", reloader.AssetWriterHttp),
+])
+def test_base_reloader_uses_file_writer_based_on_scheme(cache_file, klass, mocker):
+    mocker.patch.object(reloader.MtimeBasedLazyFileReloader, "_get_mtime", return_value=0.0)
+    mtime_reloader = reloader.MtimeBasedLazyFileReloader(cache_file)
+    assert isinstance(mtime_reloader._asset_writer, klass)
+
+
+def test_asset_writer_http_puts_asset(mocker):
+    result_mock = mock.Mock()
+    result_mock.status_code = 201
+    put_mock = mocker.patch('requests.put', return_value=result_mock)
+
+    writer = reloader.AssetWriterHttp()
+    result = writer.write("http://user:password:stub-host.test/file.json", b"stub_content")
+    put_mock.assert_called_once_with(
+        url="http://user:password:stub-host.test/file.json",
+        data=b"stub_content")
+    assert result
+
+
+@pytest.mark.parametrize("cache_file", [
+    "/stub_path/file.json",
+    "ftp://stub-host.test/stub_path/file.json",
+])
+def test_asset_writer_http_enforces_scheme(cache_file, mocker):
+    mocker.patch('requests.put')
+    writer = reloader.AssetWriterHttp()
+
+    with pytest.raises(ValueError):
+        writer.write(cache_file, b"stub_content")
+
+
+def test_asset_writer_http_logs_failed_requests(mocker):
+    result_mock = mock.Mock()
+    result_mock.status_code = 401
+    mocker.patch('requests.put', return_value=result_mock)
+    logger_mock = mocker.patch.object(reloader, "logger")
+
+    writer = reloader.AssetWriterHttp()
+    writer.write("http://stub-host.test/stub_path/file.json", b"stub_content")
+    logger_mock.error.assert_called()
+
+
 class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
     _portal_dn = "cn=domain,cn=portal,cn=univention"
 
@@ -200,12 +250,18 @@ def test_write_image_returns_relative_image_url(portal_reloader_udm):
     assert image_url == "./icons/stub_dirname/stub_name.svg"
 
 
-def test_write_image_writes_image_to_http(portal_reloader_udm, stub_image, stub_image_base64):
-    portal_reloader_udm._assets_root = "http://user:pass@stub-host/stub-path/"
+@pytest.mark.parametrize("assets_root", [
+    "http://stub-host.test/stub-path/",
+    "http://user:pass@stub-host.test/stub-path/",
+    "https://stub-host.test/stub-path/",
+    "https://user:pass@stub-host.test/stub-path/",
+])
+def test_write_image_writes_image_to_http(
+        assets_root, portal_reloader_udm, stub_image, stub_image_base64):
+    portal_reloader_udm._assets_root = assets_root
     portal_reloader_udm._write_image(stub_image_base64, "stub_name", "stub_dirname")
     reloader._write_image_to_http.assert_called_once_with(
-        "http://user:pass@stub-host/stub-path/", "stub_name", "stub_dirname",
-        "svg", stub_image)
+        assets_root, "stub_name", "stub_dirname", "svg", stub_image)
 
 
 def test_write_image_to_file(mocker):
