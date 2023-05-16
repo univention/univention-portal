@@ -1,4 +1,5 @@
 from datetime import MAXYEAR, MINYEAR, datetime
+from urllib.parse import urlsplit, urlunsplit
 
 import dateutil.parser
 
@@ -56,3 +57,18 @@ def is_current_time_between(start_iso_datetime_str: str, end_iso_datetime_str: s
     else:
         get_logger("util").warning("given time boundaries not in chronological order")
         return True
+
+
+def log_url_safe(url):
+    """
+    Hide the password in the URL if present.
+
+    Intended to be used when logging URLs which may contain a password in it.
+    """
+    parts = urlsplit(url)
+    if parts.password:
+        netloc_without_auth = parts.netloc.split("@")[1]
+        new_netloc = f"{parts.username}:***hidden***@{netloc_without_auth}"
+        url = urlunsplit((
+            parts.scheme, new_netloc, parts.path, parts.query, parts.fragment))
+    return url

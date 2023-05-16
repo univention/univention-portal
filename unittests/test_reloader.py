@@ -33,7 +33,9 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+import binascii
 import json
+from unittest import mock
 
 from univention.portal.extensions import reloader
 
@@ -48,10 +50,21 @@ def portal_reloader_udm(mocker, mock_portal_config):
         reloader.PortalReloaderUDM, "_create_udm_client", return_value=stub_udm_client.StubUDMClient())
     mocker.patch.object(reloader.PortalReloaderUDM, "_get_mtime", return_value=2.2)
     mocker.patch.object(reloader, "_write_image_to_file")
+    mocker.patch.object(reloader, "_write_image_to_http")
     mocker.patch("json.dump")
     mocker.patch("tempfile.NamedTemporaryFile")
     mock_portal_config({"assets_root": "/stub_root"})
     return reloader.PortalReloaderUDM("cn=portal,dc=stub,dc=test", "cache_file_stub")
+
+
+@pytest.fixture()
+def stub_image():
+    return b"stub_image_content"
+
+
+@pytest.fixture()
+def stub_image_base64(stub_image):
+    return binascii.b2a_base64(stub_image)
 
 
 @pytest.mark.parametrize("class_name", [
@@ -184,13 +197,52 @@ def test_write_image_returns_relative_image_url(portal_reloader_udm):
     assert image_url == "./icons/stub_dirname/stub_name.svg"
 
 
+def test_write_image_writes_image_to_http(portal_reloader_udm, stub_image, stub_image_base64):
+    portal_reloader_udm._assets_root = "http://user:pass@stub-host/stub-path/"
+    portal_reloader_udm._write_image(stub_image_base64, "stub_name", "stub_dirname")
+    reloader._write_image_to_http.assert_called_once_with(
+        "http://user:pass@stub-host/stub-path/", "stub_name", "stub_dirname",
+        "svg", stub_image)
+
+
 def test_write_image_to_file(mocker):
     write_bytes_mock = mocker.patch("pathlib.Path.write_bytes")
 
     reloader._write_image_to_file(
-        "/stub_assets_root", "name", "dirname", "ext", b"stub_content")
+        "/stub_assets_root", "stub_name", "stub_dirname", "stub_ext", b"stub_content")
     write_bytes_mock.assert_called_with(b"stub_content")
 
+
+def test_write_image_to_http_puts_image(mocker):
+    # TODO: integration test
+    # reloader._write_image_to_http(
+    #     "http://portal-listener:univention@store-dav/portal-assets/", "stub_name", "stub_dirname", "ext", b"stub_content")
+    result_mock = mock.Mock()
+    result_mock.status_code = 201
+    put_mock = mocker.patch('requests.put', return_value=result_mock)
+    reloader._write_image_to_http(
+        "http://user:pass@stub-host/stub-path/", "stub_name", "stub_dirname", "ext", b"stub_content")
+    put_mock.assert_called_once_with(
+        url="http://user:pass@stub-host/stub-path/icons/stub_dirname/stub_name.ext",
+        data=b"stub_content")
+
+
+def test_write_image_to_http_ensures_url_prefix(mocker):
+    mocker.patch('requests.put')
+    with pytest.raises(ValueError):
+        reloader._write_image_to_http(
+            "http://user:pass@stub-host/stub-path/", "stub_name", "../../stub_dirname", "ext", b"stub_content")
+
+
+def test_write_image_to_http_logs_failed_requests(mocker):
+    result_mock = mock.Mock()
+    result_mock.status_code = 401
+    put_mock = mocker.patch('requests.put', return_value=result_mock)
+    logger_mock = mocker.patch.object(reloader, "logger")
+
+    reloader._write_image_to_http(
+        "http://user:pass@stub-host/stub-path/", "stub_name", "stub_dirname", "ext", b"stub_content")
+    logger_mock.error.assert_called()
 
 
 class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):

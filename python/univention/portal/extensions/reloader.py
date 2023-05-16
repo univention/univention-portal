@@ -40,10 +40,13 @@ import tempfile
 from binascii import a2b_base64
 from imghdr import what
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urljoin, urlsplit
+
+import requests
 
 import univention.admin.rest.client as udm_client
 from univention.portal import Plugin, config
+from univention.portal.util import log_url_safe
 from univention.portal.log import get_logger
 
 
@@ -142,7 +145,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
     def __init__(self, portal_dn, cache_file):
         super(PortalReloaderUDM, self).__init__(cache_file)
         self._portal_dn = portal_dn
-        self.assets_root = config.fetch("assets_root")
+        self._assets_root = config.fetch("assets_root")
 
     def _check_reason(self, reason, content=None):
         if super(PortalReloaderUDM, self)._check_reason(reason, content):
@@ -332,21 +335,41 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         return ret
 
     def _write_image(self, image, name, dirname):
+        writer = self._select_image_writer_from_scheme()
+        name = name.replace(
+            "/", "-",
+        )  # name must not contain / and must be a path which can be accessed via the web!
         try:
-            name = name.replace(
-                "/", "-",
-            )  # name must not contain / and must be a path which can be accessed via the web!
             binary_image = a2b_base64(image)
             extension = what(None, binary_image) or "svg"
-            _write_image_to_file(self.assets_root, name, dirname, extension, binary_image)
+            writer(self._assets_root, name, dirname, extension, binary_image)
         except (OSError, TypeError):
             get_logger("img").exception("Error saving image for %s" % name)
         else:
             return f"./icons/{quote(dirname)}/{quote(name)}.{extension}"
 
 
+    def _select_image_writer_from_scheme(self):
+        assets_root = urlsplit(self._assets_root)
+        if assets_root.scheme == "http":
+            return _write_image_to_http
+        return _write_image_to_file
+
+
+def _write_image_to_http(assets_root, name, dirname, extension, binary_image):
+    image_sub_path = f"icons/{quote(dirname)}/{quote(name)}.{quote(extension)}"
+    image_url = urljoin(assets_root, image_sub_path)
+    logger.debug("PUT image to URL: %s", log_url_safe(image_url))
+    if not image_url.startswith(assets_root):
+        raise ValueError('Value of "dirname" not allowed', dirname)
+    result = requests.put(url=image_url, data=binary_image)
+    if result.status_code >= requests.codes.bad:
+        logger.error("Upload of the image did fail: %s, %s", result.status_code, result.text)
+
+
 def _write_image_to_file(assets_root, name, dirname, extension, binary_image):
     path = Path(assets_root) / "icons" / dirname / f"{name}.{extension}"
+    logger.debug("Writing image to file: %s", path)
     path.write_bytes(binary_image)
 
 
