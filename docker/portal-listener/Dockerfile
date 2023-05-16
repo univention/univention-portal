@@ -32,14 +32,17 @@ RUN mkdir -p /var/log/univention/ \
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
-COPY --from=portal-server-image /usr/share/univention-portal/portals.json /usr/share/univention-portal/portals.json
 
 # TODO: portals.json handling needs a consistent and solid approach
-RUN /usr/sbin/univention-portal add-default --update
+# RUN /usr/sbin/univention-portal add-default --update
+COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/portals.json
 
 # TODO: Check if we want to keep this
+# TODO: Must be consistent with the codebase from ./python
 COPY ./docker/portal-server/docker-entrypoint.sh /
 
+# TODO: The listeners must be consistent with the codebase
+# from ./python
 COPY ./listener/*.py /usr/lib/univention-directory-listener/system/
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
