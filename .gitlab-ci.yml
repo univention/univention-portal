@@ -9,238 +9,84 @@ variables:
   SOUVAP_REGISTRY_PATH: souvap/tooling/images/univention-portal
   SOUVAP_REGISTRY_REPO: ${SOUVAP_REGISTRY_HOST}/${SOUVAP_REGISTRY_PATH}
 
-stages:
-  - prepare
-  - lint
-  - build
-  - test
-  - package
-  - publish
-
 
 include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
   - project: univention/customers/dataport/upx/common-ci
     file:
       - defaults/souvap-workflow.yaml
-      - templates/souvap.yaml
       - jobs/lint-pre-commit.yaml
       - jobs/package-and-publish-helm-charts.yaml
 
 
-i18n:
-  stage: prepare
-  needs:
-    - job: build-debian-package-builder
-  image: "$IMAGE_TAG"
-  script:
-    - make l10n-build
-  artifacts:
-    paths:
-      - frontend/public/i18n
-    expire_in: 1 week
+stages:
+  - trigger
+  - prepare
+  - build
+  - test
+  - package
+  - publish
+  - lint
 
 
-build-portal-frontend-test-runner:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
-    # We cache the Docker layers in the registry to reduce build time of future runs of this job
-    KANIKO_ARGS: "--target=base --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache --compressed-caching=false --snapshotMode=redo"
-
-
-build-portal-frontend-test-runner-ui:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
-    KANIKO_ARGS: "--skip-unused-stages=true --target=test --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache  --compressed-caching=false --snapshotMode=redo"
-  # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
+trigger-notifications-api:
+  stage: trigger
+  trigger:
+    include:
+      - local: 'notifications-api/.gitlab-ci.yml'
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - changes:
+      - 'notifications-api/**/*'
+      - 'tests/**/*'
 
 
-build-portal-frontend:
-  stage: build
-  needs:
-    - job: i18n
-      artifacts: true
-  extends: .kaniko
-  variables:
-    KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-    KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache --compressed-caching=false --snapshotMode=redo"
-
-
-push-image-souvap-portal-frontend-job:
-  stage: publish
-  needs:
-    - job: build-portal-frontend
-  extends: .push-image-souvap
-  variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-    SOUVAP_IMAGE_NAME: "portal-frontend"
-
-
-build-portal-server-test-runner:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
-    KANIKO_ARGS: "--target=test"
-
-
-build-portal-server:
-  stage: build
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
-
-
-push-image-souvap-portal-server-job:
-  stage: publish
-  needs:
-    - job: build-portal-server
-  extends: .push-image-souvap
-  variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
-    SOUVAP_IMAGE_NAME: "portal-server"
-
-
-build-notifications-api-test-runner:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "notifications-api/Dockerfile"
-    KANIKO_BUILD_CONTEXT: "notifications-api"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
-    KANIKO_ARGS: "--target=test"
-
-
-build-notifications-api:
-  stage: build
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "notifications-api/Dockerfile"
-    KANIKO_BUILD_CONTEXT: "notifications-api"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
-
-
-push-image-souvap-notifications-api-job:
-  stage: publish
-  needs:
-    - job: build-notifications-api
-  extends: .push-image-souvap
-  variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
-    SOUVAP_IMAGE_NAME: "notifications-api"
-
-
-build-debian-package-builder:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    KANIKO_BUILD_CONTEXT: "docker/deb-build"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
-
-
-build-debian-package:
-  stage: package
-  needs:
-    - job: build-debian-package-builder
-  image: "$IMAGE_TAG"
-  before_script:
-    - apt-get -qq update
-    - apt-get -q --assume-yes build-dep .
-  script:
-    - source ~/.nvm/nvm.sh
-    - dpkg-buildpackage --no-sign
-    - rm -fr public
-    - mkdir public
-    - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
-  artifacts:
-    paths:
-      - public/
-    expire_in: 1 week
-
-
-test-portal-frontend-unit:
-  stage: test
-  needs:
-    - job: build-portal-frontend-test-runner
-  image: "$IMAGE_TAG"
-  script:
-    - yarn --cwd=/app test:unit
-
-
-test-portal-frontend-ui:
-  stage: test
-  needs:
-    - job: build-portal-frontend-test-runner-ui
-  image: "$IMAGE_TAG"
-  artifacts:
-    when: always
-    paths:
-      - frontend/tests/e2e/videos/**/*.mp4
-      - frontend/tests/e2e/screenshots/**/*.png
-    expire_in: 1 day
-  script:
-    - yarn --cwd=/app test:e2e:headless --browser chrome
-  after_script:
-    # We generate the artifact in the Docker WORKDIR (/app), while Gitlab expects the artifacts in the runner's working
-    # directory. https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
-    # So we copy the artifacts from our build directory to where Gitlab expects.
-    # TODO: cp will fail if the folder does not exist. Is there a better way?
-    - cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
-    - cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
+trigger-frontend:
+  stage: trigger
+  trigger:
+    include:
+      - local: 'frontend/.gitlab-ci.yml'
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - changes: 
+      - 'frontend/**/*'
+      - 'tests/**/*'
 
 
-test-portal-server:
-  stage: test
-  needs:
-    - job: build-portal-server-test-runner
-  image: "$IMAGE_TAG"
-  variables:
-    PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
-  script:
-    - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
-  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
+trigger-portal-server:
+  stage: trigger
+  trigger:
+    include:
+      - local: 'portal-server/.gitlab-ci.yml'
+  rules:
+    - changes:
+        - 'portal-server/**/*'
+        - 'python/**/*'
+        - 'udm/**/*'
+        - 'unittests/**/*'
+        - 'univention-portal'
+        - 'univention-portal-server'
+        - 'docker/portal-server/**/*'
+        - 'tests/**/*'
 
 
-test-notifications-api:
-  stage: test
-  needs:
-    - job: build-notifications-api-test-runner
-  image: "$IMAGE_TAG"
-  script:
-    - cd notifications-api
-    - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
-  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: notifications-api/coverage.xml
+# build-debian-package:
+#   stage: package
+#   needs:
+#     - job: build-debian-package-builder
+#   image: "$IMAGE_TAG"
+#   before_script:
+#     - apt-get -qq update
+#     - apt-get -q --assume-yes build-dep .
+#   script:
+#     - source ~/.nvm/nvm.sh
+#     - dpkg-buildpackage --no-sign
+#     - rm -fr public
+#     - mkdir public
+#     - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
+#   artifacts:
+#     paths:
+#       - public/
+#     expire_in: 1 week
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "manual"
 
 
 lint-pre-commit:
@@ -283,13 +129,5 @@ commit-message-linting:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
-
-lint-portal-frontend:
-  stage: test
-  needs:
-    - job: build-portal-frontend-test-runner
-  image: "$IMAGE_TAG"
-  script:
-    - yarn --cwd=/app lint
 
 ...
