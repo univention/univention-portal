@@ -43,10 +43,12 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "auth_secret": $auth_secret,
   "default_domain_dn": $default_domain_dn,
   "editable": $editable,
+  "groups_cache_url": $groups_cache_url,
   "hostdn": $hostdn,
   "ldap_base": $ldap_base,
   "ldap_uri": $ldap_uri,
   "port": $port,
+  "portal_cache_url": $portal_cache_url,
   "ucs_internal_url": $ucs_internal_url,
   "udm_api_url": $udm_api_url,
   "udm_api_username": $udm_api_username,
@@ -66,10 +68,12 @@ jq -n \
   --arg auth_secret "${PORTAL_SERVER_AUTH_SECRET}" \
   --arg default_domain_dn "${PORTAL_DEFAULT_DN:-}" \
   --argjson editable "${PORTAL_SERVER_EDITABLE}" \
+  --arg groups_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}groups" \
   --arg hostdn "${LDAP_HOST_DN:-}" \
   --arg ldap_base "${LDAP_BASE_DN:-}" \
   --arg ldap_uri "ldap://${LDAP_HOST:-}:${LDAP_PORT}" \
   --arg port "${PORTAL_SERVER_PORT}" \
+  --arg portal_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}portal" \
   --arg ucs_internal_url "${PORTAL_SERVER_UCS_INTERNAL_URL}" \
   --arg udm_api_url "${PORTAL_UDM_API_URL:-}" \
   --arg udm_api_username "${PORTAL_UDM_API_USERNAME:-}" \

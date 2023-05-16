@@ -85,6 +85,7 @@ class MtimeBasedLazyFileReloader(Reloader):
     """
 
     def __init__(self, cache_file):
+        logger.debug("init, %s, cache_file %s", self, cache_file)
         self._cache_file = cache_file
         cache_file_parts = urlsplit(cache_file)
         if cache_file_parts.scheme in ("http", "https"):
@@ -113,12 +114,13 @@ class MtimeBasedLazyFileReloader(Reloader):
             return True
 
     def refresh(self, reason=None, content=None):
+        class_name = self.__class__.__name__
         if not self._check_reason(reason, content=content):
-            logger.info("Not refreshing cache, reason: %s", reason)
+            logger.info("Not refreshing cache, %s, reason: %s", class_name, reason)
             # TODO: Understand why this is useful
             return self._file_was_updated()
 
-        logger.info("Refreshing cache, reason: %s", reason)
+        logger.info("Refreshing cache, %s, reason: %s", class_name, reason)
         try:
             binary_data = self._refresh()
         except Exception:
