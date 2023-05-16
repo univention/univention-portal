@@ -33,8 +33,25 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+import json
+
+from univention.portal.extensions import reloader
+
 import pytest
 import stub_udm_client
+
+
+@pytest.fixture()
+def portal_reloader_udm(mocker, mock_portal_config):
+    """Provides an instance of PortalReloaderUDM with mocked dependencies."""
+    mocker.patch.object(
+        reloader.PortalReloaderUDM, "_create_udm_client", return_value=stub_udm_client.StubUDMClient())
+    mocker.patch.object(reloader.PortalReloaderUDM, "_get_mtime", return_value=2.2)
+    mocker.patch.object(reloader, "_write_image_to_file")
+    mocker.patch("json.dump")
+    mocker.patch("tempfile.NamedTemporaryFile")
+    mock_portal_config({"assets_root": "/stub_root"})
+    return reloader.PortalReloaderUDM("cn=portal,dc=stub,dc=test", "cache_file_stub")
 
 
 def test_imports(dynamic_class):
@@ -127,45 +144,50 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
         assert mocked_portal_reloader._mtime == self._mtime
         assert mocked_portal_reloader._portal_dn == self._portal_dn
 
-    @pytest.mark.xfail()
-    def test_refresh(self, mocked_portal_reloader, mocker):
-        mocked_udm = mocked_portal_reloader.udm_udm.UDM.machine.return_value.version.return_value
-        mocked_udm.get.return_value.get.return_value = self.generate_mocked_portal(mocker)
-        refreshed = mocked_portal_reloader.refresh(reason=self._reason)
-        mocked_udm.get.return_value.get.assert_called_once_with(self._portal_dn)
-        assert not refreshed
+
+def test_check_reason_returns_true_from_super(mocker, portal_reloader_udm):
+    super_check_reason_mock = mocker.patch(
+        'univention.portal.extensions.reloader.MtimeBasedLazyFileReloader._check_reason',
+        return_value=True)
+    result = portal_reloader_udm._check_reason("stub_reason")
+    assert result
+    super_check_reason_mock.assert_called_with("stub_reason", None)
 
 
-@pytest.fixture()
-def portal_reloader_udm(mocker, mock_portal_config):
-    """Provides an instance of PortalReloaderUDM with mocked dependencies."""
-    from univention.portal.extensions.reloader import PortalReloaderUDM
+@pytest.mark.parametrize(
+    "reason,expected", [
+        ("stub_reason", False),
+        (None, False),
+        ("stub:reason", False),
+        ("ldap:entry", True),
+    ])
+def test_check_reason_returns_expected_value(reason, expected, portal_reloader_udm):
+    result = portal_reloader_udm._check_reason(reason)
+    assert result == expected
 
-    mocker.patch.object(
-        PortalReloaderUDM, "_create_udm_client", return_value=stub_udm_client.StubUDMClient())
-    mocker.patch.object(PortalReloaderUDM, "_get_mtime", return_value=2.2)
-    mocker.patch.object(PortalReloaderUDM, "_write_image_to_file")
-    mocker.patch("json.dump")
-    mocker.patch("tempfile.NamedTemporaryFile")
-    mock_portal_config({"assets_root": "/stub_root"})
-
-    return PortalReloaderUDM("cn=portal,dc=stub,dc=test", "cache_file_stub")
 
 def test_refresh_calls_json_dump(portal_reloader_udm):
-    import json
-
     portal_reloader_udm._refresh()
     json.dump.assert_called_once()
 
 
 def test_write_image_writes_image_to_file(portal_reloader_udm):
     portal_reloader_udm._write_image(b"<svg />", "stub_name", "stub_dirname")
-    portal_reloader_udm._write_image_to_file.assert_called_once()
+    reloader._write_image_to_file.assert_called_once()
 
 
 def test_write_image_returns_relative_image_url(portal_reloader_udm):
     image_url = portal_reloader_udm._write_image(b"<svg />", "stub_name", "stub_dirname")
     assert image_url == "./icons/stub_dirname/stub_name.svg"
+
+
+def test_write_image_to_file(mocker):
+    write_bytes_mock = mocker.patch("pathlib.Path.write_bytes")
+
+    reloader._write_image_to_file(
+        "/stub_assets_root", "name", "dirname", "ext", b"stub_content")
+    write_bytes_mock.assert_called_with(b"stub_content")
+
 
 
 class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):
