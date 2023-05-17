@@ -15,21 +15,16 @@ stages:
   - build
   - test
   - package
+  - trigger
   - publish
 
 
 include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
-  - project: univention/customers/dataport/upx/common-ci
-    file:
-      - defaults/souvap-workflow.yaml
-      - templates/souvap.yaml
-      - jobs/lint-pre-commit.yaml
-      - jobs/package-and-publish-helm-charts.yaml
+  local: '.gitlab-ci.common.yml'
 
 
 trigger-notifications-api:
+  stage: trigger
   trigger:
     include:
       - local: 'notifications-api/.gitlab-ci.yml'
@@ -39,6 +34,7 @@ trigger-notifications-api:
 
 
 trigger-frontend:
+  stage: trigger
   trigger:
     include:
       - local: 'frontend/.gitlab-ci.yml'
@@ -48,6 +44,7 @@ trigger-frontend:
 
 
 trigger-portal-server:
+  stage: trigger
   trigger:
     include:
       - local: 'portal-server/.gitlab-ci.yml'
@@ -102,6 +99,8 @@ build-debian-package:
     paths:
       - public/
     expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "manual"
 
 
 lint-pre-commit:

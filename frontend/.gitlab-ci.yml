@@ -1,3 +1,16 @@
+stages:
+  - prepare
+  - lint
+  - build
+  - test
+  - package
+  - publish
+
+
+include:
+  local: '.gitlab-ci.common.yml'
+
+
 build-portal-frontend-test-runner:
   stage: prepare
   extends: .kaniko
@@ -34,7 +47,8 @@ build-portal-frontend-test-runner-ui:
 build-portal-frontend:
   stage: build
   needs:
-    - job: i18n
+    - pipeline: $$PARENT_PIPELINE_ID
+      job: i18n
       artifacts: true
   extends: .kaniko
   variables:

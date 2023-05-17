@@ -1,3 +1,16 @@
+stages:
+  - prepare
+  - lint
+  - build
+  - test
+  - package
+  - publish
+
+
+include:
+  local: '.gitlab-ci.common.yml'
+
+
 build-portal-server-test-runner:
   stage: prepare
   extends: .kaniko

@@ -1,3 +1,16 @@
+stages:
+  - prepare
+  - lint
+  - build
+  - test
+  - package
+  - publish
+
+
+include:
+  local: '.gitlab-ci.common.yml'
+
+
 build-notifications-api-test-runner:
   stage: prepare
   extends:
@@ -21,17 +34,6 @@ build-notifications-api:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
 
 
-push-image-souvap-notifications-api-job:
-  stage: publish
-  needs:
-    - job: build-notifications-api
-  extends:
-    - .push-image-souvap
-  variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
-    SOUVAP_IMAGE_NAME: "notifications-api"
-
-
 test-notifications-api:
   stage: test
   needs:
@@ -46,3 +48,14 @@ test-notifications-api:
       coverage_report:
         coverage_format: cobertura
         path: notifications-api/coverage.xml
+
+
+push-image-souvap-notifications-api-job:
+  stage: publish
+  needs:
+    - job: build-notifications-api
+  extends:
+    - .push-image-souvap
+  variables:
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
+    SOUVAP_IMAGE_NAME: "notifications-api"
