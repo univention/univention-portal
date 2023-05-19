@@ -3,7 +3,7 @@ include:
     file: kaniko.yml
   - project: univention/customers/dataport/upx/common-ci
     file:
-      - defaults/souvap-workflow.yaml
+      # - defaults/souvap-workflow.yaml
       - templates/souvap.yaml
       - jobs/lint-pre-commit.yaml
       - jobs/package-and-publish-helm-charts.yaml

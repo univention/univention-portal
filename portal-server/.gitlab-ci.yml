@@ -16,6 +16,7 @@ build-portal-server-test-runner:
   extends: .kaniko
   needs: []
   variables:
+    KANIKO_BUILD_CONTEXT: "portal-server"
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
     KANIKO_ARGS: "--target=test"
@@ -26,6 +27,7 @@ build-portal-server:
   extends: .kaniko
   needs: []
   variables:
+    KANIKO_BUILD_CONTEXT: "portal-server"
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
   after_script:

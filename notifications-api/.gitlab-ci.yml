@@ -11,6 +11,10 @@ include:
   local: '.gitlab-ci.common.yml'
 
 
+variables:
+  KANIKO_BUILD_CONTEXT: "notifications-api"
+
+
 build-notifications-api-test-runner:
   stage: prepare
   extends:
@@ -18,7 +22,6 @@ build-notifications-api-test-runner:
   needs: []
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
-    KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
     KANIKO_ARGS: "--target=test"
 
@@ -30,7 +33,6 @@ build-notifications-api:
   needs: []
   variables:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
-    KANIKO_BUILD_CONTEXT: "notifications-api"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
 
 
