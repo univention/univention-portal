@@ -25,6 +25,7 @@ build-notifications-api-test-runner:
     - echo $KANIKO_BUILD_CONTEXT
     - echo $CI_PROJECT_DIR
     - echo $KANIKO_ARGS
+    - echo $IMAGE_TAG
 
 
 build-notifications-api:
@@ -36,6 +37,11 @@ build-notifications-api:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
     KANIKO_BUILD_CONTEXT: "notifications-api"
+  script:
+    - echo $KANIKO_BUILD_CONTEXT
+    - echo $CI_PROJECT_DIR
+    - echo $KANIKO_ARGS
+    - echo $IMAGE_TAG
 
 
 test-notifications-api:
