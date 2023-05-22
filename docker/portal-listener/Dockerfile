@@ -43,5 +43,5 @@ COPY ./docker/portal-server/docker-entrypoint.sh /
 # from ./python
 COPY ./listener/*.py /usr/lib/univention-directory-listener/system/
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh", "/listener-base-entrypoint.sh"]
 CMD ["/command.sh"]
