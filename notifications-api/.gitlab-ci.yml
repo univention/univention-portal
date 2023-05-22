@@ -19,6 +19,9 @@ build-notifications-api-test-runner:
   stage: prepare
   script:
     - echo "build-notifications-api-test-runner running"
+  rules:
+    - exists:
+      - Dockerfile
   # extends:
   #   - .kaniko
   # needs: []
