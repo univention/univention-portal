@@ -40,9 +40,9 @@ trigger-notifications-api:
   trigger:
     include:
       - local: 'notifications-api/.gitlab-ci.yml'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: ['notifications-api/**/*']
+  # rules:
+  #   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  #     changes: ['notifications-api/**/*']
 
 
 # trigger-frontend:
