@@ -28,34 +28,25 @@ build-notifications-api-test-runner:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
     KANIKO_ARGS: "--target=test"
     KANIKO_BUILD_CONTEXT: "notifications-api"
-  before_script:
-    # derived from the .kaniko_pre to define the IMAGE_TAG and IMAGE_VERSION
-    - |-
-      if [ "${CI_COMMIT_REF_NAME:-}" = "${CI_DEFAULT_BRANCH:-}" ]; then
-        VERSION="latest"
-      elif [ -n "${CI_COMMIT_TAG:-}" ]; then
-        NOSLASH=$(echo "${CI_COMMIT_TAG:-}" | tr -s / -)
-        SANITIZED="${NOSLASH//[^a-zA-Z0-9\-\.]/}"
-        VERSION="$SANITIZED"
-      else
-        NOSLASH=$(echo "${CI_COMMIT_REF_NAME:-}" | tr -s / -)
-        SANITIZED="${NOSLASH//[^a-zA-Z0-9\-]/}"
-        VERSION="branch-$SANITIZED"
-      fi
-      if [ ! -z "${IMAGE_TAG:-}" ]; then
-        IMAGE_TAG="${CI_REGISTRY_IMAGE:-}:$VERSION"
-      fi
-    - echo "IMAGE_TAG=$IMAGE_TAG" | tee -a ./.env
-    - echo "IMAGE_VERSION=$VERSION" | tee -a ./.env
-  script:
-    - echo $KANIKO_BUILD_CONTEXT
-    - echo $CI_PROJECT_DIR
-    - echo $KANIKO_ARGS
-    - echo $IMAGE_TAG
-    - echo $CI_COMMIT_REF_NAME
-    - echo $CI_COMMIT_TAG
-    - echo $CI_DEFAULT_BRANCH
-    - echo $CI_REGISTRY_IMAGE
+  # before_script:
+  #   # derived from the .kaniko_pre to define the IMAGE_TAG and IMAGE_VERSION
+  #   - |-
+  #     if [ "${CI_COMMIT_REF_NAME:-}" = "${CI_DEFAULT_BRANCH:-}" ]; then
+  #       VERSION="latest"
+  #     elif [ -n "${CI_COMMIT_TAG:-}" ]; then
+  #       NOSLASH=$(echo "${CI_COMMIT_TAG:-}" | tr -s / -)
+  #       SANITIZED="${NOSLASH//[^a-zA-Z0-9\-\.]/}"
+  #       VERSION="$SANITIZED"
+  #     else
+  #       NOSLASH=$(echo "${CI_COMMIT_REF_NAME:-}" | tr -s / -)
+  #       SANITIZED="${NOSLASH//[^a-zA-Z0-9\-]/}"
+  #       VERSION="branch-$SANITIZED"
+  #     fi
+  #     if [ ! -z "${IMAGE_TAG:-}" ]; then
+  #       IMAGE_TAG="${CI_REGISTRY_IMAGE:-}:$VERSION"
+  #     fi
+  #   - echo "IMAGE_TAG=$IMAGE_TAG" | tee -a ./.env
+  #   - echo "IMAGE_VERSION=$VERSION" | tee -a ./.env
 
 
 build-notifications-api:
@@ -67,11 +58,6 @@ build-notifications-api:
     DOCKERFILE_PATH: "notifications-api/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
     KANIKO_BUILD_CONTEXT: "notifications-api"
-  script:
-    - echo $KANIKO_BUILD_CONTEXT
-    - echo $CI_PROJECT_DIR
-    - echo $KANIKO_ARGS
-    - echo $IMAGE_TAG
 
 
 test-notifications-api:
