@@ -1,8 +1,6 @@
 include:
   - project: univention/dist/docker-services
     file: kaniko.yml
-    variables:
-      CI_PROJECT_DIR: $CI_PROJECT_DIR
   - project: univention/customers/dataport/upx/common-ci
     file:
       # - defaults/souvap-workflow.yaml
