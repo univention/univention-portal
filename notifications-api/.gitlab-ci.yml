@@ -10,9 +10,9 @@ workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
 
-# include:
-#   - project: univention/dist/docker-services
-#     file: kaniko.yml
+include:
+  - project: univention/dist/docker-services
+    file: kaniko.yml
 #   - project: univention/customers/dataport/upx/common-ci
 #     file:
 #       - templates/souvap.yaml
@@ -20,21 +20,19 @@ workflow:
 
 build-notifications-api-test-runner:
   stage: prepare
+  extends:
+    - .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "notifications-api/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
+    KANIKO_ARGS: "--target=test"
+    KANIKO_BUILD_CONTEXT: "notifications-api"
   script:
-    - echo "build-notifications-api-test-runner running"
-  # extends:
-  #   - .kaniko
-  # needs: []
-  # variables:
-  #   DOCKERFILE_PATH: "notifications-api/Dockerfile"
-  #   CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
-  #   KANIKO_ARGS: "--target=test"
-  #   KANIKO_BUILD_CONTEXT: "notifications-api"
-  # script:
-  #   - echo $KANIKO_BUILD_CONTEXT
-  #   - echo $CI_PROJECT_DIR
-  #   - echo $KANIKO_ARGS
-  #   - echo $IMAGE_TAG
+    - echo $KANIKO_BUILD_CONTEXT
+    - echo $CI_PROJECT_DIR
+    - echo $KANIKO_ARGS
+    - echo $IMAGE_TAG
 
 
 build-notifications-api:
