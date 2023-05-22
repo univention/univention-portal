@@ -1,6 +1,6 @@
 # Univention Portal - Developer Information
 
-## Hello!
+## Hola!
 
 ## Overview
 
