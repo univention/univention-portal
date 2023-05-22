@@ -7,12 +7,12 @@ stages:
   - publish
 
 
-include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
-  - project: univention/customers/dataport/upx/common-ci
-    file:
-      - templates/souvap.yaml
+# include:
+#   - project: univention/dist/docker-services
+#     file: kaniko.yml
+#   - project: univention/customers/dataport/upx/common-ci
+#     file:
+#       - templates/souvap.yaml
 
 
 build-notifications-api-test-runner:
