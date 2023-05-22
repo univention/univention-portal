@@ -33,6 +33,10 @@ build-notifications-api-test-runner:
     - echo $CI_PROJECT_DIR
     - echo $KANIKO_ARGS
     - echo $IMAGE_TAG
+    - echo $CI_COMMIT_REF_NAME
+    - echo $CI_COMMIT_TAG
+    - echo $CI_DEFAULT_BRANCH
+    - echo $CI_REGISTRY_IMAGE
 
 
 build-notifications-api:
