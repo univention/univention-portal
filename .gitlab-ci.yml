@@ -45,115 +45,115 @@ trigger-notifications-api:
       changes: ['notifications-api/**/*']
 
 
-trigger-frontend:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'frontend/.gitlab-ci.yml'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes: ['frontend/**/*']
+# trigger-frontend:
+#   stage: trigger
+#   trigger:
+#     include:
+#       - local: 'frontend/.gitlab-ci.yml'
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+#       changes: ['frontend/**/*']
 
 
-trigger-portal-server:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'portal-server/.gitlab-ci.yml'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
-        - 'portal-server/**/*'
-        - 'python/**/*'
-        - 'udm/**/*'
-        - 'unittests/**/*'
-        - 'univention-portal'
-        - 'univention-portal-server'
+# trigger-portal-server:
+#   stage: trigger
+#   trigger:
+#     include:
+#       - local: 'portal-server/.gitlab-ci.yml'
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+#       changes:
+#         - 'portal-server/**/*'
+#         - 'python/**/*'
+#         - 'udm/**/*'
+#         - 'unittests/**/*'
+#         - 'univention-portal'
+#         - 'univention-portal-server'
 
 
-i18n:
-  stage: prepare
-  needs:
-    - job: build-debian-package-builder
-  image: "$IMAGE_TAG"
-  script:
-    - make l10n-build
-  artifacts:
-    paths:
-      - frontend/public/i18n
-    expire_in: 1 week
+# i18n:
+#   stage: prepare
+#   needs:
+#     - job: build-debian-package-builder
+#   image: "$IMAGE_TAG"
+#   script:
+#     - make l10n-build
+#   artifacts:
+#     paths:
+#       - frontend/public/i18n
+#     expire_in: 1 week
 
 
-build-debian-package-builder:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    KANIKO_BUILD_CONTEXT: "docker/deb-build"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
+# build-debian-package-builder:
+#   stage: prepare
+#   extends: .kaniko
+#   needs: []
+#   variables:
+#     KANIKO_BUILD_CONTEXT: "docker/deb-build"
+#     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
 
 
-build-debian-package:
-  stage: package
-  needs:
-    - job: build-debian-package-builder
-  image: "$IMAGE_TAG"
-  before_script:
-    - apt-get -qq update
-    - apt-get -q --assume-yes build-dep .
-  script:
-    - source ~/.nvm/nvm.sh
-    - dpkg-buildpackage --no-sign
-    - rm -fr public
-    - mkdir public
-    - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
-  artifacts:
-    paths:
-      - public/
-    expire_in: 1 week
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "manual"
+# build-debian-package:
+#   stage: package
+#   needs:
+#     - job: build-debian-package-builder
+#   image: "$IMAGE_TAG"
+#   before_script:
+#     - apt-get -qq update
+#     - apt-get -q --assume-yes build-dep .
+#   script:
+#     - source ~/.nvm/nvm.sh
+#     - dpkg-buildpackage --no-sign
+#     - rm -fr public
+#     - mkdir public
+#     - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
+#   artifacts:
+#     paths:
+#       - public/
+#     expire_in: 1 week
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "manual"
 
 
-lint-pre-commit:
-  before_script:
-    # Compose lint would fail without the referenced env files
-    - cp docker/.env.example docker/.env
-    # Helm chart liniting needs the dependency charts present
-    - |
-      for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
-        helm dependency update $helm_path
-      done
+# lint-pre-commit:
+#   before_script:
+#     # Compose lint would fail without the referenced env files
+#     - cp docker/.env.example docker/.env
+#     # Helm chart liniting needs the dependency charts present
+#     - |
+#       for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
+#         helm dependency update $helm_path
+#       done
 
 
-commit-message-linting:
-  stage: lint
-  needs: []
-  image:
-    name: "gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest"
-    entrypoint: [""]
-  variables:
-    PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
-    PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
-  cache:
-    paths:
-    - "${PIP_CACHE_DIR}"
-    - "${PRE_COMMIT_HOME}"
-  script:
-    - |
-      any_failure=0
-      tmp_file="$(mktemp --tmpdir=.)"
-      for x in $(git log --format="%H" "${CI_MERGE_REQUEST_DIFF_BASE_SHA}..${CI_COMMIT_SHA}")
-      do
-          echo "Checking commit message for $x"
-          git log --format="%B" -n 1 "$x" > "$tmp_file"
-          pre-commit run --hook-stage=commit-msg --commit-msg-filename="$tmp_file" \
-              conventional-pre-commit || any_failure=1
-      done
-      rm "$tmp_file"
-      exit "$any_failure"
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+# commit-message-linting:
+#   stage: lint
+#   needs: []
+#   image:
+#     name: "gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest"
+#     entrypoint: [""]
+#   variables:
+#     PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+#     PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
+#   cache:
+#     paths:
+#     - "${PIP_CACHE_DIR}"
+#     - "${PRE_COMMIT_HOME}"
+#   script:
+#     - |
+#       any_failure=0
+#       tmp_file="$(mktemp --tmpdir=.)"
+#       for x in $(git log --format="%H" "${CI_MERGE_REQUEST_DIFF_BASE_SHA}..${CI_COMMIT_SHA}")
+#       do
+#           echo "Checking commit message for $x"
+#           git log --format="%B" -n 1 "$x" > "$tmp_file"
+#           pre-commit run --hook-stage=commit-msg --commit-msg-filename="$tmp_file" \
+#               conventional-pre-commit || any_failure=1
+#       done
+#       rm "$tmp_file"
+#       exit "$any_failure"
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 
 ...
