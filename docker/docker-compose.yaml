@@ -73,6 +73,9 @@ services:
       - cert_pem
       - ldap_secret
       - machine_secret
+      # univention-group-membership-cache does not allow to configure a different path
+      - source: machine_secret
+        target: /etc/machine.secret
     volumes:
       - listener-data:/var/lib/univention-directory-listener/:rw
 
