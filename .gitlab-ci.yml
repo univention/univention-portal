@@ -11,7 +11,9 @@ variables:
 
 
 include:
-  local: '.gitlab-ci.common.yml'
+  - project: univention/customers/dataport/upx/common-ci
+    file:
+      - defaults/souvap-workflow.yaml
 
 
 stages:
