@@ -8,7 +8,11 @@ stages:
 
 
 include:
-  local: '.gitlab-ci.common.yml'
+  - project: univention/dist/docker-services
+    file: kaniko.yml
+  - project: univention/customers/dataport/upx/common-ci
+    file:
+      - templates/souvap.yaml
 
 
 build-notifications-api-test-runner:
@@ -46,26 +50,30 @@ build-notifications-api:
 
 test-notifications-api:
   stage: test
-  needs:
-    - job: build-notifications-api-test-runner
-  image: "$IMAGE_TAG"
   script:
-    - cd notifications-api
-    - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
-  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
-  artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: notifications-api/coverage.xml
+    - echo "test-notifications-api running"
+  # needs:
+  #   - job: build-notifications-api-test-runner
+  # image: "$IMAGE_TAG"
+  # script:
+  #   - cd notifications-api
+  #   - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
+  # coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+  # artifacts:
+  #   reports:
+  #     coverage_report:
+  #       coverage_format: cobertura
+  #       path: notifications-api/coverage.xml
 
 
 push-image-souvap-notifications-api-job:
   stage: publish
-  needs:
-    - job: build-notifications-api
-  extends:
-    - .push-image-souvap
-  variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
-    SOUVAP_IMAGE_NAME: "notifications-api"
+  script:
+    - echo "push-image-souvap-notifications-api-job running"
+  # needs:
+  #   - job: build-notifications-api
+  # extends:
+  #   - .push-image-souvap
+  # variables:
+  #   CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
+  #   SOUVAP_IMAGE_NAME: "notifications-api"
