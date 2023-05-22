@@ -11,8 +11,8 @@ include:
   local: '.gitlab-ci.common.yml'
 
 
-# variables:
-#   KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+variables:
+  KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/notifications-api"
 
 
 build-notifications-api-test-runner:
@@ -27,6 +27,7 @@ build-notifications-api-test-runner:
   script:
     - echo $KANIKO_BUILD_CONTEXT
     - echo $CI_PROJECT_DIR
+    - echo $KANIKO_ARGS
 
 
 build-notifications-api:
