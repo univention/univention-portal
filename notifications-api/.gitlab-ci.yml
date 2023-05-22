@@ -6,10 +6,13 @@ stages:
   - package
   - publish
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
 
-include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
+# include:
+#   - project: univention/dist/docker-services
+#     file: kaniko.yml
 #   - project: univention/customers/dataport/upx/common-ci
 #     file:
 #       - templates/souvap.yaml
@@ -19,8 +22,8 @@ build-notifications-api-test-runner:
   stage: prepare
   script:
     - echo "build-notifications-api-test-runner running"
-  extends:
-    - .kaniko
+  # extends:
+  #   - .kaniko
   # needs: []
   # variables:
   #   DOCKERFILE_PATH: "notifications-api/Dockerfile"
