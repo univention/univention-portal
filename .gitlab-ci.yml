@@ -10,8 +10,8 @@ variables:
   SOUVAP_REGISTRY_REPO: ${SOUVAP_REGISTRY_HOST}/${SOUVAP_REGISTRY_PATH}
 
 
-include:
-  local: '.gitlab-ci.common.yml'
+# include:
+#   local: '.gitlab-ci.common.yml'
 
 
 workflow:
