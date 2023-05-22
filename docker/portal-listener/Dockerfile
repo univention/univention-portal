@@ -38,10 +38,12 @@ COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/por
 # TODO: Check if we want to keep this
 # TODO: Must be consistent with the codebase from ./python
 COPY ./docker/portal-server/docker-entrypoint.sh /
+COPY ./docker/portal-listener/portal-listener-entrypoint.sh /
+COPY ./docker/portal-listener/initialize.sh /
 
 # TODO: The listeners must be consistent with the codebase
 # from ./python
 COPY ./listener/*.py /usr/lib/univention-directory-listener/system/
 
-ENTRYPOINT ["/docker-entrypoint.sh", "/listener-base-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh", "/listener-base-entrypoint.sh", "/portal-listener-entrypoint.sh"]
 CMD ["/command.sh"]
