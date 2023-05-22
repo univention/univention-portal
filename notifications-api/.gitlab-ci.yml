@@ -9,6 +9,8 @@ stages:
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+      changes: ['notifications-api/*']
+
 
 include:
   - project: univention/dist/docker-services
