@@ -135,4 +135,10 @@ trigger-debian-package:
         - 'frontend/**/*'
 
 
+package-helm-charts:
+  needs:
+    - trigger-frontend
+    - trigger-notifications-api
+    - trigger-portal-server
+
 ...
