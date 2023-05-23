@@ -72,19 +72,20 @@ class CacheHTTP(metaclass=Plugin):
 
         try:
             response = requests.get(self._ucs_internal_url, headers=headers, auth=self._auth)
-
-            if response.status_code == requests.codes.not_modified:
-                get_logger('cache').info('Not modified %s', self._ucs_internal_url)
-                return
-            elif response.status_code == requests.codes.unauthorized:
-                get_logger('cache').exception('Cannot fetch %s. Wrong `auth_secret` given!', self._ucs_internal_url)
-                return
-
-            self._cache = response.json()
-            self._etag = response.headers.get('ETag')
-            get_logger('cache').info('Loaded from %s, ETag: %s', self._ucs_internal_url, self._etag)
         except Exception:
             get_logger('cache').exception('Error loading %s', self._ucs_internal_url)
+            return
+
+        if response.status_code == requests.codes.not_modified:
+            get_logger('cache').info('Not modified %s', self._ucs_internal_url)
+            return
+        elif response.status_code == requests.codes.unauthorized:
+            get_logger('cache').exception('Cannot fetch %s. Wrong `auth_secret` given!', self._ucs_internal_url)
+            return
+
+        self._cache = response.json()
+        self._etag = response.headers.get('ETag')
+        get_logger('cache').info('Loaded from %s, ETag: %s', self._ucs_internal_url, self._etag)
 
     def get(self):
         return self._cache
