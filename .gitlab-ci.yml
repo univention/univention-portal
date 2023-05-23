@@ -19,74 +19,13 @@ include:
 
 
 stages:
-  - trigger
+  - lint
   - prepare
   - build
   - test
+  - trigger
   - package
   - publish
-  - lint
-
-
-trigger-notifications-api:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'notifications-api/.gitlab-ci.yml'
-  rules:
-    - changes:
-      - 'notifications-api/**/*'
-      - 'tests/**/*'
-
-
-trigger-frontend:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'frontend/.gitlab-ci.yml'
-  rules:
-    - changes: 
-      - 'frontend/**/*'
-      - 'tests/**/*'
-
-
-trigger-portal-server:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'portal-server/.gitlab-ci.yml'
-  rules:
-    - changes:
-        - 'portal-server/**/*'
-        - 'python/**/*'
-        - 'udm/**/*'
-        - 'unittests/**/*'
-        - 'univention-portal'
-        - 'univention-portal-server'
-        - 'docker/portal-server/**/*'
-        - 'tests/**/*'
-
-
-# build-debian-package:
-#   stage: package
-#   needs:
-#     - job: build-debian-package-builder
-#   image: "$IMAGE_TAG"
-#   before_script:
-#     - apt-get -qq update
-#     - apt-get -q --assume-yes build-dep .
-#   script:
-#     - source ~/.nvm/nvm.sh
-#     - dpkg-buildpackage --no-sign
-#     - rm -fr public
-#     - mkdir public
-#     - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
-#   artifacts:
-#     paths:
-#       - public/
-#     expire_in: 1 week
-#   rules:
-#     - if: $CI_PIPELINE_SOURCE == "manual"
 
 
 lint-pre-commit:
@@ -111,8 +50,8 @@ commit-message-linting:
     PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
   cache:
     paths:
-    - "${PIP_CACHE_DIR}"
-    - "${PRE_COMMIT_HOME}"
+      - "${PIP_CACHE_DIR}"
+      - "${PRE_COMMIT_HOME}"
   script:
     - |
       any_failure=0
@@ -128,6 +67,68 @@ commit-message-linting:
       exit "$any_failure"
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+
+trigger-notifications-api:
+  stage: trigger
+  trigger:
+    include:
+      - local: 'notifications-api/.gitlab-ci.yml'
+  rules:
+    - changes:
+        - 'notifications-api/**/*'
+        - 'tests/**/*'
+
+
+trigger-frontend:
+  stage: trigger
+  trigger:
+    include:
+      - local: 'frontend/.gitlab-ci.yml'
+  rules:
+    - changes:
+        - 'frontend/**/*'
+        - 'tests/**/*'
+
+
+trigger-portal-server:
+  stage: trigger
+  trigger:
+    include:
+      - local: 'portal-server/.gitlab-ci.yml'
+  rules:
+    # TODO: Is everything covered here?
+    - changes:
+        - 'portal-server/**/*'
+        - 'python/**/*'
+        - 'udm/**/*'
+        - 'unittests/**/*'
+        - 'univention-portal'
+        - 'univention-portal-server'
+        - 'setup.py'
+        - 'docker/portal-server/**/*'
+        - 'tests/**/*'
+
+
+# TODO: check if we can get rid of this already? Announcements?
+trigger-debian-package:
+  stage: trigger
+  trigger:
+    include:
+      - local: '.gitlab-ci.debian.yml'
+  rules:
+    - changes:
+        - 'portal-server/**/*'
+        - 'python/**/*'
+        - 'udm/**/*'
+        - 'unittests/**/*'
+        - 'univention-portal'
+        - 'univention-portal-server'
+        - 'setup.py'
+        - 'docker/portal-server/**/*'
+        - 'tests/**/*'
+        - 'debian/**/*'
+        - 'frontend/**/*'
 
 
 ...
