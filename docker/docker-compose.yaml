@@ -144,6 +144,9 @@ services:
         source: ../python
         target: /staging/python
       - type: bind
+        source: ../listener
+        target: /staging/listener
+      - type: bind
         source: ../unittests
         target: /staging/unittests
 
