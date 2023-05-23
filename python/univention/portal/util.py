@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+import os
 from datetime import MAXYEAR, MINYEAR, datetime
 from urllib.parse import urlsplit, urlunsplit
 
@@ -107,3 +108,11 @@ def log_url_safe(url):
         url = urlunsplit((
             parts.scheme, new_netloc, parts.path, parts.query, parts.fragment))
     return url
+
+
+def get_portal_update_call(reason):
+    call_args = ['/usr/sbin/univention-portal']
+    if os.environ.get("PORTAL_LISTENER_LOG_STREAM") == "true":
+        call_args.append("--log-stream")
+    call_args.extend(['update', '--reason', reason])
+    return call_args

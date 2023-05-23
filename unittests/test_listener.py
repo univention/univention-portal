@@ -1,9 +1,6 @@
 import importlib.util
 import os
 import os.path
-from unittest import mock
-
-import pytest
 
 
 LISTENER_PATH = "./listener"
@@ -17,27 +14,26 @@ def load_listener(name):
     return module
 
 
-def test_portal_listener_default_call():
+def test_portal_listener_uses_get_portal_call_update(mocker):
+    # Avoid that unsetuid screws up the user during the test run
+    mocker.patch("listener.__listener_uid", new=0)
+    mocker.patch("subprocess.call")
+    get_portal_update_call_mock = mocker.patch("univention.portal.util.get_portal_update_call")
     listener = load_listener("portal_server.py")
-    expected_call_args = [
-        "/usr/sbin/univention-portal",
-        "update",
-        "--reason",
-        "stub_reason",
-    ]
-    assert listener._get_portal_call("stub_reason") == expected_call_args
+
+    listener.handler(dn="stub_dn", new={}, old={})
+
+    get_portal_update_call_mock.assert_called()
 
 
-def test_portal_listener_sets_log_stream_based_on_environment():
-    listener = load_listener("portal_server.py")
-    with mock.patch.dict(os.environ, {"PORTAL_LISTENER_LOG_STREAM": "true"}):
-        call_args = listener._get_portal_call("stub_reason")
+def test_groups_listener_default_call(mocker):
+    mocker.patch("subprocess.call")
+    get_portal_update_call_mock = mocker.patch("univention.portal.util.get_portal_update_call")
+    listener = load_listener("portal_groups.py")
+    stub_config = listener.PortalGroups._get_configuration("stub_name")
+    mocker.patch.object(listener.PortalGroups, "config", new=stub_config)
 
-    expected_call_args = [
-        "/usr/sbin/univention-portal",
-        "--log-stream",
-        "update",
-        "--reason",
-        "stub_reason",
-    ]
-    assert call_args == expected_call_args
+    instance = listener.PortalGroups()
+    instance.post_run()
+
+    get_portal_update_call_mock.assert_called()
