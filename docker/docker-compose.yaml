@@ -124,7 +124,13 @@ services:
   reverse-proxy:
     build:
       context: ./reverse-proxy
-    env_file: .env
+    environment:
+      NOTIFICATIONS_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8096"
+      PORTAL_FRONTEND_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8080"
+      PORTAL_ICONS_URL: "http://store-dav/portal-assets/icons/"
+      PORTAL_SERVER_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8095"
+      PROXY_PORT: "${PROXY_PORT}"
+      UCS_BASE_URL: "${UCS_BASE_URL}"
     ports:
       - "${PROXY_PORT}:80"
 
