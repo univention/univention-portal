@@ -65,7 +65,8 @@ class CacheHTTP(metaclass=Plugin):
     def _load(self):
         get_logger('cache').info(f'loading data from {self._ucs_internal_url}')
 
-        headers = {}
+        # TODO: Append version to header, like "portal-server/VERSION"
+        headers = {"user-agent": "portal-server"}
         if self._etag:
             headers['If-None-Match'] = self._etag
 

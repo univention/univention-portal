@@ -33,6 +33,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+from unittest import mock
+
 import pytest
 import requests
 
@@ -58,6 +60,17 @@ GROUPS_DATA = {
 @pytest.mark.parametrize("class_name", ["CacheHTTP", "PortalFileCacheHTTP", "GroupFileCacheHTTP"])
 def test_import(class_name, dynamic_class):
     assert dynamic_class(class_name)
+
+
+def test_cache_http_sets_user_agent_header(mocker):
+    from univention.portal.extensions.cache_http import CacheHTTP
+
+    get_mock = mocker.patch("requests.get")
+    cache_http = CacheHTTP(UCS_INTERNAL_URL)
+    cache_http._load()
+
+    expected_headers = {"user-agent": "portal-server"}
+    get_mock.assert_called_once_with(mock.ANY, headers=expected_headers, auth=mock.ANY)
 
 
 def test_portal_file_cache_http(requests_mock, dynamic_class):
