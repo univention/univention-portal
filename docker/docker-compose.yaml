@@ -14,6 +14,7 @@ x-portal-environment: &portal-environment
   PORTAL_SERVER_UMC_SESSION_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/internal/umc/get/session-info"
   # This must be the same secret as the `ucs_auth_secret` variable in ansible/hosts.yaml
   PORTAL_SERVER_AUTH_SECRET: "univention"
+  PORTAL_LISTENER_LOG_STREAM: "true"
 
 # Cannot be in the services section currently.
 # See https://github.com/docker/compose/issues/8809
