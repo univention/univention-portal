@@ -71,7 +71,7 @@ jq -n \
   --arg groups_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}groups" \
   --arg hostdn "${LDAP_HOST_DN:-}" \
   --arg ldap_base "${LDAP_BASE_DN:-}" \
-  --arg ldap_uri "ldap://${LDAP_HOST:-}:${LDAP_PORT}" \
+  --arg ldap_uri "ldap://${LDAP_HOST:-}:${LDAP_PORT-}" \
   --arg port "${PORTAL_SERVER_PORT}" \
   --arg portal_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}portal" \
   --arg ucs_internal_url "${PORTAL_SERVER_UCS_INTERNAL_URL}" \
