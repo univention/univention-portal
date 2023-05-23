@@ -72,6 +72,7 @@ commit-message-linting:
 trigger-notifications-api:
   stage: trigger
   trigger:
+    strategy: depend
     include:
       - local: 'notifications-api/.gitlab-ci.yml'
   rules:
@@ -83,6 +84,7 @@ trigger-notifications-api:
 trigger-frontend:
   stage: trigger
   trigger:
+    strategy: depend
     include:
       - local: 'frontend/.gitlab-ci.yml'
   rules:
@@ -94,6 +96,7 @@ trigger-frontend:
 trigger-portal-server:
   stage: trigger
   trigger:
+    strategy: depend
     include:
       - local: 'portal-server/.gitlab-ci.yml'
   rules:
@@ -114,6 +117,7 @@ trigger-portal-server:
 trigger-debian-package:
   stage: trigger
   trigger:
+    strategy: depend
     include:
       - local: '.gitlab-ci.debian.yml'
   rules:
