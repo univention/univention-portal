@@ -56,6 +56,13 @@ RUN pip3 install --no-cache-dir .
 
 FROM build-base AS test
 WORKDIR /staging/
+
+# hadolint ignore=DL3008
+RUN apt-get -qq update \
+    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+      univention-directory-listener \
+    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+
 COPY ./requirements-test.txt .
 RUN pip3 install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
