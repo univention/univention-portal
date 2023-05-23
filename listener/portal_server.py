@@ -33,11 +33,11 @@
 
 from __future__ import absolute_import, annotations
 
-import os
 import subprocess
 from typing import Dict, List
 
 import univention.debug as ud
+from univention.portal.util import get_portal_update_call
 
 import listener
 
@@ -61,18 +61,10 @@ def handler(dn: str, new: Dict[str, List[bytes]], old: Dict[str, List[bytes]]) -
         reason = f'ldap:{module}:{dn}'
         ud.debug(ud.LISTENER, ud.PROCESS, "Updating portal. Reason: %s" % reason)
         subprocess.call(
-            _get_portal_call(reason),
+            get_portal_update_call(reason),
             # TODO: Find out why pipe is required here. Without it I can see
             # the output of the subprocess in the listener logs.
             # stdout=subprocess.PIPE
         )
     finally:
         listener.unsetuid()
-
-
-def _get_portal_call(reason):
-    call_args = ['/usr/sbin/univention-portal']
-    if os.environ.get("PORTAL_LISTENER_LOG_STREAM") == "true":
-        call_args.append("--log-stream")
-    call_args.extend(['update', '--reason', reason])
-    return call_args
