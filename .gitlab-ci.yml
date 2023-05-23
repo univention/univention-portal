@@ -79,6 +79,7 @@ pre-commit-linting:
   script:
     # Compose lint would fail without the referenced env files
     - cp docker/.env.example docker/.env
+    - cp docker/.env.listener.example docker/.env.listener
     # Helm chart liniting needs the dependency charts present
     - |
       for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
