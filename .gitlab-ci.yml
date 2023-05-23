@@ -50,74 +50,13 @@ include:
 
 
 stages:
-  - trigger
+  - lint
   - prepare
   - build
   - test
+  - trigger
   - package
   - publish
-  - lint
-
-
-trigger-notifications-api:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'notifications-api/.gitlab-ci.yml'
-  rules:
-    - changes:
-      - 'notifications-api/**/*'
-      - 'tests/**/*'
-
-
-trigger-frontend:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'frontend/.gitlab-ci.yml'
-  rules:
-    - changes: 
-      - 'frontend/**/*'
-      - 'tests/**/*'
-
-
-trigger-portal-server:
-  stage: trigger
-  trigger:
-    include:
-      - local: 'portal-server/.gitlab-ci.yml'
-  rules:
-    - changes:
-        - 'portal-server/**/*'
-        - 'python/**/*'
-        - 'udm/**/*'
-        - 'unittests/**/*'
-        - 'univention-portal'
-        - 'univention-portal-server'
-        - 'docker/portal-server/**/*'
-        - 'tests/**/*'
-
-
-# build-debian-package:
-#   stage: package
-#   needs:
-#     - job: build-debian-package-builder
-#   image: "$IMAGE_TAG"
-#   before_script:
-#     - apt-get -qq update
-#     - apt-get -q --assume-yes build-dep .
-#   script:
-#     - source ~/.nvm/nvm.sh
-#     - dpkg-buildpackage --no-sign
-#     - rm -fr public
-#     - mkdir public
-#     - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
-#   artifacts:
-#     paths:
-#       - public/
-#     expire_in: 1 week
-#   rules:
-#     - if: $CI_PIPELINE_SOURCE == "manual"
 
 
 # Linting related checks and builds

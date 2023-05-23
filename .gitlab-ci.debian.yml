@@ -1,0 +1,42 @@
+stages:
+  - package
+
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+
+include:
+  - project: univention/customers/dataport/upx/common-ci
+    file:
+      - templates/souvap.yaml
+
+
+build-debian-package-builder-1:
+  stage: prepare
+  extends: .kaniko
+  needs: []
+  variables:
+    KANIKO_BUILD_CONTEXT: "docker/deb-build"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
+
+
+build-debian-package:
+  stage: package
+  needs:
+    - job: build-debian-package-builder-1
+  image: "$IMAGE_TAG"
+  before_script:
+    - apt-get -qq update
+    - apt-get -q --assume-yes build-dep .
+  script:
+    - source ~/.nvm/nvm.sh
+    - dpkg-buildpackage --no-sign
+    - rm -fr public
+    - mkdir public
+    - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
+  artifacts:
+    paths:
+      - public/
+    expire_in: 1 week
