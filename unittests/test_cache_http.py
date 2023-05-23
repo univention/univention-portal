@@ -39,7 +39,7 @@ import pytest
 import requests
 
 
-UCS_INTERNAL_URL = 'http://localhost/univention/internal'
+UCS_INTERNAL_URL = 'http://ucshost.test/univention/internal'
 ETAG = '1234'
 PORTAL_DATA_KEYS = '''
 portal
