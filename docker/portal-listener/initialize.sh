@@ -5,4 +5,4 @@ set -euxo pipefail
 /usr/share/univention-group-membership-cache/univention-ldap-cache rebuild
 
 # Ensure that groups and portal data including assets are in the store
-univention-portal update --reason force
+univention-portal --log-stream update --reason force
