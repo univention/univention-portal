@@ -115,6 +115,17 @@ def test_http_reloader_uses_content_fetcher(http_reloader, mocker):
     http_reloader._create_content_fetcher().fetch.assert_called_once()
 
 
+def test_http_reloader_adds_user_agent_header(http_reloader, mocker):
+    result_mock = mock.Mock()
+    result_mock.status_code = 201
+    put_mock = mocker.patch("requests.put", return_value=result_mock)
+    stub_content = (b"stub_content", [])
+
+    http_reloader._write_content(stub_content, stub_url)
+    expected_headers = {"user-agent": "portal-listener"}
+    put_mock.assert_called_once_with(url=mock.ANY, data=mock.ANY, headers=expected_headers)
+
+
 def test_http_reloader_puts_content_to_url(http_reloader, mocker):
     result_mock = mock.Mock()
     result_mock.status_code = 201
@@ -123,7 +134,7 @@ def test_http_reloader_puts_content_to_url(http_reloader, mocker):
     http_reloader._generate_content = mock.Mock(return_value=stub_content)
 
     result = http_reloader.refresh(reason="force")
-    put_mock.assert_called_once_with(url=stub_url, data=b"stub_content")
+    put_mock.assert_called_once_with(url=stub_url, data=b"stub_content", headers=mock.ANY)
     assert result
 
 
@@ -139,7 +150,8 @@ def test_http_reloader_puts_assets_first(http_reloader, mocker):
     http_reloader.refresh(reason="force")
 
     expected_url = f"{stub_assets_root}stub_path/stub_directory/stub_asset.stub_ext"
-    assert put_mock.call_args_list[0] == mock.call(url=expected_url, data=b"stub_asset_content")
+    assert put_mock.call_args_list[0] == mock.call(
+        url=expected_url, data=b"stub_asset_content", headers=mock.ANY)
 
 
 @pytest.mark.parametrize("asset_path", [

@@ -100,7 +100,9 @@ class HttpReloader(reloader.Reloader):
 
     def _write_content(self, content, url):
         logger.debug("PUT asset to URL: %s", log_url_safe(url))
-        result = requests.put(url=url, data=content)
+        # TODO: Append version information, "portal-listener/VERSION"
+        headers = {"user-agent": "portal-listener"}
+        result = requests.put(url=url, data=content, headers=headers)
         if result.status_code >= requests.codes.bad:
             logger.error("Upload of the image did fail: %s, %s", result.status_code, result.text)
             return False
