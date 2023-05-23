@@ -60,11 +60,6 @@ def handler(dn: str, new: Dict[str, List[bytes]], old: Dict[str, List[bytes]]) -
             module = 'unknown'
         reason = f'ldap:{module}:{dn}'
         ud.debug(ud.LISTENER, ud.PROCESS, "Updating portal. Reason: %s" % reason)
-        subprocess.call(
-            get_portal_update_call(reason),
-            # TODO: Find out why pipe is required here. Without it I can see
-            # the output of the subprocess in the listener logs.
-            # stdout=subprocess.PIPE
-        )
+        subprocess.call(get_portal_update_call(reason))
     finally:
         listener.unsetuid()
