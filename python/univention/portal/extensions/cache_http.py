@@ -80,7 +80,7 @@ class CacheHTTP(metaclass=Plugin):
             get_logger('cache').info('Not modified %s', self._ucs_internal_url)
             return
         elif response.status_code == requests.codes.unauthorized:
-            get_logger('cache').exception('Cannot fetch %s. Wrong `auth_secret` given!', self._ucs_internal_url)
+            get_logger('cache').error('Cannot fetch %s. Wrong `auth_secret` given!', self._ucs_internal_url)
             return
 
         self._cache = response.json()
