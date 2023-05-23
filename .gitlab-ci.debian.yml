@@ -1,4 +1,5 @@
 stages:
+  - prepare
   - package
 
 
@@ -8,11 +9,14 @@ workflow:
 
 
 include:
+  - project: univention/dist/docker-services
+    file: kaniko.yml
   - project: univention/customers/dataport/upx/common-ci
     file:
       - templates/souvap.yaml
 
-
+# TODO: for keeping it simple, this is a duplicate to the one in the frontend pipeline
+#       but since the debian build is to go away eventually, this is probably acceptable
 build-debian-package-builder-1:
   stage: prepare
   extends: .kaniko
