@@ -64,6 +64,22 @@ services:
       portal-listener-init:
         condition: service_completed_successfully
 
+  store-dav:
+    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-store-dav/store-dav:latest
+    ports:
+      - "8081:80"
+    secrets:
+      - source: store_dav_htpasswd
+        target: /etc/nginx/conf/htpasswd
+    volumes:
+      - type: volume
+        source: store-dav-data
+        target: /data
+    networks:
+      default:
+        aliases:
+          - store-dav
+
   # The notifications API of the Portal. The context directory contains more
   # details.
   notifications-api:
@@ -201,7 +217,11 @@ secrets:
     file: secret/ldap.secret
   machine_secret:
     file: secret/machine.secret
+  store_dav_htpasswd:
+    file: secret/store-dav-htpasswd
+
 volumes:
   listener-data:
-  pre-commit-cache:
   postgresql-data:
+  pre-commit-cache:
+  store-dav-data:
