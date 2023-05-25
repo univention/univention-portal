@@ -50,7 +50,8 @@ it can be integrated into a development environment, see the folder
 ```shell
 ansible-playbook -i ansible/hosts.yaml \
     ansible/ucs-umc-open-for-portal-server.yaml \
-    ansible/ucs-expose-portal-json-files.yaml
+    ansible/ucs-expose-portal-json-files.yaml \
+    ansible/fetch-secrets-from-ucs-machine.yaml
 ```
 
 ### Preparation of Keycloak for development
