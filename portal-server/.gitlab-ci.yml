@@ -13,10 +13,9 @@ workflow:
 
 
 include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
   - project: univention/customers/dataport/upx/common-ci
     file:
+      - templates/kaniko.yaml
       - templates/souvap.yaml
 
 
@@ -44,10 +43,13 @@ build-portal-server:
 build-portal-listener:
   stage: build
   extends: .kaniko
-  needs: []
+  needs:
+    - build-portal-server
   variables:
     DOCKERFILE_PATH: "docker/portal-listener/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-listener"
+    KANIKO_ARGS: >-
+      --build-arg PORTAL_BASE_IMAGE_TAG=$BUILD_VERSION
 
 
 push-image-souvap-portal-server-job:
@@ -64,7 +66,7 @@ test-portal-server:
   stage: test
   needs:
     - job: build-portal-server-test-runner
-  image: "$IMAGE_TAG"
+  image: "$BUILD_IMAGE_TAG"
   variables:
     PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
   script:

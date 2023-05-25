@@ -13,10 +13,9 @@ workflow:
 
 
 include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
   - project: univention/customers/dataport/upx/common-ci
     file:
+      - templates/kaniko.yaml
       - templates/souvap.yaml
 
 
@@ -33,7 +32,7 @@ i18n:
   stage: prepare
   needs:
     - job: build-debian-package-builder
-  image: "$IMAGE_TAG"
+  image: "$BUILD_IMAGE_TAG"
   script:
     - make l10n-build
   artifacts:
@@ -49,15 +48,14 @@ build-portal-frontend-test-runner:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
-    # We cache the Docker layers in the registry to reduce build time of future runs of this job
-    KANIKO_ARGS: "--target=base --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache --compressed-caching=false --snapshotMode=redo"
+    KANIKO_ARGS: "--target=base"
 
 
 lint-portal-frontend:
   stage: test
   needs:
     - job: build-portal-frontend-test-runner
-  image: "$IMAGE_TAG"
+  image: "$BUILD_IMAGE_TAG"
   script:
     - yarn --cwd=/app lint
 
@@ -69,7 +67,7 @@ build-portal-frontend-test-runner-ui:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
-    KANIKO_ARGS: "--skip-unused-stages=true --target=test --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache  --compressed-caching=false --snapshotMode=redo"
+    KANIKO_ARGS: "--target=test"
   # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -84,7 +82,6 @@ build-portal-frontend:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-    KANIKO_ARGS: "--skip-unused-stages=true --cache=true --cache-repo=$CI_REGISTRY_IMAGE-cache --compressed-caching=false --snapshotMode=redo"
   after_script:
     - docker images --all
 
@@ -103,7 +100,7 @@ test-portal-frontend-unit:
   stage: test
   needs:
     - job: build-portal-frontend-test-runner
-  image: "$IMAGE_TAG"
+  image: "$BUILD_IMAGE_TAG"
   script:
     - yarn --cwd=/app test:unit
 
@@ -112,7 +109,7 @@ test-portal-frontend-ui:
   stage: test
   needs:
     - job: build-portal-frontend-test-runner-ui
-  image: "$IMAGE_TAG"
+  image: "$BUILD_IMAGE_TAG"
   artifacts:
     when: always
     paths:
