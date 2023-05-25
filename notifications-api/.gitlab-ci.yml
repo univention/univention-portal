@@ -13,10 +13,9 @@ workflow:
 
 
 include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
   - project: univention/customers/dataport/upx/common-ci
     file:
+      - templates/kaniko.yaml
       - templates/souvap.yaml
 
 
@@ -47,7 +46,7 @@ test-notifications-api:
   stage: test
   needs:
     - job: build-notifications-api-test-runner
-  image: "$IMAGE_TAG"
+  image: "$BUILD_IMAGE_TAG"
   script:
     - cd notifications-api
     - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml

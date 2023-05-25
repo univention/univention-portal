@@ -1,12 +1,14 @@
 ARG LISTENER_BASE_IMAGE_TAG=latest
-ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base
+ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base:${LISTENER_BASE_IMAGE_TAG}
 
 ARG PORTAL_BASE_IMAGE_TAG=latest
-ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/univention-portal/portal-server
+ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/univention-portal/portal-server:${PORTAL_BASE_IMAGE_TAG}
 
-FROM ${PORTAL_BASE_IMAGE}:${PORTAL_BASE_IMAGE_TAG} as portal-server-image
+# hadolint ignore=DL3006
+FROM ${PORTAL_BASE_IMAGE} as portal-server-image
 
-FROM ${LISTENER_BASE_IMAGE}:${LISTENER_BASE_IMAGE_TAG}
+# hadolint ignore=DL3006
+FROM ${LISTENER_BASE_IMAGE}
 
 # TODO: Duplicated from the portal-server
 RUN apt-get update \

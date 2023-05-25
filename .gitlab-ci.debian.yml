@@ -9,10 +9,9 @@ workflow:
 
 
 include:
-  - project: univention/dist/docker-services
-    file: kaniko.yml
   - project: univention/customers/dataport/upx/common-ci
     file:
+      - templates/kaniko.yaml
       - templates/souvap.yaml
 
 # TODO: for keeping it simple, this is a duplicate to the one in the frontend pipeline
@@ -30,7 +29,7 @@ build-debian-package:
   stage: package
   needs:
     - job: build-debian-package-builder-1
-  image: "$IMAGE_TAG"
+  image: "$BUILD_IMAGE_TAG"
   before_script:
     - apt-get -qq update
     - apt-get -q --assume-yes build-dep .
