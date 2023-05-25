@@ -1,4 +1,4 @@
-FROM docker-registry.knut.univention.de/phahn/ucs-debbase:502 AS base
+FROM docker-registry.knut.univention.de/phahn/ucs-debbase:503 AS base
 
 #hadolint ignore=DL3008
 RUN apt-get update \
