@@ -86,8 +86,15 @@ RUN apt-get update \
 
 WORKDIR /app/
 
+RUN mkdir -p /var/log/univention/ \
+    && touch /var/log/univention/portal.log \
+    && mkdir -p /usr/share/univention-portal \
+    && mkdir -p /usr/lib/univention-portal/config \
+    && mkdir -p /app/listener
+
 COPY ./univention-portal-server /usr/sbin/univention-portal-server
 COPY ./univention-portal .
+COPY ./listener/*.py /app/listener/
 COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 
 # Considered to be part of the application.
@@ -96,11 +103,6 @@ COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 # components shall be configured in a different way. This is not an intended
 # usage of the container though.
 COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/portals.json
-
-RUN mkdir -p /var/log/univention/ \
-  && touch /var/log/univention/portal.log \
-  && mkdir -p /usr/share/univention-portal \
-  && mkdir -p /usr/lib/univention-portal/config
 
 COPY ./docker/portal-server/docker-entrypoint.sh /
 RUN chmod 540 /docker-entrypoint.sh
