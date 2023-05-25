@@ -33,15 +33,12 @@ RUN mkdir -p /var/log/univention/ \
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
 COPY --from=portal-server-image /docker-entrypoint.sh /
+COPY --from=portal-server-image /app/listener/*.py /usr/lib/univention-directory-listener/system
 
 COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/portals.json
 
 COPY ./docker/portal-listener/portal-listener-entrypoint.sh /
 COPY ./docker/portal-listener/initialize.sh /
-
-# TODO: The listeners must be consistent with the codebase
-# from ./python
-COPY ./listener/*.py /usr/lib/univention-directory-listener/system/
 
 # The entrypoint scripts are chained:
 #
