@@ -1,0 +1,22 @@
+---
+
+apiVersion: "v2"
+type: "application"
+name: "portal-listener"
+description: "A Helm chart for the Univention Portal Listener"
+home: "https://www.univention.de/"
+
+# Chart version
+# Apply Semantic Versioning (https://semver.org/)
+version: "0.1.0"
+
+# Portal Version
+appVersion: "1.16.0"
+
+dependencies:
+  - name: "common"
+    # TODO: Change to repository instead of local files
+    repository: "file://../../../common-helm/helm/common"
+    version: "^0.1.0"
+
+...
