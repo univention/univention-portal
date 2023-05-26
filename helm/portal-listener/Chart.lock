@@ -1,0 +1,6 @@
+dependencies:
+- name: common
+  repository: https://git.knut.univention.de/api/v4/projects/829/packages/helm/stable
+  version: 0.1.0-pre-jbornhold-add-ci-pipeline
+digest: sha256:215a8d31b6f9823a61454fea0254d89c66f5359eb47019d9db7208ebab2a4e93
+generated: "2023-05-31T19:38:23.053323+02:00"
