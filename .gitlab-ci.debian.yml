@@ -31,6 +31,17 @@ build-debian-package:
   needs:
     - job: build-debian-package-builder-1
   image: "$IMAGE_TAG"
+  variables:
+    PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+    YARN_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/yarn"
+  cache:
+    key:
+      files:
+        - requirements.txt
+        - frontend/yarn.lock
+    paths:
+      - "${PIP_CACHE_DIR}"
+      - "${YARN_CACHE_DIR}"
   before_script:
     - apt-get -qq update
     - apt-get -q --assume-yes build-dep .
