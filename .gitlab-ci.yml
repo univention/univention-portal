@@ -71,6 +71,7 @@ commit-message-linting:
 
 trigger-notifications-api:
   stage: trigger
+  needs: []
   trigger:
     strategy: depend
     include:
@@ -83,6 +84,7 @@ trigger-notifications-api:
 
 trigger-frontend:
   stage: trigger
+  needs: []
   trigger:
     strategy: depend
     include:
@@ -95,6 +97,7 @@ trigger-frontend:
 
 trigger-portal-server:
   stage: trigger
+  needs: []
   trigger:
     strategy: depend
     include:
@@ -116,6 +119,7 @@ trigger-portal-server:
 # TODO: check if we can get rid of this already? Announcements?
 trigger-debian-package:
   stage: trigger
+  needs: []
   trigger:
     strategy: depend
     include:
