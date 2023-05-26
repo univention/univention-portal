@@ -15,8 +15,8 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: "common"
-    # TODO: Change to repository instead of local files
-    repository: "file://../../../common-helm/helm/common"
-    version: "^0.1.0"
+    repository: "https://git.knut.univention.de/api/v4/projects/829/packages/helm/stable"
+    # TODO: Change to "^0.1.0" once we have a stable version in the repository
+    version: "^0.1.0-0"
 
 ...
