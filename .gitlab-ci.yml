@@ -90,7 +90,7 @@ trigger-frontend:
     include:
       - local: 'frontend/.gitlab-ci.yml'
   rules:
-    - changes:
+    - changes: &portal-frontend-changes
         - 'frontend/**/*'
         - 'tests/**/*'
 
@@ -103,20 +103,21 @@ trigger-portal-server:
     include:
       - local: 'portal-server/.gitlab-ci.yml'
   rules:
-    # TODO: Is everything covered here?
-    - changes:
+    - changes: &portal-server-changes
+        - 'docker/portal-server/**/*'
+        - 'listener/**/*'
         - 'portal-server/**/*'
         - 'python/**/*'
+        - 'setup.py'
+        - 'tests/**/*'
         - 'udm/**/*'
         - 'unittests/**/*'
         - 'univention-portal'
         - 'univention-portal-server'
-        - 'setup.py'
-        - 'docker/portal-server/**/*'
-        - 'tests/**/*'
 
 
-# TODO: check if we can get rid of this already? Announcements?
+# TODO: Pending removal. This can be removed once the ucs-machine (VMs) are not
+# used anymore. Usage in the dev environment and in the SouvAP deployment.
 trigger-debian-package:
   stage: trigger
   needs: []
@@ -125,18 +126,10 @@ trigger-debian-package:
     include:
       - local: '.gitlab-ci.debian.yml'
   rules:
+    - changes: *portal-server-changes
+    - changes: *portal-frontend-changes
     - changes:
-        - 'portal-server/**/*'
-        - 'python/**/*'
-        - 'udm/**/*'
-        - 'unittests/**/*'
-        - 'univention-portal'
-        - 'univention-portal-server'
-        - 'setup.py'
-        - 'docker/portal-server/**/*'
-        - 'tests/**/*'
         - 'debian/**/*'
-        - 'frontend/**/*'
 
 
 publish-helm-charts:
