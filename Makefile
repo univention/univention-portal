@@ -45,6 +45,10 @@ build:
 helm-docs:
 	helm-docs -c helm
 
+.PHONY: helm-dependencies
+helm-dependencies:
+	find ./helm -depth 2 -name Chart.yaml -execdir helm dependency update ";"
+
 .PHONY: l10n-extract
 l10n-extract:
 	./frontend/process_vue_files.sh
