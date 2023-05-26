@@ -46,7 +46,10 @@ build-debian-package:
     - apt-get -q --assume-yes build-dep .
   script:
     - source ~/.nvm/nvm.sh
+    - mkdir -p "${CI_PROJECT_DIR}/.cache"
+    - ls -la "${CI_PROJECT_DIR}/.cache"
     - dpkg-buildpackage --no-sign
+    - ls -la "${CI_PROJECT_DIR}/.cache"
     - rm -fr public
     - mkdir public
     - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
