@@ -54,6 +54,8 @@ portal_listener:
 
   # -- TODO: Clarify usage of this parameter
   log_level: "WARNING"
+  # -- Path to the file which the machine secret
+  machine_secret_file: "/var/secrets/machine_secret"
   # -- Hostname where the notifier can be reached.
   notifier_server: null
   # -- DN of the default portal

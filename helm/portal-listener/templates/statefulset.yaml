@@ -52,6 +52,24 @@ spec:
               mountPath: /var/lib/univention-directory-listener
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      initContainers:
+        - name: {{ .Chart.Name }}-init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ if .Values.image.registry }}{{ .Values.image.registry }}/{{ end }}{{ .Values.image.repository }}{{ if .Values.image.sha256 }}@sha256:{{ .Values.image.sha256 }}{{ else }}:{{ .Values.image.tag }}{{ end }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: [ "/initialize.sh" ]
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          volumeMounts:
+            - name: secrets
+              # TODO: conflict with /run/secrets, should use a namespace
+              mountPath: /var/secrets
+            - name: data
+              mountPath: /var/lib/univention-directory-listener
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
       - name: secrets
         secret:
