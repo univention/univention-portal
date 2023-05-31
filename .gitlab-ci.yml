@@ -14,6 +14,7 @@ include:
   - project: univention/customers/dataport/upx/common-ci
     file:
       - defaults/souvap-workflow.yaml
+      - jobs/lint-commit-messages.yaml
       - jobs/lint-pre-commit.yaml
       - jobs/package-and-publish-helm-charts.yaml
 
@@ -38,36 +39,6 @@ lint-pre-commit:
       for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
         helm dependency update $helm_path
       done
-
-
-commit-message-linting:
-  stage: lint
-  needs: []
-  image:
-    name: "gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest"
-    entrypoint: [""]
-  variables:
-    PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
-    PRE_COMMIT_HOME: "${CI_PROJECT_DIR}/.cache/pre-commit"
-  cache:
-    paths:
-      - "${PIP_CACHE_DIR}"
-      - "${PRE_COMMIT_HOME}"
-  script:
-    - |
-      any_failure=0
-      tmp_file="$(mktemp --tmpdir=.)"
-      for x in $(git log --format="%H" "${CI_MERGE_REQUEST_DIFF_BASE_SHA}..${CI_COMMIT_SHA}")
-      do
-          echo "Checking commit message for $x"
-          git log --format="%B" -n 1 "$x" > "$tmp_file"
-          pre-commit run --hook-stage=commit-msg --commit-msg-filename="$tmp_file" \
-              conventional-pre-commit || any_failure=1
-      done
-      rm "$tmp_file"
-      exit "$any_failure"
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 
 trigger-notifications-api:
