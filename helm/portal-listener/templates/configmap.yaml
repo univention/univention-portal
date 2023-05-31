@@ -12,6 +12,7 @@ data:
   LDAP_HOST_DN: "{{ .Values.portal_listener.ldap_host_dn }}"
   LDAP_PORT: "{{ .Values.portal_listener.ldap_port }}"
   LOG_LEVEL: "{{ .Values.portal_listener.log_level }}"
+  MACHINE_SECRET_FILE: "{{ .Values.portal_listener.machine_secret_file }}"
   NOTIFIER_SERVER: "{{ .Values.portal_listener.notifier_server }}"
   DEBUG_LEVEL: "{{ .Values.portal_listener.debug_level }}"
   PORTAL_DEFAULT_DN: "{{ .Values.portal_listener.portal_default_dn }}"
