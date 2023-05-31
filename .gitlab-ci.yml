@@ -82,6 +82,8 @@ pre-commit-linting:
     - cp docker/.env.example docker/.env
     - cp docker/.env.listener.example docker/.env.listener
     # Helm chart liniting needs the dependency charts present
+    # 829 is the project ID of common-helm
+    - helm repo add --username gitlab-ci-token --password ${CI_JOB_TOKEN} common-helm ${CI_API_V4_URL}/projects/829/packages/helm/stable
     - |
       for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
         helm dependency update $helm_path
