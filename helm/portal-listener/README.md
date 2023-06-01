@@ -42,7 +42,7 @@ helm uninstall portal-listener
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://git.knut.univention.de/api/v4/projects/829/packages/helm/stable | common | ^0.1.0-0 |
+| https://git.knut.univention.de/api/v4/projects/829/packages/helm/stable | common | ^0.1.0 |
 
 ## Values
 
