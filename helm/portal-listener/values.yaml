@@ -23,7 +23,7 @@ portal_listener:
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
   admin_group: null
   # -- Where to store the assets, e.g. portal entry icons
-  assets_root: "http://portal-server:univention@store-dav/portal-assets/"
+  assets_root: "http://portal-server:univention@portal-listener-store-dav/portal-assets/"
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
   auth_mode: "ucs"
   # -- Path to the CA certificate of the UCS machine.
@@ -68,7 +68,7 @@ portal_listener:
 
   # -- Define UCS internal endpoint.
   # Example: `"https://portal.example.com/univention/internal"`
-  ucs_internal_url: null
+  ucs_internal_url: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
   # -- Define UMC get endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get"`
   umc_get_url: null
@@ -78,6 +78,10 @@ portal_listener:
   # -- Define Basic auth password with the UMC.
   # Example: `"univention"`
   auth_secret: null
+
+
+store-dav:
+  bundled: true
 
 
 ## Docker image

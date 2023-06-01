@@ -1,0 +1,62 @@
+---
+# Deployment-specific values for the `example` environment for portal-server.
+# This is a YAML-formatted file.
+# Include the file with the `--values` parameter
+
+
+## Application-specific
+portal_listener:
+  admin_group: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  environment: "staging"
+  log_level: "DEBUG"
+  assets_root: "http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
+  ucs_internal_url: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
+  umc_get_url: "http://ucs-machine/univention/internal/umc/get"
+  umc_session_url: "http://ucs-machine/univention/internal/umc/get/session-info"
+
+
+store-dav:
+  bundled: true
+
+  image:
+    registry: "gitregistry.knut.univention.de"
+    repository: "univention/customers/dataport/upx/container-store-dav/store-dav"
+    pullPolicy: "IfNotPresent"
+    tag: "latest"
+
+  # image:
+  #   registry: "local"
+  #   repository: "store-dav"
+  #   pullPolicy: "IfNotPresent"
+  #   tag: "latest"
+
+  # Example, password set to "univention"
+  auth_htpasswd: |
+    portal-server:$apr1$yruGWANI$75Soiqs3hEmezu.g/r3VW/
+    portal-listener:$apr1$6kadQ4Ji$hHriD5fpBJyf00SIy.NG41
+
+  ingress:
+    enabled: true
+    host: "localhost"
+
+  istio:
+    enabled: false
+
+
+## Docker image
+# image:
+#   registry: "gitregistry.knut.univention.de"
+#   repository: "univention/components/univention-portal/portal-listener"
+#   pullPolicy: "IfNotPresent"
+#   tag: "latest"
+
+
+## Container deployment probes
+probes:
+  liveness:
+    enabled: false
+
+  readiness:
+    enabled: false
+
+...

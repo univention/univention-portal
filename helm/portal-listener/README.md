@@ -43,6 +43,7 @@ helm uninstall portal-listener
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.1.0 |
+| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/container-store-dav/helm | store-dav | ^0.1.0 |
 
 ## Values
 
@@ -195,7 +196,7 @@ false
 			<td><pre lang="json">
 {
   "admin_group": null,
-  "assets_root": "http://portal-server:univention@store-dav/portal-assets/",
+  "assets_root": "http://portal-server:univention@portal-listener-store-dav/portal-assets/",
   "auth_mode": "ucs",
   "auth_secret": null,
   "ca_cert_file": "/var/secrets/ca_cert",
@@ -214,7 +215,7 @@ false
   "machine_secret_file": "/var/secrets/machine_secret",
   "notifier_server": null,
   "portal_default_dn": null,
-  "ucs_internal_url": null,
+  "ucs_internal_url": "http://portal-listener:univention@portal-listener-store-dav/portal-data/",
   "udm_api_password_secret": "/var/secrets/machine_secret",
   "udm_api_url": null,
   "udm_api_username": null,
@@ -238,7 +239,7 @@ null
 			<td>portal_listener.assets_root</td>
 			<td>string</td>
 			<td><pre lang="json">
-"http://portal-server:univention@store-dav/portal-assets/"
+"http://portal-server:univention@portal-listener-store-dav/portal-assets/"
 </pre>
 </td>
 			<td>Where to store the assets, e.g. portal entry icons</td>
@@ -409,7 +410,7 @@ null
 			<td>portal_listener.ucs_internal_url</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+"http://portal-listener:univention@portal-listener-store-dav/portal-data/"
 </pre>
 </td>
 			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>
@@ -599,6 +600,15 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 ""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>store-dav.bundled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
 </pre>
 </td>
 			<td></td>
