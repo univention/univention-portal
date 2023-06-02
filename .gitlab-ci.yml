@@ -81,12 +81,7 @@ pre-commit-linting:
     # Compose lint would fail without the referenced env files
     - cp docker/.env.example docker/.env
     - cp docker/.env.listener.example docker/.env.listener
-    # Helm chart liniting needs the dependency charts present
-    - helm registry login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - |
-      for helm_path in `find ./helm -mindepth 1 -maxdepth 1 -type d`; do
-        helm dependency update $helm_path
-      done
+    - helm repo add bitnami https://charts.bitnami.com/bitnami
 
 
 commit-message-linting:
