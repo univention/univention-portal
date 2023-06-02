@@ -15,7 +15,7 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: "common"
-    repository: "https://git.knut.univention.de/api/v4/projects/829/packages/helm/stable"
+    repository: "oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm"
     version: "^0.1.0"
 
 ...
