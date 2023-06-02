@@ -74,33 +74,6 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>autoscaling.maxReplicas</td>
-			<td>int</td>
-			<td><pre lang="json">
-100
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>autoscaling.minReplicas</td>
-			<td>int</td>
-			<td><pre lang="json">
-1
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>autoscaling.targetCPUUtilizationPercentage</td>
-			<td>int</td>
-			<td><pre lang="json">
-80
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>environment</td>
 			<td>object</td>
 			<td><pre lang="json">
