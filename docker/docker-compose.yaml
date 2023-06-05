@@ -1,24 +1,26 @@
-version: "3.9"
+---
 
 name: "dev-local"
 
-
-x-portal-environment: &portal-environment
+x-portal-environment:
+  &portal-environment
   PORTAL_SERVER_ADMIN_GROUP: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
   PORTAL_SERVER_ASSETS_ROOT: "http://portal-server:univention@store-dav/portal-assets/"
   PORTAL_SERVER_AUTH_MODE: "ucs"
   PORTAL_SERVER_EDITABLE: "true"
   PORTAL_SERVER_PORT: "80"
   PORTAL_SERVER_UCS_INTERNAL_URL: "http://portal-server:univention@store-dav/portal-data/"
-  PORTAL_SERVER_UMC_GET_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/internal/umc/get"
-  PORTAL_SERVER_UMC_SESSION_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/internal/umc/get/session-info"
+  PORTAL_SERVER_UMC_GET_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/get"
+  PORTAL_SERVER_UMC_SESSION_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/get/session-info"
   # This must be the same secret as the `ucs_auth_secret` variable in ansible/hosts.yaml
-  PORTAL_SERVER_AUTH_SECRET: "univention"
+  # PORTAL_SERVER_AUTH_SECRET: "univention"
+  PORTAL_SERVER_AUTH_SECRET: ""
   PORTAL_LISTENER_LOG_STREAM: "true"
 
 # Cannot be in the services section currently.
 # See https://github.com/docker/compose/issues/8809
-x-portal-listener-base: &portal-listener-base
+x-portal-listener-base:
+  &portal-listener-base
   platform: "linux/amd64"
   build:
     context: ../
@@ -33,7 +35,6 @@ x-portal-listener-base: &portal-listener-base
     - machine_secret
   volumes:
     - listener-data:/var/lib/univention-directory-listener/:rw
-
 
 services:
   # The frontend of the Portal. The context directory contains more details.
@@ -51,6 +52,9 @@ services:
       dockerfile: docker/portal-server/Dockerfile
     ports:
       - "8095:80"
+    depends_on:
+      umc-server:
+        condition: service_started
     environment:
       <<: *portal-environment
 
@@ -80,6 +84,36 @@ services:
         aliases:
           - store-dav
 
+  # The UMC server.
+  umc-server:
+    # image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-server:latest
+    build:
+      context: ../../container-umc/docker/server
+    platform: linux/amd64
+    ports:
+      - 8090:8090
+    volumes:
+      - umc-acls:/var/cache/univention-management-console/acls/
+    env_file: .env.umc-server
+    secrets:
+      - ca_cert
+      - cert_pem
+      - private_key
+      - ldap_secret
+      - machine_secret
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
+  # The UMC gateway.
+  # TODO: Decide if we actually need this.
+  # umc-gateway:
+  #   image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-gateway:latest
+  #   platform: linux/amd64
+  #   ports:
+  #     - 8091:80
+  #   env_file: .env.umc-gateway
+
   # The notifications API of the Portal. The context directory contains more
   # details.
   notifications-api:
@@ -105,8 +139,9 @@ services:
       PORTAL_FRONTEND_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8080"
       PORTAL_ICONS_URL: "http://store-dav/portal-assets/icons/"
       PORTAL_SERVER_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8095"
-      PROXY_PORT: "${PROXY_PORT}"
+      UMC_SERVER_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8090"
       UCS_BASE_URL: "${UCS_BASE_URL}"
+      PROXY_PORT: "${PROXY_PORT}"
     ports:
       - "${PROXY_PORT}:80"
 
@@ -131,17 +166,9 @@ services:
       dockerfile: docker/keycloak/Dockerfile
     ports:
       - 8097:8080
-    environment:
-      KEYCLOAK_ADMIN: "admin"
-      KEYCLOAK_ADMIN_PASSWORD: "univention"
-      PROXY_ADDRESS_FORWARDING: "true"
-      KC_PROXY: "edge"
-      KEYCLOAK_LOGLEVEL: "ALL"
-      ROOT_LOGLEVEL: "ALL"
-      # override the following values in docker-compose.override.yaml
-      LDAP_BASE: "dc=univention,dc=intranet"
-      LDAP_SECRET: "YOUR CONTENT OF /etc/idp-ldap-user.secret"
-      LDAP_SERVER: "ldap://UCS_IP:7389"
+    env_file: .env.keycloak
+    secrets:
+      - idp_ldap_user_secret
 
   # The test runner of the Portal Server.
   test:
@@ -207,12 +234,15 @@ services:
         source: ..
         target: /helm-docs
 
-
 secrets:
   ca_cert:
     file: ssl/certs/CAcert.pem
   cert_pem:
     file: ssl/certs/cert.pem
+  private_key:
+    file: ssl/certs/private.key
+  idp_ldap_user_secret:
+    file: secret/idp-ldap-user.secret
   ldap_secret:
     file: secret/ldap.secret
   machine_secret:
@@ -225,3 +255,7 @@ volumes:
   postgresql-data:
   pre-commit-cache:
   store-dav-data:
+  umc-acls:
+
+
+...

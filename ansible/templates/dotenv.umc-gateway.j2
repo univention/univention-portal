@@ -1,0 +1,9 @@
+{% if local_os == 'Linux' %}
+UDM_URL=http://127.0.0.1:9979
+UMC_SERVER_URL=http://127.0.0.1:8092
+{% else %}
+UDM_URL=http://host.docker.internal:9979
+UMC_SERVER_URL=http://host.docker.internal:8090
+{% endif %}
+DOMAINNAME={{ local_domainname.stdout }}
+HOSTNAME={{ local_hostname.stdout }}

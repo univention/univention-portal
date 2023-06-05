@@ -1,4 +1,4 @@
-DOMAIN_NAME={{ ansible_domain }}
+DOMAIN_NAME={{ local_domainname.stdout }}
 LDAP_PORT=389
 LDAP_HOST={{ ansible_fqdn }}
 LDAP_HOST_DN={{ ldap_hostdn.stdout }}

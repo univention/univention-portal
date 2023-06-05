@@ -1,13 +1,16 @@
 ---
 
-version: "3.9"
-
 services:
-
   keycloak:
-    environment:
-      LDAP_BASE: "dc=univention,dc=intranet"
-      LDAP_SECRET: "YOUR CONTENT OF /etc/idp-ldap-user.secret"
-      LDAP_SERVER: "ldap://YOUR_UCS_IP:7389"
+    extra_hosts:
+      ucs-1234.univention.intranet: "10.200.12.34"
+
+  listener:
+    extra_hosts:
+      ucs-1234.univention.intranet: "10.200.12.34"
+
+  umc-server:
+    extra_hosts:
+      ucs-1234.univention.intranet: "10.200.12.34"
 
 ...

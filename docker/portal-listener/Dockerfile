@@ -34,7 +34,7 @@ RUN mkdir -p /var/log/univention/ \
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
-COPY --from=portal-server-image /docker-entrypoint.sh /
+COPY ./docker/portal-server/docker-entrypoint.sh /docker-entrypoint.sh
 COPY --from=portal-server-image /app/listener/*.py /usr/lib/univention-directory-listener/system
 
 COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/portals.json

@@ -19,8 +19,8 @@ package-lock.json
 /ansible/hosts.yml
 ansible/hosts.yml
 ansible.cfg
-/docker/.env
-/docker/.env.listener
+/docker/.env*
+!/docker/.env.*.example
 /docker/secret/
 /docker/ssl/
 /docker/docker-compose.override.yaml

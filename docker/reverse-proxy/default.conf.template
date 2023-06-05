@@ -11,6 +11,12 @@ server {
   ssl_certificate /etc/nginx/ssl/cert.pem;
   ssl_certificate_key /etc/nginx/ssl/private.key;
 
+  location ~ ^/univention/(auth|saml|get|set|command|upload|logout) {
+    rewrite ^/univention/(.*)$ /$1 break;
+    proxy_pass ${UMC_SERVER_BASE_URL};
+    proxy_redirect ${UMC_SERVER_BASE_URL} http://$host:${PROXY_PORT}/univention/;
+  }
+
   location /univention/portal/portal.json {
     proxy_pass ${PORTAL_SERVER_BASE_URL}/univention/portal/portal.json;
   }

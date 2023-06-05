@@ -285,6 +285,7 @@ class Portal(metaclass=Plugin):
         return touched
 
     def _get_umc_portal(self):
+        # TODO: This is a makeshift measure for as long as the Portal talks to a UMC server inside a VM.
         auth_secret = config.fetch("auth_secret")
         return UMCPortal(self.scorer, self.authenticator, auth_secret=auth_secret)
 
@@ -298,8 +299,10 @@ class UMCPortal(Portal):
         self.authenticator = authenticator
 
         # Set `auth_secret` when the UMC endpoints are secured with Basic auth.
-        # This is a makeshift measure in the SouvAP environment and should be replaced.
-        self._auth = ("portal-server", auth_secret) if auth_secret else None
+        # TODO: This is a makeshift measure for as long as the Portal talks to a UMC server inside a VM.
+        self._auth = None
+        if auth_secret and (len(auth_secret) > 0):
+            self._auth = ("portal-server", auth_secret)
 
     def auth_mode(self, request):
         return "ucs"

@@ -22,6 +22,10 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD [ \
     "/opt/keycloak/bin/kc.sh", \
     "start-dev", \
+    "--health-enabled=true", \
     "--http-enabled=true", \
     "--import-realm" \
 ]
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=15s --retries=3 \
+  CMD curl --fail 'http://localhost:8097/health/live' | jq --exit-status '.status == "UP"'
