@@ -29,8 +29,8 @@ if [[ -z "${PORTAL_SERVER_UMC_SESSION_URL:-}" ]]; then
 fi
 
 if [[ -z "${PORTAL_SERVER_AUTH_SECRET:-}" ]]; then
-  echo "Please set the environmental variable PORTAL_SERVER_AUTH_SECRET"
-  exit 126
+  echo "PORTAL_SERVER_AUTH_SECRET is empty"
+  PORTAL_SERVER_AUTH_SECRET=""
 fi
 
 IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true

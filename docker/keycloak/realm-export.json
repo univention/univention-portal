@@ -686,7 +686,8 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://localhost:8000/univention/saml/"
+        "https://localhost:8000/univention/saml/",
+        "http://localhost:8000/univention/saml/"
       ],
       "webOrigins": [],
       "notBefore": 0,

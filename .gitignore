@@ -1,8 +1,8 @@
 ansible/hosts.y?ml
 ansible/inventory/
 ansible.cfg
-/docker/.env
-/docker/.env.listener
+/docker/.env*
+!/docker/.env.*.example
 /docker/secret/
 /docker/ssl/
 /docker/docker-compose.override.yaml
