@@ -15,6 +15,7 @@ include:
     file:
       - defaults/stages.yaml
       - defaults/souvap-workflow.yaml
+      - templates/souvap.yaml
       - jobs/lint-commit-messages.yaml
       - jobs/lint-pre-commit.yaml
       - jobs/package-and-publish-helm-charts.yaml
@@ -91,8 +92,13 @@ trigger-debian-package:
         - 'debian/**/*'
 
 
+# TODO: Remove once we drop this job from common-ci
 publish-helm-charts:
-  needs: null
-  when: always
+  rules:
+    - when: never
+
+
+publish-helm-charts-souvap:
+  extends: .publish-helm-charts-souvap
 
 ...
