@@ -53,6 +53,7 @@ build-portal-listener:
 
 
 push-image-souvap-portal-server-job:
+  # TODO, drop once common-ci sets the stage by default
   stage: publish
   needs:
     - job: build-portal-server
@@ -60,6 +61,17 @@ push-image-souvap-portal-server-job:
   variables:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
     SOUVAP_IMAGE_NAME: "portal-server"
+
+
+push-image-souvap-portal-listener-job:
+  # TODO, drop once common-ci sets the stage by default
+  stage: publish
+  needs:
+    - job: build-portal-listener
+  extends: .push-image-souvap
+  variables:
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-listener"
+    SOUVAP_IMAGE_NAME: "portal-listener"
 
 
 test-portal-server:
