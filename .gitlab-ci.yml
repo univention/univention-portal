@@ -44,6 +44,7 @@ stages:
 include:
   - project: univention/customers/dataport/upx/common-ci
     file:
+      - defaults/stages.yaml
       - defaults/souvap-workflow.yaml
       - jobs/lint-commit-messages.yaml
       - jobs/lint-pre-commit.yaml
