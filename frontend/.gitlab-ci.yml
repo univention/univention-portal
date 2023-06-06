@@ -85,7 +85,6 @@ build-portal-frontend:
 
 
 push-image-souvap-portal-frontend-job:
-  stage: publish
   needs:
     - job: build-portal-frontend
   extends: .push-image-souvap

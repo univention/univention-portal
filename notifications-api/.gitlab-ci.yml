@@ -59,7 +59,6 @@ test-notifications-api:
 
 
 push-image-souvap-notifications-api-job:
-  stage: publish
   needs:
     - job: build-notifications-api
   extends:
