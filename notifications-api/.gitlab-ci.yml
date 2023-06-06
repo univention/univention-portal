@@ -65,5 +65,4 @@ push-image-souvap-notifications-api-job:
   extends:
     - .push-image-souvap
   variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
     SOUVAP_IMAGE_NAME: "notifications-api"
