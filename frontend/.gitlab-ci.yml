@@ -92,7 +92,6 @@ push-image-souvap-portal-frontend-job:
     - job: build-portal-frontend
   extends: .push-image-souvap
   variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
     SOUVAP_IMAGE_NAME: "portal-frontend"
 
 

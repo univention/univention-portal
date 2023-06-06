@@ -59,7 +59,6 @@ push-image-souvap-portal-server-job:
     - job: build-portal-server
   extends: .push-image-souvap
   variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
     SOUVAP_IMAGE_NAME: "portal-server"
 
 
@@ -70,7 +69,6 @@ push-image-souvap-portal-listener-job:
     - job: build-portal-listener
   extends: .push-image-souvap
   variables:
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-listener"
     SOUVAP_IMAGE_NAME: "portal-listener"
 
 
