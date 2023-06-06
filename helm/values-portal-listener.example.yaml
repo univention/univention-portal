@@ -30,14 +30,17 @@ store-dav:
   #   pullPolicy: "IfNotPresent"
   #   tag: "latest"
 
-  # Example, password set to "univention"
-  auth_htpasswd: |
-    portal-server:$apr1$yruGWANI$75Soiqs3hEmezu.g/r3VW/
-    portal-listener:$apr1$6kadQ4Ji$hHriD5fpBJyf00SIy.NG41
+  store_dav:
+    # Example, password set to "univention"
+    auth_htpasswd: |
+      portal-server:$apr1$yruGWANI$75Soiqs3hEmezu.g/r3VW/
+      portal-listener:$apr1$6kadQ4Ji$hHriD5fpBJyf00SIy.NG41
 
   ingress:
     enabled: true
     host: "localhost"
+    tls:
+      enabled: false
 
   istio:
     enabled: false
