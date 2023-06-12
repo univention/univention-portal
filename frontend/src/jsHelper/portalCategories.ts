@@ -55,6 +55,7 @@ function makeEntry(
   const entry = portalEntries.find((data) => data.dn === entryItem.dn);
   if (entry) {
     // TODO: remove id once the service is offering the right data.
+    console.error('entry: ', entry.name, ' icon: ', entry.icon_url, ' entry: ', entry);
     return {
       id: entryItem.id,
       layoutId: entryItem.id,

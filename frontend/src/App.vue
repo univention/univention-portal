@@ -67,6 +67,7 @@ export default defineComponent({
     },
   },
   async mounted() {
+    console.error('building portal');
     // Set locale and load portal data from backend
     this.$store.dispatch('activateLoadingState');
     const answer = await this.$store.dispatch('loadPortal', {
