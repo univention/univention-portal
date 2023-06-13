@@ -28,11 +28,6 @@ if [[ -z "${PORTAL_SERVER_UMC_SESSION_URL:-}" ]]; then
   exit 126
 fi
 
-if [[ -z "${PORTAL_SERVER_AUTH_SECRET:-}" ]]; then
-  echo "PORTAL_SERVER_AUTH_SECRET is empty"
-  PORTAL_SERVER_AUTH_SECRET=""
-fi
-
 IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
 {
   "admin_groups": [
@@ -40,7 +35,6 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   ],
   "assets_root": $assets_root,
   "auth_mode": $auth_mode,
-  "auth_secret": $auth_secret,
   "default_domain_dn": $default_domain_dn,
   "editable": $editable,
   "groups_cache_url": $groups_cache_url,
@@ -65,7 +59,6 @@ jq -n \
   --arg admin_group "${PORTAL_SERVER_ADMIN_GROUP}" \
   --arg assets_root "${PORTAL_SERVER_ASSETS_ROOT:-/usr/share/univention-portal}" \
   --arg auth_mode "${PORTAL_SERVER_AUTH_MODE}" \
-  --arg auth_secret "${PORTAL_SERVER_AUTH_SECRET}" \
   --arg default_domain_dn "${PORTAL_DEFAULT_DN:-}" \
   --argjson editable "${PORTAL_SERVER_EDITABLE}" \
   --arg groups_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}groups" \

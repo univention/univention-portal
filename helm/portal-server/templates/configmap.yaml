@@ -14,6 +14,5 @@ data:
   PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portalserver.ucs_internal_url\" is required." .Values.portalserver.ucs_internal_url | quote }}
   PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalserver.umc_get_url\" is required." .Values.portalserver.umc_get_url | quote }}
   PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalserver.umc_session_url\" is required." .Values.portalserver.umc_session_url | quote }}
-  PORTAL_SERVER_AUTH_SECRET: {{ required "The parameter \"portalserver.auth_secret\" is required." .Values.portalserver.auth_secret | quote }}
 
 ...

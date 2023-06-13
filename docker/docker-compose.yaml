@@ -12,9 +12,6 @@ x-portal-environment:
   PORTAL_SERVER_UCS_INTERNAL_URL: "http://portal-server:univention@store-dav/portal-data/"
   PORTAL_SERVER_UMC_GET_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/get"
   PORTAL_SERVER_UMC_SESSION_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/get/session-info"
-  # This must be the same secret as the `ucs_auth_secret` variable in ansible/hosts.yaml
-  # PORTAL_SERVER_AUTH_SECRET: "univention"
-  PORTAL_SERVER_AUTH_SECRET: ""
   PORTAL_LISTENER_LOG_STREAM: "true"
 
 # Cannot be in the services section currently.
