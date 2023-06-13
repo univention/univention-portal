@@ -83,9 +83,7 @@ services:
 
   # The UMC server.
   umc-server:
-    # image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-server:latest
-    build:
-      context: ../../container-umc/docker/server
+    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-server:latest
     platform: linux/amd64
     ports:
       - 8090:8090
@@ -102,14 +100,13 @@ services:
       keycloak:
         condition: service_healthy
 
-  # The UMC gateway.
-  # TODO: Decide if we actually need this.
-  # umc-gateway:
-  #   image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-gateway:latest
-  #   platform: linux/amd64
-  #   ports:
-  #     - 8091:80
-  #   env_file: .env.umc-gateway
+  # The UMC "gateway", keeper of the UMC's static assets.
+  umc-gateway:
+    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-gateway:latest
+    platform: linux/amd64
+    ports:
+      - 8091:80
+    env_file: .env.umc-gateway
 
   # The notifications API of the Portal. The context directory contains more
   # details.
@@ -137,6 +134,7 @@ services:
       PORTAL_ICONS_URL: "http://store-dav/portal-assets/icons/"
       PORTAL_SERVER_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8095"
       UMC_SERVER_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8090"
+      UMC_GATEWAY_BASE_URL: "http://umc-portal"
       UCS_BASE_URL: "${UCS_BASE_URL}"
       PROXY_PORT: "${PROXY_PORT}"
     ports:

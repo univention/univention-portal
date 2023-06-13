@@ -70,7 +70,7 @@ def test_cache_http_sets_user_agent_header(mocker):
     cache_http._load()
 
     expected_headers = {"user-agent": "portal-server"}
-    get_mock.assert_called_once_with(mock.ANY, headers=expected_headers, auth=mock.ANY)
+    get_mock.assert_called_once_with(mock.ANY, headers=expected_headers)
 
 
 def test_portal_file_cache_http(requests_mock, dynamic_class):
