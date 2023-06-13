@@ -367,7 +367,6 @@ true
 {
   "admin_group": null,
   "auth_mode": "ucs",
-  "auth_secret": null,
   "editable": "true",
   "environment": "production",
   "log_level": "WARNING",
@@ -397,15 +396,6 @@ null
 </pre>
 </td>
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
-		</tr>
-		<tr>
-			<td>portalserver.auth_secret</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>Define Basic auth password with the UMC. Example: `"univention"`</td>
 		</tr>
 		<tr>
 			<td>portalserver.editable</td>
