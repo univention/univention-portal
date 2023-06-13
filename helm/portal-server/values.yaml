@@ -15,7 +15,6 @@ replicaCount: 1
 securityContext: {}
 tolerations: []
 
-
 # -- Application configuration of the Portal Server
 portalserver:
   # -- Define LDAP Admin Group.
@@ -39,10 +38,6 @@ portalserver:
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umc_session_url: null
-  # -- Define Basic auth password with the UMC.
-  # Example: `"univention"`
-  auth_secret: null
-
 
 ## Kubernetes ingress
 ingress:
@@ -58,7 +53,6 @@ ingress:
   tls:
     enabled: true
     secretName: ""
-
 
 ## Istio support
 istio:
@@ -84,7 +78,6 @@ istio:
       httpsRedirect: true
       secretName: ""
 
-
 ## Docker image
 image:
   registry: "registry.souvap-univention.de"
@@ -94,7 +87,6 @@ image:
 
   ## Define image sha256 as an alternative to `tag`
   # sha256:
-
 
 ## Container deployment probes
 probes:
@@ -113,7 +105,6 @@ probes:
     periodSeconds: 15
     failureThreshold: 30
     successThreshold: 1
-
 
 ## Deployment resources
 resources:
@@ -137,5 +128,3 @@ service:
   sessionAffinity:
     enabled: false
     timeoutSeconds: 10800
-
-...

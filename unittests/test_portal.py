@@ -488,9 +488,3 @@ class TestPortal:
         assert visible_announcement_2 in result_announcements
         assert invisible_announcement not in result_announcements
         assert len(result_announcements) == 2
-
-
-def test_get_umc_portal_passes_auth_secret(standard_portal, mock_portal_config):
-    mock_portal_config({"auth_secret": "testpassword"})
-    umc_portal = standard_portal._get_umc_portal()
-    assert umc_portal._auth == ("portal-server", "testpassword")

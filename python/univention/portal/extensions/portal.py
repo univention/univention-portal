@@ -285,24 +285,16 @@ class Portal(metaclass=Plugin):
         return touched
 
     def _get_umc_portal(self):
-        # TODO: This is a makeshift measure for as long as the Portal talks to a UMC server inside a VM.
-        auth_secret = config.fetch("auth_secret")
-        return UMCPortal(self.scorer, self.authenticator, auth_secret=auth_secret)
+        return UMCPortal(self.scorer, self.authenticator)
 
     def score(self, request):
         return self.scorer.score(request)
 
 
 class UMCPortal(Portal):
-    def __init__(self, scorer, authenticator, auth_secret=None):
+    def __init__(self, scorer, authenticator):
         self.scorer = scorer
         self.authenticator = authenticator
-
-        # Set `auth_secret` when the UMC endpoints are secured with Basic auth.
-        # TODO: This is a makeshift measure for as long as the Portal talks to a UMC server inside a VM.
-        self._auth = None
-        if auth_secret and (len(auth_secret) > 0):
-            self._auth = ("portal-server", auth_secret)
 
     def auth_mode(self, request):
         return "ucs"
@@ -317,7 +309,7 @@ class UMCPortal(Portal):
         uri = urljoin(umc_get_url, get_path)
         body = {"options": {}}
         try:
-            response = requests.post(uri, json=body, headers=headers, auth=self._auth)
+            response = requests.post(uri, json=body, headers=headers)
         except requests.exceptions.RequestException as exc:
             get_logger("umc").warning("Exception while getting %s: %s", get_path, exc)
             return []

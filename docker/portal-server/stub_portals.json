@@ -15,20 +15,12 @@
                             "ucs_internal_url": {
                                 "key": "ucs_internal_url",
                                 "type": "config"
-                            },
-                            "auth_secret": {
-                                "key": "auth_secret",
-                                "type": "config"
                             }
                         },
                         "type": "class"
                     },
                     "umc_session_url": {
                         "key": "umc_session_url",
-                        "type": "config"
-                    },
-                    "auth_secret": {
-                        "key": "auth_secret",
                         "type": "config"
                     }
                 },
@@ -39,10 +31,6 @@
                 "kwargs": {
                     "ucs_internal_url": {
                         "key": "ucs_internal_url",
-                        "type": "config"
-                    },
-                    "auth_secret": {
-                        "key": "auth_secret",
                         "type": "config"
                     }
                 },
