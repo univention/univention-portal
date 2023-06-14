@@ -88,7 +88,7 @@ store-dav:
 image:
   registry: "registry.souvap-univention.de"
   repository: "souvap/tooling/images/univention-portal/portal-server"
-  imagePullPolicy: "Always"
+  pullPolicy: "Always"
   tag: "latest"
 
   ## Define image sha256 as an alternative to `tag`
