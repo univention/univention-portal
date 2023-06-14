@@ -65,7 +65,7 @@ class PortalContentFetcher:
             portal_data = portal_module.get(self._portal_dn)
 
         except udm_client.ConnectionError:
-            get_logger("cache").warning("Could not establish UDM connection. Is the LDAP server accessible?")
+            get_logger("cache").exception("Could not establish UDM connection. Is the LDAP server accessible?")
             return None
 
         except udm_client.NotFound:
