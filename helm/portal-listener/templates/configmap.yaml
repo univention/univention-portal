@@ -25,7 +25,6 @@ data:
   PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portal_listener.ucs_internal_url\" is required." .Values.portal_listener.ucs_internal_url | quote }}
   PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portal_listener.umc_get_url\" is required." .Values.portal_listener.umc_get_url | quote }}
   PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portal_listener.umc_session_url\" is required." .Values.portal_listener.umc_session_url | quote }}
-  PORTAL_SERVER_AUTH_SECRET: {{ required "The parameter \"portal_listener.auth_secret\" is required." .Values.portal_listener.auth_secret | quote }}
   PORTAL_UDM_API_URL: "{{ .Values.portal_listener.udm_api_url }}"
   PORTAL_UDM_API_USERNAME: "{{ .Values.portal_listener.udm_api_username }}"
   PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portal_listener.udm_api_password_secret }}"

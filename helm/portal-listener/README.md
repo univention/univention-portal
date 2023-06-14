@@ -171,7 +171,6 @@ false
   "admin_group": null,
   "assets_root": "http://portal-server:univention@portal-listener-store-dav/portal-assets/",
   "auth_mode": "ucs",
-  "auth_secret": null,
   "ca_cert_file": "/var/secrets/ca_cert",
   "cert_pem_file": "/var/secrets/cert_pem",
   "debug_level": "5",
@@ -225,15 +224,6 @@ null
 </pre>
 </td>
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
-		</tr>
-		<tr>
-			<td>portal_listener.auth_secret</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>Define Basic auth password with the UMC. Example: `"univention"`</td>
 		</tr>
 		<tr>
 			<td>portal_listener.ca_cert_file</td>
