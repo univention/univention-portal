@@ -1,8 +1,7 @@
 import pytest
-
-from pages.portal.home_page.logged_in import HomePageLoggedIn
-from pages.portal.home_page.logged_out import HomePageLoggedOut
-from pages.portal.login_page import LoginPage
+from playwright_pages_ucs_portal.home_page.logged_in import HomePageLoggedIn
+from playwright_pages_ucs_portal.home_page.logged_out import HomePageLoggedOut
+from playwright_pages_ucs_portal.login_page import LoginPage
 
 
 def test_login(navigate_to_login_page, username, password):
@@ -22,7 +21,7 @@ def test_logout(navigate_to_login_page, username, password):
     login_page.login(username, password)
     home_page_logged_in = HomePageLoggedIn(page)
 
-    home_page_logged_in.reveal_right_side_menu()
+    home_page_logged_in.reveal_area(home_page_logged_in.right_side_menu, home_page_logged_in.header.hamburger_icon)
     home_page_logged_in.right_side_menu.click_logout_button()
 
     home_page_logged_out = HomePageLoggedOut(page)
@@ -47,7 +46,7 @@ def test_saml_logout(navigate_to_saml_login_page, username, password):
     home_page_logged_in = HomePageLoggedIn(page)
     home_page_logged_in.assert_logged_in()
 
-    home_page_logged_in.reveal_right_side_menu()
+    home_page_logged_in.reveal_area(home_page_logged_in.right_side_menu, home_page_logged_in.header.hamburger_icon)
     home_page_logged_in.right_side_menu.click_logout_button()
 
     home_page_logged_out = HomePageLoggedOut(page)

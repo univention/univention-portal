@@ -1,8 +1,7 @@
 import pytest
-
-from pages.portal.home_page.logged_in import HomePageLoggedIn
-from pages.portal.home_page.logged_out import HomePageLoggedOut
-from pages.portal.login_page import LoginPage
+from playwright_pages_ucs_portal.home_page.logged_in import HomePageLoggedIn
+from playwright_pages_ucs_portal.home_page.logged_out import HomePageLoggedOut
+from playwright_pages_ucs_portal.login_page import LoginPage
 
 
 def pytest_addoption(parser):
