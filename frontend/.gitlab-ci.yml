@@ -82,8 +82,6 @@ build-portal-frontend:
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-  after_script:
-    - docker images --all
 
 
 push-image-souvap-portal-frontend-job:

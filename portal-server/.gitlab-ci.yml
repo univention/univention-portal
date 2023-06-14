@@ -36,8 +36,6 @@ build-portal-server:
   variables:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
-  after_script:
-    - docker images --all
 
 
 build-portal-listener:
