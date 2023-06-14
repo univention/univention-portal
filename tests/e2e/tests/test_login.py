@@ -1,6 +1,6 @@
-from pages.base import expect
-from pages.portal.home_page.logged_in import HomePageLoggedIn
-from pages.portal.login_page import LoginPage
+from playwright_pages_base import expect
+from playwright_pages_ucs_portal.home_page.logged_in import HomePageLoggedIn
+from playwright_pages_ucs_portal.login_page import LoginPage
 
 
 def test_login(navigate_to_login_page, username, password):

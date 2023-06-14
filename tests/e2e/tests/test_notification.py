@@ -6,11 +6,10 @@ from urllib.parse import urljoin
 
 import pytest
 import requests
+from playwright_pages_base import expect
+from playwright_pages_ucs_portal.home_page.logged_in import HomePageLoggedIn
+from playwright_pages_ucs_portal.home_page.logged_out import HomePageLoggedOut
 from url_normalize import url_normalize
-
-from pages.base import expect
-from pages.portal.home_page.logged_in import HomePageLoggedIn
-from pages.portal.home_page.logged_out import HomePageLoggedOut
 
 
 @pytest.fixture()
@@ -18,7 +17,7 @@ def login_and_clear_old_notifications(navigate_to_home_page_logged_in, username,
     page = navigate_to_home_page_logged_in
     home_page_logged_in = HomePageLoggedIn(page)
     home_page_logged_in.navigate(username, password)
-    home_page_logged_in.check_its_there()
+    home_page_logged_in.is_displayed()
     home_page_logged_in.remove_all_notifications()
     yield page
     home_page_logged_in = HomePageLoggedIn(page)
@@ -117,7 +116,7 @@ def logout_after_clearing_old_notifications(login_and_clear_old_notifications):
     page = login_and_clear_old_notifications
     home_page_logged_out = HomePageLoggedOut(page)
     home_page_logged_out.navigate()
-    home_page_logged_out.check_its_there()
+    home_page_logged_out.is_displayed()
     return page
 
 
@@ -140,7 +139,7 @@ def test_notification_expiry_time(logout_after_clearing_old_notifications,
     time.sleep(wait + 1)  # +1 for safety
     home_page_logged_in = HomePageLoggedIn(page)
     home_page_logged_in.navigate(username, password)
-    home_page_logged_in.check_its_there()
+    home_page_logged_in.is_displayed()
     expect(home_page_logged_in.popup_notification_container).to_be_hidden()
     home_page_logged_in.reveal_notification_drawer()
     expect(home_page_logged_in.notification_drawer.no_notifications_heading).to_be_visible()
