@@ -75,9 +75,6 @@ portal_listener:
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umc_session_url: null
-  # -- Define Basic auth password with the UMC.
-  # Example: `"univention"`
-  auth_secret: null
 
 
 store-dav:
