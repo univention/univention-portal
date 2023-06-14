@@ -1,0 +1,75 @@
+stages:
+  - prepare
+  - test
+
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+
+
+.prepare_ssh: &prepare_ssh
+  # https://docs.gitlab.com/ee/ci/ssh_keys/
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - chmod 400 "$SSH_PRIVATE_KEY_E2E_TESTS"
+  - ssh-add "$SSH_PRIVATE_KEY_E2E_TESTS"  # Key must have a newline at end
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  # https://docs.gitlab.com/ee/ci/ssh_keys/#verifying-the-ssh-host-keys
+  - cp "$SSH_KNOWN_HOSTS_E2E_TESTS" ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
+
+restore-vm-snapshot:
+  stage: prepare
+  before_script:
+    - *prepare_ssh
+  script:
+    # The --running flag ensures a running state irrespective of the snapshot state
+    - ssh dchakravorty@tross.knut.univention.de "virsh snapshot-revert dchakravorty_test ci_pipeline_ssh_key_authorized --running"
+    # wait until machine starts. 60 seconds is probably too defensive.
+    - sleep 60
+
+
+e2e-test:
+  stage: test
+  image: tiangolo/docker-with-compose:latest
+  services:
+    - docker:dind
+  artifacts:
+    when: on_failure
+    paths:
+      - tests/e2e/test-results/
+    expire_in: 1 day
+  before_script:
+    - *prepare_ssh
+    - pip3 install ansible
+    # Needed by ansible/ucs-login-with-local-keycloak.yaml to copy SSL certs from remote server
+    - apk --update add rsync
+    - cp "$UCS_ROOT_CA_CERT_E2E_TESTS" docker/keycloak/ucs-root-ca.crt
+    - cp "$DOCKER_COMPOSE_ENV_FILE_E2E_TESTS" docker/.env
+    - cp "$DOCKER_COMPOSE_OVERRIDE_FILE_E2E_TESTS" docker/docker-compose.override.yaml
+    - cp "$ANSIBLE_HOSTS_FILE_E2E_TESTS" ansible/hosts.yaml
+    # The Docker client version in this job is automatically downgraded to 1.39 due to version
+    # negotiation.
+    - export DOCKER_API_VERSION=1.41
+    - docker version
+    - docker compose version
+    - cd docker
+    # The e2e-ci container from the old job sometimes remains. We remove everything here first.
+    - docker compose down --remove-orphans
+    - docker compose build keycloak
+    - docker compose up -d keycloak
+    - sleep 60  # 60 seconds is probably too defensive.
+    - cd ..
+    - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/ucs-login-with-local-keycloak.yaml
+    - cd docker
+    - docker compose build portal-frontend portal-server notifications-api reverse-proxy db e2e-tests
+  script:
+    - docker compose up -d portal-frontend portal-server notifications-api reverse-proxy db
+    - sleep 60
+    - docker compose run --name e2e-ci e2e-tests
+  after_script:
+    - docker cp e2e-ci:/e2e/test-results/ $CI_PROJECT_DIR/tests/e2e/ || true
+    - docker compose down --remove-orphans

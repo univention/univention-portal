@@ -7,6 +7,7 @@ variables:
 
 include:
   - project: univention/customers/dataport/upx/common-ci
+    ref: dchakravorty/issue-732-e2e-test-scheduled-pipeline
     file:
       - defaults/stages.yaml
       - defaults/souvap-workflow.yaml
@@ -35,6 +36,8 @@ trigger-notifications-api:
     include:
       - local: 'notifications-api/.gitlab-ci.yml'
   rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_NAME == "e2e"
+      when: never
     - changes:
         - 'notifications-api/**/*'
         - 'tests/**/*'
@@ -48,6 +51,8 @@ trigger-frontend:
     include:
       - local: 'frontend/.gitlab-ci.yml'
   rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_NAME == "e2e"
+      when: never
     - changes: &portal-frontend-changes
         - 'frontend/**/*'
         - 'tests/**/*'
@@ -61,6 +66,8 @@ trigger-portal-server:
     include:
       - local: 'portal-server/.gitlab-ci.yml'
   rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_NAME == "e2e"
+      when: never
     - changes: &portal-server-changes
         - 'docker/portal-server/**/*'
         - 'listener/**/*'
@@ -84,6 +91,8 @@ trigger-debian-package:
     include:
       - local: '.gitlab-ci.debian.yml'
   rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_NAME == "e2e"
+      when: never
     - changes: *portal-server-changes
     - changes: *portal-frontend-changes
     - changes:
@@ -98,5 +107,20 @@ publish-helm-charts:
 
 publish-helm-charts-souvap:
   extends: .publish-helm-charts-souvap
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_NAME == "e2e"
+      when: never
+    - when: on_success
+
+
+e2e-tests:
+  stage: trigger
+  needs: []
+  trigger:
+    strategy: depend
+    include:
+      - local: 'tests/.gitlab-ci.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_NAME == "e2e"
 
 ...
