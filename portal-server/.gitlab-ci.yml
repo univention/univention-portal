@@ -48,8 +48,10 @@ build-portal-listener:
   variables:
     DOCKERFILE_PATH: "docker/portal-listener/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-listener"
+    # TODO: Remove after testing
     KANIKO_ARGS: >-
       --build-arg PORTAL_BASE_IMAGE_TAG=$BUILD_VERSION
+      --build-arg LISTENER_BASE_IMAGE_TAG=branch-jbornhold-iterate-on-entrypoint
 
 
 push-image-souvap-portal-server-job:
