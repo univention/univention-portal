@@ -9,7 +9,7 @@ RUN chown "$USER":"$USER" "$WORKDIR" \
     && chown "$USER":"$USER" /var/local/notifications-api \
     && apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      libpq5=13.* \
+      libpq5=15.* \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 USER "$USER"
 ENV PATH="/home/${USER}/.local/bin:${PATH}"
@@ -21,9 +21,9 @@ FROM base as builder
 USER root
 RUN apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      libpq-dev=13.* \
+      libpq-dev=15.* \
       build-essential=12.* \
-      gcc=4:10.* \
+      gcc=4:12.* \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 USER "$USER"
 COPY ./requirements.txt .
