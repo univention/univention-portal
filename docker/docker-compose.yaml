@@ -25,6 +25,9 @@ x-portal-listener-base:
   env_file: .env.listener
   environment:
     <<: *portal-environment
+  depends_on:
+    store-dav:
+      condition: service_started
   secrets:
     - ca_cert
     - cert_pem
