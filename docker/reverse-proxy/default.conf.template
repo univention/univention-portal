@@ -26,7 +26,7 @@ server {
   }
 
   location /univention/portal/icons/ {
-    proxy_pass ${UCS_BASE_URL}/univention/portal/icons/;
+    proxy_pass ${STORE_DAV_URL}/portal-assets/icons/;
   }
 
   location /univention/portal/ {

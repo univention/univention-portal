@@ -136,6 +136,7 @@ services:
       PORTAL_FRONTEND_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8080"
       PORTAL_ICONS_URL: "http://store-dav/portal-assets/icons/"
       PORTAL_SERVER_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8095"
+      STORE_DAV_URL: "http://store-dav"
       UMC_SERVER_BASE_URL: "http://${DOCKER_HOST_INTERNAL}:8090"
       UMC_GATEWAY_BASE_URL: "http://umc-gateway"
       UCS_BASE_URL: "${UCS_BASE_URL}"
