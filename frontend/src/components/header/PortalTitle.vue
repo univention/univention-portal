@@ -54,7 +54,7 @@
       v-if="portalNameString"
       class="portal-title__portal-name sr-only-mobile"
     >
-      {{ portalNameString }}
+      DEBUG {{ portalNameString }}
     </h1>
   </tabindex-element>
 </template>
@@ -65,6 +65,8 @@ import _ from '@/jsHelper/translate';
 
 import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+
+console.error('Initializing title');
 
 export default defineComponent({
   name: 'PortalTitle',
