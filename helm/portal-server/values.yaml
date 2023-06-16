@@ -27,7 +27,7 @@ portalserver:
   # -- TODO: Clarify usage of this parameter
   environment: "production"
   # -- TODO: Clarify usage of this parameter
-  log_level: "WARNING"
+  log_level: "DEBUG"
   port: 80
   # -- Define UCS internal endpoint.
   # Example: `"https://portal.example.com/univention/internal"`
@@ -68,6 +68,8 @@ istio:
         path: "/univention/portal/navigation.json"
       - match: "exact"
         path: "/univention/portal/portal.json"
+      - match: "exact"
+        path: "/univention/selfservice/portal.json"
   gateway:
     enabled: false
     annotations:
