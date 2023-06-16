@@ -76,11 +76,13 @@ class TestUMCAuthenticator:
 
         # Set up
         cookie = "session_cookie"
+        remote_ip = "1.3.3.7"
         request_mock = mocker.Mock()
         cookie_mock = mocker.Mock()
         cookie_mock.value = cookie
         request_mock.cookies = {self._umc_cookie_name: cookie_mock}
         request_mock.request.headers = {}
+        request_mock.request.remote_ip = remote_ip
 
         async def async_magic():
             return (self._username.lower(), self._username)
@@ -90,21 +92,24 @@ class TestUMCAuthenticator:
         # Execute
         loop = asyncio.get_event_loop()
         user = loop.run_until_complete(mocked_authenticator.get_user(request_mock))
-        mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
+        mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie}, remote_ip)
         assert isinstance(user, user_module.User)
         assert user.username == self._username.lower()
         assert user.groups == [x.lower() for x in self._groups]
+        assert user.headers["X-Forwarded-For"] == remote_ip
 
     def test_get_non_existing_user(self, mocked_authenticator, mocker):
         from univention.portal import user as user_module
 
         # Set up
         cookie = "session_cookie"
+        remote_ip = "1.3.3.7"
         request_mock = mocker.Mock()
         cookie_mock = mocker.Mock()
         cookie_mock.value = cookie
         request_mock.cookies = {self._umc_cookie_name: cookie_mock}
         request_mock.request.headers = {}
+        request_mock.request.remote_ip = remote_ip
 
         async def async_magic():
             return (None, None)
@@ -114,7 +119,7 @@ class TestUMCAuthenticator:
         # Execute
         loop = asyncio.get_event_loop()
         user = loop.run_until_complete(mocked_authenticator.get_user(request_mock))
-        mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
+        mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie}, remote_ip)
         assert isinstance(user, user_module.User)
         assert user.is_anonymous()
         assert user.username is None
@@ -127,18 +132,20 @@ class TestUMCAuthenticator:
         async def async_magic_none():
             return
 
+        remote_ip = "1.3.3.7"
+
         loop = asyncio.get_event_loop()
         mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
         mocked_authenticator._ask_umc = mocker.MagicMock()
-        assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"})) == (self._username.lower(), self._username)
-        assert loop.run_until_complete(mocked_authenticator._get_username({})) == (None, None)
+        assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}, remote_ip)) == (self._username.lower(), self._username)
+        assert loop.run_until_complete(mocked_authenticator._get_username({}, remote_ip)) == (None, None)
         mocker.MagicMock.__await__ = lambda x: async_magic_none().__await__()
         mocked_authenticator._ask_umc = mocker.MagicMock()
-        assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"})) == (None, None)
+        assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}, remote_ip)) == (None, None)
         mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
         mocked_authenticator._ask_umc = mocker.MagicMock()
         umc_cookie_name = f"{self._umc_cookie_name}-1234"
-        assert loop.run_until_complete(mocked_authenticator._get_username({umc_cookie_name: "test_session"})) == (self._username.lower(), self._username)
+        assert loop.run_until_complete(mocked_authenticator._get_username({umc_cookie_name: "test_session"}, remote_ip)) == (self._username.lower(), self._username)
 
     def test_ask_umc_request_success(self, mocked_authenticator, mocker):
         def _side_effect(req):

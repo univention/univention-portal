@@ -80,7 +80,11 @@ class Authenticator(metaclass=Plugin):
         pass
 
     async def get_user(self, request):  # pragma: no cover
-        return User(username=None, display_name=None, groups=[], headers={})
+        return User(
+            username=None,
+            display_name=None,
+            groups=[],
+            headers={"X-Forwarded-For": request.remote_ip})
 
     def refresh(self, reason=None):  # pragma: no cover
         pass
@@ -112,11 +116,18 @@ class UMCAuthenticator(Authenticator):
 
     async def get_user(self, request):
         cookies = {key: morsel.value for key, morsel in request.cookies.items()}
-        username, display_name = await self._get_username(cookies)
+        get_logger("user").debug("request.remote_ip = %r" % (request.request.remote_ip))
+        get_logger("user").debug("request.headers.xff = %r" % (request.request.headers.get("X-Forwarded-For")))
+        get_logger("user").debug("request.headers:")
+        for (k, v) in request.request.headers.get_all():
+            get_logger("user").debug("  %r: %r" % (k, v))
+        username, display_name = await self._get_username(cookies, request.request.remote_ip)
         groups = self.group_cache.get().get(username, [])
-        return User(username, display_name=display_name, groups=groups, headers=dict(request.request.headers))
+        headers = dict(request.request.headers)
+        headers.setdefault("X-Forwarded-For", request.request.remote_ip)
+        return User(username, display_name=display_name, groups=groups, headers=headers)
 
-    async def _get_username(self, cookies):
+    async def _get_username(self, cookies, remote_ip):
         headers = {}
         for cookie in cookies:
             if cookie.startswith("UMCSessionId"):
@@ -128,7 +139,11 @@ class UMCAuthenticator(Authenticator):
         else:
             get_logger("user").debug("no user given")
             return None, None
-        get_logger("user").debug("searching user for cookies=%r" % cookies)
+
+        if remote_ip:
+            headers['X-Forwarded-For'] = remote_ip
+
+        get_logger("user").debug("searching user for cookies=%r, remote_ip=%r" % (cookies, remote_ip))
 
         username = await self._ask_umc(cookies, headers)
         if username is None:
@@ -192,4 +207,6 @@ class UMCAndSecretAuthenticator(UMCAuthenticator):
             return user
 
         groups = self.group_cache.get().get(username, [])
-        return User(username, display_name, groups, headers=dict(request.request.headers))
+        headers = dict(request.request.headers)
+        headers.setdefault("X-Forwarded-For", request.request.remote_ip)
+        return User(username, display_name, groups, headers=headers)
