@@ -8,12 +8,14 @@ TLS_REQCERT=demand
 
 # UMC Server
 DEBUG_LEVEL=5
+ENFORCE_SESSION_COOKIE=true
+LOCAL_IP_RANGES=0.0.0.0/0,::/0
 
 # SAML config
 SAML_METADATA_URL=http://localhost:8097/realms/ucs/protocol/saml/descriptor
 SAML_METADATA_URL_INTERNAL=http://keycloak:8080/realms/ucs/protocol/saml/descriptor
 SAML_SP_SERVER=localhost:8000
-SAML_PREFER_HTTP=INSECURE
+SAML_SCHEMES=http
 
 # Path to SSL certificates
 PRIVATE_KEY_FILE=/run/secrets/private_key
