@@ -246,6 +246,8 @@ services:
       - notifications-api
       - db
       - reverse-proxy
+      - umc-gateway
+      - store-dav
     network_mode: host
     command: pytest --video retain-on-failure --tracing retain-on-failure --screenshot only-on-failure
 
