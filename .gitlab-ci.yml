@@ -4,4 +4,6 @@ stages:
 e2e-test:
   stage: test
   script:
+    - cat /etc/hosts
+    - cat /etc/hostname
     - hostname -d
