@@ -56,6 +56,9 @@ e2e-test:
     - sed -i "s/.*127.0.1.1.*/127.0.1.1\t$(hostname -s)/" /etc/hosts.copy
     - cat /etc/hosts.copy > /etc/hosts
     - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/fetch-secrets-from-ucs-machine.yaml
+    # Make secrets readable
+    - chmod +r docker/secret/*
+    - ls -al docker/secret
     # The Docker client version in this job is automatically downgraded to 1.39 due to version
     # negotiation.
     - export DOCKER_API_VERSION=1.41
