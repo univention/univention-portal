@@ -19,9 +19,8 @@ class LoginPage(PortalPage):
         home_page = HomePageLoggedOut(self.page)
         home_page.navigate()
         home_page.check_its_there()
+        home_page.assert_logged_out()
         self.reveal_right_side_menu()
-        expect(self.right_side_menu.login_button).to_be_visible()
-        expect(self.right_side_menu.logout_button).to_be_hidden()
         self.right_side_menu.click_login_button()
 
     def check_its_there(self):

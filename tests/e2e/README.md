@@ -30,7 +30,7 @@ So you can do the following, for example:
 ```
 pytest --username <my_user> --password <my_password> \
        --notifications-api-base-url <custom_notifications_api_base_url> \
-       --portal-base_url <custom_portal_base_url>
+       --portal-base-url <custom_portal_base_url>
 ```
 
 We use the `pytest-playwright` plugin, and it exposes many useful command

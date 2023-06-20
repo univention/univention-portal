@@ -13,6 +13,13 @@ class HomePageLoggedIn(HomePage):
         self.umc_heading = self.page.get_by_text("Univention Management Console", exact=True)
         self.users_tile = self.page.get_by_role("link", name=re.compile("User New Tab|Users iFrame"))
 
+    def assert_logged_in(self):
+        self.reveal_right_side_menu()
+        # Checking login state only since check_its_there() is currently empty
+        expect(self.right_side_menu.logout_button).to_be_visible()
+        expect(self.right_side_menu.login_button).to_be_hidden()
+        self.hide_right_side_menu()
+
     def navigate(self, username, password):
         self.page.goto("/")
         try:
@@ -21,19 +28,15 @@ class HomePageLoggedIn(HomePage):
             pass
         else:
             self.accept_cookies()
-        self.reveal_right_side_menu()
+        # Checking login state only since check_its_there() is currently empty
         try:
-            # Checking login state only since check_its_there() is currently empty
-            expect(self.right_side_menu.logout_button).to_be_visible()
-            expect(self.right_side_menu.login_button).to_be_hidden()
+            self.assert_logged_in()
         except AssertionError:
             login_page = LoginPage(self.page)
             login_page.navigate()
             login_page.check_its_there()
             login_page.login(username, password)
-            self.reveal_right_side_menu()
-            expect(self.right_side_menu.logout_button).to_be_visible()
-            expect(self.right_side_menu.login_button).to_be_hidden()
+            self.assert_logged_in()
         finally:
             self.hide_right_side_menu()
 

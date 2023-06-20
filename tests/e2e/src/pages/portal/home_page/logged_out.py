@@ -11,6 +11,13 @@ class HomePageLoggedOut(HomePage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.login_widget = self.page.get_by_role("link", name="Login Same tab")
+        self.saml_login_tile = self.page.locator('xpath=//a[contains(@href, "univention/saml")]')
+
+    def assert_logged_out(self):
+        self.reveal_right_side_menu()
+        expect(self.right_side_menu.login_button).to_be_visible()
+        expect(self.right_side_menu.logout_button).to_be_hidden()
+        self.hide_right_side_menu()
 
     def navigate(self):
         self.page.goto("/")
@@ -23,13 +30,14 @@ class HomePageLoggedOut(HomePage):
         self.logout()
         # Normally, we don't use assertions inside the navigate() methods
         # Navigation roots are the exception, since they have to assure login state
-        self.reveal_right_side_menu()
-        expect(self.right_side_menu.login_button).to_be_visible()
-        expect(self.right_side_menu.logout_button).to_be_hidden()
-        self.hide_right_side_menu()
+        self.assert_logged_out()
 
     def check_its_there(self):
         expect(self.login_widget).to_be_visible()
 
     def click_login_widget(self):
         self.login_widget.click()
+
+    # TODO: Does this provide more value than complexity?
+    def click_saml_login_tile(self):
+        self.saml_login_tile.click()
