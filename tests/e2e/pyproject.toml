@@ -27,3 +27,6 @@ packages = ["src/pages"]
 [tool.pytest.ini_options]
 pythonpath = [ "src" ]
 testpaths = [ "tests" ]
+markers = [
+    "saml: all tests that enforce SAML login. Other tests may also use SAML depending on the environment"
+]

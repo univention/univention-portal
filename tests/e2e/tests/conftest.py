@@ -57,6 +57,13 @@ def navigate_to_login_page(page):
 
 
 @pytest.fixture()
+def navigate_to_saml_login_page(page):
+    login_page = LoginPage(page)
+    login_page.navigate_saml()
+    return page
+
+
+@pytest.fixture()
 def navigate_to_home_page_logged_in(page, username, password):
     home_page_logged_in = HomePageLoggedIn(page)
     home_page_logged_in.navigate(username, password)

@@ -9,6 +9,11 @@ class HomePageLoggedOut(HomePage):
     """
 
     def __init__(self, *args, **kwargs):
+        """
+        The saml login tile is often renamed from "Login (Single sign-on)" to "Login"
+        This means that login_widget can be plain ucs login or saml login
+        while saml_login_tile is always the saml tile, no matter the name.
+        """
         super().__init__(*args, **kwargs)
         self.login_widget = self.page.get_by_role("link", name="Login Same tab")
         self.saml_login_tile = self.page.locator('xpath=//a[contains(@href, "univention/saml")]')
