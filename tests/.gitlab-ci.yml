@@ -63,12 +63,12 @@ e2e-test:
     - docker compose up -d keycloak
     - sleep 60  # 60 seconds is probably too defensive.
     - cd ..
-    - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/ucs-login-with-local-keycloak.yaml
+    - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/fetch-secrets-from-ucs-machine.yaml ansible/ucs-login-with-local-keycloak.yaml
     - cd docker
-    - docker compose build portal-frontend portal-server notifications-api reverse-proxy db e2e-tests
+    - docker compose build portal-frontend portal-server notifications-api reverse-proxy db umc-gateway store-dav e2e-tests
   script:
-    - docker compose up -d portal-frontend portal-server notifications-api reverse-proxy db
-    - sleep 60
+    - docker compose up -d portal-frontend portal-server notifications-api reverse-proxy db umc-gateway store-dav
+    - sleep 120
     - docker compose run --name e2e-ci e2e-tests
   after_script:
     - docker cp e2e-ci:/e2e/test-results/ $CI_PROJECT_DIR/tests/e2e/ || true
