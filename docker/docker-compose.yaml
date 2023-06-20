@@ -260,9 +260,9 @@ secrets:
   private_key:
     file: ssl/certs/private.key
   idp_ldap_user_secret:
-    file: secret/idp-ldap-user.secret
-  ldap_secret:
     file: secret/ldap.secret
+  ldap_secret:
+    file: secret/idp-ldap-user.secret
   machine_secret:
     file: secret/machine.secret
   store_dav_htpasswd:
