@@ -52,7 +52,9 @@ e2e-test:
     - cp "$DOCKER_COMPOSE_OVERRIDE_FILE_E2E_TESTS" docker/docker-compose.override.yaml
     - cp "$ANSIBLE_HOSTS_FILE_E2E_TESTS" ansible/hosts.yaml
     # Fix /etc/hosts so that `hostname -d` works
-    - sed -i "s/.*127.0.1.1.*/127.0.1.1\t$(hostname -s)/" /etc/hosts
+    - cp /etc/hosts /etc/hosts.copy
+    - sed -i "s/.*127.0.1.1.*/127.0.1.1\t$(hostname -s)/" /etc/hosts.copy
+    - cat /etc/hosts.copy > /etc/hosts
     - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/fetch-secrets-from-ucs-machine.yaml
     # The Docker client version in this job is automatically downgraded to 1.39 due to version
     # negotiation.
