@@ -16,12 +16,20 @@ class LoginPage(PortalPage):
         self.login_button = self.page.get_by_role("button", name=re.compile("^(Login|Sign In|Anmelden)"))
 
     def navigate(self):
+        """Login via either plain ucs or saml, depending on the environment"""
         home_page = HomePageLoggedOut(self.page)
         home_page.navigate()
         home_page.check_its_there()
         home_page.assert_logged_out()
         self.reveal_right_side_menu()
         self.right_side_menu.click_login_button()
+
+    def navigate_saml(self):
+        """Login via saml specifically"""
+        home_page = HomePageLoggedOut(self.page)
+        home_page.navigate()
+        home_page.check_its_there()
+        home_page.click_saml_login_tile()
 
     def check_its_there(self):
         expect(self.username_input).to_be_visible()

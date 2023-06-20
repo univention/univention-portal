@@ -83,10 +83,8 @@ class PortalPage(BasePage):
 
     def hide_right_side_menu(self):
         try:
-            # TODO: Discuss
-            expect(self.right_side_menu).to_be_visible(timeout=50)
+            expect(self.right_side_menu).to_be_visible()
         except AssertionError:
-            print("right_side_menu already hidden")
             pass
         else:
             self.header.click_hamburger_icon()
