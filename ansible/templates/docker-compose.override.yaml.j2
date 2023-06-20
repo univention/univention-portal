@@ -9,6 +9,10 @@ services:
     extra_hosts:
       {{ ansible_fqdn }}: "{{ ansible_host }}"
 
+  portal-listener-init:
+    extra_hosts:
+      {{ ansible_fqdn }}: "{{ ansible_host }}"
+
   umc-server:
     extra_hosts:
       {{ ansible_fqdn }}: "{{ ansible_host }}"
