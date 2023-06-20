@@ -59,6 +59,7 @@ e2e-test:
     # Make secrets readable
     - chmod +r docker/secret/*
     - ls -al docker/secret
+    - pwd
     # The Docker client version in this job is automatically downgraded to 1.39 due to version
     # negotiation.
     - export DOCKER_API_VERSION=1.41
