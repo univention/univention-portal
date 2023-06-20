@@ -61,6 +61,9 @@ e2e-test:
     - ls -al docker/secret
     - pwd
     - whoami
+    # The Docker client version in this job is automatically downgraded to 1.39 due to version
+    # negotiation.
+    - export DOCKER_API_VERSION=1.43
     - docker version
     - docker compose version
     - cd docker
