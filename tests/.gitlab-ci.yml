@@ -57,13 +57,13 @@ e2e-test:
     - cat /etc/hosts.copy > /etc/hosts
     - ansible-playbook -i ansible/hosts.yaml ansible/ucs-umc-open-for-portal-server.yaml ansible/ucs-expose-portal-json-files.yaml ansible/fetch-secrets-from-ucs-machine.yaml
     # Make secrets readable
-    - chmod 755 docker/secret/*
+    - chmod 777 docker/secret/*
     - ls -al docker/secret
     - pwd
     - whoami
     # The Docker client version in this job is automatically downgraded to 1.39 due to version
     # negotiation.
-    - export DOCKER_API_VERSION=1.43
+    - export DOCKER_API_VERSION=1.41
     - docker version
     - docker compose version
     - cd docker
