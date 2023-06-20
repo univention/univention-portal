@@ -86,7 +86,7 @@ services:
 
   # The UMC server.
   umc-server:
-    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-server:latest
+    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-umc/umc-server:branch-tkintscher-helm-charts
     platform: linux/amd64
     ports:
       - 8090:8090
