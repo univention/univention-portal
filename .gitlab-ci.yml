@@ -90,12 +90,6 @@ trigger-debian-package:
         - 'debian/**/*'
 
 
-# TODO: Remove once we drop this job from common-ci
-publish-helm-charts:
-  rules:
-    - when: never
-
-
 publish-helm-charts-souvap:
   extends: .publish-helm-charts-souvap
 
