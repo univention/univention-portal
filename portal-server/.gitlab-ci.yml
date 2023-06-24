@@ -38,6 +38,15 @@ build-portal-server:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
 
 
+build-portal-udm-extensions:
+  stage: build
+  extends: .kaniko
+  needs: []
+  variables:
+    DOCKERFILE_PATH: "docker/portal-udm-extensions/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-udm-extensions"
+
+
 build-portal-listener:
   stage: build
   extends: .kaniko
