@@ -1,4 +1,4 @@
 FROM scratch
 
 WORKDIR /
-COPY udm/ ./
+COPY udm /udm
