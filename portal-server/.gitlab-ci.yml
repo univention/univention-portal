@@ -38,10 +38,30 @@ build-portal-server:
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
 
 
+generate-joinscript-data:
+  stage: build
+  image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-udm-rest/udm-rest-api-joinscript-tools:latest
+  needs: []
+  script:
+    - >-
+      ucr set
+      ldap/base="dc=univention-organization,dc=intranet"
+      server/role="domaincontroller_master"
+    - mkdir --parents $(dirname ${OUT_FILENAME})
+    - ./33univention-portal.inst || true
+  variables:
+    OUT_FILENAME: udm/join-data/portal.yaml
+  artifacts:
+    paths:
+      - udm/join-data
+
+
 build-portal-udm-extensions:
   stage: build
   extends: .kaniko
-  needs: []
+  needs:
+    - job: generate-joinscript-data
+      artifacts: true
   variables:
     DOCKERFILE_PATH: "docker/portal-udm-extensions/Dockerfile"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-udm-extensions"
