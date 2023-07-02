@@ -47,6 +47,8 @@ generate-joinscript-data:
       ucr set
       ldap/base="dc=univention-organization,dc=intranet"
       server/role="domaincontroller_master"
+    # Ensure that the icons can be found by the calls to base64
+    - ln -s "$PWD" "/usr/share/univention-portal"
     - mkdir --parents $(dirname ${OUT_FILENAME})
     - ./33univention-portal.inst || true
   variables:
