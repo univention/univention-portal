@@ -45,14 +45,14 @@ generate-joinscript-data:
   script:
     - >-
       ucr set
-      ldap/base="dc=univention-organization,dc=intranet"
+      ldap/base="{{ ldap_base }}"
       server/role="domaincontroller_master"
     # Ensure that the icons can be found by the calls to base64
     - ln -s "$PWD" "/usr/share/univention-portal"
     - mkdir --parents $(dirname ${OUT_FILENAME})
     - ./33univention-portal.inst || true
   variables:
-    OUT_FILENAME: udm/join-data/portal.yaml
+    OUT_FILENAME: udm/join-data/univention-portal.yaml.j2
   artifacts:
     paths:
       - udm/join-data
