@@ -101,7 +101,7 @@ def test_two_notifications(login_and_clear_old_notifications,
     response = requests.post(send_notification_endpoint, json=notification_json_data_different_details)
     assert response.ok, \
         f"Got status {response.status_code} while sending notification"
-    home_page_logged_in.reveal_notification_drawer()
+    home_page_logged_in.reveal_area(home_page_logged_in.notification_drawer, home_page_logged_in.header.bell_icon)
     expect(home_page_logged_in.notification_drawer.notifications).to_have_count(2)
     first_notification = home_page_logged_in.notification_drawer.notification(0)
     expect(first_notification).to_be_visible()
@@ -141,7 +141,7 @@ def test_notification_expiry_time(logout_after_clearing_old_notifications,
     home_page_logged_in.navigate(username, password)
     home_page_logged_in.is_displayed()
     expect(home_page_logged_in.popup_notification_container).to_be_hidden()
-    home_page_logged_in.reveal_notification_drawer()
+    home_page_logged_in.reveal_area(home_page_logged_in.notification_drawer, home_page_logged_in.header.bell_icon)
     expect(home_page_logged_in.notification_drawer.no_notifications_heading).to_be_visible()
     expect(home_page_logged_in.notification_drawer.notifications).to_have_count(0)
 
