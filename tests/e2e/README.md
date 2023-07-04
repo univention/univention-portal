@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-pip install -r requirements_test.txt
+pip install -r requirements.txt
 playwright install  # installs required browsers
 ```
 
@@ -46,28 +46,21 @@ Here are some useful ones:
 
 ## Available tests
 
-| Group         | Test                                                            | Location                                 |
-|---------------|-----------------------------------------------------------------|------------------------------------------|
-| General       | User can login to portal                                        | `tests/test_login.py`                    |
-| Notifications | Notification pops up when triggered using the notifications API | `tests/test_two_notification.py`         |
-|               | Notification has correct title, detail and link attributes      | `tests/test_two_notifications.py`        |
-|               | Two notifications are displayed in the correct order            | `tests/test_two_notifications.py`        |
-|               | Notification expiry time is respected                           | `tests/test_notification_expiry_time.py` |
-| Translation   | Logged out user is able to change language                      | `tests/test_i18n.py`                     |
-| UMC Tile      | Admin user is able to use the Users tile                        | `tests/test_users_page.py`               |
+| Group         | Test                                                            | Location                                   |
+|---------------|-----------------------------------------------------------------|--------------------------------------------|
+| General       | User can login to portal                                        | `tests/test_login.py`                      |
+|               | User can logout                                                 | `tests/test_logout.py`                     |
+|               | User can login to portal using SAML                             | `tests/test_saml_login.py`                 |
+|               | User can logout when SAML login was used                        | `tests/test_saml_logout.py`                |
+| Notifications | Notification pops up when triggered using the notifications API | `tests/test_two_notification.py`           |
+|               | Notification has correct title, detail and link attributes      | `tests/test_two_notifications.py`          |
+|               | Two notifications are displayed in the correct order            | `tests/test_two_notifications.py`          |
+|               | Notification expiry time is respected                           | `tests/test_notification_expiry_time.py`   |
+| Translation   | Logged out user is able to change language                      | `tests/test_i18n.py`                       |
+| UMC Tile      | Admin user is able to use the Users tile                        | `tests/test_users_page.py`                 |
+| Self-service  | Non-admin user can change password                              | `tests/test_non_admin_can_change_password` |
+
 ## For test engineers
 
-We use the Page Object model in our tests. The page objects are in `src/pages`.
-
-You can pip install the page objects as a package using
-
-```
-pip install -e .
-```
-
-While this is not strictly necessary to run the tests (`pytest` finds the necessary
-packages using the `[tool.pytest.ini_options]` in `pyproject.toml`), this will
-help the IDE in autocompletion etc., and generally improve the development
-experience.
-
-We have a [guide on writing Page Objects, tests and fixtures](https://univention.gitpages.knut.univention.de/customers/dataport/team-souvap/testing/e2e-testing-guidelines.html).
+We use the Page Object model in our tests. The page objects are in
+[playwright-pages-ucs-portal](https://gitlab.souvap-univention.de/souvap/tests/playwright-pages-ucs-portal/).
