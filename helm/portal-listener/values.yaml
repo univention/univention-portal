@@ -51,6 +51,9 @@ portal_listener:
   ldap_host_dn: null
   # -- Port to connect to the LDAP server.
   ldap_port: "389"
+  # -- Configure if the LDAP client shall start TLS when connecting.
+  # Chose from "never", "request" and "require".
+  ldapStartTls: "never"
 
   # -- TODO: Clarify usage of this parameter
   log_level: "WARNING"
