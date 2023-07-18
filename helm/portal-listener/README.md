@@ -177,6 +177,7 @@ false
   "domain_name": "univention.intranet",
   "editable": "true",
   "environment": "production",
+  "ldapStartTls": "never",
   "ldap_base_dn": null,
   "ldap_bind_secret": "/var/secrets/ldap_secret",
   "ldap_host": null,
@@ -278,6 +279,15 @@ null
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>
+		</tr>
+		<tr>
+			<td>portal_listener.ldapStartTls</td>
+			<td>string</td>
+			<td><pre lang="json">
+"never"
+</pre>
+</td>
+			<td>Configure if the LDAP client shall start TLS when connecting. Chose from "never", "request" and "require".</td>
 		</tr>
 		<tr>
 			<td>portal_listener.ldap_base_dn</td>
