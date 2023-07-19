@@ -94,7 +94,7 @@ store-dav:
 ## Docker image
 image:
   registry: "registry.souvap-univention.de"
-  repository: "souvap/tooling/images/univention-portal/portal-server"
+  repository: "souvap/tooling/images/univention-portal/portal-listener"
   imagePullPolicy: "Always"
   tag: "latest"
 

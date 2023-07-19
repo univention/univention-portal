@@ -113,7 +113,7 @@ false
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"souvap/tooling/images/univention-portal/portal-server"
+"souvap/tooling/images/univention-portal/portal-listener"
 </pre>
 </td>
 			<td></td>
