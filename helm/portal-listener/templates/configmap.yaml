@@ -29,6 +29,7 @@ data:
   PORTAL_UDM_API_USERNAME: "{{ .Values.portal_listener.udm_api_username }}"
   PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portal_listener.udm_api_password_secret }}"
   START_TLS: "{{ .Values.portal_listener.ldapStartTls }}"
+  TLS_REQCERT: "{{ .Values.portal_listener.ldapTlsReqcert }}"
   CA_CERT_FILE: "{{ .Values.portal_listener.ca_cert_file }}"
   CERT_PEM_FILE: "{{ .Values.portal_listener.cert_pem_file }}"
 {{- end }}

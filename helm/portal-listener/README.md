@@ -178,6 +178,7 @@ false
   "editable": "true",
   "environment": "production",
   "ldapStartTls": "never",
+  "ldapTlsReqcert": "demand",
   "ldap_base_dn": null,
   "ldap_bind_secret": "/var/secrets/ldap_secret",
   "ldap_host": null,
@@ -288,6 +289,15 @@ null
 </pre>
 </td>
 			<td>Configure if the LDAP client shall start TLS when connecting. Chose from "never", "request" and "require".</td>
+		</tr>
+		<tr>
+			<td>portal_listener.ldapTlsReqcert</td>
+			<td>string</td>
+			<td><pre lang="json">
+"demand"
+</pre>
+</td>
+			<td>Allows to set the parameter "TLS_REQCERT" in the ldap client configuration.  The man page of "ldap.conf" does provide details about the allowed values and how this influences the client behavior.  See: https://www.openldap.org/software//man.cgi?query=ldap.conf</td>
 		</tr>
 		<tr>
 			<td>portal_listener.ldap_base_dn</td>
