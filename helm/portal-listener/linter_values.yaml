@@ -4,13 +4,13 @@
 # Run it like this: helm lint -f values.yaml -f linter_values.yaml .
 
 ## Application-specific
-portal_listener:
-  admin_group: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+portalListener:
+  adminGroup: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
   environment: "staging"
-  log_level: "DEBUG"
-  ucs_internal_url: "https://portal.example.develop.souvap-univention.de/univention/internal"
-  umc_get_url: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get"
-  umc_session_url: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
+  logLevel: "DEBUG"
+  ucsInternalUrl: "https://portal.example.develop.souvap-univention.de/univention/internal"
+  umcGetUrl: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get"
+  umcSessionUrl: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
 
 
 ## Kubernetes ingress

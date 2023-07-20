@@ -28,11 +28,11 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if .Values.portal_listener.ldap_host_ip }}
+      {{- if .Values.portalListener.ldapHostIp }}
       hostAliases:
         - hostnames:
-            - {{ .Values.portal_listener.ldap_host | quote }}
-          ip: {{ .Values.portal_listener.ldap_host_ip | quote }}
+            - {{ .Values.portalListener.ldapHost | quote }}
+          ip: {{ .Values.portalListener.ldapHostIp | quote }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}

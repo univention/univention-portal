@@ -17,40 +17,40 @@ tolerations: []
 
 
 # -- Application configuration of the Portal Listener
-portal_listener:
+portalListener:
   # Update configuration to mach the needs of the portal listener
   # -- Define LDAP Admin Group.
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
-  admin_group: null
+  adminGroup: null
   # -- Where to store the assets, e.g. portal entry icons
-  assets_root: "http://portal-server:univention@portal-listener-store-dav/portal-assets/"
+  assetsRoot: "http://portal-server:univention@portal-listener-store-dav/portal-assets/"
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
-  auth_mode: "ucs"
+  authMode: "ucs"
   # -- Path to the CA certificate of the UCS machine.
-  ca_cert_file: "/var/secrets/ca_cert"
+  caCertFile: "/var/secrets/ca_cert"
   # -- Path to the certificate of the LDAP server
-  cert_pem_file: "/var/secrets/cert_pem"
+  certPemFile: "/var/secrets/cert_pem"
   # -- Internal domain name of the UCS machine
-  domain_name: "univention.intranet"
+  domainName: "univention.intranet"
   # -- Debug level of the listener
-  debug_level: "5"
+  debugLevel: "5"
   # -- Defines if members of the Admin group can use the edit mode in the portal.
   editable: "true"
   # -- TODO: Clarify usage of this parameter
   environment: "production"
 
   # -- Base DN of the LDAP directory
-  ldap_base_dn: null
+  ldapBaseDn: null
   # -- Path to secret file for the bind to the LDAP directory
-  ldap_bind_secret: "/var/secrets/ldap_secret"
+  ldapBindSecret: "/var/secrets/ldap_secret"
   # -- Hostname of the LDAP server
-  ldap_host: null
+  ldapHost: null
   # -- The IP address of the LDAP server.
-  ldap_host_ip: null
+  ldapHostIp: null
   # -- DN of the UCS machine
-  ldap_host_dn: null
+  ldapHostDn: null
   # -- Port to connect to the LDAP server.
-  ldap_port: "389"
+  ldapPort: "389"
   # -- Configure if the LDAP client shall start TLS when connecting.
   # Chose from "never", "request" and "require".
   ldapStartTls: "never"
@@ -63,31 +63,31 @@ portal_listener:
   ldapTlsReqcert: "demand"
 
   # -- TODO: Clarify usage of this parameter
-  log_level: "WARNING"
+  logLevel: "WARNING"
   # -- Path to the file which the machine secret
-  machine_secret_file: "/var/secrets/machine_secret"
+  machineSecretFile: "/var/secrets/machine_secret"
   # -- Hostname where the notifier can be reached.
-  notifier_server: null
+  notifierServer: null
   # -- DN of the default portal
-  portal_default_dn: null
+  portalDefaultDn: null
 
   # -- UDM API connection URL
-  udm_api_url: null
-  udm_api_username: null
-  udm_api_password_secret: "/var/secrets/machine_secret"
+  udmApiUrl: null
+  udmApiUsername: null
+  udmApiPasswordSecret: "/var/secrets/machine_secret"
 
   # -- Define UCS internal endpoint.
   # Example: `"https://portal.example.com/univention/internal"`
-  ucs_internal_url: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
+  ucsInternalUrl: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
   # -- Define UMC get endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get"`
-  umc_get_url: null
+  umcGetUrl: null
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
-  umc_session_url: null
+  umcSessionUrl: null
 
 
-store-dav:
+storeDav:
   bundled: true
 
 

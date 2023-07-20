@@ -18,19 +18,19 @@ tolerations: []
 
 
 # -- Application configuration of the Notifcations API
-notificationsapi:
+notificationsApi:
   # -- Apply database migrations automatically
-  apply_database_migrations: "True"
+  applyDatabaseMigrations: "True"
   # -- Activate the development mode. Do not use this in production deployments.
-  dev_mode: "False"
+  devMode: "False"
   # -- TODO: Clarify usage of this parameter
   environment: "production"
   # -- Log level configuration. E.g. "DEBUG", "INFO", "WARNING", "ERROR".
-  log_level: "WARNING"
+  logLevel: "WARNING"
   # -- SQL command logging, e.g. "True" or "False"
-  sql_echo: "False"
+  sqlEcho: "False"
   # -- The URL prefix under which the API shall be deployed.
-  api_prefix: "/univention/portal/notifications-api/"
+  apiPrefix: "/univention/portal/notifications-api/"
 
 
 ## Kubernetes ingress

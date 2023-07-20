@@ -5,9 +5,9 @@
 
 
 ## Application-specific
-portalfrontend:
+portalFrontend:
   environment: "staging"
-  log_level: "DEBUG"
+  logLevel: "DEBUG"
 
 
 ## Kubernetes ingress

@@ -5,17 +5,17 @@
 
 
 ## Application-specific
-portal_listener:
-  admin_group: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+portalListener:
+  adminGroup: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
   environment: "staging"
-  log_level: "DEBUG"
-  assets_root: "http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
-  ucs_internal_url: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
-  umc_get_url: "http://ucs-machine/univention/internal/umc/get"
-  umc_session_url: "http://ucs-machine/univention/internal/umc/get/session-info"
+  logLevel: "DEBUG"
+  assetsRoot: "http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
+  ucsInternalUrl: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
+  umcGetUrl: "http://ucs-machine/univention/internal/umc/get"
+  umcSessionUrl: "http://ucs-machine/univention/internal/umc/get/session-info"
 
 
-store-dav:
+storeDav:
   bundled: true
 
   image:
@@ -30,9 +30,9 @@ store-dav:
   #   pullPolicy: "IfNotPresent"
   #   tag: "latest"
 
-  store_dav:
+  storeDav:
     # Example, password set to "univention"
-    auth_htpasswd: |
+    authHtpasswd: |
       portal-server:$apr1$yruGWANI$75Soiqs3hEmezu.g/r3VW/
       portal-listener:$apr1$6kadQ4Ji$hHriD5fpBJyf00SIy.NG41
 

@@ -164,44 +164,44 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>portal_listener</td>
+			<td>portalListener</td>
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "admin_group": null,
-  "assets_root": "http://portal-server:univention@portal-listener-store-dav/portal-assets/",
-  "auth_mode": "ucs",
-  "ca_cert_file": "/var/secrets/ca_cert",
-  "cert_pem_file": "/var/secrets/cert_pem",
-  "debug_level": "5",
-  "domain_name": "univention.intranet",
+  "adminGroup": null,
+  "assetsRoot": "http://portal-server:univention@portal-listener-store-dav/portal-assets/",
+  "authMode": "ucs",
+  "caCertFile": "/var/secrets/ca_cert",
+  "certPemFile": "/var/secrets/cert_pem",
+  "debugLevel": "5",
+  "domainName": "univention.intranet",
   "editable": "true",
   "environment": "production",
+  "ldapBaseDn": null,
+  "ldapBindSecret": "/var/secrets/ldap_secret",
+  "ldapHost": null,
+  "ldapHostDn": null,
+  "ldapHostIp": null,
+  "ldapPort": "389",
   "ldapStartTls": "never",
   "ldapTlsReqcert": "demand",
-  "ldap_base_dn": null,
-  "ldap_bind_secret": "/var/secrets/ldap_secret",
-  "ldap_host": null,
-  "ldap_host_dn": null,
-  "ldap_host_ip": null,
-  "ldap_port": "389",
-  "log_level": "WARNING",
-  "machine_secret_file": "/var/secrets/machine_secret",
-  "notifier_server": null,
-  "portal_default_dn": null,
-  "ucs_internal_url": "http://portal-listener:univention@portal-listener-store-dav/portal-data/",
-  "udm_api_password_secret": "/var/secrets/machine_secret",
-  "udm_api_url": null,
-  "udm_api_username": null,
-  "umc_get_url": null,
-  "umc_session_url": null
+  "logLevel": "WARNING",
+  "machineSecretFile": "/var/secrets/machine_secret",
+  "notifierServer": null,
+  "portalDefaultDn": null,
+  "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data/",
+  "udmApiPasswordSecret": "/var/secrets/machine_secret",
+  "udmApiUrl": null,
+  "udmApiUsername": null,
+  "umcGetUrl": null,
+  "umcSessionUrl": null
 }
 </pre>
 </td>
 			<td>Application configuration of the Portal Listener</td>
 		</tr>
 		<tr>
-			<td>portal_listener.admin_group</td>
+			<td>portalListener.adminGroup</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -210,7 +210,7 @@ null
 			<td>Define LDAP Admin Group. Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`</td>
 		</tr>
 		<tr>
-			<td>portal_listener.assets_root</td>
+			<td>portalListener.assetsRoot</td>
 			<td>string</td>
 			<td><pre lang="json">
 "http://portal-server:univention@portal-listener-store-dav/portal-assets/"
@@ -219,7 +219,7 @@ null
 			<td>Where to store the assets, e.g. portal entry icons</td>
 		</tr>
 		<tr>
-			<td>portal_listener.auth_mode</td>
+			<td>portalListener.authMode</td>
 			<td>string</td>
 			<td><pre lang="json">
 "ucs"
@@ -228,7 +228,7 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ca_cert_file</td>
+			<td>portalListener.caCertFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/ca_cert"
@@ -237,7 +237,7 @@ null
 			<td>Path to the CA certificate of the UCS machine.</td>
 		</tr>
 		<tr>
-			<td>portal_listener.cert_pem_file</td>
+			<td>portalListener.certPemFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/cert_pem"
@@ -246,7 +246,7 @@ null
 			<td>Path to the certificate of the LDAP server</td>
 		</tr>
 		<tr>
-			<td>portal_listener.debug_level</td>
+			<td>portalListener.debugLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
 "5"
@@ -255,7 +255,7 @@ null
 			<td>Debug level of the listener</td>
 		</tr>
 		<tr>
-			<td>portal_listener.domain_name</td>
+			<td>portalListener.domainName</td>
 			<td>string</td>
 			<td><pre lang="json">
 "univention.intranet"
@@ -264,7 +264,7 @@ null
 			<td>Internal domain name of the UCS machine</td>
 		</tr>
 		<tr>
-			<td>portal_listener.editable</td>
+			<td>portalListener.editable</td>
 			<td>string</td>
 			<td><pre lang="json">
 "true"
@@ -273,7 +273,7 @@ null
 			<td>Defines if members of the Admin group can use the edit mode in the portal.</td>
 		</tr>
 		<tr>
-			<td>portal_listener.environment</td>
+			<td>portalListener.environment</td>
 			<td>string</td>
 			<td><pre lang="json">
 "production"
@@ -282,25 +282,7 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ldapStartTls</td>
-			<td>string</td>
-			<td><pre lang="json">
-"never"
-</pre>
-</td>
-			<td>Configure if the LDAP client shall start TLS when connecting. Chose from "never", "request" and "require".</td>
-		</tr>
-		<tr>
-			<td>portal_listener.ldapTlsReqcert</td>
-			<td>string</td>
-			<td><pre lang="json">
-"demand"
-</pre>
-</td>
-			<td>Allows to set the parameter "TLS_REQCERT" in the ldap client configuration.  The man page of "ldap.conf" does provide details about the allowed values and how this influences the client behavior.  See: https://www.openldap.org/software//man.cgi?query=ldap.conf</td>
-		</tr>
-		<tr>
-			<td>portal_listener.ldap_base_dn</td>
+			<td>portalListener.ldapBaseDn</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -309,7 +291,7 @@ null
 			<td>Base DN of the LDAP directory</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ldap_bind_secret</td>
+			<td>portalListener.ldapBindSecret</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/ldap_secret"
@@ -318,7 +300,7 @@ null
 			<td>Path to secret file for the bind to the LDAP directory</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ldap_host</td>
+			<td>portalListener.ldapHost</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -327,7 +309,7 @@ null
 			<td>Hostname of the LDAP server</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ldap_host_dn</td>
+			<td>portalListener.ldapHostDn</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -336,7 +318,7 @@ null
 			<td>DN of the UCS machine</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ldap_host_ip</td>
+			<td>portalListener.ldapHostIp</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -345,7 +327,7 @@ null
 			<td>The IP address of the LDAP server.</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ldap_port</td>
+			<td>portalListener.ldapPort</td>
 			<td>string</td>
 			<td><pre lang="json">
 "389"
@@ -354,7 +336,25 @@ null
 			<td>Port to connect to the LDAP server.</td>
 		</tr>
 		<tr>
-			<td>portal_listener.log_level</td>
+			<td>portalListener.ldapStartTls</td>
+			<td>string</td>
+			<td><pre lang="json">
+"never"
+</pre>
+</td>
+			<td>Configure if the LDAP client shall start TLS when connecting. Chose from "never", "request" and "require".</td>
+		</tr>
+		<tr>
+			<td>portalListener.ldapTlsReqcert</td>
+			<td>string</td>
+			<td><pre lang="json">
+"demand"
+</pre>
+</td>
+			<td>Allows to set the parameter "TLS_REQCERT" in the ldap client configuration.  The man page of "ldap.conf" does provide details about the allowed values and how this influences the client behavior.  See: https://www.openldap.org/software//man.cgi?query=ldap.conf</td>
+		</tr>
+		<tr>
+			<td>portalListener.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
 "WARNING"
@@ -363,7 +363,7 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portal_listener.machine_secret_file</td>
+			<td>portalListener.machineSecretFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/machine_secret"
@@ -372,7 +372,7 @@ null
 			<td>Path to the file which the machine secret</td>
 		</tr>
 		<tr>
-			<td>portal_listener.notifier_server</td>
+			<td>portalListener.notifierServer</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -381,7 +381,7 @@ null
 			<td>Hostname where the notifier can be reached.</td>
 		</tr>
 		<tr>
-			<td>portal_listener.portal_default_dn</td>
+			<td>portalListener.portalDefaultDn</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -390,7 +390,7 @@ null
 			<td>DN of the default portal</td>
 		</tr>
 		<tr>
-			<td>portal_listener.ucs_internal_url</td>
+			<td>portalListener.ucsInternalUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
@@ -399,7 +399,7 @@ null
 			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>
 		</tr>
 		<tr>
-			<td>portal_listener.udm_api_url</td>
+			<td>portalListener.udmApiUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -408,7 +408,7 @@ null
 			<td>UDM API connection URL</td>
 		</tr>
 		<tr>
-			<td>portal_listener.umc_get_url</td>
+			<td>portalListener.umcGetUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -417,7 +417,7 @@ null
 			<td>Define UMC get endpoint. Example: `"https://portal.example.com/univention/internal/umc/get"`</td>
 		</tr>
 		<tr>
-			<td>portal_listener.umc_session_url</td>
+			<td>portalListener.umcSessionUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -561,7 +561,7 @@ null
 			<td></td>
 		</tr>
 		<tr>
-			<td>store-dav.bundled</td>
+			<td>storeDav.bundled</td>
 			<td>bool</td>
 			<td><pre lang="json">
 true

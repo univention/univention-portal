@@ -17,11 +17,11 @@ tolerations: []
 
 
 # -- Application configuration of the Portal Frontend
-portalfrontend:
+portalFrontend:
   # -- TODO: Clarify usage of this parameter
   environment: "production"
   # -- TODO: Clarify usage of this parameter
-  log_level: "WARNING"
+  logLevel: "WARNING"
 
 ## Kubernetes ingress
 ingress:

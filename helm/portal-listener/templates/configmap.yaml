@@ -4,33 +4,33 @@
 {{- define "portal-listener.configMap" }}
 {{- with .top }}
 data:
-  DOMAIN_NAME: "{{ .Values.portal_listener.domain_name }}"
-  ENVIRONMENT: "{{ .Values.portal_listener.environment }}"
-  LDAP_BASE_DN: "{{ .Values.portal_listener.ldap_base_dn }}"
-  LDAP_BIND_SECRET: "{{ .Values.portal_listener.ldap_bind_secret }}"
-  LDAP_HOST: "{{ .Values.portal_listener.ldap_host }}"
-  LDAP_HOST_DN: "{{ .Values.portal_listener.ldap_host_dn }}"
-  LDAP_PORT: "{{ .Values.portal_listener.ldap_port }}"
-  LOG_LEVEL: "{{ .Values.portal_listener.log_level }}"
-  MACHINE_SECRET_FILE: "{{ .Values.portal_listener.machine_secret_file }}"
-  NOTIFIER_SERVER: "{{ .Values.portal_listener.notifier_server }}"
-  DEBUG_LEVEL: "{{ .Values.portal_listener.debug_level }}"
-  PORTAL_DEFAULT_DN: "{{ .Values.portal_listener.portal_default_dn }}"
+  DOMAIN_NAME: "{{ .Values.portalListener.domainName }}"
+  ENVIRONMENT: "{{ .Values.portalListener.environment }}"
+  LDAP_BASE_DN: "{{ .Values.portalListener.ldapBaseDn }}"
+  LDAP_BIND_SECRET: "{{ .Values.portalListener.ldapBindSecret }}"
+  LDAP_HOST: "{{ .Values.portalListener.ldapHost }}"
+  LDAP_HOST_DN: "{{ .Values.portalListener.ldapHostDn }}"
+  LDAP_PORT: "{{ .Values.portalListener.ldapPort }}"
+  LOG_LEVEL: "{{ .Values.portalListener.logLevel }}"
+  MACHINE_SECRET_FILE: "{{ .Values.portalListener.machineSecretFile }}"
+  NOTIFIER_SERVER: "{{ .Values.portalListener.notifierServer }}"
+  DEBUG_LEVEL: "{{ .Values.portalListener.debugLevel }}"
+  PORTAL_DEFAULT_DN: "{{ .Values.portalListener.portalDefaultDn }}"
   PORTAL_LISTENER_LOG_STREAM: "true"
-  PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portal_listener.admin_group\" is required." .Values.portal_listener.admin_group | quote }}
-  PORTAL_SERVER_ASSETS_ROOT: "{{ .Values.portal_listener.assets_root }}"
-  PORTAL_SERVER_AUTH_MODE: "{{ .Values.portal_listener.auth_mode }}"
-  PORTAL_SERVER_EDITABLE: "{{ .Values.portal_listener.editable }}"
-  PORTAL_SERVER_PORT: "{{ .Values.portal_listener.port }}"
-  PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portal_listener.ucs_internal_url\" is required." .Values.portal_listener.ucs_internal_url | quote }}
-  PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portal_listener.umc_get_url\" is required." .Values.portal_listener.umc_get_url | quote }}
-  PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portal_listener.umc_session_url\" is required." .Values.portal_listener.umc_session_url | quote }}
-  PORTAL_UDM_API_URL: "{{ .Values.portal_listener.udm_api_url }}"
-  PORTAL_UDM_API_USERNAME: "{{ .Values.portal_listener.udm_api_username }}"
-  PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portal_listener.udm_api_password_secret }}"
-  START_TLS: "{{ .Values.portal_listener.ldapStartTls }}"
-  TLS_REQCERT: "{{ .Values.portal_listener.ldapTlsReqcert }}"
-  CA_CERT_FILE: "{{ .Values.portal_listener.ca_cert_file }}"
-  CERT_PEM_FILE: "{{ .Values.portal_listener.cert_pem_file }}"
+  PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portalListener.adminGroup\" is required." .Values.portalListener.adminGroup | quote }}
+  PORTAL_SERVER_ASSETS_ROOT: "{{ .Values.portalListener.assetsRoot }}"
+  PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalListener.authMode }}"
+  PORTAL_SERVER_EDITABLE: "{{ .Values.portalListener.editable }}"
+  PORTAL_SERVER_PORT: "{{ .Values.portalListener.port }}"
+  PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portalListener.ucsInternalUrl\" is required." .Values.portalListener.ucsInternalUrl | quote }}
+  PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalListener.umcGetUrl\" is required." .Values.portalListener.umcGetUrl | quote }}
+  PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalListener.umcSessionUrl\" is required." .Values.portalListener.umcSessionUrl | quote }}
+  PORTAL_UDM_API_URL: "{{ .Values.portalListener.udmApiUrl }}"
+  PORTAL_UDM_API_USERNAME: "{{ .Values.portalListener.udmApiUsername }}"
+  PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalListener.udmApiPasswordSecret }}"
+  START_TLS: "{{ .Values.portalListener.ldapStartTls }}"
+  TLS_REQCERT: "{{ .Values.portalListener.ldapTlsReqcert }}"
+  CA_CERT_FILE: "{{ .Values.portalListener.caCertFile }}"
+  CERT_PEM_FILE: "{{ .Values.portalListener.certPemFile }}"
 {{- end }}
 {{- end }}
