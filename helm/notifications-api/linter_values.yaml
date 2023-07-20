@@ -5,12 +5,12 @@
 
 
 ## Application-specific
-notificationsapi:
-  apply_database_migrations: "True"
-  dev_mode: "True"
+notificationsApi:
+  applyDatabaseMigrations: "True"
+  devMode: "True"
   environment: "staging"
-  log_level: "DEBUG"
-  api_prefix: "/univention/portal/notifications-api"
+  logLevel: "DEBUG"
+  apiPrefix: "/univention/portal/notifications-api"
 
 
 ## Kubernetes ingress

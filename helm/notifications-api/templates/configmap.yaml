@@ -5,16 +5,16 @@ kind: ConfigMap
 metadata:
   name: '{{ include "common.names.fullname" . }}'
 data:
-  APPLY_DATABASE_MIGRATIONS: "{{ .Values.notificationsapi.apply_database_migrations }}"
+  APPLY_DATABASE_MIGRATIONS: "{{ .Values.notificationsApi.applyDatabaseMigrations }}"
   {{- if .Values.postgresql.bundled }}
   DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ include "common.names.dependency.fullname" (dict "chartName" "postgresql" "chartValues" .Values.postgresql "context" $) }}:{{ .Values.postgresql.primary.service.ports.postgresql }}/{{ .Values.postgresql.auth.database }}"
   {{- else }}
   DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.connection.host }}:{{ .Values.postgresql.connection.port }}/{{ .Values.postgresql.auth.database }}"
   {{- end }}
-  DEV_MODE: "{{ .Values.notificationsapi.dev_mode }}"
-  ENVIRONMENT: "{{ .Values.notificationsapi.environment }}"
-  LOG_LEVEL: "{{ .Values.notificationsapi.log_level }}"
-  SQL_ECHO: "{{ .Values.notificationsapi.sql_echo }}"
-  ROOT_PATH: "{{ .Values.notificationsapi.api_prefix }}"
+  DEV_MODE: "{{ .Values.notificationsApi.devMode }}"
+  ENVIRONMENT: "{{ .Values.notificationsApi.environment }}"
+  LOG_LEVEL: "{{ .Values.notificationsApi.logLevel }}"
+  SQL_ECHO: "{{ .Values.notificationsApi.sqlEcho }}"
+  ROOT_PATH: "{{ .Values.notificationsApi.apiPrefix }}"
 
 ...

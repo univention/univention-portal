@@ -433,19 +433,19 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>portalfrontend</td>
+			<td>portalFrontend</td>
 			<td>object</td>
 			<td><pre lang="json">
 {
   "environment": "production",
-  "log_level": "WARNING"
+  "logLevel": "WARNING"
 }
 </pre>
 </td>
 			<td>Application configuration of the Portal Frontend</td>
 		</tr>
 		<tr>
-			<td>portalfrontend.environment</td>
+			<td>portalFrontend.environment</td>
 			<td>string</td>
 			<td><pre lang="json">
 "production"
@@ -454,7 +454,7 @@ true
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portalfrontend.log_level</td>
+			<td>portalFrontend.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
 "WARNING"

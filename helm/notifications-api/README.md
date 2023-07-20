@@ -320,23 +320,23 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>notificationsapi</td>
+			<td>notificationsApi</td>
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "api_prefix": "/univention/portal/notifications-api/",
-  "apply_database_migrations": "True",
-  "dev_mode": "False",
+  "apiPrefix": "/univention/portal/notifications-api/",
+  "applyDatabaseMigrations": "True",
+  "devMode": "False",
   "environment": "production",
-  "log_level": "WARNING",
-  "sql_echo": "False"
+  "logLevel": "WARNING",
+  "sqlEcho": "False"
 }
 </pre>
 </td>
 			<td>Application configuration of the Notifcations API</td>
 		</tr>
 		<tr>
-			<td>notificationsapi.api_prefix</td>
+			<td>notificationsApi.apiPrefix</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/univention/portal/notifications-api/"
@@ -345,7 +345,7 @@ true
 			<td>The URL prefix under which the API shall be deployed.</td>
 		</tr>
 		<tr>
-			<td>notificationsapi.apply_database_migrations</td>
+			<td>notificationsApi.applyDatabaseMigrations</td>
 			<td>string</td>
 			<td><pre lang="json">
 "True"
@@ -354,7 +354,7 @@ true
 			<td>Apply database migrations automatically</td>
 		</tr>
 		<tr>
-			<td>notificationsapi.dev_mode</td>
+			<td>notificationsApi.devMode</td>
 			<td>string</td>
 			<td><pre lang="json">
 "False"
@@ -363,7 +363,7 @@ true
 			<td>Activate the development mode. Do not use this in production deployments.</td>
 		</tr>
 		<tr>
-			<td>notificationsapi.environment</td>
+			<td>notificationsApi.environment</td>
 			<td>string</td>
 			<td><pre lang="json">
 "production"
@@ -372,7 +372,7 @@ true
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>notificationsapi.log_level</td>
+			<td>notificationsApi.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
 "WARNING"
@@ -381,7 +381,7 @@ true
 			<td>Log level configuration. E.g. "DEBUG", "INFO", "WARNING", "ERROR".</td>
 		</tr>
 		<tr>
-			<td>notificationsapi.sql_echo</td>
+			<td>notificationsApi.sqlEcho</td>
 			<td>string</td>
 			<td><pre lang="json">
 "False"

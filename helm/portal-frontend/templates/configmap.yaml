@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: '{{ include "common.names.fullname" . }}'
 data:
-  ENVIRONMENT: "{{ .Values.portalfrontend.environment }}"
-  LOG_LEVEL: "{{ .Values.portalfrontend.log_level }}"
+  ENVIRONMENT: "{{ .Values.portalFrontend.environment }}"
+  LOG_LEVEL: "{{ .Values.portalFrontend.logLevel }}"
 
 ...

@@ -19,7 +19,7 @@ spec:
   http:
     - match:
         - uri:
-            prefix: {{ .Values.notificationsapi.api_prefix | quote }}
+            prefix: {{ .Values.notificationsApi.apiPrefix | quote }}
       rewrite:
         uri: "/"
       route:

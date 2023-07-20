@@ -5,14 +5,14 @@ kind: ConfigMap
 metadata:
   name: '{{ include "common.names.fullname" . }}'
 data:
-  ENVIRONMENT: "{{ .Values.portalserver.environment }}"
-  LOG_LEVEL: "{{ .Values.portalserver.log_level }}"
-  PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portalserver.admin_group\" is required." .Values.portalserver.admin_group | quote }}
-  PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalserver.auth_mode }}"
-  PORTAL_SERVER_EDITABLE: "{{ .Values.portalserver.editable }}"
-  PORTAL_SERVER_PORT: "{{ .Values.portalserver.port }}"
-  PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portalserver.ucs_internal_url\" is required." .Values.portalserver.ucs_internal_url | quote }}
-  PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalserver.umc_get_url\" is required." .Values.portalserver.umc_get_url | quote }}
-  PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalserver.umc_session_url\" is required." .Values.portalserver.umc_session_url | quote }}
+  ENVIRONMENT: "{{ .Values.portalServer.environment }}"
+  LOG_LEVEL: "{{ .Values.portalServer.logLevel }}"
+  PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portalServer.adminGroup\" is required." .Values.portalServer.adminGroup | quote }}
+  PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalServer.authMode }}"
+  PORTAL_SERVER_EDITABLE: "{{ .Values.portalServer.editable }}"
+  PORTAL_SERVER_PORT: "{{ .Values.portalServer.port }}"
+  PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portalServer.ucsInternalUrl\" is required." .Values.portalServer.ucsInternalUrl | quote }}
+  PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalServer.umcGetUrl\" is required." .Values.portalServer.umcGetUrl | quote }}
+  PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalServer.umcSessionUrl\" is required." .Values.portalServer.umcSessionUrl | quote }}
 
 ...

@@ -361,26 +361,26 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>portalserver</td>
+			<td>portalServer</td>
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "admin_group": null,
-  "auth_mode": "ucs",
+  "adminGroup": null,
+  "authMode": "ucs",
   "editable": "true",
   "environment": "production",
-  "log_level": "WARNING",
+  "logLevel": "WARNING",
   "port": 80,
-  "ucs_internal_url": null,
-  "umc_get_url": null,
-  "umc_session_url": null
+  "ucsInternalUrl": null,
+  "umcGetUrl": null,
+  "umcSessionUrl": null
 }
 </pre>
 </td>
 			<td>Application configuration of the Portal Server</td>
 		</tr>
 		<tr>
-			<td>portalserver.admin_group</td>
+			<td>portalServer.adminGroup</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -389,7 +389,7 @@ null
 			<td>Define LDAP Admin Group. Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`</td>
 		</tr>
 		<tr>
-			<td>portalserver.auth_mode</td>
+			<td>portalServer.authMode</td>
 			<td>string</td>
 			<td><pre lang="json">
 "ucs"
@@ -398,7 +398,7 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
 		</tr>
 		<tr>
-			<td>portalserver.editable</td>
+			<td>portalServer.editable</td>
 			<td>string</td>
 			<td><pre lang="json">
 "true"
@@ -407,7 +407,7 @@ null
 			<td>Defines if members of the Admin group can use the edit mode in the portal.</td>
 		</tr>
 		<tr>
-			<td>portalserver.environment</td>
+			<td>portalServer.environment</td>
 			<td>string</td>
 			<td><pre lang="json">
 "production"
@@ -416,7 +416,7 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portalserver.log_level</td>
+			<td>portalServer.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
 "WARNING"
@@ -425,7 +425,7 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portalserver.ucs_internal_url</td>
+			<td>portalServer.ucsInternalUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -434,7 +434,7 @@ null
 			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>
 		</tr>
 		<tr>
-			<td>portalserver.umc_get_url</td>
+			<td>portalServer.umcGetUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -443,7 +443,7 @@ null
 			<td>Define UMC get endpoint. Example: `"https://portal.example.com/univention/internal/umc/get"`</td>
 		</tr>
 		<tr>
-			<td>portalserver.umc_session_url</td>
+			<td>portalServer.umcSessionUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
