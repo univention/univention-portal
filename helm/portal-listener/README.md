@@ -178,10 +178,11 @@ false
   "editable": "true",
   "environment": "production",
   "ldapBaseDn": null,
-  "ldapBindSecret": "/var/secrets/ldap_secret",
   "ldapHost": null,
   "ldapHostDn": null,
   "ldapHostIp": null,
+  "ldapPassword": null,
+  "ldapPasswordFile": "/run/secrets/ldap_secret",
   "ldapPort": "389",
   "ldapStartTls": "never",
   "ldapTlsReqcert": "demand",
@@ -291,15 +292,6 @@ null
 			<td>Base DN of the LDAP directory</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapBindSecret</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/secrets/ldap_secret"
-</pre>
-</td>
-			<td>Path to secret file for the bind to the LDAP directory</td>
-		</tr>
-		<tr>
 			<td>portalListener.ldapHost</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -325,6 +317,24 @@ null
 </pre>
 </td>
 			<td>The IP address of the LDAP server.</td>
+		</tr>
+		<tr>
+			<td>portalListener.ldapPassword</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>LDAP password for `cn=admin`. Will be written to "ldapPasswordFile" if set.</td>
+		</tr>
+		<tr>
+			<td>portalListener.ldapPasswordFile</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/run/secrets/ldap_secret"
+</pre>
+</td>
+			<td>The path to the "ldapPasswordFile" docker secret or a plain file</td>
 		</tr>
 		<tr>
 			<td>portalListener.ldapPort</td>
