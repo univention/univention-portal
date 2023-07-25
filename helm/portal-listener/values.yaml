@@ -30,6 +30,9 @@ portalListener:
   caCertFile: "/var/secrets/ca_cert"
   # -- Path to the certificate of the LDAP server
   certPemFile: "/var/secrets/cert_pem"
+  # -- Whenever to start encryption and validate certificates.
+  # Chose from "off", "unvalidated" and "secure".
+  tlsMode: "secure"
   # -- Internal domain name of the UCS machine
   domainName: "univention.intranet"
   # -- Debug level of the listener
@@ -53,16 +56,6 @@ portalListener:
   ldapHostDn: null
   # -- Port to connect to the LDAP server.
   ldapPort: "389"
-  # -- Configure if the LDAP client shall start TLS when connecting.
-  # Chose from "never", "request" and "require".
-  ldapStartTls: "never"
-  # -- Allows to set the parameter "TLS_REQCERT" in the ldap client configuration.
-  #
-  # The man page of "ldap.conf" does provide details about the allowed values and how
-  # this influences the client behavior.
-  #
-  # See: https://www.openldap.org/software//man.cgi?query=ldap.conf
-  ldapTlsReqcert: "demand"
 
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"

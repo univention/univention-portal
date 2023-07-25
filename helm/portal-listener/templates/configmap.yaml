@@ -33,5 +33,6 @@ data:
   TLS_REQCERT: "{{ .Values.portalListener.ldapTlsReqcert }}"
   CA_CERT_FILE: "{{ .Values.portalListener.caCertFile }}"
   CERT_PEM_FILE: "{{ .Values.portalListener.certPemFile }}"
+  TLS_MODE: "{{ .tlsMode }}"
 {{- end }}
 {{- end }}
