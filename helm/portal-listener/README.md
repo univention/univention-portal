@@ -171,8 +171,8 @@ false
   "adminGroup": null,
   "assetsRoot": "http://portal-server:univention@portal-listener-store-dav/portal-assets/",
   "authMode": "ucs",
-  "caCertFile": "/var/secrets/ca_cert",
-  "certPemFile": "/var/secrets/cert_pem",
+  "caCert": null,
+  "caCertFile": "/run/secrets/ca_cert",
   "debugLevel": "5",
   "domainName": "univention.intranet",
   "editable": "true",
@@ -228,22 +228,22 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
 		</tr>
 		<tr>
+			<td>portalListener.caCert</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>CA root certificate. Optional; will be written to "caCertFile" if set.</td>
+		</tr>
+		<tr>
 			<td>portalListener.caCertFile</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/var/secrets/ca_cert"
+"/run/secrets/ca_cert"
 </pre>
 </td>
-			<td>Path to the CA certificate of the UCS machine.</td>
-		</tr>
-		<tr>
-			<td>portalListener.certPemFile</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/secrets/cert_pem"
-</pre>
-</td>
-			<td>Path to the certificate of the LDAP server</td>
+			<td>The path to the "caCertFile" docker secret or a plain file.</td>
 		</tr>
 		<tr>
 			<td>portalListener.debugLevel</td>

@@ -13,6 +13,8 @@ portalListener:
   umcSessionUrl: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
   ldapPassword: "s3cr3t"
   ldapPasswordFile: "/var/secrets/ldap_secret"
+  caCert: "s3cr3t"
+  caCertFile: "/var/secrets/ca_cert"
   tlsMode: "unvalidated"
 
 

@@ -31,8 +31,8 @@ data:
   PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalListener.udmApiPasswordSecret }}"
   START_TLS: "{{ .Values.portalListener.ldapStartTls }}"
   TLS_REQCERT: "{{ .Values.portalListener.ldapTlsReqcert }}"
+  CA_CERT: "{{ .Values.portalListener.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalListener.caCertFile }}"
-  CERT_PEM_FILE: "{{ .Values.portalListener.certPemFile }}"
   TLS_MODE: "{{ .tlsMode }}"
 {{- end }}
 {{- end }}
