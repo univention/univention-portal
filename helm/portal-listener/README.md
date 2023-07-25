@@ -184,12 +184,11 @@ false
   "ldapPassword": null,
   "ldapPasswordFile": "/run/secrets/ldap_secret",
   "ldapPort": "389",
-  "ldapStartTls": "never",
-  "ldapTlsReqcert": "demand",
   "logLevel": "WARNING",
   "machineSecretFile": "/var/secrets/machine_secret",
   "notifierServer": null,
   "portalDefaultDn": null,
+  "tlsMode": "secure",
   "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data/",
   "udmApiPasswordSecret": "/var/secrets/machine_secret",
   "udmApiUrl": null,
@@ -346,24 +345,6 @@ null
 			<td>Port to connect to the LDAP server.</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapStartTls</td>
-			<td>string</td>
-			<td><pre lang="json">
-"never"
-</pre>
-</td>
-			<td>Configure if the LDAP client shall start TLS when connecting. Chose from "never", "request" and "require".</td>
-		</tr>
-		<tr>
-			<td>portalListener.ldapTlsReqcert</td>
-			<td>string</td>
-			<td><pre lang="json">
-"demand"
-</pre>
-</td>
-			<td>Allows to set the parameter "TLS_REQCERT" in the ldap client configuration.  The man page of "ldap.conf" does provide details about the allowed values and how this influences the client behavior.  See: https://www.openldap.org/software//man.cgi?query=ldap.conf</td>
-		</tr>
-		<tr>
 			<td>portalListener.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -398,6 +379,15 @@ null
 </pre>
 </td>
 			<td>DN of the default portal</td>
+		</tr>
+		<tr>
+			<td>portalListener.tlsMode</td>
+			<td>string</td>
+			<td><pre lang="json">
+"secure"
+</pre>
+</td>
+			<td>Whenever to start encryption and validate certificates. Chose from "off", "unvalidated" and "secure".</td>
 		</tr>
 		<tr>
 			<td>portalListener.ucsInternalUrl</td>
