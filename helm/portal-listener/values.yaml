@@ -26,10 +26,10 @@ portalListener:
   assetsRoot: "http://portal-server:univention@portal-listener-store-dav/portal-assets/"
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
   authMode: "ucs"
-  # -- Path to the CA certificate of the UCS machine.
-  caCertFile: "/var/secrets/ca_cert"
-  # -- Path to the certificate of the LDAP server
-  certPemFile: "/var/secrets/cert_pem"
+  # -- CA root certificate. Optional; will be written to "caCertFile" if set.
+  caCert: null
+  # -- The path to the "caCertFile" docker secret or a plain file.
+  caCertFile: "/run/secrets/ca_cert"
   # -- Whenever to start encryption and validate certificates.
   # Chose from "off", "unvalidated" and "secure".
   tlsMode: "secure"
