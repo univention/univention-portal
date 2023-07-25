@@ -41,8 +41,10 @@ portalListener:
 
   # -- Base DN of the LDAP directory
   ldapBaseDn: null
-  # -- Path to secret file for the bind to the LDAP directory
-  ldapBindSecret: "/var/secrets/ldap_secret"
+  # -- LDAP password for `cn=admin`. Will be written to "ldapPasswordFile" if set.
+  ldapPassword: null
+  # -- The path to the "ldapPasswordFile" docker secret or a plain file
+  ldapPasswordFile: "/run/secrets/ldap_secret"
   # -- Hostname of the LDAP server
   ldapHost: null
   # -- The IP address of the LDAP server.
