@@ -51,8 +51,8 @@ kubectl delete pvc -l release=notifications-api
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | common | ^2.2.2 |
 | https://charts.bitnami.com/bitnami | postgresql | ^12.2.1 |
+| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.1.0 |
 
 `postgresql` is an optional dependency, it can be deactivated by setting the
 value `postgresql.bundled`.
