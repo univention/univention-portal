@@ -42,8 +42,8 @@ helm uninstall portal-listener
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.1.0 |
-| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/container-store-dav/helm | store-dav | ^0.1.0 |
+| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.2.0 |
+| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/container-store-dav/helm | store-dav | ^0.2.0 |
 
 ## Values
 
@@ -399,6 +399,15 @@ null
 			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>
 		</tr>
 		<tr>
+			<td>portalListener.udmApiPasswordSecret</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/secrets/machine_secret"
+</pre>
+</td>
+			<td>UDM API password file.    Default: same as `machineSecretFile`.</td>
+		</tr>
+		<tr>
 			<td>portalListener.udmApiUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -406,6 +415,15 @@ null
 </pre>
 </td>
 			<td>UDM API connection URL</td>
+		</tr>
+		<tr>
+			<td>portalListener.udmApiUsername</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>UDM API username.</td>
 		</tr>
 		<tr>
 			<td>portalListener.umcGetUrl</td>

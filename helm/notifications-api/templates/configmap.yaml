@@ -1,13 +1,12 @@
 ---
+{{ include "common.configMap" (dict "top" . "overrides" "notifications-api.configMap") }}
 
-apiVersion: "v1"
-kind: ConfigMap
-metadata:
-  name: '{{ include "common.names.fullname" . }}'
+{{- define "notifications-api.configMap" }}
+{{- with .top }}
 data:
   APPLY_DATABASE_MIGRATIONS: "{{ .Values.notificationsApi.applyDatabaseMigrations }}"
   {{- if .Values.postgresql.bundled }}
-  DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ include "common.names.dependency.fullname" (dict "chartName" "postgresql" "chartValues" .Values.postgresql "context" $) }}:{{ .Values.postgresql.primary.service.ports.postgresql }}/{{ .Values.postgresql.auth.database }}"
+  DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ include "common.names.dependency.fullname" (dict "chartName" "postgresql" "chartValues" .Values.postgresql "context" $.top) }}:{{ .Values.postgresql.primary.service.ports.postgresql }}/{{ .Values.postgresql.auth.database }}"
   {{- else }}
   DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.connection.host }}:{{ .Values.postgresql.connection.port }}/{{ .Values.postgresql.auth.database }}"
   {{- end }}
@@ -16,5 +15,6 @@ data:
   LOG_LEVEL: "{{ .Values.notificationsApi.logLevel }}"
   SQL_ECHO: "{{ .Values.notificationsApi.sqlEcho }}"
   ROOT_PATH: "{{ .Values.notificationsApi.apiPrefix }}"
-
+{{- end }}
+{{- end }}
 ...
