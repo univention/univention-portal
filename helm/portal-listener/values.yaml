@@ -68,7 +68,10 @@ portalListener:
 
   # -- UDM API connection URL
   udmApiUrl: null
+  # -- UDM API username.
   udmApiUsername: null
+  # -- UDM API password file.
+  #    Default: same as `machineSecretFile`.
   udmApiPasswordSecret: "/var/secrets/machine_secret"
 
   # -- Define UCS internal endpoint.

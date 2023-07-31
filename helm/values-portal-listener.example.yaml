@@ -14,6 +14,19 @@ portalListener:
   umcGetUrl: "http://ucs-machine/univention/internal/umc/get"
   umcSessionUrl: "http://ucs-machine/univention/internal/umc/get/session-info"
 
+  authLdapSecret: "top-secret-value"
+  ldapBaseDn: "dc=univention-organization,dc=intranet"
+  ldapHost: "ldap-server"
+  # TODO: This should not be required, the machine account is not there
+  # ldapHostDn: cn=stub-value,cn=dc,cn=computers,dc=univention-organization,dc=intranet
+  ldapHostDn: "cn=admin,dc=univention-organization,dc=intranet"
+  machineSecret: "top-secret-value"
+  notifierServer: "ldap-notifier"
+  portalDefaultDn: "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+  udmApiUrl: "http://udm-rest-api/udm/"
+  udmApiUsername: "cn=admin"
+
+  tlsMode: "off"
 
 storeDav:
   bundled: true

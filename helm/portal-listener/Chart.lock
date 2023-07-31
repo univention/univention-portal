@@ -1,9 +1,9 @@
 dependencies:
 - name: common
   repository: oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm
-  version: 0.1.0
+  version: 0.2.0
 - name: store-dav
   repository: oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/container-store-dav/helm
-  version: 0.1.0
-digest: sha256:b48108ded923e97204af834a5e420b70f3bfe90e55c44f394e3087d81d3306a2
-generated: "2023-06-05T10:55:04.148281+02:00"
+  version: 0.2.0
+digest: sha256:9d15602a54c2452c0ce24f65ea3297868cf66c0f929593fcf0f7f0db2f4fe377
+generated: "2023-08-01T14:17:21.396509+02:00"
