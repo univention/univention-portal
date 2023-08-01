@@ -26,7 +26,7 @@ portalListener:
   assetsRoot: "http://portal-server:univention@portal-listener-store-dav/portal-assets/"
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
   authMode: "ucs"
-  # -- CA root certificate. Optional; will be written to "caCertFile" if set.
+  # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
   caCert: null
   # -- The path to the "caCertFile" docker secret or a plain file.
   caCertFile: "/run/secrets/ca_cert"
@@ -44,10 +44,10 @@ portalListener:
 
   # -- Base DN of the LDAP directory
   ldapBaseDn: null
-  # -- LDAP password for `cn=admin`. Will be written to "ldapPasswordFile" if set.
-  ldapPassword: null
-  # -- The path to the "ldapPasswordFile" docker secret or a plain file
-  ldapPasswordFile: "/run/secrets/ldap_secret"
+  # -- LDAP password for `cn=admin`. Will be written to "ldapSecretFile" if set.
+  ldapSecret: null
+  # -- The path to the "ldapSecretFile" docker secret or a plain file
+  ldapSecretFile: "/run/secrets/ldap_secret"
   # -- Hostname of the LDAP server
   ldapHost: null
   # -- The IP address of the LDAP server.
@@ -59,7 +59,9 @@ portalListener:
 
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"
-  # -- Path to the file with the machine secret
+  # -- LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.
+  machineSecret: null
+  # -- The path to the "machineSecretFile" docker secret or a plain file
   machineSecretFile: "/var/secrets/machine_secret"
   # -- Hostname where the notifier can be reached.
   notifierServer: null
@@ -72,7 +74,7 @@ portalListener:
   udmApiUsername: null
   # -- UDM API password file.
   #    Default: same as `machineSecretFile`.
-  udmApiPasswordSecret: "/var/secrets/machine_secret"
+  udmApiSecretFile: "/var/secrets/machine_secret"
 
   # -- Define UCS internal endpoint.
   # Example: `"https://portal.example.com/univention/internal"`
