@@ -181,16 +181,17 @@ false
   "ldapHost": null,
   "ldapHostDn": null,
   "ldapHostIp": null,
-  "ldapPassword": null,
-  "ldapPasswordFile": "/run/secrets/ldap_secret",
   "ldapPort": "389",
+  "ldapSecret": null,
+  "ldapSecretFile": "/run/secrets/ldap_secret",
   "logLevel": "WARNING",
+  "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
   "notifierServer": null,
   "portalDefaultDn": null,
   "tlsMode": "secure",
   "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data/",
-  "udmApiPasswordSecret": "/var/secrets/machine_secret",
+  "udmApiSecretFile": "/var/secrets/machine_secret",
   "udmApiUrl": null,
   "udmApiUsername": null,
   "umcGetUrl": null,
@@ -234,7 +235,7 @@ null
 null
 </pre>
 </td>
-			<td>CA root certificate. Optional; will be written to "caCertFile" if set.</td>
+			<td>CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.</td>
 		</tr>
 		<tr>
 			<td>portalListener.caCertFile</td>
@@ -318,24 +319,6 @@ null
 			<td>The IP address of the LDAP server.</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapPassword</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>LDAP password for `cn=admin`. Will be written to "ldapPasswordFile" if set.</td>
-		</tr>
-		<tr>
-			<td>portalListener.ldapPasswordFile</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/run/secrets/ldap_secret"
-</pre>
-</td>
-			<td>The path to the "ldapPasswordFile" docker secret or a plain file</td>
-		</tr>
-		<tr>
 			<td>portalListener.ldapPort</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -343,6 +326,24 @@ null
 </pre>
 </td>
 			<td>Port to connect to the LDAP server.</td>
+		</tr>
+		<tr>
+			<td>portalListener.ldapSecret</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>LDAP password for `cn=admin`. Will be written to "ldapSecretFile" if set.</td>
+		</tr>
+		<tr>
+			<td>portalListener.ldapSecretFile</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/run/secrets/ldap_secret"
+</pre>
+</td>
+			<td>The path to the "ldapSecretFile" docker secret or a plain file</td>
 		</tr>
 		<tr>
 			<td>portalListener.logLevel</td>
@@ -354,13 +355,22 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
+			<td>portalListener.machineSecret</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.</td>
+		</tr>
+		<tr>
 			<td>portalListener.machineSecretFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/machine_secret"
 </pre>
 </td>
-			<td>Path to the file with the machine secret</td>
+			<td>The path to the "machineSecretFile" docker secret or a plain file</td>
 		</tr>
 		<tr>
 			<td>portalListener.notifierServer</td>
@@ -399,7 +409,7 @@ null
 			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>
 		</tr>
 		<tr>
-			<td>portalListener.udmApiPasswordSecret</td>
+			<td>portalListener.udmApiSecretFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/machine_secret"
