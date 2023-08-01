@@ -36,7 +36,7 @@ portalListener:
   # -- Internal domain name of the UCS machine
   domainName: "univention.intranet"
   # -- Debug level of the listener
-  debugLevel: "5"
+  debugLevel: "4"
   # -- Defines if members of the Admin group can use the edit mode in the portal.
   editable: "true"
   # -- TODO: Clarify usage of this parameter
