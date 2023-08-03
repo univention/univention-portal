@@ -63,6 +63,7 @@ trigger-portal-server:
   rules:
     - changes: &portal-server-changes
         - 'docker/portal-server/**/*'
+        - 'docker/portal-listener/**/*'
         - 'listener/**/*'
         - 'portal-server/**/*'
         - 'python/**/*'
