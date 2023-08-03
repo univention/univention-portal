@@ -1,4 +1,4 @@
-ARG LISTENER_BASE_IMAGE_TAG=v0.1.0
+ARG LISTENER_BASE_IMAGE_TAG=v0.2.0
 ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base:${LISTENER_BASE_IMAGE_TAG}
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
