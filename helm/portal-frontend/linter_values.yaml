@@ -12,13 +12,19 @@ portalFrontend:
 
 ## Kubernetes ingress
 ingress:
-  enabled: false
+  enabled: true
   host: "portal.example.develop.souvap-univention.de"
-
+  redirects:
+    enabled: true
+    redirectRoot: true
+    target: "/foo/bar/"
+    paths:
+      - "/foo/?"
+      - "/foo/bar"
 
 ## Istio based
 istio:
-  enabled: true
+  enabled: false
   host: "portal.example.develop.souvap-univention.de"
 
 

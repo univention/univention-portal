@@ -52,7 +52,17 @@ ingress:
   tls:
     enabled: true
     secretName: ""
-
+  redirects:
+    # -- Whether to install additional redirects.
+    enabled: true
+    # -- Whether to redirect the root (`/`) path.
+    redirectRoot: true
+    # -- Exact entry path of the application.
+    target: "/univention/portal/"
+    # -- Which paths to grab in addition `/`
+    paths:
+      - "/univention/?"
+      - "/univention/portal"
 
 ## Istio support
 istio:

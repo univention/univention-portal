@@ -221,6 +221,45 @@ null
 			<td>The path configuration. The default only grabs what is known to be part of the frontend.</td>
 		</tr>
 		<tr>
+			<td>ingress.redirects.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Whether to install additional redirects.</td>
+		</tr>
+		<tr>
+			<td>ingress.redirects.paths</td>
+			<td>list</td>
+			<td><pre lang="json">
+[
+  "/univention/?",
+  "/univention/portal"
+]
+</pre>
+</td>
+			<td>Which paths to grab in addition `/`</td>
+		</tr>
+		<tr>
+			<td>ingress.redirects.redirectRoot</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Whether to redirect the root (`/`) path.</td>
+		</tr>
+		<tr>
+			<td>ingress.redirects.target</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/portal/"
+</pre>
+</td>
+			<td>Exact entry path of the application.</td>
+		</tr>
+		<tr>
 			<td>ingress.tls.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
