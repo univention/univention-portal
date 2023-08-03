@@ -1,2 +1,40 @@
 ---
 {{ include "common.ingress" (dict "top" .) }}
+---
+{{- if and .Values.ingress.enabled .Values.ingress.redirects.enabled }}
+apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
+kind: Ingress
+metadata:
+  name: {{ printf "%s-%s" (include "common.names.fullname" .) "-root-redirect" }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+  annotations:
+    # Redirect captured paths *below* `/`.
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      absolute_redirect off;
+      return 302 {{ .Values.ingress.redirects.target }};
+    {{- if .Values.ingress.redirects.redirectRoot }}
+    # Redirect `/`.
+    nginx.ingress.kubernetes.io/app-root: "{{ .Values.ingress.redirects.target }}"
+    {{- end }}
+spec:
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host | quote }}
+      secretName: "{{ .Values.ingress.tls.secretName }}"
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+        paths:
+          {{- range $.Values.ingress.redirects.paths }}
+          - path: {{ . | quote }}
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" (include "common.names.fullname" $) "servicePort" "http" "context" $) | nindent 14 }}
+          {{- end }}
+  defaultBackend: {{- include "common.ingress.backend" (dict "serviceName" (include "common.names.fullname" $) "servicePort" "http" "context" $) | nindent 4 }}
+{{- end }}
