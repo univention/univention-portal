@@ -173,7 +173,7 @@ false
   "authMode": "ucs",
   "caCert": null,
   "caCertFile": "/run/secrets/ca_cert",
-  "debugLevel": "5",
+  "debugLevel": "4",
   "domainName": "univention.intranet",
   "editable": "true",
   "environment": "production",
@@ -250,7 +250,7 @@ null
 			<td>portalListener.debugLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
-"5"
+"4"
 </pre>
 </td>
 			<td>Debug level of the listener</td>
