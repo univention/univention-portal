@@ -360,7 +360,7 @@ null
 "/var/secrets/machine_secret"
 </pre>
 </td>
-			<td>Path to the file which the machine secret</td>
+			<td>Path to the file with the machine secret</td>
 		</tr>
 		<tr>
 			<td>portalListener.notifierServer</td>

@@ -59,7 +59,7 @@ portalListener:
 
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"
-  # -- Path to the file which the machine secret
+  # -- Path to the file with the machine secret
   machineSecretFile: "/var/secrets/machine_secret"
   # -- Hostname where the notifier can be reached.
   notifierServer: null
