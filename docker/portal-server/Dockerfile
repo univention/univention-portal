@@ -1,28 +1,9 @@
 ARG DOCKER_PROXY
-ARG DEBIAN_BASE_IMAGE_TAG=buster-slim
 
-# TODO: Should become a base image
-# See also "minbase" and similar from "DIST/docker-services" on Gitlab
-FROM ${DOCKER_PROXY}debian:${DEBIAN_BASE_IMAGE_TAG} AS ucs-sources-base
-ARG APT_KEY_URL=https://updates.software-univention.de/univention-archive-key-ucs-5x.gpg
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-ucs-base/ucs-base-dev-504
+ARG UCS_BASE_IMAGE_TAG=latest
 
-SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
-
-# hadolint ignore=DL3008
-RUN apt-get update \
-    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      ca-certificates \
-      curl \
-      gpg \
-      gpg-agent \
-      libterm-readline-gnu-perl \
-    && rm -fr /var/lib/apt/lists/*  /var/cache/apt/archives/* \
-    && curl -fsSL ${APT_KEY_URL} | apt-key add -
-
-COPY ./docker/portal-server/sources.list /etc/apt/sources.list.d/15_ucs-online-version.list
-
-
-FROM ucs-sources-base as build-base
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build-base
 
 RUN apt-get -qq update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
@@ -72,7 +53,7 @@ RUN pip3 install --no-cache-dir -r requirements-test.txt \
 CMD ["pytest", "unittests"]
 
 
-FROM ucs-sources-base AS final
+FROM build-base AS final
 
 RUN apt-get update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
