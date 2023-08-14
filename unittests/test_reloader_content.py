@@ -40,6 +40,7 @@ from unittest import mock
 import pytest
 
 import stub_udm_client
+import univention.admin.rest.client as udm_client
 from univention.portal.extensions.reloader_content import GroupsContentFetcher, PortalContentFetcher
 
 
@@ -53,6 +54,18 @@ def portal_content_fetcher(mocker):
     put_mock = mocker.patch("requests.put")
     put_mock().status_code = 201
     return PortalContentFetcher(stub_portal_dn, "/stub_root")
+
+
+def test_portal_content_fetcher_propagates_connectionerror(mocker):
+    content_fetcher = PortalContentFetcher(stub_portal_dn, "/stub_root")
+    udm_return = mocker.Mock()
+    udm_return.get.side_effect = udm_client.ConnectionError
+    mocker.patch.object(
+        PortalContentFetcher, "_create_udm_client",
+        return_value=udm_return)
+
+    with pytest.raises(udm_client.ConnectionError):
+        content_fetcher.fetch()
 
 
 def test_collect_asset_returns_relative_asset_url(portal_content_fetcher):
