@@ -40,7 +40,7 @@ build-portal-server:
 
 generate-joinscript-data:
   stage: build
-  image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-udm-rest/udm-rest-api-joinscript-tools:latest
+  image: gitregistry.knut.univention.de/univention/customers/dataport/upx/stack-data/joinscript-tools:latest
   needs: []
   script:
     - >-
