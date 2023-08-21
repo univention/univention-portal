@@ -73,7 +73,7 @@ and to run the unit tests with a watcher, see the examples below.
 
 ### Using the dev environment container
 
-The stage `dev-env` in the `Dockerfile` does define a very basic layer which
+The stage `local-dev-env` in the `Dockerfile` does define a very basic layer which
 just provides a well defined Linux environment. This can be used to run the
 frontend inside of this environment instead of directly on your operating
 system, so that better isolation is achieved. It is integrated via docker
@@ -102,7 +102,7 @@ yarn storybook -p 8080
 
 The container defined in `Dockerfile` as stage `test` does provide the needed
 environment plus the codebase in order to run the linter and the tests. In
-comparison to the `dev-env` stage above which only provides an environment, this
+comparison to the `local-dev-env` stage above which only provides an environment, this
 stage does include everything needed already.
 
 Tests (both unit and ui tests) can be run using docker compose:
