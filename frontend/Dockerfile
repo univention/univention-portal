@@ -1,5 +1,5 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}library/node:14-buster-slim AS dev-env
+FROM ${DOCKER_PROXY}library/node:14-buster-slim AS local-dev-env
 
 # The following dependencies are only needed when on an aarch64 platform,
 # because then the package "deasync" does not include ready made binaries
@@ -20,7 +20,7 @@ WORKDIR /app
 CMD ["/bin/bash"]
 
 
-FROM dev-env as base
+FROM local-dev-env as base
 COPY ./package.json .
 COPY ./yarn.lock .
 
