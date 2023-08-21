@@ -30,6 +30,17 @@ RUN yarn install --frozen-lockfile && yarn cache clean
 COPY . .
 
 
+# The dev-server stage is running a development server. This is intended to be
+# used with the Tilt based development environment.
+FROM base AS dev-server
+
+# Define the command for the local-dev-env run in Tilt.
+#
+# Currently it is not possible to inject this from the Tilt configuration.
+# See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
+CMD ["yarn", "serve", "--port", "80"]
+
+
 # The test stage gives developers an easy way to run unit and ui tests
 # `docker compose run --build test`
 # `docker compose run --build test yarn test:e2e:headless --browser chrome`
