@@ -74,7 +74,7 @@ const getters = {
   getInitialLoadDone: (state) => state.initialLoadDone,
 };
 
-const actions = {
+export const actions = {
   activateLoadingState({ commit }) {
     commit('SET_LOADING_STATE', true);
   },
@@ -156,8 +156,13 @@ const actions = {
       });
   }),
   userIsLoggedIn: ({ dispatch, rootGetters }) => {
-    if (rootGetters['user/userState'].authMode === 'saml') {
-      dispatch('oidc/tryLogin');
+    const keycloakUrl = process.env.VUE_APP_KEYCLOAK_URL;
+    if (keycloakUrl) {
+      if (rootGetters['user/userState'].authMode === 'saml') {
+        dispatch('oidc/tryLogin');
+      }
+    } else {
+      console.log('No Keycloak URL defined, not trying to login via OIDC.');
     }
 
     if (featureUseNotificationsApi) {
