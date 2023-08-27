@@ -128,6 +128,42 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>image.waitForDependency.imagePullPolicy</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Always"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.waitForDependency.registry</td>
+			<td>string</td>
+			<td><pre lang="json">
+"registry.souvap-univention.de"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.waitForDependency.repository</td>
+			<td>string</td>
+			<td><pre lang="json">
+"souvap/tooling/images/univention-portal/wait-for-dependency"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>image.waitForDependency.tag</td>
+			<td>string</td>
+			<td><pre lang="json">
+"latest"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>nameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -183,7 +219,7 @@ false
   "ldapHostIp": null,
   "ldapPort": "389",
   "ldapSecret": null,
-  "ldapSecretFile": "/run/secrets/ldap_secret",
+  "ldapSecretFile": "/var/secrets/ldap_secret",
   "logLevel": "WARNING",
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
@@ -340,7 +376,7 @@ null
 			<td>portalListener.ldapSecretFile</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/run/secrets/ldap_secret"
+"/var/secrets/ldap_secret"
 </pre>
 </td>
 			<td>The path to the "ldapSecretFile" docker secret or a plain file</td>

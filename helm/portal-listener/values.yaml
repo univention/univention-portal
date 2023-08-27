@@ -47,7 +47,7 @@ portalListener:
   # -- LDAP password for `cn=admin`. Will be written to "ldapSecretFile" if set.
   ldapSecret: null
   # -- The path to the "ldapSecretFile" docker secret or a plain file
-  ldapSecretFile: "/run/secrets/ldap_secret"
+  ldapSecretFile: "/var/secrets/ldap_secret"
   # -- Hostname of the LDAP server
   ldapHost: null
   # -- The IP address of the LDAP server.
@@ -97,10 +97,16 @@ image:
   repository: "souvap/tooling/images/univention-portal/portal-listener"
   imagePullPolicy: "Always"
   tag: "latest"
-
   ## Define image sha256 as an alternative to `tag`
   # sha256:
 
+  waitForDependency:
+    registry: "registry.souvap-univention.de"
+    repository: "souvap/tooling/images/univention-portal/wait-for-dependency"
+    imagePullPolicy: "Always"
+    tag: "latest"
+    ## Define image sha256 as an alternative to `tag`
+    # sha256:
 
 ## Container deployment probes
 probes:

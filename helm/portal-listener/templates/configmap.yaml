@@ -32,5 +32,26 @@ data:
   CA_CERT: "{{ .Values.portalListener.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalListener.caCertFile }}"
   TLS_MODE: "{{ .Values.portalListener.tlsMode }}"
+  wait-for-ldap.sh: |
+    #!/bin/bash
+    set -euxo pipefail
+
+    while ! ldapsearch -H ldap://$LDAP_HOST -D $LDAP_HOST_DN -y $LDAP_PASSWORD_FILE -b "" -s base -LLL; do
+      echo "Checking if LDAP Server can be reached..."
+      sleep 2
+    done
+
+    echo "Success, the LDAP Server is available"
+  wait-for-udm.sh: |
+    #!/bin/bash
+    # TODO: find a way to not leak the udm passwort into the log
+    set -euxo pipefail
+
+    while ! curl -o /dev/null -sf --user "${PORTAL_UDM_API_USERNAME}:$(cat $PORTAL_UDM_API_PASSWORD_FILE)" "${PORTAL_UDM_API_URL}ldap/base/"; do
+      echo "Checking if the UDM REST API can be reached..."
+      sleep 2
+    done
+
+    echo "Success, the UDM REST API is available"
 {{- end }}
 {{- end }}

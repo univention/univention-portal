@@ -52,6 +52,36 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       initContainers:
+        - name: {{ .Chart.Name }}-wait-for-ldap
+          command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
+          {{ with .Values.image.waitForDependency }}
+          image: "{{ if .registry }}{{ .registry }}/{{ end }}{{ .repository }}{{ if .sha256 }}@sha256:{{ .sha256 }}{{ else }}:{{ .tag }}{{ end }}"
+          imagePullPolicy: {{ .pullPolicy }}
+          {{ end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          volumeMounts:
+            - name: secrets
+              # TODO: conflict with /run/secrets, should use a namespace
+              mountPath: /var/secrets
+            - name: wait-for-ldap
+              mountPath: /scripts
+        - name: {{ .Chart.Name }}wait-for-udm
+          command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
+          {{ with .Values.image.waitForDependency }}
+          image: "{{ if .registry }}{{ .registry }}/{{ end }}{{ .repository }}{{ if .sha256 }}@sha256:{{ .sha256 }}{{ else }}:{{ .tag }}{{ end }}"
+          imagePullPolicy: {{ .pullPolicy }}
+          {{ end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          volumeMounts:
+            - name: secrets
+              # TODO: conflict with /run/secrets, should use a namespace
+              mountPath: /var/secrets
+            - name: wait-for-udm
+              mountPath: /scripts
         - name: {{ .Chart.Name }}-init
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -73,6 +103,12 @@ spec:
       - name: secrets
         secret:
           secretName: {{ include "common.names.fullname" . | quote }}
+      - name: wait-for-udm
+        configMap:
+          name: {{ include "common.names.fullname" . }}
+      - name: wait-for-ldap
+        configMap:
+          name: {{ include "common.names.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

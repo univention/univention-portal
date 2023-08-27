@@ -81,6 +81,14 @@ build-portal-listener:
       --build-arg PORTAL_BASE_IMAGE_TAG=$BUILD_VERSION
 
 
+build-wait-for-dependency:
+  stage: build
+  extends: .kaniko
+  variables:
+    DOCKERFILE_PATH: "docker/wait-for-dependency/Dockerfile"
+    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/wait-for-dependency"
+
+
 push-image-souvap-portal-server-job:
   needs:
     - job: build-portal-server
@@ -95,6 +103,14 @@ push-image-souvap-portal-listener-job:
   extends: .push-image-souvap
   variables:
     SOUVAP_IMAGE_NAME: "portal-listener"
+
+
+push-image-souvap-wait-for-dependency-job:
+  needs:
+    - job: build-wait-for-dependency
+  extends: .push-image-souvap
+  variables:
+    SOUVAP_IMAGE_NAME: "wait-for-dependency"
 
 
 test-portal-server:
