@@ -7,6 +7,7 @@ variables:
 
 include:
   - project: univention/customers/dataport/upx/common-ci
+    ref: jbornhold/fix-helm-jobs
     file:
       - defaults/stages.yaml
       - defaults/souvap-workflow.yaml
@@ -93,5 +94,6 @@ trigger-debian-package:
 
 publish-helm-charts-souvap:
   extends: .publish-helm-charts-souvap
+
 
 ...
