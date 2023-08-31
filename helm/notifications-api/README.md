@@ -131,10 +131,28 @@ value `postgresql.bundled`.
 			<td></td>
 		</tr>
 		<tr>
-			<td>ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target"</td>
+			<td>ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/$1"
+"rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;\n"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.annotations."nginx.org/location-snippets"</td>
+			<td>string</td>
+			<td><pre lang="json">
+"rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;\n"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.annotations."nginx.org/mergeable-ingress-type"</td>
+			<td>string</td>
+			<td><pre lang="json">
+"minion"
 </pre>
 </td>
 			<td></td>
@@ -143,7 +161,7 @@ value `postgresql.bundled`.
 			<td>ingress.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
 			<td>Set this to `true` in order to enable the installation on Ingress related objects.</td>
@@ -170,7 +188,7 @@ null
 			<td>ingress.paths[0].path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/univention/portal/notifications-api/(.*)"
+"/univention/portal/notifications-api/"
 </pre>
 </td>
 			<td></td>
@@ -206,7 +224,7 @@ true
 			<td>istio.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-true
+false
 </pre>
 </td>
 			<td>Set this to `true` in order to enable the installation on Istio related objects.</td>
