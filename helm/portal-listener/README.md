@@ -104,7 +104,7 @@ false
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"registry.souvap-univention.de"
+"gitregistry.knut.univention.de"
 </pre>
 </td>
 			<td></td>
@@ -113,7 +113,7 @@ false
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"souvap/tooling/images/univention-portal/portal-listener"
+"univention/components/univention-portal/portal-listener"
 </pre>
 </td>
 			<td></td>
@@ -140,7 +140,7 @@ false
 			<td>image.waitForDependency.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"registry.souvap-univention.de"
+"gitregistry.knut.univention.de"
 </pre>
 </td>
 			<td></td>
@@ -149,7 +149,7 @@ false
 			<td>image.waitForDependency.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"souvap/tooling/images/univention-portal/wait-for-dependency"
+"univention/components/univention-portal/wait-for-dependency"
 </pre>
 </td>
 			<td></td>
