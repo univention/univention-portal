@@ -63,14 +63,15 @@ extraIngresses:
   # -- Redirects "/" and "/univention/" to "/univention/portal/".
   redirects:
     enabled: true
-    ingressClassName: "nginx"
+    # -- By default uses the value of "ingress.ingressClassName".
+    ingressClassName: null
     annotations:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         return 302 /univention/portal/;
       nginx.org/location-snippets: |
         return 302 /univention/portal/;
       nginx.org/mergeable-ingress-type: "minion"
-    # -- The hostname. This parameter has to be supplied. Example `portal.example`.
+    # -- By default uses the value of "ingress.host".
     host: null
     paths:
       - pathType: Exact
@@ -82,7 +83,9 @@ extraIngresses:
       - pathType: Exact
         path: /univention/portal
     tls:
-      enabled: true
+      # -- By default uses the value of "ingress.tls.enabled"
+      enabled: null
+      # -- By default uses the value of "ingress.tls.secretName"
       secretName: ""
 
   # -- Needed when using nginx-ingress as ingress controller. Enable by setting
@@ -94,11 +97,14 @@ extraIngresses:
     enabled: false
     annotations:
       nginx.org/mergeable-ingress-type: "master"
-    # -- The hostname. This parameter has to be supplied. Example `portal.example`.
+    # -- By default uses the value of "ingress.host".
     host: null
-    ingressClassName: "nginx"
+    # -- By default uses the value of "ingress.ingressClassName".
+    ingressClassName: null
     tls:
-      enabled: false
+      # -- TLS is configured by default if the "master" ingress is enabled.
+      enabled: true
+      # -- By default uses the value of "ingress.tls.secretName"
       secretName: ""
 
 

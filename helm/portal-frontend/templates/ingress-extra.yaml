@@ -4,6 +4,14 @@
      This does "remember" the value on the ingress dict. */}}
 {{- $_ := set $val "_name" $key }}
 
+{{- /* Apply defaults from ".Values.ingress" */}}
+{{- $_ := set $val "ingressClassName" (default $.Values.ingress.ingressClassName $val.ingressClassName) }}
+{{- $_ := set $val "host" (default $.Values.ingress.host $val.host) }}
+{{- $_ := set $val.tls "secretName" (default $.Values.ingress.tls.secretName $val.tls.secretName) }}
+{{- if eq $val.tls.enabled nil }}
+{{- $_ := set $val.tls "enabled" $.Values.ingress.tls.enabled }}
+{{- end }}
+
 {{- include "common.ingress" (dict "top" $ "ingress" $val "overrides" "portal-frontend.extraIngresses") }}
 {{- end }}
 
