@@ -88,6 +88,46 @@ extraIngresses:
       # -- By default uses the value of "ingress.tls.secretName"
       secretName: ""
 
+  # TODO: "ingress-nginx" has a subtle issue. It generates always an entry
+  # with "location /". This is a prefix match to everything and it should
+  # generate a 404 response. This one gets accidentally mixed up with the
+  # configuration for the matches and the annotations, leading to 302
+  # responses instead.
+  #
+  # Creating an extra Ingress which has a prefix match for "/" will override
+  # the accidentally merged in values and allow to return a 404 response again.
+  #
+  # Test this by running "curl -i YOUR_CLUSTER/anything".
+  #
+  # The details can be inspected in the file "/etc/nginx/nginx.conf" inside of
+  # the ingress controller container, paying attention to "location /" entries
+  # without the equals sign.
+  #
+  # See: https://github.com/kubernetes/ingress-nginx/issues/9485#issuecomment-1413481285
+  # See: https://github.com/kubernetes/ingress-nginx/issues/9054
+  #
+  # -- Workaround for open issues in "ingress-nginx" to ensure 404 responses
+  # on paths which are not handled by the ums stack. Mitigates
+  # https://github.com/kubernetes/ingress-nginx/issues/9054 .
+  workaround:
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        return 404;
+    # -- You have to enable this by setting this value to "true".
+    enabled: false
+    # -- By default uses the value of "ingress.host".
+    host: null
+    # -- By default uses the value of "ingress.ingressClassName".
+    ingressClassName: null
+    paths:
+      - pathType: Prefix
+        path: /
+    tls:
+      # -- TLS is configured by default if the "master" ingress is enabled.
+      enabled: null
+      # -- By default uses the value of "ingress.tls.secretName"
+      secretName: ""
+
   # -- Needed when using nginx-ingress as ingress controller. Enable by setting
   # the "enabled" attribute to "true". Be aware that you also have to switch off
   # "tls" in all ingress objects of type "minion".
