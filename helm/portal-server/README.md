@@ -118,10 +118,10 @@ helm uninstall portal-server
 			<td></td>
 		</tr>
 		<tr>
-			<td>ingress.annotations</td>
-			<td>object</td>
+			<td>ingress.annotations."nginx.org/mergeable-ingress-type"</td>
+			<td>string</td>
 			<td><pre lang="json">
-{}
+"minion"
 </pre>
 </td>
 			<td></td>
@@ -130,7 +130,7 @@ helm uninstall portal-server
 			<td>ingress.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
 			<td>Set this to `true` in order to enable the installation on Ingress related objects.</td>
@@ -157,13 +157,31 @@ null
 			<td>ingress.paths[0].path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/univention/portal/(portal|navigation).json"
+"/univention/portal/portal.json"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>ingress.paths[0].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.paths[1].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/portal/navigation.json"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.paths[1].pathType</td>
 			<td>string</td>
 			<td><pre lang="json">
 "Exact"
@@ -193,7 +211,7 @@ true
 			<td>istio.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-true
+false
 </pre>
 </td>
 			<td>Set this to `true` in order to enable the installation on Istio related objects.</td>
