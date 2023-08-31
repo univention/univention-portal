@@ -1,0 +1,15 @@
+{{- range $key, $val := .Values.extraIngresses }}
+---
+
+{{- /* The name of the key is needed later to give the Ingress a proper name.
+       This does "remember" the value on the ingress dict. */}}
+{{- $_ := set $val "_name" $key }}
+
+{{- include "common.ingress" (dict "top" $ "ingress" $val "overrides" "portal-frontend.extraIngresses") }}
+{{- end }}
+
+
+{{- define "portal-frontend.extraIngresses" }}
+metadata:
+  name: {{ print (include "common.names.fullname" .top) "-" .ingress._name | quote }}
+{{- end }}

@@ -55,17 +55,31 @@ ingress:
   tls:
     enabled: true
     secretName: ""
+
+extraIngresses:
   redirects:
     # -- Whether to install additional redirects.
     enabled: true
-    # -- Whether to redirect the root (`/`) path.
-    redirectRoot: true
-    # -- Exact entry path of the application.
-    target: "/univention/portal/"
-    # -- Which paths to grab in addition `/`
+    ingressClassName: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        return 302 /univention/portal/;
+    # -- The hostname. This parameter has to be supplied. Example `portal.example`.
+    host: null
     paths:
-      - "/univention/?"
-      - "/univention/portal"
+      - pathType: Exact
+        path: /
+      - pathType: Exact
+        path: /univention
+      - pathType: Exact
+        path: /univention/
+      - pathType: Exact
+        path: /univention/portal
+    tls:
+      enabled: true
+      secretName: ""
+
+
 
 ## Istio support
 istio:
