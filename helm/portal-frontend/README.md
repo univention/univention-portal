@@ -93,6 +93,132 @@ helm uninstall portal-frontend
 			<td></td>
 		</tr>
 		<tr>
+			<td>extraIngresses.redirects.annotations."nginx.ingress.kubernetes.io/configuration-snippet"</td>
+			<td>string</td>
+			<td><pre lang="json">
+"return 302 /univention/portal/;\n"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Whether to install additional redirects.</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.host</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The hostname. This parameter has to be supplied. Example `portal.example`.</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+"nginx"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[0].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[0].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[1].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[1].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[2].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[2].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[3].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/portal"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.paths[3].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.tls.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.tls.secretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>fullnameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -214,45 +340,6 @@ null
 </pre>
 </td>
 			<td>The path configuration. The default only grabs what is known to be part of the frontend.</td>
-		</tr>
-		<tr>
-			<td>ingress.redirects.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Whether to install additional redirects.</td>
-		</tr>
-		<tr>
-			<td>ingress.redirects.paths</td>
-			<td>list</td>
-			<td><pre lang="json">
-[
-  "/univention/?",
-  "/univention/portal"
-]
-</pre>
-</td>
-			<td>Which paths to grab in addition `/`</td>
-		</tr>
-		<tr>
-			<td>ingress.redirects.redirectRoot</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Whether to redirect the root (`/`) path.</td>
-		</tr>
-		<tr>
-			<td>ingress.redirects.target</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/univention/portal/"
-</pre>
-</td>
-			<td>Exact entry path of the application.</td>
 		</tr>
 		<tr>
 			<td>ingress.tls.enabled</td>
