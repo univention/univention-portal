@@ -225,6 +225,77 @@ null
 			<td>By default uses the value of "ingress.tls.secretName"</td>
 		</tr>
 		<tr>
+			<td>extraIngresses.workaround</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "annotations": {
+    "nginx.ingress.kubernetes.io/configuration-snippet": "return 404;\n"
+  },
+  "enabled": false,
+  "host": null,
+  "ingressClassName": null,
+  "paths": [
+    {
+      "path": "/",
+      "pathType": "Prefix"
+    }
+  ],
+  "tls": {
+    "enabled": null,
+    "secretName": ""
+  }
+}
+</pre>
+</td>
+			<td>Workaround for open issues in "ingress-nginx" to ensure 404 responses on paths which are not handled by the ums stack. Mitigates https://github.com/kubernetes/ingress-nginx/issues/9054 .</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.workaround.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>You have to enable this by setting this value to "true".</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.workaround.host</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>By default uses the value of "ingress.host".</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.workaround.ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>By default uses the value of "ingress.ingressClassName".</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.workaround.tls.enabled</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>TLS is configured by default if the "master" ingress is enabled.</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.workaround.tls.secretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>By default uses the value of "ingress.tls.secretName"</td>
+		</tr>
+		<tr>
 			<td>fullnameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">
