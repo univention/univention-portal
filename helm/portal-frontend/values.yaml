@@ -31,6 +31,9 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^/univention/portal(/.*)$ $1 break;
+    nginx.org/location-snippets: |
+      rewrite ^/univention/portal(/.*)$ $1 break;
+    nginx.org/mergeable-ingress-type: "minion"
   # -- The hostname. This parameter has to be supplied. Example `portal.example`.
   host: null
   # -- The path configuration. The default only grabs what is known to be part of the frontend.
@@ -57,13 +60,16 @@ ingress:
     secretName: ""
 
 extraIngresses:
+  # -- Redirects "/" and "/univention/" to "/univention/portal/".
   redirects:
-    # -- Whether to install additional redirects.
     enabled: true
     ingressClassName: "nginx"
     annotations:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         return 302 /univention/portal/;
+      nginx.org/location-snippets: |
+        return 302 /univention/portal/;
+      nginx.org/mergeable-ingress-type: "minion"
     # -- The hostname. This parameter has to be supplied. Example `portal.example`.
     host: null
     paths:
@@ -79,6 +85,21 @@ extraIngresses:
       enabled: true
       secretName: ""
 
+  # -- Needed when using nginx-ingress as ingress controller. Enable by setting
+  # the "enabled" attribute to "true". Be aware that you also have to switch off
+  # "tls" in all ingress objects of type "minion".
+  #
+  # See: https://github.com/nginxinc/kubernetes-ingress/tree/v3.2.1/examples/ingress-resources/mergeable-ingress-types
+  master:
+    enabled: false
+    annotations:
+      nginx.org/mergeable-ingress-type: "master"
+    # -- The hostname. This parameter has to be supplied. Example `portal.example`.
+    host: null
+    ingressClassName: "nginx"
+    tls:
+      enabled: false
+      secretName: ""
 
 
 ## Istio support

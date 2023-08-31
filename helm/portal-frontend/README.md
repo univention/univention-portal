@@ -93,22 +93,73 @@ helm uninstall portal-frontend
 			<td></td>
 		</tr>
 		<tr>
-			<td>extraIngresses.redirects.annotations."nginx.ingress.kubernetes.io/configuration-snippet"</td>
-			<td>string</td>
+			<td>extraIngresses.master</td>
+			<td>object</td>
 			<td><pre lang="json">
-"return 302 /univention/portal/;\n"
+{
+  "annotations": {
+    "nginx.org/mergeable-ingress-type": "master"
+  },
+  "enabled": false,
+  "host": null,
+  "ingressClassName": "nginx",
+  "tls": {
+    "enabled": false,
+    "secretName": ""
+  }
+}
 </pre>
 </td>
-			<td></td>
+			<td>Needed when using nginx-ingress as ingress controller. Enable by setting the "enabled" attribute to "true". Be aware that you also have to switch off "tls" in all ingress objects of type "minion".  See: https://github.com/nginxinc/kubernetes-ingress/tree/v3.2.1/examples/ingress-resources/mergeable-ingress-types</td>
 		</tr>
 		<tr>
-			<td>extraIngresses.redirects.enabled</td>
-			<td>bool</td>
+			<td>extraIngresses.master.host</td>
+			<td>string</td>
 			<td><pre lang="json">
-true
+null
 </pre>
 </td>
-			<td>Whether to install additional redirects.</td>
+			<td>The hostname. This parameter has to be supplied. Example `portal.example`.</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "annotations": {
+    "nginx.ingress.kubernetes.io/configuration-snippet": "return 302 /univention/portal/;\n",
+    "nginx.org/location-snippets": "return 302 /univention/portal/;\n",
+    "nginx.org/mergeable-ingress-type": "minion"
+  },
+  "enabled": true,
+  "host": null,
+  "ingressClassName": "nginx",
+  "paths": [
+    {
+      "path": "/",
+      "pathType": "Exact"
+    },
+    {
+      "path": "/univention",
+      "pathType": "Exact"
+    },
+    {
+      "path": "/univention/",
+      "pathType": "Exact"
+    },
+    {
+      "path": "/univention/portal",
+      "pathType": "Exact"
+    }
+  ],
+  "tls": {
+    "enabled": true,
+    "secretName": ""
+  }
+}
+</pre>
+</td>
+			<td>Redirects "/" and "/univention/" to "/univention/portal/".</td>
 		</tr>
 		<tr>
 			<td>extraIngresses.redirects.host</td>
@@ -118,105 +169,6 @@ null
 </pre>
 </td>
 			<td>The hostname. This parameter has to be supplied. Example `portal.example`.</td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.ingressClassName</td>
-			<td>string</td>
-			<td><pre lang="json">
-"nginx"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[0].path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[0].pathType</td>
-			<td>string</td>
-			<td><pre lang="json">
-"Exact"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[1].path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/univention"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[1].pathType</td>
-			<td>string</td>
-			<td><pre lang="json">
-"Exact"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[2].path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/univention/"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[2].pathType</td>
-			<td>string</td>
-			<td><pre lang="json">
-"Exact"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[3].path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/univention/portal"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.paths[3].pathType</td>
-			<td>string</td>
-			<td><pre lang="json">
-"Exact"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.tls.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>extraIngresses.redirects.tls.secretName</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
 		</tr>
 		<tr>
 			<td>fullnameOverride</td>
@@ -268,6 +220,24 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "rewrite ^/univention/portal(/.*)$ $1 break;\n"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.annotations."nginx.org/location-snippets"</td>
+			<td>string</td>
+			<td><pre lang="json">
+"rewrite ^/univention/portal(/.*)$ $1 break;\n"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.annotations."nginx.org/mergeable-ingress-type"</td>
+			<td>string</td>
+			<td><pre lang="json">
+"minion"
 </pre>
 </td>
 			<td></td>
