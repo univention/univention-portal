@@ -49,7 +49,9 @@ ingress:
   host: null
   paths:
     - pathType: "Exact"
-      path: "/univention/portal/(portal|navigation).json"
+      path: "/univention/portal/portal.json"
+    - pathType: "Exact"
+      path: "/univention/portal/navigation.json"
   tls:
     enabled: true
     secretName: ""
