@@ -102,9 +102,9 @@ helm uninstall portal-frontend
   },
   "enabled": false,
   "host": null,
-  "ingressClassName": "nginx",
+  "ingressClassName": null,
   "tls": {
-    "enabled": false,
+    "enabled": true,
     "secretName": ""
   }
 }
@@ -119,7 +119,34 @@ helm uninstall portal-frontend
 null
 </pre>
 </td>
-			<td>The hostname. This parameter has to be supplied. Example `portal.example`.</td>
+			<td>By default uses the value of "ingress.host".</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.master.ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>By default uses the value of "ingress.ingressClassName".</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.master.tls.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>TLS is configured by default if the "master" ingress is enabled.</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.master.tls.secretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>By default uses the value of "ingress.tls.secretName"</td>
 		</tr>
 		<tr>
 			<td>extraIngresses.redirects</td>
@@ -133,7 +160,7 @@ null
   },
   "enabled": true,
   "host": null,
-  "ingressClassName": "nginx",
+  "ingressClassName": null,
   "paths": [
     {
       "path": "/",
@@ -153,7 +180,7 @@ null
     }
   ],
   "tls": {
-    "enabled": true,
+    "enabled": null,
     "secretName": ""
   }
 }
@@ -168,7 +195,34 @@ null
 null
 </pre>
 </td>
-			<td>The hostname. This parameter has to be supplied. Example `portal.example`.</td>
+			<td>By default uses the value of "ingress.host".</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>By default uses the value of "ingress.ingressClassName".</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.tls.enabled</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>By default uses the value of "ingress.tls.enabled"</td>
+		</tr>
+		<tr>
+			<td>extraIngresses.redirects.tls.secretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>By default uses the value of "ingress.tls.secretName"</td>
 		</tr>
 		<tr>
 			<td>fullnameOverride</td>
