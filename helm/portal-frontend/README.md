@@ -138,19 +138,10 @@ helm uninstall portal-frontend
 			<td></td>
 		</tr>
 		<tr>
-			<td>ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target"</td>
+			<td>ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/$1"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.annotations."nginx.ingress.kubernetes.io/use-regex"</td>
-			<td>string</td>
-			<td><pre lang="json">
-"true"
+"rewrite ^/univention/portal(/.*)$ $1 break;\n"
 </pre>
 </td>
 			<td></td>
@@ -188,31 +179,35 @@ null
 			<td><pre lang="json">
 [
   {
-    "path": "/univention/portal/($|index.html$)",
+    "path": "/univention/portal/",
     "pathType": "Exact"
   },
   {
-    "path": "/univention/portal/(css/.*)",
+    "path": "/univention/portal/index.html",
+    "pathType": "Exact"
+  },
+  {
+    "path": "/univention/portal/css/",
     "pathType": "Prefix"
   },
   {
-    "path": "/univention/portal/(fonts/.*)",
+    "path": "/univention/portal/fonts/",
     "pathType": "Prefix"
   },
   {
-    "path": "/univention/portal/(i18n/.*)",
+    "path": "/univention/portal/i18n/",
     "pathType": "Prefix"
   },
   {
-    "path": "/univention/portal/(media/.*)",
+    "path": "/univention/portal/media/",
     "pathType": "Prefix"
   },
   {
-    "path": "/univention/portal/(js/.*)",
+    "path": "/univention/portal/js/",
     "pathType": "Prefix"
   },
   {
-    "path": "/univention/portal/(oidc/.*)",
+    "path": "/univention/portal/oidc/",
     "pathType": "Prefix"
   }
 ]
