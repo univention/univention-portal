@@ -608,12 +608,21 @@ true
 		</tr>
 		<tr>
 			<td>resources</td>
-			<td>string</td>
+			<td>object</td>
 			<td><pre lang="json">
-null
+{}
 </pre>
 </td>
-			<td></td>
+			<td>Deployment resources for the listener container</td>
+		</tr>
+		<tr>
+			<td>resourcesWaitForDependency</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td>Deployment resources for the dependency waiters</td>
 		</tr>
 		<tr>
 			<td>securityContext</td>

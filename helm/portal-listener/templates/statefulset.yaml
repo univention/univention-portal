@@ -67,6 +67,8 @@ spec:
               mountPath: /var/secrets
             - name: wait-for-ldap
               mountPath: /scripts
+          resources:
+            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: {{ .Chart.Name }}wait-for-udm
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           {{ with .Values.image.waitForDependency }}
@@ -82,6 +84,8 @@ spec:
               mountPath: /var/secrets
             - name: wait-for-udm
               mountPath: /scripts
+          resources:
+            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: {{ .Chart.Name }}-init
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

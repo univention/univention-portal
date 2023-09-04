@@ -126,14 +126,17 @@ probes:
     successThreshold: 1
 
 
-## Deployment resources
-resources:
+# -- Deployment resources for the listener container
+resources: {}
   # requests:
   #   memory: "512Mi"
   #   cpu: "250m"
   # limits:
   #   memory: "4Gi"
   #   cpu: "4"
+
+# -- Deployment resources for the dependency waiters
+resourcesWaitForDependency: {}
 
 
 autoscaling:
