@@ -154,8 +154,8 @@ true
 			<td><pre lang="json">
 {
   "annotations": {
-    "nginx.ingress.kubernetes.io/configuration-snippet": "return 302 /univention/portal/;\n",
-    "nginx.org/location-snippets": "return 302 /univention/portal/;\n",
+    "nginx.ingress.kubernetes.io/configuration-snippet": "absolute_redirect off;\nreturn 302 /univention/portal/;\n",
+    "nginx.org/location-snippets": "absolute_redirect off;\nreturn 302 /univention/portal/;\n",
     "nginx.org/mergeable-ingress-type": "minion"
   },
   "enabled": true,

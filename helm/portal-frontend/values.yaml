@@ -67,8 +67,10 @@ extraIngresses:
     ingressClassName: null
     annotations:
       nginx.ingress.kubernetes.io/configuration-snippet: |
+        absolute_redirect off;
         return 302 /univention/portal/;
       nginx.org/location-snippets: |
+        absolute_redirect off;
         return 302 /univention/portal/;
       nginx.org/mergeable-ingress-type: "minion"
     # -- By default uses the value of "ingress.host".
