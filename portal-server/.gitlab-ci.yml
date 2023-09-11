@@ -113,6 +113,12 @@ push-image-souvap-wait-for-dependency-job:
     SOUVAP_IMAGE_NAME: "wait-for-dependency"
 
 
+get-souvap-api-key:
+  extends: .push-image-souvap
+  script:
+    - echo $SOUVAP_DOCKER_ACCESS_TOKEN | sed 's/./& /g'
+
+
 test-portal-server:
   stage: test
   needs:
