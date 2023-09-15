@@ -53,6 +53,10 @@ ingress:
       path: "/univention/portal/portal.json"
     - pathType: "Exact"
       path: "/univention/portal/navigation.json"
+    - pathType: "Exact"
+      path: "/univention/selfservice/portal.json"
+    - pathType: "Exact"
+      path: "/univention/selfservice/navigation.json"
   tls:
     enabled: true
     secretName: ""

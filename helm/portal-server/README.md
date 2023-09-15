@@ -190,6 +190,42 @@ null
 			<td></td>
 		</tr>
 		<tr>
+			<td>ingress.paths[2].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/selfservice/portal.json"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.paths[2].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.paths[3].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/selfservice/navigation.json"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.paths[3].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>ingress.tls.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">

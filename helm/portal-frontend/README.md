@@ -344,7 +344,7 @@ null
 			<td>ingress.annotations."nginx.ingress.kubernetes.io/configuration-snippet"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"rewrite ^/univention/portal(/.*)$ $1 break;\n"
+"rewrite ^/univention/portal(/.*)$ $1 break;\nrewrite ^/univention/selfservice(/.*)$ $1 break;\n"
 </pre>
 </td>
 			<td></td>
@@ -353,7 +353,7 @@ null
 			<td>ingress.annotations."nginx.org/location-snippets"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"rewrite ^/univention/portal(/.*)$ $1 break;\n"
+"rewrite ^/univention/portal(/.*)$ $1 break;\nrewrite ^/univention/selfservice(/.*)$ $1 break;\n"
 </pre>
 </td>
 			<td></td>
@@ -404,7 +404,15 @@ null
     "pathType": "Exact"
   },
   {
+    "path": "/univention/selfservice/",
+    "pathType": "Exact"
+  },
+  {
     "path": "/univention/portal/index.html",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/selfservice/index.html",
     "pathType": "Exact"
   },
   {
@@ -412,7 +420,15 @@ null
     "pathType": "Prefix"
   },
   {
+    "path": "/univention/selfservice/css/",
+    "pathType": "Prefix"
+  },
+  {
     "path": "/univention/portal/fonts/",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/selfservice/fonts/",
     "pathType": "Prefix"
   },
   {
@@ -420,7 +436,15 @@ null
     "pathType": "Prefix"
   },
   {
+    "path": "/univention/selfservice/i18n/",
+    "pathType": "Prefix"
+  },
+  {
     "path": "/univention/portal/media/",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/selfservice/media/",
     "pathType": "Prefix"
   },
   {
@@ -428,7 +452,15 @@ null
     "pathType": "Prefix"
   },
   {
+    "path": "/univention/selfservice/js/",
+    "pathType": "Prefix"
+  },
+  {
     "path": "/univention/portal/oidc/",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/selfservice/oidc/",
     "pathType": "Prefix"
   }
 ]
