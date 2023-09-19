@@ -99,7 +99,7 @@ export const actions = {
     }
     return axios.get(`${portalUrl}${portalJsonPath}`, { headers });
   },
-  loadPortal: ({ dispatch }, payload) => new Promise((resolve, reject) => {
+  loadPortal: ({ dispatch, rootGetters }, payload) => new Promise((resolve, reject) => {
     // Get portal data
     const portalRequest = dispatch('portalJsonRequest', payload)
       .catch((error) => error);
@@ -145,6 +145,8 @@ export const actions = {
         }
         dispatch('initialLoadDone');
         resolve(portal);
+        const currentLocale = rootGetters['locale/getLocale'] || 'en_US';
+        document.title = rootGetters['portalData/portalName']?.[currentLocale] ?? 'Univention Portal';
       }
     })
       .catch((error) => {
