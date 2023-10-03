@@ -1,7 +1,5 @@
-ARG DOCKER_PROXY
-
-ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-dev-504
-ARG UCS_BASE_IMAGE_TAG=v0.7.1
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-505
+ARG UCS_BASE_IMAGE_TAG=v0.7.2
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build-base
 
@@ -85,12 +83,10 @@ COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 # usage of the container though.
 COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/portals.json
 
-COPY ./docker/portal-server/docker-entrypoint.sh /
-RUN chmod 540 /docker-entrypoint.sh
+COPY ./docker/portal-server/docker-entrypoint.sh /entrypoint.d/50-entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/bin/python3", "/usr/sbin/univention-portal-server"]
 
 # [EOF]

@@ -35,7 +35,7 @@ RUN mkdir -p /var/log/univention/ \
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
-COPY --from=portal-server-image /docker-entrypoint.sh /docker-entrypoint.sh
+COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /docker-entrypoint.sh
 COPY --from=portal-server-image /app/listener/*.py /usr/lib/univention-directory-listener/system/
 
 COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/portals.json
@@ -55,6 +55,7 @@ COPY ./docker/portal-listener/initialize.sh /
 #
 # It is possible to chain the entrypoint scripts since they all call 'exec "$@"'
 # as the last call.
+# FIXME: This will all move to entrypoint.d once listener-base is migrated
 ENTRYPOINT [ \
     "/docker-entrypoint.sh", \
     "/listener-base-entrypoint.sh", \
