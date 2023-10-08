@@ -1,4 +1,4 @@
-ARG LISTENER_BASE_IMAGE_TAG=v0.2.0
+ARG LISTENER_BASE_IMAGE_TAG=branch-jbornhold-spike-entrypoint-plugin-point@sha256:6e18baeab3fb31f119e3f05238bd8daf49fd641718bec048b10c2919caea9294
 ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base:${LISTENER_BASE_IMAGE_TAG}
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
@@ -35,28 +35,14 @@ RUN mkdir -p /var/log/univention/ \
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
-COPY --from=portal-server-image /docker-entrypoint.sh /docker-entrypoint.sh
+COPY --from=portal-server-image /docker-entrypoint.sh /entrypoint.d/45-portal-server-entrypoint.sh
+
+# TODO: interim
+RUN sed --in-place --expression '/^exec /d' /entrypoint.d/45-portal-server-entrypoint.sh
+
 COPY --from=portal-server-image /app/listener/*.py /usr/lib/univention-directory-listener/system/
 
 COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/portals.json
 
-COPY ./docker/portal-listener/portal-listener-entrypoint.sh /
+COPY ./docker/portal-listener/portal-listener-entrypoint.sh /entrypoint.d/55-portal-listener-entrypoint.envsh
 COPY ./docker/portal-listener/initialize.sh /
-
-# The entrypoint scripts are chained:
-#
-# - The one from the portal-server, it prepares the file "config.json".
-#
-# - The one from the base listener container does ensure that basic UCR
-#   parameters are set as needed.
-#
-# - The portal listener specific one does contain the listener specific
-#   needs.
-#
-# It is possible to chain the entrypoint scripts since they all call 'exec "$@"'
-# as the last call.
-ENTRYPOINT [ \
-    "/docker-entrypoint.sh", \
-    "/listener-base-entrypoint.sh", \
-    "/portal-listener-entrypoint.sh"]
-CMD ["/command.sh"]
