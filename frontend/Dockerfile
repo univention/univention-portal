@@ -1,5 +1,15 @@
+
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}library/node:14-buster-slim AS local-dev-env
+
+ARG UCS_BASE_IMAGE_TAG=v0.7.5
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
+
+###############################################################################
+# Creates a yarn builder
+
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS local-dev-env
+
+# SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # The following dependencies are only needed when on an aarch64 platform,
 # because then the package "deasync" does not include ready made binaries
@@ -7,28 +17,36 @@ FROM ${DOCKER_PROXY}library/node:14-buster-slim AS local-dev-env
 #
 # This is relevant for developers who work on machines with Apple's M1
 # processors.
-RUN if [ "$(uname -m)" != "aarch64" ]; then exit 0; fi && \
-    apt-get update -qq \
-    && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
+RUN \
+  apt-get --quiet --quiet update \
+  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+  yarnpkg=1.22.* \
+  && if [ "$(uname -m)" = "aarch64" ]; then \
+    apt-get --assume-yes --verbose-versions --no-install-recommends install \
     gcc=4:8.* \
     g++=4:8.* \
     python3=3.7.* \
     make=4.* \
-    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+  ; fi \
+  && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /app
 CMD ["/bin/bash"]
 
+###############################################################################
+# Installs app dependencies
 
 FROM local-dev-env as base
 COPY ./package.json .
 COPY ./yarn.lock .
 
-RUN yarn install --frozen-lockfile && yarn cache clean
+RUN yarnpkg install --frozen-lockfile && yarnpkg cache clean
 
 # Copy should come after yarn install to prevent long rebuilding time
 COPY . .
 
+###############################################################################
+# Starts a development server
 
 # The dev-server stage is running a development server. This is intended to be
 # used with the Tilt based development environment.
@@ -38,8 +56,10 @@ FROM base AS dev-server
 #
 # Currently it is not possible to inject this from the Tilt configuration.
 # See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
-CMD ["yarn", "serve", "--port", "80"]
+CMD ["yarnpkg", "serve", "--port", "80"]
 
+###############################################################################
+# Runs unit tests
 
 # The test stage gives developers an easy way to run unit and ui tests
 # `docker compose run --build test`
@@ -52,17 +72,40 @@ WORKDIR /app
 COPY ./package.json .
 COPY ./yarn.lock .
 
-RUN yarn install --frozen-lockfile && yarn cache clean
+RUN yarnpkg global add node-gyp && yarn install --frozen-lockfile && yarnpkg cache clean
 
 COPY . .
 
-CMD ["yarn", "test:unit"]
+CMD ["yarnpkg", "test:unit"]
 
+###############################################################################
+# Build with yarn
 
 FROM base as build
 
-RUN yarn build
+RUN yarnpkg build
 
+###############################################################################
+# Starts production nginx server
 
-FROM ${DOCKER_PROXY}library/nginx:1.23.3 AS final
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
+
+RUN \
+  apt-get --quiet --quiet update \
+  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+    nginx=1.22.* \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* \
+  && find /var/lib/apt/lists /var/cache/apt/archives -type f -delete \
+  && rm -rfv /var/cache/apt /var/lib/apt/lists /var/log/* /var/lib/dpkg/*-old \
+  && rm -rfv /usr/share/doc /usr/share/man /usr/share/locale /usr/share/info /var/cache/apt /var/lib/apt/lists /var/log /var/lib/dpkg/*-old
+
 COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+STOPSIGNAL SIGQUIT
+
+CMD ["nginx", "-g", "daemon off;"]
+
+###############################################################################
