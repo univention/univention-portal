@@ -1,7 +1,7 @@
 ARG DOCKER_PROXY
 
-ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-ucs-base/ucs-base-dev-504
-ARG UCS_BASE_IMAGE_TAG=latest
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-dev-504
+ARG UCS_BASE_IMAGE_TAG=v0.7.1
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build-base
 
