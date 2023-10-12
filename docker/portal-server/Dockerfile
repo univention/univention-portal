@@ -1,7 +1,7 @@
 ARG DOCKER_PROXY
 
-ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-dev-504
-ARG UCS_BASE_IMAGE_TAG=v0.7.1
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-dev-505
+ARG UCS_BASE_IMAGE_TAG=v0.7.2
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build-base
 
@@ -33,24 +33,6 @@ COPY ./python ./python
 COPY ./setup.py .
 
 RUN pip3 install --no-cache-dir .
-
-
-FROM build-base AS test
-WORKDIR /staging/
-
-# hadolint ignore=DL3008
-RUN apt-get -qq update \
-    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      python3-univention-directory-manager \
-      univention-directory-listener \
-    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
-
-COPY ./requirements-test.txt .
-RUN pip3 install --no-cache-dir -r requirements-test.txt \
-    && mkdir -p /var/log/univention/ \
-    && touch /var/log/univention/portal.log
-
-CMD ["pytest", "unittests"]
 
 
 FROM build-base AS final
@@ -92,5 +74,25 @@ EXPOSE 80
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/bin/python3", "/usr/sbin/univention-portal-server"]
+
+
+FROM final AS test
+COPY unittests unittests
+
+# hadolint ignore=DL3008
+RUN apt-get -qq update \
+    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+      python3-univention-directory-manager \
+      univention-directory-listener \
+    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+COPY ./requirements-test.txt .
+RUN pip3 install --no-cache-dir -r requirements-test.txt \
+    && mkdir -p /var/log/univention/ \
+    && touch /var/log/univention/portal.log
+
+ENTRYPOINT []
+CMD ["pytest", "unittests"]
+
 
 # [EOF]
