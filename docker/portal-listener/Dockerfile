@@ -1,4 +1,4 @@
-ARG LISTENER_BASE_IMAGE_TAG=v0.2.0
+ARG LISTENER_BASE_IMAGE_TAG=v0.3.0
 ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base:${LISTENER_BASE_IMAGE_TAG}
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
@@ -35,12 +35,12 @@ RUN mkdir -p /var/log/univention/ \
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
-COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /docker-entrypoint.sh
+COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-docker-entrypoint.sh
 COPY --from=portal-server-image /app/listener/*.py /usr/lib/univention-directory-listener/system/
 
 COPY ./docker/portal-listener/stub_portals.json /usr/share/univention-portal/portals.json
 
-COPY ./docker/portal-listener/portal-listener-entrypoint.sh /
+COPY ./docker/portal-listener/portal-listener-entrypoint.sh /entrypoint.d/75-portal-listener-entrypoint.sh
 COPY ./docker/portal-listener/initialize.sh /
 
 # The entrypoint scripts are chained:
@@ -52,12 +52,5 @@ COPY ./docker/portal-listener/initialize.sh /
 #
 # - The portal listener specific one does contain the listener specific
 #   needs.
-#
-# It is possible to chain the entrypoint scripts since they all call 'exec "$@"'
-# as the last call.
-# FIXME: This will all move to entrypoint.d once listener-base is migrated
-ENTRYPOINT [ \
-    "/docker-entrypoint.sh", \
-    "/listener-base-entrypoint.sh", \
-    "/portal-listener-entrypoint.sh"]
+
 CMD ["/command.sh"]
