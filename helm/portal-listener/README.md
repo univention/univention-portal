@@ -182,6 +182,24 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>persistence.data.size</td>
+			<td>string</td>
+			<td><pre lang="json">
+"1Gi"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>persistence.data.storageClass</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>podAnnotations</td>
 			<td>object</td>
 			<td><pre lang="json">
