@@ -142,4 +142,10 @@ resourcesWaitForDependency: {}
 autoscaling:
   enabled: false
 
+
+persistence:
+  data:
+    storageClass: ""
+    size: "1Gi"
+
 ...

@@ -132,4 +132,5 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 1Gi
+          storage: {{ .Values.persistence.data.size }}
+          storageClass: {{ .Values.persistence.data.storageClass }}
