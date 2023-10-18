@@ -130,7 +130,9 @@ spec:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      {{- if .Values.persistence.data.storageClass }}
+      storageClassName: {{ .Values.persistence.data.storageClass | quote }}
+      {{- end }}
       resources:
         requests:
-          storage: {{ .Values.persistence.data.size }}
-          storageClass: {{ .Values.persistence.data.storageClass }}
+          storage: {{ .Values.persistence.data.size | required ".Values.persistence.data.size is required" | quote}}
