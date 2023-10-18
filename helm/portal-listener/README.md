@@ -225,8 +225,9 @@ false
   "adminGroup": null,
   "assetsRoot": "http://portal-server:univention@portal-listener-store-dav/portal-assets/",
   "authMode": "ucs",
-  "caCert": null,
+  "caCert": "",
   "caCertFile": "/run/secrets/ca_cert",
+  "certPem": "",
   "debugLevel": "4",
   "domainName": "univention.intranet",
   "editable": "true",
@@ -242,6 +243,7 @@ false
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
   "notifierServer": null,
+  "port": "80",
   "portalDefaultDn": null,
   "tlsMode": "secure",
   "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data/",
@@ -286,7 +288,7 @@ null
 			<td>portalListener.caCert</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+""
 </pre>
 </td>
 			<td>CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.</td>

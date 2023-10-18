@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "common.labels.standard" . | nindent 4 }}
 spec:
+  serviceName: {{ include "common.names.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
@@ -135,4 +136,4 @@ spec:
       {{- end }}
       resources:
         requests:
-          storage: {{ .Values.persistence.data.size | required ".Values.persistence.data.size is required" | quote}}
+          storage: {{ .Values.persistence.data.size | required ".Values.persistence.data.size is required" | quote }}
