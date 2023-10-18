@@ -18,6 +18,7 @@ tolerations: []
 
 # -- Application configuration of the Portal Listener
 portalListener:
+  port: "80"
   # Update configuration to mach the needs of the portal listener
   # -- Define LDAP Admin Group.
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
@@ -27,7 +28,8 @@ portalListener:
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
   authMode: "ucs"
   # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
-  caCert: null
+  caCert: ""
+  certPem: ""
   # -- The path to the "caCertFile" docker secret or a plain file.
   caCertFile: "/run/secrets/ca_cert"
   # -- Whenever to start encryption and validate certificates.
