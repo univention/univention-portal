@@ -29,11 +29,18 @@ ingress:
   enabled: true
   ingressClassName: "nginx"
   annotations:
+    # Ingress-Nginx
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^/univention/portal(/.*)$ $1 break;
+    # Nginx
     nginx.org/location-snippets: |
       rewrite ^/univention/portal(/.*)$ $1 break;
     nginx.org/mergeable-ingress-type: "minion"
+    # HAProxy
+    haproxy.org/path-rewrite: /univention/portal(/.*) \1
+    # HAProxy - Community: https://haproxy-ingress.github.io/
+    haproxy-ingress.github.io/config-frontend: |
+      http-request set-path “%[path,regsub(^/univention/portal/,/)]”
   # -- The hostname. This parameter has to be supplied. Example `portal.example`.
   host: null
   # -- The path configuration. The default only grabs what is known to be part of the frontend.

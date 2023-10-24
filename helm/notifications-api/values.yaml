@@ -39,11 +39,17 @@ ingress:
   enabled: true
   ingressClassName: "nginx"
   annotations:
+    # Ingress-Nginx
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;
+    # Nginx
     nginx.org/location-snippets: |
       rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;
     nginx.org/mergeable-ingress-type: "minion"
+    # HAProxy
+    haproxy.org/path-rewrite: ^/univention/portal/notifications-api(/.*)$ \1
+    # HAProxy - Community: https://haproxy-ingress.github.io/
+    haproxy-ingress.github.io/rewrite-target: /
   # -- The hostname. This parameter has to be supplied. Example `portal.example`.
   host: null
   paths:
