@@ -1,20 +1,31 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}library/node:14-buster-slim AS local-dev-env
 
-# The following dependencies are only needed when on an aarch64 platform,
-# because then the package "deasync" does not include ready made binaries
-# for the platform and falls back to compiling them.
-#
-# This is relevant for developers who work on machines with Apple's M1
-# processors.
-RUN if [ "$(uname -m)" != "aarch64" ]; then exit 0; fi && \
-    apt-get update -qq \
-    && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
-    gcc=4:8.* \
-    g++=4:8.* \
-    python3=3.7.* \
-    make=4.* \
-    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-505
+ARG UCS_BASE_IMAGE_TAG=v0.7.5
+
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS local-dev-env
+
+SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
+
+# TODO: Installing node14 from nvm until the portal is migrated to node 18
+
+RUN apt-get update -qq \
+    && apt-get install -y --no-install-recommends \
+      wget=1.20.* \
+      ca-certificates=202* \
+      python3-distutils=3.7.* \
+      make=4.2.* \
+      g++=4:8.3.* \
+      libssl-dev=1.1.* \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+ENV NODE_VERSION="14.21.1"
+
+WORKDIR /tmp
+ADD https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh /tmp/install.sh
+RUN bash /tmp/install.sh \
+  && . ~/.nvm/nvm.sh \
+  && nvm install "$NODE_VERSION"
 
 WORKDIR /app
 CMD ["/bin/bash"]
@@ -24,7 +35,11 @@ FROM local-dev-env as base
 COPY ./package.json .
 COPY ./yarn.lock .
 
-RUN yarn install --frozen-lockfile && yarn cache clean
+# hadolint ignore=DL3016
+RUN . ~/.nvm/nvm.sh \
+  && npm install -g yarn \
+  && yarn install --frozen-lockfile \
+  && yarn cache clean
 
 # Copy should come after yarn install to prevent long rebuilding time
 COPY . .
@@ -38,6 +53,7 @@ FROM base AS dev-server
 #
 # Currently it is not possible to inject this from the Tilt configuration.
 # See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
+RUN ln -s ~/.nvm/nvm.sh /entrypoint.d/1-nvm.sh
 CMD ["yarn", "serve", "--port", "80"]
 
 
@@ -52,7 +68,10 @@ WORKDIR /app
 COPY ./package.json .
 COPY ./yarn.lock .
 
-RUN yarn install --frozen-lockfile && yarn cache clean
+RUN . ~/.nvm/nvm.sh \
+  && yarn install --frozen-lockfile \
+  && yarn install --frozen-lockfile \
+  && yarn cache clean
 
 COPY . .
 
@@ -61,8 +80,15 @@ CMD ["yarn", "test:unit"]
 
 FROM base as build
 
-RUN yarn build
+RUN . ~/.nvm/nvm.sh \
+    && yarn build
 
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
 
-FROM ${DOCKER_PROXY}library/nginx:1.23.3 AS final
-COPY --from=build /app/dist /usr/share/nginx/html
+RUN apt-get update -qq \
+    && apt-get install -y --no-install-recommends \
+      nginx=1.14.* \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+COPY --from=build /app/dist /var/www/html
+CMD ["nginx", "-g", "daemon off;"]
