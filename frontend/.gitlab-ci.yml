@@ -33,6 +33,7 @@ i18n:
   needs:
     - job: build-debian-package-builder
   image: "$BUILD_IMAGE_TAG"
+  cache: []
   script:
     - make l10n-build
   artifacts:
@@ -45,6 +46,7 @@ build-portal-frontend-test-runner:
   stage: prepare
   extends: .kaniko
   needs: []
+  timeout: 3 hours
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
@@ -79,6 +81,7 @@ build-portal-frontend:
     - job: i18n
       artifacts: true
   extends: .kaniko
+  timeout: 3 hours
   variables:
     KANIKO_BUILD_CONTEXT: "frontend"
     CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"

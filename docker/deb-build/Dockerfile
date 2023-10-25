@@ -12,7 +12,7 @@ RUN apt-get update \
 
 ENV NODE_VERSION="14.21.1"
 
-ADD https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh /tmp/install.sh
+ADD https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh /tmp/install.sh
 RUN bash /tmp/install.sh \
   && . ~/.nvm/nvm.sh \
   && nvm install "$NODE_VERSION" \

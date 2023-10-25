@@ -1,20 +1,33 @@
 ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}library/node:14-buster-slim AS local-dev-env
 
-# The following dependencies are only needed when on an aarch64 platform,
-# because then the package "deasync" does not include ready made binaries
-# for the platform and falls back to compiling them.
-#
-# This is relevant for developers who work on machines with Apple's M1
-# processors.
-RUN if [ "$(uname -m)" != "aarch64" ]; then exit 0; fi && \
-    apt-get update -qq \
-    && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
-    gcc=4:8.* \
-    g++=4:8.* \
-    python3=3.7.* \
-    make=4.* \
-    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-505
+ARG UCS_BASE_IMAGE_TAG=v0.7.5
+
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS local-dev-env
+
+SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
+
+# TODO: Installing node14 from source until the portal-frontend is migrated
+# to node18 or greater.
+
+WORKDIR /tmp
+RUN apt-get update -qq \
+    && apt-get install -y --no-install-recommends \
+      wget=1.20.* \
+      ca-certificates=202* \
+      python3-distutils=3.7.* \
+      make=4.2.* \
+      g++=4:8.3.* \
+      libssl-dev=1.1.* \
+      git=1:2.20.* \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* \
+    && wget --progress=dot:giga https://nodejs.org/dist/v14.21.3/node-v14.21.3.tar.gz \
+    && tar -xvf node-v14.21.3.tar.gz
+WORKDIR /tmp/node-v14.21.3
+RUN ./configure \
+    && make "-j$(nproc)" \
+    && make install \
+    && rm -rf /tmp/node-v14.21.3.tar.gz /tmp/node-v14.21.3
 
 WORKDIR /app
 CMD ["/bin/bash"]
@@ -23,7 +36,10 @@ CMD ["/bin/bash"]
 FROM local-dev-env as base
 COPY ./package.json .
 COPY ./yarn.lock .
-
+# Install yarn
+# hadolint ignore=DL3016
+RUN npm install -g yarn
+# Install dependencies
 RUN yarn install --frozen-lockfile && yarn cache clean
 
 # Copy should come after yarn install to prevent long rebuilding time
@@ -63,6 +79,12 @@ FROM base as build
 
 RUN yarn build
 
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
 
-FROM ${DOCKER_PROXY}library/nginx:1.23.3 AS final
-COPY --from=build /app/dist /usr/share/nginx/html
+RUN apt-get update -qq \
+    && apt-get install -y --no-install-recommends \
+      nginx=1.14.* \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+COPY --from=build /app/dist /var/www/html
+CMD ["nginx", "-g", "daemon off;"]
