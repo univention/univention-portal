@@ -1,14 +1,15 @@
 FROM gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-505:v0.7.5 AS base
 
 #hadolint ignore=DL3008
-RUN apt-get update \
-    && apt-get --assume-yes --no-install-recommends install \
-      git \
-      build-essential \
-      devscripts \
-      curl \
-      univention-l10n-dev \
-    && rm -fr /var/lib/apt/lists/*
+RUN \
+  apt-get update \
+  && apt-get --assume-yes --no-install-recommends install \
+    "build-essential=12.6" \
+    "curl=7.64.*" \
+    "devscripts=2.19.*" \
+    "git=1:2.20.*" \
+    "univention-l10n-dev=7.0.*" \
+  && rm -fr /var/lib/apt/lists/*
 
 ENV NODE_VERSION="14.21.1"
 
