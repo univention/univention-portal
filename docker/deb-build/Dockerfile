@@ -7,6 +7,7 @@ RUN \
     "build-essential=12.6" \
     "curl=7.64.*" \
     "devscripts=2.19.*" \
+    "gettext=0.19.*" \
     "git=1:2.20.*" \
     "univention-l10n-dev=7.0.*" \
   && rm -fr /var/lib/apt/lists/*
