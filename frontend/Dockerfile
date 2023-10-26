@@ -7,7 +7,7 @@ ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base
 ###############################################################################
 # Creates a yarn builder
 
-FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS local-dev-env
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS base
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -32,6 +32,7 @@ RUN \
 
 RUN curl -sL https://unofficial-builds.nodejs.org/download/release/v14.21.3/node-v14.21.3-linux-x64-usdt.tar.gz | tar xz -C /usr/local --strip-components=1 
 
+## Jaime version. It works too.
 ##WORKDIR /tmp
 ##RUN apt-get update -qq \
 ##    && apt-get install -y --no-install-recommends \
@@ -56,8 +57,9 @@ WORKDIR /app
 COPY ./package.json .
 COPY ./yarn.lock .
 
-RUN  npm install -g yarn && yarn install --frozen-lockfile && yarn cache clean
-##RUN yarnpkg install && yarnpkg cache clean
+RUN  npm install -g yarn \
+  && yarn install --frozen-lockfile \
+  && yarn cache clean
 
 COPY . .
 
@@ -68,13 +70,9 @@ CMD ["/bin/bash"]
 
 # The dev-server stage is running a development server. This is intended to be
 # used with the Tilt based development environment.
-##FROM base AS dev-server
+FROM base AS dev-server
 
-# Define the command for the local-dev-env run in Tilt.
-#
-# Currently it is not possible to inject this from the Tilt configuration.
-# See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
-##CMD ["yarnpkg", "serve", "--port", "80"]
+CMD ["yarnpkg", "serve", "--port", "80"]
 
 ###############################################################################
 # Runs unit tests
@@ -84,46 +82,33 @@ CMD ["/bin/bash"]
 # `docker compose run --build test yarn test:e2e:headless --browser chrome`
 # Still, it increases the initial build duration (due to the duplicate `yarn install`)
 # TODO: Get rid of duplicate `yarn install` or separate this stage into a separate Dockerfile (e.g. test.Dockerfile)
-##FROM base as test
+FROM base as test
 
-##WORKDIR /app
-##COPY ./package.json .
-##COPY ./yarn.lock .
-
-##RUN yarnpkg global add node-gyp \
-##  && yarn install --frozen-lockfile 
-##   && yarnpkg cache clean
-
-##COPY . .
-
-##CMD ["yarnpkg", "test:unit"]
+CMD ["yarnpkg", "test:unit"]
 
 ###############################################################################
 # Build with yarn
 
-FROM local-dev-env as build
+FROM base as build
 
-# vzheleznyakov - Error here
 RUN yarn build
 
 ###############################################################################
 # Starts production nginx server
 
-##FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
-FROM local-dev-env AS final
+FROM base AS final
 
 RUN \
   apt-get --quiet --quiet update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    nginx=1.22.* \
+    nginx=1.14.* \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && find /var/lib/apt/lists /var/cache/apt/archives -type f -delete \
   && rm -rfv /var/cache/apt /var/lib/apt/lists /var/log/* /var/lib/dpkg/*-old \
   && rm -rfv /usr/share/doc /usr/share/man /usr/share/locale /usr/share/info /var/cache/apt /var/lib/apt/lists /var/log /var/lib/dpkg/*-old
 
-# vzheleznyakov - Uncomment it
-#COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
