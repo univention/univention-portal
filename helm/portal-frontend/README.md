@@ -296,6 +296,186 @@ null
 			<td>By default uses the value of "ingress.tls.secretName"</td>
 		</tr>
 		<tr>
+			<td>extraVolumeMounts[0].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/usr/share/nginx/html/css/custom.css"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[0].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"branding-volume"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[0].subPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"custom.css"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[1].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/usr/share/nginx/html/favicon.ico"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"branding-volume"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[1].subPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"favicon.ico"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[2].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/usr/share/nginx/html/icons/logo.svg"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[2].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"branding-volume"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[2].subPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"logo.svg"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[3].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/usr/share/nginx/html/icons/logo_small_border.svg"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[3].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"branding-volume"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[3].subPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"logo_small_border.svg"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[4].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/usr/share/nginx/html/custom/portal_background_image.png"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[4].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"branding-volume"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[4].subPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"portal_background_image.png"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[5].mountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/usr/share/nginx/html/custom/portal_background_image.svg"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[5].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"branding-volume"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts[5].subPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"portal_background_image.svg"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumes[0].configMap.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"stack-data-swp-branding"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumes[0].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"branding-volume"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>fullnameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -429,6 +609,14 @@ null
   },
   {
     "path": "/univention/portal/oidc/",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/portal/icons/",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/portal/custom/",
     "pathType": "Prefix"
   }
 ]

@@ -15,6 +15,30 @@ replicaCount: 1
 securityContext: {}
 tolerations: []
 
+extraVolumes:
+  - name: branding-volume
+    configMap:
+      name: stack-data-swp-branding
+
+extraVolumeMounts:
+  - name: branding-volume
+    mountPath: /usr/share/nginx/html/css/custom.css
+    subPath: custom.css
+  - name: branding-volume
+    mountPath: /usr/share/nginx/html/favicon.ico
+    subPath: favicon.ico
+  - name: branding-volume
+    mountPath: /usr/share/nginx/html/icons/logo.svg
+    subPath: logo.svg
+  - name: branding-volume
+    mountPath: /usr/share/nginx/html/icons/logo_small_border.svg
+    subPath: logo_small_border.svg
+  - name: branding-volume
+    mountPath: /usr/share/nginx/html/custom/portal_background_image.png
+    subPath: portal_background_image.png
+  - name: branding-volume
+    mountPath: /usr/share/nginx/html/custom/portal_background_image.svg
+    subPath: portal_background_image.svg
 
 # -- Application configuration of the Portal Frontend
 portalFrontend:
@@ -55,6 +79,10 @@ ingress:
       path: /univention/portal/js/
     - pathType: Prefix
       path: /univention/portal/oidc/
+    - pathType: Prefix
+      path: /univention/portal/icons/
+    - pathType: Prefix
+      path: /univention/portal/custom/
   tls:
     enabled: true
     secretName: ""
