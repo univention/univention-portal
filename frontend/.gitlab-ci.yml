@@ -14,6 +14,7 @@ workflow:
 
 include:
   - project: univention/customers/dataport/upx/common-ci
+    ref: v0.4.0
     file:
       - templates/kaniko.yaml
       - templates/souvap.yaml
