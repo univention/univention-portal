@@ -1,5 +1,3 @@
-ARG DOCKER_PROXY
-
 ARG UCS_BASE_IMAGE_TAG="v0.7.5"
 ARG UCS_BASE_IMAGE="gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-505"
 
@@ -23,9 +21,9 @@ ARG NODE_SHA256="bef2685d9469058c1229cc7789e171861044fe3f70316ec744e9bf3609cd45e
 RUN \
   apt-get --quiet --quiet update \
   && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
-    "ca-certificates=20200601*" \
-    "wget=1.20.*" \
-  && if [ "$(uname -m)" = "aarch64" ]; then \
+  "ca-certificates=20200601*" \
+  "wget=1.20.*" \
+  && if [[ "$(uname -m)" == "aarch64" ]]; then \
     apt-get --assume-yes --verbose-versions --no-install-recommends install \
     "gcc=4:8.*" \
     "g++=4:8.*" \
@@ -34,7 +32,7 @@ RUN \
   ; fi \
   && rm -fr "/var/lib/apt/lists/*" "/var/cache/apt/archives/*" \
   && wget --progress="dot:giga" --output-document="node.tar.gz" \
-    "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" \
+  "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" \
   && echo "${NODE_SHA256}  node.tar.gz" > SHA256 \
   && sha256sum --check "SHA256" \
   && tar xz -C "/usr/local" --strip-components=1 -f "node.tar.gz" \
@@ -42,7 +40,7 @@ RUN \
   && NODE_RESULT=$(node --version) \
   && echo "node version: ${NODE_RESULT}" \
   && if [[ "${NODE_RESULT}" != "v${NODE_VERSION}" ]]; then echo "Bad node version"; exit 1; fi \
-  && npm install -g yarn \
+  && npm install -g yarn@"${YARN_VERSION}" \
   && yarn set version "${YARN_VERSION}" \
   && YARN_RESULT=$(yarn --version) \
   && echo "yarn version: ${YARN_RESULT}" \
@@ -77,28 +75,34 @@ FROM base AS dev-server
 CMD ["yarn", "serve", "--port", "80"]
 
 
-# The test stage gives developers an easy way to run unit and ui tests
-# `docker compose run --build test`
-# `docker compose run --build test yarn test:e2e:headless --browser chrome`
-# Still, it increases the initial build duration (due to the duplicate `yarn install`)
-# TODO: Get rid of duplicate `yarn install` or separate this stage into a separate Dockerfile (e.g. test.Dockerfile)
-FROM ${DOCKER_PROXY}cypress/browsers:node14.17.6-chrome100-ff98 as test
-
-WORKDIR /app
-COPY ./package.json .
-COPY ./yarn.lock .
-
-RUN yarn install --frozen-lockfile && yarn cache clean
-
-COPY . .
-
-CMD ["yarn", "test:unit"]
-
+###############################################################################
 
 FROM base as build
 
 RUN yarn build
 
 
-FROM ${DOCKER_PROXY}library/nginx:1.23.3 AS final
-COPY --from=build /app/dist /usr/share/nginx/html
+###############################################################################
+# Starts production nginx server
+
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
+
+RUN \
+  apt-get --quiet --quiet update \
+  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+  nginx=1.14.* \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* \
+  && find /var/lib/apt/lists /var/cache/apt/archives /var/log -type f -delete \
+  && rm -rfv /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old \
+  && rm -rfv /usr/share/doc /usr/share/man /usr/share/locale /usr/share/info /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old
+
+COPY --from=build /app/dist /var/www/html
+
+EXPOSE 80
+
+STOPSIGNAL SIGQUIT
+
+CMD ["nginx", "-g", "daemon off;"]
+
+###############################################################################

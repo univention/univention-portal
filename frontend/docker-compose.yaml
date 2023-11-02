@@ -29,6 +29,7 @@ services:
     build:
       context: .
       target: test
+      dockerfile: Dockerfile.test
     container_name: portal-frontend-test
 
 volumes:
