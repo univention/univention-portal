@@ -47,7 +47,7 @@ data:
     # TODO: find a way to not leak the udm passwort into the log
     set -euxo pipefail
 
-    while ! curl -o /dev/null -sf --user "${PORTAL_UDM_API_USERNAME}:$(cat $PORTAL_UDM_API_PASSWORD_FILE)" "${PORTAL_UDM_API_URL}ldap/base/"; do
+    while ! curl -o- --fail --header "Accept: application/json" --user "${PORTAL_UDM_API_USERNAME}:$(cat $PORTAL_UDM_API_PASSWORD_FILE)" "${PORTAL_UDM_API_URL}ldap/base/"; do
       echo "Checking if the UDM REST API can be reached..."
       sleep 2
     done
