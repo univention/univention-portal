@@ -45,6 +45,8 @@ trigger-notifications-api:
     include:
       - local: 'notifications-api/.gitlab-ci.yml'
   rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: always
     - changes:
         - 'notifications-api/**/*'
         - 'tests/**/*'
@@ -62,6 +64,8 @@ trigger-frontend:
     include:
       - local: 'frontend/.gitlab-ci.yml'
   rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: always
     - changes: &portal-frontend-changes
         - 'frontend/**/*'
         - 'tests/**/*'
@@ -79,6 +83,8 @@ trigger-portal-server:
     include:
       - local: 'portal-server/.gitlab-ci.yml'
   rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: always
     - changes: &portal-server-changes
         - 'docker/portal-server/**/*'
         - 'docker/portal-listener/**/*'
@@ -103,6 +109,8 @@ trigger-debian-package:
     include:
       - local: '.gitlab-ci.debian.yml'
   rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: always
     - changes: *portal-server-changes
     - changes: *portal-frontend-changes
     - changes:
