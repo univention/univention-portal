@@ -42,7 +42,7 @@ helm uninstall portal-server
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.2.0 |
+| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.5.0 |
 
 ## Values
 
@@ -343,6 +343,15 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>mountSecrets</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>nameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -385,6 +394,10 @@ true
 {
   "adminGroup": null,
   "authMode": "ucs",
+  "centralNavigation": {
+    "authenticatorSecret": null,
+    "enabled": false
+  },
   "editable": "true",
   "environment": "production",
   "logLevel": "WARNING",
@@ -414,6 +427,24 @@ null
 </pre>
 </td>
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
+		</tr>
+		<tr>
+			<td>portalServer.centralNavigation.authenticatorSecret</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>Provide a custom secret, if no value is provided, a random string is generated instead.</td>
+		</tr>
+		<tr>
+			<td>portalServer.centralNavigation.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>Activate the SecretAuthenticator for the portal.</td>
 		</tr>
 		<tr>
 			<td>portalServer.editable</td>

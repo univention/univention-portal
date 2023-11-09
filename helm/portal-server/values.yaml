@@ -14,6 +14,7 @@ podSecurityContext: {}
 replicaCount: 1
 securityContext: {}
 tolerations: []
+mountSecrets: true
 
 # -- Application configuration of the Portal Server
 portalServer:
@@ -38,6 +39,11 @@ portalServer:
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umcSessionUrl: null
+  centralNavigation:
+    # -- Activate the SecretAuthenticator for the portal.
+    enabled: false
+    # -- Provide a custom secret, if no value is provided, a random string is generated instead.
+    authenticatorSecret: null
 
 ## Kubernetes ingress
 ingress:
