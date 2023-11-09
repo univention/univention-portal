@@ -76,7 +76,7 @@ jq -n \
   --argjson umc_check_icons "${PORTAL_SERVER_UMC_CHECK_ICONS}" \
   "${JQ_TEMPLATE}" > "${JSON_PATH}"
 
-if [[ "$PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED" == "true" ]]; then
+if [[ "${PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED:-}" == "true" ]]; then
   echo "Activating central navigation via the UMCAndSecretAuthenticator"
 
   PORTALS_JSON="/usr/share/univention-portal/portals.json"
