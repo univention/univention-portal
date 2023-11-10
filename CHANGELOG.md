@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.4.2...v0.4.3) (2023-11-10)
+
+
+### Bug Fixes
+
+* **portal-server:** Always create secret ([ec0691b](https://git.knut.univention.de/univention/components/univention-portal/commit/ec0691bef9c9260231094c19771b1d7212cc2ebc))
+
 ## [0.4.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.4.1...v0.4.2) (2023-11-09)
 
 
