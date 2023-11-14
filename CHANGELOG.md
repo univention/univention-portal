@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.4.3...v0.4.4) (2023-11-14)
+
+
+### Bug Fixes
+
+* **frontend:** Add announcements styles ([3a1ffee](https://git.knut.univention.de/univention/components/univention-portal/commit/3a1ffee1eeaf05a5c2afd0ad3d11a566959d3760))
+
 ## [0.4.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.4.2...v0.4.3) (2023-11-10)
 
 
