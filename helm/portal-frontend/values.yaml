@@ -63,6 +63,8 @@ ingress:
       path: /univention/portal/js/
     - pathType: Prefix
       path: /univention/portal/oidc/
+    - pathType: Prefix
+      path: /univention/selfservice/
   tls:
     enabled: true
     secretName: ""
@@ -92,6 +94,8 @@ extraIngresses:
         path: /univention/
       - pathType: Exact
         path: /univention/portal
+      - pathType: Exact
+        path: /univention/selfservice
     tls:
       # -- By default uses the value of "ingress.tls.enabled"
       enabled: null
@@ -220,6 +224,9 @@ istio:
       - match: "prefix"
         path: "/univention/portal/oidc/"
         rewrite: "/oidc/"
+      - match: "exact"
+        path: "/univention/selfservice/"
+        rewrite: "/"
   gateway:
     enabled: false
     annotations:
