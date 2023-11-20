@@ -177,6 +177,10 @@ true
     {
       "path": "/univention/portal",
       "pathType": "Exact"
+    },
+    {
+      "path": "/univention/selfservice",
+      "pathType": "Exact"
     }
   ],
   "tls": {
@@ -448,6 +452,10 @@ null
   {
     "path": "/univention/portal/oidc/",
     "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/selfservice/",
+    "pathType": "Prefix"
   }
 ]
 </pre>
@@ -624,6 +632,11 @@ true
     "match": "prefix",
     "path": "/univention/portal/oidc/",
     "rewrite": "/oidc/"
+  },
+  {
+    "match": "exact",
+    "path": "/univention/selfservice/",
+    "rewrite": "/"
   }
 ]
 </pre>
