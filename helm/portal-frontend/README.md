@@ -62,7 +62,7 @@ helm uninstall portal-frontend
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.3.1 |
+| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.5.0 |
 
 ## Values
 
@@ -294,6 +294,24 @@ null
 </pre>
 </td>
 			<td>By default uses the value of "ingress.tls.secretName"</td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>Allows to configure extra Volume Mounts. The syntax is the same as the "volumeMounts" key in the Container spec.</td>
+		</tr>
+		<tr>
+			<td>extraVolumes</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>Allows to configure extra Volumes. The syntax is the same as the "volumes" key in the Pod spec.</td>
 		</tr>
 		<tr>
 			<td>fullnameOverride</td>

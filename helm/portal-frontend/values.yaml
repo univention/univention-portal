@@ -16,6 +16,14 @@ securityContext: {}
 tolerations: []
 
 
+# -- Allows to configure extra Volumes. The syntax is the same as the "volumes"
+# key in the Pod spec.
+extraVolumes: null
+# -- Allows to configure extra Volume Mounts. The syntax is the same as the
+# "volumeMounts" key in the Container spec.
+extraVolumeMounts: null
+
+
 # -- Application configuration of the Portal Frontend
 portalFrontend:
   # -- TODO: Clarify usage of this parameter
