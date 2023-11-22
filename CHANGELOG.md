@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.4.4...v0.5.0) (2023-11-22)
+
+
+### Features
+
+* **frontend:** Add extraVolumes support into Helm chart ([bb076c1](https://git.knut.univention.de/univention/components/univention-portal/commit/bb076c18037731288be2a67d3dc7bbea3643af6d))
+
 ## [0.4.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.4.3...v0.4.4) (2023-11-14)
 
 
