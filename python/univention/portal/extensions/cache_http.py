@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+
 from copy import deepcopy
 
 import requests
@@ -57,29 +58,39 @@ class CacheHTTP(metaclass=Plugin):
         return self._etag
 
     def _load(self):
-        get_logger('cache').info(f'loading data from {log_url_safe(self._ucs_internal_url)}')
+        get_logger("cache").info(
+            f"loading data from {log_url_safe(self._ucs_internal_url)}",
+        )
 
         # TODO: Append version to header, like "portal-server/VERSION"
         headers = {"user-agent": "portal-server"}
         if self._etag:
-            headers['If-None-Match'] = self._etag
+            headers["If-None-Match"] = self._etag
 
         try:
             response = requests.get(self._ucs_internal_url, headers=headers)
         except Exception:
-            get_logger('cache').exception('Error loading %s', log_url_safe(self._ucs_internal_url))
+            get_logger("cache").exception(
+                "Error loading %s", log_url_safe(self._ucs_internal_url),
+            )
             return
 
         if response.status_code == requests.codes.not_modified:
-            get_logger('cache').info('Not modified %s', log_url_safe(self._ucs_internal_url))
+            get_logger("cache").info(
+                "Not modified %s", log_url_safe(self._ucs_internal_url),
+            )
             return
         elif response.status_code == requests.codes.unauthorized:
-            get_logger('cache').error('Cannot fetch %s. Unauthorized!', log_url_safe(self._ucs_internal_url))
+            get_logger("cache").error(
+                "Cannot fetch %s. Unauthorized!", log_url_safe(self._ucs_internal_url),
+            )
             return
 
         self._cache = response.json()
-        self._etag = response.headers.get('ETag')
-        get_logger('cache').info('Loaded from %s, ETag: %s', log_url_safe(self._ucs_internal_url), self._etag)
+        self._etag = response.headers.get("ETag")
+        get_logger("cache").info(
+            "Loaded from %s, ETag: %s", log_url_safe(self._ucs_internal_url), self._etag,
+        )
 
     def get(self):
         return self._cache
@@ -90,25 +101,25 @@ class CacheHTTP(metaclass=Plugin):
 
 class PortalFileCacheHTTP(CacheHTTP):
     def __init__(self, ucs_internal_url):
-        super().__init__(f'{ucs_internal_url}/portal')
+        super().__init__(f"{ucs_internal_url}")
 
     def get_user_links(self):
-        return deepcopy(self.get()['user_links'])
+        return deepcopy(self.get()["user_links"])
 
     def get_entries(self):
-        return deepcopy(self.get()['entries'])
+        return deepcopy(self.get()["entries"])
 
     def get_folders(self):
-        return deepcopy(self.get()['folders'])
+        return deepcopy(self.get()["folders"])
 
     def get_portal(self):
-        return deepcopy(self.get()['portal'])
+        return deepcopy(self.get()["portal"])
 
     def get_categories(self):
-        return deepcopy(self.get()['categories'])
+        return deepcopy(self.get()["categories"])
 
     def get_menu_links(self):
-        return deepcopy(self.get()['menu_links'])
+        return deepcopy(self.get()["menu_links"])
 
     def get_announcements(self):
         # TODO: this needs special handling currently in the
@@ -116,8 +127,8 @@ class PortalFileCacheHTTP(CacheHTTP):
         #       a UCS machine which might not have the latest
         #       portal with announcements installed.
         announcements = {}
-        if 'announcements' in self.get().keys():
-            announcements = deepcopy(self.get()['announcements'])
+        if "announcements" in self.get().keys():
+            announcements = deepcopy(self.get()["announcements"])
         return announcements
 
     def refresh(self, reason=None):
@@ -126,7 +137,7 @@ class PortalFileCacheHTTP(CacheHTTP):
 
 class GroupFileCacheHTTP(CacheHTTP):
     def __init__(self, ucs_internal_url):
-        super().__init__(f'{ucs_internal_url}/groups')
+        super().__init__(f"{ucs_internal_url}/groups")
 
     def refresh(self, reason=None):
         super().refresh(reason)

@@ -175,13 +175,31 @@ null
 			<td>ingress.paths[1].path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/univention/portal/navigation.json"
+"/univention/selfservice/portal.json"
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>ingress.paths[1].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.paths[2].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/portal/navigation.json"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.paths[2].pathType</td>
 			<td>string</td>
 			<td><pre lang="json">
 "Exact"
@@ -338,6 +356,24 @@ true
 			<td>string</td>
 			<td><pre lang="json">
 "/univention/portal/portal.json"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>istio.virtualService.paths[2].match</td>
+			<td>string</td>
+			<td><pre lang="json">
+"exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>istio.virtualService.paths[2].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/selfservice/portal.json"
 </pre>
 </td>
 			<td></td>

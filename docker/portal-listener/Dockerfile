@@ -31,7 +31,8 @@ RUN mkdir -p /var/log/univention/ \
     && mkdir -p /usr/lib/univention-portal/config \
     && mkdir -p /var/cache/univention-portal \
     && touch /var/cache/univention-portal/groups.json \
-    && touch /var/cache/univention-portal/portal.json
+    && touch /var/cache/univention-portal/portal.json \
+    && touch /var/cache/univention-portal/selfservice.json
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal

@@ -58,6 +58,8 @@ ingress:
     - pathType: "Exact"
       path: "/univention/portal/portal.json"
     - pathType: "Exact"
+      path: "/univention/selfservice/portal.json"
+    - pathType: "Exact"
       path: "/univention/portal/navigation.json"
   tls:
     enabled: true
@@ -77,6 +79,8 @@ istio:
         path: "/univention/portal/navigation.json"
       - match: "exact"
         path: "/univention/portal/portal.json"
+      - match: "exact"
+        path: "/univention/selfservice/portal.json"
   gateway:
     enabled: false
     annotations:

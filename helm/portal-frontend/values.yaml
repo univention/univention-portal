@@ -39,8 +39,10 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^/univention/portal(/.*)$ $1 break;
+      rewrite ^/univention/selfservice(/.*)$ $1 break;
     nginx.org/location-snippets: |
       rewrite ^/univention/portal(/.*)$ $1 break;
+      rewrite ^/univention/selfservice(/.*)$ $1 break;
     nginx.org/mergeable-ingress-type: "minion"
   # -- The hostname. This parameter has to be supplied. Example `portal.example`.
   host: null
@@ -48,6 +50,8 @@ ingress:
   paths:
     - pathType: Exact
       path: /univention/portal/
+    - pathType: Exact
+      path: /univention/selfservice/
     - pathType: Exact
       path: /univention/portal/index.html
 
@@ -64,7 +68,17 @@ ingress:
     - pathType: Prefix
       path: /univention/portal/oidc/
     - pathType: Prefix
-      path: /univention/selfservice/
+      path: /univention/selfservice/css/
+    - pathType: Prefix
+      path: /univention/selfservice/fonts/
+    - pathType: Prefix
+      path: /univention/selfservice/i18n/
+    - pathType: Prefix
+      path: /univention/selfservice/media/
+    - pathType: Prefix
+      path: /univention/selfservice/js/
+    - pathType: Prefix
+      path: /univention/selfservice/oidc/
   tls:
     enabled: true
     secretName: ""
