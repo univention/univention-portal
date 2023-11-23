@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.5.0...v0.5.1) (2023-11-23)
+
+
+### Bug Fixes
+
+* **frondent:** Ignore Dockerfile ([dd3e4e0](https://git.knut.univention.de/univention/components/univention-portal/commit/dd3e4e0ffb3f918d4e6d82e25d17f0a20dd80ccc))
+* **frontend:** Logging to stdout / stderr enabled again ([0cf8c41](https://git.knut.univention.de/univention/components/univention-portal/commit/0cf8c41cef68ecd74060a6bef9fbbd734dca761a))
+
 ## [0.5.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.4.4...v0.5.0) (2023-11-22)
 
 
