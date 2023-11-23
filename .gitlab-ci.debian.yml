@@ -1,46 +1,46 @@
-stages:
-  - prepare
-  - package
-
+---
 
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
-
+    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
   - project: univention/customers/dataport/upx/common-ci
-    ref: v0.4.0
+    ref: "v1.10.1"
     file:
-      - templates/kaniko.yaml
-      - templates/souvap.yaml
+      - "defaults/stages.yaml"
+      - "templates/kaniko.yaml"
+      - "templates/souvap.yaml"
+      - "scripts/bash-header.yaml"
 
 # TODO: for keeping it simple, this is a duplicate to the one in the frontend pipeline
 #       but since the debian build is to go away eventually, this is probably acceptable
 build-debian-package-builder-1:
-  stage: prepare
-  extends: .kaniko
+  stage: "prepare"
+  extends: ".kaniko"
   needs: []
   variables:
-    KANIKO_BUILD_CONTEXT: "docker/deb-build"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
-
+    IMAGE_NAME: "deb-builder"
 
 build-debian-package:
-  stage: package
+  stage: "package"
   needs:
-    - job: build-debian-package-builder-1
+    - job: "build-debian-package-builder-1"
   image: "$BUILD_IMAGE_TAG"
   before_script:
-    - apt-get -qq update
-    - apt-get -q --assume-yes build-dep .
+    - |
+      apt-get -qq update
+      apt-get -q --assume-yes build-dep .
   script:
-    - source ~/.nvm/nvm.sh
-    - dpkg-buildpackage --no-sign
-    - rm -fr public
-    - mkdir public
-    - mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
+    - |
+      source ~/.nvm/nvm.sh
+      dpkg-buildpackage --no-sign
+      rm -fr public
+      mkdir public
+      mv -v ../*.{deb,dsc,tar.gz,buildinfo,changes} public/
   artifacts:
     paths:
-      - public/
-    expire_in: 1 week
+      - "public/"
+    expire_in: "1 week"
+
+...

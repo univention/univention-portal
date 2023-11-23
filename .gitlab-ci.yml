@@ -1,129 +1,102 @@
 ---
 
-variables:
-  SOUVAP_HELM_PROJECT_ID: 155
-  SOUVAP_REGISTRY_PATH: souvap/tooling/images/univention
-
-
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v0.5.4"
+    ref: "v1.10.1"
     file:
       - "defaults/stages.yaml"
       - "defaults/souvap-workflow.yaml"
-      - "templates/semantic-release-env.yaml"
       - "templates/souvap.yaml"
-      - "jobs/lint-commit-messages.yaml"
       - "jobs/lint-pre-commit.yaml"
+      - "jobs/lint-commit-messages.yaml"
+      - "jobs/semantic-release-env.yaml"
       - "jobs/package-and-publish-helm-charts.yaml"
-
 
 lint-pre-commit:
   before_script:
-    # Compose lint would fail without the referenced env files
-    - cp docker/.env.example docker/.env
-    - cp docker/.env.keycloak.example docker/.env.keycloak
-    - cp docker/.env.listener.example docker/.env.listener
-    - cp docker/.env.umc-gateway.example docker/.env.umc-gateway
-    - cp docker/.env.umc-server.example docker/.env.umc-server
-    - helm repo add bitnami https://charts.bitnami.com/bitnami
-
-
-pre-semantic-release:
-  extends: ".pre-semantic-release"
-
+    - |
+      # Compose lint would fail without the referenced env files
+      cp docker/.env.example docker/.env
+      cp docker/.env.keycloak.example docker/.env.keycloak
+      cp docker/.env.listener.example docker/.env.listener
+      cp docker/.env.umc-gateway.example docker/.env.umc-gateway
+      cp docker/.env.umc-server.example docker/.env.umc-server
+      helm repo add bitnami https://charts.bitnami.com/bitnami
 
 trigger-notifications-api:
-  stage: trigger
+  stage: "trigger"
   needs:
     - job: "pre-semantic-release"
       artifacts: true
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
   trigger:
-    strategy: depend
+    strategy: "depend"
     include:
-      - local: 'notifications-api/.gitlab-ci.yml'
+      - local: "notifications-api/.gitlab-ci.yml"
   rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: always
+    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+      when: "always"
     - changes:
-        - 'notifications-api/**/*'
-        - 'tests/**/*'
-
+        - "notifications-api/**/*"
+        - "tests/**/*"
 
 trigger-frontend:
-  stage: trigger
-  needs:
-    - job: "pre-semantic-release"
-      artifacts: true
+  stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
   trigger:
-    strategy: depend
+    strategy: "depend"
     include:
-      - local: 'frontend/.gitlab-ci.yml'
+      - local: "frontend/.gitlab-ci.yml"
   rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: always
+    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+      when: "always"
     - changes: &portal-frontend-changes
-        - 'frontend/**/*'
-        - 'tests/**/*'
-
+        - "frontend/**/*"
+        - "tests/**/*"
 
 trigger-portal-server:
-  stage: trigger
-  needs:
-    - job: "pre-semantic-release"
-      artifacts: true
+  stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
   trigger:
-    strategy: depend
+    strategy: "depend"
     include:
-      - local: 'portal-server/.gitlab-ci.yml'
+      - local: "portal-server/.gitlab-ci.yml"
   rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: always
+    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+      when: "always"
     - changes: &portal-server-changes
-        - 'docker/portal-server/**/*'
-        - 'docker/portal-listener/**/*'
-        - 'listener/**/*'
-        - 'portal-server/**/*'
-        - 'python/**/*'
-        - 'setup.py'
-        - 'tests/**/*'
-        - 'udm/**/*'
-        - 'unittests/**/*'
-        - 'univention-portal'
-        - 'univention-portal-server'
-
+        - "docker/portal-server/**/*"
+        - "docker/portal-listener/**/*"
+        - "listener/**/*"
+        - "portal-server/**/*"
+        - "python/**/*"
+        - "setup.py"
+        - "tests/**/*"
+        - "udm/**/*"
+        - "unittests/**/*"
+        - "univention-portal"
+        - "univention-portal-server"
 
 # TODO: Pending removal. This can be removed once the ucs-machine (VMs) are not
 # used anymore. Usage in the dev environment and in the SouvAP deployment.
 trigger-debian-package:
-  stage: trigger
-  needs: []
+  stage: "trigger"
   trigger:
-    strategy: depend
+    strategy: "depend"
     include:
-      - local: '.gitlab-ci.debian.yml'
+      - local: ".gitlab-ci.debian.yml"
   rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-      when: always
+    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+      when: "always"
     - changes: *portal-server-changes
     - changes: *portal-frontend-changes
     - changes:
-        - 'debian/**/*'
-
-
-package-helm-charts:
-  needs:
-    - job: "pre-semantic-release"
-      artifacts: true
-
+        - "debian/**/*"
 
 publish-helm-charts-souvap:
-  extends: .publish-helm-charts-souvap
+  extends: ".publish-helm-charts-souvap"
 
 ...
