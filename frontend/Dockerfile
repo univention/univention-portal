@@ -95,7 +95,11 @@ RUN \
   && rm -rf /var/lib/apt/lists/* \
   && find /var/lib/apt/lists /var/cache/apt/archives /var/log -type f -delete \
   && rm -rfv /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old \
-  && rm -rfv /usr/share/doc /usr/share/man /usr/share/locale /usr/share/info /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old
+  && rm -rfv /usr/share/doc /usr/share/man /usr/share/locale /usr/share/info /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old \
+  && mkdir -p /var/log/nginx \
+  && ln -sf /dev/stdout /var/log/nginx/access.log \
+  && ln -sf /dev/stderr /var/log/nginx/error.log
+
 
 COPY --from=build /app/dist /var/www/html
 
