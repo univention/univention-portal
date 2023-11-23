@@ -246,7 +246,7 @@ false
   "port": "80",
   "portalDefaultDn": null,
   "tlsMode": "secure",
-  "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data/",
+  "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data",
   "udmApiSecretFile": "/var/secrets/machine_secret",
   "udmApiUrl": null,
   "udmApiUsername": null,
@@ -459,7 +459,7 @@ null
 			<td>portalListener.ucsInternalUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
-"http://portal-listener:univention@portal-listener-store-dav/portal-data/"
+"http://portal-listener:univention@portal-listener-store-dav/portal-data"
 </pre>
 </td>
 			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>

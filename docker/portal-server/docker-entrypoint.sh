@@ -28,6 +28,18 @@ if [[ -z "${PORTAL_SERVER_UMC_SESSION_URL:-}" ]]; then
   exit 126
 fi
 
+IFS='' read -r -d '' SELFSERVICE_TEMPLATE <<"EOF" || true
+{
+  "selfservice_portal_dn": $selfservice_portal_dn,
+  "selfservice_portal_cache_url": $selfservice_portal_cache_url
+}
+EOF
+
+jq -n \
+  --arg selfservice_portal_dn "cn=self-service,cn=portal,cn=portals,cn=univention,${LDAP_BASE_DN:-}" \
+  --arg selfservice_portal_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}/selfservice" \
+  "${SELFSERVICE_TEMPLATE}" > "/usr/lib/univention-portal/config/selfservice.json"
+
 IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
 {
   "admin_groups": [
@@ -61,12 +73,12 @@ jq -n \
   --arg auth_mode "${PORTAL_SERVER_AUTH_MODE}" \
   --arg default_domain_dn "${PORTAL_DEFAULT_DN:-}" \
   --argjson editable "${PORTAL_SERVER_EDITABLE}" \
-  --arg groups_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}groups" \
+  --arg groups_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}/groups" \
   --arg hostdn "${LDAP_HOST_DN:-}" \
   --arg ldap_base "${LDAP_BASE_DN:-}" \
   --arg ldap_uri "ldap://${LDAP_HOST:-}:${LDAP_PORT-}" \
   --arg port "${PORTAL_SERVER_PORT}" \
-  --arg portal_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}portal" \
+  --arg portal_cache_url "${PORTAL_SERVER_UCS_INTERNAL_URL}/portal" \
   --arg ucs_internal_url "${PORTAL_SERVER_UCS_INTERNAL_URL}" \
   --arg udm_api_url "${PORTAL_UDM_API_URL:-}" \
   --arg udm_api_username "${PORTAL_UDM_API_USERNAME:-}" \
@@ -74,6 +86,7 @@ jq -n \
   --arg umc_get_url "${PORTAL_SERVER_UMC_GET_URL}" \
   --arg umc_session_url "${PORTAL_SERVER_UMC_SESSION_URL}" \
   --argjson umc_check_icons "${PORTAL_SERVER_UMC_CHECK_ICONS}" \
+  --arg selfservice_portal_dn "cn=self-service,cn=portal,cn=portals,cn=univention,${LDAP_BASE_DN:-dn=univention-organization,dn=intranet}" \
   "${JQ_TEMPLATE}" > "${JSON_PATH}"
 
 if [[ "${PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED:-}" == "true" ]]; then

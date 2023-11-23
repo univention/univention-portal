@@ -80,7 +80,7 @@ portalListener:
 
   # -- Define UCS internal endpoint.
   # Example: `"https://portal.example.com/univention/internal"`
-  ucsInternalUrl: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
+  ucsInternalUrl: "http://portal-listener:univention@portal-listener-store-dav/portal-data"
   # -- Define UMC get endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get"`
   umcGetUrl: null

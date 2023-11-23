@@ -10,7 +10,7 @@ portalListener:
   environment: "staging"
   logLevel: "DEBUG"
   assetsRoot: "http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
-  ucsInternalUrl: "http://portal-listener:univention@portal-listener-store-dav/portal-data/"
+  ucsInternalUrl: "http://portal-listener:univention@portal-listener-store-dav/portal-data"
   umcGetUrl: "http://ucs-machine/univention/internal/umc/get"
   umcSessionUrl: "http://ucs-machine/univention/internal/umc/get/session-info"
 

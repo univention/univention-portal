@@ -11,5 +11,3 @@ fi
 
 # Ensure that the Python library "requests" does find the certificate
 export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-
-exec "$@"

@@ -39,25 +39,27 @@ import pytest
 import requests
 
 
-UCS_INTERNAL_URL = 'http://ucshost.test/univention/internal'
-ETAG = '1234'
-PORTAL_DATA_KEYS = '''
+UCS_INTERNAL_URL = "http://ucshost.test/univention/internal"
+ETAG = "1234"
+PORTAL_DATA_KEYS = """
 portal
 entries
 folders
 categories
 user_links
 menu_links
-'''.split()[1:]
-PORTAL_DATA = {
-    _: _ for _ in PORTAL_DATA_KEYS
-}
+""".split()[
+    1:
+]
+PORTAL_DATA = {_: _ for _ in PORTAL_DATA_KEYS}
 GROUPS_DATA = {
-    'username': 'list of groups'.split(),
+    "username": "list of groups".split(),
 }
 
 
-@pytest.mark.parametrize("class_name", ["CacheHTTP", "PortalFileCacheHTTP", "GroupFileCacheHTTP"])
+@pytest.mark.parametrize(
+    "class_name", ["CacheHTTP", "PortalFileCacheHTTP", "GroupFileCacheHTTP"],
+)
 def test_import(class_name, dynamic_class):
     assert dynamic_class(class_name)
 
@@ -74,44 +76,44 @@ def test_cache_http_sets_user_agent_header(mocker):
 
 
 def test_portal_file_cache_http(requests_mock, dynamic_class):
-    url = f'{UCS_INTERNAL_URL}/portal'
+    url = f"{UCS_INTERNAL_URL}/portal"
 
     requests_mock.get(
         url,
         status_code=requests.codes.ok,
-        headers={'ETag': ETAG},
+        headers={"ETag": ETAG},
         json=PORTAL_DATA,
     )
-    portal_file_cache_http = dynamic_class('PortalFileCacheHTTP')(UCS_INTERNAL_URL)
+    portal_file_cache_http = dynamic_class("PortalFileCacheHTTP")(url)
     portal_file_cache_http.refresh()
 
     requests_mock.get(
         url,
-        request_headers={'If-None-Match': ETAG},
+        request_headers={"If-None-Match": ETAG},
         status_code=requests.codes.not_modified,
-        headers={'ETag': ETAG},
+        headers={"ETag": ETAG},
     )
     assert portal_file_cache_http.get() == PORTAL_DATA
     for item in PORTAL_DATA_KEYS:
-        assert item == getattr(portal_file_cache_http, f'get_{item}')()
+        assert item == getattr(portal_file_cache_http, f"get_{item}")()
 
 
 def test_group_file_cache_http(requests_mock, dynamic_class):
-    url = f'{UCS_INTERNAL_URL}/groups'
+    url = f"{UCS_INTERNAL_URL}/groups"
 
     requests_mock.get(
         url,
         status_code=requests.codes.ok,
-        headers={'ETag': ETAG},
+        headers={"ETag": ETAG},
         json=GROUPS_DATA,
     )
-    group_file_cache_http = dynamic_class('GroupFileCacheHTTP')(UCS_INTERNAL_URL)
+    group_file_cache_http = dynamic_class("GroupFileCacheHTTP")(UCS_INTERNAL_URL)
     group_file_cache_http.refresh()
 
     requests_mock.get(
         url,
-        request_headers={'If-None-Match': ETAG},
+        request_headers={"If-None-Match": ETAG},
         status_code=requests.codes.not_modified,
-        headers={'ETag': ETAG},
+        headers={"ETag": ETAG},
     )
     assert group_file_cache_http.get() == GROUPS_DATA

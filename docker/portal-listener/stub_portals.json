@@ -1,78 +1,174 @@
 {
-    "default": {
-        "class": "Portal",
+  "default": {
+    "class": "Portal",
+    "kwargs": {
+      "authenticator": {
+        "class": "UMCAuthenticator",
         "kwargs": {
-            "authenticator": {
-                "class": "UMCAuthenticator",
+          "auth_mode": {
+            "key": "auth_mode",
+            "type": "config"
+          },
+          "group_cache": {
+            "class": "GroupFileCache",
+            "kwargs": {
+              "cache_file": {
+                "type": "static",
+                "value": "/var/cache/univention-portal/groups.json"
+              },
+              "reloader": {
+                "class": "HttpGroupsReloader",
                 "kwargs": {
-                    "auth_mode": {
-                        "key": "auth_mode",
-                        "type": "config"
-                    },
-                    "group_cache": {
-                        "class": "GroupFileCache",
-                        "kwargs": {
-                            "cache_file": {
-                                "type": "static",
-                                "value": "/var/cache/univention-portal/groups.json"
-                            },
-                            "reloader": {
-                                "class": "HttpGroupsReloader",
-                                "kwargs": {
-                                    "url": {
-                                      "type": "config",
-                                      "key": "groups_cache_url"
-                                    },
-                                    "assets_root": {
-                                      "type": "config",
-                                      "key": "assets_root"
-                                    }
-                                },
-                                "type": "class"
-                            }
-                        },
-                        "type": "class"
-                    },
-                    "umc_session_url": {
-                        "key": "umc_session_url",
-                        "type": "config"
-                    }
+                  "url": {
+                    "type": "config",
+                    "key": "groups_cache_url"
+                  },
+                  "assets_root": {
+                    "type": "config",
+                    "key": "assets_root"
+                  }
                 },
                 "type": "class"
+              }
             },
-            "portal_cache": {
-                "class": "PortalFileCache",
-                "kwargs": {
-                    "cache_file": {
-                        "type": "static",
-                        "value": "/var/cache/univention-portal/portal.json"
-                    },
-                    "reloader": {
-                        "class": "HttpPortalReloader",
-                        "kwargs": {
-                            "url": {
-                                "type": "config",
-                                "key": "portal_cache_url"
-                            },
-                            "assets_root": {
-                              "type": "config",
-                              "key": "assets_root"
-                            },
-                            "portal_dn": {
-                                "key": "default_domain_dn",
-                                "type": "config"
-                            }
-                        },
-                        "type": "class"
-                    }
-                },
-                "type": "class"
-            },
-            "scorer": {
-                "class": "Scorer",
-                "type": "class"
-            }
+            "type": "class"
+          },
+          "umc_session_url": {
+            "key": "umc_session_url",
+            "type": "config"
+          }
         },
         "type": "class"
-    }
+      },
+      "portal_cache": {
+        "class": "PortalFileCache",
+        "kwargs": {
+          "cache_file": {
+            "type": "static",
+            "value": "/var/cache/univention-portal/portal.json"
+          },
+          "reloader": {
+            "class": "HttpPortalReloader",
+            "kwargs": {
+              "url": {
+                "type": "config",
+                "key": "portal_cache_url"
+              },
+              "assets_root": {
+                "type": "config",
+                "key": "assets_root"
+              },
+              "portal_dn": {
+                "key": "default_domain_dn",
+                "type": "config"
+              }
+            },
+            "type": "class"
+          }
+        },
+        "type": "class"
+      },
+      "scorer": {
+        "class": "PathScorer",
+        "kwargs": {
+          "fallback_score": {
+            "type": "static",
+            "value": 0.5
+          },
+          "path": {
+            "type": "static",
+            "value": "/univention/portal"
+          }
+        },
+        "type": "class"
+      }
+    },
+    "type": "class"
+  },
+  "selfservice": {
+    "class": "Portal",
+    "kwargs": {
+      "authenticator": {
+        "class": "UMCAuthenticator",
+        "kwargs": {
+          "auth_mode": {
+            "key": "auth_mode",
+            "type": "config"
+          },
+          "group_cache": {
+            "class": "GroupFileCache",
+            "kwargs": {
+              "cache_file": {
+                "type": "static",
+                "value": "/var/cache/univention-portal/groups.json"
+              },
+              "reloader": {
+                "class": "HttpGroupsReloader",
+                "kwargs": {
+                  "url": {
+                    "type": "config",
+                    "key": "groups_cache_url"
+                  },
+                  "assets_root": {
+                    "type": "config",
+                    "key": "assets_root"
+                  }
+                },
+                "type": "class"
+              }
+            },
+            "type": "class"
+          },
+          "umc_session_url": {
+            "key": "umc_session_url",
+            "type": "config"
+          }
+        },
+        "type": "class"
+      },
+      "portal_cache": {
+        "class": "PortalFileCache",
+        "kwargs": {
+          "cache_file": {
+            "type": "static",
+            "value": "/var/cache/univention-portal/selfservice.json"
+          },
+          "reloader": {
+            "class": "HttpPortalReloader",
+            "kwargs": {
+              "url": {
+                "type": "config",
+                "key": "selfservice_portal_cache_url"
+              },
+              "assets_root": {
+                "type": "config",
+                "key": "assets_root"
+              },
+              "portal_dn": {
+                "key": "selfservice_portal_dn",
+                "type": "config"
+              }
+            },
+            "type": "class"
+          }
+        },
+        "type": "class"
+      },
+      "scorer": {
+        "class": "PathScorer",
+        "kwargs": {
+          "fallback_score": {
+            "type": "static",
+            "value": 0.5
+          },
+          "path": {
+            "type": "static",
+            "value": "/univention/selfservice"
+          }
+        },
+        "type": "class"
+      }
+    },
+    "type": "class"
+  }
 }
