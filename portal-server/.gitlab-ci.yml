@@ -1,129 +1,112 @@
+---
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
-
+    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
-  - project: univention/customers/dataport/upx/common-ci
-    ref: v0.5.4
+  - project: "univention/customers/dataport/upx/common-ci"
+    ref: "v1.10.1"
     file:
       - "defaults/stages.yaml"
-      - "templates/kaniko.yaml"
       - "templates/souvap.yaml"
-
-
-build-portal-server-test-runner:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server-test-runner"
-    KANIKO_ARGS: "--target=test"
-
-
-build-portal-server:
-  stage: build
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-server"
-    VERSION: "${RELEASE_VERSION}"
-
+      - "templates/kaniko.yaml"
+      - "jobs/container-build.yaml"
 
 generate-joinscript-data:
-  stage: build
-  image: gitregistry.knut.univention.de/univention/customers/dataport/upx/stack-data/joinscript-tools:latest
+  stage: "prepare"
+  image: "gitregistry.knut.univention.de/univention/customers/dataport/upx/stack-data/joinscript-tools:latest"
   needs: []
   script:
-    - >-
-      ucr set
-      ldap/base="{{ ldap_base }}"
-      server/role="domaincontroller_master"
-    # Ensure that the icons can be found by the calls to base64
-    - ln -s "$PWD" "/usr/share/univention-portal"
-    - mkdir --parents $(dirname ${OUT_FILENAME})
-    - ./33univention-portal.inst || true
+    - |
+      ucr set \
+        ldap/base="{{ ldap_base }}" \
+        server/role="domaincontroller_master"
+      # Ensure that the icons can be found by the calls to base64
+      ln -s "$PWD" "/usr/share/univention-portal"
+      mkdir --parents $(dirname ${OUT_FILENAME})
+      ./33univention-portal.inst || true
   variables:
-    OUT_FILENAME: udm/join-data/univention-portal.yaml.j2
+    OUT_FILENAME: "udm/join-data/univention-portal.yaml.j2"
   artifacts:
     paths:
-      - udm/join-data
+      - "udm/join-data"
 
+.build-matrix: &build-matrix
+  - IMAGE_NAME: "portal-server-test-runner"
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    KANIKO_ARGS: "--target=test"
+  - IMAGE_NAME: "portal-server"
+  - IMAGE_NAME: "portal-udm-extensions"
+  - IMAGE_NAME: "wait-for-dependency"
 
-build-portal-udm-extensions:
-  stage: build
-  extends: .kaniko
-  needs:
-    - job: "generate-joinscript-data"
-      artifacts: true
+.post-build-matrix: &post-build-matrix
+  - IMAGE_NAME:
+      - "portal-server-test-runner"
+      - "portal-server"
+      - "portal-udm-extensions"
+      - "wait-for-dependency"
+      - "portal-listener"
+
+.publish-matrix: &publish-matrix
+  - IMAGE_NAME:
+      - "portal-server"
+      - "portal-listener"
+      - "wait-for-dependency"
+
+container-build:
+  parallel:
+    matrix: *build-matrix
   variables:
-    DOCKERFILE_PATH: "docker/portal-udm-extensions/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-udm-extensions"
-    VERSION: "${RELEASE_VERSION}"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    DOCKERFILE_PATH: "docker/${IMAGE_NAME}/Dockerfile"
 
-
-build-portal-listener:
-  stage: build
-  extends: .kaniko
+# depends on portal-server
+container-build-portal-listener:
+  stage: "build"
+  extends: ".kaniko"
   needs:
-    - job: "build-portal-server"
-      artifacts: true
+    - job: "container-build"
+      artifacts: false
   variables:
+    IMAGE_NAME: "portal-listener"
     DOCKERFILE_PATH: "docker/portal-listener/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-listener"
-    KANIKO_ARGS: >-
-      --build-arg PORTAL_BASE_IMAGE_TAG=$BUILD_VERSION
-    VERSION: "${RELEASE_VERSION}"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    KANIKO_ARGS: "--build-arg PORTAL_BASE_IMAGE_TAG=${RELEASE_VERSION}"
 
+container-generate-sbom:
+  parallel:
+    matrix: *post-build-matrix
 
-build-wait-for-dependency:
-  stage: build
-  extends: .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "docker/wait-for-dependency/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/wait-for-dependency"
-    VERSION: "${RELEASE_VERSION}"
+container-sign:
+  parallel:
+    matrix: *post-build-matrix
 
-
-push-image-souvap-portal-server-job:
-  needs:
-    - job: build-portal-server
-  extends: .push-image-souvap
-  variables:
-    SOUVAP_IMAGE_NAME: "portal-server"
-
-
-push-image-souvap-portal-listener-job:
-  needs:
-    - job: build-portal-listener
-  extends: .push-image-souvap
-  variables:
-    SOUVAP_IMAGE_NAME: "portal-listener"
-
-
-push-image-souvap-wait-for-dependency-job:
-  needs:
-    - job: build-wait-for-dependency
-  extends: .push-image-souvap
-  variables:
-    SOUVAP_IMAGE_NAME: "wait-for-dependency"
-
+container-security-scan:
+  parallel:
+    matrix: *post-build-matrix
 
 test-portal-server:
-  stage: test
-  needs:
-    - job: build-portal-server-test-runner
-  image: "$BUILD_IMAGE_TAG"
+  stage: "test"
+  # needs:
+  #   - job: build-portal-server-test-runner
+  image: "$CI_REGISTRY_IMAGE/portal-server-test-runner:${RELEASE_VERSION}"
   variables:
     PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
   script:
-    - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
+    - |
+      pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     reports:
       coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
+        coverage_format: "cobertura"
+        path: c"overage.xml"
+
+publish-images:
+  extends: ".push-image-souvap"
+  needs:
+    - job: "container-build"
+  parallel:
+    matrix: *publish-matrix
+
+...

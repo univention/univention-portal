@@ -201,7 +201,7 @@ services:
       - test
     platform: "linux/amd64"
     build:
-      context: ./deb-build
+      context: ./deb-builder
     volumes:
       - type: bind
         source: ../

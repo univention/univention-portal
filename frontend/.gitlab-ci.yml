@@ -1,119 +1,121 @@
+---
+
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
-
+    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
-  - project: univention/customers/dataport/upx/common-ci
-    ref: v0.5.4
+  - project: "univention/customers/dataport/upx/common-ci"
+    ref: "v1.10.1"
     file:
       - "defaults/stages.yaml"
-      - "templates/kaniko.yaml"
       - "templates/souvap.yaml"
-
+      - "templates/kaniko.yaml"
+      - "jobs/container-build.yaml"
 
 build-debian-package-builder:
-  stage: prepare
-  extends: .kaniko
+  stage: "prepare"
+  extends: ".kaniko"
   needs: []
   variables:
-    KANIKO_BUILD_CONTEXT: "docker/deb-build"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/deb-builder"
-
+    IMAGE_NAME: "deb-builder"
 
 i18n:
-  stage: prepare
+  stage: "prepare"
   needs:
-    - job: build-debian-package-builder
+    - job: "build-debian-package-builder"
   image: "$BUILD_IMAGE_TAG"
   script:
-    - make l10n-build
+    - |
+      make l10n-build
   artifacts:
     paths:
-      - frontend/public/i18n
-    expire_in: 1 week
+      - "frontend/public/i18n"
+    expire_in: "1 week"
 
-
-build-portal-frontend-test-runner:
-  stage: prepare
-  extends: .kaniko
-  needs: []
+build-frontend-test-runner:
+  stage: "build"
+  extends: ".kaniko"
   variables:
-    KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner"
+    IMAGE_NAME: "portal-frontend-test-runner"
     KANIKO_ARGS: "--target=base"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
 
+build-frontend-test-runner-ui:
+  stage: "build"
+  extends: ".kaniko"
+  variables:
+    IMAGE_NAME: "portal-frontend-test-runner-ui"
+    KANIKO_ARGS: "--target=base"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+    DOCKERFILE_PATH: "Dockerfile.test"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+.build-matrix: &build-matrix
+  - IMAGE_NAME: "portal-frontend"
+
+.publish-matrix: &publish-matrix
+  - IMAGE_NAME: "portal-frontend"
+
+container-build:
+  parallel:
+    matrix: *build-matrix
+  variables:
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+
+container-generate-sbom:
+  parallel:
+    matrix: *build-matrix
+
+container-sign:
+  parallel:
+    matrix: *build-matrix
+
+container-security-scan:
+  parallel:
+    matrix: *build-matrix
 
 lint-portal-frontend:
-  stage: test
-  needs:
-    - job: build-portal-frontend-test-runner
-  image: "$BUILD_IMAGE_TAG"
+  stage: "test"
+  image: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner:${RELEASE_VERSION}"
   script:
-    - yarn --cwd=/app lint
-
-
-build-portal-frontend-test-runner-ui:
-  stage: prepare
-  extends: .kaniko
-  needs: []
-  variables:
-    KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui"
-    KANIKO_ARGS: "--target=test"
-  # Frontend UI tests take a long time to run (~ 4-5 minutes). So only running them for very important events e.g. MR
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-
-
-build-portal-frontend:
-  stage: build
-  needs:
-    - job: "i18n"
-      artifacts: true
-  extends: .kaniko
-  variables:
-    KANIKO_BUILD_CONTEXT: "frontend"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/portal-frontend"
-    VERSION: "${RELEASE_VERSION}"
-
-
-push-image-souvap-portal-frontend-job:
-  needs:
-    - job: build-portal-frontend
-  extends: .push-image-souvap
-  variables:
-    SOUVAP_IMAGE_NAME: "portal-frontend"
-
+    - |
+      yarn --cwd=/app lint
 
 test-portal-frontend-unit:
-  stage: test
-  needs:
-    - job: build-portal-frontend-test-runner
-  image: "$BUILD_IMAGE_TAG"
+  stage: "test"
+  image: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner:${RELEASE_VERSION}"
   script:
-    - yarn --cwd=/app test:unit
-
+    - |
+      yarn --cwd=/app test:unit
 
 test-portal-frontend-ui:
-  stage: test
-  needs:
-    - job: build-portal-frontend-test-runner-ui
-  image: "$BUILD_IMAGE_TAG"
+  stage: "test"
+  image: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui:${RELEASE_VERSION}"
   artifacts:
-    when: always
+    when: "always"
     paths:
-      - frontend/tests/e2e/videos/**/*.mp4
-      - frontend/tests/e2e/screenshots/**/*.png
-    expire_in: 1 day
+      - "frontend/tests/e2e/videos/**/*.mp4"
+      - "frontend/tests/e2e/screenshots/**/*.png"
+    expire_in: "1 day"
   script:
-    - yarn --cwd=/app test:e2e:headless --browser chrome
+    - |
+      yarn --cwd=/app test:e2e:headless --browser chrome
   after_script:
-    # We generate the artifact in the Docker WORKDIR (/app), while Gitlab expects the artifacts in the runner's working
-    # directory. https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
-    # So we copy the artifacts from our build directory to where Gitlab expects.
-    # TODO: cp will fail if the folder does not exist. Is there a better way?
-    - cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
-    - cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
+    - |
+      # We generate the artifact in the Docker WORKDIR (/app), while Gitlab expects the artifacts in the runner's working
+      # directory. https://docs.gitlab.com/ee/ci/pipelines/job_artifacts.html
+      # So we copy the artifacts from our build directory to where Gitlab expects.
+      # TODO: cp will fail if the folder does not exist. Is there a better way?
+      cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
+      cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+push-images:
+  extends: ".push-image-souvap"
+  parallel:
+    matrix: *publish-matrix
+
+...

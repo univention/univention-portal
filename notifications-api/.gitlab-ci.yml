@@ -1,62 +1,60 @@
+---
 
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
-
+    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
-  - project: univention/customers/dataport/upx/common-ci
-    ref: v0.5.4
+  - project: "univention/customers/dataport/upx/common-ci"
+    ref: "v1.10.1"
     file:
       - "defaults/stages.yaml"
-      - "templates/kaniko.yaml"
       - "templates/souvap.yaml"
+      - "jobs/container-build.yaml"
 
-
-build-notifications-api-test-runner:
-  stage: prepare
-  extends:
-    - .kaniko
-  needs: []
-  variables:
-    DOCKERFILE_PATH: "notifications-api/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api-test-runner"
+.build-matrix: &build-matrix
+  - IMAGE_NAME: "notifications-api-test-runner"
     KANIKO_ARGS: "--target=test"
-    KANIKO_BUILD_CONTEXT: "notifications-api"
+  - IMAGE_NAME: "notifications-api"
 
+.publish-matrix: &publish-matrix
+  - IMAGE_NAME: "notifications-api"
 
-build-notifications-api:
-  stage: build
-  extends:
-    - .kaniko
-  needs: []
+container-build:
+  parallel:
+    matrix: *build-matrix
   variables:
-    DOCKERFILE_PATH: "notifications-api/Dockerfile"
-    CI_REGISTRY_IMAGE: "$CI_REGISTRY_IMAGE/notifications-api"
-    KANIKO_BUILD_CONTEXT: "notifications-api"
-    VERSION: "${RELEASE_VERSION}"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/notifications-api"
 
+container-generate-sbom:
+  parallel:
+    matrix: *build-matrix
+
+container-sign:
+  parallel:
+    matrix: *build-matrix
+
+container-security-scan:
+  parallel:
+    matrix: *build-matrix
 
 test-notifications-api:
-  stage: test
-  needs:
-    - job: build-notifications-api-test-runner
-  image: "$BUILD_IMAGE_TAG"
+  stage: "test"
+  image: "$CI_REGISTRY_IMAGE/notifications-api-test-runner:${RELEASE_VERSION}"
   script:
-    - cd notifications-api
-    - pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
+    - |
+      cd notifications-api
+      pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     reports:
       coverage_report:
-        coverage_format: cobertura
-        path: notifications-api/coverage.xml
+        coverage_format: "cobertura"
+        path: "notifications-api/coverage.xml"
 
-
-push-image-souvap-notifications-api-job:
-  needs:
-    - job: build-notifications-api
+push-images:
   extends:
-    - .push-image-souvap
-  variables:
-    SOUVAP_IMAGE_NAME: "notifications-api"
+    - ".push-image-souvap"
+  parallel:
+    matrix: *publish-matrix
+...
