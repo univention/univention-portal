@@ -188,7 +188,7 @@ class UMCAndSecretAuthenticator(UMCAuthenticator):
 
         # compare hashed password to prevent time based side channel attack
         if hashlib.sha512(password.encode('utf-8')).hexdigest() != hashlib.sha512(config_secret.encode('utf-8')).hexdigest():
-            get_logger("user").warning("password mismatch: %s != %s", config_secret, password)
+            get_logger("user").warning("password mismatch with the configured authenticator secret")
             return user
 
         groups = self.group_cache.get().get(username, [])

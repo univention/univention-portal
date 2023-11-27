@@ -42,6 +42,7 @@ from urllib.parse import quote
 import univention.admin.rest.client as udm_client
 from univention.portal import config
 from univention.portal.log import get_logger
+from univention.portal.util import log_url_safe
 
 
 logger = get_logger(__name__)
@@ -97,7 +98,7 @@ class PortalContentFetcher:
         )
 
     def _create_udm_client(self):
-        logger.debug("Connecting to UDM at URL: %s", config.fetch("udm_api_url"))
+        logger.debug("Connecting to UDM at URL: %s", log_url_safe(config.fetch("udm_api_url")))
         udm = udm_client.UDM.http(
             config.fetch('udm_api_url'),
             config.fetch('udm_api_username'),
