@@ -39,6 +39,7 @@ import requests
 
 from univention.portal import Plugin
 from univention.portal.log import get_logger
+from univention.portal.util import log_url_safe
 
 
 class CacheHTTP(metaclass=Plugin):
@@ -56,7 +57,7 @@ class CacheHTTP(metaclass=Plugin):
         return self._etag
 
     def _load(self):
-        get_logger('cache').info(f'loading data from {self._ucs_internal_url}')
+        get_logger('cache').info(f'loading data from {log_url_safe(self._ucs_internal_url)}')
 
         # TODO: Append version to header, like "portal-server/VERSION"
         headers = {"user-agent": "portal-server"}
@@ -66,19 +67,19 @@ class CacheHTTP(metaclass=Plugin):
         try:
             response = requests.get(self._ucs_internal_url, headers=headers)
         except Exception:
-            get_logger('cache').exception('Error loading %s', self._ucs_internal_url)
+            get_logger('cache').exception('Error loading %s', log_url_safe(self._ucs_internal_url))
             return
 
         if response.status_code == requests.codes.not_modified:
-            get_logger('cache').info('Not modified %s', self._ucs_internal_url)
+            get_logger('cache').info('Not modified %s', log_url_safe(self._ucs_internal_url))
             return
         elif response.status_code == requests.codes.unauthorized:
-            get_logger('cache').error('Cannot fetch %s. Unauthorized!', self._ucs_internal_url)
+            get_logger('cache').error('Cannot fetch %s. Unauthorized!', log_url_safe(self._ucs_internal_url))
             return
 
         self._cache = response.json()
         self._etag = response.headers.get('ETag')
-        get_logger('cache').info('Loaded from %s, ETag: %s', self._ucs_internal_url, self._etag)
+        get_logger('cache').info('Loaded from %s, ETag: %s', log_url_safe(self._ucs_internal_url), self._etag)
 
     def get(self):
         return self._cache
