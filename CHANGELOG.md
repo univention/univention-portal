@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.5.1...v0.5.2) (2023-11-28)
+
+
+### Bug Fixes
+
+* **portal-server:** filter urls for passwords before logging them ([6be8298](https://git.knut.univention.de/univention/components/univention-portal/commit/6be8298da0f9bf5cf32b929a0c93d0f00f8ae32f))
+
 ## [0.5.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.5.0...v0.5.1) (2023-11-23)
 
 
