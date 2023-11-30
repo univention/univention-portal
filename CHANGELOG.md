@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.5.2...v0.6.0) (2023-11-30)
+
+
+### Features
+
+* **listener:** add selfservice portal ([13f3dc2](https://git.knut.univention.de/univention/components/univention-portal/commit/13f3dc2dd36763eefeea754bc25e5a150373374b))
+
+
+### Bug Fixes
+
+* **helm:** handle `/univention/selfservice` portal ([6d130a3](https://git.knut.univention.de/univention/components/univention-portal/commit/6d130a3e55ba0b1d7d367c8606b17e001d4cb802))
+
 ## [0.5.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.5.1...v0.5.2) (2023-11-28)
 
 
