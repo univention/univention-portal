@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.6.0...v0.6.1) (2023-12-04)
+
+
+### Bug Fixes
+
+* trigger re-release ([dfe50b6](https://git.knut.univention.de/univention/components/univention-portal/commit/dfe50b6007690853920c12e47ab61e21c2342575))
+
 ## [0.6.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.5.2...v0.6.0) (2023-11-30)
 
 
