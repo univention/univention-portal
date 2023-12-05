@@ -40,6 +40,9 @@ from univention.portal.handlers import LoginHandler, LogoutHandler, NavigationHa
 from univention.portal.log import get_logger, setup_logger
 
 
+logger = get_logger("server")
+
+
 def _load_portal_definitions(portal_definitions_file):
     with open(portal_definitions_file) as fd:
         return json.load(fd)
@@ -58,7 +61,7 @@ def run_app():
 def make_app(portal_definitions):
     portals = {}
     for name, portal_definition in portal_definitions.items():
-        get_logger("server").info("Building portal {}".format(name))
+        logger.info("Building portal {}".format(name))
         portals[name] = make_portal(portal_definition)
 
     routes = build_routes(portals)
@@ -71,8 +74,8 @@ def start_app(app):
     # TODO: Drop the option to configure xheaders once the portal is only
     # running as container, then it would always be expected to be "True".
     enable_xheaders = config.fetch("enable_xheaders")
-    get_logger("server").info("Support for xheaders enabled: %s", enable_xheaders)
-    get_logger("server").info("Firing up portal server at port %s" % port)
+    logger.info("Support for xheaders enabled: %s", enable_xheaders)
+    logger.info("Firing up portal server at port %s" % port)
     app.listen(port, xheaders=enable_xheaders)
 
 
