@@ -68,10 +68,12 @@ def make_app(portal_definitions):
 
 def start_app(app):
     port = config.fetch("port")
-    get_logger("server").info("firing up portal server at port %s" % port)
-    # TODO: This has to be configurable
-    # app.listen(port, xheaders=True)
-    app.listen(port)
+    # TODO: Drop the option to configure xheaders once the portal is only
+    # running as container, then it would always be expected to be "True".
+    enable_xheaders = config.fetch("enable_xheaders")
+    get_logger("server").info("Support for xheaders enabled: %s", enable_xheaders)
+    get_logger("server").info("Firing up portal server at port %s" % port)
+    app.listen(port, xheaders=enable_xheaders)
 
 
 def build_routes(portals):
