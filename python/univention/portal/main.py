@@ -61,7 +61,7 @@ def run_app():
 def make_app(portal_definitions):
     portals = {}
     for name, portal_definition in portal_definitions.items():
-        logger.info("Building portal {}".format(name))
+        logger.info("Building portal %s", name)
         portals[name] = make_portal(portal_definition)
 
     routes = build_routes(portals)
@@ -75,7 +75,7 @@ def start_app(app):
     # running as container, then it would always be expected to be "True".
     enable_xheaders = config.fetch("enable_xheaders")
     logger.info("Support for xheaders enabled: %s", enable_xheaders)
-    logger.info("Firing up portal server at port %s" % port)
+    logger.info("Firing up portal server at port %s", port)
     app.listen(port, xheaders=enable_xheaders)
 
 
