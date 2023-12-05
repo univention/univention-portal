@@ -51,11 +51,7 @@ def run_app():
         "/usr/share/univention-portal/portals.json",
     )
     app = make_app(portal_definitions)
-    port = config.fetch("port")
-    get_logger("server").info("firing up portal server at port %s" % port)
-    # TODO: This has to be configurable
-    # app.listen(port, xheaders=True)
-    app.listen(port)
+    start_app(app)
     tornado.ioloop.IOLoop.current().start()
 
 
@@ -68,6 +64,14 @@ def make_app(portal_definitions):
     routes = build_routes(portals)
 
     return tornado.web.Application(routes)
+
+
+def start_app(app):
+    port = config.fetch("port")
+    get_logger("server").info("firing up portal server at port %s" % port)
+    # TODO: This has to be configurable
+    # app.listen(port, xheaders=True)
+    app.listen(port)
 
 
 def build_routes(portals):

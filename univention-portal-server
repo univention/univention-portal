@@ -32,8 +32,6 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
-import tornado.ioloop
-
 from univention.portal.main import run_app
 
 
