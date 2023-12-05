@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.6.1...v0.7.0) (2023-12-05)
+
+
+### Features
+
+* **wait-for-dependency:** migrate to ucs-base ([4e31194](https://git.knut.univention.de/univention/components/univention-portal/commit/4e31194aeca292ec40d4a62c07b3019934f63ba9))
+
 ## [0.6.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.6.0...v0.6.1) (2023-12-04)
 
 
