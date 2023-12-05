@@ -48,24 +48,22 @@ def _load_portal_definitions(portal_definitions_file):
         return json.load(fd)
 
 
-def run_app():
+def run_server():
     setup_logger(logfile=None, stream=True)
     portal_definitions = _load_portal_definitions(
         "/usr/share/univention-portal/portals.json",
     )
-    app = make_app(portal_definitions)
+    app = make_tornado_application(portal_definitions)
     start_app(app)
     tornado.ioloop.IOLoop.current().start()
 
 
-def make_app(portal_definitions):
+def make_tornado_application(portal_definitions):
     portals = {}
     for name, portal_definition in portal_definitions.items():
         logger.info("Building portal %s", name)
         portals[name] = make_portal(portal_definition)
-
     routes = build_routes(portals)
-
     return tornado.web.Application(routes)
 
 
