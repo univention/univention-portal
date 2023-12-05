@@ -32,8 +32,8 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
-from univention.portal.main import run_app
+from univention.portal.main import run_server
 
 
 if __name__ == "__main__":
-    run_app()
+    run_server()
