@@ -35,13 +35,42 @@
 
 from unittest import mock
 
+import pytest
+
+from univention.portal.log import get_logger
 from univention.portal.main import start_app
 
 
 def test_start_app_configures_port(mock_portal_config):
-    stub_port = 1234
-    mock_portal_config({"port": stub_port})
+    mock_portal_config({"port": 1234, "enable_xheaders": False})
     app = mock.Mock()
+
     start_app(app)
 
-    app.listen.assert_called_with(stub_port)
+    app.listen.assert_called_with(1234, xheaders=mock.ANY)
+
+
+@pytest.mark.parametrize("enable_xheaders", [False, True])
+def test_start_app_xheaders(enable_xheaders, mock_portal_config):
+    mock_portal_config({"port": 1234, "enable_xheaders": enable_xheaders})
+    app = mock.Mock()
+
+    start_app(app)
+
+    app.listen.assert_called_with(mock.ANY, xheaders=enable_xheaders)
+
+
+def test_start_app_logs_message_regarding_xheaders(mocker, mock_portal_config):
+    mock_portal_config({"port": 1234, "enable_xheaders": True})
+    app = mock.Mock()
+    info_mock = mocker.patch.object(get_logger("server"), "info")
+
+    start_app(app)
+
+    xheader_messages = [c for c in info_mock.call_args_list if _call_contains_xheaders(c)]
+    assert xheader_messages
+
+
+def _call_contains_xheaders(call):
+    args = call[0]
+    return "xheaders" in args[0]

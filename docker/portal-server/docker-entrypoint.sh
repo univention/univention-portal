@@ -49,6 +49,7 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "auth_mode": $auth_mode,
   "default_domain_dn": $default_domain_dn,
   "editable": $editable,
+  "enable_xheaders": true,
   "groups_cache_url": $groups_cache_url,
   "hostdn": $hostdn,
   "ldap_base": $ldap_base,
