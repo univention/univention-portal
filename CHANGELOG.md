@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.7.0...v0.8.0) (2023-12-05)
+
+
+### Features
+
+* Add support for "enable_xheaders" ([ce64258](https://git.knut.univention.de/univention/components/univention-portal/commit/ce64258491e8b0e2bf38e8455056358ed16b2ba0))
+
 ## [0.7.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.6.1...v0.7.0) (2023-12-05)
 
 
