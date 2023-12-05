@@ -30,11 +30,33 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
+import json
+
 import tornado.web
 
+from univention.portal import config
 from univention.portal.factory import make_portal
 from univention.portal.handlers import LoginHandler, LogoutHandler, NavigationHandler, PortalEntriesHandler
-from univention.portal.log import get_logger
+from univention.portal.log import get_logger, setup_logger
+
+
+def _load_portal_definitions(portal_definitions_file):
+    with open(portal_definitions_file) as fd:
+        return json.load(fd)
+
+
+def run_app():
+    setup_logger(logfile=None, stream=True)
+    portal_definitions = _load_portal_definitions(
+        "/usr/share/univention-portal/portals.json",
+    )
+    app = make_app(portal_definitions)
+    port = config.fetch("port")
+    get_logger("server").info("firing up portal server at port %s" % port)
+    # TODO: This has to be configurable
+    # app.listen(port, xheaders=True)
+    app.listen(port)
+    tornado.ioloop.IOLoop.current().start()
 
 
 def make_app(portal_definitions):
