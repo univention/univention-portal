@@ -1,4 +1,8 @@
-FROM ${DOCKER_PROXY}debian:bookworm-slim
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
+ARG UCS_BASE_IMAGE_TAG=0.9.1
+
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build-base
+
 
 RUN apt-get update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
