@@ -85,28 +85,8 @@ RUN yarn build
 ###############################################################################
 # Starts production nginx server
 
-FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
-
-RUN \
-  apt-get --quiet --quiet update \
-  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-  nginx=1.14.* \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* \
-  && find /var/lib/apt/lists /var/cache/apt/archives /var/log -type f -delete \
-  && rm -rfv /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old \
-  && rm -rfv /usr/share/doc /usr/share/man /usr/share/locale /usr/share/info /var/cache/apt /var/lib/apt/lists /var/lib/dpkg/*-old \
-  && mkdir -p /var/log/nginx \
-  && ln -sf /dev/stdout /var/log/nginx/access.log \
-  && ln -sf /dev/stderr /var/log/nginx/error.log
-
+FROM gitregistry.knut.univention.de/univention/customers/dataport/upx/container-nginx/nginx:0.1.0 AS final
 
 COPY --from=build /app/dist /var/www/html
-
-EXPOSE 80
-
-STOPSIGNAL SIGQUIT
-
-CMD ["nginx", "-g", "daemon off;"]
 
 ###############################################################################
