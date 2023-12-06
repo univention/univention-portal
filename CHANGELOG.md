@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.8.0...v0.9.0) (2023-12-06)
+
+
+### Features
+
+* **frontend:** serve from ums-nginx ([b0a1792](https://git.knut.univention.de/univention/components/univention-portal/commit/b0a17923a9f35f57f067787e0439f17207ccde85))
+
 ## [0.8.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.7.0...v0.8.0) (2023-12-05)
 
 
