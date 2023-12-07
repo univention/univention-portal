@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.0...v0.9.1) (2023-12-07)
+
+
+### Bug Fixes
+
+* **frontend:** Upgrade Nginx base image to 0.1.1 ([d580543](https://git.knut.univention.de/univention/components/univention-portal/commit/d580543027de6d3aa46b62dcec299203f2f14b02))
+
 ## [0.9.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.8.0...v0.9.0) (2023-12-06)
 
 
