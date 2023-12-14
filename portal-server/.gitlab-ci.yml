@@ -5,12 +5,11 @@ workflow:
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.10.1"
+    ref: "v1.12.0"
     file:
       - "defaults/stages.yaml"
-      - "templates/souvap.yaml"
       - "templates/kaniko.yaml"
-      - "jobs/container-build.yaml"
+      - "jobs/container-build-souvap.yaml"
 
 generate-joinscript-data:
   stage: "prepare"
@@ -74,14 +73,29 @@ container-build-portal-listener:
     KANIKO_ARGS: "--build-arg PORTAL_BASE_IMAGE_TAG=${RELEASE_VERSION}"
 
 container-generate-sbom:
+  needs:
+    - job: "container-build"
+      artifacts: true
+    - job: "container-build-portal-listener"
+      artifacts: true
   parallel:
     matrix: *post-build-matrix
 
 container-sign:
+  needs:
+    - job: "container-build"
+      artifacts: true
+    - job: "container-build-portal-listener"
+      artifacts: true
   parallel:
     matrix: *post-build-matrix
 
 container-security-scan:
+  needs:
+    - job: "container-build"
+      artifacts: true
+    - job: "container-build-portal-listener"
+      artifacts: true
   parallel:
     matrix: *post-build-matrix
 
@@ -102,10 +116,11 @@ test-portal-server:
         coverage_format: "cobertura"
         path: c"overage.xml"
 
-publish-images:
-  extends: ".push-image-souvap"
-  needs:
-    - job: "container-build"
+push-image-souvap:
+  parallel:
+    matrix: *publish-matrix
+
+container-sign-souvap:
   parallel:
     matrix: *publish-matrix
 
