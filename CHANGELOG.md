@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.1...v0.9.2) (2023-12-18)
+
+
+### Bug Fixes
+
+* **ci:** add Helm chart signing and publishing to souvap via OCI, common-ci 1.12.x ([a746874](https://git.knut.univention.de/univention/components/univention-portal/commit/a74687465f709acb0402208fa03cae32342f835c))
+
 ## [0.9.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.0...v0.9.1) (2023-12-07)
 
 
