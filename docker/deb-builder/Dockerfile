@@ -1,4 +1,4 @@
-FROM gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-505:v0.7.5 AS base
+FROM gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-506:0.10.0 AS base
 
 #hadolint ignore=DL3008
 RUN \
