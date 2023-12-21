@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.2...v0.9.3) (2023-12-21)
+
+
+### Bug Fixes
+
+* **docker:** update ucs-base from 5.0-5 to 5.0-6 ([f42efc8](https://git.knut.univention.de/univention/components/univention-portal/commit/f42efc8d38c0c6f499cb50e08b137cedfdb2f998))
+
 ## [0.9.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.1...v0.9.2) (2023-12-18)
 
 
