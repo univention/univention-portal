@@ -69,6 +69,7 @@ trigger-portal-server:
     - changes: &portal-server-changes
         - "docker/portal-server/**/*"
         - "docker/portal-listener/**/*"
+        - "docker/wait-for-dependency/**/*"
         - "listener/**/*"
         - "portal-server/**/*"
         - "python/**/*"

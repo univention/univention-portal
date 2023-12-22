@@ -9,4 +9,5 @@ RUN apt-get update \
       ca-certificates=* \
       curl=7.88.* \
       ldap-utils=2.5.* \
+      postgresql-client=15* \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
