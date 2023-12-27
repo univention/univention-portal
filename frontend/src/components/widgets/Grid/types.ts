@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 // mixed is when some items are selected but not all
 // so the checkbox will show a minus sign (-) instead of a checkmark (✓)
 // when the checkbox with the minus sign is clicked, all items will be deselected

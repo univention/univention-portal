@@ -1,120 +1,128 @@
----
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
 
+---
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
 exclude: '^.*\.patch|^frontend/src/apis/notifications/.*$'
 
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.4.0
-  hooks:
-  # "Check for added large files"
-  - id: check-added-large-files
-  # "Check for merge conflicts"
-  - id: check-merge-conflict
-  # "Check Yaml"
-  - id: check-yaml
-    args:
-      # Allow custom tags like Gitlab's "!reference" tag.
-      - --unsafe
-    exclude: ^helm/.+/templates/
-  # "Fix python encoding pragma"
-  # - id: fix-encoding-pragma
-  # "Trim Trailing Whitespace"
-  - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # "Check for added large files"
+      - id: check-added-large-files
+      # "Check for merge conflicts"
+      - id: check-merge-conflict
+      # "Check Yaml"
+      - id: check-yaml
+        args:
+          # Allow custom tags like Gitlab's "!reference" tag.
+          - --unsafe
+        exclude: ^helm/.+/templates/
+      # "Fix python encoding pragma"
+      # - id: fix-encoding-pragma
+      # "Trim Trailing Whitespace"
+      - id: trailing-whitespace
 
-# "Python blocks in UCR config templates"
-- repo: https://git.knut.univention.de/univention/dist/pre-commit-ucr
-  rev: '0.0.9'
-  hooks:
-    - id: ucr-flake8
-    - id: ucr-ruff
-    - id: ucr-autopep8
-      stages: [ manual ]
-    - id: ucr-ruff-fix
-      stages: [ manual ]
+  # "Python blocks in UCR config templates"
+  - repo: https://git.knut.univention.de/univention/dist/pre-commit-ucr
+    rev: "0.0.10"
+    hooks:
+      - id: ucr-flake8
+      - id: ucr-ruff
+      - id: ucr-autopep8
+        stages: [manual]
+      - id: ucr-ruff-fix
+        stages: [manual]
 
-# "Commit messages"
-- repo: https://github.com/compilerla/conventional-pre-commit
-  rev: v2.1.1
-  hooks:
-    - id: conventional-pre-commit
-      stages: [commit-msg]
+  # "Commit messages"
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
 
-# "Debian package related control fiels"
-- repo: https://git.knut.univention.de/univention/dist/pre-commit-debian.git
-  rev: v1.0.0
-  hooks:
-  - id: debian-control
+  # "Debian package related control fiels"
+  - repo: https://git.knut.univention.de/univention/dist/pre-commit-debian.git
+    rev: v1.1.0
+    hooks:
+      - id: debian-control
 
-# "flake8"
-- repo: https://github.com/PyCQA/flake8
-  rev: 5.0.4
-  hooks:
-  - id: flake8
+  # "flake8"
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
 
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: 'v0.0.246'
-  hooks:
-    - id: ruff
-    - id: ruff
-      alias: "ruff-fix"
-      stages: [ manual ]
-      args: ["--fix"]
-- repo: https://github.com/pre-commit/mirrors-autopep8
-  rev: v2.0.2
-  hooks:
-  -   id: autopep8
-      args: ["-d"]
-  -   id: autopep8
-      alias: "autopep8-fix"
-      stages: [ manual ]
-      args: ["-i"]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.1.9"
+    hooks:
+      - id: ruff
+      - id: ruff
+        alias: "ruff-fix"
+        stages: [manual]
+        args: ["--fix"]
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.4
+    hooks:
+      - id: autopep8
+        args: ["-d"]
+      - id: autopep8
+        alias: "autopep8-fix"
+        stages: [manual]
+        args: ["-i"]
 
-# "Shell Syntax Check"
-# This is a wrapper for shellcheck as long as
-# shellcheck doesn't have it's own .pre-commit-hooks.yaml
-# https://github.com/koalaman/shellcheck/pull/1032
-#- repo: https://gitlab.com/univention/pre-commit-hooks/pre-commit-shell
-#  rev: v1.0.6
-#  hooks:
-#  - id: shell-lint
+  # "Shell Syntax Check"
+  # This is a wrapper for shellcheck as long as
+  # shellcheck doesn't have it's own .pre-commit-hooks.yaml
+  # https://github.com/koalaman/shellcheck/pull/1032
+  #- repo: https://gitlab.com/univention/pre-commit-hooks/pre-commit-shell
+  #  rev: v1.0.6
+  #  hooks:
+  #  - id: shell-lint
 
-# "docker-compose.yaml linter"
-- repo: https://gitlab.com/univention/pre-commit-hooks/docker-compose-check
-  rev: 7702a8801a158b8595569dd29e2dd655d8a08310
-  hooks:
-  - id: docker-compose-check
+  # "docker-compose.yaml linter"
+  - repo: https://gitlab.com/univention/pre-commit-hooks/docker-compose-check
+    rev: 7702a8801a158b8595569dd29e2dd655d8a08310
+    hooks:
+      - id: docker-compose-check
 
-# "Dockerfile linter"
-- repo: https://gitlab.com/univention/pre-commit-hooks/docker-pre-commit
-  rev: v2.0.0
-  hooks:
-  - id: hadolint-system
+  # "Dockerfile linter"
+  - repo: https://gitlab.com/univention/pre-commit-hooks/docker-pre-commit
+    rev: v2.0.0
+    hooks:
+      - id: hadolint-system
 
-# "Helm chart linter"
-- repo: https://github.com/gruntwork-io/pre-commit
-  rev: v0.1.20
-  hooks:
-  - id: helmlint
+  # "Helm chart linter"
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.23
+    hooks:
+      - id: helmlint
 
-# Disable temporarily because gitlab-api can not be accessed.
-# "urllib.error.HTTPError: HTTP Error 401: Unauthorized"
-# ".gitlab-ci.yml linter"
-# - repo: https://gitlab.com/univention/pre-commit-hooks/gitlab-ci-linter
-#   rev: v1.0.1
-#   hooks:
-#   - id: gitlab-ci-linter
-#     args:
-#     - '--server'
-#     - 'https://git.knut.univention.de'
+  # Disable temporarily because gitlab-api can not be accessed.
+  # "urllib.error.HTTPError: HTTP Error 401: Unauthorized"
+  # ".gitlab-ci.yml linter"
+  # - repo: https://gitlab.com/univention/pre-commit-hooks/gitlab-ci-linter
+  #   rev: v1.0.1
+  #   hooks:
+  #   - id: gitlab-ci-linter
+  #     args:
+  #     - '--server'
+  #     - 'https://git.knut.univention.de'
 
-- repo: https://github.com/norwoodj/helm-docs
-  rev: v1.11.0
-  hooks:
-    - id: helm-docs
-      args:
-        - --chart-search-root=helm
-        - --template-files=README.md.gotmpl
+  - repo: https://github.com/norwoodj/helm-docs
+    rev: v1.12.0
+    hooks:
+      - id: helm-docs
+        args:
+          - --chart-search-root=helm
+          - --template-files=README.md.gotmpl
+        always_run: true
+
+  - repo: "https://git.knut.univention.de/univention/dist/pre-commit-hooks/addlicense"
+    rev: "v1.0.1"
+    hooks:
+      - id: "addlicense"
 ...

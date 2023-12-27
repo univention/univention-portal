@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 :root {
 /* used to accent some elements: checkbox/radiobox, checked toggle buttons/checked input fields */
   --color-accent: #7ab51d;

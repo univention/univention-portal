@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+
 ---
 
 workflow:
@@ -6,7 +9,7 @@ workflow:
 
 include:
   - project: univention/customers/dataport/upx/common-ci
-    ref: "v1.12.0"
+    ref: "v1.14.0"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"

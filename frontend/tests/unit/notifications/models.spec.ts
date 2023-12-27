@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 import * as models from '@/store/modules/notifications/notifications.models';
 import { stubFullNotification, stubUuid } from './stubs';
 

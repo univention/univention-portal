@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const production = process.env.NODE_ENV === 'production';

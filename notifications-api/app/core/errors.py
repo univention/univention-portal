@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+
 from collections.abc import Iterable
 
 from fastapi.openapi.constants import REF_PREFIX
