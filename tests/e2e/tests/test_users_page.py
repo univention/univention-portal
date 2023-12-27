@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+
 from playwright_pages_base import expect
 from playwright_pages_ucs_portal.home_page.logged_in import HomePageLoggedIn
 from playwright_pages_ucs_portal.users.users_page import UsersPage

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+
 from datetime import datetime, timezone
 from typing import List, Optional
 from uuid import uuid4

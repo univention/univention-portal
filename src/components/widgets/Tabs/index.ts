@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 import Tabs from './Tabs.vue';
 import TabsHeader from './components/TabsHeader.vue';
 import TabsBody from './components/TabsBody.vue';

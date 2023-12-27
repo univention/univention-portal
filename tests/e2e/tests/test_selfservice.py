@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+
 import random
 
 import pytest
@@ -9,7 +12,7 @@ from playwright_pages_ucs_portal.selfservice.change_password import ChangePasswo
 from playwright_pages_ucs_portal.users.users_page import UCSUsersPage
 
 
-DUMMY_USER_NAME = f"dummy_{random.randint(1000,9999)}"  # noqa: S311
+DUMMY_USER_NAME = f"dummy_{random.randint(1000, 9999)}"  # noqa: S311
 DUMMY_USER_PASSWORD_1 = "firstpass"
 DUMMY_USER_PASSWORD_2 = "secondpass"
 

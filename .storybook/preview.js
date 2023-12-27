@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 import Vuex from 'vuex';
 import { store } from '../src/store';
 import { app } from '@storybook/vue3'

@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 import ChooseTabs from '@/components/ChooseTabs';
 import _ from '@/jsHelper/translate';
 import { store } from '@/store/';

@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 import MyForm from '@/components/forms/Form.vue';
 
 import Accordions, { AccordionItem } from '@/components/widgets/Accordions';

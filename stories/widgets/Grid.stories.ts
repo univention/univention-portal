@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023 Univention GmbH
+ */
+
 import { Meta, StoryFn } from '@storybook/vue3';
 
 import Grid from '@/components/widgets/Grid/Grid.vue';
