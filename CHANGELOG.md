@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.3...v0.9.4) (2023-12-28)
+
+
+### Bug Fixes
+
+* **licensing/ci:** add spdx license headers, add license header checking pre-commit ([857dcaf](https://git.knut.univention.de/univention/components/univention-portal/commit/857dcaf36bdccd58776cb9690e43f519952b8e3e))
+
 ## [0.9.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.2...v0.9.3) (2023-12-21)
 
 
