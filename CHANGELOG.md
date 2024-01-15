@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.5](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.4...v0.9.5) (2024-01-15)
+
+
+### Bug Fixes
+
+* **deps:** add renovate.json ([45d94ca](https://git.knut.univention.de/univention/components/univention-portal/commit/45d94ca5a1a5e7df6bbf95e11737c25799e80a5f))
+
 ## [0.9.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.3...v0.9.4) (2023-12-28)
 
 
