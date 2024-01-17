@@ -13,6 +13,7 @@ include:
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/package-and-publish-helm-charts-souvap.yaml"
+      - "jobs/check-debian-updates.yaml"
 
 lint-pre-commit:
   before_script:
@@ -37,6 +38,8 @@ trigger-notifications-api:
     include:
       - local: "notifications-api/.gitlab-ci.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes:
@@ -52,6 +55,8 @@ trigger-frontend:
     include:
       - local: "frontend/.gitlab-ci.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes: &portal-frontend-changes
@@ -67,6 +72,8 @@ trigger-portal-server:
     include:
       - local: "portal-server/.gitlab-ci.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes: &portal-server-changes
@@ -91,11 +98,26 @@ trigger-debian-package:
     include:
       - local: ".gitlab-ci.debian.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes: *portal-server-changes
     - changes: *portal-frontend-changes
     - changes:
         - "debian/**/*"
+
+check-debian-updates:
+  parallel:
+    matrix:
+      - IMAGE_NAME: "portal-server"
+      - IMAGE_NAME: "portal-frontend"
+      - IMAGE_NAME: "notifications-api"
+      - IMAGE_NAME: "portal-listener"
+  before_script:
+    - |
+      if [[ "${USERNAME}" != "root" ]]; then
+        echo "ERROR: running as ${USERNAME} but root is requiered"
+      fi
 
 ...
