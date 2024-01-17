@@ -2,10 +2,9 @@
 # SPDX-FileCopyrightText: 2023 Univention GmbH
 
 ---
-
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.14.0"
+    ref: "v1.16.2"
     file:
       - "defaults/stages.yaml"
       - "defaults/souvap-workflow.yaml"
@@ -13,6 +12,7 @@ include:
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/package-and-publish-helm-charts-souvap.yaml"
+      - "jobs/check-debian-updates.yaml"
 
 lint-pre-commit:
   before_script:
@@ -37,6 +37,8 @@ trigger-notifications-api:
     include:
       - local: "notifications-api/.gitlab-ci.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes:
@@ -52,6 +54,8 @@ trigger-frontend:
     include:
       - local: "frontend/.gitlab-ci.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes: &portal-frontend-changes
@@ -67,6 +71,8 @@ trigger-portal-server:
     include:
       - local: "portal-server/.gitlab-ci.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes: &portal-server-changes
@@ -91,6 +97,8 @@ trigger-debian-package:
     include:
       - local: ".gitlab-ci.debian.yml"
   rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
     - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
       when: "always"
     - changes: *portal-server-changes
@@ -98,4 +106,17 @@ trigger-debian-package:
     - changes:
         - "debian/**/*"
 
+check-debian-updates:
+  # requires gitlab > 16.8
+  # image:
+  #   docker:
+  #     user: root
+  parallel:
+    matrix:
+      - IMAGE_NAME: "portal-server"
+      - IMAGE_NAME: "portal-frontend"
+      # - IMAGE_NAME: "notifications-api"
+      - IMAGE_NAME: "portal-listener"
+  variables:
+    TARGET_IMAGE: "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:latest"
 ...
