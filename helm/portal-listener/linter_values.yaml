@@ -22,6 +22,8 @@ portalListener:
   caCertFile: "/var/secrets/ca_cert"
   tlsMode: "unvalidated"
 
+store-dav:
+  bundled: false
 
 ## Kubernetes ingress
 ingress:
