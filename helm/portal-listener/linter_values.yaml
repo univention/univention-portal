@@ -8,18 +8,17 @@
 
 ## Application-specific
 portalListener:
-  adminGroup: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  adminGroup: "cn=Domain Admins,cn=groups,dc=univention-organization,dc=intranet"
   environment: "staging"
   logLevel: "DEBUG"
-  ucsInternalUrl: "https://portal.example.develop.souvap-univention.de/univention/internal"
-  umcGetUrl: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get"
-  umcSessionUrl: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
-  ldapSecret: "s3cr3t"
+  assetsRoot: "http://portal-listener:password@store-dav/portal-assets/"
+  ucsInternalUrl: "http://portal-listener:password@store-dav/portal-data"
+  umcGetUrl: "http://umc-server/get"
+  umcSessionUrl: "http://umc-server/get/session-info"
+  ldapSecret: "password"
   ldapSecretFile: "/var/secrets/ldap_secret"
-  machineSecret: "s3cr3t"
+  machineSecret: "password"
   machineSecretFile: "/var/secrets/machine_secret"
-  caCert: "s3cr3t"
-  caCertFile: "/var/secrets/ca_cert"
   tlsMode: "unvalidated"
 
 store-dav:
@@ -28,17 +27,17 @@ store-dav:
 ## Kubernetes ingress
 ingress:
   enabled: false
-  host: "portal.example.develop.souvap-univention.de"
+  host: "localhost"
 
 
 ## Istio based
 istio:
   enabled: true
-  host: "portal.example.develop.souvap-univention.de"
+  host: "localhost"
 
 ## Docker image
 image:
-  tag: "branch-feature-example"
+  tag: "latest"
 
 
 ## Container deployment probes
