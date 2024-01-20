@@ -755,7 +755,7 @@ true
 			<td>probes.liveness.initialDelaySeconds</td>
 			<td>int</td>
 			<td><pre lang="json">
-120
+5
 </pre>
 </td>
 			<td></td>
@@ -764,7 +764,7 @@ true
 			<td>probes.liveness.periodSeconds</td>
 			<td>int</td>
 			<td><pre lang="json">
-30
+10
 </pre>
 </td>
 			<td></td>
@@ -809,7 +809,7 @@ true
 			<td>probes.readiness.initialDelaySeconds</td>
 			<td>int</td>
 			<td><pre lang="json">
-30
+5
 </pre>
 </td>
 			<td></td>
@@ -818,7 +818,7 @@ true
 			<td>probes.readiness.periodSeconds</td>
 			<td>int</td>
 			<td><pre lang="json">
-15
+10
 </pre>
 </td>
 			<td></td>
@@ -851,40 +851,13 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>resources.limits.cpu</td>
-			<td>string</td>
+			<td>resources</td>
+			<td>object</td>
 			<td><pre lang="json">
-"4"
+{}
 </pre>
 </td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>resources.limits.memory</td>
-			<td>string</td>
-			<td><pre lang="json">
-"4Gi"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>resources.requests.cpu</td>
-			<td>string</td>
-			<td><pre lang="json">
-"250m"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>resources.requests.memory</td>
-			<td>string</td>
-			<td><pre lang="json">
-"512Mi"
-</pre>
-</td>
-			<td></td>
+			<td>Deployment resources.</td>
 		</tr>
 		<tr>
 			<td>securityContext</td>
