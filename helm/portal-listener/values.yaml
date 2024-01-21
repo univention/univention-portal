@@ -76,7 +76,7 @@ portalListener:
   # -- UDM API connection URL
   udmApiUrl: null
   # -- UDM API username.
-  udmApiUsername: null
+  udmApiUsername: "cn=admin"
   # -- UDM API password file.
   #    Default: same as `machineSecretFile`.
   udmApiSecretFile: "/var/secrets/machine_secret"
