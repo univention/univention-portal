@@ -107,7 +107,7 @@ value `postgresql.bundled`.
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"registry.souvap-univention.de"
+"gitregistry.knut.univention.de"
 </pre>
 </td>
 			<td></td>
@@ -116,7 +116,7 @@ value `postgresql.bundled`.
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"souvap/tooling/images/univention-portal/notifications-api"
+"univention/components/univention-portal/notifications-api"
 </pre>
 </td>
 			<td></td>
