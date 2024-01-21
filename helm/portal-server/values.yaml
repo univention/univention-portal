@@ -94,13 +94,11 @@ istio:
       httpsRedirect: true
       secretName: ""
 
-## Docker image
 image:
-  registry: "registry.souvap-univention.de"
-  repository: "souvap/tooling/images/univention-portal/portal-server"
+  registry: "gitregistry.knut.univention.de"
+  repository: "univention/components/univention-portal/portal-server"
   imagePullPolicy: "Always"
   tag: "latest"
-
   ## Define image sha256 as an alternative to `tag`
   # sha256:
 
