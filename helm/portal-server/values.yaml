@@ -2,11 +2,6 @@
 # SPDX-FileCopyrightText: 2023 Univention GmbH
 
 ---
-# Default values for univention-portal-server.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-## Global values
 affinity: {}
 environment: {}
 fullnameOverride: ""
@@ -48,7 +43,6 @@ portalServer:
     # -- Provide a custom secret, if no value is provided, a random string is generated instead.
     authenticatorSecret: null
 
-## Kubernetes ingress
 ingress:
   # -- Set this to `true` in order to enable the installation on Ingress related objects.
   enabled: true
@@ -102,7 +96,6 @@ image:
   ## Define image sha256 as an alternative to `tag`
   # sha256:
 
-## Container deployment probes
 probes:
   liveness:
     enabled: true
@@ -120,7 +113,6 @@ probes:
     failureThreshold: 30
     successThreshold: 1
 
-## Deployment resources
 resources:
   requests:
     memory: "512Mi"
@@ -129,7 +121,6 @@ resources:
     memory: "4Gi"
     cpu: "4"
 
-## Kubernetes Service
 service:
   enabled: true
   type: "ClusterIP"
