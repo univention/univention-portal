@@ -223,7 +223,7 @@ false
 			<td><pre lang="json">
 {
   "adminGroup": null,
-  "assetsRoot": "http://portal-server:univention@portal-listener-store-dav/portal-assets/",
+  "assetsRoot": "http://portal-listener:univention@portal-listener-store-dav/portal-assets/",
   "authMode": "ucs",
   "caCert": "",
   "caCertFile": "/run/secrets/ca_cert",
@@ -249,7 +249,7 @@ false
   "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data",
   "udmApiSecretFile": "/var/secrets/machine_secret",
   "udmApiUrl": null,
-  "udmApiUsername": null,
+  "udmApiUsername": "cn=admin",
   "umcGetUrl": null,
   "umcSessionUrl": null
 }
@@ -270,7 +270,7 @@ null
 			<td>portalListener.assetsRoot</td>
 			<td>string</td>
 			<td><pre lang="json">
-"http://portal-server:univention@portal-listener-store-dav/portal-assets/"
+"http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
 </pre>
 </td>
 			<td>Where to store the assets, e.g. portal entry icons</td>
@@ -486,7 +486,7 @@ null
 			<td>portalListener.udmApiUsername</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+"cn=admin"
 </pre>
 </td>
 			<td>UDM API username.</td>

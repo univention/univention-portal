@@ -94,7 +94,7 @@ helm uninstall portal-server
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"registry.souvap-univention.de"
+"gitregistry.knut.univention.de"
 </pre>
 </td>
 			<td></td>
@@ -103,7 +103,7 @@ helm uninstall portal-server
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"souvap/tooling/images/univention-portal/portal-server"
+"univention/components/univention-portal/portal-server"
 </pre>
 </td>
 			<td></td>
@@ -654,37 +654,10 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>resources.limits.cpu</td>
-			<td>string</td>
+			<td>resources</td>
+			<td>object</td>
 			<td><pre lang="json">
-"4"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>resources.limits.memory</td>
-			<td>string</td>
-			<td><pre lang="json">
-"4Gi"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>resources.requests.cpu</td>
-			<td>string</td>
-			<td><pre lang="json">
-"250m"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>resources.requests.memory</td>
-			<td>string</td>
-			<td><pre lang="json">
-"512Mi"
+{}
 </pre>
 </td>
 			<td></td>
