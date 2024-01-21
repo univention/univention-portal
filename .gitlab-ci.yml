@@ -15,7 +15,6 @@ include:
       - "jobs/package-and-publish-helm-charts-souvap.yaml"
 
 lint-pre-commit:
-  allow_failure: true
   before_script:
     - |
       # Compose lint would fail without the referenced env files
