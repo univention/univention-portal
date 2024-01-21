@@ -145,7 +145,7 @@ postgresql:
   auth:
     username: "notifications"
     database: "notifications"
-    password: "easyPassword"
-    postgresPassword: "postgres"
+    password: ""
+    postgresPassword: ""
 
 ...

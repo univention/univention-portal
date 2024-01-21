@@ -432,8 +432,8 @@ true
 {
   "auth": {
     "database": "notifications",
-    "password": "easyPassword",
-    "postgresPassword": "postgres",
+    "password": "",
+    "postgresPassword": "",
     "username": "notifications"
   },
   "bundled": true,
