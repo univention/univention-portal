@@ -27,7 +27,7 @@ portalListener:
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
   adminGroup: null
   # -- Where to store the assets, e.g. portal entry icons
-  assetsRoot: "http://portal-server:univention@portal-listener-store-dav/portal-assets/"
+  assetsRoot: "http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
   authMode: "ucs"
   # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
