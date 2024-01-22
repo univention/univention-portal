@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.10.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.5...v0.10.0) (2024-01-22)
+
+
+### Features
+
+* **notifications-api:** Keep the bundled Postgresql on 12.7.* ([bb64774](https://git.knut.univention.de/univention/components/univention-portal/commit/bb6477491bb75acc7e2d0e070d2e8ce605620276))
+* **portal-frontend:** Do not define resources by default ([59e729e](https://git.knut.univention.de/univention/components/univention-portal/commit/59e729e88323128a70dc533cc025af74598b6294))
+* **portal-frontend:** Reduce the default probe delays in the portal-frontend ([fcbfe16](https://git.knut.univention.de/univention/components/univention-portal/commit/fcbfe16abdc2b29dadbf008f6eeaf8ce50e398cb))
+* **portal-listener:** Use "cn=admin" as default for "udmApiUsername" ([6fc7a69](https://git.knut.univention.de/univention/components/univention-portal/commit/6fc7a694454401945f0d735615cd13e672e0ce14))
+* **portal-listener:** Use "portal-listener" as the default user name for store-dav ([3711b79](https://git.knut.univention.de/univention/components/univention-portal/commit/3711b79905d9bc46110dc963b6fffdeefdd83fec))
+
+
+### Bug Fixes
+
+* **notifications-api:** Avoid setting default values for passwords ([8572cb7](https://git.knut.univention.de/univention/components/univention-portal/commit/8572cb70c0b7d3ca09c130935f155a5baf652965))
+* **notifications-api:** Use the knut registry by default ([6509c49](https://git.knut.univention.de/univention/components/univention-portal/commit/6509c49ddc4aefe3ec0e97bb1424fb91f12e6869))
+* **portal-frontend:** Use the image out of the knut registry ([899daf1](https://git.knut.univention.de/univention/components/univention-portal/commit/899daf126a7314689719235bc5b83c491d9cd583))
+* **portal-listener:** Bring linter_values closer to typical values of the dev-env ([fb47d92](https://git.knut.univention.de/univention/components/univention-portal/commit/fb47d92afccb8392237fe972959f50670d1516c1))
+* **portal-listener:** Do not bundle store-dav in linter_values ([ab89c81](https://git.knut.univention.de/univention/components/univention-portal/commit/ab89c817eb48482b32e697c5560ce70eba652dc9))
+* **portal-listener:** Flag parameter ldapSecret as required ([acd6e7d](https://git.knut.univention.de/univention/components/univention-portal/commit/acd6e7d77ec3ddef70040ca46815cddb12022346))
+* **portal-server:** Do not define resources be default ([5371336](https://git.knut.univention.de/univention/components/univention-portal/commit/5371336746e5eb969bde32da61a3c3eb8838fe19))
+* **portal-server:** Use knut registry by default as image source. ([ba36660](https://git.knut.univention.de/univention/components/univention-portal/commit/ba36660b90cb7cd33d6a18e08973523813c4676d))
+
 ## [0.9.5](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.4...v0.9.5) (2024-01-15)
 
 
