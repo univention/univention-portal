@@ -437,6 +437,10 @@ true
   "editable": "true",
   "environment": "production",
   "logLevel": "WARNING",
+  "objectStorageAccessKeyId": "stub_user",
+  "objectStorageBucket": "ums",
+  "objectStorageEndpoint": "http://ums-minio:9000",
+  "objectStorageSecretAccessKey": "stub_password",
   "port": 80,
   "ucsInternalUrl": null,
   "umcGetUrl": null,
@@ -508,6 +512,42 @@ false
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>
+		</tr>
+		<tr>
+			<td>portalServer.objectStorageAccessKeyId</td>
+			<td>string</td>
+			<td><pre lang="json">
+"stub_user"
+</pre>
+</td>
+			<td>User for the object storage</td>
+		</tr>
+		<tr>
+			<td>portalServer.objectStorageBucket</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ums"
+</pre>
+</td>
+			<td>Bucket in the object storage for storing the portal and assets</td>
+		</tr>
+		<tr>
+			<td>portalServer.objectStorageEndpoint</td>
+			<td>string</td>
+			<td><pre lang="json">
+"http://ums-minio:9000"
+</pre>
+</td>
+			<td>Object storage endpoint</td>
+		</tr>
+		<tr>
+			<td>portalServer.objectStorageSecretAccessKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"stub_password"
+</pre>
+</td>
+			<td>Password for access to object storage</td>
 		</tr>
 		<tr>
 			<td>portalServer.ucsInternalUrl</td>

@@ -14,6 +14,10 @@ portalServer:
   ucsInternalUrl: "https://portal.example.develop.souvap-univention.de/univention/internal"
   umcGetUrl: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get"
   umcSessionUrl: "https://portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
+  objectStorageEndpoint: "http://minio:9000"
+  objectStorageBucket: "ums"
+  objectStorageAccessKeyId: "stub_user"
+  objectStorageSecretAccessKey: "stub_password"
 
 
 ## Kubernetes ingress

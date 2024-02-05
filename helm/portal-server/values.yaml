@@ -42,6 +42,14 @@ portalServer:
     enabled: false
     # -- Provide a custom secret, if no value is provided, a random string is generated instead.
     authenticatorSecret: null
+  # -- Object storage endpoint
+  objectStorageEndpoint: "http://ums-minio:9000"
+  # -- Bucket in the object storage for storing the portal and assets
+  objectStorageBucket: "ums"
+  # -- User for the object storage
+  objectStorageAccessKeyId: "stub_user"
+  # -- Password for access to object storage
+  objectStorageSecretAccessKey: "stub_password"
 
 ingress:
   # -- Set this to `true` in order to enable the installation on Ingress related objects.

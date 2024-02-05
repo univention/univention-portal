@@ -17,15 +17,31 @@
                 "value": "/var/cache/univention-portal/groups.json"
               },
               "reloader": {
-                "class": "HttpGroupsReloader",
+                "class": "ObjectStorageGroupsReloader",
                 "kwargs": {
-                  "url": {
+                  "json_path": {
                     "type": "config",
-                    "key": "groups_cache_url"
+                    "key": "groups_cache_path"
                   },
-                  "assets_root": {
+                  "assets_root_path": {
                     "type": "config",
-                    "key": "assets_root"
+                    "key": "assets_root_path"
+                  },
+                  "object_storage_endpoint": {
+                    "type": "config",
+                    "key": "object_storage_endpoint"
+                  },
+                  "bucket": {
+                    "type": "config",
+                    "key": "object_storage_bucket"
+                  },
+                  "access_key_id": {
+                    "type": "config",
+                    "key": "object_storage_access_key_id"
+                  },
+                  "secret_access_key": {
+                    "type": "config",
+                    "key": "object_storage_secret_access_key"
                   }
                 },
                 "type": "class"
@@ -48,15 +64,31 @@
             "value": "/var/cache/univention-portal/portal.json"
           },
           "reloader": {
-            "class": "HttpPortalReloader",
+            "class": "ObjectStoragePortalReloader",
             "kwargs": {
-              "url": {
+              "json_path": {
                 "type": "config",
-                "key": "portal_cache_url"
+                "key": "portal_cache_path"
               },
-              "assets_root": {
+              "assets_root_path": {
                 "type": "config",
-                "key": "assets_root"
+                "key": "assets_root_path"
+              },
+              "object_storage_endpoint": {
+                "type": "config",
+                "key": "object_storage_endpoint"
+              },
+              "bucket": {
+                "type": "config",
+                "key": "object_storage_bucket"
+              },
+              "access_key_id": {
+                "type": "config",
+                "key": "object_storage_access_key_id"
+              },
+              "secret_access_key": {
+                "type": "config",
+                "key": "object_storage_secret_access_key"
               },
               "portal_dn": {
                 "key": "default_domain_dn",
@@ -103,15 +135,31 @@
                 "value": "/var/cache/univention-portal/groups.json"
               },
               "reloader": {
-                "class": "HttpGroupsReloader",
+                "class": "ObjectStorageGroupsReloader",
                 "kwargs": {
-                  "url": {
+                  "json_path": {
                     "type": "config",
-                    "key": "groups_cache_url"
+                    "key": "groups_cache_path"
                   },
-                  "assets_root": {
+                  "assets_root_path": {
                     "type": "config",
-                    "key": "assets_root"
+                    "key": "assets_root_path"
+                  },
+                  "object_storage_endpoint": {
+                    "type": "config",
+                    "key": "object_storage_endpoint"
+                  },
+                  "bucket": {
+                    "type": "config",
+                    "key": "object_storage_bucket"
+                  },
+                  "access_key_id": {
+                    "type": "config",
+                    "key": "object_storage_access_key_id"
+                  },
+                  "secret_access_key": {
+                    "type": "config",
+                    "key": "object_storage_secret_access_key"
                   }
                 },
                 "type": "class"
@@ -134,19 +182,35 @@
             "value": "/var/cache/univention-portal/selfservice.json"
           },
           "reloader": {
-            "class": "HttpPortalReloader",
+            "class": "ObjectStoragePortalReloader",
             "kwargs": {
-              "url": {
+              "json_path": {
                 "type": "config",
-                "key": "selfservice_portal_cache_url"
+                "key": "selfservice_portal_cache_path"
               },
-              "assets_root": {
+              "assets_root_path": {
                 "type": "config",
-                "key": "assets_root"
+                "key": "assets_root_path"
               },
               "portal_dn": {
                 "key": "selfservice_portal_dn",
                 "type": "config"
+              },
+              "object_storage_endpoint": {
+                "type": "config",
+                "key": "object_storage_endpoint"
+              },
+              "bucket": {
+                "type": "config",
+                "key": "object_storage_bucket"
+              },
+              "access_key_id": {
+                "type": "config",
+                "key": "object_storage_access_key_id"
+              },
+              "secret_access_key": {
+                "type": "config",
+                "key": "object_storage_secret_access_key"
               }
             },
             "type": "class"

@@ -22,16 +22,20 @@ data:
   PORTAL_DEFAULT_DN: "{{ .Values.portalListener.portalDefaultDn }}"
   PORTAL_LISTENER_LOG_STREAM: "true"
   PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portalListener.adminGroup\" is required." .Values.portalListener.adminGroup | quote }}
-  PORTAL_SERVER_ASSETS_ROOT: "{{ .Values.portalListener.assetsRoot }}"
+  PORTAL_SERVER_ASSETS_ROOT_PATH: "{{ .Values.portalListener.assetsRootPath }}"
   PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalListener.authMode }}"
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalListener.editable }}"
   PORTAL_SERVER_PORT: "{{ .Values.portalListener.port }}"
-  PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portalListener.ucsInternalUrl\" is required." .Values.portalListener.ucsInternalUrl | quote }}
+  PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalListener.ucsInternalUrl\" is required." .Values.portalListener.ucsInternalPath | quote }}
   PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalListener.umcGetUrl\" is required." .Values.portalListener.umcGetUrl | quote }}
   PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalListener.umcSessionUrl\" is required." .Values.portalListener.umcSessionUrl | quote }}
   PORTAL_UDM_API_URL: "{{ .Values.portalListener.udmApiUrl }}"
   PORTAL_UDM_API_USERNAME: "{{ .Values.portalListener.udmApiUsername }}"
   PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalListener.udmApiSecretFile }}"
+  OBJECT_STORAGE_ENDPOINT: "{{ .Values.portalListener.objectStorageEndpoint }}"
+  OBJECT_STORAGE_BUCKET: "{{ .Values.portalListener.objectStorageBucket }}"
+  OBJECT_STORAGE_ACCESS_KEY_ID: "{{ .Values.portalListener.objectStorageAccessKeyId }}"
+  OBJECT_STORAGE_SECRET_ACCESS_KEY: "{{ .Values.portalListener.objectStorageSecretAccessKey }}"
   CA_CERT: "{{ .Values.portalListener.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalListener.caCertFile }}"
   TLS_MODE: "{{ .Values.portalListener.tlsMode }}"

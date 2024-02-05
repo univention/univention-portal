@@ -223,7 +223,7 @@ false
 			<td><pre lang="json">
 {
   "adminGroup": null,
-  "assetsRoot": "http://portal-listener:univention@portal-listener-store-dav/portal-assets/",
+  "assetsRootPath": "portal-assets",
   "authMode": "ucs",
   "caCert": "",
   "caCertFile": "/run/secrets/ca_cert",
@@ -243,10 +243,14 @@ false
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
   "notifierServer": null,
+  "objectStorageAccessKeyId": "stub_user",
+  "objectStorageBucket": "ums",
+  "objectStorageEndpoint": "http://ums-minio:9000",
+  "objectStorageSecretAccessKey": "stub_password",
   "port": "80",
   "portalDefaultDn": null,
   "tlsMode": "secure",
-  "ucsInternalUrl": "http://portal-listener:univention@portal-listener-store-dav/portal-data",
+  "ucsInternalPath": "portal-data",
   "udmApiSecretFile": "/var/secrets/machine_secret",
   "udmApiUrl": null,
   "udmApiUsername": "cn=admin",
@@ -267,13 +271,13 @@ null
 			<td>Define LDAP Admin Group. Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`</td>
 		</tr>
 		<tr>
-			<td>portalListener.assetsRoot</td>
+			<td>portalListener.assetsRootPath</td>
 			<td>string</td>
 			<td><pre lang="json">
-"http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
+"portal-assets"
 </pre>
 </td>
-			<td>Where to store the assets, e.g. portal entry icons</td>
+			<td>Where to store the assets inside the object storage bucket, e.g. portal entry icons</td>
 		</tr>
 		<tr>
 			<td>portalListener.authMode</td>
@@ -438,6 +442,42 @@ null
 			<td>Hostname where the notifier can be reached.</td>
 		</tr>
 		<tr>
+			<td>portalListener.objectStorageAccessKeyId</td>
+			<td>string</td>
+			<td><pre lang="json">
+"stub_user"
+</pre>
+</td>
+			<td>User for the object storage</td>
+		</tr>
+		<tr>
+			<td>portalListener.objectStorageBucket</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ums"
+</pre>
+</td>
+			<td>Bucket in the object storage for storing the portal and assets</td>
+		</tr>
+		<tr>
+			<td>portalListener.objectStorageEndpoint</td>
+			<td>string</td>
+			<td><pre lang="json">
+"http://ums-minio:9000"
+</pre>
+</td>
+			<td>Object storage endpoint</td>
+		</tr>
+		<tr>
+			<td>portalListener.objectStorageSecretAccessKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"stub_password"
+</pre>
+</td>
+			<td>Password for access to object storage</td>
+		</tr>
+		<tr>
 			<td>portalListener.portalDefaultDn</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -456,13 +496,13 @@ null
 			<td>Whenever to start encryption and validate certificates. Chose from "off", "unvalidated" and "secure".</td>
 		</tr>
 		<tr>
-			<td>portalListener.ucsInternalUrl</td>
+			<td>portalListener.ucsInternalPath</td>
 			<td>string</td>
 			<td><pre lang="json">
-"http://portal-listener:univention@portal-listener-store-dav/portal-data"
+"portal-data"
 </pre>
 </td>
-			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>
+			<td>Define UCS internal endpoint where the portal, selfservice and groups are defined Example: `"https://portal.example.com/univention/internal"`</td>
 		</tr>
 		<tr>
 			<td>portalListener.udmApiSecretFile</td>

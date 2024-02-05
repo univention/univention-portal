@@ -26,8 +26,8 @@ portalListener:
   # -- Define LDAP Admin Group.
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
   adminGroup: null
-  # -- Where to store the assets, e.g. portal entry icons
-  assetsRoot: "http://portal-listener:univention@portal-listener-store-dav/portal-assets/"
+  # -- Where to store the assets inside the object storage bucket, e.g. portal entry icons
+  assetsRootPath: "portal-assets"
   # -- Define the authentication mode for the portal. Use "ucs" or "saml".
   authMode: "ucs"
   # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
@@ -81,15 +81,23 @@ portalListener:
   #    Default: same as `machineSecretFile`.
   udmApiSecretFile: "/var/secrets/machine_secret"
 
-  # -- Define UCS internal endpoint.
+  # -- Define UCS internal endpoint where the portal, selfservice and groups are defined
   # Example: `"https://portal.example.com/univention/internal"`
-  ucsInternalUrl: "http://portal-listener:univention@portal-listener-store-dav/portal-data"
+  ucsInternalPath: "portal-data"
   # -- Define UMC get endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get"`
   umcGetUrl: null
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umcSessionUrl: null
+  # -- Object storage endpoint
+  objectStorageEndpoint: "http://ums-minio:9000"
+  # -- Bucket in the object storage for storing the portal and assets
+  objectStorageBucket: "ums"
+  # -- User for the object storage
+  objectStorageAccessKeyId: "stub_user"
+  # -- Password for access to object storage
+  objectStorageSecretAccessKey: "stub_password"
 
 
 storeDav:

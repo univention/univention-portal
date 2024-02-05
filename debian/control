@@ -12,9 +12,21 @@ Build-Depends: debhelper,
  univention-l10n-dev (>= 7.0.1),
 Standards-Version: 3.9.5
 
-Package: phoenixportal
-Architecture: any
-Depends: ${misc:Depends}
+Package: univention-portal
+Architecture: all
+Depends:
+ netcat-openbsd,
+ python3-boto3,
+ python3-click,
+ python3-ldap,
+ python3-tornado,
+ python3-univention-portal (= ${source:Version}),
+ univention-config,
+ univention-directory-listener,
+ univention-directory-manager-tools,
+ univention-group-membership-cache,
+ univention-management-console-server,
+ ${misc:Depends},
 Description: Univention Portal - Central portal web page for a UCS domain
  Univention Portal is a web interface which allows a central view
  to a UCS domain with all installed Apps and services. Univention
