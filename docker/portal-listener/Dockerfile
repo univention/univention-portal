@@ -23,6 +23,7 @@ RUN apt-get update \
     # Currently this is used in the portal server to parse the DNs via "str2dn".
     libldap2-dev=2.* \
     python3-univention-directory-manager-rest-client=10.* \
+    python3-boto3=1.9.* \
     univention-group-membership-cache=2.* \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 

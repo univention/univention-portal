@@ -13,9 +13,13 @@ data:
   PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalServer.authMode }}"
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalServer.editable }}"
   PORTAL_SERVER_PORT: "{{ .Values.portalServer.port }}"
-  PORTAL_SERVER_UCS_INTERNAL_URL: {{ required "The parameter \"portalServer.ucsInternalUrl\" is required." .Values.portalServer.ucsInternalUrl | quote }}
+  PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalServer.ucsInternalPath\" is required." .Values.portalServer.ucsInternalPath | quote }}
   PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalServer.umcGetUrl\" is required." .Values.portalServer.umcGetUrl | quote }}
   PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalServer.umcSessionUrl\" is required." .Values.portalServer.umcSessionUrl | quote }}
   PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED: {{ .Values.portalServer.centralNavigation.enabled | quote }}
+  OBJECT_STORAGE_ENDPOINT: "{{ .Values.portalServer.objectStorageEndpoint }}"
+  OBJECT_STORAGE_BUCKET: "{{ .Values.portalServer.objectStorageBucket }}"
+  OBJECT_STORAGE_ACCESS_KEY_ID: "{{ .Values.portalServer.objectStorageAccessKeyId }}"
+  OBJECT_STORAGE_SECRET_ACCESS_KEY: "{{ .Values.portalServer.objectStorageSecretAccessKey }}"
 {{- end }}
 {{- end }}
