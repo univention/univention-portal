@@ -10,11 +10,27 @@
             "type": "config"
           },
           "group_cache": {
-            "class": "GroupFileCacheHTTP",
+            "class": "GroupFileCacheObjectStorage",
             "kwargs": {
-              "ucs_internal_url": {
-                "key": "ucs_internal_url",
+              "ucs_internal_path": {
+                "key": "groups_cache_path",
                 "type": "config"
+              },
+              "object_storage_endpoint": {
+                "type": "config",
+                "key": "object_storage_endpoint"
+              },
+              "bucket": {
+                "type": "config",
+                "key": "object_storage_bucket"
+              },
+              "access_key_id": {
+                "type": "config",
+                "key": "object_storage_access_key_id"
+              },
+              "secret_access_key": {
+                "type": "config",
+                "key": "object_storage_secret_access_key"
               }
             },
             "type": "class"
@@ -27,11 +43,27 @@
         "type": "class"
       },
       "portal_cache": {
-        "class": "PortalFileCacheHTTP",
+        "class": "PortalFileCacheObjectStorage",
         "kwargs": {
-          "ucs_internal_url": {
-            "key": "portal_cache_url",
+          "ucs_internal_path": {
+            "key": "portal_cache_path",
             "type": "config"
+          },
+          "object_storage_endpoint": {
+            "type": "config",
+            "key": "object_storage_endpoint"
+          },
+          "bucket": {
+            "type": "config",
+            "key": "object_storage_bucket"
+          },
+          "access_key_id": {
+            "type": "config",
+            "key": "object_storage_access_key_id"
+          },
+          "secret_access_key": {
+            "type": "config",
+            "key": "object_storage_secret_access_key"
           }
         },
         "type": "class"
@@ -64,11 +96,27 @@
             "type": "config"
           },
           "group_cache": {
-            "class": "GroupFileCacheHTTP",
+            "class": "GroupFileCacheObjectStorage",
             "kwargs": {
-              "ucs_internal_url": {
-                "key": "ucs_internal_url",
+              "ucs_internal_path": {
+                "key": "groups_cache_path",
                 "type": "config"
+              },
+              "object_storage_endpoint": {
+                "type": "config",
+                "key": "object_storage_endpoint"
+              },
+              "bucket": {
+                "type": "config",
+                "key": "object_storage_bucket"
+              },
+              "access_key_id": {
+                "type": "config",
+                "key": "object_storage_access_key_id"
+              },
+              "secret_access_key": {
+                "type": "config",
+                "key": "object_storage_secret_access_key"
               }
             },
             "type": "class"
@@ -81,11 +129,27 @@
         "type": "class"
       },
       "portal_cache": {
-        "class": "PortalFileCacheHTTP",
+        "class": "PortalFileCacheObjectStorage",
         "kwargs": {
-          "ucs_internal_url": {
-            "key": "selfservice_portal_cache_url",
+          "ucs_internal_path": {
+            "key": "selfservice_portal_cache_path",
             "type": "config"
+          },
+          "object_storage_endpoint": {
+            "type": "config",
+            "key": "object_storage_endpoint"
+          },
+          "bucket": {
+            "type": "config",
+            "key": "object_storage_bucket"
+          },
+          "access_key_id": {
+            "type": "config",
+            "key": "object_storage_access_key_id"
+          },
+          "secret_access_key": {
+            "type": "config",
+            "key": "object_storage_secret_access_key"
           }
         },
         "type": "class"
