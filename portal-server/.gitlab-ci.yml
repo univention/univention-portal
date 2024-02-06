@@ -119,7 +119,7 @@ test-portal-server:
     reports:
       coverage_report:
         coverage_format: "cobertura"
-        path: c"overage.xml"
+        path: "coverage.xml"
 
 push-image-souvap:
   parallel:

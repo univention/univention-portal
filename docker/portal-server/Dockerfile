@@ -44,6 +44,7 @@ RUN apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
       python3-univention-directory-manager \
       univention-directory-listener \
+      python3-boto3 \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 COPY ./requirements-test.txt .
