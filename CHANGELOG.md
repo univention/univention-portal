@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.12.0...v0.13.0) (2024-02-09)
+
+
+### Features
+
+* **portal:** make HTML title and favicon configurable ([5a4eb0f](https://git.knut.univention.de/univention/components/univention-portal/commit/5a4eb0f40b15aad32d84d1d82397746122ed5a04)), closes [#56917](https://git.knut.univention.de/univention/components/univention-portal/issues/56917)
+
 ## [0.12.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.11.1...v0.12.0) (2024-02-09)
 
 
