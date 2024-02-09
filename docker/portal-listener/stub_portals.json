@@ -19,29 +19,29 @@
               "reloader": {
                 "class": "ObjectStorageGroupsReloader",
                 "kwargs": {
-                  "json_path": {
-                    "type": "config",
-                    "key": "groups_cache_path"
+                  "access_key_id": {
+                    "key": "object_storage_access_key_id",
+                    "type": "config"
                   },
                   "assets_root_path": {
-                    "type": "config",
-                    "key": "assets_root_path"
-                  },
-                  "object_storage_endpoint": {
-                    "type": "config",
-                    "key": "object_storage_endpoint"
+                    "key": "assets_root_path",
+                    "type": "config"
                   },
                   "bucket": {
-                    "type": "config",
-                    "key": "object_storage_bucket"
+                    "key": "object_storage_bucket",
+                    "type": "config"
                   },
-                  "access_key_id": {
-                    "type": "config",
-                    "key": "object_storage_access_key_id"
+                  "json_path": {
+                    "key": "groups_cache_path",
+                    "type": "config"
+                  },
+                  "object_storage_endpoint": {
+                    "key": "object_storage_endpoint",
+                    "type": "config"
                   },
                   "secret_access_key": {
-                    "type": "config",
-                    "key": "object_storage_secret_access_key"
+                    "key": "object_storage_secret_access_key",
+                    "type": "config"
                   }
                 },
                 "type": "class"
@@ -66,32 +66,32 @@
           "reloader": {
             "class": "ObjectStoragePortalReloader",
             "kwargs": {
-              "json_path": {
-                "type": "config",
-                "key": "portal_cache_path"
+              "access_key_id": {
+                "key": "object_storage_access_key_id",
+                "type": "config"
               },
               "assets_root_path": {
-                "type": "config",
-                "key": "assets_root_path"
-              },
-              "object_storage_endpoint": {
-                "type": "config",
-                "key": "object_storage_endpoint"
+                "key": "assets_root_path",
+                "type": "config"
               },
               "bucket": {
-                "type": "config",
-                "key": "object_storage_bucket"
+                "key": "object_storage_bucket",
+                "type": "config"
               },
-              "access_key_id": {
-                "type": "config",
-                "key": "object_storage_access_key_id"
+              "json_path": {
+                "key": "portal_cache_path",
+                "type": "config"
               },
-              "secret_access_key": {
-                "type": "config",
-                "key": "object_storage_secret_access_key"
+              "object_storage_endpoint": {
+                "key": "object_storage_endpoint",
+                "type": "config"
               },
               "portal_dn": {
                 "key": "default_domain_dn",
+                "type": "config"
+              },
+              "secret_access_key": {
+                "key": "object_storage_secret_access_key",
                 "type": "config"
               }
             },
@@ -137,29 +137,29 @@
               "reloader": {
                 "class": "ObjectStorageGroupsReloader",
                 "kwargs": {
-                  "json_path": {
-                    "type": "config",
-                    "key": "groups_cache_path"
+                  "access_key_id": {
+                    "key": "object_storage_access_key_id",
+                    "type": "config"
                   },
                   "assets_root_path": {
-                    "type": "config",
-                    "key": "assets_root_path"
-                  },
-                  "object_storage_endpoint": {
-                    "type": "config",
-                    "key": "object_storage_endpoint"
+                    "key": "assets_root_path",
+                    "type": "config"
                   },
                   "bucket": {
-                    "type": "config",
-                    "key": "object_storage_bucket"
+                    "key": "object_storage_bucket",
+                    "type": "config"
                   },
-                  "access_key_id": {
-                    "type": "config",
-                    "key": "object_storage_access_key_id"
+                  "json_path": {
+                    "key": "groups_cache_path",
+                    "type": "config"
+                  },
+                  "object_storage_endpoint": {
+                    "key": "object_storage_endpoint",
+                    "type": "config"
                   },
                   "secret_access_key": {
-                    "type": "config",
-                    "key": "object_storage_secret_access_key"
+                    "key": "object_storage_secret_access_key",
+                    "type": "config"
                   }
                 },
                 "type": "class"
@@ -184,33 +184,33 @@
           "reloader": {
             "class": "ObjectStoragePortalReloader",
             "kwargs": {
-              "json_path": {
-                "type": "config",
-                "key": "selfservice_portal_cache_path"
+              "access_key_id": {
+                "key": "object_storage_access_key_id",
+                "type": "config"
               },
               "assets_root_path": {
-                "type": "config",
-                "key": "assets_root_path"
+                "key": "assets_root_path",
+                "type": "config"
+              },
+              "bucket": {
+                "key": "object_storage_bucket",
+                "type": "config"
+              },
+              "json_path": {
+                "key": "selfservice_portal_cache_path",
+                "type": "config"
+              },
+              "object_storage_endpoint": {
+                "key": "object_storage_endpoint",
+                "type": "config"
               },
               "portal_dn": {
                 "key": "selfservice_portal_dn",
                 "type": "config"
               },
-              "object_storage_endpoint": {
-                "type": "config",
-                "key": "object_storage_endpoint"
-              },
-              "bucket": {
-                "type": "config",
-                "key": "object_storage_bucket"
-              },
-              "access_key_id": {
-                "type": "config",
-                "key": "object_storage_access_key_id"
-              },
               "secret_access_key": {
-                "type": "config",
-                "key": "object_storage_secret_access_key"
+                "key": "object_storage_secret_access_key",
+                "type": "config"
               }
             },
             "type": "class"

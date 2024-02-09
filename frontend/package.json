@@ -80,23 +80,23 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
+    "build-storybook": "build-storybook -o dist/storybook",
     "deploy:firebase": "yarn build && firebase deploy",
+    "generate-apis": "openapi-generator-cli generate",
     "lint": "vue-cli-service lint --no-fix",
     "lint:all": "yarn lint && stylelint \"{**/*.{scss,vue,styl}\"",
     "lint:fix": "vue-cli-service lint",
     "lint:fix:all": "yarn lint:fix && stylelint --fix \"{**/*.{scss,vue,styl}\"",
     "serve": "vue-cli-service serve",
     "serve:wait": "yarn serve & wait-on http://localhost:8080",
+    "storybook": "start-storybook -p 6006 --no-manager-cache --debug-webpack",
     "test:coverage": "vue-cli-service test:unit --coverage",
     "test:e2e": "NODE_ENV=development vue-cli-service test:e2e",
     "test:e2e:headless": "NODE_ENV=development vue-cli-service test:e2e --headless",
     "test:e2e:run": "yarn cypress run",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
-    "test:unit:watch": "yarn test:unit --watch",
-    "storybook": "start-storybook -p 6006 --no-manager-cache --debug-webpack",
-    "build-storybook": "build-storybook -o dist/storybook",
-    "generate-apis": "openapi-generator-cli generate"
+    "test:unit:watch": "yarn test:unit --watch"
   },
   "version": "0.1.0"
 }
