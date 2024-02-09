@@ -5,39 +5,48 @@
 
 <template>
   <div
-    v-show="visible"
-    :class="['announcement', `announcement--${severity}`]"
+    v-if="visible"
+    :class="[
+      'announcement',
+      `announcement--${severity}`,
+      {
+        'announcement--withMessage': hasMessage,
+        'announcement--sticky': sticky
+      }
+    ]"
     role="alert"
   >
-    <div class="content">
-      <h4 class="announcement-title">
-        {{ $localized(title) }}
-      </h4>
-      <p
-        v-if="message"
-        class="announcement-message"
-      >
-        {{ $localized(message) }}
-      </p>
-      <slot />
+    <h4 class="announcement__title">
+      {{ $localized(title) }}
+    </h4>
+    <div class="announcement__closeWrapper">
+      <icon-button
+        icon="x"
+        class="announcement__closeButton"
+        :aria-label-prop="CLOSE"
+        @click="onCloseClick"
+      />
     </div>
-    <a
-      v-if="!sticky"
-      href="#"
-      class="close-link"
-      @click.prevent="onCloseClick"
+    <p
+      v-if="hasMessage"
+      class="announcement__message"
     >
-      X
-    </a>
+      {{ $localized(message) }}
+    </p>
   </div>
 </template>
 
 <script lang="ts">
 import { LocalizedString, PortalAnnouncementSeverity } from '@/store/modules/portalData/portalData.models';
 import { defineComponent, PropType } from 'vue';
+import IconButton from '@/components/globals/IconButton.vue';
+import _ from '@/jsHelper/translate';
 
 export default defineComponent({
   name: 'Announcement',
+  components: {
+    IconButton,
+  },
   props: {
     name: {
       type: String,
@@ -49,7 +58,7 @@ export default defineComponent({
     },
     message: {
       type: Object as PropType<LocalizedString>,
-      default: '',
+      default: () => ({}),
     },
     severity: {
       type: String as PropType<PortalAnnouncementSeverity>,
@@ -65,11 +74,21 @@ export default defineComponent({
       visible: this.getAnnouncementVisibility(),
     };
   },
-  methods: {
-    setAnnouncementVisibility(visibility: boolean): void {
-      this.visible = false;
-      localStorage.setItem(`${this.name}_visible`, JSON.stringify(visibility));
+  computed: {
+    CLOSE(): string {
+      return _('Close');
     },
+    hasMessage(): boolean {
+      // TODO FIXME
+      // univention.udm.encoders.ListOfListOflTextToDictPropertyEncoder.decode([])
+      // returns `[]` instead of `{}` so this is a workaround for that.
+      if (Array.isArray(this.message)) {
+        return false;
+      }
+      return Object.keys(this.message).length > 0;
+    },
+  },
+  methods: {
     getAnnouncementVisibility(): boolean {
       const visibility = localStorage.getItem(`${this.name}_visible`);
       if (visibility) {
@@ -78,46 +97,20 @@ export default defineComponent({
       return true;
     },
     onCloseClick() {
-      this.setAnnouncementVisibility(false);
+      this.visible = false;
+      localStorage.setItem(`${this.name}_visible`, JSON.stringify(false));
     },
   },
 });
-
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .announcement
   display: grid
   grid-template-columns: 1fr auto
-  gap: 2rem
-  justify-content: center
-  background-color: var(--serveroverview-tile-hover-color)
-  color: white
-  min-height: 2rem
-
-  .content
-    text-align: center
-
-  .announcement-title
-    margin-right: .5rem
-
-  .close-link
-    padding: .4rem
-    font-size: 1.2rem
-    color: #fff
-    text-decoration: none
-
-  .close-link
-    padding: .4rem
-    font-size: 1.2rem
-    color: #fff
-    text-decoration: none
-
-  .announcement-message
-    margin-right: .5rem
-
-  .announcement-close
-    margin-left: .5rem
+  border-radius: var(--border-radius-container)
+  background-color: var(--bgc-content-container)
+  min-height calc(8 * var(--layout-spacing-unit))
 
   &--info
     background-color: var(--bgc-announcements-info)
@@ -131,4 +124,32 @@ export default defineComponent({
   &--warn
     background-color: var(--bgc-announcements-warn)
 
+.announcement__content
+  text-align: center
+  flex: 1 1 auto
+
+.announcement__title
+  margin: 0
+  padding: var(--layout-spacing-unit)
+  display: flex
+  justify-content: center
+  align-items: center
+
+.announcement__message
+  margin: 0
+  padding: var(--layout-spacing-unit)
+  text-align: center
+
+.announcement__closeWrapper
+  padding: var(--layout-spacing-unit)
+  display: flex
+  align-items: center
+
+.announcement--sticky .announcement__closeButton
+  visibility: hidden
+
+.announcement.announcement--withMessage
+  .announcement__title,
+  .announcement__closeWrapper
+    border-bottom: 1px solid var(--bgc-content-body)
 </style>
