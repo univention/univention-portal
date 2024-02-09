@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.11.1...v0.12.0) (2024-02-09)
+
+
+### Features
+
+* **portal:** Show cookie banner only if configured for current domain ([226334b](https://git.knut.univention.de/univention/components/univention-portal/commit/226334b7bf7b1c60447165599ae0971e136024d7)), closes [#55164](https://git.knut.univention.de/univention/components/univention-portal/issues/55164)
+
 ## [0.11.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.11.0...v0.11.1) (2024-02-09)
 
 
