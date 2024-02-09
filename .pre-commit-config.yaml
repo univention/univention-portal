@@ -21,6 +21,14 @@ repos:
           # Allow custom tags like Gitlab's "!reference" tag.
           - --unsafe
         exclude: ^helm/.+/templates/
+      # prettify JSON
+      - id: check-json
+        exclude: "conffiles/.*[.]json$"
+      - id: pretty-format-json
+        exclude: "conffiles/.*[.]json$"
+        args:
+          - --autofix
+          - --no-ensure-ascii
       # "Fix python encoding pragma"
       # - id: fix-encoding-pragma
       # "Trim Trailing Whitespace"
