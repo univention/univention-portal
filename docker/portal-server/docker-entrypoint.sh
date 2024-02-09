@@ -57,6 +57,7 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "default_domain_dn": $default_domain_dn,
   "editable": $editable,
   "enable_xheaders": true,
+  "use-udm-rest-api": true,
   "groups_cache_path": $groups_cache_path,
   "hostdn": $hostdn,
   "ldap_base": $ldap_base,
