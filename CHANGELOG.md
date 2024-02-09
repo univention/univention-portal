@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.11.0...v0.11.1) (2024-02-09)
+
+
+### Bug Fixes
+
+* **portal:** Update file portals.json atomically ([4f96aa0](https://git.knut.univention.de/univention/components/univention-portal/commit/4f96aa0114d7d703672992b1bc226fa53f4ca15f)), closes [#53860](https://git.knut.univention.de/univention/components/univention-portal/issues/53860)
+
 ## [0.11.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.10.0...v0.11.0) (2024-02-09)
 
 
