@@ -1,5 +1,5 @@
 <!--
-  Copyright 2021-2022 Univention GmbH
+  Copyright 2021-2024 Univention GmbH
   https://www.univention.de/
   All rights reserved.
   The source code of this program is made available
