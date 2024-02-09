@@ -40,6 +40,7 @@ from urllib.parse import urlsplit
 import requests
 from botocore.exceptions import EndpointConnectionError
 
+from univention.portal import config
 from univention.portal.extensions import reloader
 from univention.portal.log import get_logger
 from univention.portal.util import get_object_storage_client
@@ -184,7 +185,8 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
 
     def _create_content_fetcher(self):
         # TODO: assets_root_path is not used in PortalContentFetcher, drop
-        return reloader.PortalContentFetcher(self._portal_dn, self._assets_root_path)
+        cls = reloader.PortalContentFetcherUDMREST if config.fetch("use-udm-rest-api") else reloader.PortalContentFetcherUDM
+        return cls(self._portal_dn, self._assets_root_path)
 
     def _check_reason(self, reason=None):
         return reloader.check_portal_reason(reason)
