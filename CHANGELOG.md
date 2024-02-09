@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.10.0...v0.11.0) (2024-02-09)
+
+
+### Features
+
+* **ci:** add debian update check jobs for scheduled pipeline ([7e7c798](https://git.knut.univention.de/univention/components/univention-portal/commit/7e7c79815faaf718a6cca033a844ef42fd1a711b))
+
 ## [0.10.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.9.5...v0.10.0) (2024-01-22)
 
 
