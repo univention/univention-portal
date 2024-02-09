@@ -326,5 +326,15 @@ export default defineComponent({
       display: flex
 
 #announcement-container
-  width: 100%
+  display: flex
+  padding: 0.5rem
+  flex-direction: column
+  gap: 0.5rem
+  position: relative
+
+#announcement-container:has(.announcement:not(.announcement--sticky)) .announcement--sticky
+  .announcement__closeWrapper
+    display: block
+  .announcement__closeButton
+    visibility: hidden
 </style>
