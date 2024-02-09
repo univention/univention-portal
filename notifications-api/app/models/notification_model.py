@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
 from datetime import datetime, timezone
 from enum import Enum

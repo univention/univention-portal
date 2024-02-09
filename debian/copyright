@@ -4,19 +4,12 @@ Upstream-Contact: <preferred name and address to reach the upstream project>
 Source: <url://example.com>
 
 Files: *
-Copyright: <years> <put author's name and email here>
-           <years> <likewise for another author>
-License: GPL-3.0+
-
-Files: debian/*
-Copyright: 2021 Andi <packages@univention.de>
-License: GPL-3.0+
-
-License: GPL-3.0+
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+Copyright: 2016-2024 Univention GmbH
+License: AGPL-3.0-only
+ The source code of the software contained in this package
+ as well as the source package itself are made available
+ under the terms of the GNU Affero General Public License version 3
+ (GNU AGPL V3) as published by the Free Software Foundation.
  .
  This package is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
