@@ -4,8 +4,13 @@ Priority: optional
 Maintainer: Univention GmbH <packages@univention.de>
 Build-Depends: debhelper,
  npm,
- univention-l10n-dev,
-Standards-Version: 3.8.2
+ python3-all,
+ python3-debian,
+ python3-setuptools,
+ univention-config-dev (>= 15.0.3),
+ univention-join-dev,
+ univention-l10n-dev (>= 7.0.1),
+Standards-Version: 3.9.5
 
 Package: phoenixportal
 Architecture: any
