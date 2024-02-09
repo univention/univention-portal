@@ -5,7 +5,7 @@
     "group:all",
     ":disableRateLimiting"
   ],
-  "semanticCommits": "enabled",
+  "semanticCommitScope": "deps",
   "semanticCommitType": "fix",
-  "semanticCommitScope": "deps"
+  "semanticCommits": "enabled"
 }
