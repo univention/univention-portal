@@ -1,8 +1,128 @@
-univention-portal (4.1.9-4) unstable; urgency=medium
+univention-portal (4.0.15-2) unstable; urgency=medium
 
-  * Bug #55176: implemented announcement udm module
+  * Bug #56917: make HTML title and favicon configurable
 
- -- Torben Köhn <torben.koehn.extern@univention.de>  Mon, 13 Feb 2023 17:59:18 +0100
+ -- Florian Best <best@univention.de>  Wed, 07 Feb 2024 13:28:43 +0100
+
+univention-portal (4.0.15-1) unstable; urgency=medium
+
+  * Bug #56853: Fix label translation for self-service fields.
+  * Bug #56832: UCS 5.0-6 version bump
+
+ -- Philipp Hahn <hahn@univention.de>  Thu, 07 Dec 2023 19:17:28 +0100
+
+univention-portal (4.0.14-11) unstable; urgency=medium
+
+  * Bug #56349: The profile picture can now again be deleted
+
+ -- Mika Westphal <westphal@univention.de>  Wed, 29 Nov 2023 13:53:48 +0100
+
+univention-portal (4.0.14-10) unstable; urgency=low
+
+  * Bug #56660: Fix label translation for self-service fields.
+
+ -- Ivan Barbecho Delgado <ivan.delgado@univention.de>  Fri, 20 Oct 2023 11:51:53 +0200
+
+univention-portal (4.0.14-9) unstable; urgency=low
+
+  * Bug #53860: Update file portals.json atomically
+
+ -- Philipp Hahn <hahn@univention.de>  Wed, 18 Oct 2023 09:01:10 +0200
+
+univention-portal (4.0.14-8) unstable; urgency=medium
+
+  * Bug #56660: Fix label translation for self-service fields.
+
+ -- Ivan Barbecho Delgado <ivan.delgado@univention.de>  Mon, 16 Oct 2023 15:54:41 +0200
+
+univention-portal (4.0.14-7) unstable; urgency=medium
+
+  * Bug #55164: Show cookie banner only if configured for current domain
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Mon, 11 Sep 2023 16:28:41 +0200
+
+univention-portal (4.0.14-6) unstable; urgency=medium
+
+  * Revert "Bug #55610: added univention-portal logrotate configuration and a UCR variable"
+
+    This reverts commit 8c336a2fd6aa314e8a574ab73b7bdfc115c9374f.
+
+ -- Mika Westphal <westphal@univention.de>  Tue, 22 Aug 2023 12:38:27 +0200
+
+univention-portal (4.0.14-4) unstable; urgency=medium
+
+  * Bug #55785: fix HTTPS detection when acessing navigation.json endpoint
+    behind UCS apache reverse proxy
+
+ -- Florian Best <best@univention.de>  Mon, 03 Jul 2023 16:19:30 +0200
+
+univention-portal (4.0.14-3) unstable; urgency=medium
+
+  * Bug #55175: Remove needsConfirmation from layout
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Mon, 19 Jun 2023 12:03:33 +0200
+
+univention-portal (4.0.14-2) unstable; urgency=medium
+
+  * Bug #55175: Some more styling; fix start and end date
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Fri, 16 Jun 2023 12:09:20 +0200
+
+univention-portal (4.0.14-1) unstable; urgency=medium
+
+  * Bug #55175: Adjust style for Announcement.vue (2)
+
+ -- Johannes Keiser <keiser@univention.de>  Tue, 13 Jun 2023 17:06:05 +0200
+
+univention-portal (4.0.13-2) unstable; urgency=medium
+
+  * Bug #55175: No announcements for the virtual UMC portal
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Tue, 13 Jun 2023 14:10:38 +0200
+
+univention-portal (4.0.13-1) unstable; urgency=medium
+
+  * Bug #55175: fix writing icons
+
+ -- Florian Best <best@univention.de>  Tue, 13 Jun 2023 12:42:25 +0200
+
+univention-portal (4.0.12-2) unstable; urgency=medium
+
+  * Bug #55175: Adjust style for Announcement.vue
+
+ -- Johannes Keiser <keiser@univention.de>  Tue, 13 Jun 2023 11:40:37 +0200
+
+univention-portal (4.0.12-1) unstable; urgency=medium
+
+  * Bug #43633: adjust UMCP set/ HTTP requests
+
+ -- Florian Best <best@univention.de>  Mon, 12 Jun 2023 07:47:45 +0200
+
+univention-portal (4.0.11-1) unstable; urgency=medium
+
+  * Bug #55175: fix error during upgrade when portals/announcement UDM module
+    is not yet available (on Replicas)
+
+ -- Florian Best <best@univention.de>  Sat, 10 Jun 2023 20:21:45 +0200
+
+univention-portal (4.0.10-1) unstable; urgency=medium
+
+  * Bug #55175: implemented announcement udm module
+
+ -- Torben Köhn <torben.koehn.extern@univention.de>  Mon, 05 Jun 2023 21:51:41 +0200
+
+univention-portal (4.0.9-7) unstable; urgency=medium
+
+  * Bug #56113: Use the option to connect to the local slapd, thus removing a
+    lot of slapd load in big environments
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Mon, 05 Jun 2023 19:45:16 +0200
+
+univention-portal (4.0.9-5) unstable; urgency=medium
+
+  * Bug #55632: Improved Python 3.11 compatibility
+
+ -- Mika Westphal <westphal@univention.de>  Fri, 06 Apr 2023 14:24:32 +0100
 
 univention-portal (4.0.9-4) unstable; urgency=medium
 
