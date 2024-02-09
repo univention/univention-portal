@@ -173,8 +173,7 @@ class Portal(metaclass=Plugin):
     def _map_entry(self, entry):
         # TODO: Pending refactoring to use "icon_url" consistently
         # See https://git.knut.univention.de/univention/components/univention-portal/-/issues/696
-        entry["icon_url"] = entry["logo_name"]
-        del entry["logo_name"]
+        entry["icon_url"] = entry.pop("logo_name")
         return entry
 
     def get_folders(self, content):

@@ -62,7 +62,7 @@ class Reloader(metaclass=Plugin):
     """
 
     def refresh(self, reason, content=None):  # pragma: no cover
-        raise NotImplementedError
+        raise NotImplementedError()
 
 
 class MtimeBasedLazyFileReloader(Reloader):
