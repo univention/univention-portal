@@ -35,6 +35,7 @@
 # <https://www.gnu.org/licenses/>.
 ## joinscript api: bindpwdfile
 
+# shellcheck disable=SC2034
 VERSION=28
 
 . /usr/share/univention-join/joinscripthelper.lib
@@ -337,6 +338,7 @@ if [ "$role" = "domaincontroller_master" ]; then
 	fi
 fi
 
+# shellcheck disable=SC2034
 default_portal="cn=domain,cn=portal,cn=portals,cn=univention,$ldap_base"
 
 # Reset old UCR variables otherwise the UCR handler is not executed

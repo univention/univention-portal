@@ -9,13 +9,14 @@ include:
     file:
       - "defaults/stages.yaml"
       - "defaults/souvap-workflow.yaml"
-      - "jobs/lint-pre-commit.yaml"
+      - "jobs/lint-pre-commit-legacy.yaml"
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/package-and-publish-helm-charts-souvap.yaml"
       - "jobs/check-debian-updates.yaml"
 
-lint-pre-commit:
+.lint-pre-commit-with-before:
+  extends: ".lint-pre-commit"
   before_script:
     - |
       # Compose lint would fail without the referenced env files
@@ -24,7 +25,15 @@ lint-pre-commit:
       cp docker/.env.listener.example docker/.env.listener
       cp docker/.env.umc-gateway.example docker/.env.umc-gateway
       cp docker/.env.umc-server.example docker/.env.umc-server
+      helm repo list || true
       helm repo add bitnami https://charts.bitnami.com/bitnami
+      helm repo update
+
+lint-pre-commit-legacy:
+  extends: ".lint-pre-commit-with-before"
+
+lint-pre-commit-full:
+  extends: ".lint-pre-commit-with-before"
 
 trigger-notifications-api:
   stage: "trigger"

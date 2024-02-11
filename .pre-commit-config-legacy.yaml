@@ -1,0 +1,281 @@
+---
+
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+repos:
+  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+    rev: "v4.5.0"
+    hooks:
+      - id: "check-added-large-files"
+        name: "check for added large files"
+      - id: "check-ast"
+        name: "check python ast"
+      - id: "check-case-conflict"
+        name: "check for case conflicts"
+      - id: "check-docstring-first"
+        name: "check docstring is first"
+      - id: "check-executables-have-shebangs"
+        name: "check that executables have shebangs"
+      - id: "check-json"
+        name: "check json"
+        # TODO: remove exclude
+        exclude: "^(conffiles/usr/lib/univention-portal/config/config|frontend/public/data/portal|frontend/public/dev-data/portal).json$"
+      - id: "check-merge-conflict"
+        name: "check for merge conflicts"
+      - id: "check-yaml"
+        name: "check yaml"
+        args:
+          - "--allow-multiple-documents"
+          # Allow custom tags like Gitlab's "!reference" tag.
+          - "--unsafe"
+        exclude: "^helm/.+/templates/"
+      - id: "check-symlinks"
+        name: "check for broken symlinks"
+      - id: "detect-private-key"
+        name: "detect private key"
+      # TODO: enable end-of-file-fixer
+      # - id: "end-of-file-fixer"
+      #   name: "fix end of files"
+        exclude: "^helm/.+/README.md$"
+      - id: "fix-byte-order-marker"
+        name: "fix utf-8 byte order marker"
+      - id: "trailing-whitespace"
+        name: "trim trailing whitespace"
+        # TODO: remove exclude
+        exclude: '^(ansible/templates/ucs-expose-portal-json-files/univention-portal.patch|frontend/src/apis/notifications/.+\.ts)$'
+
+  # "Python blocks in UCR config templates"
+  - repo: "https://git.knut.univention.de/univention/dist/pre-commit-ucr"
+    rev: "0.0.10"
+    hooks:
+      - id: "ucr-flake8"
+      - id: "ucr-autopep8"
+      - id: "ucr-ruff-fix"
+
+  - repo: "https://git.knut.univention.de/univention/dist/pre-commit-debian.git"
+    rev: "v1.1.0"
+    hooks:
+      - id: "debian-control"
+
+  - repo: "https://github.com/compilerla/conventional-pre-commit"
+    rev: "v3.0.0"
+    hooks:
+      - id: "conventional-pre-commit"
+        name: "Conventional Commit"
+        stages: ["commit-msg"]
+
+  - repo: "https://git.knut.univention.de/univention/dist/pre-commit-hooks/addlicense"
+    rev: "v1.0.1"
+    hooks:
+      - id: "addlicense"
+        name: "Check or add license headers to files"
+
+  - repo: "https://github.com/adrienverge/yamllint"
+    rev: "v1.33.0"
+    hooks:
+      - id: "yamllint"
+        name: "yamllint"
+        args:
+          - "--config-file=.yamllint"
+          - "--format=parsable"
+          # TODO: replace no-warnings with strict
+          - "--no-warnings"
+
+  - repo: "https://github.com/google/yapf"
+    rev: "v0.40.2"
+    hooks:
+      - id: "yapf"
+        name: "yapf"
+        # TODO: remove exclude
+        exclude: '^(conffiles/|listener/|notifications-api/|python/univention/portal/|setup\.py$|tests/e2e/tests/|udm/|unittests/|univention-portal$|univention-portal-server$)'
+
+  - repo: "https://github.com/astral-sh/ruff-pre-commit"
+    rev: "v0.1.9"
+    hooks:
+      - id: "ruff"
+        name: "ruff"
+        args:
+          - "--fix"
+          - "--show-source"
+          - "--exit-non-zero-on-fix"
+          - "--extend-select=COM"
+          # TODO: remove ignore
+          - "--ignore=E501"
+
+  - repo: "https://github.com/hhatto/autopep8"
+    rev: "v2.0.4"
+    hooks:
+      - id: "autopep8"
+        name: "autopep8"
+        # TODO: remove exclude
+        exclude: '^(conffiles/univention_blog\.py$|notifications-api/|python/univention/portal/|tests/e2e/tests/|udm/handlers/|udm/migrate-to-new-portal$|udm/syntax/univention-portal\.py$|unittests/|univention-portal$)'
+        args:
+          - "--in-place"
+          - "--aggressive"
+          - "--aggressive"
+          - "--experimental"
+
+  - repo: "https://github.com/PyCQA/flake8"
+    rev: "6.1.0"
+    hooks:
+      - id: "flake8"
+        name: "flake8"
+        # TODO: remove args
+        args:
+          - "--max-complexity=14"
+          - "--max-line-length=372"
+
+  - repo: "https://github.com/pylint-dev/pylint"
+    rev: "v3.0.3"
+    hooks:
+      - id: "pylint"
+        name: "pylint"
+        additional_dependencies:
+          - "pytest"
+        # TODO: remove exclude
+        exclude: '^(listener/portal_server\.py$|notifications-api/app/|notifications-api/tests/|python/univention/portal/|setup\.py$|tests/e2e/tests/test_notification\.py$|udm/api/portal\.py$|udm/handlers/all\.py$)'
+        # TODO: remove args
+        args:
+          - "--max-line-length=372"
+          # C0103: <type> name "<name>" doesn't conform to UPPER_CASE naming style (invalid-name)
+          - "--disable=invalid-name"
+          # C0114: Missing module docstring (missing-module-docstring)
+          - "--disable=missing-module-docstring"
+          # C0115: Missing class docstring (missing-class-docstring)
+          - "--disable=missing-class-docstring"
+          # C0116: Missing function or method docstring (missing-function-docstring)
+          - "--disable=missing-function-docstring"
+          # C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+          - "--disable=consider-using-f-string"
+          # C0415: Import outside toplevel (<module>) (import-outside-toplevel)
+          - "--disable=import-outside-toplevel"
+          # E0401: Unable to import 'playwright_pages_ucs_portal.home_page.logged_in' (import-error)
+          - "--disable=import-error"
+          # E0611: No name '<y>' in module '<x>' (no-name-in-module)
+          - "--disable=no-name-in-module"
+          # E1101: Module '<x>' has no '<y>' member (no-member)
+          - "--disable=no-member"
+          # E1120: No value for argument 'binddn' in function call (no-value-for-parameter)
+          - "--disable=no-value-for-parameter"
+          # R0205: Class '<class>' inherits from object, can be safely removed from bases in python3 (useless-object-inheritance)
+          - "--disable=useless-object-inheritance"
+          # R0801: Similar lines in 2 files
+          - "--disable=R0801"
+          # R0903: Too few public methods (x/2) (too-few-public-methods)
+          - "--disable=too-few-public-methods"
+          # R0912: Too many branches (13/12) (too-many-branches)
+          - "--disable=too-many-branches"
+          # R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+          - "--disable=no-else-return"
+          # R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+          - "--disable=inconsistent-return-statements"
+          # R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+          - "--disable=consider-using-with"
+          # W0201: Attribute '<name>' defined outside __init__ (attribute-defined-outside-init)
+          - "--disable=attribute-defined-outside-init"
+          # W0212: Access to a protected member <x> of a client class (protected-access)
+          - "--disable=protected-access"
+          # W0511: TODO: <text> (fixme)
+          - "--disable=fixme"
+          # W0611: Unused import <module> (unused-import)
+          - "--disable=unused-import"
+          # W0613: Unused argument '<arg>' (unused-argument)
+          - "--disable=unused-argument"
+          # W0621: Redefining name '<name>' from outer scope (line <line>) (redefined-outer-name)
+          - "--disable=redefined-outer-name"
+          # W0622: Redefining built-in '<builtin>' (redefined-builtin)
+          - "--disable=redefined-builtin"
+          # W0707: Consider explicitly re-raising using 'except NoResultFound as exc' and 'raise HTTPException(status_code=HTTPStatus.NOT_FOUND) from exc' (raise-missing-from)
+          - "--disable=raise-missing-from"
+          # W1406: The u prefix for strings is no longer necessary in Python >=3.0 (redundant-u-string-prefix)
+          - "--disable=redundant-u-string-prefix"
+          # W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+          - "--disable=unspecified-encoding"
+
+  - repo: "https://github.com/hadolint/hadolint"
+    rev: "v2.12.0"
+    hooks:
+      - id: "hadolint"
+        name: "Lint Dockerfiles"
+        types: ["dockerfile"]
+        args:
+          - "--no-color"
+          - "--strict-labels"
+
+  - repo: "https://gitlab.com/univention/pre-commit-hooks/docker-compose-check"
+    rev: "7702a8801a158b8595569dd29e2dd655d8a08310"
+    hooks:
+      - id: "docker-compose-check"
+        name: "Validate docker-compose files (python)"
+
+  # Cloned from github.com/IamTheFij/docker-pre-commit
+  - repo: "https://gitlab.com/univention/pre-commit-hooks/docker-pre-commit"
+    rev: "v3.0.1"
+    hooks:
+      - id: "docker-compose-check"
+        name: "Validate docker compose files (bash)"
+
+  - repo: "https://gitlab.com/univention/pre-commit-hooks/pre-commit-shell"
+    rev: "v1.0.6+uv1"
+    hooks:
+      - id: "shell-lint"
+        name: "Shell Syntax Check"
+        args:
+          - "--enable=all"
+          - "--external-sources"
+          # TODO: remove all excludes
+          # SC1091 (info): Not following: /usr/<path>: openBinaryFile: does not exist (No such file or directory)
+          - "--exclude=SC1091"
+          # SC2045 (error): Iterating over ls output is fragile. Use globs.
+          - "--exclude=SC2045"
+          # SC2086 (info): Double quote to prevent globbing and word splitting.
+          - "--exclude=SC2086"
+          # SC2154 (warning): <variable> is referenced but not assigned.
+          - "--exclude=SC2154"
+          # SC2162 (info): read without -r will mangle backslashes.
+          - "--exclude=SC2162"
+          # SC2248 (style): Prefer double quoting even when variables don't contain special characters.
+          - "--exclude=SC2248"
+          # SC2250 (style): Prefer putting braces around variable references even when not strictly required.
+          - "--exclude=SC2250"
+          # SC2292 (style): Prefer [[ ]] over [ ] for tests in Bash/Ksh.
+          - "--exclude=SC2292"
+          # SC2312 (info): Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore).
+          - "--exclude=SC2312"
+
+  - repo: "https://github.com/gruntwork-io/pre-commit"
+    rev: "v0.1.23"
+    hooks:
+      - id: "shellcheck"
+        name: "Shellcheck Bash Linter"
+        # TODO: remove exclude
+        exclude: "^(33univention-portal.inst|docker/portal-server/docker-entrypoint.sh|docker/keycloak/docker-entrypoint.sh|docker/portal-listener/portal-listener-entrypoint.sh|frontend/process_vue_files.sh|frontend/src/apis/notifications/git_push.sh|frontend/sync|notifications-api/entrypoint.sh|notifications-api/freeze-requirements.sh|portal-server-password-rotate|univention-system-setup/cleanup-post.d/11_portal_restart)$"
+        args:
+          - "--enable=all"
+      - id: "helmlint"
+        name: "helmlint"
+
+  - repo: "https://github.com/norwoodj/helm-docs"
+    rev: "v1.12.0"
+    hooks:
+      - id: "helm-docs"
+        name: "Helm Docs"
+        args:
+          - "--chart-search-root=helm"
+          - "--template-files=README.md.gotmpl"
+        always_run: true
+
+  # Uses `GITLAB_SERVER`, `GITLAB_PROJECT_ID` and `GITLAB_PRIVATE_TOKEN`
+  - repo: "https://gitlab.com/univention/pre-commit-hooks/gitlab-ci-linter"
+    rev: "v1.0.6+uv2"
+    hooks:
+      - id: "gitlab-ci-linter"
+        name: ".gitlab-ci.yml linter"
+        stages:
+          - "manual"
+
+...
