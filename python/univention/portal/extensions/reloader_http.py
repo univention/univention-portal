@@ -65,7 +65,9 @@ class HttpReloader(reloader.Reloader):
     def refresh(self, reason=None, content=None):
         class_name = self.__class__.__name__
         if not self._check_reason(reason):
-            logger.info("Not refreshing cache, %s, reason: %s", class_name, reason)
+            logger.info(
+                "Not refreshing cache, %s, reason: %s", class_name, reason
+            )
             return False
         content, assets = self._generate_content()
         for path, asset_content in assets:
@@ -103,7 +105,10 @@ class HttpReloader(reloader.Reloader):
         headers = {"user-agent": "portal-listener"}
         result = requests.put(url=url, data=content, headers=headers)
         if result.status_code >= requests.codes.bad:
-            logger.error("Upload of the image did fail: %s, %s", result.status_code, result.text)
+            logger.error(
+                "Upload of the image did fail: %s, %s", result.status_code,
+                result.text
+            )
             return False
         return True
 
@@ -118,23 +123,28 @@ class HttpPortalReloader(HttpReloader):
     def __init__(self, url, assets_root, portal_dn):
         logger.debug(
             "Initializing %s, url: %s, assets_root: %s, portal_dn: %s",
-            self.__class__.__name__, log_url_safe(url), log_url_safe(assets_root), portal_dn)
+            self.__class__.__name__, log_url_safe(url),
+            log_url_safe(assets_root), portal_dn
+        )
         super().__init__(url, assets_root)
         self._portal_dn = portal_dn
 
     def _create_content_fetcher(self):
-        return reloader.PortalContentFetcher(self._portal_dn, self._assets_root)
+        return reloader.PortalContentFetcher(
+            self._portal_dn, self._assets_root
+        )
 
     def _check_reason(self, reason=None):
         return reloader.check_portal_reason(reason)
 
 
 class HttpGroupsReloader(HttpReloader):
-
     def __init__(self, url, assets_root):
         logger.debug(
             "Initializing %s, url: %s, assets_root: %s",
-            self.__class__.__name__, log_url_safe(url), log_url_safe(assets_root))
+            self.__class__.__name__, log_url_safe(url),
+            log_url_safe(assets_root)
+        )
         super().__init__(url, assets_root)
 
     def _create_content_fetcher(self):

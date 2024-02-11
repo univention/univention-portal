@@ -41,7 +41,6 @@ from univention.portal import Plugin, config
 from univention.portal.extensions.reloader_content import GroupsContentFetcher, PortalContentFetcher
 from univention.portal.log import get_logger
 
-
 logger = get_logger("cache")
 
 
@@ -77,7 +76,9 @@ class MtimeBasedLazyFileReloader(Reloader):
     """
 
     def __init__(self, cache_file):
-        logger.debug("init, %s, cache_file %s", self.__class__.__name__, cache_file)
+        logger.debug(
+            "init, %s, cache_file %s", self.__class__.__name__, cache_file
+        )
         self._cache_file = cache_file
         self._mtime = self._get_mtime()
         self._assets_root = config.fetch("assets_root")
@@ -101,7 +102,9 @@ class MtimeBasedLazyFileReloader(Reloader):
     def refresh(self, reason=None, content=None):
         class_name = self.__class__.__name__
         if not self._check_reason(reason, content=content):
-            logger.info("Not refreshing cache, %s, reason: %s", class_name, reason)
+            logger.info(
+                "Not refreshing cache, %s, reason: %s", class_name, reason
+            )
             return self._file_was_updated()
 
         logger.info("Refreshing cache, %s, reason: %s", class_name, reason)
@@ -168,7 +171,9 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
         return check_portal_reason(reason)
 
     def _refresh(self):
-        content_fetcher = PortalContentFetcher(self._portal_dn, self._assets_root)
+        content_fetcher = PortalContentFetcher(
+            self._portal_dn, self._assets_root
+        )
         content = content_fetcher.fetch()
         return (content, content_fetcher.assets)
 
@@ -190,7 +195,8 @@ class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
     password_file:
             Filename that holds the password for the binddn, e.g. "/etc/machine.secret"
     ldap_base:
-            Base in which the groups are searched in. E.g., "dc=base,dc=com" or "cn=groups,ou=OU1,dc=base,dc=com"
+            Base in which the groups are searched in.
+            E.g., "dc=base,dc=com" or "cn=groups,ou=OU1,dc=base,dc=com"
     cache_file:
             Filename this object is responsible for
     """
@@ -233,4 +239,6 @@ def check_portal_reason(reason):
         return False
     if reason_args[0] != "ldap":
         return False
-    return reason_args[1] in ["portal", "category", "entry", "folder", "announcement"]
+    return reason_args[1] in [
+        "portal", "category", "entry", "folder", "announcement"
+    ]

@@ -119,26 +119,25 @@ class Portal(metaclass=Plugin):
         folders = self.portal_cache.get_folders()
         categories = self.portal_cache.get_categories()
         announcements = self.portal_cache.get_announcements()
-        visible_entry_dns = self._filter_entry_dns(entries.keys(), entries, user, admin_mode)
+        visible_entry_dns = self._filter_entry_dns(
+            entries.keys(), entries, user, admin_mode
+        )
         visible_folder_dns = [
-            folder_dn
-            for folder_dn in folders.keys()
-            if admin_mode or len(
+            folder_dn for folder_dn in folders.keys() if admin_mode or len(
                 [
-                    entry_dn
-                    for entry_dn in self._get_all_entries_of_folder(folder_dn, folders, entries)
+                    entry_dn for entry_dn in self.
+                    _get_all_entries_of_folder(folder_dn, folders, entries)
                     if entry_dn in visible_entry_dns
                 ],
             ) > 0
         ]
         visible_category_dns = [
             category_dn
-            for category_dn in categories.keys()
-            if admin_mode or len(
+            for category_dn in categories.keys() if admin_mode or len(
                 [
-                    entry_dn
-                    for entry_dn in categories[category_dn]["entries"]
-                    if entry_dn in visible_entry_dns or entry_dn in visible_folder_dns
+                    entry_dn for entry_dn in categories[category_dn]["entries"]
+                    if entry_dn in visible_entry_dns or
+                    entry_dn in visible_folder_dns
                 ],
             ) > 0
         ]
@@ -157,18 +156,23 @@ class Portal(metaclass=Plugin):
     def get_user_links(self, content):
         links = self.portal_cache.get_user_links()
         return [
-            dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
+            dn for dn in links
+            if dn in content["entry_dns"] or dn in content["folder_dns"]
         ]
 
     def get_menu_links(self, content):
         links = self.portal_cache.get_menu_links()
         return [
-            dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
+            dn for dn in links
+            if dn in content["entry_dns"] or dn in content["folder_dns"]
         ]
 
     def get_entries(self, content):
         entries = self.portal_cache.get_entries()
-        return [self._map_entry(entries[entry_dn]) for entry_dn in content["entry_dns"]]
+        return [
+            self._map_entry(entries[entry_dn])
+            for entry_dn in content["entry_dns"]
+        ]
 
     def _map_entry(self, entry):
         # TODO: Pending refactoring to use "icon_url" consistently
@@ -181,20 +185,22 @@ class Portal(metaclass=Plugin):
         folders = [folders[folder_dn] for folder_dn in content["folder_dns"]]
         for folder in folders:
             folder["entries"] = [
-                entry_dn
-                for entry_dn in folder["entries"]
-                if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]
+                entry_dn for entry_dn in folder["entries"]
+                if entry_dn in content["entry_dns"] or
+                entry_dn in content["folder_dns"]
             ]
         return folders
 
     def get_categories(self, content):
         categories = self.portal_cache.get_categories()
-        categories = [categories[category_dn] for category_dn in content["category_dns"]]
+        categories = [
+            categories[category_dn] for category_dn in content["category_dns"]
+        ]
         for category in categories:
             category["entries"] = [
-                entry_dn
-                for entry_dn in category["entries"]
-                if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]
+                entry_dn for entry_dn in category["entries"]
+                if entry_dn in content["entry_dns"] or
+                entry_dn in content["folder_dns"]
             ]
         return categories
 
@@ -207,18 +213,24 @@ class Portal(metaclass=Plugin):
     def get_meta(self, content, categories):
         portal = self.portal_cache.get_portal()
         portal["categories"] = [
-            category_dn
-            for category_dn in portal["categories"]
+            category_dn for category_dn in portal["categories"]
             if category_dn in content["category_dns"]
         ]
         portal["content"] = [
-            [category_dn, next(category for category in categories if category["dn"] == category_dn)["entries"]]
-            for category_dn in portal["categories"]
+            [
+                category_dn,
+                next(
+                    category
+                    for category in categories if category["dn"] == category_dn
+                )["entries"]
+            ] for category_dn in portal["categories"]
         ]
         return portal
 
     def _announcement_visible(self, user, announcement: dict) -> bool:
-        return self._announcement_matches_time(announcement) and self._announcement_matches_group(user, announcement)
+        return self._announcement_matches_time(
+            announcement
+        ) and self._announcement_matches_group(user, announcement)
 
     def _announcement_matches_time(self, announcement: dict):
         return is_announcement_visible_now(
@@ -239,7 +251,10 @@ class Portal(metaclass=Plugin):
 
     def get_announcements(self, content):
         announcements = self.portal_cache.get_announcements()
-        return [announcements[announcement_dn] for announcement_dn in content["announcement_dns"]]
+        return [
+            announcements[announcement_dn]
+            for announcement_dn in content["announcement_dns"]
+        ]
 
     def _filter_entry_dns(self, entry_dns, entries, user, admin_mode):
         filtered_dns = []
@@ -264,14 +279,19 @@ class Portal(metaclass=Plugin):
         return filtered_dns
 
     def _get_all_entries_of_folder(self, folder_dn, folders, entries):
-        def _flatten(folder_dn, folders, entries, ret, already_unpacked_folder_dns):
+        def _flatten(
+            folder_dn, folders, entries, ret, already_unpacked_folder_dns
+        ):
             for entry_dn in folders[folder_dn]["entries"]:
                 if entry_dn in entries:
                     if entry_dn not in ret:
                         ret.append(entry_dn)
                 elif entry_dn in folders and entry_dn not in already_unpacked_folder_dns:
                     already_unpacked_folder_dns.append(entry_dn)
-                    _flatten(entry_dn, folders, entries, ret, already_unpacked_folder_dns)
+                    _flatten(
+                        entry_dn, folders, entries, ret,
+                        already_unpacked_folder_dns
+                    )
 
         ret = []
         _flatten(folder_dn, folders, entries, ret, [])
@@ -309,11 +329,16 @@ class UMCPortal(Portal):
         try:
             response = requests.post(uri, json=body, headers=headers)
         except requests.exceptions.RequestException as exc:
-            get_logger("umc").warning("Exception while getting %s: %s", get_path, exc)
+            get_logger("umc").warning(
+                "Exception while getting %s: %s", get_path, exc
+            )
             return []
         else:
             if response.status_code != 200:
-                get_logger("umc").debug("Status %r while getting %s", response.status_code, get_path)
+                get_logger("umc").debug(
+                    "Status %r while getting %s", response.status_code,
+                    get_path
+                )
                 return []
             return response.json()[get_path]
 
@@ -334,7 +359,10 @@ class UMCPortal(Portal):
 
     def get_entries(self, content):
         entries = []
-        colors = {cat["id"]: cat["color"] for cat in content["umc_categories"] if cat["id"] != "_favorites_"}
+        colors = {
+            cat["id"]: cat["color"]
+            for cat in content["umc_categories"] if cat["id"] != "_favorites_"
+        }
         umc_check_icons = config.fetch("umc_check_icons")
         if not umc_check_icons:
             get_logger("umc").debug("UMC icon check disabled")
@@ -342,39 +370,57 @@ class UMCPortal(Portal):
         for module in content["umc_modules"]:
             if "apps" in module["categories"]:
                 continue
-            entries.append(self._module_to_entry(module, colors, umc_check_icons))
+            entries.append(
+                self._module_to_entry(module, colors, umc_check_icons)
+            )
         return entries
 
-    def _module_to_entry(self, module, colors, umc_check_icons, locale='en_US'):
+    def _module_to_entry(
+        self, module, colors, umc_check_icons, locale='en_US'
+    ):
         icon_url = self._module_icon_url(module, umc_check_icons)
         color = self._module_background_color(module, colors)
 
         entry = {
-            "dn": self._entry_id(module),
-            "name": {
-                locale: module["name"],
-            },
-            "description": {
-                locale: module["description"],
-            },
-            "keywords": {
-                locale: ' '.join(module["keywords"]),
-            },
-            "linkTarget": "embedded",
-            "target": None,
-            "icon_url": icon_url,
-            "backgroundColor": color,
-            "links": [{
-                "locale": locale,
-                "value": "/univention/management/?header=try-hide&overview=false&menu=false#module={}:{}".format(module["id"], module.get("flavor", "")),
-            }],
+            "dn":
+                self._entry_id(module),
+            "name":
+                {locale: module["name"]},
+            "description":
+                {locale: module["description"]},
+            "keywords":
+                {locale: ' '.join(module["keywords"])},
+            "linkTarget":
+                "embedded",
+            "target":
+                None,
+            "icon_url":
+                icon_url,
+            "backgroundColor":
+                color,
+            "links":
+                [
+                    {
+                        "locale":
+                            locale,
+                        "value":
+                            (
+                                "/univention/management/?header=try-hide&overview=false&menu=false"
+                                "#module={}:{}".format(
+                                    module["id"], module.get("flavor", "")
+                                )
+                            ),
+                    }
+                ],
             # TODO: missing: in_portal, anonymous, activated, allowedGroups
         }
         return entry
 
     def _module_icon_url(self, module, umc_check_icons):
         path_prefix = "/univention/management/"
-        sub_path = "js/dijit/themes/umc/icons/scalable/{}.svg".format(module["icon"])
+        sub_path = "js/dijit/themes/umc/icons/scalable/{}.svg".format(
+            module["icon"]
+        )
         umc_frontend_path = '/usr/share/univention-management-console-frontend/'
         filename = os.path.join(umc_frontend_path, sub_path)
 
@@ -394,7 +440,9 @@ class UMCPortal(Portal):
         return color
 
     def _entry_id(self, module):
-        return "umc:module:{}:{}".format(module["id"], module.get("flavor", ""))
+        return "umc:module:{}:{}".format(
+            module["id"], module.get("flavor", "")
+        )
 
     def get_folders(self, content):
         folders = []
@@ -403,56 +451,85 @@ class UMCPortal(Portal):
                 continue
             if category["id"] == "_favorites_":
                 continue
-            entries = [[-module["priority"], module["name"], self._entry_id(module)] for module in content["umc_modules"] if category["id"] in module["categories"]]
+            entries = [
+                [-module["priority"], module["name"],
+                 self._entry_id(module)] for module in content["umc_modules"]
+                if category["id"] in module["categories"]
+            ]
             entries = sorted(entries)
-            folders.append({
-                "name": {
-                    "en_US": category["name"],
-                    "de_DE": category["name"],
-                },
-                "dn": category["id"],
-                "entries": [entry[2] for entry in entries],
-            })
+            folders.append(
+                {
+                    "name":
+                        {
+                            "en_US": category["name"],
+                            "de_DE": category["name"],
+                        },
+                    "dn": category["id"],
+                    "entries": [entry[2] for entry in entries],
+                }
+            )
         return folders
 
     def get_categories(self, content):
         ret = []
         categories = content["umc_categories"]
-        categories = sorted(categories, key=lambda entry: entry["priority"], reverse=True)
+        categories = sorted(
+            categories, key=lambda entry: entry["priority"], reverse=True
+        )
         modules = content["umc_modules"]
-        modules = sorted(modules, key=lambda entry: entry["priority"], reverse=True)
+        modules = sorted(
+            modules, key=lambda entry: entry["priority"], reverse=True
+        )
         fav_cat = [cat for cat in categories if cat["id"] == "_favorites_"]
         if fav_cat:
             fav_cat = fav_cat[0]
-            ret.append({
-                "display_name": {
-                    "en_US": fav_cat["name"],
-                },
-                "dn": "umc:category:favorites",
-                "entries": [self._entry_id(mod) for mod in modules if "_favorites_" in mod.get("categories", [])],
-            })
+            ret.append(
+                {
+                    "display_name": {
+                        "en_US": fav_cat["name"],
+                    },
+                    "dn":
+                        "umc:category:favorites",
+                    "entries":
+                        [
+                            self._entry_id(mod) for mod in modules
+                            if "_favorites_" in mod.get("categories", [])
+                        ],
+                }
+            )
         else:
-            ret.append({
+            ret.append(
+                {
+                    "display_name": {
+                        "en_US": "Favorites",
+                    },
+                    "dn": "umc:category:favorites",
+                    "entries": [],
+                }
+            )
+        ret.append(
+            {
                 "display_name": {
-                    "en_US": "Favorites",
+                    "en_US": "Univention Management Console",
                 },
-                "dn": "umc:category:favorites",
-                "entries": [],
-            })
-        ret.append({
-            "display_name": {
-                "en_US": "Univention Management Console",
-            },
-            "dn": "umc:category:umc",
-            "entries": [cat["id"] for cat in categories if cat["id"] not in ["_favorites_", "apps"]],
-        })
+                "dn":
+                    "umc:category:umc",
+                "entries":
+                    [
+                        cat["id"] for cat in categories
+                        if cat["id"] not in ["_favorites_", "apps"]
+                    ],
+            }
+        )
         return ret
 
     def get_meta(self, content, categories):
         category_dns = ["umc:category:favorites", "umc:category:umc"]
         content = []
         for category_dn in category_dns:
-            category = next(cat for cat in categories if cat["dn"] == category_dn)
+            category = next(
+                cat for cat in categories if cat["dn"] == category_dn
+            )
             content.append([category_dn, category["entries"]])
         return {
             "name": {
