@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.13.0...v0.13.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* **portal:** HTTPS detection when acessing navigation.json endpoint behind UCS apache reverse proxy ([f15703e](https://git.knut.univention.de/univention/components/univention-portal/commit/f15703eb18a2c7350a698f18bb57fe2a36c001a7)), closes [#55785](https://git.knut.univention.de/univention/components/univention-portal/issues/55785)
+
 ## [0.13.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.12.0...v0.13.0) (2024-02-09)
 
 
