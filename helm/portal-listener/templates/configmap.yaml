@@ -26,7 +26,7 @@ data:
   PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalListener.authMode }}"
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalListener.editable }}"
   PORTAL_SERVER_PORT: "{{ .Values.portalListener.port }}"
-  PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalListener.ucsInternalUrl\" is required." .Values.portalListener.ucsInternalPath | quote }}
+  PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalListener.ucsInternalPath\" is required." .Values.portalListener.ucsInternalPath | quote }}
   PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalListener.umcGetUrl\" is required." .Values.portalListener.umcGetUrl | quote }}
   PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalListener.umcSessionUrl\" is required." .Values.portalListener.umcSessionUrl | quote }}
   PORTAL_UDM_API_URL: "{{ .Values.portalListener.udmApiUrl }}"
@@ -60,5 +60,15 @@ data:
     done
 
     echo "Success, the UDM REST API is available"
+  wait-for-object-store.sh: |
+    #!/bin/bash
+    set -euxo pipefail
+
+    while ! curl -o- --fail "${OBJECT_STORAGE_ENDPOINT}/minio/health/live"; do
+      echo "Checking if object-store can be reached..."
+      sleep 2
+    done
+
+    echo "Success, object-store is available"
 {{- end }}
 {{- end }}
