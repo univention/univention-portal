@@ -40,3 +40,7 @@ generated-config-*.yml
 
 # Notification API
 notifications-api/*.db
+
+# Tilt
+tilt_config.json
+portal-*-values.yaml
