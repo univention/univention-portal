@@ -70,7 +70,7 @@ def test_import(class_name, dynamic_class):
 
 
 @pytest.mark.parametrize(
-    "class_name,path,data, data_keys",
+    "class_name,path,data,data_keys",
     [
         (
             "PortalFileCacheObjectStorage",
