@@ -41,24 +41,21 @@ import requests
 
 UCS_INTERNAL_URL = "http://ucshost.test/univention/internal"
 ETAG = "1234"
-PORTAL_DATA_KEYS = """
-portal
-entries
-folders
-categories
-user_links
-menu_links
-""".split()[
-    1:
+PORTAL_DATA_KEYS = [
+    "portal",
+    "entries",
+    "folders",
+    "categories",
+    "user_links",
+    "menu_links",
 ]
-PORTAL_DATA = {_: _ for _ in PORTAL_DATA_KEYS}
-GROUPS_DATA = {
-    "username": "list of groups".split(),
-}
+PORTAL_DATA = {key: key for key in PORTAL_DATA_KEYS}
+GROUPS_DATA = {"username": ["list", "of", "groups"]}
 
 
 @pytest.mark.parametrize(
-    "class_name", ["CacheHTTP", "PortalFileCacheHTTP", "GroupFileCacheHTTP"],
+    "class_name",
+    ["CacheHTTP", "PortalFileCacheHTTP", "GroupFileCacheHTTP"],
 )
 def test_import(class_name, dynamic_class):
     assert dynamic_class(class_name)
