@@ -34,7 +34,6 @@
 #
 
 
-import datetime
 import json
 from copy import deepcopy
 
@@ -69,7 +68,7 @@ class CacheObjectStorage(metaclass=Plugin):
         secret_access_key,
     ):
         self._ucs_internal_path = ucs_internal_path
-        self._last_update = datetime.datetime(1970, 1, 1)
+        self._etag = None
         self._cache = {}
 
         self._object_storage_endpoint = object_storage_endpoint
@@ -90,10 +89,13 @@ class CacheObjectStorage(metaclass=Plugin):
         get_logger("cache").info("Loading data from %s" % self._ucs_internal_path)
 
         try:
+            etag_parameter = {}
+            if self._etag:
+                etag_parameter = {"IfNoneMatch": self._etag}
             resource_object = self._object_storage_client.get_object(
                 Bucket=self._bucket,
                 Key=self._ucs_internal_path,
-                IfModifiedSince=self._last_update,
+                **etag_parameter,
             )
         except ClientError as err:
             if "Not Modified" in str(err):
@@ -113,7 +115,7 @@ class CacheObjectStorage(metaclass=Plugin):
 
         try:
             self._cache = json.load(resource_object["Body"])
-            self._last_update = datetime.datetime.now()
+            self._etag = resource_object["ETag"]
             get_logger("cache").info(
                 "Loaded from %s",
                 self._ucs_internal_path,
