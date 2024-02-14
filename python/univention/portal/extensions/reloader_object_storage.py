@@ -138,6 +138,7 @@ class ObjectStorageReloader(reloader.Reloader):
                 "Could not connect to object storage server at %s",
                 self._object_storage_endpoint,
             )
+            return
         if result["ResponseMetadata"]["HTTPStatusCode"] >= requests.codes.bad:
             logger.error(
                 "Upload of the asset did fail with status_code %s",
@@ -171,7 +172,6 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
             assets_root_path,
             portal_dn,
         )
-        # FIXME: attribute drilling missing attributes or separate into abstraction
         super().__init__(
             json_path,
             assets_root_path,
