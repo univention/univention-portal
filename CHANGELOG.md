@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.14.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.13.1...v0.14.0) (2024-02-15)
+
+
+### Features
+
+* drop kubernetes deployment, config and service files ([3d9e3a3](https://git.knut.univention.de/univention/components/univention-portal/commit/3d9e3a30a69ec64ce38fe58e8e561dee2db007b6))
+* **listener:** Support object storage reloader ([e21664a](https://git.knut.univention.de/univention/components/univention-portal/commit/e21664a4cec0be8a7a3a4c0525737ec4e887c82b))
+* **listener:** Wait for object-storage ([487ea0b](https://git.knut.univention.de/univention/components/univention-portal/commit/487ea0b50b3c3fb4e47f33cc93b52821e69dd605))
+* **server:** Support object storage cache ([4923141](https://git.knut.univention.de/univention/components/univention-portal/commit/492314119ab0ec7d42d1236206934312e2b5110e))
+
+
+### Bug Fixes
+
+* **server:** object storage cache test coverage ([a2af8ba](https://git.knut.univention.de/univention/components/univention-portal/commit/a2af8bac737de07e469c550ab1f00ba876ee158e))
+* **server:** object storage reloader test coverage ([52098f6](https://git.knut.univention.de/univention/components/univention-portal/commit/52098f6c98353d390d7f651de81bf17f0b4022ab))
+
 ## [0.13.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.13.0...v0.13.1) (2024-02-13)
 
 
