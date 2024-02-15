@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.14.1...v0.15.0) (2024-02-15)
+
+
+### Features
+
+* **udm:** set superordinate of UDM portal modules ([9c78924](https://git.knut.univention.de/univention/components/univention-portal/commit/9c789248e4b35750c50a3db65a411ba4c9542c41))
+
 ## [0.14.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.14.0...v0.14.1) (2024-02-15)
 
 
