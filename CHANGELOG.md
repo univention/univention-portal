@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.14.0...v0.14.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* **self-service:** The deletion of a user's profile picture via self-service has been repaired ([0e361ab](https://git.knut.univention.de/univention/components/univention-portal/commit/0e361ab5f96dc5cf4f3b9cc7f8e113dde4a1515f)), closes [#56349](https://git.knut.univention.de/univention/components/univention-portal/issues/56349)
+
 ## [0.14.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.13.1...v0.14.0) (2024-02-15)
 
 
