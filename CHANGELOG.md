@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.15.1...v0.16.0) (2024-02-16)
+
+
+### Features
+
+* remove phoenix references ([736d5f5](https://git.knut.univention.de/univention/components/univention-portal/commit/736d5f583efd853201451ab0b1eaf60560f65604))
+
 ## [0.15.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.15.0...v0.15.1) (2024-02-16)
 
 
