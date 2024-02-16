@@ -442,7 +442,7 @@ true
   "objectStorageEndpoint": "http://ums-minio:9000",
   "objectStorageSecretAccessKey": "stub_password",
   "port": 80,
-  "ucsInternalUrl": null,
+  "ucsInternalPath": "portal-data",
   "umcGetUrl": null,
   "umcSessionUrl": null
 }
@@ -550,13 +550,13 @@ false
 			<td>Password for access to object storage</td>
 		</tr>
 		<tr>
-			<td>portalServer.ucsInternalUrl</td>
+			<td>portalServer.ucsInternalPath</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+"portal-data"
 </pre>
 </td>
-			<td>Define UCS internal endpoint. Example: `"https://portal.example.com/univention/internal"`</td>
+			<td>Define object storage path inside the bucket where files are placed. Example: `"portal-assets"`</td>
 		</tr>
 		<tr>
 			<td>portalServer.umcGetUrl</td>
