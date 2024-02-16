@@ -28,9 +28,9 @@ portalServer:
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"
   port: 80
-  # -- Define UCS internal endpoint.
-  # Example: `"https://portal.example.com/univention/internal"`
-  ucsInternalUrl: null
+  # -- Define object storage path inside the bucket where files are placed.
+  # Example: `"portal-assets"`
+  ucsInternalPath: "portal-data"
   # -- Define UMC get endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get"`
   umcGetUrl: null
