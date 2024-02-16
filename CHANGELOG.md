@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.17.0...v0.18.0) (2024-02-16)
+
+
+### Features
+
+* **announcements:** Remove needsConfirmation from layout ([db47d1c](https://git.knut.univention.de/univention/components/univention-portal/commit/db47d1cf79e4e5584be936d3d35b35e73f292baf)), closes [#55175](https://git.knut.univention.de/univention/components/univention-portal/issues/55175)
+
 ## [0.17.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.16.1...v0.17.0) (2024-02-16)
 
 
