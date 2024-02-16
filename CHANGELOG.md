@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.16.1...v0.17.0) (2024-02-16)
+
+
+### Features
+
+* **announcements:** Adjust style for Announcement.vue ([16f8f2f](https://git.knut.univention.de/univention/components/univention-portal/commit/16f8f2ff3f23bf48b13f47fbc396b7f3b00c293b)), closes [#55175](https://git.knut.univention.de/univention/components/univention-portal/issues/55175)
+
 ## [0.16.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.16.0...v0.16.1) (2024-02-16)
 
 
