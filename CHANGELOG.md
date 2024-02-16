@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.16.0...v0.16.1) (2024-02-16)
+
+
+### Bug Fixes
+
+* **server:** missing default value ([7b68802](https://git.knut.univention.de/univention/components/univention-portal/commit/7b688026b4160ad7cda2acfa634442700f086a00))
+
 ## [0.16.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.15.1...v0.16.0) (2024-02-16)
 
 
