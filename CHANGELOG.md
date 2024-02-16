@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.18.0...v0.19.0) (2024-02-16)
+
+
+### Features
+
+* **portal:** make use of UDM backend client configurable ([c755551](https://git.knut.univention.de/univention/components/univention-portal/commit/c7555514c336d50c3ef6232f196e9adef1d728ee))
+
 ## [0.18.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.17.0...v0.18.0) (2024-02-16)
 
 
