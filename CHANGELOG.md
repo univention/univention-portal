@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.15.0...v0.15.1) (2024-02-16)
+
+
+### Bug Fixes
+
+* **self-service:** fix label translation for self-service fields ([07ded1f](https://git.knut.univention.de/univention/components/univention-portal/commit/07ded1fc405a531f7dc0d2f91ad9c398513eea93)), closes [#56660](https://git.knut.univention.de/univention/components/univention-portal/issues/56660)
+
 ## [0.15.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.14.1...v0.15.0) (2024-02-15)
 
 
