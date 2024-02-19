@@ -91,8 +91,8 @@ spec:
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-object-storage
-          command: ["/bin/bash", "/scripts/wait-for-object-store.sh"]
-          {{ with .Values.image.waitForDependency }}
+          command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
+          {{ with .Values.image }}
           image: "{{ if .registry }}{{ .registry }}/{{ end }}{{ .repository }}{{ if .sha256 }}@sha256:{{ .sha256 }}{{ else }}:{{ .tag }}{{ end }}"
           imagePullPolicy: {{ .pullPolicy }}
           {{ end }}
