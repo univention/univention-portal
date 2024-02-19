@@ -60,15 +60,26 @@ data:
     done
 
     echo "Success, the UDM REST API is available"
-  wait-for-object-store.sh: |
-    #!/bin/bash
-    set -euxo pipefail
+  wait-for-object-store.py: |
+    #!/bin/python3
+    import boto3
+    import os
 
-    while ! curl -o- --fail "${OBJECT_STORAGE_ENDPOINT}/minio/health/live"; do
-      echo "Checking if object-store can be reached..."
-      sleep 2
-    done
+    s3 = boto3.resource(
+            's3',
+            endpoint_url=os.environ.get("OBJECT_STORAGE_ENDPOINT", "http://minio:9000"),
+            aws_access_key_id=os.environ.get("OBJECT_STORAGE_ACCESS_KEY_ID", "ums_user"),
+            aws_secret_access_key=os.environ.get("OBJECT_STORAGE_SECRET_ACCESS_KEY")
+        )
 
-    echo "Success, object-store is available"
+    provisioned = False
+    while not provisioned:
+        bucket = s3.Bucket('ums')
+        provisioned = bool(bucket.creation_date)
+        if not provisioned:
+           print("Waiting for the object storage service to be provisioned")
+           break
+        else:
+           print("Object storage already provisioned")
 {{- end }}
 {{- end }}
