@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.19.0...v0.19.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* **listener:** wait for object-storage to be provisioned ([a2e2508](https://git.knut.univention.de/univention/components/univention-portal/commit/a2e25083a41e2b1303350db3b68fa0b523888231))
+
 ## [0.19.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.18.0...v0.19.0) (2024-02-16)
 
 
