@@ -18,30 +18,4 @@ portalServer:
   objectStorageBucket: "ums"
   objectStorageAccessKeyId: "stub_user"
   objectStorageSecretAccessKey: "stub_password"
-
-
-## Kubernetes ingress
-ingress:
-  enabled: false
-  host: "portal.example.develop.souvap-univention.de"
-
-
-## Istio based
-istio:
-  enabled: true
-  host: "portal.example.develop.souvap-univention.de"
-
-## Docker image
-image:
-  tag: "branch-feature-example"
-
-
-## Container deployment probes
-probes:
-  liveness:
-    enabled: false
-
-  readiness:
-    enabled: false
-
 ...
