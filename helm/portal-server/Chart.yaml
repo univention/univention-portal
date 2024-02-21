@@ -18,7 +18,7 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: "common"
-    repository: "oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm"
-    version: "^0.5.0"
+    version: "^2.x.x"
+    repository: "oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts"
 
 ...

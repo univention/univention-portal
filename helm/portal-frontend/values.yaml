@@ -2,54 +2,113 @@
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
 ---
-# Default values for univention-portal-frontend.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# The global properties are used to configure multiple charts at once.
+global:
+  # -- Container registry address.
+  imageRegistry: ""
 
-## Global values
+  # -- Credentials to fetch images from private registry.
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  #
+  # imagePullSecrets:
+  #   - "docker-registry"
+  imagePullSecrets: []
+
+  # -- Define an ImagePullPolicy.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
+  #
+  # "IfNotPresent" => The image is pulled only if it is not already present locally.
+  # "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to
+  #             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached
+  #             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved
+  #             digest, and uses that image to launch the container.
+  # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
+  #            kubelet attempts to start the container; otherwise, startup fails.
+  imagePullPolicy: "IfNotPresent"
+
+  configMapUcrDefaults: "stack-data-ums-ucr"
+  configMapUcr: "stack-data-swp-ucr"
+  configMapUcrForced: null
+
+# -- Additional custom annotations to add to all deployed objects.
+additionalAnnotations: {}
+
+# -- Additional custom labels to add to all deployed objects.
+additionalLabels: {}
+
+# -- Affinity for pod assignment.
+# Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+# Note: podAffinityPreset, podAntiAffinityPreset, and nodeAffinityPreset will be ignored when it's set.
 affinity: {}
-environment: {}
-fullnameOverride: ""
-nameOverride: ""
-nodeSelector: {}
-podAnnotations: {}
-podSecurityContext: {}
-replicaCount: 1
-securityContext: {}
-tolerations: []
 
-
-# -- Allows to configure extra Volumes. The syntax is the same as the "volumes"
-# key in the Pod spec.
-extraVolumes: null
-# -- Allows to configure extra Volume Mounts. The syntax is the same as the
-# "volumeMounts" key in the Container spec.
-extraVolumeMounts: null
-
-
-# -- Application configuration of the Portal Frontend
-portalFrontend:
-  # -- TODO: Clarify usage of this parameter
-  environment: "production"
-  # -- TODO: Clarify usage of this parameter
-  logLevel: "WARNING"
-
-## Kubernetes ingress
-ingress:
-  # -- Set this to `true` in order to enable the installation on Ingress related objects.
+# Security Context.
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+containerSecurityContext:
+  # -- Enable container privileged escalation.
+  allowPrivilegeEscalation: false
+  # -- Security capabilities for container.
+  capabilities:
+    drop:
+      - "ALL"
+  # -- Enable security context.
   enabled: true
-  ingressClassName: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^/univention/portal(/.*)$ $1 break;
-      rewrite ^/univention/selfservice(/.*)$ $1 break;
-    nginx.org/location-snippets: |
-      rewrite ^/univention/portal(/.*)$ $1 break;
-      rewrite ^/univention/selfservice(/.*)$ $1 break;
-    nginx.org/mergeable-ingress-type: "minion"
-  # -- The hostname. This parameter has to be supplied. Example `portal.example`.
-  host: null
-  # -- The path configuration. The default only grabs what is known to be part of the frontend.
+  # -- Process user id.
+  runAsUser: 1000
+  # -- Process group id.
+  runAsGroup: 1000
+  # Set Seccomp profile.
+  seccompProfile:
+    # -- Disallow custom Seccomp profile by setting it to RuntimeDefault.
+    type: "RuntimeDefault"
+  # -- Mounts the container's root filesystem as read-only.
+  readOnlyRootFilesystem: true
+  # -- Run container as a user.
+  runAsNonRoot: true
+
+# -- Array with extra environment variables to add to containers.
+#
+# extraEnvVars:
+#   - name: FOO
+#     value: "bar"
+extraEnvVars: []
+
+# -- Optionally specify a secret to create (primarily intended to be used in development environments to provide custom certificates)
+extraSecrets: []
+
+# -- Optionally specify an extra list of additional volumes.
+extraVolumes: []
+
+# -- Optionally specify an extra list of additional volumeMounts.
+extraVolumeMounts: []
+
+# -- Provide a name to substitute for the full names of resources.
+fullnameOverride: ""
+
+image:
+  registry: "gitregistry.knut.univention.de"
+  repository: "univention/components/univention-portal/portal-frontend"
+  tag: "0.19.1@sha256:4b284d5ed2d9716c141558e50e14e8b6634aae5d6ad6131678bec56b17435d33"
+  imagePullPolicy: "IfNotPresent"
+
+# -- Credentials to fetch images from private registry.
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+#
+# imagePullSecrets:
+#   - "docker-registry"
+imagePullSecrets: []
+
+# Define and create Kubernetes Ingress.
+#
+# Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  # -- Enable creation of Ingress.
+  enabled: false
+
+  # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable.
+  host: ""
+
+  # -- Define the Ingress paths.
   paths:
     - pathType: Exact
       path: /univention/portal/
@@ -57,7 +116,6 @@ ingress:
       path: /univention/selfservice/
     - pathType: Exact
       path: /univention/portal/index.html
-
     - pathType: Prefix
       path: /univention/portal/css/
     - pathType: Prefix
@@ -82,26 +140,49 @@ ingress:
       path: /univention/selfservice/js/
     - pathType: Prefix
       path: /univention/selfservice/oidc/
+
+  # -- Each path in an Ingress is required to have a corresponding path type.
+  # Paths that do not include an explicit pathType will fail validation.
+  # There are three supported path types:
+  #
+  # "ImplementationSpecific" => With this path type, matching is up to the IngressClass. Implementations can treat this
+  #                             as a separate pathType or treat it identically to Prefix or Exact path types.
+  # "Exact" => Matches the URL path exactly and with case sensitivity.
+  # "Prefix" => Matches based on a URL path prefix split by /.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
+  pathType: "Prefix"
+
+  # -- The Ingress controller class name.
+  ingressClassName: "nginx"
+
+  # -- Define custom ingress annotations.
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/univention/portal(/.*)$ $1 break;
+      rewrite ^/univention/selfservice(/.*)$ $1 break;
+    nginx.org/location-snippets: |
+      rewrite ^/univention/portal(/.*)$ $1 break;
+      rewrite ^/univention/selfservice(/.*)$ $1 break;
+    nginx.org/mergeable-ingress-type: "minion"
+
+  # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
   tls:
+    # -- Enable TLS/SSL/HTTPS for Ingress.
     enabled: true
+
+    # -- The name of the kubernetes secret which contains a TLS private key and certificate.
+    # Hint: This secret is not created by this chart and must be provided.
     secretName: ""
 
+# -- Extra ingress configuration
 extraIngresses:
-  # -- Redirects "/" and "/univention/" to "/univention/portal/".
-  redirects:
-    enabled: true
-    # -- By default uses the value of "ingress.ingressClassName".
-    ingressClassName: null
-    annotations:
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        absolute_redirect off;
-        return 302 /univention/portal/;
-      nginx.org/location-snippets: |
-        absolute_redirect off;
-        return 302 /univention/portal/;
-      nginx.org/mergeable-ingress-type: "minion"
-    # -- By default uses the value of "ingress.host".
-    host: null
+  - name: redirects
+    host: ""
     paths:
       - pathType: Exact
         path: /
@@ -113,198 +194,268 @@ extraIngresses:
         path: /univention/portal
       - pathType: Exact
         path: /univention/selfservice
-    tls:
-      # -- By default uses the value of "ingress.tls.enabled"
-      enabled: null
-      # -- By default uses the value of "ingress.tls.secretName"
-      secretName: ""
-
-  # TODO: "ingress-nginx" has a subtle issue. It generates always an entry
-  # with "location /". This is a prefix match to everything and it should
-  # generate a 404 response. This one gets accidentally mixed up with the
-  # configuration for the matches and the annotations, leading to 302
-  # responses instead.
-  #
-  # Creating an extra Ingress which has a prefix match for "/" will override
-  # the accidentally merged in values and allow to return a 404 response again.
-  #
-  # Test this by running "curl -i YOUR_CLUSTER/anything".
-  #
-  # The details can be inspected in the file "/etc/nginx/nginx.conf" inside of
-  # the ingress controller container, paying attention to "location /" entries
-  # without the equals sign.
-  #
-  # See: https://github.com/kubernetes/ingress-nginx/issues/9485#issuecomment-1413481285
-  # See: https://github.com/kubernetes/ingress-nginx/issues/9054
-  #
-  # -- Workaround for open issues in "ingress-nginx" to ensure 404 responses
-  # on paths which are not handled by the ums stack. Mitigates
-  # https://github.com/kubernetes/ingress-nginx/issues/9054 .
-  workaround:
+    ingressClassName: "nginx"
     annotations:
       nginx.ingress.kubernetes.io/configuration-snippet: |
-        return 404;
-    # -- You have to enable this by setting this value to "true".
-    enabled: false
-    # -- By default uses the value of "ingress.host".
-    host: null
-    # -- By default uses the value of "ingress.ingressClassName".
-    ingressClassName: null
-    paths:
-      - pathType: Prefix
-        path: /
+        absolute_redirect off;
+        return 302 /univention/portal/;
+      nginx.org/location-snippets: |
+        absolute_redirect off;
+        return 302 /univention/portal/;
+      nginx.org/mergeable-ingress-type: "minion"
     tls:
-      # -- TLS is configured by default if the "master" ingress is enabled.
-      enabled: null
-      # -- By default uses the value of "ingress.tls.secretName"
+      enabled: true
       secretName: ""
+  # - name: workaround
+  #   host: ""
+  #   paths:
+  #     - pathType: Prefix
+  #       path: /
+  #   ingressClassName: "nginx"
+  #   annotations:
+  #     nginx.ingress.kubernetes.io/configuration-snippet: |
+  #       return 404;
+  #   tls:
+  #     enabled: false
+  #     secretName: ""
+  # - name: master
+  #   host: ""
+  #   paths: []
+  #   ingressClassName: "nginx"
+  #   annotations:
+  #     nginx.org/mergeable-ingress-type: "master"
+  #   tls:
+  #     enabled: true
+  #     secretName: ""
 
-  # -- Needed when using nginx-ingress as ingress controller. Enable by setting
-  # the "enabled" attribute to "true". Be aware that you also have to switch off
-  # "tls" in all ingress objects of type "minion".
+# -- Lifecycle to automate configuration before or after startup.
+lifecycleHooks: {}
+
+#  Configure extra options for containers probes.
+livenessProbe:
+  # -- Number of failed executions until container is terminated.
+  failureThreshold: 10
+  # -- Delay after container start until LivenessProbe is executed.
+  initialDelaySeconds: 15
+  # -- Time between probe executions.
+  periodSeconds: 20
+  # -- Number of successful executions after failed ones until container is marked healthy.
+  successThreshold: 1
+  # -- Timeout for command return.
+  timeoutSeconds: 5
+  tcpSocket:
+    # -- The port to connect to the container.
+    port: 80
+
+# -- String to partially override release name.
+nameOverride: ""
+
+# -- Node labels for pod assignment.
+# Ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector: {}
+
+# Database persistence settings.
+persistence:
+  # -- The volume access modes, some of "ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany", "ReadWriteOncePod".
   #
-  # See: https://github.com/nginxinc/kubernetes-ingress/tree/v3.2.1/examples/ingress-resources/mergeable-ingress-types
-  master:
-    enabled: false
-    annotations:
-      nginx.org/mergeable-ingress-type: "master"
-    # -- By default uses the value of "ingress.host".
-    host: null
-    # -- By default uses the value of "ingress.ingressClassName".
-    ingressClassName: null
-    tls:
-      # -- TLS is configured by default if the "master" ingress is enabled.
-      enabled: true
-      # -- By default uses the value of "ingress.tls.secretName"
-      secretName: ""
+  # "ReadWriteOnce" => The volume can be mounted as read-write by a single node. ReadWriteOnce access mode still can
+  #                    allow multiple pods to access the volume when the pods are running on the same node.
+  # "ReadOnlyMany" => The volume can be mounted as read-only by many nodes.
+  # "ReadWriteMany" => The volume can be mounted as read-write by many nodes.
+  # "ReadWriteOncePod" => The volume can be mounted as read-write by a single Pod. Use ReadWriteOncePod access mode if
+  #                       you want to ensure that only one pod across whole cluster can read that PVC or write to it.
+  #
+  accessModes:
+    - "ReadWriteOnce"
 
+  # -- Annotations for the PVC.
+  annotations: {}
 
-## Istio support
-istio:
-  # -- Set this to `true` in order to enable the installation on Istio related objects.
-  enabled: false
-  # -- The hostname. This parameter has to be supplied. Example `portal.example`.
-  host: null
-  virtualService:
-    enabled: true
-    annotations: {}
-    # Example to "inject" a different "custom.css" file:
-    #
-    # pathOverrides:
-    #   - match: "exact"
-    #     path: "/univention/portal/css/custom.css"
-    #     route:
-    #       - destination:
-    #           port:
-    #             number: 80
-    #           host: "example-service"
-    #
-    # -- Allows to inject deployment specific path configuration which is configured before
-    # the elements from `paths` below. This allows to redirect some paths to other services,
-    # e.g. in order to supply a file `custom.css`.
-    pathOverrides: []
-    # -- The paths configuration. The default only grabs what is known to be
-    # part of the frontend.
-    #
-    # TODO: Istio does currently not support a URL rewrite which uses regular
-    # expressions, basically the capture groups are not yet supported. It also
-    # does not support an automatic sorting of rules based on the prefix
-    # length like the nginx ingress does. Interim we mention explicitly every
-    # prefix which is exclusively part of the frontend in this configuration.
-    # This way all other subpaths in "/univention/portal/" can still be
-    # reliably grabbed by other services if they are present.
-    #
-    # `pathOverrides` is provided as a workaround so that specific sub-paths can
-    # be redirected to other services.
-    paths:
-      - match: "prefix"
-        path: "/univention/portal/css/"
-        rewrite: "/css/"
-      - match: "prefix"
-        path: "/univention/portal/fonts/"
-        rewrite: "/fonts/"
-      - match: "prefix"
-        path: "/univention/portal/i18n/"
-        rewrite: "/i18n/"
-      - match: "exact"
-        path: "/univention/portal/"
-        rewrite: "/"
-      - match: "exact"
-        path: "/univention/portal/index.html"
-        rewrite: "/index.html"
-      - match: "prefix"
-        path: "/univention/portal/media/"
-        rewrite: "/media/"
-      - match: "prefix"
-        path: "/univention/portal/js/"
-        rewrite: "/js/"
-      - match: "prefix"
-        path: "/univention/portal/oidc/"
-        rewrite: "/oidc/"
-      - match: "exact"
-        path: "/univention/selfservice/"
-        rewrite: "/"
-  gateway:
-    enabled: false
-    annotations:
-    selectorIstio: "ingressgateway"
-    externalGatewayName: "swp-istio-gateway"
-    tls:
-      enabled: true
-      httpsRedirect: true
-      secretName: ""
+  # -- Custom PVC data source.
+  dataSource: {}
 
-
-## Docker image
-image:
-  registry: "gitregistry.knut.univention.de"
-  repository: "univention/components/univention-portal/portal-frontend"
-  imagePullPolicy: "Always"
-  tag: "latest"
-  ## Define image sha256 as an alternative to `tag`
-  # sha256:
-
-
-## Container deployment probes
-probes:
-  liveness:
-    enabled: true
-    initialDelaySeconds: 5
-    timeoutSeconds: 3
-    periodSeconds: 10
-    failureThreshold: 3
-    successThreshold: 1
-
-  readiness:
-    enabled: true
-    initialDelaySeconds: 5
-    timeoutSeconds: 3
-    periodSeconds: 10
-    failureThreshold: 30
-    successThreshold: 1
-
-
-# -- Deployment resources.
-resources: {}
-  # requests:
-  #   memory: "512Mi"
-  #   cpu: "250m"
-  # limits:
-  #   memory: "4Gi"
-  #   cpu: "4"
-
-## Kubernetes Service
-service:
+  # -- Enable data persistence (true) or use temporary storage (false).
   enabled: true
+
+  # -- Use an already existing claim.
+  existingClaim: ""
+
+  # -- Labels for the PVC.
+  labels: {}
+
+  # -- The volume size with unit.
+  size: "10Gi"
+
+  # -- The (storage) class of PV.
+  storageClass: ""
+
+  # -- Selector to match an existing Persistent Volume (this value is evaluated as a template).
+  #
+  # selector:
+  #   matchLabels:
+  #     app: my-app
+  #
+  selector: {}
+
+# -- Pod Annotations.
+# Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+
+# -- Pod Labels.
+# Ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+# Pod Security Context.
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+podSecurityContext:
+  # -- Enable security context.
+  enabled: true
+
+  # -- If specified, all processes of the container are also part of the supplementary group.
+  fsGroup: 1000
+
+  # -- Change ownership and permission of the volume before being exposed inside a Pod.
+  fsGroupChangePolicy: "Always"
+
+  # -- Configure sysctls for the pod
+  sysctls:
+    - name: "net.ipv4.ip_unprivileged_port_start"
+      value: "1"
+
+#  Configure extra options for containers probes.
+readinessProbe:
+  # -- Number of failed executions until container is terminated.
+  failureThreshold: 10
+  # -- Delay after container start until LivenessProbe is executed.
+  initialDelaySeconds: 15
+  # -- Time between probe executions.
+  periodSeconds: 20
+  # -- Number of successful executions after failed ones until container is marked healthy.
+  successThreshold: 1
+  # -- Timeout for command return.
+  timeoutSeconds: 5
+  tcpSocket:
+    port: 80
+
+# -- Set the amount of replicas of deployment.
+replicaCount: 1
+
+# Configure resource requests and limits.
+#
+# Ref: https://kubernetes.io/docs/user-guide/compute-resources/
+resources:
+  {}
+  # limits:
+  #   # -- The max number of RAM to consume.
+  #   memory: "4Gi"
+  # requests:
+  #   # -- The number of CPUs which has to be available on the scheduled node.
+  #   cpu: "250m"
+  #   # -- The number of RAM which has to be available on the scheduled node.
+  #   memory: "512Mi"
+
+# Define and create Kubernetes Service.
+#
+# Ref.: https://kubernetes.io/docs/concepts/services-networking/service
+service:
+  # -- Additional custom annotations.
+  annotations: {}
+  # "ClusterIP" => Exposes the Service on a cluster-internal IP. Choosing this value makes the Service only reachable
+  #                from within the cluster. This is the default that is used if you don't explicitly specify a type for
+  #                a Service.
+  # "NodePort" => Exposes the Service on each Node's IP at a static port (the NodePort). To make the node port
+  #               available, Kubernetes sets up a cluster IP address, the same as if you had requested a Service of
+  #               type: ClusterIP.
+  # "LoadBalancer" => Exposes the Service externally using a cloud provider's load balancer.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  # -- Choose the kind of Service, one of "ClusterIP", "NodePort" or "LoadBalancer".
   type: "ClusterIP"
+
+  # Define the ports of Service.
+  # You can set the port value to an arbitrary value, it will map the container port by name.
+  #
   ports:
     http:
-      containerPort: 80
+      # -- Accessible port.
       port: 80
+      # -- Internal port.
+      containerPort: 80
+      # -- service protocol.
       protocol: "TCP"
 
-  sessionAffinity:
-    enabled: false
-    timeoutSeconds: 10800
+# Configure resource requests and limits.
+#
+# Ref: https://kubernetes.io/docs/user-guide/compute-resources/
 
-...
+# Service account to use.
+# Ref.: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+  ## @param serviceAccount.automountServiceAccountToken Allows auto mount of ServiceAccountToken on the serviceAccount created
+  ## Can be set to false if pods using this serviceAccount do not need to use K8s API
+  ##
+  automountServiceAccountToken: false
+  # -- Additional custom labels for the ServiceAccount.
+  labels: {}
+
+#  Configure extra options for containers probes.
+startupProbe:
+  # -- Delay after container start until StartupProbe is executed.
+  initialDelaySeconds: 15
+  # -- Number of failed executions until container is terminated.
+  failureThreshold: 10
+  # -- Time between probe executions.
+  periodSeconds: 20
+  # -- Number of successful executions after failed ones until container is marked healthy.
+  successThreshold: 1
+  # -- Timeout for command return.
+  timeoutSeconds: 5
+  tcpSocket:
+    # -- The port to connect to the container.
+    port: 80
+
+# -- In seconds, time the given to the pod needs to terminate gracefully.
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+terminationGracePeriodSeconds: ""
+
+# -- Tolerations for pod assignment.
+# Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+tolerations: []
+
+# -- Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in.
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+#
+# topologySpreadConstraints:
+#   - maxSkew: 1
+#     topologyKey: failure-domain.beta.kubernetes.io/zone
+#     whenUnsatisfiable: DoNotSchedule
+topologySpreadConstraints: []
+
+# Set up update strategy.
+#
+# Ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
+#
+# Example:
+# updateStrategy:
+#  type: RollingUpdate
+#  rollingUpdate:
+#    maxSurge: 25%
+#    maxUnavailable: 25%
+updateStrategy:
+  # -- Set to Recreate if you use persistent volume that cannot be mounted by more than one pods to make sure the pods
+  # are destroyed first.
+  type: "RollingUpdate"
+
+# -- Application configuration of the Portal Frontend
+portalFrontend:
+  # -- TODO: Clarify usage of this parameter
+  environment: "production"
+  # -- TODO: Clarify usage of this parameter
+  logLevel: "WARNING"

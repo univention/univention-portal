@@ -1,23 +1,26 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
-
+{{/*
+SPDX-FileCopyrightText: 2024 Univention GmbH
+SPDX-License-Identifier: AGPL-3.0-only
+*/}}
 ---
-{{ include "common.configMap" (dict "top" . "overrides" "notifications-api.configMap") }}
-
-{{- define "notifications-api.configMap" }}
-{{- with .top }}
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: "{{ include "common.names.fullname" . }}"
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.additionalLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
 data:
   APPLY_DATABASE_MIGRATIONS: "{{ .Values.notificationsApi.applyDatabaseMigrations }}"
-  {{- if .Values.postgresql.bundled }}
-  DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ include "common.names.dependency.fullname" (dict "chartName" "postgresql" "chartValues" .Values.postgresql "context" $.top) }}:{{ .Values.postgresql.primary.service.ports.postgresql }}/{{ .Values.postgresql.auth.database }}"
-  {{- else }}
-  DATABASE_URL: "postgresql://{{ .Values.postgresql.auth.username }}:{{ .Values.postgresql.auth.password }}@{{ .Values.postgresql.connection.host }}:{{ .Values.postgresql.connection.port }}/{{ .Values.postgresql.auth.database }}"
-  {{- end }}
   DEV_MODE: "{{ .Values.notificationsApi.devMode }}"
   ENVIRONMENT: "{{ .Values.notificationsApi.environment }}"
   LOG_LEVEL: "{{ .Values.notificationsApi.logLevel }}"
   SQL_ECHO: "{{ .Values.notificationsApi.sqlEcho }}"
   ROOT_PATH: "{{ .Values.notificationsApi.apiPrefix }}"
-{{- end }}
-{{- end }}
 ...

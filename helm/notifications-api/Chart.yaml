@@ -18,11 +18,11 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: "common"
-    repository: "oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm"
-    version: "^0.2.0"
+    version: "^2.x.x"
+    repository: "oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts"
   - name: "postgresql"
     repository: "https://charts.bitnami.com/bitnami"
-    version: "~12.7.1"
+    version: "^14.x.x"
     condition: "postgresql.bundled"
 
 ...
