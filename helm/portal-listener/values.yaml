@@ -99,10 +99,6 @@ portalListener:
   # -- Password for access to object storage
   objectStorageSecretAccessKey: "stub_password"
 
-
-storeDav:
-  bundled: true
-
 ## Docker image
 image:
   registry: "gitregistry.knut.univention.de"

@@ -43,7 +43,6 @@ helm uninstall portal-listener
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/helm | common | ^0.2.0 |
-| oci://gitregistry.knut.univention.de/univention/customers/dataport/upx/container-store-dav/helm | store-dav | ^0.2.0 |
 
 ## Values
 
@@ -689,15 +688,6 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>storeDav.bundled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
 </pre>
 </td>
 			<td></td>
