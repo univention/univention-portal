@@ -206,27 +206,6 @@ extraIngresses:
     tls:
       enabled: true
       secretName: ""
-  # - name: workaround
-  #   host: ""
-  #   paths:
-  #     - pathType: Prefix
-  #       path: /
-  #   ingressClassName: "nginx"
-  #   annotations:
-  #     nginx.ingress.kubernetes.io/configuration-snippet: |
-  #       return 404;
-  #   tls:
-  #     enabled: false
-  #     secretName: ""
-  # - name: master
-  #   host: ""
-  #   paths: []
-  #   ingressClassName: "nginx"
-  #   annotations:
-  #     nginx.org/mergeable-ingress-type: "master"
-  #   tls:
-  #     enabled: true
-  #     secretName: ""
 
 # -- Lifecycle to automate configuration before or after startup.
 lifecycleHooks: {}
