@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.20.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.19.1...v0.20.0) (2024-03-05)
+
+
+### Features
+
+* **helm:** BSI-compliant deployment ([9a8bc4b](https://git.knut.univention.de/univention/components/univention-portal/commit/9a8bc4b298107034ca7586cad7d7dae4267b4f5d))
+
+
+### Bug Fixes
+
+* **portal-listener:** remove store-dav ref ([5dabfae](https://git.knut.univention.de/univention/components/univention-portal/commit/5dabfaeb02ad9a47bdaff8070d46cf510fcb0339))
+
 ## [0.19.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.19.0...v0.19.1) (2024-02-20)
 
 
