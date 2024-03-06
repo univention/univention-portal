@@ -1,7 +1,8 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
-
 ---
+
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+
 - name: Patch apache2 config to serve portal.json and groups.json
   hosts: ucs_primary
   gather_facts: no
@@ -95,3 +96,5 @@
         name: apache2
         state: restarted
       listen: apache2-restart
+
+...
