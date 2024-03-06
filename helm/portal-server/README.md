@@ -657,7 +657,7 @@ false
 {}
 </pre>
 </td>
-			<td>Optional reference to a different secret for credentials credentialSecret:  name: "custom-credentials"  accessKeyId: "ums_user"  secretAccessKey: "ums_password"</td>
+			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
 		</tr>
 		<tr>
 			<td>portalServer.editable</td>

@@ -1,7 +1,8 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
-
 ---
+
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+
 # The global properties are used to configure multiple charts at once.
 global:
   # -- Container registry address.
@@ -438,3 +439,5 @@ portalFrontend:
   environment: "production"
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"
+
+...

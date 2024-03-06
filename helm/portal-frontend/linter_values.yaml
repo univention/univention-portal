@@ -1,7 +1,7 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
-
 ---
+
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
 
 # Dummy values for running the Helm linter on the portal-frontend.
 # Run it like this: helm lint -f values.yaml -f linter_values.yaml .

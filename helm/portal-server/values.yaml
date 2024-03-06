@@ -1,7 +1,8 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
-
 ---
+
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+
 # The global properties are used to configure multiple charts at once.
 global:
   # -- Container registry address.
@@ -397,8 +398,10 @@ portalServer:
   # -- Password for access to object storage
   objectStorageSecretAccessKey: "stub_password"
   # -- Optional reference to a different secret for credentials
-  #credentialSecret:
-  #  name: "custom-credentials"
-  #  accessKeyId: "ums_user"
-  #  secretAccessKey: "ums_password"
+  # credentialSecret:
+  #   name: "custom-credentials"
+  #   accessKeyId: "ums_user"
+  #   secretAccessKey: "ums_password"
   credentialSecret: {}
+
+...

@@ -1,7 +1,8 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
-
 ---
+
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+
 - name: Enable SAML login with external Keycloak
   hosts: ucs_primary
   gather_facts: yes
@@ -52,3 +53,5 @@
 
   - name: Restart UMC web server
     ansible.builtin.command: "service univention-management-console-web-server restart"
+
+...

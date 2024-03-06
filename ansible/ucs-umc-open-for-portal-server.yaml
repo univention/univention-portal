@@ -1,7 +1,8 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
-
 ---
+
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+
 - name: Make UCS machine's UMC reachable from the outside
   hosts: ucs_primary
 
@@ -18,3 +19,5 @@
       ansible.builtin.service:
         name: apache2
         state: reloaded
+
+...
