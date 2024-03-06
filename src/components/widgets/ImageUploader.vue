@@ -79,6 +79,7 @@
       >
       <button
         ref="uploadButton"
+        class="secondary"
         type="button"
         :tabindex="tabindex"
         :disabled="readonly"
@@ -95,6 +96,7 @@
       </button>
       <button
         type="button"
+        class="secondary"
         :tabindex="tabindex"
         :disabled="!modelValue || readonly"
         :data-test="`imageRemoveButton--${extraLabel}`"
