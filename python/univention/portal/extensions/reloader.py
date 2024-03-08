@@ -162,7 +162,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
     """
 
     def __init__(self, portal_dn, cache_file):
-        super(PortalReloaderUDM, self).__init__(cache_file)
+        super().__init__(cache_file)
         self._portal_dn = portal_dn
 
     def _check_reason(self, reason, content=None):

@@ -44,7 +44,7 @@ class Plugin(type):
     """
 
     def __new__(mcs, name, bases, attrs):
-        new_cls = super(Plugin, mcs).__new__(mcs, name, bases, attrs)
+        new_cls = super().__new__(mcs, name, bases, attrs)
         Plugins.add_plugin(new_cls)
         return new_cls
 
