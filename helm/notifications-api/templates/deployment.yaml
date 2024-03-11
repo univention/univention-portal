@@ -73,8 +73,8 @@ spec:
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.postgresql.existingSecret | quote }}
-                  key: {{ .Values.postgresql.secretKeys.userPasswordKey | quote }}
+                  name: {{ .Values.postgresql.auth.existingSecret | quote }}
+                  key: {{ .Values.postgresql.auth.secretKeys.userPasswordKey | quote }}
             - name: DATABASE
               value: {{ .Values.postgresql.auth.database | quote }}
             - name: DATABASE_URL
