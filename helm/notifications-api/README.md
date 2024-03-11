@@ -696,6 +696,42 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>postgresql.auth.existingSecret</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>postgresql.auth.secretKeys.adminPasswordKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"postgres-password"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>postgresql.auth.secretKeys.replicationPasswordKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"replication-password"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>postgresql.auth.secretKeys.userPasswordKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"password"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>postgresql.auth.username</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -724,42 +760,6 @@ true
 </pre>
 </td>
 			<td>Connection parameters. These are required if you use an external database.</td>
-		</tr>
-		<tr>
-			<td>postgresql.existingSecret</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>postgresql.secretKeys.adminPasswordKey</td>
-			<td>string</td>
-			<td><pre lang="json">
-"postgres-password"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>postgresql.secretKeys.replicationPasswordKey</td>
-			<td>string</td>
-			<td><pre lang="json">
-"replication-password"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>postgresql.secretKeys.userPasswordKey</td>
-			<td>string</td>
-			<td><pre lang="json">
-"password"
-</pre>
-</td>
-			<td></td>
 		</tr>
 		<tr>
 			<td>readinessProbe.failureThreshold</td>

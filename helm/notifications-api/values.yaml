@@ -386,8 +386,8 @@ postgresql:
   auth:
     username: "notifications"
     database: "notifications"
-  existingSecret: ""
-  secretKeys:
-    adminPasswordKey: postgres-password
-    userPasswordKey: password
-    replicationPasswordKey: replication-password
+    existingSecret: ""
+    secretKeys:
+      adminPasswordKey: postgres-password
+      userPasswordKey: password
+      replicationPasswordKey: replication-password
