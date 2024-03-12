@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.0...v0.20.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* **notifications-api:** fix indentation in bundled postgresql ([cf0a81c](https://git.knut.univention.de/univention/components/univention-portal/commit/cf0a81c206b482222016b19ab6da8bb0cbab8262))
+
 ## [0.20.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.19.1...v0.20.0) (2024-03-05)
 
 
