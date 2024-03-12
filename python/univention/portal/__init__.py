@@ -35,6 +35,7 @@
 
 import importlib
 import os.path
+from collections.abc import Iterator
 from glob import glob
 
 
@@ -50,10 +51,10 @@ class Plugin(type):
 class Plugins:
     """Register `Plugin` subclasses and iterate over them."""
 
-    _plugins = []
-    _imported = {}
+    _plugins: list[Plugin] = []
+    _imported: dict[str, bool] = {}
 
-    def __init__(self, python_path):
+    def __init__(self, python_path: str) -> None:
         """
         :param str python_path: fully dotted Python path that the plugins will
                 be found below
@@ -62,7 +63,7 @@ class Plugins:
         self._imported.setdefault(python_path, False)
 
     @classmethod
-    def add_plugin(cls, plugin):
+    def add_plugin(cls, plugin: Plugin) -> None:
         """
         Called by `Plugin` meta class to register a new `Plugin` subclass.
 
@@ -70,7 +71,7 @@ class Plugins:
         """
         cls._plugins.append(plugin)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Plugin]:
         """
         Iterator for registered `Plugin` subclasses.
 
@@ -82,7 +83,7 @@ class Plugins:
             if plugin.__module__.startswith(self.python_path):
                 yield plugin
 
-    def load(self):
+    def load(self) -> None:
         """Load plugins."""
         if self._imported.get(self.python_path):
             return
@@ -95,12 +96,11 @@ class Plugins:
         self._imported[self.python_path] = True
 
 
-def get_all_dynamic_classes():
-    for extension in Plugins("univention.portal.extensions"):
-        yield extension
+def get_all_dynamic_classes() -> Iterator[Plugin]:
+    yield from Plugins("univention.portal.extensions")
 
 
-def get_dynamic_classes(klass_name):
+def get_dynamic_classes(klass_name: str) -> Plugin:
     for extension in get_all_dynamic_classes():
         if klass_name == extension.__name__:
             return extension
