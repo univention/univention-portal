@@ -31,8 +31,7 @@ License with the Debian GNU/Linux or Univention distribution in file
     class="header-tab__wrapper"
   >
     <tabindex-element
-      :id="`headerTab__${idx}`"
-      :ref="`headerTab__${idx}`"
+      :id="`headerTab__${tabId}`"
       tag="div"
       :active-at="['portal']"
       :hidden="hidden"
@@ -59,11 +58,11 @@ License with the Debian GNU/Linux or Univention distribution in file
       </span>
     </tabindex-element>
     <icon-button
-      :id="`close-tab-${idx}`"
+      :id="`close-tab-${tabId}`"
       icon="x"
       :aria-label-prop="ariaLabelClose"
-      class="header-tab__close-button"
-      :data-test="`close-tab-${idx}`"
+      class="header-tab__close-button button--flat button--icon--tab-style button--icon--tab-style--small"
+      :data-test="`close-tab-${tabId}`"
       :hidden="hidden"
       @click="closeTab"
     />
@@ -84,7 +83,7 @@ export default defineComponent({
     TabindexElement,
   },
   props: {
-    idx: {
+    tabId: {
       type: Number,
       required: true,
     },
@@ -131,15 +130,15 @@ export default defineComponent({
     this.isMounted = true;
     this.$store.dispatch('activity/saveFocus', {
       region: 'portal-header',
-      id: `headerTab__${this.idx}`,
+      id: `headerTab__${this.tabId}`,
     });
   },
   methods: {
     focusTab(): void {
-      this.$store.dispatch('tabs/setActiveTab', this.idx);
+      this.$store.dispatch('tabs/setActiveTab', this.tabId);
     },
     closeTab(): void {
-      this.$store.dispatch('tabs/deleteTab', this.idx);
+      this.$store.dispatch('tabs/deleteTab', this.tabId);
     },
   },
 });
@@ -153,20 +152,23 @@ export default defineComponent({
   align-items: center
   z-index: 1
   background-color: transparent
-  transition: background-color var(--portal-transition-duration)
   flex-basis: auto
   flex-grow: 1
   max-width: 15rem
-  border: 0.2rem solid rgba(0,0,0,0)
+  border: 0.2rem solid transparent
 
   &__wrapper
     display: flex
     position: relative
     align-items: center
-    height: 100%
+    height: 40px
+    margin-right: var(--layout-spacing-unit-small)
+    background-color: var(--portal-tab-background)
+    border-radius: var(--border-radius-interactable)
+    transition: background-color var(--portal-transition-duration)
 
     &:hover
-      background-color: var(--portal-tab-background)
+      background-color: var(--portal-tab-background-hover)
 
   &__logo-wrapper
     background-color: var(--bgc-apptile-default)
@@ -176,7 +178,7 @@ export default defineComponent({
     display: flex
     align-items: center
     justify-content: center
-    margin: 0 var(--layout-spacing-unit-small)
+    margin: 0 var(--layout-spacing-unit) 0 var(--layout-spacing-unit-small)
 
   &__logo
     width: 80%
@@ -193,12 +195,7 @@ export default defineComponent({
     font-weight: var(--font-weight-bold)
 
   &__close-button
-    position: relative
-    z-index: 10
-    border-radius: var(--border-radius-interactable)
-    margin-right: 2px
-    &:hover
-      background-color: var(--bgc-inputfield-on-container)
+    margin: 0 var(--layout-spacing-unit-small)
 
   &__clickable
     &:before
@@ -211,11 +208,11 @@ export default defineComponent({
       left: 0
       right: 0
       border: 0.2rem solid rgba(0,0,0,0)
-      box-sizing: border-box;
-      z-index: -1
+      box-sizing: border-box
 
     &:focus:before
       border-color: var(--color-focus)
+      border-radius: var(--button-border-radius)
 
   &--active
     &:after
@@ -230,5 +227,5 @@ export default defineComponent({
       border: 0.2rem solid rgba(0,0,0,0)
       box-sizing: border-box;
       z-index: -1
-      background-color: var(--portal-tab-background)
+      background-color: var(--portal-tab-background-active)
 </style>
