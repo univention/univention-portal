@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.1...v0.20.2) (2024-03-25)
+
+
+### Bug Fixes
+
+* **ci:** update common-ci from v1.24.4 to v1.24.5 ([89ddf64](https://git.knut.univention.de/univention/components/univention-portal/commit/89ddf647483ae6f487d8d0747777e852086a6048))
+
 ## [0.20.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.0...v0.20.1) (2024-03-12)
 
 
