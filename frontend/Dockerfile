@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG="0.10.0"
+ARG UCS_BASE_IMAGE_TAG="0.11.3"
 ARG UCS_BASE_IMAGE="gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-506"
 
 ###############################################################################
@@ -88,7 +88,7 @@ RUN yarn build
 ###############################################################################
 # Starts production nginx server
 
-FROM gitregistry.knut.univention.de/univention/customers/dataport/upx/container-nginx/nginx:0.1.1 AS final
+FROM gitregistry.knut.univention.de/univention/customers/dataport/upx/container-nginx/nginx:0.2.1 AS final
 
 COPY --from=build /app/dist /var/www/html
 

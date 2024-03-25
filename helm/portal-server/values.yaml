@@ -89,7 +89,7 @@ fullnameOverride: ""
 image:
   registry: "gitregistry.knut.univention.de"
   repository: "univention/components/univention-portal/portal-server"
-  tag: "0.19.1@sha256:e6a13f92b3c2076e3a2fb9c9f8fac4894eec5eacbd2a8a83ece0346b6dabe54c"
+  tag: "0.20.1@sha256:db5d79b64dc1b8678401d32a1a695b217d7677e7578738f0eec90467c7b5ae05"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.

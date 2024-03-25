@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-FROM gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-506:0.10.0 AS base
+FROM gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-506:0.11.3 AS base
 
 #hadolint ignore=DL3008
 RUN \

@@ -22,7 +22,7 @@ dependencies:
     repository: "oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts"
   - name: "postgresql"
     repository: "https://charts.bitnami.com/bitnami"
-    version: "^14.x.x"
+    version: "^15.0.0"
     condition: "postgresql.bundled"
 
 ...

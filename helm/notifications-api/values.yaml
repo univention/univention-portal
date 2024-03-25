@@ -89,7 +89,7 @@ fullnameOverride: ""
 image:
   registry: "gitregistry.knut.univention.de"
   repository: "univention/components/univention-portal/notifications-api"
-  tag: "0.19.1@sha256:871968236cb1601dcbb8827dd415a78a4edd8b092c64f69365c4c8797b41b5e6"
+  tag: "0.20.1@sha256:c1176da0ecd3d964b7caaea0d9e583d7644c7a7dbdb08c0ecd85df88e0f27321"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.
