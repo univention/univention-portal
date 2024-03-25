@@ -22,7 +22,7 @@
     <div class="announcement__closeWrapper">
       <icon-button
         icon="x"
-        class="announcement__closeButton"
+        class="announcement__closeButton button--flat button--flat--outline-style"
         :aria-label-prop="CLOSE"
         @click="onCloseClick"
       />

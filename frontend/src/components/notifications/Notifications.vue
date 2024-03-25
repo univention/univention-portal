@@ -99,7 +99,6 @@ export default defineComponent({
       allNotifications: 'notifications/allNotifications',
       visibleNotifications: 'notifications/visibleNotifications',
       numNotifications: 'notifications/numNotifications',
-      activeButton: 'navigation/getActiveButton',
     }),
     notifications() {
       if (!this.isInNotificationBar) {
