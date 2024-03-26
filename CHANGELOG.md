@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.2...v0.20.3) (2024-03-26)
+
+
+### Bug Fixes
+
+* use configurable minio url in configmap ([b7a8970](https://git.knut.univention.de/univention/components/univention-portal/commit/b7a8970b83703a710654a9a994c650cea3ae631c))
+
 ## [0.20.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.1...v0.20.2) (2024-03-25)
 
 
