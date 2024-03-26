@@ -242,7 +242,7 @@ false
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
   "notifierServer": null,
-  "objectStorageAccessKeyId": "stub_user",
+  "objectStorageAccessKeyId": "ums_user",
   "objectStorageBucket": "ums",
   "objectStorageEndpoint": "http://ums-minio:9000",
   "objectStorageSecretAccessKey": "stub_password",
@@ -444,7 +444,7 @@ null
 			<td>portalListener.objectStorageAccessKeyId</td>
 			<td>string</td>
 			<td><pre lang="json">
-"stub_user"
+"ums_user"
 </pre>
 </td>
 			<td>User for the object storage</td>

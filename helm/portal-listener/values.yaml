@@ -1,5 +1,4 @@
 ---
-
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -96,7 +95,7 @@ portalListener:
   # -- Bucket in the object storage for storing the portal and assets
   objectStorageBucket: "ums"
   # -- User for the object storage
-  objectStorageAccessKeyId: "stub_user"
+  objectStorageAccessKeyId: "ums_user"
   # -- Password for access to object storage
   objectStorageSecretAccessKey: "stub_password"
 
@@ -138,12 +137,12 @@ probes:
 
 # -- Deployment resources for the listener container
 resources: {}
-  # requests:
-  #   memory: "512Mi"
-  #   cpu: "250m"
-  # limits:
-  #   memory: "4Gi"
-  #   cpu: "4"
+# requests:
+#   memory: "512Mi"
+#   cpu: "250m"
+# limits:
+#   memory: "4Gi"
+#   cpu: "4"
 
 # -- Deployment resources for the dependency waiters
 resourcesWaitForDependency: {}
@@ -158,4 +157,3 @@ persistence:
     storageClass: ""
     size: "1Gi"
 
-...
