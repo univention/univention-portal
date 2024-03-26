@@ -32,10 +32,10 @@ data:
   PORTAL_UDM_API_URL: "{{ .Values.portalListener.udmApiUrl }}"
   PORTAL_UDM_API_USERNAME: "{{ .Values.portalListener.udmApiUsername }}"
   PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalListener.udmApiSecretFile }}"
-  OBJECT_STORAGE_ENDPOINT: "{{ .Values.portalListener.objectStorageEndpoint }}"
-  OBJECT_STORAGE_BUCKET: "{{ .Values.portalListener.objectStorageBucket }}"
-  OBJECT_STORAGE_ACCESS_KEY_ID: "{{ .Values.portalListener.objectStorageAccessKeyId }}"
-  OBJECT_STORAGE_SECRET_ACCESS_KEY: "{{ .Values.portalListener.objectStorageSecretAccessKey }}"
+  OBJECT_STORAGE_ENDPOINT: {{ required "The parameter \"portalListener.objectStorageEndpoint\" is required." .Values.portalListener.objectStorageEndpoint | quote }}
+  OBJECT_STORAGE_BUCKET: {{ required "The parameter \"portalListener.objectStorageBucket\" is required." .Values.portalListener.objectStorageBucket | quote }}
+  OBJECT_STORAGE_ACCESS_KEY_ID: {{ required "The parameter \"portalListener.objectStorageAccessKeyId\" is required." .Values.portalListener.objectStorageAccessKeyId | quote }}
+  OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ required "The parameter \"portalListener.objectStorageSecretAccessKey\" is required." .Values.portalListener.objectStorageSecretAccessKey | quote }}
   CA_CERT: "{{ .Values.portalListener.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalListener.caCertFile }}"
   TLS_MODE: "{{ .Values.portalListener.tlsMode }}"
@@ -67,14 +67,14 @@ data:
 
     s3 = boto3.resource(
             's3',
-            endpoint_url=os.environ.get("OBJECT_STORAGE_ENDPOINT", "http://minio:9000"),
-            aws_access_key_id=os.environ.get("OBJECT_STORAGE_ACCESS_KEY_ID", "ums_user"),
-            aws_secret_access_key=os.environ.get("OBJECT_STORAGE_SECRET_ACCESS_KEY")
+            endpoint_url=os.environ["OBJECT_STORAGE_ENDPOINT"],
+            aws_access_key_id=os.environ["OBJECT_STORAGE_ACCESS_KEY_ID"],
+            aws_secret_access_key=os.environ["OBJECT_STORAGE_SECRET_ACCESS_KEY"]
         )
 
     provisioned = False
     while not provisioned:
-        bucket = s3.Bucket('ums')
+        bucket = s3.Bucket(os.environ["OBJECT_STORAGE_BUCKET"])
         provisioned = bool(bucket.creation_date)
         if not provisioned:
            print("Waiting for the object storage service to be provisioned")
