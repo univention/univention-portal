@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.3...v0.20.4) (2024-04-02)
+
+
+### Bug Fixes
+
+* pinning container name to portal-listener ([8aa1277](https://git.knut.univention.de/univention/components/univention-portal/commit/8aa1277bf9ae079471128523e2bb8f17a4ce20bd))
+
 ## [0.20.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.2...v0.20.3) (2024-03-26)
 
 
