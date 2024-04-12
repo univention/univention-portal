@@ -19,18 +19,16 @@ metadata:
 data:
   ENVIRONMENT: "{{ .Values.portalServer.environment }}"
   LOG_LEVEL: "{{ .Values.portalServer.logLevel }}"
-  PORTAL_SERVER_ADMIN_GROUP: {{ required "The parameter \"portalServer.adminGroup\" is required." .Values.portalServer.adminGroup | quote }}
-  PORTAL_SERVER_AUTH_MODE: "{{ .Values.portalServer.authMode }}"
+  PORTAL_SERVER_ADMIN_GROUP: {{ include "portal-server.adminGroup" . | quote }}
+  PORTAL_SERVER_AUTH_MODE: {{ include "portal-server.authMode" . | quote }}
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalServer.editable }}"
   PORTAL_SERVER_PORT: "{{ .Values.service.ports.http.port }}"
   PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalServer.ucsInternalPath\" is required." .Values.portalServer.ucsInternalPath | quote }}
-  PORTAL_SERVER_UMC_GET_URL: {{ required "The parameter \"portalServer.umcGetUrl\" is required." .Values.portalServer.umcGetUrl | quote }}
-  PORTAL_SERVER_UMC_SESSION_URL: {{ required "The parameter \"portalServer.umcSessionUrl\" is required." .Values.portalServer.umcSessionUrl | quote }}
+  PORTAL_SERVER_UMC_GET_URL: {{ include "portal-server.umcGetUrl" . | quote }}
+  PORTAL_SERVER_UMC_SESSION_URL: {{ include "portal-server.umcSessionUrl" .| quote }}
   PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED: {{ .Values.portalServer.centralNavigation.enabled | quote }}
-  OBJECT_STORAGE_ENDPOINT: {{ required "The parameter \".Values.portalServer.objectStorageEndpoint\" is required." .Values.portalServer.objectStorageEndpoint | quote }}
-  OBJECT_STORAGE_BUCKET: {{ required "The parameter \".Values.portalServer.objectStorageBucket\" is required." .Values.portalServer.objectStorageBucket | quote }}
-  {{- if not .Values.portalServer.credentialSecret.name }}
-  OBJECT_STORAGE_ACCESS_KEY_ID: {{ required "The parmeter \".Values.portalServer.objectStorageAccessKeyId\" is required." .Values.portalServer.objectStorageAccessKeyId | quote }}
-  OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ required "The parmeter \".Values.portalServer.objectStorageSecretAccessKey\" is required." .Values.portalServer.objectStorageSecretAccessKey | quote }}
-  {{- end }}
+  OBJECT_STORAGE_ENDPOINT: {{ include "portal-server.objectStorageEndpoint" . | quote }}
+  OBJECT_STORAGE_BUCKET: {{ include "portal-server.objectStorageBucket" . | quote }}
+  OBJECT_STORAGE_ACCESS_KEY_ID: {{ include "portal-server.objectStorageAccessKeyId"  . | quote }}
+  OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ include "portal-server.objectStorageSecretAccessKey"  . | quote }}
 ...
