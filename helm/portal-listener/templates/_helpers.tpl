@@ -139,7 +139,7 @@ saml
 
 {{- define "portal-listener.udmApiUrl" -}}
 {{- if .Values.global.nubusDeployment -}}
-{{- printf "http://%s-udm-rest-api/udm/" .Release.Name -}}
+{{- include "nubusTemplates.udmRestApi.uri" . -}}
 {{- else -}}
 {{- required "The parameter \"portalListener.udmApiUrl\" is required." .Values.portalListener.udmApiUrl -}}
 {{- end -}}
