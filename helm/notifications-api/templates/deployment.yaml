@@ -69,20 +69,16 @@ spec:
           imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             - name: DB_USERNAME
-              value: {{ .Values.postgresql.auth.username | quote }}
+              value: {{ include "notifiations-api.postgresql.auth.username" . | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.postgresql.auth.existingSecret | quote }}
-                  key: {{ .Values.postgresql.auth.secretKeys.userPasswordKey | quote }}
+                  name: {{ include "notifiations-api.postgresql.auth.credentialSecret.name" . | quote }}
+                  key: {{ include "notifiations-api.postgresql.auth.credentialSecret.key" . | quote }}
             - name: DATABASE
-              value: {{ .Values.postgresql.auth.database | quote }}
+              value: {{ include "notifiations-api.postgresql.auth.database" .| quote }}
             - name: DATABASE_URL
-            {{- if .Values.postgresql.bundled }}
-              value: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@{{ printf "%s-postgresql" (include "common.names.fullname" .) }}:{{ .Values.postgresql.connection.port }}/$(DATABASE)"
-            {{- else }}
-              value: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@{{ .Values.postgresql.connection.host }}:{{ .Values.postgresql.connection.port }}/$(DATABASE)"
-            {{- end }}
+              value: {{ include "notifiations-api.postgresql.connection.url" . | quote }}
           envFrom:
             - configMapRef:
                 name: "{{ include "common.names.fullname" . }}"
