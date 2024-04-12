@@ -257,6 +257,15 @@ null
 			<td>Container registry address.</td>
 		</tr>
 		<tr>
+			<td>global.nubusDeployment</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>Indicates wether this chart is part of a Nubus deployment.</td>
+		</tr>
+		<tr>
 			<td>image.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -627,10 +636,10 @@ null
 			<td>portalServer.authMode</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ucs"
+""
 </pre>
 </td>
-			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
+			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
 		</tr>
 		<tr>
 			<td>portalServer.centralNavigation.authenticatorSecret</td>
@@ -690,37 +699,50 @@ false
 			<td>portalServer.objectStorageAccessKeyId</td>
 			<td>string</td>
 			<td><pre lang="json">
-"stub_user"
+""
 </pre>
 </td>
-			<td>User for the object storage</td>
+			<td>User for the object storage. Chart default is "ums_user".</td>
 		</tr>
 		<tr>
 			<td>portalServer.objectStorageBucket</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ums"
+""
 </pre>
 </td>
-			<td>Bucket in the object storage for storing the portal and assets</td>
+			<td>Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".</td>
+		</tr>
+		<tr>
+			<td>portalServer.objectStorageCredentialSecret</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "accessKeyKey": "accessKey",
+  "name": "",
+  "secretKeyKey": "secretKey"
+}
+</pre>
+</td>
+			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
 		</tr>
 		<tr>
 			<td>portalServer.objectStorageEndpoint</td>
 			<td>string</td>
 			<td><pre lang="json">
-"http://ums-minio:9000"
+""
 </pre>
 </td>
-			<td>Object storage endpoint</td>
+			<td>Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
 		</tr>
 		<tr>
 			<td>portalServer.objectStorageSecretAccessKey</td>
 			<td>string</td>
 			<td><pre lang="json">
-"stub_password"
+""
 </pre>
 </td>
-			<td>Password for access to object storage</td>
+			<td>Password for access to object storage. Chart default is "stub_password".</td>
 		</tr>
 		<tr>
 			<td>portalServer.port</td>
@@ -730,6 +752,15 @@ false
 </pre>
 </td>
 			<td></td>
+		</tr>
+		<tr>
+			<td>portalServer.secretMountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/secrets"
+</pre>
+</td>
+			<td>Path to mount the secrets to.</td>
 		</tr>
 		<tr>
 			<td>portalServer.ucsInternalPath</td>

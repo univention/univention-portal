@@ -86,18 +86,24 @@ spec:
           image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           env:
-          {{- if .Values.portalServer.credentialSecret.name }}
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- if .Values.global.nubusDeployment }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.portalServer.credentialSecret.name | quote }}
-                  key: {{ .Values.portalServer.credentialSecret.accessKeyId | default ("accessKeyId") | quote }}
+                  name: {{ include "portal-server.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-server.objectStorageCredentialSecret.accessKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-server.objectStorageAccessKeyId" . | quote}}
+              {{- end }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- if .Values.global.nubusDeployment }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.portalServer.credentialSecret.name | quote }}
-                  key: {{ .Values.portalServer.credentialSecret.secretAccessKey | default ("secretAccessKey") | quote }}
-          {{- end }}
+                  name: {{ include "portal-server.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-server.objectStorageCredentialSecret.secretKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-server.objectStorageSecretAccessKey" . | quote}}
+              {{- end }}
           envFrom:
             - configMapRef:
                 name: "{{ include "common.names.fullname" . }}"

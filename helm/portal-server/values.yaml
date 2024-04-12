@@ -5,6 +5,8 @@
 
 # The global properties are used to configure multiple charts at once.
 global:
+  # -- Indicates wether this chart is part of a Nubus deployment.
+  nubusDeployment: false
   # -- Container registry address.
   imageRegistry: ""
 
@@ -366,8 +368,8 @@ portalServer:
   # -- Define LDAP Admin Group.
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
   adminGroup: null
-  # -- Define the authentication mode for the portal. Use "ucs" or "saml".
-  authMode: "ucs"
+  # -- Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".
+  authMode: ""
   # -- Defines if members of the Admin group can use the edit mode in the portal.
   editable: "true"
   # -- TODO: Clarify usage of this parameter
@@ -389,14 +391,25 @@ portalServer:
     enabled: false
     # -- Provide a custom secret, if no value is provided, a random string is generated instead.
     authenticatorSecret: null
-  # -- Object storage endpoint
-  objectStorageEndpoint: "http://ums-minio:9000"
-  # -- Bucket in the object storage for storing the portal and assets
-  objectStorageBucket: "ums"
-  # -- User for the object storage
-  objectStorageAccessKeyId: "stub_user"
-  # -- Password for access to object storage
-  objectStorageSecretAccessKey: "stub_password"
+  # -- Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
+  objectStorageEndpoint: ""
+  # -- Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".
+  objectStorageBucket: ""
+  # -- User for the object storage. Chart default is "ums_user".
+  objectStorageAccessKeyId: ""
+  # -- Password for access to object storage. Chart default is "stub_password".
+  objectStorageSecretAccessKey: ""
+  # -- Optional reference to a different secret for credentials
+  # credentialSecret:
+  #   name: "custom-credentials"
+  #   accessKeyId: "ums_user"
+  #   secretAccessKey: "ums_password"
+  objectStorageCredentialSecret:
+    name: ""
+    accessKeyKey: "accessKey"
+    secretKeyKey: "secretKey"
+  # -- Path to mount the secrets to.
+  secretMountPath: "/var/secrets"
   # -- Optional reference to a different secret for credentials
   # credentialSecret:
   #   name: "custom-credentials"
