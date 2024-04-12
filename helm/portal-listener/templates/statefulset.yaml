@@ -38,25 +38,9 @@ spec:
             - {{ .Values.portalListener.ldapHost | quote }}
           ip: {{ .Values.portalListener.ldapHostIp | quote }}
       {{- end }}
-      containers:
-        - name: "portal-listener"
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ if .Values.image.registry }}{{ .Values.image.registry }}/{{ end }}{{ .Values.image.repository }}{{ if .Values.image.sha256 }}@sha256:{{ .Values.image.sha256 }}{{ else }}:{{ .Values.image.tag }}{{ end }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
-            - configMapRef:
-                name: {{ include "common.names.fullname" . }}
-          volumeMounts:
-            - name: secrets
-              # TODO: conflict with /run/secrets, should use a namespace
-              mountPath: /var/secrets
-            - name: data
-              mountPath: /var/lib/univention-directory-listener
-            - name: group-membership-cache
-              mountPath: /usr/share/univention-group-membership-cache/caches
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       initContainers:
         - name: wait-for-ldap
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
@@ -68,11 +52,41 @@ spec:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
           volumeMounts:
-            - name: secrets
-              # TODO: conflict with /run/secrets, should use a namespace
-              mountPath: /var/secrets
             - name: wait-for-ldap
               mountPath: /scripts
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
+              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
+              readOnly: true
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
+              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
+              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
+              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
+              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-udm
@@ -85,11 +99,41 @@ spec:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
           volumeMounts:
-            - name: secrets
-              # TODO: conflict with /run/secrets, should use a namespace
-              mountPath: /var/secrets
             - name: wait-for-udm
               mountPath: /scripts
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
+              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
+              readOnly: true
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
+              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
+              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
+              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
+              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-object-storage
@@ -101,9 +145,26 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
+          env:
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- if .Values.global.nubusDeployment }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-listener.objectStorageAccessKeyId" . | quote}}
+              {{- end }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- if .Values.global.nubusDeployment }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-listener.objectStorageSecretAccessKey" . | quote}}
+              {{- end }}
           volumeMounts:
-            - name: secrets
-              mountPath: /var/secrets
             - name: wait-for-object-store
               mountPath: /scripts
           resources:
@@ -117,29 +178,159 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
+          env:
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- if .Values.global.nubusDeployment }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-listener.objectStorageAccessKeyId" . | quote}}
+              {{- end }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- if .Values.global.nubusDeployment }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-listener.objectStorageSecretAccessKey" . | quote}}
+              {{- end }}
           volumeMounts:
-            - name: secrets
-              # TODO: conflict with /run/secrets, should use a namespace
-              mountPath: /var/secrets
             - name: data
               mountPath: /var/lib/univention-directory-listener
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
+              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
+              readOnly: true
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
+              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
+              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
+              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
+              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: "portal-listener"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ if .Values.image.registry }}{{ .Values.image.registry }}/{{ end }}{{ .Values.image.repository }}{{ if .Values.image.sha256 }}@sha256:{{ .Values.image.sha256 }}{{ else }}:{{ .Values.image.tag }}{{ end }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          env:
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- if .Values.global.nubusDeployment }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-listener.objectStorageAccessKeyId" . | quote}}
+              {{- end }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- if .Values.global.nubusDeployment }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
+                  key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote}}
+              {{- else }}
+              value: {{ include "portal-listener.objectStorageSecretAccessKey" . | quote}}
+              {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/univention-directory-listener
+            - name: group-membership-cache
+              mountPath: /usr/share/univention-group-membership-cache/caches
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
+              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
+              readOnly: true
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
+              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
+              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
+              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
+              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-      - name: secrets
-        secret:
-          secretName: {{ include "common.names.fullname" . | quote }}
-      - name: wait-for-object-store
-        configMap:
-          name: {{ include "common.names.fullname" . }}
-      - name: wait-for-udm
-        configMap:
-          name: {{ include "common.names.fullname" . }}
-      - name: wait-for-ldap
-        configMap:
-          name: {{ include "common.names.fullname" . }}
+        - name: wait-for-object-store
+          configMap:
+            name: {{ include "common.names.fullname" . }}
+        - name: wait-for-udm
+          configMap:
+            name: {{ include "common.names.fullname" . }}
+        - name: wait-for-ldap
+          configMap:
+            name: {{ include "common.names.fullname" . }}
+        {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+        - name: "secrets"
+          secret:
+            secretName: {{ include "common.names.fullname" . | quote }}
+        {{- else }}
+        {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
+        - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+          secret:
+            secretName: {{ (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+        {{- end }}
+        {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+        - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+          secret:
+            secretName: {{ (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+        {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

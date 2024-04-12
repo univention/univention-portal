@@ -91,10 +91,46 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>global.imagePullPolicy</td>
+			<td>string</td>
+			<td><pre lang="json">
+"IfNotPresent"
+</pre>
+</td>
+			<td>Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.</td>
+		</tr>
+		<tr>
+			<td>global.imagePullSecrets</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Credentials to fetch images from private registry. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  imagePullSecrets:   - "docker-registry"</td>
+		</tr>
+		<tr>
+			<td>global.imageRegistry</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Container registry address.</td>
+		</tr>
+		<tr>
+			<td>global.nubusDeployment</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>Indicates wether this chart is part of a Nubus deployment.</td>
+		</tr>
+		<tr>
 			<td>image.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Always"
+"IfNotPresent"
 </pre>
 </td>
 			<td></td>
@@ -130,7 +166,7 @@ false
 			<td>image.waitForDependency.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Always"
+"IfNotPresent"
 </pre>
 </td>
 			<td></td>
@@ -158,6 +194,78 @@ false
 			<td>string</td>
 			<td><pre lang="json">
 "latest"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.credentialSecret.ldapPasswordKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ldap.secret"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.credentialSecret.machinePasswordKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"machine.secret"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.credentialSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.tlsSecret.caCertKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ca.crt"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.tlsSecret.certificateKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"tls.crt"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.tlsSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.tlsSecret.privateKeyKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+"tls.key"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>mountSecrets</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
 </pre>
 </td>
 			<td></td>
@@ -241,11 +349,11 @@ false
 {
   "adminGroup": null,
   "assetsRootPath": "portal-assets",
-  "authMode": "ucs",
+  "authMode": "",
   "caCert": "",
-  "caCertFile": "/run/secrets/ca_cert",
+  "caCertFile": "/var/secrets/ca_cert",
   "certPem": "",
-  "debugLevel": "4",
+  "debugLevel": "1",
   "domainName": "univention.intranet",
   "editable": "true",
   "environment": "production",
@@ -253,20 +361,26 @@ false
   "ldapHost": null,
   "ldapHostDn": null,
   "ldapHostIp": null,
-  "ldapPort": "389",
+  "ldapPort": "",
   "ldapSecret": null,
   "ldapSecretFile": "/var/secrets/ldap_secret",
   "logLevel": "WARNING",
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
   "notifierServer": null,
-  "objectStorageAccessKeyId": "ums_user",
-  "objectStorageBucket": "ums",
-  "objectStorageEndpoint": "http://ums-minio:9000",
-  "objectStorageSecretAccessKey": "stub_password",
+  "objectStorageAccessKeyId": "",
+  "objectStorageBucket": "",
+  "objectStorageCredentialSecret": {
+    "accessKeyKey": "accessKey",
+    "name": "",
+    "secretKeyKey": "secretKey"
+  },
+  "objectStorageEndpoint": "",
+  "objectStorageSecretAccessKey": "",
   "port": "80",
   "portalDefaultDn": null,
-  "tlsMode": "secure",
+  "secretMountPath": "/var/secrets",
+  "tlsMode": "off",
   "ucsInternalPath": "portal-data",
   "udmApiSecretFile": "/var/secrets/machine_secret",
   "udmApiUrl": null,
@@ -300,10 +414,10 @@ null
 			<td>portalListener.authMode</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ucs"
+""
 </pre>
 </td>
-			<td>Define the authentication mode for the portal. Use "ucs" or "saml".</td>
+			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
 		</tr>
 		<tr>
 			<td>portalListener.caCert</td>
@@ -318,7 +432,7 @@ null
 			<td>portalListener.caCertFile</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/run/secrets/ca_cert"
+"/var/secrets/ca_cert"
 </pre>
 </td>
 			<td>The path to the "caCertFile" docker secret or a plain file.</td>
@@ -327,7 +441,7 @@ null
 			<td>portalListener.debugLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
-"4"
+"1"
 </pre>
 </td>
 			<td>Debug level of the listener</td>
@@ -399,10 +513,10 @@ null
 			<td>portalListener.ldapPort</td>
 			<td>string</td>
 			<td><pre lang="json">
-"389"
+""
 </pre>
 </td>
-			<td>Port to connect to the LDAP server.</td>
+			<td>Port to connect to the LDAP server. Chart defaults to 389.</td>
 		</tr>
 		<tr>
 			<td>portalListener.ldapSecret</td>
@@ -462,37 +576,50 @@ null
 			<td>portalListener.objectStorageAccessKeyId</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ums_user"
+""
 </pre>
 </td>
-			<td>User for the object storage</td>
+			<td>User for the object storage. Chart default is "ums_user".</td>
 		</tr>
 		<tr>
 			<td>portalListener.objectStorageBucket</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ums"
+""
 </pre>
 </td>
-			<td>Bucket in the object storage for storing the portal and assets</td>
+			<td>Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".</td>
+		</tr>
+		<tr>
+			<td>portalListener.objectStorageCredentialSecret</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "accessKeyKey": "accessKey",
+  "name": "",
+  "secretKeyKey": "secretKey"
+}
+</pre>
+</td>
+			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
 		</tr>
 		<tr>
 			<td>portalListener.objectStorageEndpoint</td>
 			<td>string</td>
 			<td><pre lang="json">
-"http://ums-minio:9000"
+""
 </pre>
 </td>
-			<td>Object storage endpoint</td>
+			<td>Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
 		</tr>
 		<tr>
 			<td>portalListener.objectStorageSecretAccessKey</td>
 			<td>string</td>
 			<td><pre lang="json">
-"stub_password"
+""
 </pre>
 </td>
-			<td>Password for access to object storage</td>
+			<td>Password for access to object storage. Chart default is "stub_password".</td>
 		</tr>
 		<tr>
 			<td>portalListener.portalDefaultDn</td>
@@ -504,13 +631,22 @@ null
 			<td>DN of the default portal</td>
 		</tr>
 		<tr>
+			<td>portalListener.secretMountPath</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/var/secrets"
+</pre>
+</td>
+			<td>Path to mount the secrets to.</td>
+		</tr>
+		<tr>
 			<td>portalListener.tlsMode</td>
 			<td>string</td>
 			<td><pre lang="json">
-"secure"
+"off"
 </pre>
 </td>
-			<td>Whenever to start encryption and validate certificates. Chose from "off", "unvalidated" and "secure".</td>
+			<td>Whenever to start encryption and validate certificates. Chose from "off", "unvalidated" and "secure". Chart default is "off".</td>
 		</tr>
 		<tr>
 			<td>portalListener.ucsInternalPath</td>
@@ -709,6 +845,15 @@ true
 </pre>
 </td>
 			<td></td>
+		</tr>
+		<tr>
+			<td>terminationGracePeriodSeconds</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>In seconds, time the given to the pod needs to terminate gracefully. Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods</td>
 		</tr>
 		<tr>
 			<td>tolerations</td>

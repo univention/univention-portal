@@ -2,6 +2,33 @@
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
+# The global properties are used to configure multiple charts at once.
+global:
+  # -- Indicates wether this chart is part of a Nubus deployment.
+  nubusDeployment: false
+  # -- Container registry address.
+  imageRegistry: ""
+
+  # -- Credentials to fetch images from private registry.
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  #
+  # imagePullSecrets:
+  #   - "docker-registry"
+  imagePullSecrets: []
+
+  # -- Define an ImagePullPolicy.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
+  #
+  # "IfNotPresent" => The image is pulled only if it is not already present locally.
+  # "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to
+  #             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached
+  #             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved
+  #             digest, and uses that image to launch the container.
+  # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
+  #            kubelet attempts to start the container; otherwise, startup fails.
+  imagePullPolicy: "IfNotPresent"
+
 # Default values for univention-portal-listener
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -17,7 +44,11 @@ podSecurityContext: {}
 replicaCount: 1
 securityContext: {}
 tolerations: []
+mountSecrets: true
 
+# -- In seconds, time the given to the pod needs to terminate gracefully.
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+terminationGracePeriodSeconds: ""
 
 # -- Application configuration of the Portal Listener
 portalListener:
@@ -28,20 +59,20 @@ portalListener:
   adminGroup: null
   # -- Where to store the assets inside the object storage bucket, e.g. portal entry icons
   assetsRootPath: "portal-assets"
-  # -- Define the authentication mode for the portal. Use "ucs" or "saml".
-  authMode: "ucs"
+  # -- Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".
+  authMode: ""
   # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
   caCert: ""
   certPem: ""
   # -- The path to the "caCertFile" docker secret or a plain file.
-  caCertFile: "/run/secrets/ca_cert"
+  caCertFile: "/var/secrets/ca_cert"
   # -- Whenever to start encryption and validate certificates.
-  # Chose from "off", "unvalidated" and "secure".
-  tlsMode: "secure"
+  # Chose from "off", "unvalidated" and "secure". Chart default is "off".
+  tlsMode: "off"
   # -- Internal domain name of the UCS machine
   domainName: "univention.intranet"
   # -- Debug level of the listener
-  debugLevel: "4"
+  debugLevel: "1"
   # -- Defines if members of the Admin group can use the edit mode in the portal.
   editable: "true"
   # -- TODO: Clarify usage of this parameter
@@ -59,8 +90,8 @@ portalListener:
   ldapHostIp: null
   # -- DN of the UCS machine
   ldapHostDn: null
-  # -- Port to connect to the LDAP server.
-  ldapPort: "389"
+  # -- Port to connect to the LDAP server. Chart defaults to 389.
+  ldapPort: ""
 
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"
@@ -90,31 +121,38 @@ portalListener:
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umcSessionUrl: null
-  # -- Object storage endpoint
-  objectStorageEndpoint: "http://ums-minio:9000"
-  # -- Bucket in the object storage for storing the portal and assets
-  objectStorageBucket: "ums"
-  # -- User for the object storage
-  objectStorageAccessKeyId: "ums_user"
-  # -- Password for access to object storage
-  objectStorageSecretAccessKey: "stub_password"
+  # -- Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
+  objectStorageEndpoint: ""
+  # -- Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".
+  objectStorageBucket: ""
+  # -- User for the object storage. Chart default is "ums_user".
+  objectStorageAccessKeyId: ""
+  # -- Password for access to object storage. Chart default is "stub_password".
+  objectStorageSecretAccessKey: ""
+  # -- Optional reference to a different secret for credentials
+  # credentialSecret:
+  #   name: "custom-credentials"
+  #   accessKeyId: "ums_user"
+  #   secretAccessKey: "ums_password"
+  objectStorageCredentialSecret:
+    name: ""
+    accessKeyKey: "accessKey"
+    secretKeyKey: "secretKey"
+  # -- Path to mount the secrets to.
+  secretMountPath: "/var/secrets"
 
 ## Docker image
 image:
   registry: "gitregistry.knut.univention.de"
   repository: "univention/components/univention-portal/portal-listener"
-  imagePullPolicy: "Always"
+  imagePullPolicy: "IfNotPresent"
   tag: "latest"
-  ## Define image sha256 as an alternative to `tag`
-  # sha256:
 
   waitForDependency:
     registry: "gitregistry.knut.univention.de"
     repository: "univention/components/univention-portal/wait-for-dependency"
-    imagePullPolicy: "Always"
+    imagePullPolicy: "IfNotPresent"
     tag: "latest"
-    ## Define image sha256 as an alternative to `tag`
-    # sha256:
 
 ## Container deployment probes
 probes:
@@ -159,3 +197,15 @@ persistence:
   groupMembershipCache:
     storageClass: ""
     size: "100Mi"
+
+
+ldap:
+  tlsSecret:
+    name: ""
+    caCertKey: "ca.crt"
+    privateKeyKey: "tls.key"
+    certificateKey: "tls.crt"
+  credentialSecret:
+    name: ""
+    ldapPasswordKey: "ldap.secret"
+    machinePasswordKey: "machine.secret"
