@@ -270,6 +270,15 @@ null
 			<td>Container registry address.</td>
 		</tr>
 		<tr>
+			<td>global.nubusDeployment</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>Indicates wether this chart is part of a Nubus deployment.</td>
+		</tr>
+		<tr>
 			<td>image.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -300,7 +309,7 @@ null
 			<td>image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0.19.1@sha256:871968236cb1601dcbb8827dd415a78a4edd8b092c64f69365c4c8797b41b5e6"
+"latest"
 </pre>
 </td>
 			<td></td>
@@ -687,13 +696,56 @@ true
 			<td>Configure sysctls for the pod sysctls:   - name: "net.ipv4.ip_unprivileged_port_start"     value: "1"</td>
 		</tr>
 		<tr>
+			<td>postgresql</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "auth": {
+    "credentialSecret": {
+      "key": "password",
+      "name": ""
+    },
+    "database": "",
+    "existingSecret": "",
+    "password": "",
+    "postgresPassword": "",
+    "secretKeys": {
+      "adminPasswordKey": "postgres-password",
+      "replicationPasswordKey": "replication-password",
+      "userPasswordKey": "password"
+    },
+    "username": ""
+  },
+  "bundled": false,
+  "connection": {
+    "host": "",
+    "port": "5432"
+  }
+}
+</pre>
+</td>
+			<td>PostgreSQL settings.  The bitnami helm chart does contain all details of what can be configured: https://github.com/bitnami/charts/tree/main/bitnami/postgresql</td>
+		</tr>
+		<tr>
+			<td>postgresql.auth.credentialSecret</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "key": "password",
+  "name": ""
+}
+</pre>
+</td>
+			<td>PostgreSQL password secret reference.</td>
+		</tr>
+		<tr>
 			<td>postgresql.auth.database</td>
 			<td>string</td>
 			<td><pre lang="json">
-"notifications"
+""
 </pre>
 </td>
-			<td></td>
+			<td>PostgreSQL database. If bundled is set to `true` this database will be created.</td>
 		</tr>
 		<tr>
 			<td>postgresql.auth.existingSecret</td>
@@ -702,52 +754,56 @@ true
 ""
 </pre>
 </td>
-			<td></td>
+			<td>PostgreSQL existing secret to use if bundled is set to `true`.</td>
 		</tr>
 		<tr>
-			<td>postgresql.auth.secretKeys.adminPasswordKey</td>
+			<td>postgresql.auth.password</td>
 			<td>string</td>
 			<td><pre lang="json">
-"postgres-password"
+""
 </pre>
 </td>
-			<td></td>
+			<td>PostgreSQL user password if bundled is set to `true`.</td>
 		</tr>
 		<tr>
-			<td>postgresql.auth.secretKeys.replicationPasswordKey</td>
+			<td>postgresql.auth.postgresPassword</td>
 			<td>string</td>
 			<td><pre lang="json">
-"replication-password"
+""
 </pre>
 </td>
-			<td></td>
+			<td>PostgreSQL admin password if bundled is set to `true`.</td>
 		</tr>
 		<tr>
-			<td>postgresql.auth.secretKeys.userPasswordKey</td>
-			<td>string</td>
+			<td>postgresql.auth.secretKeys</td>
+			<td>object</td>
 			<td><pre lang="json">
-"password"
+{
+  "adminPasswordKey": "postgres-password",
+  "replicationPasswordKey": "replication-password",
+  "userPasswordKey": "password"
+}
 </pre>
 </td>
-			<td></td>
+			<td>PostgreSQL existing secret keys to use if bundled is set to `true`.</td>
 		</tr>
 		<tr>
 			<td>postgresql.auth.username</td>
 			<td>string</td>
 			<td><pre lang="json">
-"notifications"
+""
 </pre>
 </td>
-			<td></td>
+			<td>PostgreSQL user. If bundled is set to `true` this user will be created.</td>
 		</tr>
 		<tr>
 			<td>postgresql.bundled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-true
+false
 </pre>
 </td>
-			<td></td>
+			<td>Set to `true` if you want PostgreSQL to be installed as well.</td>
 		</tr>
 		<tr>
 			<td>postgresql.connection</td>
@@ -755,11 +811,29 @@ true
 			<td><pre lang="json">
 {
   "host": "",
-  "port": 5432
+  "port": "5432"
 }
 </pre>
 </td>
-			<td>Connection parameters. These are required if you use an external database.</td>
+			<td>Connection parameters. These are required if an external service should be used (bundled is set to `false`).</td>
+		</tr>
+		<tr>
+			<td>postgresql.connection.host</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>PostgreSQL host.</td>
+		</tr>
+		<tr>
+			<td>postgresql.connection.port</td>
+			<td>string</td>
+			<td><pre lang="json">
+"5432"
+</pre>
+</td>
+			<td>PostgreSQL port.</td>
 		</tr>
 		<tr>
 			<td>readinessProbe.failureThreshold</td>

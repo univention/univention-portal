@@ -5,6 +5,8 @@
 
 # The global properties are used to configure multiple charts at once.
 global:
+  # -- Indicates wether this chart is part of a Nubus deployment.
+  nubusDeployment: false
   # -- Container registry address.
   imageRegistry: ""
 
@@ -89,7 +91,7 @@ fullnameOverride: ""
 image:
   registry: "gitregistry.knut.univention.de"
   repository: "univention/components/univention-portal/notifications-api"
-  tag: "0.19.1@sha256:871968236cb1601dcbb8827dd415a78a4edd8b092c64f69365c4c8797b41b5e6"
+  tag: "latest"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.
@@ -378,19 +380,37 @@ notificationsApi:
   # -- The URL prefix under which the API shall be deployed.
   apiPrefix: "/univention/portal/notifications-api/"
 
+# -- PostgreSQL settings.
+#
+# The bitnami helm chart does contain all details of what can be configured:
+# https://github.com/bitnami/charts/tree/main/bitnami/postgresql
 postgresql:
-  bundled: true
-  # -- Connection parameters. These are required if you use an external database.
+  # -- Set to `true` if you want PostgreSQL to be installed as well.
+  bundled: false
+  # -- Connection parameters. These are required if an external service should be used (bundled is set to `false`).
   connection:
+    # -- PostgreSQL host.
     host: ""
-    port: 5432
+    # -- PostgreSQL port.
+    port: "5432"
   auth:
-    username: "notifications"
-    database: "notifications"
+    # -- PostgreSQL user. If bundled is set to `true` this user will be created.
+    username: ""
+    # -- PostgreSQL database. If bundled is set to `true` this database will be created.
+    database: ""
+    # -- PostgreSQL user password if bundled is set to `true`.
+    password: ""
+    # -- PostgreSQL admin password if bundled is set to `true`.
+    postgresPassword: ""
+    # -- PostgreSQL existing secret to use if bundled is set to `true`.
     existingSecret: ""
+    # -- PostgreSQL existing secret keys to use if bundled is set to `true`.
     secretKeys:
       adminPasswordKey: postgres-password
       userPasswordKey: password
       replicationPasswordKey: replication-password
-
+    # -- PostgreSQL password secret reference.
+    credentialSecret:
+      name: ""
+      key: "password"
 ...
