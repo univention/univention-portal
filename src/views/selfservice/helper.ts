@@ -157,6 +157,9 @@ export function sanitizeFrontendValues(values: Record<string, unknown>, widgets:
         }, []);
       }
     }
+    if (widget.type === 'DateBox' && value === '') {
+      sanitized[widget.name] = null;
+    }
   });
   return sanitized;
 }
