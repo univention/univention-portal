@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.5](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.4...v0.20.5) (2024-04-15)
+
+
+### Bug Fixes
+
+* user birthday can be deleted ([8628c70](https://git.knut.univention.de/univention/components/univention-portal/commit/8628c70d8c31c97a64c317147dc0900db17a2ec2))
+
 ## [0.20.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.3...v0.20.4) (2024-04-02)
 
 
