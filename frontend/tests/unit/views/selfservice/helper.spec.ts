@@ -4,7 +4,7 @@
  */
 
 import { WidgetDefinition } from '@/jsHelper/forms';
-import { sanitizeFrontendValues } from '@/views/selfservice/helper.ts';
+import { sanitizeFrontendValues } from '@/views/selfservice/helper';
 
 const widgets: WidgetDefinition[] = [
   { type: 'ImageUploader', name: 'image', label: 'Image' },
