@@ -12,7 +12,7 @@ data:
   LDAP_BASE_DN: {{ include "portal-listener.ldapBaseDn" . | quote }}
   LDAP_PASSWORD: "{{ .Values.portalListener.ldapSecret }}"
   LDAP_PASSWORD_FILE: "{{ .Values.portalListener.ldapSecretFile }}"
-  LDAP_HOST: {{ include "portal-listener.ldapHost" . | quote}}
+  LDAP_HOST: {{ include "portal-listener.ldap.connection.host" . | quote}}
   LDAP_HOST_DN: {{ include "portal-listener.ldapAdminDn" . | quote }}
   LDAP_PORT: {{ include "portal-listener.ldap.connection.port" . | quote }}
   LOG_LEVEL: "{{ .Values.portalListener.logLevel }}"

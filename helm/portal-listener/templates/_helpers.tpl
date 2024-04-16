@@ -17,7 +17,17 @@ dc=univention-organization,dc=intranet
 {{- end -}}
 {{- end -}}
 
-{{- define "portal-listener.ldapHost" -}}
+{{- define "portal-listener.ldapAdminDn" -}}
+{{- if .Values.portalListener.ldapHostDn -}}
+{{- .Values.portalListener.ldapHostDn -}}
+{{- else if .Values.global.nubusDeployment -}}
+{{- include "nubusTemplates.ldapServer.ldap.adminDn" . -}}
+{{- else -}}
+cn=admin,dc=univention-organization,dc=intranet
+{{- end -}}
+{{- end -}}
+
+{{- define "portal-listener.ldap.connection.host" -}}
 {{- if .Values.portalListener.ldapHost -}}
 {{- .Values.portalListener.ldapHost -}}
 {{- else if .Values.global.nubusDeployment -}}
@@ -77,14 +87,6 @@ These template definitions are only used in this chart and do not relate to temp
 
 {{- define "portal-listener.ldap.tlsSecret.name" -}}
 {{- include "portal-listener.tlsSecretTemplate" (list "portal-listener-ldap" .Values.ldap.tlsSecret .) -}}
-{{- end -}}
-
-{{- define "portal-listener.ldapAdminDn" -}}
-{{- if .Values.portalListener.ldapHostDn -}}
-{{- .Values.portalListener.ldapHostDn -}}
-{{- else -}}
-{{- printf "cn=admin,%s" (include "portal-listener.ldapBaseDn" .) -}}
-{{- end -}}
 {{- end -}}
 
 {{- define "portal-listener.notifierServer" -}}
