@@ -6,7 +6,7 @@ import os
 import os.path
 
 
-LISTENER_PATH = "./listener"
+LISTENER_PATH = "./portal_consumer"
 
 
 def load_listener(name):
@@ -19,10 +19,10 @@ def load_listener(name):
 
 def test_portal_listener_uses_get_portal_call_update(mocker):
     # Avoid that unsetuid screws up the user during the test run
-    mocker.patch("listener.__listener_uid", new=0)
+    mocker.patch("portal_consumer.__listener_uid", new=0)
     mocker.patch("subprocess.call")
     get_portal_update_call_mock = mocker.patch("univention.portal.util.get_portal_update_call")
-    listener = load_listener("portal_server.py")
+    listener = load_listener("consumer.py")
 
     listener.handler(dn="stub_dn", new={}, old={})
 
@@ -32,7 +32,7 @@ def test_portal_listener_uses_get_portal_call_update(mocker):
 def test_groups_listener_default_call(mocker):
     mocker.patch("subprocess.call")
     get_portal_update_call_mock = mocker.patch("univention.portal.util.get_portal_update_call")
-    listener = load_listener("portal_groups.py")
+    listener = load_listener("consumer.py")
     stub_config = listener.PortalGroups._get_configuration("stub_name")
     mocker.patch.object(listener.PortalGroups, "config", new=stub_config)
 
