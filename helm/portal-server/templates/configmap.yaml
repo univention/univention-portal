@@ -29,6 +29,4 @@ data:
   PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED: {{ .Values.portalServer.centralNavigation.enabled | quote }}
   OBJECT_STORAGE_ENDPOINT: {{ include "portal-server.objectStorageEndpoint" . | quote }}
   OBJECT_STORAGE_BUCKET: {{ include "portal-server.objectStorageBucket" . | quote }}
-  OBJECT_STORAGE_ACCESS_KEY_ID: {{ include "portal-server.objectStorageAccessKeyId"  . | quote }}
-  OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ include "portal-server.objectStorageSecretAccessKey"  . | quote }}
 ...
