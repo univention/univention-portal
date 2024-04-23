@@ -34,6 +34,12 @@ global:
   configMapUcr: "stack-data-swp-ucr"
   configMapUcrForced: null
 
+    # -- Configuration for the PostgreSQL database
+  postgresql:
+    connection:
+      host: ""
+      port: 5432
+
 # -- Additional custom annotations to add to all deployed objects.
 additionalAnnotations: {}
 

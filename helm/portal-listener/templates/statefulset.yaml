@@ -147,23 +147,9 @@ spec:
                 name: {{ include "common.names.fullname" . }}
           env:
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-listener.objectStorageAccessKeyId" . | quote}}
-              {{- end }}
+              {{- include "portal-listener.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-listener.objectStorageSecretAccessKey" . | quote}}
-              {{- end }}
+              {{- include "portal-listener.objectStorageSecretAccessKey" . | nindent 14 }}
           volumeMounts:
             - name: wait-for-object-store
               mountPath: /scripts
@@ -180,23 +166,9 @@ spec:
                 name: {{ include "common.names.fullname" . }}
           env:
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-listener.objectStorageAccessKeyId" . | quote}}
-              {{- end }}
+              {{- include "portal-listener.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-listener.objectStorageSecretAccessKey" . | quote}}
-              {{- end }}
+              {{- include "portal-listener.objectStorageSecretAccessKey" . | nindent 14 }}
           volumeMounts:
             - name: data
               mountPath: /var/lib/univention-directory-listener
@@ -248,23 +220,9 @@ spec:
                 name: {{ include "common.names.fullname" . }}
           env:
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-listener.objectStorageAccessKeyId" . | quote}}
-              {{- end }}
+              {{- include "portal-listener.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-listener.objectStorageSecretAccessKey" . | quote}}
-              {{- end }}
+              {{- include "portal-listener.objectStorageSecretAccessKey" . | nindent 14 }}
           volumeMounts:
             - name: data
               mountPath: /var/lib/univention-directory-listener
