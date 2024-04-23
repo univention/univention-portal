@@ -279,6 +279,20 @@ false
 			<td>Indicates wether this chart is part of a Nubus deployment.</td>
 		</tr>
 		<tr>
+			<td>global.postgresql</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "connection": {
+    "host": "",
+    "port": 5432
+  }
+}
+</pre>
+</td>
+			<td>Configuration for the PostgreSQL database</td>
+		</tr>
+		<tr>
 			<td>image.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">

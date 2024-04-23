@@ -87,23 +87,9 @@ spec:
           imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-server.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-server.objectStorageCredentialSecret.accessKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-server.objectStorageAccessKeyId" . | quote}}
-              {{- end }}
+              {{- include "portal-server.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
-              {{- if .Values.global.nubusDeployment }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "portal-server.objectStorageCredentialSecret.name" . | quote}}
-                  key: {{ include "portal-server.objectStorageCredentialSecret.secretKeyKey" . | quote}}
-              {{- else }}
-              value: {{ include "portal-server.objectStorageSecretAccessKey" . | quote}}
-              {{- end }}
+              {{- include "portal-server.objectStorageSecretAccessKey" . | nindent 14 }}
           envFrom:
             - configMapRef:
                 name: "{{ include "common.names.fullname" . }}"

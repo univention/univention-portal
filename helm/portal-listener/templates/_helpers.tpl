@@ -167,18 +167,6 @@ ums
 {{- end -}}
 {{- end -}}
 
-{{- define "portal-listener.objectStorageAccessKeyId" -}}
-{{- if not .Values.global.nubusDeployment -}}
-{{- required "The parameter \"portalListener.objectStorageAccessKeyId\" is required." .Values.portalListener.objectStorageAccessKeyId -}}
-{{- end -}}
-{{- end -}}
-
-{{- define "portal-listener.objectStorageSecretAccessKey" -}}
-{{- if not .Values.global.nubusDeployment -}}
-{{- required "The parameter \"portalListener.objectStorageSecretAccessKey\" is required." .Values.portalListener.objectStorageSecretAccessKey -}}
-{{- end -}}
-{{- end -}}
-
 
 {{- define "portal-listener.objectStorageCredentialSecret.name" -}}
 {{- if .Values.portalListener.objectStorageCredentialSecret.name -}}
@@ -197,5 +185,37 @@ ums
 {{- define "portal-listener.objectStorageCredentialSecret.secretKeyKey" -}}
 {{- if .Values.portalListener.objectStorageCredentialSecret.secretKeyKey -}}
 {{- .Values.portalListener.objectStorageCredentialSecret.secretKeyKey -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "portal-listener.objectStorageAccessKeyId" -}}
+{{- if .Values.portalListener.objectStorageCredentialSecret.name -}}
+valueFrom:
+  secretKeyRef:
+    name: {{ .Values.portalListener.objectStorageCredentialSecret.name | quote }}
+    key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote }}
+{{- else if .Values.global.nubusDeployment -}}
+valueFrom:
+  secretKeyRef:
+    name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote }}
+    key: {{ include "portal-listener.objectStorageCredentialSecret.accessKeyKey" . | quote }}
+{{- else -}}
+value: {{ required "The parameter \"portalListener.objectStorageAccessKeyId\" is required." .Values.portalListener.objectStorageAccessKeyId | quote }}
+{{- end -}}
+{{- end -}}
+
+{{- define "portal-listener.objectStorageSecretAccessKey" -}}
+{{- if .Values.portalListener.objectStorageCredentialSecret.name -}}
+valueFrom:
+  secretKeyRef:
+    name: {{ .Values.portalListener.objectStorageCredentialSecret.name | quote }}
+    key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote }}
+{{- else if .Values.global.nubusDeployment -}}
+valueFrom:
+  secretKeyRef:
+    name: {{ include "portal-listener.objectStorageCredentialSecret.name" . | quote }}
+    key: {{ include "portal-listener.objectStorageCredentialSecret.secretKeyKey" . | quote }}
+{{- else -}}
+value: {{ required "The parameter \"portalListener.objectStorageSecretAccessKey\" is required." .Values.portalListener.objectStorageSecretAccessKey | quote }}
 {{- end -}}
 {{- end -}}
