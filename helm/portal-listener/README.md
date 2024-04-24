@@ -199,6 +199,24 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>persistence.groupMembershipCache.size</td>
+			<td>string</td>
+			<td><pre lang="json">
+"100Mi"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>persistence.groupMembershipCache.storageClass</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>podAnnotations</td>
 			<td>object</td>
 			<td><pre lang="json">

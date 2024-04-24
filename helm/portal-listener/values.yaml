@@ -156,4 +156,6 @@ persistence:
   data:
     storageClass: ""
     size: "1Gi"
-
+  groupMembershipCache:
+    storageClass: ""
+    size: "100Mi"

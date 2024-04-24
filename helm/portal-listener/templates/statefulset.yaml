@@ -53,6 +53,8 @@ spec:
               mountPath: /var/secrets
             - name: data
               mountPath: /var/lib/univention-directory-listener
+            - name: group-membership-cache
+              mountPath: /usr/share/univention-group-membership-cache/caches
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       initContainers:
@@ -121,6 +123,8 @@ spec:
               mountPath: /var/secrets
             - name: data
               mountPath: /var/lib/univention-directory-listener
+            - name: group-membership-cache
+              mountPath: /usr/share/univention-group-membership-cache/caches
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
@@ -159,3 +163,13 @@ spec:
       resources:
         requests:
           storage: {{ .Values.persistence.data.size | required ".Values.persistence.data.size is required" | quote }}
+  - metadata:
+      name: group-membership-cache
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      {{- if .Values.persistence.groupMembershipCache.storageClass }}
+      storageClassName: {{ .Values.persistence.groupMembershipCache.storageClass | quote }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.groupMembershipCache.size | required ".Values.persistence.groupMembershipCache.size is required" | quote }}
