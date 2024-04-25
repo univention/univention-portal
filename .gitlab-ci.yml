@@ -20,7 +20,7 @@ lint-pre-commit:
       # Compose lint would fail without the referenced env files
       cp docker/.env.example docker/.env
       cp docker/.env.keycloak.example docker/.env.keycloak
-      cp docker/.env.listener.example docker/.env.listener
+      cp docker/.env.consumer.example docker/.env.consumer
       cp docker/.env.umc-gateway.example docker/.env.umc-gateway
       cp docker/.env.umc-server.example docker/.env.umc-server
       helm repo add bitnami https://charts.bitnami.com/bitnami

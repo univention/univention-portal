@@ -34,6 +34,7 @@ build/
 generated-config-*.yml
 .idea/
 .mypy_cache/
+.venv/
 
 # Packaging and build process related
 /debian/univention-portal/
