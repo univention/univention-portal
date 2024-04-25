@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.20.6](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.5...v0.20.6) (2024-04-25)
+
+
+### Bug Fixes
+
+* **listener:** Add volume "group-membership-cache" ([ebbd30f](https://git.knut.univention.de/univention/components/univention-portal/commit/ebbd30fe30918c1362f8cd2836b20129aa13e249))
+* **listener:** Skip rebuild of group membership cache in init container ([758e424](https://git.knut.univention.de/univention/components/univention-portal/commit/758e424067a417b18e4547cc7cf52e60e19938c4))
+
 ## [0.20.5](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.4...v0.20.5) (2024-04-15)
 
 
