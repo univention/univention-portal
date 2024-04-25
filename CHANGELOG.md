@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.21.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.7...v0.21.0) (2024-04-25)
+
+
+### Features
+
+* changes to support the refactored umbrella values in a nubus deployment (notifications-api) ([86b81ab](https://git.knut.univention.de/univention/components/univention-portal/commit/86b81abc131684b8ac967f2b0fe5ec807657476b))
+* changes to support the refactored umbrella values in a nubus deployment (portal-listener) ([c80373f](https://git.knut.univention.de/univention/components/univention-portal/commit/c80373f8ba0c855e1bd475a93832c32f2d9905db))
+* changes to support the refactored umbrella values in a nubus deployment (portal-server) ([fe6dbf7](https://git.knut.univention.de/univention/components/univention-portal/commit/fe6dbf7855e8b4b343f139a16b638cef117af11a))
+
+
+### Bug Fixes
+
+* base portal-listener.ldapAdminDn on nubusTemplates.ldapServer.ldap.adminDn rename portal-listener.ldapHost to portal-listener.ldap.connection.host ([1c8ca02](https://git.knut.univention.de/univention/components/univention-portal/commit/1c8ca02af09efcde21419664d569c3770841915e))
+* code deduplication ([c1c411e](https://git.knut.univention.de/univention/components/univention-portal/commit/c1c411ec82707293731b6f8b598c807952b7ad9f))
+* remove unneeded configmap entries ([5f78e49](https://git.knut.univention.de/univention/components/univention-portal/commit/5f78e49d1849386ac102d7393e965bb433ecdc1f))
+* remove unneeded template defintion ([7452a4e](https://git.knut.univention.de/univention/components/univention-portal/commit/7452a4e1bf60cd227ba05cb04f2c7cf1d62a6818))
+
 ## [0.20.7](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.6...v0.20.7) (2024-04-25)
 
 
