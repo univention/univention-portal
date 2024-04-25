@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.7](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.6...v0.20.7) (2024-04-25)
+
+
+### Bug Fixes
+
+* Revert "fix(listener): Skip rebuild of group membership cache in init container" ([57a494b](https://git.knut.univention.de/univention/components/univention-portal/commit/57a494b1e9142aa0384cd778a3f71eca3a0aeea3))
+
 ## [0.20.6](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.5...v0.20.6) (2024-04-25)
 
 
