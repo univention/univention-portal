@@ -89,6 +89,7 @@ These template definitions are only used in this chart and do not relate to temp
 {{- include "portal-listener.tlsSecretTemplate" (list "portal-listener-ldap" .Values.ldap.tlsSecret .) -}}
 {{- end -}}
 
+
 {{- define "portal-listener.notifierServer" -}}
 {{- if .Values.portalListener.notifierServer -}}
 {{- .Values.portalListener.notifierServer -}}
@@ -218,4 +219,34 @@ valueFrom:
 {{- else -}}
 value: {{ required "The parameter \"portalListener.objectStorageSecretAccessKey\" is required." .Values.portalListener.objectStorageSecretAccessKey | quote }}
 {{- end -}}
+{{- end -}}
+
+{{- define "portal-listener.secretVolumeMounts" -}}
+{{- $secretMountPath := .Values.portalListener.secretMountPath -}}
+{{- $tlsSecretName := include "portal-listener.ldap.tlsSecret.name" . -}}
+{{- $credentialSecretName := include "portal-listener.ldap.credentialSecret.name" . -}}
+{{- if $credentialSecretName }}
+- name: {{ printf "%s-volume" $credentialSecretName | quote }}
+  mountPath: "{{ $secretMountPath }}/ldap_secret"
+  subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
+  readOnly: true
+- name: {{ printf "%s-volume" $credentialSecretName | quote }}
+  mountPath: "{{ $secretMountPath }}/machine_secret"
+  subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
+  readOnly: true
+{{- end }}
+{{- if $tlsSecretName }}
+- name: {{ printf "%s-volume" $tlsSecretName | quote }}
+  mountPath: "{{ $secretMountPath }}/ca_cert"
+  subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
+  readOnly: true
+- name: {{ printf "%s-volume" $tlsSecretName | quote }}
+  mountPath: "{{ $secretMountPath }}/cert_pem"
+  subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
+  readOnly: true
+- name: {{ printf "%s-volume" $tlsSecretName | quote }}
+  mountPath: "{{ $secretMountPath }}/private_key"
+  subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
+  readOnly: true
+{{- end }}
 {{- end -}}
