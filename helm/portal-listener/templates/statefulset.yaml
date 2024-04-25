@@ -58,34 +58,7 @@ spec:
             - name: "secrets"
               mountPath: "{{ .Values.portalListener.secretMountPath }}"
             {{- else }}
-            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
-              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
-              readOnly: true
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
-              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
-              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
-              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
-              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
-              readOnly: true
-            {{- end }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
@@ -105,34 +78,7 @@ spec:
             - name: "secrets"
               mountPath: "{{ .Values.portalListener.secretMountPath }}"
             {{- else }}
-            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
-              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
-              readOnly: true
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
-              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
-              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
-              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
-              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
-              readOnly: true
-            {{- end }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
@@ -178,34 +124,7 @@ spec:
             - name: "secrets"
               mountPath: "{{ .Values.portalListener.secretMountPath }}"
             {{- else }}
-            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
-              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
-              readOnly: true
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
-              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
-              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
-              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
-              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
-              readOnly: true
-            {{- end }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -232,34 +151,7 @@ spec:
             - name: "secrets"
               mountPath: "{{ .Values.portalListener.secretMountPath }}"
             {{- else }}
-            {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ldap_secret"
-              subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
-              readOnly: true
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/machine_secret"
-              subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/ca_cert"
-              subPath: {{ .Values.ldap.tlsSecret.caCertKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/cert_pem"
-              subPath: {{ .Values.ldap.tlsSecret.certificateKey | quote }}
-              readOnly: true
-            {{- end }}
-            {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
-            - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
-              mountPath: "{{ .Values.portalListener.secretMountPath }}/private_key"
-              subPath: {{ .Values.ldap.tlsSecret.privateKeyKey | quote }}
-              readOnly: true
-            {{- end }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
