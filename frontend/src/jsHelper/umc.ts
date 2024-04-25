@@ -38,8 +38,12 @@ interface Choice {
   label: string,
 }
 
+function getSessionId(port: string, getCookieFunction: Function): string {
+    return getCookieFunction('UMCSessionId-' + port) || getCookieFunction('UMCSessionId');
+}
+
 function umc(path: string, options?: any, flavor?: string): Promise<AxiosResponse<any>> {
-  const umcSessionId = getCookie('UMCSessionId');
+  const umcSessionId = getSessionId(document.location.port, getCookie);
   const umcLang = getCookie('UMCLang');
   const headers = { 'X-Requested-With': 'XMLHttpRequest' };
   if (umcLang) {
@@ -130,4 +134,4 @@ function udmChoices(objectType: string, syntax: string, searchString: string): P
   'portals/all');
 }
 
-export { changePassword, umc, umcCommand, umcCommandWithStandby, udmPut, udmAdd, udmRemove, udmChoices, Choice };
+export { changePassword, getSessionId, umc, umcCommand, umcCommandWithStandby, udmPut, udmAdd, udmRemove, udmChoices, Choice };
