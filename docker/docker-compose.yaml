@@ -19,13 +19,13 @@ x-portal-environment:
 
 # Cannot be in the services section currently.
 # See https://github.com/docker/compose/issues/8809
-x-portal-listener-base:
-  &portal-listener-base
+x-portal-consumer-base:
+  &portal-consumer-base
   platform: "linux/amd64"
   build:
     context: ../
-    dockerfile: docker/portal-listener/Dockerfile
-  env_file: .env.listener
+    dockerfile: docker/portal-consumer/Dockerfile
+  env_file: .env.consumer
   environment:
     <<: *portal-environment
   depends_on:
@@ -37,7 +37,7 @@ x-portal-listener-base:
     - ldap_secret
     - machine_secret
   volumes:
-    - listener-data:/var/lib/univention-directory-listener/:rw
+    - consumer-data:/var/lib/univention-directory-listener/:rw
 
 services:
   # The frontend of the Portal. The context directory contains more details.
@@ -61,14 +61,14 @@ services:
     environment:
       <<: *portal-environment
 
-  portal-listener-init:
-    <<: *portal-listener-base
+  portal-consumer-init:
+    <<: *portal-consumer-base
     command: "/initialize.sh"
 
-  portal-listener:
-    <<: *portal-listener-base
+  portal-consumer:
+    <<: *portal-consumer-base
     depends_on:
-      portal-listener-init:
+      portal-consumer-init:
         condition: service_completed_successfully
 
   store-dav:
@@ -254,7 +254,7 @@ secrets:
     file: secret/store-dav-htpasswd
 
 volumes:
-  listener-data:
+  consumer-data:
   postgresql-data:
   pre-commit-cache:
   store-dav-data:

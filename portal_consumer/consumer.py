@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 import subprocess
@@ -9,6 +10,7 @@ from aiohttp import ClientResponseError
 
 class PortalConsumer:
     def __init__(self):
+        logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
         self.provisioning_admin_username = os.environ.get("PROVISIONING_ADMIN_USERNAME")
         self.provisioning_admin_password = os.environ.get("PROVISIONING_ADMIN_PASSWORD")
@@ -41,7 +43,7 @@ class PortalConsumer:
                 await admin_client.create_subscription(
                     settings.provisioning_api_username,
                     settings.provisioning_api_password,
-                    [self.provisioning_realm_topic],
+                    self.provisioning_realm_topic,
                     False,
                 )
                 self.logger.info("A consumer was created")
@@ -65,3 +67,12 @@ class PortalConsumer:
             reason = f'ldap:{topic}:{dn}'
 
         subprocess.call(get_portal_update_call(reason=reason))
+
+
+def run() -> None:
+    consumer = PortalConsumer()
+    asyncio.run(consumer.start_listening_for_changes())
+
+
+if __name__ == "__main__":
+    run()
