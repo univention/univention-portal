@@ -11,25 +11,21 @@ ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/unive
 # hadolint ignore=DL3006
 FROM ${PORTAL_BASE_IMAGE} as portal-server-image
 
-#FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as build
 FROM ${LISTENER_BASE_IMAGE}
 
 # TODO: Duplicated from the portal-server
-# FIXME: clean up redundant installations
 RUN apt-get update \
-    && apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    python3-pip \
-    jq \
-    pipx \
-    python3-venv \
-    python3-boto3 \
-    python3-click \
-    python3-tornado \
-    python3-univention-directory-manager-rest-client \
-    univention-group-membership-cache \
-    univention-directory-listener \
+    jq=1.5+* \
+    python3=3.7.* \
+    python3-pip=18.1-5 \
+    python3-boto3=1.9.* \
+    python3-univention-directory-manager-rest-client=10.* \
+    univention-group-membership-cache=2.* \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+RUN pip3 install --upgrade pip
+RUN pip3 install provisioning-consumer-lib --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
 
 # TODO: Duplicated from the portal-server
 RUN mkdir -p /var/log/univention/ \
@@ -42,14 +38,12 @@ RUN mkdir -p /var/log/univention/ \
     && touch /var/cache/univention-portal/portal.json \
     && touch /var/cache/univention-portal/selfservice.json
 
-RUN pipx install provisioning-consumer-lib --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
 
 COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
 COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-docker-entrypoint.sh
 
 COPY ./docker/portal-consumer/stub_portals.json /usr/share/univention-portal/portals.json
-
 COPY ./docker/portal-consumer/portal-consumer-entrypoint.sh /entrypoint.d/75-portal-consumer-entrypoint.sh
 COPY ./docker/portal-consumer/initialize.sh /
 COPY ./portal_consumer/consumer.py /
