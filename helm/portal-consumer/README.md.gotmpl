@@ -12,15 +12,15 @@
 
 ```console
 helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install portal-listener univention-portal/portal-listener
+helm upgrade --install portal-consumer univention-portal/portal-consumer
 ```
 
 
 ## Introduction
 
-This chart does install the Portal Listener of the Univention Portal.
+This chart does install the Portal Consumer of the Univention Portal.
 
-The listener is a stateful component which does process change events regarding
+The consumer is a stateful component which does process change events regarding
 the central LDAP directory.
 
 
@@ -31,20 +31,20 @@ the central LDAP directory.
 
 ## Installing
 
-To install the chart with the release name `portal-listener`:
+To install the chart with the release name `portal-consumer`:
 
 ```console
 helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install portal-listener univention-portal/portal-listener
+helm upgrade --install portal-consumer univention-portal/portal-consumer
 ```
 
 
 ## Uninstalling
 
-To uninstall the chart with the release name `portal-listener`:
+To uninstall the chart with the release name `portal-consumer`:
 
 ```console
-helm uninstall portal-listener
+helm uninstall portal-consumer
 ```
 
 {{ template "chart.requirementsSection" . }}

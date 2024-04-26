@@ -131,7 +131,7 @@ def log_url_safe(url):
 
 def get_portal_update_call(reason):
     call_args = ["/usr/sbin/univention-portal"]
-    if os.environ.get("PORTAL_LISTENER_LOG_STREAM") == "true":
+    if os.environ.get("PORTAL_CONSUMER_LOG_STREAM") == "true":
         call_args.append("--log-stream")
     call_args.extend(["update", "--reason", reason])
     return call_args

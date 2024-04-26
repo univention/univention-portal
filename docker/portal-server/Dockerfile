@@ -74,11 +74,9 @@ RUN mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log \
     && mkdir -p /usr/share/univention-portal \
     && mkdir -p /usr/lib/univention-portal/config \
-    && mkdir -p /app/listener
 
 COPY ./univention-portal-server /usr/sbin/univention-portal-server
 COPY ./univention-portal .
-COPY ./listener/*.py /app/listener/
 COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 
 # Considered to be part of the application.

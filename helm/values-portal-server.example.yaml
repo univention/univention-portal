@@ -14,7 +14,7 @@ portalServer:
   environment: "staging"
   editable: "true"
   logLevel: "DEBUG"
-  ucsInternalUrl: "http://portal-server:univention@portal-listener-store-dav/portal-data"
+  ucsInternalUrl: "http://portal-server:univention@portal-consumer-store-dav/portal-data"
   umcGetUrl: "https://portal-server:univention@portal.example.develop.souvap-univention.de/univention/internal/umc/get"
   umcSessionUrl: "https://portal-server:univention@portal.example.develop.souvap-univention.de/univention/internal/umc/get/session-info"
 

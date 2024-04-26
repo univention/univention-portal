@@ -38,7 +38,7 @@ ansible-playbook ./ansible/ucs-umc-open-from-external.yaml -i ./ansible/hosts.ya
   The username is `portal-server`.
   The `hosts.yaml` contains a variable, `ucs_auth_secret`, which is the shared password between the UCS machine and the portal-server.
 
-  With the inclusion of the portal-listener into the stack, these endpoints should not be accessed anymore.
+  With the inclusion of the portal-consumer into the stack, these endpoints should not be accessed anymore.
 
 - [`ucs-umc-open-from-external.yaml`](./ucs-umc-open-from-external.yaml):
   Exposes the UMC API publicly on a dev machine.

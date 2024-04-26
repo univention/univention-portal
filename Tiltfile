@@ -38,12 +38,12 @@ docker_build(
 )
 
 docker_build(
-    'registry.souvap-univention.de/souvap/tooling/images/univention-portal/portal-listener:development',
+    'registry.souvap-univention.de/souvap/tooling/images/univention-portal/portal-consumer:development',
     './',
     build_args={
         'PORTAL_BASE_IMAGE': 'registry.souvap-univention.de/souvap/tooling/images/univention-portal/portal-server:development',
     },
-    dockerfile='docker/portal-listener/Dockerfile',
+    dockerfile='docker/portal-consumer/Dockerfile',
 )
 
 docker_build(
@@ -63,7 +63,7 @@ local("""
 
 local("helm get values ums-portal-frontend --namespace {namespace} > portal-frontend-values.yaml".format(namespace=namespace))
 local("helm get values ums-portal-server --namespace {namespace} > portal-server-values.yaml".format(namespace=namespace))
-local("helm get values ums-portal-listener --namespace {namespace} > portal-listener-values.yaml".format(namespace=namespace))
+local("helm get values ums-portal-consumer --namespace {namespace} > portal-consumer-values.yaml".format(namespace=namespace))
 
 k8s_yaml(
     helm(
@@ -97,15 +97,15 @@ k8s_yaml(
 )
 k8s_yaml(
     helm(
-        "helm/portal-listener",
-        name='ums-portal-listener',
+        "helm/portal-consumer",
+        name='ums-portal-consumer',
         namespace=namespace,
-        values='portal-listener-values.yaml',
+        values='portal-consumer-values.yaml',
         set=[
             'global.imagePullSecrets[0]=souvap-gitlab',
             'image.imagePullPolicy=Always',
             'image.registry=registry.souvap-univention.de',
-            'image.repository=souvap/tooling/images/univention-portal/portal-listener',
+            'image.repository=souvap/tooling/images/univention-portal/portal-consumer',
             'image.tag=development',
         ]
     )

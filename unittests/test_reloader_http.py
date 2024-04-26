@@ -122,7 +122,7 @@ def test_http_reloader_adds_user_agent_header(http_reloader, mocker):
     stub_content = (b"stub_content", [])
 
     http_reloader._write_content(stub_content, stub_url)
-    expected_headers = {"user-agent": "portal-listener"}
+    expected_headers = {"user-agent": "portal-consumer"}
     put_mock.assert_called_once_with(url=mock.ANY, data=mock.ANY, headers=expected_headers)
 
 
