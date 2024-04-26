@@ -39,7 +39,7 @@ interface Choice {
 }
 
 function getSessionId(port: string, getCookieFunction: Function): string {
-    return getCookieFunction('UMCSessionId-' + port) || getCookieFunction('UMCSessionId');
+  return getCookieFunction(`UMCSessionId-${port}`) || getCookieFunction('UMCSessionId');
 }
 
 function umc(path: string, options?: any, flavor?: string): Promise<AxiosResponse<any>> {
