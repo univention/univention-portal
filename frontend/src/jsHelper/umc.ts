@@ -38,7 +38,7 @@ interface Choice {
   label: string,
 }
 
-function getSessionId(port: string, getCookieFunction: (name: string) => string): string {
+function getSessionId(port: string, getCookieFunction: (name: string) => string | undefined): string {
   return getCookieFunction(`UMCSessionId-${port}`) || getCookieFunction('UMCSessionId');
 }
 
