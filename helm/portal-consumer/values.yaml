@@ -28,7 +28,7 @@ global:
   #            kubelet attempts to start the container; otherwise, startup fails.
   imagePullPolicy: "IfNotPresent"
 
-# Default values for univention-portal-listener
+# Default values for univention-portal-consumer
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -49,10 +49,10 @@ mountSecrets: true
 # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
 terminationGracePeriodSeconds: ""
 
-# -- Application configuration of the Portal Listener
-portalListener:
+# -- Application configuration of the Portal Consumer
+portalConsumer:
   port: "80"
-  # Update configuration to mach the needs of the portal listener
+  # Update configuration to mach the needs of the portal consumer
   # -- Define LDAP Admin Group.
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
   adminGroup: null
@@ -70,7 +70,7 @@ portalListener:
   tlsMode: "off"
   # -- Internal domain name of the UCS machine
   domainName: "univention.intranet"
-  # -- Debug level of the listener
+  # -- Debug level of the consumer
   debugLevel: "1"
   # -- Defines if members of the Admin group can use the edit mode in the portal.
   editable: "true"
@@ -137,13 +137,14 @@ portalListener:
     name: ""
     accessKeyKey: "accessKey"
     secretKeyKey: "secretKey"
+  provisioningApiBaseUrl: "http://provisioning-api"
   # -- Path to mount the secrets to.
   secretMountPath: "/var/secrets"
 
 ## Docker image
 image:
   registry: ""
-  repository: "nubus-dev/images/portal-listener"
+  repository: "nubus-dev/images/portal-consumer"
   imagePullPolicy: "IfNotPresent"
   tag: "latest"
 
@@ -173,7 +174,7 @@ probes:
     successThreshold: 1
 
 
-# -- Deployment resources for the listener container
+# -- Deployment resources for the consumer container
 resources: {}
 # requests:
 #   memory: "512Mi"

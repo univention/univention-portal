@@ -1,0 +1,86 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+
+---
+{{ include "common.configMap" (dict "top" . "overrides" "portal-consumer.configMap") }}
+
+{{- define "portal-consumer.configMap" }}
+{{- with .top }}
+data:
+  DOMAIN_NAME: {{ include "portal-consumer.ldapDomainName" . | quote }}
+  ENVIRONMENT: "{{ .Values.portalConsumer.environment }}"
+  LDAP_BASE_DN: {{ include "portal-consumer.ldapBaseDn" . | quote }}
+  LDAP_PASSWORD: "{{ .Values.portalConsumer.ldapSecret }}"
+  LDAP_PASSWORD_FILE: "{{ .Values.portalConsumer.ldapSecretFile }}"
+  LDAP_HOST: {{ include "portal-consumer.ldap.connection.host" . | quote}}
+  LDAP_HOST_DN: {{ include "portal-consumer.ldapAdminDn" . | quote }}
+  LDAP_PORT: {{ include "portal-consumer.ldap.connection.port" . | quote }}
+  LOG_LEVEL: "{{ .Values.portalConsumer.logLevel }}"
+  MACHINE_SECRET_FILE: "{{ .Values.portalConsumer.machineSecretFile }}"
+  NOTIFIER_SERVER: {{ include "portal-consumer.notifierServer" . | quote }}
+  DEBUG_LEVEL: "{{ .Values.portalConsumer.debugLevel }}"
+  PORTAL_DEFAULT_DN: {{ include "portal-consumer.portalDefaultDn" . | quote }}
+  PORTAL_CONSUMER_LOG_STREAM: "true"
+  PORTAL_SERVER_ADMIN_GROUP: {{ include "portal-consumer.adminGroup" . | quote }}
+  PORTAL_SERVER_ASSETS_ROOT_PATH: "{{ .Values.portalConsumer.assetsRootPath }}"
+  PORTAL_SERVER_AUTH_MODE: {{ include "portal-consumer.authMode" . | quote }}
+  PORTAL_SERVER_EDITABLE: "{{ .Values.portalConsumer.editable }}"
+  PORTAL_SERVER_PORT: "{{ .Values.portalConsumer.port }}"
+  PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalConsumer.ucsInternalPath\" is required." .Values.portalConsumer.ucsInternalPath | quote }}
+  PORTAL_SERVER_UMC_GET_URL: {{ include "portal-consumer.umcGetUrl" . | quote }}
+  PORTAL_SERVER_UMC_SESSION_URL: {{ include "portal-consumer.umcSessionUrl" .| quote }}
+  PORTAL_UDM_API_URL: {{ include "portal-consumer.udmApiUrl" . | quote}}
+  PORTAL_UDM_API_USERNAME: "{{ .Values.portalConsumer.udmApiUsername }}"
+  PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalConsumer.udmApiSecretFile }}"
+  OBJECT_STORAGE_ENDPOINT: {{ include "portal-consumer.objectStorageEndpoint" . | quote }}
+  OBJECT_STORAGE_BUCKET: {{ include "portal-consumer.objectStorageBucket" . | quote }}
+  OBJECT_STORAGE_ACCESS_KEY_ID: {{ include "portal-consumer.objectStorageAccessKeyId"  . | quote }}
+  OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ include "portal-consumer.objectStorageSecretAccessKey"  . | quote }}
+  CA_CERT: "{{ .Values.portalConsumer.caCert }}"
+  CA_CERT_FILE: "{{ .Values.portalConsumer.caCertFile }}"
+  TLS_MODE: "{{ .Values.portalConsumer.tlsMode }}"
+  PROVISIONING_API_BASE_URL: {{ .Values.portalConsumer.provisioningApiBaseUrl | quote }}
+  wait-for-ldap.sh: |
+    #!/bin/bash
+    set -euxo pipefail
+
+    while ! ldapsearch -H ldap://$LDAP_HOST -D $LDAP_HOST_DN -y $LDAP_PASSWORD_FILE -b "" -s base -LLL; do
+      echo "Checking if LDAP Server can be reached..."
+      sleep 2
+    done
+
+    echo "Success, the LDAP Server is available"
+  wait-for-udm.sh: |
+    #!/bin/bash
+    # TODO: find a way to not leak the udm passwort into the log
+    set -euxo pipefail
+
+    while ! curl -o- --fail --header "Accept: application/json" --user "${PORTAL_UDM_API_USERNAME}:$(cat $PORTAL_UDM_API_PASSWORD_FILE)" "${PORTAL_UDM_API_URL}ldap/base/"; do
+      echo "Checking if the UDM REST API can be reached..."
+      sleep 2
+    done
+
+    echo "Success, the UDM REST API is available"
+  wait-for-object-store.py: |
+    #!/bin/python3
+    import boto3
+    import os
+
+    s3 = boto3.resource(
+            's3',
+            endpoint_url=os.environ["OBJECT_STORAGE_ENDPOINT"],
+            aws_access_key_id=os.environ["OBJECT_STORAGE_ACCESS_KEY_ID"],
+            aws_secret_access_key=os.environ["OBJECT_STORAGE_SECRET_ACCESS_KEY"]
+        )
+
+    provisioned = False
+    while not provisioned:
+        bucket = s3.Bucket(os.environ["OBJECT_STORAGE_BUCKET"])
+        provisioned = bool(bucket.creation_date)
+        if not provisioned:
+           print("Waiting for the object storage service to be provisioned")
+           break
+        else:
+           print("Object storage already provisioned")
+{{- end }}
+{{- end }}

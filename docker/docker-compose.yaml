@@ -15,7 +15,7 @@ x-portal-environment:
   PORTAL_SERVER_UCS_INTERNAL_URL: "http://portal-server:univention@store-dav/portal-data/"
   PORTAL_SERVER_UMC_GET_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/get"
   PORTAL_SERVER_UMC_SESSION_URL: "http://${DOCKER_HOST_INTERNAL}:${PROXY_PORT}/univention/get/session-info"
-  PORTAL_LISTENER_LOG_STREAM: "true"
+  PORTAL_CONSUMER_LOG_STREAM: "true"
 
 # Cannot be in the services section currently.
 # See https://github.com/docker/compose/issues/8809
@@ -191,8 +191,8 @@ services:
         source: ../python
         target: /staging/python
       - type: bind
-        source: ../listener
-        target: /staging/listener
+        source: ../portal_consumer
+        target: /staging/portal_consumer
       - type: bind
         source: ../unittests
         target: /staging/unittests

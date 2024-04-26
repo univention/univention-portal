@@ -95,7 +95,7 @@ def test_get_portal_update_call_defaults():
 
 
 def test_get_portal_update_call_sets_log_stream_based_on_environment():
-    with mock.patch.dict(os.environ, {"PORTAL_LISTENER_LOG_STREAM": "true"}):
+    with mock.patch.dict(os.environ, {"PORTAL_CONSUMER_LOG_STREAM": "true"}):
         call_args = get_portal_update_call(reason="stub_reason")
 
     expected_call_args = [

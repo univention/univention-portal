@@ -5,11 +5,11 @@ services:
     extra_hosts:
       {{ ansible_fqdn }}: "{{ ansible_host }}"
 
-  portal-listener:
+  portal-consumer:
     extra_hosts:
       {{ ansible_fqdn }}: "{{ ansible_host }}"
 
-  portal-listener-init:
+  portal-consumer-init:
     extra_hosts:
       {{ ansible_fqdn }}: "{{ ansible_host }}"
 

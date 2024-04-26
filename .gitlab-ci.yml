@@ -204,20 +204,44 @@ test-unit:
     - yarn --cwd=frontend test:unit
   stage: test
 
-lint:
-  allow_failure: true
-  extends: .node-template
-  needs:
-    - build-nodejs
-  script:
-    - yarn lint:all
-  stage: lint
+trigger-portal-server:
+  stage: "trigger"
+  variables:
+    RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
+  trigger:
+    strategy: "depend"
+    include:
+      - local: "portal-server/.gitlab-ci.yml"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
+    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+      when: "always"
+    - changes: &portal-server-changes
+        - "docker/portal-server/**/*"
+        - "docker/portal-consumer/**/*"
+        - "listener/**/*"
+        - "portal-server/**/*"
+        - "python/**/*"
+        - "setup.py"
+        - "tests/**/*"
+        - "udm/**/*"
+        - "unittests/**/*"
+        - "univention-portal"
+        - "univention-portal-server"
 
 .remove-env-instance: &remove-env-instance
   - terraform refresh
   - terraform destroy -auto-approve
 
-.environment-common:
+check-debian-updates:
+  parallel:
+    matrix:
+      - IMAGE_NAME: "portal-server"
+      - IMAGE_NAME: "portal-frontend"
+      - IMAGE_NAME: "notifications-api"
+      - IMAGE_NAME: "portal-consumer"
   before_script:
     - rm -rf ${CI_BUILDS_DIR}/terraform
     - git -c http.sslVerify=false clone --single-branch --branch main --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/univention/customers/dataport/deployment/terraform-ionos ${CI_BUILDS_DIR}/terraform

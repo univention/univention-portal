@@ -3,11 +3,11 @@
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
-# Dummy values for running the Helm linter on the portal-listener.
+# Dummy values for running the Helm linter on the portal-consumer.
 # Run it like this: helm lint -f values.yaml -f linter_values.yaml .
 
 ## Application-specific
-portalListener:
+portalConsumer:
   adminGroup: "cn=Domain Admins,cn=groups,dc=univention-organization,dc=intranet"
   environment: "staging"
   logLevel: "DEBUG"
