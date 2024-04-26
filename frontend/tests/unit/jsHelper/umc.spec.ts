@@ -15,7 +15,6 @@ describe('getSessionId', () => {
       if (name === 'UMCSessionId-1234') {
         return 'somevalue';
       }
-      return null;
     })).toBe('somevalue');
   });
   it('should find session cookies without a port', async () => {
@@ -26,7 +25,6 @@ describe('getSessionId', () => {
       if (name === 'UMCSessionId') {
         return 'somevalue';
       }
-      return null;
     })).toBe('somevalue');
   });
 });
