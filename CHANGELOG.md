@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.21.0...v0.22.0) (2024-04-29)
+
+
+### Features
+
+* drop session cookie patch ([1172fd8](https://git.knut.univention.de/univention/components/univention-portal/commit/1172fd8995dfc56332b6051a5965c4f28231191d))
+
 ## [0.21.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.20.7...v0.21.0) (2024-04-25)
 
 
