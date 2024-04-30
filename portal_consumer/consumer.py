@@ -1,11 +1,16 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2024 Univention GmbH
+
 import asyncio
 import logging
 import os
 import subprocess
-from univention.portal.util import get_portal_update_call
+
+from aiohttp import ClientResponseError
 from client import AsyncClient, MessageHandler, Settings
 from shared.models import Message
-from aiohttp import ClientResponseError
+
+from univention.portal.util import get_portal_update_call
 
 
 class PortalConsumer:
@@ -53,7 +58,7 @@ class PortalConsumer:
         self.logger.info("Listening for changes in the portal and groups")
         async with AsyncClient(settings) as client:
             await MessageHandler(
-                client, settings.provisioning_api_username, [self.handle_message]
+                client, settings.provisioning_api_username, [self.handle_message],
             ).run()
 
     @staticmethod

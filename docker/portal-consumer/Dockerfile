@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG LISTENER_BASE_IMAGE_TAG=0.4.6
-ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base:${LISTENER_BASE_IMAGE_TAG}
+ARG LISTENER_BASE_IMAGE_TAG=0.7.0
+ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
 ARG PORTAL_BASE_IMAGE_TAG=latest
@@ -11,7 +11,7 @@ ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/unive
 # hadolint ignore=DL3006
 FROM ${PORTAL_BASE_IMAGE} as portal-server-image
 
-FROM ${LISTENER_BASE_IMAGE}
+FROM ${LISTENER_BASE_IMAGE}:${LISTENER_BASE_IMAGE_TAG}
 
 # TODO: Duplicated from the portal-server
 RUN apt-get update \
@@ -24,8 +24,8 @@ RUN apt-get update \
     univention-group-membership-cache=2.* \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-RUN pip3 install --upgrade pip
-RUN pip3 install provisioning-consumer-lib --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
+RUN pip3 install --no-cache-dir --upgrade pip==24.* && \
+    pip3 install --no-cache-dir provisioning-consumer-lib==0.23.* --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
 
 # TODO: Duplicated from the portal-server
 RUN mkdir -p /var/log/univention/ \
