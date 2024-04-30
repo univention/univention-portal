@@ -1,6 +1,6 @@
-# portal-listener
+# portal-consumer
 
-A Helm chart for the Univention Portal Listener
+A Helm chart for the Univention Portal Consumer
 
 - **Version**: 0.1.0
 - **Type**: application
@@ -11,31 +11,31 @@ A Helm chart for the Univention Portal Listener
 
 ```console
 helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install portal-listener univention-portal/portal-listener
+helm upgrade --install portal-consumer univention-portal/portal-consumer
 ```
 
 ## Introduction
 
-This chart does install the Portal Listener of the Univention Portal.
+This chart does install the Portal Consumer of the Univention Portal.
 
-The listener is a stateful component which does process change events regarding
+The consumer is a stateful component which does process change events regarding
 the central LDAP directory.
 
 ## Installing
 
-To install the chart with the release name `portal-listener`:
+To install the chart with the release name `portal-consumer`:
 
 ```console
 helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install portal-listener univention-portal/portal-listener
+helm upgrade --install portal-consumer univention-portal/portal-consumer
 ```
 
 ## Uninstalling
 
-To uninstall the chart with the release name `portal-listener`:
+To uninstall the chart with the release name `portal-consumer`:
 
 ```console
-helm uninstall portal-listener
+helm uninstall portal-consumer
 ```
 
 ## Requirements
@@ -148,7 +148,7 @@ false
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"nubus-dev/images/portal-listener"
+"nubus-dev/images/portal-consumer"
 </pre>
 </td>
 			<td></td>
@@ -307,7 +307,7 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>portalListener</td>
+			<td>portalConsumer</td>
 			<td>object</td>
 			<td><pre lang="json">
 {
@@ -343,6 +343,7 @@ true
   "objectStorageSecretAccessKey": "",
   "port": "80",
   "portalDefaultDn": null,
+  "provisioningApiBaseUrl": "http://provisioning-api",
   "secretMountPath": "/var/secrets",
   "tlsMode": "off",
   "ucsInternalPath": "portal-data",
@@ -354,10 +355,10 @@ true
 }
 </pre>
 </td>
-			<td>Application configuration of the Portal Listener</td>
+			<td>Application configuration of the Portal Consumer</td>
 		</tr>
 		<tr>
-			<td>portalListener.adminGroup</td>
+			<td>portalConsumer.adminGroup</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -366,7 +367,7 @@ null
 			<td>Define LDAP Admin Group. Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`</td>
 		</tr>
 		<tr>
-			<td>portalListener.assetsRootPath</td>
+			<td>portalConsumer.assetsRootPath</td>
 			<td>string</td>
 			<td><pre lang="json">
 "portal-assets"
@@ -375,7 +376,7 @@ null
 			<td>Where to store the assets inside the object storage bucket, e.g. portal entry icons</td>
 		</tr>
 		<tr>
-			<td>portalListener.authMode</td>
+			<td>portalConsumer.authMode</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -384,7 +385,7 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
 		</tr>
 		<tr>
-			<td>portalListener.caCert</td>
+			<td>portalConsumer.caCert</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -393,7 +394,7 @@ null
 			<td>CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.</td>
 		</tr>
 		<tr>
-			<td>portalListener.caCertFile</td>
+			<td>portalConsumer.caCertFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/ca_cert"
@@ -402,16 +403,16 @@ null
 			<td>The path to the "caCertFile" docker secret or a plain file.</td>
 		</tr>
 		<tr>
-			<td>portalListener.debugLevel</td>
+			<td>portalConsumer.debugLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
 "1"
 </pre>
 </td>
-			<td>Debug level of the listener</td>
+			<td>Debug level of the consumer</td>
 		</tr>
 		<tr>
-			<td>portalListener.domainName</td>
+			<td>portalConsumer.domainName</td>
 			<td>string</td>
 			<td><pre lang="json">
 "univention.intranet"
@@ -420,7 +421,7 @@ null
 			<td>Internal domain name of the UCS machine</td>
 		</tr>
 		<tr>
-			<td>portalListener.editable</td>
+			<td>portalConsumer.editable</td>
 			<td>string</td>
 			<td><pre lang="json">
 "true"
@@ -429,7 +430,7 @@ null
 			<td>Defines if members of the Admin group can use the edit mode in the portal.</td>
 		</tr>
 		<tr>
-			<td>portalListener.environment</td>
+			<td>portalConsumer.environment</td>
 			<td>string</td>
 			<td><pre lang="json">
 "production"
@@ -438,7 +439,7 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapBaseDn</td>
+			<td>portalConsumer.ldapBaseDn</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -447,7 +448,7 @@ null
 			<td>Base DN of the LDAP directory</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapHost</td>
+			<td>portalConsumer.ldapHost</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -456,7 +457,7 @@ null
 			<td>Hostname of the LDAP server</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapHostDn</td>
+			<td>portalConsumer.ldapHostDn</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -465,7 +466,7 @@ null
 			<td>DN of the UCS machine</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapHostIp</td>
+			<td>portalConsumer.ldapHostIp</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -474,7 +475,7 @@ null
 			<td>The IP address of the LDAP server.</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapPort</td>
+			<td>portalConsumer.ldapPort</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -483,7 +484,7 @@ null
 			<td>Port to connect to the LDAP server. Chart defaults to 389.</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapSecret</td>
+			<td>portalConsumer.ldapSecret</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -492,7 +493,7 @@ null
 			<td>LDAP password for `cn=admin`. Will be written to "ldapSecretFile" if set.</td>
 		</tr>
 		<tr>
-			<td>portalListener.ldapSecretFile</td>
+			<td>portalConsumer.ldapSecretFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/ldap_secret"
@@ -501,7 +502,7 @@ null
 			<td>The path to the "ldapSecretFile" docker secret or a plain file</td>
 		</tr>
 		<tr>
-			<td>portalListener.logLevel</td>
+			<td>portalConsumer.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
 "WARNING"
@@ -510,7 +511,7 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portalListener.machineSecret</td>
+			<td>portalConsumer.machineSecret</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -519,7 +520,7 @@ null
 			<td>LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.</td>
 		</tr>
 		<tr>
-			<td>portalListener.machineSecretFile</td>
+			<td>portalConsumer.machineSecretFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/machine_secret"
@@ -528,7 +529,7 @@ null
 			<td>The path to the "machineSecretFile" docker secret or a plain file</td>
 		</tr>
 		<tr>
-			<td>portalListener.notifierServer</td>
+			<td>portalConsumer.notifierServer</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -537,7 +538,7 @@ null
 			<td>Hostname where the notifier can be reached.</td>
 		</tr>
 		<tr>
-			<td>portalListener.objectStorageAccessKeyId</td>
+			<td>portalConsumer.objectStorageAccessKeyId</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -546,7 +547,7 @@ null
 			<td>User for the object storage. Chart default is "ums_user".</td>
 		</tr>
 		<tr>
-			<td>portalListener.objectStorageBucket</td>
+			<td>portalConsumer.objectStorageBucket</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -555,7 +556,7 @@ null
 			<td>Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".</td>
 		</tr>
 		<tr>
-			<td>portalListener.objectStorageCredentialSecret</td>
+			<td>portalConsumer.objectStorageCredentialSecret</td>
 			<td>object</td>
 			<td><pre lang="json">
 {
@@ -568,7 +569,7 @@ null
 			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
 		</tr>
 		<tr>
-			<td>portalListener.objectStorageEndpoint</td>
+			<td>portalConsumer.objectStorageEndpoint</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -577,7 +578,7 @@ null
 			<td>Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
 		</tr>
 		<tr>
-			<td>portalListener.objectStorageSecretAccessKey</td>
+			<td>portalConsumer.objectStorageSecretAccessKey</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -586,7 +587,7 @@ null
 			<td>Password for access to object storage. Chart default is "stub_password".</td>
 		</tr>
 		<tr>
-			<td>portalListener.portalDefaultDn</td>
+			<td>portalConsumer.portalDefaultDn</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -595,7 +596,7 @@ null
 			<td>DN of the default portal</td>
 		</tr>
 		<tr>
-			<td>portalListener.secretMountPath</td>
+			<td>portalConsumer.secretMountPath</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets"
@@ -604,7 +605,7 @@ null
 			<td>Path to mount the secrets to.</td>
 		</tr>
 		<tr>
-			<td>portalListener.tlsMode</td>
+			<td>portalConsumer.tlsMode</td>
 			<td>string</td>
 			<td><pre lang="json">
 "off"
@@ -613,7 +614,7 @@ null
 			<td>Whenever to start encryption and validate certificates. Chose from "off", "unvalidated" and "secure". Chart default is "off".</td>
 		</tr>
 		<tr>
-			<td>portalListener.ucsInternalPath</td>
+			<td>portalConsumer.ucsInternalPath</td>
 			<td>string</td>
 			<td><pre lang="json">
 "portal-data"
@@ -622,7 +623,7 @@ null
 			<td>Define UCS internal endpoint where the portal, selfservice and groups are defined Example: `"https://portal.example.com/univention/internal"`</td>
 		</tr>
 		<tr>
-			<td>portalListener.udmApiSecretFile</td>
+			<td>portalConsumer.udmApiSecretFile</td>
 			<td>string</td>
 			<td><pre lang="json">
 "/var/secrets/machine_secret"
@@ -631,7 +632,7 @@ null
 			<td>UDM API password file.    Default: same as `machineSecretFile`.</td>
 		</tr>
 		<tr>
-			<td>portalListener.udmApiUrl</td>
+			<td>portalConsumer.udmApiUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -640,7 +641,7 @@ null
 			<td>UDM API connection URL</td>
 		</tr>
 		<tr>
-			<td>portalListener.udmApiUsername</td>
+			<td>portalConsumer.udmApiUsername</td>
 			<td>string</td>
 			<td><pre lang="json">
 "cn=admin"
@@ -649,7 +650,7 @@ null
 			<td>UDM API username.</td>
 		</tr>
 		<tr>
-			<td>portalListener.umcGetUrl</td>
+			<td>portalConsumer.umcGetUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -658,7 +659,7 @@ null
 			<td>Define UMC get endpoint. Example: `"https://portal.example.com/univention/internal/umc/get"`</td>
 		</tr>
 		<tr>
-			<td>portalListener.umcSessionUrl</td>
+			<td>portalConsumer.umcSessionUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -790,7 +791,7 @@ true
 {}
 </pre>
 </td>
-			<td>Deployment resources for the listener container</td>
+			<td>Deployment resources for the consumer container</td>
 		</tr>
 		<tr>
 			<td>resourcesWaitForDependency</td>
