@@ -221,7 +221,7 @@ trigger-portal-server:
     - changes: &portal-server-changes
         - "docker/portal-server/**/*"
         - "docker/portal-consumer/**/*"
-        - "listener/**/*"
+        - "portal_consumer/**/*"
         - "portal-server/**/*"
         - "python/**/*"
         - "setup.py"
