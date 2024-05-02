@@ -29,7 +29,7 @@ class PortalConsumer:
         settings = Settings()
 
         self.logger.info("Listening for changes in the portal and groups")
-        async with AsyncClient(settings) as client:
+        async with AsyncClient() as client:
             await MessageHandler(
                 client, settings.provisioning_api_username, [self.handle_message],
             ).run()
@@ -42,7 +42,7 @@ class PortalConsumer:
         else:
             obj = message.body.get("new") or message.body.get("old")
             dn = obj.get("dn")
-            reason = f'ldap:{topic}:{dn}'
+            reason = f"ldap:{topic}:{dn}"
 
         subprocess.call(get_portal_update_call(reason=reason))
 

@@ -89,7 +89,7 @@ test-portal-server:
   #   - job: build-portal-server-test-runner
   image: "$CI_REGISTRY_IMAGE/portal-server-test-runner:${RELEASE_VERSION}"
   variables:
-    PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
+    PYTHONPATH: "./python:./portal_consumer:/usr/lib/python3/dist-packages"
   script:
     - |
       pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
