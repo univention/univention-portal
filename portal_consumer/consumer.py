@@ -3,10 +3,8 @@
 
 import asyncio
 import logging
-import os
 import subprocess
 
-from aiohttp import ClientResponseError
 from client import AsyncClient, MessageHandler, Settings
 from shared.models import Message
 
@@ -17,11 +15,6 @@ class PortalConsumer:
     def __init__(self):
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
-        self.provisioning_admin_username = os.environ.get("PROVISIONING_ADMIN_USERNAME")
-        self.provisioning_admin_password = os.environ.get("PROVISIONING_ADMIN_PASSWORD")
-        self.provisioning_api_username = os.environ.get("PROVISIONING_API_USERNAME")
-        self.provisioning_api_password = os.environ.get("PROVISIONING_API_PASSWORD")
-        self.provisioning_api_base_url = os.environ.get("PROVISIONING_API_BASE_URL")
         self.provisioning_realm_topic = [
             ["udm", "groups/group"],
             ["udm", "portals/portal"],
@@ -33,27 +26,7 @@ class PortalConsumer:
 
     async def start_listening_for_changes(self) -> None:
         self.logger.info("Creating a consumer to listen for changes")
-        admin_settings = Settings(
-            provisioning_api_username=self.provisioning_admin_username,
-            provisioning_api_password=self.provisioning_admin_password,
-            provisioning_api_base_url=self.provisioning_api_base_url,
-        )
-        settings = Settings(
-            provisioning_api_username=self.provisioning_api_username,
-            provisioning_api_password=self.provisioning_api_password,
-            provisioning_api_base_url=self.provisioning_api_base_url,
-        )
-        async with AsyncClient(admin_settings) as admin_client:
-            try:
-                await admin_client.create_subscription(
-                    settings.provisioning_api_username,
-                    settings.provisioning_api_password,
-                    self.provisioning_realm_topic,
-                    False,
-                )
-                self.logger.info("A consumer was created")
-            except ClientResponseError as e:
-                self.logger.info("%s, Consumer already exists", e)
+        settings = Settings()
 
         self.logger.info("Listening for changes in the portal and groups")
         async with AsyncClient(settings) as client:
