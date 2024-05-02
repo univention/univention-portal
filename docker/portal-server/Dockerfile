@@ -31,6 +31,7 @@ FROM build-base AS build
 COPY ./debian/changelog ./debian/changelog
 COPY ./debian/control ./debian/control
 COPY ./python ./python
+COPY ./portal_consumer ./portal_consumer
 COPY ./setup.py .
 
 RUN pip3 install --no-cache-dir .
@@ -43,12 +44,14 @@ WORKDIR /staging/
 RUN apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
       python3-univention-directory-manager \
-      univention-directory-listener \
       python3-boto3 \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 COPY ./requirements-test.txt .
-RUN pip3 install --no-cache-dir -r requirements-test.txt \
+RUN pip3 install --no-cache-dir --upgrade pip==24.* \
+    && pip3 install --no-cache-dir \
+    -r requirements-test.txt \
+    provisioning-consumer-lib==0.23.* --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple \
     && mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log
 
