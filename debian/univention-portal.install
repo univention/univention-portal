@@ -1,6 +1,5 @@
 frontend/dist/*	usr/share/univention-portal/
 key.svg	usr/share/univention-portal/
-listener/*.py	usr/lib/univention-directory-listener/system/
 login.svg	usr/share/univention-portal/
 portal-server-password-rotate	usr/lib/univention-server/server_password_change.d/
 udm/acls/62univention-portal.acl	usr/lib/univention-portal/acl/
