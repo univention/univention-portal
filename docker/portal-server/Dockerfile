@@ -49,9 +49,7 @@ RUN apt-get -qq update \
 
 COPY ./requirements-test.txt .
 RUN pip3 install --no-cache-dir --upgrade pip==24.* \
-    && pip3 install --no-cache-dir \
-    -r requirements-test.txt \
-    provisioning-consumer-lib==0.23.* --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple \
+    && pip3 install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log
 
