@@ -25,7 +25,7 @@ RUN apt-get update \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 RUN pip3 install --no-cache-dir --upgrade pip==24.* && \
-    pip3 install --no-cache-dir provisioning-consumer-lib==0.23.* --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
+    pip3 install --no-cache-dir provisioning-consumer-lib==0.23.3 --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
 
 # TODO: Duplicated from the portal-server
 RUN mkdir -p /var/log/univention/ \
