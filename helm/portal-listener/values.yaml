@@ -150,7 +150,7 @@ image:
 
   waitForDependency:
     registry: "gitregistry.knut.univention.de"
-    repository: "univention/components/univention-portal/wait-for-dependency"
+    repository: "univention/customers/dataport/upx/container-wait-for-dependencies/wait-for-dependency"
     imagePullPolicy: "IfNotPresent"
     tag: "latest"
 
