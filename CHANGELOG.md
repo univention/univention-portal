@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.23.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.22.0...v0.23.0) (2024-05-07)
+
+
+### Features
+
+* Update base image to 5.0-7 ([8ce18ca](https://git.knut.univention.de/univention/components/univention-portal/commit/8ce18cabf23f4e175127ed2a5768f339dbc468c6))
+* Update the listener base image to version 0.7.0 ([ad21a5a](https://git.knut.univention.de/univention/components/univention-portal/commit/ad21a5af973ee3df0fb933c4792dac9e0cd8ea10))
+
 ## [0.22.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.21.0...v0.22.0) (2024-04-29)
 
 
