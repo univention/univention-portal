@@ -40,21 +40,18 @@ generate-joinscript-data:
     KANIKO_ARGS: "--target=test"
   - IMAGE_NAME: "portal-server"
   - IMAGE_NAME: "portal-udm-extensions"
-  - IMAGE_NAME: "wait-for-dependency"
 
 .post-build-matrix: &post-build-matrix
   - IMAGE_NAME:
       - "portal-server-test-runner"
       - "portal-server"
       - "portal-udm-extensions"
-      - "wait-for-dependency"
       - "portal-listener"
 
 .publish-matrix: &publish-matrix
   - IMAGE_NAME:
       - "portal-server"
       - "portal-listener"
-      - "wait-for-dependency"
 
 container-build:
   parallel:
