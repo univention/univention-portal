@@ -184,7 +184,7 @@ false
 			<td>image.waitForDependency.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"univention/components/univention-portal/wait-for-dependency"
+"univention/customers/dataport/upx/container-wait-for-dependencies/wait-for-dependency"
 </pre>
 </td>
 			<td></td>
