@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.23.0...v0.23.1) (2024-05-20)
+
+
+### Bug Fixes
+
+* **helm:** add additional templating support ([e8be126](https://git.knut.univention.de/univention/components/univention-portal/commit/e8be126eb3882a4d99aa4cac7551d844c1f53412))
+
 ## [0.23.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.22.0...v0.23.0) (2024-05-07)
 
 
