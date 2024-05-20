@@ -29,7 +29,7 @@ cn=admin,dc=univention-organization,dc=intranet
 
 {{- define "portal-listener.ldap.connection.host" -}}
 {{- if .Values.portalListener.ldapHost -}}
-{{- .Values.portalListener.ldapHost -}}
+{{- tpl .Values.portalListener.ldapHost . -}}
 {{- else if .Values.global.nubusDeployment -}}
 {{- include "nubusTemplates.ldapServer.ldap.connection.host" . -}}
 {{- end -}}
