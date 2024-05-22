@@ -2,10 +2,19 @@
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
 ---
-{{ include "common.configMap" (dict "top" . "overrides" "portal-consumer.configMap") }}
-
-{{- define "portal-consumer.configMap" }}
-{{- with .top }}
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.additionalLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
 data:
   DOMAIN_NAME: {{ include "portal-consumer.ldapDomainName" . | quote }}
   ENVIRONMENT: "{{ .Values.portalConsumer.environment }}"
@@ -84,5 +93,3 @@ data:
            break
         else:
            print("Object storage already provisioned")
-{{- end }}
-{{- end }}
