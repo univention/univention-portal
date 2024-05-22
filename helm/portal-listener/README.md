@@ -139,7 +139,7 @@ false
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"gitregistry.knut.univention.de"
+"artifacts.software-univention.de"
 </pre>
 </td>
 			<td></td>
@@ -148,7 +148,7 @@ false
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"univention/components/univention-portal/portal-listener"
+"nubus-dev/images/portal-listener"
 </pre>
 </td>
 			<td></td>
@@ -175,7 +175,7 @@ false
 			<td>image.waitForDependency.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"gitregistry.knut.univention.de"
+"artifacts.software-univention.de"
 </pre>
 </td>
 			<td></td>
@@ -184,7 +184,7 @@ false
 			<td>image.waitForDependency.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"univention/customers/dataport/upx/container-wait-for-dependencies/wait-for-dependency"
+"nubus-dev/images/wait-for-dependency"
 </pre>
 </td>
 			<td></td>
