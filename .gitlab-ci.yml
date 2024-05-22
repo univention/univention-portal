@@ -120,4 +120,8 @@ check-debian-updates:
         echo "ERROR: running as ${USERNAME} but root is requiered"
       fi
 
+package-helm-charts:
+  variables:
+    SKIP_UPDATE_HELM_VALUES: "true"
+
 ...
