@@ -15,17 +15,8 @@ class PortalConsumer:
     def __init__(self):
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
-        self.provisioning_realm_topic = [
-            ["udm", "groups/group"],
-            ["udm", "portals/portal"],
-            ["udm", "portals/category"],
-            ["udm", "portals/entry"],
-            ["udm", "portals/folder"],
-            ["udm", "portals/announcement"],
-        ]
 
     async def start_listening_for_changes(self) -> None:
-        self.logger.info("Creating a consumer to listen for changes")
         settings = Settings()
 
         self.logger.info("Listening for changes in the portal and groups")
