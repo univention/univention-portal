@@ -7,8 +7,6 @@
 global:
   # -- Indicates wether this chart is part of a Nubus deployment.
   nubusDeployment: false
-  # -- Container registry address.
-  imageRegistry: ""
 
   # -- Credentials to fetch images from private registry.
   # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -95,8 +93,8 @@ extraVolumeMounts: []
 fullnameOverride: ""
 
 image:
-  registry: "gitregistry.knut.univention.de"
-  repository: "univention/components/univention-portal/notifications-api"
+  registry: "artifacts.software-univention.de"
+  repository: "nubus-dev/images/notifications-api"
   tag: "latest"
   imagePullPolicy: "IfNotPresent"
 

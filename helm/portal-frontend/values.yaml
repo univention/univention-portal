@@ -6,7 +6,7 @@
 # The global properties are used to configure multiple charts at once.
 global:
   # -- Container registry address.
-  imageRegistry: ""
+  imageRegistry: "artifacts.software-univention.de"
 
   # -- Credentials to fetch images from private registry.
   # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -87,8 +87,8 @@ extraVolumeMounts: []
 fullnameOverride: ""
 
 image:
-  registry: "gitregistry.knut.univention.de"
-  repository: "univention/components/univention-portal/portal-frontend"
+  registry: ""
+  repository: "nubus-dev/images/portal-frontend"
   tag: "0.19.1@sha256:4b284d5ed2d9716c141558e50e14e8b6634aae5d6ad6131678bec56b17435d33"
   imagePullPolicy: "IfNotPresent"
 
