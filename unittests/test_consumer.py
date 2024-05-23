@@ -50,7 +50,7 @@ def load_consumer(name):
 
 USERNAME = "testuser"
 DN = "cn=users,dc=ldap,dc=domain,dc=com"
-MESSAGE = Message(
+MESSAGE_GROUP = Message(
     publisher_name=PublisherName.udm_listener,
     ts=datetime(2023, 11, 9, 11, 15, 52, 616061),
     realm="udm",
@@ -61,7 +61,7 @@ MESSAGE = Message(
     },
 )
 
-MESSAGE_PORTAL = deepcopy(MESSAGE)
+MESSAGE_PORTAL = deepcopy(MESSAGE_GROUP)
 MESSAGE_PORTAL.topic = "portals/portal"
 CONSUMER_PATH = "./portal_consumer"
 
@@ -102,7 +102,10 @@ class TestPortalConsumer:
             mock_subprocess_call,
             consumer,
     ):
-        message_handler.run = AsyncMock(side_effect=await consumer.handle_message(MESSAGE))
+        async def run():
+            await consumer.handle_message(MESSAGE_GROUP)
+
+        message_handler.run = AsyncMock(side_effect=run)
 
         await consumer.start_listening_for_changes()
 
@@ -119,7 +122,10 @@ class TestPortalConsumer:
             mock_subprocess_call,
             consumer,
     ):
-        message_handler.run = AsyncMock(side_effect=await consumer.handle_message(MESSAGE_PORTAL))
+        async def run():
+            await consumer.handle_message(MESSAGE_PORTAL)
+
+        message_handler.run = AsyncMock(side_effect=run)
 
         await consumer.start_listening_for_changes()
 
