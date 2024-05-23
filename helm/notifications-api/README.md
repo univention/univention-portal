@@ -261,15 +261,6 @@ null
 			<td>Credentials to fetch images from private registry. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  imagePullSecrets:   - "docker-registry"</td>
 		</tr>
 		<tr>
-			<td>global.imageRegistry</td>
-			<td>string</td>
-			<td><pre lang="json">
-"artifacts.software-univention.de"
-</pre>
-</td>
-			<td>Container registry address.</td>
-		</tr>
-		<tr>
 			<td>global.nubusDeployment</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -305,7 +296,7 @@ false
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+"artifacts.software-univention.de"
 </pre>
 </td>
 			<td></td>

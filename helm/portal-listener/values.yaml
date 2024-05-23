@@ -6,8 +6,6 @@
 global:
   # -- Indicates wether this chart is part of a Nubus deployment.
   nubusDeployment: false
-  # -- Container registry address.
-  imageRegistry: "artifacts.software-univention.de"
 
   # -- Credentials to fetch images from private registry.
   # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -143,13 +141,13 @@ portalListener:
 
 ## Docker image
 image:
-  registry: ""
+  registry: "artifacts.software-univention.de"
   repository: "nubus-dev/images/portal-listener"
   imagePullPolicy: "IfNotPresent"
   tag: "latest"
 
   waitForDependency:
-    registry: ""
+    registry: "artifacts.software-univention.de"
     repository: "nubus-dev/images/wait-for-dependency"
     imagePullPolicy: "IfNotPresent"
     tag: "latest"
