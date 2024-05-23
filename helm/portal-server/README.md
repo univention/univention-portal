@@ -251,7 +251,7 @@ null
 			<td>global.imageRegistry</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+"artifacts.software-univention.de"
 </pre>
 </td>
 			<td>Container registry address.</td>
@@ -278,7 +278,7 @@ false
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"gitregistry.knut.univention.de"
+""
 </pre>
 </td>
 			<td></td>
@@ -287,7 +287,7 @@ false
 			<td>image.repository</td>
 			<td>string</td>
 			<td><pre lang="json">
-"univention/components/univention-portal/portal-server"
+"nubus-dev/images/portal-server"
 </pre>
 </td>
 			<td></td>
