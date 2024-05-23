@@ -335,7 +335,7 @@ null
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"artifacts.software-univention.de"
+""
 </pre>
 </td>
 			<td></td>
