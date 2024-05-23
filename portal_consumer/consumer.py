@@ -25,8 +25,7 @@ class PortalConsumer:
                 client, settings.provisioning_api_username, [self.handle_message],
             ).run()
 
-    @staticmethod
-    async def handle_message(message: Message):
+    async def handle_message(self, message: Message):
         topic = message.topic
         if topic == "groups/group":
             reason = "ldap:group"
@@ -35,6 +34,7 @@ class PortalConsumer:
             dn = obj.get("dn")
             reason = f"ldap:{topic}:{dn}"
 
+        self.logger.info("Updating portal. Reason: %s", reason)
         subprocess.call(get_portal_update_call(reason=reason))
 
 
