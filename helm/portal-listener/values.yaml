@@ -143,13 +143,13 @@ portalListener:
 
 ## Docker image
 image:
-  registry: "artifacts.software-univention.de"
+  registry: ""
   repository: "nubus-dev/images/portal-listener"
   imagePullPolicy: "IfNotPresent"
   tag: "latest"
 
   waitForDependency:
-    registry: "artifacts.software-univention.de"
+    registry: ""
     repository: "nubus-dev/images/wait-for-dependency"
     imagePullPolicy: "IfNotPresent"
     tag: "latest"

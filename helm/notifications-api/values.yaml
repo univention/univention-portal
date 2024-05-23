@@ -95,7 +95,7 @@ extraVolumeMounts: []
 fullnameOverride: ""
 
 image:
-  registry: "artifacts.software-univention.de"
+  registry: ""
   repository: "nubus-dev/images/notifications-api"
   tag: "latest"
   imagePullPolicy: "IfNotPresent"
