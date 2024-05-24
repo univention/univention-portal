@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.24.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.23.1...v0.24.0) (2024-05-24)
+
+
+### Features
+
+* push to harbor ([c0622d6](https://git.knut.univention.de/univention/components/univention-portal/commit/c0622d6296bc470c6d56f1373a658e9734b840b0))
+
+
+### Bug Fixes
+
+* **ci:** use global registry and package helm charts downstream ([cf74db4](https://git.knut.univention.de/univention/components/univention-portal/commit/cf74db466c37e6d83d19d6aeee2810677f35df01))
+* update docs ([cbfbcba](https://git.knut.univention.de/univention/components/univention-portal/commit/cbfbcbaf14da4c691d5896175406f2123ecf1eba))
+
 ## [0.23.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.23.0...v0.23.1) (2024-05-20)
 
 
