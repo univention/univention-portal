@@ -26,6 +26,7 @@ spec:
   {{- end }}
   rules:
     - host: {{ .host | quote }}
+      {{- if .paths }}
       http:
         paths:
           {{- range .paths }}
@@ -33,6 +34,7 @@ spec:
             path: {{ .path }}
             backend: {{- include "common.ingress.backend" (dict "serviceName" (include "common.names.fullname" $) "servicePort" "http" "context" $) | nindent 14 }}
           {{- end }}
+      {{- end }}
 
 ...
 {{- end }}
