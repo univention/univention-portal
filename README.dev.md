@@ -11,6 +11,9 @@ The following components form the Univention portal:
   of [`unittests/`](./unittests/).
 - [Notifications API in `notifications-api/`](./notifications-api/) -- The
   backend api needed for server side notification handling.
+- [Portal Listener](./listener) -- The listener is responsible for
+  listening to changes in the LDAP and updating the portal accordingly. It
+  will be deprecated in favor of the new provisioning portal consumer.
 
 ## Utilities
 
