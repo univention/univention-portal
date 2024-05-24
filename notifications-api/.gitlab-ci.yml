@@ -47,6 +47,14 @@ test-notifications-api:
         path: "notifications-api/coverage.xml"
 
 push-image-external:
+  before_script:
+    - |
+      set -eux
+      export EXTERNAL_REGISTRY_ROBOT_ACCOUNT='robot$nubus-push-from-gitlab'
+      echo /bin/skopeo login \
+          --username "${EXTERNAL_REGISTRY_ROBOT_ACCOUNT}" \
+          --password-stdin "${EXTERNAL_REGISTRY_HOST}" \
+          --authfile "${HOME}/external-auth.json"
   parallel:
     matrix: *publish-matrix
 
