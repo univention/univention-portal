@@ -64,7 +64,7 @@ container-sign-external:
     matrix: *publish-matrix
 
 package-helm-charts:
-  variables:
-    CHART_NAME: "notifications-api"
+  parallel:
+    matrix: *build-matrix
 
 ...
