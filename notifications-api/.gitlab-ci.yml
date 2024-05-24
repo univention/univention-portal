@@ -13,6 +13,7 @@ include:
     file:
       - "defaults/stages.yaml"
       - "jobs/container-build-external.yaml"
+      - "jobs/package-and-publish-helm-charts-external.yaml"
 
 .build-matrix: &build-matrix
   - IMAGE_NAME: "notifications-api-test-runner"

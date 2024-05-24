@@ -14,6 +14,7 @@ include:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
       - "jobs/container-build-external.yaml"
+      - "jobs/package-and-publish-helm-charts-external.yaml"
 
 generate-joinscript-data:
   stage: "prepare"

@@ -12,7 +12,6 @@ include:
       - "jobs/lint-pre-commit.yaml"
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
-      - "jobs/package-and-publish-helm-charts-external.yaml"
       - "jobs/check-debian-updates.yaml"
 
 lint-pre-commit:
