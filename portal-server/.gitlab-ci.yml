@@ -82,26 +82,6 @@ container-generate-sbom:
   parallel:
     matrix: *post-build-matrix
 
-container-sign:
-  needs:
-    - job: "container-build"
-      artifacts: true
-    - job: "container-generate-sbom"
-      artifacts: true
-    - job: "container-build-portal-listener"
-      artifacts: true
-  parallel:
-    matrix: *post-build-matrix
-
-container-security-scan:
-  needs:
-    - job: "container-build"
-      artifacts: true
-    - job: "container-build-portal-listener"
-      artifacts: true
-  parallel:
-    matrix: *post-build-matrix
-
 test-portal-server:
   stage: "test"
   # needs:

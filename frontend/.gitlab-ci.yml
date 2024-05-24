@@ -12,7 +12,6 @@ include:
     ref: "v1.30.5"
     file:
       - "defaults/stages.yaml"
-      - "templates/souvap.yaml"
       - "templates/kaniko.yaml"
       - "jobs/container-build-external.yaml"
 
@@ -68,14 +67,6 @@ container-build:
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
 
 container-generate-sbom:
-  parallel:
-    matrix: *build-matrix
-
-container-sign:
-  parallel:
-    matrix: *build-matrix
-
-container-security-scan:
   parallel:
     matrix: *build-matrix
 

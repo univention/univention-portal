@@ -12,7 +12,6 @@ include:
     ref: "v1.30.5"
     file:
       - "defaults/stages.yaml"
-      - "templates/souvap.yaml"
       - "jobs/container-build-external.yaml"
 
 .build-matrix: &build-matrix
@@ -30,14 +29,6 @@ container-build:
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/notifications-api"
 
 container-generate-sbom:
-  parallel:
-    matrix: *build-matrix
-
-container-sign:
-  parallel:
-    matrix: *build-matrix
-
-container-security-scan:
   parallel:
     matrix: *build-matrix
 
