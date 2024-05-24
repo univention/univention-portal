@@ -44,10 +44,8 @@ spec:
       initContainers:
         - name: wait-for-ldap
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
-          {{ with .Values.image.waitForDependency }}
-          image: "{{ if .registry }}{{ .registry }}/{{ end }}{{ .repository }}{{ if .sha256 }}@sha256:{{ .sha256 }}{{ else }}:{{ .tag }}{{ end }}"
-          imagePullPolicy: {{ .pullPolicy }}
-          {{ end }}
+          image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
