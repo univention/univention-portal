@@ -9,11 +9,12 @@ workflow:
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.24.5"
+    ref: "v1.31.1"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
-      - "jobs/container-build-souvap.yaml"
+      - "jobs/container-build-external.yaml"
+      - "jobs/package-and-publish-helm-charts-external.yaml"
 
 generate-joinscript-data:
   stage: "prepare"
@@ -82,26 +83,6 @@ container-generate-sbom:
   parallel:
     matrix: *post-build-matrix
 
-container-sign:
-  needs:
-    - job: "container-build"
-      artifacts: true
-    - job: "container-generate-sbom"
-      artifacts: true
-    - job: "container-build-portal-listener"
-      artifacts: true
-  parallel:
-    matrix: *post-build-matrix
-
-container-security-scan:
-  needs:
-    - job: "container-build"
-      artifacts: true
-    - job: "container-build-portal-listener"
-      artifacts: true
-  parallel:
-    matrix: *post-build-matrix
-
 test-portal-server:
   stage: "test"
   # needs:
@@ -119,11 +100,23 @@ test-portal-server:
         coverage_format: "cobertura"
         path: "coverage.xml"
 
-push-image-souvap:
+push-image-external:
+  before_script:
+    - |
+      set -eux
+      export EXTERNAL_REGISTRY_ROBOT_ACCOUNT='robot$nubus-push-from-gitlab'
+      echo /bin/skopeo login \
+          --username "${EXTERNAL_REGISTRY_ROBOT_ACCOUNT}" \
+          --password-stdin "${EXTERNAL_REGISTRY_HOST}" \
+          --authfile "${HOME}/external-auth.json"
   parallel:
     matrix: *publish-matrix
 
-container-sign-souvap:
+container-sign-external:
+  parallel:
+    matrix: *publish-matrix
+
+package-helm-charts:
   parallel:
     matrix: *publish-matrix
 
