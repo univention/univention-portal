@@ -124,4 +124,8 @@ container-sign-external:
   parallel:
     matrix: *publish-matrix
 
+package-helm-charts:
+  variables:
+    CHART_NAME: "portal-frontend"
+
 ...
