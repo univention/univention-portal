@@ -33,6 +33,7 @@ trigger-notifications-api:
       artifacts: true
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
   trigger:
     strategy: "depend"
     include:
@@ -50,6 +51,7 @@ trigger-frontend:
   stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
   trigger:
     strategy: "depend"
     include:
@@ -67,6 +69,7 @@ trigger-portal-server:
   stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
   trigger:
     strategy: "depend"
     include:
