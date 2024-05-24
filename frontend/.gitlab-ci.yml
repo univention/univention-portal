@@ -9,12 +9,12 @@ workflow:
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.24.5"
+    ref: "v1.31.1"
     file:
       - "defaults/stages.yaml"
-      - "templates/souvap.yaml"
       - "templates/kaniko.yaml"
-      - "jobs/container-build-souvap.yaml"
+      - "jobs/container-build-external.yaml"
+      - "jobs/package-and-publish-helm-charts-external.yaml"
 
 build-debian-package-builder:
   stage: "prepare"
@@ -71,14 +71,6 @@ container-generate-sbom:
   parallel:
     matrix: *build-matrix
 
-container-sign:
-  parallel:
-    matrix: *build-matrix
-
-container-security-scan:
-  parallel:
-    matrix: *build-matrix
-
 lint-portal-frontend:
   stage: "test"
   image: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner:${RELEASE_VERSION}"
@@ -116,12 +108,24 @@ test-portal-frontend-ui:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
-push-image-souvap:
+push-image-external:
+  before_script:
+    - |
+      set -eux
+      export EXTERNAL_REGISTRY_ROBOT_ACCOUNT='robot$nubus-push-from-gitlab'
+      echo /bin/skopeo login \
+          --username "${EXTERNAL_REGISTRY_ROBOT_ACCOUNT}" \
+          --password-stdin "${EXTERNAL_REGISTRY_HOST}" \
+          --authfile "${HOME}/external-auth.json"
   parallel:
     matrix: *publish-matrix
 
-container-sign-souvap:
+container-sign-external:
   parallel:
     matrix: *publish-matrix
+
+package-helm-charts:
+  variables:
+    IMAGE_NAME: "portal-frontend"
 
 ...

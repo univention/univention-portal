@@ -5,14 +5,13 @@
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.30.5"
+    ref: "v1.31.1"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
       - "jobs/lint-pre-commit.yaml"
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
-      - "jobs/package-and-publish-helm-charts-external.yaml"
       - "jobs/check-debian-updates.yaml"
 
 lint-pre-commit:
@@ -33,6 +32,7 @@ trigger-notifications-api:
       artifacts: true
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
   trigger:
     strategy: "depend"
     include:
@@ -50,6 +50,7 @@ trigger-frontend:
   stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
   trigger:
     strategy: "depend"
     include:
@@ -67,6 +68,7 @@ trigger-portal-server:
   stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
+    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
   trigger:
     strategy: "depend"
     include:
