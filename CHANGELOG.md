@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.24.0...v0.24.1) (2024-05-27)
+
+
+### Bug Fixes
+
+* Do not add "http" into extra Ingresses if no paths specified ([2f98cee](https://git.knut.univention.de/univention/components/univention-portal/commit/2f98cee0ac05b93825460f656e210617751b46c2))
+
 ## [0.24.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.23.1...v0.24.0) (2024-05-24)
 
 
