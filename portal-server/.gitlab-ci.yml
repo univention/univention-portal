@@ -110,7 +110,11 @@ push-image-external:
           --password-stdin "${EXTERNAL_REGISTRY_HOST}" \
           --authfile "${HOME}/external-auth.json"
   parallel:
-    matrix: *publish-matrix
+    matrix:
+      - IMAGE_NAME:
+          - "portal-server"
+          - "portal-listener"
+          - "portal-udm-extensions"
 
 container-sign-external:
   parallel:

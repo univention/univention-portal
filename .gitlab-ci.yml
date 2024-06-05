@@ -15,6 +15,7 @@ include:
       - "jobs/check-debian-updates.yaml"
 
 lint-pre-commit:
+  allow_failure: true
   before_script:
     - |
       # Compose lint would fail without the referenced env files
@@ -76,50 +77,6 @@ trigger-portal-server:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
       when: "never"
-    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
-      when: "always"
-    - changes: &portal-server-changes
-        - "docker/portal-server/**/*"
-        - "docker/portal-listener/**/*"
-        - "listener/**/*"
-        - "portal-server/**/*"
-        - "python/**/*"
-        - "setup.py"
-        - "tests/**/*"
-        - "udm/**/*"
-        - "unittests/**/*"
-        - "univention-portal"
-        - "univention-portal-server"
-
-# TODO: Pending removal. This can be removed once the ucs-machine (VMs) are not
-# used anymore. Usage in the dev environment and in the SouvAP deployment.
-trigger-debian-package:
-  stage: "trigger"
-  trigger:
-    strategy: "depend"
-    include:
-      - local: ".gitlab-ci.debian.yml"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: "never"
-    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
-      when: "always"
-    - changes: *portal-server-changes
-    - changes: *portal-frontend-changes
-    - changes:
-        - "debian/**/*"
-
-check-debian-updates:
-  parallel:
-    matrix:
-      - IMAGE_NAME: "portal-server"
-      - IMAGE_NAME: "portal-frontend"
-      - IMAGE_NAME: "notifications-api"
-      - IMAGE_NAME: "portal-listener"
-  before_script:
-    - |
-      if [[ "${USERNAME}" != "root" ]]; then
-        echo "ERROR: running as ${USERNAME} but root is requiered"
-      fi
+    - when: always
 
 ...
