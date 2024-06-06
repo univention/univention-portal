@@ -458,6 +458,14 @@ false
     "pathType": "Prefix"
   },
   {
+    "path": "/univention/portal/icons/",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention/portal/custom/",
+    "pathType": "Prefix"
+  },
+  {
     "path": "/univention/selfservice/css/",
     "pathType": "Prefix"
   },
