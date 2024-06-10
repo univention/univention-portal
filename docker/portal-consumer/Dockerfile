@@ -25,7 +25,7 @@ RUN apt-get update \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 RUN pip3 install --no-cache-dir --upgrade pip==24.* && \
-    pip3 install --no-cache-dir provisioning-consumer-lib==0.23.3 --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
+    pip3 install --no-cache-dir nubus-provisioning-consumer==0.26.3 --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
 
 # TODO: Duplicated from the portal-server
 RUN mkdir -p /var/log/univention/ \
@@ -46,6 +46,7 @@ COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-
 COPY ./docker/portal-consumer/stub_portals.json /usr/share/univention-portal/portals.json
 COPY ./docker/portal-consumer/portal-consumer-entrypoint.sh /entrypoint.d/75-portal-consumer-entrypoint.sh
 COPY ./docker/portal-consumer/initialize.sh /
+COPY ./docker/portal-consumer/cache_consumer.py /
 COPY ./portal_consumer/consumer.py /
 
 CMD ["/usr/bin/python3", "consumer.py"]

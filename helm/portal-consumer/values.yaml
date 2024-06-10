@@ -93,7 +93,7 @@ portalConsumer:
   ldapPort: ""
 
   # -- TODO: Clarify usage of this parameter
-  logLevel: "WARNING"
+  logLevel: "INFO"
   # -- LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.
   machineSecret: null
   # -- The path to the "machineSecretFile" docker secret or a plain file

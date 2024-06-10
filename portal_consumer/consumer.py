@@ -3,17 +3,17 @@
 
 import asyncio
 import logging
+import os
 import subprocess
 
-from client import AsyncClient, MessageHandler, Settings
-from shared.models import Message
-
 from univention.portal.util import get_portal_update_call
+from univention.provisioning.consumer import AsyncClient, MessageHandler, Settings
+from univention.provisioning.models import Message
 
 
 class PortalConsumer:
     def __init__(self):
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
         self.logger = logging.getLogger(__name__)
 
     async def start_listening_for_changes(self) -> None:
