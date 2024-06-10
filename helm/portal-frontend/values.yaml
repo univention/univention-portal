@@ -89,7 +89,7 @@ fullnameOverride: ""
 image:
   registry: ""
   repository: "nubus-dev/images/portal-frontend"
-  tag: "0.19.1@sha256:4b284d5ed2d9716c141558e50e14e8b6634aae5d6ad6131678bec56b17435d33"
+  tag: "0.26.3"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.
@@ -443,5 +443,17 @@ portalFrontend:
   environment: "production"
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"
+  # -- Customizations for the portal frontend, such as
+  # `custom.css`, `favicon.ico`, `logo.svg`, and `portal_background_image.svg`.
+  # For further customizations, please mount a ConfigMap with the respective files.
+  branding:
+    # -- Custom CSS style sheet for the portal frontend.
+    css: ""
+    # -- Favicon for the portal frontend.
+    favicon: ""
+    # -- Logo for the loading screen of the portal frontend.
+    logo: ""
+    # -- Background image for the portal frontend.
+    backgroundImage: ""
 
 ...

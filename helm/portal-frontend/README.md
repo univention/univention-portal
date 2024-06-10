@@ -353,7 +353,7 @@ null
 			<td>image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0.19.1@sha256:4b284d5ed2d9716c141558e50e14e8b6634aae5d6ad6131678bec56b17435d33"
+"0.26.3"
 </pre>
 </td>
 			<td></td>
@@ -752,12 +752,68 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "branding": {
+    "backgroundImage": "",
+    "css": "",
+    "favicon": "",
+    "logo": ""
+  },
   "environment": "production",
   "logLevel": "WARNING"
 }
 </pre>
 </td>
 			<td>Application configuration of the Portal Frontend</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "backgroundImage": "",
+  "css": "",
+  "favicon": "",
+  "logo": ""
+}
+</pre>
+</td>
+			<td>Customizations for the portal frontend, such as `custom.css`, `favicon.ico`, `logo.svg`, and `portal_background_image.svg`. For further customizations, please mount a ConfigMap with the respective files.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.backgroundImage</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Background image for the portal frontend.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.css</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Custom CSS style sheet for the portal frontend.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.favicon</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Favicon for the portal frontend.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.logo</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Logo for the loading screen of the portal frontend.</td>
 		</tr>
 		<tr>
 			<td>portalFrontend.environment</td>

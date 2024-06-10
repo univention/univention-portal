@@ -96,6 +96,18 @@ spec:
             - name: {{ printf "%s-nginx" (include "common.names.fullname" .) | quote }}
               subPath: nginx.conf
               mountPath: /etc/nginx/nginx.conf
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/favicon.ico"
+              subPath: "favicon.ico"
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/css/custom.css"
+              subPath: "custom.css"
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/icons/logo.svg"
+              subPath: "logo.svg"
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/custom/portal_background_image.svg"
+              subPath: "portal_background_image.svg"
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
@@ -108,6 +120,9 @@ spec:
           configMap:
             name: {{ printf "%s-nginx" (include "common.names.fullname" .) | quote }}
             defaultMode: 420
+        - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+          configMap:
+            name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes  "context" .) | nindent 8 }}
         {{- end }}
