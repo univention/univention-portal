@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.24.1...v0.24.2) (2024-06-10)
+
+
+### Bug Fixes
+
+* **frontend:** missing paths for background and logo ([d2d9ef4](https://git.knut.univention.de/univention/components/univention-portal/commit/d2d9ef49fec6d1a20bce740b0851b27caff41fb0))
+
 ## [0.24.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.24.0...v0.24.1) (2024-05-27)
 
 
