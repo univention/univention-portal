@@ -134,6 +134,33 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       containers:
+        - name: "cache-consumer"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ if .Values.image.registry }}{{ .Values.image.registry }}/{{ end }}{{ .Values.image.repository }}{{ if .Values.image.sha256 }}@sha256:{{ .Values.image.sha256 }}{{ else }}:{{ .Values.image.tag }}{{ end }}"
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          args: ["/usr/bin/python3", "cache_consumer.py"]
+          envFrom:
+            - configMapRef:
+                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+          env:
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- include "portal-consumer.objectStorageAccessKeyId" . | nindent 14 }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/univention-directory-listener
+            - name: group-membership-cache
+              mountPath: /usr/share/univention-group-membership-cache/caches
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
+            {{- else }}
+            {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
         - name: "portal-consumer"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

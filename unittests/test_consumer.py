@@ -8,9 +8,10 @@ from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 import pytest
-from client import AsyncClient, MessageHandler
 from mock import AsyncMock
-from shared.models import Message, PublisherName
+
+from univention.provisioning.consumer import AsyncClient, MessageHandler
+from univention.provisioning.models import Message, PublisherName
 
 
 ENV_DEFAULTS = {
@@ -68,12 +69,12 @@ CONSUMER_PATH = "./portal_consumer"
 
 @pytest.fixture()
 def async_client():
-    return patch("client.AsyncClient", new_callable=AsyncContextManagerMock).start()
+    return patch("univention.provisioning.consumer.AsyncClient", new_callable=AsyncContextManagerMock).start()
 
 
 @pytest.fixture()
 def message_handler():
-    return patch("client.MessageHandler").start().return_value
+    return patch("univention.provisioning.consumer.MessageHandler").start().return_value
 
 
 @pytest.fixture()

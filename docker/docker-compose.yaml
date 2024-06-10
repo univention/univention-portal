@@ -65,6 +65,13 @@ services:
     <<: *portal-consumer-base
     command: "/initialize.sh"
 
+  cache-consumer:
+    <<: *portal-consumer-base
+    command: ["/usr/bin/python3", "cache_consumer.py"]
+    depends_on:
+      portal-consumer-init:
+        condition: service_completed_successfully
+
   portal-consumer:
     <<: *portal-consumer-base
     depends_on:

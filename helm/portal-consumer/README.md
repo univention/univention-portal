@@ -328,7 +328,7 @@ true
   "ldapPort": "",
   "ldapSecret": null,
   "ldapSecretFile": "/var/secrets/ldap_secret",
-  "logLevel": "WARNING",
+  "logLevel": "INFO",
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
   "notifierServer": null,
@@ -505,7 +505,7 @@ null
 			<td>portalConsumer.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
-"WARNING"
+"INFO"
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>
