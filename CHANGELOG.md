@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.25.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.24.2...v0.25.0) (2024-06-11)
+
+
+### Features
+
+* add container for portal-consumer, fix portal-consumer ([e0ac7b9](https://git.knut.univention.de/univention/components/univention-portal/commit/e0ac7b91ec10d2e9e23d549afad404369bc8dd09))
+* update helm chart and other parts of the project to use portal-consumer instead of portal-listener ([b709b9d](https://git.knut.univention.de/univention/components/univention-portal/commit/b709b9d852e227a74b69f37defeb4fa6686ebc8b))
+* use provisioning-consumer-lib to listen for changes in the groups and portal ([36ce864](https://git.knut.univention.de/univention/components/univention-portal/commit/36ce8641dbacd9cfb1fa60725bc4f8db778c3087))
+* wait for provisioning api, add log for updating portal ([46e1a7a](https://git.knut.univention.de/univention/components/univention-portal/commit/46e1a7ab2bac43542063b79c0e0c6ec7951c663a))
+
+
+### Bug Fixes
+
+* do not register consumer, let pydantic_settings read the env values and AsyncClient instantiate the Settings class ([0fe91dd](https://git.knut.univention.de/univention/components/univention-portal/commit/0fe91dd0daef8d03be985e7e7b55f59680f43e5a))
+* grant execute permissions to the initialize.sh and portal-consumer-entrypoint.sh ([e32dd18](https://git.knut.univention.de/univention/components/univention-portal/commit/e32dd1872f4b221e4ce459543bb4a3f850c52746))
+* remove listener from the univention-portal.install ([d2a1fda](https://git.knut.univention.de/univention/components/univention-portal/commit/d2a1fdae0955dd2efe27b0a512b927e24f6e2ca4))
+* return back values-portal-consumer.example.yaml, add credentials to the configmap ([193d127](https://git.knut.univention.de/univention/components/univention-portal/commit/193d127e975531e5068e34c1bbf0ca134a866f25))
+* update README for the portal-consumer helm chart, delete portal-listener Dockerfile, fix pre-commit errors ([b6363be](https://git.knut.univention.de/univention/components/univention-portal/commit/b6363be60b621badaecf44943f10360ff4b463b6))
+* use bitnamicharts repository instead of common-helm ([31c7384](https://git.knut.univention.de/univention/components/univention-portal/commit/31c7384cdbdf5bd900b6cda1ccb8b3339e004ccd))
+* use pip instead of pipx, clean up redundant installations, set versions for packages ([e873376](https://git.knut.univention.de/univention/components/univention-portal/commit/e87337603121a6386f76b66d63efb69a3002a364))
+* use provisioning consumer for cache instead of listener ([687d0d9](https://git.knut.univention.de/univention/components/univention-portal/commit/687d0d9c8dd4c85eba6127dbcc91ebd0deb6cb89))
+
 ## [0.24.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.24.1...v0.24.2) (2024-06-10)
 
 
