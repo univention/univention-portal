@@ -40,20 +40,20 @@ generate-joinscript-data:
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
     KANIKO_ARGS: "--target=test"
   - IMAGE_NAME: "portal-server"
-  - IMAGE_NAME: "portal-udm-extensions"
+  - IMAGE_NAME: "portal-extension"
 
 .post-build-matrix: &post-build-matrix
   - IMAGE_NAME:
       - "portal-server-test-runner"
       - "portal-server"
-      - "portal-udm-extensions"
+      - "portal-extension"
       - "portal-consumer"
 
 .publish-matrix: &publish-matrix
   - IMAGE_NAME:
       - "portal-server"
       - "portal-consumer"
-      - "portal-udm-extensions"
+      - "portal-extension"
 
 container-build:
   parallel:
