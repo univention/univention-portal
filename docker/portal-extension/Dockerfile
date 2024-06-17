@@ -19,6 +19,6 @@ COPY udm /udm
 
 # NOTE: Loader API, there must be a contract around this, e.g. "/bin/loader" is
 # called, and "/target" is mounted.
-COPY docker/portal-udm-extensions/loader.sh /bin/loader
+COPY docker/portal-extension/loader.sh /bin/loader
 
 CMD ["/bin/loader"]
