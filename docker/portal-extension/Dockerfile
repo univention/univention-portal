@@ -1,8 +1,10 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG DOCKER_PROXY
-FROM ${DOCKER_PROXY}busybox:1.36.1@sha256:9ae97d36d26566ff84e8893c64a6dc4fe8ca6d1144bf5b87b2b85a32def253c7
+ARG UCS_BASE_IMAGE_TAG=0.12.0
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
+
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG}
 
 WORKDIR /
 
