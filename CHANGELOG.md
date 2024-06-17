@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.25.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.25.0...v0.25.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* **portal-server:** Correct typo in dockerfile which breaks the container ([bfd7356](https://git.knut.univention.de/univention/components/univention-portal/commit/bfd7356a798c0115809491028b7ae7f88693230f))
+
 ## [0.25.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.24.2...v0.25.0) (2024-06-11)
 
 
