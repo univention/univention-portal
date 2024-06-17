@@ -127,42 +127,6 @@ false
 			<td>Indicates wether this chart is part of a Nubus deployment.</td>
 		</tr>
 		<tr>
-			<td>image.imagePullPolicy</td>
-			<td>string</td>
-			<td><pre lang="json">
-"IfNotPresent"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>image.registry</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>image.repository</td>
-			<td>string</td>
-			<td><pre lang="json">
-"nubus-dev/images/portal-consumer"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>image.tag</td>
-			<td>string</td>
-			<td><pre lang="json">
-"latest"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>ldap.credentialSecret.ldapPasswordKey</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -321,6 +285,12 @@ true
   "domainName": "univention.intranet",
   "editable": "true",
   "environment": "production",
+  "image": {
+    "imagePullPolicy": "IfNotPresent",
+    "registry": "",
+    "repository": "nubus-dev/images/portal-consumer",
+    "tag": "latest"
+  },
   "ldapBaseDn": null,
   "ldapHost": null,
   "ldapHostDn": null,

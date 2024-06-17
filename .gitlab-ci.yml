@@ -221,6 +221,9 @@ trigger-portal-server:
     - changes: &portal-server-changes
         - "docker/portal-server/**/*"
         - "docker/portal-consumer/**/*"
+        - "docker/portal-udm-extensions/**/*"
+        - "helm/portal-server/**/*"
+        - "helm/portal-consumer/**/*"
         - "portal_consumer/**/*"
         - "portal-server/**/*"
         - "python/**/*"
