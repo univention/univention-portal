@@ -1,9 +1,19 @@
-#!/bin/bash
+#!/bin/sh
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2024 Univention GmbH
 
+set -eu
 
 echo "Copying the plugins into the target"
-cp -av /udm/api/portal.py /target/udm-modules/portal.py
-cp -av /udm/syntax/univention-portal.py /target/admin-syntax.d/univention-portal.py
-cp -av /udm/handlers /target/admin-handlers/portals
+for source in /plugins/*
+do
+    plugin_type=$(basename ${source})
+    target="/target/${plugin_type}"
+    if [ -d ${target} ]
+    then
+        echo "COPY - Plugin type ${plugin_type} in /target, copying files."
+        cp -av ${source} /target
+    else
+        echo "SKIP - Plugin type ${plugin_type} no in /target, skipping."
+    fi
+done
