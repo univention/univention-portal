@@ -141,12 +141,11 @@ portalConsumer:
   # -- Path to mount the secrets to.
   secretMountPath: "/var/secrets"
 
-## Docker image
-image:
-  registry: ""
-  repository: "nubus-dev/images/portal-consumer"
-  imagePullPolicy: "IfNotPresent"
-  tag: "latest"
+  image:
+    registry: ""
+    repository: "nubus-dev/images/portal-consumer"
+    imagePullPolicy: "IfNotPresent"
+    tag: "latest"
 
 waitForDependency:
   image:

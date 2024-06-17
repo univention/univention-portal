@@ -26,7 +26,7 @@ spec:
       labels:
         {{- include "common.labels.matchLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.image.pullSecrets }}
+      {{- with .Values.portalConsumer.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -80,8 +80,8 @@ spec:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-object-storage
           command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
-          image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
@@ -97,10 +97,8 @@ spec:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-api
           command: [ "sh", "-c", "until curl -s ${PROVISIONING_API_BASE_URL} > /dev/null; do echo Waiting for api; sleep 2; done;" ]
-          {{ with .Values.image.waitForDependency }}
-          image: "{{ if .registry }}{{ .registry }}/{{ end }}{{ .repository }}{{ if .sha256 }}@sha256:{{ .sha256 }}{{ else }}:{{ .tag }}{{ end }}"
-          imagePullPolicy: {{ .imagePullPolicy }}
-          {{ end }}
+          image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
@@ -109,8 +107,8 @@ spec:
         - name: put-initial-values
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           args: [ "/initialize.sh" ]
           envFrom:
             - configMapRef:
@@ -137,8 +135,8 @@ spec:
         - name: "cache-consumer"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ if .Values.image.registry }}{{ .Values.image.registry }}/{{ end }}{{ .Values.image.repository }}{{ if .Values.image.sha256 }}@sha256:{{ .Values.image.sha256 }}{{ else }}:{{ .Values.image.tag }}{{ end }}"
-          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           args: ["/usr/bin/python3", "cache_consumer.py"]
           envFrom:
             - configMapRef:
@@ -164,8 +162,8 @@ spec:
         - name: "portal-consumer"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
