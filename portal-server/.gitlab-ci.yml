@@ -53,6 +53,7 @@ generate-joinscript-data:
   - IMAGE_NAME:
       - "portal-server"
       - "portal-consumer"
+      - "portal-udm-extensions"
 
 container-build:
   parallel:
@@ -118,6 +119,9 @@ container-sign-external:
 
 package-helm-charts:
   parallel:
-    matrix: *publish-matrix
+    matrix:
+      - IMAGE_NAME:
+          - "portal-server"
+          - "portal-consumer"
 
 ...
