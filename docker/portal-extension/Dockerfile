@@ -12,10 +12,15 @@ FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG}
 RUN adduser app
 USER app
 
-# NOTE: Internal layout of the plugin bundle is up to the author. We should give
-# a recommendation though.
 WORKDIR /
-COPY udm /udm
+COPY udm/acls /plugins/ldap-acls
+COPY udm/api /plugins/udm-modules
+COPY udm/syntax /plugins/admin-syntax.d
+COPY udm/handlers /plugins/admin-handlers/portals
+COPY udm/icons /plugins/umc-icons
+COPY udm/schema /plugins/ldap-schema
+COPY udm/syntax /plugins/syntax
+COPY udm/univention-portal.xml /plugins/umc-modules/
 
 # NOTE: Loader API, there must be a contract around this, e.g. "/bin/loader" is
 # called, and "/target" is mounted.
