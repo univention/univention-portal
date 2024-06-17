@@ -74,7 +74,7 @@ WORKDIR /app/
 RUN mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log \
     && mkdir -p /usr/share/univention-portal \
-    && mkdir -p /usr/lib/univention-portal/config \
+    && mkdir -p /usr/lib/univention-portal/config
 
 COPY ./univention-portal-server /usr/sbin/univention-portal-server
 COPY ./univention-portal .
