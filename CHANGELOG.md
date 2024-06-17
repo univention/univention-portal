@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.25.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.25.1...v0.25.2) (2024-06-17)
+
+
+### Bug Fixes
+
+* **portal-consumer:** respect global imageRegistry for all container image templates ([0796834](https://git.knut.univention.de/univention/components/univention-portal/commit/0796834e16005fe9f1d5e435492d4a507a7fe664))
+
 ## [0.25.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.25.0...v0.25.1) (2024-06-17)
 
 
