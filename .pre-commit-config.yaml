@@ -87,14 +87,13 @@ repos:
         stages: [manual]
         args: ["-i"]
 
-  # "Shell Syntax Check"
-  # This is a wrapper for shellcheck as long as
-  # shellcheck doesn't have it's own .pre-commit-hooks.yaml
-  # https://github.com/koalaman/shellcheck/pull/1032
-  #- repo: https://gitlab.com/univention/pre-commit-hooks/pre-commit-shell
-  #  rev: v1.0.6
-  #  hooks:
-  #  - id: shell-lint
+  - repo: https://gitlab.com/univention/pre-commit-hooks/pre-commit-shell
+    rev: v1.0.6+uv1
+    hooks:
+      - id: shell-lint
+        args:
+          - -e
+          - SC1091
 
   # "docker-compose.yaml linter"
   - repo: https://gitlab.com/univention/pre-commit-hooks/docker-compose-check
