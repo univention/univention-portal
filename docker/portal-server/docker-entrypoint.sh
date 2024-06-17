@@ -107,8 +107,8 @@ if [[ "${PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED:-}" == "true" ]]; then
 
   PORTALS_JSON="/usr/share/univention-portal/portals.json"
   TEMP_FILE=$(mktemp)
-  jq '.default.kwargs.authenticator.class = "UMCAndSecretAuthenticator"' $PORTALS_JSON > $TEMP_FILE
-  mv $TEMP_FILE $PORTALS_JSON
+  jq '.default.kwargs.authenticator.class = "UMCAndSecretAuthenticator"' "$PORTALS_JSON" > "$TEMP_FILE"
+  mv "$TEMP_FILE" "$PORTALS_JSON"
 
   echo '{"portal-secret-file": "/var/secrets/authenticator.secret"}' > /usr/lib/univention-portal/config/authenticator_secret_location.json
 fi

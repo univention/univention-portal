@@ -4,6 +4,7 @@
 
 
 python3 -m venv ~/venv
+# shellcheck disable=SC1090
 source ~/venv/bin/activate
 
 pip3 install .

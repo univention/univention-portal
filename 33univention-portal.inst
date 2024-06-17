@@ -35,6 +35,8 @@
 # <https://www.gnu.org/licenses/>.
 ## joinscript api: bindpwdfile
 
+# shellcheck disable=SC2034,SC2086,SC2162
+
 VERSION=28
 
 . /usr/share/univention-join/joinscripthelper.lib
