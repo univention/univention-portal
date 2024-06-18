@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.26.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.25.2...v0.26.0) (2024-06-18)
+
+
+### Features
+
+* **portal-extension:** Add simple plugin loader ([63017ac](https://git.knut.univention.de/univention/components/univention-portal/commit/63017ac12b1ecfc5da4013d6f51548dfdbdb63f7))
+* **portal-extension:** Place plugins into the suggested structure ([c5305d9](https://git.knut.univention.de/univention/components/univention-portal/commit/c5305d9af7e66182a301da6613380efc05ece60e))
+* **portal-extension:** Prepare a universal plugin loader ([be8ed0f](https://git.knut.univention.de/univention/components/univention-portal/commit/be8ed0f65e400f5f690baea0ea6ac39e97e4e23c))
+* **portal-extension:** Use a minimal base image ([72ef7d0](https://git.knut.univention.de/univention/components/univention-portal/commit/72ef7d071433f5d55ff1ce63ea3d06b781d62f08))
+* **portal-extension:** Use ucs-base-image ([23a5bc6](https://git.knut.univention.de/univention/components/univention-portal/commit/23a5bc6e8ce45783c6961c5107d7b8b9a321a9c8))
+
 ## [0.25.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.25.1...v0.25.2) (2024-06-17)
 
 
