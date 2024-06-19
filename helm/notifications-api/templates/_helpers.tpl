@@ -37,6 +37,18 @@ password
 {{- end -}}
 {{- end -}}
 
+{{- define "notifiations-api.postgresql.connection.host" -}}
+{{- if or .Values.postgresql.connection.host .Values.global.postgresql.connection.host -}}
+{{- coalesce .Values.postgresql.connection.host .Values.global.postgresql.connection.host -}}
+{{- else if .Values.postgresql.bundled -}}
+{{- printf "%s-postgresql" (include "common.names.fullname" .) -}}
+{{- else if .Values.global.nubusDeployment -}}
+{{- printf "%s-postgresql" .Release.Name -}}
+{{- else -}}
+{{- required ".Values.postgresql.connection.host or .Values.global.postgresql.connection.host must be defined." (coalesce .Values.postgresql.connection.host .Values.global.postgresql.connection.host) -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "notifiations-api.postgresql.connection.port" -}}
 {{- if or .Values.postgresql.connection.port .Values.global.postgresql.connection.port -}}
 {{- coalesce .Values.postgresql.connection.port .Values.global.postgresql.connection.port -}}
@@ -46,11 +58,5 @@ password
 {{- end -}}
 
 {{- define "notifiations-api.postgresql.connection.url" -}}
-{{- if .Values.postgresql.bundled }}
-{{- printf "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@%s:%s/$(DATABASE)" (printf "%s-postgresql" (include "common.names.fullname" .))  .Values.postgresql.connection.port -}}
-{{- else if .Values.global.nubusDeployment -}}
-{{- printf "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@%s:%s/$(DATABASE)" (printf "%s-postgresql" .Release.Name) (include "notifiations-api.postgresql.connection.port" .) -}}
-{{- else -}}
-{{- printf "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@%s:%s/$(DATABASE)" (coalesce .Values.postgresql.connection.host .Values.global.postgresql.connection.host) (include "notifiations-api.postgresql.connection.port" .) -}}
-{{- end -}}
+{{- printf "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@%s:%s/$(DATABASE)" (include "notifiations-api.postgresql.connection.host" .) (include "notifiations-api.postgresql.connection.port" .) -}}
 {{- end -}}
