@@ -88,7 +88,12 @@ def mock_get_portal_update_call():
 
 
 @pytest.fixture()
-def consumer():
+def group_cache():
+    return patch("group_membership_cache.GroupMembershipCache").start().return_value
+
+
+@pytest.fixture()
+def consumer(group_cache):
     consumer_file = load_consumer("consumer.py")
     return consumer_file.PortalConsumer()
 
@@ -102,6 +107,7 @@ class TestPortalConsumer:
             mock_get_portal_update_call,
             mock_subprocess_call,
             consumer,
+            group_cache,
     ):
         async def run():
             await consumer.handle_message(MESSAGE_GROUP)
@@ -114,6 +120,7 @@ class TestPortalConsumer:
         message_handler.run.assert_called_once_with()
         mock_get_portal_update_call.assert_called_once_with(reason="ldap:group")
         mock_subprocess_call.assert_called_once_with(mock_get_portal_update_call())
+        group_cache.update_cache.assert_called_once_with(MESSAGE_GROUP.body)
 
     async def test_portal_call_update_with_portal_change(
             self,

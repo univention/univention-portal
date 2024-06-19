@@ -46,7 +46,6 @@ COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-
 COPY ./docker/portal-consumer/stub_portals.json /usr/share/univention-portal/portals.json
 COPY ./docker/portal-consumer/portal-consumer-entrypoint.sh /entrypoint.d/75-portal-consumer-entrypoint.sh
 COPY ./docker/portal-consumer/initialize.sh /
-COPY ./docker/portal-consumer/cache_consumer.py /
-COPY ./portal_consumer/consumer.py /
+COPY ./portal_consumer/ /
 
 CMD ["/usr/bin/python3", "consumer.py"]

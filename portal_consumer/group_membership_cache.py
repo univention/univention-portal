@@ -30,18 +30,15 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
-import asyncio
 import logging
 import os
 from typing import Any, Dict, Optional
 
 from univention.ldap_cache.cache import get_cache
 from univention.ldap_cache.frontend import _extract_id_from_dn
-from univention.provisioning.consumer import AsyncClient, MessageHandler, Settings
-from univention.provisioning.models import Message
 
 
-class CacheConsumer:
+class GroupMembershipCache:
     def __init__(self):
         self._counter = 0
         self._filter = "(univentionObjectType=groups/group)"
@@ -72,25 +69,11 @@ class CacheConsumer:
         }
         return ldap_obj
 
-    async def start_listening_for_changes(self) -> None:
-        settings = Settings(
-            provisioning_api_base_url=os.environ.get("PROVISIONING_API_BASE_URL"),
-            provisioning_api_username=os.environ.get("CACHE_PROVISIONING_API_USERNAME"),
-            provisioning_api_password=os.environ.get("CACHE_PROVISIONING_API_PASSWORD"),
-        )
+    def update_cache(self, message_body: Dict[str, Any]) -> None:
+        self._logger.info("Updating the group membership cache")
 
-        self._logger.info("Listening for changes in the groups for the univention-group-membership-member cache")
-        async with AsyncClient(settings) as client:
-            await MessageHandler(
-                client, settings.provisioning_api_username, [self.handle_message],
-            ).run()
-
-    async def handle_message(self, message: Message) -> None:
-        body = message.body
-        self._logger.info("Received the message with the body: %s", body)
-
-        new_obj = self._map_udm_into_ldap(body.get("new"))
-        old_obj = self._map_udm_into_ldap(body.get("old"))
+        new_obj = self._map_udm_into_ldap(message_body.get("new"))
+        old_obj = self._map_udm_into_ldap(message_body.get("old"))
 
         if old_obj and new_obj:
             if new_obj.get("uniqueMember") == old_obj.get("uniqueMember"):
@@ -115,12 +98,3 @@ class CacheConsumer:
     def remove(self, old: Dict[str, Any]) -> None:
         for shard in get_cache().get_shards_for_query(self._filter):
             shard.rm_object((old["dn"], old))
-
-
-def run() -> None:
-    consumer = CacheConsumer()
-    asyncio.run(consumer.start_listening_for_changes())
-
-
-if __name__ == "__main__":
-    run()
