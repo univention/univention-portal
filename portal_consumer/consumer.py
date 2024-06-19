@@ -6,6 +6,8 @@ import logging
 import os
 import subprocess
 
+from group_membership_cache import GroupMembershipCache
+
 from univention.portal.util import get_portal_update_call
 from univention.provisioning.consumer import AsyncClient, MessageHandler, Settings
 from univention.provisioning.models import Message
@@ -15,6 +17,7 @@ class PortalConsumer:
     def __init__(self):
         logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
         self.logger = logging.getLogger(__name__)
+        self._group_cache = GroupMembershipCache()
 
     async def start_listening_for_changes(self) -> None:
         settings = Settings()
@@ -26,11 +29,15 @@ class PortalConsumer:
             ).run()
 
     async def handle_message(self, message: Message):
+        body = message.body
+        self.logger.info("Received the message with the body: %s", body)
+
         topic = message.topic
         if topic == "groups/group":
+            self._group_cache.update_cache(body)
             reason = "ldap:group"
         else:
-            obj = message.body.get("new") or message.body.get("old")
+            obj = body.get("new") or body.get("old")
             dn = obj.get("dn")
             reason = f"ldap:{topic}:{dn}"
 

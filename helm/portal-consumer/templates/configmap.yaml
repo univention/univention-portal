@@ -51,8 +51,6 @@ data:
   PROVISIONING_API_BASE_URL: {{ .Values.portalConsumer.provisioningApiBaseUrl | quote }}
   PROVISIONING_API_USERNAME: {{ .Values.portalConsumer.provisioning_api_username | quote }}
   PROVISIONING_API_PASSWORD: {{ .Values.portalConsumer.provisioning_api_password | quote }}
-  CACHE_PROVISIONING_API_USERNAME: {{ .Values.portalConsumer.cache_provisioning_api_username | quote }}
-  CACHE_PROVISIONING_API_PASSWORD: {{ .Values.portalConsumer.cache_provisioning_api_password | quote }}
   wait-for-ldap.sh: |
     #!/bin/bash
     set -euxo pipefail
