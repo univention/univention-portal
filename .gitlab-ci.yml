@@ -45,6 +45,7 @@ trigger-notifications-api:
     - changes:
         - "notifications-api/**/*"
         - "tests/**/*"
+        - "helm/notifications-api/**/*"
 
 trigger-frontend:
   stage: "trigger"
@@ -63,6 +64,7 @@ trigger-frontend:
     - changes: &portal-frontend-changes
         - "frontend/**/*"
         - "tests/**/*"
+        - "helm/portal-frontend/**/*"
 
 trigger-portal-server:
   stage: "trigger"
@@ -81,7 +83,7 @@ trigger-portal-server:
     - changes: &portal-server-changes
         - "docker/portal-server/**/*"
         - "docker/portal-consumer/**/*"
-        - "docker/portal-udm-extensions/**/*"
+        - "docker/portal-extension/**/*"
         - "helm/portal-server/**/*"
         - "helm/portal-consumer/**/*"
         - "portal_consumer/**/*"
