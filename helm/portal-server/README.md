@@ -733,7 +733,7 @@ false
 ""
 </pre>
 </td>
-			<td>Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
+			<td>Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
 		</tr>
 		<tr>
 			<td>portalServer.objectStorageSecretAccessKey</td>

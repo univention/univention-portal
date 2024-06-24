@@ -54,23 +54,22 @@ saml
 {{- end -}}
 {{- end -}}
 
+
 {{- define "portal-server.objectStorageEndpoint" -}}
-{{- if  .Values.portalServer.objectStorageEndpoint -}}
-{{- .Values.portalServer.objectStorageEndpoint -}}
+{{- if .Values.portalServer.objectStorageEndpoint -}}
+{{- tpl .Values.portalServer.objectStorageEndpoint . -}}
 {{- else if .Values.global.nubusDeployment -}}
 {{- printf "http://%s-minio:9000" .Release.Name -}}
 {{- else -}}
-http://ums-minio:9000
+{{- required "The parameter \"portalServer.objectStorageEndpoint\" is required." .Values.portalServer.objectStorageEndpoint -}}
 {{- end -}}
 {{- end -}}
 
 {{- define "portal-server.objectStorageBucket" -}}
 {{- if .Values.portalServer.objectStorageBucket -}}
-{{- .Values.portalServer.objectStorageBucket -}}
+{{- tpl .Values.portalServer.objectStorageBucket . -}}
 {{- else if .Values.global.nubusDeployment -}}
-ums
-{{- else -}}
-ums
+nubus
 {{- end -}}
 {{- end -}}
 

@@ -391,7 +391,7 @@ portalServer:
     enabled: false
     # -- Provide a custom secret, if no value is provided, a random string is generated instead.
     authenticatorSecret: null
-  # -- Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
+  # -- Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
   objectStorageEndpoint: ""
   # -- Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".
   objectStorageBucket: ""

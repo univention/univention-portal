@@ -523,7 +523,7 @@ null
 ""
 </pre>
 </td>
-			<td>Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".</td>
+			<td>Bucket in the object storage for storing the portal and assets. Chart default is "nubus". Nubus chart default is "nubus".</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.objectStorageCredentialSecret</td>
@@ -545,7 +545,7 @@ null
 ""
 </pre>
 </td>
-			<td>Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
+			<td>Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.objectStorageSecretAccessKey</td>
