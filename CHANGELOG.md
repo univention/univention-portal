@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.26.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.0...v0.26.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* use the same container and queue for the cache-consumer and portals-consumer ([0a62729](https://git.knut.univention.de/univention/components/univention-portal/commit/0a62729c010e62c6ed9c6ce1dc8595c0fbadf834))
+
 ## [0.26.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.25.2...v0.26.0) (2024-06-18)
 
 
