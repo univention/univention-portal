@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.26.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.1...v0.26.2) (2024-06-25)
+
+
+### Bug Fixes
+
+* **helm notifications-api:** add option to use third party supplied postgresql instance ([c55c4dc](https://git.knut.univention.de/univention/components/univention-portal/commit/c55c4dca58cca55d45a7da9cc5268fafb5ce758c))
+
 ## [0.26.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.0...v0.26.1) (2024-06-25)
 
 
