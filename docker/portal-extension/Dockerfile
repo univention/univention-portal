@@ -13,10 +13,10 @@ WORKDIR /
 
 COPY udm/acls /plugins/ldap-acls
 COPY udm/api /plugins/udm-modules
-COPY udm/handlers /plugins/udm-handlers/portals
+COPY udm/handlers /plugins/admin-handlers/portals
 COPY udm/icons /plugins/umc-icons
 COPY udm/schema /plugins/ldap-schema
-COPY udm/syntax /plugins/udm-syntax.d
+COPY udm/syntax /plugins/admin-syntax.d
 COPY udm/univention-portal.xml /plugins/umc-modules/
 
 COPY docker/portal-extension/loader.sh /bin/loader
