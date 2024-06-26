@@ -19,6 +19,9 @@ COPY udm/schema /plugins/ldap-schema
 COPY udm/syntax /plugins/udm-syntax.d
 COPY udm/univention-portal.xml /plugins/umc-modules/
 
+# Spike experiment - udm-data as new plugin type
+COPY udm/udm-data-loader /plugins/udm-data-loader
+
 COPY docker/portal-extension/loader.sh /bin/loader
 
 CMD ["/bin/loader"]
