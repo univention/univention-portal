@@ -17,6 +17,7 @@ COPY udm/handlers /plugins/udm-handlers/portals
 COPY udm/icons /plugins/umc-icons
 COPY udm/schema /plugins/ldap-schema
 COPY udm/syntax /plugins/udm-syntax.d
+COPY udm/udm-data-loader /plugins/udm-data-loader
 COPY udm/univention-portal.xml /plugins/umc-modules/
 
 COPY docker/portal-extension/loader.sh /bin/loader

@@ -1,0 +1,279 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023 Univention GmbH
+
+{{ with .Values.stackDataContext }}
+
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  allowedGroups:
+  - cn=Domain Users,cn=groups,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  description:
+    de_DE: Ihr Passwort ändern
+    en_US: Change your password
+  displayName:
+    de_DE: Ihr Passwort ändern
+    en_US: Change your password
+  # TODO: load from file
+  icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLWtleSI+PHBhdGggZD0iTTIxIDJsLTIgMm0tNy42MSA3LjYxYTUuNSA1LjUgMCAxIDEtNy43NzggNy43NzggNS41IDUuNSAwIDAgMSA3Ljc3Ny03Ljc3N3ptMCAwTDE1LjUgNy41bTAgMGwzIDNMMjIgN2wtMy0zbS0zLjUgMy41TDE5IDQiPjwvcGF0aD48L3N2Zz4K
+  link:
+  - - en_US
+    - '#/selfservice/passwordchange'
+  linkTarget: samewindow
+  name: self-service-password-change
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  description:
+    de_DE: Univention Forum (Hilfe)
+    en_US: Univention Forum (Help)
+    fr_FR: Forum Univention (Aide)
+  displayName:
+    de_DE: Univention Forum (Hilfe)
+    en_US: Univention Forum (Help)
+    fr_FR: Forum Univention (Aide)
+  link:
+  - - en_US
+    - https://help.univention.com
+  linkTarget: newwindow
+  name: univentionforum
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  description:
+    de_DE: Feedback
+    en_US: Feedback
+    fr_FR: Impressions
+  displayName:
+    de_DE: Feedback
+    en_US: Feedback
+    fr_FR: Impressions
+  link:
+  - - en_US
+    - https://www.univention.com/feedback/?umc=portal
+  - - de_DE
+    - https://www.univention.de/produkt-feedback/?umc=portal
+  linkTarget: newwindow
+  name: univentionfeedback
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  description:
+    de_DE: News, Tipps und Best Practices
+    en_US: News, tips and best practices
+    fr_FR: Nouvelles, conseils et bonne pratique
+  displayName:
+    de_DE: Univention Blog
+    en_US: Univention Blog
+    fr_FR: Univention Blog
+  # TODO: Load from file
+  icon: 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
+  link:
+  - - en_US
+    - https://www.univention.com/news/blog-en
+  - - de_DE
+    - https://www.univention.de/news/blog-de
+  linkTarget: newwindow
+  name: univentionblog
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  description:
+    de_DE: Univention Webseite
+    en_US: Univention Website
+    fr_FR: Site Internet Univention
+  displayName:
+    de_DE: Univention Webseite
+    en_US: Univention Website
+    fr_FR: Site Internet Univention
+  link:
+  - - en_US
+    - https://www.univention.com
+  - - de_DE
+    - https://www.univention.de
+  linkTarget: newwindow
+  name: univentionwebsite
+---
+action: create
+module: portals/folder
+position: cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  displayName:
+    de_DE: Hilfe
+    en_US: Help
+    fr_FR: Aide
+  entries:
+  - cn=univentionforum,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=univentionfeedback,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=univentionblog,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=univentionwebsite,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  name: help
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  anonymous: true
+  description:
+    de_DE: Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems
+    en_US: Univention Management Console for admin­is­tra­ting the UCS domain and the local system
+    fr_FR: Console de gestion Univention pour admin­is­trer le domaine UCS et le système local
+  displayName:
+    de_DE: System- und Domäneneinstellungen
+    en_US: System and domain settings
+    fr_FR: Réglages du système et du domaine
+  # TODO: load from file
+  icon: PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIyLjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIKCSBpZD0ic3ZnNDE4OSIgeG1sbnM6Y2M9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL25zIyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA2NSA2NSIKCSBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA2NSA2NTsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiM3ODc4Nzg7fQoJLnN0MXtmaWxsOiM3NkI3Mjg7fQoJLnN0MntmaWxsOiNGRkZGRkY7fQo8L3N0eWxlPgo8ZyBpZD0iZzQxMTgiIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLC0xLC0zNDUuMDAwMywxODcwLjM2MjMpIj4KCTxnIGlkPSJnOTcwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzOTIuOTMzMiw4NjAuNDU4NCkiPgoJCTxwYXRoIGlkPSJwYXRoOTcyIiBjbGFzcz0ic3QwIiBkPSJNMCw5ODcuNHY1LjFsLTIuOCwxYy0xLDAuNC0xLjksMS4yLTIuMywyLjJ2MGMtMC40LDEtMC40LDIuMiwwLjEsMy4ybDEuMywyLjZsLTMuNiwzLjYKCQkJbC0yLjYtMS4zYy0xLTAuNS0yLjItMC41LTMuMi0wLjFjMCwwLDAsMCwwLDBjLTEsMC40LTEuOCwxLjMtMi4yLDIuM2wtMSwyLjhoLTUuMWwtMS0yLjhjLTAuNC0xLTEuMi0xLjktMi4yLTIuM2MwLDAsMCwwLDAsMAoJCQljLTEtMC40LTIuMi0wLjQtMy4yLDAuMWwtMi42LDEuM2wtMy42LTMuNmwxLjMtMi42YzAuNS0xLDAuNS0yLjIsMC4xLTMuMnYwYy0wLjQtMS0xLjMtMS44LTIuMy0yLjJsLTIuOC0xdi01LjFsMi44LTEKCQkJYzEtMC40LDEuOS0xLjIsMi4zLTIuMmMwLDAsMCwwLDAsMGMwLjQtMSwwLjQtMi4yLTAuMS0zLjJsLTEuMy0yLjZsMy42LTMuNmwyLjYsMS4zYzEsMC41LDIuMiwwLjUsMy4yLDAuMWMwLDAsMCwwLDAsMAoJCQljMS0wLjQsMS44LTEuMywyLjItMi4zbDEtMi44aDUuMWwxLDIuN2MwLjQsMS4xLDEuMiwxLjksMi4yLDIuM2MwLDAsMCwwLDAsMGMxLDAuNCwyLjIsMC40LDMuMi0wLjFsMi43LTEuM2wzLjYsMy42TC01LDk4MQoJCQljLTAuNSwxLTAuNSwyLjItMC4xLDMuMmMwLDAsMCwwLDAsMGMwLjQsMSwxLjMsMS44LDIuMywyLjJMMCw5ODcuNHogTS0xOC45LDk4M2MtMy44LDAtNi45LDMuMS02LjksNi45YzAsMy44LDMuMSw2LjksNi45LDYuOQoJCQljMy44LDAsNi45LTMuMSw2LjktNi45Qy0xMiw5ODYuMS0xNS4xLDk4My0xOC45LDk4MyBNMTcuMSw5NzIuNHYyLjdsLTEuNSwwLjVjLTAuNiwwLjItMSwwLjYtMS4yLDEuMmMwLDAsMCwwLDAsMAoJCQljLTAuMiwwLjUtMC4yLDEuMiwwLDEuN2wwLjcsMS40bC0xLjksMS45bC0xLjQtMC43Yy0wLjUtMC4zLTEuMi0wLjMtMS43LDBoMGMtMC41LDAuMi0xLDAuNy0xLjIsMS4ybC0wLjUsMS41SDUuN2wtMC41LTEuNQoJCQljLTAuMi0wLjYtMC42LTEtMS4yLTEuMmgwYy0wLjUtMC4yLTEuMi0wLjItMS43LDBsLTEuNCwwLjdsLTEuOS0xLjlsMC43LTEuNGMwLjMtMC41LDAuMy0xLjIsMC0xLjdjMCwwLDAsMCwwLDAKCQkJYy0wLjItMC41LTAuNy0xLTEuMi0xLjJsLTEuNS0wLjV2LTIuN2wxLjUtMC41YzAuNi0wLjIsMS0wLjYsMS4yLTEuMmMwLDAsMCwwLDAsMGMwLjItMC41LDAuMi0xLjIsMC0xLjdsLTAuNy0xLjRsMS45LTEuOQoJCQlsMS40LDAuN2MwLjUsMC4zLDEuMiwwLjMsMS43LDBsMCwwYzAuNS0wLjIsMS0wLjcsMS4yLTEuMmwwLjUtMS41aDIuN2wwLjUsMS41YzAuMiwwLjYsMC42LDEsMS4yLDEuMmMwLDAsMCwwLDAsMAoJCQljMC41LDAuMiwxLjIsMC4yLDEuNywwbDEuNC0wLjdsMS45LDEuOWwtMC43LDEuNGMtMC4zLDAuNS0wLjMsMS4yLDAsMS43bDAsMGMwLjIsMC41LDAuNywxLDEuMiwxLjIKCQkJQzE1LjYsOTcxLjksMTcuMSw5NzIuNCwxNy4xLDk3Mi40eiBNNyw5NzAuMWMtMiwwLTMuNywxLjYtMy43LDMuN3MxLjYsMy43LDMuNywzLjdzMy43LTEuNiwzLjctMy43UzkuMSw5NzAuMSw3LDk3MC4xCgkJCSBNLTIuNSw5NjQuNHYxLjVsLTEsMC4zYy0wLjIsMC4xLTAuNCwwLjItMC40LDAuNGMwLDAsMCwwLDAsMGMtMC4xLDAuMiwwLDAuNCwwLjIsMC42bDAuOCwwLjdsLTAuNywxLjNsLTEtMC4zCgkJCWMtMC4yLTAuMS0wLjQsMC0wLjYsMC4ybDAsMGMtMC4yLDAuMi0wLjIsMC40LTAuMiwwLjZsMC4zLDFsLTEuMywwLjdsLTAuNy0wLjhjLTAuMi0wLjItMC40LTAuMi0wLjYtMC4yYzAsMCwwLDAsMCwwCgkJCWMtMC4yLDAuMS0wLjQsMC4yLTAuNCwwLjRsLTAuMywxSC0xMGwtMC4zLTFjLTAuMS0wLjItMC4yLTAuNC0wLjQtMC40YzAsMCwwLDAsMCwwYy0wLjItMC4xLTAuNCwwLTAuNiwwLjJsLTAuNywwLjhsLTEuMy0wLjcKCQkJbDAuMy0xYzAuMS0wLjIsMC0wLjQtMC4yLTAuNnYwYy0wLjItMC4yLTAuNC0wLjItMC42LTAuMWwtMSwwLjNsLTAuNy0xLjNsMC44LTAuN2MwLjItMC4yLDAuMi0wLjQsMC4yLTAuNmMwLDAsMCwwLDAsMAoJCQljLTAuMS0wLjItMC4yLTAuNC0wLjQtMC40bC0xLTAuM3YtMS41bDEtMC4zYzAuMi0wLjEsMC40LTAuMiwwLjQtMC40YzAsMCwwLDAsMCwwYzAuMS0wLjIsMC0wLjQtMC4yLTAuNmwtMC44LTAuN2wwLjctMS4zbDEsMC4zCgkJCWMwLjIsMC4xLDAuNCwwLDAuNi0wLjJjMCwwLDAsMCwwLDBjMC4yLTAuMiwwLjItMC40LDAuMS0wLjZsLTAuMy0xbDEuMy0wLjdsMC43LDAuOGMwLjIsMC4yLDAuNCwwLjIsMC42LDAuMmMwLDAsMCwwLDAsMAoJCQljMC4yLTAuMSwwLjQtMC4yLDAuNC0wLjRsMC4zLTFoMS41bDAuMywxYzAuMSwwLjIsMC4yLDAuNCwwLjQsMC40YzAsMCwwLDAsMCwwYzAuMiwwLjEsMC40LDAsMC42LTAuMmwwLjctMC44bDEuMywwLjdsLTAuMywxCgkJCWMtMC4xLDAuMiwwLDAuNCwwLjIsMC42bDAsMGMwLjIsMC4yLDAuNCwwLjIsMC42LDAuMmwxLTAuM2wwLjcsMS4zbC0wLjgsMC43Yy0wLjIsMC4yLTAuMiwwLjQtMC4yLDAuNmMwLDAsMCwwLDAsMAoJCQljMC4xLDAuMiwwLjIsMC40LDAuNCwwLjRDLTMuNSw5NjQuMi0yLjUsOTY0LjQtMi41LDk2NC40eiBNLTkuMyw5NjIuNWMtMS41LDAtMi43LDEuMi0yLjcsMi43YzAsMS41LDEuMiwyLjcsMi43LDIuNwoJCQljMS41LDAsMi43LTEuMiwyLjctMi43Qy02LjYsOTYzLjctNy44LDk2Mi41LTkuMyw5NjIuNSIvPgoJPC9nPgo8L2c+CjxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0zMS40LDI2LjRIMTIuNmMtMy41LDAtNi4zLDIuOC02LjMsNi4zaDB2MGMtMy41LDAtNi4zLDIuOC02LjMsNi4zdjE4LjhjMCwzLjUsMi44LDYuMyw2LjMsNi4zaDE4LjgKCWMzLjUsMCw2LjMtMi44LDYuMy02LjNjMy41LDAsNi4zLTIuOCw2LjMtNi4zVjMyLjdDMzcuNywyOS4yLDM0LjksMjYuNCwzMS40LDI2LjQiLz4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMTAuOCw0OC40YzAsMS4zLTAuMiwyLjItMC43LDIuOGMtMC40LDAuNi0xLDAuOC0xLjgsMC44Yy0wLjgsMC0xLjQtMC4zLTEuOS0wLjljLTAuNS0wLjYtMC43LTEuNi0wLjctMi44CgkJVjM3LjFIMy41djExLjJjMCwxLjgsMC40LDMuMywxLjIsNC4zYzAuOCwxLjEsMi4xLDEuNiwzLjYsMS42YzIuMiwwLDQuOC0xLDQuOC01LjlWMzcuMWgtMi4zVjQ4LjR6Ii8+Cgk8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMjEuMSwzOC45YzAuNywwLDEuNCwwLjIsMiwwLjVsMC41LDAuM2wxLjEtMS45bC0wLjUtMC4zYy0wLjktMC41LTEuOS0wLjctMy0wLjdjLTEuOSwwLTMuNCwwLjgtNC41LDIuNAoJCWMtMSwxLjUtMS42LDMuNi0xLjYsNi4yYzAsMS43LDAuMiwzLjMsMC43LDQuNmMwLjUsMS4zLDEuMiwyLjMsMi4xLDMuMWMwLjksMC43LDIsMS4xLDMuMiwxLjFjMS4xLDAsMi0wLjIsMi43LTAuNWwwLjMtMC4ydi0yLjIKCQlsLTAuOCwwLjRDMjIuNyw1MS45LDIyLDUyLDIxLjIsNTJjLTAuNywwLTEuNC0wLjItMi0wLjdjLTAuNi0wLjUtMS0xLjMtMS40LTIuMmMtMC4zLTEtMC41LTIuMi0wLjUtMy42YzAtMi4xLDAuNC0zLjgsMS4xLTQuOQoJCUMxOS4xLDM5LjUsMjAsMzguOSwyMS4xLDM4Ljl6Ii8+Cgk8cGF0aCBjbGFzcz0ic3QyIiBkPSJNMzMuNiw0Ni40Yy0wLjYtMC44LTEuNS0xLjQtMi44LTJjLTEuMy0wLjYtMS45LTEuMS0yLjEtMS40Yy0wLjMtMC40LTAuNS0xLTAuNS0xLjdjMC0wLjcsMC4yLTEuMywwLjYtMS43CgkJYzAuNC0wLjQsMS0wLjYsMS43LTAuNmMwLjgsMCwxLjYsMC4yLDIuNCwwLjZsMC41LDAuMmwwLjktMkwzNCwzNy42Yy0wLjQtMC4yLTAuOC0wLjMtMS40LTAuNWMtMC42LTAuMS0xLjMtMC4yLTItMC4yCgkJYy0wLjgsMC0xLjYsMC4yLTIuMywwLjZjLTAuNywwLjQtMS4zLDAuOS0xLjcsMS42Yy0wLjQsMC43LTAuNiwxLjUtMC42LDIuM2MwLDAuOCwwLjEsMS41LDAuNCwyYzAuMiwwLjYsMC42LDEuMSwxLjEsMS41CgkJYzAuNSwwLjQsMS4yLDAuOCwyLjEsMS4zYzEuMywwLjYsMS45LDEuMSwyLjEsMS40YzAuMywwLjQsMC41LDEsMC41LDEuN2MwLDAuOC0wLjIsMS40LTAuNywyYy0wLjUsMC41LTEsMC43LTEuOCwwLjcKCQljLTAuNiwwLTEuMS0wLjEtMS43LTAuMmMtMC42LTAuMS0xLTAuMy0xLjQtMC40TDI1LjksNTF2Mi40bDAuMywwLjFjMC45LDAuNCwyLjEsMC42LDMuNiwwLjZjMS40LDAsMi41LTAuNSwzLjQtMS40CgkJYzAuOS0wLjksMS4zLTIuMSwxLjMtMy41QzM0LjUsNDguMiwzNC4yLDQ3LjIsMzMuNiw0Ni40eiIvPgo8L2c+Cjwvc3ZnPgo=
+  link:
+  - - en_US
+    - /univention/umc/
+  linkTarget: newwindow
+  name: umc-domain
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  anonymous: true
+  description:
+    de_DE: Am Portal anmelden
+    en_US: Log in to the portal
+    fr_FR: Connectez-vous au portail
+  displayName:
+    de_DE: Anmelden
+    en_US: Login
+    fr_FR: Connexion
+  # TODO: Load icon from file
+  icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1sb2ctaW4iPjxwYXRoIGQ9Ik0xNSAzaDRhMiAyIDAgMCAxIDIgMnYxNGEyIDIgMCAwIDEtMiAyaC00Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iMTAgMTcgMTUgMTIgMTAgNyI+PC9wb2x5bGluZT48bGluZSB4MT0iMTUiIHkxPSIxMiIgeDI9IjMiIHkyPSIxMiI+PC9saW5lPjwvc3ZnPgo=
+  link:
+  - - en_US
+    - /univention/login/?location=/univention/portal/
+  linkTarget: samewindow
+  name: login-ucs
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  activated: false
+  anonymous: true
+  description:
+    de_DE: Am Portal anmelden
+    en_US: Log in to the portal
+    fr_FR: Connectez-vous au portail
+  displayName:
+    de_DE: Anmelden (Single Sign-on)
+    en_US: Login (Single sign-on)
+    fr_FR: Connexion (authentification unique)
+  # TODO: Load icon from file
+  icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1sb2ctaW4iPjxwYXRoIGQ9Ik0xNSAzaDRhMiAyIDAgMCAxIDIgMnYxNGEyIDIgMCAwIDEtMiAyaC00Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iMTAgMTcgMTUgMTIgMTAgNyI+PC9wb2x5bGluZT48bGluZSB4MT0iMTUiIHkxPSIxMiIgeDI9IjMiIHkyPSIxMiI+PC9saW5lPjwvc3ZnPgo=
+  link:
+  - - en_US
+    - /univention/saml/?location=/univention/portal/
+  linkTarget: samewindow
+  name: login-saml
+---
+action: create
+module: portals/category
+position: cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  displayName:
+    de_DE: Applikationen
+    en_US: Applications
+    fr_FR: Applications
+  entries:
+  - cn=login-ucs,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=login-saml,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  name: domain-service
+---
+action: create
+module: portals/category
+position: cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  displayName:
+    de_DE: Verwaltung
+    en_US: Administration
+    fr_FR: Administration
+  entries:
+  - cn=umc-domain,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  name: domain-admin
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  description:
+    de_DE: Wurzelzertifikat
+    en_US: Root certificate
+    fr_FR: Certificat racine
+  displayName:
+    de_DE: Wurzelzertifikat
+    en_US: Root certificate
+    fr_FR: Certificat racine
+  link:
+  - - en_US
+    - /ucs-root-ca.crt
+  linkTarget: samewindow
+  name: root-cert
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  description:
+    de_DE: Zertifikat-Sperrliste
+    en_US: Certificate revocation list
+    fr_FR: Liste de révocation de certificats
+  displayName:
+    de_DE: Zertifikat-Sperrliste
+    en_US: Certificate revocation list
+    fr_FR: Liste de révocation de certificats
+  link:
+  - - en_US
+    - /ucsCA.crl
+  linkTarget: samewindow
+  name: certificate-revocation
+---
+action: create
+module: portals/folder
+position: cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  displayName:
+    de_DE: Zertifikate
+    en_US: Certificates
+    fr_FR: Certificats
+  entries:
+  - cn=root-cert,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=certificate-revocation,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  name: certificates
+---
+action: create
+module: portals/portal
+position: cn=portal,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+properties:
+  categories:
+  - cn=domain-service,cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=domain-admin,cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  displayName:
+    de_DE: Univention Portal
+    en_US: Univention Portal
+    fr_FR: Portail Univention
+  menuLinks:
+  - cn=certificates,cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=help,cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  name: domain
+  showUmc: true
+  userLinks:
+  - cn=self-service-password-change,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+
+{{ end }}
