@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.26.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.2...v0.26.3) (2024-06-27)
+
+
+### Bug Fixes
+
+* **portal-extension:** Fix typo in loader script ([59d0c88](https://git.knut.univention.de/univention/components/univention-portal/commit/59d0c88a848f0a5d6feb72507a24476433bd2aa1))
+
 ## [0.26.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.1...v0.26.2) (2024-06-25)
 
 
