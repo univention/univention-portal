@@ -60,3 +60,13 @@ password
 {{- define "notifiations-api.postgresql.connection.url" -}}
 {{- printf "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@%s:%s/$(DATABASE)" (include "notifiations-api.postgresql.connection.host" .) (include "notifiations-api.postgresql.connection.port" .) -}}
 {{- end -}}
+
+{{- define "notifications-api.ingress.tls.secretName" -}}
+{{- if .Values.ingress.tls.secretName -}}
+{{- tpl .Values.ingress.tls.secretName . -}}
+{{- else if .Values.global.nubusDeployment -}}
+{{- printf "%s-portal-tls" .Release.Name -}}
+{{- else -}}
+{{- required ".Values.ingress.tls.secretName must be defined" .Values.ingress.tls.secretName -}}
+{{- end -}}
+{{- end -}}

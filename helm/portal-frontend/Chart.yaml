@@ -19,6 +19,6 @@ appVersion: "1.16.0"
 dependencies:
   - name: "common"
     version: "^2.x.x"
-    repository: "oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts"
+    repository: "oci://registry-1.docker.io/bitnamicharts"
 
 ...

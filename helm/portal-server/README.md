@@ -42,7 +42,7 @@ helm uninstall portal-server
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts | common | ^2.x.x |
+| oci://registry-1.docker.io/bitnamicharts | common | ^2.x.x |
 
 ## Values
 
@@ -165,6 +165,15 @@ true
 </pre>
 </td>
 			<td>Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar"</td>
+		</tr>
+		<tr>
+			<td>extraIngresses</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Extra ingress configuration</td>
 		</tr>
 		<tr>
 			<td>extraSecrets</td>
@@ -296,7 +305,7 @@ false
 			<td>image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0.19.1@sha256:e6a13f92b3c2076e3a2fb9c9f8fac4894eec5eacbd2a8a83ece0346b6dabe54c"
+"0.26.3@sha256:e3147110fb743d064e38cb48d96820e8b984d813154fb06fdb0d8b9fd2ffaeca"
 </pre>
 </td>
 			<td></td>
@@ -315,7 +324,8 @@ false
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "nginx.org/mergeable-ingress-type": "minion"
+  "nginx.ingress.kubernetes.io/rewrite-target": "/$2$3",
+  "nginx.ingress.kubernetes.io/use-regex": "true"
 }
 </pre>
 </td>
@@ -325,7 +335,7 @@ false
 			<td>ingress.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
 			<td>Enable creation of Ingress.</td>
@@ -343,7 +353,7 @@ false
 			<td>ingress.ingressClassName</td>
 			<td>string</td>
 			<td><pre lang="json">
-"nginx"
+""
 </pre>
 </td>
 			<td>The Ingress controller class name.</td>
@@ -354,16 +364,8 @@ false
 			<td><pre lang="json">
 [
   {
-    "path": "/univention/portal/portal.json",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/univention/selfservice/portal.json",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/univention/portal/navigation.json",
-    "pathType": "Exact"
+    "path": "/()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)",
+    "pathType": "ImplementationSpecific"
   }
 ]
 </pre>

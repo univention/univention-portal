@@ -18,8 +18,11 @@ notificationsApi:
 
 ## Kubernetes ingress
 ingress:
-  enabled: false
+  enabled: true
   host: "portal.example.develop.souvap-univention.de"
+  ingressClassName: "nginx"
+  tls:
+    secretName: "portal-tls"
 
 
 ## Istio based

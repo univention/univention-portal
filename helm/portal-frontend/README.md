@@ -62,7 +62,7 @@ helm uninstall portal-frontend
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts | common | ^2.x.x |
+| oci://registry-1.docker.io/bitnamicharts | common | ^2.x.x |
 
 ## Values
 
@@ -190,44 +190,7 @@ true
 			<td>extraIngresses</td>
 			<td>list</td>
 			<td><pre lang="json">
-[
-  {
-    "annotations": {
-      "nginx.ingress.kubernetes.io/configuration-snippet": "absolute_redirect off;\nreturn 302 /univention/portal/;\n",
-      "nginx.org/location-snippets": "absolute_redirect off;\nreturn 302 /univention/portal/;\n",
-      "nginx.org/mergeable-ingress-type": "minion"
-    },
-    "host": "",
-    "ingressClassName": "nginx",
-    "name": "redirects",
-    "paths": [
-      {
-        "path": "/",
-        "pathType": "Exact"
-      },
-      {
-        "path": "/univention",
-        "pathType": "Exact"
-      },
-      {
-        "path": "/univention/",
-        "pathType": "Exact"
-      },
-      {
-        "path": "/univention/portal",
-        "pathType": "Exact"
-      },
-      {
-        "path": "/univention/selfservice",
-        "pathType": "Exact"
-      }
-    ],
-    "tls": {
-      "enabled": true,
-      "secretName": ""
-    }
-  }
-]
+[]
 </pre>
 </td>
 			<td>Extra ingress configuration</td>
@@ -353,7 +316,7 @@ null
 			<td>image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0.19.1@sha256:4b284d5ed2d9716c141558e50e14e8b6634aae5d6ad6131678bec56b17435d33"
+"0.26.3@sha256:0a00838e983255115f8c3d610f75fd0faed73b7a94c6e1c78ac3deb00fae6629"
 </pre>
 </td>
 			<td></td>
@@ -371,20 +334,16 @@ null
 			<td>ingress.annotations</td>
 			<td>object</td>
 			<td><pre lang="json">
-{
-  "nginx.ingress.kubernetes.io/configuration-snippet": "rewrite ^/univention/portal(/.*)$ $1 break;\nrewrite ^/univention/selfservice(/.*)$ $1 break;\n",
-  "nginx.org/location-snippets": "rewrite ^/univention/portal(/.*)$ $1 break;\nrewrite ^/univention/selfservice(/.*)$ $1 break;\n",
-  "nginx.org/mergeable-ingress-type": "minion"
-}
+{}
 </pre>
 </td>
-			<td>Define custom ingress annotations. annotations:   nginx.ingress.kubernetes.io/rewrite-target: /</td>
+			<td>Define custom ingress annotations for all Ingresses.</td>
 		</tr>
 		<tr>
 			<td>ingress.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
 			<td>Enable creation of Ingress.</td>
@@ -396,103 +355,223 @@ false
 ""
 </pre>
 </td>
-			<td>Define the Fully Qualified Domain Name (FQDN) where application should be reachable.</td>
+			<td>Define the Fully Qualified Domain Name (FQDN) where application should be reachable. (This will be the default for all Ingresses)</td>
 		</tr>
 		<tr>
 			<td>ingress.ingressClassName</td>
 			<td>string</td>
 			<td><pre lang="json">
-"nginx"
+""
+</pre>
+</td>
+			<td>The Ingress controller class name. (This will be the default for all Ingresses)</td>
+		</tr>
+		<tr>
+			<td>ingress.items[0].annotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "nginx.ingress.kubernetes.io/rewrite-target": "/$2$3",
+  "nginx.ingress.kubernetes.io/use-regex": "true"
+}
+</pre>
+</td>
+			<td>Define custom ingress annotations. annotations:   nginx.ingress.kubernetes.io/rewrite-target: /</td>
+		</tr>
+		<tr>
+			<td>ingress.items[0].host</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Define the Fully Qualified Domain Name (FQDN) where application should be reachable.</td>
+		</tr>
+		<tr>
+			<td>ingress.items[0].ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
 </pre>
 </td>
 			<td>The Ingress controller class name.</td>
 		</tr>
 		<tr>
-			<td>ingress.pathType</td>
+			<td>ingress.items[0].name</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Prefix"
+"rewrites"
 </pre>
 </td>
-			<td>Each path in an Ingress is required to have a corresponding path type. Paths that do not include an explicit pathType will fail validation. There are three supported path types:  "ImplementationSpecific" => With this path type, matching is up to the IngressClass. Implementations can treat this                             as a separate pathType or treat it identically to Prefix or Exact path types. "Exact" => Matches the URL path exactly and with case sensitivity. "Prefix" => Matches based on a URL path prefix split by /.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types</td>
+			<td></td>
 		</tr>
 		<tr>
-			<td>ingress.paths</td>
+			<td>ingress.items[0].paths</td>
 			<td>list</td>
 			<td><pre lang="json">
 [
   {
-    "path": "/univention/portal/",
-    "pathType": "Exact"
+    "path": "/univention/(portal|selfservice)/",
+    "pathType": "ImplementationSpecific"
   },
   {
-    "path": "/univention/selfservice/",
-    "pathType": "Exact"
+    "path": "/univention/(portal|selfservice)/index.html",
+    "pathType": "ImplementationSpecific"
   },
   {
-    "path": "/univention/portal/index.html",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/univention/portal/css/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal/fonts/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal/i18n/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal/media/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal/js/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal/oidc/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal/icons/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal/custom/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/selfservice/css/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/selfservice/fonts/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/selfservice/i18n/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/selfservice/media/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/selfservice/js/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/selfservice/oidc/",
-    "pathType": "Prefix"
+    "path": "/univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom)(/.*)",
+    "pathType": "ImplementationSpecific"
   }
 ]
 </pre>
 </td>
 			<td>Define the Ingress paths.</td>
+		</tr>
+		<tr>
+			<td>ingress.items[0].tls</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "secretName": ""
+}
+</pre>
+</td>
+			<td>Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls</td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].annotations."nginx.ingress.kubernetes.io/temporal-redirect"</td>
+			<td>string</td>
+			<td><pre lang="json">
+"{{ printf \"https://%s/univention/portal/\" .Values.ingress.host }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].host</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"redirects"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[0].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/$"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[0].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[1].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[1].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[2].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[2].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[3].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/portal"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[3].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[4].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/selfservice"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].paths[4].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Exact"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[1].tls.secretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>ingress.tls</td>

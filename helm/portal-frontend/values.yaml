@@ -89,7 +89,7 @@ fullnameOverride: ""
 image:
   registry: ""
   repository: "nubus-dev/images/portal-frontend"
-  tag: "0.19.1@sha256:4b284d5ed2d9716c141558e50e14e8b6634aae5d6ad6131678bec56b17435d33"
+  tag: "0.26.3@sha256:0a00838e983255115f8c3d610f75fd0faed73b7a94c6e1c78ac3deb00fae6629"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.
@@ -104,74 +104,16 @@ imagePullSecrets: []
 # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   # -- Enable creation of Ingress.
-  enabled: false
+  enabled: true
 
-  # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable.
+  # -- Define custom ingress annotations for all Ingresses.
+  annotations: {}
+
+  # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable. (This will be the default for all Ingresses)
   host: ""
 
-  # -- Define the Ingress paths.
-  paths:
-    - pathType: Exact
-      path: /univention/portal/
-    - pathType: Exact
-      path: /univention/selfservice/
-    - pathType: Exact
-      path: /univention/portal/index.html
-    - pathType: Prefix
-      path: /univention/portal/css/
-    - pathType: Prefix
-      path: /univention/portal/fonts/
-    - pathType: Prefix
-      path: /univention/portal/i18n/
-    - pathType: Prefix
-      path: /univention/portal/media/
-    - pathType: Prefix
-      path: /univention/portal/js/
-    - pathType: Prefix
-      path: /univention/portal/oidc/
-    - pathType: Prefix
-      path: /univention/portal/icons/
-    - pathType: Prefix
-      path: /univention/portal/custom/
-    - pathType: Prefix
-      path: /univention/selfservice/css/
-    - pathType: Prefix
-      path: /univention/selfservice/fonts/
-    - pathType: Prefix
-      path: /univention/selfservice/i18n/
-    - pathType: Prefix
-      path: /univention/selfservice/media/
-    - pathType: Prefix
-      path: /univention/selfservice/js/
-    - pathType: Prefix
-      path: /univention/selfservice/oidc/
-
-  # -- Each path in an Ingress is required to have a corresponding path type.
-  # Paths that do not include an explicit pathType will fail validation.
-  # There are three supported path types:
-  #
-  # "ImplementationSpecific" => With this path type, matching is up to the IngressClass. Implementations can treat this
-  #                             as a separate pathType or treat it identically to Prefix or Exact path types.
-  # "Exact" => Matches the URL path exactly and with case sensitivity.
-  # "Prefix" => Matches based on a URL path prefix split by /.
-  #
-  # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types
-  pathType: "Prefix"
-
-  # -- The Ingress controller class name.
-  ingressClassName: "nginx"
-
-  # -- Define custom ingress annotations.
-  # annotations:
-  #   nginx.ingress.kubernetes.io/rewrite-target: /
-  annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^/univention/portal(/.*)$ $1 break;
-      rewrite ^/univention/selfservice(/.*)$ $1 break;
-    nginx.org/location-snippets: |
-      rewrite ^/univention/portal(/.*)$ $1 break;
-      rewrite ^/univention/selfservice(/.*)$ $1 break;
-    nginx.org/mergeable-ingress-type: "minion"
+  # -- The Ingress controller class name. (This will be the default for all Ingresses)
+  ingressClassName: ""
 
   # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
   #
@@ -183,34 +125,71 @@ ingress:
     # -- The name of the kubernetes secret which contains a TLS private key and certificate.
     # Hint: This secret is not created by this chart and must be provided.
     secretName: ""
+  items:
+    - name: rewrites
+      # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable.
+      host: ""
+
+      # -- Define the Ingress paths.
+      paths:
+        - path: /univention/(portal|selfservice)/
+          pathType: ImplementationSpecific
+        - path: /univention/(portal|selfservice)/index.html
+          pathType: ImplementationSpecific
+        - path: /univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom)(/.*)
+          pathType: ImplementationSpecific
+
+      # -- The Ingress controller class name.
+      ingressClassName: ""
+
+      # -- Define custom ingress annotations.
+      # annotations:
+      #   nginx.ingress.kubernetes.io/rewrite-target: /
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2$3"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+
+      # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
+      #
+      # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
+      tls:
+        # enabled: true
+        # Set to override the global secretName
+        secretName: ""
+    - name: redirects
+      host: ""
+      paths:
+        - pathType: Exact
+          path: /$
+        - pathType: Exact
+          path: /univention
+        - pathType: Exact
+          path: /univention/
+        - pathType: Exact
+          path: /univention/portal
+        - pathType: Exact
+          path: /univention/selfservice
+      ingressClassName: ""
+      annotations:
+        nginx.ingress.kubernetes.io/temporal-redirect: "{{ printf \"https://%s/univention/portal/\" .Values.ingress.host }}"
+      tls:
+        # enabled: true
+        # Set to override the global secretName
+        secretName: ""
 
 # -- Extra ingress configuration
-extraIngresses:
-  - name: redirects
-    host: ""
-    paths:
-      - pathType: Exact
-        path: /
-      - pathType: Exact
-        path: /univention
-      - pathType: Exact
-        path: /univention/
-      - pathType: Exact
-        path: /univention/portal
-      - pathType: Exact
-        path: /univention/selfservice
-    ingressClassName: "nginx"
-    annotations:
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        absolute_redirect off;
-        return 302 /univention/portal/;
-      nginx.org/location-snippets: |
-        absolute_redirect off;
-        return 302 /univention/portal/;
-      nginx.org/mergeable-ingress-type: "minion"
-    tls:
-      enabled: true
-      secretName: ""
+extraIngresses: []
+# example:
+  # - name: custom
+  #   host: ""
+  #   paths:
+  #     - pathType: Exact
+  #       path: /custom
+  #   ingressClassName: ""
+  #   annotations: {}
+  #   tls:
+  #     enabled: true
+  #     secretName: ""
 
 # -- Lifecycle to automate configuration before or after startup.
 lifecycleHooks: {}

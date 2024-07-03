@@ -95,7 +95,7 @@ fullnameOverride: ""
 image:
   registry: "artifacts.software-univention.de"
   repository: "nubus-dev/images/notifications-api"
-  tag: "latest"
+  tag: "0.26.3@sha256:cb7d92c78ca63105ff990f16a4f3b61f5d124d8a5661f3f55545234877ff195e"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.
@@ -110,28 +110,25 @@ imagePullSecrets: []
 # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   # -- Enable creation of Ingress.
-  enabled: false
+  enabled: true
 
   # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable.
   host: ""
 
   # -- Define the Ingress paths.
   paths:
-    - pathType: "Prefix"
-      path: "/univention/portal/notifications-api/"
+  - path: /(univention/portal/notifications-api/)(.*)
+    pathType: ImplementationSpecific
 
   # -- The Ingress controller class name.
-  ingressClassName: "nginx"
+  ingressClassName: ""
 
   # -- Define custom ingress annotations.
   # annotations:
   #   nginx.ingress.kubernetes.io/rewrite-target: /
   annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;
-    nginx.org/location-snippets: |
-      rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;
-    nginx.org/mergeable-ingress-type: "minion"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$2$3"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 
   # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
   #
@@ -143,6 +140,20 @@ ingress:
     # -- The name of the kubernetes secret which contains a TLS private key and certificate.
     # Hint: This secret is not created by this chart and must be provided.
     secretName: ""
+
+# -- Extra ingress configuration
+extraIngresses: []
+# example:
+  # - name: custom
+  #   host: ""
+  #   paths:
+  #     - pathType: Exact
+  #       path: /custom
+  #   ingressClassName: ""
+  #   annotations: {}
+  #   tls:
+  #     enabled: true
+  #     secretName: ""
 
 # -- Lifecycle to automate configuration before or after startup.
 lifecycleHooks: {}

@@ -52,7 +52,7 @@ kubectl delete pvc -l release=notifications-api
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | ^14.x.x |
-| oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts | common | ^2.x.x |
+| oci://registry-1.docker.io/bitnamicharts | common | ^2.x.x |
 
 `postgresql` is an optional dependency, it can be deactivated by setting the
 value `postgresql.bundled`.
@@ -178,6 +178,15 @@ true
 </pre>
 </td>
 			<td>Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar"</td>
+		</tr>
+		<tr>
+			<td>extraIngresses</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Extra ingress configuration</td>
 		</tr>
 		<tr>
 			<td>extraSecrets</td>
@@ -314,7 +323,7 @@ false
 			<td>image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"latest"
+"0.26.3@sha256:cb7d92c78ca63105ff990f16a4f3b61f5d124d8a5661f3f55545234877ff195e"
 </pre>
 </td>
 			<td></td>
@@ -333,9 +342,8 @@ false
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "nginx.ingress.kubernetes.io/configuration-snippet": "rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;\n",
-  "nginx.org/location-snippets": "rewrite ^/univention/portal/notifications-api(/.*)$ $1 break;\n",
-  "nginx.org/mergeable-ingress-type": "minion"
+  "nginx.ingress.kubernetes.io/rewrite-target": "/$2$3",
+  "nginx.ingress.kubernetes.io/use-regex": "true"
 }
 </pre>
 </td>
@@ -345,7 +353,7 @@ false
 			<td>ingress.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
 			<td>Enable creation of Ingress.</td>
@@ -363,7 +371,7 @@ false
 			<td>ingress.ingressClassName</td>
 			<td>string</td>
 			<td><pre lang="json">
-"nginx"
+""
 </pre>
 </td>
 			<td>The Ingress controller class name.</td>
@@ -374,8 +382,8 @@ false
 			<td><pre lang="json">
 [
   {
-    "path": "/univention/portal/notifications-api/",
-    "pathType": "Prefix"
+    "path": "/(univention/portal/notifications-api/)(.*)",
+    "pathType": "ImplementationSpecific"
   }
 ]
 </pre>

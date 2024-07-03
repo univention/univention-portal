@@ -1,9 +1,9 @@
 dependencies:
 - name: common
-  repository: oci://registry.souvap-univention.de/souvap/tooling/charts/bitnami-charts
-  version: 2.13.3
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 2.20.3
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 14.3.3
-digest: sha256:a27944d042f24023ab916b1b9cb0d3c6e1487ab4cfdf2404a929287eca5c961e
-generated: "2024-05-22T13:46:51.119024468+02:00"
+digest: sha256:c0fe9bdb29c0a55b003d1874143a830e13e9e25a9278f8da17c3c890d53cbdd2
+generated: "2024-07-03T15:08:25.925843+02:00"
