@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG LISTENER_BASE_IMAGE_TAG=0.7.0
-ARG LISTENER_BASE_IMAGE=gitregistry.knut.univention.de/univention/customers/dataport/upx/container-listener-base/listener-base
+ARG UCS_BASE_IMAGE_TAG=0.12.0
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
 ARG PORTAL_BASE_IMAGE_TAG=latest
@@ -11,21 +11,27 @@ ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/unive
 # hadolint ignore=DL3006
 FROM ${PORTAL_BASE_IMAGE} as portal-server-image
 
-FROM ${LISTENER_BASE_IMAGE}:${LISTENER_BASE_IMAGE_TAG}
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as build
 
 # TODO: Duplicated from the portal-server
 RUN apt-get update \
-    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    jq=1.5+* \
-    python3=3.7.* \
-    python3-pip=18.1-5 \
-    python3-boto3=1.9.* \
-    python3-univention-directory-manager-rest-client=10.* \
-    univention-group-membership-cache=2.* \
-    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+    jq=1.6-2.* \
+    python3=3.11.* \
+    python3-pip=23.0.* \
+    python3-boto3=1.26.* \
+    gcc=4:12.2.* \
+    libsasl2-dev=2.* \
+    python3-dev=3.11.* \
+    libldap2-dev=2.* \
+    univention-config-registry=17.0.* \
+    python3-univention-directory-manager-rest-client=12.0.* \
+    univention-group-membership-cache=4.0.* \
+  && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-RUN pip3 install --no-cache-dir --upgrade pip==24.* && \
-    pip3 install --no-cache-dir nubus-provisioning-consumer==0.26.3 --index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
+COPY ./docker/portal-consumer/requirements.txt .
+
+RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
 
 # TODO: Duplicated from the portal-server
 RUN mkdir -p /var/log/univention/ \
@@ -38,14 +44,17 @@ RUN mkdir -p /var/log/univention/ \
     && touch /var/cache/univention-portal/portal.json \
     && touch /var/cache/univention-portal/selfservice.json
 
-
-COPY --from=portal-server-image /usr/local/lib/python3.7 /usr/local/lib/python3.7
+COPY --from=portal-server-image /usr/local/lib/python3.7/dist-packages/univention /usr/local/lib/python3.11/dist-packages/univention
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
 COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-docker-entrypoint.sh
 
 COPY ./docker/portal-consumer/stub_portals.json /usr/share/univention-portal/portals.json
-COPY ./docker/portal-consumer/portal-consumer-entrypoint.sh /entrypoint.d/75-portal-consumer-entrypoint.sh
+COPY ./docker/portal-consumer/ldap-client-entrypoint.envsh /entrypoint.d/50-ldap-client-entrypoint.envsh
+COPY ./docker/portal-consumer/machine-secret-entrypoint.sh /entrypoint.d/75-machine-secret-entrypoint.sh
 COPY ./docker/portal-consumer/initialize.sh /
 COPY ./portal_consumer/ /
+
+# Create listener user for group membership cache
+RUN useradd -m "listener"
 
 CMD ["/usr/bin/python3", "consumer.py"]
