@@ -1,5 +1,4 @@
 ---
-
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -91,7 +90,7 @@ fullnameOverride: ""
 image:
   registry: ""
   repository: "nubus-dev/images/portal-server"
-  tag: "0.19.1@sha256:e6a13f92b3c2076e3a2fb9c9f8fac4894eec5eacbd2a8a83ece0346b6dabe54c"
+  tag: "0.26.3@sha256:e3147110fb743d064e38cb48d96820e8b984d813154fb06fdb0d8b9fd2ffaeca"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.
@@ -106,28 +105,25 @@ imagePullSecrets: []
 # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   # -- Enable creation of Ingress.
-  enabled: false
+  enabled: true
 
   # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable.
   host: ""
 
   # -- Define the Ingress paths.
   paths:
-    - pathType: "Exact"
-      path: "/univention/portal/portal.json"
-    - pathType: "Exact"
-      path: "/univention/selfservice/portal.json"
-    - pathType: "Exact"
-      path: "/univention/portal/navigation.json"
+    - path: /()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)
+      pathType: ImplementationSpecific
 
   # -- The Ingress controller class name.
-  ingressClassName: "nginx"
+  ingressClassName: ""
 
   # -- Define custom ingress annotations.
   # annotations:
   #   nginx.ingress.kubernetes.io/rewrite-target: /
   annotations:
-    nginx.org/mergeable-ingress-type: "minion"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$2$3"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 
   # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
   #
@@ -139,6 +135,20 @@ ingress:
     # -- The name of the kubernetes secret which contains a TLS private key and certificate.
     # Hint: This secret is not created by this chart and must be provided.
     secretName: ""
+
+# -- Extra ingress configuration
+extraIngresses: []
+# example:
+# - name: custom
+#   host: ""
+#   paths:
+#     - pathType: Exact
+#       path: /custom
+#   ingressClassName: ""
+#   annotations: {}
+#   tls:
+#     enabled: true
+#     secretName: ""
 
 # -- Lifecycle to automate configuration before or after startup.
 lifecycleHooks: {}
@@ -255,7 +265,8 @@ replicaCount: 1
 # Configure resource requests and limits.
 #
 # Ref: https://kubernetes.io/docs/user-guide/compute-resources/
-resources: {}
+resources:
+  {}
   # limits:
   #   # -- The max number of RAM to consume.
   #   memory: "4Gi"
@@ -416,5 +427,3 @@ portalServer:
   #   accessKeyId: "ums_user"
   #   secretAccessKey: "ums_password"
   credentialSecret: {}
-
-...

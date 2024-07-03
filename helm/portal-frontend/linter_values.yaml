@@ -17,13 +17,9 @@ portalFrontend:
 ingress:
   enabled: true
   host: "portal.example.develop.souvap-univention.de"
-  redirects:
-    enabled: true
-    redirectRoot: true
-    target: "/foo/bar/"
-    paths:
-      - "/foo/?"
-      - "/foo/bar"
+  ingressClassName: "nginx"
+  tls:
+    secretName: "portal-tls"
 
 ## Istio based
 istio:

@@ -19,4 +19,13 @@ portalServer:
   objectStorageAccessKeyId: "stub_user"
   objectStorageSecretAccessKey: "stub_password"
 
+
+## Kubernetes ingress
+ingress:
+  enabled: true
+  host: "portal.example.develop.souvap-univention.de"
+  ingressClassName: "nginx"
+  tls:
+    secretName: "portal-tls"
+
 ...
