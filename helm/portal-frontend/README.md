@@ -439,10 +439,10 @@ true
 			<td>Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls</td>
 		</tr>
 		<tr>
-			<td>ingress.items[1].annotations."nginx.ingress.kubernetes.io/temporal-redirect"</td>
+			<td>ingress.items[1].annotations."nginx.ingress.kubernetes.io/permanent-redirect"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{ printf \"https://%s/univention/portal/\" .Values.ingress.host }}"
+"/univention/portal/"
 </pre>
 </td>
 			<td></td>
