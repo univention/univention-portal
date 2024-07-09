@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.27.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.3...v0.27.0) (2024-07-09)
+
+
+### Features
+
+* adjust ingress configuration to support Nubus deployment without stack-gateway or centralized ingress configuration ([719efba](https://git.knut.univention.de/univention/components/univention-portal/commit/719efba3581fb49752796a6256532c04f4d23625))
+
+
+### Bug Fixes
+
+* permanent redirect instead of temporal to allow for path only ([53f53d8](https://git.knut.univention.de/univention/components/univention-portal/commit/53f53d8d25b611a9b71eae8785b3b756ee8bc950))
+
 ## [0.26.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.2...v0.26.3) (2024-06-27)
 
 
