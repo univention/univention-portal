@@ -13,8 +13,6 @@ portalConsumer:
   logLevel: "DEBUG"
   umcGetUrl: "http://umc-server/get"
   umcSessionUrl: "http://umc-server/get/session-info"
-  ldapSecret: "password"
-  ldapSecretFile: "/var/secrets/ldap_secret"
   machineSecret: "password"
   machineSecretFile: "/var/secrets/machine_secret"
   ucsInternalPath: "portal-data"

@@ -62,7 +62,6 @@ portalConsumer:
   authMode: ""
   # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
   caCert: ""
-  certPem: ""
   # -- The path to the "caCertFile" docker secret or a plain file.
   caCertFile: "/var/secrets/ca_cert"
   # -- Whenever to start encryption and validate certificates.
@@ -70,8 +69,6 @@ portalConsumer:
   tlsMode: "off"
   # -- Internal domain name of the UCS machine
   domainName: "univention.intranet"
-  # -- Debug level of the consumer
-  debugLevel: "1"
   # -- Defines if members of the Admin group can use the edit mode in the portal.
   editable: "true"
   # -- TODO: Clarify usage of this parameter
@@ -79,27 +76,18 @@ portalConsumer:
 
   # -- Base DN of the LDAP directory
   ldapBaseDn: null
-  # -- LDAP password for `cn=admin`. Will be written to "ldapSecretFile" if set.
-  ldapSecret: null
-  # -- The path to the "ldapSecretFile" docker secret or a plain file
-  ldapSecretFile: "/var/secrets/ldap_secret"
   # -- Hostname of the LDAP server
   ldapHost: null
-  # -- The IP address of the LDAP server.
-  ldapHostIp: null
   # -- DN of the UCS machine
   ldapHostDn: null
-  # -- Port to connect to the LDAP server. Chart defaults to 389.
+  # -- Port to connect to the LDAP server.
   ldapPort: ""
 
-  # -- TODO: Clarify usage of this parameter
   logLevel: "INFO"
   # -- LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.
   machineSecret: null
   # -- The path to the "machineSecretFile" docker secret or a plain file
   machineSecretFile: "/var/secrets/machine_secret"
-  # -- Hostname where the notifier can be reached.
-  notifierServer: null
   # -- DN of the default portal
   portalDefaultDn: null
 
@@ -207,5 +195,4 @@ ldap:
     certificateKey: "tls.crt"
   credentialSecret:
     name: ""
-    ldapPasswordKey: "ldap.secret"
     machinePasswordKey: "machine.secret"

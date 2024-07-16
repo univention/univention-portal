@@ -89,15 +89,6 @@ These template definitions are only used in this chart and do not relate to temp
 {{- include "portal-consumer.tlsSecretTemplate" (list "portal-consumer-ldap" .Values.ldap.tlsSecret .) -}}
 {{- end -}}
 
-
-{{- define "portal-consumer.notifierServer" -}}
-{{- if .Values.portalConsumer.notifierServer -}}
-{{- .Values.portalConsumer.notifierServer -}}
-{{- else -}}
-{{- printf "%s-ldap-notifier" .Release.Name -}}
-{{- end -}}
-{{- end -}}
-
 {{- define "portal-consumer.portalDefaultDn" -}}
 {{- if .Values.portalConsumer.portalDefaultDn -}}
 {{- .Values.portalConsumer.portalDefaultDn -}}
@@ -224,10 +215,6 @@ value: {{ required "The parameter \"portalConsumer.objectStorageSecretAccessKey\
 {{- $tlsSecretName := include "portal-consumer.ldap.tlsSecret.name" . -}}
 {{- $credentialSecretName := include "portal-consumer.ldap.credentialSecret.name" . -}}
 {{- if $credentialSecretName }}
-- name: {{ printf "%s-volume" $credentialSecretName | quote }}
-  mountPath: "{{ $secretMountPath }}/ldap_secret"
-  subPath: {{ .Values.ldap.credentialSecret.ldapPasswordKey | quote }}
-  readOnly: true
 - name: {{ printf "%s-volume" $credentialSecretName | quote }}
   mountPath: "{{ $secretMountPath }}/machine_secret"
   subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}

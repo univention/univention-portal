@@ -8,9 +8,6 @@ PORTAL_UDM_API_URL=http://{{ ansible_fqdn }}/univention/udm
 PORTAL_UDM_API_USERNAME={{ ansible_hostname }}$
 PORTAL_UDM_API_PASSWORD_FILE=/run/secrets/machine_secret
 
-NOTIFIER_SERVER={{ ansible_fqdn }}
-DEBUG_LEVEL=5
-
 LDAP_BIND_SECRET=/run/secrets/ldap_secret
 CA_CERT_FILE=/run/secrets/ca_cert
 CERT_PEM_FILE=/run/secrets/cert_pem

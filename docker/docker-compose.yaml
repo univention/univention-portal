@@ -36,8 +36,6 @@ x-portal-consumer-base:
     - cert_pem
     - ldap_secret
     - machine_secret
-  volumes:
-    - consumer-data:/var/lib/univention-directory-listener/:rw
 
 services:
   # The frontend of the Portal. The context directory contains more details.
@@ -254,7 +252,6 @@ secrets:
     file: secret/store-dav-htpasswd
 
 volumes:
-  consumer-data:
   postgresql-data:
   pre-commit-cache:
   store-dav-data:

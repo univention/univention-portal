@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=0.12.0
+ARG UCS_BASE_IMAGE_TAG=0.13.1-build-2024-07-04
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
@@ -11,11 +11,10 @@ ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/unive
 # hadolint ignore=DL3006
 FROM ${PORTAL_BASE_IMAGE} as portal-server-image
 
-FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as build
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as final
 
 # TODO: Duplicated from the portal-server
-RUN apt-get update \
-  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     jq=1.6-2.* \
     python3=3.11.* \
     python3-pip=23.0.* \
@@ -29,8 +28,7 @@ RUN apt-get update \
     univention-group-membership-cache=4.0.* \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-COPY ./docker/portal-consumer/requirements.txt .
-
+COPY ./docker/portal-consumer/requirements.txt /
 RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
 
 # TODO: Duplicated from the portal-server
@@ -49,7 +47,7 @@ COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-port
 COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-docker-entrypoint.sh
 
 COPY ./docker/portal-consumer/stub_portals.json /usr/share/univention-portal/portals.json
-COPY ./docker/portal-consumer/ldap-client-entrypoint.envsh /entrypoint.d/50-ldap-client-entrypoint.envsh
+COPY ./docker/portal-consumer/ldap-setup.envsh /entrypoint.d/50-ldap-setup.envsh
 COPY ./docker/portal-consumer/machine-secret-entrypoint.sh /entrypoint.d/75-machine-secret-entrypoint.sh
 COPY ./docker/portal-consumer/initialize.sh /
 COPY ./portal_consumer/ /

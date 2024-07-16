@@ -127,15 +127,6 @@ false
 			<td>Indicates wether this chart is part of a Nubus deployment.</td>
 		</tr>
 		<tr>
-			<td>ldap.credentialSecret.ldapPasswordKey</td>
-			<td>string</td>
-			<td><pre lang="json">
-"ldap.secret"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>ldap.credentialSecret.machinePasswordKey</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -280,8 +271,6 @@ true
   "authMode": "",
   "caCert": "",
   "caCertFile": "/var/secrets/ca_cert",
-  "certPem": "",
-  "debugLevel": "1",
   "domainName": "univention.intranet",
   "editable": "true",
   "environment": "production",
@@ -294,14 +283,10 @@ true
   "ldapBaseDn": null,
   "ldapHost": null,
   "ldapHostDn": null,
-  "ldapHostIp": null,
   "ldapPort": "",
-  "ldapSecret": null,
-  "ldapSecretFile": "/var/secrets/ldap_secret",
   "logLevel": "INFO",
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
-  "notifierServer": null,
   "objectStorageAccessKeyId": "",
   "objectStorageBucket": "",
   "objectStorageCredentialSecret": {
@@ -373,15 +358,6 @@ null
 			<td>The path to the "caCertFile" docker secret or a plain file.</td>
 		</tr>
 		<tr>
-			<td>portalConsumer.debugLevel</td>
-			<td>string</td>
-			<td><pre lang="json">
-"1"
-</pre>
-</td>
-			<td>Debug level of the consumer</td>
-		</tr>
-		<tr>
 			<td>portalConsumer.domainName</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -436,49 +412,13 @@ null
 			<td>DN of the UCS machine</td>
 		</tr>
 		<tr>
-			<td>portalConsumer.ldapHostIp</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>The IP address of the LDAP server.</td>
-		</tr>
-		<tr>
 			<td>portalConsumer.ldapPort</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
 </pre>
 </td>
-			<td>Port to connect to the LDAP server. Chart defaults to 389.</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.ldapSecret</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>LDAP password for `cn=admin`. Will be written to "ldapSecretFile" if set.</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.ldapSecretFile</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/secrets/ldap_secret"
-</pre>
-</td>
-			<td>The path to the "ldapSecretFile" docker secret or a plain file</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.logLevel</td>
-			<td>string</td>
-			<td><pre lang="json">
-"INFO"
-</pre>
-</td>
-			<td>TODO: Clarify usage of this parameter</td>
+			<td>Port to connect to the LDAP server.</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.machineSecret</td>
@@ -497,15 +437,6 @@ null
 </pre>
 </td>
 			<td>The path to the "machineSecretFile" docker secret or a plain file</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.notifierServer</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>Hostname where the notifier can be reached.</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.objectStorageAccessKeyId</td>
