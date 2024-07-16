@@ -8,21 +8,13 @@ set -o nounset
 set -o pipefail
 
 
-# Set sane dafaults for some optional variables
-# Variables used by `command.sh` need to be exported
-LDAP_HOST="${LDAP_HOST:-}"
-LDAP_PORT="${LDAP_PORT:-389}"
-LDAP_PASSWORD="${LDAP_PASSWORD:-}"
-export LDAP_PASSWORD_FILE="${LDAP_PASSWORD_FILE:-/run/secrets/ldap_secret}"
-export LDAP_BASE_DN="${LDAP_BASE_DN:-}"
-LDAP_HOST_DN="${LDAP_HOST_DN:-}"
+# Set sane defaults for some optional variables
 CA_CERT="${CA_CERT:-}"
 CA_CERT_FILE="${CA_CERT_FILE:-/run/secrets/ca_cert}"
 TLS_MODE="${TLS_MODE:-secure}"
 
 # Test variables which should not be empty
 check_unset_variables() {
-  # Also list here the variables needed by ucr-light-filter
   var_names=(
     "LDAP_HOST"
     "LDAP_BASE_DN"
@@ -41,31 +33,15 @@ check_unset_variables() {
 }
 check_unset_variables
 
-# Handle the LDAP secret
-if [[ -s "${LDAP_PASSWORD_FILE}" ]]; then
-  echo "Using LDAP password from file"
-elif [[ -n "${LDAP_PASSWORD:-}" ]]; then
-  echo "Using LDAP password secret from env"
-  mkdir --parents "$(dirname "${LDAP_PASSWORD_FILE}")"
-  echo -n "${LDAP_PASSWORD}" > "${LDAP_PASSWORD_FILE}"
-else
-  echo "No LDAP password found in ${LDAP_PASSWORD_FILE}."
-  echo "Either set \"LDAP_PASSWORD\" or write a secret to \"LDAP_PASSWORD_FILE\"!"
-  exit 2
-fi
-
 case "${TLS_MODE}" in
   "off")
     TLS_START_NO=0
-    TLS_REQCERT="never"
     ;;
   "unvalidated")
     TLS_START_NO=1
-    TLS_REQCERT="allow"
     ;;
   *)  # secure
     TLS_START_NO=2
-    TLS_REQCERT="demand"
     ;;
 esac
 
@@ -94,20 +70,6 @@ if [[ "${TLS_MODE}" != "off" ]]; then
 else
   echo "TLS mode is disabled!"
 fi
-
-# Configure LDAP client
-mkdir -p /etc/ldap
-cat <<EOF > /etc/ldap/ldap.conf
-# This file should be world readable but not world writable.
-
-${CA_DIR:+TLS_CACERT ${CA_DIR}/CAcert.pem}
-TLS_REQCERT ${TLS_REQCERT}
-
-URI ldap://${LDAP_HOST}:${LDAP_PORT}
-
-BASE ${LDAP_BASE_DN}
-EOF
-chmod 0644 /etc/ldap/ldap.conf
 
 /usr/sbin/ucr set \
     server/role="memberserver" \

@@ -25,7 +25,6 @@ portalConsumer:
   # ldapHostDn: cn=stub-value,cn=dc,cn=computers,dc=univention-organization,dc=intranet
   ldapHostDn: "cn=admin,dc=univention-organization,dc=intranet"
   machineSecret: "top-secret-value"
-  notifierServer: "ldap-notifier"
   portalDefaultDn: "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
   udmApiUrl: "http://udm-rest-api/udm/"
   udmApiUsername: "cn=admin"

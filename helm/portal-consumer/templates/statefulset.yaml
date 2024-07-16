@@ -32,12 +32,6 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if .Values.portalConsumer.ldapHostIp }}
-      hostAliases:
-        - hostnames:
-            - {{ .Values.portalConsumer.ldapHost | quote }}
-          ip: {{ .Values.portalConsumer.ldapHostIp | quote }}
-      {{- end }}
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
@@ -119,8 +113,6 @@ spec:
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
           volumeMounts:
-            - name: data
-              mountPath: /var/lib/univention-directory-listener
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
             {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
@@ -146,8 +138,6 @@ spec:
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
           volumeMounts:
-            - name: data
-              mountPath: /var/lib/univention-directory-listener
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
             {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
@@ -197,16 +187,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
   volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      {{- if .Values.persistence.data.storageClass }}
-      storageClassName: {{ .Values.persistence.data.storageClass | quote }}
-      {{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.persistence.data.size | required ".Values.persistence.data.size is required" | quote }}
   - metadata:
       name: group-membership-cache
     spec:
