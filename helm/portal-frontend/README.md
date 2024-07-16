@@ -419,7 +419,7 @@ true
     "pathType": "ImplementationSpecific"
   },
   {
-    "path": "/univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom)(/.*)",
+    "path": "/univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom|icons)(/.*)",
     "pathType": "ImplementationSpecific"
   }
 ]
