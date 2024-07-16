@@ -421,6 +421,10 @@ true
   {
     "path": "/univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom)(/.*)",
     "pathType": "ImplementationSpecific"
+  },
+  {
+    "path": "/univention/(portal)/(icons)(/.*)$",
+    "pathType": "ImplementationSpecific"
   }
 ]
 </pre>
