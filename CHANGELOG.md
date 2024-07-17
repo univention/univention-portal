@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.27.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.1...v0.27.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* support shared portal secret without extra volumes and mounts ([5b5a61b](https://git.knut.univention.de/univention/components/univention-portal/commit/5b5a61b534d513a1d6b7bf68a00ffdcdb73db08d))
+
 ## [0.27.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.0...v0.27.1) (2024-07-17)
 
 
