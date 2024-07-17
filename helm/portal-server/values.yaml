@@ -398,10 +398,13 @@ portalServer:
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umcSessionUrl: null
   centralNavigation:
-    # -- Activate the SecretAuthenticator for the portal.
-    enabled: false
-    # -- Provide a custom secret, if no value is provided, a random string is generated instead.
-    authenticatorSecret: null
+    # -- Activate the shared secret authenticator for the portal, instead of the
+    # UMC session cookie one. This allows 3rd party apps to authenticate against
+    # the portal server to get the central navigation.
+    enabled: true
+    # -- Provide a name to a custom secret containing `authenticator.secret`.
+    # Will get mounted in /var/secrets/authenticator.secret.
+    authenticatorSecretName: ""
   # -- Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
   objectStorageEndpoint: ""
   # -- Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".
@@ -419,8 +422,6 @@ portalServer:
     name: ""
     accessKeyKey: "accessKey"
     secretKeyKey: "secretKey"
-  # -- Path to mount the secrets to.
-  secretMountPath: "/var/secrets"
   # -- Optional reference to a different secret for credentials
   # credentialSecret:
   #   name: "custom-credentials"
