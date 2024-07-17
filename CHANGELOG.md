@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.27.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.0...v0.27.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* ingress configuration for logo ([067d8f1](https://git.knut.univention.de/univention/components/univention-portal/commit/067d8f1fea49fd301893d1da749000f85e4c7827))
+
 ## [0.27.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.26.3...v0.27.0) (2024-07-09)
 
 
