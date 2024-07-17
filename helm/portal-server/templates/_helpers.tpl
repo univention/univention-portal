@@ -125,6 +125,16 @@ value: {{ required "The parameter \"portalServer.objectStorageSecretAccessKey\" 
 {{- end -}}
 {{- end -}}
 
+{{- define "portal-server.centralNavigation.authenticatorSecretName" -}}
+{{- if .Values.portalServer.centralNavigation.authenticatorSecretName -}}
+{{- .Values.portalServer.centralNavigation.authenticatorSecretName -}}
+{{- else if .Values.global.nubusDeployment -}}
+{{- printf "%s-portal-server-central-navigation-shared-secret" .Release.Name -}}
+{{- else -}}
+{{- required "The parameter \"portalServer.centralNavigation.authenticatorSecretName\" is required." .Values.portalServer.centralNavigation.authenticatorSecretName -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "portal-server.ingress.tls.secretName" -}}
 {{- if .Values.ingress.tls.secretName -}}
 {{- tpl .Values.ingress.tls.secretName . -}}

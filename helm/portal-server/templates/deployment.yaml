@@ -116,6 +116,11 @@ spec:
               mountPath: /usr/lib/univention-portal/config
             - name: usr-share-univention-portal-volume
               mountPath: /usr/share/univention-portal
+            {{- if .Values.portalServer.centralNavigation.enabled }}
+            - name: authenticator-secret
+              mountPath: "/var/secrets/authenticator.secret"
+              subPath: "authenticator.secret"
+            {{- end }}
             - name: tmp-volume
               mountPath: /tmp
             {{- if .Values.extraVolumeMounts }}
@@ -126,6 +131,11 @@ spec:
           emptyDir: {}
         - name: usr-share-univention-portal-volume
           emptyDir: {}
+        {{- if .Values.portalServer.centralNavigation.enabled }}
+        - name: authenticator-secret
+          secret:
+            secretName: {{ include "portal-server.centralNavigation.authenticatorSecretName" . }}
+        {{- end }}
         - name: tmp-volume
           emptyDir: {}
         {{- if .Values.extraVolumes }}

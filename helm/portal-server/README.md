@@ -644,22 +644,22 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.authenticatorSecret</td>
+			<td>portalServer.centralNavigation.authenticatorSecretName</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+""
 </pre>
 </td>
-			<td>Provide a custom secret, if no value is provided, a random string is generated instead.</td>
+			<td>Provide a name to a custom secret containing `authenticator.secret`. Will get mounted in /var/secrets/authenticator.secret.</td>
 		</tr>
 		<tr>
 			<td>portalServer.centralNavigation.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
-false
+true
 </pre>
 </td>
-			<td>Activate the SecretAuthenticator for the portal.</td>
+			<td>Activate the shared secret authenticator for the portal, instead of the UMC session cookie one. This allows 3rd party apps to authenticate against the portal server to get the central navigation.</td>
 		</tr>
 		<tr>
 			<td>portalServer.credentialSecret</td>
@@ -754,15 +754,6 @@ false
 </pre>
 </td>
 			<td></td>
-		</tr>
-		<tr>
-			<td>portalServer.secretMountPath</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/secrets"
-</pre>
-</td>
-			<td>Path to mount the secrets to.</td>
 		</tr>
 		<tr>
 			<td>portalServer.ucsInternalPath</td>
