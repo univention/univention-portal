@@ -7,6 +7,19 @@ These template definitions relate to the use of this Helm chart as a sub-chart o
 Templates defined in other Helm sub-charts are imported to be used to configure this chart.
 If the value .Values.global.nubusDeployment equates to true, the defined templates are imported.
 */}}
+
+{{- define "portal-consumer.provisioningApi.connection.baseUrl" -}}
+{{- if .Values.provisioningApi.connection.baseUrl -}}
+{{- tpl .Values.provisioningApi.connection.baseUrl . -}}
+{{- else if .Values.global.nubusDeployment -}}
+{{- $protocol := "http" -}}
+{{- $host := include "nubusTemplates.provisioningApi.connection.host" . -}}
+{{- printf "%s://%s" $protocol $host -}}
+{{- else -}}
+{{- required ".Values.provisioningApi.connection.baseUrl must be defined." .Values.provisioningApi.connection.baseUrl -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "portal-consumer.ldapBaseDn" -}}
 {{- if .Values.portalConsumer.ldapBaseDn -}}
 {{- .Values.portalConsumer.ldapBaseDn -}}
@@ -58,6 +71,42 @@ univention-organization.intranet
 {{- /*
 These template definitions are only used in this chart and do not relate to templates defined elsewhere.
 */}}
+
+{{- define "portal-consumer.provisioningApi.auth.username" -}}
+{{- if .Values.provisioningApi.auth.username -}}
+{{- .Values.provisioningApi.auth.username -}}
+{{- else -}}
+{{- required ".Values.provisioningApi.auth.username must be defined." .Values.provisioningApi.auth.username -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "portal-consumer.provisioningApi.auth.credentialSecret.name" -}}
+{{- if .Values.provisioningApi.auth.credentialSecret.name -}}
+{{- .Values.provisioningApi.auth.credentialSecret.name -}}
+{{- else if .Values.provisioningApi.auth.password -}}
+{{ printf "%s-api-credentials" (include "common.names.fullname" .) }}
+{{- else if .Values.global.nubusDeployment -}}
+{{- printf "%s-portal-consumer-credentials" .Release.Name -}}
+{{- else -}}
+{{ required ".Values.provisioningApi.auth.password must be defined." .Values.provisioningApi.auth.password}}
+{{- end -}}
+{{- end -}}
+
+{{- define "portal-consumer.provisioningApi.auth.password" -}}
+{{- if .Values.provisioningApi.auth.credentialSecret.name -}}
+valueFrom:
+  secretKeyRef:
+    name: {{ .Values.provisioningApi.auth.credentialSecret.name | quote }}
+    key: {{ .Values.provisioningApi.auth.credentialSecret.key | quote }}
+{{- else if .Values.global.nubusDeployment -}}
+valueFrom:
+  secretKeyRef:
+    name: {{ include "portal-consumer.provisioningApi.auth.credentialSecret.name" . | quote }}
+    key: {{ .Values.provisioningApi.auth.credentialSecret.key | quote }}
+{{- else -}}
+value: {{ required ".Values.provisioningApi.auth.password is required." .Values.provisioningApi.auth.password | quote }}
+{{- end -}}
+{{- end -}}
 
 {{- define "portal-consumer.tlsSecretTemplate" -}}
 {{- if (index . 2).Release.Name -}}

@@ -44,9 +44,8 @@ data:
   CA_CERT: "{{ .Values.portalConsumer.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalConsumer.caCertFile }}"
   TLS_MODE: "{{ .Values.portalConsumer.tlsMode }}"
-  PROVISIONING_API_BASE_URL: {{ .Values.portalConsumer.provisioningApiBaseUrl | quote }}
-  PROVISIONING_API_USERNAME: {{ .Values.portalConsumer.provisioning_api_username | quote }}
-  PROVISIONING_API_PASSWORD: {{ .Values.portalConsumer.provisioning_api_password | quote }}
+  PROVISIONING_API_BASE_URL: {{ include "portal-consumer.provisioningApi.connection.baseUrl" . | quote }}
+  PROVISIONING_API_USERNAME: {{ include "portal-consumer.provisioningApi.auth.username" . | quote }}
   wait-for-ldap.sh: |
     #!/bin/bash
     set -euxo pipefail

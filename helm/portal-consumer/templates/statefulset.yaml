@@ -137,6 +137,8 @@ spec:
               {{- include "portal-consumer.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
+            - name: PROVISIONING_API_PASSWORD
+              {{- include "portal-consumer.provisioningApi.auth.password" . | nindent 14 }}
           volumeMounts:
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
