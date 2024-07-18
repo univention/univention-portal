@@ -82,6 +82,15 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>extraSecrets</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>fullnameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -208,24 +217,6 @@ true
 			<td></td>
 		</tr>
 		<tr>
-			<td>persistence.data.size</td>
-			<td>string</td>
-			<td><pre lang="json">
-"1Gi"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>persistence.data.storageClass</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>persistence.groupMembershipCache.size</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -271,6 +262,7 @@ true
   "authMode": "",
   "caCert": "",
   "caCertFile": "/var/secrets/ca_cert",
+  "certPem": "",
   "domainName": "univention.intranet",
   "editable": "true",
   "environment": "production",
@@ -298,7 +290,6 @@ true
   "objectStorageSecretAccessKey": "",
   "port": "80",
   "portalDefaultDn": null,
-  "provisioningApiBaseUrl": "http://provisioning-api",
   "secretMountPath": "/var/secrets",
   "tlsMode": "off",
   "ucsInternalPath": "portal-data",
@@ -675,6 +666,90 @@ true
 </pre>
 </td>
 			<td></td>
+		</tr>
+		<tr>
+			<td>provisioningApi.auth</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "credentialSecret": {
+    "key": "PROVISIONING_API_PASSWORD",
+    "name": ""
+  },
+  "password": "",
+  "username": "portal-consumer"
+}
+</pre>
+</td>
+			<td>Authentication parameters</td>
+		</tr>
+		<tr>
+			<td>provisioningApi.auth.credentialSecret</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "key": "PROVISIONING_API_PASSWORD",
+  "name": ""
+}
+</pre>
+</td>
+			<td>The name of the secret containing the password.</td>
+		</tr>
+		<tr>
+			<td>provisioningApi.auth.credentialSecret.key</td>
+			<td>string</td>
+			<td><pre lang="json">
+"PROVISIONING_API_PASSWORD"
+</pre>
+</td>
+			<td>The key where the password can be found.</td>
+		</tr>
+		<tr>
+			<td>provisioningApi.auth.credentialSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>The name of the secret.</td>
+		</tr>
+		<tr>
+			<td>provisioningApi.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>The password to authenticate with.</td>
+		</tr>
+		<tr>
+			<td>provisioningApi.auth.username</td>
+			<td>string</td>
+			<td><pre lang="json">
+"portal-consumer"
+</pre>
+</td>
+			<td>The username to authenticate with.</td>
+		</tr>
+		<tr>
+			<td>provisioningApi.connection</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "baseUrl": ""
+}
+</pre>
+</td>
+			<td>Connection parameters</td>
+		</tr>
+		<tr>
+			<td>provisioningApi.connection.baseUrl</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>The base URL the provisioning API is reachable at. (e.g. "https://provisioning-api")</td>
 		</tr>
 		<tr>
 			<td>replicaCount</td>
