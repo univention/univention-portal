@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.28.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.3...v0.28.0) (2024-07-19)
+
+
+### Features
+
+* **portal-extension:** Add new files for "udm-data-loader" ([565a20f](https://git.knut.univention.de/univention/components/univention-portal/commit/565a20f10fef803689e900d0d986450eb9496e38))
+* **portal-extension:** Adjust data files to Jinja2 template engine ([f8ccd2e](https://git.knut.univention.de/univention/components/univention-portal/commit/f8ccd2e78db201b3ef692476e4906b7bdc50ea99))
+
 ## [0.27.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.2...v0.27.3) (2024-07-19)
 
 
