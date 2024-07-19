@@ -1,15 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023 Univention GmbH
 
-{{ with .Values.stackDataContext }}
-
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   allowedGroups:
-  - cn=Domain Users,cn=groups,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=Domain Users,cn=groups,{{ ldapBaseDn }}
   description:
     de_DE: Ihr Passwort ändern
     en_US: Change your password
@@ -26,7 +24,7 @@ properties:
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   description:
     de_DE: Univention Forum (Hilfe)
@@ -44,7 +42,7 @@ properties:
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   description:
     de_DE: Feedback
@@ -64,7 +62,7 @@ properties:
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   description:
     de_DE: News, Tipps und Best Practices
@@ -86,7 +84,7 @@ properties:
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   description:
     de_DE: Univention Webseite
@@ -106,22 +104,22 @@ properties:
 ---
 action: create
 module: portals/folder
-position: cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=folder,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   displayName:
     de_DE: Hilfe
     en_US: Help
     fr_FR: Aide
   entries:
-  - cn=univentionforum,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-  - cn=univentionfeedback,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-  - cn=univentionblog,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-  - cn=univentionwebsite,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=univentionforum,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=univentionfeedback,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=univentionblog,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=univentionwebsite,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: help
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   anonymous: true
   description:
@@ -142,7 +140,7 @@ properties:
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   anonymous: true
   description:
@@ -163,7 +161,7 @@ properties:
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   activated: false
   anonymous: true
@@ -185,32 +183,32 @@ properties:
 ---
 action: create
 module: portals/category
-position: cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=category,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   displayName:
     de_DE: Applikationen
     en_US: Applications
     fr_FR: Applications
   entries:
-  - cn=login-ucs,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-  - cn=login-saml,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=login-ucs,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=login-saml,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: domain-service
 ---
 action: create
 module: portals/category
-position: cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=category,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   displayName:
     de_DE: Verwaltung
     en_US: Administration
     fr_FR: Administration
   entries:
-  - cn=umc-domain,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=umc-domain,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: domain-admin
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   description:
     de_DE: Wurzelzertifikat
@@ -228,7 +226,7 @@ properties:
 ---
 action: create
 module: portals/entry
-position: cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   description:
     de_DE: Zertifikat-Sperrliste
@@ -246,34 +244,32 @@ properties:
 ---
 action: create
 module: portals/folder
-position: cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=folder,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   displayName:
     de_DE: Zertifikate
     en_US: Certificates
     fr_FR: Certificats
   entries:
-  - cn=root-cert,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-  - cn=certificate-revocation,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=root-cert,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=certificate-revocation,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: certificates
 ---
 action: create
 module: portals/portal
-position: cn=portal,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=portal,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   categories:
-  - cn=domain-service,cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-  - cn=domain-admin,cn=category,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=domain-service,cn=category,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=domain-admin,cn=category,cn=portals,cn=univention,{{ ldapBaseDn }}
   displayName:
     de_DE: Univention Portal
     en_US: Univention Portal
     fr_FR: Portail Univention
   menuLinks:
-  - cn=certificates,cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-  - cn=help,cn=folder,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+  - cn=certificates,cn=folder,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=help,cn=folder,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: domain
   showUmc: true
   userLinks:
-  - cn=self-service-password-change,cn=entry,cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
-
-{{ end }}
+  - cn=self-service-password-change,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}

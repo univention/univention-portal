@@ -1,49 +1,45 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023 Univention GmbH
 
-{{ with .Values.stackDataContext }}
-
 ---
 action: create
 module: container/cn
-position: cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=univention,{{ ldapBaseDn }}
 properties:
   name: portals
 ---
 action: create
 module: container/cn
-position: cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   name: portal
 ---
 action: create
 module: container/cn
-position: cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   name: category
 ---
 action: create
 module: container/cn
-position: cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   name: entry
 ---
 action: create
 module: container/cn
-position: cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   name: folder
 ---
 action: create
 module: container/cn
-position: cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   name: config
 ---
 action: create
 module: container/cn
-position: cn=portals,cn=univention,{{ include "stack-data-ums.ldapBaseDn" $ }}
+position: cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   name: announcement
-
-{{ end }}
