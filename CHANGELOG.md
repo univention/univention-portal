@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.27.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.2...v0.27.3) (2024-07-19)
+
+
+### Bug Fixes
+
+* **portal-consumer:** change portal-consumer base image from listener to ucs-base-520 ([e9b8ed2](https://git.knut.univention.de/univention/components/univention-portal/commit/e9b8ed23b30c00f811f7dab2619d94ff77da74d7))
+* remove unused listener/notifier-related configuration options ([283e13d](https://git.knut.univention.de/univention/components/univention-portal/commit/283e13dcb31e9ec8ccb8dd4694bfb20df95abeec))
+
 ## [0.27.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.1...v0.27.2) (2024-07-17)
 
 
