@@ -39,7 +39,8 @@ class PortalConsumer:
         else:
             obj = body.get("new") or body.get("old")
             dn = obj.get("dn")
-            reason = f"ldap:{topic}:{dn}"
+            module = topic.split('/')[-1]
+            reason = f"ldap:{module}:{dn}"
 
         self.logger.info("Updating portal. Reason: %s", reason)
         subprocess.call(get_portal_update_call(reason=reason))
