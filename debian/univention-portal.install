@@ -1,4 +1,5 @@
 frontend/dist/*	usr/share/univention-portal/
+frontend/worker/sse-worker.js /usr/share/univention-portal/
 key.svg	usr/share/univention-portal/
 login.svg	usr/share/univention-portal/
 portal-server-password-rotate	usr/lib/univention-server/server_password_change.d/
