@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.29.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.28.0...v0.29.0) (2024-07-24)
+
+
+### Features
+
+* **frontend:** allow portal customizations and ship default nubus ([eecbfde](https://git.knut.univention.de/univention/components/univention-portal/commit/eecbfdeb933ac6303892073652bd482500c04b3c))
+
+
+### Bug Fixes
+
+* change pinned version ([e456e8b](https://git.knut.univention.de/univention/components/univention-portal/commit/e456e8b4f52f7801975d4b96bafdab8c449a064e))
+
 ## [0.28.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.27.3...v0.28.0) (2024-07-19)
 
 
