@@ -18,6 +18,14 @@ class PortalConsumer:
         logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
         self.logger = logging.getLogger(__name__)
         self._group_cache = GroupMembershipCache()
+        self._topics = (
+            "groups/group",
+            "portals/portal",
+            "portals/category",
+            "portals/entry",
+            "portals/folder",
+            "portals/announcement",
+        )
 
     async def start_listening_for_changes(self) -> None:
         settings = Settings()
@@ -29,10 +37,14 @@ class PortalConsumer:
             ).run()
 
     async def handle_message(self, message: Message):
-        body = message.body
-        self.logger.info("Received the message with the body: %s", body)
-
         topic = message.topic
+        if topic not in self._topics:
+            self.logger.warning("Detected a message with the wrong topic in the queue: %s", topic)
+            return
+
+        body = message.body
+        self.logger.debug("Received the message with the body: %s", body)
+
         if topic == "groups/group":
             self._group_cache.update_cache(body)
             reason = "ldap:group"

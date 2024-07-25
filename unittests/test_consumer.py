@@ -139,5 +139,5 @@ class TestPortalConsumer:
 
         async_client.assert_called_once_with()
         message_handler.run.assert_called_once_with()
-        mock_get_portal_update_call.assert_called_once_with(reason=f"ldap:portals/portal:{DN}")
+        mock_get_portal_update_call.assert_called_once_with(reason=f"ldap:portal:{DN}")
         mock_subprocess_call.assert_called_once_with(mock_get_portal_update_call())
