@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.29.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.29.0...v0.29.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* **portal-consumer:** fix portal update by correctly parsing the update reason ([d309bfc](https://git.knut.univention.de/univention/components/univention-portal/commit/d309bfc0795a8e62f3b8f2492913efae39215454))
+* **portal-consumer:** handle the messages with the wrong topic, fix unittest, remove deprecated e2e tests ([0563d8b](https://git.knut.univention.de/univention/components/univention-portal/commit/0563d8b5d94fde461aec2208f0f00ac683802b3e))
+
 ## [0.29.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.28.0...v0.29.0) (2024-07-24)
 
 
