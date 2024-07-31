@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.30.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.29.1...v0.30.0) (2024-07-31)
+
+
+### Features
+
+* update provisioning lib ([5c9ed3d](https://git.knut.univention.de/univention/components/univention-portal/commit/5c9ed3dad8d1f18d353e75d61c55748d8cef239e))
+
+
+### Bug Fixes
+
+* rename env values and provisioning client classes ([27817ad](https://git.knut.univention.de/univention/components/univention-portal/commit/27817ad0ae1dac00a3f11efb0d8beeabe6cca74c))
+* update nubus-provisioning-consumer lib to version 0.31.0, fix unittests ([41c61bf](https://git.knut.univention.de/univention/components/univention-portal/commit/41c61bf0c4c63a5cd911ad34d20ef04c3c2af47e))
+
 ## [0.29.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.29.0...v0.29.1) (2024-07-26)
 
 
