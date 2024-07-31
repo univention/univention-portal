@@ -138,6 +138,8 @@ portalConsumer:
 
 # Configuration for the communication with the provisioning API.
 provisioningApi:
+  # -- The maximum number of retries for acknowledging a message
+  max_ack_retries: 3
   # -- Connection parameters
   connection:
     # -- The base URL the provisioning API is reachable at. (e.g. "https://provisioning-api")
