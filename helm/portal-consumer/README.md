@@ -752,7 +752,7 @@ true
 			<td>The base URL the provisioning API is reachable at. (e.g. "https://provisioning-api")</td>
 		</tr>
 		<tr>
-			<td>provisioningApi.max_ack_retries</td>
+			<td>provisioningApi.maxAcknowledgementRetries</td>
 			<td>int</td>
 			<td><pre lang="json">
 3

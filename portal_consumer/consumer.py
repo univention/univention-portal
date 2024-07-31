@@ -9,7 +9,7 @@ import subprocess
 from group_membership_cache import GroupMembershipCache
 
 from univention.portal.util import get_portal_update_call
-from univention.provisioning.consumer import AsyncClient, AsyncClientSettings, MessageHandler
+from univention.provisioning.consumer import MessageHandler, ProvisioningConsumerClient
 from univention.provisioning.models import Message
 
 
@@ -28,12 +28,11 @@ class PortalConsumer:
         )
 
     async def start_listening_for_changes(self) -> None:
-        settings = AsyncClientSettings()
 
         self.logger.info("Listening for changes in the portal and groups")
-        async with AsyncClient() as client:
+        async with ProvisioningConsumerClient() as client:
             await MessageHandler(
-                client, settings.provisioning_api_username, [self.handle_message],
+                client, [self.handle_message],
             ).run()
 
     async def handle_message(self, message: Message):
