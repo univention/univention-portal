@@ -15,7 +15,7 @@ from univention.provisioning.models import Message
 
 class PortalConsumer:
     def __init__(self):
-        logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
+        logging.basicConfig(level=os.getenv("LOG_LEVEL"))
         self.logger = logging.getLogger(__name__)
         self._group_cache = GroupMembershipCache()
         self._topics = (

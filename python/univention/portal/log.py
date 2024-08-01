@@ -34,6 +34,7 @@
 #
 
 import logging
+import os
 import sys
 
 
@@ -59,7 +60,7 @@ def setup_logger(logfile="/var/log/univention/portal.log", stream=True):
     log_format_time = "%y-%m-%d %H:%M:%S"
     formatter = ShortNameFormatter(log_format, log_format_time)
 
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(os.getenv("LOG_LEVEL"))
 
     if logfile is not None:
         handler = logging.FileHandler(logfile)
