@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.30.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.30.0...v0.30.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* set log level in subprocess aswell ([0255a0f](https://git.knut.univention.de/univention/components/univention-portal/commit/0255a0f0e09f7a117357fb9793f4c137bc010476))
+
 ## [0.30.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.29.1...v0.30.0) (2024-07-31)
 
 
