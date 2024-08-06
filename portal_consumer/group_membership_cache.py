@@ -54,7 +54,7 @@ class GroupMembershipCache:
     @staticmethod
     def _map_udm_into_ldap(obj: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         """Partial mapping of a UDM object into an LDAP object for the univention-group-membership-member cache."""
-        if obj is None:
+        if not obj:
             return None
 
         properties = obj.get("properties", {})
@@ -72,8 +72,12 @@ class GroupMembershipCache:
     def update_cache(self, message_body: Dict[str, Any]) -> None:
         self._logger.info("Updating the group membership cache")
 
-        new_obj = self._map_udm_into_ldap(message_body.get("new"))
-        old_obj = self._map_udm_into_ldap(message_body.get("old"))
+        try:
+            new_obj = self._map_udm_into_ldap(message_body["new"])
+            old_obj = self._map_udm_into_ldap(message_body["old"])
+        except KeyError:
+            self._logger.error("Invalid provisioning message format, exiting")
+            raise
 
         if old_obj and new_obj:
             if new_obj.get("uniqueMember") == old_obj.get("uniqueMember"):
