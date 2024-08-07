@@ -36,6 +36,7 @@ from typing import Any, Dict, Optional
 
 from univention.ldap_cache.cache import get_cache
 from univention.ldap_cache.frontend import _extract_id_from_dn
+from univention.provisioning.models import Body
 
 
 class GroupMembershipCache:
@@ -69,15 +70,11 @@ class GroupMembershipCache:
         }
         return ldap_obj
 
-    def update_cache(self, message_body: Dict[str, Any]) -> None:
+    def update_cache(self, message_body: Body) -> None:
         self._logger.info("Updating the group membership cache")
 
-        try:
-            new_obj = self._map_udm_into_ldap(message_body["new"])
-            old_obj = self._map_udm_into_ldap(message_body["old"])
-        except KeyError:
-            self._logger.error("Invalid provisioning message format, exiting")
-            raise
+        new_obj = self._map_udm_into_ldap(message_body.new)
+        old_obj = self._map_udm_into_ldap(message_body.old)
 
         if old_obj and new_obj:
             if new_obj.get("uniqueMember") == old_obj.get("uniqueMember"):

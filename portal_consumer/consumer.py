@@ -28,7 +28,6 @@ class PortalConsumer:
         )
 
     async def start_listening_for_changes(self) -> None:
-
         self.logger.info("Listening for changes in the portal and groups")
         async with ProvisioningConsumerClient() as client:
             await MessageHandler(
@@ -48,7 +47,7 @@ class PortalConsumer:
             self._group_cache.update_cache(body)
             reason = "ldap:group"
         else:
-            obj = body.get("new") or body.get("old")
+            obj = body.new or body.old
             dn = obj.get("dn")
             module = topic.split('/')[-1]
             reason = f"ldap:{module}:{dn}"

@@ -23,7 +23,7 @@ data:
   LDAP_HOST_DN: {{ required "The parameter \"portal-consumer.ldapAdminDn\" is required." (include "portal-consumer.ldapAdminDn" .) | quote }}
   LDAP_PORT: {{ required "The parameter \"portal-consumer.ldap.connection.port\" is required." (include "portal-consumer.ldap.connection.port" .) | quote }}
   LOG_LEVEL: {{ required "The parameter \".Values.portalConsumer.logLevel\" is required." .Values.portalConsumer.logLevel | quote }}
-  MAX_ACKNOWLEDGEMENT_RETRIES: {{ required "The parameter \".Values.provisioningApi.maxAcknowledgementRetries\" is required." .Values.provisioningApi.maxAcknowledgementRetries | quote }}
+  MAX_ACKNOWLEDGEMENT_RETRIES: {{ required "The parameter \".Values.provisioningApi.config.maxAcknowledgementRetries\" is required." .Values.provisioningApi.config.maxAcknowledgementRetries | quote }}
   MACHINE_SECRET_FILE: "{{ .Values.portalConsumer.machineSecretFile }}"
   PORTAL_DEFAULT_DN: {{ include "portal-consumer.portalDefaultDn" . | quote }}
   PORTAL_CONSUMER_LOG_STREAM: "true"
