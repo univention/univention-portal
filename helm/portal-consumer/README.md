@@ -732,6 +732,15 @@ true
 			<td>The username to authenticate with.</td>
 		</tr>
 		<tr>
+			<td>provisioningApi.config.maxAcknowledgementRetries</td>
+			<td>int</td>
+			<td><pre lang="json">
+3
+</pre>
+</td>
+			<td>The maximum number of retries for acknowledging a message</td>
+		</tr>
+		<tr>
 			<td>provisioningApi.connection</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -750,15 +759,6 @@ true
 </pre>
 </td>
 			<td>The base URL the provisioning API is reachable at. (e.g. "https://provisioning-api")</td>
-		</tr>
-		<tr>
-			<td>provisioningApi.maxAcknowledgementRetries</td>
-			<td>int</td>
-			<td><pre lang="json">
-3
-</pre>
-</td>
-			<td>The maximum number of retries for acknowledging a message</td>
 		</tr>
 		<tr>
 			<td>replicaCount</td>
