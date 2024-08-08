@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.31.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.30.1...v0.31.0) (2024-08-08)
+
+
+### Features
+
+* update nubus-provisioning-consumer lib to use Body model ([e57da7d](https://git.knut.univention.de/univention/components/univention-portal/commit/e57da7dcece4dcfb40443f1f56f2443d236fb4cc))
+
+
+### Bug Fixes
+
+* **portal-consumer:** change to falsy if condition to also catch new empty dict syntax ([34d10e6](https://git.knut.univention.de/univention/components/univention-portal/commit/34d10e670ce20869749702025e0d919ed8fb1aa1))
+
 ## [0.30.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.30.0...v0.30.1) (2024-08-02)
 
 
