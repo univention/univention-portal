@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.31.0...v0.31.1) (2024-08-09)
+
+
+### Bug Fixes
+
+* set correct nubus-provisioning-consumer lib version ([bcfbb65](https://git.knut.univention.de/univention/components/univention-portal/commit/bcfbb657743c26ad2eacd475c7ee55834bb3577e))
+
 ## [0.31.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.30.1...v0.31.0) (2024-08-08)
 
 
