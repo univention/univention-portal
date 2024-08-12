@@ -117,7 +117,7 @@ class TestPortalConsumer:
 
         message_handler.run = AsyncMock(side_effect=run)
 
-        await consumer.start_listening_for_changes()
+        await consumer.listen_for_changes()
 
         async_client.assert_called_once_with()
         message_handler.run.assert_called_once_with()
@@ -138,7 +138,7 @@ class TestPortalConsumer:
 
         message_handler.run = AsyncMock(side_effect=run)
 
-        await consumer.start_listening_for_changes()
+        await consumer.listen_for_changes()
 
         async_client.assert_called_once_with()
         message_handler.run.assert_called_once_with()

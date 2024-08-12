@@ -50,9 +50,9 @@ COPY ./docker/portal-consumer/stub_portals.json /usr/share/univention-portal/por
 COPY ./docker/portal-consumer/ldap-setup.envsh /entrypoint.d/50-ldap-setup.envsh
 COPY ./docker/portal-consumer/machine-secret-entrypoint.sh /entrypoint.d/75-machine-secret-entrypoint.sh
 COPY ./docker/portal-consumer/initialize.sh /
-COPY ./portal_consumer/ /
+COPY ./portal_consumer/ /portal_consumer/
 
 # Create listener user for group membership cache
 RUN useradd -m "listener"
 
-CMD ["/usr/bin/python3", "consumer.py"]
+CMD ["/usr/bin/python3", "-m", "portal_consumer.consumer"]

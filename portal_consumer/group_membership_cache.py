@@ -31,20 +31,19 @@
 # <https://www.gnu.org/licenses/>.
 
 import logging
-import os
 from typing import Any, Dict, Optional
 
 from univention.ldap_cache.cache import get_cache
 from univention.ldap_cache.frontend import _extract_id_from_dn
-from univention.provisioning.models import Body
+
+
+logger = logging.getLogger(__name__)
 
 
 class GroupMembershipCache:
     def __init__(self):
         self._counter = 0
         self._filter = "(univentionObjectType=groups/group)"
-        logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
-        self._logger = logging.getLogger(__name__)
 
     def _cleanup_cache_if_needed(self) -> None:
         self._counter += 1
@@ -70,15 +69,15 @@ class GroupMembershipCache:
         }
         return ldap_obj
 
-    def update_cache(self, message_body: Body) -> None:
-        self._logger.info("Updating the group membership cache")
+    def update_cache(self, new: Dict[str, Any], old: Dict[str, Any]) -> None:
+        logger.info("Updating the group membership cache")
 
-        new_obj = self._map_udm_into_ldap(message_body.new)
-        old_obj = self._map_udm_into_ldap(message_body.old)
+        new_obj = self._map_udm_into_ldap(new)
+        old_obj = self._map_udm_into_ldap(old)
 
         if old_obj and new_obj:
             if new_obj.get("uniqueMember") == old_obj.get("uniqueMember"):
-                self._logger.info("No need to update the cache")
+                logger.info("No need to update the cache")
                 return
             self.modify(old_obj, new_obj)
         elif old_obj:
