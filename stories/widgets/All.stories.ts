@@ -57,6 +57,7 @@ export const Basic = Template.bind({});
 Basic.args = {
   formValues: {
     password: '',
+    newpassword: '',
     text: '',
     complexInput: ['', '2022-12-12', '11:20', 'DE'],
     multiInput: [],
@@ -66,6 +67,11 @@ Basic.args = {
       type: 'PasswordBox',
       name: 'password',
       label: 'PasswordBox',
+    },
+    {
+      type: 'NewPasswordBox',
+      name: 'newpassword',
+      label: 'NewPasswordBox',
     },
     {
       type: 'TextBox',
