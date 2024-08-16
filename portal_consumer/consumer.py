@@ -3,12 +3,16 @@
 
 import asyncio
 import logging
-import subprocess
+import sys
 import time
 from importlib.metadata import version
 
-from univention.portal.util import get_portal_update_call
-from univention.provisioning.consumer import MessageHandler, ProvisioningConsumerClient, ProvisioningConsumerClientSettings
+from univention.portal.cli import silence_click, update as portal_update
+from univention.provisioning.consumer import (
+    MessageHandler,
+    ProvisioningConsumerClient,
+    ProvisioningConsumerClientSettings,
+)
 from univention.provisioning.models import Message
 
 from .group_membership_cache import GroupMembershipCache
@@ -49,25 +53,27 @@ class PortalConsumer:
         logger.debug("Received a message with the body: %r", body)
 
         if topic == "groups/group":
-            t0 = time.perf_counter()
             self._group_cache.update_cache(body.new, body.old)
-            logger.info("Updated group cache in %.1f ms.", (time.perf_counter() - t0) * 1000)
             reason = "ldap:group"
         else:
             obj = body.new or body.old
             dn = obj.get("dn")
-            module = topic.split('/')[-1]
+            module = topic.split("/")[-1]
             reason = f"ldap:{module}:{dn}"
 
         logger.debug("Updating portal. Reason: %r", reason)
         t0 = time.perf_counter()
-        subprocess.call(get_portal_update_call(reason=reason))
+        portal_update(names=[], reason=reason)
         logger.info("Updated portal in %.1f ms.", (time.perf_counter() - t0) * 1000)
 
 
 if __name__ == "__main__":
     settings = ProvisioningConsumerClientSettings()
-    logging.basicConfig(format=LOG_FORMAT, level=settings.log_level)
-    logger.info("Using 'nubus-provisioning-consumer' library version %r.", version("nubus-provisioning-consumer"))
+    logging.basicConfig(format=LOG_FORMAT, level=settings.log_level, stream=sys.stdout)
+    logger.info(
+        "Using 'nubus-provisioning-consumer' library version %r.",
+        version("nubus-provisioning-consumer"),
+    )
+    silence_click()
     consumer = PortalConsumer()
     asyncio.run(consumer.listen_for_changes())

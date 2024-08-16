@@ -1,13 +1,11 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-import os
 from datetime import datetime, timedelta
-from unittest import mock
 
 import pytest
 
-from univention.portal.util import get_portal_update_call, is_current_time_between
+from univention.portal.util import is_current_time_between
 
 
 @pytest.mark.parametrize(
@@ -82,27 +80,3 @@ from univention.portal.util import get_portal_update_call, is_current_time_betwe
 )
 def test_is_current_time_between(start, end, expected):
     assert is_current_time_between(start, end) == expected
-
-
-def test_get_portal_update_call_defaults():
-    expected_call_args = [
-        "/usr/sbin/univention-portal",
-        "update",
-        "--reason",
-        "stub_reason",
-    ]
-    assert get_portal_update_call(reason="stub_reason") == expected_call_args
-
-
-def test_get_portal_update_call_sets_log_stream_based_on_environment():
-    with mock.patch.dict(os.environ, {"PORTAL_CONSUMER_LOG_STREAM": "true"}):
-        call_args = get_portal_update_call(reason="stub_reason")
-
-    expected_call_args = [
-        "/usr/sbin/univention-portal",
-        "--log-stream",
-        "update",
-        "--reason",
-        "stub_reason",
-    ]
-    assert call_args == expected_call_args
