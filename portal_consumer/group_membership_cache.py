@@ -31,6 +31,7 @@
 # <https://www.gnu.org/licenses/>.
 
 import logging
+import time
 from typing import Any, Dict, Optional
 
 from univention.ldap_cache.cache import get_cache
@@ -70,14 +71,15 @@ class GroupMembershipCache:
         return ldap_obj
 
     def update_cache(self, new: Dict[str, Any], old: Dict[str, Any]) -> None:
-        logger.info("Updating the group membership cache")
+        logger.debug("Updating the group membership cache")
+        t0 = time.perf_counter()
 
         new_obj = self._map_udm_into_ldap(new)
         old_obj = self._map_udm_into_ldap(old)
 
         if old_obj and new_obj:
             if new_obj.get("uniqueMember") == old_obj.get("uniqueMember"):
-                logger.info("No need to update the cache")
+                logger.debug("No need to update the cache")
                 return
             self.modify(old_obj, new_obj)
         elif old_obj:
@@ -85,6 +87,7 @@ class GroupMembershipCache:
         else:
             self.create(new_obj)
         self._cleanup_cache_if_needed()
+        logger.info("Updated group cache in %.1f ms.", (time.perf_counter() - t0) * 1000)
 
     def create(self, new: Dict[str, Any]) -> None:
         for shard in get_cache().get_shards_for_query(self._filter):

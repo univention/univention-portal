@@ -81,13 +81,8 @@ def message_handler():
 
 
 @pytest.fixture()
-def mock_subprocess_call():
-    return patch("subprocess.call").start()
-
-
-@pytest.fixture()
-def mock_get_portal_update_call():
-    return patch("univention.portal.util.get_portal_update_call").start()
+def mock_cli_update_call():
+    return patch("univention.portal.cli.update").start()
 
 
 @pytest.fixture()
@@ -107,8 +102,7 @@ class TestPortalConsumer:
             self,
             async_client: ProvisioningConsumerClient,
             message_handler: MessageHandler,
-            mock_get_portal_update_call,
-            mock_subprocess_call,
+            mock_cli_update_call,
             consumer,
             group_cache,
     ):
@@ -121,15 +115,14 @@ class TestPortalConsumer:
 
         async_client.assert_called_once_with()
         message_handler.run.assert_called_once_with()
-        mock_get_portal_update_call.assert_called_once_with(reason="ldap:group")
-        mock_subprocess_call.assert_called_once_with(mock_get_portal_update_call())
+        mock_cli_update_call.assert_called_once_with([], reason="ldap:group")
         group_cache.update_cache.assert_called_once_with(MESSAGE_GROUP.body)
 
     async def test_portal_call_update_with_portal_change(
             self,
             async_client: ProvisioningConsumerClient,
             message_handler: MessageHandler,
-            mock_get_portal_update_call,
+            mock_cli_update_call,
             mock_subprocess_call,
             consumer,
     ):
@@ -142,5 +135,4 @@ class TestPortalConsumer:
 
         async_client.assert_called_once_with()
         message_handler.run.assert_called_once_with()
-        mock_get_portal_update_call.assert_called_once_with(reason=f"ldap:portal:{DN}")
-        mock_subprocess_call.assert_called_once_with(mock_get_portal_update_call())
+        mock_cli_update_call.assert_called_once_with([], reason=f"ldap:portal:{DN}")
