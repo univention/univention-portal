@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.32.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.31.2...v0.32.0) (2024-08-19)
+
+
+### Features
+
+* call Python function instead of subprocess ([9bfa508](https://git.knut.univention.de/univention/components/univention-portal/commit/9bfa508ec595c027d73e1fc59b1f41bc83698a1a))
+* log processing time ([bb6a4e8](https://git.knut.univention.de/univention/components/univention-portal/commit/bb6a4e85506855b0b5f01c298ca879b016f17308))
+
 ## [0.31.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.31.1...v0.31.2) (2024-08-19)
 
 
