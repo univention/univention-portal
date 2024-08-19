@@ -112,6 +112,18 @@ ingress:
   # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable. (This will be the default for all Ingresses)
   host: ""
 
+  # Request certificates via cert-manager.io annotation
+  certManager:
+    # -- Enable cert-manager.io annotaion.
+    enabled: true
+
+    # Issuer reference.
+    issuerRef:
+      # -- Name of cert-manager.io Issuer resource.
+      name: ""
+      # -- Type of Issuer, f.e. "Issuer" or "ClusterIssuer".
+      kind: "ClusterIssuer"
+
   # -- The Ingress controller class name. (This will be the default for all Ingresses)
   ingressClassName: ""
 
