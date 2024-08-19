@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.31.1...v0.31.2) (2024-08-19)
+
+
+### Bug Fixes
+
+* **frontend:** Connect label with the input "password retype" ([4ad1dfb](https://git.knut.univention.de/univention/components/univention-portal/commit/4ad1dfbfd86baa07922683bf074e0aa768336458))
+
 ## [0.31.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.31.0...v0.31.1) (2024-08-09)
 
 
