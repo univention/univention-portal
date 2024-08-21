@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.33.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.32.0...v0.33.0) (2024-08-21)
+
+
+### Features
+
+* **notifications-api:** Add certManager template for ingress ([a344819](https://git.knut.univention.de/univention/components/univention-portal/commit/a344819b553e69628f0733dec2555a210ba26264))
+
 ## [0.32.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.31.2...v0.32.0) (2024-08-19)
 
 
