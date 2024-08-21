@@ -9,6 +9,8 @@
 ## Application-specific
 portalServer:
   adminGroup: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+  centralNavigation:
+    authenticatorSecretName: "stub-authenticator-secret-name"
   environment: "staging"
   logLevel: "DEBUG"
   ucsInternalUrl: "https://portal.example.develop.souvap-univention.de/univention/internal"
