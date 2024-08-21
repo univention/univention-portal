@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.33.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.33.0...v0.33.1) (2024-08-21)
+
+
+### Bug Fixes
+
+* **portal-server:** Correct the ingress annotation handling ([2f9ca4d](https://git.knut.univention.de/univention/components/univention-portal/commit/2f9ca4db23cc01ea6bead7c01c84b95651e7a629))
+
 ## [0.33.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.32.0...v0.33.0) (2024-08-21)
 
 
