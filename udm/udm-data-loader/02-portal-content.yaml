@@ -145,6 +145,7 @@ module: portals/entry
 position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
   anonymous: true
+  activated: {{ enableDefaultLogin }}
   description:
     de_DE: Am Portal anmelden
     en_US: Log in to the portal
