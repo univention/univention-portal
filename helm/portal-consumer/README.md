@@ -82,6 +82,15 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>extraEnvVars</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Array with extra environment variables to add to containers.</td>
+		</tr>
+		<tr>
 			<td>extraSecrets</td>
 			<td>list</td>
 			<td><pre lang="json">
@@ -89,6 +98,24 @@ false
 </pre>
 </td>
 			<td></td>
+		</tr>
+		<tr>
+			<td>extraVolumeMounts</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Optionally specify an extra list of additional volumeMounts.</td>
+		</tr>
+		<tr>
+			<td>extraVolumes</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Optionally specify an extra list of additional volumes.</td>
 		</tr>
 		<tr>
 			<td>fullnameOverride</td>
@@ -813,6 +840,33 @@ true
 </pre>
 </td>
 			<td></td>
+		</tr>
+		<tr>
+			<td>waitForDependency.extraEnvVars</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Array with extra environment variables to add to containers.</td>
+		</tr>
+		<tr>
+			<td>waitForDependency.extraVolumeMounts</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Optionally specify an extra list of additional volumeMounts.</td>
+		</tr>
+		<tr>
+			<td>waitForDependency.extraVolumes</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Optionally specify an extra list of additional volumes.</td>
 		</tr>
 		<tr>
 			<td>waitForDependency.image.imagePullPolicy</td>
