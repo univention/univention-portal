@@ -40,6 +40,10 @@ spec:
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          env:
+            {{- with .Values.waitForDependency.extraEnvVars }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
@@ -52,12 +56,19 @@ spec:
             {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
             {{- end }}
+            {{- if .Values.waitForDependency.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-udm
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          env:
+            {{- with .Values.waitForDependency.extraEnvVars }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
@@ -69,6 +80,9 @@ spec:
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
             {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+            {{- if .Values.waitForDependency.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
@@ -84,9 +98,15 @@ spec:
               {{- include "portal-consumer.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
+            {{- with .Values.waitForDependency.extraEnvVars }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - name: wait-for-object-store
               mountPath: /scripts
+            {{- if .Values.waitForDependency.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-api
@@ -98,6 +118,10 @@ spec:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+          volumeMounts:
+            {{- if .Values.waitForDependency.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
+            {{- end }}
         - name: put-initial-values
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -112,6 +136,9 @@ spec:
               {{- include "portal-consumer.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
+            {{- with .Values.waitForDependency.extraEnvVars }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
@@ -120,6 +147,9 @@ spec:
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
             {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+            {{- if .Values.waitForDependency.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -139,6 +169,9 @@ spec:
               {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
             - name: PROVISIONING_API_PASSWORD
               {{- include "portal-consumer.provisioningApi.auth.password" . | nindent 14 }}
+            {{- with .Values.extraEnvVars }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
@@ -147,6 +180,9 @@ spec:
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
             {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+            {{- if .Values.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -175,6 +211,12 @@ spec:
           secret:
             secretName: {{ (include "portal-consumer.ldap.tlsSecret.name" . ) | quote }}
         {{- end }}
+        {{- end }}
+        {{- if .Values.extraVolumes }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes  "context" .) | nindent 8 }}
+        {{- end }}
+        {{- if .Values.waitForDependency.extraVolumes }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumes  "context" .) | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
