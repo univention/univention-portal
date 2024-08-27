@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.34.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.33.1...v0.34.0) (2024-08-27)
+
+
+### Features
+
+* **portal-consumer:** Add extraVolumes option ([f9b2d07](https://git.knut.univention.de/univention/components/univention-portal/commit/f9b2d07d81f6b332e231350f03d1b4a0c13b1e2f))
+
 ## [0.33.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.33.0...v0.33.1) (2024-08-21)
 
 
