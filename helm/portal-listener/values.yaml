@@ -1,0 +1,211 @@
+---
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# The global properties are used to configure multiple charts at once.
+global:
+  # -- Indicates wether this chart is part of a Nubus deployment.
+  nubusDeployment: false
+  # -- Container registry address.
+  imageRegistry: "artifacts.software-univention.de"
+  # -- Credentials to fetch images from private registry.
+  # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  #
+  # imagePullSecrets:
+  #   - "docker-registry"
+  imagePullSecrets: []
+
+  # -- Define an ImagePullPolicy.
+  #
+  # Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
+  #
+  # "IfNotPresent" => The image is pulled only if it is not already present locally.
+  # "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to
+  #             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached
+  #             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved
+  #             digest, and uses that image to launch the container.
+  # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
+  #            kubelet attempts to start the container; otherwise, startup fails.
+  imagePullPolicy: "IfNotPresent"
+
+# Default values for univention-portal-listener
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Global values
+affinity: {}
+environment: {}
+fullnameOverride: ""
+nameOverride: ""
+nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+replicaCount: 1
+securityContext: {}
+tolerations: []
+mountSecrets: true
+
+# -- In seconds, time the given to the pod needs to terminate gracefully.
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+terminationGracePeriodSeconds: ""
+
+# -- Application configuration of the Portal Listener
+portalListener:
+  port: "80"
+  # Update configuration to mach the needs of the portal listener
+  # -- Define LDAP Admin Group.
+  # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
+  adminGroup: null
+  # -- Where to store the assets inside the object storage bucket, e.g. portal entry icons
+  assetsRootPath: "portal-assets"
+  # -- Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".
+  authMode: ""
+  # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
+  caCert: ""
+  certPem: ""
+  # -- The path to the "caCertFile" docker secret or a plain file.
+  caCertFile: "/var/secrets/ca_cert"
+  # -- Whenever to start encryption and validate certificates.
+  # Chose from "off", "unvalidated" and "secure". Chart default is "off".
+  tlsMode: "off"
+  # -- Internal domain name of the UCS machine
+  domainName: "univention.intranet"
+  # -- Debug level of the listener
+  debugLevel: "1"
+  # -- Defines if members of the Admin group can use the edit mode in the portal.
+  editable: "true"
+  # -- TODO: Clarify usage of this parameter
+  environment: "production"
+
+  # -- Base DN of the LDAP directory
+  ldapBaseDn: null
+  # -- LDAP password for `cn=admin`. Will be written to "ldapSecretFile" if set.
+  ldapSecret: null
+  # -- The path to the "ldapSecretFile" docker secret or a plain file
+  ldapSecretFile: "/var/secrets/ldap_secret"
+  # -- Hostname of the LDAP server
+  ldapHost: null
+  # -- The IP address of the LDAP server.
+  ldapHostIp: null
+  # -- DN of the UCS machine
+  ldapHostDn: null
+  # -- Port to connect to the LDAP server. Chart defaults to 389.
+  ldapPort: ""
+
+  # -- TODO: Clarify usage of this parameter
+  logLevel: "WARNING"
+  # -- LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.
+  machineSecret: null
+  # -- The path to the "machineSecretFile" docker secret or a plain file
+  machineSecretFile: "/var/secrets/machine_secret"
+  # -- Hostname where the notifier can be reached.
+  notifierServer: null
+  # -- DN of the default portal
+  portalDefaultDn: null
+
+  # -- UDM API connection URL
+  udmApiUrl: null
+  # -- UDM API username.
+  udmApiUsername: "cn=admin"
+  # -- UDM API password file.
+  #    Default: same as `machineSecretFile`.
+  udmApiSecretFile: "/var/secrets/machine_secret"
+
+  # -- Define UCS internal endpoint where the portal, selfservice and groups are defined
+  # Example: `"https://portal.example.com/univention/internal"`
+  ucsInternalPath: "portal-data"
+  # -- Define UMC get endpoint.
+  # Example: `"https://portal.example.com/univention/internal/umc/get"`
+  umcGetUrl: null
+  # -- Define UMC session-info" endpoint.
+  # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
+  umcSessionUrl: null
+  # -- Object storage endpoint. Chart default is "http://ums-minio:9000". Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
+  objectStorageEndpoint: ""
+  # -- Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".
+  objectStorageBucket: ""
+  # -- User for the object storage. Chart default is "ums_user".
+  objectStorageAccessKeyId: ""
+  # -- Password for access to object storage. Chart default is "stub_password".
+  objectStorageSecretAccessKey: ""
+  # -- Optional reference to a different secret for credentials
+  # credentialSecret:
+  #   name: "custom-credentials"
+  #   accessKeyId: "ums_user"
+  #   secretAccessKey: "ums_password"
+  objectStorageCredentialSecret:
+    name: ""
+    accessKeyKey: "accessKey"
+    secretKeyKey: "secretKey"
+  # -- Path to mount the secrets to.
+  secretMountPath: "/var/secrets"
+
+## Docker image
+image:
+  registry: ""
+  repository: "nubus-dev/images/portal-listener"
+  imagePullPolicy: "IfNotPresent"
+  tag: "latest"
+
+waitForDependency:
+  image:
+    registry: ""
+    imagePullPolicy: "IfNotPresent"
+    repository: "nubus/images/wait-for-dependency"
+    tag: "0.25.0@sha256:71a4d66fd67db6f92212b1936862b2b0d5a678d412213d74452a9195c2fe67f7"
+
+## Container deployment probes
+probes:
+  liveness:
+    enabled: true
+    initialDelaySeconds: 120
+    timeoutSeconds: 3
+    periodSeconds: 30
+    failureThreshold: 3
+    successThreshold: 1
+
+  readiness:
+    enabled: true
+    initialDelaySeconds: 30
+    timeoutSeconds: 3
+    periodSeconds: 15
+    failureThreshold: 30
+    successThreshold: 1
+
+
+# -- Deployment resources for the listener container
+resources: {}
+# requests:
+#   memory: "512Mi"
+#   cpu: "250m"
+# limits:
+#   memory: "4Gi"
+#   cpu: "4"
+
+# -- Deployment resources for the dependency waiters
+resourcesWaitForDependency: {}
+
+
+autoscaling:
+  enabled: false
+
+
+persistence:
+  data:
+    storageClass: ""
+    size: "1Gi"
+  groupMembershipCache:
+    storageClass: ""
+    size: "100Mi"
+
+
+ldap:
+  tlsSecret:
+    name: ""
+    caCertKey: "ca.crt"
+    privateKeyKey: "tls.key"
+    certificateKey: "tls.crt"
+  credentialSecret:
+    name: ""
+    ldapPasswordKey: "ldap.secret"
+    machinePasswordKey: "machine.secret"

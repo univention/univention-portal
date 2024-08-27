@@ -1,0 +1,210 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  serviceName: {{ include "common.names.fullname" . }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "common.labels.matchLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "common.labels.matchLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.portalListener.ldapHostIp }}
+      hostAliases:
+        - hostnames:
+            - {{ .Values.portalListener.ldapHost | quote }}
+          ip: {{ .Values.portalListener.ldapHostIp | quote }}
+      {{- end }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
+      initContainers:
+        - name: wait-for-ldap
+          command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
+          image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          volumeMounts:
+            - name: wait-for-ldap
+              mountPath: /scripts
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+        - name: wait-for-udm
+          command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
+          image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          volumeMounts:
+            - name: wait-for-udm
+              mountPath: /scripts
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+        - name: wait-for-object-storage
+          command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
+          image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          env:
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- include "portal-listener.objectStorageAccessKeyId" . | nindent 14 }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- include "portal-listener.objectStorageSecretAccessKey" . | nindent 14 }}
+          volumeMounts:
+            - name: wait-for-object-store
+              mountPath: /scripts
+          resources:
+            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+        - name: put-initial-values
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          args: [ "/initialize.sh" ]
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          env:
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- include "portal-listener.objectStorageAccessKeyId" . | nindent 14 }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- include "portal-listener.objectStorageSecretAccessKey" . | nindent 14 }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/univention-directory-listener
+            - name: group-membership-cache
+              mountPath: /usr/share/univention-group-membership-cache/caches
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: "portal-listener"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "common.names.fullname" . }}
+          env:
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- include "portal-listener.objectStorageAccessKeyId" . | nindent 14 }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- include "portal-listener.objectStorageSecretAccessKey" . | nindent 14 }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/univention-directory-listener
+            - name: group-membership-cache
+              mountPath: /usr/share/univention-group-membership-cache/caches
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalListener.secretMountPath }}"
+            {{- else }}
+            {{- include "portal-listener.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: wait-for-object-store
+          configMap:
+            name: {{ include "common.names.fullname" . }}
+        - name: wait-for-udm
+          configMap:
+            name: {{ include "common.names.fullname" . }}
+        - name: wait-for-ldap
+          configMap:
+            name: {{ include "common.names.fullname" . }}
+        {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+        - name: "secrets"
+          secret:
+            secretName: {{ include "common.names.fullname" . | quote }}
+        {{- else }}
+        {{- if (include "portal-listener.ldap.credentialSecret.name" . ) }}
+        - name: {{ printf "%s-volume" (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+          secret:
+            secretName: {{ (include "portal-listener.ldap.credentialSecret.name" . ) | quote }}
+        {{- end }}
+        {{- if (include "portal-listener.ldap.tlsSecret.name" . ) }}
+        - name: {{ printf "%s-volume" (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+          secret:
+            secretName: {{ (include "portal-listener.ldap.tlsSecret.name" . ) | quote }}
+        {{- end }}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      {{- if .Values.persistence.data.storageClass }}
+      storageClassName: {{ .Values.persistence.data.storageClass | quote }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.data.size | required ".Values.persistence.data.size is required" | quote }}
+  - metadata:
+      name: group-membership-cache
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      {{- if .Values.persistence.groupMembershipCache.storageClass }}
+      storageClassName: {{ .Values.persistence.groupMembershipCache.storageClass | quote }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.groupMembershipCache.size | required ".Values.persistence.groupMembershipCache.size is required" | quote }}

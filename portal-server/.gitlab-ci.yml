@@ -48,12 +48,14 @@ generate-joinscript-data:
       - "portal-server"
       - "portal-extension"
       - "portal-consumer"
+      - "portal-listener"
 
 .publish-matrix: &publish-matrix
   - IMAGE_NAME:
       - "portal-server"
       - "portal-consumer"
       - "portal-extension"
+      - "portal-listener"
 
 container-build:
   parallel:
@@ -61,6 +63,20 @@ container-build:
   variables:
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "docker/${IMAGE_NAME}/Dockerfile"
+
+# depends on portal-server
+container-build-portal-listener:
+  stage: "build"
+  extends: ".kaniko"
+  needs:
+    - job: "container-build"
+      artifacts: false
+  variables:
+    IMAGE_NAME: "portal-listener"
+    DOCKERFILE_PATH: "docker/portal-listener/Dockerfile"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    KANIKO_ARGS: "--build-arg PORTAL_BASE_IMAGE_TAG=${RELEASE_VERSION}"
+
 
 # depends on portal-server
 container-build-portal-consumer:
@@ -80,6 +96,8 @@ container-generate-sbom:
     - job: "container-build"
       artifacts: true
     - job: "container-build-portal-consumer"
+      artifacts: true
+    - job: "container-build-portal-listener"
       artifacts: true
   parallel:
     matrix: *post-build-matrix
