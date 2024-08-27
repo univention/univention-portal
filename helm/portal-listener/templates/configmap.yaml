@@ -39,6 +39,7 @@ data:
   CA_CERT: "{{ .Values.portalListener.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalListener.caCertFile }}"
   TLS_MODE: "{{ .Values.portalListener.tlsMode }}"
+  TEMPDIR: "/tmp"
   wait-for-ldap.sh: |
     #!/bin/bash
     set -euxo pipefail
