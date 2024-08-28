@@ -60,7 +60,7 @@ data:
   wait-for-udm.sh: |
     #!/bin/bash
     # TODO: find a way to not leak the udm passwort into the log
-    set -euxo pipefail
+    set -euo pipefail
 
     while ! curl -o- --fail --header "Accept: application/json" --user "${PORTAL_UDM_API_USERNAME}:$(cat $PORTAL_UDM_API_PASSWORD_FILE)" "${PORTAL_UDM_API_URL}ldap/base/"; do
       echo "Checking if the UDM REST API can be reached..."
