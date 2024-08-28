@@ -71,7 +71,7 @@ class GroupMembershipCache:
         return ldap_obj
 
     def update_cache(self, new: Dict[str, Any], old: Dict[str, Any]) -> None:
-        logger.debug("Updating the group membership cache")
+        logger.info("Updating the group membership cache")
         t0 = time.perf_counter()
 
         new_obj = self._map_udm_into_ldap(new)
@@ -79,7 +79,7 @@ class GroupMembershipCache:
 
         if old_obj and new_obj:
             if new_obj.get("uniqueMember") == old_obj.get("uniqueMember"):
-                logger.debug("No need to update the cache")
+                logger.info("No need to update the cache")
                 return
             self.modify(old_obj, new_obj)
         elif old_obj:
