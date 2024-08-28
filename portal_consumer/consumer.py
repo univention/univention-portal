@@ -13,13 +13,12 @@ from univention.provisioning.consumer import (
     ProvisioningConsumerClient,
     ProvisioningConsumerClientSettings,
 )
-from univention.provisioning.models import Message
+from univention.provisioning.models import ProvisioningMessage
 
 from .group_membership_cache import GroupMembershipCache
 
 
 LOG_FORMAT = "%(asctime)s %(levelname)-5s [%(module)s.%(funcName)s:%(lineno)d] %(message)s"
-
 
 logger = logging.getLogger(__name__)
 
@@ -43,14 +42,18 @@ class PortalConsumer:
             await MessageHandler(client, [self.handle_message]).run()
         logger.info("Shutting down.")
 
-    async def handle_message(self, message: Message):
+    async def handle_message(self, message: ProvisioningMessage):
         topic = message.topic
         if topic not in self.topics:
             logger.warning("Ignoring a message in the queue with the wrong topic: %r", topic)
             return
 
         body = message.body
-        logger.debug("Received a message with the body: %r", body)
+        logger.info(
+            "Received message with topic: %s, sequence_number: %d, num_delivered: %d",
+            topic, message.sequence_number, message.num_delivered,
+        )
+        logger.debug("Message body: %r", body)
 
         if topic == "groups/group":
             self._group_cache.update_cache(body.new, body.old)
@@ -61,7 +64,7 @@ class PortalConsumer:
             module = topic.split("/")[-1]
             reason = f"ldap:{module}:{dn}"
 
-        logger.debug("Updating portal. Reason: %r", reason)
+        logger.info("Updating portal. Reason: %r", reason)
         t0 = time.perf_counter()
         portal_update(names=[], reason=reason)
         logger.info("Updated portal in %.1f ms.", (time.perf_counter() - t0) * 1000)
