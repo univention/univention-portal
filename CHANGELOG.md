@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.35.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.34.0...v0.35.0) (2024-08-28)
+
+
+### Features
+
+* unify UCR configuration ([dd40870](https://git.knut.univention.de/univention/components/univention-portal/commit/dd408702bfb3bb6d4a50e4b1d73299857cc51804))
+
 ## [0.34.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.33.1...v0.34.0) (2024-08-27)
 
 
