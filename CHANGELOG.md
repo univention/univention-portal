@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.35.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.35.0...v0.35.1) (2024-08-29)
+
+
+### Bug Fixes
+
+* **portal-consumer:** update nubus-provisioning-consumer to use ProvisioningMessage model ([b18ec4e](https://git.knut.univention.de/univention/components/univention-portal/commit/b18ec4e9b9e917b3d590f3d1bcb3b9e3c071012f))
+
 ## [0.35.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.34.0...v0.35.0) (2024-08-28)
 
 
