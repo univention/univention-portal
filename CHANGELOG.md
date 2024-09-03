@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.36.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.35.1...v0.36.0) (2024-09-03)
+
+
+### Features
+
+* added enable flag to default portal login ([65629ba](https://git.knut.univention.de/univention/components/univention-portal/commit/65629baf2608c00c7dbebb6e037a03a1088b2930))
+
 ## [0.35.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.35.0...v0.35.1) (2024-08-29)
 
 
