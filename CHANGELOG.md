@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.37.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.36.0...v0.37.0) (2024-09-04)
+
+
+### Features
+
+* **portal-consumer:** avoid leak secrets ([af4c3e1](https://git.knut.univention.de/univention/components/univention-portal/commit/af4c3e1a7c9bbac9a56c1751dcb96890039b0796))
+
 ## [0.36.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.35.1...v0.36.0) (2024-09-03)
 
 
