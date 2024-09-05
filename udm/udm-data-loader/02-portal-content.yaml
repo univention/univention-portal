@@ -140,7 +140,7 @@ properties:
   linkTarget: newwindow
   name: umc-domain
 ---
-action: create
+action: create_or_modify
 module: portals/entry
 position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
