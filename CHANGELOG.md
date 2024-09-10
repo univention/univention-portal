@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.38.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.37.0...v0.38.0) (2024-09-10)
+
+
+### Features
+
+* **portal-extension:** Activate or deactivate UMC login tile on job rerun ([5488acf](https://git.knut.univention.de/univention/components/univention-portal/commit/5488acfc7ca8e5fb53b5d24769b926694d82c778))
+
 ## [0.37.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.36.0...v0.37.0) (2024-09-04)
 
 
