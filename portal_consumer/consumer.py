@@ -3,6 +3,7 @@
 
 import asyncio
 import logging
+import subprocess
 import sys
 import time
 from importlib.metadata import version
@@ -39,10 +40,11 @@ class PortalConsumer:
     async def listen_for_changes(self) -> None:
         logger.info("Listening for changes in topics: %r", self.topics)
         async with ProvisioningConsumerClient() as client:
+            await self.handle_first_message(client)
             await MessageHandler(client, [self.handle_message]).run()
         logger.info("Shutting down.")
 
-    async def handle_message(self, message: ProvisioningMessage):
+    async def handle_message(self, message: ProvisioningMessage) -> None:
         topic = message.topic
         if topic not in self.topics:
             logger.warning("Ignoring a message in the queue with the wrong topic: %r", topic)
@@ -68,6 +70,34 @@ class PortalConsumer:
         t0 = time.perf_counter()
         portal_update(names=[], reason=reason)
         logger.info("Updated portal in %.1f ms.", (time.perf_counter() - t0) * 1000)
+
+    async def handle_first_message(self, client: ProvisioningConsumerClient) -> None:
+        """
+        Try getting the first message to ensure that the subscription is active.
+
+        Load initial data to the group-membership cache.
+        Force-update all portal artifacts managed by the portal-listener (resync)
+
+        by doing the initial loading after ensuring that the subscription is active,
+        a possible gap in LDAP updates is avoided and a race-condition is much less likely.
+        """
+        message = await client.get_subscription_message(client.settings.provisioning_api_username, timeout=1)
+        logger.info("First provisioning message received. Loading initial data before processing it.")
+
+        # Ensure that the group membership cache is filled
+        subprocess.run(
+            ["/usr/share/univention-group-membership-cache/univention-ldap-cache", "rebuild"],
+            check=True,
+            text=True,
+        )
+        logger.info("Finished loading initial data to the group membership cache")
+
+        # Ensure that groups and portal data including assets are in the store
+        portal_update(names=[], reason="force")
+        logger.info("Finished updating all existing portal-consumer artifacts (resync) and starting to listen for new updates.")
+
+        if message:
+            await self.handle_message(message)
 
 
 if __name__ == "__main__":

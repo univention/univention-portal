@@ -49,7 +49,6 @@ COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-
 COPY ./docker/portal-consumer/stub_portals.json /usr/share/univention-portal/portals.json
 COPY ./docker/portal-consumer/ldap-setup.envsh /entrypoint.d/50-ldap-setup.envsh
 COPY ./docker/portal-consumer/machine-secret-entrypoint.sh /entrypoint.d/75-machine-secret-entrypoint.sh
-COPY ./docker/portal-consumer/initialize.sh /
 COPY ./portal_consumer/ /portal_consumer/
 
 # Create listener user for group membership cache
