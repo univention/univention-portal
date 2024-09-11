@@ -6,8 +6,7 @@ ARG UCS_BASE_IMAGE_TAG=0.12.0-build-2024-04-25
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build-base
 
-RUN apt-get -qq update \
-  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     gcc=4:8.* \
     libsasl2-dev=2.* \
     python3=3.7.* \
