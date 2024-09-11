@@ -109,19 +109,23 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
-        - name: wait-for-api
-          command: [ "sh", "-c", "until curl -s ${PROVISIONING_API_BASE_URL} > /dev/null; do echo Waiting for api; sleep 2; done;" ]
+        - name: wait-for-provisioning-api
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          command: ["/bin/bash", "-c", "/scripts/wait-for-provisioning-api.sh ${PROVISIONING_API_BASE_URL}/subscriptions/v1/subscriptions/${PROVISIONING_API_USERNAME} -u ${PROVISIONING_API_USERNAME}:${PROVISIONING_API_PASSWORD}"]
+          resources:
+            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+          volumeMounts:
+            - name: wait-for-provisioning-api
+              mountPath: /scripts
+          env:
+            - name: PROVISIONING_API_PASSWORD
+              {{- include "portal-consumer.provisioningApi.auth.password" . | nindent 14 }}
           envFrom:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
-          volumeMounts:
-            {{- if .Values.waitForDependency.extraVolumeMounts }}
-            {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
-            {{- end }}
       containers:
         - name: "portal-consumer"
           securityContext:
@@ -165,6 +169,10 @@ spec:
         - name: wait-for-ldap
           configMap:
             name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+        - name: "wait-for-provisioning-api"
+          configMap:
+            defaultMode: 0555
+            name: {{ printf "%s-wait-for-provisioning-api" (include "common.names.fullname" .) }}
         {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
         - name: "secrets"
           secret:
