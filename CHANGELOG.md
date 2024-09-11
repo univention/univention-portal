@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.38.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.0...v0.38.1) (2024-09-11)
+
+
+### Bug Fixes
+
+* **portal-consumer:** Move initial-values loading into the main container to only do it after recieving the first message ([dc1779a](https://git.knut.univention.de/univention/components/univention-portal/commit/dc1779a22ddd3fec26f6e793c81b6fbfd83a4772))
+* **portal-server:** Remove apt update from Dockerfile to make builds reproducible ([eed88a9](https://git.knut.univention.de/univention/components/univention-portal/commit/eed88a954ff65c9b9d2ad859474376e9676606f9))
+
 ## [0.38.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.37.0...v0.38.0) (2024-09-10)
 
 
