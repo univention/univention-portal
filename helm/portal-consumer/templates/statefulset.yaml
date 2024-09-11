@@ -122,37 +122,6 @@ spec:
             {{- if .Values.waitForDependency.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
-        - name: put-initial-values
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
-          args: [ "/initialize.sh" ]
-          envFrom:
-            - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
-          env:
-            - name: OBJECT_STORAGE_ACCESS_KEY_ID
-              {{- include "portal-consumer.objectStorageAccessKeyId" . | nindent 14 }}
-            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
-              {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
-            {{- with .Values.waitForDependency.extraEnvVars }}
-            {{- . | toYaml | nindent 12 }}
-            {{- end }}
-          volumeMounts:
-            - name: group-membership-cache
-              mountPath: /usr/share/univention-group-membership-cache/caches
-            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
-            - name: "secrets"
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
-            {{- else }}
-            {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
-            {{- end }}
-            {{- if .Values.waitForDependency.extraVolumeMounts }}
-            {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
-            {{- end }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
       containers:
         - name: "portal-consumer"
           securityContext:
