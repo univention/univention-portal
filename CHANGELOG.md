@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.38.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.1...v0.38.2) (2024-09-12)
+
+
+### Bug Fixes
+
+* **portal-consumer:** improve wait-for-provisioning-api to wait until the user/subscription is created ([b98e404](https://git.knut.univention.de/univention/components/univention-portal/commit/b98e40401efc4f140c18af5d574cdc1958f11085))
+
 ## [0.38.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.0...v0.38.1) (2024-09-11)
 
 
