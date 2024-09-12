@@ -39,7 +39,7 @@
     />
     <form-label
       :label="PASSWORD_RETYPE_LABEL"
-      aria-label="widget.ariaLabel || widget.label"
+      :aria-label="PASSWORD_RETYPE_LABEL"
       :for-attr="forAttrOfLabelRetype"
       :invalid-message="invalidMessage.invalidMessageRetype"
       data-test="form-element-label"
