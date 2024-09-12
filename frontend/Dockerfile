@@ -59,8 +59,7 @@ COPY ./package.json .
 COPY ./yarn.lock .
 
 RUN \
-  npx browserslist@latest --update-db \
-  && yarn install --frozen-lockfile \
+  yarn install --frozen-lockfile \
   && yarn cache clean
 
 # Copy should come after yarn install to prevent long rebuilding time
