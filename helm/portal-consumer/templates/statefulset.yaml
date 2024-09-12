@@ -48,7 +48,7 @@ spec:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
           volumeMounts:
-            - name: wait-for-ldap
+            - name: scripts
               mountPath: /scripts
             {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
             - name: "secrets"
@@ -73,7 +73,7 @@ spec:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
           volumeMounts:
-            - name: wait-for-udm
+            - name: scripts
               mountPath: /scripts
             {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
             - name: "secrets"
@@ -102,7 +102,7 @@ spec:
             {{- . | toYaml | nindent 12 }}
             {{- end }}
           volumeMounts:
-            - name: wait-for-object-store
+            - name: scripts
               mountPath: /scripts
             {{- if .Values.waitForDependency.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
@@ -112,11 +112,11 @@ spec:
         - name: wait-for-provisioning-api
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
-          command: ["/bin/bash", "-c", "/scripts/wait-for-provisioning-api.sh ${PROVISIONING_API_BASE_URL}/subscriptions/v1/subscriptions/${PROVISIONING_API_USERNAME} -u ${PROVISIONING_API_USERNAME}:${PROVISIONING_API_PASSWORD}"]
+          command: ["/bin/bash", "/scripts/wait-for-provisioning-api.sh"]
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
           volumeMounts:
-            - name: wait-for-provisioning-api
+            - name: scripts
               mountPath: /scripts
           env:
             - name: PROVISIONING_API_PASSWORD
@@ -160,19 +160,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: wait-for-object-store
-          configMap:
-            name: {{ printf "%s-common" (include "common.names.fullname" .) }}
-        - name: wait-for-udm
-          configMap:
-            name: {{ printf "%s-common" (include "common.names.fullname" .) }}
-        - name: wait-for-ldap
-          configMap:
-            name: {{ printf "%s-common" (include "common.names.fullname" .) }}
-        - name: "wait-for-provisioning-api"
+        - name: "scripts"
           configMap:
             defaultMode: 0555
-            name: {{ printf "%s-wait-for-provisioning-api" (include "common.names.fullname" .) }}
+            name: {{ printf "%s-scripts" (include "common.names.fullname" .) }}
         {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
         - name: "secrets"
           secret:
