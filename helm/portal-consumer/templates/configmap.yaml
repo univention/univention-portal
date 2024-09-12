@@ -47,6 +47,50 @@ data:
   TLS_MODE: "{{ .Values.portalConsumer.tlsMode }}"
   PROVISIONING_API_BASE_URL: {{ include "portal-consumer.provisioningApi.connection.baseUrl" . | quote }}
   PROVISIONING_API_USERNAME: {{ include "portal-consumer.provisioningApi.auth.username" . | quote }}
+...
+---
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: {{ printf "%s-scripts" (include "common.names.fullname" .) }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.additionalLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
+data:
+  wait-for-provisioning-api.sh: |
+    set -uo pipefail
+
+    retry_interval=2
+    response_code=404
+    timeout_duration=120
+    end_time=$((SECONDS + timeout_duration))
+
+    while [ "$response_code" -ne 200 ]; do
+      if [ $SECONDS -ge $end_time ]; then
+        echo "Timeout reached. Exiting."
+        exit 1
+      fi
+
+      echo "Waiting for the Provisioning API to be available ..."
+      response_code=$(curl -s -o response.txt -w "%{http_code}" "${PROVISIONING_API_BASE_URL}/subscriptions/v1/subscriptions/${PROVISIONING_API_USERNAME}" -u "${PROVISIONING_API_USERNAME}":"${PROVISIONING_API_PASSWORD}")
+      if [ "${response_code}" -ne 200 ]; then
+        echo "Provisioning API is not reachable, status code: $response_code"
+        cat response.txt
+        sleep ${retry_interval}
+      else
+        echo "The Provisioning API is reachable"
+        exit 0
+      fi
+    done
+
+    echo "Permanent error ocurred. Exiting."
+    exit 1
   wait-for-ldap.sh: |
     #!/bin/bash
     set -euxo pipefail
@@ -89,21 +133,4 @@ data:
            break
         else:
            print("Object storage already provisioned")
-...
----
-kind: "ConfigMap"
-apiVersion: "v1"
-metadata:
-  name: {{ printf "%s-wait-for-provisioning-api" (include "common.names.fullname" .) }}
-  namespace: {{ include "common.names.namespace" . | quote }}
-  labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.additionalLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
-    {{- end }}
-  {{- if .Values.additionalAnnotations }}
-  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
-  {{- end }}
-data:
-{{ (.Files.Glob "wait-for-provisioning-api.sh").AsConfig | required "Missing wait-for-api.sh config file" | indent 2 }}
 ...
