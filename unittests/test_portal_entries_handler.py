@@ -38,7 +38,6 @@ import tornado.ioloop
 import tornado.testing
 import tornado.web
 
-from univention.portal.extensions.cache_http import PortalFileCacheHTTP
 from univention.portal.main import build_routes
 from univention.portal.user import User
 
@@ -81,25 +80,6 @@ def portal_mock(mocker, user):
     portal.get_announcements = mocker.Mock(return_value=None)
 
     return portal
-
-
-class TestPortalEntriesHandlerHttpCache:
-
-    @pytest.fixture()
-    def app(self, portal_mock):
-        portal_mock.portal_cache = PortalFileCacheHTTP(
-            ucs_internal_url='https://example.com',
-        )
-        routes = build_routes({
-            "default": portal_mock,
-        })
-        return tornado.web.Application(routes)
-
-    @pytest.mark.gen_test()
-    def test_get_portals_json_http_backed_cache(self, http_client, base_url, portal_mock):
-        response = yield http_client.fetch(f"{base_url}/_/portal.json")
-        assert response.code == 200
-        portal_mock.refresh.assert_called_once()
 
 
 class TestPortalEntriesHandlerNoHttpCache:

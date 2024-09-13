@@ -32,7 +32,6 @@
 
 import tornado.web
 
-from univention.portal.extensions.cache_http import PortalFileCacheHTTP
 from univention.portal.extensions.cache_object_storage import PortalFileCacheObjectStorage
 from univention.portal.handlers.portal_resource import PortalResource
 from univention.portal.log import get_logger
@@ -46,7 +45,7 @@ class PortalEntriesHandler(PortalResource):
 
         user = await portal.get_user(self)
 
-        if isinstance(portal.portal_cache, (PortalFileCacheHTTP, PortalFileCacheObjectStorage)):
+        if isinstance(portal.portal_cache, PortalFileCacheObjectStorage):
             portal.refresh()
 
         admin_mode = False
