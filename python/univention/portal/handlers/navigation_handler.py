@@ -37,7 +37,6 @@ from urllib.parse import urlparse
 import tornado.web
 from ldap.dn import str2dn
 
-from univention.portal.extensions.cache_http import PortalFileCacheHTTP
 from univention.portal.extensions.cache_object_storage import PortalFileCacheObjectStorage
 from univention.portal.handlers.portal_resource import PortalResource
 
@@ -63,7 +62,7 @@ class NavigationHandler(PortalResource):
 
         if isinstance(
             portal.portal_cache,
-            (PortalFileCacheHTTP, PortalFileCacheObjectStorage),
+            PortalFileCacheObjectStorage,
         ):
             portal.refresh()
 
