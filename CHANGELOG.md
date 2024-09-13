@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.38.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.2...v0.38.3) (2024-09-13)
+
+
+### Bug Fixes
+
+* **frontend:** Correctly fill aria-label in NewPasswordBox ([1a866d7](https://git.knut.univention.de/univention/components/univention-portal/commit/1a866d7303961c6cfac18dfdd16dd71f4af288f7))
+* **frontend:** Remove call which installs packages from Dockerfile ([34e41a3](https://git.knut.univention.de/univention/components/univention-portal/commit/34e41a3dd539ff96d899a0e24ec8b2c3b96a1f13))
+* **frontend:** Update caniuse-lite to version 1.0.3.0001660 ([78f090a](https://git.knut.univention.de/univention/components/univention-portal/commit/78f090a21fb3ef2e927b725ad038187667620145))
+
 ## [0.38.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.1...v0.38.2) (2024-09-12)
 
 
