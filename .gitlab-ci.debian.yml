@@ -9,11 +9,10 @@ workflow:
 
 include:
   - project: univention/customers/dataport/upx/common-ci
-    ref: "v1.24.5"
+    ref: "v1.33.0"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
-      - "templates/souvap.yaml"
       - "scripts/bash-header.yaml"
 
 # TODO: for keeping it simple, this is a duplicate to the one in the frontend pipeline

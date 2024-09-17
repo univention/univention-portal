@@ -9,7 +9,7 @@ workflow:
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
-    ref: "v1.31.1"
+    ref: "v1.33.0"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
@@ -62,6 +62,10 @@ container-build:
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "docker/${IMAGE_NAME}/Dockerfile"
 
+container-malware-scan:
+  parallel:
+    matrix: *publish-matrix
+
 # depends on portal-server
 container-build-portal-consumer:
   stage: "build"
@@ -74,15 +78,6 @@ container-build-portal-consumer:
     DOCKERFILE_PATH: "docker/portal-consumer/Dockerfile"
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
     KANIKO_ARGS: "--build-arg PORTAL_BASE_IMAGE_TAG=${RELEASE_VERSION}"
-
-container-generate-sbom:
-  needs:
-    - job: "container-build"
-      artifacts: true
-    - job: "container-build-portal-consumer"
-      artifacts: true
-  parallel:
-    matrix: *post-build-matrix
 
 test-portal-server:
   stage: "test"
