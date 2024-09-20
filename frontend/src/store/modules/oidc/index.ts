@@ -6,12 +6,10 @@
 import Keycloak from 'keycloak-js';
 import { ActionContext } from 'vuex';
 
-import { PortalModule, RootState } from '../../root.models';
+import { PortalActionContext, PortalModule } from '../../root.models';
 
 // update the token if it is going to expire in this many seconds
 const UPDATE_TOKEN_SECONDS_LEFT = 5 * 60;
-
-export type PortalActionContext<S> = ActionContext<S, RootState>;
 
 export interface OIDC {
   // store the OIDC id and authentication tokens
