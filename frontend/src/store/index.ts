@@ -57,6 +57,7 @@ const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
 // Build time feature toggles
 const featureUseNotificationsApi = process.env.VUE_APP_FEATURE_USE_NOTIFICATIONS_API === 'true';
+const featureUmcSessionRefresh = process.env.VUE_APP_FEATURE_UMC_SESSION_REFRESH === 'true';
 
 export const key: InjectionKey<Store<RootState>> = Symbol('');
 
@@ -172,6 +173,13 @@ export const actions = {
       dispatch('notifications/connectNotificationsApi');
     } else {
       console.info('Feature use notifications api disabled.');
+    }
+
+    if (featureUmcSessionRefresh) {
+      console.info('Feature UMC Session refresh activated.');
+      // TODO: Trigger session refresh
+    } else {
+      console.info('Feature UMC Session refresh disabled.');
     }
   },
 };
