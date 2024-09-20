@@ -34,13 +34,11 @@ import { ActionContext } from 'vuex';
 
 import { ReceiverApi, NotificationRead as BackendNotification, NotificationSeverity } from '@/apis/notifications';
 
-import { PortalModule, RootState } from '../../root.models';
+import { PortalActionContext, PortalModule } from '../../root.models';
 import { FullNotification, Notification, WeightedNotification } from './notifications.models';
 import { getNotificationsApi, createEventSource, connectEventListener, EventSource } from './apiclient';
 
 export const defaultHideAfter = 4;
-
-export type PortalActionContext<S> = ActionContext<S, RootState>;
 
 export interface Notifications {
   notifications: Array<FullNotification>;
