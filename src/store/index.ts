@@ -46,6 +46,7 @@ import portalData from './modules/portalData';
 import search from './modules/search';
 import tabs from './modules/tabs';
 import tooltip from './modules/tooltip';
+import umcSession from './modules/umcSession';
 import user from './modules/user';
 import { initialRootState, RootState } from './root.models';
 
@@ -177,7 +178,12 @@ export const actions = {
 
     if (featureUmcSessionRefresh) {
       console.info('Feature UMC Session refresh activated.');
-      // TODO: Trigger session refresh
+      if (rootGetters['user/userState'].authMode === 'saml') {
+        console.debug('User is authenticated via SAML, triggering automatic session refresh.');
+        dispatch('umcSession/startSessionRefresh');
+      } else {
+        console.debug('User is not authenticated via SAML, skipping automatic session refresh.');
+      }
     } else {
       console.info('Feature UMC Session refresh disabled.');
     }
@@ -204,6 +210,7 @@ export const store = createStore<RootState>({
     search,
     tabs,
     tooltip,
+    umcSession,
     user,
   },
 });
