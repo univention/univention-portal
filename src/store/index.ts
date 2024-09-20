@@ -164,7 +164,7 @@ export const actions = {
         dispatch('oidc/tryLogin');
       }
     } else {
-      console.log('No Keycloak URL defined, not trying to login via OIDC.');
+      console.info('No Keycloak URL defined, not trying to login via OIDC.');
     }
 
     if (featureUseNotificationsApi) {
