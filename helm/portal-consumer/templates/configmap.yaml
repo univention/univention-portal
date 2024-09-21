@@ -78,7 +78,7 @@ data:
       fi
 
       echo "Waiting for the Provisioning API to be available ..."
-      response_code=$(curl -s -o response.txt -w "%{http_code}" "${PROVISIONING_API_BASE_URL}/subscriptions/v1/subscriptions/${PROVISIONING_API_USERNAME}" -u "${PROVISIONING_API_USERNAME}":"${PROVISIONING_API_PASSWORD}")
+      response_code=$(set +x; curl -s -o response.txt -w "%{http_code}" "${PROVISIONING_API_BASE_URL}/subscriptions/v1/subscriptions/${PROVISIONING_API_USERNAME}" -u "${PROVISIONING_API_USERNAME}":"${PROVISIONING_API_PASSWORD}")
       if [ "${response_code}" -ne 200 ]; then
         echo "Provisioning API is not reachable, status code: $response_code"
         cat response.txt
@@ -106,7 +106,7 @@ data:
     # TODO: find a way to not leak the udm passwort into the log
     set -euo pipefail
 
-    while ! curl -o- --fail --header "Accept: application/json" --user "${PORTAL_UDM_API_USERNAME}:$(cat $PORTAL_UDM_API_PASSWORD_FILE)" "${PORTAL_UDM_API_URL}ldap/base/"; do
+    while ! (set +x; curl -o- --fail --header "Accept: application/json" --user "${PORTAL_UDM_API_USERNAME}:$(cat $PORTAL_UDM_API_PASSWORD_FILE)" "${PORTAL_UDM_API_URL}ldap/base/"); do
       echo "Checking if the UDM REST API can be reached..."
       sleep 2
     done
