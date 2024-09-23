@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.38.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.3...v0.38.4) (2024-09-23)
+
+
+### Bug Fixes
+
+* **portal-consumer:** Don't leak secrets in bash scripts ([4e0dfe0](https://git.knut.univention.de/univention/components/univention-portal/commit/4e0dfe0befd2ecbd062e065a40e20ba9776a22c3))
+
 ## [0.38.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.2...v0.38.3) (2024-09-13)
 
 
