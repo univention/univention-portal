@@ -45,15 +45,17 @@ class PortalConsumer:
         logger.info("Shutting down.")
 
     async def handle_message(self, message: ProvisioningMessage) -> None:
+        realm = message.realm
         topic = message.topic
-        if topic not in self.topics:
+        if realm != "udm" or topic not in self.topics:
             logger.warning("Ignoring a message in the queue with the wrong topic: %r", topic)
             return
 
         body = message.body
+        dn = body.new.get("dn") or body.old.get("dn")
         logger.info(
-            "Received message with topic: %s, sequence_number: %d, num_delivered: %d",
-            topic, message.sequence_number, message.num_delivered,
+            "UDM %r object %r changed (sequence_number: %d, num_delivered: %d).",
+            topic, dn, message.sequence_number, message.num_delivered,
         )
         logger.debug("Message body: %r", body)
 
@@ -61,8 +63,6 @@ class PortalConsumer:
             self._group_cache.update_cache(body.new, body.old)
             reason = "ldap:group"
         else:
-            obj = body.new or body.old
-            dn = obj.get("dn")
             module = topic.split("/")[-1]
             reason = f"ldap:{module}:{dn}"
 

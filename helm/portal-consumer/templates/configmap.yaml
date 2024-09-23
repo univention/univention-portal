@@ -78,7 +78,7 @@ data:
       fi
 
       echo "Waiting for the Provisioning API to be available ..."
-      response_code=$(set +x; curl -s -o response.txt -w "%{http_code}" "${PROVISIONING_API_BASE_URL}/subscriptions/v1/subscriptions/${PROVISIONING_API_USERNAME}" -u "${PROVISIONING_API_USERNAME}":"${PROVISIONING_API_PASSWORD}")
+      response_code=$(set +x; curl -s -o response.txt -w "%{http_code}" "${PROVISIONING_API_BASE_URL}/v1/subscriptions/${PROVISIONING_API_USERNAME}" -u "${PROVISIONING_API_USERNAME}":"${PROVISIONING_API_PASSWORD}")
       if [ "${response_code}" -ne 200 ]; then
         echo "Provisioning API is not reachable, status code: $response_code"
         cat response.txt
