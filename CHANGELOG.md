@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.38.5](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.4...v0.38.5) (2024-09-24)
+
+
+### Bug Fixes
+
+* bump provisioning client, adapt to new endpoint names, log DN ([b0f41a0](https://git.knut.univention.de/univention/components/univention-portal/commit/b0f41a0f33b438e1c9e80a657c1101405def66a4))
+
 ## [0.38.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.3...v0.38.4) (2024-09-23)
 
 
