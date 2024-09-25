@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.39.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.6...v0.39.0) (2024-09-25)
+
+
+### Features
+
+* remove cachehttp and reloaderhttp ([1867ba1](https://git.knut.univention.de/univention/components/univention-portal/commit/1867ba18e693f497682016ed0e7ebcf225a7e0e1))
+
 ## [0.38.6](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.5...v0.38.6) (2024-09-25)
 
 
