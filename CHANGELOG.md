@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.38.6](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.5...v0.38.6) (2024-09-25)
+
+
+### Bug Fixes
+
+* **frontend:** Correct the "meta.json" for solo frontend usage ([804bcc0](https://git.knut.univention.de/univention/components/univention-portal/commit/804bcc0b96adfa420f6aba6c8852be5f06fc0bab))
+* **frontend:** Correct the "portal.json" example announcements ([28b276f](https://git.knut.univention.de/univention/components/univention-portal/commit/28b276f20639a293c309570950e020449465af1d))
+
 ## [0.38.5](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.4...v0.38.5) (2024-09-24)
 
 
