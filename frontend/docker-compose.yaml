@@ -6,6 +6,17 @@
 version: '3.0'
 
 services:
+
+  reverse-proxy:
+    build:
+      context: ../docker/reverse-proxy
+    container_name: portal-frontend-reverse-proxy
+    ports:
+      - "7777:8080"
+    environment:
+      PORTAL_FRONTEND_BASE_URL: "http://host.docker.internal:8080"
+      NUBUS_BASE_URL: "https://portal.uv-tkintscher.opendesk.site"
+
   # A container which does provide only the environment needed for development.
   #
   # This is intended for use cases when you either want to be sure that nothing
