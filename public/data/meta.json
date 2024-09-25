@@ -2,6 +2,7 @@
   "administrator": "Administrator",
   "cookieBanner": {
     "cookie": "univentionCookieSettingsAccepted",
+    "domains": [],
     "show": true,
     "text": {},
     "title": {}
