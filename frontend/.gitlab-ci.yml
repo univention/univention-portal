@@ -49,7 +49,6 @@ build-frontend-test-runner-ui:
   extends: ".kaniko"
   variables:
     IMAGE_NAME: "portal-frontend-test-runner-ui"
-    KANIKO_ARGS: "--target=base"
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
     DOCKERFILE_PATH: "Dockerfile.test"
 
