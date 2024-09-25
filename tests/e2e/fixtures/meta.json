@@ -2,6 +2,7 @@
   "administrator": "Administrator",
   "cookieBanner": {
     "cookie": null,
+    "domains": [],
     "show": true,
     "text": {},
     "title": {}
