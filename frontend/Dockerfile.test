@@ -3,7 +3,7 @@
 #   docker compose run --build test
 #   docker compose run --build test yarn test:e2e:headless --browser chrome
 #
-FROM ${DOCKER_PROXY}cypress/browsers:node14.17.6-chrome100-ff98 AS test
+FROM ${DOCKER_PROXY}cypress/browsers:node14.17.6-chrome100-ff98@sha256:3f1ceb98712c697071ac194a0cae263a8b082af8ed418b7792dd9b0888a0338f AS test
 
 WORKDIR /app
 COPY ./package.json .
