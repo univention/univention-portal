@@ -164,6 +164,13 @@ npm install --force -g npm@latest  # newer version
 /usr/local/bin/yarn install  # installs all runtime and build dependencies (see yarn.lock)
 ```
 
+If you have Python 3.12 or later installed
+and see an error in `node-gyp` due to a missing `distutils` package,
+install `setuptools` in your Python environment:
+```
+pip3 install setuptools
+```
+
 ### Sync frontend files into the ucs repository
 
 The frontend of the Portal is still released via the
