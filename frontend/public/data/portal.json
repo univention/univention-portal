@@ -4,75 +4,85 @@
       "allowedGroups": [],
       "dn": "cn=test-announcement-a,cn=announcement,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "endTime": null,
-      "isSticky": "FALSE",
-      "message": null,
+      "isSticky": false,
+      "message": {
+        "en_US": "Message content"
+      },
       "name": "test-announcement-a",
-      "needsConfirmation": "FALSE",
+      "needsConfirmation": false,
       "severity": null,
       "startTime": null,
       "title": {
         "de_DE": "Announcement A Titel",
-        "en_GB": "Announcement A Title"
+        "en_US": "Announcement A Title"
       }
     },
     {
       "allowedGroups": [],
       "dn": "cn=test-announcement-b,cn=announcement,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "endTime": null,
-      "isSticky": "FALSE",
-      "message": null,
+      "isSticky": false,
+      "message": {
+        "en_US": "Message content"
+      },
       "name": "test-announcement-b",
-      "needsConfirmation": "FALSE",
+      "needsConfirmation": false,
       "severity": "info",
       "startTime": null,
       "title": {
         "de_DE": "Announcement B Titel",
-        "en_GB": "Announcement B Title"
+        "en_US": "Announcement B Title"
       }
     },
     {
       "allowedGroups": [],
       "dn": "cn=test-announcement-c,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "endTime": null,
-      "isSticky": "FALSE",
-      "message": null,
+      "isSticky": false,
+      "message": {
+        "en_US": "Message content"
+      },
       "name": "test-announcement-c",
-      "needsConfirmation": "FALSE",
+      "needsConfirmation": false,
       "severity": "success",
       "startTime": null,
       "title": {
         "de_DE": "Announcement C Titel",
-        "en_GB": "Announcement C Title"
+        "en_US": "Announcement C Title"
       }
     },
     {
       "allowedGroups": [],
       "dn": "cn=test-announcement-d,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "endTime": null,
-      "isSticky": "FALSE",
-      "message": null,
+      "isSticky": false,
+      "message": {
+        "en_US": "Message content"
+      },
       "name": "test-announcement-d",
-      "needsConfirmation": "FALSE",
+      "needsConfirmation": false,
       "severity": "warn",
       "startTime": null,
       "title": {
         "de_DE": "Announcement D Titel",
-        "en_GB": "Announcement D Title"
+        "en_US": "Announcement D Title"
       }
     },
     {
       "allowedGroups": [],
       "dn": "cn=test-announcement-e,cn=announcement,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "endTime": null,
-      "isSticky": "FALSE",
-      "message": null,
+      "isSticky": false,
+      "message": {
+        "en_US": "Message content"
+      },
       "name": "test-announcement-e",
-      "needsConfirmation": "FALSE",
+      "needsConfirmation": false,
       "severity": "danger",
       "startTime": null,
       "title": {
         "de_DE": "Announcement E Titel",
-        "en_GB": "Announcement E Title"
+        "en_US": "Announcement E Title"
       }
     }
   ],
