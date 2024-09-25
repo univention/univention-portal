@@ -52,8 +52,6 @@ build-frontend-test-runner-ui:
     KANIKO_ARGS: "--target=base"
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
     DOCKERFILE_PATH: "Dockerfile.test"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 .build-matrix: &build-matrix
   - IMAGE_NAME: "portal-frontend"
@@ -105,8 +103,6 @@ test-portal-frontend-ui:
       # TODO: cp will fail if the folder does not exist. Is there a better way?
       cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
       cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 push-image-external:
   before_script:
