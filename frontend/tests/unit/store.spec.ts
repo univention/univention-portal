@@ -5,6 +5,7 @@
 
 import {
   actions,
+  featureToggles,
 } from '@/store';
 
 afterEach(() => {
@@ -14,7 +15,6 @@ afterEach(() => {
 afterAll(() => {
   jest.restoreAllMocks();
 });
-
 
 describe('userIsLoggedIn', () => {
 
@@ -69,6 +69,25 @@ describe('userIsLoggedIn', () => {
     };
     actions.userIsLoggedIn(actionContext);
     expect(actionContext.dispatch).toHaveBeenCalledWith('umcSession/startSessionRefresh');
+  });
+
+  test('skips UMC session refresh if feature is disabled', () => {
+    const actionContext = {
+      dispatch: jest.fn(),
+      rootGetters: {
+        'user/userState': {
+          authMode: 'saml',
+        },
+      },
+    };
+    // TODO: Use "jest.replaceProperty" once we have jest >= 27 available
+    const originalFeatureToggles = { ...featureToggles };
+    featureToggles.umcSessionRefresh = false;
+
+    actions.userIsLoggedIn(actionContext);
+    expect(actionContext.dispatch).not.toHaveBeenCalledWith('umcSession/startSessionRefresh');
+
+    Object.assign(featureToggles, originalFeatureToggles);
   });
 
 });
