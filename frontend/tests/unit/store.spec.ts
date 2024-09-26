@@ -11,6 +11,11 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
+afterAll(() => {
+  jest.restoreAllMocks();
+});
+
+
 test('triggers oidc/tryLogin if keycloak url is defined', () => {
   // TODO: Use "jest.replaceProperty" once we have jest >= 27 available
   // jest.replaceProperty(process, 'env', {'VUE_APP_KEYCLOAK_URL': 'http://stub_keycloak_url.example'});
