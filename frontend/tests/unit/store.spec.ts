@@ -58,4 +58,17 @@ describe('userIsLoggedIn', () => {
     process.env.VUE_APP_KEYCLOAK_URL = origVueAppKeycloakUrl;
   });
 
+  test('triggers UMC session refresh for SAML authentication', () => {
+    const actionContext = {
+      dispatch: jest.fn(),
+      rootGetters: {
+        'user/userState': {
+          authMode: 'saml',
+        },
+      },
+    };
+    actions.userIsLoggedIn(actionContext);
+    expect(actionContext.dispatch).toHaveBeenCalledWith('umcSession/startSessionRefresh');
+  });
+
 });
