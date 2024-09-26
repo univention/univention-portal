@@ -57,8 +57,11 @@ const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
 // Build time feature toggles
+export const featureToggles = {
+  umcSessionRefresh: process.env.VUE_APP_FEATURE_UMC_SESSION_REFRESH === 'true',
+};
+
 const featureUseNotificationsApi = process.env.VUE_APP_FEATURE_USE_NOTIFICATIONS_API === 'true';
-const featureUmcSessionRefresh = process.env.VUE_APP_FEATURE_UMC_SESSION_REFRESH === 'true';
 
 export const key: InjectionKey<Store<RootState>> = Symbol('');
 
@@ -176,7 +179,7 @@ export const actions = {
       console.info('Feature use notifications api disabled.');
     }
 
-    if (featureUmcSessionRefresh) {
+    if (featureToggles.umcSessionRefresh) {
       console.info('Feature UMC Session refresh activated.');
       if (rootGetters['user/userState'].authMode === 'saml') {
         console.debug('User is authenticated via SAML, triggering automatic session refresh.');
