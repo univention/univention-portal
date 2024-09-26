@@ -59,9 +59,8 @@ const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 // Build time feature toggles
 export const featureToggles = {
   umcSessionRefresh: process.env.VUE_APP_FEATURE_UMC_SESSION_REFRESH === 'true',
+  useNotificationsApi: process.env.VUE_APP_FEATURE_USE_NOTIFICATIONS_API === 'true',
 };
-
-const featureUseNotificationsApi = process.env.VUE_APP_FEATURE_USE_NOTIFICATIONS_API === 'true';
 
 export const key: InjectionKey<Store<RootState>> = Symbol('');
 
@@ -172,7 +171,7 @@ export const actions = {
       console.info('No Keycloak URL defined, not trying to login via OIDC.');
     }
 
-    if (featureUseNotificationsApi) {
+    if (featureToggles.useNotificationsApi) {
       console.info('Feature use notifications api activated.');
       dispatch('notifications/connectNotificationsApi');
     } else {
