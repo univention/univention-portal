@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.40.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.40.0...v0.40.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* bump Provisioning client version, adapt to new subscriptions format ([d4e1fc4](https://git.knut.univention.de/univention/components/univention-portal/commit/d4e1fc4a670a5350230e409cf3d2072a176f66e8))
+
 ## [0.40.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.39.0...v0.40.0) (2024-09-26)
 
 
