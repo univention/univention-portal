@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.40.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.39.0...v0.40.0) (2024-09-26)
+
+
+### Features
+
+* **ci:** enable malware scanning, disable sbom generation ([4f71e24](https://git.knut.univention.de/univention/components/univention-portal/commit/4f71e24512215d142d763a7447494e31d91bc477))
+
 ## [0.39.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.38.6...v0.39.0) (2024-09-25)
 
 
