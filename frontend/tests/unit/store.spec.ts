@@ -71,6 +71,19 @@ describe('userIsLoggedIn', () => {
     expect(actionContext.dispatch).toHaveBeenCalledWith('umcSession/startSessionRefresh');
   });
 
+  test('skips UMC session refresh for ucs authentication', () => {
+    const actionContext = {
+      dispatch: jest.fn(),
+      rootGetters: {
+        'user/userState': {
+          authMode: 'ucs',
+        },
+      },
+    };
+    actions.userIsLoggedIn(actionContext);
+    expect(actionContext.dispatch).not.toHaveBeenCalledWith('umcSession/startSessionRefresh');
+  });
+
   test('skips UMC session refresh if feature is disabled', () => {
     const actionContext = {
       dispatch: jest.fn(),
