@@ -42,7 +42,7 @@ async function add(objectType, attrs, store, errorMessage): Promise<string> {
   } catch (err) {
     store.dispatch('notifications/addErrorNotification', {
       title: errorMessage,
-      description: err.message,
+      description: (err as Error).message,
     });
   }
   return '';
@@ -69,7 +69,7 @@ async function put(dn, attrs, { dispatch }, errorMessage, successMessage?): Prom
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
       title: errorMessage,
-      description: err.message,
+      description: (err as Error).message,
     }, { root: true });
     return false;
   }
@@ -94,7 +94,7 @@ async function remove(dn, { dispatch }, successMessage, errorMessage) {
   } catch (err) {
     dispatch('notifications/addErrorNotification', {
       title: errorMessage,
-      description: err.message,
+      description: (err as Error).message,
     }, { root: true });
     return false;
   }
