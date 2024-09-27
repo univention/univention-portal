@@ -41,7 +41,7 @@ export interface Notification {
   description?: string;
   onClick: () => void | null;
   link?: NotificationLink;
-  expireAt: Date | null,
+  expireAt: Date | undefined,
 }
 
 export interface WeightedNotification extends Notification {

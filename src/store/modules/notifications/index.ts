@@ -71,7 +71,7 @@ export const mapBackendNotification = (notification: BackendNotification): FullN
     hidingAfter: notification.popup ? defaultHideAfter : -1,
     expireAt: notification.expireTime
       ? new Date(notification.expireTime)
-      : null,
+      : undefined,
     importance: importanceFromSeverity(notification.severity),
     visible: !!notification.popup,
     token: notification.id,
