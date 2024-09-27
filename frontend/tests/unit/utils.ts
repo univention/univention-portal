@@ -3,9 +3,9 @@
  * SPDX-FileCopyrightText: 2023-2024 Univention GmbH
  */
 
-export const mockReturnValue = function<ValueType> (fn, value: ValueType): void {
+export function mockReturnValue<ValueType>(fn, value: ValueType): void {
   const fnMock = fn as jest.Mocked<typeof fn>;
   fnMock.mockReturnValue(value);
-};
+}
 
 export default {};
