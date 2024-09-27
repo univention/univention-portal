@@ -43,4 +43,4 @@ function _(translationString: string, variables?: Record<string, string>): strin
   return variables ? replaceKeys(translatedString, variables) : translatedString;
 }
 
-export { _ as default };
+export default _;
