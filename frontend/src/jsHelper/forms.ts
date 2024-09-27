@@ -338,7 +338,7 @@ export function invalidMessage(widget): string | any | Record<string, string> {
 }
 
 export function validateInternalName(_widget: any, value: string): string {
-  const regex = new RegExp('(^[a-zA-Z0-9])[a-zA-Z0-9._-]*([a-zA-Z0-9]$)');
+  const regex = /(^[a-zA-Z0-9])[a-zA-Z0-9._-]*([a-zA-Z0-9]$)/;
   if (!regex.test(value)) {
     return _('Internal name must not contain anything other than digits, letters or dots, must be at least 2 characters long, and start and end with a digit or letter!');
   }
