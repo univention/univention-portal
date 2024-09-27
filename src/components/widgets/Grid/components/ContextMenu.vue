@@ -98,7 +98,7 @@ export default defineComponent({
       });
     },
     detectOutsideClick(event: MouseEvent) {
-      const contextMenuElement = this.$refs.contextMenu && this.$refs.contextMenu as HTMLDivElement;
+      const contextMenuElement = this.$refs.contextMenu as HTMLDivElement | undefined;
       if (contextMenuElement && !contextMenuElement.contains(event.target as HTMLElement) && this.isOpen) {
         this.$emit('onOutsideClick', event);
       }
