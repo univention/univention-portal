@@ -369,7 +369,7 @@ export default defineComponent({
       });
     },
     validateIfNecessary(values) {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         if (Object.prototype.hasOwnProperty.call(values, 'jpegPhoto') && values.jpegPhoto === '') {
           if (Object.keys(values).length === 1) {
             resolve();
