@@ -102,24 +102,21 @@ function udmRemove(dn: string): Promise<AxiosResponse<any>> {
       cleanup: true,
       recursive: true,
     },
-  }],
-  'portals/all');
+  }], 'portals/all');
 }
 
 function udmPut(dn: string, attrs: any): Promise<AxiosResponse<any>> {
   return umc('command/udm/put', [{
     object: { ...attrs, $dn$: dn },
     options: null,
-  }],
-  'portals/all');
+  }], 'portals/all');
 }
 
 function udmAdd(objectType: string, attrs: any): Promise<AxiosResponse<any>> {
   return umc('command/udm/add', [{
     object: { ...attrs },
     options: { objectType },
-  }],
-  'portals/all');
+  }], 'portals/all');
 }
 
 function udmChoices(objectType: string, syntax: string, searchString: string): Promise<AxiosResponse<any>> {
@@ -130,8 +127,7 @@ function udmChoices(objectType: string, syntax: string, searchString: string): P
     objectPropertyValue: searchString,
     objectType,
     syntax,
-  },
-  'portals/all');
+  }, 'portals/all');
 }
 
 export { changePassword, getSessionId, umc, umcCommand, umcCommandWithStandby, udmPut, udmAdd, udmRemove, udmChoices, Choice };
