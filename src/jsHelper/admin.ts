@@ -32,72 +32,60 @@
 import { udmRemove, udmPut, udmAdd } from '@/jsHelper/umc';
 
 async function add(objectType, attrs, store, errorMessage): Promise<string> {
-  try {
-    const response = await udmAdd(objectType, attrs);
-    const result = response.data.result[0];
-    if (!result.success) {
-      throw new Error(result.details);
-    }
-    return result.$dn$;
-  } catch (err) {
+  const response = await udmAdd(objectType, attrs);
+  const result = response.data.result[0];
+  if (!result.success) {
     store.dispatch('notifications/addErrorNotification', {
       title: errorMessage,
-      description: (err as Error).message,
+      description: result.details,
     });
+    return '';
   }
-  return '';
+  return result.$dn$;
 }
 
 async function put(dn, attrs, { dispatch }, errorMessage, successMessage?): Promise<boolean> {
-  try {
-    const response = await udmPut(dn, attrs);
-    const result = response.data.result[0];
-    if (!result.success) {
-      throw new Error(result.details);
-    }
-    if (successMessage) {
-      dispatch('notifications/addSuccessNotification', {
-        title: successMessage,
-      }, { root: true });
-    }
-    await dispatch('portalData/waitForChange', {
-      retries: 10,
-      adminMode: true,
-    }, { root: true });
-    await dispatch('loadPortal', { adminMode: true }, { root: true });
-    return true;
-  } catch (err) {
+  const response = await udmPut(dn, attrs);
+  const result = response.data.result[0];
+  if (!result.success) {
     dispatch('notifications/addErrorNotification', {
       title: errorMessage,
-      description: (err as Error).message,
+      description: result.details,
     }, { root: true });
     return false;
   }
-}
-
-async function remove(dn, { dispatch }, successMessage, errorMessage) {
-  try {
-    const response = await udmRemove(dn);
-    const result = response.data.result[0];
-    if (!result.success) {
-      throw new Error(result.details);
-    }
+  if (successMessage) {
     dispatch('notifications/addSuccessNotification', {
       title: successMessage,
     }, { root: true });
-    await dispatch('portalData/waitForChange', {
-      retries: 10,
-      adminMode: true,
-    }, { root: true });
-    await dispatch('loadPortal', { adminMode: true }, { root: true });
-    return true;
-  } catch (err) {
+  }
+  await dispatch('portalData/waitForChange', {
+    retries: 10,
+    adminMode: true,
+  }, { root: true });
+  await dispatch('loadPortal', { adminMode: true }, { root: true });
+  return true;
+}
+
+async function remove(dn, { dispatch }, successMessage, errorMessage) {
+  const response = await udmRemove(dn);
+  const result = response.data.result[0];
+  if (!result.success) {
     dispatch('notifications/addErrorNotification', {
       title: errorMessage,
-      description: (err as Error).message,
+      description: result.details,
     }, { root: true });
     return false;
   }
+  dispatch('notifications/addSuccessNotification', {
+    title: successMessage,
+  }, { root: true });
+  await dispatch('portalData/waitForChange', {
+    retries: 10,
+    adminMode: true,
+  }, { root: true });
+  await dispatch('loadPortal', { adminMode: true }, { root: true });
+  return true;
 }
 
 // edit mode default settings
