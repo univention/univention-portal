@@ -154,7 +154,7 @@ export default defineComponent({
   },
   computed: {
     component(): any {
-      const component = cloneDeep(this.widget);
+      const component = cloneDeep(this.widget) as any;
       delete component.type;
       delete component.label;
       delete component.ariaLabel;
