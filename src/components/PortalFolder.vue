@@ -271,7 +271,7 @@ export default defineComponent({
       }
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'PortalFolder',
-        props: { ...this.$props, id: `${this.id}-modal`, inModal: true },
+        props: { ...(this.$props as object), id: `${this.id}-modal`, inModal: true },
       });
       this.$store.dispatch('activity/setRegion', `${this.id}-modal-content`);
       ev.stopPropagation();
