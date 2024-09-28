@@ -115,8 +115,10 @@ describe('Test Seach Component', () => {
           values: ['wcag21aa'],
         },
       },
-      cy.terminalLog, {
+      cy.terminalLog,
+      {
         skipFailures: false,
-      });
+      },
+    );
   });
 });

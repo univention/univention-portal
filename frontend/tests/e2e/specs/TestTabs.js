@@ -143,9 +143,11 @@ describe('Test Tabs', () => {
           values: ['wcag21aa'],
         },
       },
-      cy.terminalLog, {
+      cy.terminalLog,
+      {
         skipFailures: false,
-      });
+      },
+    );
   });
 
   /* eslint-enable jest/expect-expect */

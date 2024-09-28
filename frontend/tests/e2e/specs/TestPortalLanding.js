@@ -95,8 +95,10 @@ describe('Test Portal Landing', () => {
           values: ['wcag21aa'],
         },
       },
-      cy.terminalLog, {
+      cy.terminalLog,
+      {
         skipFailures: true,
-      });
+      },
+    );
   });
 });
