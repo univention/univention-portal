@@ -8,15 +8,13 @@ FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS base
 
 #hadolint ignore=DL3008
 RUN \
-  apt-get --quiet update \
-  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+  apt-get --assume-yes --verbose-versions --no-install-recommends install \
     "build-essential" \
     "devscripts" \
     "gettext" \
     "git" \
     "univention-l10n-dev" \
-    "wget" \
-  && rm -rf "/var/lib/apt/lists/*" "/var/cache/apt/archives/*"
+    "wget"
 
 ENV NODE_VERSION="20.17.0"
 
