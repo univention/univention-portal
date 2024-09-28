@@ -4,30 +4,32 @@
  */
 
 import Vuex from 'vuex';
-import { store } from '../src/store';
-import { app } from '@storybook/vue3'
+import { store } from '@/store';
+import { setup } from '@storybook/vue3'
 import Portal from '../src/views/Portal';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import localize from '@/plugins/localize';
 
 
-app
-  .use(store)
-  .use(localize)
-  .use(VueDOMPurifyHTML, {
-    hooks: {
-      afterSanitizeAttributes: (currentNode) => {
-        // Do something with the node
-        // set all elements owning target to target=_blank
-        if ('target' in currentNode) {
-          currentNode.setAttribute('target', '_blank');
-          currentNode.setAttribute('rel', 'noopener');
-        }
+setup((app) => {
+  app
+    .use(store)
+    .use(localize)
+    .use(VueDOMPurifyHTML, {
+      hooks: {
+        afterSanitizeAttributes: (currentNode) => {
+          // Do something with the node
+          // set all elements owning target to target=_blank
+          if ('target' in currentNode) {
+            currentNode.setAttribute('target', '_blank');
+            currentNode.setAttribute('rel', 'noopener');
+          }
+        },
       },
-    },
-  });
+    });
 
-app.component('portal', Portal);
+  app.component('portal', Portal);
+})
 
 const viewportMeta = document.createElement('meta');
 viewportMeta.name = "viewport";
@@ -67,7 +69,7 @@ export const parameters = {
 
 
 // look https://github.com/storybookjs/storybook/discussions/17652
-import addons from "@storybook/addons";
+import { addons } from "@storybook/preview-api";
 import { GLOBALS_UPDATED } from "@storybook/core-events";
 import { useArgs } from '@storybook/client-api';
 
