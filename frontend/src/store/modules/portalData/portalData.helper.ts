@@ -29,7 +29,7 @@
  * /usr/share/common-licenses/AGPL-3; if not, see
  * <https://www.gnu.org/licenses/>.
  */
-import vm from '@/main';
+import { localized } from '@/plugins/localize';
 import _ from '@/jsHelper/translate';
 import { Position } from '@/store/modules/portalData/portalData.models';
 
@@ -45,7 +45,7 @@ export default function setScreenReaderAccouncement(fromPosition: Position, toPo
 
     if (fromPosition.categoryIdx !== toPosition.categoryIdx) {
       setMessage(_('Tile moved into category %(category)s', {
-        category: vm.$localized(titleOfCategory),
+        category: localized(titleOfCategory),
       }));
     } else if (fromPosition.contextType === 'category') {
       setMessage(_('Tile moved into position %(positionInArray)s of %(numberOfTiles)s', {
