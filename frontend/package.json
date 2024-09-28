@@ -103,5 +103,8 @@
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch"
   },
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "resolutions": {
+    "@types/lodash": "4.14.186"
+  }
 }
