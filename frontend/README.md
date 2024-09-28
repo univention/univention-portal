@@ -14,10 +14,9 @@ Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are ma
 
 ## Node version
 
-We have seen various issues, esp. issues related to openssl with more recent
-versions of NodeJS.
+Aim to use the latest lts version of node.
 
-Currently it is recommended to use `nvm` to provide an older LTS version of NodeJS, e.g. 16.x.
+Consider to use `nvm` to install the version.
 
 See https://github.com/nvm-sh/nvm
 
@@ -28,10 +27,10 @@ Example commands:
 nvm ls
 
 # Install a LTS version, compare details from the command above.
-nvm install lts/gallium
+nvm install lts/*
 
 # Use a specific version
-nvm use v16.19.0
+nvm use lts/*
 
 # Verify the version
 node --version
@@ -135,7 +134,7 @@ yarn generate-apis
 
 
 
-## Project setup
+## Project setup when working on a UCS appliance
 
 Regardless if you want to run it locally on your Linux machine or on a UCS
 server, you need a recent version of NPM (Node Package Manager). So do that as
@@ -150,6 +149,7 @@ npm install --force -g npm@latest  # newer version
 ```
 
 ### Sync frontend files into the ucs repository
+
 The frontend of the Portal is still released via the
 [UCS](https://git.knut.univention.de/univention/ucs) repository
 while the development of the frontend is done in this repository.
