@@ -45,6 +45,7 @@ module.exports = {
       },
     ],
     // 'import/extensions': ['error', 'always', { ignorePackages: true }],
+    'function-paren-newline': "off",
     'max-len': [
       'error',
       {
