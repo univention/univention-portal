@@ -84,7 +84,7 @@ module.exports = {
       { overrides: { '?': 'before', ':': 'before' } },
     ],
     'prefer-destructuring': 'off',
-    'quote-props': ['error', 'consistent-as-needed'],
+    'quote-props': ['error', 'as-needed'],
     'quotes': ['error', 'single', { avoidEscape: true }],
     'space-in-parens': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'space-before-function-paren': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
