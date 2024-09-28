@@ -79,8 +79,8 @@ export default defineComponent({
       this.$emit('update:modelValue', newVal);
     },
     focus(widgetName) {
-      // @ts-ignore TODO
-      this.$refs[widgetName].focus();
+      const widget = (this.$refs[widgetName] as Array<HTMLElement>).pop();
+      widget?.focus();
       // TODO focus only if interactable?
     },
     focusFirstInteractable() {

@@ -295,9 +295,9 @@ export default defineComponent({
         $event.preventDefault();
         this.toggleMenu(index);
       } else {
-        const menuItem = this.$refs[`menuItem${index}`] ? this.$refs[`menuItem${index}`] : this.$refs[`subItem${index}`];
-        // @ts-ignore
-        menuItem.tileClick($event);
+        const menuItems = (this.$refs[`menuItem${index}`] ? this.$refs[`menuItem${index}`] : this.$refs[`subItem${index}`]) as Array<typeof MenuItem>;
+        const menuItem = menuItems.pop();
+        menuItem?.tileClick($event);
         if (item.linkTarget === 'embedded') {
           this.$store.dispatch('navigation/setActiveButton', '');
           this.$store.dispatch('activity/saveFocus', {

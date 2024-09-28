@@ -135,8 +135,7 @@ describe('MultiInput.vue', () => {
   test('if the addEntry is called after button click', async () => {
     const addEntrySpy = jest.spyOn(wrapper.vm, 'addEntry');
     const addEntryButton = await wrapper.find('[data-test="multi-input-add-entry-button"]');
-    addEntryButton.trigger('click');
-    await wrapper.vm.$nextTick();
+    await addEntryButton.trigger('click');
 
     expect(addEntrySpy).toHaveBeenCalled();
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
