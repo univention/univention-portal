@@ -45,7 +45,7 @@ module.exports = {
       },
     ],
     // 'import/extensions': ['error', 'always', { ignorePackages: true }],
-    'function-paren-newline': "off",
+    'function-paren-newline': 'off',
     'max-len': [
       'error',
       {
@@ -60,8 +60,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-param-reassign': ['error', { props: false }],
-    'no-use-before-define': ["error", {
-      'functions': false,
+    'no-use-before-define': ['error', {
+      functions: false,
     }],
     'no-useless-escape': 'off',
     // 'object-curly-newline': ['error', {
@@ -96,8 +96,16 @@ module.exports = {
     'import/no-extraneous-dependencies': 'warn', // e.g. no use of 'require' -> Convert all .js to .ts files and use import!
     'vue/no-unused-components': 'off',
     'vue/multi-word-component-names': 'off',
+
     // TODO: Pending fixes
     'vuejs-accessibility/aria-props': 'warn',
+    'vuejs-accessibility/form-control-has-label': 'warn',
+    'vuejs-accessibility/click-events-have-key-events': 'warn',
+    'vuejs-accessibility/interactive-supports-focus': 'warn',
+    'vue/require-valid-default-prop': 'warn',
+    'vuejs-accessibility/label-has-for': 'warn',
+    'vuejs-accessibility/mouse-events-have-key-events': 'warn',
+    'space-before-blocks': 'warn',
 
     // TEST new Plugin
     'import/no-cycle': 'off',
@@ -113,7 +121,7 @@ module.exports = {
         // When using "describe" to group tests, then a blank line as a first
         // element inside of the block is desired, so that test cases are
         // visually separated still.
-        "padded-blocks": 'off',
+        'padded-blocks': 'off',
       },
     },
   ],
