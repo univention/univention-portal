@@ -24,8 +24,7 @@ ARG NODE_SHA256="21e656f6f4e34080ddc5d75fbfe58ce8482fe6e70a76aeae14afdcdc1e23079
 
 # hadolint ignore=DL3008
 RUN \
-  apt-get --quiet --quiet update \
-  && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
+  apt-get install  --assume-yes --verbose-versions --no-install-recommends \
   "ca-certificates" \
   "wget" \
   && if [[ "$(uname -m)" == "aarch64" ]]; then \
@@ -35,7 +34,6 @@ RUN \
     "make" \
     "python3" \
   ; fi \
-  && rm -fr "/var/lib/apt/lists/*" "/var/cache/apt/archives/*" \
   && wget --progress="dot:giga" --output-document="node.tar.gz" \
   "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" \
   && echo "${NODE_SHA256}  node.tar.gz" > SHA256 \
@@ -49,8 +47,7 @@ RUN \
   && yarn set version "${YARN_VERSION}" \
   && YARN_RESULT=$(yarn --version) \
   && echo "yarn version: ${YARN_RESULT}" \
-  && if [[ "${YARN_RESULT}" != "${YARN_VERSION}" ]]; then echo "Bad yarn version"; exit 1; fi \
-  && apt-get --assume-yes --verbose-versions purge ca-certificates wget
+  && if [[ "${YARN_RESULT}" != "${YARN_VERSION}" ]]; then echo "Bad yarn version"; exit 1; fi
 
 WORKDIR /app
 CMD ["/bin/bash"]
