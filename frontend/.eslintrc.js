@@ -59,6 +59,9 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-param-reassign': ['error', { props: false }],
+    'no-use-before-define': ["error", {
+      'functions': false,
+    }],
     'no-useless-escape': 'off',
     // 'object-curly-newline': ['error', {
     //   ImportDeclaration: 'never',
