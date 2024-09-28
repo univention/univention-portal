@@ -85,7 +85,7 @@ module.exports = {
     ],
     'prefer-destructuring': 'off',
     'quote-props': ['error', 'as-needed'],
-    'quotes': ['error', 'single', { avoidEscape: true }],
+    quotes: ['error', 'single', { avoidEscape: true }],
     'space-in-parens': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'space-before-function-paren': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
 
@@ -127,6 +127,6 @@ module.exports = {
   ],
   settings: {
     'import/resolver': { node: { extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'] } },
-    'jest': { version: 26 },
+    jest: { version: 26 },
   },
 };
