@@ -14,7 +14,7 @@ const vueConfig = {
   },
   devServer: {
     // TODO: When upgrading Webpack, then use "allowedHosts" instead.
-    disableHostCheck: process.env.VUE_APP_DISABLE_HOST_CHECK === "true",
+    // disableHostCheck: process.env.VUE_APP_DISABLE_HOST_CHECK === "true",
   },
   // configureWebpack: {
   //   optimization: {
