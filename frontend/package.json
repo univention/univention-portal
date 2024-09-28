@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
+    "@babel/helper-hoist-variables": "^7.24.7",
+    "@babel/helper-split-export-declaration": "^7.24.7",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-proposal-decorators": "^7.12.13",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.17.12",
