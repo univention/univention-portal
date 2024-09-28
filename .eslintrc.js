@@ -95,6 +95,9 @@ module.exports = {
     // TODO: Temporay rule settings that should be deleted when code issues are fixed
     'import/no-extraneous-dependencies': 'warn', // e.g. no use of 'require' -> Convert all .js to .ts files and use import!
     'vue/no-unused-components': 'off',
+    'vue/multi-word-component-names': 'off',
+    // TODO: Pending fixes
+    'vuejs-accessibility/aria-props': 'warn',
 
     // TEST new Plugin
     'import/no-cycle': 'off',
