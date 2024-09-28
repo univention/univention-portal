@@ -55,10 +55,11 @@ const toggleIconProp = {
 describe('ToggleButton Component', () => {
   test('Button displays initial Icon and text', async () => {
     const wrapper = await mount(ToggleButton, {
-      propsData: {
+      props: {
         isToggled: false,
         toggleLabels: toggleLabelProp,
         toggleIcons: toggleIconProp,
+        'onUpdate:isToggled': (value) => wrapper.setProps({isToggled: value}),
       },
       children: [IconButton],
       global: {
