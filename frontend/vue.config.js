@@ -56,6 +56,10 @@ const vueConfig = {
           path.resolve(__dirname, 'src/assets/styles/_variables.styl'),
         ],
       },
+      css: {
+        // TODO: Configure handling of '/data' paths correctly
+        url: false,
+      },
     },
   },
   publicPath: './',
