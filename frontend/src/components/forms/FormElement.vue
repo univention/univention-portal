@@ -189,8 +189,7 @@ export default defineComponent({
   },
   methods: {
     focus() {
-      // @ts-ignore TODO
-      this.$refs.component.focus();
+      (this.$refs.component as HTMLElement).focus();
     },
     toggleDescription() {
       this.displayDescription = !this.displayDescription;

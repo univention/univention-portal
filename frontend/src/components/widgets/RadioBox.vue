@@ -70,7 +70,8 @@ export default defineComponent({
   methods: {
     focus(): void {
       const firstOptionId = this.options[0]?.id;
-      (this.$refs[`option--${firstOptionId}`] as HTMLInputElement)?.focus();
+      const firstOption = (this.$refs[`option--${firstOptionId}`] as Array<HTMLInputElement>).pop();
+      firstOption?.focus();
     },
   },
 });
