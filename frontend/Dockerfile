@@ -54,7 +54,7 @@ WORKDIR /app
 CMD ["/bin/bash"]
 
 
-FROM local-dev-env as base
+FROM local-dev-env AS base
 COPY ./package.json .
 COPY ./yarn.lock .
 
@@ -79,7 +79,7 @@ CMD ["yarn", "serve", "--port", "80"]
 
 ###############################################################################
 
-FROM base as build
+FROM base AS build
 
 RUN yarn build
 
