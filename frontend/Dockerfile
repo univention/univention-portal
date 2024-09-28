@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=0.13.1-post-main-build-2024-09-09
-ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-507
+ARG UCS_BASE_IMAGE_TAG=0.13.2-build-2024-09-26
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
 
 ###############################################################################
 # Creates a yarn builder
@@ -24,14 +24,14 @@ ARG NODE_SHA256="bef2685d9469058c1229cc7789e171861044fe3f70316ec744e9bf3609cd45e
 RUN \
   apt-get --quiet --quiet update \
   && apt-get install  --assume-yes --verbose-versions --no-install-recommends \
-  "ca-certificates=20200601*" \
-  "wget=1.20.*" \
+  "ca-certificates" \
+  "wget" \
   && if [[ "$(uname -m)" == "aarch64" ]]; then \
     apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    "gcc=4:8.*" \
-    "g++=4:8.*" \
-    "make=4.*" \
-    "python3=3.7.*" \
+    "gcc" \
+    "g++" \
+    "make" \
+    "python3" \
   ; fi \
   && rm -fr "/var/lib/apt/lists/*" "/var/cache/apt/archives/*" \
   && wget --progress="dot:giga" --output-document="node.tar.gz" \
