@@ -77,8 +77,10 @@ describe('Test Portal Error Components', () => {
           values: ['wcag21aa'],
         },
       },
-      cy.terminalLog, {
+      cy.terminalLog,
+      {
         skipFailures: true,
-      });
+      },
+    );
   });
 });
