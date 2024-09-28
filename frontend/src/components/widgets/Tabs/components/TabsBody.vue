@@ -32,7 +32,7 @@ export default defineComponent({
   },
   methods: {
     isTabItem(slot: VNode): boolean {
-      return slot.type.name === 'TabItem';
+      return slot.type === 'TabItem';
     },
     isTabActive(slotTab: string) {
       return slotTab === this.tabs[this.activeTab].key;
@@ -43,8 +43,9 @@ export default defineComponent({
       h('div', { class: 'tabs-body' }, [
         this.slots.filter(this.isTabItem)
           .map((slot: VNode) => {
-            if (this.isTabActive(slot.props.tab)) {
-              return h('div', { }, slot.children);
+            if (this.isTabActive(slot.props?.tab)) {
+              // TODO: Handle type of "slot.children" properly
+              return h('div', { }, slot.children as any);
             }
             return null;
           }),
