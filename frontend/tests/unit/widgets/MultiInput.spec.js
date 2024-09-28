@@ -58,7 +58,10 @@ let wrapper;
 
 beforeEach(async () => {
   wrapper = await mount(MultiInput, {
-    propsData: multiInputProps,
+    props: {
+      ...multiInputProps,
+      'onUpdate:modelValue': (value) => wrapper.setProps({modelValue: value}),
+    },
     children: [IconButton, FormElement],
     global: {
       plugins: [store],

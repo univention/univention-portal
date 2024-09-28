@@ -51,7 +51,11 @@ const radioElementProps = {
 describe('RadioBox Component', () => {
   test('input setting', async () => {
     const wrapper = await mount(RadioBox, {
-      propsData: radioElementProps,
+      props: {
+        ...radioElementProps,
+        'onUpdate:modelValue': (value) => wrapper.setProps({modelValue: value}),
+      },
+      attachTo: document.body,
     });
 
     const radioBoxInputYes = await wrapper.find(`[id="${radioElementProps.name}--${radioElementProps.options[0].id}"]`);

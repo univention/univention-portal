@@ -56,7 +56,10 @@ beforeEach(async () => {
         $store,
       },
     },
-    propsData: imageUploadProps,
+    props: {
+      ...imageUploadProps,
+      'onUpdate:modelValue': (value) => wrapper.setProps({modelValue: value}),
+    },
   });
 });
 
