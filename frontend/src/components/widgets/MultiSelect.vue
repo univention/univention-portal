@@ -181,11 +181,10 @@ export default defineComponent({
     focus() {
       if (this.modelValue.length > 0) {
         const name = this.modelValue[0];
-        // @ts-ignore TODO
-        this.$refs[`checkbox-${name}`].focus();
+        const checkbox = (this.$refs[`checkbox-${name}`] as Array<HTMLElement>).pop();
+        checkbox?.focus();
       } else {
-        // @ts-ignore TODO
-        this.$refs.addButton.focus();
+        (this.$refs.addButton as HTMLElement).focus();
       }
     },
   },
