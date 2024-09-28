@@ -32,7 +32,7 @@ export default defineComponent({
   },
   methods: {
     isTabItem(slot: VNode): boolean {
-      return slot.type.name === 'TabItem';
+      return slot.type === 'TabItem';
     },
     isTabActive(slotTab: string) {
       return slotTab === this.tabs[this.activeTab].key;
@@ -43,7 +43,7 @@ export default defineComponent({
       h('div', { class: 'tabs-body' }, [
         this.slots.filter(this.isTabItem)
           .map((slot: VNode) => {
-            if (this.isTabActive(slot.props.tab)) {
+            if (this.isTabActive(slot.props?.tab) && slot.children) {
               return h('div', { }, slot.children);
             }
             return null;
