@@ -120,8 +120,8 @@ export default defineComponent({
   },
   mounted() {
     this.$store.dispatch('activity/setLevel', 'modal');
-    const el = this.$refs.currentTab as HTMLElement;
-    el?.focus();
+    const currentTab = (this.$refs.currentTab as Array<HTMLElement>).pop();
+    currentTab?.focus();
   },
   methods: {
     ariaLabelChooseTab(tabLabel: string): string {
