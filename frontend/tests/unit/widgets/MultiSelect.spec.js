@@ -161,7 +161,7 @@ describe('MultiInput.vue', () => {
     });
 
     wrapper = await mount(MultiSelect, {
-      propsData: {
+      props: {
         label: 'multi select',
         modelValue: fullModelValue,
         name: '',
@@ -169,6 +169,7 @@ describe('MultiInput.vue', () => {
       global: {
         plugins: [store],
       },
+      attachTo: document.body,
     });
 
     store.dispatch = jest.fn();
