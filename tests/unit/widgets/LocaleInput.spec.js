@@ -79,12 +79,18 @@ const store = new Vuex.Store({
   },
 });
 
-const mountComponent = () => (mount(LocaleInput, {
-  global: {
-    plugins: [store],
-  },
-  propsData: localeInputProps,
-}));
+const mountComponent = () => {
+  const wrapper = mount(LocaleInput, {
+    global: {
+      plugins: [store],
+    },
+    props: {
+      ...localeInputProps,
+      'onUpdate:modelValue': (value) => wrapper.setProps({modelValue: value}),
+    },
+  });
+  return wrapper;
+};
 
 describe('LocaleInput Component', () => {
   test('it sets the es_US translation in modelValue correctly', async () => {
