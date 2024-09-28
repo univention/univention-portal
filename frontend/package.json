@@ -83,6 +83,9 @@
   },
   "name": "upx-portal",
   "private": true,
+  "resolutions": {
+    "@types/lodash": "4.14.186"
+  },
   "scripts": {
     "build": "vue-cli-service build",
     "build-storybook": "storybook build -o dist/storybook",
@@ -103,8 +106,5 @@
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch"
   },
-  "version": "0.1.0",
-  "resolutions": {
-    "@types/lodash": "4.14.186"
-  }
+  "version": "0.1.0"
 }
