@@ -16,9 +16,6 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "@storybook/addon-a11y",
-    "addon-screen-reader",
-    "storybook-addon-pseudo-states",
-    "@storybook/addon-postcss",
     "storybook-css-modules-preset",
     {
       name: '@storybook/addon-docs',
@@ -30,14 +27,30 @@ module.exports = {
         },
       },
     },
+    "@storybook/addon-mdx-gfm"
   ],
-  framework: "@storybook/vue3",
+
+  framework: {
+    name: "@storybook/vue3-webpack5",
+    options: {}
+  },
+
   staticDirs: ['../public'],
+
   webpackFinal: async (config, {configType}) => {
     config.module.rules.push({
       test: /\.styl(us)?$/,
       sideEffects: true,
-      use: ['style-loader', 'css-loader', 'stylus-loader'],
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            url: false,
+          },
+        },
+        'stylus-loader',
+      ],
       include: [
         path.resolve(__dirname, '../src'),
         path.resolve(__dirname, '../stories'),
@@ -57,4 +70,8 @@ module.exports = {
 
     return config;
   },
+
+  docs: {
+    autodocs: true
+  }
 }
