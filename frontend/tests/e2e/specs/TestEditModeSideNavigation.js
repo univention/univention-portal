@@ -100,8 +100,10 @@ describe('Test Editmode Side navigation', () => {
           values: ['wcag21aa'],
         },
       },
-      cy.terminalLog, {
+      cy.terminalLog,
+      {
         skipFailures: true,
-      });
+      },
+    );
   });
 });
