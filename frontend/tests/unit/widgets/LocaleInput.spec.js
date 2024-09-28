@@ -86,7 +86,7 @@ const mountComponent = () => {
     },
     props: {
       ...localeInputProps,
-      'onUpdate:modelValue': (value) => wrapper.setProps({modelValue: value}),
+      'onUpdate:modelValue': (value) => wrapper.setProps({ modelValue: value }),
     },
   });
   return wrapper;
