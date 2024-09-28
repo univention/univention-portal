@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@types/lodash.isempty": "^4.4.6",
-    "@types/lodash.isequal": "^4.5.5",
     "@vue/vue3-jest": "27",
     "axios": "~1.7.7",
     "core-js": "^3.6.5",
