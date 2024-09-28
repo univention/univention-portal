@@ -53,7 +53,7 @@ describe('RadioBox Component', () => {
     const wrapper = await mount(RadioBox, {
       props: {
         ...radioElementProps,
-        'onUpdate:modelValue': (value) => wrapper.setProps({modelValue: value}),
+        'onUpdate:modelValue': (value) => wrapper.setProps({ modelValue: value }),
       },
       attachTo: document.body,
     });

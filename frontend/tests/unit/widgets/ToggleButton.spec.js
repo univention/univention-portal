@@ -59,7 +59,7 @@ describe('ToggleButton Component', () => {
         isToggled: false,
         toggleLabels: toggleLabelProp,
         toggleIcons: toggleIconProp,
-        'onUpdate:isToggled': (value) => wrapper.setProps({isToggled: value}),
+        'onUpdate:isToggled': (value) => wrapper.setProps({ isToggled: value }),
       },
       children: [IconButton],
       global: {
