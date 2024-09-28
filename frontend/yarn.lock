@@ -4513,7 +4513,7 @@
     "@vue/compiler-core" "3.5.10"
     "@vue/shared" "3.5.10"
 
-"@vue/compiler-sfc@3.5.10", "@vue/compiler-sfc@^3.0.0", "@vue/compiler-sfc@^3.2.0", "@vue/compiler-sfc@^3.5.3":
+"@vue/compiler-sfc@3.5.10", "@vue/compiler-sfc@^3.2.0", "@vue/compiler-sfc@^3.5.3":
   version "3.5.10"
   resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.5.10.tgz#95e262a5ed836521a5aeee9492cc265ad3f1c787"
   integrity sha512-to8E1BgpakV7224ZCm8gz1ZRSyjNCAWEplwFMWKlzCdP9DkMKhRRwt0WkCjY7jkzi/Vz3xgbpeig5Pnbly4Tow==
