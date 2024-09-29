@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@vue/vue3-jest": "27",
-    "axios": "^0.21.1",
+    "axios": "~1.7.7",
     "core-js": "^3.6.5",
     "cypress-axe": "^0.13.0",
     "event-source-polyfill": "^1.0.31",
