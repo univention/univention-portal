@@ -20,4 +20,7 @@ module.exports = {
     '^(globals)($|/.*)$': '<rootDir>/src/components/$1$2',
     '^(components|assets|mixins|views)($|/.*)$': '<rootDir>/src/$1$2',
   },
+  setupFiles: [
+    '<rootDir>/tests/unit/setup.ts',
+  ],
 };
