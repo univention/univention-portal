@@ -42,7 +42,11 @@ function getSessionId(port: string, getCookieFunction: (name: string) => string 
   return getCookieFunction(`UMCSessionId-${port}`) || getCookieFunction('UMCSessionId');
 }
 
-function umc(path: string, options?: any, flavor?: string): Promise<AxiosResponse<any>> {
+function umc<UmcResponseType = any>(
+  path: string,
+  options?: any,
+  flavor?: string,
+): Promise<AxiosResponse<UmcResponseType>> {
   const umcSessionId = getSessionId(document.location.port, getCookie);
   const umcLang = getCookie('UMCLang');
   const headers = { 'X-Requested-With': 'XMLHttpRequest' };
@@ -56,7 +60,7 @@ function umc(path: string, options?: any, flavor?: string): Promise<AxiosRespons
   if (flavor) {
     params.flavor = flavor;
   }
-  return axios.post(`/univention/${path}`, params, { headers });
+  return axios.post<UmcResponseType>(`/univention/${path}`, params, { headers });
 }
 
 function umcCommand(path: string, options?: any, flavor?: string): Promise<any> {
