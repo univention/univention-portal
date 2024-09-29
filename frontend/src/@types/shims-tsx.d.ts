@@ -34,6 +34,7 @@ declare global {
   import Vue, { VNode } from 'vue';
 
   /* eslint-disable no-unused-vars */
+  /* eslint-disable @typescript-eslint/no-empty-object-type */
   namespace JSX {
     interface Element extends VNode {}
     interface ElementClass extends Vue {}
@@ -41,5 +42,6 @@ declare global {
       [elem: string]: unknown;
     }
   }
+  /* eslint-enable @typescript-eslint/no-empty-object-type */
   /* eslint-enable no-unused-vars */
 }
