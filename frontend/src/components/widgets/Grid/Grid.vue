@@ -217,7 +217,10 @@ export default defineComponent({
     onSort(column: TableHeaderColumn) {
       this.updateTableHeaderColumns(column);
 
-      if (this.gridItems.length && this.on?.sort) {
+      // TODO: The check "this.on?.sort" does cause a TS2774 issue.
+      // The issue is even raised for "this.on?.whatever". Prefixing by "!!" is
+      // only a workaround to avoid this check in the compiler.
+      if (this.gridItems.length && !!this.on?.sort) {
         this.onOperation('sort');
       } else {
         // default sort by
