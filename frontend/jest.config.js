@@ -9,7 +9,7 @@ module.exports = {
     '^.+\\.vue$': '@vue/vue3-jest',
   },
   transformIgnorePatterns: [
-    '<rootDir>/node_modules/',
+    'node_modules/(?!axios)/',
   ],
   moduleNameMapper: {
     // Re-implement aliases here:
