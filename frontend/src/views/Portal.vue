@@ -101,6 +101,7 @@
     />
     <router-view />
     <loading-overlay />
+    <umc-session-refresh-iframe />
   </div>
 </template>
 
@@ -122,6 +123,7 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
 import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 import PortalError from '@/components/globals/PortalError.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
+import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
 
 export default defineComponent({
   name: 'Portal',
@@ -139,6 +141,7 @@ export default defineComponent({
     Region,
     ScreenReaderAnnouncer,
     PortalError,
+    UmcSessionRefreshIframe,
   },
   computed: {
     ...mapGetters({
