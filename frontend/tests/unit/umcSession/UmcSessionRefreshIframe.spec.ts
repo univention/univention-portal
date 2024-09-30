@@ -19,28 +19,67 @@ function createStubStore(initialState?: UmcSessionState) {
   return store;
 }
 
-test('Renders iframe to refresh the session when refresh is needed', async () => {
-  const store = createStubStore({ refreshNeeded: true });
-  const wrapper = mount(UmcSessionRefreshIframe, {
-    global: {
-      plugins: [
-        store,
-      ],
-    },
+describe('Template', () => {
+
+  test('Renders iframe to refresh the session when refresh is needed', async () => {
+    const store = createStubStore({ refreshNeeded: true });
+    const wrapper = mount(UmcSessionRefreshIframe, {
+      global: {
+        plugins: [
+          store,
+        ],
+      },
+    });
+
+    expect(wrapper.find('iframe').exists()).toBe(true);
   });
 
-  expect(wrapper.find('iframe').exists()).toBe(true);
+  test('Renders nothing when refresh is not needed', () => {
+    const store = createStubStore({ refreshNeeded: false });
+    const wrapper = mount(UmcSessionRefreshIframe, {
+      global: {
+        plugins: [
+          store,
+        ],
+      },
+    });
+
+    expect(wrapper.find('iframe').exists()).toBe(false);
+  });
+
 });
 
-test('Renders nothing when refresh is not needed', async () => {
-  const store = createStubStore({ refreshNeeded: false });
-  const wrapper = mount(UmcSessionRefreshIframe, {
-    global: {
-      plugins: [
-        store,
-      ],
-    },
+describe('Method onLoad', () => {
+
+  test('ignores the first load event', async () => {
+    const store = createStubStore({ refreshNeeded: true });
+    const wrapper = mount(UmcSessionRefreshIframe, {
+      global: {
+        plugins: [
+          store,
+        ],
+      },
+    });
+    const handleRefreshResultMock = jest.spyOn(wrapper.vm as any, 'handleRefreshResult');
+
+    await wrapper.trigger('load');
+    expect(handleRefreshResultMock).not.toHaveBeenCalled();
   });
 
-  expect(wrapper.find('iframe').exists()).toBe(false);
+  test('handles the second load event', async () => {
+    const store = createStubStore({ refreshNeeded: true });
+    const wrapper = mount(UmcSessionRefreshIframe, {
+      global: {
+        plugins: [
+          store,
+        ],
+      },
+    });
+    const handleRefreshResultMock = jest.spyOn(wrapper.vm as any, 'handleRefreshResult');
+
+    await wrapper.trigger('load');
+    await wrapper.trigger('load');
+    expect(handleRefreshResultMock).toHaveBeenCalled();
+  });
+
 });
