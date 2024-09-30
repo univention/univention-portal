@@ -65,17 +65,17 @@ export const featureToggles = {
 export const key: InjectionKey<Store<RootState>> = Symbol('');
 
 const mutations = {
-  SET_LOADING_STATE(state, active: boolean) {
+  SET_LOADING_STATE(state: RootState, active: boolean) {
     state.loadingState = active;
   },
-  SET_INITIAL_LOAD_DONE(state, done: boolean) {
+  SET_INITIAL_LOAD_DONE(state: RootState, done: boolean) {
     state.initialLoadDone = done;
   },
 };
 
 const getters = {
-  getLoadingState: (state) => state.loadingState,
-  getInitialLoadDone: (state) => state.initialLoadDone,
+  getLoadingState: (state: RootState) => state.loadingState,
+  getInitialLoadDone: (state: RootState) => state.initialLoadDone,
 };
 
 export const actions = {
