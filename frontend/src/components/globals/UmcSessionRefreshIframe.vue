@@ -32,6 +32,7 @@
     v-if="refreshNeeded"
     src="/univention/saml/iframe/"
     title="UMC session refresh iframe"
+    @load="onLoad"
     />
 </template>
 
@@ -41,10 +42,27 @@ import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: 'UmcSessionRefreshIframe',
+  data() {
+    return {
+      onLoadCounter: 0,
+    };
+  },
   computed: {
     ...mapGetters({
       refreshNeeded: 'umcSession/refreshNeeded',
     }),
+  },
+  methods: {
+    onLoad(_event: Event) {
+      this.onLoadCounter += 1;
+      if (this.onLoadCounter === 2) {
+        this.handleRefreshResult();
+      }
+    },
+
+    handleRefreshResult() {
+      console.warn('TODO: implement me!');
+    },
   },
 });
 </script>
