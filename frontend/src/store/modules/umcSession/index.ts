@@ -8,6 +8,7 @@ import { umcGetSessionInfo, UmcSessionInfo } from './utils';
 
 export interface UmcSessionState {
   refreshNeeded: boolean,
+  refreshTimer?: number,
 }
 
 export type UmcSessionActionContext = PortalActionContext<UmcSessionState>;
@@ -15,9 +16,14 @@ export type UmcSessionActionContext = PortalActionContext<UmcSessionState>;
 export const refreshBeforeExpiry = 5;
 
 export const actions = {
-  async startSessionRefresh({ dispatch }: UmcSessionActionContext): Promise<void> {
+  async startSessionRefresh({ commit, state }: UmcSessionActionContext): Promise<void> {
     let result : UmcSessionInfo | undefined;
     let refreshInSeconds = 0;
+
+    if (state.refreshTimer) {
+      clearTimeout(state.refreshTimer);
+      commit('setTimer', undefined);
+    }
 
     try {
       result = await umcGetSessionInfo();
@@ -28,13 +34,39 @@ export const actions = {
     if (result) {
       refreshInSeconds = result.remaining - refreshBeforeExpiry;
     }
-    setTimeout(() => dispatch('refreshNeeded'), refreshInSeconds * 1000);
+    const timerId = setTimeout(() => {
+      commit('setTimer', undefined);
+      commit('refreshNeeded', true);
+    }, refreshInSeconds * 1000);
+    commit('setTimer', timerId);
   },
 
-  refreshNeeded({ commit }: UmcSessionActionContext): void {
-    commit('refreshNeeded');
+  async restartSessionRefresh({ commit, dispatch }) {
+    commit('refreshNeeded', false);
+    await dispatch('startSessionRefresh');
   },
+
+  async disableSessionRefresh({ commit, state }) {
+    commit('refreshNeeded', false);
+    if (state.refreshTimer) {
+      clearTimeout(state.refreshTimer);
+      commit('setTimer', undefined);
+    }
+  },
+
 };
+
+export const mutations = {
+  refreshNeeded(state: UmcSessionState, payload: boolean): void {
+    state.refreshNeeded = payload;
+  },
+
+  setTimer(state: UmcSessionState, timerId: number | undefined): void {
+    state.refreshTimer = timerId;
+  },
+
+};
+
 
 const umcSession: PortalModule<UmcSessionState> = {
 
@@ -42,18 +74,14 @@ const umcSession: PortalModule<UmcSessionState> = {
 
   state: {
     refreshNeeded: false,
-  },
-
-  mutations: {
-    refreshNeeded(state: UmcSessionState): void {
-      state.refreshNeeded = true;
-    },
+    refreshTimer: undefined,
   },
 
   getters: {
     refreshNeeded: (state) => state.refreshNeeded,
   },
 
+  mutations,
   actions,
 };
 
