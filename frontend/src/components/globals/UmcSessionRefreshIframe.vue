@@ -33,7 +33,7 @@
     src="/univention/saml/iframe/"
     title="UMC session refresh iframe"
     @load="onLoad"
-    />
+  />
 </template>
 
 <script lang="ts">
@@ -53,7 +53,7 @@ export default defineComponent({
     }),
   },
   methods: {
-    onLoad(_event: Event) {
+    onLoad() {
       this.onLoadCounter += 1;
       if (this.onLoadCounter === 2) {
         this.handleRefreshResult();
