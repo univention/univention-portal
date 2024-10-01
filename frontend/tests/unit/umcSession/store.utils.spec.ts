@@ -16,13 +16,13 @@ afterAll(() => {
 describe('umcGetSessionInfo', () => {
 
   test('triggers POST request to ".../get/session-info"', async () => {
-    mockedPost.mockResolvedValue(stubs.stubResponse);
+    mockedPost.mockResolvedValue(stubs.stubSessionInfoResponse);
     await umcGetSessionInfo();
     expect(mockedPost.mock.lastCall[0]).toBe('/univention/get/session-info');
   });
 
   test('returns umc response', async () => {
-    mockedPost.mockResolvedValue(stubs.stubResponse);
+    mockedPost.mockResolvedValue(stubs.stubSessionInfoResponse);
     const result = await umcGetSessionInfo();
     expect(result).toBe(stubs.stubUmcSessionInfo);
   });
