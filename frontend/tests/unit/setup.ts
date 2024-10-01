@@ -1,5 +1,5 @@
 import process from 'process';
 
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason) => {
   console.error('unhandledRejection', reason);
 });

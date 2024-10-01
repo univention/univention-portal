@@ -42,6 +42,7 @@ function getSessionId(port: string, getCookieFunction: (name: string) => string 
   return getCookieFunction(`UMCSessionId-${port}`) || getCookieFunction('UMCSessionId');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function umc<UmcResponseType = any>(
   path: string,
   options?: any,

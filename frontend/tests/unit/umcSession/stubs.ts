@@ -1,6 +1,8 @@
 import { AxiosError, AxiosResponse } from 'axios';
+import { JSDOM } from 'jsdom';
 
 import { UmcGetSessionInfoResponse, UmcSessionInfo } from '@/store/modules/umcSession/utils';
+import { UmcSessionRefreshResponse } from '@/components/globals/UmcSessionRefreshIframe.utils';
 
 export type StubAxiosResponse<ResponseType> = Pick<AxiosResponse<ResponseType>, 'status' | 'data'>;
 
@@ -10,7 +12,7 @@ export const stubUmcSessionInfo : UmcSessionInfo = {
   remaining: 300,
 };
 
-export const stubResponse : StubAxiosResponse<UmcGetSessionInfoResponse> = {
+export const stubSessionInfoResponse : StubAxiosResponse<UmcGetSessionInfoResponse> = {
   status: 200,
   data: {
     status: 200,
@@ -47,3 +49,23 @@ export const stubAxiosErrorInternalServerError = new AxiosError<UmcGetSessionInf
   undefined,
   stubResponseInternalServerError as AxiosResponse<UmcGetSessionInfoResponse>,
 );
+
+export function stubUmcSessionRefreshIframeWithResponse(responseData: UmcSessionRefreshResponse) {
+  const stubResponse = `<html><body><textarea>${JSON.stringify(responseData)}</textarea></body></html>`;
+  return stubIframeWithContent(stubResponse);
+}
+
+export function stubUmcSessionRefreshIframeWithInvalidResponse(response: string) {
+  const stubResponse = `<html><body><textarea>${response}</textarea></body></html>`;
+  return stubIframeWithContent(stubResponse);
+}
+
+export function stubIframeWithContent(content: string) {
+  const stubIframeContent = new JSDOM(content);
+  const stubIframeContentDocument = stubIframeContent.window.document;
+
+  const mockIframe = {
+    contentDocument: stubIframeContentDocument,
+  };
+  return mockIframe;
+}
