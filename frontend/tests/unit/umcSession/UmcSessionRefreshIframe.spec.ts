@@ -1,10 +1,10 @@
-import { mount } from '@vue/test-utils';
+import { mount, VueWrapper } from '@vue/test-utils';
+import { Store } from 'vuex';
 
 import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
 import * as UmcSessionRefreshIframeUtils from '@/components/globals/UmcSessionRefreshIframe.utils';
 import { UmcSessionRefreshResponse } from '@/components/globals/UmcSessionRefreshIframe.utils';
-
-import { stubIframeWithContent, stubUmcSessionRefreshIframeWithInvalidResponse, stubUmcSessionRefreshIframeWithResponse } from './stubs';
+import { RootState } from '@/store/root.models';
 
 import * as stubs from './stubs';
 
@@ -85,7 +85,7 @@ describe('Method handleRefreshResult', () => {
 
   test('integration with utility functions', async () => {
     const mockedThis = {
-      $el: stubUmcSessionRefreshIframeWithResponse(stubs.stubUmcSessionRefreshData()),
+      $el: stubs.stubUmcSessionRefreshIframeWithResponse(stubs.stubUmcSessionRefreshData()),
       $store: {
         dispatch: jest.fn(),
       },
@@ -133,14 +133,14 @@ describe('getResultFromIframe', () => {
     400,
   ])('parses result out of the Iframe\'s content', (status) => {
     const response = stubs.stubUmcSessionRefreshData(status);
-    const iframe = stubUmcSessionRefreshIframeWithResponse(response) as HTMLIFrameElement;
+    const iframe = stubs.stubUmcSessionRefreshIframeWithResponse(response) as HTMLIFrameElement;
     const result = UmcSessionRefreshIframeUtils.getResultFromIframe(iframe);
     expect(result?.status).toBe(status);
   });
 
   test('ignores invalid JSON data', () => {
     const invalidResponse = '{"stub_attr": "stub_value"}';
-    const iframe = stubUmcSessionRefreshIframeWithInvalidResponse(invalidResponse) as HTMLIFrameElement;
+    const iframe = stubs.stubUmcSessionRefreshIframeWithInvalidResponse(invalidResponse) as HTMLIFrameElement;
     const result = UmcSessionRefreshIframeUtils.getResultFromIframe(iframe);
     expect(result).toBeUndefined();
   });
@@ -148,14 +148,14 @@ describe('getResultFromIframe', () => {
   test('logs an error on unparsable data', () => {
     const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(jest.fn());
     const invalidResponse = 'Invalid content';
-    const iframe = stubUmcSessionRefreshIframeWithInvalidResponse(invalidResponse) as HTMLIFrameElement;
+    const iframe = stubs.stubUmcSessionRefreshIframeWithInvalidResponse(invalidResponse) as HTMLIFrameElement;
     const result = UmcSessionRefreshIframeUtils.getResultFromIframe(iframe);
     expect(result).toBeUndefined();
     expect(consoleErrorMock).toHaveBeenCalled();
   });
 
   test('returns undefined on invalid document', () => {
-    const iframe = stubIframeWithContent('<html><div>Stub content</div></html>') as HTMLIFrameElement;
+    const iframe = stubs.stubIframeWithContent('<html><div>Stub content</div></html>') as HTMLIFrameElement;
     const result = UmcSessionRefreshIframeUtils.getResultFromIframe(iframe);
     expect(result).toBeUndefined();
   });
@@ -218,14 +218,14 @@ describe('UmcSessionRefreshIframe', () => {
     expect(handleRefreshResultMock).toHaveBeenCalledTimes(2);
   });
 
-  async function simulateRefresh(store, wrapper) {
+  async function simulateRefresh(store: Store<RootState>, wrapper: VueWrapper) {
     store.commit('umcSession/refreshNeeded', true);
     await wrapper.vm.$nextTick();
     await wrapper.trigger('load');
     await wrapper.trigger('load');
   }
 
-  async function simulateRestartRefresh(store, wrapper) {
+  async function simulateRestartRefresh(store: Store<RootState>, wrapper: VueWrapper) {
     store.commit('umcSession/refreshNeeded', false);
     await wrapper.vm.$nextTick();
     await simulateRefresh(store, wrapper);
