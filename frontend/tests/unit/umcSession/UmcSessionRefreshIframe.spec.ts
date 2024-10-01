@@ -1,11 +1,8 @@
 import { mount } from '@vue/test-utils';
-import { createStore } from 'vuex';
 
 import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
 import * as UmcSessionRefreshIframeUtils from '@/components/globals/UmcSessionRefreshIframe.utils';
-import umcSession, { UmcSessionState } from '@/store/modules/umcSession';
 import { UmcSessionRefreshResponse } from '@/components/globals/UmcSessionRefreshIframe.utils';
-import { RootState } from '@/store/root.models';
 
 import { stubIframeWithContent, stubUmcSessionRefreshIframeWithInvalidResponse, stubUmcSessionRefreshIframeWithResponse } from './stubs';
 
@@ -16,25 +13,10 @@ beforeEach(() => {
   jest.restoreAllMocks();
 });
 
-function createStubStore(initialState?: UmcSessionState) {
-  const store = createStore<RootState>({
-    modules: {
-      umcSession: {
-        ...umcSession,
-        state: {
-          ...umcSession.state,
-          ...initialState,
-        },
-      },
-    },
-  });
-  return store;
-}
-
 describe('Template', () => {
 
   test('Renders iframe to refresh the session when refresh is needed', async () => {
-    const store = createStubStore({ refreshNeeded: true });
+    const store = stubs.createStubStore({ refreshNeeded: true });
     const wrapper = mount(UmcSessionRefreshIframe, {
       global: {
         plugins: [
@@ -47,7 +29,7 @@ describe('Template', () => {
   });
 
   test('Renders nothing when refresh is not needed', () => {
-    const store = createStubStore({ refreshNeeded: false });
+    const store = stubs.createStubStore({ refreshNeeded: false });
     const wrapper = mount(UmcSessionRefreshIframe, {
       global: {
         plugins: [
@@ -64,7 +46,7 @@ describe('Template', () => {
 describe('Method onLoad', () => {
 
   test('ignores the first load event', async () => {
-    const store = createStubStore({ refreshNeeded: true });
+    const store = stubs.createStubStore({ refreshNeeded: true });
     const wrapper = mount(UmcSessionRefreshIframe, {
       global: {
         plugins: [
@@ -80,7 +62,7 @@ describe('Method onLoad', () => {
   });
 
   test('handles the second load event', async () => {
-    const store = createStubStore({ refreshNeeded: true });
+    const store = stubs.createStubStore({ refreshNeeded: true });
     const wrapper = mount(UmcSessionRefreshIframe, {
       global: {
         plugins: [
