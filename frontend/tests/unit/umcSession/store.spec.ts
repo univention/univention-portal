@@ -72,7 +72,7 @@ describe('action restartSessionRefresh', () => {
   test('disables refreshNeeded', async () => {
     const refreshNeededMock = jest.spyOn(mutations, 'refreshNeeded');
     const stubStore = stubs.createStubStore({ refreshNeeded: true });
-    await stubStore.dispatch('umcSession/restartSessionRefresh')
+    await stubStore.dispatch('umcSession/restartSessionRefresh');
 
     expect(refreshNeededMock).toHaveBeenCalledWith(expect.anything(), false);
   });
@@ -80,7 +80,7 @@ describe('action restartSessionRefresh', () => {
   test('starts a new session refresh', async () => {
     const startSessionRefreshMock = jest.spyOn(actions, 'startSessionRefresh');
     const stubStore = stubs.createStubStore({ refreshNeeded: true });
-    await stubStore.dispatch('umcSession/restartSessionRefresh')
+    await stubStore.dispatch('umcSession/restartSessionRefresh');
 
     expect(startSessionRefreshMock).toHaveBeenCalled();
   });
@@ -92,7 +92,7 @@ describe('action disableSessionRefresh', () => {
   test('disables refreshNeeded', async () => {
     const refreshNeededMock = jest.spyOn(mutations, 'refreshNeeded');
     const stubStore = stubs.createStubStore({ refreshNeeded: true });
-    await stubStore.dispatch('umcSession/disableSessionRefresh')
+    await stubStore.dispatch('umcSession/disableSessionRefresh');
 
     expect(refreshNeededMock).toHaveBeenCalledWith(expect.anything(), false);
   });
@@ -100,7 +100,7 @@ describe('action disableSessionRefresh', () => {
   test('starts a new session refresh', async () => {
     const startSessionRefreshMock = jest.spyOn(actions, 'startSessionRefresh');
     const stubStore = stubs.createStubStore({ refreshNeeded: true });
-    await stubStore.dispatch('umcSession/disableSessionRefresh')
+    await stubStore.dispatch('umcSession/disableSessionRefresh');
 
     expect(startSessionRefreshMock).not.toHaveBeenCalled();
   });
