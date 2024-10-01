@@ -54,6 +54,11 @@ export default defineComponent({
       refreshNeeded: 'umcSession/refreshNeeded',
     }),
   },
+  beforeUpdate() {
+    if (!this.refreshNeeded) {
+      this.onLoadCounter = 0;
+    }
+  },
   methods: {
     onLoad() {
       this.onLoadCounter += 1;
