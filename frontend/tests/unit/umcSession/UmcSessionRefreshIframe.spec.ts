@@ -9,11 +9,8 @@ import { RootState } from '@/store/root.models';
 
 import { stubIframeWithContent, stubUmcSessionRefreshIframeWithInvalidResponse, stubUmcSessionRefreshIframeWithResponse } from './stubs';
 
-afterEach(() => {
+beforeEach(() => {
   jest.resetAllMocks();
-});
-
-afterAll(() => {
   jest.restoreAllMocks();
 });
 
