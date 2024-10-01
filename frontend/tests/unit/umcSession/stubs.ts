@@ -50,6 +50,15 @@ export const stubAxiosErrorInternalServerError = new AxiosError<UmcGetSessionInf
   stubResponseInternalServerError as AxiosResponse<UmcGetSessionInfoResponse>,
 );
 
+export function stubUmcSessionRefreshData(status?: number) {
+  return {
+    status: status || 200,
+    result: {
+      username: 'default.admin',
+    },
+  };
+}
+
 export function stubUmcSessionRefreshIframeWithResponse(responseData: UmcSessionRefreshResponse) {
   const stubResponse = `<html><body><textarea>${JSON.stringify(responseData)}</textarea></body></html>`;
   return stubIframeWithContent(stubResponse);

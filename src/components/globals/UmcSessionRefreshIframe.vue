@@ -40,6 +40,8 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import { getResultFromIframe } from './UmcSessionRefreshIframe.utils';
+
 export default defineComponent({
   name: 'UmcSessionRefreshIframe',
   data() {
@@ -61,10 +63,16 @@ export default defineComponent({
     },
 
     handleRefreshResult() {
-      console.warn('TODO: implement me!');
+      const result = getResultFromIframe(this.$el);
+      if (result?.status === 200) {
+        this.$store.dispatch('umcSession/restartSessionRefresh');
+      } else {
+        this.$store.dispatch('umcSession/disableSessionRefresh');
+      }
     },
   },
 });
+
 </script>
 
 <style lang="stylus">

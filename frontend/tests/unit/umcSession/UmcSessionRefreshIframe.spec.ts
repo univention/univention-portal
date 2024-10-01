@@ -9,6 +9,8 @@ import { RootState } from '@/store/root.models';
 
 import { stubIframeWithContent, stubUmcSessionRefreshIframeWithInvalidResponse, stubUmcSessionRefreshIframeWithResponse } from './stubs';
 
+import * as stubs from './stubs';
+
 beforeEach(() => {
   jest.resetAllMocks();
   jest.restoreAllMocks();
@@ -96,18 +98,59 @@ describe('Method onLoad', () => {
   });
 
 });
+
+describe('Method handleRefreshResult', () => {
+
+  test('integration with utility functions', async () => {
+    const mockedThis = {
+      $el: stubUmcSessionRefreshIframeWithResponse(stubs.stubUmcSessionRefreshData()),
+      $store: {
+        dispatch: jest.fn(),
+      },
+    };
+
+    UmcSessionRefreshIframe.methods?.handleRefreshResult.call(mockedThis);
+    expect(mockedThis.$store.dispatch).toHaveBeenCalledWith('umcSession/restartSessionRefresh');
+  });
+
+  test('dispatches "umcSession/restartSessionRefresh" on successful response', () => {
+    const result: UmcSessionRefreshResponse = { status: 200 };
+    jest.spyOn(UmcSessionRefreshIframeUtils, 'getResultFromIframe').mockImplementation(() => result);
+    const mockedThis = {
+      $store: {
+        dispatch: jest.fn(),
+      },
+    };
+
+    UmcSessionRefreshIframe.methods?.handleRefreshResult.call(mockedThis);
+    expect(mockedThis.$store.dispatch).toHaveBeenCalledWith('umcSession/restartSessionRefresh');
+  });
+
+  test.each([
+    { status: 400 },
+    { status: 500 },
+    undefined,
+  ])('dispatches "umcSession/disableSessionRefresh" on failure response', (result) => {
+    jest.spyOn(UmcSessionRefreshIframeUtils, 'getResultFromIframe').mockImplementation(() => result);
+    const mockedThis = {
+      $store: {
+        dispatch: jest.fn(),
+      },
+    };
+
+    UmcSessionRefreshIframe.methods?.handleRefreshResult.call(mockedThis);
+    expect(mockedThis.$store.dispatch).toHaveBeenCalledWith('umcSession/disableSessionRefresh');
+  });
+
+});
+
 describe('getResultFromIframe', () => {
 
   test.each([
     200,
     400,
   ])('parses result out of the Iframe\'s content', (status) => {
-    const response = {
-      status,
-      result: {
-        username: 'default.admin',
-      },
-    };
+    const response = stubs.stubUmcSessionRefreshData(status);
     const iframe = stubUmcSessionRefreshIframeWithResponse(response) as HTMLIFrameElement;
     const result = UmcSessionRefreshIframeUtils.getResultFromIframe(iframe);
     expect(result?.status).toBe(status);
@@ -139,13 +182,7 @@ describe('getResultFromIframe', () => {
 
 describe('validateResponse', () => {
 
-  const validResponse = {
-    status: 200,
-    result: {
-      username: 'stub_username',
-    },
-  };
-
+  const validResponse = stubs.stubUmcSessionRefreshData();
   const expectedResult : UmcSessionRefreshResponse = {
     status: 200,
   };
