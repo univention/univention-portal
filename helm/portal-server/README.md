@@ -373,7 +373,7 @@ true
 			<td><pre lang="json">
 [
   {
-    "path": "/()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)",
+    "path": "/()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)$",
     "pathType": "ImplementationSpecific"
   }
 ]

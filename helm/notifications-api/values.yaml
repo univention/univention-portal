@@ -127,7 +127,7 @@ ingress:
 
   # -- Define the Ingress paths.
   paths:
-  - path: /(univention/portal/notifications-api/)(.*)
+  - path: /(univention/portal/notifications-api/)(.*)$
     pathType: ImplementationSpecific
 
   # -- The Ingress controller class name.

@@ -122,7 +122,7 @@ ingress:
 
   # -- Define the Ingress paths.
   paths:
-    - path: /()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)
+    - path: /()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)$
       pathType: ImplementationSpecific
 
   # -- The Ingress controller class name.

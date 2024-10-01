@@ -391,7 +391,7 @@ true
 			<td><pre lang="json">
 [
   {
-    "path": "/(univention/portal/notifications-api/)(.*)",
+    "path": "/(univention/portal/notifications-api/)(.*)$",
     "pathType": "ImplementationSpecific"
   }
 ]
