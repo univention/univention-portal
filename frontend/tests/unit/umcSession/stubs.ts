@@ -1,8 +1,26 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { JSDOM } from 'jsdom';
+import { createStore } from 'vuex';
 
 import { UmcGetSessionInfoResponse, UmcSessionInfo } from '@/store/modules/umcSession/utils';
 import { UmcSessionRefreshResponse } from '@/components/globals/UmcSessionRefreshIframe.utils';
+import umcSession, { UmcSessionState } from '@/store/modules/umcSession';
+import { RootState } from '@/store/root.models';
+
+export function createStubStore(initialState?: UmcSessionState) {
+  const store = createStore<RootState>({
+    modules: {
+      umcSession: {
+        ...umcSession,
+        state: {
+          ...umcSession.state,
+          ...initialState,
+        },
+      },
+    },
+  });
+  return store;
+}
 
 export type StubAxiosResponse<ResponseType> = Pick<AxiosResponse<ResponseType>, 'status' | 'data'>;
 
