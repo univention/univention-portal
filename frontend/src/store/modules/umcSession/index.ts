@@ -67,7 +67,6 @@ export const mutations = {
 
 };
 
-
 const umcSession: PortalModule<UmcSessionState> = {
 
   namespaced: true,

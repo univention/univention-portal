@@ -195,3 +195,40 @@ describe('validateResponse', () => {
   });
 
 });
+
+describe('UmcSessionRefreshIframe', () => {
+
+  test('manages internal state on repeated run correctly', async () => {
+    const store = stubs.createStubStore();
+    const wrapper = mount(UmcSessionRefreshIframe, {
+      global: {
+        plugins: [
+          store,
+        ],
+      },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleRefreshResultMock = jest.spyOn(wrapper.vm as any, 'handleRefreshResult');
+    handleRefreshResultMock.mockImplementation(jest.fn());
+
+    await simulateRefresh(store, wrapper);
+    await simulateRestartRefresh(store, wrapper);
+    await simulateRefresh(store, wrapper);
+
+    expect(handleRefreshResultMock).toHaveBeenCalledTimes(2);
+  });
+
+  async function simulateRefresh(store, wrapper) {
+    store.commit('umcSession/refreshNeeded', true);
+    await wrapper.vm.$nextTick();
+    await wrapper.trigger('load');
+    await wrapper.trigger('load');
+  }
+
+  async function simulateRestartRefresh(store, wrapper) {
+    store.commit('umcSession/refreshNeeded', false);
+    await wrapper.vm.$nextTick();
+    await simulateRefresh(store, wrapper);
+  }
+
+});
