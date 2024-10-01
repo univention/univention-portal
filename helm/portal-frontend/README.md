@@ -420,15 +420,15 @@ true
 			<td><pre lang="json">
 [
   {
-    "path": "/univention/(portal|selfservice)/",
+    "path": "/univention/(portal|selfservice)/$",
     "pathType": "ImplementationSpecific"
   },
   {
-    "path": "/univention/(portal|selfservice)/index.html",
+    "path": "/univention/(portal|selfservice)/index.html$",
     "pathType": "ImplementationSpecific"
   },
   {
-    "path": "/univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom)(/.*)",
+    "path": "/univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom)(/.*)$",
     "pathType": "ImplementationSpecific"
   },
   {
@@ -500,7 +500,7 @@ true
 			<td>ingress.items[1].paths[0].pathType</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Exact"
+"ImplementationSpecific"
 </pre>
 </td>
 			<td></td>
@@ -509,7 +509,7 @@ true
 			<td>ingress.items[1].paths[1].path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/univention"
+"/univention$"
 </pre>
 </td>
 			<td></td>
@@ -518,7 +518,7 @@ true
 			<td>ingress.items[1].paths[1].pathType</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Exact"
+"ImplementationSpecific"
 </pre>
 </td>
 			<td></td>
@@ -527,7 +527,7 @@ true
 			<td>ingress.items[1].paths[2].path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/univention/"
+"/univention/$"
 </pre>
 </td>
 			<td></td>
@@ -536,7 +536,7 @@ true
 			<td>ingress.items[1].paths[2].pathType</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Exact"
+"ImplementationSpecific"
 </pre>
 </td>
 			<td></td>
@@ -545,7 +545,7 @@ true
 			<td>ingress.items[1].paths[3].path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/univention/portal"
+"/univention/portal$"
 </pre>
 </td>
 			<td></td>
@@ -554,7 +554,7 @@ true
 			<td>ingress.items[1].paths[3].pathType</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Exact"
+"ImplementationSpecific"
 </pre>
 </td>
 			<td></td>
@@ -563,7 +563,7 @@ true
 			<td>ingress.items[1].paths[4].path</td>
 			<td>string</td>
 			<td><pre lang="json">
-"/univention/selfservice"
+"/univention/selfservice$"
 </pre>
 </td>
 			<td></td>
@@ -572,7 +572,7 @@ true
 			<td>ingress.items[1].paths[4].pathType</td>
 			<td>string</td>
 			<td><pre lang="json">
-"Exact"
+"ImplementationSpecific"
 </pre>
 </td>
 			<td></td>
