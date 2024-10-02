@@ -8,18 +8,16 @@ import * as utils from '@/store/modules/umcSession/utils';
 import * as stubs from './stubs';
 
 jest.mock('@/store/modules/umcSession/utils');
+const mockedUtils = jest.mocked(utils, true);
 
-// TODO: Add solid typing back once the dependency upgrade has been merged
-// const mockedUtils = jest.mocked(utils, true);
-const mockedUtils = utils as any;
-
-beforeEach(() => {
-  jest.useFakeTimers();
-});
+jest.useFakeTimers();
 
 afterEach(() => {
   jest.clearAllTimers();
   jest.resetAllMocks();
+});
+
+afterAll(() => {
   jest.restoreAllMocks();
 });
 
