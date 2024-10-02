@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.41.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.40.1...v0.41.0) (2024-10-02)
+
+
+### Features
+
+* **frontend:** Add "startSessionRefresh" into umcSession store module ([7777305](https://git.knut.univention.de/univention/components/univention-portal/commit/77773052e9694589551d6535078dd899781a9b81))
+* **frontend:** Add feature toggle around umc session refresh ([84af0ac](https://git.knut.univention.de/univention/components/univention-portal/commit/84af0ac22ff7146940e299e0da7f07e7f68b7f21))
+* **frontend:** Add handling of "load" event into UmcSessionRefreshIframe ([c53b20e](https://git.knut.univention.de/univention/components/univention-portal/commit/c53b20ef200ed51bdecb764faf5757c4770087f8))
+* **frontend:** Add retartSessionRefresh and disableSessionRefresh actions ([9303588](https://git.knut.univention.de/univention/components/univention-portal/commit/9303588bc433c2c6ac0415e10b292645d2cd3120))
+* **frontend:** Add umcSession module into store ([ad24a6a](https://git.knut.univention.de/univention/components/univention-portal/commit/ad24a6a731939359012633f8018452ab416ca735))
+* **frontend:** Add UmcSessionRefreshIframe ([f529852](https://git.knut.univention.de/univention/components/univention-portal/commit/f529852f64954655cb7c35a39be165f728f17d0c))
+* **frontend:** Add utility function umcGetSessionInfo ([8811771](https://git.knut.univention.de/univention/components/univention-portal/commit/8811771c436c7e51002d9bce5c1ee9dc21059cb2))
+* **frontend:** Add utility functions to parse the session refresh data ([c928edb](https://git.knut.univention.de/univention/components/univention-portal/commit/c928edb9dc61916a8cc45abd7805a07c19c5abf0))
+* **frontend:** Handle expired session and failure cases in umcGetSessionInfo ([c9628ad](https://git.knut.univention.de/univention/components/univention-portal/commit/c9628ad9ddd9aa9b8b63e23f00d0526d31a88a0a))
+* **frontend:** Handle the result value in UmcSessionRefreshIframe ([3a3d968](https://git.knut.univention.de/univention/components/univention-portal/commit/3a3d9686a2f7af44cf4bf8cbaa3c86c863bc3f4b))
+* **frontend:** Hide the iframe for the umc session reload ([a507980](https://git.knut.univention.de/univention/components/univention-portal/commit/a507980a56f924a817e64f84a9c9f067c362fa39))
+
+
+### Bug Fixes
+
+* **frontend:** Correct handling of internal state in UmcSessionRefreshIframe ([c8998b7](https://git.knut.univention.de/univention/components/univention-portal/commit/c8998b7cf5d2d8ebef7476f871e47ad40356c9ef))
+
 ## [0.40.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.40.0...v0.40.1) (2024-09-26)
 
 
