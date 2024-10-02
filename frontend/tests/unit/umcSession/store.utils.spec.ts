@@ -23,10 +23,7 @@ describe('umcGetSessionInfo', () => {
   test('triggers POST request to ".../get/session-info"', async () => {
     mockedPost.mockResolvedValue(stubs.stubSessionInfoResponse);
     await umcGetSessionInfo();
-    // TODO: Refactor once Jest >=27 is available
-    // expect(mockedPost.mock.lastCall[0]).toBe('/univention/get/session-info');
-    const lastCall = mockedPost.mock.calls[mockedPost.mock.calls.length - 1];
-    expect(lastCall[0]).toBe('/univention/get/session-info');
+    expect(mockedPost.mock.lastCall[0]).toBe('/univention/get/session-info');
   });
 
   test('returns umc response', async () => {

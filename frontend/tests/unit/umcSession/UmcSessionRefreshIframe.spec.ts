@@ -223,18 +223,14 @@ describe('UmcSessionRefreshIframe', () => {
     expect(handleRefreshResultMock).toHaveBeenCalledTimes(2);
   });
 
-  // TODO: Add solid typing back once the dependency upgrade has been merged
-  // async function simulateRefresh(store: Store<RootState>, wrapper: VueWrapper) {
-  async function simulateRefresh(store: Store<RootState>, wrapper: any) {
+  async function simulateRefresh(store: Store<RootState>, wrapper: VueWrapper) {
     store.commit('umcSession/refreshNeeded', true);
     await wrapper.vm.$nextTick();
     await wrapper.trigger('load');
     await wrapper.trigger('load');
   }
 
-  // TODO: Add solid typing back once the dependency upgrade has been merged
-  // async function simulateRestartRefresh(store: Store<RootState>, wrapper: VueWrapper) {
-  async function simulateRestartRefresh(store: Store<RootState>, wrapper: any) {
+  async function simulateRestartRefresh(store: Store<RootState>, wrapper: VueWrapper) {
     store.commit('umcSession/refreshNeeded', false);
     await wrapper.vm.$nextTick();
     await simulateRefresh(store, wrapper);
