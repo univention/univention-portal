@@ -45,6 +45,10 @@ after having a fresh clone of the repository.
 
 ### Prepare the environment file
 
+The environment configuration is handled via `dotenv` which is integrated via
+`Vue CLI`. Details are documented at
+<https://cli.vuejs.org/guide/mode-and-env.html>.
+
 Have a look at `.env.local_example`. Copy it to `.env.local`. Or copy
 `.env.production` instead.
 
