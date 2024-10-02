@@ -11,6 +11,7 @@ const getSessionInfoPath = 'get/session-info';
 
 export interface UmcSessionInfo {
   username: string;
+  // eslint-disable-next-line camelcase
   auth_type: string;
   remaining: number;
 }
