@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.42.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.41.0...v0.42.0) (2024-10-04)
+
+
+### Features
+
+* **frontend:** remove custom theming ([882a22b](https://git.knut.univention.de/univention/components/univention-portal/commit/882a22baf00cd0fb9256c74c500164ca0849f560))
+
+
+### Bug Fixes
+
+* **frontend:** use UCS nubus favicon and icon ([c09cd3b](https://git.knut.univention.de/univention/components/univention-portal/commit/c09cd3ba70af4e1ff59c0311ee2647c93602c6f9))
+
 ## [0.41.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.40.1...v0.41.0) (2024-10-02)
 
 
