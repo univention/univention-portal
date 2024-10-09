@@ -113,8 +113,6 @@ spec:
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           command: ["/bin/bash", "/scripts/wait-for-provisioning-api.sh"]
-          resources:
-            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
           volumeMounts:
             - name: scripts
               mountPath: /scripts
