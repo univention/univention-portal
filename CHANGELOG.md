@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.42.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.0...v0.42.1) (2024-10-09)
+
+
+### Bug Fixes
+
+* fix ingress paths ([d872f8b](https://git.knut.univention.de/univention/components/univention-portal/commit/d872f8b11db6bc0048c3cec2c64df62b9a388efd))
+
 ## [0.42.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.41.0...v0.42.0) (2024-10-04)
 
 
