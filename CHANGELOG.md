@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.42.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.1...v0.42.2) (2024-10-09)
+
+
+### Bug Fixes
+
+* remove duplicate key ([204e41c](https://git.knut.univention.de/univention/components/univention-portal/commit/204e41ca04f59a9059bf0a7158e2f199d2f30748))
+
 ## [0.42.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.0...v0.42.1) (2024-10-09)
 
 
