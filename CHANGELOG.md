@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.42.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.2...v0.42.3) (2024-10-17)
+
+
+### Bug Fixes
+
+* **server:** missing dependencies file for Trivy ([7c58f8e](https://git.knut.univention.de/univention/components/univention-portal/commit/7c58f8e44b0b76aaaabdb6f3d512d79b018d2a09)), closes [univention/customers/dataport/team-souvap#764](https://git.knut.univention.de/univention/customers/dataport/team-souvap/issues/764)
+
 ## [0.42.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.1...v0.42.2) (2024-10-09)
 
 
