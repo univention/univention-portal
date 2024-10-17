@@ -79,6 +79,7 @@ RUN mkdir -p /var/log/univention/ \
 
 COPY ./univention-portal-server /usr/sbin/univention-portal-server
 COPY ./univention-portal .
+COPY --from=build /staging/requirements.txt .
 COPY --from=build /usr/local/lib/python3.7 /usr/local/lib/python3.7
 
 # Considered to be part of the application.
