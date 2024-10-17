@@ -105,6 +105,34 @@ properties:
   name: univentionwebsite
 ---
 action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+properties:
+  activated: TRUE
+  allowedGroups:
+  - cn=Domain Admins,cn=groups,{{ ldapBaseDn }}
+  anonymous: FALSE
+  backgroundColor: None
+  description:
+    de_DE: Keycloak
+    en_US: Keycloak
+    fr_FR: Keycloak
+  displayName:
+    de_DE: Keycloak
+    en_US: Keycloak
+    fr_FR: Keycloak
+  icon: "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTE9HTyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxNDQuOCAxNDQuNCI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2RkMDQyZDsKICAgICAgICBzdHJva2Utd2lkdGg6IDBweDsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHBhdGggaWQ9IkJJTERNQVJLRSIgY2xhc3M9ImNscy0xIiBkPSJNMTE3LjYsNDcuOGMxMC4yLTUuNCwxMC4xLTIwLS4yLTI1LjJMNzMsMCwyOC43LDIyLjZjLTEwLjIsNS4yLTEwLjQsMTkuOC0uMiwyNS4ybDM3LjgsMjAuMWMyLjEsMS4xLDQuNCwxLjcsNi43LDEuN3M0LjYtLjYsNi42LTEuNmwzOC0yMC4xaDBaTTczLDU4Yy0uNCwwLS45LS4xLTEuMy0uM2wtMzcuOC0yMC4xYy0xLjItLjYtMS40LTEuNy0xLjQtMi40cy4zLTEuOCwxLjUtMi40bDM5LTE5LjksMzkuMiwxOS45YzEuMi42LDEuNSwxLjYsMS41LDIuNHMtLjIsMS44LTEuNCwyLjRsLTM4LDIwLjFjLS40LjItLjguMy0xLjMuM2gwWk0xNDQuNiw2NS4yYzAtOC4yLTYuOC0xNC4yLTE0LjItMTQuMnMtNC40LjUtNi42LDEuN2wtMzkuNCwyMC43Yy00LjcsMi41LTcuNiw3LjMtNy42LDEyLjZ2NDRjMCw4LjMsNi44LDE0LjIsMTQuMiwxNC4yczQuNi0uNiw2LjgtMS44bDQ3LTI1LjctLjItNTEuNmgwWk05Mi4yLDEzMi4xYy0uNC4yLS44LjMtMS4xLjMtLjgsMC0yLjQtLjYtMi40LTIuNHYtNDRjMC0uOS41LTEuNywxLjMtMi4xbDM5LjQtMjAuN2MuNC0uMi43LS4zLDEuMS0uMywxLDAsMi40LjgsMi40LDIuNGwuMiw0NC41LTQwLjgsMjIuM2gwWk02OC4zLDg3LjN2NDMuNWMwLDQuOC0yLjUsOS4yLTYuNiwxMS42LTIuMSwxLjMtNC41LDEuOS02LjksMS45cy00LjQtLjYtNi41LTEuN0wwLDExNi40di0xNS43Yy4xLTMuMiwyLjgtNS45LDYtNS45aDBjMy4zLDAsNS45LDIuNyw1LjksNS45djguNmMwLDAsNDIsMjIuOSw0MiwyMi45LjguNCwxLjQuMiwxLjcsMCwuMy0uMi44LS42LjgtMS41di00My41YzAtMi4yLTEuMi00LjItMy4yLTUuMmwtMzIuNy0xNy4yLTYuNS0zLjVjLS42LS4zLTEuMS0uMS0xLjUsMC0uMy4yLS43LjYtLjcsMS4zdjEwLjJjMCwzLjMtMi42LDUuOS01LjksNS45UzAsNzYuMywwLDczLjF2LTEwLjJjMC00LjcsMi40LTguOSw2LjQtMTEuNCw0LTIuNCw4LjktMi42LDEzLS41aDBzNi42LDMuNiw2LjYsMy42bDMyLjYsMTcuMWM1LjgsMy4xLDkuNSw5LjEsOS41LDE1LjdoMFoiLz4KPC9zdmc+"
+  link:
+  - - en_US
+    - https://{{ subDomainsKeycloak }}.{{ domainName }}/admin/
+  linkTarget: newwindow
+  name: keycloak
+  target: null
+
+---
+
+
+action: create
 module: portals/folder
 position: cn=folder,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
@@ -207,6 +235,7 @@ properties:
     fr_FR: Administration
   entries:
   - cn=umc-domain,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=keycloak,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: domain-admin
 ---
 action: create

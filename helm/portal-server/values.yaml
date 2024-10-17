@@ -31,6 +31,12 @@ global:
 
   configMapUcr: "stack-data-ums-ucr"
 
+  domain: ""
+  subDomains:
+    portal: portal
+    keycloak: id
+
+
 # -- Additional custom annotations to add to all deployed objects.
 additionalAnnotations: {}
 
