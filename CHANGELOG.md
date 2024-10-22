@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.43.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.3...v0.43.0) (2024-10-22)
+
+
+### Features
+
+* add Keycloak portal entry ([daf843b](https://git.knut.univention.de/univention/components/univention-portal/commit/daf843bf27220f668c2a6b60a70e1eeb6f111aa1))
+
 ## [0.42.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.2...v0.42.3) (2024-10-17)
 
 
