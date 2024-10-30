@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.43.0...v0.44.0) (2024-10-30)
+
+
+### Features
+
+* **consumer:** Add partial support of new secrets handling around provisioningApi.auth ([b31ba3a](https://git.knut.univention.de/univention/components/univention-portal/commit/b31ba3a04bf0d4d4c7d40a07d15e92450e79e34c))
+
 ## [0.43.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.42.3...v0.43.0) (2024-10-22)
 
 
