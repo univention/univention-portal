@@ -1,5 +1,7 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: LicenseRef-Univention-Proprietary
 # SPDX-FileCopyrightText: 2023 Univention GmbH
+#
+# Note: The license in general would be AGPL-3.0-only, except that the Nubus logo on the login tile is trademarked and under a proprietary license.
 
 # Source: https://git.knut.univention.de/univention/components/univention-portal/-/blob/274e78d7d34bf9bc10238705f6aaacf1159ebfe7/33univention-portal.inst#L138
 
