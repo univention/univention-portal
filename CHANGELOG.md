@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.0...v0.44.1) (2024-11-01)
+
+
+### Bug Fixes
+
+* add digest to wait-for-dependency image tag ([86d725b](https://git.knut.univention.de/univention/components/univention-portal/commit/86d725b591a1cf9e928cab6162363e474b5759b5))
+
 ## [0.44.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.43.0...v0.44.0) (2024-10-30)
 
 
