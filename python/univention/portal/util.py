@@ -135,6 +135,7 @@ def get_object_storage_client(
 ):
     """Create an object storage client"""
     return boto3.client(
+        # TODO: Optionally set tls certificates
         "s3",
         endpoint_url=object_storage_endpoint,
         aws_access_key_id=access_key_id,
