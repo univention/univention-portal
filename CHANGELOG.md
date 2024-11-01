@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.2...v0.44.3) (2024-11-01)
+
+
+### Bug Fixes
+
+* Fix umc portal tile link ([be750d1](https://git.knut.univention.de/univention/components/univention-portal/commit/be750d124d7f0a6b853b6bccce45ef6ac0ca9e03))
+
 ## [0.44.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.1...v0.44.2) (2024-11-01)
 
 
