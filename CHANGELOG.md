@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.1...v0.44.2) (2024-11-01)
+
+
+### Bug Fixes
+
+* fix license information of trademarked images ([7575334](https://git.knut.univention.de/univention/components/univention-portal/commit/75753341dc88df5cf3380e43e2c698c4e098dd3b))
+
 ## [0.44.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.0...v0.44.1) (2024-11-01)
 
 
