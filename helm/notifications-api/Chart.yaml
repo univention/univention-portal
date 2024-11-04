@@ -22,7 +22,7 @@ dependencies:
     repository: "oci://registry-1.docker.io/bitnamicharts"
   - name: "postgresql"
     repository: "https://charts.bitnami.com/bitnami"
-    version: "^14.x.x"
+    version: "^16.0.0"
     condition: "postgresql.bundled"
 
 ...

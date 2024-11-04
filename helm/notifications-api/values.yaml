@@ -93,7 +93,7 @@ fullnameOverride: ""
 image:
   registry: "artifacts.software-univention.de"
   repository: "nubus-dev/images/notifications-api"
-  tag: "0.26.3@sha256:cb7d92c78ca63105ff990f16a4f3b61f5d124d8a5661f3f55545234877ff195e"
+  tag: "0.44.3@sha256:d843fb7e59ac803b5b0a4e9cf17b6a5acbaa2a0ff5d9fb0775d4b334b02901e7"
   imagePullPolicy: "IfNotPresent"
 
 # -- Credentials to fetch images from private registry.

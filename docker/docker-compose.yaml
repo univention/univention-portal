@@ -148,7 +148,7 @@ services:
 
   # The database is needed by the notifications API.
   db:
-    image: postgres:12.13-alpine
+    image: postgres:17.0-alpine
     environment:
       POSTGRES_PASSWORD: "devpassword"
       POSTGRES_USER: "dev"
@@ -228,7 +228,7 @@ services:
   helm-docs:
     profiles:
       - test
-    image: "jnorwood/helm-docs:v1.11.0"
+    image: "jnorwood/helm-docs:v1.14.2"
     command: "-c helm"
     volumes:
       - type: bind
