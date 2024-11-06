@@ -1,3 +1,21 @@
+univention-portal (6.0.13) unstable; urgency=medium
+
+  * Bug #57731: add optional id attribute to self-service components
+
+ -- Christian Castens <castens@univention.de>  Tue, 05 Nov 2024 16:18:36 +0200
+
+univention-portal (6.0.12) unstable; urgency=medium
+
+  * Bug #57562: default false for portal/reload-tabs-on-logout
+
+ -- Felix Botner <botner@univention.de>  Wed, 04 Sep 2024 15:06:35 +0200
+
+univention-portal (6.0.11) unstable; urgency=medium
+
+  * Bug #57534: Support oidc in portal login button
+
+ -- Felix Botner <botner@univention.de>  Thu, 29 Aug 2024 13:47:50 +0200
+
 univention-portal (6.0.10) unstable; urgency=medium
 
   * Bug #57467 Add a shared worker that connects to the UMCs /logout-sse
