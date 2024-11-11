@@ -1,40 +1,7 @@
 ---
 
-variables:
-  SOUVAP_HELM_PROJECT_ID: 155
-  SOUVAP_REGISTRY_PATH: souvap/tooling/images/univention
-
-stages:
-  - prepare
-  - lint
-  - build
-  - test
-  - package
-  - publish
-
-# This workflow rule prevents duplicate pipelines when pushing to branches that
-# already have a merge request open. Our integration branch "develop" is an
-# explicit exception and shall always trigger.
-#
-# The rules are applied in order, the first matching one decides.
-#
-# Compare https://docs.gitlab.com/ee/ci/yaml/#rules
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == "develop"
-    - if: $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
-      when: never
-    - if: $CI_COMMIT_BRANCH
-
-stages:
-  - build
-  - test
-  - lint
-  - get-demodata
-  - master-env
-  - master-deploy
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
 
 include:
   - project: "univention/customers/dataport/upx/common-ci"
@@ -80,14 +47,8 @@ trigger-notifications-api:
         - "tests/**/*"
         - "helm/notifications-api/**/*"
 
-
-# Linting related checks and builds
-pre-commit-linting:
-  stage: test
-  needs: []
-  image:
-    name: "gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest"
-    entrypoint: [""]
+trigger-frontend:
+  stage: "trigger"
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
     PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
@@ -135,9 +96,23 @@ trigger-portal-server:
         - "univention-portal"
         - "univention-portal-server"
 
-.remove-env-instance: &remove-env-instance
-  - terraform refresh
-  - terraform destroy -auto-approve
+# TODO: Pending removal. This can be removed once the ucs-machine (VMs) are not
+# used anymore. Usage in the dev environment and in the SouvAP deployment.
+trigger-debian-package:
+  stage: "trigger"
+  trigger:
+    strategy: "depend"
+    include:
+      - local: ".gitlab-ci.debian.yml"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: "never"
+    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+      when: "always"
+    - changes: *portal-server-changes
+    - changes: *portal-frontend-changes
+    - changes:
+        - "debian/**/*"
 
 check-debian-updates:
   parallel:
@@ -147,80 +122,10 @@ check-debian-updates:
       - IMAGE_NAME: "notifications-api"
       - IMAGE_NAME: "portal-consumer"
   before_script:
-    - rm -rf ${CI_BUILDS_DIR}/terraform
-    - git -c http.sslVerify=false clone --single-branch --branch main --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/univention/customers/dataport/deployment/terraform-ionos ${CI_BUILDS_DIR}/terraform
-    - cd ${TF_ROOT}
     - |
-      terraform init \
-      -backend-config="address=${TF_ADDRESS}" \
-      -backend-config="lock_address=${TF_ADDRESS}/lock" \
-      -backend-config="unlock_address=${TF_ADDRESS}/lock" \
-      -backend-config="username=terraform-state" \
-      -backend-config="password=${GL_TOKEN}" \
-      -backend-config="lock_method=POST" \
-      -backend-config="unlock_method=DELETE" \
-      -backend-config="retry_wait_min=5" \
-      -backend-config="skip_cert_verification=true"
-  image: artifacts.knut.univention.de/upx/container-tooling/automation-terraform:main-ecb2bd5d
-  variables:
-    HOSTING_PROVIDER: hetzner
-    TF_ROOT: ${CI_BUILDS_DIR}/terraform/${HOSTING_PROVIDER}/ucs-automation-named
+      if [[ "${USERNAME}" != "root" ]]; then
+        echo "ERROR: running as ${USERNAME} but root is requiered"
+      fi
 
-master-env:
-  after_script:
-    - cd ${TF_ROOT}
-    - MASTER_SERVER_IP=$(terraform refresh -lock=false | grep -Po '(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')
-    - echo "MASTER_SERVER_IP=${MASTER_SERVER_IP}" > ${CI_PROJECT_DIR}/deploy.env
-    - cat ${CI_PROJECT_DIR}/deploy.env
-  artifacts:
-    reports:
-      dotenv: ${CI_PROJECT_DIR}/deploy.env
-  environment:
-    name: ${CI_COMMIT_REF_NAME}
-    url: https://${CI_COMMIT_REF_SLUG}.upx.mydemoenv.net
-    on_stop: master-stop-env
-    auto_stop_in: 4 hours
-  extends: .environment-common
-  needs:
-    - build-deb
-  resource_group: ${CI_COMMIT_REF_SLUG}
-  script:
-    - *remove-env-instance
-    - terraform apply -auto-approve -var snapshot=54479140 -var ssh-keys=["4820687"] -var create-dns-record=false -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
-    - terraform apply -auto-approve -var snapshot=54479140 -var ssh-keys=["4820687"] -var create-dns-record=true -var project-id=${CI_PROJECT_ID} -var dns-record=${CI_COMMIT_REF_SLUG}.upx
-  stage: master-env
-  variables:
-    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}
+...
 
-master-deploy:
-  before_script:
-    *prepare_ansible
-  dependencies:
-    - master-env
-    - build-deb
-  image: artifacts.knut.univention.de/upx/container-tooling/automation-ansible:main-41a9520a
-  needs:
-    - build-deb
-    - master-env
-  resource_group: ${CI_COMMIT_REF_SLUG}
-  script:
-    - export PACKAGE_NAME="$(set -- *.deb; echo "$1")"
-    - rm -rf ${CI_BUILDS_DIR}/demodata
-    - git -c http.sslVerify=false clone --single-branch --branch main --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@git.knut.univention.de/univention/customers/dataport/upx/portal/ci-demodata ${CI_BUILDS_DIR}/demodata
-    - cd ${CI_PROJECT_DIR}/ci/
-    - ansible-playbook playbook.yml -l ${CI_COMMIT_REF_SLUG} -i inventory/univention -v
-  stage: master-deploy
-
-master-stop-env:
-  environment:
-    name: ${CI_COMMIT_REF_NAME}
-    action: stop
-  extends: .environment-common
-  script:
-    - *remove-env-instance
-    # Delete terraform state (maintainer permission needed)
-    - curl -k --header "Private-Token:${GL_TOKEN}" --request DELETE ${TF_ADDRESS}
-  stage: master-env
-  variables:
-    TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_COMMIT_REF_SLUG}
-  when: manual
