@@ -68,12 +68,12 @@ describe('ChooseTabButton Component', () => {
     cy.get('.header-button__detail').contains(openElements);
     cy.wait(500);
     cy.get('#choose-tab__button--2').click();
-    cy.get('#iframe-2').should('be.visible');
+    cy.get('#iframe-3').should('be.visible');
     cy.get('#header-button-copy').click();
     cy.get('#choose-tab__button--4').click();
     cy.get('#header-button-copy').click();
     for (let i = 1; i <= openElements; i += 1) {
-      cy.get('[data-test="chooseTabCloseButton--1"]').click();
+      cy.get(`[data-test="chooseTabCloseButton--${i}"]`).click();
       if (i < openElements) {
         cy.get('.modal-wrapper--isVisible').should('be.visible');
       }

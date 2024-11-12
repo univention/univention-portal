@@ -41,7 +41,7 @@ describe('Test Tabs', () => {
     // first click results to first tab and first Iframe (first element in array)
     cy.get('.portal-category .portal-tile').first()
       .click();
-    cy.get('#iframe-1').should('be.visible');
+    cy.get('#iframe-2').should('be.visible');
     // click to portal
     cy.get('.portal-title__portal-name').click();
     cy.get('#portalCategories').should('be.visible');
@@ -59,11 +59,11 @@ describe('Test Tabs', () => {
     cy.get('[data-test="header-tabs"]').children()
       .should('have.length', 2);
     cy.get('#headerTab__1').click();
-    cy.get('#iframe-1').should('be.visible');
+    cy.get('#iframe-2').should('be.visible');
     cy.get('iframe').should('be.focused');
     // closing last tab of two
     cy.get('#headerTab__2').click();
-    cy.get('#iframe-2').should('be.visible');
+    cy.get('#iframe-3').should('be.visible');
     cy.get('[data-test="close-tab-2"]').click();
     cy.get('#portalCategories').should('be.visible');
     cy.get('[data-test="header-tabs"]').children()
@@ -97,7 +97,7 @@ describe('Test Tabs', () => {
         .should('have.length', 0);
       cy.get('.portal-category .portal-tile').last()
         .click();
-      cy.get('#iframe-1').should('be.visible');
+      cy.get('#iframe-2').should('be.visible');
       getStore().its('state')
         .its('tabs')
         .its('tabs')
