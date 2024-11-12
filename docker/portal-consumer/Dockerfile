@@ -42,7 +42,7 @@ RUN mkdir -p /var/log/univention/ \
     && touch /var/cache/univention-portal/portal.json \
     && touch /var/cache/univention-portal/selfservice.json
 
-COPY --from=portal-server-image /usr/local/lib/python3.7/dist-packages/univention /usr/local/lib/python3.11/dist-packages/univention
+COPY --from=portal-server-image /usr/local/lib/python3.11/dist-packages/univention /usr/local/lib/python3.11/dist-packages/univention
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
 COPY --from=portal-server-image /entrypoint.d/50-entrypoint.sh /entrypoint.d/25-docker-entrypoint.sh
 
