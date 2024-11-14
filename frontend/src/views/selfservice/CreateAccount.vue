@@ -31,8 +31,8 @@
     :title="TITLE"
   >
     <my-form
-      id="create-account"
       v-if="formWidgets.length > 0"
+      id="create-account"
       ref="form"
       v-model="formValues"
       :widgets="formWidgetsWithTabindex"

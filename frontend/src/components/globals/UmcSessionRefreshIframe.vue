@@ -32,8 +32,8 @@
     v-if="refreshNeeded"
     src="/univention/saml/iframe/"
     title="UMC session refresh iframe"
-    @load="onLoad"
     style="position: absolute; width: 0; height: 0; border: 0"
+    @load="onLoad"
   />
 </template>
 

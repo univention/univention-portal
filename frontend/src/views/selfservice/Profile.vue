@@ -32,8 +32,8 @@
     :subtitle="SUBTITLE"
   >
     <my-form
-      id="profile"
       v-if="!attributesLoaded"
+      id="profile"
       ref="loginForm"
       v-model="loginValues"
       :widgets="loginWidgetsWithTabindex"

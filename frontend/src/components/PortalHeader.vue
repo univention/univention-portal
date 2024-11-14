@@ -59,7 +59,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       v-if="editMode"
       class="edit-mode-wrapper"
     >
-      <div class="edit-mode-wrapper-divider"></div>
+      <div class="edit-mode-wrapper-divider" />
       <tabindex-element
         id="exit-edit-mode-button"
         class="button--primary button--shadow"
@@ -71,7 +71,7 @@ License with the Debian GNU/Linux or Univention distribution in file
       >
         {{ EDIT_MODE }}
       </tabindex-element>
-      <div class="edit-mode-wrapper-divider edit-mode-wrapper-divider-right"></div>
+      <div class="edit-mode-wrapper-divider edit-mode-wrapper-divider-right" />
     </div>
     <div
       v-if="editMode"

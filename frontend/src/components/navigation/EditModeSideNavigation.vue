@@ -40,8 +40,8 @@
       class="divider"
     />
     <my-form
-      ref="form"
       id="editModeSideNavigationForm"
+      ref="form"
       v-model="formValues"
       :widgets="formWidgetsWithTabindex"
       :class="['edit-mode-side-navigation__form',
