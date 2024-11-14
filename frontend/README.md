@@ -14,7 +14,19 @@ Written in **Vue.js 3** with **Typescript**. Documentation and guidelines are ma
 
 ## Node version
 
-Aim to use the latest lts version of node.
+Aim to use the latest lts version of Node.
+
+The currently used version is locked down in the following files and has to be
+kept in sync when changing one of these places:
+
+- `../docker/deb-builder/Dockerfile`
+- `.node-version`
+- `.nvmrc`
+- `Dockerfile.test`
+- `Dockerfile`
+
+
+### Using `nvm` to manage Node versions
 
 Consider to use `nvm` to install the version.
 
