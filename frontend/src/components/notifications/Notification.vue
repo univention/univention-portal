@@ -33,6 +33,8 @@ License with the Debian GNU/Linux or Univention distribution in file
     :data-test="`notification--${importance}`"
     @mouseenter="stopDismissal"
     @mouseleave="startDismissal"
+    @focusin="stopDismissal"
+    @focusout="startDismissal"
   >
     <div class="notification__header">
       <div
