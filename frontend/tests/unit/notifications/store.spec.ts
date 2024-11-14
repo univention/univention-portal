@@ -49,7 +49,7 @@ test('should set a defaults for link properties if none are submitted', async ()
       url: 'https://www.univention.de/',
     },
   };
-  const stubStore = new vuex.Store<any>({
+  const stubStore = new vuex.Store({
     modules: {
       notifications: {
         ...notifications,
