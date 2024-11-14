@@ -97,12 +97,12 @@ module.exports = {
     'vue/no-unused-components': 'off',
     'vue/multi-word-component-names': 'off',
 
-    // TODO: Pending fixes
+    // TODO: The "vuejs-accessibility" warnings do require fixing in the future.
+    // They should be put back to the level "error" once these have been fixed.
     'vuejs-accessibility/aria-props': 'warn',
     'vuejs-accessibility/form-control-has-label': 'warn',
     'vuejs-accessibility/click-events-have-key-events': 'warn',
     'vuejs-accessibility/interactive-supports-focus': 'warn',
-    'vue/require-valid-default-prop': 'warn',
     'vuejs-accessibility/label-has-for': 'warn',
     'vuejs-accessibility/mouse-events-have-key-events': 'warn',
 
