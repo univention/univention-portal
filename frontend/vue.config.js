@@ -13,8 +13,8 @@ const vueConfig = {
     name: 'Univention Portal',
   },
   devServer: {
-    // TODO: When upgrading Webpack, then use "allowedHosts" instead.
-    // disableHostCheck: process.env.VUE_APP_DISABLE_HOST_CHECK === "true",
+    // See ".env.local_example" regarding details.
+    allowedHosts: process.env.VUE_APP_DISABLE_HOST_CHECK === 'true' ? 'all' : undefined,
   },
   // configureWebpack: {
   //   optimization: {
