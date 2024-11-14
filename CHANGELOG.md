@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.44.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.3...v0.44.4) (2024-11-14)
+
+
+### Bug Fixes
+
+* **frontend:** Adjust usage of "this.$refs" inside of "v-for" ([c83dbd5](https://git.knut.univention.de/univention/components/univention-portal/commit/c83dbd5228ce57d999b34788d9aa47de117d8eca))
+* **frontend:** TabsBody: slot.type.name to slot.type, slot.children as any ([5335f9d](https://git.knut.univention.de/univention/components/univention-portal/commit/5335f9d9cdc95476e45ef91df9aa1f13ff350367))
+
 ## [0.44.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.2...v0.44.3) (2024-11-01)
 
 
