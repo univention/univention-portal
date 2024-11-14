@@ -104,10 +104,10 @@ export default defineComponent({
     },
     invalidMessage: {
       type: Object as PropType<Record<string, string>>,
-      default: {
+      default: () => ({
         invalidMessageNew: '',
         invalidMessageRetype: '',
-      },
+      }),
     },
     forAttrOfLabel: {
       type: String,
