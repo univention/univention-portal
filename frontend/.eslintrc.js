@@ -64,20 +64,7 @@ module.exports = {
       functions: false,
     }],
     'no-useless-escape': 'off',
-    // 'object-curly-newline': ['error', {
-    //   ImportDeclaration: 'never',
-    // }],
-    // 'object-curly-newline': ['error', { multiline: true }],
-    // 'object-curly-newline': 'off',
-    'object-curly-newline': [
-      process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-      {
-        ObjectExpression: { multiline: true, minProperties: 1 },
-        ObjectPattern: { multiline: true },
-        ImportDeclaration: { multiline: true, minProperties: 2 },
-        ExportDeclaration: 'never',
-      },
-    ],
+    'object-curly-newline': 'off',
     'operator-linebreak': [
       'error',
       'after',
