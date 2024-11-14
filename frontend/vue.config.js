@@ -56,10 +56,6 @@ const vueConfig = {
           path.resolve(__dirname, 'src/assets/styles/_variables.styl'),
         ],
       },
-      css: {
-        // TODO: Configure handling of '/data' paths correctly
-        url: false,
-      },
     },
   },
   publicPath: './',
@@ -96,6 +92,7 @@ vueConfig.chainWebpack = (config) => {
     // other stuff
     .set('assets', path.resolve(__dirname, 'src/assets'))
     .set('mixins', path.resolve(__dirname, 'src/mixins'))
+    .set('/data', path.resolve(__dirname, 'public/data'))
     .set('views', path.resolve(__dirname, 'src/views'));
 
   // TODO: In case that the paths will not be resolved in production we might have to install 'module-alias': https://medium.com/@caludio/how-to-use-module-path-aliases-in-visual-studio-typescript-and-javascript-e7851df8eeaa
