@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.45.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.45.0...v0.45.1) (2024-11-14)
+
+
+### Bug Fixes
+
+* **frontend:** Add handling of focusin / focusout for the notification display ([ed31578](https://git.knut.univention.de/univention/components/univention-portal/commit/ed3157865e437574d68b51a65bef4cd6d34a1264))
+* **frontend:** Use a function to provide a structured default value in NewPasswordBox ([b8a1b7c](https://git.knut.univention.de/univention/components/univention-portal/commit/b8a1b7c7dc8f415e3c5d3917ba188db9a37ca382))
+
 ## [0.45.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.4...v0.45.0) (2024-11-14)
 
 
