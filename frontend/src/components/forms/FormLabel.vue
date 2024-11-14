@@ -105,7 +105,7 @@ export default defineComponent({
     },
   },
   methods: {
-    toggleHelpText(): void{
+    toggleHelpText(): void {
       this.$emit('toggleDescription');
     },
   },

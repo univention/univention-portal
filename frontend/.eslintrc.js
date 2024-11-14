@@ -105,7 +105,6 @@ module.exports = {
     'vue/require-valid-default-prop': 'warn',
     'vuejs-accessibility/label-has-for': 'warn',
     'vuejs-accessibility/mouse-events-have-key-events': 'warn',
-    'space-before-blocks': 'warn',
 
     // TEST new Plugin
     'import/no-cycle': 'off',
