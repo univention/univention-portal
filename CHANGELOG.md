@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.45.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.4...v0.45.0) (2024-11-14)
+
+
+### Features
+
+* **frontend:** add optional id attribute to the self-service components ([65adbc7](https://git.knut.univention.de/univention/components/univention-portal/commit/65adbc737c155bad699a64214988ad7d3978bbcf)), closes [#57731](https://git.knut.univention.de/univention/components/univention-portal/issues/57731)
+* **joinscripts:** increase all modified joinscripts by 10 ([c9cf1e8](https://git.knut.univention.de/univention/components/univention-portal/commit/c9cf1e8cb2fec619b5e017f879b83b204e8e139c)), closes [#56927](https://git.knut.univention.de/univention/components/univention-portal/issues/56927)
+* **portal:** change the style of the Portal's folders, tiles and scrollbars ([e0d421f](https://git.knut.univention.de/univention/components/univention-portal/commit/e0d421ff261a15107fd8ccece6abdc2e1ecfbc18)), closes [#2058](https://git.knut.univention.de/univention/components/univention-portal/issues/2058) [#2061](https://git.knut.univention.de/univention/components/univention-portal/issues/2061) [#2062](https://git.knut.univention.de/univention/components/univention-portal/issues/2062) [#2064](https://git.knut.univention.de/univention/components/univention-portal/issues/2064) [#57083](https://git.knut.univention.de/univention/components/univention-portal/issues/57083)
+* **portal:** change the style of the Portal's header tabs ([016dd13](https://git.knut.univention.de/univention/components/univention-portal/commit/016dd133d2fc100cb2d0c47b090bd563e5df17e0)), closes [#2063](https://git.knut.univention.de/univention/components/univention-portal/issues/2063) [#57083](https://git.knut.univention.de/univention/components/univention-portal/issues/57083)
+* **portal:** change the style of the Portal's sidebar ([6380c40](https://git.knut.univention.de/univention/components/univention-portal/commit/6380c40f7bacf5ab24dfe850fc9718b0cb69dd31)), closes [#57083](https://git.knut.univention.de/univention/components/univention-portal/issues/57083)
+* **portal:** further improvements of the portal for UCS 5.2 ([fdcc4fd](https://git.knut.univention.de/univention/components/univention-portal/commit/fdcc4fd84a70668b9b95bcfb763434f611face77)), closes [#57083](https://git.knut.univention.de/univention/components/univention-portal/issues/57083)
+* **portal:** refine style of portal ([b5778d7](https://git.knut.univention.de/univention/components/univention-portal/commit/b5778d73765caee51703a48799b88c6b96d1e3d4)), closes [#57083](https://git.knut.univention.de/univention/components/univention-portal/issues/57083)
+* **portal:** support oidc in portal login ([18335d1](https://git.knut.univention.de/univention/components/univention-portal/commit/18335d1c1d5015a006bcdab5640ba423e28e98e8)), closes [#57534](https://git.knut.univention.de/univention/components/univention-portal/issues/57534) [univention/ucs#2416](https://git.knut.univention.de/univention/ucs/issues/2416)
+* Reload all logged in Portal browser tabs on logout ([ef090fb](https://git.knut.univention.de/univention/components/univention-portal/commit/ef090fbd680a32be8f1530308e4fb8abedaa260c)), closes [#57467](https://git.knut.univention.de/univention/components/univention-portal/issues/57467) [#2362](https://git.knut.univention.de/univention/components/univention-portal/issues/2362)
+* **umc:** change the style of the UMC header ([a1f0cf4](https://git.knut.univention.de/univention/components/univention-portal/commit/a1f0cf4b49172b19cc689c2e635d36cb54b12f78)), closes [#2069](https://git.knut.univention.de/univention/components/univention-portal/issues/2069) [#57083](https://git.knut.univention.de/univention/components/univention-portal/issues/57083)
+* **umc:** User can now delete their own birthday again ([099d06c](https://git.knut.univention.de/univention/components/univention-portal/commit/099d06c18c08fddc4ec1cf05d12a7a0b4e6545e7)), closes [#57023](https://git.knut.univention.de/univention/components/univention-portal/issues/57023)
+
+
+### Bug Fixes
+
+* double quote on bash variables ([ac961bc](https://git.knut.univention.de/univention/components/univention-portal/commit/ac961bccd5b6937ee4871b9db0813031c8122de0))
+* **frontend:** adapt tests to new iframe tab indexing ([1e30d76](https://git.knut.univention.de/univention/components/univention-portal/commit/1e30d76b9d0db3179db56fa9cf37b3a78ad3c00e))
+* **portal:** default [secure] for portal/reload-tabs-on-logout ([4ce4386](https://git.knut.univention.de/univention/components/univention-portal/commit/4ce4386a625758124fbefee13d1f52f6d090e13f))
+* **portal:** further improvements of the portal for UCS 5.2 ([bdbfc01](https://git.knut.univention.de/univention/components/univention-portal/commit/bdbfc01c39e87bfe2d0751fd690038dd1c9e7efd)), closes [#57083](https://git.knut.univention.de/univention/components/univention-portal/issues/57083)
+* **server:** Bump to ucs 5.2 and Python 3.11 ([67d269c](https://git.knut.univention.de/univention/components/univention-portal/commit/67d269c48aea8f8beb5c56790f48af67e526f5dc))
+
 ## [0.44.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.44.3...v0.44.4) (2024-11-14)
 
 
