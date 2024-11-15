@@ -405,35 +405,23 @@ notificationsApi:
   # -- The URL prefix under which the API shall be deployed.
   apiPrefix: "/univention/portal/notifications-api/"
 
-# -- PostgreSQL settings.
-#
-# The bitnami helm chart does contain all details of what can be configured:
-# https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+# -- PostgreSQL client access configuration.
 postgresql:
-  # -- Set to `true` if you want PostgreSQL to be installed as well.
-  bundled: false
-  # -- Connection parameters. These are required if an external service should be used (bundled is set to `false`).
+  # -- Connection to the PostgreSQL server.
   connection:
     # -- PostgreSQL host.
     host: ""
     # -- PostgreSQL port.
     port: "5432"
   auth:
-    # -- PostgreSQL user. If bundled is set to `true` this user will be created.
+    # -- PostgreSQL user.
     username: ""
-    # -- PostgreSQL database. If bundled is set to `true` this database will be created.
+    # -- PostgreSQL database.
     database: ""
-    # -- PostgreSQL user password if bundled is set to `true`.
+    # -- PostgreSQL user password.
     password: ""
-    # -- PostgreSQL admin password if bundled is set to `true`.
+    # -- PostgreSQL admin password.
     postgresPassword: ""
-    # -- PostgreSQL existing secret to use if bundled is set to `true`.
-    existingSecret: ""
-    # -- PostgreSQL existing secret keys to use if bundled is set to `true`.
-    secretKeys:
-      adminPasswordKey: postgres-password
-      userPasswordKey: password
-      replicationPasswordKey: replication-password
     # -- PostgreSQL password secret reference.
     credentialSecret:
       name: ""

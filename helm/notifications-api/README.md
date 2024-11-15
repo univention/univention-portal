@@ -10,27 +10,20 @@ A Helm chart for the Univention Portal Notifications API
 ## TL;DR
 
 ```console
-helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install notifications-api univention-portal/notifications-api
+helm upgrade --install notifications-api oci://artifacts.software-univention.de/nubus/charts/notifications-api
 ```
 
 ## Introduction
 
 This chart does install the Notifications API of the Univention Portal.
 
-PostgreSQL will be optionally installed as a database.
-
 ## Installing
 
 To install the chart with the release name `notifications-api`:
 
 ```console
-helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install notifications-api univention-portal/notifications-api
+helm upgrade --install notifications-api oci://artifacts.software-univention.de/nubus/charts/notifications-api
 ```
-
-By default the chart will install PostgreSQL as well. See the section [Values](#values)
-regarding all available configuration options.
 
 ## Uninstalling
 
@@ -40,22 +33,11 @@ To uninstall the chart with the release name `notifications-api`:
 helm uninstall notifications-api
 ```
 
-Note that persistent volume claims are not automatically deleted. This is
-relevant if you did use the bundled PostgreSQL as a database.
-
-```console
-kubectl delete pvc -l release=notifications-api
-```
-
 ## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | postgresql | ^14.x.x |
 | oci://registry-1.docker.io/bitnamicharts | common | ^2.x.x |
-
-`postgresql` is an optional dependency, it can be deactivated by setting the
-value `postgresql.bundled`.
 
 ## Values
 
@@ -728,17 +710,10 @@ true
       "name": ""
     },
     "database": "",
-    "existingSecret": "",
     "password": "",
     "postgresPassword": "",
-    "secretKeys": {
-      "adminPasswordKey": "postgres-password",
-      "replicationPasswordKey": "replication-password",
-      "userPasswordKey": "password"
-    },
     "username": ""
   },
-  "bundled": false,
   "connection": {
     "host": "",
     "port": "5432"
@@ -746,7 +721,7 @@ true
 }
 </pre>
 </td>
-			<td>PostgreSQL settings.  The bitnami helm chart does contain all details of what can be configured: https://github.com/bitnami/charts/tree/main/bitnami/postgresql</td>
+			<td>PostgreSQL client access configuration.</td>
 		</tr>
 		<tr>
 			<td>postgresql.auth.credentialSecret</td>
@@ -767,16 +742,7 @@ true
 ""
 </pre>
 </td>
-			<td>PostgreSQL database. If bundled is set to `true` this database will be created.</td>
-		</tr>
-		<tr>
-			<td>postgresql.auth.existingSecret</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>PostgreSQL existing secret to use if bundled is set to `true`.</td>
+			<td>PostgreSQL database.</td>
 		</tr>
 		<tr>
 			<td>postgresql.auth.password</td>
@@ -785,7 +751,7 @@ true
 ""
 </pre>
 </td>
-			<td>PostgreSQL user password if bundled is set to `true`.</td>
+			<td>PostgreSQL user password.</td>
 		</tr>
 		<tr>
 			<td>postgresql.auth.postgresPassword</td>
@@ -794,20 +760,7 @@ true
 ""
 </pre>
 </td>
-			<td>PostgreSQL admin password if bundled is set to `true`.</td>
-		</tr>
-		<tr>
-			<td>postgresql.auth.secretKeys</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "adminPasswordKey": "postgres-password",
-  "replicationPasswordKey": "replication-password",
-  "userPasswordKey": "password"
-}
-</pre>
-</td>
-			<td>PostgreSQL existing secret keys to use if bundled is set to `true`.</td>
+			<td>PostgreSQL admin password.</td>
 		</tr>
 		<tr>
 			<td>postgresql.auth.username</td>
@@ -816,16 +769,7 @@ true
 ""
 </pre>
 </td>
-			<td>PostgreSQL user. If bundled is set to `true` this user will be created.</td>
-		</tr>
-		<tr>
-			<td>postgresql.bundled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td>Set to `true` if you want PostgreSQL to be installed as well.</td>
+			<td>PostgreSQL user.</td>
 		</tr>
 		<tr>
 			<td>postgresql.connection</td>
@@ -837,7 +781,7 @@ false
 }
 </pre>
 </td>
-			<td>Connection parameters. These are required if an external service should be used (bundled is set to `false`).</td>
+			<td>Connection to the PostgreSQL server.</td>
 		</tr>
 		<tr>
 			<td>postgresql.connection.host</td>

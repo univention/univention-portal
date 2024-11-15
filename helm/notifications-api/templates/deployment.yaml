@@ -69,7 +69,7 @@ spec:
           imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             - name: DB_USERNAME
-              value: {{ include "notifiations-api.postgresql.auth.username" . | quote }}
+              value: {{ tpl .Values.postgresql.auth.username . | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:

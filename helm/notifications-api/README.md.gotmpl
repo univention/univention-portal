@@ -11,16 +11,12 @@
 ## TL;DR
 
 ```console
-helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install notifications-api univention-portal/notifications-api
+helm upgrade --install notifications-api oci://artifacts.software-univention.de/nubus/charts/notifications-api
 ```
 
 ## Introduction
 
 This chart does install the Notifications API of the Univention Portal.
-
-PostgreSQL will be optionally installed as a database.
-
 
 {{ template "chart.maintainersSection" . }}
 
@@ -32,13 +28,8 @@ PostgreSQL will be optionally installed as a database.
 To install the chart with the release name `notifications-api`:
 
 ```console
-helm repo add univention-portal https://gitlab.souvap-univention.de/api/v4/projects/75/packages/helm/stable
-helm upgrade --install notifications-api univention-portal/notifications-api
+helm upgrade --install notifications-api oci://artifacts.software-univention.de/nubus/charts/notifications-api
 ```
-
-By default the chart will install PostgreSQL as well. See the section [Values](#values)
-regarding all available configuration options.
-
 
 ## Uninstalling
 
@@ -48,26 +39,6 @@ To uninstall the chart with the release name `notifications-api`:
 helm uninstall notifications-api
 ```
 
-Note that persistent volume claims are not automatically deleted. This is
-relevant if you did use the bundled PostgreSQL as a database.
-
-```console
-kubectl delete pvc -l release=notifications-api
-```
-
-
 {{ template "chart.requirementsSection" . }}
-
-
-{{- /*
-
-helm-docs has no support yet for rendering the conditions of dependencies
-
-See: https://github.com/norwoodj/helm-docs/issues/174
-
-*/}}
-
-`postgresql` is an optional dependency, it can be deactivated by setting the
-value `postgresql.bundled`.
 
 {{ template "chart.valuesSectionHtml" . }}
