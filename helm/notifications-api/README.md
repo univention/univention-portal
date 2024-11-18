@@ -705,13 +705,11 @@ true
 			<td><pre lang="json">
 {
   "auth": {
-    "credentialSecret": {
-      "key": "password",
+    "database": "",
+    "existingSecret": {
       "name": ""
     },
-    "database": "",
     "password": "",
-    "postgresPassword": "",
     "username": ""
   },
   "connection": {
@@ -724,18 +722,6 @@ true
 			<td>PostgreSQL client access configuration.</td>
 		</tr>
 		<tr>
-			<td>postgresql.auth.credentialSecret</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "key": "password",
-  "name": ""
-}
-</pre>
-</td>
-			<td>PostgreSQL password secret reference.</td>
-		</tr>
-		<tr>
 			<td>postgresql.auth.database</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -745,22 +731,24 @@ true
 			<td>PostgreSQL database.</td>
 		</tr>
 		<tr>
+			<td>postgresql.auth.existingSecret</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "name": ""
+}
+</pre>
+</td>
+			<td>PostgreSQL password secret reference. (currently required)</td>
+		</tr>
+		<tr>
 			<td>postgresql.auth.password</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
 </pre>
 </td>
-			<td>PostgreSQL user password.</td>
-		</tr>
-		<tr>
-			<td>postgresql.auth.postgresPassword</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>PostgreSQL admin password.</td>
+			<td>PostgreSQL user password. (not yet supported)</td>
 		</tr>
 		<tr>
 			<td>postgresql.auth.username</td>

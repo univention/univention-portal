@@ -73,8 +73,8 @@ spec:
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "notifiations-api.postgresql.auth.credentialSecret.name" . | quote }}
-                  key: {{ include "notifiations-api.postgresql.auth.credentialSecret.key" . | quote }}
+                  name: {{ tpl .Values.postgresql.auth.existingSecret.name . | quote }}
+                  key: {{ include "common.secrets.key" (dict "existingSecret" .Values.postgresql.auth.existingSecret "key" "password") | quote }}
             - name: DATABASE
               value: {{ include "notifiations-api.postgresql.auth.database" .| quote }}
             - name: DATABASE_URL

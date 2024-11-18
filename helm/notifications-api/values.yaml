@@ -418,12 +418,11 @@ postgresql:
     username: ""
     # -- PostgreSQL database.
     database: ""
-    # -- PostgreSQL user password.
+    # -- PostgreSQL user password. (not yet supported)
     password: ""
-    # -- PostgreSQL admin password.
-    postgresPassword: ""
-    # -- PostgreSQL password secret reference.
-    credentialSecret:
+    # -- PostgreSQL password secret reference. (currently required)
+    existingSecret:
       name: ""
-      key: "password"
+      # keyMapping:
+      #   password: null
 ...
