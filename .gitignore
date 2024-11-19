@@ -45,3 +45,7 @@ notifications-api/*.db
 # Tilt
 tilt_config.json
 portal-*-values.yaml
+
+# kyverno test files
+helm/**/.kyverno/kyverno-test.yaml
+helm/**/.kyverno/manifest.yaml
