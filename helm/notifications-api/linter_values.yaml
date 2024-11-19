@@ -47,10 +47,12 @@ probes:
 
 ## PostgreSQL configuration
 postgresql:
-  bundled: true
-  # You have to define the connection if you are not using the bundled postgresql.
-  # connection:
-  #   host:
-  #   port:
+  bundled: false
+  connection:
+    host: "postgresql-host"
+    port: "postgresql-port"
+  auth:
+    existingSecret:
+      name: "secret"
 
 ...

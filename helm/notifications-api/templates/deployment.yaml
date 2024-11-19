@@ -76,9 +76,9 @@ spec:
                   name: {{ tpl .Values.postgresql.auth.existingSecret.name . | quote }}
                   key: {{ include "common.secrets.key" (dict "existingSecret" .Values.postgresql.auth.existingSecret "key" "password") | quote }}
             - name: DATABASE
-              value: {{ include "notifiations-api.postgresql.auth.database" .| quote }}
+              value: {{ include "notifications-api.postgresql.auth.database" .| quote }}
             - name: DATABASE_URL
-              value: {{ include "notifiations-api.postgresql.connection.url" . | quote }}
+              value: {{ include "notifications-api.postgresql.connection.url" . | quote }}
           envFrom:
             - configMapRef:
                 name: "{{ include "common.names.fullname" . }}"
