@@ -89,8 +89,6 @@ These template definitions are only used in this chart and do not relate to temp
 {{- /* TODO: Below code is the original implementation */}}
 {{- else if .Values.provisioningApi.auth.credentialSecret.name -}}
 {{- .Values.provisioningApi.auth.credentialSecret.name -}}
-{{- else if .Values.provisioningApi.auth.password -}}
-{{ printf "%s-api-credentials" (include "common.names.fullname" .) }}
 {{- else if .Values.global.nubusDeployment -}}
 {{- printf "%s-portal-consumer-credentials" .Release.Name -}}
 {{- else -}}
