@@ -16,8 +16,6 @@ These template definitions are only used in this chart and do not relate to temp
 {{- define "notifications-api.postgresql.connection.host" -}}
 {{- if or .Values.postgresql.connection.host .Values.global.postgresql.connection.host -}}
 {{- tpl ( coalesce .Values.postgresql.connection.host .Values.global.postgresql.connection.host ) . -}}
-{{- else if .Values.postgresql.bundled -}}
-{{- printf "%s-postgresql" (include "common.names.fullname" .) -}}
 {{- else if .Values.global.nubusDeployment -}}
 {{- printf "%s-postgresql" .Release.Name -}}
 {{- else -}}

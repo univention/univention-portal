@@ -47,7 +47,6 @@ probes:
 
 ## PostgreSQL configuration
 postgresql:
-  bundled: false
   connection:
     host: "postgresql-host"
     port: "postgresql-port"
