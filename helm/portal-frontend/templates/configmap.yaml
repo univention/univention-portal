@@ -54,7 +54,9 @@ data:
         #gzip  on;
         server {
             listen 80 default_server;
+            {{- if not .Values.portalFrontend.nginx.disableIPv6 }}
             listen [::]:80 default_server;
+            {{- end }}
             root /var/www/html;
             index index.html index.htm;
             server_name _;

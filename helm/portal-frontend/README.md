@@ -860,7 +860,10 @@ true
     "logo": ""
   },
   "environment": "production",
-  "logLevel": "WARNING"
+  "logLevel": "WARNING",
+  "nginx": {
+    "disableIPv6": false
+  }
 }
 </pre>
 </td>
@@ -933,6 +936,26 @@ true
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.nginx</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "disableIPv6": false
+}
+</pre>
+</td>
+			<td>Configuration for the Nginx server serving the portal frontend built files.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.nginx.disableIPv6</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>Disable IPv6 support.</td>
 		</tr>
 		<tr>
 			<td>readinessProbe.failureThreshold</td>

@@ -448,4 +448,8 @@ portalFrontend:
     # -- Background image for the portal frontend.
     backgroundImage: ""
 
+  # -- Configuration for the Nginx server serving the portal frontend built files.
+  nginx:
+    # -- Disable IPv6 support.
+    disableIPv6: false
 ...
