@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.46.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.45.1...v0.46.0) (2024-11-25)
+
+
+### Features
+
+* Remove optional sub-chart "postgresql" ([fbcbc65](https://git.knut.univention.de/univention/components/univention-portal/commit/fbcbc654eb067b428f8290cc13a88fe7dafa09bd))
+* Switch to new configuration structure for the postgresql database ([917196d](https://git.knut.univention.de/univention/components/univention-portal/commit/917196d4b6c24f2b243b33b27e54883f5c180e20))
+
+
+### Bug Fixes
+
+* **portal-frontend:** pod reload on branding configmap change ([67c7fdc](https://git.knut.univention.de/univention/components/univention-portal/commit/67c7fdc1d9e722eb119c3341986f0aefa7dd811d))
+
 ## [0.45.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.45.0...v0.45.1) (2024-11-14)
 
 
