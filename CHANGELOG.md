@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.47.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.46.0...v0.47.0) (2024-11-27)
+
+
+### Features
+
+* remove unsued bundled value ([0b19d2f](https://git.knut.univention.de/univention/components/univention-portal/commit/0b19d2fc276d1b8ae70f1fe46aa200dadcb85aaa))
+* upgrade kyverno pre-commit hook ([61584e7](https://git.knut.univention.de/univention/components/univention-portal/commit/61584e7e8d6f9a5ec31300b032fe66325ccb58cc))
+
+
+### Bug Fixes
+
+* kyverno lint ([736efa6](https://git.knut.univention.de/univention/components/univention-portal/commit/736efa63a40d3c3a489753be459f7a41c7c85a67))
+* typo and lint ([0cd9b74](https://git.knut.univention.de/univention/components/univention-portal/commit/0cd9b74adbf58a9d247272baa8fdefc3200e1b71))
+
 ## [0.46.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.45.1...v0.46.0) (2024-11-25)
 
 
