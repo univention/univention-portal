@@ -27,3 +27,15 @@ License: AGPL-3.0-only
  License with the Debian GNU/Linux or Univention distribution in file
  /usr/share/common-licenses/AGPL-3; if not, see
  <https://www.gnu.org/licenses/>.
+
+Files: univention-blog.png univention-management-console.svg frontend/tests/e2e/fixtures/images/logo.svg
+Copyright: 2024 Univention GmbH
+License: LicenseRef-Univention-Proprietary
+
+Files: frontend/public/feather-sprite.svg key.svg login.svg
+Copyright: 2013-2023 Cole Bemis
+License: MIT
+
+Files: frontend/public/fonts/OpenSans/*
+Copyright: Google LLC
+License: SIL Open Font License

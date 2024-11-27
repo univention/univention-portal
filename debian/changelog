@@ -1,3 +1,9 @@
+univention-portal (6.0.14) unstable; urgency=medium
+
+  * Issue univention/ucs#2495: Update copyright
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Wed, 27 Nov 2024 17:23:49 +0100
+
 univention-portal (6.0.13) unstable; urgency=medium
 
   * Bug #57731: add optional id attribute to self-service components
