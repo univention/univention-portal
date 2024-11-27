@@ -205,27 +205,29 @@ export default defineComponent({
 
 <style lang="stylus">
 .portal-categories
-  position: relative;
-  padding: calc(4 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+  max-width: 581px
+  margin: 0 auto
+  position: relative
+  padding: calc(4 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit))
 
   @media $mqSmartphone
-    padding: calc(4 * var(--layout-spacing-unit)) calc(4 * var(--layout-spacing-unit));
+    padding: calc(4 * var(--layout-spacing-unit)) calc(4 * var(--layout-spacing-unit))
 
   &__menu-wrapper
     width: 100%
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: flex-start;
-    align-items: flex-start;
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    justify-content: flex-start
+    align-content: flex-start
+    align-items: flex-start
     position: absolute
 
   &__menu-container
     position: relative
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
+    order: 0
+    flex: 0 1 auto
+    align-self: auto
 
   &__icon
     position: absolute

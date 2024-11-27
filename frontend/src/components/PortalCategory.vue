@@ -210,7 +210,7 @@ export default defineComponent({
   &__tiles
     display: grid
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
-    grid-gap: calc(6 * var(--layout-spacing-unit))
+    grid-gap: calc(2.2 * var(--layout-spacing-unit))
 
     &--editmode
       display: block
