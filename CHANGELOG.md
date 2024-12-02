@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.48.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.47.0...v0.48.0) (2024-12-02)
+
+
+### Features
+
+* **portal-frontend:** flag to enable IPv6 support ([2bee2ab](https://git.knut.univention.de/univention/components/univention-portal/commit/2bee2abbd38fd9a8e6ccd3c4db5d08c18b14726e))
+
 ## [0.47.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.46.0...v0.47.0) (2024-11-27)
 
 
