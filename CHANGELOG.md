@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.48.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.0...v0.48.1) (2024-12-04)
+
+
+### Bug Fixes
+
+* Avoid createContainerConfigError when a custom password is specified ([0af6f12](https://git.knut.univention.de/univention/components/univention-portal/commit/0af6f12296b29c8df87077e7d3fd57f9bf6365e6))
+
 ## [0.48.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.47.0...v0.48.0) (2024-12-02)
 
 
