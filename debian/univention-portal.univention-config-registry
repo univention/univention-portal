@@ -1,0 +1,40 @@
+Type: file
+File: etc/apache2/sites-available/univention-portal.conf
+Variables: umc/web/piwik
+Variables: ucs/server/sso/uri
+Variables: portal/paths
+
+Type: file
+File: etc/apache2/ucs-sites.conf.d/univention-portal.conf
+Variables: portal/port
+Variables: portal/paths
+
+Type: module
+Module: symlink_portal.py
+Variables: portal/paths
+
+Type: module
+Module: univention_blog.py
+Variables: license/base
+
+Type: file
+File: etc/logrotate.d/univention-portal
+Variables: logrotate/.*
+
+Type: file
+File: usr/lib/univention-portal/config/config.json
+Variables: ldap/hostdn
+Variables: ldap/base
+Variables: ldap/server/name
+Variables: ldap/server/port
+Variables: umc/http/interface
+Variables: umc/http/port
+Variables: groups/default/domainadmins
+Variables: portal/port
+Variables: portal/admin-groups
+Variables: portal/auth-mode
+Variables: portal/default-dn
+Variables: hostname
+Variables: domainname
+Variables: umc/web/sso/enabled
+Variables: server/role
