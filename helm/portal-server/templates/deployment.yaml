@@ -78,6 +78,9 @@ spec:
               mountPath: /target/usr/share/univention-portal
             - name: tmp-volume
               mountPath: /tmp
+          {{- if .Values.resources }}
+          resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 12 }}
+          {{- end }}
       containers:
         - name: "portal-server"
           {{- if .Values.containerSecurityContext.enabled }}

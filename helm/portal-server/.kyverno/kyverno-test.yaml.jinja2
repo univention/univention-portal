@@ -26,7 +26,8 @@ policies:
 resources:
   - "manifest.yaml"
 results:
-  - "release-name-portal-server"
+  - resources:
+      - "release-name-portal-server"
     policy: "disallow-default-serviceaccount"
     kind: "Deployment"
     rule: "disallow-default-serviceAccountName"
@@ -96,4 +97,10 @@ results:
     policy: "template-replicas"
     kind: "Deployment"
     rule: "template-replicas"
+    result: "pass"
+  - resources:
+      - "release-name-portal-server"
+    policy: "require-requests-limits"
+    kind: "Deployment"
+    rule: "validate-resources"
     result: "pass"
