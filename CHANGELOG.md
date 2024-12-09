@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.48.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.1...v0.48.2) (2024-12-09)
+
+
+### Bug Fixes
+
+* kyverno lint for portal-consumer ([9df55ce](https://git.knut.univention.de/univention/components/univention-portal/commit/9df55ce7c9899fbc5a5ef873e276ffdc5369518a))
+* kyverno lint for portal-server ([efdb97c](https://git.knut.univention.de/univention/components/univention-portal/commit/efdb97cdedff05d6ad36951d7c1ab73c2886930f))
+
 ## [0.48.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.0...v0.48.1) (2024-12-04)
 
 
