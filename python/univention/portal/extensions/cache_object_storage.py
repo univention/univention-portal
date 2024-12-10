@@ -104,7 +104,7 @@ class CacheObjectStorage(metaclass=Plugin):
                     self._ucs_internal_path,
                 )
                 return
-            raise ClientError
+            raise
         except Exception as err:
             get_logger("cache").exception(
                 "Error loading %s from object storage: %s",
