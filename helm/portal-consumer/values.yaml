@@ -190,12 +190,6 @@ probes:
     periodSeconds: 30
     failureThreshold: 3
     successThreshold: 1
-    exec:
-      command:
-        - sh
-        - -c
-        - |
-          exit 0
 
   readiness:
     enabled: true
@@ -204,12 +198,6 @@ probes:
     periodSeconds: 15
     failureThreshold: 30
     successThreshold: 1
-    exec:
-      command:
-        - sh
-        - -c
-        - |
-          exit 0
 
 
 # -- Deployment resources for the consumer container
@@ -247,7 +235,28 @@ ldap:
 
 # Security Context.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
-containerSecurityContext: {}
+containerSecurityContext:
+  privileged: false
+  # -- Enable container privileged escalation.
+  allowPrivilegeEscalation: false
+  # -- Security capabilities for container.
+  capabilities:
+    drop:
+      - "ALL"
+  # -- Enable security context.
+  enabled: true
+  # -- Process user id.
+  runAsUser: 1000
+  # -- Process group id.
+  runAsGroup: 1000
+  # Set Seccomp profile.
+  seccompProfile:
+    # -- Disallow custom Seccomp profile by setting it to RuntimeDefault.
+    type: "RuntimeDefault"
+  # -- Mounts the container's root filesystem as read-only.
+  readOnlyRootFilesystem: true
+  # -- Run container as a user.
+  runAsNonRoot: true
 
 # Pod Security Context.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
