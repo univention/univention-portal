@@ -35,9 +35,6 @@ spec:
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
-      {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ include "common.names.fullname" . }}
-      {{- end }}
       initContainers:
         - name: wait-for-ldap
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
@@ -64,8 +61,6 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
-          securityContext:
-            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
         - name: wait-for-udm
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
@@ -91,8 +86,6 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
-          securityContext:
-            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
         - name: wait-for-object-storage
           command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
@@ -116,8 +109,6 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
-          securityContext:
-            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
         - name: wait-for-provisioning-api
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
@@ -133,12 +124,10 @@ spec:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
-          securityContext:
-            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
       containers:
         - name: "portal-consumer"
           securityContext:
-            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
@@ -168,8 +157,6 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.probes.liveness "context" .) | nindent 12 }}
-          readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.probes.readiness "context" .) | nindent 12 }}
       volumes:
         - name: "scripts"
           configMap:
