@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.48.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.2...v0.48.3) (2024-12-11)
+
+
+### Reverts
+
+* "fix: kyverno lint for portal-consumer" ([0e3d5a3](https://git.knut.univention.de/univention/components/univention-portal/commit/0e3d5a3fb0c0c12cd9e0031fbeceec55429d4e69))
+
 ## [0.48.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.1...v0.48.2) (2024-12-09)
 
 
