@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=0.13.1-post-main-build-2024-09-09
+ARG UCS_BASE_IMAGE_TAG=0.14.0-build-2024-12-12
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
@@ -15,17 +15,17 @@ FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as final
 
 # TODO: Duplicated from the portal-server
 RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    jq=1.6-2.* \
-    python3=3.11.* \
-    python3-pip=23.0.* \
-    python3-boto3=1.26.* \
-    gcc=4:12.2.* \
-    libsasl2-dev=2.* \
-    python3-dev=3.11.* \
-    libldap2-dev=2.* \
-    univention-config-registry=17.0.* \
-    python3-univention-directory-manager-rest-client=12.0.* \
-    univention-group-membership-cache=4.0.* \
+    jq \
+    python3 \
+    python3-pip \
+    python3-boto3 \
+    gcc \
+    libsasl2-dev \
+    python3-dev \
+    libldap2-dev \
+    univention-config-registry \
+    python3-univention-directory-manager-rest-client \
+    univention-group-membership-cache \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 COPY ./docker/portal-consumer/requirements.txt /

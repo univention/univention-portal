@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=0.13.1-post-main-build-2024-09-09
+ARG UCS_BASE_IMAGE_TAG=0.14.0-build-2024-12-12
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
 
 
@@ -16,8 +16,8 @@ RUN chown "$USER":"$USER" "$WORKDIR" \
     && chown "$USER":"$USER" /var/local/notifications-api \
     && apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      libpq5=15.* \
-      python3-pip=23.* \
+      libpq5 \
+      python3-pip \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 USER "$USER"
 ENV PATH="/home/${USER}/.local/bin:${PATH}"
@@ -29,10 +29,10 @@ FROM ucs-base as builder
 USER root
 RUN apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      libpq-dev=15.* \
-      build-essential=12.* \
-      gcc=4:12.* \
-      python3-dev=3.11.* \
+      libpq-dev \
+      build-essential \
+      gcc \
+      python3-dev \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 USER "$USER"
 COPY ./requirements.txt .

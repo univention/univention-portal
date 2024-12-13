@@ -2,19 +2,19 @@
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/ucs-base-image/ucs-base-520
-ARG UCS_BASE_IMAGE_TAG=0.13.1-post-main-build-2024-09-09
+ARG UCS_BASE_IMAGE_TAG=0.14.0-build-2024-12-12
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build-base
 
 RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    gcc=4:12.* \
-    libsasl2-dev=2.* \
-    python3=3.11.* \
-    python3-pip=23.* \
-    python3-setuptools=66.* \
-    python3-dev=3.11.* \
-    libldap2-dev=2.* \
-    python3-univention-directory-manager-rest-client=12.* \
+    gcc \
+    libsasl2-dev \
+    python3 \
+    python3-pip \
+    python3-setuptools \
+    python3-dev \
+    libldap2-dev \
+    python3-univention-directory-manager-rest-client \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/* \
   && rm /usr/lib/python*/EXTERNALLY-MANAGED
 
@@ -44,7 +44,7 @@ WORKDIR /staging/
 RUN apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
       python3-univention-directory-manager \
-      univention-group-membership-cache=4.* \
+      univention-group-membership-cache \
       python3-boto3 \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
@@ -60,13 +60,13 @@ FROM build-base AS final
 
 RUN apt-get update \
   && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    jq=1.* \
-    python3=3.11.* \
+    jq \
+    python3 \
     # libldap2-dev is required to make python-ldap work.
     # Currently this is used in the portal server to parse the DNs via "str2dn".
-    libldap2-dev=2.* \
-    python3-univention-directory-manager-rest-client=12.* \
-    python3-boto3=1.26.* \
+    libldap2-dev \
+    python3-univention-directory-manager-rest-client \
+    python3-boto3 \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 WORKDIR /app/
