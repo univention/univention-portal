@@ -86,7 +86,7 @@ RUN yarn build
 ###############################################################################
 # Starts production nginx server
 
-FROM gitregistry.knut.univention.de/univention/customers/dataport/upx/container-nginx/nginx:0.3.0 AS final
+FROM gitregistry.knut.univention.de/univention/customers/dataport/upx/container-nginx/nginx:0.4.0-pre-cgarcia-ucs-base-2024-12-12 AS final
 
 COPY --from=build /app/dist /var/www/html
 
