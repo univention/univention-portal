@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.49.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.3...v0.49.0) (2024-12-20)
+
+
+### Features
+
+* upgrade container-nginx to 0.4.0 ([01f3acb](https://git.knut.univention.de/univention/components/univention-portal/commit/01f3acbde5166ad48e43cedf681416e5cf87d541))
+* upgrade UCS base image to 2024-12-12 ([8967cb1](https://git.knut.univention.de/univention/components/univention-portal/commit/8967cb1d2251e172c09d70c29f787829876f6791))
+
+
+### Bug Fixes
+
+* portal-frontend extraEnvVars (now works) ([8036842](https://git.knut.univention.de/univention/components/univention-portal/commit/8036842ec4bd1b6ebcfa2795ec3e8049fb2a3f1c))
+
 ## [0.48.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.2...v0.48.3) (2024-12-11)
 
 
