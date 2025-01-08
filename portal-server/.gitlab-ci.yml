@@ -66,11 +66,11 @@ container-malware-scan:
   parallel:
     matrix: *publish-matrix
 
-# depends on portal-server
 container-build-portal-consumer:
   stage: "build"
   extends: ".kaniko"
   needs:
+    # depends on portal-server
     - job: "container-build"
       artifacts: false
   variables:
