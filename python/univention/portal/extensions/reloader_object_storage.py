@@ -184,9 +184,8 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
         self._portal_dn = portal_dn
 
     def _create_content_fetcher(self):
-        # TODO: assets_root_path is not used in PortalContentFetcher, drop
         cls = reloader.PortalContentFetcherUDMREST if config.fetch("use-udm-rest-api") else reloader.PortalContentFetcherUDM
-        return cls(self._portal_dn, self._assets_root_path)
+        return cls(self._portal_dn)
 
     def _check_reason(self, reason=None):
         return reloader.check_portal_reason(reason)

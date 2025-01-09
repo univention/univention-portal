@@ -46,9 +46,8 @@ logger = get_logger(__name__)
 
 class PortalContentFetcherUDM:
 
-    def __init__(self, portal_dn, assets_root):
+    def __init__(self, portal_dn):
         self._portal_dn = portal_dn
-        self._assets_root = assets_root
         self.assets = []
 
     def fetch(self):

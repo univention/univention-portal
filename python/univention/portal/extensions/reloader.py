@@ -170,7 +170,7 @@ class PortalReloaderUDM(MtimeBasedLazyFileReloader):
 
     def _refresh(self):
         cls = PortalContentFetcherUDMREST if config.fetch("use-udm-rest-api") else PortalContentFetcherUDM
-        content_fetcher = cls(self._portal_dn, self._assets_root)
+        content_fetcher = cls(self._portal_dn)
         content = content_fetcher.fetch()
         return (content, content_fetcher.assets)
 

@@ -167,6 +167,24 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
         assert mocked_portal_reloader._portal_dn == self._portal_dn
 
 
+def test_portal_reloader_refresh_uses_content_fetcher_udm_rest(
+        portal_reloader_udm, mocker, mock_portal_config):
+    mock_portal_config({"use-udm-rest-api": True})
+    mocked_fetch = mocker.patch(
+        'univention.portal.extensions.reloader_content.PortalContentFetcherUDMREST.fetch')
+    portal_reloader_udm._refresh()
+    mocked_fetch.assert_called_once()
+
+
+def test_portal_reloader_refresh_uses_content_fetcher_udm(
+        portal_reloader_udm, mocker, mock_portal_config):
+    mock_portal_config({"use-udm-rest-api": False})
+    mocked_fetch = mocker.patch(
+        'univention.portal.extensions.reloader_udm.PortalContentFetcherUDM.fetch')
+    portal_reloader_udm._refresh()
+    mocked_fetch.assert_called_once()
+
+
 def test_portal_reloader_writes_content_to_file(portal_reloader_udm, mocker):
     stub_content = (b"stub_content", [])
     portal_reloader_udm._refresh = mock.Mock(return_value=stub_content)

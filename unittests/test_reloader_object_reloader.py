@@ -40,6 +40,8 @@ import pytest
 from botocore.stub import Stubber
 
 from univention.portal.extensions import reloader, reloader_object_storage
+from univention.portal.extensions.reloader_content import PortalContentFetcherUDMREST
+from univention.portal.extensions.reloader_udm import PortalContentFetcherUDM
 
 
 stub_json_path = "portal-data/portal"
@@ -185,6 +187,20 @@ def test_object_storage_portal_reloader_checks_reason(
     check_reason_mock = mocker.patch.object(reloader, "check_portal_reason")
     object_storage_portal_reloader._check_reason("stub_reason")
     check_reason_mock.assert_called_once_with("stub_reason")
+
+
+def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm_rest(
+        object_storage_portal_reloader, mock_portal_config):
+    mock_portal_config({"use-udm-rest-api": True})
+    content_fetcher = object_storage_portal_reloader._create_content_fetcher()
+    assert isinstance(content_fetcher, PortalContentFetcherUDMREST)
+
+
+def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm(
+        object_storage_portal_reloader, mocker, mock_portal_config):
+    mock_portal_config({"use-udm-rest-api": False})
+    content_fetcher = object_storage_portal_reloader._create_content_fetcher()
+    assert isinstance(content_fetcher, PortalContentFetcherUDM)
 
 
 @mock.patch(

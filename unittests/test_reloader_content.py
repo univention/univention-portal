@@ -53,11 +53,11 @@ stub_image_base64 = binascii.b2a_base64(stub_image)
 def portal_content_fetcher(mocker):
     put_mock = mocker.patch("requests.put")
     put_mock().status_code = 201
-    return PortalContentFetcherUDMREST(stub_portal_dn, "/stub_root")
+    return PortalContentFetcherUDMREST(stub_portal_dn)
 
 
 def test_portal_content_fetcher_propagates_connectionerror(mocker):
-    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn, "/stub_root")
+    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
     udm_return = mocker.Mock()
     udm_return.get.side_effect = udm_client.ConnectionError
     mocker.patch.object(
@@ -80,7 +80,7 @@ def test_portal_content_fetcher_returns_content(mocker):
     mocker.patch.object(
         PortalContentFetcherUDMREST, "_create_udm_client",
         return_value=stub_udm_client.StubUDMClient())
-    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn, "http://stub-host")
+    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
     content = content_fetcher.fetch()
     expected_content = """{
     "announcements": {
