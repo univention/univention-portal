@@ -232,6 +232,10 @@ class PortalContentFetcherUDMREST:
         extension = what(None, binary_content) or "svg"
         path = f"./icons/{dirname}/{name}.{extension}"
         self.assets.append((path, binary_content))
+        asset_url = self._asset_url(path)
+        return asset_url
+
+    def _asset_url(self, path):
         return quote(path)
 
 
