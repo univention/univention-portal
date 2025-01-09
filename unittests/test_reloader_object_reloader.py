@@ -55,11 +55,14 @@ stub_asset_path = f"${stub_assets_root_path}/stub_file.svg"
 stub_portal_dn = "cn=domain,cn=portal,cn=test"
 
 
+@pytest.fixture(autouse=True)
+def mock_s3_client(mocker):
+    mocker.patch(
+        "univention.portal.extensions.reloader_object_storage.get_object_storage_client",
+        mock.Mock(return_value=boto3.client("s3")))
+
+
 @pytest.fixture()
-@mock.patch(
-    "univention.portal.extensions.reloader_object_storage.get_object_storage_client",
-    mock.Mock(return_value=boto3.client("s3")),
-)
 def object_storage_reloader():
     """An instance of ObjectStorageReloader."""
     instance = reloader_object_storage.ObjectStorageReloader(
@@ -78,10 +81,6 @@ def object_storage_reloader():
 
 
 @pytest.fixture()
-@mock.patch(
-    "univention.portal.extensions.reloader_object_storage.get_object_storage_client",
-    mock.Mock(return_value=boto3.client("s3")),
-)
 def object_storage_portal_reloader(mocker, mock_portal_config):
     """An instance of ObjectStoragePortalReloader."""
     mock_portal_config(
@@ -143,7 +142,6 @@ def test_object_storage_reloader_raises_value_error_on_unsupported_urls(
         )
 
 
-@mock.patch.object(reloader_object_storage, "get_object_storage_client")
 def test_cache_calls_object_storage_reloader(object_storage_reloader, mocker):
     from univention.portal.extensions.cache import Cache
 
@@ -205,10 +203,6 @@ def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm(
     assert isinstance(content_fetcher, PortalContentFetcherUDM)
 
 
-@mock.patch(
-    "univention.portal.extensions.reloader_object_storage.get_object_storage_client",
-    mock.Mock(return_value=boto3.client("s3")),
-)
 def test_object_storage_portal_reloader_passes_assets_base_url(mock_portal_config, mocker):
     mock_portal_config({"use-udm-rest-api": True})
     assets_base_url = "https://external.store.example/stub_bucket/"
@@ -226,10 +220,6 @@ def test_object_storage_portal_reloader_passes_assets_base_url(mock_portal_confi
     assert content_fetcher._assets_base_url == assets_base_url
 
 
-@mock.patch(
-    "univention.portal.extensions.reloader_object_storage.get_object_storage_client",
-    mock.Mock(return_value=boto3.client("s3")),
-)
 def test_object_storage_groups_reloader_uses_groups_content_fetcher():
     groups_reloader = reloader_object_storage.ObjectStorageGroupsReloader(
         stub_json_path,
