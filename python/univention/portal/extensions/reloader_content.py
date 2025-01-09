@@ -37,7 +37,7 @@ import json
 from binascii import a2b_base64
 from imghdr import what
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urljoin
 
 import univention.admin.rest.client as udm_client
 from univention.portal import config
@@ -50,8 +50,11 @@ logger = get_logger(__name__)
 
 class PortalContentFetcherUDMREST:
 
-    def __init__(self, portal_dn):
+    def __init__(self, portal_dn, assets_base_url=None):
         self._portal_dn = portal_dn
+        if assets_base_url and not assets_base_url.endswith("/"):
+            assets_base_url += "/"
+        self._assets_base_url = assets_base_url
         self.assets = []
 
     def fetch(self):
@@ -235,7 +238,8 @@ class PortalContentFetcherUDMREST:
         return asset_url
 
     def _asset_url(self, path):
-        return quote(path)
+        url = urljoin(self._assets_base_url, quote(path))
+        return url
 
 
 class GroupsContentFetcher:

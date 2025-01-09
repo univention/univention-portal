@@ -68,9 +68,19 @@ def test_portal_content_fetcher_propagates_connectionerror(mocker):
         content_fetcher.fetch()
 
 
-def test_collect_asset_returns_relative_asset_url(portal_content_fetcher):
+def test_collect_asset_returns_relative_asset_url_by_default(portal_content_fetcher):
     asset_url = portal_content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
     assert asset_url == "./icons/stub_dirname/stub_name.svg"
+
+
+@pytest.mark.parametrize("base_url", [
+    "https://external.store.example/stub_bucket",
+    "https://external.store.example/stub_bucket/",
+])
+def test_collect_asset_returns_external_url(base_url):
+    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn, assets_base_url=base_url)
+    asset_url = content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
+    assert asset_url == "https://external.store.example/stub_bucket/icons/stub_dirname/stub_name.svg"
 
 
 def test_portal_content_fetcher_returns_content(mocker):
