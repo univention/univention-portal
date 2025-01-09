@@ -46,6 +46,7 @@ from univention.portal.extensions.reloader_udm import PortalContentFetcherUDM
 
 stub_json_path = "portal-data/portal"
 stub_assets_root_path = "portal-assets"
+stub_assets_base_url = "https://external.store.example/stub_bucket/"
 stub_object_storage_endpoint = "http://stub_endpoint"
 stub_bucket = "ums"
 stub_access_key_id = "some_user"
@@ -88,6 +89,7 @@ def object_storage_portal_reloader(mocker, mock_portal_config):
             "assets_root_path": stub_assets_root_path,
             "portal_cache_path": stub_json_path,
             "ucs_internal_path": "portal-data",
+            "use-udm-rest-api": True,
         },
     )
     instance = reloader_object_storage.ObjectStoragePortalReloader(
@@ -201,6 +203,27 @@ def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm(
     mock_portal_config({"use-udm-rest-api": False})
     content_fetcher = object_storage_portal_reloader._create_content_fetcher()
     assert isinstance(content_fetcher, PortalContentFetcherUDM)
+
+
+@mock.patch(
+    "univention.portal.extensions.reloader_object_storage.get_object_storage_client",
+    mock.Mock(return_value=boto3.client("s3")),
+)
+def test_object_storage_portal_reloader_passes_assets_base_url(mock_portal_config, mocker):
+    mock_portal_config({"use-udm-rest-api": True})
+    assets_base_url = "https://external.store.example/stub_bucket/"
+    reloader_instance = reloader_object_storage.ObjectStoragePortalReloader(
+        stub_json_path,
+        stub_assets_root_path,
+        stub_portal_dn,
+        stub_object_storage_endpoint,
+        stub_bucket,
+        stub_access_key_id,
+        stub_secret_access_key,
+        assets_base_url=assets_base_url,
+    )
+    content_fetcher = reloader_instance._create_content_fetcher()
+    assert content_fetcher._assets_base_url == assets_base_url
 
 
 @mock.patch(

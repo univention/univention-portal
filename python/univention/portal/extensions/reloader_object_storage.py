@@ -164,6 +164,7 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
         bucket,
         access_key_id,
         secret_access_key,
+        assets_base_url=None,
     ):
         logger.debug(
             "Initializing %s, in bucket %s at %s, assets_root_path: %s, portal_dn: %s",
@@ -181,11 +182,12 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
             access_key_id,
             secret_access_key,
         )
+        self._assets_base_url = assets_base_url
         self._portal_dn = portal_dn
 
     def _create_content_fetcher(self):
         cls = reloader.PortalContentFetcherUDMREST if config.fetch("use-udm-rest-api") else reloader.PortalContentFetcherUDM
-        return cls(self._portal_dn)
+        return cls(self._portal_dn, self._assets_base_url)
 
     def _check_reason(self, reason=None):
         return reloader.check_portal_reason(reason)
