@@ -189,9 +189,6 @@ services:
         source: ../python
         target: /staging/python
       - type: bind
-        source: ../portal_consumer
-        target: /staging/portal_consumer
-      - type: bind
         source: ../unittests
         target: /staging/unittests
 
