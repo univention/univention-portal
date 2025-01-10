@@ -49,6 +49,7 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
     $admin_group
   ],
   "assets_root_path": $assets_root_path,
+  "assets_base_url": $assets_base_url,
   "auth_mode": $auth_mode,
   "object_storage_endpoint": $object_storage_endpoint,
   "object_storage_bucket": $object_storage_bucket,
@@ -79,6 +80,7 @@ echo "Generating ${JSON_PATH}"
 jq -n \
   --arg admin_group "${PORTAL_SERVER_ADMIN_GROUP}" \
   --arg assets_root_path "${PORTAL_SERVER_ASSETS_ROOT_PATH:-/usr/share/univention-portal}" \
+  --arg assets_base_url "${PORTAL_ASSETS_BASE_URL:-}" \
   --arg auth_mode "${PORTAL_SERVER_AUTH_MODE}" \
   --arg object_storage_endpoint "${OBJECT_STORAGE_ENDPOINT}" \
   --arg object_storage_bucket "${OBJECT_STORAGE_BUCKET}" \

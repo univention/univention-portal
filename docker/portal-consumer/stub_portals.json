@@ -70,6 +70,10 @@
                 "key": "object_storage_access_key_id",
                 "type": "config"
               },
+              "assets_base_url": {
+                "key": "assets_base_url",
+                "type": "config"
+              },
               "assets_root_path": {
                 "key": "assets_root_path",
                 "type": "config"
@@ -186,6 +190,10 @@
             "kwargs": {
               "access_key_id": {
                 "key": "object_storage_access_key_id",
+                "type": "config"
+              },
+              "assets_base_url": {
+                "key": "assets_base_url",
                 "type": "config"
               },
               "assets_root_path": {
