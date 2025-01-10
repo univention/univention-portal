@@ -285,6 +285,7 @@ true
 			<td><pre lang="json">
 {
   "adminGroup": null,
+  "assetsBaseUrl": null,
   "assetsRootPath": "portal-assets",
   "authMode": "",
   "caCert": "",
@@ -338,6 +339,15 @@ null
 </pre>
 </td>
 			<td>Define LDAP Admin Group. Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`</td>
+		</tr>
+		<tr>
+			<td>portalConsumer.assetsBaseUrl</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>Base URL to use when generating URLs of the portal assets (icons, logos). This has to be configured if an S3 compatible storage is used which is reachable via a separate domain.</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.assetsRootPath</td>

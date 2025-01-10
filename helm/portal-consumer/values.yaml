@@ -59,6 +59,10 @@ portalConsumer:
   adminGroup: null
   # -- Where to store the assets inside the object storage bucket, e.g. portal entry icons
   assetsRootPath: "portal-assets"
+  # -- Base URL to use when generating URLs of the portal assets (icons, logos).
+  # This has to be configured if an S3 compatible storage is used which is
+  # reachable via a separate domain.
+  assetsBaseUrl: null
   # -- Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".
   authMode: ""
   # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.

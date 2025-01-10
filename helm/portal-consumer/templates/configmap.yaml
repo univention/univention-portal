@@ -27,6 +27,7 @@ data:
   MACHINE_SECRET_FILE: "{{ .Values.portalConsumer.machineSecretFile }}"
   PORTAL_DEFAULT_DN: {{ include "portal-consumer.portalDefaultDn" . | quote }}
   PORTAL_CONSUMER_LOG_STREAM: "true"
+  PORTAL_ASSETS_BASE_URL: {{ .Values.portalConsumer.assetsBaseUrl | quote }}
   PORTAL_SERVER_ADMIN_GROUP: {{ include "portal-consumer.adminGroup" . | quote }}
   PORTAL_SERVER_ASSETS_ROOT_PATH: "{{ .Values.portalConsumer.assetsRootPath }}"
   PORTAL_SERVER_AUTH_MODE: {{ include "portal-consumer.authMode" . | quote }}
