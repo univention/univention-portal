@@ -166,6 +166,7 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
         secret_access_key,
         assets_base_url=None,
     ):
+        logger.debug("Assets base url: %s", assets_base_url)
         logger.debug(
             "Initializing %s, in bucket %s at %s, assets_root_path: %s, portal_dn: %s",
             self.__class__.__name__,
