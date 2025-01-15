@@ -187,6 +187,13 @@ nameOverride: ""
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
 nodeSelector: {}
 
+objectStorage:
+  # -- Object storage endpoint, e.g. "http://minio:9000".
+  endpoint: ""
+  # -- Bucket in the object storage for storing the portal and assets. Example
+  # "portal-data".
+  bucketName: ""
+
 # Database persistence settings.
 persistence:
   # -- The volume access modes, some of "ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany", "ReadWriteOncePod".
@@ -416,10 +423,6 @@ portalServer:
     # -- Provide a name to a custom secret containing `authenticator.secret`.
     # Will get mounted in /var/secrets/authenticator.secret.
     authenticatorSecretName: ""
-  # -- Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
-  objectStorageEndpoint: ""
-  # -- Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".
-  objectStorageBucket: ""
   # -- User for the object storage. Chart default is "ums_user".
   objectStorageAccessKeyId: ""
   # -- Password for access to object storage. Chart default is "stub_password".

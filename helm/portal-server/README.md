@@ -502,6 +502,24 @@ true
 			<td>Node labels for pod assignment. Ref: https://kubernetes.io/docs/user-guide/node-selection/</td>
 		</tr>
 		<tr>
+			<td>objectStorage.bucketName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Bucket in the object storage for storing the portal and assets. Example "portal-data".</td>
+		</tr>
+		<tr>
+			<td>objectStorage.endpoint</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Object storage endpoint, e.g. "http://minio:9000".</td>
+		</tr>
+		<tr>
 			<td>persistence.accessModes</td>
 			<td>list</td>
 			<td><pre lang="json">
@@ -725,15 +743,6 @@ true
 			<td>User for the object storage. Chart default is "ums_user".</td>
 		</tr>
 		<tr>
-			<td>portalServer.objectStorageBucket</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Bucket in the object storage for storing the portal and assets. Chart default is "ums". Nubus chart default is "ums".</td>
-		</tr>
-		<tr>
 			<td>portalServer.objectStorageCredentialSecret</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -745,15 +754,6 @@ true
 </pre>
 </td>
 			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
-		</tr>
-		<tr>
-			<td>portalServer.objectStorageEndpoint</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
 		</tr>
 		<tr>
 			<td>portalServer.objectStorageSecretAccessKey</td>
