@@ -18,10 +18,12 @@ portalConsumer:
   ucsInternalPath: "portal-data"
   assetsRootPath: "portal-assets"
   tlsMode: "unvalidated"
-  objectStorageEndpoint: "http://minio:9000"
-  objectStorageBucket: "ums"
   objectStorageAccessKeyId: "stub_user"
   objectStorageSecretAccessKey: "stub_password"
+
+objectStorage:
+  endpoint: "http://minio:9000"
+  bucketName: "ums"
 
 store-dav:
   bundled: false

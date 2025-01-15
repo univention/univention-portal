@@ -39,8 +39,8 @@ data:
   PORTAL_UDM_API_URL: {{ include "portal-consumer.udmApiUrl" . | quote}}
   PORTAL_UDM_API_USERNAME: "{{ .Values.portalConsumer.udmApiUsername }}"
   PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalConsumer.udmApiSecretFile }}"
-  OBJECT_STORAGE_ENDPOINT: {{ include "portal-consumer.objectStorageEndpoint" . | quote }}
-  OBJECT_STORAGE_BUCKET: {{ include "portal-consumer.objectStorageBucket" . | quote }}
+  OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
+  OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}
   OBJECT_STORAGE_ACCESS_KEY_ID: {{ include "portal-consumer.objectStorageAccessKeyId"  . | quote }}
   OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ include "portal-consumer.objectStorageSecretAccessKey"  . | quote }}
   CA_CERT: "{{ .Values.portalConsumer.caCert }}"

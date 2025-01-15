@@ -244,6 +244,24 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>objectStorage.bucketName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Bucket in the object storage for storing the portal and assets. Example "portal-data".</td>
+		</tr>
+		<tr>
+			<td>objectStorage.endpoint</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Object storage endpoint, e.g. "http://minio:9000".</td>
+		</tr>
+		<tr>
 			<td>persistence.groupMembershipCache.size</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -308,13 +326,11 @@ true
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
   "objectStorageAccessKeyId": "",
-  "objectStorageBucket": "",
   "objectStorageCredentialSecret": {
     "accessKeyKey": "accessKey",
     "name": "",
     "secretKeyKey": "secretKey"
   },
-  "objectStorageEndpoint": "",
   "objectStorageSecretAccessKey": "",
   "port": "80",
   "portalDefaultDn": null,
@@ -476,15 +492,6 @@ null
 			<td>User for the object storage. Chart default is "ums_user".</td>
 		</tr>
 		<tr>
-			<td>portalConsumer.objectStorageBucket</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Bucket in the object storage for storing the portal and assets. Chart default is "nubus". Nubus chart default is "nubus".</td>
-		</tr>
-		<tr>
 			<td>portalConsumer.objectStorageCredentialSecret</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -496,15 +503,6 @@ null
 </pre>
 </td>
 			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.objectStorageEndpoint</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.objectStorageSecretAccessKey</td>

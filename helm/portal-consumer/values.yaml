@@ -114,10 +114,6 @@ portalConsumer:
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umcSessionUrl: null
-  # -- Object storage endpoint. Nubus chart default is "http://$RELEASE_NAME.ums-minio:9000".
-  objectStorageEndpoint: ""
-  # -- Bucket in the object storage for storing the portal and assets. Chart default is "nubus". Nubus chart default is "nubus".
-  objectStorageBucket: ""
   # -- User for the object storage. Chart default is "ums_user".
   objectStorageAccessKeyId: ""
   # -- Password for access to object storage. Chart default is "stub_password".
@@ -186,6 +182,13 @@ waitForDependency:
 
   # -- Optionally specify an extra list of additional volumeMounts.
   extraVolumeMounts: []
+
+objectStorage:
+  # -- Object storage endpoint, e.g. "http://minio:9000".
+  endpoint: ""
+  # -- Bucket in the object storage for storing the portal and assets. Example
+  # "portal-data".
+  bucketName: ""
 
 ## Container deployment probes
 probes:
