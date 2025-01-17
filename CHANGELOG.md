@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.50.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.49.0...v0.50.0) (2025-01-17)
+
+
+### Features
+
+* **consumer:** Add Helm value "portalConsumer.assetsBaseUrl" ([dcab263](https://git.knut.univention.de/univention/components/univention-portal/commit/dcab2630bbb4dcce01424ae0e7941983f745e567))
+* **consumer:** Configure "assets_base_url" based on environment ([2268e1e](https://git.knut.univention.de/univention/components/univention-portal/commit/2268e1eddc5a8326d5029e49ce40c20aff6c8dbd))
+* **consumer:** Consolidate configuration of objectStorage ([1d3ae23](https://git.knut.univention.de/univention/components/univention-portal/commit/1d3ae234b66b7e3b69de18b6fc62dcbe553346f3))
+* **consumer:** Log the configured assets base url on debug level ([7449d19](https://git.knut.univention.de/univention/components/univention-portal/commit/7449d19099157a89dcb89966a7f38a97a54cfc72))
+* **server:** Add parameter "assets_base_url" into content fetchers ([90158d3](https://git.knut.univention.de/univention/components/univention-portal/commit/90158d3e2fe043bff8fad8205ab35b8fbca1a8c7))
+* **server:** Consolidate configuration of objectStorage ([f4a4288](https://git.knut.univention.de/univention/components/univention-portal/commit/f4a4288a6d3562d983d6e11c6b9dc16cf023aec1))
+* **server:** PortalReloader passes "assets_base_url" into content fetcher ([8464f34](https://git.knut.univention.de/univention/components/univention-portal/commit/8464f3423344cac1dfaf921e2dc3a7067767f322))
+
 ## [0.49.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.48.3...v0.49.0) (2024-12-20)
 
 
