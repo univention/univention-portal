@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.50.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.50.0...v0.50.1) (2025-02-10)
+
+
+### Bug Fixes
+
+* add .kyverno to helmignore ([21e89d8](https://git.knut.univention.de/univention/components/univention-portal/commit/21e89d82ff88c683916eb044ef912d3cb8b58ac9))
+
 ## [0.50.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.49.0...v0.50.0) (2025-01-17)
 
 
