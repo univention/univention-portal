@@ -205,7 +205,9 @@ class GroupsReloaderLDAP(MtimeBasedLazyFileReloader):
 
     def _refresh(self):
         logger.debug("Refreshing groups cache")
-        return GroupsContentFetcher().fetch()
+        content_fetcher = GroupsContentFetcher()
+        content = content_fetcher.fetch()
+        return (content, content_fetcher.assets)
 
 
 def check_reason_base(reason):

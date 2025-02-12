@@ -33,6 +33,7 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+import json
 import os.path
 from unittest import mock
 
@@ -243,6 +244,17 @@ class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):
         self._os.stat.return_value.st_mtime = self._rtime
         refreshed = mocked_portal_reloader.refresh(reason=self._reason)
         assert refreshed
+
+    def test_refresh_returns_correct_data(self, mocked_portal_reloader, mocker):
+        stub_user_data = [{"username": "stub_value"}]
+        users_groups_mock = mocker.patch("univention.ldap_cache.frontend.users_groups")
+        users_groups_mock.return_value = stub_user_data
+
+        content, assets = mocked_portal_reloader._refresh()
+
+        assert json.loads(content) == stub_user_data
+        assert list(assets) == []
+        users_groups_mock.assert_called_once()
 
 
 @pytest.mark.parametrize("reason,expected", [
