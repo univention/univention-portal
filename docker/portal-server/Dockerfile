@@ -54,6 +54,12 @@ RUN pip3 install --no-cache-dir --upgrade pip==24.* \
     && mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log
 
+# The GroupsContentFetcher is using "univention.ldap_cache" which depends
+# on a user "listener" to be present.
+#
+# See: https://git.knut.univention.de/univention/ucs/-/blob/aac7cba2ef9e0dc93a46d388673aebff78818b6c/base/univention-group-membership-cache/src/univention/ldap_cache/cache/backend/gdbm_cache.py#L65
+RUN useradd -m "listener"
+
 CMD ["pytest", "unittests"]
 
 FROM build-base AS final
