@@ -75,6 +75,7 @@ RUN apt-get update \
     python3-boto3 \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
+RUN useradd -m -d /app app
 WORKDIR /app/
 
 RUN mkdir -p /var/log/univention/ \
