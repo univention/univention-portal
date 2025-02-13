@@ -403,6 +403,11 @@ portalServer:
   editable: "true"
   # -- TODO: Clarify usage of this parameter
   environment: "production"
+  # -- Allows to configure Feature Toggles for the portal. The value is a map
+  # from string to boolean. The keys are added into the configuration file of
+  # the `portal-server` and should use "snake case".
+  featureToggles:
+    notifications_api: true
   # -- TODO: Clarify usage of this parameter
   logLevel: "WARNING"
   port: 80

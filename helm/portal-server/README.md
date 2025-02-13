@@ -725,6 +725,17 @@ true
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
+			<td>portalServer.featureToggles</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "notifications_api": true
+}
+</pre>
+</td>
+			<td>Allows to configure Feature Toggles for the portal. The value is a map from string to boolean. The keys are added into the configuration file of the `portal-server` and should use "snake case".</td>
+		</tr>
+		<tr>
 			<td>portalServer.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
