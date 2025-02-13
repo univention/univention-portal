@@ -197,6 +197,14 @@ services:
         source: ../unittests
         target: /staging/unittests
 
+  test-chart-portal-server:
+    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/testrunner:0.7.0
+    command: pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart
+    profiles:
+      - test
+    volumes:
+      - "../:/app"
+
   # Environment to build the Debian package. The context directory contains more
   # details.
   deb-builder:

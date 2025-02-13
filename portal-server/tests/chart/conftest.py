@@ -10,20 +10,16 @@ def pytest_addoption(parser):
     parser.addoption("--chart-path", help="Path of the Helm chart to test")
 
 
-@pytest.fixture
+@pytest.fixture()
 def helm_values(request):
-    """
-    By default use "helm/portal-server/linter_values.yaml".
-    """
+    """By default use "helm/portal-server/linter_values.yaml"."""
     default_values = ["helm/portal-server/linter_values.yaml"]
     return request.config.option.values or default_values
 
 
-@pytest.fixture
+@pytest.fixture()
 def chart_path(pytestconfig):
-    """
-    Path to the Helm chart which shall be tested.
-    """
+    """Path to the Helm chart which shall be tested."""
     chart_path = pytestconfig.option.chart_path
     if not chart_path:
         tests_path = os.path.dirname(os.path.abspath(__file__))

@@ -125,7 +125,7 @@ def test_image_tag_can_be_configured(image_tag, helm, chart_path):
 
 def test_all_image_values_are_configured(helm, chart_path):
     values = safe_load(
-        f"""
+        """
         image:
           registry: "stub-registry.example"
           repository: "stub-fragment/stub-repository"
