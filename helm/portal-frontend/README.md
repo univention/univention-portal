@@ -860,7 +860,7 @@ true
     "logo": ""
   },
   "environment": "production",
-  "logLevel": "WARNING",
+  "logLevel": "INFO",
   "nginx": {
     "disableIPv6": false
   }
@@ -932,7 +932,7 @@ true
 			<td>portalFrontend.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
-"WARNING"
+"INFO"
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>

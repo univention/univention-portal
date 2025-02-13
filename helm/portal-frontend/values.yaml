@@ -434,7 +434,7 @@ portalFrontend:
   # -- TODO: Clarify usage of this parameter
   environment: "production"
   # -- TODO: Clarify usage of this parameter
-  logLevel: "WARNING"
+  logLevel: "INFO"
   # -- Customizations for the portal frontend, such as
   # `custom.css`, `favicon.ico`, `logo.svg`, and `portal_background_image.svg`.
   # For further customizations, please mount a ConfigMap with the respective files.
