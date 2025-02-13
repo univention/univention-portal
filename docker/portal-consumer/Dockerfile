@@ -52,6 +52,7 @@ COPY ./docker/portal-consumer/machine-secret-entrypoint.sh /entrypoint.d/75-mach
 COPY ./portal_consumer/ /portal_consumer/
 
 # Create listener user for group membership cache
-RUN useradd -m "listener"
+RUN useradd -m -d /app app \
+    && useradd -m listener
 
 CMD ["/usr/bin/python3", "-m", "portal_consumer.consumer"]
