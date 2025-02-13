@@ -14,3 +14,10 @@ The following example shows a configuration which enables the Notifications API:
   }
 }
 ```
+
+The container does require the configuration to be in the environment variable
+`PORTAL_SERVER_FEATURE_TOGGLES` as a JSON value:
+
+```
+PORTAL_SERVER_FEATURE_TOGGLES='{"notifications_api": true}'
+```
