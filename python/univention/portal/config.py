@@ -60,3 +60,10 @@ def fetch(key):
     if load.never_loaded:
         load()
     return _DB[key]
+
+
+def fetch_with_default(key, *, default):
+    try:
+        return fetch(key)
+    except KeyError:
+        return default

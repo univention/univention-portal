@@ -114,6 +114,9 @@ class Portal(metaclass=Plugin):
     async def logout_user(self, request):
         return await self.authenticator.logout_user(request)
 
+    def get_feature_toggles(self):
+        return config.fetch_with_default("feature_toggles", default={})
+
     def get_visible_content(self, user, admin_mode):
         entries = self.portal_cache.get_entries()
         folders = self.portal_cache.get_folders()

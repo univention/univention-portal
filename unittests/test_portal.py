@@ -500,3 +500,19 @@ def test_announcement_groups(portal_data, standard_portal):
     assert visible_announcement_2 in result_announcements
     assert invisible_announcement not in result_announcements
     assert len(result_announcements) == 2
+
+
+def test_get_feature_toggles_is_empty_by_default(standard_portal, mock_portal_config):
+    mock_portal_config({})
+    features = standard_portal.get_feature_toggles()
+    assert features == {}
+
+
+def test_get_feature_toggles_returns_configured_values(standard_portal, mock_portal_config):
+    mock_portal_config({
+        "feature_toggles": {
+            "notifications_api": True,
+        },
+    })
+    features = standard_portal.get_feature_toggles()
+    assert features == {"notifications_api": True}
