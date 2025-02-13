@@ -93,6 +93,13 @@ test-portal-server:
         coverage_format: "cobertura"
         path: "coverage.xml"
 
+test-chart-portal-server:
+  stage: test
+  image: "gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/testrunner:0.7.0"
+  script:
+    - helm dep build helm/portal-server
+    - pytest portal-server/tests/chart
+
 push-image-external:
   before_script:
     - |
