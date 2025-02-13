@@ -33,6 +33,8 @@
 # <https://www.gnu.org/licenses/>.
 #
 
+import json
+
 import pytest
 import tornado.ioloop
 import tornado.testing
@@ -78,6 +80,7 @@ def portal_mock(mocker, user):
     portal.auth_mode = mocker.Mock(return_value=None)
     portal.may_be_edited = mocker.Mock(return_value=None)
     portal.get_announcements = mocker.Mock(return_value=None)
+    portal.get_feature_toggles = mocker.Mock(return_value={})
 
     return portal
 
@@ -96,6 +99,22 @@ class TestPortalEntriesHandlerNoHttpCache:
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         assert response.code == 200
         portal_mock.refresh.assert_not_called()
+
+    @pytest.mark.gen_test()
+    def test_get_portals_returns_empty_feature_configuration(self, http_client, base_url, portal_mock):
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data["features"] == {}
+
+    @pytest.mark.gen_test()
+    def test_get_portals_returns_feature_configuration(
+            self, http_client, base_url, portal_mock):
+        portal_mock.get_feature_toggles.return_value = {
+            "notifications_api": False,
+        }
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data["features"] == {"notifications_api": False}
 
 
 class TestPortalEntriesHandlerNoPortal(tornado.testing.AsyncHTTPTestCase):
