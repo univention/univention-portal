@@ -510,7 +510,7 @@ true
   "applyDatabaseMigrations": "True",
   "devMode": "False",
   "environment": "production",
-  "logLevel": "WARNING",
+  "logLevel": "INFO",
   "sqlEcho": "False"
 }
 </pre>
@@ -557,7 +557,7 @@ true
 			<td>notificationsApi.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
-"WARNING"
+"INFO"
 </pre>
 </td>
 			<td>Log level configuration. E.g. "DEBUG", "INFO", "WARNING", "ERROR".</td>

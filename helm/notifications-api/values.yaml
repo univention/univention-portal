@@ -400,7 +400,7 @@ notificationsApi:
   # -- TODO: Clarify usage of this parameter
   environment: "production"
   # -- Log level configuration. E.g. "DEBUG", "INFO", "WARNING", "ERROR".
-  logLevel: "WARNING"
+  logLevel: "INFO"
   # -- SQL command logging, e.g. "True" or "False"
   sqlEcho: "False"
   # -- The URL prefix under which the API shall be deployed.
