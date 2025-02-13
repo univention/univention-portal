@@ -739,7 +739,7 @@ true
 			<td>portalServer.logLevel</td>
 			<td>string</td>
 			<td><pre lang="json">
-"WARNING"
+"INFO"
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>

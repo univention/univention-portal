@@ -409,7 +409,7 @@ portalServer:
   featureToggles:
     notifications_api: true
   # -- TODO: Clarify usage of this parameter
-  logLevel: "WARNING"
+  logLevel: "INFO"
   port: 80
   # -- Define object storage path inside the bucket where files are placed.
   # Example: `"portal-assets"`
