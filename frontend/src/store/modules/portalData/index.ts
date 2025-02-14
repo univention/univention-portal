@@ -50,7 +50,7 @@ import {
   TileOrFolder,
 } from './portalData.models';
 
-function isEqual(arr1, arr2) {
+function isEqual<T>(arr1: Array<T>, arr2: Array<T>) {
   if (arr1.length !== arr2.length) {
     return false;
   }
