@@ -113,13 +113,10 @@ function getPosition(layout: PortalLayout, id: string, targetIdx: null | number 
               console.warn('fromPosition expected');
             } else if (categoryEntry.tiles === undefined) {
               console.warn('Atribute "tiles" expected.');
+            } else if (fromPosition.folderIdx === position.folderIdx) {
+              position.entryIdx = categoryEntry.tiles.length - 1;
             } else {
-              // eslint-disable-next-line no-lonely-if
-              if (fromPosition.folderIdx === position.folderIdx) {
-                position.entryIdx = categoryEntry.tiles.length - 1;
-              } else {
-                position.entryIdx = categoryEntry.tiles.length;
-              }
+              position.entryIdx = categoryEntry.tiles.length;
             }
           } else {
             position.entryIdx = targetIdx;
