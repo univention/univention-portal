@@ -729,7 +729,8 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "notifications_api": true
+  "notifications_api": true,
+  "umc_session_refresh": true
 }
 </pre>
 </td>

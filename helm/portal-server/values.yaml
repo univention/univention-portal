@@ -408,6 +408,7 @@ portalServer:
   # the `portal-server` and should use "snake case".
   featureToggles:
     notifications_api: true
+    umc_session_refresh: true
   # -- TODO: Clarify usage of this parameter
   logLevel: "INFO"
   port: 80
