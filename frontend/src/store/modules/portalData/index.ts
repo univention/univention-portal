@@ -62,7 +62,7 @@ interface WaitForChangePayload {
   adminMode: boolean;
 }
 
-function getPosition(layout, id: string, targetIdx: null | number = null, fromPosition: null | Position = null): Position {
+function getPosition(layout: PortalLayout, id: string, targetIdx: null | number = null, fromPosition: null | Position = null): Position {
   const position: Position = {
     categoryIdx: null,
     folderIdx: null,
@@ -111,6 +111,8 @@ function getPosition(layout, id: string, targetIdx: null | number = null, fromPo
           if (targetIdx === -1) {
             if (fromPosition === null) {
               console.warn('fromPosition expected');
+            } else if (categoryEntry.tiles === undefined) {
+              console.warn('Atribute "tiles" expected.');
             } else {
               // eslint-disable-next-line no-lonely-if
               if (fromPosition.folderIdx === position.folderIdx) {
