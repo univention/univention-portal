@@ -390,6 +390,10 @@
       }
     }
   ],
+  "feature_toggles": {
+    "notifications_api": false,
+    "umc_session_refresh": true
+  },
   "filtered": true,
   "folders": [
     {
