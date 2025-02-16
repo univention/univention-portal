@@ -3,12 +3,15 @@
  * SPDX-FileCopyrightText: 2025 Univention GmbH
  */
 
+/* eslint-disable camelcase */
+
 export type FeatureToggles = {
   umc_session_refresh?: boolean;
   notifications_api?: boolean;
 };
 
+/* eslint-enable camelcase */
+
 export type FeatureTogglesState = FeatureToggles;
 
-export const initialFeatureTogglesState: FeatureTogglesState = {
-};
+export const initialFeatureTogglesState: FeatureTogglesState = {};
