@@ -31,7 +31,6 @@
 import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { createStore, Store, useStore as baseUseStore } from 'vuex';
-import { getCookie } from '@/jsHelper/tools';
 import { getAdminState } from '@/jsHelper/admin';
 import activity from './modules/activity';
 import dragndrop from './modules/dragndrop';
@@ -50,12 +49,7 @@ import tooltip from './modules/tooltip';
 import umcSession from './modules/umcSession';
 import user from './modules/user';
 import { initialRootState, RootState } from './root.models';
-
-// get env vars
-const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
-const languageJsonPath = process.env.VUE_APP_LANGUAGE_DATA || '/univention/languages.json';
-const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json';
-const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
+import { portalUrl, languageJsonPath, portalJsonPath, portalMetaPath, portalJsonRequest } from './utils';
 
 // Build time feature toggles
 export const featureTogglesOld = {
@@ -89,25 +83,10 @@ export const actions = {
   initialLoadDone({ commit }) {
     commit('SET_INITIAL_LOAD_DONE', true);
   },
-  portalJsonRequest: (_, payload) => {
-    const umcLang = getCookie('UMCLang');
-    const headers = {
-      'X-Requested-With': 'XMLHTTPRequest',
-      'Accept-Language': umcLang || 'en-US',
-    };
-    if (payload.adminMode || getAdminState()) {
-      headers['X-Univention-Portal-Admin-Mode'] = 'yes';
-
-      if (process.env.VUE_APP_LOCAL) {
-        return axios.get(`${portalUrl}dev-${portalJsonPath}`, { headers });
-      }
-    }
-    return axios.get(`${portalUrl}${portalJsonPath}`, { headers });
-  },
 
   loadPortal: ({ commit, dispatch, rootGetters }, payload) => new Promise((resolve, reject) => {
     // Get portal data
-    const portalRequest = dispatch('portalJsonRequest', payload)
+    const portalRequest = portalJsonRequest({}, payload)
       .catch((error) => error);
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data

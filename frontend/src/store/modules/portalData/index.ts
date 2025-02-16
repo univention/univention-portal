@@ -35,6 +35,7 @@ import _ from '@/jsHelper/translate';
 import { randomId } from '@/jsHelper/tools';
 import { createCategories, doesDescriptionMatch, doesKeywordsMatch, doesFolderMatch, doesTitleMatch } from '@/jsHelper/portalCategories';
 import { PortalModule, RootState } from '@/store/root.models';
+import { portalJsonRequest } from '@/store/utils';
 
 import setScreenReaderAccouncement from './portalData.helper';
 import {
@@ -676,7 +677,7 @@ const portalData: PortalModule<PortalDataState> = {
       if (payload.retries <= 0) {
         return false;
       }
-      const response = await dispatch('portalJsonRequest', { adminMode: payload.adminMode }, { root: true });
+      const response = await portalJsonRequest({}, { adminMode: payload.adminMode });
       const portalJson = response.data;
       if (portalJson.cache_id !== getters.cacheId) {
         return true;

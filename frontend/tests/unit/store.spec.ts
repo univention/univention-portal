@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2023-2024 Univention GmbH
  */
 
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import {
   actions,
@@ -11,8 +11,11 @@ import {
 } from '@/store';
 import { initialRootState, PortalActionContext, RootState } from '@/store/root.models';
 import { FeatureToggles } from '@/store/modules/featureToggles/models';
+import * as utils from '@/store/utils';
 
 const mockedGet = jest.spyOn(axios, 'get');
+jest.mock('@/store/utils');
+const mockedUtils = jest.mocked(utils, true);
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -126,27 +129,21 @@ describe('Action loadPortal', () => {
     username: 'stub_username',
   };
 
-  const stubPortalResponse = {
+  const stubPortalResponse : Pick<AxiosResponse, 'data'> = {
     data: stubPortalData,
   };
-
-  async function stubDispatch(actionName: string) {
-    if (actionName === 'portalJsonRequest') {
-      return stubPortalResponse;
-    }
-    return 'default';
-  }
 
   const stubActionContext: StubActionContext = {
     state: initialRootState,
     commit: jest.fn(),
-    dispatch: jest.fn(stubDispatch),
+    dispatch: jest.fn(),
     getters: jest.fn(),
     rootState: initialRootState,
     rootGetters: jest.fn(),
   };
 
   test('sets feature toggles based on portal data', async () => {
+    mockedUtils.portalJsonRequest.mockResolvedValue(stubPortalResponse as AxiosResponse);
     const stubFeatureToggles = { feature_a: true };
     stubPortalData.feature_toggles = stubFeatureToggles;
     const stubPayload = {};
@@ -160,6 +157,7 @@ describe('Action loadPortal', () => {
 
   test('handles missing feature toggles gracefully', async () => {
     delete stubPortalData.feature_toggles;
+    mockedUtils.portalJsonRequest.mockResolvedValue(stubPortalResponse as AxiosResponse);
     const stubPayload = {};
     mockedGet.mockResolvedValue('stub_response');
     await actions.loadPortal(stubActionContext, stubPayload);
