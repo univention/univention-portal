@@ -4,7 +4,11 @@
  */
 
 export type FeatureToggles = {
-  [key: string]: boolean;
+  umc_session_refresh?: boolean;
+  notifications_api?: boolean;
 };
 
 export type FeatureTogglesState = FeatureToggles;
+
+export const initialFeatureTogglesState: FeatureTogglesState = {
+};

@@ -165,7 +165,7 @@ describe('Action loadPortal', () => {
 
   test('sets feature toggles based on portal data', async () => {
     mockedUtils.portalJsonRequest.mockResolvedValue(stubPortalResponse as AxiosResponse);
-    const stubFeatureToggles = { feature_a: true };
+    const stubFeatureToggles = { notifications_api: true };
     stubPortalData.feature_toggles = stubFeatureToggles;
     mockedGet.mockResolvedValue('stub_response');
     await actions.loadPortal(stubActionContext, stubPayload);
