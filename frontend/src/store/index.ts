@@ -48,7 +48,7 @@ import tabs from './modules/tabs';
 import tooltip from './modules/tooltip';
 import umcSession from './modules/umcSession';
 import user from './modules/user';
-import { initialRootState, RootState } from './root.models';
+import { initialRootState, LoadPortalPayload, RootState } from './root.models';
 import { portalUrl, languageJsonPath, portalJsonPath, portalMetaPath, portalJsonRequest } from './utils';
 
 // Build time feature toggles
@@ -84,7 +84,7 @@ export const actions = {
     commit('SET_INITIAL_LOAD_DONE', true);
   },
 
-  loadPortal: ({ commit, dispatch, rootGetters }, payload) => new Promise((resolve, reject) => {
+  loadPortal: ({ commit, dispatch, rootGetters }, payload: LoadPortalPayload) => new Promise((resolve, reject) => {
     // Get portal data
     const portalRequest = portalJsonRequest({}, payload)
       .catch((error) => error);

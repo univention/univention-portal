@@ -142,11 +142,14 @@ describe('Action loadPortal', () => {
     rootGetters: jest.fn(),
   };
 
+  const stubPayload = {
+    adminMode: false,
+  };
+
   test('sets feature toggles based on portal data', async () => {
     mockedUtils.portalJsonRequest.mockResolvedValue(stubPortalResponse as AxiosResponse);
     const stubFeatureToggles = { feature_a: true };
     stubPortalData.feature_toggles = stubFeatureToggles;
-    const stubPayload = {};
     mockedGet.mockResolvedValue('stub_response');
     await actions.loadPortal(stubActionContext, stubPayload);
     expect(stubActionContext.commit).toHaveBeenCalledWith(
@@ -158,7 +161,6 @@ describe('Action loadPortal', () => {
   test('handles missing feature toggles gracefully', async () => {
     delete stubPortalData.feature_toggles;
     mockedUtils.portalJsonRequest.mockResolvedValue(stubPortalResponse as AxiosResponse);
-    const stubPayload = {};
     mockedGet.mockResolvedValue('stub_response');
     await actions.loadPortal(stubActionContext, stubPayload);
     expect(stubActionContext.commit).not.toHaveBeenCalledWith(

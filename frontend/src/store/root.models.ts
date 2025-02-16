@@ -45,3 +45,7 @@ export const initialRootState: RootState = {
   loadingState: true,
   initialLoadDone: false,
 };
+
+export type LoadPortalPayload = {
+  adminMode: boolean;
+};
