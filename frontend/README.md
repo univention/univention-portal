@@ -66,11 +66,8 @@ Have a look at `.env.local_example`. Copy it to `.env.local`. Or copy
 
 ### Be aware of potential feature toggles
 
-Some features may be disabled by default if they are still in ongoing
-development. Take a close look into `.env.local_example`.
-
-When we use build time feature toggles, then we prefix those variables with
-`VUE_APP_FEATURE` and explain them in `.env.local_example`.
+The frontend does support Feature Toggles. See
+(./docs/feature-toggles.md)[./docs/feature-toggles.md].
 
 
 ## Container based project setup -- recommended
