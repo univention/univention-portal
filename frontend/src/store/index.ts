@@ -104,7 +104,8 @@ export const actions = {
     }
     return axios.get(`${portalUrl}${portalJsonPath}`, { headers });
   },
-  loadPortal: ({ dispatch, rootGetters }, payload) => new Promise((resolve, reject) => {
+
+  loadPortal: ({ commit, dispatch, rootGetters }, payload) => new Promise((resolve, reject) => {
     // Get portal data
     const portalRequest = dispatch('portalJsonRequest', payload)
       .catch((error) => error);
@@ -136,6 +137,11 @@ export const actions = {
         dispatch('portalData/setPortalErrorDisplay', 502);
         dispatch('deactivateLoadingState');
       } else {
+        if (portal.feature_toggles) {
+          commit('featureToggles/setFeatureToggles', portal.feature_toggles);
+        } else {
+          console.warn('Key "feature_toggles" missing in portal data.');
+        }
         dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
         dispatch('user/setUser', {
           user: {
