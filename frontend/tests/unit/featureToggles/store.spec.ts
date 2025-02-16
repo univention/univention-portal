@@ -6,7 +6,6 @@
 import { mutations } from '@/store/modules/featureToggles';
 import { createStubStore } from './stubs';
 
-
 describe('Mutation setFeatureToggles', () => {
 
   test('updates state from payload', () => {
@@ -20,7 +19,6 @@ describe('Mutation setFeatureToggles', () => {
   });
 
 });
-
 
 describe('Store Module featureToggles', () => {
 

@@ -8,7 +8,6 @@ import { createStore } from 'vuex';
 import featureToggles from '@/store/modules/featureToggles';
 import { FeatureTogglesState } from '@/store/modules/featureToggles/models';
 
-
 export function createStubStore(initialState?: FeatureTogglesState) {
   const store = createStore<any>({
     modules: {
@@ -23,3 +22,5 @@ export function createStubStore(initialState?: FeatureTogglesState) {
   });
   return store;
 }
+
+export default createStubStore;

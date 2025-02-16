@@ -57,7 +57,7 @@ const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
 // Build time feature toggles
-export const featureToggles = {
+export const featureTogglesOld = {
   umcSessionRefresh: process.env.VUE_APP_FEATURE_UMC_SESSION_REFRESH === 'true',
   useNotificationsApi: process.env.VUE_APP_FEATURE_USE_NOTIFICATIONS_API === 'true',
 };
@@ -171,14 +171,14 @@ export const actions = {
       console.info('No Keycloak URL defined, not trying to login via OIDC.');
     }
 
-    if (featureToggles.useNotificationsApi) {
+    if (featureTogglesOld.useNotificationsApi) {
       console.info('Feature use notifications api activated.');
       dispatch('notifications/connectNotificationsApi');
     } else {
       console.info('Feature use notifications api disabled.');
     }
 
-    if (featureToggles.umcSessionRefresh) {
+    if (featureTogglesOld.umcSessionRefresh) {
       console.info('Feature UMC Session refresh activated.');
       if (rootGetters['user/userState'].authMode === 'saml') {
         console.debug('User is authenticated via SAML, triggering automatic session refresh.');

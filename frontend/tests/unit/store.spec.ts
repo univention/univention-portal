@@ -5,7 +5,7 @@
 
 import {
   actions,
-  featureToggles,
+  featureTogglesOld,
 } from '@/store';
 
 afterEach(() => {
@@ -94,13 +94,13 @@ describe('userIsLoggedIn', () => {
       },
     };
     // TODO: Use "jest.replaceProperty" once we have jest >= 27 available
-    const originalFeatureToggles = { ...featureToggles };
-    featureToggles.umcSessionRefresh = false;
+    const originalFeatureToggles = { ...featureTogglesOld };
+    featureTogglesOld.umcSessionRefresh = false;
 
     actions.userIsLoggedIn(actionContext);
     expect(actionContext.dispatch).not.toHaveBeenCalledWith('umcSession/startSessionRefresh');
 
-    Object.assign(featureToggles, originalFeatureToggles);
+    Object.assign(featureTogglesOld, originalFeatureToggles);
   });
 
 });

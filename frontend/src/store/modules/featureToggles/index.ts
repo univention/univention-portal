@@ -6,7 +6,6 @@
 import { PortalModule } from '../../root.models';
 import { FeatureToggles, FeatureTogglesState } from './models';
 
-
 export const mutations = {
   setFeatureToggles(state: FeatureTogglesState, payload: FeatureToggles): void {
     console.debug('Setting feature toggles', payload);
@@ -14,12 +13,10 @@ export const mutations = {
   },
 };
 
-
 const featureToggles: PortalModule<FeatureTogglesState> = {
   namespaced: true,
   state: {},
   mutations,
 };
-
 
 export default featureToggles;
