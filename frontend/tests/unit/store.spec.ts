@@ -5,10 +5,7 @@
 
 import axios, { AxiosResponse } from 'axios';
 
-import {
-  actions,
-  featureTogglesOld,
-} from '@/store';
+import { actions } from '@/store';
 import { initialRootState, PortalActionContext, RootState } from '@/store/root.models';
 import { FeatureToggles } from '@/store/modules/featureToggles/models';
 import * as utils from '@/store/utils';
@@ -27,7 +24,7 @@ afterAll(() => {
 
 type StubActionContext = PortalActionContext<RootState>;
 
-describe('userIsLoggedIn', () => {
+describe('Action userIsLoggedIn', () => {
 
   test('triggers oidc/tryLogin if keycloak url is defined', () => {
     // TODO: Use "jest.replaceProperty" once we have jest >= 27 available
@@ -40,6 +37,11 @@ describe('userIsLoggedIn', () => {
       rootGetters: {
         'user/userState': {
           authMode: 'saml',
+        },
+      },
+      state: {
+        featureToggles: {
+          umc_session_refresh: true,
         },
       },
     };
@@ -62,6 +64,11 @@ describe('userIsLoggedIn', () => {
           authMode: 'saml',
         },
       },
+      state: {
+        featureToggles: {
+          umc_session_refresh: true,
+        },
+      },
     };
     actions.userIsLoggedIn(actionContext);
     expect(actionContext.dispatch).not.toHaveBeenCalledWith('oidc/tryLogin');
@@ -77,6 +84,11 @@ describe('userIsLoggedIn', () => {
           authMode: 'saml',
         },
       },
+      state: {
+        featureToggles: {
+          umc_session_refresh: true,
+        },
+      },
     };
     actions.userIsLoggedIn(actionContext);
     expect(actionContext.dispatch).toHaveBeenCalledWith('umcSession/startSessionRefresh');
@@ -88,6 +100,11 @@ describe('userIsLoggedIn', () => {
       rootGetters: {
         'user/userState': {
           authMode: 'ucs',
+        },
+      },
+      state: {
+        featureToggles: {
+          umc_session_refresh: true,
         },
       },
     };
@@ -103,15 +120,15 @@ describe('userIsLoggedIn', () => {
           authMode: 'saml',
         },
       },
+      state: {
+        featureToggles: {
+          umc_session_refresh: false,
+        },
+      },
     };
-    // TODO: Use "jest.replaceProperty" once we have jest >= 27 available
-    const originalFeatureToggles = { ...featureTogglesOld };
-    featureTogglesOld.umcSessionRefresh = false;
 
     actions.userIsLoggedIn(actionContext);
     expect(actionContext.dispatch).not.toHaveBeenCalledWith('umcSession/startSessionRefresh');
-
-    Object.assign(featureTogglesOld, originalFeatureToggles);
   });
 
 });
