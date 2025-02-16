@@ -7,9 +7,14 @@ import { createStore } from 'vuex';
 
 import featureToggles from '@/store/modules/featureToggles';
 import { FeatureTogglesState } from '@/store/modules/featureToggles/models';
+import { RootState } from '@/store/root.models';
+
+interface MyRootState extends RootState {
+  featureToggles: FeatureTogglesState,
+}
 
 export function createStubStore(initialState?: FeatureTogglesState) {
-  const store = createStore<any>({
+  const store = createStore<MyRootState>({
     modules: {
       featureToggles: {
         ...featureToggles,

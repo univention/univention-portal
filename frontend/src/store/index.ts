@@ -35,6 +35,7 @@ import { getCookie } from '@/jsHelper/tools';
 import { getAdminState } from '@/jsHelper/admin';
 import activity from './modules/activity';
 import dragndrop from './modules/dragndrop';
+import featureToggles from './modules/featureToggles';
 import locale from './modules/locale';
 import menu from './modules/menu';
 import metaData from './modules/metaData';
@@ -200,6 +201,7 @@ export const store = createStore<RootState>({
   getters,
   modules: {
     activity,
+    featureToggles,
     dragndrop,
     locale,
     menu,
