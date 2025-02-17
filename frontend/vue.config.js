@@ -37,6 +37,15 @@ const vueConfig = {
         args[0].theme = process.env.VUE_APP_THEME_PATH;
         return args;
       });
+    config.plugin('define').tap((definitions) => {
+      // See https://vuejs.org/api/compile-time-flags.html#vue-cli
+      Object.assign(definitions[0], {
+        __VUE_OPTIONS_API__: 'true',
+        __VUE_PROD_DEVTOOLS__: 'false',
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
+      });
+      return definitions;
+    });
     config
       .optimization.minimizer('uglifyjs')
       .use(UglifyJsPlugin, [{
