@@ -677,7 +677,7 @@ const portalData: PortalModule<PortalDataState> = {
       if (payload.retries <= 0) {
         return false;
       }
-      const response = await portalJsonRequest({}, { adminMode: payload.adminMode });
+      const response = await portalJsonRequest(payload.adminMode);
       const portalJson = response.data;
       if (portalJson.cache_id !== getters.cacheId) {
         return true;

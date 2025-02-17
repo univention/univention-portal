@@ -80,7 +80,7 @@ export const actions = {
 
   loadPortal: ({ commit, dispatch, rootGetters }, payload: LoadPortalPayload) => new Promise((resolve, reject) => {
     // Get portal data
-    const portalRequest = portalJsonRequest({}, payload)
+    const portalRequest = portalJsonRequest(payload.adminMode)
       .catch((error) => error);
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data

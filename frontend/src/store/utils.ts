@@ -13,13 +13,13 @@ export const languageJsonPath = process.env.VUE_APP_LANGUAGE_DATA || '/univentio
 export const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 export const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 
-export async function portalJsonRequest(_, payload) {
+export async function portalJsonRequest(adminMode: boolean) {
   const umcLang = getCookie('UMCLang');
   const headers = {
     'X-Requested-With': 'XMLHTTPRequest',
     'Accept-Language': umcLang || 'en-US',
   };
-  if (payload.adminMode || getAdminState()) {
+  if (adminMode || getAdminState()) {
     headers['X-Univention-Portal-Admin-Mode'] = 'yes';
 
     if (process.env.VUE_APP_LOCAL) {
