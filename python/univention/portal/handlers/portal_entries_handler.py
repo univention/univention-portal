@@ -86,5 +86,5 @@ class PortalEntriesHandler(PortalResource):
         answer["auth_mode"] = portal.auth_mode(self)
         answer["may_edit_portal"] = portal.may_be_edited(user)
         answer["announcements"] = portal.get_announcements(visible_content)
-        answer["features"] = portal.get_feature_toggles()
+        answer["feature_toggles"] = portal.get_feature_toggles()
         self.write(answer)

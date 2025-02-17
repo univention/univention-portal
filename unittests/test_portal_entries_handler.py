@@ -104,7 +104,7 @@ class TestPortalEntriesHandlerNoHttpCache:
     def test_get_portals_returns_empty_feature_configuration(self, http_client, base_url, portal_mock):
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
-        assert data["features"] == {}
+        assert data["feature_toggles"] == {}
 
     @pytest.mark.gen_test()
     def test_get_portals_returns_feature_configuration(
@@ -114,7 +114,7 @@ class TestPortalEntriesHandlerNoHttpCache:
         }
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
-        assert data["features"] == {"notifications_api": False}
+        assert data["feature_toggles"] == {"notifications_api": False}
 
 
 class TestPortalEntriesHandlerNoPortal(tornado.testing.AsyncHTTPTestCase):
