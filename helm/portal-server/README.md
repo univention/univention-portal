@@ -734,7 +734,7 @@ true
 }
 </pre>
 </td>
-			<td>Allows to configure Feature Toggles for the portal. The value is a map from string to boolean. The keys are added into the configuration file of the `portal-server` and should use "snake case".</td>
+			<td>Allows to configure Feature Toggles for the portal. The value is a map from string to boolean. The keys are added into the configuration file of the `portal-server` and should use "snake case".  The toggle names use snake case consistently throughout the stack.</td>
 		</tr>
 		<tr>
 			<td>portalServer.logLevel</td>
