@@ -124,10 +124,7 @@ spec:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
-      containers:
-        - name: "portal-consumer"
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+        - name: "univention-compatibility"
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
@@ -140,10 +137,59 @@ spec:
               {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
             - name: PROVISIONING_API_PASSWORD
               {{- include "portal-consumer.provisioningApi.auth.password" . | nindent 14 }}
+          command:
+            - sh
+            - -c
+            - './entrypoint.sh; cp -a /etc/* /target/etc/; cp -a /var/log/univention/* /target/var/log/univention/; cp -a /usr/lib/univention-portal/* /target/usr/lib/univention-portal/'
+          volumeMounts:
+            - name: usr-lib-univention-portal-volume
+              mountPath: /target/usr/lib/univention-portal
+            - name: etc-volume
+              mountPath: /target/etc
+            - name: var-log-univention-volume
+              mountPath: /target/var/log/univention
+            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
+            - name: "secrets"
+              mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
+            {{- else }}
+            {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+      containers:
+        - name: "portal-consumer"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          envFrom:
+            - configMapRef:
+                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+          env:
+            - name: REQUESTS_CA_BUNDLE
+              value: "/etc/ssl/certs/ca-certificates.crt"
+            - name: OBJECT_STORAGE_ACCESS_KEY_ID
+              {{- include "portal-consumer.objectStorageAccessKeyId" . | nindent 14 }}
+            - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+              {{- include "portal-consumer.objectStorageSecretAccessKey" . | nindent 14 }}
+            - name: PROVISIONING_API_PASSWORD
+              {{- include "portal-consumer.provisioningApi.auth.password" . | nindent 14 }}
             {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
           volumeMounts:
+            - name: entrypoint-volume
+              mountPath: /entrypoint.d
+              readOnly: true
+            - name: usr-lib-univention-portal-volume
+              mountPath: /usr/lib/univention-portal
+              readOnly: true
+            - name: etc-volume
+              mountPath: /etc
+              readOnly: true
+            - name: var-log-univention-volume
+              mountPath: /var/log/univention
+              readOnly: true
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
             {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
@@ -158,6 +204,14 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
+        - name: "entrypoint-volume"
+          emptyDir: {}
+        - name: "usr-lib-univention-portal-volume"
+          emptyDir: {}
+        - name: "etc-volume"
+          emptyDir: {}
+        - name: "var-log-univention-volume"
+          emptyDir: {}
         - name: "scripts"
           configMap:
             defaultMode: 0555
