@@ -19,7 +19,8 @@ def test_disabling_all_feature_toggles(helm, chart_path, value):
     )
     result = helm.helm_template(chart_path, values)
     configmap = helm.get_resource(result, kind="ConfigMap")
-    assert "PORTAL_SERVER_FEATURE_TOGGLES" not in configmap["data"]
+    feature_toggles = json.loads(findone(configmap, "data.PORTAL_SERVER_FEATURE_TOGGLES"))
+    assert feature_toggles == {}
 
 
 def test_allows_to_add_arbitrary_feature_toggles(helm, chart_path):
