@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.51.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.50.1...v0.51.0) (2025-02-18)
+
+
+### Features
+
+* Add feature toggle support into the Portal model object ([fb8ced6](https://git.knut.univention.de/univention/components/univention-portal/commit/fb8ced66be63b1839261287d0071ee96a9b45bea))
+* **frontend:** Add featureToggles module into root store ([bebffdd](https://git.knut.univention.de/univention/components/univention-portal/commit/bebffdd6259118bee94c5ab60de63b247fcf38fb))
+* **frontend:** Add new store module for feature toggles ([68ba80d](https://git.knut.univention.de/univention/components/univention-portal/commit/68ba80db7bca50580b50a2dc146bab3489ba85cd))
+* **frontend:** Set feature toggles based on portal data response ([212e207](https://git.knut.univention.de/univention/components/univention-portal/commit/212e2074f5efec473a97e76df94411b67b350c36))
+* **frontend:** Use the store based feature toggles ([c4abf4a](https://git.knut.univention.de/univention/components/univention-portal/commit/c4abf4ab265b52b2218aed252c906dac73bc494b))
+* **portal-server:** Allow to configure Feature Toggles in the portal-server's chart ([287239a](https://git.knut.univention.de/univention/components/univention-portal/commit/287239a27f524f943dd77fc2629bf7eaac97edf0))
+* Return feature configuration in portal.json endpoint ([e5d01da](https://git.knut.univention.de/univention/components/univention-portal/commit/e5d01da3598d0fc6c1d90f806ae4dab087e06866))
+* **server:** Add feature toggle "umc_session_refresh" into chart values ([a942031](https://git.knut.univention.de/univention/components/univention-portal/commit/a942031f2e947f1dda50e9ec2fd6900b4da307de))
+* **server:** Add new key "feature_toggles" into the configuration from entrypoint script ([6d158c8](https://git.knut.univention.de/univention/components/univention-portal/commit/6d158c876ce37009e8ce170a71ca3c22e9efc7a3))
+* **server:** Log feature toggle configuration after loading the configuration files ([600cf28](https://git.knut.univention.de/univention/components/univention-portal/commit/600cf28b01a5d4269410e6fb086fd4f9db44f487))
+
+
+### Bug Fixes
+
+* Correct return value of GroupsReloaderLDAP ([4b28e15](https://git.knut.univention.de/univention/components/univention-portal/commit/4b28e15ed94bf09d503ce61e7546c9aa5d02f6b1))
+* **frontend:** Add type for parameter "layout" in "getPosition" function ([7ada65d](https://git.knut.univention.de/univention/components/univention-portal/commit/7ada65d23fd4976c3ea7fe952f76d1ab0502a162))
+* **frontend:** Avoid type Any in isEqual function ([24c84d3](https://git.knut.univention.de/univention/components/univention-portal/commit/24c84d361ab018de43b437b3322652914b67c364))
+* **frontend:** Change default of "portalFrontend.logLevel" to "INFO" ([49c611d](https://git.knut.univention.de/univention/components/univention-portal/commit/49c611debe176d128a02658a49a06041feabfad1))
+* **notifications-api:** Change default of "notificationsApi.logLevel" to "INFO" ([383c482](https://git.knut.univention.de/univention/components/univention-portal/commit/383c482d267f3f52c969a6ee2c8f7cf1315fddc0))
+* **server:** Add user "app" into the container of the portal-server ([bf1d668](https://git.knut.univention.de/univention/components/univention-portal/commit/bf1d6682c814993c8c5631353f8700c27ff802f2))
+* **server:** Avoid setting imagePullPolicy by default ([d4bae54](https://git.knut.univention.de/univention/components/univention-portal/commit/d4bae54c2987e52b2d305514db37d298f7ab2c46))
+* **server:** Change default of "portalServer.logLevel" to "INFO" ([052f93f](https://git.knut.univention.de/univention/components/univention-portal/commit/052f93f67198d1f10faba072f0c34c0742b88b8c))
+* **server:** Correct handling of the case when all toggles are switched off ([d88bfad](https://git.knut.univention.de/univention/components/univention-portal/commit/d88bfad47be32485ca80937de87453493b94f10e))
+* **server:** Ensure that PORTAL_SERVER_FEATURE_TOGGLES is always set ([7b7885d](https://git.knut.univention.de/univention/components/univention-portal/commit/7b7885db224a065ab884a17d3ac81ebe4ef70d14))
+* **server:** Use the key "feature_toggles" in the portal data structure ([4b3ebb4](https://git.knut.univention.de/univention/components/univention-portal/commit/4b3ebb40526c27652b77f5206e4ff5b500142717))
+
 ## [0.50.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.50.0...v0.50.1) (2025-02-10)
 
 
