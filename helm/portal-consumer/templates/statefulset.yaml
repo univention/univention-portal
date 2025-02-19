@@ -131,6 +131,8 @@ spec:
             - configMapRef:
                 name: {{ printf "%s-common" (include "common.names.fullname" .) }}
           env:
+            - name: REQUESTS_CA_BUNDLE
+              value: "/etc/ssl/certs/ca-certificates.crt"
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
               {{- include "portal-consumer.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
@@ -140,12 +142,12 @@ spec:
           command:
             - sh
             - -c
-            - './entrypoint.sh; cp -a /etc/* /target/etc/; cp -a /var/log/univention/* /target/var/log/univention/; cp -a /usr/lib/univention-portal/* /target/usr/lib/univention-portal/'
+            - './entrypoint.sh; cp -a /etc/univention/* /target/etc/univention/; cp -a /var/log/univention/* /target/var/log/univention/; cp -a /usr/lib/univention-portal/* /target/usr/lib/univention-portal/'
           volumeMounts:
             - name: usr-lib-univention-portal-volume
               mountPath: /target/usr/lib/univention-portal
-            - name: etc-volume
-              mountPath: /target/etc
+            - name: etc-univention-volume
+              mountPath: /target/etc/univention
             - name: var-log-univention-volume
               mountPath: /target/var/log/univention
             {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
@@ -184,8 +186,8 @@ spec:
             - name: usr-lib-univention-portal-volume
               mountPath: /usr/lib/univention-portal
               readOnly: true
-            - name: etc-volume
-              mountPath: /etc
+            - name: etc-univention-volume
+              mountPath: /etc/univention
               readOnly: true
             - name: var-log-univention-volume
               mountPath: /var/log/univention
@@ -208,7 +210,7 @@ spec:
           emptyDir: {}
         - name: "usr-lib-univention-portal-volume"
           emptyDir: {}
-        - name: "etc-volume"
+        - name: "etc-univention-volume"
           emptyDir: {}
         - name: "var-log-univention-volume"
           emptyDir: {}

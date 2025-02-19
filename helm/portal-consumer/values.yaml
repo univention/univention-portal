@@ -44,7 +44,7 @@ podSecurityContext:
   enabled: true
 
   # -- If specified, all processes of the container are also part of the supplementary group.
-  fsGroup: 1000
+  fsGroup: 1001
 
   # -- Change ownership and permission of the volume before being exposed inside a Pod.
   fsGroupChangePolicy: "Always"
@@ -66,9 +66,9 @@ securityContext:
   # -- Enable security context.
   enabled: true
   # -- Process user id.
-  runAsUser: 1000
+  runAsUser: 1001
   # -- Process group id.
-  runAsGroup: 1000
+  runAsGroup: 1001
   # Set Seccomp profile.
   seccompProfile:
     # -- Disallow custom Seccomp profile by setting it to RuntimeDefault.
@@ -77,6 +77,7 @@ securityContext:
   readOnlyRootFilesystem: true
   # -- Run container as a user.
   runAsNonRoot: true
+  fsGroup: 1001
 tolerations: []
 mountSecrets: true
 extraSecrets: []

@@ -253,6 +253,10 @@ value: {{ required "The parameter \"portalConsumer.objectStorageSecretAccessKey\
   mountPath: "{{ $secretMountPath }}/machine_secret"
   subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
   readOnly: true
+- name: {{ printf "%s-volume" $credentialSecretName | quote }}
+  mountPath: "/etc/machine.secret"
+  subPath: {{ .Values.ldap.credentialSecret.machinePasswordKey | quote }}
+  readOnly: true
 {{- end }}
 {{- if $tlsSecretName }}
 - name: {{ printf "%s-volume" $tlsSecretName | quote }}

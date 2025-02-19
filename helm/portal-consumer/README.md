@@ -301,7 +301,7 @@ true
 			<td>podSecurityContext.fsGroup</td>
 			<td>int</td>
 			<td><pre lang="json">
-1000
+1001
 </pre>
 </td>
 			<td>If specified, all processes of the container are also part of the supplementary group.</td>
@@ -886,6 +886,15 @@ true
 			<td>Enable security context.</td>
 		</tr>
 		<tr>
+			<td>securityContext.fsGroup</td>
+			<td>int</td>
+			<td><pre lang="json">
+1001
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>securityContext.privileged</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -907,7 +916,7 @@ true
 			<td>securityContext.runAsGroup</td>
 			<td>int</td>
 			<td><pre lang="json">
-1000
+1001
 </pre>
 </td>
 			<td>Process group id.</td>
@@ -925,7 +934,7 @@ true
 			<td>securityContext.runAsUser</td>
 			<td>int</td>
 			<td><pre lang="json">
-1000
+1001
 </pre>
 </td>
 			<td>Process user id.</td>
