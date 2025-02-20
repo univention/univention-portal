@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.52.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.51.0...v0.52.0) (2025-02-20)
+
+
+### Features
+
+* **portal:** Update Open Sans as variable width font ([827f89f](https://git.knut.univention.de/univention/components/univention-portal/commit/827f89fbaf8a7d8bd3d7ea528e611bc4a6dcf69b)), closes [#940](https://git.knut.univention.de/univention/components/univention-portal/issues/940)
+
 ## [0.51.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.50.1...v0.51.0) (2025-02-18)
 
 
