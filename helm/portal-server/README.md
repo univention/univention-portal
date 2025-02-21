@@ -729,9 +729,9 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "centered_layout": false,
   "notifications_api": true,
-  "umc_session_refresh": true,
-  "centered_layout": false
+  "umc_session_refresh": true
 }
 </pre>
 </td>

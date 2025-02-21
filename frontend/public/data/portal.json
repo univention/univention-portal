@@ -391,9 +391,9 @@
     }
   ],
   "feature_toggles": {
+    "centered_layout": true,
     "notifications_api": false,
-    "umc_session_refresh": true,
-    "centered_layout": true
+    "umc_session_refresh": true
   },
   "filtered": true,
   "folders": [
