@@ -23,6 +23,10 @@ objectStorage:
   endpoint: "http://minio:9000"
   bucketName: "ums"
 
+udm:
+  connection:
+    url: "http://udm-rest-api:9979/udm"
+
 ## Kubernetes ingress
 ingress:
   enabled: true

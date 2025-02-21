@@ -266,6 +266,15 @@ false
 			<td>Indicates wether this chart is part of a Nubus deployment.</td>
 		</tr>
 		<tr>
+			<td>global.udm.connection.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>image.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -1055,6 +1064,28 @@ true
 </pre>
 </td>
 			<td>Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in. Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/  topologySpreadConstraints:   - maxSkew: 1     topologyKey: failure-domain.beta.kubernetes.io/zone     whenUnsatisfiable: DoNotSchedule</td>
+		</tr>
+		<tr>
+			<td>udm</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "connection": {
+    "url": null
+  }
+}
+</pre>
+</td>
+			<td>Configuration of the UDM Rest API access</td>
+		</tr>
+		<tr>
+			<td>udm.connection.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>Base URL of the UDM Rest API.</td>
 		</tr>
 		<tr>
 			<td>updateStrategy.type</td>

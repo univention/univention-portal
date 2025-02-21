@@ -28,6 +28,7 @@ data:
   PORTAL_SERVER_UMC_GET_URL: {{ include "portal-server.umcGetUrl" . | quote }}
   PORTAL_SERVER_UMC_SESSION_URL: {{ include "portal-server.umcSessionUrl" .| quote }}
   PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED: {{ .Values.portalServer.centralNavigation.enabled | quote }}
+  PORTAL_UDM_API_URL: {{ tpl (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) . | quote }}
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
   OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}
 ...

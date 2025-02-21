@@ -31,6 +31,10 @@ global:
 
   configMapUcr: "stack-data-ums-ucr"
 
+  udm:
+    connection:
+      url: null
+
 # -- Additional custom annotations to add to all deployed objects.
 additionalAnnotations: {}
 
@@ -377,6 +381,12 @@ tolerations: []
 #     topologyKey: failure-domain.beta.kubernetes.io/zone
 #     whenUnsatisfiable: DoNotSchedule
 topologySpreadConstraints: []
+
+# -- Configuration of the UDM Rest API access
+udm:
+  connection:
+    # -- Base URL of the UDM Rest API.
+    url: null
 
 # Set up update strategy.
 #
