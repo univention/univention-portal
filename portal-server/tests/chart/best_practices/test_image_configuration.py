@@ -1,9 +1,6 @@
 # SPDX-FileCopyrightText: 2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
-# Ruff has problems with multiline f-strings
-# ruff: noqa: F541
-
 import pytest
 from yaml import safe_load
 
