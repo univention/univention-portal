@@ -33,6 +33,7 @@ build/
 *.py[co]
 generated-config-*.yml
 .idea/
+.vscode/
 .mypy_cache/
 .venv/
 
