@@ -13,3 +13,5 @@ The extension is based on the
 
 - `svcPortalServerUserPassword`: The password for the service account user has
   to be provided in this parameter.
+
+  Updating this value to rotate the secret is not yet supported.
