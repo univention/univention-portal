@@ -17,10 +17,11 @@ cd docker
 docker compose run -it --rm test-chart-portal-server
 
 # Deal with trouble via pdb
-docker compose run -it --rm test-chart-portal-server pytest tests --pdb
+docker compose run -it --rm test-chart-portal-server pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart --pdb
 
 # Have a shell
 docker compose run -it --rm test-chart-portal-server bash
+pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart
 ```
 
 
