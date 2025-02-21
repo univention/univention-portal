@@ -128,7 +128,7 @@ spec:
               mountPath: /tmp
             - name: secret-udm
               mountPath: /var/secrets/udm_api_password
-              subPath: password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
@@ -144,7 +144,7 @@ spec:
         {{- end }}
         - name: secret-udm
           secret:
-            secretName: {{ include "common.secrets.name" (dict "defaultNameSuffix" "udm" "context" .) | quote }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) | quote }}
         - name: tmp-volume
           emptyDir: {}
         {{- if .Values.extraVolumes }}

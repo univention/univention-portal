@@ -390,6 +390,11 @@ udm:
   auth:
     username: "svc-portal-server"
     password: null
+    existingSecret:
+      name: null
+      keyMapping:
+        username: null
+        password: null
 
 # Set up update strategy.
 #

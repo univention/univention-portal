@@ -1071,6 +1071,13 @@ true
 			<td><pre lang="json">
 {
   "auth": {
+    "existingSecret": {
+      "keyMapping": {
+        "password": null,
+        "username": null
+      },
+      "name": null
+    },
     "password": null,
     "username": "svc-portal-server"
   },

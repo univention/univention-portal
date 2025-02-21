@@ -141,3 +141,106 @@ def test_udm_auth_username_has_default(helm, chart_path):
     result = helm.helm_template(chart_path, values)
     config_map = helm.get_resource(result, kind="ConfigMap")
     assert findone(config_map, "data.PORTAL_UDM_API_USERNAME") == "svc-portal-server"
+
+
+def test_udm_auth_existing_secret_does_not_generate_a_secret(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            existingSecret:
+              name: "stub-secret-name"
+    """)
+    result = helm.helm_template(chart_path, values)
+    with pytest.raises(LookupError):
+        helm.get_resource(result, kind="Secret", name="release-name-portal-server-udm")
+
+
+def test_udm_auth_existing_secret_mounts_password(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            existingSecret:
+              name: "stub-secret-name"
+    """)
+    result = helm.helm_template(chart_path, values)
+    deployment = helm.get_resource(result, kind="Deployment")
+    secret_udm_volume = findone(deployment, "spec.template.spec.volumes[?@.name=='secret-udm']")
+    assert findone(secret_udm_volume, "secret.secretName") == "stub-secret-name"
+
+
+def test_udm_auth_existing_secret_mounts_correct_default_key(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            existingSecret:
+              name: "stub-secret-name"
+    """)
+    result = helm.helm_template(chart_path, values)
+    deployment = helm.get_resource(result, kind="Deployment")
+    main_container = findone(deployment, "spec.template.spec.containers[?@.name=='portal-server']")
+    secret_udm_volume_mount = findone(main_container, "volumeMounts[?@.name=='secret-udm']")
+
+    assert secret_udm_volume_mount["subPath"] == "password"
+
+
+def test_udm_auth_disabling_existing_secret_by_setting_it_to_null(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            existingSecret: null
+    """)
+    result = helm.helm_template(chart_path, values)
+    deployment = helm.get_resource(result, kind="Deployment")
+    secret_udm_volume = findone(deployment, "spec.template.spec.volumes[?@.name=='secret-udm']")
+    main_container = findone(deployment, "spec.template.spec.containers[?@.name=='portal-server']")
+    secret_udm_volume_mount = findone(main_container, "volumeMounts[?@.name=='secret-udm']")
+
+    assert secret_udm_volume_mount["subPath"] == "password"
+    assert findone(secret_udm_volume, "secret.secretName") == "release-name-portal-server-udm"
+
+
+def test_udm_auth_existing_secret_mounts_correct_custom_key(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            existingSecret:
+              name: "stub-secret-name"
+              keyMapping:
+                password: "stub_password_key"
+    """)
+    result = helm.helm_template(chart_path, values)
+    deployment = helm.get_resource(result, kind="Deployment")
+    main_container = findone(deployment, "spec.template.spec.containers[?@.name=='portal-server']")
+    secret_udm_volume_mount = findone(main_container, "volumeMounts[?@.name=='secret-udm']")
+
+    assert secret_udm_volume_mount["subPath"] == "stub_password_key"
+
+
+def test_udm_auth_existing_secret_has_precedence(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            password: stub-plain-password
+            existingSecret:
+              name: "stub-secret-name"
+              keyMapping:
+                password: "stub_password_key"
+    """)
+    # TODO: Fix upstream, always return a list
+    result = list(helm.helm_template(chart_path, values))
+    with pytest.raises(LookupError):
+        helm.get_resource(result, kind="Secret", name="release-name-portal-server-udm")
+
+    deployment = helm.get_resource(result, kind="Deployment")
+    secret_udm_volume = findone(deployment, "spec.template.spec.volumes[?@.name=='secret-udm']")
+    main_container = findone(deployment, "spec.template.spec.containers[?@.name=='portal-server']")
+    secret_udm_volume_mount = findone(main_container, "volumeMounts[?@.name=='secret-udm']")
+
+    assert secret_udm_volume_mount["subPath"] == "stub_password_key"
+    assert findone(secret_udm_volume, "secret.secretName") == "stub-secret-name"
