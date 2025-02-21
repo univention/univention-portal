@@ -1070,6 +1070,10 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "auth": {
+    "password": null,
+    "username": "svc-portal-server"
+  },
   "connection": {
     "url": null
   }

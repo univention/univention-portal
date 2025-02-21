@@ -387,6 +387,9 @@ udm:
   connection:
     # -- Base URL of the UDM Rest API.
     url: null
+  auth:
+    username: "svc-portal-server"
+    password: null
 
 # Set up update strategy.
 #

@@ -126,6 +126,9 @@ spec:
             {{- end }}
             - name: tmp-volume
               mountPath: /tmp
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: password
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
@@ -139,6 +142,9 @@ spec:
           secret:
             secretName: {{ include "portal-server.centralNavigation.authenticatorSecretName" . }}
         {{- end }}
+        - name: secret-udm
+          secret:
+            secretName: {{ include "common.secrets.name" (dict "defaultNameSuffix" "udm" "context" .) | quote }}
         - name: tmp-volume
           emptyDir: {}
         {{- if .Values.extraVolumes }}
