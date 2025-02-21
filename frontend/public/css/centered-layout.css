@@ -1,0 +1,28 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+ */
+
+/*
+    This is the centered-layout.css. We will update it directly.
+    Will be loaded if feature toggle "centered_layout" is activated.
+
+    - Center portal categories on screen
+    - Adjust tile width to allow max five tiles per row
+*/
+
+
+:root {
+  --app-tile-side-length: 6.375rem;
+}
+
+.portal-categories {
+  max-width: 581px;
+  margin: 0 auto;
+  position: relative;
+  padding: calc(4 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+}
+
+.portal-category__tiles {
+  grid-gap: calc(2.2 * var(--layout-spacing-unit));
+}
