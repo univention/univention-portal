@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2025 Univention GmbH
 
+from contextlib import nullcontext as does_not_raise
 
 import pytest
 from yaml import safe_load
@@ -43,7 +44,7 @@ def test_udm_connection_url_supports_global_default(helm, chart_path):
               url: "global_stub"
         udm:
           connection:
-            url: ""
+            url: null
     """)
     result = helm.helm_template(chart_path, values)
     config_map = helm.get_resource(result, kind="ConfigMap")
@@ -128,6 +129,20 @@ def test_udm_auth_plain_values_password_is_not_templated(helm, chart_path):
     assert findone(secret, "stringData.password") == "{{ value }}"
 
 
+def test_udm_auth_plain_values_password_is_required(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          connection:
+            url: "local_stub"
+          auth:
+            username: "stub-username"
+            password: null
+    """)
+    with pytest.raises(RuntimeError):
+        helm.helm_template(chart_path, values)
+
+
 def test_udm_auth_username_has_default(helm, chart_path):
     # TODO: Ensure that "udm.auth.username" is removed from linter-values before applying
     values = safe_load(
@@ -154,6 +169,19 @@ def test_udm_auth_existing_secret_does_not_generate_a_secret(helm, chart_path):
     result = helm.helm_template(chart_path, values)
     with pytest.raises(LookupError):
         helm.get_resource(result, kind="Secret", name="release-name-portal-server-udm")
+
+
+def test_udm_auth_existing_secret_does_not_require_plain_password(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            password: null
+            existingSecret:
+              name: "stub-secret-name"
+    """)
+    with does_not_raise():
+        helm.helm_template(chart_path, values)
 
 
 def test_udm_auth_existing_secret_mounts_password(helm, chart_path):

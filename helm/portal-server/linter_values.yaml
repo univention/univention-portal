@@ -26,6 +26,8 @@ objectStorage:
 udm:
   connection:
     url: "http://udm-rest-api:9979/udm"
+  auth:
+    password: "stub-linter-value"
 
 ## Kubernetes ingress
 ingress:
