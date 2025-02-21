@@ -143,6 +143,17 @@ def test_udm_auth_plain_values_password_is_required(helm, chart_path):
         helm.helm_template(chart_path, values)
 
 
+def test_udm_auth_username_is_required(helm, chart_path):
+    values = safe_load(
+        """
+        udm:
+          auth:
+            username: null
+    """)
+    with pytest.raises(RuntimeError):
+        helm.helm_template(chart_path, values)
+
+
 def test_udm_auth_username_has_default(helm, chart_path):
     # TODO: Ensure that "udm.auth.username" is removed from linter-values before applying
     values = safe_load(

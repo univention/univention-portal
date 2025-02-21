@@ -3,3 +3,4 @@
 
 {{- $_ := required "The UDM Rest API connection has to be configured, udm.connection.url." (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) }}
 {{- $_ = required "A UDM password has to be supplied, see parameter udm.auth." (coalesce .Values.udm.auth.password (.Values.udm.auth.existingSecret).name) }}
+{{- $_ = required "A UDM username has to be supplied, see parameter udm.auth." .Values.udm.auth.username }}
