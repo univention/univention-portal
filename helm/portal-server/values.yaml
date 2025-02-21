@@ -33,6 +33,8 @@ global:
 
   udm:
     connection:
+      # -- Global default for the URL via which the UDM Rest API can be reached.
+      # See "udm.connection.url".
       url: null
 
 # -- Additional custom annotations to add to all deployed objects.
@@ -385,15 +387,28 @@ topologySpreadConstraints: []
 # -- Configuration of the UDM Rest API access
 udm:
   connection:
-    # -- Base URL of the UDM Rest API.
+    # -- The URL of the UDM Rest API.
+    #
+    # Will use "global.udm.connection.url" as a default if this value is not specified.
+    #
+    # Example: "http://udm-rest-api:9979/udm"
     url: null
   auth:
+    # -- The username which the portal-server uses to authenticate with the UDM
+    # Rest API.
     username: "svc-portal-server"
+    # -- The password used to authenticate with the UDM Rest API.
+    # Either this value or an existing Secret has to be specified.
     password: null
     existingSecret:
+      # -- The name of an existing Secret to use for retrieving the password
+      # to use with the UDM Rest API.
+      #
+      # "udm.auth.password" will be ignored if this value is set.
       name: null
       keyMapping:
-        username: null
+        # -- The key to retrieve the password from. Setting this value allows to use
+        # a key with a different name.
         password: null
 
 # Set up update strategy.

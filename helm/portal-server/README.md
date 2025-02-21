@@ -272,7 +272,7 @@ false
 null
 </pre>
 </td>
-			<td></td>
+			<td>Global default for the URL via which the UDM Rest API can be reached. See "udm.connection.url".</td>
 		</tr>
 		<tr>
 			<td>image.imagePullPolicy</td>
@@ -1073,8 +1073,7 @@ true
   "auth": {
     "existingSecret": {
       "keyMapping": {
-        "password": null,
-        "username": null
+        "password": null
       },
       "name": null
     },
@@ -1090,13 +1089,49 @@ true
 			<td>Configuration of the UDM Rest API access</td>
 		</tr>
 		<tr>
+			<td>udm.auth.existingSecret.keyMapping.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The key to retrieve the password from. Setting this value allows to use a key with a different name.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The name of an existing Secret to use for retrieving the password to use with the UDM Rest API.  "udm.auth.password" will be ignored if this value is set.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The password used to authenticate with the UDM Rest API. Either this value or an existing Secret has to be specified.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.username</td>
+			<td>string</td>
+			<td><pre lang="json">
+"svc-portal-server"
+</pre>
+</td>
+			<td>The username which the portal-server uses to authenticate with the UDM Rest API.</td>
+		</tr>
+		<tr>
 			<td>udm.connection.url</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
 </pre>
 </td>
-			<td>Base URL of the UDM Rest API.</td>
+			<td>The URL of the UDM Rest API.  Will use "global.udm.connection.url" as a default if this value is not specified.  Example: "http://udm-rest-api:9979/udm"</td>
 		</tr>
 		<tr>
 			<td>updateStrategy.type</td>
