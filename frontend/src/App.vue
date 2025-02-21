@@ -61,6 +61,7 @@ export default defineComponent({
     ...mapGetters({
       userState: 'user/userState',
       metaData: 'metaData/getMeta',
+      featureToggles: 'featureToggles/featureToggles',
     }),
     showCookieBanner(): boolean {
       const cookieName = this.metaData.cookieBanner.cookie || 'univentionCookieSettingsAccepted';
@@ -94,6 +95,13 @@ export default defineComponent({
       login(this.userState);
     }
 
+    if (this.featureToggles.centered_layout) {
+      console.info('Feature centered layout activated.');
+      this.loadCenteredLayoutCss();
+    } else {
+      console.info('Feature centered layout disabled.');
+    }
+
     this.$store.dispatch('deactivateLoadingState');
 
     if (!!window.SharedWorker && isTrue(this.metaData['portal/reload-tabs-on-logout']) && this.userState.username) {
@@ -115,6 +123,12 @@ export default defineComponent({
       if (icon) {
         icon.href = href;
       }
+    },
+    loadCenteredLayoutCss(): void {
+      const centeredLayoutCss = document.createElement('link');
+      centeredLayoutCss.rel = 'stylesheet';
+      centeredLayoutCss.href = './css/centered-layout.css';
+      document.head.appendChild(centeredLayoutCss);
     },
   },
 });
