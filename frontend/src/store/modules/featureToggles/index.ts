@@ -16,6 +16,9 @@ export const mutations = {
 const featureToggles: PortalModule<FeatureTogglesState> = {
   namespaced: true,
   state: initialFeatureTogglesState,
+  getters: {
+    featureToggles: (state: FeatureTogglesState) => state,
+  },
   mutations,
 };
 
