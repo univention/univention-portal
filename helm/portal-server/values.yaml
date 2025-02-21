@@ -411,6 +411,7 @@ portalServer:
   featureToggles:
     notifications_api: true
     umc_session_refresh: true
+    centered_layout: false
   # -- TODO: Clarify usage of this parameter
   logLevel: "INFO"
   port: 80

@@ -730,7 +730,8 @@ true
 			<td><pre lang="json">
 {
   "notifications_api": true,
-  "umc_session_refresh": true
+  "umc_session_refresh": true,
+  "centered_layout": false
 }
 </pre>
 </td>
