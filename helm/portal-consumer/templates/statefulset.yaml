@@ -142,14 +142,10 @@ spec:
           command:
             - sh
             - -c
-            - './entrypoint.sh; cp -a /etc/univention/* /target/etc/univention/; cp -a /var/log/univention/* /target/var/log/univention/; cp -a /usr/lib/univention-portal/* /target/usr/lib/univention-portal/'
+            - './50-ldap-setup.envsh; cp -a /etc/univention/* /target/etc/univention/'
           volumeMounts:
-            - name: usr-lib-univention-portal-volume
-              mountPath: /target/usr/lib/univention-portal
             - name: etc-univention-volume
               mountPath: /target/etc/univention
-            - name: var-log-univention-volume
-              mountPath: /target/var/log/univention
             {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
             - name: "secrets"
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
@@ -180,17 +176,10 @@ spec:
             {{- . | toYaml | nindent 12 }}
             {{- end }}
           volumeMounts:
-            - name: entrypoint-volume
-              mountPath: /entrypoint.d
-              readOnly: true
-            - name: usr-lib-univention-portal-volume
-              mountPath: /usr/lib/univention-portal
-              readOnly: true
+            - name: usr-lib-univention-portal-config-volume
+              mountPath: /usr/lib/univention-portal/config
             - name: etc-univention-volume
               mountPath: /etc/univention
-              readOnly: true
-            - name: var-log-univention-volume
-              mountPath: /var/log/univention
               readOnly: true
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
@@ -206,13 +195,9 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: "entrypoint-volume"
-          emptyDir: {}
-        - name: "usr-lib-univention-portal-volume"
+        - name: "usr-lib-univention-portal-config-volume"
           emptyDir: {}
         - name: "etc-univention-volume"
-          emptyDir: {}
-        - name: "var-log-univention-volume"
           emptyDir: {}
         - name: "scripts"
           configMap:
