@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.53.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.52.0...v0.53.0) (2025-02-25)
+
+
+### Features
+
+* **frontend:** Add centered layout css ([fba36aa](https://git.knut.univention.de/univention/components/univention-portal/commit/fba36aa98ff6d2ba09537929c2937893a5eab2cb)), closes [#955](https://git.knut.univention.de/univention/components/univention-portal/issues/955)
+* **frontend:** Load centered layout css if feature toggle "centered_layout" is activated ([fac0c55](https://git.knut.univention.de/univention/components/univention-portal/commit/fac0c551df4d19d419005799762ca2c72dfc7129)), closes [#955](https://git.knut.univention.de/univention/components/univention-portal/issues/955)
+* **server:** Add feature toggle "centered_layout" into chart values ([541c513](https://git.knut.univention.de/univention/components/univention-portal/commit/541c5130a03ff70f43d086f036bb2de308a83034)), closes [#955](https://git.knut.univention.de/univention/components/univention-portal/issues/955)
+
+
+### Bug Fixes
+
+* enforce security context on portal consumer ([062b427](https://git.knut.univention.de/univention/components/univention-portal/commit/062b427bf3e5caea635d8e0f61dc946d3bf48d36))
+* QA fixes ([36322ca](https://git.knut.univention.de/univention/components/univention-portal/commit/36322cae47f62f28ec1d946686ca3c0e6256341e))
+* remove entrypoint script, mount machine.secret and sed env var for TLS ([3cfd4d6](https://git.knut.univention.de/univention/components/univention-portal/commit/3cfd4d67c743f8589908afab691395caf39beb98))
+
+
+### Reverts
+
+* Add .vscode folder to gitignore ([f9b040c](https://git.knut.univention.de/univention/components/univention-portal/commit/f9b040c9151e204bee1af5ee9ececeffc11bf75f))
+
 ## [0.52.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.51.0...v0.52.0) (2025-02-20)
 
 
