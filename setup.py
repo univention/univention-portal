@@ -52,7 +52,9 @@ setup(
         'univention.portal.extensions',
         'univention.portal.handlers',
     ],
-    package_dir={'univention.portal': 'python/univention/portal'},
+    package_dir={
+        '': 'python',
+    },
 
     name=dch.package,
     version=dch.version.full_version,

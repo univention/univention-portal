@@ -188,8 +188,6 @@ services:
     container_name: univention-portal-server-test
     environment:
       <<: *portal-environment
-      # TODO: "dist-packages" part required due to custom interpreter
-      PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
       PORTAL_SERVER_DEVELOPMENT_MODE: "true"
       LOG_LEVEL: "DEBUG"
     volumes:
