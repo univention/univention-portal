@@ -117,11 +117,13 @@ class TestPortalEntriesHandlerNoHttpCache:
         assert data["feature_toggles"] == {"notifications_api": False}
 
 
-class TestPortalEntriesHandlerNoPortal(tornado.testing.AsyncHTTPTestCase):
+class TestPortalEntriesHandlerNoPortal:
 
-    def get_app(self) -> tornado.web.Application:
+    @pytest.fixture()
+    def app(self) -> tornado.web.Application:
         return tornado.web.Application(build_routes({}))
 
-    def test_no_portals(self):
-        response = self.fetch(r"/_/portal.json")
+    @pytest.mark.gen_test()
+    async def test_no_portals(self, http_client, base_url):
+        response = await http_client.fetch(f"{base_url}/_/portal.json", raise_error=False)
         assert response.code == 404
