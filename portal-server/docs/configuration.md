@@ -1,5 +1,21 @@
 # Portal Server Configuration
 
+
+## Development Mode
+
+The portal server does support to be started in development mode. The
+configuration can only be applied based on an environment variable:
+
+```shell
+export PORTAL_SERVER_DEVELOPMENT_MODE=true
+```
+
+See:
+
+- [Debug mode](https://www.tornadoweb.org/en/stable/guide/running.html#debug-mode-and-automatic-reloading)
+  in the documentation of the Tornado framework.
+
+
 ## Feature Toggles
 
 The configuration of feature toggles can be provided in the key

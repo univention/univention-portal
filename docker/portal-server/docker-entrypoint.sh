@@ -51,7 +51,6 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "assets_root_path": $assets_root_path,
   "assets_base_url": $assets_base_url,
   "auth_mode": $auth_mode,
-  "development_mode": $development_mode,
   "object_storage_endpoint": $object_storage_endpoint,
   "object_storage_bucket": $object_storage_bucket,
   "object_storage_access_key_id": $object_storage_access_key_id,
@@ -84,7 +83,6 @@ jq -n \
   --arg assets_root_path "${PORTAL_SERVER_ASSETS_ROOT_PATH:-/usr/share/univention-portal}" \
   --arg assets_base_url "${PORTAL_ASSETS_BASE_URL:-}" \
   --arg auth_mode "${PORTAL_SERVER_AUTH_MODE}" \
-  --argjson development_mode "${PORTAL_SERVER_DEVELOPMENT_MODE:-false}" \
   --arg object_storage_endpoint "${OBJECT_STORAGE_ENDPOINT}" \
   --arg object_storage_bucket "${OBJECT_STORAGE_BUCKET}" \
   --arg object_storage_access_key_id "${OBJECT_STORAGE_ACCESS_KEY_ID}" \

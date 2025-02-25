@@ -38,7 +38,7 @@ from unittest import mock
 import pytest
 
 from univention.portal.log import get_logger
-from univention.portal.main import make_tornado_application, start_app
+from univention.portal.main import make_tornado_application, run_server, start_app
 
 
 def test_start_app_configures_port(mock_portal_config):
@@ -76,27 +76,34 @@ def _call_contains_xheaders(call):
     return "xheaders" in args[0]
 
 
-@pytest.mark.parametrize("portal_config", [
-    {},
-    {"development_mode": False},
+@pytest.mark.parametrize("env_value, expected", [
+    ("true", True),
+    ("True", False),
+    ("TRUE", False),
+    ("", False),
+    ("false", False),
 ])
-def test_make_tornado_application(portal_config, mock_portal_config, mocker):
+def test_run_server_activates_development_mode(mocker, env_value, expected):
+    mocker.patch.dict("os.environ", {"PORTAL_SERVER_DEVELOPMENT_MODE": env_value})
+    mocker.patch("univention.portal.main._load_portal_definitions")
+    mocker.patch("univention.portal.main.start_app")
+    mocker.patch("tornado.ioloop.IOLoop")
+    make_tornado_application_mock = mocker.patch("univention.portal.main.make_tornado_application")
+    run_server()
+    make_tornado_application_mock.assert_called_with(mock.ANY, development_mode=expected)
+
+
+def test_make_tornado_application(mock_portal_config, mocker):
     Application_mock = mocker.patch("tornado.web.Application")
-    mock_portal_config(portal_config)
     stub_portal_definitions = {}
-
-    make_tornado_application(stub_portal_definitions)
-
+    make_tornado_application(stub_portal_definitions, development_mode=False)
     Application_mock.assert_called_with(mock.ANY)
 
 
-def test_make_tornado_application_in_dev_mode(mock_portal_config, mocker):
+def test_make_tornado_application_in_dev_mode(mocker):
     Application_mock = mocker.patch("tornado.web.Application")
-    mock_portal_config({"development_mode": True})
     stub_portal_definitions = {}
-
-    make_tornado_application(stub_portal_definitions)
-
+    make_tornado_application(stub_portal_definitions, development_mode=True)
     Application_mock.assert_called_with(
         mock.ANY,
         autoreload=True,
@@ -104,9 +111,8 @@ def test_make_tornado_application_in_dev_mode(mock_portal_config, mocker):
     )
 
 
-def test_make_tornado_application_logs_a_warning_in_dev_mode(mock_portal_config, caplog):
-    mock_portal_config({"development_mode": True})
+def test_make_tornado_application_logs_a_warning_in_dev_mode(caplog):
     stub_portal_definitions = {}
-    make_tornado_application(stub_portal_definitions)
+    make_tornado_application(stub_portal_definitions, development_mode=True)
     assert "WARNING" in caplog.text
     assert "development mode" in caplog.text

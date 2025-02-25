@@ -50,26 +50,27 @@ def _load_portal_definitions(portal_definitions_file):
 
 
 def run_server():
-    log_level = os.getenv("LOG_LEVEL")
+    log_level = os.getenv("LOG_LEVEL", "INFO")
+    development_mode = os.getenv("PORTAL_SERVER_DEVELOPMENT_MODE", "") == "true"
     setup_logger(logfile=None, stream=True, log_level=log_level)
     logger.info("Configured log level to: %s", log_level)
     portal_definitions = _load_portal_definitions(
         "/usr/share/univention-portal/portals.json",
     )
-    app = make_tornado_application(portal_definitions)
+    app = make_tornado_application(portal_definitions, development_mode=development_mode)
     start_app(app)
     tornado.ioloop.IOLoop.current().start()
 
 
-def make_tornado_application(portal_definitions):
+def make_tornado_application(portal_definitions, development_mode=False):
     portals = {}
     for name, portal_definition in portal_definitions.items():
         logger.info("Building portal %s", name)
         portals[name] = make_portal(portal_definition)
     routes = build_routes(portals)
     app_kwargs = {}
-    if config.fetch_with_default("development_mode", default=False):
-        logger.warn("Running in development mode. This is not suitable for production usage.")
+    if development_mode:
+        logger.warning("Running in development mode. This is not suitable for production usage.")
         app_kwargs.update(autoreload=True, serve_tracebacks=True)
     return tornado.web.Application(routes, **app_kwargs)
 
