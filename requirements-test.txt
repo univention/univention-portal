@@ -1,10 +1,4 @@
-# TODO: Our vision is to move over time to the usage of "poetry" and
-# benefit from it's lock file mechanism.
-#
-# Important! The versions in this file match the versions which are in use on a
-# UCS system. We do keep this at least until the App Center integration has been
-# implemented.
-
+pdbpp==0.10.3
 pytest==8.3.3
 pytest-cov==6.0.0
 pytest-mock==3.14.0
