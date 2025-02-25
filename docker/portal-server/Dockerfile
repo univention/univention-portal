@@ -22,9 +22,6 @@ WORKDIR /app/
 COPY ./requirements.txt .
 RUN pip3 install --ignore-installed --no-cache-dir -r requirements.txt
 
-
-FROM build-base AS build
-
 # TODO: The debian packaging files are included by setup.py and copied due to
 # this reason. This will have to be adapted once the former debian packaging will
 # be removed.
@@ -33,6 +30,11 @@ COPY ./debian/control ./debian/control
 COPY ./python ./python
 COPY ./portal_consumer ./portal_consumer
 COPY ./setup.py .
+COPY ./univention-portal-server .
+COPY ./univention-portal .
+
+
+FROM build-base AS build
 
 RUN pip3 install --no-cache-dir .
 
@@ -57,21 +59,10 @@ RUN pip3 install --no-cache-dir --upgrade pip==24.* \
     && mkdir -p /usr/share/univention-portal \
     && mkdir -p /usr/lib/univention-portal/config
 
+RUN pip3 install --no-cache-dir --editable .
+
 COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/portals.json
 COPY ./docker/portal-server/docker-entrypoint.sh /entrypoint.d/50-entrypoint.sh
-
-# TODO: The debian packaging files are included by setup.py and copied due to
-# this reason. This will have to be adapted once the former debian packaging will
-# be removed.
-COPY ./debian/changelog ./debian/changelog
-COPY ./debian/control ./debian/control
-COPY ./python ./python
-COPY ./portal_consumer ./portal_consumer
-COPY ./setup.py .
-COPY ./univention-portal-server .
-COPY ./univention-portal .
-
-RUN pip3 install --no-cache-dir --editable .
 
 # The GroupsContentFetcher is using "univention.ldap_cache" which depends
 # on a user "listener" to be present.
