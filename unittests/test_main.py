@@ -38,7 +38,7 @@ from unittest import mock
 import pytest
 
 from univention.portal.log import get_logger
-from univention.portal.main import start_app
+from univention.portal.main import make_tornado_application, start_app
 
 
 def test_start_app_configures_port(mock_portal_config):
@@ -74,3 +74,39 @@ def test_start_app_logs_message_regarding_xheaders(mocker, mock_portal_config):
 def _call_contains_xheaders(call):
     args = call[0]
     return "xheaders" in args[0]
+
+
+@pytest.mark.parametrize("portal_config", [
+    {},
+    {"development_mode": False},
+])
+def test_make_tornado_application(portal_config, mock_portal_config, mocker):
+    Application_mock = mocker.patch("tornado.web.Application")
+    mock_portal_config(portal_config)
+    stub_portal_definitions = {}
+
+    make_tornado_application(stub_portal_definitions)
+
+    Application_mock.assert_called_with(mock.ANY)
+
+
+def test_make_tornado_application_in_dev_mode(mock_portal_config, mocker):
+    Application_mock = mocker.patch("tornado.web.Application")
+    mock_portal_config({"development_mode": True})
+    stub_portal_definitions = {}
+
+    make_tornado_application(stub_portal_definitions)
+
+    Application_mock.assert_called_with(
+        mock.ANY,
+        autoreload=True,
+        serve_tracebacks=True,
+    )
+
+
+def test_make_tornado_application_logs_a_warning_in_dev_mode(mock_portal_config, caplog):
+    mock_portal_config({"development_mode": True})
+    stub_portal_definitions = {}
+    make_tornado_application(stub_portal_definitions)
+    assert "WARNING" in caplog.text
+    assert "development mode" in caplog.text

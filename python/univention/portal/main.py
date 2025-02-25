@@ -64,7 +64,11 @@ def make_tornado_application(portal_definitions):
         logger.info("Building portal %s", name)
         portals[name] = make_portal(portal_definition)
     routes = build_routes(portals)
-    return tornado.web.Application(routes)
+    app_kwargs = {}
+    if config.fetch_with_default("development_mode", default=False):
+        logger.warn("Running in development mode. This is not suitable for production usage.")
+        app_kwargs.update(autoreload=True, serve_tracebacks=True)
+    return tornado.web.Application(routes, **app_kwargs)
 
 
 def start_app(app):
