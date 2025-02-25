@@ -31,6 +31,7 @@
 # <https://www.gnu.org/licenses/>.
 
 import json
+import os
 
 import tornado.web
 
@@ -49,7 +50,9 @@ def _load_portal_definitions(portal_definitions_file):
 
 
 def run_server():
-    setup_logger(logfile=None, stream=True)
+    log_level = os.getenv("LOG_LEVEL")
+    setup_logger(logfile=None, stream=True, log_level=log_level)
+    logger.info("Configured log level to: %s", log_level)
     portal_definitions = _load_portal_definitions(
         "/usr/share/univention-portal/portals.json",
     )

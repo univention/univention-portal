@@ -34,14 +34,10 @@
 #
 
 
-import os
-
-
 def test_setup_logger(tmp_path):
     from univention.portal import log
 
     log_file = tmp_path / "portal.log"
-    os.environ["LOG_LEVEL"] = "DEBUG"
-    log.setup_logger(logfile=log_file)
+    log.setup_logger(logfile=log_file, log_level="DEBUG")
     unittest_logger = log.get_logger("unittest")
     unittest_logger.info("test_setup_logger works")

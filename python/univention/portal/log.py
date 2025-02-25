@@ -34,7 +34,6 @@
 #
 
 import logging
-import os
 import sys
 
 
@@ -48,7 +47,7 @@ class ShortNameFormatter(logging.Formatter):
         return super().format(record)
 
 
-def setup_logger(logfile="/var/log/univention/portal.log", stream=True):
+def setup_logger(logfile="/var/log/univention/portal.log", stream=True, log_level="INFO"):
     logger = logging.getLogger("univention.portal")
 
     if logfile is None and not stream:
@@ -60,7 +59,7 @@ def setup_logger(logfile="/var/log/univention/portal.log", stream=True):
     log_format_time = "%y-%m-%d %H:%M:%S"
     formatter = ShortNameFormatter(log_format, log_format_time)
 
-    logger.setLevel(os.getenv("LOG_LEVEL"))
+    logger.setLevel(log_level)
 
     if logfile is not None:
         handler = logging.FileHandler(logfile)
