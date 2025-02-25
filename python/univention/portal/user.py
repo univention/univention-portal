@@ -49,5 +49,8 @@ class User:
     def is_anonymous(self):
         return self.username is None
 
+    def is_logged_in(self) -> bool:
+        return not self.is_anonymous()
+
     def is_member_of(self, group):
         return group.lower() in self.groups
