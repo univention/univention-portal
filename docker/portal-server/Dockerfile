@@ -60,6 +60,19 @@ RUN pip3 install --no-cache-dir --upgrade pip==24.* \
 COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/portals.json
 COPY ./docker/portal-server/docker-entrypoint.sh /entrypoint.d/50-entrypoint.sh
 
+# TODO: The debian packaging files are included by setup.py and copied due to
+# this reason. This will have to be adapted once the former debian packaging will
+# be removed.
+COPY ./debian/changelog ./debian/changelog
+COPY ./debian/control ./debian/control
+COPY ./python ./python
+COPY ./portal_consumer ./portal_consumer
+COPY ./setup.py .
+COPY ./univention-portal-server .
+COPY ./univention-portal .
+
+RUN pip3 install --no-cache-dir --editable .
+
 # The GroupsContentFetcher is using "univention.ldap_cache" which depends
 # on a user "listener" to be present.
 #
@@ -75,6 +88,8 @@ CMD ["bash"]
 # See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
 FROM local-dev-env as dev-server
 
+ENV PORTAL_SERVER_DEVELOPMENT_MODE="true"
+ENV LOG_LEVEL="DEBUG"
 CMD ["./univention-portal-server"]
 
 
