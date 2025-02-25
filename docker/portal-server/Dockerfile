@@ -18,7 +18,7 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
   && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/* \
   && rm /usr/lib/python*/EXTERNALLY-MANAGED
 
-WORKDIR /staging/
+WORKDIR /app/
 COPY ./requirements.txt .
 RUN pip3 install --ignore-installed --no-cache-dir -r requirements.txt
 
@@ -38,7 +38,7 @@ RUN pip3 install --no-cache-dir .
 
 
 FROM build-base AS local-dev-env
-WORKDIR /staging/
+WORKDIR /app/
 
 # hadolint ignore=DL3008
 RUN apt-get -qq update \
@@ -110,7 +110,7 @@ RUN mkdir -p /var/log/univention/ \
 
 COPY ./univention-portal-server /usr/sbin/univention-portal-server
 COPY ./univention-portal .
-COPY --from=build /staging/requirements.txt .
+COPY --from=build /app/requirements.txt .
 COPY --from=build /usr/local/lib/python3.11 /usr/local/lib/python3.11
 
 # Considered to be part of the application.
