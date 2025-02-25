@@ -42,6 +42,7 @@ import requests.exceptions
 
 from univention.portal import Plugin, config
 from univention.portal.log import get_logger
+from univention.portal.user import User
 from univention.portal.util import is_current_time_between as is_announcement_visible_now
 
 
@@ -102,7 +103,7 @@ class Portal(metaclass=Plugin):
     def get_cache_id(self):
         return self.portal_cache.get_id()
 
-    async def get_user(self, request):
+    async def get_user(self, request) -> User:
         return await self.authenticator.get_user(request)
 
     async def login_user(self, request):

@@ -33,6 +33,7 @@
 import tornado.web
 
 from univention.portal.log import get_logger
+from univention.portal.extensions.portal import Portal
 
 
 class PortalResource(tornado.web.RequestHandler):
@@ -50,7 +51,7 @@ class PortalResource(tornado.web.RequestHandler):
             get_logger("server").exception("Error during service")
         return super().write_error(status_code, **kwargs)
 
-    def find_portal(self):
+    def find_portal(self) -> Portal:
         best_score = 0
         best_portal = None
         for portal in self.portals.values():
