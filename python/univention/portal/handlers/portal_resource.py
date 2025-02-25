@@ -32,8 +32,8 @@
 
 import tornado.web
 
-from univention.portal.log import get_logger
 from univention.portal.extensions.portal import Portal
+from univention.portal.log import get_logger
 
 
 class PortalResource(tornado.web.RequestHandler):

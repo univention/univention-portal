@@ -38,6 +38,7 @@ import tornado.web
 from univention.portal import config
 from univention.portal.factory import make_portal
 from univention.portal.handlers import LoginHandler, LogoutHandler, NavigationHandler, PortalEntriesHandler
+from univention.portal.handlers.api_me import ApiMeHandler
 from univention.portal.log import get_logger, setup_logger
 
 
@@ -87,6 +88,7 @@ def start_app(app):
 
 def build_routes(portals):
     return [
+        tornado.web.url(r"/(.+)/api/v1/me", ApiMeHandler, {"portals": portals}, name="api-me"),
         tornado.web.url(r"/(.+)/login/?", LoginHandler, {"portals": portals}, name='login'),
         tornado.web.url(r"/(.+)/portal.json", PortalEntriesHandler, {"portals": portals}, name='portal'),
         tornado.web.url(r"/(.+)/navigation.json", NavigationHandler, {"portals": portals}, name='navigation'),
