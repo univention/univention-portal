@@ -43,16 +43,22 @@ WORKDIR /staging/
 # hadolint ignore=DL3008
 RUN apt-get -qq update \
     && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-      python3-univention-directory-manager \
-      univention-group-membership-cache \
-      python3-boto3 \
+    jq \
+    python3-univention-directory-manager \
+    univention-group-membership-cache \
+    python3-boto3 \
     && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 COPY ./requirements-test.txt .
 RUN pip3 install --no-cache-dir --upgrade pip==24.* \
     && pip3 install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
-    && touch /var/log/univention/portal.log
+    && touch /var/log/univention/portal.log \
+    && mkdir -p /usr/share/univention-portal \
+    && mkdir -p /usr/lib/univention-portal/config
+
+COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/portals.json
+COPY ./docker/portal-server/docker-entrypoint.sh /entrypoint.d/50-entrypoint.sh
 
 # The GroupsContentFetcher is using "univention.ldap_cache" which depends
 # on a user "listener" to be present.

@@ -187,8 +187,11 @@ services:
       target: test
     container_name: univention-portal-server-test
     environment:
+      <<: *portal-environment
       # TODO: "dist-packages" part required due to custom interpreter
       PYTHONPATH: "./python:/usr/lib/python3/dist-packages"
+      PORTAL_SERVER_DEVELOPMENT_MODE: "true"
+      LOG_LEVEL: "DEBUG"
     volumes:
       - type: bind
         source: ../python
@@ -196,6 +199,12 @@ services:
       - type: bind
         source: ../unittests
         target: /staging/unittests
+      - type: bind
+        source: ../univention-portal-server
+        target: /staging/univention-portal
+      - type: bind
+        source: ../univention-portal-server
+        target: /staging/univention-portal-server
 
   test-chart-portal-server:
     image: gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/testrunner:0.7.0
