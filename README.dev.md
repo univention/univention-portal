@@ -6,13 +6,22 @@ The following components form the Univention portal:
 
 - [Frontend in `frontend/`](./frontend/) -- The client side implementation of
   the portal.
+
 - [Server in `./`](./) -- The portal server is currently located in the root
   folder. The source code is in [`python/`](./python/) and the tests are inside
   of [`unittests/`](./unittests/).
+
+  We aim to group the portal server inside a sub folder
+  [`portal-server`](./portal-server).
+
 - [Notifications API in `notifications-api/`](./notifications-api/) -- The
   backend api needed for server side notification handling.
+
 - [Portal Consumer](./portal_consumer) -- The consumer is responsible for
   listening to changes in the LDAP and updating the portal accordingly.
+
+  We aim to group the consumer related code inside of a sub folder
+  [`portal-consumer`](./portal-consumer).
 
 ## Utilities
 
