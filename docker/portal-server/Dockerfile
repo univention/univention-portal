@@ -37,7 +37,7 @@ COPY ./setup.py .
 RUN pip3 install --no-cache-dir .
 
 
-FROM build-base AS test
+FROM build-base AS local-dev-env
 WORKDIR /staging/
 
 # hadolint ignore=DL3008
@@ -66,7 +66,26 @@ COPY ./docker/portal-server/docker-entrypoint.sh /entrypoint.d/50-entrypoint.sh
 # See: https://git.knut.univention.de/univention/ucs/-/blob/aac7cba2ef9e0dc93a46d388673aebff78818b6c/base/univention-group-membership-cache/src/univention/ldap_cache/cache/backend/gdbm_cache.py#L65
 RUN useradd -m "listener"
 
+CMD ["bash"]
+
+
+# Define the command for the local-dev-env run in Tilt.
+#
+# Currently it is not possible to inject this from the Tilt configuration.
+# See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
+FROM local-dev-env as dev-server
+
+CMD ["./univention-portal-server"]
+
+
+# Define the command for the local-dev-env run in Tilt.
+#
+# Currently it is not possible to inject this from the Tilt configuration.
+# See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
+FROM local-dev-env as test
+
 CMD ["pytest", "unittests"]
+
 
 FROM build-base AS final
 
