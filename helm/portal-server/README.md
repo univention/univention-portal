@@ -393,6 +393,10 @@ true
   {
     "path": "/()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)$",
     "pathType": "ImplementationSpecific"
+  },
+  {
+    "path": "/()(univention/portal/|univention/selfservice/)(api/v1/me)$",
+    "pathType": "ImplementationSpecific"
   }
 ]
 </pre>
