@@ -42,12 +42,15 @@ from univention.portal.main import make_tornado_application, run_server, start_a
 
 
 @pytest.fixture(autouse=True)
-def required_portal_config(mock_portal_config, get_file_path):
-    mock_portal_config({
-        "udm_api_password_file": get_file_path("udm_api_password"),
+def required_portal_config(mock_portal_config, tmp_path):
+    udm_api_password_file = tmp_path / "udm_api_password"
+    udm_api_password_file.write_text("stub-udm-api-password")
+    values = {
+        "udm_api_password_file": udm_api_password_file,
         "udm_api_url": "stub-udm-api-url",
         "udm_api_username": "stub-udm-api-username",
-    })
+    }
+    mock_portal_config(values)
 
 
 def test_start_app_configures_port(mock_portal_config):
@@ -98,9 +101,25 @@ def test_run_server_activates_development_mode(mocker, env_value, expected):
     mocker.patch("univention.portal.main.start_app")
     mocker.patch("tornado.ioloop.IOLoop")
     make_tornado_application_mock = mocker.patch("univention.portal.main.make_tornado_application")
+
     run_server()
+
     make_tornado_application_mock.assert_called_with(
         mock.ANY, development_mode=expected, udm_client=mock.ANY)
+
+
+def test_run_server_creates_udm_client(mocker):
+    mocker.patch("univention.portal.main._load_portal_definitions")
+    mocker.patch("univention.portal.main.start_app")
+    mocker.patch("tornado.ioloop.IOLoop")
+    make_tornado_application_mock = mocker.patch("univention.portal.main.make_tornado_application")
+
+    run_server()
+
+    udm_client = make_tornado_application_mock.call_args.kwargs["udm_client"]
+    assert udm_client._username == "stub-udm-api-username"
+    assert udm_client._password == "stub-udm-api-password"
+    assert udm_client._udm_api_url == "stub-udm-api-url/"
 
 
 def test_make_tornado_application(mock_portal_config, mocker):
