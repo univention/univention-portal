@@ -32,6 +32,7 @@
 
 import json
 import os
+from pathlib import Path
 
 import tornado.web
 
@@ -40,6 +41,7 @@ from univention.portal.factory import make_portal
 from univention.portal.handlers import LoginHandler, LogoutHandler, NavigationHandler, PortalEntriesHandler
 from univention.portal.handlers.api_me import ApiMeHandler
 from univention.portal.log import get_logger, setup_logger
+from univention.portal.udm import AsyncUdmClient
 
 
 logger = get_logger("server")
@@ -58,17 +60,23 @@ def run_server():
     portal_definitions = _load_portal_definitions(
         "/usr/share/univention-portal/portals.json",
     )
-    app = make_tornado_application(portal_definitions, development_mode=development_mode)
+    udm_client = AsyncUdmClient(
+        udm_api_url=config.fetch('udm_api_url'),
+        username=config.fetch('udm_api_username'),
+        password=Path(config.fetch("udm_api_password_file")).read_text().strip(),
+    )
+    app = make_tornado_application(
+        portal_definitions, development_mode=development_mode, udm_client=udm_client)
     start_app(app)
     tornado.ioloop.IOLoop.current().start()
 
 
-def make_tornado_application(portal_definitions, development_mode=False):
+def make_tornado_application(portal_definitions, development_mode=False, udm_client=None):
     portals = {}
     for name, portal_definition in portal_definitions.items():
         logger.info("Building portal %s", name)
         portals[name] = make_portal(portal_definition)
-    routes = build_routes(portals)
+    routes = build_routes(portals, udm_client)
     app_kwargs = {}
     if development_mode:
         logger.warning("Running in development mode. This is not suitable for production usage.")
@@ -86,9 +94,9 @@ def start_app(app):
     app.listen(port, xheaders=enable_xheaders)
 
 
-def build_routes(portals):
+def build_routes(portals, udm_client):
     return [
-        tornado.web.url(r"/(.+)/api/v1/me", ApiMeHandler, {"portals": portals}, name="api-me"),
+        tornado.web.url(r"/(.+)/api/v1/me", ApiMeHandler, {"portals": portals, "udm_client": udm_client}, name="api-me"),
         tornado.web.url(r"/(.+)/login/?", LoginHandler, {"portals": portals}, name='login'),
         tornado.web.url(r"/(.+)/portal.json", PortalEntriesHandler, {"portals": portals}, name='portal'),
         tornado.web.url(r"/(.+)/navigation.json", NavigationHandler, {"portals": portals}, name='navigation'),

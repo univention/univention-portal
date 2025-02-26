@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Univention GmbH
 
 import json
+from unittest import mock
 
 import pytest
 import tornado
@@ -10,10 +11,29 @@ from univention.portal.main import build_routes
 
 
 @pytest.fixture()
-def app(portal_mock):
-    routes = build_routes({
-        "default": portal_mock,
-    })
+def udm_client_stub():
+    """
+    Stub for the `AsyncUdmClient` which returns stub user data.
+
+    The return value can be changed by setting
+    `udm_client_stub.get_user.return_value` to a new value.
+    """
+    result = mock.Mock()
+    result.get_user = mock.AsyncMock()
+    result.get_user.return_value = {
+        "id": "stub-id",
+        "dn": "stub-dn",
+        "uuid": "stub-uuid",
+        "properties": {
+            "username": "stub-username",
+        },
+    }
+    return result
+
+
+@pytest.fixture()
+def app(portal_mock, udm_client_stub):
+    routes = build_routes({"default": portal_mock}, udm_client_stub)
     return tornado.web.Application(routes)
 
 
@@ -28,3 +48,20 @@ async def test_unauthenticated_user_returns_empty_dict(http_client, api_base_url
     response = await http_client.fetch(f"{api_base_url}/me")
     data = json.loads(response.body)
     assert data == {}
+
+
+@pytest.mark.gen_test()
+async def test_authenticated_user_returns_user_data_from_udm(
+    http_client, api_base_url, user, udm_client_stub,
+):
+    user.username = "stub-username"
+    response = await http_client.fetch(f"{api_base_url}/me")
+    data = json.loads(response.body)
+    udm_user_data = await udm_client_stub.get_user(user.username)
+    expected_data = {
+        "id": udm_user_data["id"],
+        "dn": udm_user_data["dn"],
+        "uuid": udm_user_data["uuid"],
+        "user": udm_user_data["properties"],
+    }
+    assert data == expected_data

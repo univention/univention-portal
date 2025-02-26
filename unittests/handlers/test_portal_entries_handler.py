@@ -34,6 +34,7 @@
 #
 
 import json
+from unittest import mock
 
 import pytest
 import tornado.ioloop
@@ -47,9 +48,7 @@ class TestPortalEntriesHandlerNoHttpCache:
 
     @pytest.fixture()
     def app(self, portal_mock):
-        routes = build_routes({
-            "default": portal_mock,
-        })
+        routes = build_routes({"default": portal_mock}, mock.Mock())
         return tornado.web.Application(routes)
 
     @pytest.mark.gen_test()
@@ -79,7 +78,7 @@ class TestPortalEntriesHandlerNoPortal:
 
     @pytest.fixture()
     def app(self) -> tornado.web.Application:
-        return tornado.web.Application(build_routes({}))
+        return tornado.web.Application(build_routes({}, mock.Mock()))
 
     @pytest.mark.gen_test()
     async def test_no_portals(self, http_client, base_url):
