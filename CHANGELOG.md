@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.54.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.53.0...v0.54.0) (2025-02-26)
+
+
+### Features
+
+* Bump ucs-base-image to use released apt sources ([a08b852](https://git.knut.univention.de/univention/components/univention-portal/commit/a08b852deba76dd9cc17b8af8dca8ca9da8d8060))
+
 ## [0.53.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.52.0...v0.53.0) (2025-02-25)
 
 
