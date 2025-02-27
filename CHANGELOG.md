@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.55.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.54.0...v0.55.0) (2025-02-27)
+
+
+### Features
+
+* **portal-extension:** Create service account user "svc-portal-server" ([b15c91a](https://git.knut.univention.de/univention/components/univention-portal/commit/b15c91a522f44245dd9eb892f496106ddef32082))
+* **portal-server:** Add "development_mode" support ([08a500b](https://git.knut.univention.de/univention/components/univention-portal/commit/08a500bd24eaedb0275482c2b8b18e8415998188))
+* **portal-server:** Add utility method User.is_logged_in ([7e9bf90](https://git.knut.univention.de/univention/components/univention-portal/commit/7e9bf909dadd18f1b1b748a9cb240d3e910d4d00))
+* **portal-server:** Allow to configure "udm.auth" via plain values ([0957b05](https://git.knut.univention.de/univention/components/univention-portal/commit/0957b05c1195b8cffa088441d6ee1b12945d6cae))
+* **portal-server:** Allow to configure an existing secret for UDM Rest API access ([bfc2ff5](https://git.knut.univention.de/univention/components/univention-portal/commit/bfc2ff5d019106072fd43f671670590859194181))
+* **portal-server:** Expose portal api endpoint "api/v1/me" via Ingress ([6a09aee](https://git.knut.univention.de/univention/components/univention-portal/commit/6a09aee445b4952bcf51fc8911f299f4a4b286d1))
+* **portal-server:** Flag "udm.auth.username" as required in the Helm chart ([f85a2e4](https://git.knut.univention.de/univention/components/univention-portal/commit/f85a2e4c05a0250b22caca053bb3dfaa41941d42))
+* **portal-server:** Require password or externalSecret in udm.auth chart configuration ([2608a26](https://git.knut.univention.de/univention/components/univention-portal/commit/2608a26eaddd5304baa474ed5b2dca030c29aed7))
+* **portal-server:** Solidify the AsyncUdmClient implementation ([cc90c98](https://git.knut.univention.de/univention/components/univention-portal/commit/cc90c98c4fa3caa16ca35bb39edd4b9757324a3b))
+* **portal-server:** Support configuration of udm connection url in Helm chart ([956d17f](https://git.knut.univention.de/univention/components/univention-portal/commit/956d17f798ed144a0c252a81f619fab56b372ef9))
+* **portal-server:** The "me" endpoint returns an empty object if the user is not logged in ([1aa1fa6](https://git.knut.univention.de/univention/components/univention-portal/commit/1aa1fa60cf6ffe2cdf9f3c147815bebb56db4bdd))
+* **portal-server:** The API endpoint "me" returns the data from UDM ([f12772f](https://git.knut.univention.de/univention/components/univention-portal/commit/f12772f85aff42dc1fb81627a2c5bf182b25b02b))
+
+
+### Bug Fixes
+
+* **portal-server:** Correct the "package_dir" configuration ([c8882cf](https://git.knut.univention.de/univention/components/univention-portal/commit/c8882cfe218f7bab923f98bdf8268610421793ff))
+
 ## [0.54.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.53.0...v0.54.0) (2025-02-26)
 
 
