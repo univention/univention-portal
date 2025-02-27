@@ -217,15 +217,6 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>mountSecrets</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
 			<td>nameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">

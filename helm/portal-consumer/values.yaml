@@ -79,7 +79,6 @@ securityContext:
   runAsNonRoot: true
   fsGroup: 1001
 tolerations: []
-mountSecrets: true
 extraSecrets: []
 
 # -- In seconds, time the given to the pod needs to terminate gracefully.

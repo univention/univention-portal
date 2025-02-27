@@ -50,12 +50,7 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
-            - name: "secrets"
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
-            {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
-            {{- end }}
             {{- if .Values.waitForDependency.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
@@ -75,12 +70,7 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
-            - name: "secrets"
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
-            {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
-            {{- end }}
             {{- if .Values.waitForDependency.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
@@ -146,12 +136,7 @@ spec:
           volumeMounts:
             - name: etc-univention-volume
               mountPath: /target/etc/univention
-            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
-            - name: "secrets"
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
-            {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
-            {{- end }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
       containers:
@@ -183,12 +168,7 @@ spec:
               readOnly: true
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
-            {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
-            - name: "secrets"
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}"
-            {{- else }}
             {{- include "portal-consumer.secretVolumeMounts" . | nindent 12 }}
-            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
@@ -203,16 +183,10 @@ spec:
           configMap:
             defaultMode: 0555
             name: {{ printf "%s-scripts" (include "common.names.fullname" .) }}
-        {{- if and .Values.mountSecrets (not .Values.global.nubusDeployment) }}
-        - name: "secrets"
-          secret:
-            secretName: {{ printf "%s-common" (include "common.names.fullname" .) }}
-        {{- else }}
         {{- if (include "portal-consumer.ldap.credentialSecret.name" . ) }}
         - name: {{ printf "%s-volume" (include "portal-consumer.ldap.credentialSecret.name" . ) | quote }}
           secret:
             secretName: {{ (include "portal-consumer.ldap.credentialSecret.name" . ) | quote }}
-        {{- end }}
         {{- if (include "portal-consumer.ldap.tlsSecret.name" . ) }}
         - name: {{ printf "%s-volume" (include "portal-consumer.ldap.tlsSecret.name" . ) | quote }}
           secret:
