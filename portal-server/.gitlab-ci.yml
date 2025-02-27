@@ -84,6 +84,14 @@ test-portal-server:
   image: "$CI_REGISTRY_IMAGE/portal-server-test-runner:${RELEASE_VERSION}"
   variables:
     PYTHONPATH: "./portal_consumer:/usr/lib/python3/dist-packages"
+    OBJECT_STORAGE_ENDPOINT: "stub_minio"
+    OBJECT_STORAGE_BUCKET: "stub_bucket"
+    OBJECT_STORAGE_ACCESS_KEY_ID: "stub_user"
+    OBJECT_STORAGE_SECRET_ACCESS_KEY: "stub_value"
+    PORTAL_SERVER_ADMIN_GROUP: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
+    PORTAL_SERVER_UCS_INTERNAL_PATH: "portal-data"
+    PORTAL_SERVER_UMC_GET_URL: "stub-umc-get-urll"
+    PORTAL_SERVER_UMC_SESSION_URL: "stub-umc-session-url"
   script:
     - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
