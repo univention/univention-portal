@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import { getCookie } from '@/jsHelper/tools';
 import { getAdminState } from '@/jsHelper/admin';
+import { UserWrapper } from './modules/user/user.models';
 
 export const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
 export const languageJsonPath = process.env.VUE_APP_LANGUAGE_DATA || '/univention/languages.json';
@@ -28,4 +29,16 @@ export async function portalJsonRequest(adminMode: boolean) {
     }
   }
   return axios.get(`${portalUrl}${portalJsonPath}`, { headers });
+}
+
+export function extractUserData(portal, apiMe): UserWrapper {
+  const userData = {
+    user: {
+      username: portal.username,
+      displayName: portal.user_displayname,
+      mayEditPortal: portal.may_edit_portal,
+      authMode: portal.auth_mode,
+    },
+  };
+  return userData;
 }

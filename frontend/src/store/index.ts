@@ -49,7 +49,15 @@ import tooltip from './modules/tooltip';
 import umcSession from './modules/umcSession';
 import user from './modules/user';
 import { initialRootState, LoadPortalPayload, RootState } from './root.models';
-import { portalUrl, languageJsonPath, portalJsonPath, portalMetaPath, portalJsonRequest } from './utils';
+import {
+  extractUserData,
+  languageJsonPath,
+  portalApiMePath,
+  portalJsonPath,
+  portalJsonRequest,
+  portalMetaPath,
+  portalUrl,
+} from './utils';
 
 export const key: InjectionKey<Store<RootState>> = Symbol('');
 
@@ -85,11 +93,17 @@ export const actions = {
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data
+      `${portalUrl}${portalApiMePath}`, // Get user details from api endpoint "me"
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
-    Promise.all(portalPromises).then(async ([metaResponse, languageResponse, portalResponse]) => {
+    Promise.all(portalPromises).then(async ([
+      metaResponse, languageResponse, portalApiMeResponse, portalResponse,
+    ]) => {
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
+      const apiMe = portalApiMeResponse.data;
+      const userData = extractUserData(portal, apiMe);
+
       if (languageResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
       } else {
@@ -116,14 +130,7 @@ export const actions = {
           console.warn('Key "feature_toggles" missing in portal data.');
         }
         dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
-        dispatch('user/setUser', {
-          user: {
-            username: portal.username,
-            displayName: portal.user_displayname,
-            mayEditPortal: portal.may_edit_portal,
-            authMode: portal.auth_mode,
-          },
-        });
+        dispatch('user/setUser', userData);
         if (portal.username) {
           dispatch('userIsLoggedIn');
         }
