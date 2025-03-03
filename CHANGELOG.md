@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.56.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.55.0...v0.56.0) (2025-03-03)
+
+
+### Features
+
+* **portal-consumer:** Remove "mountSecrets" from chart configuration ([b8faf10](https://git.knut.univention.de/univention/components/univention-portal/commit/b8faf10b7979f0668d28c9ac7446052f227167d7))
+* **portal-frontend:** Add path of the "me" endpoint from the portal api ([23c0da7](https://git.knut.univention.de/univention/components/univention-portal/commit/23c0da79df10f4cf61382b7c60fbb84ee16d03eb))
+* **portal-frontend:** Fetch the "me" endpoint from the portal API ([b892366](https://git.knut.univention.de/univention/components/univention-portal/commit/b892366e3fd0e667683d7fd69031e558198de37a))
+
 ## [0.55.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.54.0...v0.55.0) (2025-02-27)
 
 
