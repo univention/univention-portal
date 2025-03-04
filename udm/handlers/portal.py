@@ -108,6 +108,18 @@ property_descriptions = {
         syntax=univention.admin.syntax.NewPortalCategoryEntries,
         multivalue=True,
     ),
+    'cornerLinks': univention.admin.property(
+        short_description=_('Entries in the corner menu'),
+        long_description=_('List of portal entries that are shown in the corner menu'),
+        syntax=univention.admin.syntax.NewPortalEntries,
+        multivalue=True,
+    ),
+    'quickLinks': univention.admin.property(
+        short_description=_('Entries in the quick menu'),
+        long_description=_('List of portal entries that are shown in the quick menu'),
+        syntax=univention.admin.syntax.NewPortalEntries,
+        multivalue=True,
+    ),
     'categories': univention.admin.property(
         short_description=_('Categories'),
         syntax=univention.admin.syntax.NewPortalCategories,
@@ -146,6 +158,12 @@ layout = [
         Group(_('Menu'), layout=[
             ['menuLinks'],
         ]),
+        Group(_('Corner Links'), layout=[
+            ['cornerLinks'],
+        ]),
+        Group(_('Quick Links'), layout=[
+            ['quickLinks'],
+        ]),
         Group(_('Appearance'), layout=[
             ['logo'],
             ['background'],
@@ -183,8 +201,10 @@ mapping.register('showUmc', 'univentionNewPortalShowUMC', None, univention.admin
 mapping.register('ensureLogin', 'univentionNewPortalEnsureLogin', None, univention.admin.mapping.ListToString)
 mapping.register('background', 'univentionNewPortalBackground', None, univention.admin.mapping.ListToString)
 mapping.register('logo', 'univentionNewPortalLogo', None, univention.admin.mapping.ListToString)
+mapping.register('cornerLinks', 'univentionNewPortalCornerLinks', mapOrdered, unmapOrdered)
 mapping.register('userLinks', 'univentionNewPortalUserLinks', mapOrdered, unmapOrdered)
 mapping.register('menuLinks', 'univentionNewPortalMenuLinks', mapOrdered, unmapOrdered)
+mapping.register('quickLinks', 'univentionNewPortalQuickLinks', mapOrdered, unmapOrdered)
 mapping.register('categories', 'univentionNewPortalCategories', mapOrdered, unmapOrdered)
 mapping.register('defaultLinkTarget', 'univentionNewPortalDefaultLinkTarget', None, univention.admin.mapping.ListToString)
 

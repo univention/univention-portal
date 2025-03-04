@@ -71,8 +71,10 @@ class PortalsPortalObjectProperties(GenericObjectProperties):
         'background': Base64BinaryPropertyEncoder,
         'logo': Base64BinaryPropertyEncoder,
         'ensureLogin': StringCaseInsensitiveResultUpperBooleanPropertyEncoder,
+        'cornerLinks': dn_list_property_encoder_for("auto"),
         'userLinks': dn_list_property_encoder_for("auto"),
         'menuLinks': dn_list_property_encoder_for("auto"),
+        'quickLinks': dn_list_property_encoder_for("auto"),
         'categories': dn_list_property_encoder_for("portals/category"),
         'announcements': dn_list_property_encoder_for("portals/announcement"),
     }
