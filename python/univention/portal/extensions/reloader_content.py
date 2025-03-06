@@ -58,6 +58,10 @@ class PortalContentFetcherUDMREST:
         self.assets = []
 
     def fetch(self):
+        result = self._fetch()
+        return json.dumps(result, sort_keys=True, indent=4)
+
+    def _fetch(self):
         udm = self._create_udm_client()
         try:
             portal_module = udm.get("portals/portal")
@@ -84,20 +88,16 @@ class PortalContentFetcherUDMREST:
         portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
         entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
         announcements = self._extract_announcements(udm)
-
-        return json.dumps(
-            {
-                "portal": portal,
-                "categories": categories,
-                "folders": folders,
-                "entries": entries,
-                "user_links": user_links,
-                "menu_links": menu_links,
-                "announcements": announcements,
-            },
-            sort_keys=True,
-            indent=4,
-        )
+        result = {
+            "portal": portal,
+            "categories": categories,
+            "folders": folders,
+            "entries": entries,
+            "user_links": user_links,
+            "menu_links": menu_links,
+            "announcements": announcements,
+        }
+        return result
 
     def _create_udm_client(self):
         logger.debug("Connecting to UDM at URL: %s", log_url_safe(config.fetch("udm_api_url")))

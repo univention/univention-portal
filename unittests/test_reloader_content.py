@@ -171,6 +171,17 @@ def test_portal_content_fetcher_returns_content(mocker):
     assert content == expected_content
 
 
+def test_portal_content_fetcher_fetch_returns_json(mocker):
+    stub_content = {"stub_result": "stub_value"}
+    mocker.patch.object(
+        PortalContentFetcherUDMREST, "_fetch",
+        return_value=stub_content,
+    )
+    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
+    content = content_fetcher.fetch()
+    assert json.loads(content) == stub_content
+
+
 def test_group_content_fetcher_returns_content(mocker):
     stub_users = {
         'administrator': [
