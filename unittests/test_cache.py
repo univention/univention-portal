@@ -73,7 +73,3 @@ class TestPortalFileCache:
         mocked_reloader.refresh.assert_not_called()
         cache.refresh(reason="force")
         mocked_reloader.refresh.assert_called_with(reason="force", content=content)
-
-
-class TestGroupFileCache:
-    pass
