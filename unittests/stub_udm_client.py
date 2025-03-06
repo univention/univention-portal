@@ -46,8 +46,10 @@ portal_properties = {
     "defaultLinkTarget": "stub_defaultLinkTarget",
     "ensureLogin": "stub_ensureLogin",
     "categories": ["stub_category"],
-    "userLinks": "stub_userLinks",
+    "cornerLinks": "stub_cornerLinks",
     "menuLinks": "stub_menuLinks",
+    "quickLinks": "stub_quickLinks",
+    "userLinks": "stub_userLinks",
 }
 
 category_properties = {
