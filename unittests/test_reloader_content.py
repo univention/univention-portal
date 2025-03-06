@@ -91,83 +91,70 @@ def test_portal_content_fetcher_returns_content(mocker):
         PortalContentFetcherUDMREST, "_create_udm_client",
         return_value=stub_udm_client.StubUDMClient())
     content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
-    content = content_fetcher.fetch()
-    expected_content = """{
-    "announcements": {
-        "cn=stub_category,dc=stub,dc=test": {
-            "allowedGroups": "stub_allowedGroups",
-            "dn": "cn=stub_category,dc=stub,dc=test",
-            "isSticky": "stub_isSticky",
-            "message": "stub_message",
-            "name": "stub_name",
-            "needsConfirmation": "stub_needsConfirmation",
-            "severity": "stub_severity",
-            "title": "stub_title",
-            "visibleFrom": "stub_visibleFrom",
-            "visibleUntil": "stub_visibleeUntil"
-        }
-    },
-    "categories": {
-        "cn=stub_category,dc=stub,dc=test": {
-            "display_name": "stub_displayName",
-            "dn": "cn=stub_category,dc=stub,dc=test",
-            "entries": [
-                "stub_entry"
-            ],
-            "in_portal": false
-        }
-    },
-    "entries": {
-        "cn=stub_category,dc=stub,dc=test": {
-            "activated": "stub_activated",
-            "allowedGroups": "stub_allowedGroups",
-            "anonymous": "stub_anonymous",
-            "backgroundColor": "stub_backgroundColor",
-            "description": "stub_description",
-            "dn": "cn=stub_category,dc=stub,dc=test",
-            "icon_url": "./icons/entries/stub_name.svg",
-            "in_portal": false,
-            "keywords": "stub_keywords",
-            "linkTarget": "stub_linkTarget",
-            "links": [
-                {
-                    "locale": "s",
-                    "value": "t"
-                },
-                {
-                    "locale": "s",
-                    "value": "t"
-                }
-            ],
+    content = content_fetcher._fetch()
+    expected_content = {
+        "announcements": {
+            "cn=stub_category,dc=stub,dc=test": {
+                "allowedGroups": "stub_allowedGroups",
+                "dn": "cn=stub_category,dc=stub,dc=test",
+                "isSticky": "stub_isSticky",
+                "message": "stub_message",
+                "name": "stub_name",
+                "needsConfirmation": "stub_needsConfirmation",
+                "severity": "stub_severity",
+                "title": "stub_title",
+                "visibleFrom": "stub_visibleFrom",
+                "visibleUntil": "stub_visibleeUntil",
+            },
+        },
+        "categories": {
+            "cn=stub_category,dc=stub,dc=test": {
+                "display_name": "stub_displayName",
+                "dn": "cn=stub_category,dc=stub,dc=test",
+                "entries": ["stub_entry"],
+                "in_portal": False,
+            },
+        },
+        "entries": {
+            "cn=stub_category,dc=stub,dc=test": {
+                "activated": "stub_activated",
+                "allowedGroups": "stub_allowedGroups",
+                "anonymous": "stub_anonymous",
+                "backgroundColor": "stub_backgroundColor",
+                "description": "stub_description",
+                "dn": "cn=stub_category,dc=stub,dc=test",
+                "icon_url": "./icons/entries/stub_name.svg",
+                "in_portal": False,
+                "keywords": "stub_keywords",
+                "linkTarget": "stub_linkTarget",
+                "links": [{"locale": "s", "value": "t"}, {"locale": "s", "value": "t"}],
+                "name": "stub_displayName",
+                "target": "stub_target",
+            },
+        },
+        "folders": {
+            "cn=stub_category,dc=stub,dc=test": {
+                "dn": "cn=stub_category,dc=stub,dc=test",
+                "entries": ["stub_entry"],
+                "in_portal": False,
+                "name": "stub_displayName",
+            },
+        },
+        "portal": {
+            "background": "./icons/backgrounds/stub_name.svg",
+            "categories": ["stub_category"],
+            "defaultLinkTarget": "stub_defaultLinkTarget",
+            "dn": "cn=cn=domain,cn=portal,cn=test,dc=stub,dc=test",
+            "ensureLogin": "stub_ensureLogin",
+            "logo": "./icons/logos/stub_name.svg",
             "name": "stub_displayName",
-            "target": "stub_target"
-        }
-    },
-    "folders": {
-        "cn=stub_category,dc=stub,dc=test": {
-            "dn": "cn=stub_category,dc=stub,dc=test",
-            "entries": [
-                "stub_entry"
-            ],
-            "in_portal": false,
-            "name": "stub_displayName"
-        }
-    },
-    "menu_links": "stub_menuLinks",
-    "portal": {
-        "background": "./icons/backgrounds/stub_name.svg",
-        "categories": [
-            "stub_category"
-        ],
-        "defaultLinkTarget": "stub_defaultLinkTarget",
-        "dn": "cn=cn=domain,cn=portal,cn=test,dc=stub,dc=test",
-        "ensureLogin": "stub_ensureLogin",
-        "logo": "./icons/logos/stub_name.svg",
-        "name": "stub_displayName",
-        "showUmc": true
-    },
-    "user_links": "stub_userLinks"
-}"""
+            "showUmc": True,
+        },
+        "corner_links": "stub_corner_links",
+        "menu_links": "stub_menuLinks",
+        "quick_links": "stub_quick_links",
+        "user_links": "stub_userLinks",
+    }
     assert content == expected_content
 
 
