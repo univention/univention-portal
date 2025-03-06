@@ -69,8 +69,12 @@ class PortalContentFetcherUDM:
         portal = self._extract_portal(portal_data)
         categories = self._extract_categories(udm, portal_data.props.categories)
         portal_categories = [category for dn, category in categories.items() if category["in_portal"]]
-        user_links = portal_data.props.userLinks
+
+        corner_links = portal_data.props.cornerLinks
         menu_links = portal_data.props.menuLinks
+        quick_links = portal_data.props.quickLinks
+        user_links = portal_data.props.userLinks
+
         folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
         portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
         entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
@@ -82,8 +86,10 @@ class PortalContentFetcherUDM:
                 "categories": categories,
                 "folders": folders,
                 "entries": entries,
-                "user_links": user_links,
+                "corner_links": corner_links,
                 "menu_links": menu_links,
+                "quick_links": quick_links,
+                "user_links": user_links,
                 "announcements": announcements,
             },
             sort_keys=True,
