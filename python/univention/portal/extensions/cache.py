@@ -89,18 +89,11 @@ class Cache(metaclass=Plugin):
             return self._reloader.refresh(reason=reason, content=self._cache)
 
 
-class PortalFileCache(Cache):
+class PortalCacheMixin:
     """
-    Specialized cache for portal data. The implementation does not differ
-    from that of a base cache, but it provides more specialized cache
-    access methods that it needs in order to work with the Portal class.
+    API provided by the Portal cache implementations.
 
-    `get_user_links`
-    `get_entries`
-    `get_folders`
-    `get_portal`
-    `get_categories`
-    `get_menu_links`
+    It depends on a method `get` which does return the cache content.
     """
 
     def get_user_links(self):
@@ -122,7 +115,18 @@ class PortalFileCache(Cache):
         return deepcopy(self.get()["menu_links"])
 
     def get_announcements(self):
-        return deepcopy(self.get()["announcements"])
+        announcements = {}
+        if "announcements" in self.get().keys():
+            announcements = deepcopy(self.get()["announcements"])
+        return announcements
+
+
+class PortalFileCache(PortalCacheMixin, Cache):
+    """
+    Specialized cache for portal data. The implementation does not differ
+    from that of a base cache, but it provides more specialized cache
+    access methods that it needs in order to work with the Portal class.
+    """
 
 
 class GroupFileCache(Cache):

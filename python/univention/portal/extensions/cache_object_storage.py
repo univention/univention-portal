@@ -35,11 +35,11 @@
 
 
 import json
-from copy import deepcopy
 
 from botocore.exceptions import ClientError
 
 from univention.portal import Plugin
+from univention.portal.extensions.cache import PortalCacheMixin
 from univention.portal.log import get_logger
 from univention.portal.util import get_object_storage_client
 
@@ -134,7 +134,7 @@ class CacheObjectStorage(metaclass=Plugin):
         self._load()
 
 
-class PortalFileCacheObjectStorage(CacheObjectStorage):
+class PortalFileCacheObjectStorage(PortalCacheMixin, CacheObjectStorage):
     def __init__(
         self,
         ucs_internal_path,
@@ -154,30 +154,6 @@ class PortalFileCacheObjectStorage(CacheObjectStorage):
             access_key_id,
             secret_access_key,
         )
-
-    def get_user_links(self):
-        return deepcopy(self.get()["user_links"])
-
-    def get_entries(self):
-        return deepcopy(self.get()["entries"])
-
-    def get_folders(self):
-        return deepcopy(self.get()["folders"])
-
-    def get_portal(self):
-        return deepcopy(self.get()["portal"])
-
-    def get_categories(self):
-        return deepcopy(self.get()["categories"])
-
-    def get_menu_links(self):
-        return deepcopy(self.get()["menu_links"])
-
-    def get_announcements(self):
-        announcements = {}
-        if "announcements" in self.get().keys():
-            announcements = deepcopy(self.get()["announcements"])
-        return announcements
 
 
 class GroupFileCacheObjectStorage(CacheObjectStorage):
