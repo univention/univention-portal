@@ -179,9 +179,6 @@ class PortalFileCacheObjectStorage(CacheObjectStorage):
             announcements = deepcopy(self.get()["announcements"])
         return announcements
 
-    def refresh(self, reason=None):
-        super().refresh(reason)
-
 
 class GroupFileCacheObjectStorage(CacheObjectStorage):
     def __init__(
@@ -199,6 +196,3 @@ class GroupFileCacheObjectStorage(CacheObjectStorage):
             access_key_id,
             secret_access_key,
         )
-
-    def refresh(self, reason=None):
-        super().refresh(reason)
