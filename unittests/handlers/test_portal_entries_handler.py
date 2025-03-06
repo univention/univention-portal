@@ -73,6 +73,19 @@ class TestPortalEntriesHandlerNoHttpCache:
         data = json.loads(response.body)
         assert data["feature_toggles"] == {"notifications_api": False}
 
+    @pytest.mark.gen_test()
+    @pytest.mark.parametrize("attr_name, expected_value", [
+        ["corner_links", ["cn=corner_links,dc=test"]],
+        ["menu_links", ["cn=menu_links,dc=test"]],
+        ["quick_links", ["cn=quick_links,dc=test"]],
+        ["user_links", ["cn=user_links,dc=test"]],
+    ])
+    def test_get_portals_returns_links(
+            self, attr_name, expected_value, http_client, base_url, portal_mock):
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data[attr_name] == expected_value
+
 
 class TestPortalEntriesHandlerNoPortal:
 

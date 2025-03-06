@@ -17,8 +17,10 @@ def portal_mock(user):
     portal.refresh = mock.Mock()
     portal.get_cache_id.return_value = None
     portal.get_visible_content.return_value = None
-    portal.get_user_links.return_value = None
-    portal.get_menu_links.return_value = None
+    portal.get_corner_links.return_value = ["cn=corner_links,dc=test"]
+    portal.get_menu_links.return_value = ["cn=menu_links,dc=test"]
+    portal.get_quick_links.return_value = ["cn=quick_links,dc=test"]
+    portal.get_user_links.return_value = ["cn=user_links,dc=test"]
     portal.get_entries.return_value = None
     portal.get_folders.return_value = None
     portal.get_categories.return_value = None

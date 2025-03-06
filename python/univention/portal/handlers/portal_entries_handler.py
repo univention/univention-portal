@@ -60,8 +60,12 @@ class PortalEntriesHandler(PortalResource):
         answer = {}
         answer["cache_id"] = portal.get_cache_id()
         visible_content = portal.get_visible_content(user, admin_mode)
-        answer["user_links"] = portal.get_user_links(visible_content)
+
+        answer["corner_links"] = portal.get_corner_links(visible_content)
         answer["menu_links"] = portal.get_menu_links(visible_content)
+        answer["quick_links"] = portal.get_quick_links(visible_content)
+        answer["user_links"] = portal.get_user_links(visible_content)
+
         answer["entries"] = portal.get_entries(visible_content)
         answer["folders"] = portal.get_folders(visible_content)
         answer["categories"] = portal.get_categories(visible_content)
