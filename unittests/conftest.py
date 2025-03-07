@@ -40,6 +40,7 @@ import pytest
 
 from stubs import StubAuthenticator, StubPortalCache
 from univention.portal.user import User
+from univention.portal.extensions.portal import Portal
 from univention.portal.extensions.scorer import Scorer
 
 
@@ -141,3 +142,12 @@ def stub_user(faker):
         headers={},
     )
     return user
+
+
+@pytest.fixture()
+def portal(stub_scorer, stub_portal_cache, stub_authenticator):
+    """
+    A `Portal` instance with dependencies replaced by stubs.
+    """
+    portal = Portal(stub_scorer, stub_portal_cache, stub_authenticator)
+    return portal
