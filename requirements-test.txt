@@ -1,3 +1,4 @@
+Faker==18.4.0
 pdbpp==0.10.3
 pytest==8.3.3
 pytest-cov==6.0.0
