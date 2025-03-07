@@ -170,6 +170,18 @@ class Portal(metaclass=Plugin):
             dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
         ]
 
+    def get_corner_links(self, content):
+        links = self.portal_cache.get_corner_links()
+        return [
+            dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
+        ]
+
+    def get_quick_links(self, content):
+        links = self.portal_cache.get_quick_links()
+        return [
+            dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
+        ]
+
     def get_entries(self, content):
         entries = self.portal_cache.get_entries()
         return [entries[entry_dn] for entry_dn in content["entry_dns"]]

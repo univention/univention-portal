@@ -175,6 +175,20 @@ def test_menu_links(mocked_user, standard_portal):
     assert content == expected_content
 
 
+def test_corner_links(stub_scorer, stub_portal_cache, stub_authenticator, stub_user):
+    portal = Portal(stub_scorer, stub_portal_cache, stub_authenticator)
+    content = portal.get_visible_content(stub_user, False)
+    links = portal.get_corner_links(content)
+    assert links == ["cn=corner_links,dc=test"]
+
+
+def test_quick_links(stub_scorer, stub_portal_cache, stub_authenticator, stub_user):
+    portal = Portal(stub_scorer, stub_portal_cache, stub_authenticator)
+    content = portal.get_visible_content(stub_user, False)
+    links = portal.get_quick_links(content)
+    assert links == ["cn=quick_links,dc=test"]
+
+
 def test_portal_entries(mocked_user, standard_portal):
     content = standard_portal.get_visible_content(mocked_user, False)
     content = standard_portal.get_entries(content)
