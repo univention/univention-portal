@@ -38,7 +38,7 @@ from os import path
 
 import pytest
 
-from stubs import StubPortalCache
+from stubs import StubAuthenticator, StubPortalCache
 
 
 @pytest.fixture()
@@ -104,3 +104,14 @@ def stub_portal_cache():
     particular test as needed.
     """
     return StubPortalCache()
+
+
+@pytest.fixture()
+def stub_authenticator():
+    """
+    An `Authenticator` implementation to be used as a stub for testing.
+
+    This is an instance of `StubAuthenticator` and can be modified for the
+    particular test as needed.
+    """
+    return StubAuthenticator()
