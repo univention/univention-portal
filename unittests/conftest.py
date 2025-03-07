@@ -39,6 +39,7 @@ from os import path
 import pytest
 
 from stubs import StubAuthenticator, StubPortalCache
+from univention.portal.extensions.scorer import Scorer
 
 
 @pytest.fixture()
@@ -115,3 +116,13 @@ def stub_authenticator():
     particular test as needed.
     """
     return StubAuthenticator()
+
+
+@pytest.fixture()
+def stub_scorer():
+    """
+    A stub for the `Scorer`.
+
+    This is directly an instance of the base class `Scorer`.
+    """
+    return Scorer()
