@@ -45,18 +45,22 @@ def test_imports(dynamic_class):
 class TestPortalCacheMixin:
 
     def test_returns_corner_links(self, stub_portal_cache):
+        stub_portal_cache.stub_content["corner_links"] = ["cn=corner_links,dc=test"]
         corner_links = stub_portal_cache.get_corner_links()
         assert corner_links == ["cn=corner_links,dc=test"]
 
     def test_returns_menu_links(self, stub_portal_cache):
+        stub_portal_cache.stub_content["menu_links"] = ["cn=menu_links,dc=test"]
         menu_links = stub_portal_cache.get_menu_links()
         assert menu_links == ["cn=menu_links,dc=test"]
 
     def test_returns_quick_links(self, stub_portal_cache):
+        stub_portal_cache.stub_content["quick_links"] = ["cn=quick_links,dc=test"]
         quick_links = stub_portal_cache.get_quick_links()
         assert quick_links == ["cn=quick_links,dc=test"]
 
     def test_returns_user_links(self, stub_portal_cache):
+        stub_portal_cache.stub_content["user_links"] = ["cn=user_links,dc=test"]
         user_links = stub_portal_cache.get_user_links()
         assert user_links == ["cn=user_links,dc=test"]
 

@@ -34,48 +34,48 @@ class StubCache(CacheAbc):
 LdapDn = str
 # type LdapDn = str
 
-def entry_data(dn: LdapDn, anonymous=False):
-    data = {
-        "activated": True,
-        "allowedGroups": [],
-        "anonymous": anonymous,
-        "description": {
-            "de_DE": "News, Tipps und Best Practices",
-            "en_US": "News, tips and best practices",
-            "fr_FR": "Nouvelles, conseils et bonne pratique",
-        },
-        "dn": dn,
-        "icon_url": "/univention/portal/icons/entries/blog.png",
-        "in_portal": True,
-        "linkTarget": "newwindow",
-        "links": ["https://blog.example"],
-        "name": {
-            "de_DE": "Blog",
-            "en_US": "Blog",
-            "fr_FR": "Blog",
-        },
-    }
-    return data
-
-
 class StubPortalCache(PortalCacheMixin, StubCache):
 
     def __init__(self):
-        entries = [
-            entry_data(dn="cn=corner_links,dc=test"),
-            entry_data(dn="cn=menu_links,dc=test"),
-            entry_data(dn="cn=quick_links,dc=test"),
-            entry_data(dn="cn=user_links,dc=test"),
-        ]
+        entries = []
         self.stub_content = {
             "categories": {},
             "entries": {e["dn"]: e for e in entries},
             "folders": {},
-            "corner_links": ["cn=corner_links,dc=test"],
-            "menu_links": ["cn=menu_links,dc=test"],
-            "quick_links": ["cn=quick_links,dc=test"],
-            "user_links": ["cn=user_links,dc=test"],
+            "corner_links": [],
+            "menu_links": [],
+            "quick_links": [],
+            "user_links": [],
         }
+
+    def stub_add_entry(self, dn: LdapDn, in_link_lists: Sequence = ()):
+        entry_data = self.stub_entry_data(dn)
+        self.stub_content["entries"][dn] = entry_data
+        for link_list in in_link_lists:
+            self.stub_content[link_list].append(dn)
+
+    def stub_entry_data(self, dn: LdapDn, anonymous=False):
+        data = {
+            "activated": True,
+            "allowedGroups": [],
+            "anonymous": anonymous,
+            "description": {
+                "de_DE": "News, Tipps und Best Practices",
+                "en_US": "News, tips and best practices",
+                "fr_FR": "Nouvelles, conseils et bonne pratique",
+            },
+            "dn": dn,
+            "icon_url": "/univention/portal/icons/entries/blog.png",
+            "in_portal": True,
+            "linkTarget": "newwindow",
+            "links": ["https://blog.example"],
+            "name": {
+                "de_DE": "Blog",
+                "en_US": "Blog",
+                "fr_FR": "Blog",
+            },
+        }
+        return data
 
 
 class StubAuthenticator(Authenticator):

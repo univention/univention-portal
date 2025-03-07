@@ -175,15 +175,21 @@ def test_menu_links(mocked_user, standard_portal):
     assert content == expected_content
 
 
-def test_corner_links(stub_scorer, stub_portal_cache, stub_authenticator, stub_user):
-    portal = Portal(stub_scorer, stub_portal_cache, stub_authenticator)
+def test_corner_links(portal, stub_portal_cache, stub_user):
+    stub_portal_cache.stub_add_entry(
+        dn="cn=corner_links,dc=test",
+        in_link_lists=["corner_links"],
+    )
     content = portal.get_visible_content(stub_user, False)
     links = portal.get_corner_links(content)
     assert links == ["cn=corner_links,dc=test"]
 
 
-def test_quick_links(stub_scorer, stub_portal_cache, stub_authenticator, stub_user):
-    portal = Portal(stub_scorer, stub_portal_cache, stub_authenticator)
+def test_quick_links(portal, stub_portal_cache, stub_user):
+    stub_portal_cache.stub_add_entry(
+        dn="cn=quick_links,dc=test",
+        in_link_lists=["quick_links"],
+    )
     content = portal.get_visible_content(stub_user, False)
     links = portal.get_quick_links(content)
     assert links == ["cn=quick_links,dc=test"]
