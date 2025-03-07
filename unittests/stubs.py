@@ -36,7 +36,8 @@ LdapDn = str
 
 class StubPortalCache(PortalCacheMixin, StubCache):
 
-    def __init__(self):
+    def __init__(self, faker):
+        self._faker = faker
         entries = []
         self.stub_content = {
             "categories": {},
@@ -65,19 +66,19 @@ class StubPortalCache(PortalCacheMixin, StubCache):
             "allowedGroups": [],
             "anonymous": anonymous,
             "description": {
-                "de_DE": "News, Tipps und Best Practices",
-                "en_US": "News, tips and best practices",
-                "fr_FR": "Nouvelles, conseils et bonne pratique",
+                "de_DE": self._faker["de_DE"].sentence(),
+                "en_US": self._faker["en_US"].sentence(),
+                "fr_FR": self._faker["fr_FR"].sentence(),
             },
             "dn": dn,
-            "icon_url": "/univention/portal/icons/entries/blog.png",
+            "icon_url": f"/univention/portal/icons/entries/{self._faker.slug()}.svg",
             "in_portal": True,
             "linkTarget": "newwindow",
-            "links": ["https://blog.example"],
+            "links": [self._faker.uri()],
             "name": {
-                "de_DE": "Blog",
-                "en_US": "Blog",
-                "fr_FR": "Blog",
+                "de_DE": self._faker["de_DE"].word().capitalize(),
+                "en_US": self._faker["en_US"].word().capitalize(),
+                "fr_FR": self._faker["fr_FR"].word().capitalize(),
             },
         }
         return data

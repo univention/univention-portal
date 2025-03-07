@@ -44,6 +44,11 @@ from univention.portal.extensions.portal import Portal
 from univention.portal.extensions.scorer import Scorer
 
 
+@pytest.fixture(scope="session", autouse=True)
+def faker_session_locale():
+    return ["en_US", "de_DE", "fr_FR"]
+
+
 @pytest.fixture()
 def dynamic_class():
     from univention import portal
@@ -99,14 +104,14 @@ def mocked_portal_config(get_file_path):
 
 
 @pytest.fixture()
-def stub_portal_cache():
+def stub_portal_cache(faker):
     """
     A `CacheAbc` implementation to be used as a stub for testing.
 
     This is an instance of `StubPortalCache` and can be modified for the
     particular test as needed.
     """
-    return StubPortalCache()
+    return StubPortalCache(faker)
 
 
 @pytest.fixture()
