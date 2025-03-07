@@ -96,9 +96,6 @@ class PortalCacheMixin:
     It depends on a method `get` which does return the cache content.
     """
 
-    def get_user_links(self):
-        return deepcopy(self.get()["user_links"])
-
     def get_entries(self):
         return deepcopy(self.get()["entries"])
 
@@ -111,8 +108,17 @@ class PortalCacheMixin:
     def get_categories(self):
         return deepcopy(self.get()["categories"])
 
+    def get_corner_links(self):
+        return deepcopy(self.get()["corner_links"])
+
     def get_menu_links(self):
         return deepcopy(self.get()["menu_links"])
+
+    def get_quick_links(self):
+        return deepcopy(self.get()["quick_links"])
+
+    def get_user_links(self):
+        return deepcopy(self.get()["user_links"])
 
     def get_announcements(self):
         announcements = {}

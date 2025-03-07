@@ -50,8 +50,10 @@ PORTAL_DATA_KEYS = [
     "entries",
     "folders",
     "categories",
-    "user_links",
+    "corner_links",
     "menu_links",
+    "quick_links",
+    "user_links",
 ]
 PORTAL_DATA = {key: key for key in PORTAL_DATA_KEYS}
 GROUPS_DATA = {"username": ["list", "of", "groups"]}

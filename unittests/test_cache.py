@@ -35,11 +35,50 @@
 
 import pytest
 
+from univention.portal.extensions.cache import PortalCacheMixin
+
 
 def test_imports(dynamic_class):
     assert dynamic_class("Cache")
     assert dynamic_class("PortalFileCache")
     assert dynamic_class("GroupFileCache")
+
+
+class StubPortalCache(PortalCacheMixin):
+    """Utility to help testing the mixin class."""
+
+    _content = {
+        "corner_links": ["cn=corner_links,dc=test"],
+        "menu_links": ["cn=menu_links,dc=test"],
+        "quick_links": ["cn=quick_links,dc=test"],
+        "user_links": ["cn=user_links,dc=test"],
+    }
+
+    def get(self):
+        return self._content
+
+
+class TestPortalCacheMixin:
+
+    @pytest.fixture()
+    def stub_cache(self):
+        return StubPortalCache()
+
+    def test_returns_corner_links(self, stub_cache):
+        corner_links = stub_cache.get_corner_links()
+        assert corner_links == ["cn=corner_links,dc=test"]
+
+    def test_returns_menu_links(self, stub_cache):
+        menu_links = stub_cache.get_menu_links()
+        assert menu_links == ["cn=menu_links,dc=test"]
+
+    def test_returns_quick_links(self, stub_cache):
+        quick_links = stub_cache.get_quick_links()
+        assert quick_links == ["cn=quick_links,dc=test"]
+
+    def test_returns_user_links(self, stub_cache):
+        user_links = stub_cache.get_user_links()
+        assert user_links == ["cn=user_links,dc=test"]
 
 
 class TestPortalFileCache:
