@@ -35,20 +35,41 @@
 
 import json
 import os
+from abc import ABC, abstractmethod
 from copy import deepcopy
 
-from univention.portal import Plugin
+from univention.portal import PluginWithAbcBase
 from univention.portal.log import get_logger
 
 
-class Cache(metaclass=Plugin):
+class CacheAbc(ABC):
     """
-    Base class for Caching in general
+    A cache implementation for the portal has to follow this protocol.
 
-    `get`: Gets the complete cache content.
-    `refresh`: Refreshes the cache. Gets a "reason" to decide if this is
-    really needed. The value "force" should be handled as if it is really
-    needed.
+    The protocol is defined in this abstract base class because we have
+    multiple cache implementations which do not share a common base class and a
+    portal specific caching API which is depending on this protocol.
+    """
+
+    @abstractmethod
+    def get(self):
+        """Return the complete cache content."""
+
+    @abstractmethod
+    def refresh(self, reason=None):
+        """
+        Refreshes the cache.
+
+        Gets a "reason" to decide if this is really needed. The value "force"
+        should be handled as if it is really needed.
+        """
+
+
+class Cache(CacheAbc, metaclass=PluginWithAbcBase):
+    """
+    Base class for file based caching.
+
+    Constructor parameters:
 
     cache_file:
             Filename where the content is stored
@@ -93,7 +114,7 @@ class PortalCacheMixin:
     """
     API provided by the Portal cache implementations.
 
-    It depends on a method `get` which does return the cache content.
+    It depends on the API of `CacheAbc` to be implemented in the target class.
     """
 
     def get_entries(self):
@@ -125,6 +146,11 @@ class PortalCacheMixin:
         if "announcements" in self.get().keys():
             announcements = deepcopy(self.get()["announcements"])
         return announcements
+
+    @classmethod
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        assert issubclass(cls, CacheAbc), "This mixin depends on CacheAbc to be implemented."
 
 
 class PortalFileCache(PortalCacheMixin, Cache):

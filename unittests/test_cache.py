@@ -35,7 +35,7 @@
 
 import pytest
 
-from univention.portal.extensions.cache import PortalCacheMixin
+from univention.portal.extensions.cache import CacheAbc, PortalCacheMixin
 
 
 def test_imports(dynamic_class):
@@ -44,10 +44,16 @@ def test_imports(dynamic_class):
     assert dynamic_class("GroupFileCache")
 
 
-class StubPortalCache(PortalCacheMixin):
-    """Utility to help testing the mixin class."""
+class StubPortalCache(PortalCacheMixin, CacheAbc):
+    """
+    Utility to help testing the mixin class.
 
-    _content = {
+    Attributes and methods related to the stubbing are prefixed with `stub_`
+    like `stub_content` and are intended be used to modify the stub for the
+    particular test case.
+    """
+
+    stub_content = {
         "corner_links": ["cn=corner_links,dc=test"],
         "menu_links": ["cn=menu_links,dc=test"],
         "quick_links": ["cn=quick_links,dc=test"],
@@ -55,7 +61,10 @@ class StubPortalCache(PortalCacheMixin):
     }
 
     def get(self):
-        return self._content
+        return self.stub_content
+
+    def refresh(self, reason=None):
+        pass
 
 
 class TestPortalCacheMixin:

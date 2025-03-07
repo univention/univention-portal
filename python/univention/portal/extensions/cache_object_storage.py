@@ -38,14 +38,16 @@ import json
 
 from botocore.exceptions import ClientError
 
-from univention.portal import Plugin
-from univention.portal.extensions.cache import PortalCacheMixin
+from univention.portal import PluginWithAbcBase
+from univention.portal.extensions.cache import CacheAbc, PortalCacheMixin
 from univention.portal.log import get_logger
 from univention.portal.util import get_object_storage_client
 
 
-class CacheObjectStorage(metaclass=Plugin):
+class CacheObjectStorage(CacheAbc, metaclass=PluginWithAbcBase):
     """
+    Cache implementation which relies on an S3 compatible object store.
+
     Attributes:
       - ucs_internal_path(str): The path inside the bucket
         where the UCS internal portal/groups/selfservice data are available.

@@ -35,6 +35,7 @@
 
 import importlib
 import os.path
+from abc import ABCMeta
 from collections.abc import Iterator
 from glob import glob
 
@@ -46,6 +47,10 @@ class Plugin(type):
         new_cls = super().__new__(mcs, name, bases, attrs)
         Plugins.add_plugin(new_cls)
         return new_cls
+
+
+class PluginWithAbcBase(Plugin, ABCMeta):
+    """Utility to ease the usage of plugins with ABC base classes."""
 
 
 class Plugins:
