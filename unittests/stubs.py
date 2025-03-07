@@ -48,8 +48,13 @@ class StubPortalCache(PortalCacheMixin, StubCache):
             "user_links": [],
         }
 
-    def stub_add_entry(self, dn: LdapDn, in_link_lists: Sequence = ()):
-        entry_data = self.stub_entry_data(dn)
+    def stub_add_entry(
+        self,
+        dn: LdapDn,
+        anonymous: bool = False,
+        in_link_lists: Sequence = (),
+    ):
+        entry_data = self.stub_entry_data(dn, anonymous)
         self.stub_content["entries"][dn] = entry_data
         for link_list in in_link_lists:
             self.stub_content[link_list].append(dn)

@@ -158,41 +158,76 @@ def test_visible_content(mocked_user, standard_portal):
     assert content == expected_content
 
 
-def test_user_links(mocked_user, mocked_anonymous_user, standard_portal):
-    content_with_user = standard_portal.get_visible_content(mocked_user, False)
-    content_no_user = standard_portal.get_visible_content(mocked_anonymous_user, False)
-    content_with_user = standard_portal.get_user_links(content_with_user)
-    content_no_user = standard_portal.get_user_links(content_no_user)
-    expected_content = []
-    assert content_no_user == expected_content
-    assert content_with_user == expected_content
+@pytest.mark.parametrize("link_list", ["corner_links", "menu_links", "user_links", "quick_links"])
+class TestLinkLists:
+
+    def test_does_not_contain_other_entry_for_authenticated_user(
+        self, link_list, portal, stub_portal_cache, stub_user,
+    ):
+        stub_portal_cache.stub_add_entry(
+            dn="cn=test-entry,dc=test",
+        )
+        links = _get_links_from_portal(portal, link_list, stub_user)
+        assert links == []
+
+    def test_contains_visible_entry_for_authenticated_user(
+        self, link_list, portal, stub_portal_cache, stub_user,
+    ):
+        stub_portal_cache.stub_add_entry(
+            dn="cn=test-entry,dc=test",
+            in_link_lists=[link_list],
+        )
+        links = _get_links_from_portal(portal, link_list, stub_user)
+        assert links == ["cn=test-entry,dc=test"]
+
+    def test_hides_anonymous_entry_for_authenticated_user(
+        self, link_list, portal, stub_portal_cache, stub_user,
+    ):
+        stub_portal_cache.stub_add_entry(
+            dn="cn=test-entry,dc=test",
+            in_link_lists=[link_list],
+            anonymous=True,
+        )
+        links = _get_links_from_portal(portal, link_list, stub_user)
+        assert links == []
+
+    def test_contains_visible_entry_for_anonymous_user(
+        self, link_list, portal, stub_portal_cache, stub_user_anonymous,
+    ):
+        stub_portal_cache.stub_add_entry(
+            dn="cn=test-entry,dc=test",
+            in_link_lists=[link_list],
+        )
+        links = _get_links_from_portal(portal, link_list, stub_user_anonymous)
+        assert links == ["cn=test-entry,dc=test"]
+
+    def test_contains_anonymous_entry_for_anonymous_user(
+        self, link_list, portal, stub_portal_cache, stub_user_anonymous,
+    ):
+        stub_portal_cache.stub_add_entry(
+            dn="cn=test-entry,dc=test",
+            in_link_lists=[link_list],
+            anonymous=True,
+        )
+        links = _get_links_from_portal(portal, link_list, stub_user_anonymous)
+        assert links == ["cn=test-entry,dc=test"]
+
+    def test_does_not_contain_other_entry_for_anonymous_user(
+        self, link_list, portal, stub_portal_cache, stub_user,
+    ):
+        stub_portal_cache.stub_add_entry(
+            dn="cn=test-entry,dc=test",
+            anonymous=True,
+        )
+        links = _get_links_from_portal(portal, link_list, stub_user)
+        assert links == []
 
 
-def test_menu_links(mocked_user, standard_portal):
-    content = standard_portal.get_visible_content(mocked_user, False)
-    content = standard_portal.get_menu_links(content)
-    expected_content = []
-    assert content == expected_content
-
-
-def test_corner_links(portal, stub_portal_cache, stub_user):
-    stub_portal_cache.stub_add_entry(
-        dn="cn=corner_links,dc=test",
-        in_link_lists=["corner_links"],
-    )
-    content = portal.get_visible_content(stub_user, False)
-    links = portal.get_corner_links(content)
-    assert links == ["cn=corner_links,dc=test"]
-
-
-def test_quick_links(portal, stub_portal_cache, stub_user):
-    stub_portal_cache.stub_add_entry(
-        dn="cn=quick_links,dc=test",
-        in_link_lists=["quick_links"],
-    )
-    content = portal.get_visible_content(stub_user, False)
-    links = portal.get_quick_links(content)
-    assert links == ["cn=quick_links,dc=test"]
+def _get_links_from_portal(portal, link_list, user):
+    content = portal.get_visible_content(user, False)
+    getter = getattr(portal, f"get_{link_list}")
+    links = getter(content)
+    return links
 
 
 def test_portal_entries(mocked_user, standard_portal):

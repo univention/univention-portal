@@ -145,6 +145,20 @@ def stub_user(faker):
 
 
 @pytest.fixture()
+def stub_user_anonymous():
+    """
+    An anonymous `User` instance.
+    """
+    user = User(
+        username=None,
+        display_name=None,
+        groups=[],
+        headers={},
+    )
+    return user
+
+
+@pytest.fixture()
 def portal(stub_scorer, stub_portal_cache, stub_authenticator):
     """
     A `Portal` instance with dependencies replaced by stubs.
