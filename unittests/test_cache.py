@@ -35,8 +35,6 @@
 
 import pytest
 
-from univention.portal.extensions.cache import CacheAbc, PortalCacheMixin
-
 
 def test_imports(dynamic_class):
     assert dynamic_class("Cache")
@@ -44,49 +42,22 @@ def test_imports(dynamic_class):
     assert dynamic_class("GroupFileCache")
 
 
-class StubPortalCache(PortalCacheMixin, CacheAbc):
-    """
-    Utility to help testing the mixin class.
-
-    Attributes and methods related to the stubbing are prefixed with `stub_`
-    like `stub_content` and are intended be used to modify the stub for the
-    particular test case.
-    """
-
-    stub_content = {
-        "corner_links": ["cn=corner_links,dc=test"],
-        "menu_links": ["cn=menu_links,dc=test"],
-        "quick_links": ["cn=quick_links,dc=test"],
-        "user_links": ["cn=user_links,dc=test"],
-    }
-
-    def get(self):
-        return self.stub_content
-
-    def refresh(self, reason=None):
-        pass
-
-
 class TestPortalCacheMixin:
 
-    @pytest.fixture()
-    def stub_cache(self):
-        return StubPortalCache()
-
-    def test_returns_corner_links(self, stub_cache):
-        corner_links = stub_cache.get_corner_links()
+    def test_returns_corner_links(self, stub_portal_cache):
+        corner_links = stub_portal_cache.get_corner_links()
         assert corner_links == ["cn=corner_links,dc=test"]
 
-    def test_returns_menu_links(self, stub_cache):
-        menu_links = stub_cache.get_menu_links()
+    def test_returns_menu_links(self, stub_portal_cache):
+        menu_links = stub_portal_cache.get_menu_links()
         assert menu_links == ["cn=menu_links,dc=test"]
 
-    def test_returns_quick_links(self, stub_cache):
-        quick_links = stub_cache.get_quick_links()
+    def test_returns_quick_links(self, stub_portal_cache):
+        quick_links = stub_portal_cache.get_quick_links()
         assert quick_links == ["cn=quick_links,dc=test"]
 
-    def test_returns_user_links(self, stub_cache):
-        user_links = stub_cache.get_user_links()
+    def test_returns_user_links(self, stub_portal_cache):
+        user_links = stub_portal_cache.get_user_links()
         assert user_links == ["cn=user_links,dc=test"]
 
 

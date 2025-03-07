@@ -38,6 +38,8 @@ from os import path
 
 import pytest
 
+from stubs import StubPortalCache
+
 
 @pytest.fixture()
 def dynamic_class():
@@ -91,3 +93,14 @@ def mocked_portal_config(get_file_path):
     reload(config)
     config._CONF = get_file_path("config*.json")
     return config
+
+
+@pytest.fixture()
+def stub_portal_cache():
+    """
+    A `CacheAbc` implementation to be used as a stub for testing.
+
+    This is an instance of `StubPortalCache` and can be modified for the
+    particular test as needed.
+    """
+    return StubPortalCache()
