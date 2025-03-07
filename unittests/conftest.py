@@ -39,6 +39,7 @@ from os import path
 import pytest
 
 from stubs import StubAuthenticator, StubPortalCache
+from univention.portal.user import User
 from univention.portal.extensions.scorer import Scorer
 
 
@@ -108,14 +109,14 @@ def stub_portal_cache():
 
 
 @pytest.fixture()
-def stub_authenticator():
+def stub_authenticator(stub_user):
     """
     An `Authenticator` implementation to be used as a stub for testing.
 
     This is an instance of `StubAuthenticator` and can be modified for the
     particular test as needed.
     """
-    return StubAuthenticator()
+    return StubAuthenticator(user=stub_user)
 
 
 @pytest.fixture()
@@ -126,3 +127,17 @@ def stub_scorer():
     This is directly an instance of the base class `Scorer`.
     """
     return Scorer()
+
+
+@pytest.fixture()
+def stub_user(faker):
+    """
+    An authenticated `User` instance.
+    """
+    user = User(
+        username=faker.user_name(),
+        display_name=faker.name(),
+        groups=[],
+        headers={},
+    )
+    return user
