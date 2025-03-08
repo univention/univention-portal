@@ -56,6 +56,15 @@ class CacheAbc(ABC):
         """Return the complete cache content."""
 
     @abstractmethod
+    def get_id(self) -> str:
+        """
+        Return an ID for the state of the cache content.
+
+        The ID has to change on every update so that an updated state can be
+        distinguished from an old state based on this value.
+        """
+
+    @abstractmethod
     def refresh(self, reason=None):
         """
         Refreshes the cache.

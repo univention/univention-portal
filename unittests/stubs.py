@@ -19,12 +19,16 @@ class StubCache(CacheAbc):
     """
 
     stub_content = {}
+    stub_id = "stub-cache-0"
 
     def __init__(self):
         self.stub_content = copy.deepcopy(self.stub_content)
 
     def get(self):
         return self.stub_content
+
+    def get_id(self):
+        return self.stub_id
 
     def refresh(self, reason=None):
         pass
