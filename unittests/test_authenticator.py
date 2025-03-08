@@ -34,6 +34,7 @@
 #
 import asyncio
 import json
+from unittest import mock
 
 import pytest
 import tornado
@@ -74,20 +75,14 @@ class TestUMCAuthenticator:
     def test_get_existing_user(self, mocked_authenticator, mocker):
         from univention.portal import user as user_module
 
-        # Set up
         cookie = "session_cookie"
         request_mock = mocker.Mock()
         cookie_mock = mocker.Mock()
         cookie_mock.value = cookie
         request_mock.cookies = {self._umc_cookie_name: cookie_mock}
         request_mock.request.headers = {}
+        mocked_authenticator._get_username = mock.AsyncMock(return_value=(self._username.lower(), self._username))
 
-        async def async_magic():
-            return (self._username.lower(), self._username)
-
-        mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-        mocked_authenticator._get_username = mocker.MagicMock()
-        # Execute
         loop = asyncio.get_event_loop()
         user = loop.run_until_complete(mocked_authenticator.get_user(request_mock))
         mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
@@ -98,45 +93,31 @@ class TestUMCAuthenticator:
     def test_get_non_existing_user(self, mocked_authenticator, mocker):
         from univention.portal import user as user_module
 
-        # Set up
         cookie = "session_cookie"
         request_mock = mocker.Mock()
         cookie_mock = mocker.Mock()
         cookie_mock.value = cookie
         request_mock.cookies = {self._umc_cookie_name: cookie_mock}
         request_mock.request.headers = {}
+        mocked_authenticator._get_username = mock.AsyncMock(return_value=(None, None))
 
-        async def async_magic():
-            return (None, None)
-
-        mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-        mocked_authenticator._get_username = mocker.MagicMock()
-        # Execute
         loop = asyncio.get_event_loop()
         user = loop.run_until_complete(mocked_authenticator.get_user(request_mock))
         mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
+
         assert isinstance(user, user_module.User)
         assert user.is_anonymous()
         assert user.username is None
         assert user.groups == []
 
     def test_get_username(self, mocked_authenticator, mocker):
-        async def async_magic():
-            return self._username
-
-        async def async_magic_none():
-            return
-
         loop = asyncio.get_event_loop()
-        mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-        mocked_authenticator._ask_umc = mocker.MagicMock()
+        mocked_authenticator._ask_umc = mock.AsyncMock(return_value=self._username)
         assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"})) == (self._username.lower(), self._username)
         assert loop.run_until_complete(mocked_authenticator._get_username({})) == (None, None)
-        mocker.MagicMock.__await__ = lambda x: async_magic_none().__await__()
-        mocked_authenticator._ask_umc = mocker.MagicMock()
+        mocked_authenticator._ask_umc.return_value = None
         assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"})) == (None, None)
-        mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-        mocked_authenticator._ask_umc = mocker.MagicMock()
+        mocked_authenticator._ask_umc.return_value = self._username
         umc_cookie_name = f"{self._umc_cookie_name}-1234"
         assert loop.run_until_complete(mocked_authenticator._get_username({umc_cookie_name: "test_session"})) == (self._username.lower(), self._username)
 
@@ -144,15 +125,8 @@ class TestUMCAuthenticator:
         def _side_effect(req):
             """Side effect to simulate successful request with different response data"""
             print("Making a request to '%s'" % req.url)
-
             response_mock = mocker.Mock()
-
-            async def async_magic():
-                return response_mock
-
-            mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-            async_response_mock = mocker.MagicMock(return_value=asyncio.Future())
-            async_response_mock.return_value.set_result(response_mock)
+            async_response_mock = mock.AsyncMock(return_value=response_mock)
             test_cookie = req.headers.get('Cookie', '').split(',')
             test_cookie = [c.strip().split('=') for c in test_cookie]
             test_cookie = {k.strip(): v.strip() for k, v in test_cookie}.get(self._umc_cookie_name, "")
@@ -161,7 +135,7 @@ class TestUMCAuthenticator:
             else:
                 response_mock.body = b'{}'
             print("Received response with status 200")
-            return async_response_mock
+            return async_response_mock()
 
         mocked_authenticator.httpclient_fetch.side_effect = _side_effect
         test_session = {self._umc_cookie_name: "test_session"}
@@ -182,15 +156,9 @@ class TestUMCAuthenticator:
             response_mock = mocker.Mock()
             response_mock.status_code = 404
             response_mock.body.decode.return_value = b'X'
-
-            async def async_magic():
-                return response_mock
-
-            mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-            async_response_mock = mocker.MagicMock(return_value=asyncio.Future())
-            async_response_mock.return_value.set_result(response_mock)
+            async_response_mock = mock.AsyncMock(return_value=response_mock)
             print("Received response with status 404")
-            return async_response_mock
+            return async_response_mock()
 
         loop = asyncio.get_event_loop()
 

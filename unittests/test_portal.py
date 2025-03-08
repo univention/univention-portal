@@ -116,18 +116,17 @@ def standard_portal(dynamic_class, portal_file, reloader):
 
 
 @pytest.fixture()
-def mocked_portal(dynamic_class, mocker):
+def mocked_portal(dynamic_class):
     async def async_magic():
         return
 
     Portal = dynamic_class("Portal")
-    scorer = mocker.Mock()
-    portal_cache = mocker.Mock()
-    authenticator = mocker.Mock()
-    mocker.MagicMock.__await__ = lambda x: async_magic().__await__()
-    authenticator.get_user = mocker.MagicMock()
-    authenticator.login_user = mocker.MagicMock()
-    authenticator.login_request = mocker.MagicMock()
+    scorer = mock.Mock()
+    portal_cache = mock.Mock()
+    authenticator = mock.Mock()
+    authenticator.get_user = mock.AsyncMock()
+    authenticator.login_user = mock.AsyncMock()
+    authenticator.login_request = mock.AsyncMock()
     return Portal(scorer, portal_cache, authenticator)
 
 
