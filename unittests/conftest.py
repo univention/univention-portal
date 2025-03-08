@@ -39,9 +39,9 @@ from os import path
 import pytest
 
 from stubs import StubAuthenticator, StubPortalCache
-from univention.portal.user import User
 from univention.portal.extensions.portal import Portal
 from univention.portal.extensions.scorer import Scorer
+from univention.portal.user import User
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -52,6 +52,7 @@ def faker_session_locale():
 @pytest.fixture()
 def dynamic_class():
     from univention import portal
+
     return portal.get_dynamic_classes
 
 
@@ -142,9 +143,7 @@ def stub_scorer():
 
 @pytest.fixture()
 def stub_user(faker):
-    """
-    An authenticated `User` instance.
-    """
+    """An authenticated `User` instance."""
     user = User(
         username=faker.user_name(),
         display_name=faker.name(),
@@ -156,9 +155,7 @@ def stub_user(faker):
 
 @pytest.fixture()
 def stub_user_anonymous():
-    """
-    An anonymous `User` instance.
-    """
+    """An anonymous `User` instance."""
     user = User(
         username=None,
         display_name=None,

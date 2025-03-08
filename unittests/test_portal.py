@@ -33,7 +33,6 @@
 # <https://www.gnu.org/licenses/>.
 #
 
-import asyncio
 import json
 from datetime import datetime, timedelta
 from unittest import mock
@@ -115,7 +114,7 @@ def standard_portal(dynamic_class, portal_file, reloader):
     return Portal(scorer, portal_cache, authenticator)
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_user(portal, mocker):
     get_user_mock = mocker.patch.object(portal.authenticator, "get_user")
     request = "request"
@@ -123,7 +122,7 @@ async def test_user(portal, mocker):
     get_user_mock.assert_called_once_with(request)
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_login(portal, mocker):
     login_user_mock = mocker.patch.object(portal.authenticator, "login_user")
     login_request_mock = mocker.patch.object(portal.authenticator, "login_request")

@@ -38,6 +38,7 @@ class StubCache(CacheAbc):
 LdapDn = str
 # type LdapDn = str
 
+
 class StubPortalCache(PortalCacheMixin, StubCache):
 
     def __init__(self, faker):
