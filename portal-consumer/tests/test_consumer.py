@@ -34,15 +34,6 @@ def set_test_env_vars():
 set_test_env_vars()
 
 
-class AsyncContextManagerMock(MagicMock):
-
-    async def __aenter__(self):
-        return self.aenter()
-
-    async def __aexit__(self, *args):
-        pass
-
-
 def load_consumer(name):
     module_name = os.path.splitext(name)[0]
     spec = importlib.util.spec_from_file_location(module_name, os.path.join(CONSUMER_PATH, name))
@@ -72,7 +63,7 @@ CONSUMER_PATH = "./portal_consumer"
 @pytest.fixture()
 def async_client():
     return patch("univention.provisioning.consumer.ProvisioningConsumerClient",
-                 new_callable=AsyncContextManagerMock).start()
+                 new_callable=MagicMock()).start()
 
 
 @pytest.fixture()
