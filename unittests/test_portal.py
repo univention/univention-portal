@@ -115,7 +115,6 @@ def standard_portal(dynamic_class, portal_file, reloader):
     return Portal(scorer, portal_cache, authenticator)
 
 
-@pytest.fixture()
 @pytest.mark.asyncio
 async def test_user(portal, mocker):
     get_user_mock = mocker.patch.object(portal.authenticator, "get_user")
