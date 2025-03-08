@@ -172,6 +172,13 @@ def stub_user_anonymous():
 def portal(stub_scorer, stub_portal_cache, stub_authenticator):
     """
     A `Portal` instance with dependencies replaced by stubs.
+
+    The idea is that this object can be used directly for testing without
+    having to worry about calls into external dependencies being made, e.g. UMC
+    or UDM.
+
+    The stubs are prepared so that their content can be modifier as needed by
+    the respective test case.
     """
     portal = Portal(stub_scorer, stub_portal_cache, stub_authenticator)
     return portal
