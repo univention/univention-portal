@@ -117,9 +117,6 @@ def standard_portal(dynamic_class, portal_file, reloader):
 
 @pytest.fixture()
 def mocked_portal(dynamic_class):
-    async def async_magic():
-        return
-
     Portal = dynamic_class("Portal")
     scorer = mock.Mock()
     portal_cache = mock.Mock()
