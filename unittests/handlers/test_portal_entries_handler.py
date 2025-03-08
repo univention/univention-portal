@@ -46,44 +46,56 @@ from univention.portal.main import build_routes
 class TestPortalEntriesHandlerNoHttpCache:
 
     @pytest.fixture()
-    def app(self, portal_mock):
-        routes = build_routes({"default": portal_mock}, mock.Mock())
+    def app(self, portal):
+        routes = build_routes({"default": portal}, mock.Mock())
         return tornado.web.Application(routes)
 
     @pytest.mark.gen_test()
-    def test_get_portals_json_standard(self, http_client, base_url, portal_mock):
+    def test_get_portals_json_standard(self, http_client, base_url, portal, mocker):
+        refresh_mock = mocker.patch.object(portal, "refresh")
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         assert response.code == 200
-        portal_mock.refresh.assert_not_called()
+        refresh_mock.assert_not_called()
 
     @pytest.mark.gen_test()
-    def test_get_portals_returns_empty_feature_configuration(self, http_client, base_url, portal_mock):
+    def test_get_portals_returns_empty_feature_configuration(
+        self, http_client, base_url, mock_portal_config,
+    ):
+        mock_portal_config({
+            "editable": False,
+            "feature_toggles": {},
+        })
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data["feature_toggles"] == {}
 
     @pytest.mark.gen_test()
     def test_get_portals_returns_feature_configuration(
-            self, http_client, base_url, portal_mock):
-        portal_mock.get_feature_toggles.return_value = {
-            "notifications_api": False,
-        }
+            self, http_client, base_url, mock_portal_config):
+        mock_portal_config({
+            "editable": False,
+            "feature_toggles": {
+                "notifications_api": False,
+            },
+        })
+        mock_portal_config({"test": "value"})
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data["feature_toggles"] == {"notifications_api": False}
 
     @pytest.mark.gen_test()
-    @pytest.mark.parametrize("attr_name, expected_value", [
-        ["corner_links", ["cn=corner_links,dc=test"]],
-        ["menu_links", ["cn=menu_links,dc=test"]],
-        ["quick_links", ["cn=quick_links,dc=test"]],
-        ["user_links", ["cn=user_links,dc=test"]],
+    @pytest.mark.parametrize("attr_name, entry_dn", [
+        ["corner_links", "cn=corner_links,dc=test"],
+        ["menu_links", "cn=menu_links,dc=test"],
+        ["quick_links", "cn=quick_links,dc=test"],
+        ["user_links", "cn=user_links,dc=test"],
     ])
     def test_get_portals_returns_links(
-            self, attr_name, expected_value, http_client, base_url, portal_mock):
+            self, attr_name, entry_dn, http_client, base_url, stub_portal_cache):
+        stub_portal_cache.stub_add_entry(entry_dn, in_link_lists=[attr_name])
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
-        assert data[attr_name] == expected_value
+        assert data[attr_name] == [entry_dn]
 
 
 class TestPortalEntriesHandlerNoPortal:

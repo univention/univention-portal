@@ -32,8 +32,8 @@ def udm_client_stub():
 
 
 @pytest.fixture()
-def app(portal_mock, udm_client_stub):
-    routes = build_routes({"default": portal_mock}, udm_client_stub)
+def app(portal, udm_client_stub):
+    routes = build_routes({"default": portal}, udm_client_stub)
     return tornado.web.Application(routes)
 
 
@@ -44,7 +44,10 @@ def api_base_url(base_url):
 
 
 @pytest.mark.gen_test()
-async def test_unauthenticated_user_returns_empty_dict(http_client, api_base_url):
+async def test_unauthenticated_user_returns_empty_dict(
+    stub_authenticator, stub_user_anonymous, http_client, api_base_url,
+):
+    stub_authenticator.stub_user = stub_user_anonymous
     response = await http_client.fetch(f"{api_base_url}/me")
     data = json.loads(response.body)
     assert data == {}

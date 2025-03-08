@@ -43,7 +43,17 @@ class StubPortalCache(PortalCacheMixin, StubCache):
     def __init__(self, faker):
         self._faker = faker
         entries = []
+
+        # The stub content is only sufficient for what the tests currently
+        # need. Expand as needed with missing parts of the model provided from
+        # the consumer.
+        #
+        # Keep as minimal as possible and prefer tweaking the content per test
+        # case when checking special cases.
         self.stub_content = {
+            "portal": {
+                "categories": [],
+            },
             "categories": {},
             "entries": {e["dn"]: e for e in entries},
             "folders": {},
