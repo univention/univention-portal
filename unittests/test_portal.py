@@ -116,31 +116,23 @@ def standard_portal(dynamic_class, portal_file, reloader):
 
 
 @pytest.fixture()
-def mocked_portal(dynamic_class):
-    Portal = dynamic_class("Portal")
-    scorer = mock.Mock()
-    portal_cache = mock.Mock()
-    authenticator = mock.Mock()
-    authenticator.get_user = mock.AsyncMock()
-    authenticator.login_user = mock.AsyncMock()
-    authenticator.login_request = mock.AsyncMock()
-    return Portal(scorer, portal_cache, authenticator)
+@pytest.mark.asyncio
+async def test_user(portal, mocker):
+    get_user_mock = mocker.patch.object(portal.authenticator, "get_user")
+    request = "request"
+    await portal.get_user(request)
+    get_user_mock.assert_called_once_with(request)
 
 
 @pytest.mark.asyncio
-async def test_user(mocked_portal):
+async def test_login(portal, mocker):
+    login_user_mock = mocker.patch.object(portal.authenticator, "login_user")
+    login_request_mock = mocker.patch.object(portal.authenticator, "login_request")
     request = "request"
-    await mocked_portal.get_user(request)
-    mocked_portal.authenticator.get_user.assert_called_once_with(request)
-
-
-@pytest.mark.asyncio
-async def test_login(mocked_portal):
-    request = "request"
-    await mocked_portal.login_user(request)
-    await mocked_portal.login_request(request)
-    mocked_portal.authenticator.login_user.assert_called_once_with(request)
-    mocked_portal.authenticator.login_request.assert_called_once_with(request)
+    await portal.login_user(request)
+    await portal.login_request(request)
+    login_user_mock.assert_called_once_with(request)
+    login_request_mock.assert_called_once_with(request)
 
 
 def test_visible_content(mocked_user, standard_portal):
@@ -337,20 +329,19 @@ def test_meta(mocked_user, standard_portal):
     assert content == expected_content
 
 
-def test_refresh(mocked_portal, mocker):
-    mocked_portal.portal_cache.refresh = mocker.Mock(return_value=None)
-    mocked_portal.authenticator.refresh = mocker.Mock(return_value=None)
-    assert mocked_portal.refresh() is None
-    mocked_portal.portal_cache.refresh.assert_called_once()
-    mocked_portal.authenticator.refresh.assert_called_once()
+def test_refresh(portal, mocker):
+    mocker.patch.object(portal.portal_cache, "refresh", return_value=None)
+    mocker.patch.object(portal.authenticator, "refresh", return_value=None)
+    assert portal.refresh() is None
+    portal.portal_cache.refresh.assert_called_once()
+    portal.authenticator.refresh.assert_called_once()
 
 
-def test_score(mocked_portal, mocker):
-    mocked_portal.scorer.score = mocker.Mock(return_value=5)
+def test_score(portal, mocker):
+    mocker.patch.object(portal.scorer, "score", return_value=5)
     request = mocker.Mock()
-    assert mocked_portal.score(request) == 5
-    mocked_portal.scorer.score.assert_called_once()
-    mocked_portal.scorer.score.assert_called_with(request)
+    assert portal.score(request) == 5
+    portal.scorer.score.assert_called_once_with(request)
 
 
 @pytest.mark.parametrize("umc_get_url", [
