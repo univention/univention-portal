@@ -82,14 +82,19 @@ def get_file_path(request):
 
 @pytest.fixture()
 def mock_portal_config(mocker):
-    """Returns a callable which can be used to inject configuration values."""
+    """
+    Returns a callable which can be used to inject configuration values.
+
+    The callable can be used multiple times to update the configuration
+    incrementally.
+    """
     from univention.portal import config
 
     reload(config)
     mocker.patch.object(config.load, "never_loaded", False)
 
     def _mock_portal_config(values):
-        mocker.patch.object(config, "_DB", values)
+        mocker.patch.dict(config._DB, values)
 
     return _mock_portal_config
 
