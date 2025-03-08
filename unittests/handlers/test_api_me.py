@@ -55,12 +55,11 @@ async def test_unauthenticated_user_returns_empty_dict(
 
 @pytest.mark.gen_test()
 async def test_authenticated_user_returns_user_data_from_udm(
-    http_client, api_base_url, user, udm_client_stub,
+    http_client, api_base_url, stub_user, udm_client_stub,
 ):
-    user.username = "stub-username"
     response = await http_client.fetch(f"{api_base_url}/me")
     data = json.loads(response.body)
-    udm_user_data = await udm_client_stub.get_user(user.username)
+    udm_user_data = await udm_client_stub.get_user(stub_user.username)
     expected_data = {
         "id": udm_user_data["id"],
         "dn": udm_user_data["dn"],
