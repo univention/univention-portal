@@ -32,7 +32,7 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 #
-import asyncio
+
 import json
 from unittest import mock
 
@@ -72,7 +72,8 @@ class TestUMCAuthenticator:
         mocked_authenticator.refresh("reason")
         mocked_authenticator.group_cache.refresh.assert_called_once_with(reason="reason")
 
-    def test_get_existing_user(self, mocked_authenticator, mocker):
+    @pytest.mark.asyncio
+    async def test_get_existing_user(self, mocked_authenticator, mocker):
         from univention.portal import user as user_module
 
         cookie = "session_cookie"
@@ -83,14 +84,14 @@ class TestUMCAuthenticator:
         request_mock.request.headers = {}
         mocked_authenticator._get_username = mock.AsyncMock(return_value=(self._username.lower(), self._username))
 
-        loop = asyncio.get_event_loop()
-        user = loop.run_until_complete(mocked_authenticator.get_user(request_mock))
+        user = await mocked_authenticator.get_user(request_mock)
         mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
         assert isinstance(user, user_module.User)
         assert user.username == self._username.lower()
         assert user.groups == [x.lower() for x in self._groups]
 
-    def test_get_non_existing_user(self, mocked_authenticator, mocker):
+    @pytest.mark.asyncio
+    async def test_get_non_existing_user(self, mocked_authenticator, mocker):
         from univention.portal import user as user_module
 
         cookie = "session_cookie"
@@ -101,8 +102,7 @@ class TestUMCAuthenticator:
         request_mock.request.headers = {}
         mocked_authenticator._get_username = mock.AsyncMock(return_value=(None, None))
 
-        loop = asyncio.get_event_loop()
-        user = loop.run_until_complete(mocked_authenticator.get_user(request_mock))
+        user = await mocked_authenticator.get_user(request_mock)
         mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
 
         assert isinstance(user, user_module.User)
@@ -110,23 +110,25 @@ class TestUMCAuthenticator:
         assert user.username is None
         assert user.groups == []
 
-    def test_get_username(self, mocked_authenticator, mocker):
-        loop = asyncio.get_event_loop()
+    @pytest.mark.asyncio
+    async def test_get_username(self, mocked_authenticator, mocker):
         mocked_authenticator._ask_umc = mock.AsyncMock(return_value=self._username)
-        assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"})) == (self._username.lower(), self._username)
-        assert loop.run_until_complete(mocked_authenticator._get_username({})) == (None, None)
+        assert await mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}) == (self._username.lower(), self._username)
+        assert await mocked_authenticator._get_username({}) == (None, None)
+
         mocked_authenticator._ask_umc.return_value = None
-        assert loop.run_until_complete(mocked_authenticator._get_username({self._umc_cookie_name: "test_session"})) == (None, None)
+        assert await mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}) == (None, None)
+
         mocked_authenticator._ask_umc.return_value = self._username
         umc_cookie_name = f"{self._umc_cookie_name}-1234"
-        assert loop.run_until_complete(mocked_authenticator._get_username({umc_cookie_name: "test_session"})) == (self._username.lower(), self._username)
+        assert await mocked_authenticator._get_username({umc_cookie_name: "test_session"}) == (self._username.lower(), self._username)
 
-    def test_ask_umc_request_success(self, mocked_authenticator, mocker):
-        def _side_effect(req):
+    @pytest.mark.asyncio
+    async def test_ask_umc_request_success(self, mocked_authenticator, mocker):
+        async def _side_effect(req):
             """Side effect to simulate successful request with different response data"""
             print("Making a request to '%s'" % req.url)
             response_mock = mocker.Mock()
-            async_response_mock = mock.AsyncMock(return_value=response_mock)
             test_cookie = req.headers.get('Cookie', '').split(',')
             test_cookie = [c.strip().split('=') for c in test_cookie]
             test_cookie = {k.strip(): v.strip() for k, v in test_cookie}.get(self._umc_cookie_name, "")
@@ -135,40 +137,37 @@ class TestUMCAuthenticator:
             else:
                 response_mock.body = b'{}'
             print("Received response with status 200")
-            return async_response_mock()
+            return response_mock
 
         mocked_authenticator.httpclient_fetch.side_effect = _side_effect
         test_session = {self._umc_cookie_name: "test_session"}
-        loop = asyncio.get_event_loop()
 
         # Execute with valid session expecting username to be returned
-        assert loop.run_until_complete(mocked_authenticator._ask_umc(test_session, {})) == self._username
+        assert await mocked_authenticator._ask_umc(test_session, {}) == self._username
         assert mocked_authenticator.httpclient_fetch.call_count == 1
 
         # Execute with unknown session expecting username to be None due to KeyError
-        assert loop.run_until_complete(mocked_authenticator._ask_umc({self._umc_cookie_name: ""}, {})) is None
+        assert await mocked_authenticator._ask_umc({self._umc_cookie_name: ""}, {}) is None
         assert mocked_authenticator.httpclient_fetch.call_count == 2
 
-    def test_ask_umc_request_error(self, mocked_authenticator, mocker):
-        def _side_effect(req):
+    @pytest.mark.asyncio
+    async def test_ask_umc_request_error(self, mocked_authenticator, mocker):
+        async def _side_effect(req):
             """Side effect to simulate request with a http error"""
             print("Making a request to '%s'" % req.url)
             response_mock = mocker.Mock()
             response_mock.status_code = 404
             response_mock.body.decode.return_value = b'X'
-            async_response_mock = mock.AsyncMock(return_value=response_mock)
             print("Received response with status 404")
-            return async_response_mock()
-
-        loop = asyncio.get_event_loop()
+            return response_mock
 
         mocked_authenticator.httpclient_fetch.side_effect = _side_effect
         test_session = {self._umc_cookie_name: "test_session"}
         # Execute while expecting a catched internal ValueError
-        assert loop.run_until_complete(mocked_authenticator._ask_umc(test_session, {})) is None
+        assert await mocked_authenticator._ask_umc(test_session, {}) is None
         assert mocked_authenticator.httpclient_fetch.call_count == 1
         # Execute while expecting catched internal RequestException
         mocked_authenticator.httpclient_fetch.side_effect = [tornado.httpclient.HTTPError(404), IOError]
-        assert loop.run_until_complete(mocked_authenticator._ask_umc(test_session, {})) is None
-        assert loop.run_until_complete(mocked_authenticator._ask_umc(test_session, {})) is None
+        assert await mocked_authenticator._ask_umc(test_session, {}) is None
+        assert await mocked_authenticator._ask_umc(test_session, {}) is None
         assert mocked_authenticator.httpclient_fetch.call_count == 3

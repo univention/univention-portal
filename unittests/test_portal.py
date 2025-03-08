@@ -130,18 +130,18 @@ def mocked_portal(dynamic_class):
     return Portal(scorer, portal_cache, authenticator)
 
 
-def test_user(mocked_portal):
+@pytest.mark.asyncio
+async def test_user(mocked_portal):
     request = "request"
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(mocked_portal.get_user(request))
+    await mocked_portal.get_user(request)
     mocked_portal.authenticator.get_user.assert_called_once_with(request)
 
 
-def test_login(mocked_portal):
+@pytest.mark.asyncio
+async def test_login(mocked_portal):
     request = "request"
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(mocked_portal.login_user(request))
-    loop.run_until_complete(mocked_portal.login_request(request))
+    await mocked_portal.login_user(request)
+    await mocked_portal.login_request(request)
     mocked_portal.authenticator.login_user.assert_called_once_with(request)
     mocked_portal.authenticator.login_request.assert_called_once_with(request)
 

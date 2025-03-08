@@ -37,7 +37,6 @@ import json
 from unittest import mock
 
 import pytest
-import tornado.ioloop
 import tornado.testing
 import tornado.web
 
