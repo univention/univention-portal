@@ -108,3 +108,26 @@ class TestPortalEntriesHandlerNoPortal:
     async def test_no_portals(self, http_client, base_url):
         response = await http_client.fetch(f"{base_url}/_/portal.json", raise_error=False)
         assert response.code == 404
+
+
+# NOTE: Ensure coverage of the UMCPortal class being used as a configured
+# portal via "portals.json". Compare the CLI script "univention-portal" which
+# allows to generate the configuration for this.
+class TestPortalEntriesHandlerWithUmcPortal:
+
+    @pytest.fixture()
+    def app(self, portal_umc):
+        routes = build_routes({"default": portal_umc}, mock.Mock())
+        return tornado.web.Application(routes)
+
+    @pytest.mark.gen_test()
+    def test_get_portal_json(
+        self, http_client, base_url, umc_categories_data, umc_modules_data, mocker,
+    ):
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body.decode())
+
+        assert response.code == 200
+        assert len(data["entries"]) == len(umc_modules_data)
+        # NOTE: There is always a category "Favorites" injected
+        assert len(data["categories"]) == len(umc_categories_data) + 1

@@ -95,6 +95,8 @@ class Portal(metaclass=Plugin):
             Object that does the whole auth thing. Meant to the a `Authenticator` object
     """
 
+    portal_cache = None
+
     def __init__(self, scorer, portal_cache, authenticator):
         self.scorer = scorer
         self.portal_cache = portal_cache
@@ -340,6 +342,15 @@ class UMCPortal(Portal):
         return []
 
     def get_menu_links(self, content):
+        return []
+
+    def get_corner_links(self, content):
+        return []
+
+    def get_quick_links(self, content):
+        return []
+
+    def get_announcements(self, content):
         return []
 
     def get_entries(self, content):

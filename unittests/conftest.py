@@ -39,7 +39,7 @@ from os import path
 import pytest
 
 from stubs import StubAuthenticator, StubPortalCache
-from univention.portal.extensions.portal import Portal
+from univention.portal.extensions.portal import Portal, UMCPortal
 from univention.portal.extensions.scorer import Scorer
 from univention.portal.user import User
 
@@ -179,3 +179,61 @@ def portal(stub_scorer, stub_portal_cache, stub_authenticator):
     """
     portal = Portal(stub_scorer, stub_portal_cache, stub_authenticator)
     return portal
+
+
+@pytest.fixture()
+def portal_umc(stub_scorer, stub_authenticator, umc_categories_data, umc_modules_data, mocker):
+    """
+    An `UMCPortal` instance with stubs and mocked UMC access.
+
+    The stubs are prepared so that the content can be modified as needed by the
+    respective test case.
+
+    The mocked UMC calls have `side_effects` configured, the first one returns
+    the fixture `umc_categories_data` and the second call returns
+    `umc_modules_data`.
+    """
+    portal = UMCPortal(stub_scorer, stub_authenticator)
+    mocker.patch.object(
+        portal,
+        "_request_umc_get",
+        side_effect=[umc_categories_data, umc_modules_data, Exception("Only two calls expected!")],
+    )
+    return portal
+
+
+@pytest.fixture()
+def umc_categories_data():
+    """
+    Stub categories data as returned by the UMC.
+
+    See `UMCPortal._request_umc_get` regarding the related implmentation.
+    """
+    return [{
+        "color": "#00acb6",
+        "icon": "category-domain.svg",
+        "id": "domain",
+        "name": "Domain",
+        "priority": 60.0,
+    }]
+
+
+@pytest.fixture()
+def umc_modules_data():
+    """
+    Stub modules data as returned by the UMC.
+
+    See `UMCPortal._request_umc_get` regarding the related implmentation.
+    """
+    return [{
+        "categories": ["domain"],
+        "description": "Managing the Univention Portal",
+        "flavor": "portals/all",
+        "icon": "portal",
+        "id": "udm",
+        "keywords": ["", "Portal"],
+        "name": "Portal",
+        "priority": -1.0,
+        "url": None,
+        "version": None,
+    }]
