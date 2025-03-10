@@ -33,7 +33,6 @@
 # <https://www.gnu.org/licenses/>.
 #
 
-import binascii
 import copy
 import json
 
@@ -45,15 +44,6 @@ from univention.portal.extensions.reloader_content import GroupsContentFetcher, 
 
 
 stub_portal_dn = "cn=portal,dc=test"
-stub_image = b"stub_image_content"
-stub_image_base64 = binascii.b2a_base64(stub_image)
-
-
-@pytest.fixture()
-def portal_content_fetcher(mocker):
-    put_mock = mocker.patch("requests.put")
-    put_mock().status_code = 201
-    return PortalContentFetcherUDMREST(stub_portal_dn)
 
 
 def test_portal_content_fetcher_propagates_connectionerror(mocker):
@@ -68,7 +58,8 @@ def test_portal_content_fetcher_propagates_connectionerror(mocker):
         content_fetcher.fetch()
 
 
-def test_collect_asset_returns_relative_asset_url_by_default(portal_content_fetcher):
+def test_collect_asset_returns_relative_asset_url_by_default():
+    portal_content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
     asset_url = portal_content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
     assert asset_url == "./icons/stub_dirname/stub_name.svg"
 
