@@ -150,10 +150,10 @@ def test_portal_content_fetcher_returns_content(mocker):
             "name": "stub_displayName",
             "showUmc": True,
         },
-        "corner_links": "stub_cornerLinks",
-        "menu_links": "stub_menuLinks",
-        "quick_links": "stub_quickLinks",
-        "user_links": "stub_userLinks",
+        "corner_links": ["cn=stub_cornerLinks,dc=test"],
+        "menu_links": ["cn=stub_menuLinks,dc=test"],
+        "quick_links": ["cn=stub_quickLinks,dc=test"],
+        "user_links": ["cn=stub_userLinks,dc=test"],
     }
     assert content == expected_content
 
