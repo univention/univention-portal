@@ -34,6 +34,7 @@
 #
 
 import binascii
+import copy
 import json
 from unittest import mock
 
@@ -81,6 +82,45 @@ def test_collect_asset_returns_external_url(base_url):
     content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn, assets_base_url=base_url)
     asset_url = content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
     assert asset_url == "https://external.store.example/stub_bucket/icons/stub_dirname/stub_name.svg"
+
+
+@pytest.mark.parametrize("udm_property, portal_key", [
+    ("cornerLinks", "corner_links"),
+    ("menuLinks", "menu_links"),
+    ("quickLinks", "quick_links"),
+    ("userLinks", "user_links"),
+])
+def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_property, portal_key, mocker):
+    result_mock = mock.Mock()
+    result_mock.status_code = 201
+    mocker.patch("requests.put", return_value=result_mock)
+    stub_udm = stub_udm_client.StubUDMClient()
+
+    # Add a Portal Entry which is only in the link list under test
+    stub_entry = stub_udm_client.StubUDMObject(
+        "cn=entry,cn=testcase,dc=test",
+        stub_udm,
+        copy.deepcopy(stub_udm_client.entry_properties))
+    stub_entry_module = stub_udm.get("portals/entry")
+    stub_entry_module.stub_add_object(stub_entry)
+    stub_portal_module = stub_udm.get("portals/portal")
+    stub_portal = stub_portal_module.get("cn=portal,dc=test")
+    stub_portal.properties[udm_property].append(stub_entry.dn)
+
+    mocker.patch.object(
+        PortalContentFetcherUDMREST, "_create_udm_client",
+        return_value=stub_udm)
+    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
+
+    content = content_fetcher._fetch()
+
+    link_list_entries = set(content[portal_key])
+    entries = set(content["entries"].keys())
+    assert link_list_entries <= entries
+    for entry_dn in link_list_entries:
+        entry = content["entries"][entry_dn]
+        # Every referred to Portal Entry has to be recognized as being in the Portal
+        assert entry["in_portal"] is True
 
 
 def test_portal_content_fetcher_returns_content(mocker):

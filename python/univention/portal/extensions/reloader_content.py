@@ -90,7 +90,7 @@ class PortalContentFetcherUDMREST:
 
         folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
         portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
-        entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
+        entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links, corner_links, quick_links)
         announcements = self._extract_announcements(udm)
         result = {
             "portal": portal,
@@ -171,7 +171,7 @@ class PortalContentFetcherUDMREST:
 
         return folders
 
-    def _extract_entries(self, udm, portal_categories, portal_folders, user_links, menu_links):
+    def _extract_entries(self, udm, portal_categories, portal_folders, user_links, menu_links, corner_links, quick_links):
         entries = {}
 
         for entry in udm.get("portals/entry").search(opened=True):
@@ -181,6 +181,8 @@ class PortalContentFetcherUDMREST:
             in_portal = (
                 entry.dn in user_links
                 or entry.dn in menu_links
+                or entry.dn in corner_links
+                or entry.dn in quick_links
                 or any(entry.dn in category["entries"] for category in portal_categories)
                 or any(entry.dn in folder["entries"] for folder in portal_folders)
             )
