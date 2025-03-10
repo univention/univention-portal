@@ -46,10 +46,10 @@ portal_properties = {
     "defaultLinkTarget": "stub_defaultLinkTarget",
     "ensureLogin": "stub_ensureLogin",
     "categories": ["stub_category"],
-    "cornerLinks": ["cn=stub_cornerLinks,dc=test"],
-    "menuLinks": ["cn=stub_menuLinks,dc=test"],
-    "quickLinks": ["cn=stub_quickLinks,dc=test"],
-    "userLinks": ["cn=stub_userLinks,dc=test"],
+    "cornerLinks": ["cn=entry-for-link-list,dc=test"],
+    "menuLinks": ["cn=entry-for-link-list,dc=test"],
+    "quickLinks": ["cn=entry-for-link-list,dc=test"],
+    "userLinks": ["cn=entry-for-link-list,dc=test"],
 }
 
 category_properties = {
@@ -71,7 +71,7 @@ entry_properties = {
     "activated": "stub_activated",
     "anonymous": "stub_anonymous",
     "allowedGroups": "stub_allowedGroups",
-    "link": ["stub_locale", "stub_link"],
+    "link": [["stub_locale", "stub_link"]],
     "linkTarget": "stub_linkTarget",
     "target": "stub_target",
     "backgroundColor": "stub_backgroundColor",
@@ -101,15 +101,33 @@ class StubUDMClient:
     def _init_default_data(self):
         self._data = {
             "portals/portal": StubUDMModule(
-                "portals/portal", parent=self, properties=copy.deepcopy(portal_properties)),
+                "portals/portal",
+                parent=self,
+                objects=[StubUDMObject("cn=portal,dc=test", self, copy.deepcopy(portal_properties))],
+            ),
             "portals/category": StubUDMModule(
-                "portals/category", parent=self, properties=copy.deepcopy(category_properties)),
+                "portals/category",
+                parent=self,
+                objects=[StubUDMObject("cn=category,dc=test", self, copy.deepcopy(category_properties))],
+            ),
             "portals/folder": StubUDMModule(
-                "portals/folder", parent=self, properties=copy.deepcopy(folder_properties)),
+                "portals/folder",
+                parent=self,
+                objects=[StubUDMObject("cn=folder,dc=test", self, copy.deepcopy(folder_properties))],
+            ),
             "portals/entry": StubUDMModule(
-                "portals/entry", parent=self, properties=copy.deepcopy(entry_properties)),
+                "portals/entry",
+                parent=self,
+                objects=[
+                    StubUDMObject("cn=entry,dc=test", self, copy.deepcopy(entry_properties)),
+                    StubUDMObject("cn=entry-for-link-list,dc=test", self, copy.deepcopy(entry_properties)),
+                ],
+            ),
             "portals/announcement": StubUDMModule(
-                "portals/announcement", parent=self, properties=copy.deepcopy(announcement_properties)),
+                "portals/announcement",
+                parent=self,
+                objects=[StubUDMObject("cn=announcement,dc=test", self, copy.deepcopy(announcement_properties))],
+            ),
         }
 
     def get(self, name):
@@ -118,28 +136,27 @@ class StubUDMClient:
 
 class StubUDMModule:
 
-    def __init__(self, name, parent, properties):
+    def __init__(self, name, parent, objects):
+        self._stub_objects = {o.dn: o for o in objects}
         self._name = name
         self._parent = parent
-        self._properties = properties
 
-    def get(self, name):
-        return StubUDMObject(name, parent=self, properties=self._properties)
+    def get(self, dn):
+        return self._stub_objects[dn]
 
     def search(self, opened=False):
-        return [StubUDMObject("stub_category", parent=self, properties=self._properties)]
+        return list(self._stub_objects.values())
+
+    def stub_add_object(self, stub_object):
+        self._stub_objects[stub_object.dn] = stub_object
 
 
 class StubUDMObject:
 
-    def __init__(self, name, parent, properties):
-        self._name = name
+    def __init__(self, dn, parent, properties):
+        self.dn = dn
         self._parent = parent
         self._properties = properties
-
-    @property
-    def dn(self):
-        return f"cn={self._name},dc=stub,dc=test"
 
     @property
     def properties(self):

@@ -44,7 +44,7 @@ import univention.admin.rest.client as udm_client
 from univention.portal.extensions.reloader_content import GroupsContentFetcher, PortalContentFetcherUDMREST
 
 
-stub_portal_dn = "cn=domain,cn=portal,cn=test"
+stub_portal_dn = "cn=portal,dc=test"
 stub_image = b"stub_image_content"
 stub_image_base64 = binascii.b2a_base64(stub_image)
 
@@ -94,9 +94,9 @@ def test_portal_content_fetcher_returns_content(mocker):
     content = content_fetcher._fetch()
     expected_content = {
         "announcements": {
-            "cn=stub_category,dc=stub,dc=test": {
+            "cn=announcement,dc=test": {
                 "allowedGroups": "stub_allowedGroups",
-                "dn": "cn=stub_category,dc=stub,dc=test",
+                "dn": "cn=announcement,dc=test",
                 "isSticky": "stub_isSticky",
                 "message": "stub_message",
                 "name": "stub_name",
@@ -108,33 +108,48 @@ def test_portal_content_fetcher_returns_content(mocker):
             },
         },
         "categories": {
-            "cn=stub_category,dc=stub,dc=test": {
+            "cn=category,dc=test": {
                 "display_name": "stub_displayName",
-                "dn": "cn=stub_category,dc=stub,dc=test",
+                "dn": "cn=category,dc=test",
                 "entries": ["stub_entry"],
                 "in_portal": False,
             },
         },
         "entries": {
-            "cn=stub_category,dc=stub,dc=test": {
+            "cn=entry,dc=test": {
                 "activated": "stub_activated",
                 "allowedGroups": "stub_allowedGroups",
                 "anonymous": "stub_anonymous",
                 "backgroundColor": "stub_backgroundColor",
                 "description": "stub_description",
-                "dn": "cn=stub_category,dc=stub,dc=test",
+                "dn": "cn=entry,dc=test",
                 "icon_url": "./icons/entries/stub_name.svg",
                 "in_portal": False,
                 "keywords": "stub_keywords",
                 "linkTarget": "stub_linkTarget",
-                "links": [{"locale": "s", "value": "t"}, {"locale": "s", "value": "t"}],
+                "links": [{"locale": "stub_locale", "value": "stub_link"}],
+                "name": "stub_displayName",
+                "target": "stub_target",
+            },
+            "cn=entry-for-link-list,dc=test": {
+                "activated": "stub_activated",
+                "allowedGroups": "stub_allowedGroups",
+                "anonymous": "stub_anonymous",
+                "backgroundColor": "stub_backgroundColor",
+                "description": "stub_description",
+                "dn": "cn=entry-for-link-list,dc=test",
+                "icon_url": "./icons/entries/stub_name.svg",
+                "in_portal": True,
+                "keywords": "stub_keywords",
+                "linkTarget": "stub_linkTarget",
+                "links": [{"locale": "stub_locale", "value": "stub_link"}],
                 "name": "stub_displayName",
                 "target": "stub_target",
             },
         },
         "folders": {
-            "cn=stub_category,dc=stub,dc=test": {
-                "dn": "cn=stub_category,dc=stub,dc=test",
+            "cn=folder,dc=test": {
+                "dn": "cn=folder,dc=test",
                 "entries": ["stub_entry"],
                 "in_portal": False,
                 "name": "stub_displayName",
@@ -144,16 +159,16 @@ def test_portal_content_fetcher_returns_content(mocker):
             "background": "./icons/backgrounds/stub_name.svg",
             "categories": ["stub_category"],
             "defaultLinkTarget": "stub_defaultLinkTarget",
-            "dn": "cn=cn=domain,cn=portal,cn=test,dc=stub,dc=test",
+            "dn": "cn=portal,dc=test",
             "ensureLogin": "stub_ensureLogin",
             "logo": "./icons/logos/stub_name.svg",
             "name": "stub_displayName",
             "showUmc": True,
         },
-        "corner_links": ["cn=stub_cornerLinks,dc=test"],
-        "menu_links": ["cn=stub_menuLinks,dc=test"],
-        "quick_links": ["cn=stub_quickLinks,dc=test"],
-        "user_links": ["cn=stub_userLinks,dc=test"],
+        "corner_links": ["cn=entry-for-link-list,dc=test"],
+        "menu_links": ["cn=entry-for-link-list,dc=test"],
+        "quick_links": ["cn=entry-for-link-list,dc=test"],
+        "user_links": ["cn=entry-for-link-list,dc=test"],
     }
     assert content == expected_content
 
