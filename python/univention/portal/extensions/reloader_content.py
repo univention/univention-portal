@@ -82,16 +82,26 @@ class PortalContentFetcherUDMREST:
         portal = self._extract_portal(portal_data)
         categories = self._extract_categories(udm, portal_data.properties["categories"])
         portal_categories = [category for dn, category in categories.items() if category["in_portal"]]
+        folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
+        portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
+        announcements = self._extract_announcements(udm)
 
         corner_links = portal_data.properties["cornerLinks"]
         menu_links = portal_data.properties["menuLinks"]
         quick_links = portal_data.properties["quickLinks"]
         user_links = portal_data.properties["userLinks"]
 
-        folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
-        portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
-        entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links, corner_links, quick_links)
-        announcements = self._extract_announcements(udm)
+        entry_references = set()
+        entry_references.update(
+            corner_links,
+            menu_links,
+            quick_links,
+            user_links,
+            [entry_dn for category in portal_categories for entry_dn in category["entries"]],
+            [entry_dn for folder in portal_folders for entry_dn in folder["entries"]],
+        )
+        entries = self._extract_entries(udm, entry_references)
+
         result = {
             "portal": portal,
             "categories": categories,
@@ -171,22 +181,13 @@ class PortalContentFetcherUDMREST:
 
         return folders
 
-    def _extract_entries(self, udm, portal_categories, portal_folders, user_links, menu_links, corner_links, quick_links):
+    def _extract_entries(self, udm, entry_dns):
         entries = {}
 
         for entry in udm.get("portals/entry").search(opened=True):
             if entry.dn in entries:
                 continue
-
-            in_portal = (
-                entry.dn in user_links
-                or entry.dn in menu_links
-                or entry.dn in corner_links
-                or entry.dn in quick_links
-                or any(entry.dn in category["entries"] for category in portal_categories)
-                or any(entry.dn in folder["entries"] for folder in portal_folders)
-            )
-
+            in_portal = entry.dn in entry_dns
             icon_url = None
             if entry.properties["icon"]:
                 icon_url = self._collect_asset(entry.properties["icon"], entry.properties["name"], dirname="entries")

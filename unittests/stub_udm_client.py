@@ -45,7 +45,7 @@ portal_properties = {
     "displayName": "stub_displayName",
     "defaultLinkTarget": "stub_defaultLinkTarget",
     "ensureLogin": "stub_ensureLogin",
-    "categories": ["stub_category"],
+    "categories": ["cn=category,dc=test"],
     "cornerLinks": ["cn=entry-for-link-list,dc=test"],
     "menuLinks": ["cn=entry-for-link-list,dc=test"],
     "quickLinks": ["cn=entry-for-link-list,dc=test"],
@@ -54,7 +54,7 @@ portal_properties = {
 
 category_properties = {
     "displayName": "stub_displayName",
-    "entries": ["stub_entry"],
+    "entries": ["cn=folder,dc=test"],
 }
 
 folder_properties = {
