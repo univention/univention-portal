@@ -55,6 +55,9 @@
       >
         {{ NO_SEARCH_RESULTS }}
       </h2>
+
+      <portal-greeting />
+
       <portal-category
         v-for="(category, index) in portalFinalLayoutFiltered"
         :key="category.id"
@@ -121,18 +124,19 @@ import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';
-import Region from '@/components/activity/Region.vue';
+import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 import Notifications from '@/components/notifications/Notifications.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 import PortalCategory from '@/components/PortalCategory.vue';
+import PortalError from '@/components/globals/PortalError.vue';
+import PortalGreeting from '@/components/globals/PortalGreeting.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
 import PortalIframe from '@/components/PortalIframe.vue';
 import PortalModal from '@/components/modal/PortalModal.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from '@/components/PortalToolTip.vue';
+import Region from '@/components/activity/Region.vue';
 import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
-import PortalError from '@/components/globals/PortalError.vue';
-import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
 import PortalCornerLinks from '@/components/PortalCornerLinks.vue';
 
@@ -144,6 +148,8 @@ export default defineComponent({
     Notifications,
     PortalBackground,
     PortalCategory,
+    PortalError,
+    PortalGreeting,
     PortalHeader,
     PortalIframe,
     PortalModal,
@@ -151,7 +157,6 @@ export default defineComponent({
     PortalToolTip,
     Region,
     ScreenReaderAnnouncer,
-    PortalError,
     UmcSessionRefreshIframe,
     PortalCornerLinks,
   },
