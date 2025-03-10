@@ -82,18 +82,7 @@ def test_collect_asset_returns_external_url(base_url):
 ])
 def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_property, portal_key, mocker):
     stub_udm = stub_udm_client.StubUDMClient()
-
-    # Add a Portal Entry which is only in the link list under test
-    stub_entry = stub_udm_client.StubUDMObject(
-        "cn=entry,cn=testcase,dc=test",
-        stub_udm,
-        copy.deepcopy(stub_udm_client.entry_properties))
-    stub_entry_module = stub_udm.get("portals/entry")
-    stub_entry_module.stub_add_object(stub_entry)
-    stub_portal_module = stub_udm.get("portals/portal")
-    stub_portal = stub_portal_module.get("cn=portal,dc=test")
-    stub_portal.properties[udm_property].append(stub_entry.dn)
-
+    _add_entry_for_link_list(stub_udm, udm_property)
     mocker.patch.object(
         PortalContentFetcherUDMREST, "_create_udm_client",
         return_value=stub_udm)
@@ -108,6 +97,19 @@ def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_propert
         entry = content["entries"][entry_dn]
         # Every referred to Portal Entry has to be recognized as being in the Portal
         assert entry["in_portal"] is True
+
+
+def _add_entry_for_link_list(stub_udm, udm_property):
+    # Add a Portal Entry which is only in the link list under test
+    stub_entry = stub_udm_client.StubUDMObject(
+        "cn=entry,cn=testcase,dc=test",
+        stub_udm,
+        copy.deepcopy(stub_udm_client.entry_properties))
+    stub_entry_module = stub_udm.get("portals/entry")
+    stub_entry_module.stub_add_object(stub_entry)
+    stub_portal_module = stub_udm.get("portals/portal")
+    stub_portal = stub_portal_module.get("cn=portal,dc=test")
+    stub_portal.properties[udm_property].append(stub_entry.dn)
 
 
 def test_portal_content_fetcher_returns_content(mocker):
