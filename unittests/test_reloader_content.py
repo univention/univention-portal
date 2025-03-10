@@ -36,7 +36,6 @@
 import binascii
 import copy
 import json
-from unittest import mock
 
 import pytest
 
@@ -91,9 +90,6 @@ def test_collect_asset_returns_external_url(base_url):
     ("userLinks", "user_links"),
 ])
 def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_property, portal_key, mocker):
-    result_mock = mock.Mock()
-    result_mock.status_code = 201
-    mocker.patch("requests.put", return_value=result_mock)
     stub_udm = stub_udm_client.StubUDMClient()
 
     # Add a Portal Entry which is only in the link list under test
@@ -124,9 +120,6 @@ def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_propert
 
 
 def test_portal_content_fetcher_returns_content(mocker):
-    result_mock = mock.Mock()
-    result_mock.status_code = 201
-    mocker.patch("requests.put", return_value=result_mock)
     mocker.patch.object(
         PortalContentFetcherUDMREST, "_create_udm_client",
         return_value=stub_udm_client.StubUDMClient())
