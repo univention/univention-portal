@@ -7,9 +7,10 @@
 
 export type FeatureToggles = {
   // The toggle names use snake case consistently throughout the stack.
-  umc_session_refresh?: boolean;
-  notifications_api?: boolean;
   centered_layout?: boolean;
+  notifications_api?: boolean;
+  umc_session_refresh?: boolean;
+  welcome_message?: boolean;
 };
 
 /* eslint-enable camelcase */

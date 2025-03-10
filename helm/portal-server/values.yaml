@@ -447,6 +447,7 @@ portalServer:
     centered_layout: false
     notifications_api: true
     umc_session_refresh: true
+    welcome_message: false
   # -- TODO: Clarify usage of this parameter
   logLevel: "INFO"
   port: 80

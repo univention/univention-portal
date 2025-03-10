@@ -744,7 +744,8 @@ true
 {
   "centered_layout": false,
   "notifications_api": true,
-  "umc_session_refresh": true
+  "umc_session_refresh": true,
+  "welcome_message": false
 }
 </pre>
 </td>

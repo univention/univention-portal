@@ -9,9 +9,10 @@ import { createStubStore } from './stubs';
 describe('Mutation setFeatureToggles', () => {
   test('updates state from payload', () => {
     const featureToggleConfiguration = {
+      centered_layout: false,
       notifications_api: true,
       umc_session_refresh: false,
-      centered_layout: false,
+      welcome_message: false,
     };
     const stubState = {};
     mutations.setFeatureToggles(stubState, featureToggleConfiguration);
@@ -28,9 +29,10 @@ describe('Store Module featureToggles', () => {
   test('allows to update feature toggles', () => {
     const stubStore = createStubStore();
     const newFeatureToggles = {
+      centered_layout: true,
       notifications_api: true,
       umc_session_refresh: true,
-      centered_layout: true,
+      welcome_message: true,
     };
     stubStore.commit('featureToggles/setFeatureToggles', newFeatureToggles);
     expect(newFeatureToggles).toMatchObject(stubStore.state.featureToggles);
