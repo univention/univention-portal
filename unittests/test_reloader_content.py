@@ -74,18 +74,12 @@ def test_collect_asset_returns_external_url(base_url):
     assert asset_url == "https://external.store.example/stub_bucket/icons/stub_dirname/stub_name.svg"
 
 
-@pytest.mark.parametrize("udm_property, portal_key", [
-    ("cornerLinks", "corner_links"),
-    ("menuLinks", "menu_links"),
-    ("quickLinks", "quick_links"),
-    ("userLinks", "user_links"),
-])
-def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_property, portal_key, mocker):
+def test_portal_content_fetcher_adds_referred_entries_from_link_list(portal_link_list, mocker):
     stub_udm = stub_udm_client.StubUDMClient()
     stub_entry = _create_stub_entry(stub_udm)
     stub_portal_module = stub_udm.get("portals/portal")
     stub_portal = stub_portal_module.get("cn=portal,dc=test")
-    stub_portal.properties[udm_property].append(stub_entry.dn)
+    stub_portal.properties[portal_link_list.udm_attr].append(stub_entry.dn)
     mocker.patch.object(
         PortalContentFetcherUDMREST, "_create_udm_client",
         return_value=stub_udm)
@@ -93,7 +87,7 @@ def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_propert
 
     content = content_fetcher._fetch()
 
-    link_list_entries = set(content[portal_key])
+    link_list_entries = set(content[portal_link_list.portal_attr])
     entries = set(content["entries"].keys())
     assert link_list_entries <= entries
     for entry_dn in link_list_entries:
@@ -102,18 +96,12 @@ def test_portal_content_fetcher_adds_referred_entries_from_link_list(udm_propert
         assert entry["in_portal"] is True
 
 
-@pytest.mark.parametrize("udm_property, portal_key", [
-    ("cornerLinks", "corner_links"),
-    ("menuLinks", "menu_links"),
-    ("quickLinks", "quick_links"),
-    ("userLinks", "user_links"),
-])
-def test_portal_content_fetcher_adds_referred_folders_from_link_list(udm_property, portal_key, mocker):
+def test_portal_content_fetcher_adds_referred_folders_from_link_list(portal_link_list, mocker):
     stub_udm = stub_udm_client.StubUDMClient()
     stub_folder = _create_stub_folder(stub_udm)
     stub_portal_module = stub_udm.get("portals/portal")
     stub_portal = stub_portal_module.get("cn=portal,dc=test")
-    stub_portal.properties[udm_property].append(stub_folder.dn)
+    stub_portal.properties[portal_link_list.udm_attr].append(stub_folder.dn)
     mocker.patch.object(
         PortalContentFetcherUDMREST, "_create_udm_client",
         return_value=stub_udm)
@@ -121,7 +109,7 @@ def test_portal_content_fetcher_adds_referred_folders_from_link_list(udm_propert
 
     content = content_fetcher._fetch()
 
-    link_list_entries = set(content[portal_key])
+    link_list_entries = set(content[portal_link_list.portal_attr])
     folders_and_entries = set()
     folders_and_entries.update(
         content["folders"].keys(),

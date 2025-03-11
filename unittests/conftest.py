@@ -35,6 +35,7 @@
 
 from importlib import reload
 from os import path
+from typing import NamedTuple
 
 import pytest
 
@@ -200,6 +201,48 @@ def portal_umc(stub_scorer, stub_authenticator, umc_categories_data, umc_modules
         side_effect=[umc_categories_data, umc_modules_data, Exception("Only two calls expected!")],
     )
     return portal
+
+
+class PortalLinkList(NamedTuple):
+    """
+    Represents a "link list" in the context of the Portal.
+
+    The Portal has multiple "link lists" which are expected to show specific
+    common behavior.
+    """
+
+    udm_attr: str
+    """
+    UDM attribute name.
+    """
+
+    portal_attr: str
+    """
+    Portal attribute name.
+    """
+
+    def testid(self):
+        return self.portal_attr
+
+
+@pytest.fixture(
+    params=[
+        PortalLinkList("cornerLinks", "corner_links"),
+        PortalLinkList("menuLinks", "menu_links"),
+        PortalLinkList("quickLinks", "quick_links"),
+        PortalLinkList("userLinks", "user_links"),
+    ],
+    ids=PortalLinkList.testid,
+)
+def portal_link_list(request):
+    """
+    Parametrized fixture which returns the link lists in the Portal.
+
+    The fixture will return a `PotralLinkList` instance per link list supported
+    in the portal.
+    """
+    link_list = request.param
+    return link_list
 
 
 @pytest.fixture()

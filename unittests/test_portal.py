@@ -144,68 +144,67 @@ def test_visible_content(mocked_user, standard_portal):
     assert content == expected_content
 
 
-@pytest.mark.parametrize("link_list", ["corner_links", "menu_links", "user_links", "quick_links"])
 class TestLinkLists:
 
     def test_does_not_contain_other_entry_for_authenticated_user(
-        self, link_list, portal, stub_portal_cache, stub_user,
+        self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
         )
-        links = _get_links_from_portal(portal, link_list, stub_user)
+        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == []
 
     def test_contains_visible_entry_for_authenticated_user(
-        self, link_list, portal, stub_portal_cache, stub_user,
+        self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
-            in_link_lists=[link_list],
+            in_link_lists=[portal_link_list.portal_attr],
         )
-        links = _get_links_from_portal(portal, link_list, stub_user)
+        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == ["cn=test-entry,dc=test"]
 
     def test_hides_anonymous_entry_for_authenticated_user(
-        self, link_list, portal, stub_portal_cache, stub_user,
+        self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
-            in_link_lists=[link_list],
+            in_link_lists=[portal_link_list.portal_attr],
             anonymous=True,
         )
-        links = _get_links_from_portal(portal, link_list, stub_user)
+        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == []
 
     def test_contains_visible_entry_for_anonymous_user(
-        self, link_list, portal, stub_portal_cache, stub_user_anonymous,
+        self, portal_link_list, portal, stub_portal_cache, stub_user_anonymous,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
-            in_link_lists=[link_list],
+            in_link_lists=[portal_link_list.portal_attr],
         )
-        links = _get_links_from_portal(portal, link_list, stub_user_anonymous)
+        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user_anonymous)
         assert links == ["cn=test-entry,dc=test"]
 
     def test_contains_anonymous_entry_for_anonymous_user(
-        self, link_list, portal, stub_portal_cache, stub_user_anonymous,
+        self, portal_link_list, portal, stub_portal_cache, stub_user_anonymous,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
-            in_link_lists=[link_list],
+            in_link_lists=[portal_link_list.portal_attr],
             anonymous=True,
         )
-        links = _get_links_from_portal(portal, link_list, stub_user_anonymous)
+        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user_anonymous)
         assert links == ["cn=test-entry,dc=test"]
 
     def test_does_not_contain_other_entry_for_anonymous_user(
-        self, link_list, portal, stub_portal_cache, stub_user,
+        self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
             anonymous=True,
         )
-        links = _get_links_from_portal(portal, link_list, stub_user)
+        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == []
 
 
