@@ -259,24 +259,10 @@ To enable hot reloading, you need to do
 
 ## Translation
 
-We use the UCS tooling and rely on the configuration in the base debian package
-at `/debian/univention-portal.univention-l10n`.
+Use the global `Makefile` as described in
+[`/docs/translation.md`](../docs/translation.md).
 
-Working with the translations can be done trough the `Makefile`. Using `docker
-compose` does automatically provide a well defined execution environment:
-
-```
-cd /docker
-
-# Update PO files
-docker compose run -it --rm deb-builder make l10n-extract
-
-# Compile into MO files and JSON files
-docker compose run -it --rm deb-builder make l10n-build
-```
-
-The Results of the translation build process can be found in the following
-places:
+The frontend specific translation assets are in the following places:
 
 - The Portable Object (PO) files are in [`./src/assets/`](./src/assets/).
 - The generated JSON Message Objects will be located in `./public/i18n/`.

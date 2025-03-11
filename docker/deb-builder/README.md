@@ -25,3 +25,5 @@ The translation handling is based on the Univention specific tooling from the
 package `univention-l10n`. This package is provided within the container, so
 that it can be used as an environment to perform the various translation related
 tasks.
+
+Details are described in [`/docs/translation.md`](../../docs/translation.md).
