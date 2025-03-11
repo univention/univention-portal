@@ -42,19 +42,18 @@ from urllib.parse import quote, urljoin
 
 import univention.admin.rest.client as udm_client
 from univention.portal import config
+from univention.portal.extensions.reloader_content_base import PortalContentFetcherBase
 from univention.portal.util import log_url_safe
 
 
 logger = logging.getLogger(__name__)
 
 
-class PortalContentFetcherUDMREST:
+class PortalContentFetcherUDMREST(PortalContentFetcherBase):
 
     def __init__(self, portal_dn, assets_base_url=None):
         self._portal_dn = portal_dn
-        if assets_base_url and not assets_base_url.endswith("/"):
-            assets_base_url += "/"
-        self._assets_base_url = assets_base_url
+        self._assets_base_url = self._validate_assets_base_url(assets_base_url)
         self.assets = []
 
     def fetch(self):

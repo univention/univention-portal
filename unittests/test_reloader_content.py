@@ -41,9 +41,40 @@ import pytest
 import stub_udm_client
 import univention.admin.rest.client as udm_client
 from univention.portal.extensions.reloader_content import GroupsContentFetcher, PortalContentFetcherUDMREST
+from univention.portal.extensions.reloader_udm import PortalContentFetcherUDM
 
 
 stub_portal_dn = "cn=portal,dc=test"
+
+
+@pytest.fixture(
+    params=[
+        PortalContentFetcherUDMREST,
+        PortalContentFetcherUDM,
+    ],
+    ids=lambda cls: cls.__name__,
+)
+def portal_content_fetcher_cls(request):
+    """
+    Returns the class of the portal content fetcher.
+
+    The fixture is parametrized and returns the two implementations of the
+    content fetcher.
+    """
+    PortalContentFetcherClass = request.param
+    return PortalContentFetcherClass
+
+
+@pytest.fixture()
+def portal_content_fetcher(portal_content_fetcher_cls):
+    """
+    Returns an instance of the portal content fetcher.
+
+    This fixture is parametrized by using the fixture
+    `portal_content_fetcher_cls`. It returns an instance of the given class.
+    """
+    content_fetcher = portal_content_fetcher_cls(stub_portal_dn)
+    return content_fetcher
 
 
 def test_portal_content_fetcher_propagates_connectionerror(mocker):
@@ -58,8 +89,7 @@ def test_portal_content_fetcher_propagates_connectionerror(mocker):
         content_fetcher.fetch()
 
 
-def test_collect_asset_returns_relative_asset_url_by_default():
-    portal_content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
+def test_collect_asset_returns_relative_asset_url_by_default(portal_content_fetcher):
     asset_url = portal_content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
     assert asset_url == "./icons/stub_dirname/stub_name.svg"
 
@@ -68,13 +98,26 @@ def test_collect_asset_returns_relative_asset_url_by_default():
     "https://external.store.example/stub_bucket",
     "https://external.store.example/stub_bucket/",
 ])
-def test_collect_asset_returns_external_url(base_url):
+def test_collect_asset_returns_external_url_udm_rest(base_url):
     content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn, assets_base_url=base_url)
     asset_url = content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
     assert asset_url == "https://external.store.example/stub_bucket/icons/stub_dirname/stub_name.svg"
 
 
 def test_portal_content_fetcher_adds_referred_entries_from_link_list(portal_link_list, mocker):
+# TODO: This behavior does not seem to be useful. The implementation should
+# probably just raise an exception if `assets_base_url` has a value other than
+# None or the empty string.
+@pytest.mark.parametrize("base_url", [
+    "https://external.store.example/stub_bucket",
+    "https://external.store.example/stub_bucket/",
+])
+def test_collect_asset_returns_external_url(base_url):
+    content_fetcher = PortalContentFetcherUDM(stub_portal_dn, assets_base_url=base_url)
+    asset_url = content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
+    assert asset_url == "./icons/stub_dirname/stub_name.svg"
+
+
     stub_udm = stub_udm_client.StubUDMClient()
     stub_entry = _create_stub_entry(stub_udm)
     stub_portal_module = stub_udm.get("portals/portal")

@@ -39,15 +39,17 @@ import logging
 from imghdr import what
 from urllib.parse import quote
 
+from univention.portal.extensions.reloader_content_base import PortalContentFetcherBase
+
 
 logger = logging.getLogger(__name__)
 
 
-class PortalContentFetcherUDM:
+class PortalContentFetcherUDM(PortalContentFetcherBase):
 
     def __init__(self, portal_dn, assets_base_url=None):
         self._portal_dn = portal_dn
-        self._assets_base_url = assets_base_url
+        self._assets_base_url = self._validate_assets_base_url(assets_base_url)
         self.assets = []
 
     def fetch(self):
