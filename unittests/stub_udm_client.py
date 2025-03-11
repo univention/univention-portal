@@ -35,6 +35,7 @@
 
 import binascii
 import copy
+import enum
 
 
 portal_properties = {
@@ -90,9 +91,21 @@ announcement_properties = {
 }
 
 
+class StubFlavor(enum.Enum):
+    UDM_REST = "udmrest"
+    UDM = "udm"
+
+
+stub_flavor_registry = {
+    "PortalContentFetcherUDMREST": StubFlavor.UDM_REST,
+    "PortalContentFetcherUDM": StubFlavor.UDM,
+}
+
+
 class StubUDMClient:
 
-    def __init__(self, data=None):
+    def __init__(self, data=None, flavor="PortalContentFetcherUDMREST"):
+        self._flavor = stub_flavor_registry[flavor]
         if data:
             self._data = data
         else:
@@ -136,7 +149,7 @@ class StubUDMClient:
 
 class StubUDMModule:
 
-    def __init__(self, name, parent, objects):
+    def __init__(self, name, parent: StubUDMClient, objects):
         self._stub_objects = {o.dn: o for o in objects}
         self._name = name
         self._parent = parent
@@ -153,11 +166,52 @@ class StubUDMModule:
 
 class StubUDMObject:
 
-    def __init__(self, dn, parent, properties):
+    def __init__(self, dn, parent: StubUDMClient, properties):
         self.dn = dn
         self._parent = parent
         self._properties = properties
 
     @property
     def properties(self):
+        if self._parent._flavor != StubFlavor.UDM_REST:
+            raise AttributeError("Attribute 'properties' only supported in flavor UDM_REST")
         return self._properties
+
+    @property
+    def props(self):
+        if self._parent._flavor != StubFlavor.UDM:
+            raise AttributeError("Attribute 'props' only supported in flavor UDM")
+        return PropsAdapter(self._properties)
+
+    @property
+    def stub_properties(self):
+        return self._properties
+
+
+class PropsAdapter:
+    """Emulates plain UDM client objects "props" attribute."""
+
+    def __init__(self, original):
+        self._original = original
+
+    def __getattr__(self, attr):
+        value = self._original[attr]
+        # TODO: Workaround for the "link" attribute in PortalEntry returning
+        # different structures in UDM and UDM Rest.
+        if attr == "link":
+            return [{'locale': _[0], 'value': _[1]} for _ in self._original["link"]]
+        if isinstance(value, bytes):
+            return B64BytesAdapter(value)
+        else:
+            return value
+
+
+class B64BytesAdapter:
+    """Wraps a base64 encoded value so that it has a "raw" property."""
+
+    def __init__(self, b64_value):
+        self._value = binascii.a2b_base64(b64_value)
+
+    @property
+    def raw(self):
+        return self._value

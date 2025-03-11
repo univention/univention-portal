@@ -34,7 +34,6 @@
 #
 
 import importlib
-import json
 import logging
 from imghdr import what
 from urllib.parse import quote
@@ -52,7 +51,7 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
         self._assets_base_url = self._validate_assets_base_url(assets_base_url)
         self.assets = []
 
-    def fetch(self):
+    def _fetch(self):
         udm_lib = importlib.import_module("univention.udm")
         try:
             udm = self._create_udm_client()
@@ -70,32 +69,41 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
         portal = self._extract_portal(portal_data)
         categories = self._extract_categories(udm, portal_data.props.categories)
         portal_categories = [category for dn, category in categories.items() if category["in_portal"]]
+        announcements = self._extract_announcements(udm)
 
         corner_links = portal_data.props.cornerLinks
         menu_links = portal_data.props.menuLinks
         quick_links = portal_data.props.quickLinks
         user_links = portal_data.props.userLinks
 
-        folders = self._extract_folders(udm, portal_categories, user_links, menu_links)
-        portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
-        entries = self._extract_entries(udm, portal_categories, portal_folders, user_links, menu_links)
-        announcements = self._extract_announcements(udm)
-
-        return json.dumps(
-            {
-                "portal": portal,
-                "categories": categories,
-                "folders": folders,
-                "entries": entries,
-                "corner_links": corner_links,
-                "menu_links": menu_links,
-                "quick_links": quick_links,
-                "user_links": user_links,
-                "announcements": announcements,
-            },
-            sort_keys=True,
-            indent=4,
+        entry_references = set()
+        entry_references.update(
+            corner_links,
+            menu_links,
+            quick_links,
+            user_links,
+            [entry_dn for category in portal_categories for entry_dn in category["entries"]],
         )
+
+        folders = self._extract_folders(udm, entry_references)
+        portal_folders = [folder for dn, folder in folders.items() if folder["in_portal"]]
+
+        entry_references.update(
+            [entry_dn for folder in portal_folders for entry_dn in folder["entries"]],
+        )
+        entries = self._extract_entries(udm, entry_references)
+
+        return {
+            "portal": portal,
+            "categories": categories,
+            "folders": folders,
+            "entries": entries,
+            "corner_links": corner_links,
+            "menu_links": menu_links,
+            "quick_links": quick_links,
+            "user_links": user_links,
+            "announcements": announcements,
+        }
 
     def _create_udm_client(self):
         udm_lib = importlib.import_module("univention.udm")
@@ -137,15 +145,12 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
         return categories
 
     @classmethod
-    def _extract_folders(cls, udm, portal_categories, user_links, menu_links):
+    def _extract_folders(cls, udm, entry_dns):
         folders = {}
 
         for folder in udm.get("portals/folder").search():
-            in_portal = (
-                folder.dn in user_links
-                or folder.dn in menu_links
-                or any(folder.dn in category["entries"] for category in portal_categories)
-            )
+            in_portal = folder.dn in entry_dns
+
             folders[folder.dn] = {
                 "dn": folder.dn,
                 "in_portal": in_portal,
@@ -155,19 +160,13 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
 
         return folders
 
-    def _extract_entries(self, udm, portal_categories, portal_folders, user_links, menu_links):
+    def _extract_entries(self, udm, entry_dns):
         entries = {}
 
         for entry in udm.get("portals/entry").search():
             if entry.dn in entries:
                 continue
-            in_portal = (
-                entry.dn in user_links
-                or entry.dn in menu_links
-                or any(entry.dn in category["entries"] for category in portal_categories)
-                or any(entry.dn in folder["entries"] for folder in portal_folders)
-            )
-
+            in_portal = entry.dn in entry_dns
             icon_url = None
             if entry.props.icon:
                 icon_url = self._collect_asset(entry.props.icon.raw, entry.props.name, "entries")

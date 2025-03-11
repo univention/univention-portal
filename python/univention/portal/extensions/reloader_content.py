@@ -56,10 +56,6 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
         self._assets_base_url = self._validate_assets_base_url(assets_base_url)
         self.assets = []
 
-    def fetch(self):
-        result = self._fetch()
-        return json.dumps(result, sort_keys=True, indent=4)
-
     def _fetch(self):
         udm = self._create_udm_client()
         try:
