@@ -35,13 +35,12 @@
 
 import importlib
 import json
+import logging
 from imghdr import what
 from urllib.parse import quote
 
-from univention.portal.log import get_logger
 
-
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PortalContentFetcherUDM:
@@ -57,13 +56,13 @@ class PortalContentFetcherUDM:
             udm = self._create_udm_client()
             portal_data = udm.get("portals/portal").get(self._portal_dn)
         except udm_lib.ConnectionError:
-            get_logger("cache").warning("Could not establish UDM connection. Is the LDAP server accessible?")
+            logger.warning("Could not establish UDM connection. Is the LDAP server accessible?")
             return None
         except udm_lib.UnknownModuleType:
-            get_logger("cache").warning("UDM not up to date? Portal module not found.")
+            logger.warning("UDM not up to date? Portal module not found.")
             return None
         except udm_lib.NoObject:
-            get_logger("cache").warning("Portal %s not found", self._portal_dn)
+            logger.warning("Portal %s not found", self._portal_dn)
             return None
 
         portal = self._extract_portal(portal_data)
@@ -199,7 +198,7 @@ class PortalContentFetcherUDM:
         except udm_lib.UnknownModuleType:
             announcement_module = None
         if not announcement_module:
-            get_logger("cache").warning("UDM not up to date? Announcement module not found.")
+            logger.warning("UDM not up to date? Announcement module not found.")
             return announcements
 
         for announcement in announcement_module.search():

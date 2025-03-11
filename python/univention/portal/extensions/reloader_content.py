@@ -34,6 +34,7 @@
 #
 
 import json
+import logging
 from binascii import a2b_base64
 from imghdr import what
 from pathlib import Path
@@ -41,11 +42,10 @@ from urllib.parse import quote, urljoin
 
 import univention.admin.rest.client as udm_client
 from univention.portal import config
-from univention.portal.log import get_logger
 from univention.portal.util import log_url_safe
 
 
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PortalContentFetcherUDMREST:
@@ -66,17 +66,17 @@ class PortalContentFetcherUDMREST:
         try:
             portal_module = udm.get("portals/portal")
             if not portal_module:
-                get_logger("cache").warning("UDM not up to date? Portal module not found.")
+                logger.warning("UDM not up to date? Portal module not found.")
                 return None
 
             portal_data = portal_module.get(self._portal_dn)
 
         except udm_client.ConnectionError:
-            get_logger("cache").exception("Could not establish UDM connection. Is the LDAP server accessible?")
+            logger.exception("Could not establish UDM connection. Is the LDAP server accessible?")
             raise
 
         except udm_client.NotFound:
-            get_logger("cache").warning("Portal %s not found", self._portal_dn)
+            logger.warning("Portal %s not found", self._portal_dn)
             return None
 
         portal = self._extract_portal(portal_data)
@@ -216,7 +216,7 @@ class PortalContentFetcherUDMREST:
 
         announcement_module = udm.get("portals/announcement")
         if not announcement_module:
-            get_logger("cache").warning("UDM not up to date? Announcement module not found.")
+            logger.warning("UDM not up to date? Announcement module not found.")
             return ret
 
         for announcement in udm.get("portals/announcement").search(opened=True):
