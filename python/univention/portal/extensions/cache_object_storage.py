@@ -45,7 +45,7 @@ from univention.portal.log import get_logger
 from univention.portal.util import get_object_storage_client
 
 
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class CacheObjectStorage(CacheAbc, metaclass=PluginWithAbcBase):
@@ -73,7 +73,7 @@ class CacheObjectStorage(CacheAbc, metaclass=PluginWithAbcBase):
         access_key_id,
         secret_access_key,
     ):
-        log.info("Initializing %s with path %s", self.__class__.__name__, ucs_internal_path)
+        logger.info("Initializing %s with path %s", self.__class__.__name__, ucs_internal_path)
         self._ucs_internal_path = ucs_internal_path
         self._etag = None
         self._cache = {}
@@ -142,36 +142,8 @@ class CacheObjectStorage(CacheAbc, metaclass=PluginWithAbcBase):
 
 
 class PortalFileCacheObjectStorage(PortalCacheMixin, CacheObjectStorage):
-    def __init__(
-        self,
-        ucs_internal_path,
-        object_storage_endpoint,
-        bucket,
-        access_key_id,
-        secret_access_key,
-    ):
-        super().__init__(
-            ucs_internal_path,
-            object_storage_endpoint,
-            bucket,
-            access_key_id,
-            secret_access_key,
-        )
+    pass
 
 
 class GroupFileCacheObjectStorage(CacheObjectStorage):
-    def __init__(
-        self,
-        ucs_internal_path,
-        object_storage_endpoint,
-        bucket,
-        access_key_id,
-        secret_access_key,
-    ):
-        super().__init__(
-            ucs_internal_path,
-            object_storage_endpoint,
-            bucket,
-            access_key_id,
-            secret_access_key,
-        )
+    pass
