@@ -15,7 +15,6 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     python3-dev \
     libldap2-dev \
     python3-univention-directory-manager-rest-client \
-  && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/* \
   && rm /usr/lib/python*/EXTERNALLY-MANAGED
 
 WORKDIR /app/
@@ -43,13 +42,11 @@ FROM build-base AS local-dev-env
 WORKDIR /app/
 
 # hadolint ignore=DL3008
-RUN apt-get -qq update \
-    && apt-get --assume-yes --verbose-versions --no-install-recommends install \
+RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     jq \
     python3-univention-directory-manager \
     univention-group-membership-cache \
-    python3-boto3 \
-    && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+    python3-boto3
 
 COPY ./requirements-test.txt .
 RUN pip3 install --no-cache-dir --upgrade pip==24.* \
@@ -95,18 +92,15 @@ CMD ["pytest", "unittests"]
 
 FROM build-base AS final
 
-RUN apt-get update \
-  && apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    jq \
-    python3 \
-    # libldap2-dev is required to make python-ldap work.
-    # Currently this is used in the portal server to parse the DNs via "str2dn".
-    libldap2-dev \
-    python3-univention-directory-manager-rest-client \
-    python3-boto3 \
-  && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
-
-RUN useradd -m -d /app app
+RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
+      jq \
+      python3 \
+      # libldap2-dev is required to make python-ldap work.
+      # Currently this is used in the portal server to parse the DNs via "str2dn".
+      libldap2-dev \
+      python3-univention-directory-manager-rest-client \
+      python3-boto3 \
+    && useradd -m -d /app app
 WORKDIR /app/
 
 RUN mkdir -p /var/log/univention/ \
