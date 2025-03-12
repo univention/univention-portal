@@ -197,7 +197,9 @@ const portalData: PortalModule<PortalDataState> = {
       entries: [],
       folders: [],
       categories: [],
+      cornerLinks: [],
       menuLinks: [],
+      quickLinks: [],
       userLinks: [],
       announcements: [],
       baseLayout: {
@@ -224,7 +226,9 @@ const portalData: PortalModule<PortalDataState> = {
         return c;
       });
       state.portal.announcements = portal.announcements;
+      state.portal.cornerLinks = portal.corner_links;
       state.portal.menuLinks = portal.menu_links;
+      state.portal.quickLinks = portal.quick_links;
       state.portal.userLinks = portal.user_links;
       if (adminMode) {
         const menu = {
