@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.57.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.0...v0.57.1) (2025-03-12)
+
+
+### Bug Fixes
+
+* **portal-consumer:** Do not remove apt package files ([47abafe](https://git.knut.univention.de/univention/components/univention-portal/commit/47abafea3e533cbe955fb9bce25b5e464ea1f8cf))
+* **portal-server:** Avoid calling apt-get update in the dockerfile ([e71a818](https://git.knut.univention.de/univention/components/univention-portal/commit/e71a818ea57f319d6fe05edcb759822132026a73))
+* **portal-server:** Remove empty requirements file ([4f3f63e](https://git.knut.univention.de/univention/components/univention-portal/commit/4f3f63e5fb8a5ccfbbcb265c283298bb1d404ed8))
+* test - develop install to avoid PYTHONPATH ([70557fb](https://git.knut.univention.de/univention/components/univention-portal/commit/70557fba811ac05d2068e68b2ab995f553fe13e2))
+
 ## [0.57.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.56.0...v0.57.0) (2025-03-12)
 
 
