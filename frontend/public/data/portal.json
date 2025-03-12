@@ -113,6 +113,9 @@
       ]
     }
   ],
+  "corner_links": [
+    "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+  ],
   "entries": [
     {
       "activated": true,
@@ -485,6 +488,9 @@
     },
     "showUmc": true
   },
+  "quick_links": [
+    "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
+  ],
   "user_displayname": "Administrator",
   "user_links": [
     "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
