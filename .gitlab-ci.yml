@@ -49,6 +49,9 @@ trigger-notifications-api:
 
 trigger-frontend:
   stage: "trigger"
+  needs:
+    - job: "pre-semantic-release"
+      artifacts: true
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
     PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
@@ -68,6 +71,9 @@ trigger-frontend:
 
 trigger-portal-server:
   stage: "trigger"
+  needs:
+    - job: "pre-semantic-release"
+      artifacts: true
   variables:
     RELEASE_VERSION: "${RELEASE_VERSION}"
     PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
@@ -100,6 +106,9 @@ trigger-portal-server:
 # used anymore. Usage in the dev environment and in the SouvAP deployment.
 trigger-debian-package:
   stage: "trigger"
+  needs:
+    - job: "pre-semantic-release"
+      artifacts: true
   trigger:
     strategy: "depend"
     include:
