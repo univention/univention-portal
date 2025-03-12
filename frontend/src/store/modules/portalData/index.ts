@@ -364,31 +364,44 @@ const portalData: PortalModule<PortalDataState> = {
     errorContentType: (state) => state.errorContentType,
     portalBaseLayout: (state) => state.portal.baseLayout,
     portalLayout: (state) => state.portal.layout,
-    portalFinalLayout: (state, getters) => createCategories(
-      getters.portalLayout,
-      getters.portalCategories,
-      getters.portalEntries,
-      getters.portalFolders,
-      getters.portalDefaultLinkTarget,
-      getters.editMode,
-    ),
-    portalFinalLayoutFiltered: (state: PortalDataState, getters: any, rootState: RootState, rootGetters: any): Category[] => {
-      if (state.editMode) {
-        return getters.portalFinalLayout;
-      }
-      const searchQuery = rootGetters['search/searchQuery'];
-      return getters.portalFinalLayout
-        .map((category: Category) => {
-          category.tiles = category.tiles.filter((entry) => (
-            doesTitleMatch(entry, searchQuery) ||
-            doesDescriptionMatch(entry, searchQuery) ||
-            doesKeywordsMatch(entry, searchQuery) ||
-            doesFolderMatch(entry, searchQuery)
-          ));
-          return category;
-        })
-        .filter((category: Category) => category.tiles.length > 0);
+    // TODO: fix
+    // portalFinalLayout: (state, getters) => createCategories(
+    //   getters.portalLayout,
+    //   getters.portalCategories,
+    //   getters.portalEntries,
+    //   getters.portalFolders,
+    //   getters.portalDefaultLinkTarget,
+    //   getters.editMode,
+    // ),
+    portalFinalLayout: (state, getters) => {
+      const args: Parameters<typeof createCategories>= [
+        getters.portalLayout,
+        getters.portalCategories,
+        getters.portalEntries,
+        getters.portalFolders,
+        getters.portalDefaultLinkTarget,
+        getters.editMode,
+      ];
+      createCategories(...args);
     },
+    // TODO: fix
+    // portalFinalLayoutFiltered: (state: PortalDataState, getters: any, rootState: RootState, rootGetters: any): Category[] => {
+    //   if (state.editMode) {
+    //     return getters.portalFinalLayout;
+    //   }
+    //   const searchQuery = rootGetters['search/searchQuery'];
+    //   return getters.portalFinalLayout
+    //     .map((category: Category) => {
+    //       category.tiles = category.tiles.filter((entry) => (
+    //         doesTitleMatch(entry, searchQuery) ||
+    //         doesDescriptionMatch(entry, searchQuery) ||
+    //         doesKeywordsMatch(entry, searchQuery) ||
+    //         doesFolderMatch(entry, searchQuery)
+    //       ));
+    //       return category;
+    //     })
+    //     .filter((category: Category) => category.tiles.length > 0);
+    // },
   },
 
   actions: {
@@ -408,91 +421,92 @@ const portalData: PortalModule<PortalDataState> = {
       commit('SETLAYOUT', layout);
       dispatch('changeLayoutUpdateFolder');
     },
-    changeLayout({ commit, dispatch, getters }: PortalDataActionContext, payload: { fromId: string, toId: string, position: null | number }): void {
-      function move(layout, fromRoute: Position, toRoute: Position): boolean {
-        if (fromRoute.entryIdx === null || toRoute.entryIdx === null) {
-          return false;
-        }
+    // TODO: fix
+    // changeLayout({ commit, dispatch, getters }: PortalDataActionContext, payload: { fromId: string, toId: string, position: null | number }): void {
+    //   function move(layout, fromRoute: Position, toRoute: Position): boolean {
+    //     if (fromRoute.entryIdx === null || toRoute.entryIdx === null) {
+    //       return false;
+    //     }
 
-        const fromContext = getContext(layout, fromRoute);
-        const toMove = fromContext.splice(fromRoute.entryIdx, 1)[0];
+    //     const fromContext = getContext(layout, fromRoute);
+    //     const toMove = fromContext.splice(fromRoute.entryIdx, 1)[0];
 
-        const toContext = getContext(layout, toRoute);
-        toContext.splice(toRoute.entryIdx, 0, toMove);
-        return true;
-      }
+    //     const toContext = getContext(layout, toRoute);
+    //     toContext.splice(toRoute.entryIdx, 0, toMove);
+    //     return true;
+    //   }
 
-      function orderChange(layout, position: Position) {
-        const change = {
-          type: '',
-          dn: '',
-          entries: [],
-        };
+    //   function orderChange(layout, position: Position) {
+    //     const change = {
+    //       type: '',
+    //       dn: '',
+    //       entries: [],
+    //     };
 
-        if (position.categoryIdx !== null) {
-          const category = layout[position.categoryIdx];
-          change.type = 'categories';
-          change.dn = category.dn;
-          change.entries = category.tiles.map((e) => e.dn);
-          if (position.folderIdx !== null) {
-            const folder = category.tiles[position.folderIdx];
-            change.type = 'folders';
-            change.dn = folder.dn;
-            change.entries = folder.tiles.map((e) => e.dn);
-          }
-        }
-        return change;
-      }
-      const fromId = payload.fromId;
-      const toId = payload.toId;
-      if (fromId === toId) {
-        dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
-        return;
-      }
-      if (!fromId || !toId) {
-        dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
-        return;
-      }
+    //     if (position.categoryIdx !== null) {
+    //       const category = layout[position.categoryIdx];
+    //       change.type = 'categories';
+    //       change.dn = category.dn;
+    //       change.entries = category.tiles.map((e) => e.dn);
+    //       if (position.folderIdx !== null) {
+    //         const folder = category.tiles[position.folderIdx];
+    //         change.type = 'folders';
+    //         change.dn = folder.dn;
+    //         change.entries = folder.tiles.map((e) => e.dn);
+    //       }
+    //     }
+    //     return change;
+    //   }
+    //   const fromId = payload.fromId;
+    //   const toId = payload.toId;
+    //   if (fromId === toId) {
+    //     dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
+    //     return;
+    //   }
+    //   if (!fromId || !toId) {
+    //     dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
+    //     return;
+    //   }
 
-      const layout = JSON.parse(JSON.stringify(getters.portalLayout));
-      const fromPosition = getPosition(layout, fromId, null, null);
-      const toPosition = getPosition(layout, toId, payload.position, fromPosition);
-      if (
-        fromPosition.categoryIdx === toPosition.categoryIdx &&
-        fromPosition.folderIdx === toPosition.folderIdx &&
-        fromPosition.entryIdx === toPosition.entryIdx
-      ) {
-        return;
-      }
-      if (fromPosition.entryType === 'category' && toPosition.entryType === 'category') {
-        const toContext = getContext(layout, toPosition);
-        const to = toContext[(toPosition.entryIdx as number)];
-        if (to.dn === '$$user$$' || to.dn === '$$menu$$') {
-          return;
-        }
-      }
+    //   const layout = JSON.parse(JSON.stringify(getters.portalLayout));
+    //   const fromPosition = getPosition(layout, fromId, null, null);
+    //   const toPosition = getPosition(layout, toId, payload.position, fromPosition);
+    //   if (
+    //     fromPosition.categoryIdx === toPosition.categoryIdx &&
+    //     fromPosition.folderIdx === toPosition.folderIdx &&
+    //     fromPosition.entryIdx === toPosition.entryIdx
+    //   ) {
+    //     return;
+    //   }
+    //   if (fromPosition.entryType === 'category' && toPosition.entryType === 'category') {
+    //     const toContext = getContext(layout, toPosition);
+    //     const to = toContext[(toPosition.entryIdx as number)];
+    //     if (to.dn === '$$user$$' || to.dn === '$$menu$$') {
+    //       return;
+    //     }
+    //   }
 
-      move(layout, fromPosition, toPosition);
+    //   move(layout, fromPosition, toPosition);
 
-      // update state
-      const fromChange = orderChange(layout, fromPosition);
-      const toChange = orderChange(layout, toPosition);
-      const content = layout.map((cat) => cat.dn);
+    //   // update state
+    //   const fromChange = orderChange(layout, fromPosition);
+    //   const toChange = orderChange(layout, toPosition);
+    //   const content = layout.map((cat) => cat.dn);
 
-      const dispatchFunction = (message: string) => {
-        dispatch('activity/setMessage', message, { root: true });
-      };
-      setScreenReaderAccouncement(fromPosition, toPosition, getters.portalFinalLayout, dispatchFunction);
+    //   const dispatchFunction = (message: string) => {
+    //     dispatch('activity/setMessage', message, { root: true });
+    //   };
+    //   setScreenReaderAccouncement(fromPosition, toPosition, getters.portalFinalLayout, dispatchFunction);
 
-      commit('CHANGELAYOUT', {
-        fromChange,
-        toChange,
-        content,
-        layout,
-      });
+    //   commit('CHANGELAYOUT', {
+    //     fromChange,
+    //     toChange,
+    //     content,
+    //     layout,
+    //   });
 
-      dispatch('changeLayoutUpdateFolder');
-    },
+    //   dispatch('changeLayoutUpdateFolder');
+    // },
     changeLayoutDirection({ dispatch, getters }: PortalDataActionContext, payload: { fromId: string, direction: 'left' | 'right' | 'up' | 'down' }): void {
       const fromId = payload.fromId;
       const direction = payload.direction;
