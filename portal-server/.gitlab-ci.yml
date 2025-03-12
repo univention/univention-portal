@@ -93,6 +93,8 @@ test-portal-server:
     PORTAL_SERVER_UMC_GET_URL: "stub-umc-get-urll"
     PORTAL_SERVER_UMC_SESSION_URL: "stub-umc-session-url"
   script:
+    - pwd
+    - ls -lh
     - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
