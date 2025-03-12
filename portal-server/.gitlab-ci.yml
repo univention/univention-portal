@@ -83,9 +83,6 @@ test-portal-server:
   stage: "test"
   image: "$CI_REGISTRY_IMAGE/portal-server-test-runner:${RELEASE_VERSION}"
   variables:
-    # TODO: This is a workaround to make coverage work.
-    # The real fix will be to remove the source code from the test runner image.
-    # PYTHONPATH: "./python:./portal_consumer:/usr/lib/python3/dist-packages"
     OBJECT_STORAGE_ENDPOINT: "stub_minio"
     OBJECT_STORAGE_BUCKET: "stub_bucket"
     OBJECT_STORAGE_ACCESS_KEY_ID: "stub_user"
@@ -95,8 +92,13 @@ test-portal-server:
     PORTAL_SERVER_UMC_GET_URL: "stub-umc-get-urll"
     PORTAL_SERVER_UMC_SESSION_URL: "stub-umc-session-url"
   script:
-    - pip3 install -e .
-    - pytest --cov=python/univention/portal --cov-report=term --cov-report=xml:coverage.xml unittests
+    - pip3 install -e . --no-deps --no-build-isolation
+    - >
+      pytest
+      --cov=python/univention/portal
+      --cov-report=term
+      --cov-report=xml:coverage.xml
+      unittests
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     reports:
