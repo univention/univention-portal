@@ -25,8 +25,7 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     libldap2-dev \
     univention-config-registry \
     python3-univention-directory-manager-rest-client \
-    univention-group-membership-cache \
-  && rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/*
+    univention-group-membership-cache
 
 COPY ./docker/portal-consumer/requirements.txt /
 RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
