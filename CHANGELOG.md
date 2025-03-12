@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.57.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.56.0...v0.57.0) (2025-03-12)
+
+
+### Features
+
+* **portal-consumer:** Include "quick_links" and "corner_links" into portal data ([b9ec932](https://git.knut.univention.de/univention/components/univention-portal/commit/b9ec9326232d348a9164f084b3408b43fb8588db))
+* **portal-consumer:** Update code of reloader_udm to stay in sync with the other reloader ([87efdf6](https://git.knut.univention.de/univention/components/univention-portal/commit/87efdf6a883b463d3cec7732c84199e9b4d55687))
+* **portal-extension:** Add corner and quick links into ldap schema ([4b07b2b](https://git.knut.univention.de/univention/components/univention-portal/commit/4b07b2b532fbf4fabc4df1fcd90184e90c1bad2f))
+* **portal-extension:** Configure "cornerLinks" and "quickLinks" for UDM and UMC ([a237e39](https://git.knut.univention.de/univention/components/univention-portal/commit/a237e39a981ebd83365688b5025fc8352b8bf38c))
+* **portal-frontend:** Add "cornerLinks" and "quickLinks" into the portalData store module ([4bf7686](https://git.knut.univention.de/univention/components/univention-portal/commit/4bf7686c11734310e9d059e4a167498fc2ae2f41))
+* **portal-server:** Add support for corner and quick links into PortalCacheMixin ([52f458c](https://git.knut.univention.de/univention/components/univention-portal/commit/52f458cc4e797abb10934f77b992dc046508836b))
+* **portal-server:** Add utility methods for corner and quick links into the class "Portal" ([c82dec6](https://git.knut.univention.de/univention/components/univention-portal/commit/c82dec6af60546836fabd0967b98573031f248a9))
+* **portal-server:** Make the cache protocol explicit with an ABC ([c5c1b6d](https://git.knut.univention.de/univention/components/univention-portal/commit/c5c1b6dae56739394fa744c3ef6a414d7a78a432))
+* Update translation catalogs ([b1dccbd](https://git.knut.univention.de/univention/components/univention-portal/commit/b1dccbd40e51c8dbd7842c38e9b751022c8a0900))
+
+
+### Bug Fixes
+
+* **portal-server:** Add method "get_id" into class "CacheAbc" ([1a9f52e](https://git.knut.univention.de/univention/components/univention-portal/commit/1a9f52ef776c3e1714cfdca45cccd7afa9aed50d))
+* **portal-server:** Correctly include entries from corner or quick links ([a407d1d](https://git.knut.univention.de/univention/components/univention-portal/commit/a407d1d1125fd3b034c5fbcaf9872760c31280c8))
+* **portal-server:** Detect folders and entries as "in_portal" for new link lists ([5f68b1d](https://git.knut.univention.de/univention/components/univention-portal/commit/5f68b1dbce6884b6051a074908ee25cff4c54923))
+* **portal-server:** Entries are correctly added also in plain UDM fetcher ([acd7801](https://git.knut.univention.de/univention/components/univention-portal/commit/acd78014e5d9a71849cec5112b8bc5d679ae0af7))
+* **portal-server:** Make usage of the class UMCPortal work again ([3a20d4d](https://git.knut.univention.de/univention/components/univention-portal/commit/3a20d4d342ca956db6786822d4f7a29046a49cc7))
+
 ## [0.56.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.55.0...v0.56.0) (2025-03-03)
 
 
