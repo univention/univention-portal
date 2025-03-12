@@ -83,7 +83,7 @@ test-portal-server:
   stage: "test"
   image: "$CI_REGISTRY_IMAGE/portal-server-test-runner:${RELEASE_VERSION}"
   variables:
-    PYTHONPATH: "./portal_consumer:/usr/lib/python3/dist-packages"
+    PYTHONPATH: "./python:./portal_consumer:/usr/lib/python3/dist-packages"
     OBJECT_STORAGE_ENDPOINT: "stub_minio"
     OBJECT_STORAGE_BUCKET: "stub_bucket"
     OBJECT_STORAGE_ACCESS_KEY_ID: "stub_user"
