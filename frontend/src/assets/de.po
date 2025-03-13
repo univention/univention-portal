@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2025-03-11 16:06+0000\n"
+"POT-Creation-Date: 2025-03-13 14:33+0000\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -53,8 +53,8 @@ msgstr "Kontolöschung"
 msgid "Account verification"
 msgstr "Kontoverifizierung"
 
-#: frontend/src/store/modules/portalData/index.ts:445
 #: frontend/src/store/modules/portalData/index.ts:449
+#: frontend/src/store/modules/portalData/index.ts:453
 msgid "Action not possible. Please try another direction."
 msgstr ""
 "Diese Aktion ist nicht möglich. Versuchen Sie bitte eine andere Richtung."
@@ -74,7 +74,7 @@ msgid "Add Groups"
 msgstr "Gruppen hinzufügen"
 
 #: frontend/src/tmp/ts/frontend/src/components/admin/CategoryAddModal.vue:29
-#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:55
+#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:57
 #: frontend/src/tmp/ts/frontend/src/views/NotFound.vue:45
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
@@ -161,7 +161,7 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: frontend/src/store/modules/portalData/index.ts:636
+#: frontend/src/store/modules/portalData/index.ts:640
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
@@ -341,17 +341,17 @@ msgstr "Kachel %(entry)s bearbeiten"
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: frontend/src/store/modules/portalData/index.ts:696
+#: frontend/src/store/modules/portalData/index.ts:700
 msgid "Entered edit mode"
 msgstr "Editiermodus betreten"
 
-#: frontend/src/store/modules/portalData/index.ts:590
-#: frontend/src/store/modules/portalData/index.ts:611
-#: frontend/src/store/modules/portalData/index.ts:621
+#: frontend/src/store/modules/portalData/index.ts:594
+#: frontend/src/store/modules/portalData/index.ts:615
+#: frontend/src/store/modules/portalData/index.ts:625
 msgid "Entries could not be re-sorted"
 msgstr "Einträge konnten nicht umsortiert werden"
 
-#: frontend/src/store/modules/portalData/index.ts:643
+#: frontend/src/store/modules/portalData/index.ts:647
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
@@ -461,6 +461,28 @@ msgstr "WLAN-Passwort erzeugen"
 msgid "Go Back"
 msgstr "Gehe zurück"
 
+#: frontend/src/tmp/ts/frontend/src/components/globals/PortalGreeting.vue:27
+msgid "Good Morning"
+msgstr "Guten Morgen"
+
+#: frontend/src/tmp/ts/frontend/src/components/globals/PortalGreeting.vue:37
+#: frontend/src/tmp/ts/frontend/src/components/globals/PortalGreeting.vue:45
+msgid "Good afternoon"
+msgstr "Guten Tag"
+
+#: frontend/src/tmp/ts/frontend/src/components/globals/PortalGreeting.vue:30
+msgid "Good evening"
+msgstr "Guten Abend"
+
+#: frontend/src/tmp/ts/frontend/src/components/globals/PortalGreeting.vue:42
+msgid "Good lunch time"
+msgstr "Mahlzeit"
+
+#: frontend/src/tmp/ts/frontend/src/components/globals/PortalGreeting.vue:33
+#: frontend/src/tmp/ts/frontend/src/components/globals/PortalGreeting.vue:48
+msgid "Hello"
+msgstr "Hallo"
+
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:92
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/CreateAccount.vue:102
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/VerifyAccount.vue:138
@@ -516,7 +538,7 @@ msgstr "Einträge"
 msgid "Keywords"
 msgstr "Schlüsselwörter"
 
-#: frontend/src/store/modules/portalData/index.ts:698
+#: frontend/src/store/modules/portalData/index.ts:702
 msgid "Left edit mode"
 msgstr "Editiermodus verlassen"
 
@@ -606,7 +628,7 @@ msgstr "Keine Einträge"
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:58
+#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:60
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
@@ -696,10 +718,10 @@ msgstr "Bitte geben Sie Ihr Passwort ein um Ihr Konto zu löschen"
 msgid "Portal"
 msgstr "Portal"
 
-#: frontend/src/store/modules/portalData/index.ts:232
-#: frontend/src/store/modules/portalData/index.ts:233
-#: frontend/src/store/modules/portalData/index.ts:234
-#: frontend/src/store/modules/portalData/index.ts:235
+#: frontend/src/store/modules/portalData/index.ts:236
+#: frontend/src/store/modules/portalData/index.ts:237
+#: frontend/src/store/modules/portalData/index.ts:238
+#: frontend/src/store/modules/portalData/index.ts:239
 msgid "Portal Menu"
 msgstr "Portal-Menü"
 
@@ -958,10 +980,10 @@ msgstr "Hochladen"
 msgid "Use default of portal"
 msgstr "Portal-Vorgabe nutzen"
 
-#: frontend/src/store/modules/portalData/index.ts:245
-#: frontend/src/store/modules/portalData/index.ts:246
-#: frontend/src/store/modules/portalData/index.ts:247
-#: frontend/src/store/modules/portalData/index.ts:248
+#: frontend/src/store/modules/portalData/index.ts:249
+#: frontend/src/store/modules/portalData/index.ts:250
+#: frontend/src/store/modules/portalData/index.ts:251
+#: frontend/src/store/modules/portalData/index.ts:252
 msgid "User Menu"
 msgstr "Benutzer-Menü"
 

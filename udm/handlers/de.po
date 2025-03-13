@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-portal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2025-03-11 16:06+0000\n"
+"POT-Creation-Date: 2025-03-13 14:33+0000\n"
 "PO-Revision-Date: 2020-05-01 00:20+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -276,7 +276,8 @@ msgstr ""
 
 #: udm/handlers/portal.py:113
 msgid "List of portal entries that are shown in the corner menu"
-msgstr "Liste der Portaleinträge, die im Corner Menü des Portals angezeigt werden"
+msgstr ""
+"Liste der Portaleinträge, die im Corner Menü des Portals angezeigt werden"
 
 #: udm/handlers/portal.py:101
 msgid ""
@@ -291,7 +292,8 @@ msgstr "Liste der Portaleinträge, die im Menü des Portals angezeigt werden"
 
 #: udm/handlers/portal.py:119
 msgid "List of portal entries that are shown in the quick menu"
-msgstr "Liste der Portaleinträge, die im Quick Menü des Portals angezeigt werden"
+msgstr ""
+"Liste der Portaleinträge, die im Quick Menü des Portals angezeigt werden"
 
 #: udm/handlers/portal.py:171
 msgid "Login"
