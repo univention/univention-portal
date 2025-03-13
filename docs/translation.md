@@ -23,10 +23,10 @@ compose` does automatically provide a well defined execution environment:
 cd /docker
 
 # Update PO files
-docker compose run -it --rm deb-builder make l10n-extract
+docker compose run -it --rm --build deb-builder make l10n-extract
 
 # Compile into MO files and JSON files
-docker compose run -it --rm deb-builder make l10n-build
+docker compose run -it --rm --build deb-builder make l10n-build
 ```
 
 The Results of the translation build process can be found in the following
