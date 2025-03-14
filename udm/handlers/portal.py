@@ -111,13 +111,13 @@ property_descriptions = {
     'cornerLinks': univention.admin.property(
         short_description=_('Entries in the corner menu'),
         long_description=_('List of portal entries that are shown in the corner menu'),
-        syntax=univention.admin.syntax.NewPortalEntries,
+        syntax=univention.admin.syntax.NewPortalCategoryEntries,
         multivalue=True,
     ),
     'quickLinks': univention.admin.property(
         short_description=_('Entries in the quick menu'),
         long_description=_('List of portal entries that are shown in the quick menu'),
-        syntax=univention.admin.syntax.NewPortalEntries,
+        syntax=univention.admin.syntax.NewPortalCategoryEntries,
         multivalue=True,
     ),
     'categories': univention.admin.property(
