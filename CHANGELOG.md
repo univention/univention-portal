@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.57.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.2...v0.57.3) (2025-03-14)
+
+
+### Bug Fixes
+
+* **portal-extension:** Configure UMC so that also Portal Folders can be in the link lists ([6664593](https://git.knut.univention.de/univention/components/univention-portal/commit/6664593423f6c73b8710019302cd748090fa781d))
+
 ## [0.57.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.1...v0.57.2) (2025-03-14)
 
 
