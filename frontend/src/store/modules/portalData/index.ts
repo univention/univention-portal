@@ -359,6 +359,7 @@ const portalData: PortalModule<PortalDataState> = {
     cornerLinks: (state) => state.portal.cornerLinks,
     userLinks: (state) => state.portal.userLinks,
     menuLinks: (state) => state.portal.menuLinks,
+    quickLinks: (state) => state.portal.quickLinks,
     editMode: (state) => state.editMode,
     cacheId: (state) => state.cacheId,
     loaded: (state) => state.cacheId !== '',
