@@ -21,10 +21,7 @@
                 alt=""
                 class="portal-corner__icon"
               >
-              <span
-                :title="entry.description"
-                class="portal-corner__text"
-              >{{ entry.name }}</span>
+              <span :title="entry.description">{{ entry.name }}</span>
             </a>
             <span
               v-else
@@ -89,7 +86,7 @@ export default defineComponent({
 
   &__inner
     border-radius: var(--layout-spacing-unit) 0px 0px 0px
-    background-color: #203257
+    background-color: var(--bgc-content-container)
     padding: calc(1.625 * var(--layout-spacing-unit)) calc(3.25 * var(--layout-spacing-unit))
     @media $mqSmartphone
       border-top-left-radius: 0px
@@ -108,23 +105,26 @@ export default defineComponent({
     &::after
       content: "|"
       margin: 0 var(--layout-spacing-unit)
-      color: rgba(255, 255, 255, 0.50)
+      color: var(--font-color-contrast-high)
       @media $mqSmartphone
         display: none
     &:last-of-type::after
       display: none
 
   &__text
-    color: #fff
+    color: var(--font-color-contrast-high)
     font-weight: 600
     text-decoration: none
 
   &__link
     display: inline-flex
     align-items: self-end
+    color: var(--font-color-contrast-high)
+    font-weight: 600
+    text-decoration: none
     &:hover,
     &:focus-visible
-      color: rgba(255, 255, 255, 0.70)
+      color: var(--font-color-contrast-high)
       outline: none
       outline-offset: none
       span
