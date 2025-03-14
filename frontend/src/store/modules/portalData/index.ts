@@ -356,6 +356,7 @@ const portalData: PortalModule<PortalDataState> = {
     portalAnnouncements: (state) => state.portal.announcements,
     portalCategoriesOnPortal: (state) => state.portal.portal.categories,
     portalDefaultLinkTarget: (state) => state.portal.portal.defaultLinkTarget,
+    cornerLinks: (state) => state.portal.cornerLinks,
     userLinks: (state) => state.portal.userLinks,
     menuLinks: (state) => state.portal.menuLinks,
     editMode: (state) => state.editMode,
