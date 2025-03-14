@@ -190,30 +190,50 @@ class object(univention.admin.handlers.simpleLdap):
     module = module
 
     def _ldap_post_remove(self):
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.warning("XXX _ldap_post_remove in portal entry handler, %s", self.dn)
+        logger.info("XXX info level")
+        logger.debug("XXX debug level")
         for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('menuLinks=%s', [self.dn]), scope='sub'):
+            logger.info("  removing from menuLinks")
             portal_obj.open()
             portal_obj['menuLinks'].remove(self.dn)
             portal_obj.modify()
+        logger.info("processed menuLinks")
         for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('userLinks=%s', [self.dn]), scope='sub'):
+            logger.info("  removing from userLinks")
             portal_obj.open()
+            import pprint
+            logger.info(pprint.pformat(portal_obj["userLinks"]))
             portal_obj['userLinks'].remove(self.dn)
+            logger.info(pprint.pformat(portal_obj["userLinks"]))
             portal_obj.modify()
+        logger.info("processed userLinks")
         for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('cornerLinks=%s', [self.dn]), scope='sub'):
+            logger.info("  removing from cornerLinks")
             portal_obj.open()
             portal_obj['cornerLinks'].remove(self.dn)
             portal_obj.modify()
+        logger.info("processed cornerLinks")
         for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('quickLinks=%s', [self.dn]), scope='sub'):
+            logger.info("  removing from quickLinks")
             portal_obj.open()
             portal_obj['quickLinks'].remove(self.dn)
             portal_obj.modify()
+        logger.info("processed quickLinks")
         for category_obj in univention.admin.modules.lookup('portals/category', None, self.lo, filter=filter_format('entries=%s', [self.dn]), scope='sub'):
+            logger.info("  removing from category %s", category_obj.dn)
             category_obj.open()
             category_obj['entries'].remove(self.dn)
             category_obj.modify()
+        logger.info("processed categories")
         for folder_obj in univention.admin.modules.lookup('portals/folder', None, self.lo, filter=filter_format('entries=%s', [self.dn]), scope='sub'):
+            logger.info("  removing from folder %s", folder_obj.dn)
             folder_obj.open()
             folder_obj['entries'].remove(self.dn)
             folder_obj.modify()
+        logger.info("processed folders")
 
 
 lookup = object.lookup
