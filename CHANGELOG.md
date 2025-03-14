@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.57.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.1...v0.57.2) (2025-03-14)
+
+
+### Bug Fixes
+
+* portal-server chart extraEnvVars wrong section ([13b6f8b](https://git.knut.univention.de/univention/components/univention-portal/commit/13b6f8baaec7dfe0ce8302199392db2529a41029))
+
 ## [0.57.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.0...v0.57.1) (2025-03-12)
 
 
