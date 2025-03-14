@@ -104,6 +104,7 @@
       v-bind="tooltip"
     />
     <portal-sidebar />
+    <portal-corner-links />
     <portal-modal />
     <portal-modal
       :modal-level="2"
@@ -133,6 +134,7 @@ import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vu
 import PortalError from '@/components/globals/PortalError.vue';
 import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
+import PortalCornerLinks from '@/components/PortalCornerLinks.vue';
 
 export default defineComponent({
   name: 'Portal',
@@ -151,6 +153,7 @@ export default defineComponent({
     ScreenReaderAnnouncer,
     PortalError,
     UmcSessionRefreshIframe,
+    PortalCornerLinks,
   },
   data(): {playTileAnimation: boolean} {
     return {
