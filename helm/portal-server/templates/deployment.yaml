@@ -93,12 +93,12 @@ spec:
               {{- include "portal-server.objectStorageAccessKeyId" . | nindent 14 }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               {{- include "portal-server.objectStorageSecretAccessKey" . | nindent 14 }}
-          envFrom:
-            - configMapRef:
-                name: "{{ include "common.names.fullname" . }}"
           {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
           {{- end }}
+          envFrom:
+            - configMapRef:
+                name: "{{ include "common.names.fullname" . }}"
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.livenessProbe "context" .) | nindent 12 }}
           readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.readinessProbe "context" .) | nindent 12 }}
           startupProbe: {{- include "common.tplvalues.render" (dict "value" .Values.startupProbe "context" .) | nindent 12 }}
