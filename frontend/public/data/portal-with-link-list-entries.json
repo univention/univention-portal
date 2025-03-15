@@ -1,0 +1,968 @@
+{
+  "cache_id": "portal-data/portal",
+  "corner_links": [
+    "cn=demo-folder,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=solo-entry,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+  ],
+  "menu_links": [
+    "cn=certificates,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=help,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=demo-folder,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=solo-entry,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+  ],
+  "quick_links": [
+    "cn=demo-folder,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=solo-entry,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+  ],
+  "user_links": [
+    "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=self-service-protect-account,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=self-service-my-profile,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "cn=solo-entry,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+  ],
+  "entries": [
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Zertifikat-Sperrliste",
+        "en_US": "Certificate revocation list",
+        "fr_FR": "Liste de révocation de certificats"
+      },
+      "dn": "cn=certificate-revocation,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": null,
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "samewindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/ucsCA.crl"
+        }
+      ],
+      "name": {
+        "de_DE": "Zertifikat-Sperrliste",
+        "en_US": "Certificate revocation list",
+        "fr_FR": "Liste de révocation de certificats"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Beispiel Eintrag Beschreibung",
+        "en_US": "Demo Entry description"
+      },
+      "dn": "cn=demo-entry,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": "./icons/entries/demo-entry.svg",
+      "in_portal": true,
+      "keywords": {
+        "en_US": "keyword"
+      },
+      "linkTarget": "useportaldefault",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "https://en.test.example"
+        },
+        {
+          "locale": "de_DE",
+          "value": "https://de.test.example"
+        }
+      ],
+      "name": {
+        "de_DE": "Demo Eintrag",
+        "en_US": "Demo Entry"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Admins,cn=groups,dc=univention-organization,dc=intranet"
+      ],
+      "anonymous": false,
+      "backgroundColor": "None",
+      "description": {
+        "de_DE": "Keycloak",
+        "en_US": "Keycloak",
+        "fr_FR": "Keycloak"
+      },
+      "dn": "cn=keycloak,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": "./icons/entries/keycloak.svg",
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "newwindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "https://id.univention-organization.intranet/admin/"
+        }
+      ],
+      "name": {
+        "de_DE": "Keycloak",
+        "en_US": "Keycloak",
+        "fr_FR": "Keycloak"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Wurzelzertifikat",
+        "en_US": "Root certificate",
+        "fr_FR": "Certificat racine"
+      },
+      "dn": "cn=root-cert,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": null,
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "samewindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/ucs-root-ca.crt"
+        }
+      ],
+      "name": {
+        "de_DE": "Wurzelzertifikat",
+        "en_US": "Root certificate",
+        "fr_FR": "Certificat racine"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Profil verwalten",
+        "en_US": "Manage profile"
+      },
+      "dn": "cn=self-service-my-profile,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": "./icons/entries/self-service-my-profile.svg",
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "samewindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "#/selfservice/profile"
+        }
+      ],
+      "name": {
+        "de_DE": "Mein Profil",
+        "en_US": "My Profile"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Users,cn=groups,dc=univention-organization,dc=intranet"
+      ],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Ihr Passwort ändern",
+        "en_US": "Change your password"
+      },
+      "dn": "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": "./icons/entries/self-service-password-change.svg",
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "samewindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "#/selfservice/passwordchange"
+        }
+      ],
+      "name": {
+        "de_DE": "Ihr Passwort ändern",
+        "en_US": "Change your password"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Kontozugang schützen",
+        "en_US": "Protect your account"
+      },
+      "dn": "cn=self-service-protect-account,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": "./icons/entries/self-service-protect-account.svg",
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "samewindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "#/selfservice/protectaccount"
+        }
+      ],
+      "name": {
+        "de_DE": "Kontozugang schützen",
+        "en_US": "Protect your account"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Users,cn=groups,dc=univention-organization,dc=intranet"
+      ],
+      "anonymous": false,
+      "backgroundColor": "#123456",
+      "description": {
+        "de_DE": "Beschreibung für den Solo Eintrag",
+        "en_US": "Description of the Solo Entry"
+      },
+      "dn": "cn=solo-entry,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": "./icons/entries/solo-entry.svg",
+      "in_portal": true,
+      "keywords": {
+        "de_DE": "schlagwort",
+        "en_US": "keyword"
+      },
+      "linkTarget": "useportaldefault",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "https://en.test.example/solo-entry.html"
+        },
+        {
+          "locale": "de_DE",
+          "value": "https://de.test.example/solo-entry.html"
+        }
+      ],
+      "name": {
+        "de_DE": "Solo Eintrag",
+        "en_US": "Solo Entry"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "News, Tipps und Best Practices",
+        "en_US": "News, tips and best practices",
+        "fr_FR": "Nouvelles, conseils et bonne pratique"
+      },
+      "dn": "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": "./icons/entries/univentionblog.png",
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "newwindow",
+      "links": [
+        {
+          "locale": "de_DE",
+          "value": "https://www.univention.de/news/blog-de"
+        },
+        {
+          "locale": "en_US",
+          "value": "https://www.univention.com/news/blog-en"
+        }
+      ],
+      "name": {
+        "de_DE": "Univention Blog",
+        "en_US": "Univention Blog",
+        "fr_FR": "Univention Blog"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Feedback",
+        "en_US": "Feedback",
+        "fr_FR": "Impressions"
+      },
+      "dn": "cn=univentionfeedback,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": null,
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "newwindow",
+      "links": [
+        {
+          "locale": "de_DE",
+          "value": "https://www.univention.de/produkt-feedback/?umc=portal"
+        },
+        {
+          "locale": "en_US",
+          "value": "https://www.univention.com/feedback/?umc=portal"
+        }
+      ],
+      "name": {
+        "de_DE": "Feedback",
+        "en_US": "Feedback",
+        "fr_FR": "Impressions"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Univention Forum (Hilfe)",
+        "en_US": "Univention Forum (Help)",
+        "fr_FR": "Forum Univention (Aide)"
+      },
+      "dn": "cn=univentionforum,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": null,
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "newwindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "https://help.univention.com"
+        }
+      ],
+      "name": {
+        "de_DE": "Univention Forum (Hilfe)",
+        "en_US": "Univention Forum (Help)",
+        "fr_FR": "Forum Univention (Aide)"
+      },
+      "target": null
+    },
+    {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Univention Webseite",
+        "en_US": "Univention Website",
+        "fr_FR": "Site Internet Univention"
+      },
+      "dn": "cn=univentionwebsite,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "icon_url": null,
+      "in_portal": true,
+      "keywords": {},
+      "linkTarget": "newwindow",
+      "links": [
+        {
+          "locale": "de_DE",
+          "value": "https://www.univention.de"
+        },
+        {
+          "locale": "en_US",
+          "value": "https://www.univention.com"
+        }
+      ],
+      "name": {
+        "de_DE": "Univention Webseite",
+        "en_US": "Univention Website",
+        "fr_FR": "Site Internet Univention"
+      },
+      "target": null
+    },
+    {
+      "dn": "umc:module:passwordreset:",
+      "name": {
+        "en_US": "Password reset"
+      },
+      "description": {
+        "en_US": "Password reset service"
+      },
+      "keywords": {
+        "en_US": " Password reset"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/None.svg",
+      "backgroundColor": null,
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=passwordreset:"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:portals/all",
+      "name": {
+        "en_US": "Portal"
+      },
+      "description": {
+        "en_US": "Managing the Univention Portal"
+      },
+      "keywords": {
+        "en_US": " Portal"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/portal.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:portals/all"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:users/user",
+      "name": {
+        "en_US": "Users"
+      },
+      "description": {
+        "en_US": "Management of domain users"
+      },
+      "keywords": {
+        "en_US": "users Users"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/users.svg",
+      "backgroundColor": "#f6aa42",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:users/user"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:users/contact",
+      "name": {
+        "en_US": "Contacts"
+      },
+      "description": {
+        "en_US": "Management of contacts"
+      },
+      "keywords": {
+        "en_US": "Contacts contacts"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/contacts.svg",
+      "backgroundColor": "#f6aa42",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:users/contact"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:blocklists/all",
+      "name": {
+        "en_US": "Blocklists"
+      },
+      "description": {
+        "en_US": "Management of blocklists in the domain"
+      },
+      "keywords": {
+        "en_US": "Blocklists blocklists"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/blocklists.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:blocklists/all"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:groups/group",
+      "name": {
+        "en_US": "Groups"
+      },
+      "description": {
+        "en_US": "Management of user and computer groups in the domain"
+      },
+      "keywords": {
+        "en_US": "groups Groups"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/groups.svg",
+      "backgroundColor": "#f6aa42",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:groups/group"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:computers/computer",
+      "name": {
+        "en_US": "Computers"
+      },
+      "description": {
+        "en_US": "Management of computers in the domain"
+      },
+      "keywords": {
+        "en_US": "Computers computers"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/computers.svg",
+      "backgroundColor": "#e85281",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:computers/computer"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:networks/network",
+      "name": {
+        "en_US": "Networks"
+      },
+      "description": {
+        "en_US": "Configuration of network settings in the domain"
+      },
+      "keywords": {
+        "en_US": "networks Networks"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/networks.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:networks/network"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:dns/dns",
+      "name": {
+        "en_US": "DNS"
+      },
+      "description": {
+        "en_US": "Configuration of DNS settings in the domain"
+      },
+      "keywords": {
+        "en_US": "DNS dns"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/dns.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:dns/dns"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:dhcp/dhcp",
+      "name": {
+        "en_US": "DHCP"
+      },
+      "description": {
+        "en_US": "Configuration of DHCP settings in the domain"
+      },
+      "keywords": {
+        "en_US": "dhcp DHCP"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/dhcp.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:dhcp/dhcp"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:shares/share",
+      "name": {
+        "en_US": "Shares"
+      },
+      "description": {
+        "en_US": "Management of directory shares in the domain"
+      },
+      "keywords": {
+        "en_US": "shares Shares"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/shares.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:shares/share"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:shares/print",
+      "name": {
+        "en_US": "Printers"
+      },
+      "description": {
+        "en_US": "Management of printers and printer groups in the domain"
+      },
+      "keywords": {
+        "en_US": "printers Printers"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/printers.svg",
+      "backgroundColor": "#e85281",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:shares/print"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:mail/mail",
+      "name": {
+        "en_US": "Mail"
+      },
+      "description": {
+        "en_US": "Management of mail domains and mailing lists"
+      },
+      "keywords": {
+        "en_US": "mail e-mail email Mail"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/mail.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:mail/mail"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:policies/policy",
+      "name": {
+        "en_US": "Policies"
+      },
+      "description": {
+        "en_US": "Management of domain wide policies"
+      },
+      "keywords": {
+        "en_US": "policy Policies policies"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/policies.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:policies/policy"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:navigation",
+      "name": {
+        "en_US": "LDAP directory"
+      },
+      "description": {
+        "en_US": "Browsing and managing the LDAP tree"
+      },
+      "keywords": {
+        "en_US": "directory ldap udm LDAP directory"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/ldap-directory.svg",
+      "backgroundColor": "#00acb6",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:navigation"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:license-import",
+      "name": {
+        "en_US": "UCS license import"
+      },
+      "description": {
+        "en_US": "Import new license"
+      },
+      "keywords": {
+        "en_US": " UCS license import"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/None.svg",
+      "backgroundColor": null,
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:license-import"
+        }
+      ]
+    },
+    {
+      "dn": "umc:module:udm:license-request",
+      "name": {
+        "en_US": "UCS license request"
+      },
+      "description": {
+        "en_US": "Request new license"
+      },
+      "keywords": {
+        "en_US": " UCS license request"
+      },
+      "linkTarget": "embedded",
+      "target": null,
+      "icon_url": "/univention/management/js/dijit/themes/umc/icons/scalable/None.svg",
+      "backgroundColor": null,
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/management/?header=try-hide&overview=false&menu=false#module=udm:license-request"
+        }
+      ]
+    }
+  ],
+  "folders": [
+    {
+      "dn": "cn=certificates,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "entries": [
+        "cn=root-cert,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+        "cn=certificate-revocation,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+      ],
+      "in_portal": true,
+      "name": {
+        "de_DE": "Zertifikate",
+        "en_US": "Certificates",
+        "fr_FR": "Certificats"
+      }
+    },
+    {
+      "dn": "cn=demo-folder,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "entries": [
+        "cn=demo-entry,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+      ],
+      "in_portal": true,
+      "name": {
+        "de_DE": "Beispiel Ordner",
+        "en_US": "Demo Folder"
+      }
+    },
+    {
+      "dn": "cn=help,cn=folder,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "entries": [
+        "cn=univentionforum,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+        "cn=univentionfeedback,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+        "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+        "cn=univentionwebsite,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+      ],
+      "in_portal": true,
+      "name": {
+        "de_DE": "Hilfe",
+        "en_US": "Help",
+        "fr_FR": "Aide"
+      }
+    },
+    {
+      "name": {
+        "en_US": "Users",
+        "de_DE": "Users"
+      },
+      "dn": "users",
+      "entries": [
+        "umc:module:udm:users/contact",
+        "umc:module:udm:groups/group",
+        "umc:module:udm:users/user"
+      ]
+    },
+    {
+      "name": {
+        "en_US": "Devices",
+        "de_DE": "Devices"
+      },
+      "dn": "devices",
+      "entries": [
+        "umc:module:udm:computers/computer",
+        "umc:module:udm:shares/print"
+      ]
+    },
+    {
+      "name": {
+        "en_US": "Domain",
+        "de_DE": "Domain"
+      },
+      "dn": "domain",
+      "entries": [
+        "umc:module:udm:blocklists/all",
+        "umc:module:udm:dhcp/dhcp",
+        "umc:module:udm:dns/dns",
+        "umc:module:udm:navigation",
+        "umc:module:udm:mail/mail",
+        "umc:module:udm:networks/network",
+        "umc:module:udm:policies/policy",
+        "umc:module:udm:shares/share",
+        "umc:module:udm:portals/all"
+      ]
+    },
+    {
+      "name": {
+        "en_US": "System",
+        "de_DE": "System"
+      },
+      "dn": "system",
+      "entries": []
+    },
+    {
+      "name": {
+        "en_US": "Software",
+        "de_DE": "Software"
+      },
+      "dn": "software",
+      "entries": []
+    }
+  ],
+  "categories": [
+    {
+      "display_name": {
+        "de_DE": "Verwaltung",
+        "en_US": "Administration",
+        "fr_FR": "Administration"
+      },
+      "dn": "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "entries": [
+        "cn=keycloak,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+      ],
+      "in_portal": true
+    },
+    {
+      "display_name": {
+        "de_DE": "Passwörter",
+        "en_US": "Passwords"
+      },
+      "dn": "cn=self-service-password,cn=category,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "entries": [
+        "cn=self-service-protect-account,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+        "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+      ],
+      "in_portal": false
+    },
+    {
+      "display_name": {
+        "de_DE": "Benutzerprofil",
+        "en_US": "User Profile"
+      },
+      "dn": "cn=self-service-profile,cn=category,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+      "entries": [
+        "cn=self-service-my-profile,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+      ],
+      "in_portal": false
+    },
+    {
+      "display_name": {
+        "en_US": "Favorites"
+      },
+      "dn": "umc:category:favorites",
+      "entries": [
+        "umc:module:udm:users/user",
+        "umc:module:udm:groups/group",
+        "umc:module:udm:computers/computer"
+      ]
+    },
+    {
+      "display_name": {
+        "en_US": "Univention Management Console"
+      },
+      "dn": "umc:category:umc",
+      "entries": [
+        "users",
+        "devices",
+        "domain",
+        "system",
+        "software"
+      ]
+    }
+  ],
+  "portal": {
+    "background": "./icons/backgrounds/domain.svg",
+    "categories": [
+      "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+    ],
+    "defaultLinkTarget": "embedded",
+    "dn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+    "ensureLogin": false,
+    "logo": "./icons/logos/domain.svg",
+    "name": {
+      "de_DE": "Univention Portal",
+      "en_US": "Univention Portal",
+      "fr_FR": "Portail Univention"
+    },
+    "showUmc": true,
+    "content": [
+      [
+        "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+        [
+          "cn=keycloak,cn=entry,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+        ]
+      ],
+      [
+        "umc:category:favorites",
+        [
+          "umc:module:udm:users/user",
+          "umc:module:udm:groups/group",
+          "umc:module:udm:computers/computer"
+        ]
+      ],
+      [
+        "umc:category:umc",
+        [
+          "users",
+          "devices",
+          "domain",
+          "system",
+          "software"
+        ]
+      ]
+    ]
+  },
+  "filtered": true,
+  "username": "administrator",
+  "user_displayname": "Administrator",
+  "auth_mode": "saml",
+  "may_edit_portal": true,
+  "announcements": [],
+  "feature_toggles": {
+    "centered_layout": false,
+    "notifications_api": true,
+    "umc_session_refresh": true
+  }
+}
