@@ -455,7 +455,7 @@
     "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
   ],
   "portal": {
-    "background": null,
+    "background": "./data/icons/background.svg",
     "categories": [
       "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
