@@ -57,7 +57,7 @@
       >
         {{ NO_SEARCH_RESULTS }}
       </h2>
-
+      <portal-quick-links />
       <portal-category
         v-for="(category, index) in portalFinalLayoutFiltered"
         :key="category.id"
@@ -138,6 +138,7 @@ import PortalToolTip from '@/components/PortalToolTip.vue';
 import Region from '@/components/activity/Region.vue';
 import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
+import PortalQuickLinks from '@/components/PortalQuickLinks.vue';
 import PortalCornerLinks from '@/components/PortalCornerLinks.vue';
 
 export default defineComponent({
@@ -158,6 +159,7 @@ export default defineComponent({
     Region,
     ScreenReaderAnnouncer,
     UmcSessionRefreshIframe,
+    PortalQuickLinks,
     PortalCornerLinks,
   },
   data(): {playTileAnimation: boolean} {
