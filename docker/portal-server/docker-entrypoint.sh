@@ -55,6 +55,7 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "object_storage_bucket": $object_storage_bucket,
   "object_storage_access_key_id": $object_storage_access_key_id,
   "object_storage_secret_access_key": $object_storage_secret_access_key,
+  "object_storage_region": $object_storage_region,
   "default_domain_dn": $default_domain_dn,
   "editable": $editable,
   "enable_xheaders": true,
@@ -87,6 +88,7 @@ jq -n \
   --arg object_storage_bucket "${OBJECT_STORAGE_BUCKET}" \
   --arg object_storage_access_key_id "${OBJECT_STORAGE_ACCESS_KEY_ID}" \
   --arg object_storage_secret_access_key "${OBJECT_STORAGE_SECRET_ACCESS_KEY}" \
+  --arg object_storage_region "${OBJECT_STORAGE_REGION}" \
   --arg default_domain_dn "${PORTAL_DEFAULT_DN:-}" \
   --argjson editable "${PORTAL_SERVER_EDITABLE}" \
   --arg groups_cache_path "${PORTAL_SERVER_UCS_INTERNAL_PATH}/groups" \

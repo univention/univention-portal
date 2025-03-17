@@ -31,6 +31,10 @@
               "ucs_internal_path": {
                 "key": "groups_cache_path",
                 "type": "config"
+              },
+              "region": {
+                "key": "object_storage_region",
+                "type": "config"
               }
             },
             "type": "class"
@@ -63,6 +67,10 @@
           },
           "ucs_internal_path": {
             "key": "portal_cache_path",
+            "type": "config"
+          },
+          "region": {
+            "key": "object_storage_region",
             "type": "config"
           }
         },
@@ -117,6 +125,10 @@
               "ucs_internal_path": {
                 "key": "groups_cache_path",
                 "type": "config"
+              },
+              "region": {
+                "key": "object_storage_region",
+                "type": "config"
               }
             },
             "type": "class"
@@ -149,6 +161,10 @@
           },
           "ucs_internal_path": {
             "key": "selfservice_portal_cache_path",
+            "type": "config"
+          },
+          "region": {
+            "key": "object_storage_region",
             "type": "config"
           }
         },

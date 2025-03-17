@@ -224,6 +224,11 @@ objectStorage:
   # -- Bucket in the object storage for storing the portal and assets. Example
   # "portal-data".
   bucketName: ""
+  # -- Region parameter for object storrage if required and/or supported. Example
+  # "eu-central-1"
+  region: ""
+  # -- To use private buckets with ACL support set this to true (only supported by some external object storage)
+  usePerObjectACLs: false
 
 ## Container deployment probes
 probes:

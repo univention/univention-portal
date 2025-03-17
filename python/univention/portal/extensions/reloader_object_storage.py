@@ -69,6 +69,7 @@ class ObjectStorageReloader(reloader.Reloader):
         bucket,
         access_key_id,
         secret_access_key,
+        region,
     ):
         self._object_storage_endpoint = object_storage_endpoint
         self._bucket = bucket
@@ -83,6 +84,7 @@ class ObjectStorageReloader(reloader.Reloader):
             object_storage_endpoint,
             access_key_id,
             secret_access_key,
+            region=region,
         )
 
     def refresh(self, reason=None, content=None):
@@ -164,6 +166,7 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
         bucket,
         access_key_id,
         secret_access_key,
+        region=None,
         assets_base_url=None,
     ):
         logger.debug("Assets base url: %s", assets_base_url)
@@ -182,6 +185,7 @@ class ObjectStoragePortalReloader(ObjectStorageReloader):
             bucket,
             access_key_id,
             secret_access_key,
+            region,
         )
         self._assets_base_url = assets_base_url
         self._portal_dn = portal_dn

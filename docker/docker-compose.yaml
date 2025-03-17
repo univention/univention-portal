@@ -11,6 +11,8 @@ x-portal-environment:
   OBJECT_STORAGE_BUCKET: "stub_bucket"
   OBJECT_STORAGE_ACCESS_KEY_ID: "stub_user"
   OBJECT_STORAGE_SECRET_ACCESS_KEY: "stub_value"
+  OBJECT_STORAGE_REGION: ""
+  OBJECT_STORAGE__ACLS: false
   PORTAL_SERVER_ADMIN_GROUP: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
   PORTAL_SERVER_ASSETS_ROOT: "http://portal-server:univention@store-dav/portal-assets/"
   PORTAL_SERVER_AUTH_MODE: "ucs"

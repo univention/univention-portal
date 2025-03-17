@@ -41,6 +41,7 @@ data:
   PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalConsumer.udmApiSecretFile }}"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
   OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}
+  OBJECT_STORAGE_REGION: {{ tpl .Values.objectStorage.region . | quote }}
   OBJECT_STORAGE_ACCESS_KEY_ID: {{ include "portal-consumer.objectStorageAccessKeyId"  . | quote }}
   OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ include "portal-consumer.objectStorageSecretAccessKey"  . | quote }}
   CA_CERT: "{{ .Values.portalConsumer.caCert }}"
@@ -122,7 +123,8 @@ data:
             's3',
             endpoint_url=os.environ["OBJECT_STORAGE_ENDPOINT"],
             aws_access_key_id=os.environ["OBJECT_STORAGE_ACCESS_KEY_ID"],
-            aws_secret_access_key=os.environ["OBJECT_STORAGE_SECRET_ACCESS_KEY"]
+            aws_secret_access_key=os.environ["OBJECT_STORAGE_SECRET_ACCESS_KEY"],
+            region_name=os.environ["OBJECT_STORAGE_REGION"],
         )
 
     provisioned = False

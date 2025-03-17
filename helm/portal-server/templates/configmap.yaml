@@ -35,3 +35,4 @@ data:
   PORTAL_UDM_API_PASSWORD_FILE: "/var/secrets/udm_api_password"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
   OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}
+  OBJECT_STORAGE_REGION: {{ tpl .Values.objectStorage.region . | quote }}

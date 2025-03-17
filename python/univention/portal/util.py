@@ -132,6 +132,7 @@ def get_object_storage_client(
     object_storage_endpoint,
     access_key_id,
     secret_access_key,
+    region=None,
 ):
     """Create an object storage client"""
     return boto3.client(
@@ -140,6 +141,7 @@ def get_object_storage_client(
         endpoint_url=object_storage_endpoint,
         aws_access_key_id=access_key_id,
         aws_secret_access_key=secret_access_key,
+        region=region,
         config=boto3.session.Config(signature_version="s3v4"),
         verify=bool(object_storage_endpoint.startswith("https")),
     )

@@ -42,6 +42,10 @@
                   "secret_access_key": {
                     "key": "object_storage_secret_access_key",
                     "type": "config"
+                  },
+                  "region": {
+                    "key": "object_storage_region",
+                    "type": "config"
                   }
                 },
                 "type": "class"
@@ -96,6 +100,10 @@
               },
               "secret_access_key": {
                 "key": "object_storage_secret_access_key",
+                "type": "config"
+              },
+              "region": {
+                "key": "object_storage_region",
                 "type": "config"
               }
             },
@@ -164,6 +172,10 @@
                   "secret_access_key": {
                     "key": "object_storage_secret_access_key",
                     "type": "config"
+                  },
+                  "region": {
+                    "key": "object_storage_region",
+                    "type": "config"
                   }
                 },
                 "type": "class"
@@ -218,6 +230,10 @@
               },
               "secret_access_key": {
                 "key": "object_storage_secret_access_key",
+                "type": "config"
+              },
+              "region": {
+                "key": "object_storage_region",
                 "type": "config"
               }
             },

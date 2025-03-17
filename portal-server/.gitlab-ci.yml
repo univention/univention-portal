@@ -88,6 +88,7 @@ test-portal-server:
     OBJECT_STORAGE_BUCKET: "stub_bucket"
     OBJECT_STORAGE_ACCESS_KEY_ID: "stub_user"
     OBJECT_STORAGE_SECRET_ACCESS_KEY: "stub_value"
+    OBJECT_STORAGE_REGION: ""
     PORTAL_SERVER_ADMIN_GROUP: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
     PORTAL_SERVER_UCS_INTERNAL_PATH: "portal-data"
     PORTAL_SERVER_UMC_GET_URL: "stub-umc-get-urll"

@@ -57,6 +57,7 @@ class CacheObjectStorage(metaclass=Plugin):
         authenticate with the object storage server.
       - secret_access_key(str): The key's secret (or password) used to
         authenticate with the object storage server.
+      - region(str): An optional region to pass to the object storage client
     """
 
     def __init__(
@@ -66,6 +67,7 @@ class CacheObjectStorage(metaclass=Plugin):
         bucket,
         access_key_id,
         secret_access_key,
+        region,
     ):
         self._ucs_internal_path = ucs_internal_path
         self._etag = None
@@ -80,6 +82,7 @@ class CacheObjectStorage(metaclass=Plugin):
             object_storage_endpoint,
             access_key_id,
             secret_access_key,
+            region,
         )
 
     def get_id(self):
@@ -142,6 +145,7 @@ class PortalFileCacheObjectStorage(CacheObjectStorage):
         bucket,
         access_key_id,
         secret_access_key,
+        region=None,
     ):
         get_logger("cache").info(
             "Initializing PortalFileCacheObjectStorage with path %s"
@@ -153,6 +157,7 @@ class PortalFileCacheObjectStorage(CacheObjectStorage):
             bucket,
             access_key_id,
             secret_access_key,
+            region=None,
         )
 
     def get_user_links(self):
@@ -191,6 +196,7 @@ class GroupFileCacheObjectStorage(CacheObjectStorage):
         bucket,
         access_key_id,
         secret_access_key,
+        region=None,
     ):
         super().__init__(
             ucs_internal_path,
@@ -198,6 +204,7 @@ class GroupFileCacheObjectStorage(CacheObjectStorage):
             bucket,
             access_key_id,
             secret_access_key,
+            region,
         )
 
     def refresh(self, reason=None):
