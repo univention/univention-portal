@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.58.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.4...v0.58.0) (2025-03-18)
+
+
+### Features
+
+* **portal-frontend:** Add cornerLinks getter to portal data store mutations ([4d693af](https://git.knut.univention.de/univention/components/univention-portal/commit/4d693af39435896cded082d41e7a4c7fa5865925))
+* **portal-frontend:** Add new component to render corner_links from portal.json ([bcaeac5](https://git.knut.univention.de/univention/components/univention-portal/commit/bcaeac5e1a20101f4df5ac48df87a00bf96a33cf))
+
+
+### Bug Fixes
+
+* **portal-frontend:** add theme for light and dark mode for PortalCornerLinks ([41e8086](https://git.knut.univention.de/univention/components/univention-portal/commit/41e8086b3b4b97b2311ac706514780bfdad25a19))
+* **portal-frontend:** Fix typo in media query for tablet width ([604a718](https://git.knut.univention.de/univention/components/univention-portal/commit/604a71898286f800c36547b1e8ed2596d80be47c))
+
 ## [0.57.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.3...v0.57.4) (2025-03-18)
 
 
