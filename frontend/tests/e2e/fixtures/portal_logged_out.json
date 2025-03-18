@@ -25,6 +25,7 @@
       ]
     }
   ],
+  "corner_links": [],
   "entries": [
     {
       "activated": true,
@@ -408,6 +409,7 @@
     },
     "showApps": false
   },
+  "quick_links": [],
   "user_displayname": null,
   "user_links": [],
   "username": null

@@ -14,6 +14,7 @@
       ]
     }
   ],
+  "corner_links": [],
   "entries": [
     {
       "activated": true,
@@ -87,6 +88,7 @@
     },
     "showUmc": true
   },
+  "quick_links": [],
   "user_displayname": "Administrator",
   "user_links": [],
   "username": "administrator"
