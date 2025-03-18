@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.57.4](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.3...v0.57.4) (2025-03-18)
+
+
+### Bug Fixes
+
+* **portal-extension:** Ensure that Portal Folders are removed from link lists when deleted ([3bd0c91](https://git.knut.univention.de/univention/components/univention-portal/commit/3bd0c9173f2c8f0f3990d4f1144b338f1c078d5e))
+
 ## [0.57.3](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.2...v0.57.3) (2025-03-14)
 
 
