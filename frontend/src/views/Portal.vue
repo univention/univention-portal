@@ -49,14 +49,14 @@
       :aria-role="portalRole"
       class="portal-categories"
     >
+      <portal-greeting />
+
       <h2
         v-if="noSearchResults"
         class="portal-category__title"
       >
         {{ NO_SEARCH_RESULTS }}
       </h2>
-
-      <portal-greeting />
 
       <portal-category
         v-for="(category, index) in portalFinalLayoutFiltered"
