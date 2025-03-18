@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.59.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.58.0...v0.59.0) (2025-03-18)
+
+
+### Features
+
+* **portal-frontend:** Add interface string translations ([3be8c1d](https://git.knut.univention.de/univention/components/univention-portal/commit/3be8c1dd85aac46796afc2e21da17f8d4b870d9d))
+* **portal-frontend:** Add new feature toggle "welcome_message"  [#939](https://git.knut.univention.de/univention/components/univention-portal/issues/939) ([022080e](https://git.knut.univention.de/univention/components/univention-portal/commit/022080e26a42bb44d9e5da555527423263193c8d))
+* **portal-frontend:** Add portal-greeting vue component for display the welcome message [#939](https://git.knut.univention.de/univention/components/univention-portal/issues/939) ([6cb2db3](https://git.knut.univention.de/univention/components/univention-portal/commit/6cb2db3993986bb3733e5cc071e980d64b27ef42))
+
+
+### Bug Fixes
+
+* **portal-frontend:** Move greeting above "noSearchResults" message ([23c2ccc](https://git.knut.univention.de/univention/components/univention-portal/commit/23c2ccc892a90794935749660a3bb5498ab86a60))
+
 ## [0.58.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.57.4...v0.58.0) (2025-03-18)
 
 
