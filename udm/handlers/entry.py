@@ -186,26 +186,18 @@ mapping.register('icon', 'univentionNewPortalEntryIcon', None, univention.admin.
 mapping.register('backgroundColor', 'univentionNewPortalEntryBackgroundColor', None, univention.admin.mapping.ListToString)
 
 
+_link_lists = ('cornerLinks', 'menuLinks', 'quickLinks', 'userLinks')
+
+
 class object(univention.admin.handlers.simpleLdap):
     module = module
 
     def _ldap_post_remove(self):
-        for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('menuLinks=%s', [self.dn]), scope='sub'):
-            portal_obj.open()
-            portal_obj['menuLinks'].remove(self.dn)
-            portal_obj.modify()
-        for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('userLinks=%s', [self.dn]), scope='sub'):
-            portal_obj.open()
-            portal_obj['userLinks'].remove(self.dn)
-            portal_obj.modify()
-        for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('cornerLinks=%s', [self.dn]), scope='sub'):
-            portal_obj.open()
-            portal_obj['cornerLinks'].remove(self.dn)
-            portal_obj.modify()
-        for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format('quickLinks=%s', [self.dn]), scope='sub'):
-            portal_obj.open()
-            portal_obj['quickLinks'].remove(self.dn)
-            portal_obj.modify()
+        for link_list in _link_lists:
+            for portal_obj in univention.admin.modules.lookup('portals/portal', None, self.lo, filter=filter_format(f'{link_list}=%s', [self.dn]), scope='sub'):
+                portal_obj.open()
+                portal_obj[link_list].remove(self.dn)
+                portal_obj.modify()
         for category_obj in univention.admin.modules.lookup('portals/category', None, self.lo, filter=filter_format('entries=%s', [self.dn]), scope='sub'):
             category_obj.open()
             category_obj['entries'].remove(self.dn)
