@@ -11,11 +11,11 @@
     <a
       :href="entries[0].link"
       :target="entries[0].linkTarget"
-      class="portal-quick-draft__item portal-quick-draft__item--single"
+      class="portal-quick-draft__item portal-quick-draft__item--button"
     >
-      <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
       <img
-        :src="entries[0].iconUrl || './media/questionmark.svg'"
+        v-if="entries[0].iconUrl"
+        :src="entries[0].iconUrl"
         onerror="this.src='./media/questionmark.svg'"
         alt=""
         class="portal-quick-draft__img"
@@ -83,13 +83,13 @@ import { mapGetters } from 'vuex';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
-export type PortalQuickDraftEntry = {
+export type PortalQuickDraftEntries = Array<{
   name: string;
   description: string;
   link: string;
   iconUrl: string | null;
   linkTarget: '_blank' | '_self';
-};
+}>;
 
 export default defineComponent({
   name: 'PortalQuickDraft',
@@ -102,7 +102,7 @@ export default defineComponent({
       required: true,
     },
     entries: {
-      type: Array as PropType<PortalQuickDraftEntry[]>,
+      type: Array as PropType<PortalQuickDraftEntries>,
       required: true,
     },
   },
@@ -213,7 +213,8 @@ export default defineComponent({
       text-decoration: underline
       outline: none
       outline-offset: none
-    &--single
+
+    &--button
       height: 2.75rem
       padding: 0 calc(2 * var(--layout-spacing-unit))
 

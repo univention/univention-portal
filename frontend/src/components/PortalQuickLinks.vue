@@ -5,7 +5,7 @@
 
 <template>
   <div
-    v-if="portalQuickLinks().length > 0"
+    v-if="quickLinks.length > 0"
     class="portal-quick-links"
   >
     <portal-quick-draft
@@ -21,11 +21,11 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
-import PortalQuickDraft, { PortalQuickDraftEntry } from './PortalQuickDraft.vue';
+import PortalQuickDraft, { PortalQuickDraftEntries } from './PortalQuickDraft.vue';
 
 type PortalQuickLinks = Array<{
   name: string;
-  entries: Array<PortalQuickDraftEntry>
+  entries: PortalQuickDraftEntries;
 }>;
 
 export default defineComponent({
@@ -43,7 +43,7 @@ export default defineComponent({
   methods: {
     getEntries(dn: string) {
       // eslint-disable-next-line camelcase
-      const entries: Array<PortalQuickDraftEntry> = this.portalEntries?.filter((e) => e.dn === dn).map(({ name, description, links, icon_url, linkTarget }) => ({
+      const entries: PortalQuickDraftEntries = this.portalEntries?.filter((e) => e.dn === dn).map(({ name, description, links, icon_url, linkTarget }) => ({
         name: this.$localized(name),
         description: this.$localized(description),
         link: this.$localized(links.reduce((acc, link) => {
