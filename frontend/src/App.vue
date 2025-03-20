@@ -92,7 +92,10 @@ export default defineComponent({
     }
 
     if (answer.portal && answer.portal.ensureLogin && !this.userState.username) {
-      login(this.userState);
+      // Do not redirect to login page on selfservice routes (e.g. passwordforgotten)
+      if (!this.$route.name?.toString().startsWith('selfservice')) {
+        login(this.userState);
+      }
     }
 
     if (this.featureToggles.centered_layout) {
