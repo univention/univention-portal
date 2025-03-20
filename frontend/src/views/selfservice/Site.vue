@@ -53,10 +53,11 @@
 <script lang="ts">
 // FIXME if using 'initialLoadDone' for is-active there are weird z-indexing css issues with the opacity animation
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import ModalDialog from '@/components/modal/ModalDialog.vue';
-import { mapGetters } from 'vuex';
+import { login } from '@/jsHelper/login';
 
 export default defineComponent({
   name: 'Site',
@@ -76,6 +77,8 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
+      userState: 'user/userState',
+      portalData: 'portalData/getPortal',
       initialLoadDone: 'getInitialLoadDone',
     }),
   },
@@ -86,6 +89,11 @@ export default defineComponent({
   unmounted() {
     this.$store.dispatch('activity/setLevel', 'portal');
     document.body.classList.remove('body--has-selfservice');
+
+    // Redirect to login if the selfservice modals are canceled and the selfservice/site component unmounts.
+    if (this.portalData.portal && this.portalData.portal.ensureLogin && !this.userState.username) {
+      login(this.userState);
+    }
   },
   methods: {
     cancel() {
