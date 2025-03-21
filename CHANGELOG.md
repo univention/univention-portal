@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.59.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.59.0...v0.59.1) (2025-03-21)
+
+
+### Bug Fixes
+
+* **portal-server:** Trigger cache refresh for object-storage earlier ([3623357](https://git.knut.univention.de/univention/components/univention-portal/commit/3623357bb88ad65f9788f45412763f5b8f5f33f8))
+
 ## [0.59.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.58.0...v0.59.0) (2025-03-18)
 
 
