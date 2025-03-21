@@ -40,7 +40,18 @@ import pytest
 import tornado.testing
 import tornado.web
 
+from stubs import StubPortalCache
+from univention.portal.extensions.cache_object_storage import PortalFileCacheObjectStorage
 from univention.portal.main import build_routes
+
+
+class StubPortalCacheObjectStorage(StubPortalCache, PortalFileCacheObjectStorage):
+    """Specialized stub class which will pass the `isinstance` check in the handler."""
+
+
+@pytest.fixture()
+def stub_portal_cache_object_storage(faker):
+    return StubPortalCacheObjectStorage(faker)
 
 
 class TestPortalEntriesHandlerNoHttpCache:
@@ -56,6 +67,16 @@ class TestPortalEntriesHandlerNoHttpCache:
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         assert response.code == 200
         refresh_mock.assert_not_called()
+
+    @pytest.mark.gen_test()
+    def test_calls_refresh_on_object_storage_cache(
+        self, http_client, base_url, portal, mocker, stub_portal_cache_object_storage,
+    ):
+        portal.portal_cache = stub_portal_cache_object_storage
+        refresh_mock = mocker.patch.object(portal, "refresh")
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        assert response.code == 200
+        refresh_mock.assert_called_once()
 
     @pytest.mark.gen_test()
     def test_get_portals_returns_empty_feature_configuration(
@@ -91,6 +112,36 @@ class TestPortalEntriesHandlerNoHttpCache:
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data[portal_link_list.portal_attr] == [entry_dn]
+
+
+class TestPortalEntriesHandlerObjectStorageCache:
+
+    @pytest.fixture()
+    def portal(self):
+        portal = mock.Mock(spec=["refresh", "score"])
+        portal.score.return_value = 0.5
+        return portal
+
+    @pytest.fixture()
+    def app(self, portal):
+        routes = build_routes({"default": portal}, mock.Mock())
+        return tornado.web.Application(routes)
+
+    @pytest.mark.gen_test()
+    def test_calls_refresh_on_object_storage_cache_before_usage(
+        self, http_client, base_url, portal, mocker, stub_portal_cache_object_storage,
+    ):
+        # TODO: We depend on the calls being made in the correct order if the
+        # object storage cache backend is used.
+        #
+        # Long-term the code will have to be refactored, so that the implicit
+        # refresh handling is in line with the file based implementation of the
+        # cache. Then this test and the call to "portal.refresh" in the entries
+        # handler can be removed.
+        portal.portal_cache = stub_portal_cache_object_storage
+        response = yield http_client.fetch(f"{base_url}/_/portal.json", raise_error=False)
+        assert response.code == 500
+        portal.refresh.assert_called_once()
 
 
 class TestPortalEntriesHandlerNoPortal:

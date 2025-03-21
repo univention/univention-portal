@@ -43,10 +43,10 @@ class PortalEntriesHandler(PortalResource):
         if not portal:
             raise tornado.web.HTTPError(404)
 
-        user = await portal.get_user(self)
-
         if isinstance(portal.portal_cache, PortalFileCacheObjectStorage):
             portal.refresh()
+
+        user = await portal.get_user(self)
 
         admin_mode = False
         if self.request.headers.get("X-Univention-Portal-Admin-Mode", "no") == "yes":
