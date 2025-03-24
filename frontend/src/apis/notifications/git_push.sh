@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2025 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 # ref: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/

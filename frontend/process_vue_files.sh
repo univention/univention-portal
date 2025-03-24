@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2021-2024 Univention GmbH
+# Copyright 2021-2025 Univention GmbH
 #
 # https://www.univention.de/
 #

@@ -1,4 +1,4 @@
-# Copyright 2020-2024 Univention GmbH
+# Copyright 2020-2025 Univention GmbH
 #
 # https://www.univention.de/
 #
