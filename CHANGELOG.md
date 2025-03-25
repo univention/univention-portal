@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.60.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.59.1...v0.60.0) (2025-03-25)
+
+
+### Features
+
+* **portal-frontend:** Add quickLinks getter to portal data store mutations ([113b71b](https://git.knut.univention.de/univention/components/univention-portal/commit/113b71b2465aaffd675128d6e1614b3d373914d6))
+* **portal-frontend:** Render quickdraft component from portal quick_links ([3e57fbb](https://git.knut.univention.de/univention/components/univention-portal/commit/3e57fbb647214ba25173b891f17e33ab9c02f3c0))
+
 ## [0.59.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.59.0...v0.59.1) (2025-03-21)
 
 
