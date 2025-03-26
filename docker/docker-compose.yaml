@@ -203,6 +203,9 @@ services:
       - type: bind
         source: ../univention-portal-server
         target: /app/univention-portal-server
+      - type: bind
+        source: ../helm
+        target: /app/helm
 
   test-chart-portal-server:
     image: gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/testrunner:0.7.0
