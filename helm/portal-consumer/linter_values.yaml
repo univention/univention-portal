@@ -20,6 +20,11 @@ portalConsumer:
   tlsMode: "unvalidated"
   objectStorageAccessKeyId: "stub_user"
   objectStorageSecretAccessKey: "stub_password"
+  ldapBaseDn: "example.com"
+  ldapHost: "ldap.example.com"
+  ldapHostDn: "example.com"
+  ldapPort: "437"
+  udmApiUrl: "Unknown"
 
 objectStorage:
   endpoint: "http://minio:9000"
@@ -48,5 +53,11 @@ probes:
 
   readiness:
     enabled: false
+
+provisioningApi:
+  connection:
+    baseUrl: "https://provisioning-api"
+  auth:
+    password: "password"
 
 ...
