@@ -5,8 +5,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "common.names.fullname" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" $ ) | nindent 4 }}
 spec:
   serviceName: {{ include "common.names.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
@@ -14,7 +15,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "common.labels.matchLabels" . | nindent 6 }}
+      {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.additionalLabels "context" $ ) | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -24,19 +25,25 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "common.labels.matchLabels" . | nindent 8 }}
+        {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" $ ) | nindent 8 }}
     spec:
       {{- with .Values.portalConsumer.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.podSecurityContext.enabled }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
       initContainers:
         - name: wait-for-ldap
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext:
+            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
@@ -57,6 +64,10 @@ spec:
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-udm
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext:
+            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
@@ -77,6 +88,10 @@ spec:
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-object-storage
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext:
+            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
@@ -100,6 +115,10 @@ spec:
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: wait-for-provisioning-api
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext:
+            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           command: ["/bin/bash", "/scripts/wait-for-provisioning-api.sh"]
@@ -115,6 +134,10 @@ spec:
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: "univention-compatibility"
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext:
+            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
@@ -141,8 +164,10 @@ spec:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
       containers:
         - name: "portal-consumer"
+          {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:

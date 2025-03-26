@@ -55,7 +55,7 @@ podSecurityContext:
       value: "1"
 
 replicaCount: 1
-securityContext:
+containerSecurityContext:
   privileged: false
   # -- Enable container privileged escalation.
   allowPrivilegeEscalation: false
@@ -77,7 +77,6 @@ securityContext:
   readOnlyRootFilesystem: true
   # -- Run container as a user.
   runAsNonRoot: true
-  fsGroup: 1001
 tolerations: []
 extraSecrets: []
 

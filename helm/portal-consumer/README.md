@@ -73,6 +73,91 @@ false
 			<td></td>
 		</tr>
 		<tr>
+			<td>containerSecurityContext.allowPrivilegeEscalation</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>Enable container privileged escalation.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.capabilities</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "drop": [
+    "ALL"
+  ]
+}
+</pre>
+</td>
+			<td>Security capabilities for container.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Enable security context.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.privileged</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.readOnlyRootFilesystem</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Mounts the container's root filesystem as read-only.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.runAsGroup</td>
+			<td>int</td>
+			<td><pre lang="json">
+1001
+</pre>
+</td>
+			<td>Process group id.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.runAsNonRoot</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Run container as a user.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.runAsUser</td>
+			<td>int</td>
+			<td><pre lang="json">
+1001
+</pre>
+</td>
+			<td>Process user id.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContext.seccompProfile.type</td>
+			<td>string</td>
+			<td><pre lang="json">
+"RuntimeDefault"
+</pre>
+</td>
+			<td>Disallow custom Seccomp profile by setting it to RuntimeDefault.</td>
+		</tr>
+		<tr>
 			<td>environment</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -844,100 +929,6 @@ true
 </pre>
 </td>
 			<td>Deployment resources for the dependency waiters</td>
-		</tr>
-		<tr>
-			<td>securityContext.allowPrivilegeEscalation</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td>Enable container privileged escalation.</td>
-		</tr>
-		<tr>
-			<td>securityContext.capabilities</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "drop": [
-    "ALL"
-  ]
-}
-</pre>
-</td>
-			<td>Security capabilities for container.</td>
-		</tr>
-		<tr>
-			<td>securityContext.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Enable security context.</td>
-		</tr>
-		<tr>
-			<td>securityContext.fsGroup</td>
-			<td>int</td>
-			<td><pre lang="json">
-1001
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>securityContext.privileged</td>
-			<td>bool</td>
-			<td><pre lang="json">
-false
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>securityContext.readOnlyRootFilesystem</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Mounts the container's root filesystem as read-only.</td>
-		</tr>
-		<tr>
-			<td>securityContext.runAsGroup</td>
-			<td>int</td>
-			<td><pre lang="json">
-1001
-</pre>
-</td>
-			<td>Process group id.</td>
-		</tr>
-		<tr>
-			<td>securityContext.runAsNonRoot</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Run container as a user.</td>
-		</tr>
-		<tr>
-			<td>securityContext.runAsUser</td>
-			<td>int</td>
-			<td><pre lang="json">
-1001
-</pre>
-</td>
-			<td>Process user id.</td>
-		</tr>
-		<tr>
-			<td>securityContext.seccompProfile.type</td>
-			<td>string</td>
-			<td><pre lang="json">
-"RuntimeDefault"
-</pre>
-</td>
-			<td>Disallow custom Seccomp profile by setting it to RuntimeDefault.</td>
 		</tr>
 		<tr>
 			<td>terminationGracePeriodSeconds</td>
