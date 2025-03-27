@@ -201,6 +201,23 @@ objectStorage:
   # -- Bucket in the object storage for storing the portal and assets. Example
   # "portal-data".
   bucketName: ""
+  auth:
+    # -- User for the object storage.
+    accessKeyId: ""
+    # -- Password for access to object storage.
+    secretAccessKey: ""
+    existingSecret:
+      # -- The name of an existing Secret to use for retrieving the secret
+      # to use as object storage secret access key.
+      #
+      # "objectStorage.secretAccessKey" and "objectStorage.accessKeyId" will be
+      # ignored if this value is set.
+      name: null
+      keyMapping:
+        # -- The key to retrieve the secret from. Setting this value allows to use
+        # a key with a different name.
+        accessKey: null
+        secretKey: null
 
 # Database persistence settings.
 persistence:
@@ -465,25 +482,15 @@ portalServer:
     # UMC session cookie one. This allows 3rd party apps to authenticate against
     # the portal server to get the central navigation.
     enabled: true
-    # -- Provide a name to a custom secret containing `authenticator.secret`.
-    # Will get mounted in /var/secrets/authenticator.secret.
-    authenticatorSecretName: ""
-  # -- User for the object storage. Chart default is "ums_user".
-  objectStorageAccessKeyId: ""
-  # -- Password for access to object storage. Chart default is "stub_password".
-  objectStorageSecretAccessKey: ""
-  # -- Optional reference to a different secret for credentials
-  # credentialSecret:
-  #   name: "custom-credentials"
-  #   accessKeyId: "ums_user"
-  #   secretAccessKey: "ums_password"
-  objectStorageCredentialSecret:
-    name: ""
-    accessKeyKey: "accessKey"
-    secretKeyKey: "secretKey"
-  # -- Optional reference to a different secret for credentials
-  # credentialSecret:
-  #   name: "custom-credentials"
-  #   accessKeyId: "ums_user"
-  #   secretAccessKey: "ums_password"
-  credentialSecret: {}
+    # -- The shared secret to use for authenticating against the portal server.
+    sharedSecret: null
+    existingSecret:
+      # -- The name of an existing Secret to use for retrieving the secret
+      # to use as central navigation shared secret.
+      #
+      # "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.
+      name: null
+      keyMapping:
+        # -- The key to retrieve the secret from. Setting this value allows to use
+        # a key with a different name.
+        password: null

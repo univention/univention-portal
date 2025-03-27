@@ -42,7 +42,7 @@ helm uninstall portal-server
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://artifacts.software-univention.de/nubus/charts | nubus-common | ^0.8.x |
+| oci://artifacts.software-univention.de/nubus/charts | nubus-common | ^0.12.x |
 
 ## Values
 
@@ -515,6 +515,51 @@ true
 			<td>Node labels for pod assignment. Ref: https://kubernetes.io/docs/user-guide/node-selection/</td>
 		</tr>
 		<tr>
+			<td>objectStorage.auth.accessKeyId</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>User for the object storage.</td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.existingSecret.keyMapping.accessKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.existingSecret.keyMapping.secretKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The name of an existing Secret to use for retrieving the secret to use as object storage secret access key.  "objectStorage.secretAccessKey" and "objectStorage.accessKeyId" will be ignored if this value is set.</td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.secretAccessKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Password for access to object storage.</td>
+		</tr>
+		<tr>
 			<td>objectStorage.bucketName</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -693,15 +738,6 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.authenticatorSecretName</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Provide a name to a custom secret containing `authenticator.secret`. Will get mounted in /var/secrets/authenticator.secret.</td>
-		</tr>
-		<tr>
 			<td>portalServer.centralNavigation.enabled</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -711,13 +747,31 @@ true
 			<td>Activate the shared secret authenticator for the portal, instead of the UMC session cookie one. This allows 3rd party apps to authenticate against the portal server to get the central navigation.</td>
 		</tr>
 		<tr>
-			<td>portalServer.credentialSecret</td>
-			<td>object</td>
+			<td>portalServer.centralNavigation.existingSecret.keyMapping.password</td>
+			<td>string</td>
 			<td><pre lang="json">
-{}
+null
 </pre>
 </td>
-			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
+			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
+		</tr>
+		<tr>
+			<td>portalServer.centralNavigation.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The name of an existing Secret to use for retrieving the secret to use as central navigation shared secret.  "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.</td>
+		</tr>
+		<tr>
+			<td>portalServer.centralNavigation.sharedSecret</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The shared secret to use for authenticating against the portal server.</td>
 		</tr>
 		<tr>
 			<td>portalServer.editable</td>
@@ -759,37 +813,6 @@ true
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>
-		</tr>
-		<tr>
-			<td>portalServer.objectStorageAccessKeyId</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>User for the object storage. Chart default is "ums_user".</td>
-		</tr>
-		<tr>
-			<td>portalServer.objectStorageCredentialSecret</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "accessKeyKey": "accessKey",
-  "name": "",
-  "secretKeyKey": "secretKey"
-}
-</pre>
-</td>
-			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
-		</tr>
-		<tr>
-			<td>portalServer.objectStorageSecretAccessKey</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Password for access to object storage. Chart default is "stub_password".</td>
 		</tr>
 		<tr>
 			<td>portalServer.port</td>
