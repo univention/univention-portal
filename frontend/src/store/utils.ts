@@ -39,6 +39,8 @@ export function extractUserData(portal, apiMe): UserWrapper {
       mayEditPortal: portal.may_edit_portal,
       authMode: portal.auth_mode,
       ...(apiMe?.user?.firstname && { firstname: apiMe.user.firstname }),
+      ...(apiMe?.user?.lastname && { lastname: apiMe.user.lastname }),
+      ...(apiMe?.user?.jpegPhoto && { jpegPhoto: apiMe.user.jpegPhoto }),
     },
   };
   return userData;

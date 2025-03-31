@@ -36,6 +36,8 @@ export interface User {
     mayEditPortal: boolean;
     authMode: string;
     firstname?: string;
+    lastname?: string;
+    jpegPhoto?: string;
 }
 
 export interface UserWrapper {
