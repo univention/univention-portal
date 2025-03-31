@@ -41,7 +41,7 @@ export default defineComponent({
     }),
   },
   methods: {
-    getEntries(dn: string) {
+    getEntries(dn: string): PortalQuickDraftEntries {
       // eslint-disable-next-line camelcase
       const entries: PortalQuickDraftEntries = this.portalEntries?.filter((e) => e.dn === dn).map(({ name, description, links, icon_url, linkTarget }) => ({
         name: this.$localized(name),
@@ -55,18 +55,26 @@ export default defineComponent({
       }));
       return entries;
     },
-    portalQuickLinks() {
-      const folders: PortalQuickLinks = this.quickLinks?.flatMap((dn) => this.portalFolders?.filter((folder) => folder.dn === dn)
-        .map(({ name, entries }) => ({
-          name: this.$localized(name),
-          entries: entries.flatMap((entryDn) => this.getEntries(entryDn)),
-        }),
-        ));
-      const entries: PortalQuickLinks = this.quickLinks?.flatMap((dn) => this.getEntries(dn)).map((e) => ({
-        name: e.name,
-        entries: [e],
-      }));
-      return folders.concat(entries);
+    portalQuickLinks(): PortalQuickLinks {
+      const quickLinks: PortalQuickLinks = this.quickLinks?.flatMap((dn) => {
+        const entriesFound = this.portalEntries?.filter((entry) => entry.dn === dn);
+        const foldersFound = this.portalFolders?.filter((folder) => folder.dn === dn);
+        if (foldersFound.length) {
+          return foldersFound.map(({ name, entries }) => ({
+            name: this.$localized(name),
+            entries: entries.flatMap((entryDn) => this.getEntries(entryDn)),
+          }));
+        }
+        if (entriesFound.length) {
+          return this.getEntries(dn).map((e) => ({
+            name: e.name,
+            entries: [e],
+          }));
+        }
+        return false;
+      });
+      // Filter out false values and only return PortalQuickDraftEntries.
+      return quickLinks.filter((e) => e?.name && e?.entries);
     },
   },
 });
