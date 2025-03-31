@@ -45,7 +45,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         :aria-label="ariaLabel"
         class="button--icon button--icon--circle button--icon--header-style button--flat "
       >
+        <header-menu-icon v-if="icon === 'menu'" />
         <portal-icon
+          v-else
           :icon="icon"
         />
         <div
@@ -65,12 +67,14 @@ import _ from '@/jsHelper/translate';
 
 import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import HeaderMenuIcon from '@/components/header/HeaderMenuIcon.vue';
 
 export default defineComponent({
   name: 'HeaderButton',
   components: {
     PortalIcon,
     TabindexElement,
+    HeaderMenuIcon,
   },
   props: {
     icon: {
