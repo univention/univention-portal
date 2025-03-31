@@ -165,7 +165,7 @@ export function sanitizeFrontendValues(values: Record<string, unknown>, widgets:
 }
 
 // copy pasted from ucs/management/univention-web/js/widgets/Image.js
-function getImageType(base64String: string): string {
+export function getImageType(base64String: string): string {
   // check the signature of the first bytes...
   // for jpeg it is (in hex): hex pattern: FF D8 FF
   if (base64String.indexOf('/9j/4') === 0) {
