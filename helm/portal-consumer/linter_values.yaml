@@ -20,9 +20,9 @@ portalConsumer:
   tlsMode: "unvalidated"
   objectStorageAccessKeyId: "stub_user"
   objectStorageSecretAccessKey: "stub_password"
-  ldapBaseDn: "example.com"
-  ldapHost: "ldap.example.com"
-  ldapHostDn: "example.com"
+  ldapBaseDn: "example.test"
+  ldapHost: "ldap.example.test"
+  ldapHostDn: "example.test"
   ldapPort: "437"
   udmApiUrl: "Unknown"
 

@@ -9,7 +9,7 @@ from univention.testing.helm.deployment import Deployment
 
 
 def get_absolute_path(path: Path):
-    base_path = Path(__file__).parent.parent
+    base_path = Path(__file__).parent.parent.parent.parent
     return str(base_path / path)
 
 

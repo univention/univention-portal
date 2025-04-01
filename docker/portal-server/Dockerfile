@@ -87,12 +87,6 @@ CMD ["./univention-portal-server"]
 # See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
 FROM local-dev-env as test
 
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
-
-RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
-    curl
-RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash -
-
 CMD ["pytest", "unittests"]
 
 

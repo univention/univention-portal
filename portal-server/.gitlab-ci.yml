@@ -110,8 +110,17 @@ test-chart-portal-server:
   stage: test
   image: "gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/testrunner:0.7.0"
   script:
+    - pip install -r requirements-test.txt
     - helm dep build helm/portal-server
     - pytest portal-server/tests/chart
+
+test-chart-portal-consumr:
+  stage: test
+  image: "gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/testrunner:0.7.0"
+  script:
+    - pip install -r requirements-test.txt
+    - helm dep build helm/portal-consumer
+    - pytest portal-consumer/tests/chart
 
 push-image-external:
   before_script:

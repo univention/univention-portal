@@ -17,10 +17,15 @@ cd docker
 docker compose run -it --rm test-chart-portal-server
 
 # Deal with trouble via pdb
-docker compose run -it --rm test-chart-portal-server pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart --pdb
+docker compose run -it --rm test-chart-portal-server \
+  bash -c "pip install -r requirements-test.txt && \
+           helm dependency build helm/portal-server/ && \
+           pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart --pdb"
 
 # Have a shell
 docker compose run -it --rm test-chart-portal-server bash
+pip install -r requirements-test.txt
+helm dependency build helm/portal-server
 pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart
 ```
 
