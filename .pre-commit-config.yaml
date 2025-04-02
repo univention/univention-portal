@@ -77,8 +77,8 @@ repos:
         stages: [manual]
         args: ["--fix"]
 
-  - repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: v2.0.4
+  - repo: https://github.com/hhatto/autopep8
+    rev: v2.3.2
     hooks:
       - id: autopep8
         args: ["-d"]
