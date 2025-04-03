@@ -80,7 +80,7 @@ export default defineComponent({
   async mounted() {
     // Set locale and load portal data from backend
     this.$store.dispatch('activateLoadingState');
-    const answer = await this.$store.dispatch('loadPortal', {
+    await this.$store.dispatch('loadPortal', {
       adminMode: false,
     });
 
@@ -91,11 +91,9 @@ export default defineComponent({
       this.setFavicon(this.metaData.favicon);
     }
 
-    if (answer.portal && answer.portal.ensureLogin && !this.userState.username) {
-      // Do not redirect to login page on selfservice routes (e.g. passwordforgotten)
-      if (!this.$route.name?.toString().startsWith('selfservice')) {
-        login(this.userState);
-      }
+    const shouldRedirectToLogin = await this.$store.dispatch('shouldRedirectToLogin');
+    if (shouldRedirectToLogin && !this.$route.name?.toString().startsWith('selfservice')) {
+      login(this.userState);
     }
 
     if (this.featureToggles.centered_layout) {

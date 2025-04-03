@@ -86,12 +86,13 @@ export default defineComponent({
     this.$store.dispatch('activity/setLevel', 'selfservice');
     document.body.classList.add('body--has-selfservice');
   },
-  unmounted() {
+  async unmounted() {
     this.$store.dispatch('activity/setLevel', 'portal');
     document.body.classList.remove('body--has-selfservice');
 
     // Redirect to login if the selfservice modals are canceled and the selfservice/site component unmounts.
-    if (this.portalData.portal && this.portalData.portal.ensureLogin && !this.userState.username) {
+    const shouldRedirectToLogin = await this.$store.dispatch('shouldRedirectToLogin');
+    if (shouldRedirectToLogin) {
       login(this.userState);
     }
   },
