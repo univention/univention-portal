@@ -42,6 +42,9 @@ spec:
         - name: wait-for-ldap
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
+            {{- with .Values.containerSecurityContextNonRoot }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
@@ -66,6 +69,9 @@ spec:
         - name: wait-for-udm
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
+            {{- with .Values.containerSecurityContextNonRoot }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
@@ -90,6 +96,9 @@ spec:
         - name: wait-for-object-storage
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
+            {{- with .Values.containerSecurityContextNonRoot }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
@@ -117,6 +126,9 @@ spec:
         - name: wait-for-provisioning-api
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
+            {{- with .Values.containerSecurityContextNonRoot }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
@@ -166,6 +178,9 @@ spec:
         - name: "portal-consumer"
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
+            {{- with .Values.containerSecurityContextNonRoot }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"

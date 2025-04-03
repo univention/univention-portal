@@ -113,7 +113,16 @@ false
 			<td></td>
 		</tr>
 		<tr>
-			<td>containerSecurityContext.readOnlyRootFilesystem</td>
+			<td>containerSecurityContext.seccompProfile.type</td>
+			<td>string</td>
+			<td><pre lang="json">
+"RuntimeDefault"
+</pre>
+</td>
+			<td>Disallow custom Seccomp profile by setting it to RuntimeDefault.</td>
+		</tr>
+		<tr>
+			<td>containerSecurityContextNonRoot.readOnlyRootFilesystem</td>
 			<td>bool</td>
 			<td><pre lang="json">
 true
@@ -122,7 +131,7 @@ true
 			<td>Mounts the container's root filesystem as read-only.</td>
 		</tr>
 		<tr>
-			<td>containerSecurityContext.runAsGroup</td>
+			<td>containerSecurityContextNonRoot.runAsGroup</td>
 			<td>int</td>
 			<td><pre lang="json">
 1001
@@ -131,7 +140,7 @@ true
 			<td>Process group id.</td>
 		</tr>
 		<tr>
-			<td>containerSecurityContext.runAsNonRoot</td>
+			<td>containerSecurityContextNonRoot.runAsNonRoot</td>
 			<td>bool</td>
 			<td><pre lang="json">
 true
@@ -140,22 +149,13 @@ true
 			<td>Run container as a user.</td>
 		</tr>
 		<tr>
-			<td>containerSecurityContext.runAsUser</td>
+			<td>containerSecurityContextNonRoot.runAsUser</td>
 			<td>int</td>
 			<td><pre lang="json">
 1001
 </pre>
 </td>
 			<td>Process user id.</td>
-		</tr>
-		<tr>
-			<td>containerSecurityContext.seccompProfile.type</td>
-			<td>string</td>
-			<td><pre lang="json">
-"RuntimeDefault"
-</pre>
-</td>
-			<td>Disallow custom Seccomp profile by setting it to RuntimeDefault.</td>
 		</tr>
 		<tr>
 			<td>environment</td>
