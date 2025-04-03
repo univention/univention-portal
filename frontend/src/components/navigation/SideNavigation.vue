@@ -35,14 +35,9 @@
   >
     <div class="portal-sidenavigation__login-header">
       <div
-        v-if="userState.username"
+        v-if="isLoggedIn"
         class="portal-sidenavigation__user-row"
       >
-        <div class="portal-sidenavigation__user-icon">
-          <portal-icon
-            icon="user"
-          />
-        </div>
         <div class="portal-sidenavigation__user-text-content">
           <div class="portal-sidenavigation--username">
             {{ userState.displayName }}
@@ -218,6 +213,7 @@ export default defineComponent({
     ...mapGetters({
       menuLinks: 'menu/getMenu',
       userState: 'user/userState',
+      isLoggedIn: 'user/isLoggedIn',
     }),
     LOGOUT(): string {
       return _('Logout');
@@ -329,34 +325,14 @@ $userRow = 6rem
     display: flex
     height: $userRow
 
-  &__user-icon
-    position: relative
-    overflow: hidden;
-    border-radius: var(--border-radius-apptile)
-    margin: 1rem
-    border: 1px solid var(--portal-sidenav-user-icon)
-    width: 3rem
-    height: @width
-    margin: 24px 12px 24px 20px
-    padding-left: 0 !important; // remove this line, when weird server caching is fixed
-
-    svg
-      fill: currentColor
-      height: 3rem
-      width: @height
-      border-radius: var(--border-radius-circles)
-      color: var(--portal-sidenav-user-icon)
-      margin: 0
-
   &__user-text-content
     margin: auto 0
-    padding: 0 var(--layout-spacing-unit)
     height: 100%;
     align-items: flex-start
     display: flex
     flex-direction: column
     justify-content: space-between
-    padding: calc(1rem + var(--layout-spacing-unit)) 0
+    padding: calc(1rem + var(--layout-spacing-unit))
     box-sizing: border-box
 
   &--username
