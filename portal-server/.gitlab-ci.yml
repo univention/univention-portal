@@ -110,6 +110,7 @@ test-chart-portal-server:
   stage: test
   image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.0"
   script:
+    # FIXME: Remove --insecure-skip-tls-verify when testrunner is fixed
     - helm dep build --insecure-skip-tls-verify helm/portal-server
     - pytest portal-server/tests/chart
 
@@ -117,6 +118,7 @@ test-chart-portal-consumer:
   stage: test
   image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.0"
   script:
+    # FIXME: Remove --insecure-skip-tls-verify when testrunner is fixed
     - helm dep build --insecure-skip-tls-verify helm/portal-consumer
     - pytest portal-consumer/tests/chart
 
