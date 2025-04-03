@@ -114,7 +114,7 @@ test-chart-portal-server:
     - helm dep build helm/portal-server
     - pytest portal-server/tests/chart
 
-test-chart-portal-consumr:
+test-chart-portal-consumer:
   stage: test
   image: "gitregistry.knut.univention.de/univention/customers/dataport/upx/common-helm/testrunner:0.7.0"
   script:
