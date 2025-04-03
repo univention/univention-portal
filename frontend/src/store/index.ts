@@ -85,7 +85,12 @@ export const actions = {
   initialLoadDone({ commit }) {
     commit('SET_INITIAL_LOAD_DONE', true);
   },
-
+  shouldRedirectToLogin({ rootGetters }) {
+    if (rootGetters['portalData/portalEnsureLogin'] && !rootGetters['user/isLoggedIn']) {
+      return true;
+    }
+    return false;
+  },
   loadPortal: ({ commit, dispatch, rootGetters }, payload: LoadPortalPayload) => new Promise((resolve, reject) => {
     // Get portal data
     const portalRequest = portalJsonRequest(payload.adminMode)

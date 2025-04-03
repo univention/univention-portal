@@ -59,6 +59,7 @@ const user: PortalModule<UserState> = {
 
   getters: {
     userState: (state: UserState) => state.user,
+    isLoggedIn: (state: UserState) => (!!state.user.username),
   },
 
   actions: {
