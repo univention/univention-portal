@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.61.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.60.1...v0.61.0) (2025-04-04)
+
+
+### Features
+
+* **portal-server:** Migrate portal navigation shared and object storage secrets ([54aa249](https://git.knut.univention.de/univention/components/univention-portal/commit/54aa2496faaf174c4ecd13423676c8b48efbd840)), closes [univention/dev/internal/team-nubus#1092](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1092)
+
+
+### Bug Fixes
+
+* **notifications-api:** Migrate from bitnami-common to nubus-common ([5815fd4](https://git.knut.univention.de/univention/components/univention-portal/commit/5815fd4fd34c44b05bd0f3989916b3dcda034606))
+* **portal-consumer:** Migrate from bitnami-common to nubus-common ([4904377](https://git.knut.univention.de/univention/components/univention-portal/commit/4904377588ab9d3bf389aeffb7624d921c2fb4bd))
+* **portal-frontend:** Migrate from bitnami-common to nubus-common ([6eb96ae](https://git.knut.univention.de/univention/components/univention-portal/commit/6eb96ae5bfd5a16d0d1820969b305566eadcbe7d))
+* **portal-server:** ClientError requires two arguments ([6010524](https://git.knut.univention.de/univention/components/univention-portal/commit/6010524aad6ac75dbc39e402d1818b3b2f6e517f)), closes [univention/dev/internal/team-nubus#1092](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1092)
+
 ## [0.60.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.60.0...v0.60.1) (2025-04-04)
 
 
