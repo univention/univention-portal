@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.60.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.60.0...v0.60.1) (2025-04-04)
+
+
+### Bug Fixes
+
+* **deps:** Pin version of pytest-helm and helm-test-harness ([e02049b](https://git.knut.univention.de/univention/components/univention-portal/commit/e02049b5fab76f4f51441128f31dff1340a164d9)), closes [univention/dev/internal/team-nubus#1096](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1096)
+* **helm portal-consumer:** Add helm-test-harness to unit tests ([757c43a](https://git.knut.univention.de/univention/components/univention-portal/commit/757c43aaf5fef3ce06fdc87153a8fbfa29f8af4d)), closes [univention/dev/internal/team-nubus#1096](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1096)
+* **helm portal-consumer:** Add missing stub values to linter_values.yaml ([3ed34c5](https://git.knut.univention.de/univention/components/univention-portal/commit/3ed34c5651dc99086b172caaec702f8f60229e56)), closes [univention/dev/internal/team-nubus#1096](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1096)
+* **helm portal-consumer:** Make sure templates/statefulset.yaml is valid ([14ec379](https://git.knut.univention.de/univention/components/univention-portal/commit/14ec379236571c6a271d5caee7eec9294c587c77)), closes [univention/dev/internal/team-nubus#1096](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1096)
+* **portal-consumer:** Run univention-compatiblity init container as root because ucr requires it ([6e3c7d0](https://git.knut.univention.de/univention/components/univention-portal/commit/6e3c7d0f788a98bddce51131f157a9bd089f4ccd)), closes [univention/dev/internal/team-nubus#1096](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1096)
+* **portal-frontend:** nginx image was migrated ([259a308](https://git.knut.univention.de/univention/components/univention-portal/commit/259a308355ca0c20debe2d2e9bcd7c1d3bf0bfa7))
+* **tests:** Use own test runner for helm chart tests ([f0b41a4](https://git.knut.univention.de/univention/components/univention-portal/commit/f0b41a4780ece9d722ff0e3d6025d36914706b6f)), closes [univention/dev/internal/team-nubus#1096](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1096)
+
 ## [0.60.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.59.1...v0.60.0) (2025-03-25)
 
 
