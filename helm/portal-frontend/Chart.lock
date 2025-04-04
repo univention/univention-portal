@@ -1,6 +1,6 @@
 dependencies:
-- name: common
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 2.20.3
-digest: sha256:e0f8d917a76536aa7783eaa913dbd9a076939dbf32e06b8cac213e8a0df6bbff
-generated: "2024-07-03T08:01:38.680852+02:00"
+- name: nubus-common
+  repository: oci://artifacts.software-univention.de/nubus/charts
+  version: 0.12.1
+digest: sha256:0450aa32db5a52241c4200be66a7a507012cb63b39fab2a1e2e19bc8378c58f5
+generated: "2025-04-04T15:34:09.673026668+02:00"
