@@ -149,6 +149,12 @@ spec:
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+            # container must run as root so override those values to make sure it runs as root
+            # no matter what values are set
+            runAsUser: null
+            runAsGroup: null
+            readOnlyRootFilesystem: null
+            runAsNonRoot: null
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}

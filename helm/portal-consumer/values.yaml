@@ -69,13 +69,6 @@ containerSecurityContext:
   seccompProfile:
     # -- Disallow custom Seccomp profile by setting it to RuntimeDefault.
     type: "RuntimeDefault"
-
-# Values for non root containers, because univention-compatibility requires root and helm-test-harness requires
-# containerSecurityContext for all containers and it is tested by setting some values like runAsUser and test
-# if it is the expect value.a
-# FIXME: Move back to containerSecurityContext and override values in template once helm-test-harness
-#        allows specifing expected values
-containerSecurityContextNonRoot:
   # -- Process user id.
   runAsUser: 1001
   # -- Process group id.
