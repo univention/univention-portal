@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.63.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.62.1...v0.63.0) (2025-04-07)
+
+
+### Features
+
+* **portal-frontend:** [#957](https://git.knut.univention.de/univention/components/univention-portal/issues/957) add dedicated header menu icon component ([9ec09ec](https://git.knut.univention.de/univention/components/univention-portal/commit/9ec09ec24d1e958fbf9c0b462bbb069621ca15de))
+* **portal-frontend:** [#957](https://git.knut.univention.de/univention/components/univention-portal/issues/957) extend user model by lastname and jpegPhoto properties ([9a71c6a](https://git.knut.univention.de/univention/components/univention-portal/commit/9a71c6a29c6c2dcf7cae33b84ad8a68f8623d6d3))
+* **portal-frontend:** [#957](https://git.knut.univention.de/univention/components/univention-portal/issues/957) remove user image from sidebar and use displayName ([ce8f5ec](https://git.knut.univention.de/univention/components/univention-portal/commit/ce8f5ec561e49405db232123381ffbbb0df9b4b7))
+
 ## [0.62.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.62.0...v0.62.1) (2025-04-07)
 
 
