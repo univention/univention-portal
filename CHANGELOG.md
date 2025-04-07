@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.62.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.62.0...v0.62.1) (2025-04-07)
+
+
+### Bug Fixes
+
+* **portal-frontend:** [#1033](https://git.knut.univention.de/univention/components/univention-portal/issues/1033) the order of the links is the order that is configured in the backend ([0fa70b1](https://git.knut.univention.de/univention/components/univention-portal/commit/0fa70b13385b0536826ed0e588c1d61862013e0d))
+
 ## [0.62.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.61.0...v0.62.0) (2025-04-07)
 
 
