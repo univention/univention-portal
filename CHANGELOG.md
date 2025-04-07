@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.62.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.61.0...v0.62.0) (2025-04-07)
+
+
+### Features
+
+* **portal-frontend:** use shouldRedirectToLogin condition in different places ([647a692](https://git.knut.univention.de/univention/components/univention-portal/commit/647a692d690f270286ab3f6ec60616c33d33d775))
+
+
+### Bug Fixes
+
+* do not redirect to login page on selfservice routes on initial app load ([90f2cff](https://git.knut.univention.de/univention/components/univention-portal/commit/90f2cff8bd8bda401662ceae0ca7fcee05281844))
+* redirect to login if the selfservice modals are canceled and the selfservice/site component unmounts ([a3586e9](https://git.knut.univention.de/univention/components/univention-portal/commit/a3586e9680d58df1f6343ac3e2b770579b8f38cc))
+
 ## [0.61.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.60.1...v0.61.0) (2025-04-04)
 
 
