@@ -24,11 +24,25 @@ portalConsumer:
   ldapHost: "ldap.example.test"
   ldapHostDn: "example.test"
   ldapPort: "437"
-  udmApiUrl: "Unknown"
+  ldapHost: "ldap-server"
+  ldapPort: "7389"
+  udmApiUrl: "http://udm-server/udm"
+
+provisioningApi:
+  connection:
+    baseUrl: "http://provisioning-api-server"
+  auth:
+    username: "portal-consumer"
+    password: "password"
+    existingSecret: null
 
 objectStorage:
   endpoint: "http://minio:9000"
   bucketName: "ums"
+  auth:
+    accessKeyId: "accessKey"
+    secretAccessKey: "secretKey"
+    existingSecret: null
 
 ## Kubernetes ingress
 ingress:
@@ -54,10 +68,14 @@ probes:
   readiness:
     enabled: false
 
-provisioningApi:
-  connection:
-    baseUrl: "https://provisioning-api"
+ldap:
+  # TLS configuration for the OpenLDAP server
   auth:
-    password: "password"
+    password: "ldapPassword"
+    existingSecret: null
+
+  tls:
+    enabled: false
+    existingSecret: null
 
 ...

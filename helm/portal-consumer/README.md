@@ -248,55 +248,63 @@ false
 			<td>Indicates wether this chart is part of a Nubus deployment.</td>
 		</tr>
 		<tr>
-			<td>ldap.credentialSecret.machinePasswordKey</td>
-			<td>string</td>
+			<td>ldap.auth</td>
+			<td>object</td>
 			<td><pre lang="json">
-"machine.secret"
+{
+  "existingSecret": {
+    "keyMapping": {
+      "password": null
+    },
+    "name": null
+  },
+  "password": null
+}
+</pre>
+</td>
+			<td>Optional reference to a different secret containing credentials</td>
+		</tr>
+		<tr>
+			<td>ldap.tls.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>ldap.credentialSecret.name</td>
+			<td>ldap.tls.existingSecret.keyMapping."ca.crt"</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+null
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>ldap.tlsSecret.caCertKey</td>
+			<td>ldap.tls.existingSecret.keyMapping."tls.crt"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"ca.crt"
+null
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>ldap.tlsSecret.certificateKey</td>
+			<td>ldap.tls.existingSecret.keyMapping."tls.key"</td>
 			<td>string</td>
 			<td><pre lang="json">
-"tls.crt"
+null
 </pre>
 </td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>ldap.tlsSecret.name</td>
+			<td>ldap.tls.existingSecret.name</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ldap.tlsSecret.privateKeyKey</td>
-			<td>string</td>
-			<td><pre lang="json">
-"tls.key"
+null
 </pre>
 </td>
 			<td></td>
@@ -318,6 +326,51 @@ false
 </pre>
 </td>
 			<td></td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.accessKeyId</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>User for the object storage. Secret will be created if existingSecret is not set.</td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.existingSecret.keyMapping.accessKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.existingSecret.keyMapping.secretKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The name of an existing Secret to use for retrieving the secret to use as object storage secret access key.  "objectStorage.auth.accessKeyId" and "objectStorage.auth.secretAccessKey" will be ignored if this value is set.</td>
+		</tr>
+		<tr>
+			<td>objectStorage.auth.secretAccessKey</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Password for access to object storage. Secret will be created if existingSecret is not set.</td>
 		</tr>
 		<tr>
 			<td>objectStorage.bucketName</td>
@@ -433,23 +486,16 @@ true
   "logLevel": "INFO",
   "machineSecret": null,
   "machineSecretFile": "/var/secrets/machine_secret",
-  "objectStorageAccessKeyId": "",
-  "objectStorageCredentialSecret": {
-    "accessKeyKey": "accessKey",
-    "name": "",
-    "secretKeyKey": "secretKey"
-  },
-  "objectStorageSecretAccessKey": "",
   "port": "80",
   "portalDefaultDn": null,
   "secretMountPath": "/var/secrets",
   "tlsMode": "off",
   "ucsInternalPath": "portal-data",
   "udmApiSecretFile": "/var/secrets/machine_secret",
-  "udmApiUrl": null,
+  "udmApiUrl": "{{- printf \"http://%s-udm-rest-api:9979/udm/\" .Release.Name }}",
   "udmApiUsername": "cn=admin",
-  "umcGetUrl": null,
-  "umcSessionUrl": null
+  "umcGetUrl": "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}",
+  "umcSessionUrl": "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
 }
 </pre>
 </td>
@@ -591,37 +637,6 @@ null
 			<td>The path to the "machineSecretFile" docker secret or a plain file</td>
 		</tr>
 		<tr>
-			<td>portalConsumer.objectStorageAccessKeyId</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>User for the object storage. Chart default is "ums_user".</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.objectStorageCredentialSecret</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "accessKeyKey": "accessKey",
-  "name": "",
-  "secretKeyKey": "secretKey"
-}
-</pre>
-</td>
-			<td>Optional reference to a different secret for credentials credentialSecret:   name: "custom-credentials"   accessKeyId: "ums_user"   secretAccessKey: "ums_password"</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.objectStorageSecretAccessKey</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Password for access to object storage. Chart default is "stub_password".</td>
-		</tr>
-		<tr>
 			<td>portalConsumer.portalDefaultDn</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -670,7 +685,7 @@ null
 			<td>portalConsumer.udmApiUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+"{{- printf \"http://%s-udm-rest-api:9979/udm/\" .Release.Name }}"
 </pre>
 </td>
 			<td>UDM API connection URL</td>
@@ -688,7 +703,7 @@ null
 			<td>portalConsumer.umcGetUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+"{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
 </pre>
 </td>
 			<td>Define UMC get endpoint. Example: `"https://portal.example.com/univention/internal/umc/get"`</td>
@@ -697,7 +712,7 @@ null
 			<td>portalConsumer.umcSessionUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
-null
+"{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
 </pre>
 </td>
 			<td>Define UMC session-info" endpoint. Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`</td>
@@ -815,9 +830,11 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "credentialSecret": {
-    "key": "PROVISIONING_API_PASSWORD",
-    "name": ""
+  "existingSecret": {
+    "keyMapping": {
+      "password": null
+    },
+    "name": null
   },
   "password": "",
   "username": "portal-consumer"
@@ -827,34 +844,13 @@ true
 			<td>Authentication parameters</td>
 		</tr>
 		<tr>
-			<td>provisioningApi.auth.credentialSecret</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "key": "PROVISIONING_API_PASSWORD",
-  "name": ""
-}
-</pre>
-</td>
-			<td>The name of the secret containing the password.</td>
-		</tr>
-		<tr>
-			<td>provisioningApi.auth.credentialSecret.key</td>
+			<td>provisioningApi.auth.existingSecret.name</td>
 			<td>string</td>
 			<td><pre lang="json">
-"PROVISIONING_API_PASSWORD"
+null
 </pre>
 </td>
-			<td>The key where the password can be found.</td>
-		</tr>
-		<tr>
-			<td>provisioningApi.auth.credentialSecret.name</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>The name of the secret.</td>
+			<td>The name of the secret containing the password. "provisioningApi.auth.password" and "provisioningApi.auth.username" will be ignored if this value is set.</td>
 		</tr>
 		<tr>
 			<td>provisioningApi.auth.password</td>
@@ -863,7 +859,7 @@ true
 ""
 </pre>
 </td>
-			<td>The password to authenticate with.</td>
+			<td>The password to authenticate with. A secret will be created if existingSecret is not set.</td>
 		</tr>
 		<tr>
 			<td>provisioningApi.auth.username</td>
@@ -872,7 +868,7 @@ true
 "portal-consumer"
 </pre>
 </td>
-			<td>The username to authenticate with.</td>
+			<td>The username to authenticate with. A secret will be created if existingSecret is not set.</td>
 		</tr>
 		<tr>
 			<td>provisioningApi.config.maxAcknowledgementRetries</td>

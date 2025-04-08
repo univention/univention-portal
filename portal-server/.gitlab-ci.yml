@@ -92,7 +92,7 @@ test-portal-server:
     PORTAL_SERVER_UMC_GET_URL: "stub-umc-get-urll"
     PORTAL_SERVER_UMC_SESSION_URL: "stub-umc-session-url"
   script:
-    - pip3 install -e . --no-deps --no-build-isolation
+    - pip3 install -e . -r requirements-test.txt --no-deps --no-build-isolation
     - >
       pytest
       --cov=python/univention/portal

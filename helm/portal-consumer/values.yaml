@@ -133,7 +133,7 @@ portalConsumer:
   portalDefaultDn: null
 
   # -- UDM API connection URL
-  udmApiUrl: null
+  udmApiUrl: '{{- printf "http://%s-udm-rest-api:9979/udm/" .Release.Name }}'
   # -- UDM API username.
   udmApiUsername: "cn=admin"
   # -- UDM API password file.
@@ -145,23 +145,10 @@ portalConsumer:
   ucsInternalPath: "portal-data"
   # -- Define UMC get endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get"`
-  umcGetUrl: null
+  umcGetUrl: "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
-  umcSessionUrl: null
-  # -- User for the object storage. Chart default is "ums_user".
-  objectStorageAccessKeyId: ""
-  # -- Password for access to object storage. Chart default is "stub_password".
-  objectStorageSecretAccessKey: ""
-  # -- Optional reference to a different secret for credentials
-  # credentialSecret:
-  #   name: "custom-credentials"
-  #   accessKeyId: "ums_user"
-  #   secretAccessKey: "ums_password"
-  objectStorageCredentialSecret:
-    name: ""
-    accessKeyKey: "accessKey"
-    secretKeyKey: "secretKey"
+  umcSessionUrl: "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
   # -- Path to mount the secrets to.
   secretMountPath: "/var/secrets"
 
@@ -182,16 +169,16 @@ provisioningApi:
     baseUrl: ""
   # -- Authentication parameters
   auth:
-    # -- The username to authenticate with.
+    # -- The username to authenticate with. A secret will be created if existingSecret is not set.
     username: "portal-consumer"
-    # -- The password to authenticate with.
+    # -- The password to authenticate with. A secret will be created if existingSecret is not set.
     password: ""
-    # -- The name of the secret containing the password.
-    credentialSecret:
-      # -- The name of the secret.
-      name: ""
-      # -- The key where the password can be found.
-      key: "PROVISIONING_API_PASSWORD"
+    existingSecret:
+      # -- The name of the secret containing the password. "provisioningApi.auth.password"
+      # and "provisioningApi.auth.username" will be ignored if this value is set.
+      name: null
+      keyMapping:
+        password: null
 
 # -- Array with extra environment variables to add to containers.
 extraEnvVars: []
@@ -224,6 +211,23 @@ objectStorage:
   # -- Bucket in the object storage for storing the portal and assets. Example
   # "portal-data".
   bucketName: ""
+  auth:
+    # -- User for the object storage. Secret will be created if existingSecret is not set.
+    accessKeyId: ""
+    # -- Password for access to object storage. Secret will be created if existingSecret is not set.
+    secretAccessKey: ""
+    existingSecret:
+      # -- The name of an existing Secret to use for retrieving the secret
+      # to use as object storage secret access key.
+      #
+      # "objectStorage.auth.accessKeyId" and "objectStorage.auth.secretAccessKey" will be
+      # ignored if this value is set.
+      name: null
+      keyMapping:
+        # -- The key to retrieve the secret from. Setting this value allows to use
+        # a key with a different name.
+        accessKey: null
+        secretKey: null
 
 ## Container deployment probes
 probes:
@@ -268,11 +272,20 @@ persistence:
 
 
 ldap:
-  tlsSecret:
-    name: ""
-    caCertKey: "ca.crt"
-    privateKeyKey: "tls.key"
-    certificateKey: "tls.crt"
-  credentialSecret:
-    name: ""
-    machinePasswordKey: "machine.secret"
+  # -- Optional reference to a different secret containing credentials
+  auth:
+    password: null
+    existingSecret:
+      name: null
+      keyMapping:
+        password: null
+
+  # TLS configuration for the OpenLDAP server
+  tls:
+    enabled: false
+    existingSecret:
+      name: null
+      keyMapping:
+        ca.crt: null
+        tls.crt: null
+        tls.key: null

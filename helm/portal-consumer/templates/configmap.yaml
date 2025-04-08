@@ -34,20 +34,18 @@ data:
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalConsumer.editable }}"
   PORTAL_SERVER_PORT: "{{ .Values.portalConsumer.port }}"
   PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalConsumer.ucsInternalPath\" is required." .Values.portalConsumer.ucsInternalPath | quote }}
-  PORTAL_SERVER_UMC_GET_URL: {{ include "portal-consumer.umcGetUrl" . | quote }}
-  PORTAL_SERVER_UMC_SESSION_URL: {{ include "portal-consumer.umcSessionUrl" .| quote }}
-  PORTAL_UDM_API_URL: {{ include "portal-consumer.udmApiUrl" . | quote}}
-  PORTAL_UDM_API_USERNAME: "{{ .Values.portalConsumer.udmApiUsername }}"
-  PORTAL_UDM_API_PASSWORD_FILE: "{{ .Values.portalConsumer.udmApiSecretFile }}"
+  PORTAL_SERVER_UMC_GET_URL: "{{- tpl (required "The parameter \"portalConsumer.umcGetUrl\" is required." .Values.portalConsumer.umcGetUrl) . -}}"
+  PORTAL_SERVER_UMC_SESSION_URL: "{{- tpl (required "The parameter \"portalConsumer.umcSessionUrl\" is required." .Values.portalConsumer.umcSessionUrl) . -}}"
+  PORTAL_UDM_API_URL: "{{- tpl (required "The parameter \"portalConsumer.udmApiUrl\" is required." .Values.portalConsumer.udmApiUrl) . -}}"
+  PORTAL_UDM_API_USERNAME: "{{- tpl (required "The parameter \"portalConsumer.udmApiUsername\" is required." .Values.portalConsumer.udmApiUsername) . -}}"
+  PORTAL_UDM_API_PASSWORD_FILE: "{{- tpl (required "The parameter \"portalConsumer.udmApiSecretFile\" is required." .Values.portalConsumer.udmApiSecretFile) . -}}"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
   OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}
-  OBJECT_STORAGE_ACCESS_KEY_ID: {{ include "portal-consumer.objectStorageAccessKeyId"  . | quote }}
-  OBJECT_STORAGE_SECRET_ACCESS_KEY: {{ include "portal-consumer.objectStorageSecretAccessKey"  . | quote }}
   CA_CERT: "{{ .Values.portalConsumer.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalConsumer.caCertFile }}"
   TLS_MODE: "{{ .Values.portalConsumer.tlsMode }}"
-  PROVISIONING_API_BASE_URL: {{ include "portal-consumer.provisioningApi.connection.baseUrl" . | quote }}
-  PROVISIONING_API_USERNAME: {{ include "portal-consumer.provisioningApi.auth.username" . | quote }}
+  PROVISIONING_API_BASE_URL: "{{- tpl (required ".Values.provisioningApi.connection.baseUrl must be defined." .Values.provisioningApi.connection.baseUrl) . -}}"
+  PROVISIONING_API_USERNAME: "{{- tpl (required ".Values.provisioningApi.auth.username must be defined." .Values.provisioningApi.auth.username) . -}}"
 ...
 ---
 kind: "ConfigMap"

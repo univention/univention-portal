@@ -72,9 +72,6 @@ repos:
     rev: "v0.0.246"
     hooks:
       - id: ruff
-      - id: ruff
-        alias: "ruff-fix"
-        stages: [manual]
         args: ["--fix"]
 
   - repo: https://github.com/hhatto/autopep8
