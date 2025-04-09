@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.63.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.63.0...v0.63.1) (2025-04-09)
+
+
+### Bug Fixes
+
+* **helm:** Override settings for root container directly in template ([0b30e45](https://git.knut.univention.de/univention/components/univention-portal/commit/0b30e450ac8ded24fcf2dc701c264aa857417730)), closes [univention/dev/internal/team-nubus#1126](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1126)
+
 ## [0.63.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.62.1...v0.63.0) (2025-04-07)
 
 
