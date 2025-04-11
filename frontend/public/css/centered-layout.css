@@ -11,16 +11,9 @@
     - Adjust tile width to allow max five tiles per row
 */
 
-
-:root {
+.portal-grid--monocolumn {
   --app-tile-side-length: 6.375rem;
-}
-
-.portal-categories {
-  max-width: 581px;
-  margin: 0 auto;
-  position: relative;
-  padding: calc(4 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
+  max-width: calc(73 * var(--layout-spacing-unit));
 }
 
 .portal-category__tiles {

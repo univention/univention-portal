@@ -70,8 +70,6 @@ export default defineComponent({
 
 <style lang="stylus">
 .portal-greeting
-  margin-bottom: calc(var(--layout-spacing-unit) * 6)
-
   &__headline
     font-size: 2.25rem
     font-style: normal

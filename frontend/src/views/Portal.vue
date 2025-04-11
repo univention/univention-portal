@@ -42,49 +42,48 @@
       v-if="errorContentType"
       :error-type="undefined"
     />
-    <region
-      v-if="!errorContentType"
-      v-show="!activeTabId"
-      id="portalCategories"
-      :aria-role="portalRole"
-      class="portal-categories"
-    >
-      <portal-greeting />
-
-      <h2
-        v-if="noSearchResults"
-        class="portal-category__title"
+    <portal-grid>
+      <region
+        v-if="!errorContentType"
+        v-show="!activeTabId"
+        id="portalCategories"
+        :aria-role="portalRole"
+        class="portal-categories"
       >
-        {{ NO_SEARCH_RESULTS }}
-      </h2>
-      <portal-quick-links />
-      <portal-category
-        v-for="(category, index) in portalFinalLayoutFiltered"
-        :key="category.id"
-        :layout-id="category.layoutId"
-        :title="category.title"
-        :dn="category.dn"
-        :virtual="category.virtual"
-        :tiles="category.tiles"
-        :category-index="index"
-      />
-
-      <h2
-        v-if="editMode"
-        class="portal-category__title"
-      >
-        <icon-button
-          icon="plus"
-          class="button--icon--circle button--icon--edit-mode button--shadow"
-          :aria-label-prop="ADD_CATEGORY"
-          @click="addCategory"
+        <h2
+          v-if="noSearchResults"
+          class="portal-category__title"
+        >
+          {{ NO_SEARCH_RESULTS }}
+        </h2>
+        <portal-quick-links />
+        <portal-category
+          v-for="(category, index) in portalFinalLayoutFiltered"
+          :key="category.id"
+          :layout-id="category.layoutId"
+          :title="category.title"
+          :dn="category.dn"
+          :virtual="category.virtual"
+          :tiles="category.tiles"
+          :category-index="index"
         />
-        <span>
-          {{ ADD_CATEGORY }}
-        </span>
-      </h2>
-    </region>
 
+        <h2
+          v-if="editMode"
+          class="portal-category__title"
+        >
+          <icon-button
+            icon="plus"
+            class="button--icon--circle button--icon--edit-mode button--shadow"
+            :aria-label-prop="ADD_CATEGORY"
+            @click="addCategory"
+          />
+          <span>
+            {{ ADD_CATEGORY }}
+          </span>
+        </h2>
+      </region>
+    </portal-grid>
     <div
       v-show="activeTabId"
       class="portal-iframes"
@@ -128,18 +127,18 @@ import LoadingOverlay from '@/components/globals/LoadingOverlay.vue';
 import Notifications from '@/components/notifications/Notifications.vue';
 import PortalBackground from '@/components/PortalBackground.vue';
 import PortalCategory from '@/components/PortalCategory.vue';
+import PortalCornerLinks from '@/components/PortalCornerLinks.vue';
 import PortalError from '@/components/globals/PortalError.vue';
-import PortalGreeting from '@/components/globals/PortalGreeting.vue';
+import PortalGrid from '@/components/PortalGrid.vue';
 import PortalHeader from '@/components/PortalHeader.vue';
 import PortalIframe from '@/components/PortalIframe.vue';
 import PortalModal from '@/components/modal/PortalModal.vue';
+import PortalQuickLinks from '@/components/PortalQuickLinks.vue';
 import PortalSidebar from '@/components/PortalSidebar.vue';
 import PortalToolTip from '@/components/PortalToolTip.vue';
 import Region from '@/components/activity/Region.vue';
 import ScreenReaderAnnouncer from '@/components/globals/ScreenReaderAnnouncer.vue';
 import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
-import PortalQuickLinks from '@/components/PortalQuickLinks.vue';
-import PortalCornerLinks from '@/components/PortalCornerLinks.vue';
 
 export default defineComponent({
   name: 'Portal',
@@ -149,18 +148,18 @@ export default defineComponent({
     Notifications,
     PortalBackground,
     PortalCategory,
+    PortalCornerLinks,
     PortalError,
-    PortalGreeting,
+    PortalGrid,
     PortalHeader,
     PortalIframe,
     PortalModal,
+    PortalQuickLinks,
     PortalSidebar,
     PortalToolTip,
     Region,
     ScreenReaderAnnouncer,
     UmcSessionRefreshIframe,
-    PortalQuickLinks,
-    PortalCornerLinks,
   },
   data(): {playTileAnimation: boolean} {
     return {
@@ -215,11 +214,7 @@ export default defineComponent({
 
 <style lang="stylus">
 .portal-categories
-  position: relative;
-  padding: calc(4 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
-
-  @media $mqSmartphone
-    padding: calc(4 * var(--layout-spacing-unit)) calc(4 * var(--layout-spacing-unit));
+  position: relative
 
   &__menu-wrapper
     width: 100%
@@ -241,9 +236,6 @@ export default defineComponent({
     position: absolute
     right: 15px
     margin-top: 2px
-
-.portal--edit-mode .portal-categories
-  padding-top: calc(6 * var(--layout-spacing-unit))
 
 .portal-iframes
   position: fixed

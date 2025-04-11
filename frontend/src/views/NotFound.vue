@@ -107,11 +107,7 @@ export default defineComponent({
 
 <style lang="stylus">
 .portal-categories
-  position: relative;
-  padding: calc(4 * var(--layout-spacing-unit)) calc(6 * var(--layout-spacing-unit));
-
-  @media $mqSmartphone
-    padding: calc(4 * var(--layout-spacing-unit)) calc(4 * var(--layout-spacing-unit));
+  position: relative
 
   &__title
     display: inline-block
