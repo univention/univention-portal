@@ -159,4 +159,8 @@ export default defineComponent({
 #header-button-bell svg
 #header-button-copy svg
   margin-right: 0!important
+
+#header-button-menu
+  width: calc(var(--button-size) + 12px)
+  justify-content: flex-end
 </style>
