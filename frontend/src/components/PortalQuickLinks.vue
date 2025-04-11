@@ -5,7 +5,7 @@
 
 <template>
   <div
-    v-if="quickLinks.length > 0"
+    v-if="quickLinks && quickLinks.length > 0"
     class="portal-quick-links"
   >
     <portal-quick-draft

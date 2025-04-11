@@ -4,7 +4,7 @@
 -->
 
 <template>
-  <template v-if="cornerLinks.length > 0">
+  <template v-if="cornerLinks && cornerLinks.length > 0">
     <div class="portal-corner">
       <div class="portal-corner__inner">
         <ul class="portal-corner__menu">
