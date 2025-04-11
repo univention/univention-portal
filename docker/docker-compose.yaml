@@ -215,21 +215,19 @@ services:
       - "../frontend/tests/chart:/app/frontend/tests/chart"
 
   test-chart-portal-server:
-    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
-    command: pytest portal-server/tests/chart
+    image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.2
+    command: pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart
     profiles:
       - test
-    working_dir: /app
     volumes:
       - "../helm/portal-server/:/app/helm/portal-server"
       - "../portal-server/tests/chart:/app/portal-server/tests/chart"
 
   test-chart-portal-consumer:
-    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
-    command: pytest portal-consumer/tests/chart
+    image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.2
+    command: pytest --values helm/portal-consumer/linter_values.yaml portal-consumer/tests/chart
     profiles:
       - test
-    working_dir: /app
     volumes:
       - "../helm/portal-consumer/:/app/helm/portal-consumer"
       - "../portal-consumer/tests/chart:/app/portal-consumer/tests/chart"
