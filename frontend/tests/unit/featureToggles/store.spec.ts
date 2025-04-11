@@ -10,6 +10,7 @@ describe('Mutation setFeatureToggles', () => {
   test('updates state from payload', () => {
     const featureToggleConfiguration = {
       centered_layout: false,
+      newsfeed: false,
       notifications_api: true,
       umc_session_refresh: false,
       welcome_message: false,
@@ -30,6 +31,7 @@ describe('Store Module featureToggles', () => {
     const stubStore = createStubStore();
     const newFeatureToggles = {
       centered_layout: true,
+      newsfeed: true,
       notifications_api: true,
       umc_session_refresh: true,
       welcome_message: true,

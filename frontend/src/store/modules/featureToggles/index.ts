@@ -8,7 +8,6 @@ import { FeatureToggles, FeatureTogglesState, initialFeatureTogglesState } from 
 
 export const mutations = {
   setFeatureToggles(state: FeatureTogglesState, payload: FeatureToggles): void {
-    console.debug('Setting feature toggles', payload);
     Object.assign(state, payload);
   },
 };

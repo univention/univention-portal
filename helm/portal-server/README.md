@@ -797,6 +797,7 @@ null
 			<td><pre lang="json">
 {
   "centered_layout": false,
+  "newsfeed": false,
   "notifications_api": true,
   "umc_session_refresh": true,
   "welcome_message": false

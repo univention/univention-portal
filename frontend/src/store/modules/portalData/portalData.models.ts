@@ -162,6 +162,13 @@ export interface PortalLayoutCategory extends PortalLayoutEntry {
 }
 export type PortalLayout = PortalLayoutCategory[];
 
+export interface PortalNewsfeedConfig {
+  feedUrl: LocalizedString,
+  homeUrl: LocalizedString,
+  feedType: string,
+  icsSilentLoginUrl: string | null,
+}
+
 export interface PortalData {
   entries: PortalEntry[],
   folders: PortalFolder[],
@@ -174,6 +181,7 @@ export interface PortalData {
   portal: Portal,
   baseLayout: PortalBaseLayout,
   layout: PortalLayout,
+  newsfeedConfig?: PortalNewsfeedConfig,
 }
 export interface PortalDataState {
   portal: PortalData;

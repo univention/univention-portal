@@ -462,6 +462,7 @@ portalServer:
   # The toggle names use snake case consistently throughout the stack.
   featureToggles:
     centered_layout: false
+    newsfeed: false
     notifications_api: true
     umc_session_refresh: true
     welcome_message: false

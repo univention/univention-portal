@@ -394,7 +394,8 @@
     }
   ],
   "feature_toggles": {
-    "centered_layout": true,
+    "centered_layout": false,
+    "newsfeed": true,
     "notifications_api": false,
     "umc_session_refresh": true,
     "welcome_message": true
@@ -455,6 +456,18 @@
     "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
     "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
   ],
+  "newsfeed_config": {
+    "feedType": "wordpress",
+    "feedUrl": {
+      "de_DE": "https://www.univention.de/news/blog-de/feed/",
+      "en_US": "https://www.univention.com/news/blog-en/feed/"
+    },
+    "homeUrl": {
+      "de_DE": "https://www.univention.de/news/blog-de/",
+      "en_US": "https://www.univention.com/news/blog-en/"
+    },
+    "icsSilentLoginUrl": null
+  },
   "portal": {
     "background": "./data/icons/background.svg",
     "categories": [

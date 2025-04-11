@@ -296,6 +296,11 @@ const portalData: PortalModule<PortalDataState> = {
           };
         }),
       }));
+      if (portal.newsfeed_config) {
+        state.portal.newsfeedConfig = portal.newsfeed_config;
+      } else {
+        console.warn('Key "newsfeed_config" missing in portal data.');
+      }
     },
     PORTALNAME(state: PortalDataState, name: LocalizedString): void {
       state.portal.portal.name = name;
@@ -391,6 +396,7 @@ const portalData: PortalModule<PortalDataState> = {
         })
         .filter((category: Category) => category.tiles.length > 0);
     },
+    portalNewsfeedConfig: (state) => state.portal.newsfeedConfig,
   },
 
   actions: {
