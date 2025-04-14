@@ -215,9 +215,9 @@ export default defineComponent({
   &__btn
     padding: calc(0.5 * var(--layout-spacing-unit)) calc(2 * var(--layout-spacing-unit))
     border-radius: 8px
-    border: 1px solid var(--bgc-announcements-info)
-    color: var(--color-accent)
-    background-color: var(--color-opendesk-white)
+    border: 1px solid var(--bgc-content-container)
+    color: var(--font-color-contrast-high)
+    background-color: var(--button-bgc)
     font-size: var(--font-size-5)
     font-weight: 700
     text-decoration: none

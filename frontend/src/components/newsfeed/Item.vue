@@ -124,7 +124,7 @@ export default defineComponent({
     margin-bottom: calc(0.5* var(--layout-spacing-unit))
     padding: 2px calc(2 * var(--layout-spacing-unit))
     border-radius: var(--layout-spacing-unit)
-    background-color: var(--bgc-announcements-info)
+    background-color: var(--bgc-content-container)
     color: var(--font-color-contrast-high)
     font-size: var(--font-size-5)
     font-weight: 700
