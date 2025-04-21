@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.64.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.63.1...v0.64.0) (2025-04-21)
+
+
+### Features
+
+* **portal-consumer:** refactor: use existingSecrets for portal-consumer ([7adf328](https://git.knut.univention.de/univention/components/univention-portal/commit/7adf32865a33bd376d0cc91727783e681537503e)), closes [univention/dev/internal/team-nubus#1091](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1091)
+
+
+### Bug Fixes
+
+* **portal-frontend:** increase spacing between notification bubble and next header icon ([211b591](https://git.knut.univention.de/univention/components/univention-portal/commit/211b591eb3cf71bf4f6249b7e7db803471c37e7c))
+
 ## [0.63.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.63.0...v0.63.1) (2025-04-09)
 
 
