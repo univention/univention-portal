@@ -44,7 +44,13 @@ export function localized(input: Record<Locale, string>): string {
 
   if (input) {
     ret = input[curLocale] || input[shortLocale] || input.en || input.en_US || '';
+    // If the user's prefered language could not be found, return the first locale available
+    // and render this, instead of not displaying this announcement at all.
+    if (!ret && Object.keys(input).length > 0) {
+      ret = input[Object.keys(input)[0]];
+    }
   }
+
   return ret;
 }
 
