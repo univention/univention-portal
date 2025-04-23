@@ -49,7 +49,7 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     python3-boto3
 
 COPY ./requirements-test.txt .
-RUN pip3 install --no-cache-dir --upgrade pip==24.* \
+RUN pip3 install --no-cache-dir --upgrade pip==25.* \
     && pip3 install --no-cache-dir -r requirements-test.txt \
     && mkdir -p /var/log/univention/ \
     && touch /var/log/univention/portal.log \
