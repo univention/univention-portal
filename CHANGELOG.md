@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.64.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.64.0...v0.64.1) (2025-04-24)
+
+
+### Bug Fixes
+
+* **docker:** Raised pip version to 25.* ([3753107](https://git.knut.univention.de/univention/components/univention-portal/commit/3753107208ccf61b38a77cb61c78674df8396d70)), closes [univention/dev/internal/team-nubus#1019](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1019)
+* **docker:** Raised ucs-base-image version to 0.16.2 ([8836a29](https://git.knut.univention.de/univention/components/univention-portal/commit/8836a2947192a9a67cabc2f3516c122fe5bd3e7b)), closes [univention/dev/internal/team-nubus#1019](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1019)
+* **test:** Freezed versions in requirements-test.txt ([91a5798](https://git.knut.univention.de/univention/components/univention-portal/commit/91a5798704c5596618bea31635c713b4fb507b62)), closes [univention/dev/internal/team-nubus#1019](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1019)
+* **test:** Removed version bounds in requirements-test.txt. ([afa6d87](https://git.knut.univention.de/univention/components/univention-portal/commit/afa6d87d996fc82ae2a1b6be558691083215ba8a)), closes [univention/dev/internal/team-nubus#1019](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1019)
+
 ## [0.64.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.63.1...v0.64.0) (2025-04-21)
 
 
