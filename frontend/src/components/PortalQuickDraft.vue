@@ -16,7 +16,7 @@
       <img
         v-if="entries[0].iconUrl"
         :src="entries[0].iconUrl"
-        onerror="this.src='./media/questionmark.svg'"
+        onerror="this.src=fallbackIconUrl"
         alt=""
         class="portal-quick-draft__img"
       >
@@ -64,8 +64,8 @@
           >
             <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
             <img
-              :src="entry.iconUrl || './media/questionmark.svg'"
-              onerror="this.src='./media/questionmark.svg'"
+              :src="entry.iconUrl || fallbackIconUrl"
+              onerror="this.src=fallbackIconUrl"
               alt=""
               class="portal-quick-draft__img"
             >
@@ -79,7 +79,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { mapGetters } from 'vuex';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 
@@ -108,10 +107,8 @@ export default defineComponent({
   },
   data: () => ({
     isOpen: false,
+    fallbackIconUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
   }),
-  computed: {
-    ...mapGetters({}),
-  },
   methods: {
     toggleQuickDraft() {
       this.isOpen = !this.isOpen;
