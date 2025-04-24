@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2025-03-13 14:33+0000\n"
+"POT-Creation-Date: 2025-04-24 14:15+0000\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -53,8 +53,8 @@ msgstr "Kontolöschung"
 msgid "Account verification"
 msgstr "Kontoverifizierung"
 
-#: frontend/src/store/modules/portalData/index.ts:449
-#: frontend/src/store/modules/portalData/index.ts:453
+#: frontend/src/store/modules/portalData/index.ts:457
+#: frontend/src/store/modules/portalData/index.ts:461
 msgid "Action not possible. Please try another direction."
 msgstr ""
 "Diese Aktion ist nicht möglich. Versuchen Sie bitte eine andere Richtung."
@@ -74,7 +74,7 @@ msgid "Add Groups"
 msgstr "Gruppen hinzufügen"
 
 #: frontend/src/tmp/ts/frontend/src/components/admin/CategoryAddModal.vue:29
-#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:57
+#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:61
 #: frontend/src/tmp/ts/frontend/src/views/NotFound.vue:45
 msgid "Add category"
 msgstr "Kategorie hinzufügen"
@@ -161,7 +161,7 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: frontend/src/store/modules/portalData/index.ts:640
+#: frontend/src/store/modules/portalData/index.ts:648
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
@@ -207,7 +207,7 @@ msgstr "Kategorie erfolgreich gelöscht"
 msgid "Category successfully unlinked"
 msgstr "Kategorie erfolgreich entfernt"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:63
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:64
 msgid "Change language"
 msgstr "Sprache ändern"
 
@@ -246,6 +246,10 @@ msgstr "Weiter"
 #: frontend/src/tmp/ts/frontend/src/components/globals/CookieBanner.vue:34
 msgid "Cookie Settings"
 msgstr "Cookie-Einstellungen"
+
+#: frontend/src/tmp/ts/frontend/src/components/newsfeed/Newsfeed.vue:58
+msgid "Could not load newsfeed"
+msgstr "Newsfeed konnte nicht geladen werden"
 
 #: frontend/src/tmp/ts/frontend/src/components/admin/TileAddModal.vue:25
 msgid "Create a new Entry"
@@ -328,7 +332,7 @@ msgstr "Eintrag bearbeiten"
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:60
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:61
 msgid "Edit portal"
 msgstr "Portal bearbeiten"
 
@@ -341,17 +345,17 @@ msgstr "Kachel %(entry)s bearbeiten"
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: frontend/src/store/modules/portalData/index.ts:700
+#: frontend/src/store/modules/portalData/index.ts:708
 msgid "Entered edit mode"
 msgstr "Editiermodus betreten"
 
-#: frontend/src/store/modules/portalData/index.ts:594
-#: frontend/src/store/modules/portalData/index.ts:615
-#: frontend/src/store/modules/portalData/index.ts:625
+#: frontend/src/store/modules/portalData/index.ts:602
+#: frontend/src/store/modules/portalData/index.ts:623
+#: frontend/src/store/modules/portalData/index.ts:633
 msgid "Entries could not be re-sorted"
 msgstr "Einträge konnten nicht umsortiert werden"
 
-#: frontend/src/store/modules/portalData/index.ts:647
+#: frontend/src/store/modules/portalData/index.ts:655
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
@@ -457,7 +461,7 @@ msgstr "Haben Sie Ihr Passwort vergessen? Setzen Sie ein neues:"
 msgid "Generate WLAN password"
 msgstr "WLAN-Passwort erzeugen"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:57
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:58
 msgid "Go Back"
 msgstr "Gehe zurück"
 
@@ -503,6 +507,12 @@ msgstr "Passwort verstecken"
 msgid "Icon"
 msgstr "Icon"
 
+#: frontend/src/tmp/ts/frontend/src/components/newsfeed/Newsfeed.vue:61
+msgid ""
+"If you are logging in for the first time, please click on \"View all\" to "
+"enable your access to the Newsfeed"
+msgstr "Wenn Sie sich zum ersten Mal anmelden, klicken Sie bitte auf \"Alle ansehen\" um Ihren Zugang zum Newsfeed zu aktivieren"
+
 #: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:64
 msgid "Info"
 msgstr "Info"
@@ -538,7 +548,11 @@ msgstr "Einträge"
 msgid "Keywords"
 msgstr "Schlüsselwörter"
 
-#: frontend/src/store/modules/portalData/index.ts:702
+#: frontend/src/tmp/ts/frontend/src/components/newsfeed/Newsfeed.vue:49
+msgid "Latest News"
+msgstr "Aktuelles"
+
+#: frontend/src/store/modules/portalData/index.ts:710
 msgid "Left edit mode"
 msgstr "Editiermodus verlassen"
 
@@ -551,15 +565,15 @@ msgstr "Link"
 msgid "Links"
 msgstr "Links"
 
-#: frontend/src/store/modules/user/index.ts:69
+#: frontend/src/store/modules/user/index.ts:70
 msgid "Logged in as \"%(username)s\""
 msgstr "Angemeldet als \"%(username)s\""
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:54
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:55
 msgid "Login"
 msgstr "Anmelden"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:51
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:52
 msgid "Logout"
 msgstr "Abmelden"
 
@@ -628,11 +642,11 @@ msgstr "Keine Einträge"
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:60
+#: frontend/src/tmp/ts/frontend/src/views/Portal.vue:64
 msgid "No search results"
 msgstr "Keine Suchergebnisse"
 
-#: frontend/src/store/modules/user/index.ts:71
+#: frontend/src/store/modules/user/index.ts:72
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
 
@@ -893,6 +907,10 @@ msgstr "Die Eingaben stimmen nicht überein."
 msgid "The new passwords do not match"
 msgstr "Die Passwörter stimmen nicht überein."
 
+#: frontend/src/tmp/ts/frontend/src/components/newsfeed/Newsfeed.vue:55
+msgid "The newsfeed does not yet have any content"
+msgstr "Der Newsfeed hat noch keinen Inhalt"
+
 #: frontend/src/tmp/ts/frontend/src/components/globals/PortalError.vue:24
 msgid ""
 "The portal is temporarily unavailable. If the problem persists, please "
@@ -1015,6 +1033,10 @@ msgstr "Verifizierung-Token versendet"
 msgid "Verify account"
 msgstr "Konto verifizieren"
 
+#: frontend/src/tmp/ts/frontend/src/components/newsfeed/Newsfeed.vue:52
+msgid "View all"
+msgstr "Alle ansehen"
+
 #: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:66
 msgid "Warning"
 msgstr "Warnung"
@@ -1118,11 +1140,11 @@ msgstr "iFrame"
 msgid "insert valid Link"
 msgstr "validen Link einfügen"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/HeaderButton.vue:43
+#: frontend/src/tmp/ts/frontend/src/components/navigation/HeaderButton.vue:45
 msgid "item"
 msgstr "Eintrag"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/HeaderButton.vue:45
+#: frontend/src/tmp/ts/frontend/src/components/navigation/HeaderButton.vue:47
 msgid "items"
 msgstr "Einträge"
 
