@@ -153,7 +153,7 @@ export default defineComponent({
             const excerpt = item.getElementsByTagName('description')[0]?.textContent ?? '';
             const link = item.getElementsByTagName('link')[0]?.textContent ?? '';
             const title = item.getElementsByTagName('title')[0]?.textContent ?? '';
-            const imageSrc = item.getElementsByTagName('image')[0]?.textContent ?? undefined;
+            const imageSrc = item.getElementsByTagName('media:content')[0]?.getAttribute('url') ?? undefined;
             return {
               category,
               date,
