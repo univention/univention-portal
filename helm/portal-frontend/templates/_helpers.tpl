@@ -25,14 +25,6 @@ These template definitions are only used in this chart and do not relate to temp
 {{- end -}}
 {{- end -}}
 
-{{- define "portalFrontend.branding.favicon" -}}
-{{- if .Values.portalFrontend.branding.favicon -}}
-{{- .Values.portalFrontend.branding.favicon -}}
-{{- else -}}
-{{ .Files.Get "branding/favicon.ico" | b64enc }}
-{{- end -}}
-{{- end -}}
-
 {{- define "portalFrontend.branding.logo" -}}
 {{- if .Values.portalFrontend.branding.logo -}}
 {{- .Values.portalFrontend.branding.logo -}}

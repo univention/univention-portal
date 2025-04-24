@@ -98,9 +98,11 @@ spec:
             - name: {{ printf "%s-nginx" (include "common.names.fullname" .) | quote }}
               subPath: nginx.conf
               mountPath: /etc/nginx/nginx.conf
+            {{- if .Values.portalFrontend.branding.favicon }}
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
-              mountPath: "/var/www/html/favicon.ico"
+              mountPath: "/var/www/html/favicon/favicon.ico"
               subPath: "favicon.ico"
+            {{- end }}
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
               mountPath: "/var/www/html/css/custom.css"
               subPath: "custom.css"

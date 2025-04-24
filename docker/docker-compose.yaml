@@ -204,6 +204,16 @@ services:
         source: ../univention-portal-server
         target: /app/univention-portal-server
 
+  test-chart-portal-frontend:
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
+    command: bash -c "pytest frontend/tests/chart"
+    profiles:
+      - test
+    working_dir: /app
+    volumes:
+      - "../helm/portal-frontend/:/app/helm/portal-frontend"
+      - "../frontend/tests/chart:/app/frontend/tests/chart"
+
   test-chart-portal-server:
     image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
     command: pytest portal-server/tests/chart

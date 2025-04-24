@@ -17,7 +17,9 @@ metadata:
   {{- end }}
 binaryData:
   custom.css: "{{- include "portalFrontend.branding.css" . }}"
-  favicon.ico: "{{- include "portalFrontend.branding.favicon" . }}"
+  {{- if .Values.portalFrontend.branding.favicon }}
+  favicon.ico: {{ .Values.portalFrontend.branding.favicon | quote }}
+  {{- end }}
   logo.svg: "{{- include "portalFrontend.branding.logo" . }}"
   portal_background_image.svg: "{{- include "portalFrontend.branding.backgroundImage" . }}"
 
