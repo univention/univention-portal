@@ -117,6 +117,13 @@ export default defineComponent({
       return _('If you are logging in for the first time, please click on "View all" to enable your access to the Newsfeed');
     },
   },
+  watch: {
+    feedUrl: {
+      handler() {
+        this.loadNewsfeed();
+      },
+    },
+  },
   mounted() {
     this.loadNewsfeed();
   },
