@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.64.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.64.1...v0.64.2) (2025-04-24)
+
+
+### Bug Fixes
+
+* **portal-frontend:** Fallback to first available language for $localized translation strings ([62314e2](https://git.knut.univention.de/univention/components/univention-portal/commit/62314e28f551d810d39fa061000b12aa83c40cd5))
+
 ## [0.64.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.64.0...v0.64.1) (2025-04-24)
 
 
