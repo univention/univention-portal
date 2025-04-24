@@ -20,6 +20,21 @@ binaryData:
   {{- if .Values.portalFrontend.branding.favicon }}
   favicon.ico: {{ .Values.portalFrontend.branding.favicon | quote }}
   {{- end }}
+  {{- if .Values.portalFrontend.branding.faviconSvg }}
+  favicon.svg: {{ .Values.portalFrontend.branding.faviconSvg | quote }}
+  {{- end }}
+  {{- if .Values.portalFrontend.branding.favicon96Png }}
+  favicon-96x96.png: {{ .Values.portalFrontend.branding.favicon96Png | quote }}
+  {{- end }}
+  {{- if .Values.portalFrontend.branding.appleTouchIcon }}
+  apple-touch-icon.png: {{ .Values.portalFrontend.branding.appleTouchIcon | quote }}
+  {{- end }}
+  {{- if .Values.portalFrontend.branding.webManifestIcon192 }}
+  web-app-manifest-192x192.png: {{ .Values.portalFrontend.branding.webManifestIcon192 | quote }}
+  {{- end }}
+  {{- if .Values.portalFrontend.branding.webManifestIcon512 }}
+  web-app-manifest-512x512.png: {{ .Values.portalFrontend.branding.webManifestIcon512 | quote }}
+  {{- end }}
   logo.svg: "{{- include "portalFrontend.branding.logo" . }}"
   portal_background_image.svg: "{{- include "portalFrontend.branding.backgroundImage" . }}"
 

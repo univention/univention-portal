@@ -441,8 +441,18 @@ portalFrontend:
   branding:
     # -- Custom CSS style sheet for the portal frontend.
     css: ""
-    # -- Favicon for the portal frontend.
+    # -- Favicon for the portal frontend as base 64 encoded string. Must be an ICO file.
     favicon: ""
+    # -- Favicon as a 92x92 pixel image in PNG format as a base 64 encoded string.
+    favicon96Png: ""
+    # -- SVG version of the favicon as base 64 encoded string. Must be a SVG image.
+    faviconSvg: ""
+    # -- Apple Touch Icon as base 64 encoded string. Must be a PNG image.
+    appleTouchIcon: ""
+    # -- Web Manifest icon as a 192x192 pixel PNG file. Must be a base 64 encoded string.
+    webManifestIcon192: ""
+    # -- Web Manifest icon as a 512x512 pixel PNG file. Must be a base 64 encoded string.
+    webManifestIcon512: ""
     # -- Logo for the loading screen of the portal frontend.
     logo: ""
     # -- Background image for the portal frontend.

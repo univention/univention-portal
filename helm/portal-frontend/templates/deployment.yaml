@@ -103,6 +103,31 @@ spec:
               mountPath: "/var/www/html/favicon/favicon.ico"
               subPath: "favicon.ico"
             {{- end }}
+            {{- if .Values.portalFrontend.branding.faviconSvg }}
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/favicon/favicon.svg"
+              subPath: "favicon.svg"
+            {{- end }}
+            {{- if .Values.portalFrontend.branding.favicon96Png }}
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/favicon/favicon-96x96.png"
+              subPath: "favicon-96x96.png"
+            {{- end }}
+            {{- if .Values.portalFrontend.branding.appleTouchIcon }}
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/favicon/apple-touch-icon.png"
+              subPath: "apple-touch-icon.png"
+            {{- end }}
+            {{- if .Values.portalFrontend.branding.webManifestIcon192 }}
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/favicon/web-app-manifest-192x192.png"
+              subPath: "web-app-manifest-192x192.png"
+            {{- end }}
+            {{- if .Values.portalFrontend.branding.webManifestIcon512 }}
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/favicon/web-app-manifest-512x512.png"
+              subPath: "web-app-manifest-512x512.png"
+            {{- end }}
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
               mountPath: "/var/www/html/css/custom.css"
               subPath: "custom.css"

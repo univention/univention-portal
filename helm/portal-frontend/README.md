@@ -854,10 +854,15 @@ true
 			<td><pre lang="json">
 {
   "branding": {
+    "appleTouchIcon": "",
     "backgroundImage": "",
     "css": "",
     "favicon": "",
-    "logo": ""
+    "favicon96Png": "",
+    "faviconSvg": "",
+    "logo": "",
+    "webManifestIcon192": "",
+    "webManifestIcon512": ""
   },
   "environment": "production",
   "logLevel": "INFO",
@@ -874,14 +879,28 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "appleTouchIcon": "",
   "backgroundImage": "",
   "css": "",
   "favicon": "",
-  "logo": ""
+  "favicon96Png": "",
+  "faviconSvg": "",
+  "logo": "",
+  "webManifestIcon192": "",
+  "webManifestIcon512": ""
 }
 </pre>
 </td>
 			<td>Customizations for the portal frontend, such as `custom.css`, `favicon.ico`, `logo.svg`, and `portal_background_image.svg`. For further customizations, please mount a ConfigMap with the respective files.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.appleTouchIcon</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Apple Touch Icon as base 64 encoded string. Must be a PNG image.</td>
 		</tr>
 		<tr>
 			<td>portalFrontend.branding.backgroundImage</td>
@@ -908,7 +927,25 @@ true
 ""
 </pre>
 </td>
-			<td>Favicon for the portal frontend.</td>
+			<td>Favicon for the portal frontend as base 64 encoded string. Must be an ICO file.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.favicon96Png</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Favicon as a 92x92 pixel image in PNG format as a base 64 encoded string.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.faviconSvg</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>SVG version of the favicon as base 64 encoded string. Must be a SVG image.</td>
 		</tr>
 		<tr>
 			<td>portalFrontend.branding.logo</td>
@@ -918,6 +955,24 @@ true
 </pre>
 </td>
 			<td>Logo for the loading screen of the portal frontend.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.webManifestIcon192</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Web Manifest icon as a 192x192 pixel PNG file. Must be a base 64 encoded string.</td>
+		</tr>
+		<tr>
+			<td>portalFrontend.branding.webManifestIcon512</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Web Manifest icon as a 512x512 pixel PNG file. Must be a base 64 encoded string.</td>
 		</tr>
 		<tr>
 			<td>portalFrontend.environment</td>

@@ -8,6 +8,11 @@ from yaml import safe_load
 
 pytestmark = pytest.mark.parametrize("values_key,filename", [
     ("favicon", "favicon.ico"),
+    ("faviconSvg", "favicon.svg"),
+    ("appleTouchIcon", "apple-touch-icon.png"),
+    ("favicon96Png", "favicon-96x96.png"),
+    ("webManifestIcon192", "web-app-manifest-192x192.png"),
+    ("webManifestIcon512", "web-app-manifest-512x512.png"),
 ])
 
 
