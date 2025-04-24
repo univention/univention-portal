@@ -459,8 +459,8 @@
   "newsfeed_config": {
     "feedType": "wordpress",
     "feedUrl": {
-      "de_DE": "https://www.univention.de/news/blog-de/feed/",
-      "en_US": "https://www.univention.com/news/blog-en/feed/"
+      "de_DE": "https://www.univention.de/nubus-portal-feed-de/",
+      "en_US": "https://www.univention.com/nubus-portal-feed-en/"
     },
     "homeUrl": {
       "de_DE": "https://www.univention.de/news/blog-de/",
