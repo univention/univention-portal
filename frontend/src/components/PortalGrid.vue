@@ -68,9 +68,9 @@ export default defineComponent({
   --portal-grid-gap-width: calc(8.5 * var(--layout-spacing-unit))
   --portal-grid-max-width: calc(2 * var(--portal-grid-col-width) + var(--portal-grid-gap-width))
 
-  margin: calc(6 * var(--layout-spacing-unit)) 0
+  padding: calc(6 * var(--layout-spacing-unit)) 0
   @media $mqSmartphone
-    margin: calc(2 * var(--layout-spacing-unit))
+    padding: calc(2 * var(--layout-spacing-unit))
 
   &--monocolumn
     margin: 0 auto
