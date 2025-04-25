@@ -205,9 +205,8 @@ services:
         target: /app/univention-portal-server
 
   test-chart-portal-server:
-    image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
-    command: bash -c "helm dependency build --insecure-skip-tls-verify  helm/portal-server/ &&
-                      pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart"
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
+    command: pytest portal-server/tests/chart
     profiles:
       - test
     working_dir: /app
@@ -216,9 +215,8 @@ services:
       - "../portal-server/tests/chart:/app/portal-server/tests/chart"
 
   test-chart-portal-consumer:
-    image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
-    command: bash -c "helm dependency build --insecure-skip-tls-verify helm/portal-consumer/ &&
-                      pytest --values helm/portal-consumer/linter_values.yaml portal-consumer/tests/chart"
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1
+    command: pytest portal-consumer/tests/chart
     profiles:
       - test
     working_dir: /app
