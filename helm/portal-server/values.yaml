@@ -495,3 +495,22 @@ portalServer:
         # -- The key to retrieve the secret from. Setting this value allows to use
         # a key with a different name.
         password: null
+
+  # -- Newsfeed configuration. This feature is currently behind a feature toggle, see
+  # "portalServer.featureToggles.newsfeed". The configuration is only applied if the toggle
+  # is enabled.
+  newsfeed:
+    # NOTE: A new option "enabled" should be added once the feature is moved out
+    # of the feature toggles. Compare "centralNavigation".
+
+    # -- The supported feed type. Must be "xwiki" or "wordpress".
+    feedtype: ""
+    # -- The source of the feed. This is a mapping from the locale
+    # (e.g. "en_US") to URL (e.g. "https://blog.example/feed").
+    feedUrl: {}
+    # -- Link to the system which provides the feed. This is a mapping from the locale
+    # (e.g. "en_US") to URL (e.g. "https://blog.example/").
+    homeUrl: {}
+    # -- Silent login URL to use for cases where a login via ICS is required. This
+    # must be an URL (e.g. "https://ics.internal.example/")
+    icsSilentLoginUrl: null

@@ -816,6 +816,56 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
+			<td>portalServer.newsfeed</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "feedUrl": {},
+  "feedtype": "",
+  "homeUrl": {},
+  "icsSilentLoginUrl": null
+}
+</pre>
+</td>
+			<td>Newsfeed configuration. This feature is currently behind a feature toggle, see "portalServer.featureToggles.newsfeed". The configuration is only applied if the toggle is enabled.</td>
+		</tr>
+		<tr>
+			<td>portalServer.newsfeed.feedUrl</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td>The source of the feed. This is a mapping from the locale (e.g. "en_US") to URL (e.g. "https://blog.example/feed").</td>
+		</tr>
+		<tr>
+			<td>portalServer.newsfeed.feedtype</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>The supported feed type. Must be "xwiki" or "wordpress".</td>
+		</tr>
+		<tr>
+			<td>portalServer.newsfeed.homeUrl</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td>Link to the system which provides the feed. This is a mapping from the locale (e.g. "en_US") to URL (e.g. "https://blog.example/").</td>
+		</tr>
+		<tr>
+			<td>portalServer.newsfeed.icsSilentLoginUrl</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>Silent login URL to use for cases where a login via ICS is required. This must be an URL (e.g. "https://ics.internal.example/")</td>
+		</tr>
+		<tr>
 			<td>portalServer.port</td>
 			<td>int</td>
 			<td><pre lang="json">

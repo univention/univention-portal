@@ -23,6 +23,9 @@ data:
   PORTAL_SERVER_AUTH_MODE: {{ include "portal-server.authMode" . | quote }}
   PORTAL_SERVER_EDITABLE: "{{ .Values.portalServer.editable }}"
   PORTAL_SERVER_FEATURE_TOGGLES: {{ .Values.portalServer.featureToggles | default dict | toJson | quote }}
+  {{- $newsfeedEnabled := (.Values.portalServer.featureToggles).newsfeed | default false }}
+  {{- $newsfeedConfig := ternary .Values.portalServer.newsfeed dict $newsfeedEnabled }}
+  PORTAL_SERVER_NEWSFEED_CONFIG: {{ $newsfeedConfig | default dict | toJson | quote }}
   PORTAL_SERVER_PORT: "{{ .Values.service.ports.http.port }}"
   PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalServer.ucsInternalPath\" is required." .Values.portalServer.ucsInternalPath | quote }}
   PORTAL_SERVER_UMC_GET_URL: {{ include "portal-server.umcGetUrl" . | quote }}
