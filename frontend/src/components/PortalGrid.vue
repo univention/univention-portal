@@ -52,7 +52,7 @@ export default defineComponent({
           console.info('Feature newsfeed activated and configured.');
           return true;
         }
-        console.info('Feature newsfeed activated but is missing configuration.');
+        console.warn('Feature newsfeed activated but is missing configuration.');
         return false;
       }
       console.info('Feature newsfeed disabled.');
