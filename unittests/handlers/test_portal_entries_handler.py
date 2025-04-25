@@ -99,7 +99,6 @@ class TestPortalEntriesHandlerNoHttpCache:
                 "notifications_api": False,
             },
         })
-        mock_portal_config({"test": "value"})
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data["feature_toggles"] == {"notifications_api": False}
