@@ -104,6 +104,32 @@ class TestPortalEntriesHandlerNoHttpCache:
         assert data["feature_toggles"] == {"notifications_api": False}
 
     @pytest.mark.gen_test()
+    def test_get_portals_returns_empty_newsfeed_configuration(
+        self, http_client, base_url, mock_portal_config,
+    ):
+        mock_portal_config({
+            "editable": False,
+            "newsfeed_config": {},
+        })
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data["newsfeed_config"] == {}
+
+    @pytest.mark.gen_test()
+    def test_get_portals_returns_newsfeed_configuration(
+            self, http_client, base_url, mock_portal_config):
+        mock_portal_config({
+            "editable": False,
+            "newsfeed_config": {
+                "stub": "value",
+            },
+        })
+        mock_portal_config({"test": "value"})
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data["newsfeed_config"] == {"stub": "value"}
+
+    @pytest.mark.gen_test()
     def test_get_portals_returns_links(
             self, portal_link_list, http_client, base_url, stub_portal_cache):
         entry_dn = f"cn={portal_link_list.portal_attr},dc=test"

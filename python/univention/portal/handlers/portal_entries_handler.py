@@ -91,4 +91,6 @@ class PortalEntriesHandler(PortalResource):
         answer["may_edit_portal"] = portal.may_be_edited(user)
         answer["announcements"] = portal.get_announcements(visible_content)
         answer["feature_toggles"] = portal.get_feature_toggles()
+        answer["newsfeed_config"] = portal.get_newsfeed_config()
+
         self.write(answer)
