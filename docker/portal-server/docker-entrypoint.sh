@@ -72,7 +72,8 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "umc_get_url": $umc_get_url,
   "umc_session_url": $umc_session_url,
   "umc_check_icons": $umc_check_icons,
-  "feature_toggles": $feature_toggles
+  "feature_toggles": $feature_toggles,
+  "newsfeed_config": $newsfeed_config
 }
 EOF
 
@@ -104,6 +105,7 @@ jq -n \
   --argjson umc_check_icons "${PORTAL_SERVER_UMC_CHECK_ICONS}" \
   --arg selfservice_portal_dn "cn=self-service,cn=portal,cn=portals,cn=univention,${LDAP_BASE_DN:-dn=univention-organization,dn=intranet}" \
   --argjson feature_toggles "${PORTAL_SERVER_FEATURE_TOGGLES:-{\}}" \
+  --argjson newsfeed_config "${PORTAL_SERVER_NEWSFEED_CONFIG:-{\}}" \
   "${JQ_TEMPLATE}" > "${JSON_PATH}"
 
 if [[ "${PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED:-}" == "true" ]]; then
