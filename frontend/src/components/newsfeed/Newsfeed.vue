@@ -190,7 +190,7 @@ export default defineComponent({
           });
           break;
         default:
-          console.info(`Unsupported or invalid newsfeed type '${this.feedType}' for URL ${this.feedUrl}`);
+          console.error(`Unsupported or invalid newsfeed type '${this.feedType}' for URL ${this.feedUrl}`);
       }
 
       if (items.length > 0) {
