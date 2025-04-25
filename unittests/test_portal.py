@@ -555,3 +555,28 @@ def test_get_feature_toggles_returns_configured_values(standard_portal, mock_por
     })
     features = standard_portal.get_feature_toggles()
     assert features == {"notifications_api": True}
+
+
+def test_get_newsfeed_config_is_empty_by_default(standard_portal, mock_portal_config):
+    newsfeed_config = standard_portal.get_newsfeed_config()
+    assert newsfeed_config == {}
+
+
+def test_get_newsfeed_config_returns_configured_values(standard_portal, mock_portal_config):
+    stub_newsfeed_config = {
+        "feedType": "stub feed type",
+        "feedUrl": {
+            "de_DE": "https://blog.test/feed-de-DE/",
+            "en_US": "https://blog.test/feed-en-EN/",
+        },
+        "homeUrl": {
+            "de_DE": "https://blog.test/news-de-DE/",
+            "en_US": "https://en.blog.test/",
+        },
+        "icsSilentLoginUrl": "https://ics.internal.test",
+    }
+    mock_portal_config({
+        "newsfeed_config": stub_newsfeed_config,
+    })
+    newsfeed_config = standard_portal.get_newsfeed_config()
+    assert newsfeed_config == stub_newsfeed_config

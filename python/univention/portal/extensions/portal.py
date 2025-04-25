@@ -120,6 +120,9 @@ class Portal(metaclass=Plugin):
     def get_feature_toggles(self):
         return config.fetch_with_default("feature_toggles", default={})
 
+    def get_newsfeed_config(self):
+        return config.fetch_with_default("newsfeed_config", default={})
+
     def get_visible_content(self, user, admin_mode):
         entries = self.portal_cache.get_entries()
         folders = self.portal_cache.get_folders()
