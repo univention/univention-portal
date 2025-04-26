@@ -103,6 +103,14 @@ test-portal-frontend-ui:
       cp -r /app/tests/e2e/videos /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/videos
       cp -r /app/tests/e2e/screenshots /builds/${CI_PROJECT_PATH}/frontend/tests/e2e/screenshots
 
+test-chart-portal-frontend:
+  stage: test
+  needs: []
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1"
+  script:
+    - helm dep build helm/portal-frontend
+    - pytest frontend/tests/chart
+
 push-image-external:
   before_script:
     - |
