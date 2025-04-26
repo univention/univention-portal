@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.65.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.64.2...v0.65.0) (2025-04-26)
+
+
+### Features
+
+* **portal-frontend:** add feature toggle 'newsfeed' along with configuration to the state (and helm) ([56e8a2d](https://git.knut.univention.de/univention/components/univention-portal/commit/56e8a2d64fd4b5596e36bbeb777ef3a0377763aa))
+* **portal-frontend:** Add missing interface text translations for the newsfeed UX elements ([809b877](https://git.knut.univention.de/univention/components/univention-portal/commit/809b877d3e591c88cdb9c9093997ae1e965a1d2b))
+* **portal-frontend:** add nubus portal newsfeed components ([f15cbb2](https://git.knut.univention.de/univention/components/univention-portal/commit/f15cbb21fb420eff2d816f9783db43c064d634e5))
+* **portal-frontend:** Log activated but unconfigured newsfeed as warning ([ec2c0ce](https://git.knut.univention.de/univention/components/univention-portal/commit/ec2c0ce8b2157ff3cba3e5643d9ce0b90c94bc0c))
+* **portal-server:** Add newsfeed configuration into the Helm chart ([a196083](https://git.knut.univention.de/univention/components/univention-portal/commit/a196083d4da593c8244c3a0077ae92c4ea68f159))
+* **portal-server:** Implement "get_newsfeed_config" in the Portal resource ([125ecd7](https://git.knut.univention.de/univention/components/univention-portal/commit/125ecd714367c9818117626f1748b4f74cc821b7))
+* **portal-server:** Return "newsfeed_config" within "portal.json" endpoint ([72c0cbb](https://git.knut.univention.de/univention/components/univention-portal/commit/72c0cbb6a8a8fdd84409beccb47401d536546504))
+* **portal-server:** Support newsfeed configuration in entrypoint script ([438daaf](https://git.knut.univention.de/univention/components/univention-portal/commit/438daaf415a1f8a45177976a2ad3347185360c01))
+
+
+### Bug Fixes
+
+* **portal-frontend:** add univention nubus portal feed image ([37bcf69](https://git.knut.univention.de/univention/components/univention-portal/commit/37bcf690cfdbe0f2036fe0365a7056a3f06d69c4))
+* **portal-frontend:** collapsing margins when no announcements are set with header and portal grid ([7e18bd3](https://git.knut.univention.de/univention/components/univention-portal/commit/7e18bd3ff83e04df2b8cff2a1f84b2d7d83f037b))
+* **portal-frontend:** Log error condition around newsfeed on level error ([1797772](https://git.knut.univention.de/univention/components/univention-portal/commit/179777222f585e16502366dea88677a1b861a95f))
+* **portal-frontend:** missing corner/quick links should not yield errors in the component ([96f5659](https://git.knut.univention.de/univention/components/univention-portal/commit/96f565981688250c5389e7662b9860d9e9825624))
+* **portal-frontend:** re-load newsfeed if current locale changes ([cc54764](https://git.knut.univention.de/univention/components/univention-portal/commit/cc54764dea2c9da2c35ef85d49eea463eca31bcb))
+* **portal-frontend:** update Univention Nubus Portal Feed URLs ([f951851](https://git.knut.univention.de/univention/components/univention-portal/commit/f9518512c5d3d744049c5f656e75e19df5e3dc17))
+* **portal-frontend:** use grey background for newsfeed buttons and tag categories ([5cf31dd](https://git.knut.univention.de/univention/components/univention-portal/commit/5cf31dd9b97e0d985aeb2566d15806feb91569f8))
+
 ## [0.64.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.64.1...v0.64.2) (2025-04-24)
 
 
