@@ -70,6 +70,8 @@ container-malware-scan:
 
 lint-portal-frontend:
   stage: "test"
+  needs:
+    - build-frontend-test-runner
   image: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner:${RELEASE_VERSION}"
   script:
     - |
@@ -77,6 +79,8 @@ lint-portal-frontend:
 
 test-portal-frontend-unit:
   stage: "test"
+  needs:
+    - build-frontend-test-runner
   image: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner:${RELEASE_VERSION}"
   script:
     - |
@@ -84,6 +88,8 @@ test-portal-frontend-unit:
 
 test-portal-frontend-ui:
   stage: "test"
+  needs:
+    - build-frontend-test-runner-ui
   image: "$CI_REGISTRY_IMAGE/portal-frontend-test-runner-ui:${RELEASE_VERSION}"
   artifacts:
     when: "always"
