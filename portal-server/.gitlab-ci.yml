@@ -81,6 +81,7 @@ container-build-portal-consumer:
 
 test-portal-server:
   stage: "test"
+  needs: []
   image: "$CI_REGISTRY_IMAGE/portal-server-test-runner:${RELEASE_VERSION}"
   variables:
     OBJECT_STORAGE_ENDPOINT: "stub_minio"
