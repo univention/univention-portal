@@ -36,9 +36,6 @@ generate-joinscript-data:
       - "udm/join-data"
 
 .build-matrix: &build-matrix
-  - IMAGE_NAME: "portal-server-test-runner"
-    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    KANIKO_ARGS: "--target=test"
   - IMAGE_NAME: "portal-server"
   - IMAGE_NAME: "portal-extension"
 
@@ -62,6 +59,15 @@ container-build:
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "docker/${IMAGE_NAME}/Dockerfile"
 
+build-portal-server-test-runner:
+  stage: "build"
+  extends: ".kaniko"
+  variables:
+    IMAGE_NAME: "portal-server-test-runner"
+    DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
+    KANIKO_ARGS: "--target=test"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+
 container-malware-scan:
   parallel:
     matrix: *publish-matrix
@@ -81,7 +87,8 @@ container-build-portal-consumer:
 
 test-portal-server:
   stage: "test"
-  needs: []
+  needs:
+    - build-portal-server-test-runner
   image: "$CI_REGISTRY_IMAGE/portal-server-test-runner:${RELEASE_VERSION}"
   variables:
     OBJECT_STORAGE_ENDPOINT: "stub_minio"
