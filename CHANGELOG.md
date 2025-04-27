@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.66.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.66.0...v0.66.1) (2025-04-27)
+
+
+### Bug Fixes
+
+* **quick-links:** use blank image when a quick link has no icon configured ([b9c19a7](https://git.knut.univention.de/univention/components/univention-portal/commit/b9c19a79e95932dd09d4f7c36e23b8dec6c88c64))
+
 ## [0.66.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.65.0...v0.66.0) (2025-04-27)
 
 
