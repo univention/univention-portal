@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.66.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.65.0...v0.66.0) (2025-04-27)
+
+
+### Features
+
+* **portal-frontend:** Add configuration options per favicon type ([2523d35](https://git.knut.univention.de/univention/components/univention-portal/commit/2523d35480f72003c26fd443383498f129b964a2))
+* **portal-frontend:** Mount the favicon only if configured ([c6e75bd](https://git.knut.univention.de/univention/components/univention-portal/commit/c6e75bd51b345b149b91fd86a2668298f70b265b))
+* **portal-frontend:** Move icons into dedicated subfolder ([a10c212](https://git.knut.univention.de/univention/components/univention-portal/commit/a10c212358fea5eb76dd34c90487d7c55ad2f3fe))
+* **portal-frontend:** Update base image to version 521:0.16.2-build-2025-04-17 ([607efb9](https://git.knut.univention.de/univention/components/univention-portal/commit/607efb9289195e84a48b3aa1bcf921cf22ddf33b))
+* **portal-frontend:** Update caniuse to version 1.0.30001715 ([dc4a054](https://git.knut.univention.de/univention/components/univention-portal/commit/dc4a05492f821dc026d252f415a36b890ff1b4cc))
+* **portal-frontend:** update favicon, add apple and android icons ([bacec02](https://git.knut.univention.de/univention/components/univention-portal/commit/bacec023d03c29a785d68036367ac94efc5b62dc))
+
 ## [0.65.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.64.2...v0.65.0) (2025-04-26)
 
 
