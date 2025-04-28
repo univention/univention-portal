@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.66.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.66.1...v0.66.2) (2025-04-28)
+
+
+### Bug Fixes
+
+* **portal-frontend:** use DOMPurify library for external newsfeed content ([592c05d](https://git.knut.univention.de/univention/components/univention-portal/commit/592c05d1e79c053d192a1489fe693696bd4340ac))
+
 ## [0.66.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.66.0...v0.66.1) (2025-04-27)
 
 
