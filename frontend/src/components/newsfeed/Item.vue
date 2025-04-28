@@ -30,8 +30,10 @@
       >
         {{ dateFormatted }}
       </time>
-      <!-- eslint-disable-next-line vue/max-attributes-per-line, vue/no-v-html -->
-      <div class="newsfeed-item__excerpt" v-html="item.excerpt" />
+      <div
+        v-dompurify-html="item.excerpt"
+        class="newsfeed-item__excerpt"
+      />
     </div>
     <div
       v-if="item.imageSrc"
