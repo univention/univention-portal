@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.67.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.66.2...v0.67.0) (2025-04-29)
+
+
+### Features
+
+* Bump ucs-base-image version ([9f4b707](https://git.knut.univention.de/univention/components/univention-portal/commit/9f4b70793a90725fa488a7f4c879a385a260e4ff)), closes [univention/dev/internal/team-nubus#1155](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1155)
+
+
+### Bug Fixes
+
+* final version of wait-for-dependency ([e48b667](https://git.knut.univention.de/univention/components/univention-portal/commit/e48b6672008ffc40453dea8923d691671954049b)), closes [univention/dev/internal/team-nubus#1155](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1155)
+
 ## [0.66.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.66.1...v0.66.2) (2025-04-28)
 
 
