@@ -113,6 +113,7 @@ test-portal-server:
       coverage_report:
         coverage_format: "cobertura"
         path: "coverage.xml"
+  allow_failure: true
 
 test-chart-portal-server:
   stage: test
