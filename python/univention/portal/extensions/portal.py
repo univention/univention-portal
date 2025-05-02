@@ -43,6 +43,7 @@ import requests.exceptions
 from univention.portal import Plugin, config
 from univention.portal.log import get_logger
 from univention.portal.user import User
+from univention.portal.guardian import GuardianHelper
 from univention.portal.util import is_current_time_between as is_announcement_visible_now
 
 
@@ -101,6 +102,7 @@ class Portal(metaclass=Plugin):
         self.scorer = scorer
         self.portal_cache = portal_cache
         self.authenticator = authenticator
+        self._guardianHelper = GuardianHelper()
 
     def get_cache_id(self):
         return self.portal_cache.get_id()
@@ -123,7 +125,7 @@ class Portal(metaclass=Plugin):
     def get_newsfeed_config(self):
         return config.fetch_with_default("newsfeed_config", default={})
 
-    def get_visible_content(self, user, admin_mode):
+    async def get_visible_content(self, user, admin_mode):
         entries = self.portal_cache.get_entries()
         folders = self.portal_cache.get_folders()
         categories = self.portal_cache.get_categories()
@@ -253,7 +255,7 @@ class Portal(metaclass=Plugin):
         announcements = self.portal_cache.get_announcements()
         return [announcements[announcement_dn] for announcement_dn in content["announcement_dns"]]
 
-    def _filter_entry_dns(self, entry_dns, entries, user, admin_mode):
+    async def _filter_entry_dns(self, entry_dns, entries, user, admin_mode):
         filtered_dns = []
         for entry_dn in entry_dns:
             entry = entries.get(entry_dn)
@@ -265,6 +267,10 @@ class Portal(metaclass=Plugin):
                 if not entry["activated"]:
                     continue
                 if entry["anonymous"] and not user.is_anonymous():
+                    continue
+                if not (await self._guardianHelper.guardian_allow(udm_user, entry["name"])):
+                    # TODO: Maybe this should be a pass if we want to keep both functionalities (allowedGroups and guardian)
+                    # Requires some more logic if we want to have allowedGroups and guardian.
                     continue
                 if entry["allowedGroups"]:
                     for group in entry["allowedGroups"]:
