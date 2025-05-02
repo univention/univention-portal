@@ -47,19 +47,21 @@ class GuardianHelper:
         )
 
     async def guardian_allow(self, user: User, entry_name: str):
+        logger.info(f'Starting guardian_allow, user: {user}, entry_name: {entry_name}')
 
         udm_user = {}
         if user.is_logged_in():
-            logger.debug("User is logged in, fetching user details from UDM Rest API.")
+            logger.info("User is logged in, fetching user details from UDM Rest API.")
             udm_user_data = await self._udm_client.get_user(user.username)
             udm_user.update(udm_user_data)
         else:
-            logger.debug("Anonymous user, no roles for guardian.")
+            logger.info("Anonymous user, no roles for guardian.")
             return False
 
         user_roles = []
         # TODO: what about guardianInheritedRoles ????
         if udm_user["properties"]["guardianRoles"]:
+            logger.info("Getting users roles.")
             # TODO: Filter only portal roles or send all roles?
             # Currently sending all roles.
             for role in udm_user_data["properties"]["guardianRoles"]:
@@ -67,6 +69,9 @@ class GuardianHelper:
                 user_roles.append({"app_name": role_split[0], "namespace_name": role_split[1], "name": role_split[2]})
         # else:
         #     return False
+
+        logger.info("Users guardianRoles: ")
+        logger.info(user_roles)
 
         # REQUEST TO GUARDIAN
         # FIXME: we need to configure the guardian connection, keycloak token, KC client for the portal, ETC
@@ -80,10 +85,10 @@ class GuardianHelper:
         # response = requests.post(url_auth_eng, headers=req_headers, json=body)
         # permissions = response["general_permissions"]
 
-        permissions = [{"app_name": "univention-portal", "namespace_name": "portal", "name": "view-keycloak-tile"}]
+        permissions = [{"app_name": "univention-portal", "namespace_name": "portal", "name": "view-Keycloak-tile"}]
 
         # TODO: Tile per tile support, can be use as generic `view-tile` capability
-        return _check_capabilities(permissions_list=permissions, capability=f'view-{entry_name}-tile')
+        return _check_capabilities(permissions_list=permissions, capability=f'view-{entry_name["en_US"]}-tile')
 
 
 def _check_capabilities(permissions_list, capability):

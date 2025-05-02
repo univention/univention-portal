@@ -130,7 +130,7 @@ class Portal(metaclass=Plugin):
         folders = self.portal_cache.get_folders()
         categories = self.portal_cache.get_categories()
         announcements = self.portal_cache.get_announcements()
-        visible_entry_dns = self._filter_entry_dns(entries.keys(), entries, user, admin_mode)
+        visible_entry_dns = await self._filter_entry_dns(entries.keys(), entries, user, admin_mode)
         visible_folder_dns = [
             folder_dn
             for folder_dn in folders.keys()
@@ -336,7 +336,7 @@ class UMCPortal(Portal):
                 return []
             return response.json()[get_path]
 
-    def get_visible_content(self, user, admin_mode):
+    async def get_visible_content(self, user, admin_mode):
         headers = user.headers
         categories = self._request_umc_get("categories", headers)
         modules = self._request_umc_get("modules", headers)

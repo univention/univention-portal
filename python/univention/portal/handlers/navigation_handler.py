@@ -66,7 +66,7 @@ class NavigationHandler(PortalResource):
         ):
             portal.refresh()
 
-        visible_content = portal.get_visible_content(user, False)
+        visible_content = await portal.get_visible_content(user, False)
         categories_content = portal.get_categories(visible_content)
         meta = portal.get_meta(visible_content, categories_content)
         entries = portal.portal_cache.get_entries()
