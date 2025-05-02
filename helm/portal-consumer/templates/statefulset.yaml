@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
+{{ $podSecurityContext := omit .Values.podSecurityContext "enabled" }}
+{{ $containerSecurityContext := omit .Values.containerSecurityContext "enabled" }}
+
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -33,7 +36,7 @@ spec:
       {{- end }}
       {{- if .Values.podSecurityContext.enabled }}
       securityContext:
-        {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
+        {{- $podSecurityContext | toYaml | nindent 8 }}
       {{- end }}
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
@@ -42,10 +45,7 @@ spec:
         - name: wait-for-ldap
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            {{- with .Values.containerSecurityContextNonRoot }}
-            {{- . | toYaml | nindent 12 }}
-            {{- end }}
-            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+            {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
@@ -92,10 +92,7 @@ spec:
         - name: wait-for-udm
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            {{- with .Values.containerSecurityContextNonRoot }}
-            {{- . | toYaml | nindent 12 }}
-            {{- end }}
-            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+            {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
@@ -142,10 +139,7 @@ spec:
         - name: wait-for-object-storage
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            {{- with .Values.containerSecurityContextNonRoot }}
-            {{- . | toYaml | nindent 12 }}
-            {{- end }}
-            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+            {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
@@ -178,10 +172,7 @@ spec:
         - name: wait-for-provisioning-api
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            {{- with .Values.containerSecurityContextNonRoot }}
-            {{- . | toYaml | nindent 12 }}
-            {{- end }}
-            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+            {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
@@ -203,7 +194,8 @@ spec:
         - name: "univention-compatibility"
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            {{- $baseContext := omit .Values.containerSecurityContext "enabled" }}
+            # need to copy dict otherwise containerSecurityContext will be modified and portal-consumer is also running as root
+            {{- $baseContext := $containerSecurityContext | deepCopy }}
             {{- $overrides := dict
                   "runAsUser" nil
                   "runAsGroup" nil
@@ -273,10 +265,7 @@ spec:
         - name: "portal-consumer"
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            {{- with .Values.containerSecurityContextNonRoot }}
-            {{- . | toYaml | nindent 12 }}
-            {{- end }}
-            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+            {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
