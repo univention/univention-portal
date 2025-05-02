@@ -41,9 +41,9 @@ import requests
 import requests.exceptions
 
 from univention.portal import Plugin, config
+from univention.portal.guardian import GuardianHelper
 from univention.portal.log import get_logger
 from univention.portal.user import User
-from univention.portal.guardian import GuardianHelper
 from univention.portal.util import is_current_time_between as is_announcement_visible_now
 
 
@@ -268,9 +268,10 @@ class Portal(metaclass=Plugin):
                     continue
                 if entry["anonymous"] and not user.is_anonymous():
                     continue
-                if not (await self._guardianHelper.guardian_allow(udm_user, entry["name"])):
+                if await self._guardianHelper.guardian_allow(user, entry["name"]):
                     # TODO: Maybe this should be a pass if we want to keep both functionalities (allowedGroups and guardian)
-                    # Requires some more logic if we want to have allowedGroups and guardian.
+                    # This gives priority to Guardian over `allowedGroups`, maintain both could be a problem.
+                    filtered_dns.append(entry_dn)
                     continue
                 if entry["allowedGroups"]:
                     for group in entry["allowedGroups"]:
