@@ -4,6 +4,8 @@
 import logging
 from pathlib import Path
 
+import requests
+
 from univention.portal import config
 from univention.portal.udm import AsyncUdmClient
 from univention.portal.user import User
@@ -14,6 +16,8 @@ logger = logging.getLogger(__name__)
 
 # TODO: we need to have the url for the auth engine
 url_auth_eng = "https://portal.jtorres-nubus.univention.dev/guardian/authorization/permissions"
+kcURL = "https://id.jtorres-nubus.univention.dev/realms/nubus/protocol/openid-connect/token"
+
 headers = {
     "Authorization": "Bearer TOKEN",
     "Content-Type": "application/json",
@@ -77,18 +81,31 @@ class GuardianHelper:
         # FIXME: we need to configure the guardian connection, keycloak token, KC client for the portal, ETC
 
         # Get token from kc, HOW ??
-        # token_response = requests.post(kcURL, etc)
-        #
-        # req_headers = _create_headers(token_response["access_token"])
-        # body = _create_body(udm_user["properties"]["username"], user_roles)
-        #
-        # response = requests.post(url_auth_eng, headers=req_headers, json=body)
-        # permissions = response["general_permissions"]
+        data = (
+            "client_id=guardian-scripts"
+            "&grant_type=password"
+            "&username=Administrator"
+            "&password=b30665941288528735bf8aa04655188c1328509b"
+        )
+        # FIXME: Error handling for kc token.
+        token_response = requests.post(kcURL, headers={"Content-Type": "application/x-www-form-urlencoded"}, data=data).json()
 
-        permissions = [{"app_name": "univention-portal", "namespace_name": "portal", "name": "view-Keycloak-tile"}]
+        logger.info("Kc token: ")
+        logger.info(token_response)
+
+        req_headers = _create_headers(token_response["access_token"])
+        body = _create_body(udm_user["properties"]["username"], user_roles)
+
+        # FIXME: Error handling for guardian.
+        response = requests.post(url_auth_eng, headers=req_headers, json=body).json()
+        permissions = response["general_permissions"]
+
+        logger.info("Guardian response: ")
+        logger.info(response)
+        # permissions = [{"app_name": "univention-portal", "namespace_name": "portal", "name": "view-Keycloak-tile"}]
 
         # TODO: Tile per tile support, can be use as generic `view-tile` capability
-        return _check_capabilities(permissions_list=permissions, capability=f'view-{entry_name["en_US"]}-tile')
+        return _check_capabilities(permissions_list=permissions, capability=f'view-{entry_name["en_US"].lower()}-tile')
 
 
 def _check_capabilities(permissions_list, capability):
