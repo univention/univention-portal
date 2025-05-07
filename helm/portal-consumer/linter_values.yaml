@@ -50,11 +50,6 @@ ingress:
   host: "localhost"
 
 
-## Istio based
-istio:
-  enabled: true
-  host: "localhost"
-
 ## Docker image
 image:
   tag: "latest"
