@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.67.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.67.0...v0.67.1) (2025-05-07)
+
+
+### Bug Fixes
+
+* **portal-consumer:** Fix duplicated keys in security context ([089d3ac](https://git.knut.univention.de/univention/components/univention-portal/commit/089d3acb1ce9e9abe4076cb46292d094882b5c79)), closes [univention/dev/internal/team-nubus#1168](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1168)
+
 ## [0.67.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.66.2...v0.67.0) (2025-04-29)
 
 
