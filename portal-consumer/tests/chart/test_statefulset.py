@@ -7,11 +7,15 @@ from pytest_helm.utils import add_jsonpath_prefix, findone
 from yaml import safe_load
 
 from univention.testing.helm.base import Base
-from univention.testing.helm.deployment import DeploymentTlsVolumeSecret
+from univention.testing.helm.deployment import Deployment, DeploymentTlsVolumeSecret
 
 
 def findall(data, path):
     return jsonpath.findall(path, data)
+
+
+class TestStatefulSet(Deployment):
+    template_file = "templates/statefulset.yaml"
 
 
 @pytest.mark.parametrize(
