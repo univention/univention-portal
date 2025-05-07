@@ -225,7 +225,7 @@ services:
 
   test-chart-portal-consumer:
     image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.2
-    command: pytest --values helm/portal-consumer/linter_values.yaml portal-consumer/tests/chart
+    command: pytest portal-consumer/tests/chart
     profiles:
       - test
     volumes:
