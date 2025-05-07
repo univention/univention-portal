@@ -70,7 +70,5 @@ ldap:
     existingSecret: null
 
   tls:
-    enabled: false
+    enabled: true
     existingSecret: null
-
-...

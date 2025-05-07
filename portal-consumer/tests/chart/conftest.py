@@ -4,7 +4,6 @@
 import os
 
 import pytest
-import yaml
 
 
 def pytest_addoption(parser):
@@ -13,21 +12,9 @@ def pytest_addoption(parser):
 
 @pytest.fixture()
 def helm_values(request):
-    """Use a custom values file for unit tests."""
-    base_path = "helm/portal-consumer"
-    default_file = os.path.join(base_path, "linter_values.yaml")
-    test_file = os.path.join(base_path, "linter_values_unit_tests.yaml")
-
-    if not os.path.exists(test_file):
-        with open(default_file) as f:
-            values = yaml.safe_load(f)
-
-        values["ldap"]["tls"]["enabled"] = True
-
-        with open(test_file, "w") as f:
-            yaml.safe_dump(values, f)
-
-    return request.config.option.values or [test_file]
+    """By default use "helm/portal-consumer/linter_values.yaml"."""
+    default_values = ["helm/portal-consumer/linter_values.yaml"]
+    return request.config.option.values or default_values
 
 
 @pytest.fixture()
