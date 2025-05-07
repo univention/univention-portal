@@ -194,16 +194,7 @@ spec:
         - name: "univention-compatibility"
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
-            # need to copy dict otherwise containerSecurityContext will be modified and portal-consumer is also running as root
-            {{- $baseContext := $containerSecurityContext | deepCopy }}
-            {{- $overrides := dict
-                  "runAsUser" nil
-                  "runAsGroup" nil
-                  "readOnlyRootFilesystem" nil
-                  "runAsNonRoot" nil
-            }}
-            {{- $finalContext := mergeOverwrite $baseContext $overrides }}
-            {{- toYaml $finalContext | nindent 12 }}
+            {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
