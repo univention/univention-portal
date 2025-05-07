@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+
+---
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: {{ printf "%s-ucr" (include "common.names.fullname" .) }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.additionalLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
+data:
+  base-forced.conf: |
+    server/role: memberserver
+    ldap/master: {{ required "The parameter \"portal-consumer.ldap.connection.host\" is required." (include "portal-consumer.ldap.connection.host" .) }}
+    ldap/master/port: {{ required "The parameter \"portal-consumer.ldap.connection.port\" is required." (include "portal-consumer.ldap.connection.port" .) }}
+    ldap/hostdn: {{ required "The parameter \"portal-consumer.ldapAdminDn\" is required." (include "portal-consumer.ldapAdminDn" .) }}
+    ldap/base: {{ required "The parameter \"portal-consumer.ldapBaseDn\" is required." (include "portal-consumer.ldapBaseDn" .) }}
+    {{- $tlsMode := .Values.portalConsumer.tlsMode }}
+    directory/manager/starttls: {{ if eq $tlsMode "off" }}0{{ else if eq $tlsMode "unvalidated" }}1{{ else }}2{{ end }}

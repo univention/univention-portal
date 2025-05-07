@@ -23,6 +23,7 @@ spec:
     metadata:
       annotations:
         checksum/config-common: {{ include (print $.Template.BasePath "/configmap-common.yaml") . | sha256sum }}
+        checksum/config-ucr: {{ include (print $.Template.BasePath "/configmap-ucr.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
           {{- toYaml . | nindent 8 }}
