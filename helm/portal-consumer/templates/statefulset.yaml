@@ -291,6 +291,10 @@ spec:
             - name: etc-univention-volume
               mountPath: /etc/univention
               readOnly: true
+            - name: ucr
+              mountPath: /etc/univention/base-forced.conf
+              subPath: base-forced.conf
+              readOnly: true
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
             {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
@@ -327,6 +331,9 @@ spec:
           emptyDir: {}
         - name: "etc-univention-volume"
           emptyDir: {}
+        - name: "ucr"
+          configMap:
+            name: {{ printf "%s-ucr" (include "common.names.fullname" .) }}
         - name: "scripts"
           configMap:
             defaultMode: 0555

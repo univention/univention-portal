@@ -33,18 +33,6 @@ check_unset_variables() {
 }
 check_unset_variables
 
-case "${TLS_MODE}" in
-  "off")
-    TLS_START_NO=0
-    ;;
-  "unvalidated")
-    TLS_START_NO=1
-    ;;
-  *)  # secure
-    TLS_START_NO=2
-    ;;
-esac
-
 if [[ "${TLS_MODE}" != "off" ]]; then
   if [[ -s "${CA_CERT_FILE}" ]]; then
     echo "Using CA certificate from file"
@@ -70,11 +58,3 @@ if [[ "${TLS_MODE}" != "off" ]]; then
 else
   echo "TLS mode is disabled!"
 fi
-
-/usr/sbin/ucr set \
-    server/role="memberserver" \
-    ldap/master="${LDAP_HOST}" \
-    ldap/master/port="${LDAP_PORT}" \
-    ldap/hostdn="${LDAP_HOST_DN}" \
-    ldap/base="${LDAP_BASE_DN}" \
-    directory/manager/starttls="${TLS_START_NO}"
