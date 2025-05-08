@@ -50,11 +50,12 @@ if [[ "${TLS_MODE}" != "off" ]]; then
   mkdir -p "${CA_DIR}"
   ln --symbolic --force "${CA_CERT_FILE}" "${CA_DIR}/CAcert.pem"
 
-  echo "Adding CA_CERT_FILE to system ca certificates bundle"
-  CA_CERT_DIR="/usr/local/share/ca-certificates/ucs-ca"
-  mkdir --parents "${CA_CERT_DIR}"
-  ln --symbolic --force "${CA_CERT_FILE}" "${CA_CERT_DIR}/ca_cert.crt"
-  update-ca-certificates
+  # TODO: Pending implementation of TLS support
+  # echo "Adding CA_CERT_FILE to system ca certificates bundle"
+  # CA_CERT_DIR="/usr/local/share/ca-certificates/ucs-ca"
+  # mkdir --parents "${CA_CERT_DIR}"
+  # ln --symbolic --force "${CA_CERT_FILE}" "${CA_CERT_DIR}/ca_cert.crt"
+  # update-ca-certificates
 else
   echo "TLS mode is disabled!"
 fi
