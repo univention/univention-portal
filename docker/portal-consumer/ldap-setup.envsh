@@ -35,19 +35,19 @@ check_unset_variables
 
 if [[ "${TLS_MODE}" != "off" ]]; then
   if [[ -s "${CA_CERT_FILE}" ]]; then
-    echo "Using CA certificate from file"
+    echo "Using CA certificate from file ${CA_CERT_FILE}."
   elif [[ -n "${CA_CERT}" ]]; then
-    echo "Using CA certificate from env"
+    echo "Using CA certificate from env, storing to file ${CA_CERT_FILE}."
     mkdir --parents "$(dirname "${CA_CERT_FILE}")"
-    echo -n "${CA_CERT}" | base64 --decode --output "${CA_CERT_FILE}"
+    echo -n "${CA_CERT}" | base64 --decode > "${CA_CERT_FILE}"
   else
     echo "TLS enabled but no CA certificate provided!"
     echo "Please set \$CA_CERT and/or \$CA_CERT_FILE!."
     exit 1
   fi
 
-  CA_DIR="/etc/univention/ssl/ucsCA"
-  mkdir --parents "${CA_DIR}"
+  CA_DIR="/target/etc/univention/ssl/ucsCA"
+  mkdir -p "${CA_DIR}"
   ln --symbolic --force "${CA_CERT_FILE}" "${CA_DIR}/CAcert.pem"
 
   echo "Adding CA_CERT_FILE to system ca certificates bundle"
