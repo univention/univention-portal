@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.68.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.67.2...v0.68.0) (2025-05-09)
+
+
+### Features
+
+* **portal-consumer:** Add config map for UCR configuration ([2c620c1](https://git.knut.univention.de/univention/components/univention-portal/commit/2c620c1edb9953a359f4db59d51c293c70f59413))
+* **portal-consumer:** Comment out the call to "update-ca-certificates" ([69d6f5d](https://git.knut.univention.de/univention/components/univention-portal/commit/69d6f5dd5a9fe688542ff06421dabebdafdf3956))
+* **portal-consumer:** Mount UCR values into main container ([e9f85e3](https://git.knut.univention.de/univention/components/univention-portal/commit/e9f85e301ef4c6005084bd50515eca46195b7a5a))
+* **portal-consumer:** Remove securityContext exception in init container ([056aaaf](https://git.knut.univention.de/univention/components/univention-portal/commit/056aaafe76f0d603dd09b417d976c31499929a95))
+* **portal-consumer:** Store CA certificate in target volume ([d5fd5ea](https://git.knut.univention.de/univention/components/univention-portal/commit/d5fd5ea90c74bf7a7150b2cbbbaaeea7a3ad5667))
+
 ## [0.67.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.67.1...v0.67.2) (2025-05-09)
 
 
