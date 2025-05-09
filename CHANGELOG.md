@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.67.2](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.67.1...v0.67.2) (2025-05-09)
+
+
+### Bug Fixes
+
+* **helm:** Cleanup portal-consumer helm template ([5dcfe57](https://git.knut.univention.de/univention/components/univention-portal/commit/5dcfe57b1dc8d87eabe66e62aaea07a994fc2b92)), closes [univention/dev/internal/team-nubus#1167](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1167)
+* **notifications-api:** bump version of base image ([7ff0749](https://git.knut.univention.de/univention/components/univention-portal/commit/7ff07496404a565028653be7b23fae4fe37867e6))
+
 ## [0.67.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.67.0...v0.67.1) (2025-05-07)
 
 
