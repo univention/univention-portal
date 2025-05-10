@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.68.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.68.0...v0.68.1) (2025-05-10)
+
+
+### Bug Fixes
+
+* move addlicense pre-commit hook ([7ed837a](https://git.knut.univention.de/univention/components/univention-portal/commit/7ed837a7813015e8435f4f805407ecc4c420f354))
+* update common-ci to main ([4622b8e](https://git.knut.univention.de/univention/components/univention-portal/commit/4622b8e39c29e8e306865f291808d88b091f1a29))
+* update common-ci to main ([f573ccc](https://git.knut.univention.de/univention/components/univention-portal/commit/f573ccc3bd8f6fc3583327c54519a46ee0c9b2da))
+* update common-ci to main ([3de9d57](https://git.knut.univention.de/univention/components/univention-portal/commit/3de9d574e83aaa84467280e9aa2e6d96f7cd71d4))
+
 ## [0.68.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.67.2...v0.68.0) (2025-05-09)
 
 
