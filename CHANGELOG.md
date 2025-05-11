@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.69.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.68.1...v0.69.0) (2025-05-11)
+
+
+### Features
+
+* move and upgrade ucs-base-image to 0.17.3-build-2025-05-11 ([6425750](https://git.knut.univention.de/univention/components/univention-portal/commit/64257507b3ed06b3f83fcc4f4fe6163ce1723614))
+
 ## [0.68.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.68.0...v0.68.1) (2025-05-10)
 
 
