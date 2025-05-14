@@ -143,6 +143,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$2$3"
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/affinity: "none"
 
   # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
   #
