@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.69.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.69.0...v0.69.1) (2025-05-15)
+
+
+### Bug Fixes
+
+* disable ingress affinity ([82dfdd4](https://git.knut.univention.de/univention/components/univention-portal/commit/82dfdd4d5c948e2817ef333f5040c56b5cf54e75)), closes [univention/dev/internal/team-nubus#1121](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1121)
+
 ## [0.69.0](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.68.1...v0.69.0) (2025-05-11)
 
 
