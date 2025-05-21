@@ -13,5 +13,5 @@ def get_containers_of_deployment(result):
 
 
 def _get_containers_of(kind, result):
-    manifest = result.get_resource(kind=kind)
-    return get_containers(manifest)
+    resource = result.get_resource(kind=kind)
+    return get_containers(resource)
