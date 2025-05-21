@@ -75,13 +75,13 @@ def test_image_pull_secrets_can_be_provided(helm, chart_path):
     """,
     )
     result = helm.helm_template(chart_path, values)
-    manifest = result.get_resource(kind="Deployment")
+    resource = result.get_resource(kind="Deployment")
 
     expected_secrets = [
         {"name": "stub-secret-a"},
         {"name": "stub-secret-b"},
     ]
-    image_pull_secrets = manifest.findone("spec.template.spec.imagePullSecrets")
+    image_pull_secrets = resource.findone("spec.template.spec.imagePullSecrets")
     assert image_pull_secrets == expected_secrets
 
 
