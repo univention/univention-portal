@@ -1,3 +1,10 @@
+univention-portal (6.1.1) unstable; urgency=medium
+
+  * Bug #58311: sanitize descriptions for different components
+  * Bug #58015 UCS 5.2-1 version bump
+
+ -- Christian Castens <castens@univention.de>  Mon, 03 Mar 2025 10:45:33 +0100
+
 univention-portal (6.0.13) unstable; urgency=medium
 
   * Bug #57731: add optional id attribute to self-service components
