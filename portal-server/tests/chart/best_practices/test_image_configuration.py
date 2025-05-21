@@ -4,7 +4,7 @@
 import pytest
 from yaml import safe_load
 
-from utils import findone, get_containers_of_deployment
+from utils import get_containers_of_deployment
 
 
 def test_global_registry_is_used_as_default(helm, chart_path):
@@ -16,7 +16,7 @@ def test_global_registry_is_used_as_default(helm, chart_path):
     )
     result = helm.helm_template(chart_path, values)
     expected_registry = "stub-global-registry"
-    containers = get_containers_of_deployment(helm, result)
+    containers = get_containers_of_deployment(result)
     _assert_all_images_use_registry(containers, expected_registry)
 
 
@@ -32,7 +32,7 @@ def test_image_registry_overrides_global_default_registry(helm, chart_path):
     )
     result = helm.helm_template(chart_path, values)
     expected_registry = "stub-registry"
-    containers = get_containers_of_deployment(helm, result)
+    containers = get_containers_of_deployment(result)
     _assert_all_images_use_registry(containers, expected_registry)
 
 
@@ -45,7 +45,7 @@ def test_global_pull_policy_is_used(helm, chart_path):
     )
     result = helm.helm_template(chart_path, values)
     expected_pull_policy = "stub-global-pull-policy"
-    containers = get_containers_of_deployment(helm, result)
+    containers = get_containers_of_deployment(result)
     _assert_all_images_use_pull_policy(containers, expected_pull_policy)
 
 
@@ -61,7 +61,7 @@ def test_image_pull_policy_overrides_global_value(helm, chart_path):
     )
     result = helm.helm_template(chart_path, values)
     expected_pull_policy = "stub-pull-policy"
-    containers = get_containers_of_deployment(helm, result)
+    containers = get_containers_of_deployment(result)
     _assert_all_images_use_pull_policy(containers, expected_pull_policy)
 
 
@@ -75,13 +75,13 @@ def test_image_pull_secrets_can_be_provided(helm, chart_path):
     """,
     )
     result = helm.helm_template(chart_path, values)
-    manifest = helm.get_resource(result, kind="Deployment")
+    manifest = result.get_resource(kind="Deployment")
 
     expected_secrets = [
         {"name": "stub-secret-a"},
         {"name": "stub-secret-b"},
     ]
-    image_pull_secrets = findone(manifest, "spec.template.spec.imagePullSecrets")
+    image_pull_secrets = manifest.findone("spec.template.spec.imagePullSecrets")
     assert image_pull_secrets == expected_secrets
 
 
@@ -95,7 +95,7 @@ def test_image_repository_can_be_configured(helm, chart_path):
     result = helm.helm_template(chart_path, values)
 
     expected_repository = "stub-fragment/stub-image"
-    containers = get_containers_of_deployment(helm, result)
+    containers = get_containers_of_deployment(result)
     _assert_all_images_contain(containers, expected_repository)
 
 
@@ -116,7 +116,7 @@ def test_image_tag_can_be_configured(image_tag, helm, chart_path):
     result = helm.helm_template(chart_path, values)
 
     expected_tag = image_tag
-    containers = get_containers_of_deployment(helm, result)
+    containers = get_containers_of_deployment(result)
     _assert_all_images_contain(containers, expected_tag)
 
 
@@ -135,7 +135,7 @@ def test_all_image_values_are_configured(helm, chart_path):
         "stub-registry.example/stub-fragment/"
         "stub-repository:stub-tag@sha256:stub-digest"
     )
-    containers = get_containers_of_deployment(helm, result)
+    containers = get_containers_of_deployment(result)
     for container in containers:
         name = container["name"]
         image = container["image"]
