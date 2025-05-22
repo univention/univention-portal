@@ -31,9 +31,11 @@ data:
   PORTAL_SERVER_UMC_GET_URL: {{ include "portal-server.umcGetUrl" . | quote }}
   PORTAL_SERVER_UMC_SESSION_URL: {{ include "portal-server.umcSessionUrl" .| quote }}
   PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED: {{ .Values.portalServer.centralNavigation.enabled | quote }}
-  {{- $udmConnectionUrl := tpl (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) . }}
-  PORTAL_UDM_API_URL: {{ required "The UDM Rest API connection has to be configured, udm.connection.url." $udmConnectionUrl | quote }}
-{{- $udmAuthUsername := required "A UDM username has to be supplied, see parameter udm.auth." .Values.udm.auth.username }}
+  {{- $udmConnectionUrl := required
+        "The UDM Rest API connection has to be configured, udm.connection.url."
+        (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) }}
+  PORTAL_UDM_API_URL: {{ tpl $udmConnectionUrl . | quote }}
+  {{- $udmAuthUsername := required "A UDM username has to be supplied, see parameter udm.auth." .Values.udm.auth.username }}
   PORTAL_UDM_API_USERNAME: {{ tpl .Values.udm.auth.username . | quote }}
   PORTAL_UDM_API_PASSWORD_FILE: "/var/secrets/udm_api_password"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
