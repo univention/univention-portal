@@ -8,20 +8,20 @@ from yaml import safe_load
 
 
 @pytest.mark.parametrize("value", ["", "null"])
-def test_disabling_all_feature_toggles(helm, chart_path, value):
+def test_disabling_all_feature_toggles(chart, value):
     values = safe_load(
         f"""
         portalServer:
           featureToggles: {value}
     """,
     )
-    result = helm.helm_template(chart_path, values)
+    result = chart.helm_template(values)
     configmap = result.get_resource(kind="ConfigMap")
     feature_toggles = json.loads(configmap.findone("data.PORTAL_SERVER_FEATURE_TOGGLES"))
     assert feature_toggles == {}
 
 
-def test_allows_to_add_arbitrary_feature_toggles(helm, chart_path):
+def test_allows_to_add_arbitrary_feature_toggles(chart):
     values = safe_load(
         """
         portalServer:
@@ -30,7 +30,7 @@ def test_allows_to_add_arbitrary_feature_toggles(helm, chart_path):
             test_feature_b: false
     """,
     )
-    result = helm.helm_template(chart_path, values)
+    result = chart.helm_template(values)
     configmap = result.get_resource(kind="ConfigMap")
     feature_toggles = json.loads(configmap.findone("data.PORTAL_SERVER_FEATURE_TOGGLES"))
     assert feature_toggles["test_feature_a"] is True
