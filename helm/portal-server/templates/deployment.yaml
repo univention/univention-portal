@@ -126,9 +126,9 @@ spec:
             - name: usr-share-univention-portal-volume
               mountPath: /usr/share/univention-portal
             {{- if .Values.portalServer.centralNavigation.enabled }}
-            - name: authenticator-secret
+            - name: secret-central-navigation
               mountPath: "/var/secrets/authenticator.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "key" "shared_secret") | quote }}
             {{- end }}
             - name: tmp-volume
               mountPath: /tmp
@@ -144,9 +144,9 @@ spec:
         - name: usr-share-univention-portal-volume
           emptyDir: {}
         {{- if .Values.portalServer.centralNavigation.enabled }}
-        - name: authenticator-secret
+        - name: secret-central-navigation
           secret:
-            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.portalServer.centralNavigation.existingSecret "defaultNameSuffix" "central-navigation" "context" .) | quote }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "defaultNameSuffix" "central-navigation" "context" .) | quote }}
         {{- end }}
         - name: secret-udm
           secret:

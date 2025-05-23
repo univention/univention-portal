@@ -484,18 +484,19 @@ portalServer:
     # UMC session cookie one. This allows 3rd party apps to authenticate against
     # the portal server to get the central navigation.
     enabled: true
-    # -- The shared secret to use for authenticating against the portal server.
-    sharedSecret: null
-    existingSecret:
-      # -- The name of an existing Secret to use for retrieving the secret
-      # to use as central navigation shared secret.
-      #
-      # "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.
-      name: null
-      keyMapping:
-        # -- The key to retrieve the secret from. Setting this value allows to use
-        # a key with a different name.
-        password: null
+    auth:
+      # -- The shared secret to use for authenticating against the portal server.
+      sharedSecret: null
+      existingSecret:
+        # -- The name of an existing Secret to use for retrieving the secret
+        # to use as central navigation shared secret.
+        #
+        # "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.
+        name: null
+        keyMapping:
+          # -- The key to retrieve the secret from. Setting this value allows to use
+          # a key with a different name.
+          shared_secret: null
 
   # -- Newsfeed configuration. This feature is currently behind a feature toggle, see
   # "portalServer.featureToggles.newsfeed". The configuration is only applied if the toggle
