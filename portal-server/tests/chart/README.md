@@ -2,13 +2,17 @@
 
 This folder contains a set of unit tests which cover the behavior of the chart.
 
+These tests are based on `helm-test-harness`. See
+<https://git.knut.univention.de/univention/dev/nubus-for-k8s/common-helm> for
+further details.
+
 
 ## Requirements
 
 - `docker compose` has to be set up and working
 
 
-## How to run this manually
+## How to run this manually in a container
 
 ```
 cd docker
@@ -17,21 +21,23 @@ cd docker
 docker compose run -it --rm test-chart-portal-server
 
 # Deal with trouble via pdb
-docker compose run -it --rm test-chart-portal-server \
-  bash -c "pip install -r requirements-test.txt && \
-           helm dependency build helm/portal-server/ && \
-           pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart --pdb"
+docker compose run -it --rm test-chart-portal-server pytest portal-server/tests/chart --pdb
 
 # Have a shell
 docker compose run -it --rm test-chart-portal-server bash
-pip install -r requirements-test.txt
-helm dependency build helm/portal-server
-pytest --values helm/portal-server/linter_values.yaml portal-server/tests/chart
+pytest portal-server/tests/chart
 ```
 
 
-## Details
+## Development
 
-- Many tests describe the relevant values fragment in YAML and parse it via
-  `yaml.safe_load`. This shall help to make the example snippets comparable to
-  an existing `values.yaml` for a Helm chart.
+The Helm chart related tests do currently not provide their own Python
+environment. The environment from `common-helm` should be used for this purpose:
+
+```
+uv --project ~/work/common-helm run bash
+uv --project ~/work/common-helm run zsh
+```
+
+Note that `~/work/common-helm` has to be adjusted with your local clone of the
+`common-helm` repository.
