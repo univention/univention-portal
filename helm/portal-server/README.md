@@ -739,16 +739,7 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Activate the shared secret authenticator for the portal, instead of the UMC session cookie one. This allows 3rd party apps to authenticate against the portal server to get the central navigation.</td>
-		</tr>
-		<tr>
-			<td>portalServer.centralNavigation.existingSecret.keyMapping.password</td>
+			<td>portalServer.centralNavigation.auth.existingSecret.keyMapping.shared_secret</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -757,7 +748,7 @@ null
 			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.existingSecret.name</td>
+			<td>portalServer.centralNavigation.auth.existingSecret.name</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -766,13 +757,22 @@ null
 			<td>The name of an existing Secret to use for retrieving the secret to use as central navigation shared secret.  "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.sharedSecret</td>
+			<td>portalServer.centralNavigation.auth.sharedSecret</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
 </pre>
 </td>
 			<td>The shared secret to use for authenticating against the portal server.</td>
+		</tr>
+		<tr>
+			<td>portalServer.centralNavigation.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Activate the shared secret authenticator for the portal, instead of the UMC session cookie one. This allows 3rd party apps to authenticate against the portal server to get the central navigation.</td>
 		</tr>
 		<tr>
 			<td>portalServer.editable</td>
