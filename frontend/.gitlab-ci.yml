@@ -112,7 +112,7 @@ test-portal-frontend-ui:
 test-chart-portal-frontend:
   stage: test
   needs: []
-  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.1"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.16.0-pre-jbornhold-secrets-refactoring-tweaks-2"
   script:
     - helm dep build helm/portal-frontend
     - pytest frontend/tests/chart
