@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portal Server Helm Chart Values",
+  "type": "object",
+  "properties": {
+    "udm": {
+      "description": "UDM Rest API client configuration",
+      "type": "object",
+      "properties": {
+        "auth": {
+          "$comment": "TODO: This would be a pre-defined fragment re-used for secrets.",
+          "anyOf": [
+            {
+              "$comment": "Providing the password as a plain value.",
+              "type": "object",
+              "required": [
+                "username",
+                "password"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "$comment": "Providing no value at all and relying on auto-generation. Only for charts which own the Secret.",
+              "type": "object",
+              "required": [
+                "username"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "null"
+                }
+              }
+            },
+            {
+              "$comment": "Configuring an existing Secret.",
+              "type": "object",
+              "required": [
+                "username",
+                "existingSecret"
+              ],
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "$comment": "TODO: We could enforce password to be null",
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "existingSecret": {
+                  "type": "object",
+                  "required": [
+                    "name"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "keyMapping": {
+                      "type": "object",
+                      "properties": {
+                        "password": {
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "udm"
+  ]
+}
