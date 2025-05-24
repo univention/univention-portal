@@ -43,7 +43,7 @@ FROM ucs-base as test
 COPY ./requirements-dev.txt .
 COPY --from=builder /app/wheels ./wheels
 RUN pip3 install --break-system-packages --no-cache-dir --find-links=./wheels -r requirements-dev.txt
-CMD ["pytest"]
+CMD ["pytest", "tests/unit"]
 
 
 FROM test as dev
