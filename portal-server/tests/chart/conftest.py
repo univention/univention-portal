@@ -10,12 +10,11 @@ base_dir = (Path(__file__).parent / "../../../").resolve()
 
 
 @pytest.fixture()
-def helm_values(request):
-    """By default use "helm/portal-server/linter_values.yaml"."""
+def helm_default_values(request):
     default_values = [
         base_dir / "helm/portal-server/linter_values.yaml",
     ]
-    return request.config.option.values or default_values
+    return default_values
 
 
 @pytest.fixture()
