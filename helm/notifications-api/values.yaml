@@ -28,6 +28,9 @@ global:
   #            kubelet attempts to start the container; otherwise, startup fails.
   imagePullPolicy: "IfNotPresent"
 
+  # -- Container registry address.
+  imageRegistry: "artifacts.software-univention.de"
+
   configMapUcr: "stack-data-ums-ucr"
 
     # -- Configuration for the PostgreSQL database
@@ -92,10 +95,10 @@ extraVolumeMounts: []
 fullnameOverride: ""
 
 image:
-  registry: "artifacts.software-univention.de"
+  registry: ""
   repository: "nubus-dev/images/notifications-api"
   tag: "0.26.3@sha256:cb7d92c78ca63105ff990f16a4f3b61f5d124d8a5661f3f55545234877ff195e"
-  imagePullPolicy: "IfNotPresent"
+  imagePullPolicy: ""
 
 # -- Credentials to fetch images from private registry.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
