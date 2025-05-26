@@ -36,7 +36,4 @@ postgresql:
     host: "postgresql-host"
     port: "postgresql-port"
   auth:
-    existingSecret:
-      name: "secret"
-
-...
+    password: "stub-password"
