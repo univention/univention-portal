@@ -25,12 +25,6 @@ ingress:
     secretName: "portal-tls"
 
 
-## Istio based
-istio:
-  enabled: true
-  host: "portal.example.develop.souvap-univention.de"
-
-
 ## Docker image
 image:
   tag: "branch-feature-example"
