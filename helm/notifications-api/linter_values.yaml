@@ -7,7 +7,6 @@
 # Run it like this: helm lint -f values.yaml -f linter_values.yaml .
 
 
-## Application-specific
 notificationsApi:
   applyDatabaseMigrations: "True"
   devMode: "True"
@@ -15,8 +14,6 @@ notificationsApi:
   logLevel: "DEBUG"
   apiPrefix: "/univention/portal/notifications-api"
 
-
-## Kubernetes ingress
 ingress:
   enabled: true
   host: "portal.example.develop.souvap-univention.de"
@@ -24,13 +21,9 @@ ingress:
   tls:
     secretName: "portal-tls"
 
-
-## Docker image
 image:
   tag: "branch-feature-example"
 
-
-## Container deployment probes
 probes:
   liveness:
     enabled: false
@@ -38,8 +31,6 @@ probes:
   readiness:
     enabled: false
 
-
-## PostgreSQL configuration
 postgresql:
   connection:
     host: "postgresql-host"
