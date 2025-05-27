@@ -211,10 +211,8 @@ objectStorage:
       # ignored if this value is set.
       name: null
       keyMapping:
-        # -- The key to retrieve the secret from. Setting this value allows to use
-        # a key with a different name.
-        accessKey: null
-        secretKey: null
+        access_key_id: null
+        secret_key: null
 
 ## Container deployment probes
 probes:

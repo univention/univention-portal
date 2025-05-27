@@ -158,12 +158,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "accessKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secretKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
             {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
@@ -214,12 +214,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "accessKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secretKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -277,12 +277,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "accessKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secretKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
