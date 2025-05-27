@@ -190,7 +190,7 @@ spec:
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api-credentials" "context" .) | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
           envFrom:
             - configMapRef:
@@ -223,7 +223,7 @@ spec:
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api-credentials" "context" .) | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
           command:
             - sh
@@ -286,7 +286,7 @@ spec:
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api-credentials" "context" .) | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
             {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}

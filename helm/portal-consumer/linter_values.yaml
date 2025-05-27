@@ -25,7 +25,7 @@ portalConsumer:
 
 provisioningApi:
   connection:
-    baseUrl: "http://provisioning-api-server"
+    url: "http://provisioning-api-server"
   auth:
     username: "portal-consumer"
     password: "password"
