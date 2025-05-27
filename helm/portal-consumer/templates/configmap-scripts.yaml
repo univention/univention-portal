@@ -48,7 +48,7 @@ data:
     #!/bin/bash
     set -euxo pipefail
 
-    while ! ldapsearch -H ldap://$LDAP_HOST -D $LDAP_HOST_DN -y $MACHINE_SECRET_FILE -b "" -s base -LLL; do
+    while ! ldapsearch -H ldap://$LDAP_HOST -D $LDAP_HOST_DN -y /var/secrets/ldap_password -b "" -s base -LLL; do
       echo "Checking if LDAP Server can be reached..."
       sleep 2
     done

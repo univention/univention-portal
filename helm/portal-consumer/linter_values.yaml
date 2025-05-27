@@ -13,8 +13,6 @@ portalConsumer:
   logLevel: "DEBUG"
   umcGetUrl: "http://umc-server/get"
   umcSessionUrl: "http://umc-server/get/session-info"
-  machineSecret: "password"
-  machineSecretFile: "/var/secrets/machine_secret"
   ucsInternalPath: "portal-data"
   assetsRootPath: "portal-assets"
   tlsMode: "unvalidated"
@@ -24,8 +22,6 @@ portalConsumer:
   ldapHost: "ldap.example.test"
   ldapHostDn: "example.test"
   ldapPort: "437"
-  ldapHost: "ldap-server"
-  ldapPort: "7389"
   udmApiUrl: "http://udm-server/udm"
 
 provisioningApi:
@@ -64,11 +60,12 @@ probes:
     enabled: false
 
 ldap:
-  # TLS configuration for the OpenLDAP server
+  connection:
+    host: "ldap-server"
+    port: "7389"
   auth:
     password: "ldapPassword"
     existingSecret: null
-
   tls:
     enabled: true
     existingSecret: null

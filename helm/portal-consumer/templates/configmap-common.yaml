@@ -19,12 +19,11 @@ data:
   DOMAIN_NAME: {{ include "portal-consumer.ldapDomainName" . | quote }}
   ENVIRONMENT: "{{ .Values.portalConsumer.environment }}"
   LDAP_BASE_DN: {{ required "The parameter \"portal-consumer.ldapBaseDn\" is required." (include "portal-consumer.ldapBaseDn" .) | quote }}
-  LDAP_HOST: {{ required "The parameter \"portal-consumer.ldap.connection.host\" is required." (include "portal-consumer.ldap.connection.host" .) | quote }}
-  LDAP_HOST_DN: {{ required "The parameter \"portal-consumer.ldapAdminDn\" is required." (include "portal-consumer.ldapAdminDn" .) | quote }}
-  LDAP_PORT: {{ required "The parameter \"portal-consumer.ldap.connection.port\" is required." (include "portal-consumer.ldap.connection.port" .) | quote }}
+  LDAP_HOST: {{ include "portal-consumer.ldap.connection.host" . | quote }}
+  LDAP_HOST_DN: {{ tpl ( required "The parameter \"ldap.auth.bindDn\" is required." .Values.ldap.auth.bindDn ) . | quote }}
+  LDAP_PORT: {{ include "portal-consumer.ldap.connection.port" . | quote }}
   LOG_LEVEL: {{ required "The parameter \".Values.portalConsumer.logLevel\" is required." .Values.portalConsumer.logLevel | quote }}
   MAX_ACKNOWLEDGEMENT_RETRIES: {{ required "The parameter \".Values.provisioningApi.config.maxAcknowledgementRetries\" is required." .Values.provisioningApi.config.maxAcknowledgementRetries | quote }}
-  MACHINE_SECRET_FILE: "{{ .Values.portalConsumer.machineSecretFile }}"
   PORTAL_DEFAULT_DN: {{ include "portal-consumer.portalDefaultDn" . | quote }}
   PORTAL_CONSUMER_LOG_STREAM: "true"
   PORTAL_ASSETS_BASE_URL: {{ .Values.portalConsumer.assetsBaseUrl | quote }}

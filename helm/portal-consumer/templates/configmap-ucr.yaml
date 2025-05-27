@@ -18,9 +18,9 @@ metadata:
 data:
   base-forced.conf: |
     server/role: memberserver
-    ldap/master: {{ required "The parameter \"portal-consumer.ldap.connection.host\" is required." (include "portal-consumer.ldap.connection.host" .) }}
-    ldap/master/port: {{ required "The parameter \"portal-consumer.ldap.connection.port\" is required." (include "portal-consumer.ldap.connection.port" .) }}
-    ldap/hostdn: {{ required "The parameter \"portal-consumer.ldapAdminDn\" is required." (include "portal-consumer.ldapAdminDn" .) }}
+    ldap/master: {{ include "portal-consumer.ldap.connection.host" . }}
+    ldap/master/port: {{ include "portal-consumer.ldap.connection.port" . | quote }}
+    ldap/hostdn: {{ tpl .Values.ldap.auth.bindDn . }}
     ldap/base: {{ required "The parameter \"portal-consumer.ldapBaseDn\" is required." (include "portal-consumer.ldapBaseDn" .) }}
     {{- $tlsMode := .Values.portalConsumer.tlsMode }}
     directory/manager/starttls: {{ if eq $tlsMode "off" }}0{{ else if eq $tlsMode "unvalidated" }}1{{ else }}2{{ end }}

@@ -64,16 +64,14 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: /var/secrets/ldap_password"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
@@ -111,16 +109,14 @@ spec:
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: "/var/secrets/ldap_password"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
@@ -230,16 +226,14 @@ spec:
           volumeMounts:
             - name: etc-univention-volume
               mountPath: /target/etc/univention
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: "/var/secrets/ldap_password"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
@@ -300,16 +294,14 @@ spec:
               readOnly: true
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: /var/secrets/ldap_password"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
@@ -341,12 +333,10 @@ spec:
           configMap:
             defaultMode: 0555
             name: {{ printf "%s-scripts" (include "common.names.fullname" .) }}
-        {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-        - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+        - name: secret-ldap
           secret:
             defaultMode: 0400
-            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .) | quote }}
-        {{- end }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "ldap" "context" .) | quote }}
         {{- if .Values.ldap.tls.enabled }}
         - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
           secret:

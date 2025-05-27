@@ -1,17 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2025 Univention GmbH
 
-import jsonpath
 import pytest
-from pytest_helm.utils import add_jsonpath_prefix, findone
+from pytest_helm.utils import add_jsonpath_prefix, findall, findone
 from yaml import safe_load
 
 from univention.testing.helm.base import Base
 from univention.testing.helm.deployment import Deployment, DeploymentTlsVolumeSecret
-
-
-def findall(data, path):
-    return jsonpath.findall(path, data)
 
 
 class TestStatefulSet(Deployment):
@@ -268,7 +263,7 @@ class AuthExistingSecAsEnvVariable(Base):
 
 class TestLdapAuthExistingSecAsVolume(AuthExistingSecAsVolume):
     template_file = "templates/statefulset.yaml"
-    volume_name = "release-name-portal-consumer-credentials-volume"
+    volume_name = "secret-ldap"
     chart_name = "portal-consumer"
     auth_root = "ldap"
     init_containers = ["wait-for-ldap", "wait-for-udm", "univention-compatibility"]

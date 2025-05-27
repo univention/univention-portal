@@ -28,9 +28,10 @@ global:
   #            kubelet attempts to start the container; otherwise, startup fails.
   imagePullPolicy: "IfNotPresent"
 
-# Default values for univention-portal-consumer
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+  ldap:
+    connection:
+      host: null
+      port: null
 
 ## Global values
 affinity: {}
@@ -117,18 +118,8 @@ portalConsumer:
 
   # -- Base DN of the LDAP directory
   ldapBaseDn: null
-  # -- Hostname of the LDAP server
-  ldapHost: null
-  # -- DN of the UCS machine
-  ldapHostDn: null
-  # -- Port to connect to the LDAP server.
-  ldapPort: ""
 
   logLevel: "INFO"
-  # -- LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.
-  machineSecret: null
-  # -- The path to the "machineSecretFile" docker secret or a plain file
-  machineSecretFile: "/var/secrets/machine_secret"
   # -- DN of the default portal
   portalDefaultDn: null
 
@@ -272,8 +263,11 @@ persistence:
 
 
 ldap:
-  # -- Optional reference to a different secret containing credentials
+  connection:
+    host: null
+    port: null
   auth:
+    bindDn: "cn=admin,dc=univention-organization,dc=intranet"
     password: null
     existingSecret:
       name: null
