@@ -3,6 +3,7 @@
 
 
 from contextlib import nullcontext as does_not_raise
+from subprocess import CalledProcessError
 
 import pytest
 from pytest_helm.utils import findone
@@ -40,7 +41,7 @@ def test_password_is_required_to_create_prov_api_secret(helm, chart_path):
           auth:
             password: null
     """)
-    with pytest.raises(RuntimeError):
+    with pytest.raises(CalledProcessError):
         helm.helm_template(chart_path, values)
 
 

@@ -3,6 +3,7 @@
 
 
 from contextlib import nullcontext as does_not_raise
+from subprocess import CalledProcessError
 
 import pytest
 from pytest_helm.utils import findone
@@ -51,7 +52,7 @@ def test_object_storage_auth_plain_values_secret_key_is_required(helm, chart_pat
             accessKeyId: "stub-access-key"
             secretAccessKey: null
     """)
-    with pytest.raises(RuntimeError):
+    with pytest.raises(CalledProcessError):
         helm.helm_template(chart_path, values)
 
 
@@ -65,7 +66,7 @@ def test_object_storage_auth_plain_values_access_key_is_required(helm, chart_pat
             accessKeyId: null
             secretAccessKey: "stub-secret-key"
     """)
-    with pytest.raises(RuntimeError):
+    with pytest.raises(CalledProcessError):
         helm.helm_template(chart_path, values)
 
 
