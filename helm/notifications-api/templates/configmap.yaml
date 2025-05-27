@@ -18,6 +18,23 @@ metadata:
   {{- end }}
 data:
   APPLY_DATABASE_MIGRATIONS: {{ required ".Values.notificationsApi.applyDatabaseMigrations is not defined." .Values.notificationsApi.applyDatabaseMigrations | quote }}
+  {{- $postgresqlUsername := required
+    "A PostgreSQL username has to be supplied, see parameter postgresql.auth."
+    .Values.postgresql.auth.username }}
+  {{- $postgresqlDatabase := required
+    "A PostgreSQL database has to be supplied, see parameter postgresql.auth."
+    .Values.postgresql.auth.database }}
+  {{- $postgresqlHost := required
+    "A PostgreSQL connection has to be configured, see parameter postgresql.connection.host."
+    ( coalesce .Values.postgresql.connection.host .Values.global.postgresql.connection.host ) }}
+  DATABASE_URL: {{
+    printf "postgresql://%s:$(DB_PASSWORD)@%s:%s/%s"
+      ( tpl $postgresqlUsername . )
+      ( tpl $postgresqlHost . )
+      ( tpl ( coalesce .Values.postgresql.connection.port
+                       .Values.global.postgresql.connection.port
+                       "5432" ) . )
+      ( tpl $postgresqlDatabase . ) | quote }}
   DEV_MODE: {{ required ".Values.notificationsApi.devMode is not defined." .Values.notificationsApi.devMode | quote }}
   ENVIRONMENT: {{ required ".Values.notificationsApi.environment is not defined." .Values.notificationsApi.environment | quote }}
   LOG_LEVEL: {{ required ".Values.notificationsApi.logLevel is not defined." .Values.notificationsApi.logLevel | quote }}

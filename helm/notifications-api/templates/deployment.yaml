@@ -68,17 +68,11 @@ spec:
           image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           env:
-            - name: DB_USERNAME
-              value: {{ tpl .Values.postgresql.auth.username . | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ tpl .Values.postgresql.auth.existingSecret.name . | quote }}
-                  key: {{ include "common.secrets.key" (dict "existingSecret" .Values.postgresql.auth.existingSecret "key" "password") | quote }}
-            - name: DATABASE
-              value: {{ include "notifications-api.postgresql.auth.database" .| quote }}
-            - name: DATABASE_URL
-              value: {{ include "notifications-api.postgresql.connection.url" . | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.postgresql.auth.existingSecret "defaultNameSuffix" "postgresql" "context" .) | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.postgresql.auth.existingSecret "key" "password") | quote }}
           envFrom:
             - configMapRef:
                 name: "{{ include "common.names.fullname" . }}"

@@ -37,7 +37,7 @@ global:
   postgresql:
     connection:
       host: ""
-      port: 5432
+      port: ""
 
 # -- Additional custom annotations to add to all deployed objects.
 additionalAnnotations: {}
@@ -417,17 +417,16 @@ postgresql:
     # -- PostgreSQL host.
     host: ""
     # -- PostgreSQL port.
-    port: "5432"
+    port: ""
   auth:
     # -- PostgreSQL user.
-    username: ""
+    username: "notificationsapi"
     # -- PostgreSQL database.
-    database: ""
+    database: "notificationsapi"
     # -- PostgreSQL user password. (not yet supported)
     password: ""
     # -- PostgreSQL password secret reference. (currently required)
     existingSecret:
       name: ""
-      # keyMapping:
-      #   password: null
-...
+      keyMapping:
+        password: null
