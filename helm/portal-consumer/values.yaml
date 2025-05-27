@@ -155,7 +155,7 @@ portalConsumer:
   image:
     registry: ""
     repository: "nubus-dev/images/portal-consumer"
-    imagePullPolicy: "IfNotPresent"
+    imagePullPolicy: ""
     tag: "latest"
 
 # Configuration for the communication with the provisioning API.
@@ -192,7 +192,7 @@ extraVolumeMounts: []
 waitForDependency:
   image:
     registry: ""
-    imagePullPolicy: "IfNotPresent"
+    imagePullPolicy: ""
     repository: "nubus/images/wait-for-dependency"
     tag: "0.32.1@sha256:44d45067e1d4e7a00d3b651e56df5177087e3206368a45cd1816d78ba7b21347"
 
