@@ -267,7 +267,7 @@ false
 {
   "connection": {
     "host": "",
-    "port": 5432
+    "port": ""
   }
 }
 </pre>
@@ -724,16 +724,19 @@ true
 			<td><pre lang="json">
 {
   "auth": {
-    "database": "",
+    "database": "notificationsapi",
     "existingSecret": {
+      "keyMapping": {
+        "password": null
+      },
       "name": ""
     },
     "password": "",
-    "username": ""
+    "username": "notificationsapi"
   },
   "connection": {
     "host": "",
-    "port": "5432"
+    "port": ""
   }
 }
 </pre>
@@ -744,7 +747,7 @@ true
 			<td>postgresql.auth.database</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+"notificationsapi"
 </pre>
 </td>
 			<td>PostgreSQL database.</td>
@@ -754,6 +757,9 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "keyMapping": {
+    "password": null
+  },
   "name": ""
 }
 </pre>
@@ -773,7 +779,7 @@ true
 			<td>postgresql.auth.username</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+"notificationsapi"
 </pre>
 </td>
 			<td>PostgreSQL user.</td>
@@ -784,7 +790,7 @@ true
 			<td><pre lang="json">
 {
   "host": "",
-  "port": "5432"
+  "port": ""
 }
 </pre>
 </td>
@@ -803,7 +809,7 @@ true
 			<td>postgresql.connection.port</td>
 			<td>string</td>
 			<td><pre lang="json">
-"5432"
+""
 </pre>
 </td>
 			<td>PostgreSQL port.</td>
