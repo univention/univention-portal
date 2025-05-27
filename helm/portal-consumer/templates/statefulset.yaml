@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config-common: {{ include (print $.Template.BasePath "/configmap-common.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/config-ucr: {{ include (print $.Template.BasePath "/configmap-ucr.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
@@ -60,7 +60,7 @@ spec:
             {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           volumeMounts:
             - name: scripts
               mountPath: /scripts
@@ -72,17 +72,20 @@ spec:
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -105,7 +108,7 @@ spec:
             {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           volumeMounts:
             - name: scripts
               mountPath: /scripts
@@ -117,17 +120,20 @@ spec:
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -146,7 +152,7 @@ spec:
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           env:
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
               valueFrom:
@@ -188,7 +194,7 @@ spec:
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: "univention-compatibility"
@@ -200,7 +206,7 @@ spec:
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           env:
             - name: REQUESTS_CA_BUNDLE
               value: "/etc/ssl/certs/ca-certificates.crt"
@@ -234,17 +240,20 @@ spec:
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -260,7 +269,7 @@ spec:
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           env:
             - name: REQUESTS_CA_BUNDLE
               value: "/etc/ssl/certs/ca-certificates.crt"
@@ -302,17 +311,20 @@ spec:
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -337,6 +349,10 @@ spec:
           secret:
             defaultMode: 0400
             secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "ldap" "context" .) | quote }}
+        - name: secret-udm
+          secret:
+            defaultMode: 0400
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) | quote }}
         {{- if .Values.ldap.tls.enabled }}
         - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
           secret:

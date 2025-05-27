@@ -22,7 +22,6 @@ portalConsumer:
   ldapHost: "ldap.example.test"
   ldapHostDn: "example.test"
   ldapPort: "437"
-  udmApiUrl: "http://udm-server/udm"
 
 provisioningApi:
   connection:
@@ -69,3 +68,9 @@ ldap:
   tls:
     enabled: true
     existingSecret: null
+
+udm:
+  connection:
+    url: "http://udm-rest-api:9979/udm"
+  auth:
+    password: "stub-linter-value"

@@ -9,10 +9,7 @@ metadata:
   name: "{{ include "common.names.fullname" . }}"
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.additionalLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
-    {{- end }}
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
   {{- if .Values.additionalAnnotations }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
   {{- end }}
@@ -36,7 +33,7 @@ data:
         (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) }}
   PORTAL_UDM_API_URL: {{ tpl $udmConnectionUrl . | quote }}
   {{- $udmAuthUsername := required "A UDM username has to be supplied, see parameter udm.auth." .Values.udm.auth.username }}
-  PORTAL_UDM_API_USERNAME: {{ tpl .Values.udm.auth.username . | quote }}
+  PORTAL_UDM_API_USERNAME: {{ tpl $udmAuthUsername . | quote }}
   PORTAL_UDM_API_PASSWORD_FILE: "/var/secrets/udm_api_password"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
   OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}

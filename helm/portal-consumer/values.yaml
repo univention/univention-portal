@@ -33,6 +33,12 @@ global:
       host: null
       port: null
 
+  udm:
+    connection:
+      # -- Global default for the URL via which the UDM Rest API can be reached.
+      # See "udm.connection.url".
+      url: null
+
 ## Global values
 affinity: {}
 environment: {}
@@ -123,14 +129,6 @@ portalConsumer:
   # -- DN of the default portal
   portalDefaultDn: null
 
-  # -- UDM API connection URL
-  udmApiUrl: '{{- printf "http://%s-udm-rest-api:9979/udm/" .Release.Name }}'
-  # -- UDM API username.
-  udmApiUsername: "cn=admin"
-  # -- UDM API password file.
-  #    Default: same as `machineSecretFile`.
-  udmApiSecretFile: "/var/secrets/machine_secret"
-
   # -- Define UCS internal endpoint where the portal, selfservice and groups are defined
   # Example: `"https://portal.example.com/univention/internal"`
   ucsInternalPath: "portal-data"
@@ -140,8 +138,6 @@ portalConsumer:
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umcSessionUrl: "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
-  # -- Path to mount the secrets to.
-  secretMountPath: "/var/secrets"
 
   image:
     registry: ""
@@ -283,3 +279,30 @@ ldap:
         ca.crt: null
         tls.crt: null
         tls.key: null
+
+
+# -- Configuration of the UDM Rest API access
+udm:
+  connection:
+    # -- The URL of the UDM Rest API.
+    #
+    # Will use "global.udm.connection.url" as a default if this value is not specified.
+    #
+    # Example: "http://udm-rest-api:9979/udm"
+    url: null
+  auth:
+    # -- The username to authenticate with the UDM Rest API.
+    username: "cn=admin"
+    # -- The password used to authenticate with the UDM Rest API.
+    # Either this value or an existing Secret has to be specified.
+    password: null
+    existingSecret:
+      # -- The name of an existing Secret to use for retrieving the password
+      # to use with the UDM Rest API.
+      #
+      # "udm.auth.password" will be ignored if this value is set.
+      name: null
+      keyMapping:
+        # -- The key to retrieve the password from. Setting this value allows to use
+        # a key with a different name.
+        password: null
