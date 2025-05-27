@@ -215,8 +215,8 @@ objectStorage:
       # ignored if this value is set.
       name: null
       keyMapping:
-        accessKeyId: null
-        secretKey: null
+        access_key_id: null
+        secret_key: null
 
 # Database persistence settings.
 persistence:

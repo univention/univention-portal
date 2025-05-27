@@ -525,16 +525,16 @@ true
 			<td>User for the object storage.</td>
 		</tr>
 		<tr>
-			<td>objectStorage.auth.existingSecret.keyMapping.accessKey</td>
+			<td>objectStorage.auth.existingSecret.keyMapping.access_key_id</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
 </pre>
 </td>
-			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
+			<td></td>
 		</tr>
 		<tr>
-			<td>objectStorage.auth.existingSecret.keyMapping.secretKey</td>
+			<td>objectStorage.auth.existingSecret.keyMapping.secret_key</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
