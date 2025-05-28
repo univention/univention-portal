@@ -65,7 +65,7 @@ spec:
             - name: scripts
               mountPath: /scripts
             - name: secret-ldap
-              mountPath: /var/secrets/ldap_password"
+              mountPath: /var/secrets/ldap_password
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
             - name: secret-ldap
