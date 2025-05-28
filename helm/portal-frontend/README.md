@@ -280,7 +280,7 @@ true
 			<td>image.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"IfNotPresent"
+""
 </pre>
 </td>
 			<td></td>
