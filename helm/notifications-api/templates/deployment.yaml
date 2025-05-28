@@ -73,6 +73,25 @@ spec:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.postgresql.auth.existingSecret "defaultNameSuffix" "postgresql" "context" .) | quote }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.postgresql.auth.existingSecret "key" "password") | quote }}
+            - name: DATABASE_URL
+              {{- $postgresqlUsername := required
+                "A PostgreSQL username has to be supplied, see parameter postgresql.auth."
+                .Values.postgresql.auth.username }}
+              {{- $postgresqlDatabase := required
+                "A PostgreSQL database has to be supplied, see parameter postgresql.auth."
+                .Values.postgresql.auth.database }}
+              {{- $postgresqlHost := required
+                "A PostgreSQL connection has to be configured, see parameter postgresql.connection.host."
+                ( coalesce .Values.postgresql.connection.host .Values.global.postgresql.connection.host ) }}
+              {{- /* NOTE: The value depends on parameter substitution of Kubernetes. */}}
+              value: {{
+                printf "postgresql://%s:$(DB_PASSWORD)@%s:%s/%s"
+                  ( tpl $postgresqlUsername . )
+                  ( tpl $postgresqlHost . )
+                  ( tpl ( coalesce .Values.postgresql.connection.port
+                                  .Values.global.postgresql.connection.port
+                                  "5432" ) . )
+                  ( tpl $postgresqlDatabase . ) | quote }}
           envFrom:
             - configMapRef:
                 name: "{{ include "common.names.fullname" . }}"
