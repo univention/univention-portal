@@ -19,7 +19,7 @@ data:
   base-forced.conf: |
     server/role: memberserver
     ldap/master: {{ include "portal-consumer.ldap.connection.host" . }}
-    ldap/master/port: {{ include "portal-consumer.ldap.connection.port" . | quote }}
+    ldap/master/port: {{ include "portal-consumer.ldap.connection.port" . }}
     ldap/hostdn: {{ tpl .Values.ldap.auth.bindDn . }}
     ldap/base: {{ required "The parameter \"portal-consumer.ldapBaseDn\" is required." (include "portal-consumer.ldapBaseDn" .) }}
     {{- $tlsMode := .Values.portalConsumer.tlsMode }}
