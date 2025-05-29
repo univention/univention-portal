@@ -3,7 +3,7 @@
 
 import pytest
 from pytest_helm.utils import add_jsonpath_prefix, findall, findone
-from yaml import safe_load
+from pytest_helm.utils import load_yaml
 
 from univention.testing.helm.base import Base
 from univention.testing.helm.deployment import Deployment, DeploymentTlsVolumeSecret
@@ -52,7 +52,7 @@ class AuthExistingSecAsVolume(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret:
@@ -78,7 +78,7 @@ class AuthExistingSecAsVolume(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret: null
@@ -105,7 +105,7 @@ class AuthExistingSecAsVolume(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   password: stub-plain-password
@@ -178,7 +178,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret:
@@ -198,7 +198,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret: null
@@ -222,7 +222,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret:
@@ -244,7 +244,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   password: stub-plain-password

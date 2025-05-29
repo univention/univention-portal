@@ -1,40 +1,8 @@
-# Portal Consumer Tests
+# Helm chart unit tests
 
-Unit tests specific to the portal consumer.
+This folder contains a set of unit tests which cover the behavior of the Helm chart.
 
-Be aware that the portal consumer is using the codebase of the portal server as
-a library due to history reasons. Related tests are within the folder
-`../../unittests`.
+These tests are based on `helm-test-harness` and `pytest-helm`.
 
-## Requirements
-
-- `docker compose` has to be set up and working
-
-
-## How to run this manually
-
-```
-cd docker
-
-# Run the test suite
-docker compose run -it --rm test-chart-portal-consumer
-
-# Deal with trouble via pdb
-docker compose run -it --rm test-chart-portal-consumer \
-  bash -c "pip install -r requirements-test.txt && \
-           helm dependency build helm/portal-consumer/ && \
-           pytest --values helm/portal-consumer/linter_values.yaml portal-consumer/tests/chart --pdb"
-
-# Have a shell
-docker compose run -it --rm test-chart-portal-consumer bash
-pip install -r requirements-test.txt
-helm dependency build helm/portal-consumer
-pytest --values helm/portal-consumer/linter_values.yaml portal-consumer/tests/chart
-```
-
-
-## Details
-
-- Many tests describe the relevant values fragment in YAML and parse it via
-  `yaml.safe_load`. This shall help to make the example snippets comparable to
-  an existing `values.yaml` for a Helm chart.
+See <https://git.knut.univention.de/univention/dev/nubus-for-k8s/common-helm>
+for further details about how to run the tests and how to develop new ones.
