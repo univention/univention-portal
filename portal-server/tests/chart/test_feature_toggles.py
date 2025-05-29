@@ -4,12 +4,12 @@
 import json
 
 import pytest
-from yaml import safe_load
+from pytest_helm.utils import load_yaml
 
 
 @pytest.mark.parametrize("value", ["", "null"])
 def test_disabling_all_feature_toggles(chart, value):
-    values = safe_load(
+    values = load_yaml(
         f"""
         portalServer:
           featureToggles: {value}
@@ -22,7 +22,7 @@ def test_disabling_all_feature_toggles(chart, value):
 
 
 def test_allows_to_add_arbitrary_feature_toggles(chart):
-    values = safe_load(
+    values = load_yaml(
         """
         portalServer:
           featureToggles:

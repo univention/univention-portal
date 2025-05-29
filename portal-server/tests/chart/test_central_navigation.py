@@ -4,7 +4,7 @@
 from subprocess import CalledProcessError
 
 import pytest
-from yaml import safe_load
+from pytest_helm.utils import load_yaml
 
 from univention.testing.helm.client.central_navigation import CentralNavigationOwner
 
@@ -28,7 +28,7 @@ class TestCentralNavigation(CentralNavigationOwner):
         ("false", "false"),
     ])
     def test_enabled_is_provided_to_portal_server_via_config_map(self, value, expected, chart):
-        values = safe_load(
+        values = load_yaml(
             f"""
             portalServer:
               centralNavigation:
@@ -44,7 +44,7 @@ class TestCentralNavigation(CentralNavigationOwner):
         ("null", "false"),
     ])
     def test_enabled_accepts_only_boolean_values(self, value, expected, chart):
-        values = safe_load(
+        values = load_yaml(
             f"""
             portalServer:
               centralNavigation:

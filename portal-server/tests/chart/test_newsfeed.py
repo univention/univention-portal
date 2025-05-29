@@ -3,7 +3,7 @@
 
 import json
 
-from yaml import safe_load
+from pytest_helm.utils import load_yaml
 
 
 def test_no_newsfeed_configuration_by_default(chart):
@@ -14,7 +14,7 @@ def test_no_newsfeed_configuration_by_default(chart):
 
 
 def test_no_newsfeed_configuration_when_feature_is_deactivated(chart):
-    values = safe_load("""
+    values = load_yaml("""
         portalServer:
           featureToggles:
             newsfeed: false
@@ -29,7 +29,7 @@ def test_no_newsfeed_configuration_when_feature_is_deactivated(chart):
 
 
 def test_renders_newsfeed_configuration_when_feature_is_enabled(chart):
-    values = safe_load("""
+    values = load_yaml("""
         portalServer:
           featureToggles:
             newsfeed: true
