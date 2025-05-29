@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Univention GmbH
 
 import pytest
-from yaml import safe_load
+from pytest_helm.utils import load_yaml
 
 
 pytestmark = pytest.mark.parametrize("values_key,filename", [
@@ -33,7 +33,7 @@ def test_file_is_not_mounted_by_default(values_key, filename, chart):
 
 
 def test_file_is_added_when_configured(values_key, filename, chart):
-    values = safe_load(f"""
+    values = load_yaml(f"""
         portalFrontend:
           branding:
             {values_key}: stub_value
@@ -44,7 +44,7 @@ def test_file_is_added_when_configured(values_key, filename, chart):
 
 
 def test_file_is_mounted_when_configured(values_key, filename, chart):
-    values = safe_load(f"""
+    values = load_yaml(f"""
         portalFrontend:
           branding:
             {values_key}: stub_value
