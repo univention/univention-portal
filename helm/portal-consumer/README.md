@@ -858,14 +858,14 @@ null
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "baseUrl": ""
+  "url": ""
 }
 </pre>
 </td>
 			<td>Connection parameters</td>
 		</tr>
 		<tr>
-			<td>provisioningApi.connection.baseUrl</td>
+			<td>provisioningApi.connection.url</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""

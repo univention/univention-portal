@@ -153,7 +153,7 @@ provisioningApi:
   # -- Connection parameters
   connection:
     # -- The base URL the provisioning API is reachable at. (e.g. "https://provisioning-api")
-    baseUrl: ""
+    url: ""
   # -- Authentication parameters
   auth:
     # -- The username to authenticate with. A secret will be created if existingSecret is not set.
