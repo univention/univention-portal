@@ -12,6 +12,10 @@ from univention.testing.helm.deployment import Deployment, DeploymentTlsVolumeSe
 class TestStatefulSet(Deployment):
     template_file = "templates/statefulset.yaml"
 
+    @pytest.mark.skip("TODO: Add support for the service account configuration")
+    def test_has_configuable_service_account():
+        pass
+
 
 @pytest.mark.parametrize(
     "key, volume_item",
