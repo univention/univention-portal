@@ -8,7 +8,7 @@ class TestLdapClient(LdapAuth):
 
     config_map_name = "release-name-portal-consumer"
     secret_name = "release-name-portal-consumer-ldap"
-    workload_resource_kind = "StatefulSet"
+    workload_kind = "StatefulSet"
 
     path_main_container = "spec.template.spec.containers[?@.name=='portal-consumer']"
 

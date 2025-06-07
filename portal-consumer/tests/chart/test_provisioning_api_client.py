@@ -9,7 +9,7 @@ class TestProvisioningApiClientConfiguration(ProvisioningApi):
     # TODO: Check what's needed
     config_map_name = "release-name-portal-consumer"
     secret_name = "release-name-portal-consumer-provisioning-api"
-    workload_resource_kind = "StatefulSet"
+    workload_kind = "StatefulSet"
 
     default_username = "portal-consumer"
 
