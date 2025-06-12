@@ -277,7 +277,7 @@ true
 			<td>Container registry address.</td>
 		</tr>
 		<tr>
-			<td>image.imagePullPolicy</td>
+			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
