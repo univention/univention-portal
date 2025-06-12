@@ -275,7 +275,7 @@ null
 			<td>Global default for the URL via which the UDM Rest API can be reached. See "udm.connection.url".</td>
 		</tr>
 		<tr>
-			<td>image.imagePullPolicy</td>
+			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
