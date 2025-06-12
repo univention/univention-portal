@@ -58,7 +58,7 @@ spec:
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
@@ -106,7 +106,7 @@ spec:
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
@@ -154,7 +154,7 @@ spec:
           {{- end }}
           command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
@@ -186,7 +186,7 @@ spec:
             {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           command: ["/bin/bash", "/scripts/wait-for-provisioning-api.sh"]
           volumeMounts:
             - name: scripts
@@ -208,7 +208,7 @@ spec:
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
@@ -271,7 +271,7 @@ spec:
             {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}

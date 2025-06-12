@@ -538,7 +538,7 @@ true
   "editable": "true",
   "environment": "production",
   "image": {
-    "imagePullPolicy": "",
+    "pullPolicy": "",
     "registry": "",
     "repository": "nubus-dev/images/portal-consumer",
     "tag": "latest"
@@ -1014,7 +1014,7 @@ null
 			<td>Optionally specify an extra list of additional volumes.</td>
 		</tr>
 		<tr>
-			<td>waitForDependency.image.imagePullPolicy</td>
+			<td>waitForDependency.image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
