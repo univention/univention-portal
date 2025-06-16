@@ -27,9 +27,7 @@ provisioningApi:
   connection:
     url: "http://provisioning-api-server"
   auth:
-    username: "portal-consumer"
-    password: "password"
-    existingSecret: null
+    password: "linter-password"
 
 objectStorage:
   endpoint: "http://minio:9000"
