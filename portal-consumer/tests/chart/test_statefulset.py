@@ -2,8 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Univention GmbH
 
 import pytest
-from pytest_helm.utils import add_jsonpath_prefix, findall, findone
-from pytest_helm.utils import load_yaml
+from pytest_helm.utils import add_jsonpath_prefix, findall, findone, load_yaml
 
 from univention.testing.helm.base import Base
 from univention.testing.helm.deployment import Deployment, DeploymentTlsVolumeSecret
