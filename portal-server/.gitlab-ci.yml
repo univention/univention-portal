@@ -8,8 +8,8 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
-  - project: "univention/customers/dataport/upx/common-ci"
-    ref: "main"
+  - project: "univention/dev/nubus-for-k8s/common-ci"
+    ref: "v1.42.1"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
@@ -18,7 +18,7 @@ include:
 
 generate-joinscript-data:
   stage: "prepare"
-  image: "gitregistry.knut.univention.de/univention/customers/dataport/upx/stack-data/joinscript-tools:latest"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/stack-data/joinscript-tools:latest"
   needs: []
   script:
     - |
