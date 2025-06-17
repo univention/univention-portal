@@ -6,7 +6,7 @@ ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/ucs-ba
 
 # in the pipeline, this will be set to whatever the current image tag for portal-server in that pipeline is (e.g. vX.Y.Z)
 ARG PORTAL_BASE_IMAGE_TAG=latest
-ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/components/univention-portal/portal-server:${PORTAL_BASE_IMAGE_TAG}
+ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/portal/portal-server:${PORTAL_BASE_IMAGE_TAG}
 
 # hadolint ignore=DL3006
 FROM ${PORTAL_BASE_IMAGE} as portal-server-image
