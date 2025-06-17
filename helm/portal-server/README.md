@@ -821,14 +821,23 @@ null
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "feedType": "",
   "feedUrl": {},
-  "feedtype": "",
   "homeUrl": {},
   "icsSilentLoginUrl": null
 }
 </pre>
 </td>
 			<td>Newsfeed configuration. This feature is currently behind a feature toggle, see "portalServer.featureToggles.newsfeed". The configuration is only applied if the toggle is enabled.</td>
+		</tr>
+		<tr>
+			<td>portalServer.newsfeed.feedType</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>The supported feed type. Must be "xwiki" or "wordpress".</td>
 		</tr>
 		<tr>
 			<td>portalServer.newsfeed.feedUrl</td>
@@ -838,15 +847,6 @@ null
 </pre>
 </td>
 			<td>The source of the feed. This is a mapping from the locale (e.g. "en_US") to URL (e.g. "https://blog.example/feed").</td>
-		</tr>
-		<tr>
-			<td>portalServer.newsfeed.feedtype</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>The supported feed type. Must be "xwiki" or "wordpress".</td>
 		</tr>
 		<tr>
 			<td>portalServer.newsfeed.homeUrl</td>

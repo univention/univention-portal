@@ -505,7 +505,7 @@ portalServer:
     # of the feature toggles. Compare "centralNavigation".
 
     # -- The supported feed type. Must be "xwiki" or "wordpress".
-    feedtype: ""
+    feedType: ""
     # -- The source of the feed. This is a mapping from the locale
     # (e.g. "en_US") to URL (e.g. "https://blog.example/feed").
     feedUrl: {}
