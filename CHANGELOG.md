@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.69.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.1...v0.69.2) (2025-06-18)
+
+
+### Bug Fixes
+
+* newsfeed feed type typo ([5a0f239](https://git.knut.univention.de/univention/dev/projects/portal/commit/5a0f239fd8c31f243e1ea8dc582b39a4db11e9d8)), closes [univention/dev/internal/team-nubus#1249](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1249)
+* portal repository migration ([99723f2](https://git.knut.univention.de/univention/dev/projects/portal/commit/99723f2e168e6d1367a48c525f33252df790ed12)), closes [univention/dev/internal/team-nubus#0](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/0)
+* Update ucs-base-image ([c261970](https://git.knut.univention.de/univention/dev/projects/portal/commit/c2619706c66b01f7abe4dd3ef445419c54212938)), closes [univention/dev/internal/team-nubus#1263](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1263)
+
 ## [0.69.1](https://git.knut.univention.de/univention/components/univention-portal/compare/v0.69.0...v0.69.1) (2025-05-15)
 
 
