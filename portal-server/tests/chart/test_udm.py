@@ -11,7 +11,7 @@ class TestAuth(SecretViaVolume, Auth):
     default_username = "svc-portal-server"
 
     path_username = "data.PORTAL_UDM_API_USERNAME"
-    path_main_container = "spec.template.spec.containers[?@.name=='portal-server']"
+    path_container = "spec.template.spec.containers[?@.name=='portal-server']"
 
 
 class TestConnection(Connection):
