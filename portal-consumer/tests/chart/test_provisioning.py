@@ -7,7 +7,6 @@ from univention.testing.helm.client.provisioning_api import Auth, AuthPasswordOw
 
 
 class TestAuth(SecretViaEnv, AuthPasswordOwner, Auth):
-
     config_map_name = "release-name-portal-consumer"
     secret_name = "release-name-portal-consumer-provisioning-api"
     workload_kind = "StatefulSet"
@@ -16,7 +15,6 @@ class TestAuth(SecretViaEnv, AuthPasswordOwner, Auth):
     derived_password = "fe3b23688cf102b8936a82bcbcd4c4abf8d43d80"
 
     path_container = "spec.template.spec.containers[?@.name=='portal-consumer']"
-    path_provisioning_api_url = "data.PROVISIONING_API_BASE_URL"
 
 
 class TestAuthRegistration(AuthPasswordSecret):
