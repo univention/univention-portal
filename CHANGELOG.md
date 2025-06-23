@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.69.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.2...v0.69.3) (2025-06-23)
+
+
+### Bug Fixes
+
+* bump umc-base-image version ([1f9824c](https://git.knut.univention.de/univention/dev/projects/portal/commit/1f9824c2f207a7d80a43f9a704e997b8fc3ed731)), closes [univention/dev/internal/team-nubus#1263](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1263)
+
 ## [0.69.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.1...v0.69.2) (2025-06-18)
 
 
