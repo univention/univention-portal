@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.69.4](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.3...v0.69.4) (2025-06-23)
+
+
+### Bug Fixes
+
+* use default cluster ingress class if not defined ([316d368](https://git.knut.univention.de/univention/dev/projects/portal/commit/316d368802bd37a05402e2f0acfa39a41490be81)), closes [univention/dev/internal/team-nubus#1134](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1134)
+
 ## [0.69.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.2...v0.69.3) (2025-06-23)
 
 
