@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.69.5](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.4...v0.69.5) (2025-06-25)
+
+
+### Bug Fixes
+
+* **portal-server:** removed obsolete test-connection ([8aca1c9](https://git.knut.univention.de/univention/dev/projects/portal/commit/8aca1c95c12206a260325e047a51e5721a8784fa)), closes [univention/dev/internal/team-nubus#1246](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1246)
+
 ## [0.69.4](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.3...v0.69.4) (2025-06-23)
 
 
