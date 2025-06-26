@@ -34,6 +34,7 @@
 export default function addCustomStyles(): void {
   const themeCss = document.createElement('link');
   themeCss.rel = 'stylesheet';
+  console.log(process.env);
   themeCss.href = process.env.VUE_APP_THEME_PATH || '/univention/theme.css';
   document.head.appendChild(themeCss);
 

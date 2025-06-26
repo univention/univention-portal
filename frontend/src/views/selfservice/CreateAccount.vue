@@ -62,7 +62,7 @@ import { umcCommandWithStandby } from '@/jsHelper/umc';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
-import { allValid, initialValue, isEmpty, validateAll, validateNewPassword, WidgetDefinition } from '@/jsHelper/forms';
+import { allValid, initialValue, validateAll, WidgetDefinition } from '@/jsHelper/forms';
 import activity from '@/jsHelper/activity';
 import { mapGetters } from 'vuex';
 import { sanitizeBackendWidget, setBackendInvalidMessage, sanitizeFrontendValues } from '@/views/selfservice/helper';

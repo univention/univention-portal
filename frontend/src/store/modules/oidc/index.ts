@@ -4,7 +4,6 @@
  */
 
 import Keycloak from 'keycloak-js';
-import { ActionContext } from 'vuex';
 
 import { PortalActionContext, PortalModule } from '../../root.models';
 

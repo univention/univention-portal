@@ -185,10 +185,10 @@ const modal: PortalModule<ModalState> = {
         commit('ENABLE_BODY_SCROLLING');
       }
     },
-    resolve({ state, commit }, payload: ModalComponentInterface): void {
+    resolve({ commit }, payload: ModalComponentInterface): void {
       commit('RESOLVE', payload);
     },
-    reject({ state, commit }, payload?: ModalLevel): void {
+    reject({ commit }, payload?: ModalLevel): void {
       commit('REJECT', payload);
     },
     enableBodyScrolling({ commit }: { commit: Commit}): void {
