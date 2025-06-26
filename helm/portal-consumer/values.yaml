@@ -122,9 +122,6 @@ portalConsumer:
   # -- TODO: Clarify usage of this parameter
   environment: "production"
 
-  # -- Base DN of the LDAP directory
-  ldapBaseDn: null
-
   logLevel: "INFO"
   # -- DN of the default portal
   portalDefaultDn: null
@@ -261,7 +258,7 @@ ldap:
     host: null
     port: null
   auth:
-    bindDn: "cn=admin,dc=univention-organization,dc=intranet"
+    bindDn: 'cn=admin,{{ include "portal-consumer.ldapBaseDn" . }}'
     password: null
     existingSecret:
       name: null

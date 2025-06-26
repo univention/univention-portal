@@ -8,15 +8,9 @@ Templates defined in other Helm sub-charts are imported to be used to configure 
 If the value .Values.global.nubusDeployment equates to true, the defined templates are imported.
 */}}
 
-{{- define "portal-consumer.ldapBaseDn" -}}
-{{- if .Values.portalConsumer.ldapBaseDn -}}
-{{- .Values.portalConsumer.ldapBaseDn -}}
-{{- else if .Values.global.nubusDeployment -}}
-{{- include "nubusTemplates.ldapServer.ldap.baseDn" . -}}
-{{- else -}}
-dc=univention-organization,dc=intranet
-{{- end -}}
-{{- end -}}
+{{- define "portal-consumer.ldapBaseDn" }}
+{{- default "dc=univention-organization,dc=intranet" (.Values.global.ldap).baseDn }}
+{{- end }}
 
 {{- define "portal-consumer.ldap.connection.host" -}}
 {{- tpl

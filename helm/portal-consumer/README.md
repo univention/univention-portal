@@ -278,7 +278,7 @@ null
 			<td>ldap.auth.bindDn</td>
 			<td>string</td>
 			<td><pre lang="json">
-"cn=admin,dc=univention-organization,dc=intranet"
+"cn=admin,{{ include \"portal-consumer.ldapBaseDn\" . }}"
 </pre>
 </td>
 			<td></td>
@@ -543,7 +543,6 @@ true
     "repository": "nubus-dev/images/portal-consumer",
     "tag": "latest"
   },
-  "ldapBaseDn": null,
   "logLevel": "INFO",
   "port": "80",
   "portalDefaultDn": null,
@@ -636,15 +635,6 @@ null
 </pre>
 </td>
 			<td>TODO: Clarify usage of this parameter</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.ldapBaseDn</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>Base DN of the LDAP directory</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.portalDefaultDn</td>
