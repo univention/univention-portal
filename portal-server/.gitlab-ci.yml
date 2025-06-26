@@ -117,7 +117,7 @@ test-portal-server:
 test-chart-portal-server:
   stage: test
   needs: []
-  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.21.0"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.21.1"
   script:
     - helm dep build helm/portal-server
     - pytest portal-server/tests/chart
@@ -125,7 +125,7 @@ test-chart-portal-server:
 test-chart-portal-consumer:
   stage: test
   needs: []
-  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.21.0"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.21.1"
   script:
     - helm dep build helm/portal-consumer
     - pytest portal-consumer/tests/chart
