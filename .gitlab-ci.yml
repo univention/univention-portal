@@ -5,7 +5,7 @@
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.42.1"
+    ref: "v1.43.2"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -13,6 +13,7 @@ include:
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/check-debian-updates.yaml"
+      - "templates/sonarqube.yaml"
 
 lint-pre-commit:
   before_script:
@@ -135,5 +136,8 @@ check-debian-updates:
       if [[ "${USERNAME}" != "root" ]]; then
         echo "ERROR: running as ${USERNAME} but root is requiered"
       fi
+
+sonarqube:
+  extends: .sonarqube
 
 ...
