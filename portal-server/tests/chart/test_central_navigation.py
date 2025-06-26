@@ -20,6 +20,8 @@ class TestCentralNavigation(CentralNavigationOwner):
 
     path_main_container = "spec.template.spec.containers[?@.name=='portal-server']"
 
+    derived_shared_secret = "3673639502cc2be94504d5ca75cf786837418ceb"
+
     # Local tests support
     path_env_enabled = "data.PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED"
 
