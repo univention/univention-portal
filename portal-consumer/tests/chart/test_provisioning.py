@@ -12,7 +12,7 @@ class TestAuth(SecretViaEnv, AuthPasswordOwner, Auth):
     workload_kind = "StatefulSet"
 
     default_username = "portal-consumer"
-    derived_password = "fe3b23688cf102b8936a82bcbcd4c4abf8d43d80"
+    derived_password = "910b4f47319c3e0221029f8778998ed9e2fa8c37"
 
     path_container = "spec.template.spec.containers[?@.name=='portal-consumer']"
 
