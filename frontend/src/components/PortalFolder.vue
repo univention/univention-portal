@@ -54,15 +54,16 @@
       @keypress.enter="openFolder"
       @keydown.esc.stop="closeFolder"
     >
-      <region
+      <component
+        :is="useNativeHtmlList ? 'ul' : 'div'"
         :id="`${id}-content`"
-        :aria-role="ariaRole"
+        :role="useNativeHtmlList ? undefined : 'region'"
+        :tabindex="useNativeHtmlList ? undefined : -1"
         class="portal-folder__thumbnails"
-        tabindex="-1"
-        role="none"
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
       >
-        <div
+        <component
+          :is="useNativeHtmlList ? 'li' : 'div'"
           v-for="(tile, index) in filteredTiles"
           :key="tile.id"
           :class="`portal-folder__thumbnail ${isMoreThanFiveOrTen(index)}`"
@@ -88,7 +89,7 @@
             :minified="!inModal"
             :from-folder="true"
           />
-        </div>
+        </component>
         <div
           v-if="editMode && inModal"
           class="portal-folder__thumbnail portal-folder__thumbnail--tile-add"
@@ -101,11 +102,13 @@
             />
           </div>
         </div>
-      </region>
+      </component>
     </tabindex-element>
     <span
       class="portal-folder__name"
       @click="openFolder"
+      @keydown.enter="openFolder"
+      @keydown.space.prevent="openFolder"
     >
       {{ $localized(title) }}
     </span>
@@ -196,6 +199,7 @@ export default defineComponent({
     ...mapGetters({
       lastDir: 'dragndrop/getLastDir',
       searchQuery: 'search/searchQuery',
+      featureToggles: 'featureToggles/featureToggles',
     }),
     activeAt(): string[] {
       if (this.editMode) {
@@ -241,6 +245,9 @@ export default defineComponent({
         return 'application';
       }
       return this.inModal ? 'region' : 'none';
+    },
+    useNativeHtmlList(): boolean {
+      return this.featureToggles.native_html_list ?? false;
     },
   },
   mounted() {

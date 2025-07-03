@@ -398,7 +398,8 @@
     "newsfeed": true,
     "notifications_api": false,
     "umc_session_refresh": true,
-    "welcome_message": true
+    "welcome_message": true,
+    "native_html_list": false
   },
   "filtered": true,
   "folders": [
@@ -469,7 +470,7 @@
     "icsSilentLoginUrl": null
   },
   "portal": {
-    "background": "./data/icons/background.svg",
+    "background": "",
     "categories": [
       "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"

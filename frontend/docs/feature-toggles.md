@@ -14,6 +14,7 @@ The state of the feature toggles is embedded within the Vuex store in the module
 const partialRootState = {
   featureToggles: {
     notifications_api: true,
+    native_html_list: false
   },
 }
 ```
@@ -64,3 +65,8 @@ configured via the portal server.
 
 - In a direct deployment of the portal server's container the environment
   variable `PORTAL_SERVER_FEATURE_TOGGLES` has to be set accordingly.
+
+
+## Why we use Feature Toggles to use native html list?
+
+Changing `div` to `ul` / `li` can be a breaking change because customers might use the selectors to adjust themes.

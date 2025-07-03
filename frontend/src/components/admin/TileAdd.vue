@@ -102,8 +102,10 @@ export default defineComponent({
 .tile-add
   display: flex
   flex-direction: column
+  justify-content: start
   align-items: center
   border: 0; // TODO: Remove when weird servercaching is fixed
+  width: var(--app-tile-side-length)
 
   &__button
     box-shadow: var(--box-shadow)

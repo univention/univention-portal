@@ -40,9 +40,9 @@
     >
       <icon-button
         v-if="editMode && !virtual && showEditButtonWhileDragging"
+        :aria-label-prop="EDIT_CATEGORY"
         icon="edit-2"
         class="button--icon--circle button--icon--edit-mode button--shadow"
-        :aria-label-prop="EDIT_CATEGORY"
         @click="editCategory"
       />
       <icon-button
@@ -58,6 +58,7 @@
         @keydown.tab="handleTabWhileMoving"
       />
       <span
+        :id="`tile-title-${layoutId}`"
         :draggable="editMode && !virtual"
         @dragstart="dragstart"
         @dragenter="dragenter"
@@ -66,12 +67,18 @@
         {{ $localized(title) }}
       </span>
     </h2>
-    <div
+    <component
+      :is="useNativeHtmlList ? 'ul' : 'div'"
+      :aria-labelledby="`tile-title-${layoutId}`"
+      :role="useNativeHtmlList ? undefined : 'list'"
       class="portal-category__tiles"
     >
-      <template
+      <component
+        :is="useNativeHtmlList ? 'li' : 'div'"
         v-for="tile in tiles"
         :key="tile.id"
+        :role="useNativeHtmlList ? undefined : 'listitem'"
+        class="portal-category__tiles"
       >
         <portal-folder
           v-if="tile.isFolder"
@@ -101,20 +108,20 @@
           :original-link-target="tile.originalLinkTarget"
           :path-to-logo="tile.pathToLogo"
         />
-      </template>
-      <tile-add
-        v-if="editMode"
-        :super-dn="dn"
-        :super-layout-id="layoutId"
-      />
-    </div>
+      </component>
+    </component>
+    <tile-add
+      v-if="editMode"
+      :super-dn="dn"
+      :super-layout-id="layoutId"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
+import { mapGetters } from 'vuex';
 
 import TileAdd from '@/components/admin/TileAdd.vue';
 import IconButton from '@/components/globals/IconButton.vue';
@@ -122,7 +129,7 @@ import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import {
-  Tile,
+  BaseTile,
   LocalizedString,
 } from '@/store/modules/portalData/portalData.models';
 
@@ -155,7 +162,7 @@ export default defineComponent({
       required: true,
     },
     tiles: {
-      type: Array as PropType<Tile[]>,
+      type: Array as PropType<BaseTile[]>,
       required: true,
     },
     categoryIndex: {
@@ -164,6 +171,9 @@ export default defineComponent({
     },
   },
   computed: {
+    ...mapGetters({
+      featureToggles: 'featureToggles/featureToggles',
+    }),
     isTouchDevice(): boolean {
       return 'ontouchstart' in document.documentElement;
     },
@@ -172,6 +182,9 @@ export default defineComponent({
     },
     EDIT_CATEGORY(): string {
       return _('Edit category: %(category)s', { category: this.$localized(this.title) });
+    },
+    useNativeHtmlList(): boolean {
+      return this.featureToggles.native_html_list ?? false;
     },
   },
   methods: {
@@ -211,6 +224,7 @@ export default defineComponent({
     display: grid
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
+    padding: 0
 
     &--editmode
       display: block

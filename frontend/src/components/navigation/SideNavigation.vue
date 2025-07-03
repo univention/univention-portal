@@ -68,14 +68,17 @@
     <div
       class="divider"
     />
-    <div
+    <component
+      :is="useNativeHtmlList ? 'ul' : 'div'"
+      :role="useNativeHtmlList ? undefined : 'list'"
       class="portal-sidenavigation__menu"
-      role="toolbar"
       aria-orientation="vertical"
     >
-      <div
+      <component
+        :is="useNativeHtmlList ? 'li' : 'div'"
         v-for="(item, index) in menuLinks"
-        :key="index"
+        :key="item.id"
+        :role="useNativeHtmlList ? undefined : 'listitem'"
         :class="setFadeClass()"
         class="portal-sidenavigation__menu-item"
       >
@@ -122,31 +125,35 @@
               @keydown.esc="closeNavigation"
               @clickAction="closeNavigation"
             />
-            <div
-              v-for="(subItem, subindex) in item.subMenu"
-              :key="subindex"
-              :class="subMenuClass"
+            <ul
+              class="portal-sidenavigation__submenu-wrapper"
             >
-              <menu-item
-                v-if="subMenuVisible & (menuParent === index)"
-                :id="subItem.id"
-                :ref="`subItem${subindex}`"
-                :title="subItem.title"
-                :links="subItem.links || []"
-                :link-target="subItem.linkTarget"
-                :path-to-logo="subItem.pathToLogo"
-                :internal-function="subItem.internalFunction"
-                :background-color="subItem.backgroundColor"
-                :is-subitem="true"
-                class="portal-sidenavigation__menu-subItem"
-                @keydown.esc="closeNavigation"
-                @clickAction="closeNavigation"
-              />
-            </div>
+              <li
+                v-for="(subItem, subindex) in item.subMenu"
+                :key="subindex"
+                :class="subMenuClass"
+              >
+                <menu-item
+                  v-if="subMenuVisible & (menuParent === index)"
+                  :id="subItem.id"
+                  :ref="`subItem${subindex}`"
+                  :title="subItem.title"
+                  :links="subItem.links || []"
+                  :link-target="subItem.linkTarget"
+                  :path-to-logo="subItem.pathToLogo"
+                  :internal-function="subItem.internalFunction"
+                  :background-color="subItem.backgroundColor"
+                  :is-subitem="true"
+                  class="portal-sidenavigation__menu-subItem"
+                  @keydown.esc="closeNavigation"
+                  @clickAction="closeNavigation"
+                />
+              </li>
+            </ul>
           </region>
         </template>
-      </div>
-    </div>
+      </component>
+    </component>
     <div
       v-if="userState.username"
       class="divider"
@@ -214,6 +221,7 @@ export default defineComponent({
       menuLinks: 'menu/getMenu',
       userState: 'user/userState',
       isLoggedIn: 'user/isLoggedIn',
+      featureToggles: 'featureToggles/featureToggles',
     }),
     LOGOUT(): string {
       return _('Logout');
@@ -229,6 +237,9 @@ export default defineComponent({
     },
     CHANGE_LANGUAGE(): string {
       return _('Change language');
+    },
+    useNativeHtmlList(): boolean {
+      return this.featureToggles.native_html_list ?? false;
     },
   },
   created() {
@@ -314,6 +325,10 @@ $userRow = 6rem
   display: flex
   flex-direction: column
 
+  &__submenu-wrapper
+    padding: 0
+    list-style-type: none
+
   &__link
     position: relative
     left: calc(2*var(--layout-spacing-unit))
@@ -360,6 +375,8 @@ $userRow = 6rem
     flex: 1 1 auto
     overflow-y: auto
     overflow-x: hidden
+    padding: 0
+    list-style: none
 
   &__menu-item
     margin-left: 0

@@ -7,7 +7,7 @@
   <template v-if="showWelcomeMessage && userFirstname.length > 0">
     <div class="portal-greeting">
       <h2 class="portal-greeting__headline">
-        {{ salutation }}<span>,</span>
+        {{ salutation }}<span aria-hidden="true">,</span>
         <span class="portal-greeting__name"><br> {{ userFirstname }}.</span>
       </h2>
     </div>
