@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.70.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.70.0...v0.70.1) (2025-07-03)
+
+
+### Bug Fixes
+
+* **portal-frontend:** Add vue-dompurity-html to the test suite for handling new tags ([bb6a37a](https://git.knut.univention.de/univention/dev/projects/portal/commit/bb6a37a87c6044b653c62f05f261f68984486c4c)), closes [univention/dev/internal/team-nubus#1221](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1221)
+* **portal-frontend:** sanitize descriptions for different components ([a5ab201](https://git.knut.univention.de/univention/dev/projects/portal/commit/a5ab20151d7547f2cef163b47228891d81221b23)), closes [univention/dev/internal/team-nubus#1221](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1221) [#58311](https://git.knut.univention.de/univention/dev/projects/portal/issues/58311)
+* **umc:** make hiding of FQDN and server address in meta.json configurable ([abda851](https://git.knut.univention.de/univention/dev/projects/portal/commit/abda8512a21cc36e31afda43766056a578fe2b18)), closes [#58280](https://git.knut.univention.de/univention/dev/projects/portal/issues/58280) [univention/dev/ucs#2910](https://git.knut.univention.de/univention/dev/ucs/issues/2910)
+
 ## [0.70.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.69.5...v0.70.0) (2025-06-27)
 
 
