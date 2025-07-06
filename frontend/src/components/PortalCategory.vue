@@ -71,7 +71,9 @@
       :is="useNativeHtmlList ? 'ul' : 'div'"
       :aria-labelledby="`tile-title-${layoutId}`"
       :role="useNativeHtmlList ? undefined : 'list'"
+      :data-test="`portal-category__tiles-${layoutId}`"
       class="portal-category__tiles"
+      :class="{'portal-category__tiles--editmode': editMode}"
     >
       <component
         :is="useNativeHtmlList ? 'li' : 'div'"
@@ -109,9 +111,14 @@
           :path-to-logo="tile.pathToLogo"
         />
       </component>
+      <tile-add
+        v-if="editMode && !useNativeHtmlList"
+        :super-dn="dn"
+        :super-layout-id="layoutId"
+      />
     </component>
     <tile-add
-      v-if="editMode"
+      v-if="editMode && useNativeHtmlList"
       :super-dn="dn"
       :super-layout-id="layoutId"
     />
@@ -225,9 +232,10 @@ export default defineComponent({
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
     padding: 0
+    margin: 0
 
     &--editmode
-      display: block
+      margin-bottom: calc(var(--layout-spacing-unit) * 6);
 
   &__title
     height: var(--button-size)
