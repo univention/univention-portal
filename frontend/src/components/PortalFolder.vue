@@ -56,11 +56,12 @@
     >
       <component
         :is="useNativeHtmlList ? 'ul' : 'div'"
-        :id="`${id}-content`"
         :role="useNativeHtmlList ? undefined : 'region'"
         :tabindex="useNativeHtmlList ? undefined : -1"
+        :aria-labelledby="`${id}-content`"
         class="portal-folder__thumbnails"
         :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
+        data-test="portalFolder"
       >
         <component
           :is="useNativeHtmlList ? 'li' : 'div'"
@@ -90,21 +91,22 @@
             :from-folder="true"
           />
         </component>
-        <div
-          v-if="editMode && inModal"
-          class="portal-folder__thumbnail portal-folder__thumbnail--tile-add"
-        >
-          <div class="portal-tile__root-element">
-            <tile-add
-              :for-folder="true"
-              :super-dn="dn"
-              :super-layout-id="layoutId"
-            />
-          </div>
-        </div>
       </component>
+      <div
+        v-if="editMode && inModal"
+        class="portal-folder__thumbnail portal-folder__thumbnail--tile-add"
+      >
+        <div class="portal-tile__root-element">
+          <tile-add
+            :for-folder="true"
+            :super-dn="dn"
+            :super-layout-id="layoutId"
+          />
+        </div>
+      </div>
     </tabindex-element>
     <span
+      :id="`${id}-content`"
       class="portal-folder__name"
       @click="openFolder"
       @keydown.enter="openFolder"
