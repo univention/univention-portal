@@ -70,9 +70,10 @@
     />
     <component
       :is="useNativeHtmlList ? 'ul' : 'div'"
-      :role="useNativeHtmlList ? undefined : 'list'"
+      :role="useNativeHtmlList ? 'list' : 'toolbar'"
       class="portal-sidenavigation__menu"
       aria-orientation="vertical"
+      data-test="sideNavigation"
     >
       <component
         :is="useNativeHtmlList ? 'li' : 'div'"
