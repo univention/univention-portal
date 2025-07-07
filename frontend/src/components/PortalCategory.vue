@@ -69,6 +69,7 @@
     </h2>
     <component
       :is="useNativeHtmlList && editMode ? 'div' : 'TemplateWrapper'"
+      data-test="editmode-wrapper"
       :class="{'portal-category__tiles': useNativeHtmlList && editMode}"
     >
       <component
