@@ -14,6 +14,7 @@ describe('Mutation setFeatureToggles', () => {
       notifications_api: true,
       umc_session_refresh: false,
       welcome_message: false,
+      native_html_list: false,
     };
     const stubState = {};
     mutations.setFeatureToggles(stubState, featureToggleConfiguration);
