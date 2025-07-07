@@ -68,60 +68,63 @@
       </span>
     </h2>
     <component
-      :is="useNativeHtmlList ? 'ul' : 'div'"
-      :aria-labelledby="`tile-title-${layoutId}`"
-      :role="useNativeHtmlList ? undefined : 'list'"
-      :data-test="`portal-category__tiles-${layoutId}`"
-      class="portal-category__tiles"
-      :class="{'portal-category__tiles--editmode': editMode}"
+      :is="useNativeHtmlList && editMode ? 'div' : 'TemplateWrapper'"
+      :class="{'portal-category__tiles': useNativeHtmlList && editMode}"
     >
       <component
-        :is="useNativeHtmlList ? 'li' : 'div'"
-        v-for="tile in tiles"
-        :key="tile.id"
-        :role="useNativeHtmlList ? undefined : 'listitem'"
-        class="portal-category__tiles"
+        :is="useNativeHtmlList ? 'ul' : 'div'"
+        :aria-labelledby="`tile-title-${layoutId}`"
+        :role="useNativeHtmlList ? undefined : 'list'"
+        :data-test="`portal-category__tiles-${layoutId}`"
+        :class="{
+          'portal-category__tiles': !(editMode && useNativeHtmlList),
+          'portal-category__tiles--display-contents': editMode && useNativeHtmlList,
+          'portal-category__tiles--editmode': editMode
+        }"
       >
-        <portal-folder
-          v-if="tile.isFolder"
-          :id="tile.id"
-          :layout-id="tile.layoutId"
-          :dn="tile.dn"
-          :super-dn="dn"
-          :title="tile.title"
-          :tiles="tile.tiles"
-        />
-        <portal-tile
-          v-else
-          :id="tile.id"
-          :layout-id="tile.layoutId"
-          :dn="tile.dn"
-          :super-dn="dn"
-          :title="tile.title"
-          :description="tile.description"
-          :keywords="tile.keywords"
-          :activated="tile.activated"
-          :anonymous="tile.anonymous"
-          :background-color="tile.backgroundColor"
-          :links="tile.links"
-          :allowed-groups="tile.allowedGroups"
-          :link-target="tile.linkTarget"
-          :target="tile.target"
-          :original-link-target="tile.originalLinkTarget"
-          :path-to-logo="tile.pathToLogo"
-        />
+        <component
+          :is="useNativeHtmlList ? 'li' : 'div'"
+          v-for="tile in tiles"
+          :key="tile.id"
+          :role="useNativeHtmlList ? undefined : 'listitem'"
+          class="portal-category__tiles"
+        >
+          <portal-folder
+            v-if="tile.isFolder"
+            :id="tile.id"
+            :layout-id="tile.layoutId"
+            :dn="tile.dn"
+            :super-dn="dn"
+            :title="tile.title"
+            :tiles="tile.tiles"
+          />
+          <portal-tile
+            v-else
+            :id="tile.id"
+            :layout-id="tile.layoutId"
+            :dn="tile.dn"
+            :super-dn="dn"
+            :title="tile.title"
+            :description="tile.description"
+            :keywords="tile.keywords"
+            :activated="tile.activated"
+            :anonymous="tile.anonymous"
+            :background-color="tile.backgroundColor"
+            :links="tile.links"
+            :allowed-groups="tile.allowedGroups"
+            :link-target="tile.linkTarget"
+            :target="tile.target"
+            :original-link-target="tile.originalLinkTarget"
+            :path-to-logo="tile.pathToLogo"
+          />
+        </component>
       </component>
       <tile-add
-        v-if="editMode && !useNativeHtmlList"
+        v-if="editMode"
         :super-dn="dn"
         :super-layout-id="layoutId"
       />
     </component>
-    <tile-add
-      v-if="editMode && useNativeHtmlList"
-      :super-dn="dn"
-      :super-layout-id="layoutId"
-    />
   </div>
 </template>
 
@@ -131,6 +134,7 @@ import _ from '@/jsHelper/translate';
 import { mapGetters } from 'vuex';
 
 import TileAdd from '@/components/admin/TileAdd.vue';
+import TemplateWrapper from '@/components/globals/TemplateWrapper.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
@@ -147,6 +151,7 @@ export default defineComponent({
     PortalTile,
     PortalFolder,
     IconButton,
+    TemplateWrapper,
   },
   mixins: [
     Draggable,
@@ -233,6 +238,9 @@ export default defineComponent({
     grid-gap: calc(6 * var(--layout-spacing-unit))
     padding: 0
     margin: 0
+
+    &--display-contents
+      display: contents
 
     &--editmode
       margin-bottom: calc(var(--layout-spacing-unit) * 6);
