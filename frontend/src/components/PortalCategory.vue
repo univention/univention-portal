@@ -119,9 +119,14 @@
             :path-to-logo="tile.pathToLogo"
           />
         </component>
+        <tile-add
+          v-if="editMode && !useNativeHtmlList"
+          :super-dn="dn"
+          :super-layout-id="layoutId"
+        />
       </component>
       <tile-add
-        v-if="editMode"
+        v-if="editMode && useNativeHtmlList"
         :super-dn="dn"
         :super-layout-id="layoutId"
       />

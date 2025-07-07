@@ -55,55 +55,79 @@
       @keydown.esc.stop="closeFolder"
     >
       <component
-        :is="useNativeHtmlList ? 'ul' : 'div'"
-        :role="useNativeHtmlList ? undefined : 'region'"
-        :tabindex="useNativeHtmlList ? undefined : -1"
-        :aria-labelledby="`${id}-content`"
-        class="portal-folder__thumbnails"
-        :class="{ 'portal-folder__thumbnails--in-modal': inModal }"
-        data-test="portalFolder"
+        :is="useNativeHtmlList && editMode ? 'div' : 'TemplateWrapper'"
+        data-test="editmode-wrapper"
+        :class="{
+          'portal-folder__thumbnails': useNativeHtmlList && editMode,
+          'portal-folder__thumbnails--in-modal': inModal && useNativeHtmlList && editMode
+        }"
       >
         <component
-          :is="useNativeHtmlList ? 'li' : 'div'"
-          v-for="(tile, index) in filteredTiles"
-          :key="tile.id"
-          :class="`portal-folder__thumbnail ${isMoreThanFiveOrTen(index)}`"
+          :is="useNativeHtmlList ? 'ul' : 'div'"
+          :role="useNativeHtmlList ? undefined : 'region'"
+          :tabindex="useNativeHtmlList ? undefined : -1"
+          :aria-labelledby="`${id}-content`"
+          :class="{
+            'portal-folder__thumbnails': !(editMode && useNativeHtmlList),
+            'portal-folder__thumbnails--display-contents': editMode && useNativeHtmlList,
+            'portal-folder__thumbnails--in-modal': inModal && !(useNativeHtmlList && editMode)
+          }"
+          data-test="portalFolder"
         >
-          <portal-tile
-            :id="`${inModal ? 'modal-' : 'folder-'}${tile.id}`"
-            :ref="'portalFolderChildren' + index"
-            :layout-id="tile.layoutId"
-            :dn="tile.dn"
-            :super-dn="dn"
-            :title="tile.title"
-            :description="tile.description"
-            :keywords="tile.keywords"
-            :activated="tile.activated"
-            :anonymous="tile.anonymous"
-            :background-color="tile.backgroundColor"
-            :links="tile.links"
-            :allowed-groups="tile.allowedGroups"
-            :link-target="tile.linkTarget"
-            :target="tile.target"
-            :original-link-target="tile.originalLinkTarget"
-            :path-to-logo="tile.pathToLogo"
-            :minified="!inModal"
-            :from-folder="true"
-          />
+          <component
+            :is="useNativeHtmlList ? 'li' : 'div'"
+            v-for="(tile, index) in filteredTiles"
+            :key="tile.id"
+            :class="`portal-folder__thumbnail ${isMoreThanFiveOrTen(index)}`"
+          >
+            <portal-tile
+              :id="`${inModal ? 'modal-' : 'folder-'}${tile.id}`"
+              :ref="'portalFolderChildren' + index"
+              :layout-id="tile.layoutId"
+              :dn="tile.dn"
+              :super-dn="dn"
+              :title="tile.title"
+              :description="tile.description"
+              :keywords="tile.keywords"
+              :activated="tile.activated"
+              :anonymous="tile.anonymous"
+              :background-color="tile.backgroundColor"
+              :links="tile.links"
+              :allowed-groups="tile.allowedGroups"
+              :link-target="tile.linkTarget"
+              :target="tile.target"
+              :original-link-target="tile.originalLinkTarget"
+              :path-to-logo="tile.pathToLogo"
+              :minified="!inModal"
+              :from-folder="true"
+            />
+          </component>
+          <div
+            v-if="editMode && inModal && !useNativeHtmlList"
+            class="portal-folder__thumbnail portal-folder__thumbnail--tile-add"
+          >
+            <div class="portal-tile__root-element">
+              <tile-add
+                :for-folder="true"
+                :super-dn="dn"
+                :super-layout-id="layoutId"
+              />
+            </div>
+          </div>
         </component>
-      </component>
-      <div
-        v-if="editMode && inModal"
-        class="portal-folder__thumbnail portal-folder__thumbnail--tile-add"
-      >
-        <div class="portal-tile__root-element">
-          <tile-add
-            :for-folder="true"
-            :super-dn="dn"
-            :super-layout-id="layoutId"
-          />
+        <div
+          v-if="editMode && inModal && useNativeHtmlList"
+          class="portal-folder__thumbnail portal-folder__thumbnail--tile-add"
+        >
+          <div class="portal-tile__root-element">
+            <tile-add
+              :for-folder="true"
+              :super-dn="dn"
+              :super-layout-id="layoutId"
+            />
+          </div>
         </div>
-      </div>
+    </component>
     </tabindex-element>
     <span
       :id="`${id}-content`"
@@ -149,6 +173,7 @@ import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import IconButton from '@/components/globals/IconButton.vue';
+import TemplateWrapper from '@/components/globals/TemplateWrapper.vue';
 import TileAdd from '@/components/admin/TileAdd.vue';
 import { LocalizedString, Tile, TileOrFolder } from '@/store/modules/portalData/portalData.models';
 import _ from '@/jsHelper/translate';
@@ -163,6 +188,7 @@ export default defineComponent({
     TileAdd,
     TabindexElement,
     Region,
+    TemplateWrapper,
   },
   mixins: [
     Draggable,
@@ -399,6 +425,9 @@ export default defineComponent({
         display: flex
         align-content: center
         justify-content: center
+
+    &--display-contents
+      display: contents
 
     &--in-modal
       max-height: calc(100vh - var(--portal-header-height) - var(--portal-header-height) - var(--portal-header-height));
