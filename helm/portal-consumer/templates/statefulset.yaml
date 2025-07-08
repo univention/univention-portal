@@ -11,6 +11,9 @@ metadata:
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
     {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" $ ) | nindent 4 }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
 spec:
   serviceName: {{ include "common.names.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
@@ -22,7 +25,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config-common: {{ include (print $.Template.BasePath "/configmap-common.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/config-ucr: {{ include (print $.Template.BasePath "/configmap-ucr.yaml") . | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
@@ -31,9 +34,14 @@ spec:
       labels:
         {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" $ ) | nindent 8 }}
     spec:
-      {{- with .Values.portalConsumer.image.pullSecrets }}
+      {{- if or .Values.imagePullSecrets .Values.global.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        {{- range .Values.global.imagePullSecrets }}
+        - name: {{ . | quote }}
+        {{- end }}
+        {{- range .Values.imagePullSecrets }}
+        - name: {{ . | quote }}
+        {{- end }}
       {{- end }}
       {{- if .Values.podSecurityContext.enabled }}
       securityContext:
@@ -50,38 +58,39 @@ spec:
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: /var/secrets/ldap_password
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -97,38 +106,39 @@ spec:
           {{- end }}
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           volumeMounts:
             - name: scripts
               mountPath: /scripts
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: "/var/secrets/ldap_password"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -144,21 +154,21 @@ spec:
           {{- end }}
           command: ["/usr/bin/python3", "/scripts/wait-for-object-store.py"]
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           env:
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "accessKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secretKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
             {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
@@ -176,7 +186,7 @@ spec:
             {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           command: ["/bin/bash", "/scripts/wait-for-provisioning-api.sh"]
           volumeMounts:
             - name: scripts
@@ -185,11 +195,11 @@ spec:
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api-credentials" "context" .) | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           resources:
             {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
         - name: "univention-compatibility"
@@ -198,10 +208,10 @@ spec:
             {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           env:
             - name: REQUESTS_CA_BUNDLE
               value: "/etc/ssl/certs/ca-certificates.crt"
@@ -209,16 +219,16 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "accessKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secretKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api-credentials" "context" .) | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
           command:
             - sh
@@ -227,27 +237,28 @@ spec:
           volumeMounts:
             - name: etc-univention-volume
               mountPath: /target/etc/univention
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: "/var/secrets/ldap_password"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -260,10 +271,10 @@ spec:
             {{- $containerSecurityContext | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           envFrom:
             - configMapRef:
-                name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+                name: {{ include "common.names.fullname" . }}
           env:
             - name: REQUESTS_CA_BUNDLE
               value: "/etc/ssl/certs/ca-certificates.crt"
@@ -271,16 +282,16 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "accessKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secretKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api-credentials" "context" .) | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
             {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
@@ -297,27 +308,28 @@ spec:
               readOnly: true
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
-            {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/machine_secret"
+            - name: secret-ldap
+              mountPath: /var/secrets/ldap_password"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+            - name: secret-ldap
               mountPath: "/etc/machine.secret"
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
               readOnly: true
-            {{- end }}
+            - name: secret-udm
+              mountPath: /var/secrets/udm_api_password
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/ca_cert"
+              mountPath: "/var/secrets/ca_cert"
               subPath: ca.crt
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/cert_pem"
+              mountPath: "/var/secrets/cert_pem"
               subPath: cert.pem
               readOnly: true
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
-              mountPath: "{{ .Values.portalConsumer.secretMountPath }}/private_key"
+              mountPath: "/var/secrets/private_key"
               subPath: tls.key
               readOnly: true
             {{- end }}
@@ -338,12 +350,14 @@ spec:
           configMap:
             defaultMode: 0555
             name: {{ printf "%s-scripts" (include "common.names.fullname" .) }}
-        {{- if (include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .)) }}
-        - name: {{ printf "%s-credentials-volume" (include "common.names.fullname" .) }}
+        - name: secret-ldap
           secret:
             defaultMode: 0400
-            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "credentials" "context" .) | quote }}
-        {{- end }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "ldap" "context" .) | quote }}
+        - name: secret-udm
+          secret:
+            defaultMode: 0400
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) | quote }}
         {{- if .Values.ldap.tls.enabled }}
         - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
           secret:

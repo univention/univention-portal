@@ -8,8 +8,8 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
-  - project: "univention/customers/dataport/upx/common-ci"
-    ref: "main"
+  - project: "univention/dev/nubus-for-k8s/common-ci"
+    ref: "v1.42.1"
     file:
       - "defaults/stages.yaml"
       - "jobs/container-build-external.yaml"
@@ -39,7 +39,7 @@ test-notifications-api:
   script:
     - |
       cd notifications-api
-      pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml
+      pytest --cov=app --cov-report=term --cov-report=xml:coverage.xml tests/unit
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     reports:

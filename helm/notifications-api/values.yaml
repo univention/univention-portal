@@ -26,7 +26,10 @@ global:
   #             digest, and uses that image to launch the container.
   # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
   #            kubelet attempts to start the container; otherwise, startup fails.
-  imagePullPolicy: "IfNotPresent"
+  imagePullPolicy: null
+
+  # -- Container registry address.
+  imageRegistry: "artifacts.software-univention.de"
 
   configMapUcr: "stack-data-ums-ucr"
 
@@ -34,7 +37,7 @@ global:
   postgresql:
     connection:
       host: ""
-      port: 5432
+      port: ""
 
 # -- Additional custom annotations to add to all deployed objects.
 additionalAnnotations: {}
@@ -92,10 +95,10 @@ extraVolumeMounts: []
 fullnameOverride: ""
 
 image:
-  registry: "artifacts.software-univention.de"
+  registry: ""
   repository: "nubus-dev/images/notifications-api"
   tag: "0.26.3@sha256:cb7d92c78ca63105ff990f16a4f3b61f5d124d8a5661f3f55545234877ff195e"
-  imagePullPolicy: "IfNotPresent"
+  pullPolicy: ""
 
 # -- Credentials to fetch images from private registry.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -414,17 +417,16 @@ postgresql:
     # -- PostgreSQL host.
     host: ""
     # -- PostgreSQL port.
-    port: "5432"
+    port: ""
   auth:
     # -- PostgreSQL user.
-    username: ""
+    username: "notificationsapi"
     # -- PostgreSQL database.
-    database: ""
+    database: "notificationsapi"
     # -- PostgreSQL user password. (not yet supported)
     password: ""
     # -- PostgreSQL password secret reference. (currently required)
     existingSecret:
       name: ""
-      # keyMapping:
-      #   password: null
-...
+      keyMapping:
+        password: null

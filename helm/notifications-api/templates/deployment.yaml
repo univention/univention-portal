@@ -8,10 +8,7 @@ metadata:
   name: "{{ include "common.names.fullname" . }}"
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.additionalLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
-    {{- end }}
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
   {{- if .Values.additionalAnnotations }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
   {{- end }}
@@ -61,24 +58,37 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
       containers:
-        - name: "notification-api"
+        - name: "main"
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
-            - name: DB_USERNAME
-              value: {{ tpl .Values.postgresql.auth.username . | quote }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ tpl .Values.postgresql.auth.existingSecret.name . | quote }}
-                  key: {{ include "common.secrets.key" (dict "existingSecret" .Values.postgresql.auth.existingSecret "key" "password") | quote }}
-            - name: DATABASE
-              value: {{ include "notifications-api.postgresql.auth.database" .| quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.postgresql.auth.existingSecret "defaultNameSuffix" "postgresql" "context" .) | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.postgresql.auth.existingSecret "key" "password") | quote }}
             - name: DATABASE_URL
-              value: {{ include "notifications-api.postgresql.connection.url" . | quote }}
+              {{- $postgresqlUsername := required
+                "A PostgreSQL username has to be supplied, see parameter postgresql.auth."
+                .Values.postgresql.auth.username }}
+              {{- $postgresqlDatabase := required
+                "A PostgreSQL database has to be supplied, see parameter postgresql.auth."
+                .Values.postgresql.auth.database }}
+              {{- $postgresqlHost := required
+                "A PostgreSQL connection has to be configured, see parameter postgresql.connection.host."
+                ( coalesce .Values.postgresql.connection.host .Values.global.postgresql.connection.host ) }}
+              {{- /* NOTE: The value depends on parameter substitution of Kubernetes. */}}
+              value: {{
+                printf "postgresql://%s:$(DB_PASSWORD)@%s:%s/%s"
+                  ( tpl $postgresqlUsername . )
+                  ( tpl $postgresqlHost . )
+                  ( tpl ( coalesce .Values.postgresql.connection.port
+                                  .Values.global.postgresql.connection.port
+                                  "5432" ) . )
+                  ( tpl $postgresqlDatabase . ) | quote }}
           envFrom:
             - configMapRef:
                 name: "{{ include "common.names.fullname" . }}"

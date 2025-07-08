@@ -42,7 +42,7 @@ helm uninstall portal-server
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://artifacts.software-univention.de/nubus/charts | nubus-common | ^0.12.x |
+| oci://artifacts.software-univention.de/nubus/charts | nubus-common | 0.21.0 |
 
 ## Values
 
@@ -233,7 +233,7 @@ true
 			<td>global.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"IfNotPresent"
+null
 </pre>
 </td>
 			<td>Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.</td>
@@ -275,7 +275,7 @@ null
 			<td>Global default for the URL via which the UDM Rest API can be reached. See "udm.connection.url".</td>
 		</tr>
 		<tr>
-			<td>image.imagePullPolicy</td>
+			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -525,16 +525,16 @@ true
 			<td>User for the object storage.</td>
 		</tr>
 		<tr>
-			<td>objectStorage.auth.existingSecret.keyMapping.accessKey</td>
+			<td>objectStorage.auth.existingSecret.keyMapping.access_key_id</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
 </pre>
 </td>
-			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
+			<td></td>
 		</tr>
 		<tr>
-			<td>objectStorage.auth.existingSecret.keyMapping.secretKey</td>
+			<td>objectStorage.auth.existingSecret.keyMapping.secret_key</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -739,16 +739,7 @@ null
 			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.enabled</td>
-			<td>bool</td>
-			<td><pre lang="json">
-true
-</pre>
-</td>
-			<td>Activate the shared secret authenticator for the portal, instead of the UMC session cookie one. This allows 3rd party apps to authenticate against the portal server to get the central navigation.</td>
-		</tr>
-		<tr>
-			<td>portalServer.centralNavigation.existingSecret.keyMapping.password</td>
+			<td>portalServer.centralNavigation.auth.existingSecret.keyMapping.shared_secret</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -757,7 +748,7 @@ null
 			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.existingSecret.name</td>
+			<td>portalServer.centralNavigation.auth.existingSecret.name</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -766,13 +757,22 @@ null
 			<td>The name of an existing Secret to use for retrieving the secret to use as central navigation shared secret.  "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.</td>
 		</tr>
 		<tr>
-			<td>portalServer.centralNavigation.sharedSecret</td>
+			<td>portalServer.centralNavigation.auth.sharedSecret</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
 </pre>
 </td>
 			<td>The shared secret to use for authenticating against the portal server.</td>
+		</tr>
+		<tr>
+			<td>portalServer.centralNavigation.enabled</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Activate the shared secret authenticator for the portal, instead of the UMC session cookie one. This allows 3rd party apps to authenticate against the portal server to get the central navigation.</td>
 		</tr>
 		<tr>
 			<td>portalServer.editable</td>
@@ -821,14 +821,23 @@ null
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "feedType": "",
   "feedUrl": {},
-  "feedtype": "",
   "homeUrl": {},
   "icsSilentLoginUrl": null
 }
 </pre>
 </td>
 			<td>Newsfeed configuration. This feature is currently behind a feature toggle, see "portalServer.featureToggles.newsfeed". The configuration is only applied if the toggle is enabled.</td>
+		</tr>
+		<tr>
+			<td>portalServer.newsfeed.feedType</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>The supported feed type. Must be "xwiki" or "wordpress".</td>
 		</tr>
 		<tr>
 			<td>portalServer.newsfeed.feedUrl</td>
@@ -838,15 +847,6 @@ null
 </pre>
 </td>
 			<td>The source of the feed. This is a mapping from the locale (e.g. "en_US") to URL (e.g. "https://blog.example/feed").</td>
-		</tr>
-		<tr>
-			<td>portalServer.newsfeed.feedtype</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>The supported feed type. Must be "xwiki" or "wordpress".</td>
 		</tr>
 		<tr>
 			<td>portalServer.newsfeed.homeUrl</td>

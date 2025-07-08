@@ -42,7 +42,7 @@ helm uninstall portal-consumer
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://artifacts.software-univention.de/nubus/charts | nubus-common | ^0.12.x |
+| oci://artifacts.software-univention.de/nubus/charts | nubus-common | 0.21.0 |
 
 ## Values
 
@@ -215,7 +215,7 @@ true
 			<td>global.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"IfNotPresent"
+null
 </pre>
 </td>
 			<td>Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.</td>
@@ -239,6 +239,24 @@ true
 			<td>Container registry address.</td>
 		</tr>
 		<tr>
+			<td>global.ldap.connection.host</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>global.ldap.connection.port</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>global.nubusDeployment</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -248,21 +266,67 @@ false
 			<td>Indicates wether this chart is part of a Nubus deployment.</td>
 		</tr>
 		<tr>
-			<td>ldap.auth</td>
-			<td>object</td>
+			<td>global.udm.connection.url</td>
+			<td>string</td>
 			<td><pre lang="json">
-{
-  "existingSecret": {
-    "keyMapping": {
-      "password": null
-    },
-    "name": null
-  },
-  "password": null
-}
+null
 </pre>
 </td>
-			<td>Optional reference to a different secret containing credentials</td>
+			<td>Global default for the URL via which the UDM Rest API can be reached. See "udm.connection.url".</td>
+		</tr>
+		<tr>
+			<td>ldap.auth.bindDn</td>
+			<td>string</td>
+			<td><pre lang="json">
+"cn=admin,{{ include \"portal-consumer.ldapBaseDn\" . }}"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.auth.existingSecret.keyMapping.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.auth.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.connection.host</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ldap.connection.port</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td></td>
 		</tr>
 		<tr>
 			<td>ldap.tls.enabled</td>
@@ -337,16 +401,16 @@ null
 			<td>User for the object storage. Secret will be created if existingSecret is not set.</td>
 		</tr>
 		<tr>
-			<td>objectStorage.auth.existingSecret.keyMapping.accessKey</td>
+			<td>objectStorage.auth.existingSecret.keyMapping.access_key_id</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
 </pre>
 </td>
-			<td>The key to retrieve the secret from. Setting this value allows to use a key with a different name.</td>
+			<td></td>
 		</tr>
 		<tr>
-			<td>objectStorage.auth.existingSecret.keyMapping.secretKey</td>
+			<td>objectStorage.auth.existingSecret.keyMapping.secret_key</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
@@ -474,26 +538,16 @@ true
   "editable": "true",
   "environment": "production",
   "image": {
-    "imagePullPolicy": "IfNotPresent",
+    "pullPolicy": "",
     "registry": "",
     "repository": "nubus-dev/images/portal-consumer",
     "tag": "latest"
   },
-  "ldapBaseDn": null,
-  "ldapHost": null,
-  "ldapHostDn": null,
-  "ldapPort": "",
   "logLevel": "INFO",
-  "machineSecret": null,
-  "machineSecretFile": "/var/secrets/machine_secret",
   "port": "80",
   "portalDefaultDn": null,
-  "secretMountPath": "/var/secrets",
   "tlsMode": "off",
   "ucsInternalPath": "portal-data",
-  "udmApiSecretFile": "/var/secrets/machine_secret",
-  "udmApiUrl": "{{- printf \"http://%s-udm-rest-api:9979/udm/\" .Release.Name }}",
-  "udmApiUsername": "cn=admin",
   "umcGetUrl": "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}",
   "umcSessionUrl": "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
 }
@@ -583,60 +637,6 @@ null
 			<td>TODO: Clarify usage of this parameter</td>
 		</tr>
 		<tr>
-			<td>portalConsumer.ldapBaseDn</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>Base DN of the LDAP directory</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.ldapHost</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>Hostname of the LDAP server</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.ldapHostDn</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>DN of the UCS machine</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.ldapPort</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Port to connect to the LDAP server.</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.machineSecret</td>
-			<td>string</td>
-			<td><pre lang="json">
-null
-</pre>
-</td>
-			<td>LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.machineSecretFile</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/secrets/machine_secret"
-</pre>
-</td>
-			<td>The path to the "machineSecretFile" docker secret or a plain file</td>
-		</tr>
-		<tr>
 			<td>portalConsumer.portalDefaultDn</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -644,15 +644,6 @@ null
 </pre>
 </td>
 			<td>DN of the default portal</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.secretMountPath</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/secrets"
-</pre>
-</td>
-			<td>Path to mount the secrets to.</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.tlsMode</td>
@@ -671,33 +662,6 @@ null
 </pre>
 </td>
 			<td>Define UCS internal endpoint where the portal, selfservice and groups are defined Example: `"https://portal.example.com/univention/internal"`</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.udmApiSecretFile</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/var/secrets/machine_secret"
-</pre>
-</td>
-			<td>UDM API password file.    Default: same as `machineSecretFile`.</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.udmApiUrl</td>
-			<td>string</td>
-			<td><pre lang="json">
-"{{- printf \"http://%s-udm-rest-api:9979/udm/\" .Release.Name }}"
-</pre>
-</td>
-			<td>UDM API connection URL</td>
-		</tr>
-		<tr>
-			<td>portalConsumer.udmApiUsername</td>
-			<td>string</td>
-			<td><pre lang="json">
-"cn=admin"
-</pre>
-</td>
-			<td>UDM API username.</td>
 		</tr>
 		<tr>
 			<td>portalConsumer.umcGetUrl</td>
@@ -884,14 +848,14 @@ null
 			<td>object</td>
 			<td><pre lang="json">
 {
-  "baseUrl": ""
+  "url": ""
 }
 </pre>
 </td>
 			<td>Connection parameters</td>
 		</tr>
 		<tr>
-			<td>provisioningApi.connection.baseUrl</td>
+			<td>provisioningApi.connection.url</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -945,6 +909,74 @@ null
 			<td></td>
 		</tr>
 		<tr>
+			<td>udm</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "auth": {
+    "existingSecret": {
+      "keyMapping": {
+        "password": null
+      },
+      "name": null
+    },
+    "password": null,
+    "username": "cn=admin"
+  },
+  "connection": {
+    "url": null
+  }
+}
+</pre>
+</td>
+			<td>Configuration of the UDM Rest API access</td>
+		</tr>
+		<tr>
+			<td>udm.auth.existingSecret.keyMapping.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The key to retrieve the password from. Setting this value allows to use a key with a different name.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The name of an existing Secret to use for retrieving the password to use with the UDM Rest API.  "udm.auth.password" will be ignored if this value is set.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The password used to authenticate with the UDM Rest API. Either this value or an existing Secret has to be specified.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.username</td>
+			<td>string</td>
+			<td><pre lang="json">
+"cn=admin"
+</pre>
+</td>
+			<td>The username to authenticate with the UDM Rest API.</td>
+		</tr>
+		<tr>
+			<td>udm.connection.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The URL of the UDM Rest API.  Will use "global.udm.connection.url" as a default if this value is not specified.  Example: "http://udm-rest-api:9979/udm"</td>
+		</tr>
+		<tr>
 			<td>waitForDependency.extraEnvVars</td>
 			<td>list</td>
 			<td><pre lang="json">
@@ -972,10 +1004,10 @@ null
 			<td>Optionally specify an extra list of additional volumes.</td>
 		</tr>
 		<tr>
-			<td>waitForDependency.image.imagePullPolicy</td>
+			<td>waitForDependency.image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"IfNotPresent"
+""
 </pre>
 </td>
 			<td></td>
@@ -1002,7 +1034,7 @@ null
 			<td>waitForDependency.image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0.30.0@sha256:fa804c2a10aa42439bf3f388007d7e55c046d6da6dc8a74c27f5a989fd422c8d"
+"0.32.1@sha256:44d45067e1d4e7a00d3b651e56df5177087e3206368a45cd1816d78ba7b21347"
 </pre>
 </td>
 			<td></td>

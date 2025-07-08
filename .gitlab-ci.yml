@@ -4,8 +4,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 
 include:
-  - project: "univention/customers/dataport/upx/common-ci"
-    ref: "main"
+  - project: "univention/dev/nubus-for-k8s/common-ci"
+    ref: "v1.43.3"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -13,6 +13,7 @@ include:
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/check-debian-updates.yaml"
+      - "templates/sonarqube.yaml"
 
 lint-pre-commit:
   before_script:
@@ -135,5 +136,9 @@ check-debian-updates:
       if [[ "${USERNAME}" != "root" ]]; then
         echo "ERROR: running as ${USERNAME} but root is requiered"
       fi
+
+sonarqube:
+  extends: .sonarqube
+  needs: []
 
 ...

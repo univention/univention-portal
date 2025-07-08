@@ -10,7 +10,8 @@
 portalServer:
   adminGroup: "cn=Domain Admins,cn=groups,dc=univention,dc=test"
   centralNavigation:
-    sharedSecret: "stub-authenticator-secret-name"
+    auth:
+      sharedSecret: "stub-central-navigation-shared-secret"
   environment: "staging"
   logLevel: "DEBUG"
   ucsInternalUrl: "https://portal.example.develop.souvap-univention.de/univention/internal"

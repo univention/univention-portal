@@ -8,8 +8,8 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
-  - project: "univention/customers/dataport/upx/common-ci"
-    ref: "main"
+  - project: "univention/dev/nubus-for-k8s/common-ci"
+    ref: "v1.42.1"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
@@ -18,7 +18,7 @@ include:
 
 generate-joinscript-data:
   stage: "prepare"
-  image: "gitregistry.knut.univention.de/univention/customers/dataport/upx/stack-data/joinscript-tools:latest"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/stack-data/joinscript-tools:latest"
   needs: []
   script:
     - |
@@ -117,7 +117,7 @@ test-portal-server:
 test-chart-portal-server:
   stage: test
   needs: []
-  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.2"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.21.1"
   script:
     - helm dep build helm/portal-server
     - pytest portal-server/tests/chart
@@ -125,7 +125,7 @@ test-chart-portal-server:
 test-chart-portal-consumer:
   stage: test
   needs: []
-  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.12.2"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.21.1"
   script:
     - helm dep build helm/portal-consumer
     - pytest portal-consumer/tests/chart

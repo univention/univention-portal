@@ -1,3 +1,16 @@
+univention-portal (6.1.2) unstable; urgency=medium
+
+  * Bug #58280: make hiding of FQDN and server address in meta.json configurable
+
+ -- Ivan Barbecho Delgado <ivan.delgado@univention.de>  Tue, 20 May 2025 11:12:32 +0200
+
+univention-portal (6.1.1) unstable; urgency=medium
+
+  * Bug #58311: sanitize descriptions for different components
+  * Bug #58015 UCS 5.2-1 version bump
+
+ -- Christian Castens <castens@univention.de>  Mon, 03 Mar 2025 10:45:33 +0100
+
 univention-portal (6.0.13) unstable; urgency=medium
 
   * Bug #57731: add optional id attribute to self-service components
