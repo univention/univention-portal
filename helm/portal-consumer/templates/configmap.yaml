@@ -5,13 +5,10 @@
 kind: "ConfigMap"
 apiVersion: "v1"
 metadata:
-  name: {{ printf "%s-common" (include "common.names.fullname" .) }}
+  name: {{ include "common.names.fullname" . }}
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.additionalLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
-    {{- end }}
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
   {{- if .Values.additionalAnnotations }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
   {{- end }}
@@ -19,12 +16,11 @@ data:
   DOMAIN_NAME: {{ include "portal-consumer.ldapDomainName" . | quote }}
   ENVIRONMENT: "{{ .Values.portalConsumer.environment }}"
   LDAP_BASE_DN: {{ required "The parameter \"portal-consumer.ldapBaseDn\" is required." (include "portal-consumer.ldapBaseDn" .) | quote }}
-  LDAP_HOST: {{ required "The parameter \"portal-consumer.ldap.connection.host\" is required." (include "portal-consumer.ldap.connection.host" .) | quote }}
-  LDAP_HOST_DN: {{ required "The parameter \"portal-consumer.ldapAdminDn\" is required." (include "portal-consumer.ldapAdminDn" .) | quote }}
-  LDAP_PORT: {{ required "The parameter \"portal-consumer.ldap.connection.port\" is required." (include "portal-consumer.ldap.connection.port" .) | quote }}
+  LDAP_HOST: {{ include "portal-consumer.ldap.connection.host" . | quote }}
+  LDAP_HOST_DN: {{ tpl ( required "The parameter \"ldap.auth.bindDn\" is required." .Values.ldap.auth.bindDn ) . | quote }}
+  LDAP_PORT: {{ include "portal-consumer.ldap.connection.port" . | quote }}
   LOG_LEVEL: {{ required "The parameter \".Values.portalConsumer.logLevel\" is required." .Values.portalConsumer.logLevel | quote }}
   MAX_ACKNOWLEDGEMENT_RETRIES: {{ required "The parameter \".Values.provisioningApi.config.maxAcknowledgementRetries\" is required." .Values.provisioningApi.config.maxAcknowledgementRetries | quote }}
-  MACHINE_SECRET_FILE: "{{ .Values.portalConsumer.machineSecretFile }}"
   PORTAL_DEFAULT_DN: {{ include "portal-consumer.portalDefaultDn" . | quote }}
   PORTAL_CONSUMER_LOG_STREAM: "true"
   PORTAL_ASSETS_BASE_URL: {{ .Values.portalConsumer.assetsBaseUrl | quote }}
@@ -36,13 +32,17 @@ data:
   PORTAL_SERVER_UCS_INTERNAL_PATH: {{ required "The parameter \"portalConsumer.ucsInternalPath\" is required." .Values.portalConsumer.ucsInternalPath | quote }}
   PORTAL_SERVER_UMC_GET_URL: "{{- tpl (required "The parameter \"portalConsumer.umcGetUrl\" is required." .Values.portalConsumer.umcGetUrl) . -}}"
   PORTAL_SERVER_UMC_SESSION_URL: "{{- tpl (required "The parameter \"portalConsumer.umcSessionUrl\" is required." .Values.portalConsumer.umcSessionUrl) . -}}"
-  PORTAL_UDM_API_URL: "{{- tpl (required "The parameter \"portalConsumer.udmApiUrl\" is required." .Values.portalConsumer.udmApiUrl) . -}}"
-  PORTAL_UDM_API_USERNAME: "{{- tpl (required "The parameter \"portalConsumer.udmApiUsername\" is required." .Values.portalConsumer.udmApiUsername) . -}}"
-  PORTAL_UDM_API_PASSWORD_FILE: "{{- tpl (required "The parameter \"portalConsumer.udmApiSecretFile\" is required." .Values.portalConsumer.udmApiSecretFile) . -}}"
+  {{- $udmConnectionUrl := required
+        "The UDM Rest API connection has to be configured, udm.connection.url."
+        (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) }}
+  PORTAL_UDM_API_URL: {{ tpl $udmConnectionUrl . | quote }}
+  {{- $udmAuthUsername := required "A UDM username has to be supplied, see parameter udm.auth." .Values.udm.auth.username }}
+  PORTAL_UDM_API_USERNAME: {{ tpl $udmAuthUsername . | quote }}
+  PORTAL_UDM_API_PASSWORD_FILE: "/var/secrets/udm_api_password"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
   OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}
   CA_CERT: "{{ .Values.portalConsumer.caCert }}"
   CA_CERT_FILE: "{{ .Values.portalConsumer.caCertFile }}"
   TLS_MODE: "{{ .Values.portalConsumer.tlsMode }}"
-  PROVISIONING_API_BASE_URL: "{{- tpl (required ".Values.provisioningApi.connection.baseUrl must be defined." .Values.provisioningApi.connection.baseUrl) . -}}"
-  PROVISIONING_API_USERNAME: "{{- tpl (required ".Values.provisioningApi.auth.username must be defined." .Values.provisioningApi.auth.username) . -}}"
+  PROVISIONING_API_BASE_URL: "{{- tpl (required "The Provisioning API connection has to be configured, provisioningApi.connection.url." .Values.provisioningApi.connection.url) . -}}"
+  PROVISIONING_API_USERNAME: "{{- tpl (required "A Provisioning API username has to be supplied, see parameter provisioningApi.auth.username" .Values.provisioningApi.auth.username) . -}}"

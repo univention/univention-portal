@@ -27,7 +27,7 @@ global:
   #             digest, and uses that image to launch the container.
   # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
   #            kubelet attempts to start the container; otherwise, startup fails.
-  imagePullPolicy: "IfNotPresent"
+  imagePullPolicy: null
 
   configMapUcr: "stack-data-ums-ucr"
 
@@ -96,7 +96,7 @@ image:
   registry: ""
   repository: "nubus-dev/images/portal-server"
   tag: "0.26.3@sha256:e3147110fb743d064e38cb48d96820e8b984d813154fb06fdb0d8b9fd2ffaeca"
-  imagePullPolicy: ""
+  pullPolicy: ""
 
 # -- Credentials to fetch images from private registry.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -215,10 +215,8 @@ objectStorage:
       # ignored if this value is set.
       name: null
       keyMapping:
-        # -- The key to retrieve the secret from. Setting this value allows to use
-        # a key with a different name.
-        accessKey: null
-        secretKey: null
+        access_key_id: null
+        secret_key: null
 
 # Database persistence settings.
 persistence:
@@ -484,18 +482,19 @@ portalServer:
     # UMC session cookie one. This allows 3rd party apps to authenticate against
     # the portal server to get the central navigation.
     enabled: true
-    # -- The shared secret to use for authenticating against the portal server.
-    sharedSecret: null
-    existingSecret:
-      # -- The name of an existing Secret to use for retrieving the secret
-      # to use as central navigation shared secret.
-      #
-      # "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.
-      name: null
-      keyMapping:
-        # -- The key to retrieve the secret from. Setting this value allows to use
-        # a key with a different name.
-        password: null
+    auth:
+      # -- The shared secret to use for authenticating against the portal server.
+      sharedSecret: null
+      existingSecret:
+        # -- The name of an existing Secret to use for retrieving the secret
+        # to use as central navigation shared secret.
+        #
+        # "portalServer.centralNavigation.sharedSecret" will be ignored if this value is set.
+        name: null
+        keyMapping:
+          # -- The key to retrieve the secret from. Setting this value allows to use
+          # a key with a different name.
+          shared_secret: null
 
   # -- Newsfeed configuration. This feature is currently behind a feature toggle, see
   # "portalServer.featureToggles.newsfeed". The configuration is only applied if the toggle
@@ -505,7 +504,7 @@ portalServer:
     # of the feature toggles. Compare "centralNavigation".
 
     # -- The supported feed type. Must be "xwiki" or "wordpress".
-    feedtype: ""
+    feedType: ""
     # -- The source of the feed. This is a mapping from the locale
     # (e.g. "en_US") to URL (e.g. "https://blog.example/feed").
     feedUrl: {}

@@ -37,7 +37,7 @@ helm uninstall notifications-api
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://artifacts.software-univention.de/nubus/charts | nubus-common | ^0.12.x |
+| oci://artifacts.software-univention.de/nubus/charts | nubus-common | 0.21.0 |
 
 ## Values
 
@@ -228,7 +228,7 @@ true
 			<td>global.imagePullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"IfNotPresent"
+null
 </pre>
 </td>
 			<td>Define an ImagePullPolicy.  Ref.: https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy  "IfNotPresent" => The image is pulled only if it is not already present locally. "Always" => Every time the kubelet launches a container, the kubelet queries the container image registry to             resolve the name to an image digest. If the kubelet has a container image with that exact digest cached             locally, the kubelet uses its cached image; otherwise, the kubelet pulls the image with the resolved             digest, and uses that image to launch the container. "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the            kubelet attempts to start the container; otherwise, startup fails.</td>
@@ -241,6 +241,15 @@ true
 </pre>
 </td>
 			<td>Credentials to fetch images from private registry. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  imagePullSecrets:   - "docker-registry"</td>
+		</tr>
+		<tr>
+			<td>global.imageRegistry</td>
+			<td>string</td>
+			<td><pre lang="json">
+"artifacts.software-univention.de"
+</pre>
+</td>
+			<td>Container registry address.</td>
 		</tr>
 		<tr>
 			<td>global.nubusDeployment</td>
@@ -258,7 +267,7 @@ false
 {
   "connection": {
     "host": "",
-    "port": 5432
+    "port": ""
   }
 }
 </pre>
@@ -266,10 +275,10 @@ false
 			<td>Configuration for the PostgreSQL database</td>
 		</tr>
 		<tr>
-			<td>image.imagePullPolicy</td>
+			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
-"IfNotPresent"
+""
 </pre>
 </td>
 			<td></td>
@@ -278,7 +287,7 @@ false
 			<td>image.registry</td>
 			<td>string</td>
 			<td><pre lang="json">
-"artifacts.software-univention.de"
+""
 </pre>
 </td>
 			<td></td>
@@ -715,16 +724,19 @@ true
 			<td><pre lang="json">
 {
   "auth": {
-    "database": "",
+    "database": "notificationsapi",
     "existingSecret": {
+      "keyMapping": {
+        "password": null
+      },
       "name": ""
     },
     "password": "",
-    "username": ""
+    "username": "notificationsapi"
   },
   "connection": {
     "host": "",
-    "port": "5432"
+    "port": ""
   }
 }
 </pre>
@@ -735,7 +747,7 @@ true
 			<td>postgresql.auth.database</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+"notificationsapi"
 </pre>
 </td>
 			<td>PostgreSQL database.</td>
@@ -745,6 +757,9 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "keyMapping": {
+    "password": null
+  },
   "name": ""
 }
 </pre>
@@ -764,7 +779,7 @@ true
 			<td>postgresql.auth.username</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+"notificationsapi"
 </pre>
 </td>
 			<td>PostgreSQL user.</td>
@@ -775,7 +790,7 @@ true
 			<td><pre lang="json">
 {
   "host": "",
-  "port": "5432"
+  "port": ""
 }
 </pre>
 </td>
@@ -794,7 +809,7 @@ true
 			<td>postgresql.connection.port</td>
 			<td>string</td>
 			<td><pre lang="json">
-"5432"
+""
 </pre>
 </td>
 			<td>PostgreSQL port.</td>

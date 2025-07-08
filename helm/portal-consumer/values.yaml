@@ -26,11 +26,18 @@ global:
   #             digest, and uses that image to launch the container.
   # "Never" => The kubelet does not try fetching the image. If the image is somehow already present locally, the
   #            kubelet attempts to start the container; otherwise, startup fails.
-  imagePullPolicy: "IfNotPresent"
+  imagePullPolicy: null
 
-# Default values for univention-portal-consumer
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+  ldap:
+    connection:
+      host: null
+      port: null
+
+  udm:
+    connection:
+      # -- Global default for the URL via which the UDM Rest API can be reached.
+      # See "udm.connection.url".
+      url: null
 
 ## Global values
 affinity: {}
@@ -115,30 +122,9 @@ portalConsumer:
   # -- TODO: Clarify usage of this parameter
   environment: "production"
 
-  # -- Base DN of the LDAP directory
-  ldapBaseDn: null
-  # -- Hostname of the LDAP server
-  ldapHost: null
-  # -- DN of the UCS machine
-  ldapHostDn: null
-  # -- Port to connect to the LDAP server.
-  ldapPort: ""
-
   logLevel: "INFO"
-  # -- LDAP password for `ldapHostDn`. Will be written to "machineSecretFile" if set.
-  machineSecret: null
-  # -- The path to the "machineSecretFile" docker secret or a plain file
-  machineSecretFile: "/var/secrets/machine_secret"
   # -- DN of the default portal
   portalDefaultDn: null
-
-  # -- UDM API connection URL
-  udmApiUrl: '{{- printf "http://%s-udm-rest-api:9979/udm/" .Release.Name }}'
-  # -- UDM API username.
-  udmApiUsername: "cn=admin"
-  # -- UDM API password file.
-  #    Default: same as `machineSecretFile`.
-  udmApiSecretFile: "/var/secrets/machine_secret"
 
   # -- Define UCS internal endpoint where the portal, selfservice and groups are defined
   # Example: `"https://portal.example.com/univention/internal"`
@@ -149,13 +135,11 @@ portalConsumer:
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
   umcSessionUrl: "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
-  # -- Path to mount the secrets to.
-  secretMountPath: "/var/secrets"
 
   image:
     registry: ""
     repository: "nubus-dev/images/portal-consumer"
-    imagePullPolicy: "IfNotPresent"
+    pullPolicy: ""
     tag: "latest"
 
 # Configuration for the communication with the provisioning API.
@@ -166,7 +150,7 @@ provisioningApi:
   # -- Connection parameters
   connection:
     # -- The base URL the provisioning API is reachable at. (e.g. "https://provisioning-api")
-    baseUrl: ""
+    url: ""
   # -- Authentication parameters
   auth:
     # -- The username to authenticate with. A secret will be created if existingSecret is not set.
@@ -192,9 +176,9 @@ extraVolumeMounts: []
 waitForDependency:
   image:
     registry: ""
-    imagePullPolicy: "IfNotPresent"
+    pullPolicy: ""
     repository: "nubus/images/wait-for-dependency"
-    tag: "0.30.0@sha256:fa804c2a10aa42439bf3f388007d7e55c046d6da6dc8a74c27f5a989fd422c8d"
+    tag: "0.32.1@sha256:44d45067e1d4e7a00d3b651e56df5177087e3206368a45cd1816d78ba7b21347"
 
   # -- Array with extra environment variables to add to containers.
   extraEnvVars: []
@@ -224,10 +208,8 @@ objectStorage:
       # ignored if this value is set.
       name: null
       keyMapping:
-        # -- The key to retrieve the secret from. Setting this value allows to use
-        # a key with a different name.
-        accessKey: null
-        secretKey: null
+        access_key_id: null
+        secret_key: null
 
 ## Container deployment probes
 probes:
@@ -272,8 +254,11 @@ persistence:
 
 
 ldap:
-  # -- Optional reference to a different secret containing credentials
+  connection:
+    host: null
+    port: null
   auth:
+    bindDn: 'cn=admin,{{ include "portal-consumer.ldapBaseDn" . }}'
     password: null
     existingSecret:
       name: null
@@ -289,3 +274,30 @@ ldap:
         ca.crt: null
         tls.crt: null
         tls.key: null
+
+
+# -- Configuration of the UDM Rest API access
+udm:
+  connection:
+    # -- The URL of the UDM Rest API.
+    #
+    # Will use "global.udm.connection.url" as a default if this value is not specified.
+    #
+    # Example: "http://udm-rest-api:9979/udm"
+    url: null
+  auth:
+    # -- The username to authenticate with the UDM Rest API.
+    username: "cn=admin"
+    # -- The password used to authenticate with the UDM Rest API.
+    # Either this value or an existing Secret has to be specified.
+    password: null
+    existingSecret:
+      # -- The name of an existing Secret to use for retrieving the password
+      # to use with the UDM Rest API.
+      #
+      # "udm.auth.password" will be ignored if this value is set.
+      name: null
+      keyMapping:
+        # -- The key to retrieve the password from. Setting this value allows to use
+        # a key with a different name.
+        password: null

@@ -13,28 +13,20 @@ portalConsumer:
   logLevel: "DEBUG"
   umcGetUrl: "http://umc-server/get"
   umcSessionUrl: "http://umc-server/get/session-info"
-  machineSecret: "password"
-  machineSecretFile: "/var/secrets/machine_secret"
   ucsInternalPath: "portal-data"
   assetsRootPath: "portal-assets"
   tlsMode: "unvalidated"
   objectStorageAccessKeyId: "stub_user"
   objectStorageSecretAccessKey: "stub_password"
-  ldapBaseDn: "example.test"
   ldapHost: "ldap.example.test"
   ldapHostDn: "example.test"
   ldapPort: "437"
-  ldapHost: "ldap-server"
-  ldapPort: "7389"
-  udmApiUrl: "http://udm-server/udm"
 
 provisioningApi:
   connection:
-    baseUrl: "http://provisioning-api-server"
+    url: "http://provisioning-api-server"
   auth:
-    username: "portal-consumer"
-    password: "password"
-    existingSecret: null
+    password: "linter-password"
 
 objectStorage:
   endpoint: "http://minio:9000"
@@ -64,11 +56,18 @@ probes:
     enabled: false
 
 ldap:
-  # TLS configuration for the OpenLDAP server
+  connection:
+    host: "ldap-server"
+    port: "7389"
   auth:
     password: "ldapPassword"
     existingSecret: null
-
   tls:
     enabled: true
     existingSecret: null
+
+udm:
+  connection:
+    url: "http://udm-rest-api:9979/udm"
+  auth:
+    password: "stub-linter-value"

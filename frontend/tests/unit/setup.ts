@@ -4,6 +4,10 @@
  */
 
 import process from 'process';
+import { config } from '@vue/test-utils';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+
+config.global.plugins.push(VueDOMPurifyHTML);
 
 process.on('unhandledRejection', (reason) => {
   console.error('unhandledRejection', reason);

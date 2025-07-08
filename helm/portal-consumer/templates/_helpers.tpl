@@ -8,40 +8,24 @@ Templates defined in other Helm sub-charts are imported to be used to configure 
 If the value .Values.global.nubusDeployment equates to true, the defined templates are imported.
 */}}
 
-{{- define "portal-consumer.ldapBaseDn" -}}
-{{- if .Values.portalConsumer.ldapBaseDn -}}
-{{- .Values.portalConsumer.ldapBaseDn -}}
-{{- else if .Values.global.nubusDeployment -}}
-{{- include "nubusTemplates.ldapServer.ldap.baseDn" . -}}
-{{- else -}}
-dc=univention-organization,dc=intranet
-{{- end -}}
-{{- end -}}
-
-{{- define "portal-consumer.ldapAdminDn" -}}
-{{- if .Values.portalConsumer.ldapHostDn -}}
-{{- .Values.portalConsumer.ldapHostDn -}}
-{{- else if .Values.global.nubusDeployment -}}
-{{- include "nubusTemplates.ldapServer.ldap.adminDn" . -}}
-{{- else -}}
-cn=admin,dc=univention-organization,dc=intranet
-{{- end -}}
-{{- end -}}
+{{- define "portal-consumer.ldapBaseDn" }}
+{{- default "dc=univention-organization,dc=intranet" (.Values.global.ldap).baseDn }}
+{{- end }}
 
 {{- define "portal-consumer.ldap.connection.host" -}}
-{{- if .Values.portalConsumer.ldapHost -}}
-{{- tpl .Values.portalConsumer.ldapHost . -}}
-{{- else if .Values.global.nubusDeployment -}}
-{{- include "nubusTemplates.ldapServer.ldap.connection.host" . -}}
-{{- end -}}
+{{- tpl
+  ( required
+    "The LDAP connection has to be configured, ldap.connection.host"
+    ( coalesce .Values.ldap.connection.host .Values.global.ldap.connection.host )
+) . -}}
 {{- end -}}
 
 {{- define "portal-consumer.ldap.connection.port" -}}
-{{- if .Values.portalConsumer.ldapPort -}}
-{{- .Values.portalConsumer.ldapPort -}}
-{{- else if .Values.global.nubusDeployment -}}
-{{- include "nubusTemplates.ldapServer.ldap.connection.port" . -}}
-{{- end -}}
+{{- tpl
+  ( required
+    "The LDAP connection has to be configured, ldap.connection.port"
+    ( coalesce .Values.ldap.connection.port .Values.global.ldap.connection.port "389" )
+  ) . -}}
 {{- end -}}
 
 

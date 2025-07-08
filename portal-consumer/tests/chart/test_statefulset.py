@@ -1,21 +1,19 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2025 Univention GmbH
 
-import jsonpath
 import pytest
-from pytest_helm.utils import add_jsonpath_prefix, findone
-from yaml import safe_load
+from pytest_helm.utils import add_jsonpath_prefix, findall, findone, load_yaml
 
 from univention.testing.helm.base import Base
 from univention.testing.helm.deployment import Deployment, DeploymentTlsVolumeSecret
 
 
-def findall(data, path):
-    return jsonpath.findall(path, data)
-
-
 class TestStatefulSet(Deployment):
     template_file = "templates/statefulset.yaml"
+
+    @pytest.mark.skip("TODO: Add support for the service account configuration")
+    def test_has_configuable_service_account():
+        pass
 
 
 @pytest.mark.parametrize(
@@ -57,7 +55,7 @@ class AuthExistingSecAsVolume(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret:
@@ -83,7 +81,7 @@ class AuthExistingSecAsVolume(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret: null
@@ -110,7 +108,7 @@ class AuthExistingSecAsVolume(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   password: stub-plain-password
@@ -183,7 +181,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret:
@@ -203,7 +201,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret: null
@@ -227,7 +225,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   existingSecret:
@@ -249,7 +247,7 @@ class AuthExistingSecAsEnvVariable(Base):
     ):
         values = add_jsonpath_prefix(
             self.auth_root,
-            safe_load(
+            load_yaml(
                 """
                 auth:
                   password: stub-plain-password
@@ -268,7 +266,7 @@ class AuthExistingSecAsEnvVariable(Base):
 
 class TestLdapAuthExistingSecAsVolume(AuthExistingSecAsVolume):
     template_file = "templates/statefulset.yaml"
-    volume_name = "release-name-portal-consumer-credentials-volume"
+    volume_name = "secret-ldap"
     chart_name = "portal-consumer"
     auth_root = "ldap"
     init_containers = ["wait-for-ldap", "wait-for-udm", "univention-compatibility"]

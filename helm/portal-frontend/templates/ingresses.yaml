@@ -19,7 +19,9 @@ metadata:
     cert-manager.io/{{ $.Values.ingress.certManager.issuerRef.kind | kebabcase }}: "{{ coalesce $.Values.global.certManagerIssuer $.Values.ingress.certManager.issuerRef.name }}"
     {{- end }}
 spec:
-  ingressClassName: {{ required ".ingressClassName, .Values.ingress.ingressClassName or .Values.global.ingressClass must be defined." ( coalesce .ingressClassName $.Values.ingress.ingressClassName $.Values.global.ingressClass ) | quote }}
+  {{- if or $.Values.ingress.ingressClassName $.Values.global.ingressClass }}
+  ingressClassName: {{ coalesce $.Values.ingress.ingressClassName $.Values.global.ingressClass | quote }}
+  {{- end }}
   {{- if or .tls.enabled $.Values.ingress.tls.enabled }}
   tls:
     - hosts:

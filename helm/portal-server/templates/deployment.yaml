@@ -8,10 +8,7 @@ metadata:
   name: "{{ include "common.names.fullname" . }}"
   namespace: {{ include "common.names.namespace" . | quote }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
-    {{- if .Values.additionalLabels }}
-    {{- include "common.tplvalues.render" ( dict "value" .Values.additionalLabels "context" . ) | nindent 4 }}
-    {{- end }}
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
   {{- if .Values.additionalAnnotations }}
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
   {{- end }}
@@ -66,7 +63,7 @@ spec:
           securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           command:
             - /bin/bash
             - -c
@@ -87,18 +84,18 @@ spec:
           securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ coalesce .Values.image.imagePullPolicy .Values.global.imagePullPolicy | quote }}
+          imagePullPolicy: {{ coalesce .Values.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "accessKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secretKey") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
           {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
           {{- end }}
@@ -126,9 +123,9 @@ spec:
             - name: usr-share-univention-portal-volume
               mountPath: /usr/share/univention-portal
             {{- if .Values.portalServer.centralNavigation.enabled }}
-            - name: authenticator-secret
+            - name: secret-central-navigation
               mountPath: "/var/secrets/authenticator.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "key" "shared_secret") | quote }}
             {{- end }}
             - name: tmp-volume
               mountPath: /tmp
@@ -144,9 +141,9 @@ spec:
         - name: usr-share-univention-portal-volume
           emptyDir: {}
         {{- if .Values.portalServer.centralNavigation.enabled }}
-        - name: authenticator-secret
+        - name: secret-central-navigation
           secret:
-            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.portalServer.centralNavigation.existingSecret "defaultNameSuffix" "central-navigation" "context" .) | quote }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "defaultNameSuffix" "central-navigation" "context" .) | quote }}
         {{- end }}
         - name: secret-udm
           secret:

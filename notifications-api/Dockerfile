@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=0.17.3-build-2025-05-11
-ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base-521
+ARG UCS_BASE_IMAGE_TAG=0.18.2-build-2025-06-12
+ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base-522
 
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as ucs-base
@@ -43,7 +43,7 @@ FROM ucs-base as test
 COPY ./requirements-dev.txt .
 COPY --from=builder /app/wheels ./wheels
 RUN pip3 install --break-system-packages --no-cache-dir --find-links=./wheels -r requirements-dev.txt
-CMD ["pytest"]
+CMD ["pytest", "tests/unit"]
 
 
 FROM test as dev

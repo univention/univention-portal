@@ -65,6 +65,9 @@ const tileClickMixin = {
       tooltipID: 'tooltip/getTooltipID',
     }),
     link() {
+      if (!this.metaData.fqdn) {
+        this.metaData.fqdn = window.location.hostname;
+      }
       return bestLink(this.links, this.metaData.fqdn, this.locale);
     },
     anchorTarget() {
