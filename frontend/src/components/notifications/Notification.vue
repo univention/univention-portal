@@ -72,8 +72,8 @@ License with the Debian GNU/Linux or Univention distribution in file
     <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="description"
-      class="notification__description"
       v-dompurify-html="description"
+      class="notification__description"
     />
     <!-- eslint-enable vue/no-v-html -->
     <div

@@ -127,7 +127,7 @@
             />
           </div>
         </div>
-    </component>
+      </component>
     </tabindex-element>
     <span
       :id="`${id}-content`"

@@ -401,7 +401,7 @@ test('PortalFolder renders editmode-wrapper when editMode is true and native_htm
   expect(editmodeWrapper.exists()).toBe(true);
   expect(editmodeWrapper.element.tagName.toLowerCase()).toBe('div');
   expect(editmodeWrapper.classes()).toContain('portal-folder__thumbnails');
-  
+
   // The inner folder container should still be a ul
   const folderContainer = wrapper.find('[data-test="portalFolder"]');
   expect(folderContainer.exists()).toBe(true);

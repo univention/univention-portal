@@ -86,9 +86,9 @@ License with the Debian GNU/Linux or Univention distribution in file
         <!-- eslint-disable vue/no-v-html -->
         <div
           v-if="description"
+          v-dompurify-html="description"
           class="portal-tooltip__description"
           data-test="portal-tooltip-description"
-          v-dompurify-html="description"
         />
         <!-- eslint-enable vue/no-v-html -->
         <div class="portal-tooltip__link-type">
