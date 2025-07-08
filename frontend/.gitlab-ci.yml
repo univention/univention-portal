@@ -8,7 +8,7 @@ workflow:
     - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
 
 include:
-  - project: "univention/customers/dataport/upx/common-ci"
+  - project: "univention/dev/nubus-for-k8s/common-ci"
     ref: "main"
     file:
       - "defaults/stages.yaml"
