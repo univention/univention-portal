@@ -395,11 +395,11 @@
   ],
   "feature_toggles": {
     "centered_layout": false,
+    "native_html_list": false,
     "newsfeed": true,
     "notifications_api": false,
     "umc_session_refresh": true,
-    "welcome_message": true,
-    "native_html_list": false
+    "welcome_message": true
   },
   "filtered": true,
   "folders": [
