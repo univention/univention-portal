@@ -40,9 +40,9 @@
     >
       <icon-button
         v-if="editMode && !virtual && showEditButtonWhileDragging"
+        :aria-label-prop="EDIT_CATEGORY"
         icon="edit-2"
         class="button--icon--circle button--icon--edit-mode button--shadow"
-        :aria-label-prop="EDIT_CATEGORY"
         @click="editCategory"
       />
       <icon-button
@@ -58,6 +58,7 @@
         @keydown.tab="handleTabWhileMoving"
       />
       <span
+        :id="`tile-title-${layoutId}`"
         :draggable="editMode && !virtual"
         @dragstart="dragstart"
         @dragenter="dragenter"
@@ -66,63 +67,86 @@
         {{ $localized(title) }}
       </span>
     </h2>
-    <div
-      class="portal-category__tiles"
+    <component
+      :is="useNativeHtmlList && editMode ? 'div' : 'TemplateWrapper'"
+      data-test="editmode-wrapper"
+      :class="{'portal-category__tiles': useNativeHtmlList && editMode}"
     >
-      <template
-        v-for="tile in tiles"
-        :key="tile.id"
+      <component
+        :is="useNativeHtmlList ? 'ul' : 'div'"
+        :aria-labelledby="`tile-title-${layoutId}`"
+        :role="useNativeHtmlList ? undefined : 'list'"
+        :data-test="`portal-category__tiles-${layoutId}`"
+        :class="{
+          'portal-category__tiles': !(editMode && useNativeHtmlList),
+          'portal-category__tiles--display-contents': editMode && useNativeHtmlList,
+          'portal-category__tiles--editmode': editMode
+        }"
       >
-        <portal-folder
-          v-if="tile.isFolder"
-          :id="tile.id"
-          :layout-id="tile.layoutId"
-          :dn="tile.dn"
+        <component
+          :is="useNativeHtmlList ? 'li' : 'div'"
+          v-for="tile in tiles"
+          :key="tile.id"
+          :role="useNativeHtmlList ? undefined : 'listitem'"
+          class="portal-category__tiles"
+        >
+          <portal-folder
+            v-if="tile.isFolder"
+            :id="tile.id"
+            :layout-id="tile.layoutId"
+            :dn="tile.dn"
+            :super-dn="dn"
+            :title="tile.title"
+            :tiles="tile.tiles"
+          />
+          <portal-tile
+            v-else
+            :id="tile.id"
+            :layout-id="tile.layoutId"
+            :dn="tile.dn"
+            :super-dn="dn"
+            :title="tile.title"
+            :description="tile.description"
+            :keywords="tile.keywords"
+            :activated="tile.activated"
+            :anonymous="tile.anonymous"
+            :background-color="tile.backgroundColor"
+            :links="tile.links"
+            :allowed-groups="tile.allowedGroups"
+            :link-target="tile.linkTarget"
+            :target="tile.target"
+            :original-link-target="tile.originalLinkTarget"
+            :path-to-logo="tile.pathToLogo"
+          />
+        </component>
+        <tile-add
+          v-if="editMode && !useNativeHtmlList"
           :super-dn="dn"
-          :title="tile.title"
-          :tiles="tile.tiles"
+          :super-layout-id="layoutId"
         />
-        <portal-tile
-          v-else
-          :id="tile.id"
-          :layout-id="tile.layoutId"
-          :dn="tile.dn"
-          :super-dn="dn"
-          :title="tile.title"
-          :description="tile.description"
-          :keywords="tile.keywords"
-          :activated="tile.activated"
-          :anonymous="tile.anonymous"
-          :background-color="tile.backgroundColor"
-          :links="tile.links"
-          :allowed-groups="tile.allowedGroups"
-          :link-target="tile.linkTarget"
-          :target="tile.target"
-          :original-link-target="tile.originalLinkTarget"
-          :path-to-logo="tile.pathToLogo"
-        />
-      </template>
+      </component>
       <tile-add
-        v-if="editMode"
+        v-if="editMode && useNativeHtmlList"
         :super-dn="dn"
         :super-layout-id="layoutId"
       />
-    </div>
+    </component>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
+import { mapGetters } from 'vuex';
 
 import TileAdd from '@/components/admin/TileAdd.vue';
+import TemplateWrapper from '@/components/globals/TemplateWrapper.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 import PortalFolder from '@/components/PortalFolder.vue';
 import PortalTile from '@/components/PortalTile.vue';
 import Draggable from '@/mixins/Draggable.vue';
 import {
-  Tile,
+  BaseTile,
   LocalizedString,
 } from '@/store/modules/portalData/portalData.models';
 
@@ -133,6 +157,7 @@ export default defineComponent({
     PortalTile,
     PortalFolder,
     IconButton,
+    TemplateWrapper,
   },
   mixins: [
     Draggable,
@@ -155,7 +180,7 @@ export default defineComponent({
       required: true,
     },
     tiles: {
-      type: Array as PropType<Tile[]>,
+      type: Array as PropType<BaseTile[]>,
       required: true,
     },
     categoryIndex: {
@@ -164,6 +189,9 @@ export default defineComponent({
     },
   },
   computed: {
+    ...mapGetters({
+      featureToggles: 'featureToggles/featureToggles',
+    }),
     isTouchDevice(): boolean {
       return 'ontouchstart' in document.documentElement;
     },
@@ -172,6 +200,9 @@ export default defineComponent({
     },
     EDIT_CATEGORY(): string {
       return _('Edit category: %(category)s', { category: this.$localized(this.title) });
+    },
+    useNativeHtmlList(): boolean {
+      return this.featureToggles.native_html_list ?? false;
     },
   },
   methods: {
@@ -211,9 +242,14 @@ export default defineComponent({
     display: grid
     grid-template-columns: repeat(auto-fill, var(--app-tile-side-length))
     grid-gap: calc(6 * var(--layout-spacing-unit))
+    padding: 0
+    margin: 0
+
+    &--display-contents
+      display: contents
 
     &--editmode
-      display: block
+      margin-bottom: calc(var(--layout-spacing-unit) * 6);
 
   &__title
     height: var(--button-size)

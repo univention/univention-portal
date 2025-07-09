@@ -8,6 +8,7 @@
 export type FeatureToggles = {
   // The toggle names use snake case consistently throughout the stack.
   centered_layout?: boolean;
+  native_html_list?: boolean;
   newsfeed?: boolean;
   notifications_api?: boolean;
   umc_session_refresh?: boolean;
