@@ -10,6 +10,7 @@ describe('Mutation setFeatureToggles', () => {
   test('updates state from payload', () => {
     const featureToggleConfiguration = {
       centered_layout: false,
+      native_html_list: false,
       newsfeed: false,
       notifications_api: true,
       umc_session_refresh: false,

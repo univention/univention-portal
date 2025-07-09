@@ -181,6 +181,12 @@ export const actions = {
     } else {
       console.info('Feature UMC Session refresh disabled.');
     }
+
+    if (state.featureToggles.native_html_list) {
+      console.info('Using native HTML list for portal tiles.');
+    } else {
+      console.info('Using divs with aria roles for portal tiles.');
+    }
   },
 };
 
