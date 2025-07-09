@@ -28,7 +28,6 @@
 -->
 <script>
 import { mapGetters } from 'vuex';
-import { DragType } from '@/store/modules/dragndrop';
 
 const draggableMixin = {
   computed: {

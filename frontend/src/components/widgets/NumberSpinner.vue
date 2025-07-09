@@ -41,7 +41,6 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import _ from '@/jsHelper/translate';
 import { isValid } from '@/jsHelper/forms';
 
 export default defineComponent({

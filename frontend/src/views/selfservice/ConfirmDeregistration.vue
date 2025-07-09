@@ -148,7 +148,7 @@ export default defineComponent({
           (this.$refs.cancelButon as HTMLButtonElement).focus();
         });
       }
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         // @ts-ignore TODO
         this.promiseResolve = resolve;
       });

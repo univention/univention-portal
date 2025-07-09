@@ -578,7 +578,7 @@ const portalData: PortalModule<PortalDataState> = {
         position,
       });
     },
-    async saveLayout({ getters, rootGetters, dispatch }: PortalDataActionContext, payload): Promise<void> {
+    async saveLayout({ getters, rootGetters, dispatch }: PortalDataActionContext): Promise<void> {
       let folderPosition: Position | null = null;
       if (rootGetters['modal/inFolderModal']) {
         folderPosition = getPosition(getters.portalLayout, rootGetters['modal/getModalProps']('firstLevelModal').layoutId);

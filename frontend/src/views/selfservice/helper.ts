@@ -117,10 +117,6 @@ export function setBackendInvalidMessage(widgets: WidgetDefinition[], invalidDat
   });
 }
 
-function getWidget(name: string, widgets: WidgetDefinition[]) {
-  return widgets.find((_w) => _w.name === name);
-}
-
 export function sanitizeFrontendValues(values: Record<string, unknown>, widgets: WidgetDefinition[]) {
   const sanitized: Record<string, unknown> = JSON.parse(JSON.stringify(values));
   widgets.forEach((widget) => {

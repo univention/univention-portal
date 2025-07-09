@@ -113,7 +113,7 @@ const dragndrop: PortalModule<DraggedItem> = {
         id: `${payload.layoutId}-move-button`,
       }, { root: true });
       if (payload.dragType === 'keyboard' && !getters.isWindowMouseListenerSet) {
-        window.addEventListener('mousedown', (evt) => {
+        window.addEventListener('mousedown', () => {
           dispatch('maybeCancelDragging');
           commit('IS_WINDOW_MOUSE_LISTENER_SET', false);
         }, { once: true, capture: true });

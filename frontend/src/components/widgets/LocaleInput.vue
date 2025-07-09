@@ -62,7 +62,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
 
 import IconButton from '@/components/globals/IconButton.vue';

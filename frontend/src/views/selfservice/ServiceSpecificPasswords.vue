@@ -60,7 +60,6 @@ import { defineComponent } from 'vue';
 import { umcCommandWithStandby } from '@/jsHelper/umc';
 import _ from '@/jsHelper/translate';
 import GuardedSite from '@/views/selfservice/GuardedSite.vue';
-import { WidgetDefinition } from '@/jsHelper/forms';
 
 interface ServiceSpecificPasswordInfo {
   type: string,

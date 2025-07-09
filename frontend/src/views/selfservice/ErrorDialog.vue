@@ -103,7 +103,7 @@ export default defineComponent({
       this.$nextTick(() => {
         (this.$refs.button as HTMLButtonElement).focus();
       });
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         // @ts-ignore TODO
         this.promiseResolve = resolve;
       });
