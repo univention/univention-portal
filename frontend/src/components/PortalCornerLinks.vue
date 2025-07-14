@@ -13,8 +13,11 @@
             :key="index"
             class="portal-corner__item"
           >
-            <a
+            <tabindex-element
               v-if="entry.link"
+              :id="`portal-corner-link-${index}`"
+              tag="a"
+              :active-at="['portal']"
               :href="entry.link"
               :target="entry.linkTarget"
               class="portal-corner__link"
@@ -27,7 +30,7 @@
                 class="portal-corner__icon"
               >
               <span :title="entry.description">{{ entry.name }}</span>
-            </a>
+            </tabindex-element>
             <span
               v-else
               :title="entry.description"
@@ -44,6 +47,8 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import TabindexElement from '@/components/activity/TabindexElement.vue';
+
 type PortalCornerLinks = Array<{
   name: string;
   description: string;
@@ -54,6 +59,9 @@ type PortalCornerLinks = Array<{
 
 export default defineComponent({
   name: 'PortalCornerLinks',
+  components: {
+    TabindexElement,
+  },
   computed: {
     ...mapGetters({
       cornerLinks: 'portalData/cornerLinks',

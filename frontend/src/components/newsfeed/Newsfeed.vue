@@ -10,14 +10,17 @@
         <speaker-icon />
         {{ LATEST_NEWS }}
       </h3>
-      <a
+      <tabindex-element
+        :id="`newsfeed-view-all`"
+        tag="a"
+        :active-at="['portal']"
         class="newsfeed-meta__btn"
         target="_blank"
         rel="noreferrer"
         :href="homeUrl"
       >
         {{ VIEW_ALL }}
-      </a>
+      </tabindex-element>
     </div>
     <div v-if="$data.hasError">
       <p>{{ COULD_NOT_LOAD_NEWSFEED }}.</p>
@@ -36,14 +39,17 @@
         class="newsfeed-list__item"
       >
         <!-- eslint-disable-next-line vuejs-accessibility/anchor-has-content -->
-        <a
+        <tabindex-element
           v-if="item.link"
+          :id="`newsfeed-view-${item.link}`"
+          tag="a"
+          :active-at="['portal']"
           target="_blank"
           rel="noreferrer"
           :href="item.link"
         >
           <item :item="item" />
-        </a>
+        </tabindex-element>
         <item
           v-else
           :item="item"
@@ -62,6 +68,7 @@ import Item from '@/components/newsfeed/Item.vue';
 import SpeakerIcon from '@/components/newsfeed/SpeakerIcon.vue';
 
 import { NewsfeedItem, NewsfeedType } from '@/components/newsfeed/types';
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 
 interface NewsfeedData {
   hasError: boolean;
@@ -74,6 +81,7 @@ export default defineComponent({
   components: {
     Item,
     SpeakerIcon,
+    TabindexElement,
   },
   props: {
     feedUrl: {

@@ -8,7 +8,10 @@
     v-if="entries.length === 1"
     class="portal-quick-draft"
   >
-    <a
+    <tabindex-element
+      :id="`portal-quick-draft-${entries[0].link}`"
+      tag="a"
+      :active-at="['portal']"
       :href="entries[0].link"
       :target="entries[0].linkTarget"
       class="portal-quick-draft__item portal-quick-draft__item--button"
@@ -21,7 +24,7 @@
         class="portal-quick-draft__img"
       >
       <span>{{ entries[0].name }}</span>
-    </a>
+    </tabindex-element>
   </div>
   <div
     v-else
@@ -30,7 +33,10 @@
     @focusout="closeOnOutsideClick"
     @keydown.esc.prevent="closeQuickDraft"
   >
-    <button
+    <tabindex-element
+      :id="`portal-quick-draft-${entries[0].link}`"
+      tag="button"
+      :active-at="['portal']"
       class="portal-quick-draft__toggle"
       type="button"
       @click="toggleQuickDraft"
@@ -50,19 +56,22 @@
         />
         <span>{{ title }}</span>
       </template>
-    </button>
+    </tabindex-element>
     <div class="portal-quick-draft__menu">
       <ul class="portal-quick-draft__items">
         <li
           v-for="(entry, index) in entries"
           :key="index"
         >
-          <a
+          <tabindex-element
+            :id="`portal-quick-draft-entry-${index}`"
+            tag="a"
+            :active-at="['portal']"
             :href="entry.link"
             :target="entry.linkTarget"
             class="portal-quick-draft__item"
           >
-            <!-- alt on Image needs to be empty (it does not provide more and usefull information) -->
+            <!-- alt on Image needs to be empty (it does not provide more and useful information) -->
             <img
               :src="entry.iconUrl || fallbackIconUrl"
               onerror="this.src=fallbackIconUrl"
@@ -70,7 +79,7 @@
               class="portal-quick-draft__img"
             >
             <span>{{ entry.name }}</span>
-          </a>
+          </tabindex-element>
         </li>
       </ul>
     </div>
@@ -81,6 +90,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 
 export type PortalQuickDraftEntries = Array<{
   name: string;
@@ -94,6 +104,7 @@ export default defineComponent({
   name: 'PortalQuickDraft',
   components: {
     PortalIcon,
+    TabindexElement,
   },
   props: {
     title: {
