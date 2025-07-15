@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.71.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.70.1...v0.71.0) (2025-07-15)
+
+
+### Features
+
+* **portal-frontend:** add adjustmens to PortalCategory and Folder ([8fb6038](https://git.knut.univention.de/univention/dev/projects/portal/commit/8fb6038c75ed80f339275f9e549ecbe31ae17000)), closes [univention/dev/projects/portal#740](https://git.knut.univention.de/univention/dev/projects/portal/issues/740)
+* **portal-frontend:** add adjustmens to sidenavigation ([ec6b9af](https://git.knut.univention.de/univention/dev/projects/portal/commit/ec6b9af0153b1039cf5ffe94e3f8d366f1511c6d)), closes [univention/dev/projects/portal#740](https://git.knut.univention.de/univention/dev/projects/portal/issues/740)
+* **portal-frontend:** add feature flag to values file in portal server ([a709197](https://git.knut.univention.de/univention/dev/projects/portal/commit/a70919717c62cac0c6d4b76975ea53cb4cc31b7d)), closes [univention/dev/projects/portal#740](https://git.knut.univention.de/univention/dev/projects/portal/issues/740) [univention/dev/projects/portal#740](https://git.knut.univention.de/univention/dev/projects/portal/issues/740)
+
+
+### Bug Fixes
+
+* **portal-frontend:** add feature flag ([5a64d50](https://git.knut.univention.de/univention/dev/projects/portal/commit/5a64d50f6a5eb5a11500c6275ff4da1fd9c1feb4)), closes [univention/dev/projects/portal#740](https://git.knut.univention.de/univention/dev/projects/portal/issues/740)
+* **portal-frontend:** fix changes from modal to fodler ([c83c0b8](https://git.knut.univention.de/univention/dev/projects/portal/commit/c83c0b81a13d057bc7c98afacacd3f55c4d82470)), closes [univention/dev/projects/portal#740](https://git.knut.univention.de/univention/dev/projects/portal/issues/740)
+
 ## [0.70.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.70.0...v0.70.1) (2025-07-03)
 
 
