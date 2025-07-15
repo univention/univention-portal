@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Test Blog</title>
+    <description>Test blog for Cypress testing</description>
+    <link>https://blog.example.com</link>
+    <item>
+      <title>First Test Article</title>
+      <description>This is the first test article description for Cypress testing.</description>
+      <link>https://blog.example.com/first-article</link>
+      <pubDate>Mon, 15 Jul 2025 10:00:00 GMT</pubDate>
+      <category>Technology</category>
+      <media:content url="https://blog.example.com/images/first-article.jpg" />
+    </item>
+    <item>
+      <title>Second Test Article</title>
+      <description>This is the second test article description for Cypress testing.</description>
+      <link>https://blog.example.com/second-article</link>
+      <pubDate>Sun, 14 Jul 2025 15:30:00 GMT</pubDate>
+      <category>News</category>
+      <media:content url="https://blog.example.com/images/second-article.jpg" />
+    </item>
+    <item>
+      <title>Third Test Article</title>
+      <description>This is the third test article description for Cypress testing.</description>
+      <link>https://blog.example.com/third-article</link>
+      <pubDate>Sat, 13 Jul 2025 09:15:00 GMT</pubDate>
+      <category>Updates</category>
+    </item>
+  </channel>
+</rss>

@@ -18,6 +18,7 @@
               :id="`portal-corner-link-${index}`"
               tag="a"
               :active-at="['portal']"
+              data-test="portal-corner-link"
               :href="entry.link"
               :target="entry.linkTarget"
               class="portal-corner__link"

@@ -17,6 +17,7 @@
         class="newsfeed-meta__btn"
         target="_blank"
         rel="noreferrer"
+        data-testid="portal-newsfeed-view-all"
         :href="homeUrl"
       >
         {{ VIEW_ALL }}
@@ -46,6 +47,7 @@
           :active-at="['portal']"
           target="_blank"
           rel="noreferrer"
+          data-test="portal-newsfeed-item"
           :href="item.link"
         >
           <item :item="item" />

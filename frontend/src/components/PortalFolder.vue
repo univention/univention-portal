@@ -25,6 +25,7 @@
         'portal-tile__box--dragging': isBeingDragged,
         'portal-tile__box--with-scaling-hover': !inModal,
       }]"
+      data-test="portal-folder"
       :aria-label="ariaLabelFolder"
       @click="openFolder"
       @keypress.enter="openFolder"

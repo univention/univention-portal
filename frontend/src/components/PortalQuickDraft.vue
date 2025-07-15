@@ -11,6 +11,7 @@
     <tabindex-element
       :id="`portal-quick-draft-${entries[0].link}`"
       tag="a"
+      data-test="portal-quick-draft-entry"
       :active-at="['portal']"
       :href="entries[0].link"
       :target="entries[0].linkTarget"
@@ -39,6 +40,7 @@
       :active-at="['portal']"
       class="portal-quick-draft__toggle"
       type="button"
+      data-test="portal-quick-draft-entry"
       @click="toggleQuickDraft"
       @keydown.enter.prevent="toggleQuickDraft"
     >
@@ -67,6 +69,7 @@
             :id="`portal-quick-draft-entry-${index}`"
             tag="a"
             :active-at="['portal']"
+            data-test="portal-quick-draft-entry"
             :href="entry.link"
             :target="entry.linkTarget"
             class="portal-quick-draft__item"
