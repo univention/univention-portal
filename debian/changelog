@@ -1,3 +1,16 @@
+univention-portal (6.2.0) unstable; urgency=medium
+
+  [ Dirk Wiesenthal ]
+  * Issue univention/ucs#2495: Update copyright
+
+  [ Julia Bremer ]
+  * Issue univention/components/keycloak-app#206: Change settings from keycloak/server/sso/fqdn to ucs/server/sso/uri
+ 
+  [ Iván Barbecho ]
+  * Bug #58344: UCS 5.2-2 version bump
+
+Ivan Barbecho Delgado <ivan.delgado@univention.de>  Wed, 16 Jul 2025 11:37:31 +0200
+
 univention-portal (6.1.2) unstable; urgency=medium
 
   * Bug #58280: make hiding of FQDN and server address in meta.json configurable
