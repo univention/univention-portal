@@ -1,12 +1,6 @@
 {
   "auth_mode": "ucs",
   "cache_id": "abc:123",
-  "feature_toggles": {
-    "centered_layout": false,
-    "newsfeed": true,
-    "notifications_api": true,
-    "umc_session_refresh": true
-  },
   "categories": [
     {
       "display_name": {
@@ -271,6 +265,12 @@
       }
     }
   ],
+  "feature_toggles": {
+    "centered_layout": false,
+    "newsfeed": true,
+    "notifications_api": true,
+    "umc_session_refresh": true
+  },
   "filtered": true,
   "folders": [
     {
@@ -326,6 +326,18 @@
     "cn=owncloud-admindoc,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
     "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
   ],
+  "newsfeed_config": {
+    "feedType": "wordpress",
+    "feedUrl": {
+      "de_DE": "https://blog.example.com/feed",
+      "en_US": "https://blog.example.com/feed"
+    },
+    "homeUrl": {
+      "de_DE": "https://blog.example.com",
+      "en_US": "https://blog.example.com"
+    },
+    "icsSilentLoginUrl": null
+  },
   "portal": {
     "background": null,
     "categories": [
@@ -360,23 +372,11 @@
     },
     "showUmc": true
   },
-    "quick_links": [
+  "quick_links": [
     "cn=univentionforum,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
     "cn=univentionwebsite,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
   ],
   "user_displayname": "Administrator",
   "user_links": [],
-  "username": "administrator",
-    "newsfeed_config": {
-    "feedType": "wordpress",
-    "feedUrl": {
-      "de_DE": "https://blog.example.com/feed",
-      "en_US": "https://blog.example.com/feed"
-    },
-    "homeUrl": {
-      "de_DE": "https://blog.example.com",
-      "en_US": "https://blog.example.com"
-    },
-    "icsSilentLoginUrl": null
-  }
+  "username": "administrator"
 }
