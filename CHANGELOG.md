@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.73.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.72.0...v0.73.0) (2025-07-17)
+
+
+### Features
+
+* update wait-for-dependency to 0.35.0 ([1d09907](https://git.knut.univention.de/univention/dev/projects/portal/commit/1d099079ccd30e6345109fba6c03899304f15563)), closes [univention/dev/internal/team-nubus#1320](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1320)
+
 ## [0.72.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.71.0...v0.72.0) (2025-07-17)
 
 
