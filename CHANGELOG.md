@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.72.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.71.0...v0.72.0) (2025-07-17)
+
+
+### Features
+
+* update ucs-base to 5.2.2-build.20250714 ([62a16eb](https://git.knut.univention.de/univention/dev/projects/portal/commit/62a16eba6191464199ef49c9f59cd030d34bd555)), closes [univention/dev/internal/team-nubus#1320](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1320)
+
 ## [0.71.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.70.1...v0.71.0) (2025-07-15)
 
 
