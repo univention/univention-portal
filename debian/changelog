@@ -2,6 +2,7 @@ univention-portal (6.2.0) unstable; urgency=medium
 
   [ Ivan Barbecho Delgado ]
   * Bug #58344: UCS 5.2-2 version bump
+  * Issue univention/dev/projects/portal#737 add listener modules
 
   [ Arvid Requate ]
   * Issue univention/components/univention-portal#737:
