@@ -30,6 +30,9 @@
 # /usr/share/common-licenses/AGPL-3; if not, see
 # <https://www.gnu.org/licenses/>.
 
+import time
+import uuid
+
 import tornado.web
 
 from univention.portal.extensions.cache_object_storage import PortalFileCacheObjectStorage
@@ -39,14 +42,19 @@ from univention.portal.log import get_logger
 
 class PortalEntriesHandler(PortalResource):
     async def get(self, portal_name):
+        timing_id = uuid.uuid4()
+        start = time.time()
         portal = self.find_portal()
         if not portal:
             raise tornado.web.HTTPError(404)
+        get_logger("admin").info(f"({timing_id}) self.find_portal() took {time.time() - start}")
 
         if isinstance(portal.portal_cache, PortalFileCacheObjectStorage):
             portal.refresh()
 
+        start = time.time()
         user = await portal.get_user(self)
+        get_logger("admin").info(f"({timing_id}) portal.get_user() took {time.time() - start}")
 
         admin_mode = False
         if self.request.headers.get("X-Univention-Portal-Admin-Mode", "no") == "yes":
@@ -58,10 +66,17 @@ class PortalEntriesHandler(PortalResource):
                 get_logger("admin").info("Admin mode rejected")
 
         answer = {}
+        total_start = time.time()
+        start = time.time()
         answer["cache_id"] = portal.get_cache_id()
+        get_logger("admin").info(f"({timing_id}) portal.get_cache_id() took {time.time() - start}")
+
+        start = time.time()
         visible_content = portal.get_visible_content(user, admin_mode)
+        get_logger("admin").info(f"({timing_id}) portal.get_visible_contant() took {time.time() - start}")
 
         answer["corner_links"] = portal.get_corner_links(visible_content)
+
         answer["menu_links"] = portal.get_menu_links(visible_content)
         answer["quick_links"] = portal.get_quick_links(visible_content)
         answer["user_links"] = portal.get_user_links(visible_content)
@@ -70,11 +85,14 @@ class PortalEntriesHandler(PortalResource):
         answer["folders"] = portal.get_folders(visible_content)
         answer["categories"] = portal.get_categories(visible_content)
         answer["portal"] = portal.get_meta(visible_content, answer["categories"])
+        get_logger("admin").info(f"({timing_id}) getting portal contents {time.time() - total_start}")
+
         if (
             not user.is_anonymous()
             and not admin_mode
             and answer["portal"].get("showUmc")
         ):
+            start = time.time()
             # this is not how the portal-server is supposed to be working
             # but we need it like that...
             umc_portal = portal._get_umc_portal()
@@ -84,6 +102,8 @@ class PortalEntriesHandler(PortalResource):
             answer["categories"].extend(umc_portal.get_categories(umc_content))
             umc_meta = umc_portal.get_meta(umc_content, answer["categories"])
             answer["portal"]["content"].extend(umc_meta["content"])
+            get_logger("admin").info(f"({timing_id}) getting UMC content took {time.time() - start}")
+        start = time.time()
         answer["filtered"] = not admin_mode
         answer["username"] = user.username
         answer["user_displayname"] = user.display_name
@@ -92,5 +112,6 @@ class PortalEntriesHandler(PortalResource):
         answer["announcements"] = portal.get_announcements(visible_content)
         answer["feature_toggles"] = portal.get_feature_toggles()
         answer["newsfeed_config"] = portal.get_newsfeed_config()
+        get_logger("admin").info(f"({timing_id}) rest of portal content took {time.time() - start}")
 
         self.write(answer)
