@@ -74,16 +74,13 @@ export const actions = {
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data
-      `${portalUrl}${portalApiMePath}`, // Get user details from api endpoint "me"
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
     Promise.all(portalPromises).then(async ([
-      metaResponse, languageResponse, portalApiMeResponse, portalResponse,
+      metaResponse, languageResponse, portalResponse,
     ]) => {
       const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
-      const apiMe = portalApiMeResponse.data;
-      const userData = extractUserData(portal, apiMe);
 
       if (languageResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
@@ -111,6 +108,7 @@ export const actions = {
           console.warn('Key "feature_toggles" missing in portal data.');
         }
         dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
+        const userData = extractUserData(portal, undefined);
         dispatch('user/setUser', userData);
         if (portal.username) {
           dispatch('userIsLoggedIn');
@@ -119,6 +117,18 @@ export const actions = {
         resolve(portal);
         const currentLocale = rootGetters['locale/getLocale'] || 'en_US';
         document.title = rootGetters['portalData/portalName']?.[currentLocale] ?? 'Univention Portal';
+
+        if (portal.feature_toggles?.api_me) {
+          axios.get(`${portalUrl}${portalApiMePath}`)
+            .then((portalApiMeResponse) => {
+              const apiMe = portalApiMeResponse.data;
+              const enrichedUserData = extractUserData(portal, apiMe);
+              dispatch('user/setUser', enrichedUserData);
+            })
+            .catch((error) => {
+              console.warn('Failed to fetch user data from api/me:', error.message);
+            });
+        }
       }
     })
       .catch((error) => {

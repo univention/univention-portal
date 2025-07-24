@@ -13,6 +13,7 @@ export type FeatureToggles = {
   notifications_api?: boolean;
   umc_session_refresh?: boolean;
   welcome_message?: boolean;
+  api_me?: boolean;
 };
 
 /* eslint-enable camelcase */

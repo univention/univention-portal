@@ -466,6 +466,9 @@ portalServer:
     notifications_api: true
     umc_session_refresh: true
     welcome_message: false
+    # -- Enrich user object data with additional attributes. May slow portal loading
+    # times.
+    api_me: true
   # -- TODO: Clarify usage of this parameter
   logLevel: "INFO"
   port: 80

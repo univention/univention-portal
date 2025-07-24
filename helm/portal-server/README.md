@@ -797,6 +797,7 @@ true
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "api_me": true,
   "centered_layout": false,
   "native_html_list": false,
   "newsfeed": false,
@@ -807,6 +808,15 @@ true
 </pre>
 </td>
 			<td>Allows to configure Feature Toggles for the portal. The value is a map from string to boolean. The keys are added into the configuration file of the `portal-server` and should use "snake case".  The toggle names use snake case consistently throughout the stack.</td>
+		</tr>
+		<tr>
+			<td>portalServer.featureToggles.api_me</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Enrich user object data with additional attributes. May slow portal loading times.</td>
 		</tr>
 		<tr>
 			<td>portalServer.logLevel</td>

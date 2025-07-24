@@ -394,7 +394,7 @@
     }
   ],
   "feature_toggles": {
-    "api_me": true,
+    "api_me": false,
     "centered_layout": false,
     "native_html_list": false,
     "newsfeed": true,
