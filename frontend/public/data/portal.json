@@ -396,6 +396,7 @@
   "feature_toggles": {
     "api_me": true,
     "centered_layout": false,
+    "left_sidebar": true,
     "native_html_list": false,
     "newsfeed": true,
     "notifications_api": false,

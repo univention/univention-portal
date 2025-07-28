@@ -173,6 +173,12 @@ export const actions = {
     } else {
       console.info('Using divs with aria roles for portal tiles.');
     }
+
+    if (state.featureToggles.left_sidebar) {
+      console.info('Feature left sidebar activated.');
+    } else {
+      console.info('Feature left sidebar disabled.');
+    }
   },
 };
 

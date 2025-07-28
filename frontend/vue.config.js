@@ -81,6 +81,22 @@ vueConfig.configureWebpack = (config) => {
     test: /\.ya?ml$/,
     use: ['json-loader', 'yaml-loader'],
   });
+
+  // Add SVG component support
+  config.module.rules.push({
+    test: /\.svg$/,
+    oneOf: [
+      // If imported with ?component, treat as Vue component
+      {
+        resourceQuery: /component/,
+        use: ['vue-loader', '@svgr/webpack'],
+      },
+      // Otherwise, treat as regular file
+      {
+        use: ['file-loader'],
+      },
+    ],
+  });
 };
 
 const existingChainWebpack = vueConfig.chainWebpack;
