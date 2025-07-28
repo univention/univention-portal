@@ -33,9 +33,14 @@ License with the Debian GNU/Linux or Univention distribution in file
     :class="{
       'portal-header--tabs-overflow': tabsOverflow,
       'portal-header--edit-mode': editMode,
+      'portal-header--waffle-icon-height': hasLeftSidebarSupport,
     }"
     class="portal-header"
   >
+    <left-sidebar-navigation
+      v-if="hasLeftSidebarSupport"
+      data-test="left-sidebar-button"
+    />
     <portal-title />
 
     <div
@@ -160,6 +165,7 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
 import IconButton from '@/components/globals/IconButton.vue';
+import LeftSidebarNavigation from '@/components/navigation/LeftSidebarNavigation.vue';
 
 import Announcement from '@/components/widgets/Announcement.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
@@ -180,6 +186,7 @@ export default defineComponent({
     Region,
     PortalTitle,
     IconButton,
+    LeftSidebarNavigation,
   },
   data(): PortalHeaderData {
     return {
@@ -196,6 +203,7 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
       numNotifications: 'notifications/numNotifications',
       portalAnnouncements: 'portalData/portalAnnouncements',
+      featureToggles: 'featureToggles/featureToggles',
     }),
     showTabButton(): boolean {
       return this.numTabs > 0 && this.tabsOverflow;
@@ -220,6 +228,9 @@ export default defineComponent({
     },
     MENU(): string {
       return _('Menu');
+    },
+    hasLeftSidebarSupport(): boolean {
+      return this.featureToggles.left_sidebar ?? false;
     },
   },
   watch: {
@@ -276,6 +287,14 @@ export default defineComponent({
   padding: 0 calc(2 * var(--layout-spacing-unit))
   width: 100%
   box-sizing: border-box
+
+  &--waffle-icon-height
+    padding-top: 0
+    padding-left: 0
+    height: var(--portal-header-height-with-waffle-icon)
+
+    @media $mqSmartphone
+      height: 50px
 
   &__tabs
     display: flex;

@@ -395,6 +395,7 @@
   ],
   "feature_toggles": {
     "centered_layout": false,
+    "left_sidebar": true,
     "native_html_list": false,
     "newsfeed": true,
     "notifications_api": false,
