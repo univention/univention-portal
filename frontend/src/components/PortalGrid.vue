@@ -4,7 +4,7 @@
 -->
 
 <template>
-  <template v-if="showNewsfeed && !editMode">
+  <template v-if="userState.username && showNewsfeed && !editMode">
     <div class="portal-grid">
       <div class="portal-grid__row portal-grid__row--1col">
         <portal-greeting />
@@ -42,6 +42,7 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
+      userState: 'user/userState',
       editMode: 'portalData/editMode',
       featureToggles: 'featureToggles/featureToggles',
       portalNewsfeedConfig: 'portalData/portalNewsfeedConfig',
