@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.73.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.73.0...v0.73.1) (2025-07-29)
+
+
+### Bug Fixes
+
+* **debian:** Copyright file paths ([015d7a5](https://git.knut.univention.de/univention/dev/projects/portal/commit/015d7a5d528db12ed93a6a941c863b433763c838)), closes [univention/dev/projects/portal#737](https://git.knut.univention.de/univention/dev/projects/portal/issues/737)
+* **pipeline:** Remove listener unittest ([bdc59a9](https://git.knut.univention.de/univention/dev/projects/portal/commit/bdc59a97ab623dce916147ccdf639fe2d161bc1a)), closes [univention/dev/projects/portal#737](https://git.knut.univention.de/univention/dev/projects/portal/issues/737)
+* **ucs:** Change settings from keycloak/server/sso/fqdn to ucs/server/sso/uri ([b080f01](https://git.knut.univention.de/univention/dev/projects/portal/commit/b080f01f6adeb4f8075c5ae586a7528f71866517)), closes [univention/components/keycloak-app#206](https://git.knut.univention.de/univention/components/keycloak-app/issues/206)
+
 ## [0.73.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.72.0...v0.73.0) (2025-07-17)
 
 
