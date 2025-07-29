@@ -32,10 +32,10 @@ Files: univention-blog.png univention-management-console.svg frontend/tests/e2e/
 Copyright: 2024 Univention GmbH
 License: LicenseRef-Univention-Proprietary
 
-Files: frontend/public/feather-sprite.svg key.svg login.svg
+Files: frontend/public/media/feather-sprite.svg key.svg login.svg
 Copyright: 2013-2023 Cole Bemis
 License: MIT
 
-Files: frontend/public/fonts/OpenSans/*
+Files: frontend/public/fonts/OpenSans*
 Copyright: Google LLC
 License: SIL Open Font License
