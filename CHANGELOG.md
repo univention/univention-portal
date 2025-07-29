@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.74.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.73.1...v0.74.0) (2025-07-29)
+
+
+### Features
+
+* **portal-frontend:** feature toggle for "me" api ([7b553bf](https://git.knut.univention.de/univention/dev/projects/portal/commit/7b553bf6c64909f3f4e9d7ac660eac9f2caca44b)), closes [univention/dev/internal/team-nubus#1358](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1358)
+
 ## [0.73.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.73.0...v0.73.1) (2025-07-29)
 
 
