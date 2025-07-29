@@ -12,10 +12,9 @@ from __future__ import annotations
 import subprocess
 from typing import Dict, List
 
+import listener
 import univention.debug as ud
 from univention.portal.util import get_portal_update_call
-
-import listener
 
 
 description = 'Tell portal server to refresh when something important changed'
