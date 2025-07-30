@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.74.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.74.0...v0.74.1) (2025-07-30)
+
+
+### Bug Fixes
+
+* **frontend:** Not load newsfeed nor greeting if no user is logged in ([dc37905](https://git.knut.univention.de/univention/dev/projects/portal/commit/dc37905c2d2790d80de8cfdf24a5dada47081874)), closes [univention/dev/internal/team-nubus#1359](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1359)
+
 ## [0.74.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.73.1...v0.74.0) (2025-07-29)
 
 
