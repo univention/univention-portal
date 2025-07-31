@@ -35,6 +35,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           activeEditModeButton ||
           activeLeftMenuButton
       "
+      :full="activeLeftMenuButton"
       @backgroundClick="closeSidebar"
     >
       <transition
@@ -49,7 +50,6 @@ License with the Debian GNU/Linux or Univention distribution in file
         >
           <left-side-navigation
             :links="leftMenuItems"
-            :is-left-sidebar="true"
           />
         </flyout-wrapper>
       </transition>

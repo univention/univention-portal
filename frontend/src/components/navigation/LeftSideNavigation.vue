@@ -5,6 +5,17 @@
     direction="topdown"
     class="portal-sidenavigation"
   >
+    <div class="portal-sidenavigation__header">
+      <portal-title />
+      <div
+        role="button"
+        @click="closeNavigation"
+        @keydown.enter="closeNavigation"
+        class="portal-sidenavigation__close-button"
+      >
+        <portal-icon icon="x" />
+      </div>
+    </div>
     <ul class="portal-sidenavigation__menu">
       <li
         v-for="item in menuItems"
@@ -35,6 +46,8 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import Region from '@/components/activity/Region.vue';
+import PortalTitle from '@/components/header/PortalTitle.vue';
+import PortalIcon from '@/components/globals/PortalIcon.vue';
 import { mockLeftSidebarMenu } from '../../jsHelper/mockLeftSidebarMenu';
 
 interface MenuItemLink {
@@ -69,6 +82,8 @@ export default defineComponent({
   name: 'LeftSideNavigation',
   components: {
     Region,
+    PortalTitle,
+    PortalIcon,
   },
   data(): SideNavigationData {
     return {
@@ -138,6 +153,30 @@ $userRow = 6rem
   height: 100%
   display: flex
   flex-direction: column
+
+  &__header
+    display: flex
+    align-items: center
+    padding: calc(3 * var(--layout-spacing-unit)) calc(2 * var(--layout-spacing-unit))
+    justify-content: space-between
+    height: var(--portal-header-height)
+    color: var(--font-color-contrast-high)
+
+  &__close-button
+    background-color: none;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--left-sidenav-close-button-border-radius)
+    padding: var()(--layout-spacing-unit)
+    width: 2rem
+    height: 2rem
+    display: flex;
+    align-items: center
+    justify-content: center
+
+    &:hover
+      background-color: gray
+      cursor: pointer
 
   &__link
     position: relative
