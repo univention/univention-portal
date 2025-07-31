@@ -68,6 +68,146 @@ export const mockLeftSidebarMenu = [
     },
     target: 'docs',
   },
+  {
+    icon_url: './data/icons/owncloud-admindoc.svg',
+    keywords: {},
+    linkTarget: 'useportaldefault',
+    links: [
+      {
+        locale: 'en_US',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+      {
+        locale: 'de_DE',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+    ],
+    name: {
+      de_DE: 'Kalender',
+      en_US: 'Calendar',
+    },
+    target: 'docs',
+  },
+  {
+    icon_url: './data/icons/owncloud-admindoc.svg',
+    keywords: {},
+    linkTarget: 'useportaldefault',
+    links: [
+      {
+        locale: 'en_US',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+      {
+        locale: 'de_DE',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+    ],
+    name: {
+      de_DE: 'Kalender',
+      en_US: 'Calendar',
+    },
+    target: 'docs',
+  },
+  {
+    icon_url: './data/icons/owncloud-admindoc.svg',
+    keywords: {},
+    linkTarget: 'useportaldefault',
+    links: [
+      {
+        locale: 'en_US',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+      {
+        locale: 'de_DE',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+    ],
+    name: {
+      de_DE: 'Kalender',
+      en_US: 'Calendar',
+    },
+    target: 'docs',
+  },
+  {
+    icon_url: './data/icons/owncloud-admindoc.svg',
+    keywords: {},
+    linkTarget: 'useportaldefault',
+    links: [
+      {
+        locale: 'en_US',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+      {
+        locale: 'de_DE',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+    ],
+    name: {
+      de_DE: 'Kalender',
+      en_US: 'Calendar',
+    },
+    target: 'docs',
+  },
+  {
+    icon_url: './data/icons/owncloud-admindoc.svg',
+    keywords: {},
+    linkTarget: 'useportaldefault',
+    links: [
+      {
+        locale: 'en_US',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+      {
+        locale: 'de_DE',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+    ],
+    name: {
+      de_DE: 'Kalender',
+      en_US: 'Calendar',
+    },
+    target: 'docs',
+  },
+  {
+    icon_url: './data/icons/owncloud-admindoc.svg',
+    keywords: {},
+    linkTarget: 'useportaldefault',
+    links: [
+      {
+        locale: 'en_US',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+      {
+        locale: 'de_DE',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+    ],
+    name: {
+      de_DE: 'Kalender',
+      en_US: 'Calendar',
+    },
+    target: 'docs',
+  },
+  {
+    icon_url: './data/icons/owncloud-admindoc.svg',
+    keywords: {},
+    linkTarget: 'useportaldefault',
+    links: [
+      {
+        locale: 'en_US',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+      {
+        locale: 'de_DE',
+        value: 'https://doc.owncloud.com/server/10.0/admin_manual/',
+      },
+    ],
+    name: {
+      de_DE: 'Kalender',
+      en_US: 'Calendar',
+    },
+    target: 'docs',
+  },
 ];
 
 export default mockLeftSidebarMenu;
