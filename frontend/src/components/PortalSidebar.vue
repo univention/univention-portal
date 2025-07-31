@@ -47,7 +47,7 @@ License with the Debian GNU/Linux or Univention distribution in file
           :from-left="true"
           class="portal-sidebar__flyout"
         >
-          <side-navigation
+          <left-side-navigation
             :links="leftMenuItems"
             :is-left-sidebar="true"
           />
@@ -87,7 +87,6 @@ License with the Debian GNU/Linux or Univention distribution in file
       >
         <flyout-wrapper
           v-if="activeEditModeButton"
-          key="edit-mode"
           :is-visible="activeEditModeButton"
           class="portal-sidebar__flyout"
         >
@@ -106,6 +105,7 @@ import FlyoutWrapper from '@/components/navigation/FlyoutWrapper.vue';
 import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import Notifications from '@/components/notifications/Notifications.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
+import LeftSideNavigation from '@/components/navigation/LeftSideNavigation.vue';
 import EditModeSideNavigation from '@/components/navigation/EditModeSideNavigation.vue';
 import { mockLeftSidebarMenu } from '../jsHelper/mockLeftSidebarMenu';
 
@@ -116,6 +116,7 @@ export default defineComponent({
     ModalWrapper,
     Notifications,
     SideNavigation,
+    LeftSideNavigation,
     EditModeSideNavigation,
   },
   computed: {

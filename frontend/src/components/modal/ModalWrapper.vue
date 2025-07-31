@@ -137,7 +137,11 @@ export default defineComponent({
 .modalWrapperFade-leave-to
   opacity: 0
 
-.modalWrapperFade-enter-from .flyout-wrapper,
-.modalWrapperFade-leave-to .flyout-wrapper
+.modalWrapperFade-enter-from .flyout-wrapper--right,
+.modalWrapperFade-leave-to .flyout-wrapper--right
   transform: translate3d(110%, 0, 0)
+
+.modalWrapperFade-enter-from .flyout-wrapper--left,
+.modalWrapperFade-leave-to .flyout-wrapper--left
+  transform: translate3d(-110%, 0, 0)
 </style>
