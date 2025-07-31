@@ -5,9 +5,30 @@
 <template>
   <div class="portal-sidebar">
     <modal-wrapper
-      :is-active="activeNotificationButton || activeMenuButton || activeEditModeButton"
+      :is-active="
+        activeNotificationButton ||
+          activeMenuButton ||
+          activeEditModeButton ||
+          activeLeftMenuButton
+      "
       @backgroundClick="closeSidebar"
     >
+      <transition
+        name="slide-left"
+        appear
+      >
+        <flyout-wrapper
+          v-if="activeLeftMenuButton"
+          :is-visible="activeLeftMenuButton"
+          :from-left="true"
+          class="portal-sidebar__flyout"
+        >
+          <side-navigation
+            :links="leftMenuItems"
+            :is-left-sidebar="true"
+          />
+        </flyout-wrapper>
+      </transition>
       <transition
         name="slide"
         appear
@@ -17,7 +38,6 @@
           :is-visible="activeNotificationButton"
           class="portal-sidebar__flyout"
         >
-          <!-- Side notifications -->
           <notifications :is-in-notification-bar="true" />
         </flyout-wrapper>
       </transition>
@@ -31,8 +51,9 @@
           :is-visible="activeMenuButton"
           class="portal-sidebar__flyout"
         >
-          <!-- Side navigation -->
-          <side-navigation :links="menuItems" />
+          <side-navigation
+            :links="menuItems"
+          />
         </flyout-wrapper>
       </transition>
 
@@ -42,10 +63,10 @@
       >
         <flyout-wrapper
           v-if="activeEditModeButton"
+          key="edit-mode"
           :is-visible="activeEditModeButton"
           class="portal-sidebar__flyout"
         >
-          <!-- Edit mode -->
           <edit-mode-side-navigation v-if="activeEditModeButton" />
         </flyout-wrapper>
       </transition>
@@ -62,6 +83,7 @@ import ModalWrapper from '@/components/modal/ModalWrapper.vue';
 import Notifications from '@/components/notifications/Notifications.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import EditModeSideNavigation from '@/components/navigation/EditModeSideNavigation.vue';
+import { mockLeftSidebarMenu } from '../jsHelper/mockLeftSidebarMenu';
 
 export default defineComponent({
   name: 'PortalSidebar',
@@ -77,8 +99,14 @@ export default defineComponent({
       activeButton: 'navigation/getActiveButton',
       menuItems: 'menu/getMenu',
     }),
+    leftMenuItems() {
+      return mockLeftSidebarMenu || [];
+    },
     activeNotificationButton(): boolean {
       return this.activeButton === 'bell';
+    },
+    activeLeftMenuButton(): boolean {
+      return this.activeButton === 'left-menu';
     },
     activeMenuButton(): boolean {
       return this.activeButton === 'menu';
@@ -112,5 +140,15 @@ export default defineComponent({
 .slide-enter-from,
 .slide-leave-to {
   transform: translateX(22rem)
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform var(--portal-transition-duration) ease
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  transform: translateX(-22rem)
 }
 </style>

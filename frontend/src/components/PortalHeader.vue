@@ -13,7 +13,7 @@
     }"
     class="portal-header"
   >
-    <left-sidebar-navigation
+    <left-sidebar-navigation-button
       v-if="hasLeftSidebarSupport"
       data-test="left-sidebar-button"
     />
@@ -141,7 +141,7 @@ import PortalSearch from '@/components/search/PortalSearch.vue';
 import ChooseTabs from '@/components/ChooseTabs.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
 import IconButton from '@/components/globals/IconButton.vue';
-import LeftSidebarNavigation from '@/components/navigation/LeftSidebarNavigation.vue';
+import LeftSidebarNavigationButton from '@/components/navigation/LeftSidebarNavigationButton.vue';
 
 import Announcement from '@/components/widgets/Announcement.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
@@ -162,7 +162,7 @@ export default defineComponent({
     Region,
     PortalTitle,
     IconButton,
-    LeftSidebarNavigation,
+    LeftSidebarNavigationButton,
   },
   data(): PortalHeaderData {
     return {
