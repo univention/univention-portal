@@ -28,8 +28,11 @@ License with the Debian GNU/Linux or Univention distribution in file
 -->
 <template>
   <div
-    :class="{ 'flyout-wrapper--isVisible': isVisible }"
-    class="flyout-wrapper"
+    :class="[
+      'flyout-wrapper',
+      { 'flyout-wrapper--isVisible': isVisible },
+      fromLeft ? 'flyout-wrapper--left' : 'flyout-wrapper--right'
+    ]"
   >
     <slot />
   </div>
@@ -45,6 +48,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    fromLeft: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 </script>
@@ -56,12 +63,21 @@ export default defineComponent({
   position: fixed
   top:  calc(var(--portal-header-height) + var(--layout-spacing-unit))
   bottom: var(--layout-spacing-unit)
-  right: 0
   z-index: 100
   background-color: var(--bgc-content-container)
-  transform: translate3d(110%, 0, 0)
   transition: transform cubic-bezier(0, 0, 0.2, 1) 0.15s
-  border-radius: 0.5rem 0 0 0.5rem
+  border-radius: 0.5rem 0 0 0.5rem // TODO CUSTOM CSS
+
+  &--left
+    left: 0
+    right: auto
+    top: 0
+    transform: translate3d(-110%, 0, 0)
+
+  &--right
+    right: 0
+    left: auto
+    transform: translate3d(110%, 0, 0)
 
   &--isVisible
     transform: translate3d(0, 0, 0) scale(1, 1)

@@ -29,6 +29,7 @@
 <template>
   <button
     class="left-sidebar-navigation"
+    :class="{ 'left-sidebar-navigation--active': isMenuActive }"
     type="button"
     aria-label="Open sidebar navigation"
     @click="toggleSidebar"
@@ -39,18 +40,29 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 import WaffleIcon from '../header/WaffleIcon.vue';
 
 export default defineComponent({
-  name: 'LeftSidebarNavigation',
+  name: 'LeftSidebarNavigationButton',
   components: {
     WaffleIcon,
   },
-  emits: ['toggleSidebar'],
+  computed: {
+    ...mapGetters({
+      activeButton: 'navigation/getActiveButton',
+    }),
+    isMenuActive(): boolean {
+      return this.activeButton === 'left-menu';
+    },
+  },
   methods: {
     toggleSidebar(): void {
-      console.log('open sidebar');
-      // this.$emit('toggleSidebar');
+      if (this.isMenuActive) {
+        this.$store.dispatch('navigation/setActiveButton', '');
+      } else {
+        this.$store.dispatch('navigation/setActiveButton', 'left-menu');
+      }
     },
   },
 });
@@ -82,4 +94,7 @@ export default defineComponent({
 
   &:active
      background-color: var(--color-accent)
+
+  &--active
+    background-color: var(--color-accent)
 </style>

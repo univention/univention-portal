@@ -471,7 +471,7 @@
     "icsSilentLoginUrl": null
   },
   "portal": {
-    "background": "./data/icons/background.svg",
+    "background": "",
     "categories": [
       "cn=domain-service,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
       "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
