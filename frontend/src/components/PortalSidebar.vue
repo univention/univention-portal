@@ -11,6 +11,7 @@
           activeEditModeButton ||
           activeLeftMenuButton
       "
+      :full="activeLeftMenuButton"
       @backgroundClick="closeSidebar"
     >
       <transition
@@ -25,7 +26,6 @@
         >
           <left-side-navigation
             :links="leftMenuItems"
-            :is-left-sidebar="true"
           />
         </flyout-wrapper>
       </transition>
