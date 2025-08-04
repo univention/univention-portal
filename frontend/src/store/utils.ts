@@ -14,6 +14,7 @@ export const languageJsonPath = process.env.VUE_APP_LANGUAGE_DATA || '/univentio
 export const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json';
 export const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 export const portalApiMePath = process.env.VUE_APP_PORTAL_API_ME || './api/v1/me';
+export const portalLeftSidebarPath = process.env.VUE_APP_PORTAL_LEFT_SIDEBAR || './navigation.json';
 
 export async function portalJsonRequest(adminMode: boolean) {
   const umcLang = getCookie('UMCLang');

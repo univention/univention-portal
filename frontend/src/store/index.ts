@@ -31,6 +31,7 @@ import {
   portalApiMePath,
   portalJsonPath,
   portalJsonRequest,
+  portalLeftSidebarPath,
   portalMetaPath,
   portalUrl,
 } from './utils';
@@ -74,13 +75,17 @@ export const actions = {
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data
+      `${portalUrl}${portalApiMePath}`, // Get user details from api endpoint "me"
+      `${portalUrl}${portalLeftSidebarPath}`, // Get left sidebar navigation items
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
     Promise.all(portalPromises).then(async ([
-      metaResponse, languageResponse, portalResponse,
+      metaResponse, languageResponse, portalApiMeResponse, portalLeftSidebarResponse, portalResponse,
     ]) => {
-      const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
+      const [meta, availableLocales, leftSidebar, portal] = [metaResponse.data, languageResponse.data, portalLeftSidebarResponse.data, portalResponse.data];
+      const apiMe = portalApiMeResponse.data;
+      const userData = extractUserData(portal, apiMe);
 
       if (languageResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
@@ -91,6 +96,12 @@ export const actions = {
         console.warn(`Failed to fetch ${portalUrl}${portalMetaPath}`, metaResponse);
       } else {
         dispatch('metaData/setMeta', meta);
+      }
+
+      if (portalLeftSidebarResponse.isAxiosError) {
+        console.warn(`Failed to fetch ${portalUrl}${portalLeftSidebarPath}`, portalLeftSidebarResponse);
+      } else {
+        dispatch('portalData/setLeftSidebarItems', leftSidebar);
       }
 
       dispatch('menu/setMenu', {
@@ -108,7 +119,6 @@ export const actions = {
           console.warn('Key "feature_toggles" missing in portal data.');
         }
         dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
-        const userData = extractUserData(portal, undefined);
         dispatch('user/setUser', userData);
         if (portal.username) {
           dispatch('userIsLoggedIn');
@@ -120,9 +130,9 @@ export const actions = {
 
         if (portal.feature_toggles?.api_me) {
           axios.get(`${portalUrl}${portalApiMePath}`)
-            .then((portalApiMeResponse) => {
-              const apiMe = portalApiMeResponse.data;
-              const enrichedUserData = extractUserData(portal, apiMe);
+            .then((apiMeResponse) => {
+              const apiMeData = apiMeResponse.data;
+              const enrichedUserData = extractUserData(portal, apiMeData);
               dispatch('user/setUser', enrichedUserData);
             })
             .catch((error) => {

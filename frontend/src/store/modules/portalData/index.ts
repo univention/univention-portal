@@ -25,6 +25,7 @@ import {
   PortalDataActionContext,
   Category,
   TileOrFolder,
+  PortalEntry,
 } from './portalData.models';
 
 function isEqual<T>(arr1: Array<T>, arr2: Array<T>) {
@@ -178,6 +179,7 @@ const portalData: PortalModule<PortalDataState> = {
       quickLinks: [],
       userLinks: [],
       announcements: [],
+      leftSidebarItems: [],
       baseLayout: {
         layout: [],
         categories: {},
@@ -320,6 +322,9 @@ const portalData: PortalModule<PortalDataState> = {
     PORTAL_DISPLAY_ERROR(state: PortalDataState, payload: number): void {
       state.errorContentType = payload;
     },
+    PORTAL_LEFT_SIDEBAR(state: PortalDataState, payload: PortalEntry[]): void {
+      state.portal.leftSidebarItems = payload;
+    },
   },
 
   getters: {
@@ -341,6 +346,7 @@ const portalData: PortalModule<PortalDataState> = {
     userLinks: (state) => state.portal.userLinks,
     menuLinks: (state) => state.portal.menuLinks,
     quickLinks: (state) => state.portal.quickLinks,
+    leftSidebarItems: (state) => state.portal.leftSidebarItems || [],
     editMode: (state) => state.editMode,
     cacheId: (state) => state.cacheId,
     loaded: (state) => state.cacheId !== '',
@@ -688,6 +694,9 @@ const portalData: PortalModule<PortalDataState> = {
     },
     setPortalErrorDisplay({ commit }: { commit: Commit }, payload: number): void {
       commit('PORTAL_DISPLAY_ERROR', payload);
+    },
+    setLeftSidebarItems({ commit }: { commit: Commit }, payload: PortalEntry[]): void {
+      commit('PORTAL_LEFT_SIDEBAR', payload);
     },
   },
 };
