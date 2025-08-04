@@ -5,12 +5,12 @@
 
 <template>
   <region
-    id="portal-sidenavigation"
+    id="portal-left-sidenavigation"
     role="navigation"
     direction="topdown"
-    class="portal-sidenavigation"
+    class="portal-left-sidenavigation"
   >
-    <div class="portal-sidenavigation__header">
+    <div class="portal-left-sidenavigation__header">
       <portal-title />
       <div
         role="button"
@@ -21,27 +21,30 @@
         <portal-icon icon="x" />
       </div>
     </div>
+    <div class="portal-left-sidenavigation__title">
+      Anwendungen
+    </div>
     <ul
       v-if="menuItems.length > 0"
-      class="portal-sidenavigation__menu"
+      class="portal-left-sidenavigation__menu"
     >
       <li
         v-for="item in menuItems"
         :key="item.id"
-        class="portal-sidenavigation__menu-item"
+        class="portal-left-sidenavigation__menu-item"
       >
         <a
           :href="getItemLink(item)"
           :target="getItemTarget(item)"
-          class="portal-sidenavigation__link"
+          class="portal-left-sidenavigation__link"
         >
           <img
             v-if="item.icon_url"
             :src="item.icon_url"
             :alt="getItemName(item)"
-            class="portal-sidenavigation__icon"
+            class="portal-left-sidenavigation__icon"
           >
-          <span class="portal-sidenavigation__text">
+          <span class="portal-left-sidenavigation__text">
             {{ getItemName(item) }}
           </span>
         </a>
@@ -147,15 +150,16 @@ export default defineComponent({
 
 <style lang="stylus">
 $userRow = 6rem
-.portal-sidenavigation
+.portal-left-sidenavigation
   height: 100%
   display: flex
   flex-direction: column
+  padding: 1rem
+  border-right-radius: 1rem
 
   &__header
     display: flex
     align-items: center
-    padding: calc(3 * var(--layout-spacing-unit)) calc(2 * var(--layout-spacing-unit))
     justify-content: space-between
     height: var(--portal-header-height)
     color: var(--font-color-contrast-high)
@@ -176,12 +180,15 @@ $userRow = 6rem
       background-color: gray
       cursor: pointer
 
+  &__title
+    font-size: 0.8rem
+    font-weight: 600
+    padding: calc(1.5 * var(--layout-spacing-unit)) calc(2 * var(--layout-spacing-unit)) 0
+    color: var(--color-text)
+    margin: 1rem 0
+
   &__link
-    position: relative
-    left: calc(2*var(--layout-spacing-unit))
-    margin-top: var(--layout-spacing-unit)
-    margin-bottom: calc(2*var(--layout-spacing-unit))
-    align-self: flex-start
+    padding-right: calc(1.5 * var(--layout-spacing-unit))
 
   &__menu
     flex: 1 1 auto
@@ -191,22 +198,22 @@ $userRow = 6rem
     list-style: none
     margin: 0
 
-  &__menu-item
-    list-style: none
-    margin: 0
-    padding: 0
-
   &__link
+    padding: calc(0.8 * var(--layout-spacing-unit))
     position: relative
     display: flex
     align-items: center
-    padding: calc(1.5 * var(--layout-spacing-unit)) calc(2 * var(--layout-spacing-unit))
     text-decoration: none
     color: var(--color-text)
     transition: background-color 0.2s ease
+    border-radius: calc(0.8 * var(--layout-spacing-unit))
 
     &:hover
-      background-color: var(--bgc-content-header)
+      background-color: gray
+
+    &:focus
+      outline: 2px solid white
+      outline-offset: -2px
 
   &__icon
     width: 2rem

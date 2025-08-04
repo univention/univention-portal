@@ -73,6 +73,7 @@ export default defineComponent({
     right: auto
     top: 0
     transform: translate3d(-110%, 0, 0)
+    border-right-radius: 1rem
 
   &--right
     right: 0
