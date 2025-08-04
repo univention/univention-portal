@@ -182,6 +182,7 @@ export interface PortalData {
   baseLayout: PortalBaseLayout,
   layout: PortalLayout,
   newsfeedConfig?: PortalNewsfeedConfig,
+  leftSidebarItems?: PortalEntry[],
 }
 export interface PortalDataState {
   portal: PortalData;

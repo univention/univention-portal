@@ -55,6 +55,7 @@ import {
   portalApiMePath,
   portalJsonPath,
   portalJsonRequest,
+  portalLeftSidebarPath,
   portalMetaPath,
   portalUrl,
 } from './utils';
@@ -99,13 +100,14 @@ export const actions = {
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data
       `${portalUrl}${portalApiMePath}`, // Get user details from api endpoint "me"
+      `${portalUrl}${portalLeftSidebarPath}`, // Get left sidebar navigation items
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
     Promise.all(portalPromises).then(async ([
-      metaResponse, languageResponse, portalApiMeResponse, portalResponse,
+      metaResponse, languageResponse, portalApiMeResponse, portalLeftSidebarResponse, portalResponse,
     ]) => {
-      const [meta, availableLocales, portal] = [metaResponse.data, languageResponse.data, portalResponse.data];
+      const [meta, availableLocales, leftSidebar, portal] = [metaResponse.data, languageResponse.data, portalLeftSidebarResponse.data, portalResponse.data];
       const apiMe = portalApiMeResponse.data;
       const userData = extractUserData(portal, apiMe);
 
@@ -118,6 +120,12 @@ export const actions = {
         console.warn(`Failed to fetch ${portalUrl}${portalMetaPath}`, metaResponse);
       } else {
         dispatch('metaData/setMeta', meta);
+      }
+
+      if (portalLeftSidebarResponse.isAxiosError) {
+        console.warn(`Failed to fetch ${portalUrl}${portalLeftSidebarPath}`, portalLeftSidebarResponse);
+      } else {
+        dispatch('portalData/setLeftSidebarItems', leftSidebar);
       }
 
       dispatch('menu/setMenu', {

@@ -21,10 +21,13 @@
         <portal-icon icon="x" />
       </div>
     </div>
-    <ul class="portal-sidenavigation__menu">
+    <ul
+      v-if="menuItems.length > 0"
+      class="portal-sidenavigation__menu"
+    >
       <li
         v-for="item in menuItems"
-        :key="`${item.target}-${item.name.en_US}`"
+        :key="item.id"
         class="portal-sidenavigation__menu-item"
       >
         <a
@@ -33,6 +36,7 @@
           class="portal-sidenavigation__link"
         >
           <img
+            v-if="item.icon_url"
             :src="item.icon_url"
             :alt="getItemName(item)"
             class="portal-sidenavigation__icon"
@@ -53,26 +57,7 @@ import { mapGetters } from 'vuex';
 import Region from '@/components/activity/Region.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
-import { mockLeftSidebarMenu } from '../../jsHelper/mockLeftSidebarMenu';
-
-interface MenuItemLink {
-  locale: string;
-  value: string;
-}
-
-interface MenuItemName {
-  [locale: string]: string;
-}
-
-interface MenuItem {
-  // eslint-disable-next-line camelcase
-  icon_url: string;
-  keywords: Record<string, unknown>;
-  linkTarget: string;
-  links: MenuItemLink[];
-  name: MenuItemName;
-  target: string;
-}
+import { PortalEntry } from '@/store/modules/portalData/portalData.models';
 
 interface SideNavigationData {
   menuVisible: boolean,
@@ -102,9 +87,13 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
+      leftSidebarItems: 'portalData/leftSidebarItems',
+      currentLocale: 'locale/getLocale',
     }),
     menuItems() {
-      return mockLeftSidebarMenu || [];
+      const items = this.leftSidebarItems;
+      // @ts-ignore
+      return Array.isArray(items?.entries) ? items.entries : [];
     },
   },
   created() {
@@ -129,20 +118,24 @@ export default defineComponent({
       }
       return ret;
     },
-    getItemName(item: MenuItem): string {
-      // Get the localized name, fallback to en_US if current locale not available
-      const locale = 'en_US'; // Simplified for now
-      return item.name[locale] || item.name.en_US || '';
+    getItemName(item: PortalEntry): string {
+      // Use the $localized function to get the localized name with proper fallbacks
+      if (!item || !item.name) return '';
+      return this.$localized(item.name);
     },
-    getItemLink(item: MenuItem): string {
-      // Get the localized link, fallback to en_US if current locale not available
-      const locale = 'en_US'; // Simplified for now
-      const link = item.links.find((l: MenuItemLink) => l.locale === locale) ||
-                   item.links.find((l: MenuItemLink) => l.locale === 'en_US');
-      return link?.value || '#';
+    getItemLink(item: PortalEntry): string {
+      // Get the localized link using the current locale
+      if (!item || !item.links || !Array.isArray(item.links)) return '#';
+
+      const link = item.links.find((l) => l && l.locale === this.currentLocale) ||
+                   item.links.find((l) => l && l.locale === 'en_US') ||
+                   item.links.find((l) => l); // fallback to first non-null link
+      return link?.link || '#';
     },
-    getItemTarget(item: MenuItem): string {
+    getItemTarget(item: PortalEntry): string {
       // Return the appropriate target for the link
+      if (!item) return '_blank';
+
       if (item.linkTarget === 'useportaldefault') {
         return '_self';
       }

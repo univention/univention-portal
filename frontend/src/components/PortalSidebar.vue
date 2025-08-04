@@ -107,7 +107,6 @@ import Notifications from '@/components/notifications/Notifications.vue';
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import LeftSideNavigation from '@/components/navigation/LeftSideNavigation.vue';
 import EditModeSideNavigation from '@/components/navigation/EditModeSideNavigation.vue';
-import { mockLeftSidebarMenu } from '../jsHelper/mockLeftSidebarMenu';
 
 export default defineComponent({
   name: 'PortalSidebar',
@@ -125,7 +124,7 @@ export default defineComponent({
       menuItems: 'menu/getMenu',
     }),
     leftMenuItems() {
-      return mockLeftSidebarMenu || [];
+      return [];
     },
     activeNotificationButton(): boolean {
       return this.activeButton === 'bell';
