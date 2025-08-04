@@ -267,7 +267,7 @@ export default defineComponent({
   &--waffle-icon-height
     padding-top: 0
     padding-left: 0
-    height: var(--portal-header-height-with-waffle-icon)
+    height: calc(var(--waffle-icon-height) - 0 * var(--layout-spacing-unit))
 
     @media $mqSmartphone
       height: 50px
