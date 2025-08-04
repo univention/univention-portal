@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.75.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.74.1...v0.75.0) (2025-08-04)
+
+
+### Features
+
+* **portal-frontend:** add cypress test for focus handling with modal ([91cc1a0](https://git.knut.univention.de/univention/dev/projects/portal/commit/91cc1a0f8aea7446277d196fbdb326ba297cace5)), closes [univention/dev/projects/portal#741](https://git.knut.univention.de/univention/dev/projects/portal/issues/741)
+* **portal-frontend:** add fixture file and initial test case ([cdbe0c0](https://git.knut.univention.de/univention/dev/projects/portal/commit/cdbe0c01b36f14ab8fe27358af72c526b538807c)), closes [univention/dev/projects/portal#741](https://git.knut.univention.de/univention/dev/projects/portal/issues/741)
+* **portal-frontend:** replace links and buttons with TabindexElement, which handles the focus management ([c35b8c9](https://git.knut.univention.de/univention/dev/projects/portal/commit/c35b8c99651f839d6fc538a9568ddc29b6d107d3)), closes [univention/dev/projects/portal#741](https://git.knut.univention.de/univention/dev/projects/portal/issues/741)
+* **portal-frontend:** write tests for the focusmanagement ([eac1bce](https://git.knut.univention.de/univention/dev/projects/portal/commit/eac1bce8c3ffb0e446b768715b18f627c8614f77)), closes [univention/dev/projects/portal#741](https://git.knut.univention.de/univention/dev/projects/portal/issues/741)
+
 ## [0.74.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.74.0...v0.74.1) (2025-07-30)
 
 
