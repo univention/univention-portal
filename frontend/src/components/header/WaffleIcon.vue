@@ -1,3 +1,8 @@
+<!--
+ SPDX-License-Identifier: AGPL-3.0-only
+ SPDX-FileCopyrightText: 2025 Univention GmbH
+-->
+
 <!-- eslint-disable max-len, vue/max-attributes-per-line, vue/singleline-html-element-content-newline, vue/html-self-closing, vue/require-v-for-key -->
 <template>
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
