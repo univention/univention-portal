@@ -14,9 +14,10 @@
       <portal-title />
       <div
         role="button"
+        tabindex="0"
+        class="portal-left-sidenavigation__close-button"
         @click="closeNavigation"
         @keydown.enter="closeNavigation"
-        class="portal-sidenavigation__close-button"
       >
         <portal-icon icon="x" />
       </div>
@@ -155,7 +156,8 @@ $userRow = 6rem
   display: flex
   flex-direction: column
   padding: 1rem
-  border-right-radius: 1rem
+  border-radius: var(--left-sidenavigation-border-radius)
+  box-shadow: var(--left-sidenav-box-shadow);
 
   &__header
     display: flex
@@ -168,22 +170,27 @@ $userRow = 6rem
     background-color: none;
     border: none;
     cursor: pointer;
-    border-radius: var(--left-sidenav-close-button-border-radius)
-    padding: var()(--layout-spacing-unit)
+    border-radius: var(--left-sidenavigation-close-button-radius)
+    padding: var(--layout-spacing-unit)
     width: 2rem
     height: 2rem
-    display: flex;
+    display: flex
     align-items: center
     justify-content: center
+    box-sizing: content-box
 
     &:hover
       background-color: gray
       cursor: pointer
 
+    &:focus-visible
+      outline:2px solid var(--color-focus);
+      outline-offset: var(--left-sidenavigation-outline-offset, -0.5rem)
+
   &__title
     font-size: 0.8rem
     font-weight: 600
-    padding: calc(1.5 * var(--layout-spacing-unit)) calc(2 * var(--layout-spacing-unit)) 0
+    padding: calc(1.5 * var(--layout-spacing-unit)) 0.5rem 0
     color: var(--color-text)
     margin: 1rem 0
 
@@ -199,7 +206,7 @@ $userRow = 6rem
     margin: 0
 
   &__link
-    padding: calc(0.8 * var(--layout-spacing-unit))
+    padding: calc(0.5rem)
     position: relative
     display: flex
     align-items: center

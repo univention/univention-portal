@@ -48,8 +48,9 @@ export default defineComponent({
     left: 0
     right: auto
     top: 0
+    bottom: 0
     transform: translate3d(-110%, 0, 0)
-    border-right-radius: 1rem
+    border-radius: var(--left-sidenavigation-border-radius)
 
   &--right
     right: 0
