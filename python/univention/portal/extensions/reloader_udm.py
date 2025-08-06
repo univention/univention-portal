@@ -51,6 +51,7 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
         menu_links = portal_data.props.menuLinks
         quick_links = portal_data.props.quickLinks
         user_links = portal_data.props.userLinks
+        central_navigation = portal_data.props.centralNavigation
 
         entry_references = set()
         entry_references.update(
@@ -58,6 +59,7 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
             menu_links,
             quick_links,
             user_links,
+            central_navigation,
             [entry_dn for category in portal_categories for entry_dn in category["entries"]],
         )
 
@@ -78,6 +80,7 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
             "menu_links": menu_links,
             "quick_links": quick_links,
             "user_links": user_links,
+            "central_navigation": central_navigation,
             "announcements": announcements,
         }
 

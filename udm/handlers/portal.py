@@ -96,6 +96,12 @@ property_descriptions = {
         syntax=univention.admin.syntax.NewPortalCategoryEntries,
         multivalue=True,
     ),
+    'centralNavigation': univention.admin.property(
+        short_description=_('Entries in the central navigation'),
+        long_description=_('List of portal entries that are returned from the Central Navigation API'),
+        syntax=univention.admin.syntax.NewPortalCategoryEntries,
+        multivalue=True,
+    ),
     'categories': univention.admin.property(
         short_description=_('Categories'),
         syntax=univention.admin.syntax.NewPortalCategories,
@@ -140,6 +146,9 @@ layout = [
         Group(_('Quick Links'), layout=[
             ['quickLinks'],
         ]),
+        Group(_('Central Navigation'), layout=[
+            ['centralNavigation'],
+        ]),
         Group(_('Appearance'), layout=[
             ['logo'],
             ['background'],
@@ -181,6 +190,7 @@ mapping.register('cornerLinks', 'univentionNewPortalCornerLinks', mapOrdered, un
 mapping.register('userLinks', 'univentionNewPortalUserLinks', mapOrdered, unmapOrdered)
 mapping.register('menuLinks', 'univentionNewPortalMenuLinks', mapOrdered, unmapOrdered)
 mapping.register('quickLinks', 'univentionNewPortalQuickLinks', mapOrdered, unmapOrdered)
+mapping.register('centralNavigation', 'univentionNewPortalCentralNavigation', mapOrdered, unmapOrdered)
 mapping.register('categories', 'univentionNewPortalCategories', mapOrdered, unmapOrdered)
 mapping.register('defaultLinkTarget', 'univentionNewPortalDefaultLinkTarget', None, univention.admin.mapping.ListToString)
 

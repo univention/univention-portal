@@ -123,6 +123,9 @@ class PortalCacheMixin:
     def get_quick_links(self):
         return deepcopy(self.get()["quick_links"])
 
+    def get_central_navigation(self):
+        return deepcopy(self.get().get("central_navigation"))
+
     def get_user_links(self):
         return deepcopy(self.get()["user_links"])
 

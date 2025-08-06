@@ -45,12 +45,23 @@ class NavigationHandler(PortalResource):
         categories_content = portal.get_categories(visible_content)
         meta = portal.get_meta(visible_content, categories_content)
         entries = portal.portal_cache.get_entries()
-        visible_entry_dns = portal._filter_entry_dns(
-            entries.keys(),
-            entries,
-            user,
-            False,
-        )
+
+        central_navigation_dns = portal.portal_cache.get_central_navigation()
+        if central_navigation_dns:
+            visible_entry_dns = portal._filter_entry_dns(
+                central_navigation_dns,
+                entries,
+                user,
+                False,
+            )
+
+        else:
+            visible_entry_dns = portal._filter_entry_dns(
+                entries.keys(),
+                entries,
+                user,
+                False,
+            )
 
         def get_category(category_dn):
             for category in categories_content:

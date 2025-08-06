@@ -59,6 +59,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
         menu_links = portal_data.properties["menuLinks"]
         quick_links = portal_data.properties["quickLinks"]
         user_links = portal_data.properties["userLinks"]
+        central_navigation = portal_data.properties.get("centralNavigation", [])
 
         entry_references = set()
         entry_references.update(
@@ -66,6 +67,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
             menu_links,
             quick_links,
             user_links,
+            central_navigation,
             [entry_dn for category in portal_categories for entry_dn in category["entries"]],
         )
 
@@ -86,6 +88,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
             "menu_links": menu_links,
             "quick_links": quick_links,
             "user_links": user_links,
+            "central_navigation": central_navigation,
             "announcements": announcements,
         }
         return result
