@@ -27,6 +27,7 @@ portal_properties = {
     "menuLinks": ["cn=entry-for-link-list,dc=test"],
     "quickLinks": ["cn=entry-for-link-list,dc=test"],
     "userLinks": ["cn=entry-for-link-list,dc=test"],
+    "centralNavigation": [],
 }
 
 category_properties = {

@@ -281,6 +281,7 @@ def test_portal_content_fetcher_returns_content(portal_content_fetcher, mocker):
         "menu_links": ["cn=entry-for-link-list,dc=test"],
         "quick_links": ["cn=entry-for-link-list,dc=test"],
         "user_links": ["cn=entry-for-link-list,dc=test"],
+        "central_navigation": [],
     }
     assert content == expected_content
 
