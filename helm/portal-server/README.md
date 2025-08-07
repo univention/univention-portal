@@ -799,6 +799,7 @@ true
 {
   "api_me": true,
   "centered_layout": false,
+  "left_sidebar": false,
   "native_html_list": false,
   "newsfeed": false,
   "notifications_api": true,
