@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2025-04-24 14:15+0000\n"
+"POT-Creation-Date: 2025-08-07 15:22+0000\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -53,8 +53,8 @@ msgstr "Kontolöschung"
 msgid "Account verification"
 msgstr "Kontoverifizierung"
 
-#: frontend/src/store/modules/portalData/index.ts:457
-#: frontend/src/store/modules/portalData/index.ts:461
+#: frontend/src/store/modules/portalData/index.ts:463
+#: frontend/src/store/modules/portalData/index.ts:467
 msgid "Action not possible. Please try another direction."
 msgstr ""
 "Diese Aktion ist nicht möglich. Versuchen Sie bitte eine andere Richtung."
@@ -132,6 +132,11 @@ msgstr "Zur Auswahl hinzugefügt"
 msgid "An error occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
+#: frontend/src/tmp/ts/frontend/src/components/navigation/LeftSideNavigation.vue:47
+#, fuzzy
+msgid "Applications"
+msgstr "Anwendungen"
+
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/GuardedSite.vue:183
 msgid "Authentification failed"
 msgstr "Authentifizierung fehlgeschlagen"
@@ -161,7 +166,7 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: frontend/src/store/modules/portalData/index.ts:648
+#: frontend/src/store/modules/portalData/index.ts:654
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
@@ -207,7 +212,7 @@ msgstr "Kategorie erfolgreich gelöscht"
 msgid "Category successfully unlinked"
 msgstr "Kategorie erfolgreich entfernt"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:64
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:65
 msgid "Change language"
 msgstr "Sprache ändern"
 
@@ -312,15 +317,15 @@ msgstr ""
 msgid "Download"
 msgstr "Download"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:84
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:87
 msgid "Edit Folder: %(folder)s"
 msgstr "Ordner %(folder)s bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/widgets/LocaleInput.vue:54
+#: frontend/src/tmp/ts/frontend/src/components/widgets/LocaleInput.vue:53
 msgid "Edit Translations"
 msgstr "Übersetzungen bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalCategory.vue:60
+#: frontend/src/tmp/ts/frontend/src/components/PortalCategory.vue:65
 msgid "Edit category: %(category)s"
 msgstr "Kategorie %(category)s bearbeiten"
 
@@ -328,11 +333,11 @@ msgstr "Kategorie %(category)s bearbeiten"
 msgid "Edit entry"
 msgstr "Eintrag bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:148
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:154
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:61
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:62
 msgid "Edit portal"
 msgstr "Portal bearbeiten"
 
@@ -345,17 +350,17 @@ msgstr "Kachel %(entry)s bearbeiten"
 msgid "Embedded"
 msgstr "Eingebettet"
 
-#: frontend/src/store/modules/portalData/index.ts:708
+#: frontend/src/store/modules/portalData/index.ts:714
 msgid "Entered edit mode"
 msgstr "Editiermodus betreten"
 
-#: frontend/src/store/modules/portalData/index.ts:602
-#: frontend/src/store/modules/portalData/index.ts:623
-#: frontend/src/store/modules/portalData/index.ts:633
+#: frontend/src/store/modules/portalData/index.ts:608
+#: frontend/src/store/modules/portalData/index.ts:629
+#: frontend/src/store/modules/portalData/index.ts:639
 msgid "Entries could not be re-sorted"
 msgstr "Einträge konnten nicht umsortiert werden"
 
-#: frontend/src/store/modules/portalData/index.ts:655
+#: frontend/src/store/modules/portalData/index.ts:661
 msgid "Entries successfully re-sorted"
 msgstr "Einträge erfolgreich umsortiert"
 
@@ -402,7 +407,7 @@ msgstr "Eintrag erfolgreich entfernt"
 msgid "Error"
 msgstr "Fehler"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:53
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:56
 msgid "Exit edit mode"
 msgstr "Editiermodus verlassen"
 
@@ -410,11 +415,11 @@ msgstr "Editiermodus verlassen"
 msgid "Failed to send verification token"
 msgstr "Senden des Verifizierungs-Token fehlgeschlagen"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:66
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:65
 msgid "Failed to set a password"
 msgstr "Passwort setzen ist fehlgeschlagen"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:78
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:81
 msgid "Folder"
 msgstr "Ordner"
 
@@ -457,11 +462,11 @@ msgstr "Ordner erfolgreich entfernt"
 msgid "Forgot your password? Set a new one:"
 msgstr "Haben Sie Ihr Passwort vergessen? Setzen Sie ein neues:"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:38
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:37
 msgid "Generate WLAN password"
 msgstr "WLAN-Passwort erzeugen"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:58
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:59
 msgid "Go Back"
 msgstr "Gehe zurück"
 
@@ -511,7 +516,9 @@ msgstr "Icon"
 msgid ""
 "If you are logging in for the first time, please click on \"View all\" to "
 "enable your access to the Newsfeed"
-msgstr "Wenn Sie sich zum ersten Mal anmelden, klicken Sie bitte auf \"Alle ansehen\" um Ihren Zugang zum Newsfeed zu aktivieren"
+msgstr ""
+"Wenn Sie sich zum ersten Mal anmelden, klicken Sie bitte auf \"Alle "
+"ansehen\" um Ihren Zugang zum Newsfeed zu aktivieren"
 
 #: frontend/src/tmp/ts/frontend/src/components/notifications/Notification.vue:64
 msgid "Info"
@@ -533,12 +540,12 @@ msgstr ""
 "mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
 "beginnen und enden."
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:73
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:76
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:61
 msgid "Item"
 msgstr "Eintrag"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:75
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:78
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:63
 msgid "Items"
 msgstr "Einträge"
@@ -552,7 +559,7 @@ msgstr "Schlüsselwörter"
 msgid "Latest News"
 msgstr "Aktuelles"
 
-#: frontend/src/store/modules/portalData/index.ts:710
+#: frontend/src/store/modules/portalData/index.ts:716
 msgid "Left edit mode"
 msgstr "Editiermodus verlassen"
 
@@ -569,23 +576,23 @@ msgstr "Links"
 msgid "Logged in as \"%(username)s\""
 msgstr "Angemeldet als \"%(username)s\""
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:55
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:56
 msgid "Login"
 msgstr "Anmelden"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:52
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:53
 msgid "Logout"
 msgstr "Abmelden"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:71
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:74
 msgid "Menu"
 msgstr "Menü"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:87
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:90
 msgid "Move Folder: %(folder)s"
 msgstr "Ordner %(folder)s verschieben"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalCategory.vue:57
+#: frontend/src/tmp/ts/frontend/src/components/PortalCategory.vue:62
 msgid "Move category: %(category)s"
 msgstr "Kategorie %(category)s verschieben"
 
@@ -633,7 +640,7 @@ msgstr "Neuer Tab"
 msgid "Next"
 msgstr "Weiter"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:71
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:74
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:59
 msgid "No items"
 msgstr "Keine Einträge"
@@ -655,7 +662,7 @@ msgstr "Nicht angemeldet"
 msgid "Notification removed"
 msgstr "Benachrichtigungen gelöscht"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:68
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:71
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -673,7 +680,7 @@ msgstr "Altes Passwort"
 msgid "Only visible if not logged in"
 msgstr "Nur sichtbar, wenn nicht angemeldet"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:56
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:59
 msgid "Open edit sidebar"
 msgstr "Editierseite öffnen"
 
@@ -698,7 +705,7 @@ msgstr "Passwortänderung erfolgreich"
 msgid "Password forgotten"
 msgstr "Passwort vergessen"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:47
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:46
 msgid ""
 "Please add it to your device now. You will not be able to see it again."
 msgstr ""
@@ -725,17 +732,17 @@ msgstr "Bitte geben Sie Ihr Passwort ein"
 msgid "Please enter your password to delete your account"
 msgstr "Bitte geben Sie Ihr Passwort ein um Ihr Konto zu löschen"
 
-#: frontend/src/store/modules/portalData/index.ts:183
 #: frontend/src/store/modules/portalData/index.ts:184
 #: frontend/src/store/modules/portalData/index.ts:185
 #: frontend/src/store/modules/portalData/index.ts:186
+#: frontend/src/store/modules/portalData/index.ts:187
 msgid "Portal"
 msgstr "Portal"
 
-#: frontend/src/store/modules/portalData/index.ts:236
-#: frontend/src/store/modules/portalData/index.ts:237
 #: frontend/src/store/modules/portalData/index.ts:238
 #: frontend/src/store/modules/portalData/index.ts:239
+#: frontend/src/store/modules/portalData/index.ts:240
+#: frontend/src/store/modules/portalData/index.ts:241
 msgid "Portal Menu"
 msgstr "Portal-Menü"
 
@@ -853,7 +860,7 @@ msgstr "Kurzinfo anzeigen"
 msgid "Sorry."
 msgstr "Entschuldigung."
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:59
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:62
 msgid "Stop edit portal"
 msgstr "Bearbeiten abbrechen"
 
@@ -873,7 +880,7 @@ msgstr "Änderungen erfolgreich gespeichert"
 msgid "Successfully sent Token."
 msgstr "Token Erfolgreich versendet"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:62
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:65
 msgid "Tabs"
 msgstr "Tabs"
 
@@ -955,7 +962,7 @@ msgid "Tile moved into position %(positionInArray)s of %(numberOfTiles)s"
 msgstr ""
 "Kachel zu Position %(positionInArray)s von %(numberOfTiles)s verschoben"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:35
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:34
 msgid ""
 "To login to the WLAN, you need a specific password. The password will be "
 "generated by the system and is valid until overwritten. You will be able to "
@@ -998,10 +1005,10 @@ msgstr "Hochladen"
 msgid "Use default of portal"
 msgstr "Portal-Vorgabe nutzen"
 
-#: frontend/src/store/modules/portalData/index.ts:249
-#: frontend/src/store/modules/portalData/index.ts:250
 #: frontend/src/store/modules/portalData/index.ts:251
 #: frontend/src/store/modules/portalData/index.ts:252
+#: frontend/src/store/modules/portalData/index.ts:253
+#: frontend/src/store/modules/portalData/index.ts:254
 msgid "User Menu"
 msgstr "Benutzer-Menü"
 
@@ -1069,11 +1076,11 @@ msgstr ""
 msgid "Welcome, %(username)s"
 msgstr "Willkommen, %(username)s"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:31
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:30
 msgid "Wireless LAN Password"
 msgstr "WLAN-Passwort"
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:41
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:40
 msgid ""
 "You have already set a Wireless LAN password. You can overwrite it by "
 "clicking on the button below."
@@ -1107,7 +1114,7 @@ msgstr ""
 msgid "Your account recovery options have been updated."
 msgstr "Ihre Konto-Wiederherstellungsoptionen wurden aktualisiert."
 
-#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:44
+#: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:43
 msgid "Your new password is:"
 msgstr "Ihr neues Passwort lautet:"
 
@@ -1152,7 +1159,7 @@ msgstr "Einträge"
 msgid "no file selected"
 msgstr "keine Datei ausgewählt"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:65
+#: frontend/src/tmp/ts/frontend/src/components/PortalHeader.vue:68
 #: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:22
 msgid "search"
 msgstr "suche"

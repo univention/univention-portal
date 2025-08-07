@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="portal-left-sidenavigation__title">
-      Anwendungen
+      {{ APPLICATIONS }}
     </div>
     <ul
       v-if="menuItems.length > 0"
@@ -57,6 +57,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
@@ -98,6 +99,9 @@ export default defineComponent({
       const items = this.leftSidebarItems;
       // @ts-ignore
       return Array.isArray(items?.entries) ? items.entries : [];
+    },
+    APPLICATIONS(): string {
+      return _('Applications');
     },
   },
   created() {
