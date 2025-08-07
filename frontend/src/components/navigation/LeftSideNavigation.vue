@@ -60,6 +60,7 @@
 import _ from '@/jsHelper/translate';
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
@@ -106,6 +107,9 @@ export default defineComponent({
       }
 
       return [];
+    },
+    APPLICATIONS(): string {
+      return _('Applications');
     },
     APPLICATIONS(): string {
       return _('Applications');
