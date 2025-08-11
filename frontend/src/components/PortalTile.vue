@@ -279,7 +279,7 @@ export default defineComponent({
       }
     },
     getTooltip() {
-      const portalTileNameRect = (this.$refs.tileName as HTMLElement).getBoundingClientRect();
+      const portalTileNameRect = (this.$refs.tileName as HTMLElement)?.getBoundingClientRect();
       const portalTileRect = this.$el.getBoundingClientRect();
       const linkTypeText = this.LINK_TYPE(this.linkTarget);
       return {
@@ -292,7 +292,7 @@ export default defineComponent({
         position: {
           top: portalTileRect.top,
           right: portalTileRect.right,
-          bottom: portalTileNameRect.bottom,
+          bottom: portalTileNameRect?.bottom,
           left: portalTileRect.left,
           x: portalTileRect.x,
           y: portalTileRect.y,
@@ -343,7 +343,7 @@ export default defineComponent({
     removeAriaDescribedBy():void {
       this.tileId = '';
     },
-    LINK_TYPE(linkTarget): Record<string, string> {
+    LINK_TYPE(linkTarget: string): Record<string, string> {
       const target = (linkTarget === 'samewindow') && ((this.link as string).includes('.crt') || (this.link as string).includes('.crl')) ? 'download' : linkTarget;
       const linkTypes = {
         samewindow: {
