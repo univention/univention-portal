@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.76.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.75.0...v0.76.0) (2025-08-12)
+
+
+### Features
+
+* configurable central navigation ([06378ee](https://git.knut.univention.de/univention/dev/projects/portal/commit/06378eed0147aacdcfbf88afe6bd06e807a98e94)), closes [univention/dev/internal/team-nubus#1301](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1301)
+
 ## [0.75.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.74.1...v0.75.0) (2025-08-04)
 
 
