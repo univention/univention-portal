@@ -18,8 +18,9 @@ export interface PortalImageDataBlob {
 
 export interface Link {
   locale: string,
-  link: string,
+  value: string,
 }
+
 
 export interface Tile {
   id: string,

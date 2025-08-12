@@ -6,7 +6,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 import { v4 as uuidv4 } from 'uuid';
-import { ActionContext } from 'vuex';
 
 import { ReceiverApi, NotificationRead as BackendNotification, NotificationSeverity } from '@/apis/notifications';
 

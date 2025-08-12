@@ -127,18 +127,14 @@ export default defineComponent({
       return ret;
     },
     getItemName(item: PortalEntry): string {
-      // Use the $localized function to get the localized name with proper fallbacks
       if (!item || !item.name) return '';
       return this.$localized(item.name);
     },
     getItemLink(item: PortalEntry): string {
-      // Get the localized link using the current locale
       if (!item || !item.links || !Array.isArray(item.links)) return '#';
-
-      const link = item.links.find((l) => l && l.locale === this.currentLocale) ||
-                   item.links.find((l) => l && l.locale === 'en_US') ||
-                   item.links.find((l) => l); // fallback to first non-null link
-      return link?.link || '#';
+      const link = item.links.find((l) => l && l.locale === this.currentLocale);
+      if (!link) return '#';
+      return link.value || '#';
     },
     getItemTarget(item: PortalEntry): string {
       // Return the appropriate target for the link
