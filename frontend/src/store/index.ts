@@ -4,18 +4,18 @@
   */
 // vue
 // modules
+import { getAdminState } from '@/jsHelper/admin';
 import axios from 'axios';
 import { InjectionKey } from 'vue';
-import { createStore, Store, useStore as baseUseStore } from 'vuex';
-import { getAdminState } from '@/jsHelper/admin';
+import { useStore as baseUseStore, createStore, Store } from 'vuex';
 import activity from './modules/activity';
 import dragndrop from './modules/dragndrop';
 import featureToggles from './modules/featureToggles';
 import locale from './modules/locale';
 import menu from './modules/menu';
 import metaData from './modules/metaData';
-import navigation from './modules/navigation';
 import modal from './modules/modal';
+import navigation from './modules/navigation';
 import notifications from './modules/notifications';
 import oidc from './modules/oidc';
 import portalData from './modules/portalData';
@@ -75,16 +75,26 @@ export const actions = {
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data
-      `${portalUrl}${portalApiMePath}`, // Get user details from api endpoint "me"
       `${portalUrl}${portalLeftSidebarPath}`, // Get left sidebar navigation items
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
     Promise.all(portalPromises).then(async ([
-      metaResponse, languageResponse, portalApiMeResponse, portalLeftSidebarResponse, portalResponse,
+      metaResponse, languageResponse, portalLeftSidebarResponse, portalResponse,
     ]) => {
       const [meta, availableLocales, leftSidebar, portal] = [metaResponse.data, languageResponse.data, portalLeftSidebarResponse.data, portalResponse.data];
-      const apiMe = portalApiMeResponse.data;
+
+      // Only call api/me if feature toggle is enabled
+      let apiMe;
+      if (portal.feature_toggles?.api_me) {
+        try {
+          const apiMeResponse = await axios.get(`${portalUrl}${portalApiMePath}`);
+          apiMe = apiMeResponse.data;
+        } catch (error) {
+          console.warn('Failed to fetch user data from api/me:', (error as Error).message);
+        }
+      }
+
       const userData = extractUserData(portal, apiMe);
 
       if (languageResponse.isAxiosError) {
@@ -127,18 +137,6 @@ export const actions = {
         resolve(portal);
         const currentLocale = rootGetters['locale/getLocale'] || 'en_US';
         document.title = rootGetters['portalData/portalName']?.[currentLocale] ?? 'Univention Portal';
-
-        if (portal.feature_toggles?.api_me) {
-          axios.get(`${portalUrl}${portalApiMePath}`)
-            .then((apiMeResponse) => {
-              const apiMeData = apiMeResponse.data;
-              const enrichedUserData = extractUserData(portal, apiMeData);
-              dispatch('user/setUser', enrichedUserData);
-            })
-            .catch((error) => {
-              console.warn('Failed to fetch user data from api/me:', error.message);
-            });
-        }
       }
     })
       .catch((error) => {

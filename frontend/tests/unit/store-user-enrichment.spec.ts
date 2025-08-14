@@ -6,8 +6,8 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { actions } from '@/store';
-import { initialRootState, PortalActionContext, RootState } from '@/store/root.models';
 import { FeatureToggles } from '@/store/modules/featureToggles/models';
+import { initialRootState, PortalActionContext, RootState } from '@/store/root.models';
 import * as utils from '@/store/utils';
 
 const mockedGet = jest.spyOn(axios, 'get');
@@ -60,9 +60,6 @@ describe('Action loadPortal', () => {
     const apiMeData = { user: { firstname: 'Test', lastname: 'User' } };
     mockedGet.mockResolvedValue(Promise.resolve({ data: apiMeData }));
     await actions.loadPortal(stubActionContext, stubPayload);
-    expect(utils.extractUserData).toHaveBeenCalledWith(stubPortalData, undefined);
-    // Wait for the next tick of the event loop for the promise to resolve
-    await new Promise((resolve) => { setTimeout(resolve, 0); });
     expect(utils.extractUserData).toHaveBeenCalledWith(stubPortalData, apiMeData);
   });
 
