@@ -21,7 +21,6 @@ export interface Link {
   value: string,
 }
 
-
 export interface Tile {
   id: string,
   layoutId: string,
