@@ -11,13 +11,14 @@
     class="portal-left-sidenavigation"
   >
     <div class="portal-left-sidenavigation__header">
-      <portal-title />
+      <portal-title @keydown="handleArrowKeys" />
       <div
         role="button"
         tabindex="0"
         class="portal-left-sidenavigation__close-button"
         @click="closeNavigation"
         @keydown.enter="closeNavigation"
+        @keydown="handleArrowKeys"
       >
         <portal-icon icon="x" />
       </div>
@@ -38,6 +39,7 @@
           :href="getItemLink(item)"
           :target="getItemTarget(item)"
           class="portal-left-sidenavigation__link"
+          @keydown="handleArrowKeys"
         >
           <img
             v-if="item.icon_url"
@@ -120,6 +122,36 @@ export default defineComponent({
     handleEscapeKey(event: KeyboardEvent): void {
       if (event.key === 'Escape') {
         this.closeNavigation();
+      }
+    },
+    handleArrowKeys(event: KeyboardEvent): void {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+
+        // Get all focusable elements in the sidebar
+        const focusableElements = this.$el.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+
+        const focusArray = Array.from(focusableElements) as HTMLElement[];
+        const currentIndex = focusArray.indexOf(event.target as HTMLElement);
+
+        if (currentIndex !== -1) {
+          let nextIndex;
+          if (event.key === 'ArrowDown') {
+            nextIndex = currentIndex + 1;
+            if (nextIndex >= focusArray.length) {
+              nextIndex = 0; // Wrap to first element
+            }
+          } else { // ArrowUp
+            nextIndex = currentIndex - 1;
+            if (nextIndex < 0) {
+              nextIndex = focusArray.length - 1; // Wrap to last element
+            }
+          }
+
+          focusArray[nextIndex].focus();
+        }
       }
     },
     closeNavigation(): void {
