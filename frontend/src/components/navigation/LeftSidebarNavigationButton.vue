@@ -5,8 +5,10 @@
 
 <template>
   <button
+    id="left-sidebar-navigation-button"
     class="left-sidebar-navigation"
     type="button"
+    tabindex="0"
     aria-label="Open sidebar navigation"
     @click="toggleSidebar"
   >
