@@ -1,0 +1,48 @@
+{
+  "categories": [
+    {
+      "display_name": "Administration",
+      "entries": [
+        {
+          "display_name": "Keycloak",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "keycloak",
+          "keywords": {},
+          "link": "https://google.com",
+          "target": "_blank"
+        },
+        {
+          "display_name": "2FA Admin Helpdesk",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "twofaAdmin",
+          "keywords": {},
+          "link": "https://google.com",
+          "target": "_blank"
+        }
+      ],
+      "identifier": "domain-admin"
+    },
+    {
+      "display_name": "Administration Blub",
+      "entries": [
+        {
+          "display_name": "Keycloak",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "keycloak",
+          "keywords": {},
+          "link": "https://google.com",
+          "target": "_blank"
+        },
+        {
+          "display_name": "2FA Admin Helpdesk",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "twofaAdmin",
+          "keywords": {},
+          "link": "https://google.com",
+          "target": "_blank"
+        }
+      ],
+      "identifier": "domain-admin"
+    }
+  ]
+}

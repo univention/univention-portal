@@ -5,27 +5,27 @@
  * SPDX-FileCopyrightText: 2021-2025 Univention GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { Commit, Dispatch } from 'vuex';
-import { put, getAdminState } from '@/jsHelper/admin';
-import _ from '@/jsHelper/translate';
+import { getAdminState, put } from '@/jsHelper/admin';
+import { createCategories, doesDescriptionMatch, doesFolderMatch, doesKeywordsMatch, doesTitleMatch } from '@/jsHelper/portalCategories';
 import { randomId } from '@/jsHelper/tools';
-import { createCategories, doesDescriptionMatch, doesKeywordsMatch, doesFolderMatch, doesTitleMatch } from '@/jsHelper/portalCategories';
+import _ from '@/jsHelper/translate';
 import { PortalModule, RootState } from '@/store/root.models';
 import { portalJsonRequest } from '@/store/utils';
+import { Commit, Dispatch } from 'vuex';
 
 import setScreenReaderAccouncement from './portalData.helper';
 import {
-  PortalDataState,
-  PortalImageDataBlob,
+  Category,
   LocalizedString,
-  PortalContent,
   PortalBaseLayout,
+  PortalContent,
+  PortalDataActionContext,
+  PortalDataState,
+  PortalEntry,
+  PortalImageDataBlob,
   PortalLayout,
   Position,
-  PortalDataActionContext,
-  Category,
   TileOrFolder,
-  PortalEntry,
 } from './portalData.models';
 
 function isEqual<T>(arr1: Array<T>, arr2: Array<T>) {
@@ -149,6 +149,32 @@ function getLayoutId(layout, position: Position): string {
     return context[position.entryIdx]?.id ?? '';
   }
   return '';
+}
+
+function transformNavigationEntry(entry: any): any {
+  return {
+    id: entry.identifier || '',
+    dn: entry.identifier || '',
+    activated: true,
+    allowedGroups: [],
+    anonymous: false,
+    backgroundColor: null,
+    description: { de_DE: '', en_US: '', en: '', fr_FR: '' },
+    keywords: entry.keywords || { de_DE: '', en_US: '', en: '', fr_FR: '' },
+    linktarget: 'useportaldefault',
+    target: entry.target || '_blank',
+    links: [{
+      locale: 'de_DE',
+      value: entry.link || '#',
+    }],
+    icon_url: entry.icon_url || null,
+    name: {
+      de_DE: entry.display_name || '',
+      en_US: entry.display_name || '',
+      en: entry.display_name || '',
+      fr_FR: entry.display_name || '',
+    },
+  };
 }
 
 const portalData: PortalModule<PortalDataState> = {
@@ -695,8 +721,30 @@ const portalData: PortalModule<PortalDataState> = {
     setPortalErrorDisplay({ commit }: { commit: Commit }, payload: number): void {
       commit('PORTAL_DISPLAY_ERROR', payload);
     },
-    setLeftSidebarItems({ commit }: { commit: Commit }, payload: PortalEntry[]): void {
-      commit('PORTAL_LEFT_SIDEBAR', payload);
+    setLeftSidebarItems({ commit }: { commit: Commit }, payload: any): void {
+      // Transform categorized structure to format expected by LeftSideNavigation
+      let leftSidebarItems: { entries: any[] };
+      console.log('Transforming left sidebar items', payload);
+
+      if (payload.categories && Array.isArray(payload.categories)) {
+        // New format: extract entries from all categories and transform to expected format
+        const transformedEntries = payload.categories.flatMap(
+          (category) => (category.entries || []).map(transformNavigationEntry),
+        );
+        leftSidebarItems = { entries: transformedEntries };
+        console.log('New format: transformed entries from categories', leftSidebarItems);
+      } else if (payload.entries && Array.isArray(payload.entries)) {
+        leftSidebarItems = payload;
+        console.log('Payload has entries property', leftSidebarItems);
+      } else if (Array.isArray(payload)) {
+        leftSidebarItems = { entries: payload };
+        console.log('Payload has flat array format', leftSidebarItems);
+      } else {
+        leftSidebarItems = { entries: [] };
+        console.log('Payload has no recognized format: falling back to empty entries', leftSidebarItems);
+      }
+
+      commit('PORTAL_LEFT_SIDEBAR', leftSidebarItems);
     },
   },
 };
