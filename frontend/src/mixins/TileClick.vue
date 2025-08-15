@@ -3,8 +3,8 @@
   SPDX-License-Identifier: AGPL-3.0-only
 -->
 <script>
-import { mapGetters } from 'vuex';
 import bestLink from '@/jsHelper/bestLink';
+import { mapGetters } from 'vuex';
 
 const tileClickMixin = {
   props: {
@@ -41,10 +41,8 @@ const tileClickMixin = {
       tooltipID: 'tooltip/getTooltipID',
     }),
     link() {
-      if (!this.metaData.fqdn) {
-        this.metaData.fqdn = window.location.hostname;
-      }
-      return bestLink(this.links, this.metaData.fqdn, this.locale);
+      const fqdn = this.metaData.fqdn || window.location.hostname;
+      return bestLink(this.links, fqdn, this.locale);
     },
     anchorTarget() {
       if (this.editMode || this.linkTarget !== 'newwindow') {
