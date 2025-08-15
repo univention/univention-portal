@@ -55,13 +55,13 @@
 </template>
 
 <script lang="ts">
+import _ from '@/jsHelper/translate';
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
-import PortalTitle from '@/components/header/PortalTitle.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
+import PortalTitle from '@/components/header/PortalTitle.vue';
 import { PortalEntry } from '@/store/modules/portalData/portalData.models';
 
 interface SideNavigationData {
@@ -109,8 +109,19 @@ export default defineComponent({
   },
   mounted(): void {
     this.$store.dispatch('activity/setRegion', 'portal-sidenavigation');
+    // Add Esc key listener
+    document.addEventListener('keydown', this.handleEscapeKey);
+  },
+  beforeUnmount(): void {
+    // Remove Esc key listener
+    document.removeEventListener('keydown', this.handleEscapeKey);
   },
   methods: {
+    handleEscapeKey(event: KeyboardEvent): void {
+      if (event.key === 'Escape') {
+        this.closeNavigation();
+      }
+    },
     closeNavigation(): void {
       this.$store.dispatch('navigation/setActiveButton', '');
       this.$store.dispatch('activity/setRegion', 'portal-header');
