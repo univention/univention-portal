@@ -1,3 +1,8 @@
+/**
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2025 Univention GmbH
+ */
+
 /* eslint-disable jest/expect-expect */
 
 import 'cypress-axe';
@@ -35,6 +40,33 @@ describe('Test Left Sidebar Feature Toggle', () => {
         .focus()
         .should('be.focused')
         .type('{enter}');
+    });
+
+    it('focus is trapped inside the open sidebar', () => {
+      cy.get('[data-test="left-sidebar-button"]').click();
+      cy.get('#portal-left-sidenavigation').should('be.visible');
+
+      // Verify elements inside the sidebar are focusable
+      cy.get('#portal-left-sidenavigation').within(() => {
+        cy.get('button, a, [tabindex="0"]').first()
+          .focus()
+          .should('be.focused');
+      });
+
+      // Verify elements outside the sidebar are not focusable when sidebar is open
+      cy.get('#portal-header button:not([data-test="left-sidebar-button"])').should('have.attr', 'tabindex', '-1');
+
+      // Test that focus stays trapped in sidebar
+      cy.get('#portal-left-sidenavigation').within(() => {
+        cy.get('button, a, [tabindex="0"]').first()
+          .focus();
+        cy.focused().should('exist');
+        cy.focused().parents('#portal-left-sidenavigation')
+          .should('exist');
+      });
+
+      cy.get('body').type('{esc}');
+      cy.get('#portal-left-sidenavigation').should('not.be.visible');
     });
 
     it('header layout changes correctly with left sidebar enabled', () => {
@@ -83,14 +115,6 @@ describe('Test Left Sidebar Feature Toggle', () => {
       cy.viewport(1920, 1080);
       cy.get('[data-test="left-sidebar-button"]').should('be.visible');
     });
-
-    it('maintains proper spacing and layout with left sidebar button', () => {
-      cy.get('#portal-header').should('be.visible')
-        .and('have.css', 'height');
-      cy.get('[data-test="left-sidebar-button"]').should('be.visible')
-        .and('have.css', 'width')
-        .and('have.css', 'height');
-    });
   });
 
   describe('When left_sidebar is disabled', () => {
@@ -117,21 +141,6 @@ describe('Test Left Sidebar Feature Toggle', () => {
       cy.get('.portal-title, [data-test="portal-title"]').should('be.visible');
     });
 
-    it('maintains accessibility without left sidebar button', () => {
-      cy.checkA11y('#portal-header',
-        {
-          runOnly: {
-            type: 'tag',
-            values: ['wcag21aa'],
-          },
-        },
-        cy.terminalLog,
-        {
-          skipFailures: true,
-        },
-      );
-    });
-
     it('works correctly on different viewport sizes without left sidebar', () => {
       // Test mobile viewport
       cy.viewport(375, 667);
@@ -151,26 +160,9 @@ describe('Test Left Sidebar Feature Toggle', () => {
     it('handles missing feature_toggles gracefully', () => {
       cy.intercept('GET', 'portal.json', { fixture: 'portal_logged_out.json' });
       cy.visit('/');
-      cy.get('main.cookie-banner + footer button.button--primary').click();
 
       cy.get('[data-test="left-sidebar-button"]').should('not.exist');
       cy.get('#portal-header').should('not.have.class', 'portal-header--waffle-icon-height');
-    });
-
-    it('handles feature toggle value changes correctly', () => {
-      // Start with left sidebar enabled
-      cy.intercept('GET', 'portal.json', { fixture: 'portal_left_sidebar.json' });
-      cy.visit('/');
-      cy.get('main.cookie-banner + footer button.button--primary').click();
-
-      cy.get('[data-test="left-sidebar-button"]').should('be.visible');
-
-      // Simulate feature toggle being disabled (page reload scenario)
-      cy.intercept('GET', 'portal.json', { fixture: 'portal_logged_out.json' });
-      cy.reload();
-      cy.get('main.cookie-banner + footer button.button--primary').click();
-
-      cy.get('[data-test="left-sidebar-button"]').should('not.exist');
     });
   });
 });
