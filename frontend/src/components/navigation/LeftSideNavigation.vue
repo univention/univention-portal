@@ -218,7 +218,7 @@ $userRow = 6rem
     box-sizing: content-box
 
     &:hover
-      background-color: gray
+      background-color: var(--left-sidenavigation-hover-bg-color, var(--bgc-underlay))
       cursor: pointer
 
     &:focus-visible
@@ -254,10 +254,10 @@ $userRow = 6rem
     border-radius: calc(0.8 * var(--layout-spacing-unit))
 
     &:hover
-      background-color: gray
+      background-color: var(--left-sidenavigation-hover-bg-color, var(--bgc-underlay))
 
     &:focus
-      outline: 2px solid white
+      outline: 2px solid var(--color-focus)
       outline-offset: -2px
 
   &__icon

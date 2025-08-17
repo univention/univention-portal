@@ -12,7 +12,7 @@
     aria-label="Open sidebar navigation"
     @click="toggleSidebar"
   >
-    <waffle-icon />
+    <waffle-icon dot-color="inherit" />
   </button>
 </template>
 
@@ -64,7 +64,7 @@ export default defineComponent({
   width: calc(var(--waffle-icon-height) + 0.5rem)
   height: calc(var(--waffle-icon-height))
   flex-shrink: 0
-  background: var(--button-bgc)
+  background: var(--waffle-icon-background-color, var(--button-bgc))
   border-radius: 0
 
   @media $mqSmartphone
@@ -75,4 +75,7 @@ export default defineComponent({
   &:focus
     outline: none
     background-color: var(--color-accent)
+
+    & .waffle-dots
+      fill: var(--bgc-content-body)
 </style>
