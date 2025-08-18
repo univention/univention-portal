@@ -31,6 +31,7 @@ import {
   portalApiMePath,
   portalJsonPath,
   portalJsonRequest,
+  portalLeftSidebarLangSupport,
   portalLeftSidebarPath,
   portalMetaPath,
   portalUrl,
@@ -75,14 +76,28 @@ export const actions = {
     const portalPromises = [
       `${portalUrl}${portalMetaPath}`, // Get meta data
       `${portalUrl}${languageJsonPath}`, // Get locale data
-      `${portalUrl}${portalLeftSidebarPath}`, // Get left sidebar navigation items
     ].map((url) => axios.get(url).catch((error) => error));
     portalPromises.push(portalRequest);
 
+    // Load left sidebar navigation separately if language support is enabled
+    let leftSidebarPromise;
+    if (portalLeftSidebarLangSupport) {
+      leftSidebarPromise = null; // Will be loaded via loadNavigation after locale is set
+    } else {
+      leftSidebarPromise = axios.get(`${portalUrl}${portalLeftSidebarPath}`).catch((error) => error);
+      portalPromises.push(leftSidebarPromise);
+    }
+
     Promise.all(portalPromises).then(async ([
-      metaResponse, languageResponse, portalLeftSidebarResponse, portalResponse,
+      metaResponse, languageResponse, portalResponse, ...rest
     ]) => {
-      const [meta, availableLocales, leftSidebar, portal] = [metaResponse.data, languageResponse.data, portalLeftSidebarResponse.data, portalResponse.data];
+      const portalLeftSidebarResponse = portalLeftSidebarLangSupport ? null : rest[0];
+      const [meta, availableLocales, leftSidebar, portal] = [
+        metaResponse.data,
+        languageResponse.data,
+        portalLeftSidebarResponse?.data,
+        portalResponse.data,
+      ];
 
       // Only call api/me if feature toggle is enabled
       let apiMe;
@@ -101,6 +116,10 @@ export const actions = {
         console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
       } else {
         await dispatch('locale/setAvailableLocale', availableLocales);
+        // Load navigation with language support after locale is set
+        if (portalLeftSidebarLangSupport) {
+          await dispatch('portalData/loadNavigation');
+        }
       }
       if (metaResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${portalMetaPath}`, metaResponse);
@@ -108,10 +127,12 @@ export const actions = {
         dispatch('metaData/setMeta', meta);
       }
 
-      if (portalLeftSidebarResponse.isAxiosError) {
-        console.warn(`Failed to fetch ${portalUrl}${portalLeftSidebarPath}`, portalLeftSidebarResponse);
-      } else {
-        dispatch('portalData/setLeftSidebarItems', leftSidebar);
+      if (!portalLeftSidebarLangSupport) {
+        if (portalLeftSidebarResponse.isAxiosError) {
+          console.warn(`Failed to fetch ${portalUrl}${portalLeftSidebarPath}`, portalLeftSidebarResponse);
+        } else {
+          dispatch('portalData/setLeftSidebarItems', leftSidebar);
+        }
       }
 
       dispatch('menu/setMenu', {

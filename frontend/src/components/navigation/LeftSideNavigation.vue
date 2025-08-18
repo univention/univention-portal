@@ -111,6 +111,11 @@ export default defineComponent({
       return _('Applications');
     },
   },
+  watch: {
+    currentLocale(): void {
+      this.$store.dispatch('portalData/loadNavigation');
+    },
+  },
   created() {
     this.$store.dispatch('modal/disableBodyScrolling');
   },

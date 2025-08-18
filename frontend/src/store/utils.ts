@@ -15,6 +15,16 @@ export const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json'
 export const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 export const portalApiMePath = process.env.VUE_APP_PORTAL_API_ME || './api/v1/me';
 export const portalLeftSidebarPath = process.env.VUE_APP_PORTAL_LEFT_SIDEBAR || './navigation.json';
+export const portalLeftSidebarLangSupport = process.env.VUE_APP_PORTAL_LEFT_SIDEBAR_LANG_SUPPORT === 'true';
+
+export function buildLeftSidebarUrl(language?: string): string {
+  if (portalLeftSidebarLangSupport && language) {
+    const url = new URL(portalLeftSidebarPath, window.location.origin);
+    url.searchParams.set('language', language);
+    return url.pathname + url.search;
+  }
+  return portalLeftSidebarPath;
+}
 
 export async function portalJsonRequest(adminMode: boolean) {
   const umcLang = getCookie('UMCLang');
