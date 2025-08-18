@@ -166,6 +166,10 @@ function transformNavigationEntry(entry: any): any {
     links: [{
       locale: 'de_DE',
       value: entry.link || '#',
+    },
+    {
+      locale: 'en_US',
+      value: entry.link || '#',
     }],
     icon_url: entry.icon_url || null,
     name: {
