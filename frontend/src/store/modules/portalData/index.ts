@@ -5,14 +5,14 @@
  * SPDX-FileCopyrightText: 2021-2025 Univention GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import axios from 'axios';
-import { Commit, Dispatch } from 'vuex';
 import { getAdminState, put } from '@/jsHelper/admin';
 import { createCategories, doesDescriptionMatch, doesFolderMatch, doesKeywordsMatch, doesTitleMatch } from '@/jsHelper/portalCategories';
 import { randomId } from '@/jsHelper/tools';
 import _ from '@/jsHelper/translate';
 import { PortalModule, RootState } from '@/store/root.models';
-import { portalJsonRequest, buildLeftSidebarUrl, portalUrl } from '@/store/utils';
+import { buildLeftSidebarUrl, portalJsonRequest, portalUrl } from '@/store/utils';
+import axios from 'axios';
+import { Commit, Dispatch } from 'vuex';
 
 import setScreenReaderAccouncement from './portalData.helper';
 import {

@@ -2,11 +2,11 @@
   * SPDX-FileCopyrightText: 2021-2025 Univention GmbH
   * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { ActionContext, Dispatch } from 'vuex';
 import { updateLocale } from '@/i18n/translations';
 import { getCookie, setCookie } from '@/jsHelper/tools';
 import { PortalModule, RootState } from '@/store/root.models';
-import { Locale, ShortLocale, LocaleDefinition } from './locale.models';
+import { ActionContext, Dispatch } from 'vuex';
+import { Locale, LocaleDefinition, ShortLocale } from './locale.models';
 
 type LocaleLabels = Partial<Record<Locale, string>>;
 export interface LocaleState {

@@ -29,9 +29,17 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
+      currentLocale: 'locale/getLocale',
     }),
     isMenuActive(): boolean {
       return this.activeButton === 'left-menu';
+    },
+  },
+  watch: {
+    currentLocale(newLocale: string, oldLocale: string): void {
+      if (newLocale && newLocale !== oldLocale) {
+        this.$store.dispatch('portalData/loadNavigation');
+      }
     },
   },
   methods: {

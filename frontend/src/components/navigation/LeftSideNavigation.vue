@@ -57,14 +57,14 @@
 </template>
 
 <script lang="ts">
+import _ from '@/jsHelper/translate';
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
-import { NavigationData, NavigationEntry, NavigationCategory } from '@/store/modules/portalData/portalData.models';
+import { NavigationCategory, NavigationData, NavigationEntry } from '@/store/modules/portalData/portalData.models';
 
 interface SideNavigationData {
   menuVisible: boolean,
@@ -109,11 +109,6 @@ export default defineComponent({
     },
     APPLICATIONS(): string {
       return _('Applications');
-    },
-  },
-  watch: {
-    currentLocale(): void {
-      this.$store.dispatch('portalData/loadNavigation');
     },
   },
   created() {
