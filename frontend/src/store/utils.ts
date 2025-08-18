@@ -5,8 +5,8 @@
 
 import axios from 'axios';
 
-import { getCookie } from '@/jsHelper/tools';
 import { getAdminState } from '@/jsHelper/admin';
+import { getCookie } from '@/jsHelper/tools';
 import { UserWrapper } from './modules/user/user.models';
 
 export const portalUrl = process.env.VUE_APP_PORTAL_URL || '';
@@ -15,13 +15,22 @@ export const portalJsonPath = process.env.VUE_APP_PORTAL_DATA || './portal.json'
 export const portalMetaPath = process.env.VUE_APP_META_DATA || '/univention/meta.json';
 export const portalApiMePath = process.env.VUE_APP_PORTAL_API_ME || './api/v1/me';
 export const portalLeftSidebarPath = process.env.VUE_APP_PORTAL_LEFT_SIDEBAR || './navigation.json';
-export const portalLeftSidebarLangSupport = process.env.VUE_APP_PORTAL_LEFT_SIDEBAR_LANG_SUPPORT === 'true';
 
 export function buildLeftSidebarUrl(language?: string): string {
-  if (portalLeftSidebarLangSupport && language) {
+  if (language) {
     const url = new URL(portalLeftSidebarPath, window.location.origin);
     url.searchParams.set('language', language);
     return url.pathname + url.search;
+  }
+  return portalLeftSidebarPath;
+}
+
+export function getInitialNavigationUrl(): string {
+  // Try to get language from cookie for initial load
+  const umcLang = getCookie('UMCLang');
+  if (umcLang) {
+    const language = umcLang.replace('-', '_');
+    return buildLeftSidebarUrl(language);
   }
   return portalLeftSidebarPath;
 }
