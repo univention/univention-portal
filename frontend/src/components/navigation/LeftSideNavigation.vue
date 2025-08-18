@@ -57,14 +57,14 @@
 </template>
 
 <script lang="ts">
-import _ from '@/jsHelper/translate';
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
 import PortalTitle from '@/components/header/PortalTitle.vue';
-import { PortalEntry } from '@/store/modules/portalData/portalData.models';
+import { NavigationData, NavigationEntry, NavigationCategory } from '@/store/modules/portalData/portalData.models';
 
 interface SideNavigationData {
   menuVisible: boolean,
@@ -97,10 +97,15 @@ export default defineComponent({
       leftSidebarItems: 'portalData/leftSidebarItems',
       currentLocale: 'locale/getLocale',
     }),
-    menuItems() {
-      const items = this.leftSidebarItems;
-      // @ts-ignore
-      return Array.isArray(items?.entries) ? items.entries : [];
+    menuItems(): NavigationEntry[] {
+      const items = this.leftSidebarItems as NavigationData;
+
+      // Only support categorized format from server (navigation-2.json)
+      if (items && items.categories && Array.isArray(items.categories)) {
+        return items.categories.flatMap((category: NavigationCategory) => category.entries || []);
+      }
+
+      return [];
     },
     APPLICATIONS(): string {
       return _('Applications');
@@ -169,23 +174,13 @@ export default defineComponent({
       }
       return ret;
     },
-    getItemName(item: PortalEntry): string {
-      if (!item || !item.name) return '';
-      return this.$localized(item.name);
+    getItemName(item: NavigationEntry): string {
+      return item.display_name || '';
     },
-    getItemLink(item: PortalEntry): string {
-      if (!item || !item.links || !Array.isArray(item.links)) return '#';
-      const link = item.links.find((l) => l && l.locale === this.currentLocale);
-      if (!link) return '#';
-      return link.value || '#';
+    getItemLink(item: NavigationEntry): string {
+      return item.link || '#';
     },
-    getItemTarget(item: PortalEntry): string {
-      // Return the appropriate target for the link
-      if (!item) return '_blank';
-
-      if (item.linkTarget === 'useportaldefault') {
-        return '_self';
-      }
+    getItemTarget(item: NavigationEntry): string {
       return item.target || '_blank';
     },
   },

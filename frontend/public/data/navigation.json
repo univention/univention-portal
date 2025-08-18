@@ -1,214 +1,48 @@
 {
-  "entries": [
+  "categories": [
     {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
+      "display_name": "Administration",
+      "entries": [
         {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
+          "display_name": "Keycloak",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "keycloak",
+          "keywords": {},
+          "link": "https://google.com",
+          "target": "_blank"
         },
         {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
+          "display_name": "2FA Admin Helpdesk",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "twofaAdmin",
+          "keywords": {},
+          "link": "https://doc.owncloud.com/server/10.0/admin_manual/",
+          "target": "_blank"
         }
       ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Admin Handbuch",
-        "en_US": "Admin Handbook"
-      },
-      "target": "docs"
+      "identifier": "domain-admin"
     },
     {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
+      "display_name": "Administration (Test)",
+      "entries": [
         {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
+          "display_name": "Keycloak",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "keycloak",
+          "keywords": {},
+          "link": "https://google.com",
+          "target": "_blank"
         },
         {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
+          "display_name": "2FA Admin Helpdesk (Test)",
+          "icon_url": "./data/icons/owncloud-admindoc.svg",
+          "identifier": "twofaAdmin",
+          "keywords": {},
+          "link": "https://doc.owncloud.com/server/10.0/admin_manual/",
+          "target": "_blank"
         }
       ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Admin Handbuch",
-        "en_US": "Admin Handbook"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
-    },
-    {
-      "defaultLinkTarget": "useportaldefault",
-      "icon_url": "./data/icons/owncloud-admindoc.svg",
-      "keywords": {},
-      "links": [
-        {
-          "locale": "en_US",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        },
-        {
-          "locale": "de_DE",
-          "value": "https://doc.owncloud.com/server/10.0/admin_manual/"
-        }
-      ],
-      "linktarget": "useportaldefault",
-      "name": {
-        "de_DE": "Kalender",
-        "en_US": "Calendar"
-      },
-      "target": "docs"
+      "identifier": "domain-admin"
     }
   ]
 }

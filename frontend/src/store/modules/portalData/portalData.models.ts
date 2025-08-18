@@ -145,6 +145,28 @@ export interface PortalNewsfeedConfig {
   icsSilentLoginUrl: string | null,
 }
 
+export interface NavigationEntry {
+  // eslint-disable-next-line camelcase
+  display_name: string;
+  // eslint-disable-next-line camelcase
+  icon_url: string;
+  identifier: string;
+  keywords?: object;
+  link: string;
+  target: string;
+}
+
+export interface NavigationCategory {
+  // eslint-disable-next-line camelcase
+  display_name: string;
+  entries: NavigationEntry[];
+  identifier: string;
+}
+
+export interface NavigationData {
+  categories: NavigationCategory[];
+}
+
 export interface PortalData {
   entries: PortalEntry[],
   folders: PortalFolder[],
@@ -158,7 +180,7 @@ export interface PortalData {
   baseLayout: PortalBaseLayout,
   layout: PortalLayout,
   newsfeedConfig?: PortalNewsfeedConfig,
-  leftSidebarItems?: PortalEntry[],
+  leftSidebarItems: NavigationData,
 }
 export interface PortalDataState {
   portal: PortalData;
