@@ -5,8 +5,8 @@
  * SPDX-FileCopyrightText: 2021-2025 Univention GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-import { PortalModule, RootState } from '@/store/root.models';
 import { ActionContext, Commit, Dispatch } from 'vuex';
+import { PortalModule, RootState } from '@/store/root.models';
 import { ModalComponentInterface, ModalProp, ModalLevel } from './modal.models';
 
 export interface ModalState {
@@ -57,12 +57,8 @@ const modal: PortalModule<ModalState> = {
 
   mutations: {
     CHANGE_MODAL_PROPS(state: ModalState, payload: ModalProp): void {
-      // console.log('CHANGE_MODAL_PROPS', payload);
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
-      // console.log('modalLevel', payload.level);
-      // console.log('BEFORE', state[modalLevel].modalProps);
       state[modalLevel].modalProps = { ...state[modalLevel].modalProps, ...payload.props };
-      // console.log('AFTER', state[modalLevel].modalProps);
     },
     SET_MODAL(state: ModalState, payload: ModalComponentInterface): void {
       const modalLevel = payload.level === 2 ? 'secondLevelModal' : 'firstLevelModal';
@@ -161,10 +157,10 @@ const modal: PortalModule<ModalState> = {
         commit('ENABLE_BODY_SCROLLING');
       }
     },
-    resolve({ state, commit }, payload: ModalComponentInterface): void {
+    resolve({ commit }, payload: ModalComponentInterface): void {
       commit('RESOLVE', payload);
     },
-    reject({ state, commit }, payload?: ModalLevel): void {
+    reject({ commit }, payload?: ModalLevel): void {
       commit('REJECT', payload);
     },
     enableBodyScrolling({ commit }: { commit: Commit}): void {
