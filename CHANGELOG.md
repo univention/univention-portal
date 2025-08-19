@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.79.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.0...v0.79.1) (2025-08-19)
+
+
+### Bug Fixes
+
+* **portal-frontend:** adjust test ([34ff8c9](https://git.knut.univention.de/univention/dev/projects/portal/commit/34ff8c9808c86920c2603f585b177f80c83ef95d)), closes [univention/dev/projects/portal#1390](https://git.knut.univention.de/univention/dev/projects/portal/issues/1390)
+* **portal-frontend:** left sidebar is not visible if left_sidebar true and empty navigation.json ([e836f73](https://git.knut.univention.de/univention/dev/projects/portal/commit/e836f7375b7546b1501080e803020efd4eb5f66e)), closes [univention/dev/projects/portal#1390](https://git.knut.univention.de/univention/dev/projects/portal/issues/1390)
+* **portal-frontend:** sidenavigation should only be visible if at least one entry is there ([5a55644](https://git.knut.univention.de/univention/dev/projects/portal/commit/5a5564440f77710a55873424f77ea5f38f39434e)), closes [univention/dev/projects/portal#1390](https://git.knut.univention.de/univention/dev/projects/portal/issues/1390)
+
 ## [0.79.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.78.0...v0.79.0) (2025-08-19)
 
 
