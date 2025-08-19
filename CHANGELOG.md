@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.79.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.78.0...v0.79.0) (2025-08-19)
+
+
+### Features
+
+* **portal-frontend:** change css to support opendesk better ([4fac92a](https://git.knut.univention.de/univention/dev/projects/portal/commit/4fac92a504c2485bf5594e2fadc90f1c87452c81)), closes [univention/dev/projects/portal#1379](https://git.knut.univention.de/univention/dev/projects/portal/issues/1379)
+
+
+### Bug Fixes
+
+* **portal-frontend:** add active state color ([b6ebbbb](https://git.knut.univention.de/univention/dev/projects/portal/commit/b6ebbbbeb4273c01cb0124e42ba87e091e9a27d8)), closes [univention/dev/projects/portal#1379](https://git.knut.univention.de/univention/dev/projects/portal/issues/1379)
+
 ## [0.78.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.77.0...v0.78.0) (2025-08-19)
 
 
