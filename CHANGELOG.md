@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.78.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.77.0...v0.78.0) (2025-08-19)
+
+
+### Features
+
+* **portal-frontend:** add cypress test ([6b70f88](https://git.knut.univention.de/univention/dev/projects/portal/commit/6b70f88591119bbde6856bb712edc85905ea9911)), closes [univention/dev/projects/portal#1248](https://git.knut.univention.de/univention/dev/projects/portal/issues/1248)
+* **portal-frontend:** add header-part with portaltitle and close button ([ac19709](https://git.knut.univention.de/univention/dev/projects/portal/commit/ac19709f6cfbd6369a49c1fe331afaf13ee5927d)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** add new sidebar with mockcontent and adjust transitions ([0d9f309](https://git.knut.univention.de/univention/dev/projects/portal/commit/0d9f30952af49fa5822ef02f3db0d6cfba5b40ec)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** add new sidebar with mockcontent and adjust transitions ([a7cf6f7](https://git.knut.univention.de/univention/dev/projects/portal/commit/a7cf6f7a6f22eab358f610ec75896e1566eceea3)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** add new waffle icon to topbar ([0427673](https://git.knut.univention.de/univention/dev/projects/portal/commit/042767321705d7c8a4824b1e3160b84280eaaf5d)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** add new waffle icon to topbar ([4afd50d](https://git.knut.univention.de/univention/dev/projects/portal/commit/4afd50dab86fb37a3469c41eee0d97af1bd58a99)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** adjust variables for custom.css ([3587d4a](https://git.knut.univention.de/univention/dev/projects/portal/commit/3587d4a477e309ede7e9c1b8ca16da564e776457)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** make items load from navigation.json ([00e33e3](https://git.knut.univention.de/univention/dev/projects/portal/commit/00e33e3d2db9bc6af608755253fc3e0dcfce3cd7)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** styling adjustments for future theming ([3c6126d](https://git.knut.univention.de/univention/dev/projects/portal/commit/3c6126db9648618d6d9c03ffb2ee74e0fe0c4e68)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+* **portal-frontend:** update translation ([c29cac3](https://git.knut.univention.de/univention/dev/projects/portal/commit/c29cac379f552ea0c708662369ccac46b9078e44)), closes [univention/dev/projects/portal#1231](https://git.knut.univention.de/univention/dev/projects/portal/issues/1231)
+
+
+### Bug Fixes
+
+* **portal-frontend:** fix undefined bug ([c38e9b9](https://git.knut.univention.de/univention/dev/projects/portal/commit/c38e9b99df74f9e342766e5bad97ddfcda9a6d39)), closes [univention/dev/projects/portal#1248](https://git.knut.univention.de/univention/dev/projects/portal/issues/1248)
+
 ## [0.77.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.76.0...v0.77.0) (2025-08-18)
 
 
