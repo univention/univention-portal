@@ -145,6 +145,7 @@ import LeftSidebarNavigationButton from '@/components/navigation/LeftSidebarNavi
 
 import Announcement from '@/components/widgets/Announcement.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
+import { NavigationCategory } from '@/store/modules/portalData/portalData.models';
 
 interface PortalHeaderData {
   tabsOverflow: boolean,
@@ -210,7 +211,8 @@ export default defineComponent({
       return this.featureToggles.left_sidebar ?? false;
     },
     hasNavigationItems(): boolean {
-      return this.leftSidebarItems && this.leftSidebarItems.categories && this.leftSidebarItems.categories.length > 0;
+      const categories = this.leftSidebarItems?.categories;
+      return categories?.length > 0 && categories.some((category: NavigationCategory) => category.entries?.length > 0);
     },
   },
   watch: {

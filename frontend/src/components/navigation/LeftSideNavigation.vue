@@ -32,7 +32,7 @@
     >
       <li
         v-for="item in menuItems"
-        :key="item.id"
+        :key="item.identifier"
         class="portal-left-sidenavigation__menu-item"
       >
         <a
