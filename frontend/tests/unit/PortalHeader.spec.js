@@ -88,6 +88,83 @@ test('PortalHeader renders without LeftSidebar if not specified', async () => {
   expect(navigationContainer.exists()).toBe(false);
 });
 
+test('Waffleicon renders not if navigation.json is empty and feature toggle activated', async () => {
+  const featureToggles = {
+    left_sidebar: true,
+  };
+
+  // Create a mock Vuex store with required getters
+  const store = createStore({
+    modules: {
+      tabs: {
+        namespaced: true,
+        getters: {
+          activeTabId: () => 0,
+          allTabs: () => [],
+          savedScrollPosition: () => 0,
+          numTabs: () => 0,
+        },
+      },
+      portalData: {
+        namespaced: true,
+        getters: {
+          editMode: () => false,
+          portalAnnouncements: () => [],
+          leftSidebarItems: () => ({}),
+        },
+      },
+      navigation: {
+        namespaced: true,
+        getters: {
+          getActiveButton: () => '',
+        },
+        actions: {
+          closeNotificationsSidebar: jest.fn(),
+          setActiveButton: jest.fn(),
+        },
+      },
+      notifications: {
+        namespaced: true,
+        getters: {
+          numNotifications: () => 0,
+        },
+      },
+      featureToggles: {
+        namespaced: true,
+        getters: {
+          featureToggles: () => featureToggles,
+        },
+      },
+    },
+  });
+
+  const wrapper = shallowMount(PortalHeader, {
+    global: {
+      plugins: [store],
+      mocks: {
+        $localized: (obj) => obj.en_US || obj.de_DE || '',
+      },
+      stubs: {
+        region: {
+          template: '<div><slot /></div>',
+        },
+        'header-button': true,
+        'header-tab': true,
+        'portal-search': true,
+        'choose-tabs': true,
+        'portal-title': true,
+        'left-sidebar-navigation-button': true,
+        announcement: true,
+        'tabindex-element': true,
+      },
+    },
+  });
+
+  // Test that when native_html_list is true, the navigation container is a ul element
+  const navigationContainer = wrapper.find('[data-test="left-sidebar-button"]');
+  expect(navigationContainer.exists()).toBe(false);
+});
+
 test('PortalHeader renders correctly', async () => {
   const featureToggles = {
     left_sidebar: true,
@@ -110,6 +187,7 @@ test('PortalHeader renders correctly', async () => {
         getters: {
           editMode: () => false,
           portalAnnouncements: () => [],
+          leftSidebarItems: () => ({ categories: [{}] }),
         },
       },
       navigation: {

@@ -14,7 +14,7 @@
     class="portal-header"
   >
     <left-sidebar-navigation-button
-      v-if="hasLeftSidebarSupport"
+      v-if="hasLeftSidebarSupport && hasNavigationItems"
       data-test="left-sidebar-button"
     />
     <portal-title />
@@ -180,6 +180,7 @@ export default defineComponent({
       numNotifications: 'notifications/numNotifications',
       portalAnnouncements: 'portalData/portalAnnouncements',
       featureToggles: 'featureToggles/featureToggles',
+      leftSidebarItems: 'portalData/leftSidebarItems',
     }),
     showTabButton(): boolean {
       return this.numTabs > 0 && this.tabsOverflow;
@@ -207,6 +208,9 @@ export default defineComponent({
     },
     hasLeftSidebarSupport(): boolean {
       return this.featureToggles.left_sidebar ?? false;
+    },
+    hasNavigationItems(): boolean {
+      return this.leftSidebarItems && this.leftSidebarItems.categories && this.leftSidebarItems.categories.length > 0;
     },
   },
   watch: {
