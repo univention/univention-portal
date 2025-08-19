@@ -12,6 +12,21 @@ jest.mock('@/jsHelper/login', () => ({
   logout: jest.fn(),
 }));
 
+const category = {
+  display_name: 'Administration',
+  entries: [
+    {
+      display_name: 'Keycloak',
+      icon_url: './data/icons/owncloud-admindoc.svg',
+      identifier: 'keycloak',
+      keywords: {},
+      link: 'https://google.com',
+      target: '_blank',
+    },
+  ],
+  identifier: 'domain-admin',
+};
+
 test('PortalHeader renders without LeftSidebar if not specified', async () => {
   const featureToggles = {
     left_sidebar: false,
@@ -83,7 +98,6 @@ test('PortalHeader renders without LeftSidebar if not specified', async () => {
     },
   });
 
-  // Test that when native_html_list is true, the navigation container is a ul element
   const navigationContainer = wrapper.find('[data-test="left-sidebar-button"]');
   expect(navigationContainer.exists()).toBe(false);
 });
@@ -160,7 +174,6 @@ test('Waffleicon renders not if navigation.json is empty and feature toggle acti
     },
   });
 
-  // Test that when native_html_list is true, the navigation container is a ul element
   const navigationContainer = wrapper.find('[data-test="left-sidebar-button"]');
   expect(navigationContainer.exists()).toBe(false);
 });
@@ -187,7 +200,7 @@ test('PortalHeader renders correctly', async () => {
         getters: {
           editMode: () => false,
           portalAnnouncements: () => [],
-          leftSidebarItems: () => ({ categories: [{}] }),
+          leftSidebarItems: () => ({ categories: [category] }),
         },
       },
       navigation: {
@@ -237,7 +250,6 @@ test('PortalHeader renders correctly', async () => {
     },
   });
 
-  // Test that when native_html_list is true, the navigation container is a ul element
   const navigationContainer = wrapper.find('[data-test="left-sidebar-button"]');
   expect(navigationContainer.exists()).toBe(true);
 });
