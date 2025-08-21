@@ -85,13 +85,39 @@ class UMCAuthenticator(Authenticator):
     def refresh(self, reason=None):
         return self.group_cache.refresh(reason=reason)
 
+    async def _check_keycloak_session(self, request):
+        keycloak_base_url = config.fetch("keycloak_base_url")
+        keycloak_realm = config.fetch("keycloak_realm")
+        keycloak_client_id = config.fetch("keycloak_client_id")
+
+        if not all([keycloak_base_url, keycloak_realm, keycloak_client_id]):
+            get_logger("user").warning("Keycloak configuration missing, skipping session check.")
+            return True
+
+        check_session_url = f"{keycloak_base_url}/realms/{keycloak_realm}/protocol/openid-connect/login-status-iframe.html"
+        try:
+            req = HTTPRequest(check_session_url, method="GET", follow_redirects=False)
+            http_client = AsyncHTTPClient()
+            response = await http_client.fetch(req)
+            if response.code == 200:
+                return True
+            else:
+                get_logger("user").info("Keycloak session terminated (status: %s)", response.code)
+                return False
+        except HTTPError as exc:
+            get_logger("user").error("Keycloak session check failed: %s", exc)
+            return False
+        except Exception as exc:
+            get_logger("user").error("Unexpected error during Keycloak session check: %s", exc)
+            return False
+
     async def get_user(self, request):
         cookies = {key: morsel.value for key, morsel in request.cookies.items()}
-        username, display_name = await self._get_username(cookies)
+        username, display_name = await self._get_username(cookies, request)
         groups = self.group_cache.get().get(username, [])
         return User(username, display_name=display_name, groups=groups, headers=dict(request.request.headers))
 
-    async def _get_username(self, cookies):
+    async def _get_username(self, cookies, request):
         headers = {}
         for cookie in cookies:
             if cookie.startswith("UMCSessionId"):
@@ -105,7 +131,7 @@ class UMCAuthenticator(Authenticator):
             return None, None
         get_logger("user").debug("searching user for cookies=%r" % cookies)
 
-        username = await self._ask_umc(cookies, headers)
+        username = await self._ask_umc(cookies, headers, request)
         if username is None:
             get_logger("user").debug("no user found")
             return None, None
@@ -113,7 +139,7 @@ class UMCAuthenticator(Authenticator):
             get_logger("user").debug("found %s" % (username,))
             return username.lower(), username
 
-    async def _ask_umc(self, cookies, headers):
+    async def _ask_umc(self, cookies, headers, request):
         try:
             headers['Cookie'] = '; '.join('='.join(c) for c in cookies.items())
             req = HTTPRequest(self.umc_session_url, method="GET", headers=headers)
@@ -122,6 +148,17 @@ class UMCAuthenticator(Authenticator):
             response = await http_client.fetch(req)
             data = json.loads(response.body.decode('UTF-8'))
             username = data["result"]["username"]
+
+            # --- NEW KEYCLOAK SESSION CHECK ---
+            if not await self._check_keycloak_session(request):
+                get_logger("user").info("Keycloak session terminated, clearing UMC session.")
+                for cookie_name in cookies:
+                    if cookie_name.startswith("UMCSessionId"):
+                        request.clear_cookie(cookie_name)
+                return None
+            # --- END NEW KEYCLOAK SESSION CHECK ---
+
+            return username
         except HTTPError as exc:
             get_logger("user").error("request failed: %s" % exc)
         except EnvironmentError as exc:
