@@ -95,10 +95,12 @@ class UMCAuthenticator(Authenticator):
             return True
 
         check_session_url = f"{keycloak_base_url}/realms/{keycloak_realm}/protocol/openid-connect/login-status-iframe.html"
+        get_logger("user").debug("Checking Keycloak session at: %s", check_session_url)
         try:
             req = HTTPRequest(check_session_url, method="GET", follow_redirects=False)
             http_client = AsyncHTTPClient()
             response = await http_client.fetch(req)
+            get_logger("user").debug("Keycloak session check response status: %s", response.code)
             if response.code == 200:
                 return True
             else:
@@ -142,20 +144,25 @@ class UMCAuthenticator(Authenticator):
     async def _ask_umc(self, cookies, headers, request):
         try:
             headers['Cookie'] = '; '.join('='.join(c) for c in cookies.items())
+            get_logger("user").debug("Requesting UMC session info from: %s with headers: %r", self.umc_session_url, headers)
             req = HTTPRequest(self.umc_session_url, method="GET", headers=headers)
 
             http_client = AsyncHTTPClient()
             response = await http_client.fetch(req)
+            get_logger("user").debug("UMC session info raw response: %r", response.body)
             data = json.loads(response.body.decode('UTF-8'))
+            get_logger("user").debug("UMC session info parsed data: %r", data)
             username = data["result"]["username"]
+            get_logger("user").debug("UMC session check successful, username: %s", username)
 
             # --- NEW KEYCLOAK SESSION CHECK ---
-            if not await self._check_keycloak_session(request):
-                get_logger("user").info("Keycloak session terminated, clearing UMC session.")
-                for cookie_name in cookies:
-                    if cookie_name.startswith("UMCSessionId"):
-                        request.clear_cookie(cookie_name)
-                return None
+            # Temporarily disabled for debugging
+            # if not await self._check_keycloak_session(request):
+            #     get_logger("user").info("Keycloak session terminated, clearing UMC session.")
+            #     for cookie_name in cookies:
+            #         if cookie_name.startswith("UMCSessionId"):
+            #             request.clear_cookie(cookie_name)
+            #     return None
             # --- END NEW KEYCLOAK SESSION CHECK ---
 
             return username
