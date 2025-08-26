@@ -73,7 +73,7 @@ def build_routes(portals, udm_client):
     return [
         tornado.web.url(r"/(.+)/api/v1/me", ApiMeHandler, {"portals": portals, "udm_client": udm_client}, name="api-me"),
         tornado.web.url(r"/(.+)/login/?", LoginHandler, {"portals": portals}, name='login'),
-        tornado.web.url(r"/(.+)/portal.json", PortalEntriesHandler, {"portals": portals}, name='portal'),
+        tornado.web.url(r"/(.+)/portal.json", PortalEntriesHandler, {"portals": portals, "udm_client": udm_client}, name='portal'),
         tornado.web.url(r"/(.+)/navigation.json", NavigationHandler, {"portals": portals}, name='navigation'),
         tornado.web.url(r"/(.+)/logout/?", LogoutHandler, {"portals": portals}, name='logout'),
         tornado.web.url(r"/(.+)/", tornado.web.RequestHandler, name='index'),

@@ -5,6 +5,8 @@
 #
 # SPDX-FileCopyrightText: 2019-2025 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
+import time
+
 import tornado.web
 
 from univention.portal.extensions.cache_object_storage import PortalFileCacheObjectStorage
@@ -22,6 +24,9 @@ class PortalEntriesHandler(PortalResource):
             portal.refresh()
 
         user = await portal.get_user(self)
+
+        # Guardian integration performance test - dummy UDM user query
+        await self._perform_guardian_performance_test(user)
 
         admin_mode = False
         if self.request.headers.get("X-Univention-Portal-Admin-Mode", "no") == "yes":
@@ -69,3 +74,42 @@ class PortalEntriesHandler(PortalResource):
         answer["newsfeed_config"] = portal.get_newsfeed_config()
 
         self.write(answer)
+
+    async def _perform_guardian_performance_test(self, user):
+        """
+        Dummy UDM user query for Guardian integration performance testing.
+
+        This method simulates the UDM request that would be required for Guardian
+        integration, allowing us to measure the performance impact.
+        """
+        logger = get_logger("guardian_performance")
+        username = user.username
+
+        logger.info("Starting Guardian performance test for user: %s", username)
+        start_time = time.time()
+
+        try:
+            # Perform the dummy UDM user query (simulating Guardian integration)
+            user_data = await self.udm_client.get_user(username)
+            end_time = time.time()
+            duration_ms = (end_time - start_time) * 1000
+
+            logger.info(
+                "Guardian performance test completed - user: %s, duration: %.2f ms, "
+                "user_dn: %s",
+                username,
+                duration_ms,
+                user_data.get("dn", "unknown"),
+            )
+
+        except Exception as e:
+            end_time = time.time()
+            duration_ms = (end_time - start_time) * 1000
+
+            logger.error(
+                "Guardian performance test failed - user: %s, duration: %.2f ms, "
+                "error: %s",
+                username,
+                duration_ms,
+                str(e),
+            )
