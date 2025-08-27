@@ -56,7 +56,6 @@ describe('Test Left Sidebar Feature Toggle', () => {
       // Verify elements outside the sidebar are not focusable when sidebar is open
       cy.get('#portal-header button:not([data-test="left-sidebar-button"])').should('have.attr', 'tabindex', '-1');
 
-      // Test that focus stays trapped in sidebar
       cy.get('#portal-left-sidenavigation').within(() => {
         cy.get('button, a, [tabindex="0"]').first()
           .focus();
@@ -66,7 +65,9 @@ describe('Test Left Sidebar Feature Toggle', () => {
       });
 
       cy.get('body').type('{esc}');
-      cy.get('#portal-left-sidenavigation').should('not.be.visible');
+
+      // Check that the sidebar is no longer in the DOM or not visible
+      cy.get('#portal-left-sidenavigation').should('not.exist');
     });
 
     it('header layout changes correctly with left sidebar enabled', () => {
@@ -114,6 +115,13 @@ describe('Test Left Sidebar Feature Toggle', () => {
       // Test desktop viewport
       cy.viewport(1920, 1080);
       cy.get('[data-test="left-sidebar-button"]').should('be.visible');
+    });
+
+    it('displays the category display_name as title in the sidebar', () => {
+      cy.get('[data-test="left-sidebar-button"]').click();
+      cy.get('#portal-left-sidenavigation').should('be.visible');
+      cy.get('[data-test="sidebar-title"]').first()
+        .should('have.text', 'Administration');
     });
   });
 

@@ -118,7 +118,6 @@ export default defineComponent({
         attributes: sanitizeFrontendValues(this.formValues, this.formWidgets),
       })
         .then((result) => {
-          console.log(result);
           if (result.success) {
             if (result.verifyTokenSuccessfullySend) {
               this.errorDialog.showError([

@@ -23,7 +23,10 @@
         <portal-icon icon="x" />
       </div>
     </div>
-    <div class="portal-left-sidenavigation__title">
+    <div
+      class="portal-left-sidenavigation__title"
+      data-test="sidebar-title"
+    >
       {{ APPLICATIONS }}
     </div>
     <ul
@@ -59,7 +62,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import _ from '@/jsHelper/translate';
 
 import Region from '@/components/activity/Region.vue';
 import PortalIcon from '@/components/globals/PortalIcon.vue';
@@ -99,8 +101,6 @@ export default defineComponent({
     }),
     menuItems(): NavigationEntry[] {
       const items = this.leftSidebarItems as NavigationData;
-
-      // Only support categorized format from server (navigation-2.json)
       if (items && items.categories && Array.isArray(items.categories)) {
         return items.categories.flatMap((category: NavigationCategory) => category.entries || []);
       }
@@ -108,7 +108,17 @@ export default defineComponent({
       return [];
     },
     APPLICATIONS(): string {
-      return _('Applications');
+      const items = this.leftSidebarItems as NavigationData;
+
+      // Find the first category with a display_name
+      if (items?.categories && Array.isArray(items.categories)) {
+        const categoryWithName = items.categories.find((category) => category.display_name);
+        if (categoryWithName) {
+          return categoryWithName.display_name;
+        }
+      }
+
+      return '';
     },
   },
   created() {

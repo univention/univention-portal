@@ -66,7 +66,6 @@ export default defineComponent({
     };
   },
   mounted() {
-    console.log('WTF', this);
     this.setUpContextMenu();
     document.addEventListener('click', this.detectOutsideClickContextMenu);
   },
