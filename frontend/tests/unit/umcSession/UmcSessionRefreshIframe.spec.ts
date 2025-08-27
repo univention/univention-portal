@@ -10,6 +10,7 @@ import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIfram
 import * as UmcSessionRefreshIframeUtils from '@/components/globals/UmcSessionRefreshIframe.utils';
 import { UmcSessionRefreshResponse } from '@/components/globals/UmcSessionRefreshIframe.utils';
 import { RootState } from '@/store/root.models';
+import * as login from '@/jsHelper/login';
 
 import * as stubs from './stubs';
 
@@ -117,7 +118,8 @@ describe('Method handleRefreshResult', () => {
     { status: 400 },
     { status: 500 },
     undefined,
-  ])('dispatches "umcSession/disableSessionRefresh" on failure response', (result) => {
+  ])('calls logout on failure response', (result) => {
+    const logoutSpy = jest.spyOn(login, 'logout').mockImplementation(jest.fn());
     jest.spyOn(UmcSessionRefreshIframeUtils, 'getResultFromIframe').mockImplementation(() => result);
     const mockedThis = {
       $store: {
@@ -126,7 +128,7 @@ describe('Method handleRefreshResult', () => {
     };
 
     UmcSessionRefreshIframe.methods?.handleRefreshResult.call(mockedThis);
-    expect(mockedThis.$store.dispatch).toHaveBeenCalledWith('umcSession/disableSessionRefresh');
+    expect(logoutSpy).toHaveBeenCalled();
   });
 
 });

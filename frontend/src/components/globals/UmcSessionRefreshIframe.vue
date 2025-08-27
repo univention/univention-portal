@@ -17,6 +17,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import { logout } from '@/jsHelper/login';
 import { getResultFromIframe } from './UmcSessionRefreshIframe.utils';
 
 export default defineComponent({
@@ -49,7 +50,7 @@ export default defineComponent({
       if (result?.status === 200) {
         this.$store.dispatch('umcSession/restartSessionRefresh');
       } else {
-        this.$store.dispatch('umcSession/disableSessionRefresh');
+        logout();
       }
     },
   },
