@@ -89,19 +89,19 @@ function makeEntry(
 export function doesTitleMatch(entry: TileOrFolder, searchQuery: string): boolean {
   return localized(entry.title)
     .toLowerCase()
-    .includes(searchQuery.toLowerCase());
+    .includes(searchQuery?.toLowerCase());
 }
 
 export function doesDescriptionMatch(entry: TileOrFolder, searchQuery: string): boolean {
   return !entry.isFolder && localized((entry as BaseTile).description)
     .toLowerCase()
-    .includes(searchQuery.toLowerCase());
+    .includes(searchQuery?.toLowerCase());
 }
 
 export function doesKeywordsMatch(entry: TileOrFolder, searchQuery: string): boolean {
   return !entry.isFolder && localized((entry as BaseTile).keywords)
     .toLowerCase()
-    .includes(searchQuery.toLowerCase());
+    .includes(searchQuery?.toLowerCase());
 }
 
 export function doesFolderMatch(entry: TileOrFolder, searchQuery: string): boolean {
