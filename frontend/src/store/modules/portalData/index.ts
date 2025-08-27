@@ -367,6 +367,7 @@ const portalData: PortalModule<PortalDataState> = {
         return getters.portalFinalLayout;
       }
       const searchQuery = rootGetters['search/searchQuery'];
+      console.log('Filtering with search query:', searchQuery);
       return getters.portalFinalLayout
         .map((category: Category) => {
           category.tiles = category.tiles.filter((entry) => (

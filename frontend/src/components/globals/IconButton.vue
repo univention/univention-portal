@@ -7,7 +7,10 @@
     :id="id"
     :active-at="activeAt"
     :aria-label="ariaLabelProp"
-    :class="{'button--icon--inputfield-sized': hasButtonStyle}"
+    :class="{
+      'button--icon--inputfield-sized': hasButtonStyle,
+      'button--icon--small': sizeVariant === 'small',
+    }"
     class="button--icon"
     tag="button"
     type="button"
@@ -53,6 +56,11 @@ export default defineComponent({
     hasButtonStyle: {
       type: Boolean,
       default: false,
+    },
+    sizeVariant: {
+      type: String,
+      default: 'medium',
+      validator: (value: string) => ['small', 'medium'].includes(value),
     },
   },
   emits: ['click'],
