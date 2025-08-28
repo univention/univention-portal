@@ -28,13 +28,20 @@
             :aria-label="SEARCH"
             @input="searchTiles"
             @keyup.esc="closeSearchInput()"
+            @keydown.tab="onTabFromInput"
           >
           <icon-button
+            id="portal-search-close-button"
+            ref="searchCloseButton"
             class="portal-search__close-button"
+            button-class="button--icon--circle button--icon--header-style button--flat"
             icon="x"
             size-variant="small"
+            :active-at="['portal']"
             :aria-label-prop="CLOSE_SEARCH"
+            :tabindex="0"
             @click="closeSearchInput()"
+            @keydown.tab="onTabFromCloseButton"
           />
         </div>
       </flyout-wrapper>
@@ -105,6 +112,40 @@ export default defineComponent({
       this.$store.dispatch('activity/setRegion', 'portal-header');
       this.$store.dispatch('navigation/setActiveButton', '');
     },
+    closeSearchInputWithoutFocus(): void {
+      this.$store.dispatch('navigation/setActiveButton', '');
+    },
+    onTabFromInput(event: KeyboardEvent): void {
+      if (!event.shiftKey) {
+        const closeButton = document.getElementById('portal-search-close-button');
+        if (closeButton) {
+          event.preventDefault();
+          closeButton.focus();
+        }
+      } else {
+        const searchButton = document.getElementById('header-button-search');
+        if (searchButton) {
+          event.preventDefault();
+          searchButton.focus();
+        }
+      }
+    },
+    onTabFromCloseButton(event: KeyboardEvent): void {
+      if (event.shiftKey) {
+        const searchInput = document.getElementById('portal-search-input');
+        if (searchInput) {
+          event.preventDefault();
+          searchInput.focus();
+        }
+      } else {
+        event.preventDefault();
+        this.closeSearchInputWithoutFocus();
+        const bellButton = document.getElementById('header-button-bell');
+        if (bellButton) {
+          bellButton.focus();
+        }
+      }
+    },
   },
 });
 </script>
@@ -137,8 +178,6 @@ export default defineComponent({
   &__close-button
     position: absolute
     right: var(--layout-spacing-unit)
-    background: none
-    border: none
     cursor: pointer
     font-size: 1.6rem
     color: white
