@@ -7,11 +7,15 @@
     :id="id"
     :active-at="activeAt"
     :aria-label="ariaLabelProp"
-    :class="{
-      'button--icon--inputfield-sized': hasButtonStyle,
-      'button--icon--small': sizeVariant === 'small',
-    }"
-    class="button--icon"
+    :tabindex="tabindex"
+    :class="[
+      'button--icon',
+      {
+        'button--icon--inputfield-sized': hasButtonStyle,
+        'button--icon--small': sizeVariant === 'small',
+      },
+      buttonClass
+    ]"
     tag="button"
     type="button"
     @click.prevent.stop="$emit('click')"
@@ -61,6 +65,14 @@ export default defineComponent({
       type: String,
       default: 'medium',
       validator: (value: string) => ['small', 'medium'].includes(value),
+    },
+    tabindex: {
+      type: [String, Number],
+      default: undefined,
+    },
+    buttonClass: {
+      type: String,
+      default: '',
     },
   },
   emits: ['click'],

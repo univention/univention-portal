@@ -32,12 +32,19 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    tabindex: {
+      type: [String, Number],
+      default: undefined,
+    },
   },
   computed: {
     ...mapGetters({
       activityLevel: 'activity/level',
     }),
     tabIndex(): number {
+      if (this.tabindex !== undefined) {
+        return Number(this.tabindex);
+      }
       if (this.activeAt.indexOf(this.activityLevel) > -1) {
         return 0;
       }
