@@ -26,6 +26,7 @@
             type="text"
             class="portal-search__input"
             :aria-label="SEARCH"
+            :placeholder="SEARCH_PLACEHOLDER"
             @input="searchTiles"
             @keyup.esc="closeSearchInput()"
             @keydown.tab="onTabFromInput"
@@ -76,6 +77,9 @@ export default defineComponent({
     }),
     SEARCH(): string {
       return _('search');
+    },
+    SEARCH_PLACEHOLDER(): string {
+      return _('Search…');
     },
     CLOSE_SEARCH(): string {
       return _('close search');
@@ -165,6 +169,10 @@ export default defineComponent({
     &:focus
       border-color: var(--color-focus);
       outline: none;
+
+    &::placeholder
+      color: var(--font-color-contrast-middle)
+      opacity: 1
 
   &__wrapper
     background-color: rgba(0,0,0,0)
