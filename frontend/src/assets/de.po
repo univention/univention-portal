@@ -818,6 +818,10 @@ msgstr "Speichern erfolgreich"
 msgid "Search"
 msgstr "Suchen"
 
+#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue
+msgid "Search…"
+msgstr "Suchen…"
+
 #: frontend/src/tmp/ts/frontend/src/components/ChooseTabs.vue:42
 #: frontend/src/tmp/ts/frontend/src/components/navigation/HeaderTab.vue:54
 msgid "Select"
