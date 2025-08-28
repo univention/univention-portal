@@ -79,7 +79,11 @@ function getPosition(layout: PortalLayout, id: string, targetIdx: null | number 
       categoryIdx = layout.length;
       break;
     }
-    for (let categoryEntryIdx = 0; categoryEntryIdx < category.tiles.length; categoryEntryIdx += 1) {
+    for (
+      let categoryEntryIdx = 0;
+      categoryEntryIdx < category.tiles.length;
+      categoryEntryIdx += 1
+    ) {
       const categoryEntry = category.tiles[categoryEntryIdx];
       if (categoryEntry.id === id) {
         position.categoryIdx = categoryIdx;
@@ -111,7 +115,11 @@ function getPosition(layout: PortalLayout, id: string, targetIdx: null | number 
         break;
       }
       if (categoryEntry.tiles) {
-        for (let folderEntryIdx = 0; folderEntryIdx < categoryEntry.tiles.length; folderEntryIdx += 1) {
+        for (
+          let folderEntryIdx = 0;
+          folderEntryIdx < categoryEntry.tiles.length;
+          folderEntryIdx += 1
+        ) {
           const folder = categoryEntry.tiles[folderEntryIdx];
           if (folder.id === id) {
             position.categoryIdx = categoryIdx;
@@ -253,28 +261,34 @@ const portalData: PortalModule<PortalDataState> = {
           return m;
         }, {}),
       };
-      state.portal.layout = state.portal.baseLayout.layout.map((categoryDn) => ({
-        id: `category-${randomId()}`,
-        dn: categoryDn,
-        testTitle: categoryDn,
-        tiles: state.portal.baseLayout.categories[categoryDn].map((entryDn) => {
-          const isFolderDn = entryDn in state.portal.baseLayout.folders;
-          if (isFolderDn) {
-            return {
-              id: `folder-${randomId()}`,
-              dn: entryDn,
-              tiles: state.portal.baseLayout.folders[entryDn].map((folderDn) => ({
+      state.portal.layout = state.portal.baseLayout.layout.map(
+        (categoryDn) => ({
+          id: `category-${randomId()}`,
+          dn: categoryDn,
+          testTitle: categoryDn,
+          tiles: state.portal.baseLayout.categories[categoryDn].map(
+            (entryDn) => {
+              const isFolderDn = entryDn in state.portal.baseLayout.folders;
+              if (isFolderDn) {
+                return {
+                  id: `folder-${randomId()}`,
+                  dn: entryDn,
+                  tiles: state.portal.baseLayout.folders[entryDn].map(
+                    (folderDn) => ({
+                      id: `entry-${randomId()}`,
+                      dn: folderDn,
+                    }),
+                  ),
+                };
+              }
+              return {
                 id: `entry-${randomId()}`,
-                dn: folderDn,
-              })),
-            };
-          }
-          return {
-            id: `entry-${randomId()}`,
-            dn: entryDn,
-          };
+                dn: entryDn,
+              };
+            },
+          ),
         }),
-      }));
+      );
       if (portal.newsfeed_config) {
         state.portal.newsfeedConfig = portal.newsfeed_config;
       } else {
@@ -293,7 +307,10 @@ const portalData: PortalModule<PortalDataState> = {
     PORTALBACKGROUND(state: PortalDataState, data: PortalImageDataBlob): void {
       state.portal.portal.background = data;
     },
-    SETLAYOUT(state: PortalDataState, payload: { layout: PortalLayout, baseLayout: PortalBaseLayout }): void {
+    SETLAYOUT(
+      state: PortalDataState,
+      payload: { layout: PortalLayout; baseLayout: PortalBaseLayout },
+    ): void {
       state.portal.baseLayout = payload.baseLayout;
       state.portal.layout = payload.layout;
     },
@@ -362,22 +379,33 @@ const portalData: PortalModule<PortalDataState> = {
       getters.portalDefaultLinkTarget,
       getters.editMode,
     ),
-    portalFinalLayoutFiltered: (state: PortalDataState, getters: any, rootState: RootState, rootGetters: any): Category[] => {
+    portalFinalLayoutFiltered: (
+      state: PortalDataState,
+      getters: any,
+      rootState: RootState,
+      rootGetters: any,
+    ): Category[] => {
       if (state.editMode) {
         return getters.portalFinalLayout;
       }
       const searchQuery = rootGetters['search/searchQuery'];
       console.log('Filtering with search query:', searchQuery);
+
+      // If no search query, return the original layout
+      if (!searchQuery || searchQuery.trim() === '') {
+        return getters.portalFinalLayout;
+      }
+
       return getters.portalFinalLayout
-        .map((category: Category) => {
-          category.tiles = category.tiles.filter((entry) => (
-            doesTitleMatch(entry, searchQuery) ||
-            doesDescriptionMatch(entry, searchQuery) ||
-            doesKeywordsMatch(entry, searchQuery) ||
-            doesFolderMatch(entry, searchQuery)
-          ));
-          return category;
-        })
+        .map((category: Category) => ({
+          ...category,
+          tiles: category.tiles.filter(
+            (entry) => doesTitleMatch(entry, searchQuery) ||
+              doesDescriptionMatch(entry, searchQuery) ||
+              doesKeywordsMatch(entry, searchQuery) ||
+              doesFolderMatch(entry, searchQuery),
+          ),
+        }))
         .filter((category: Category) => category.tiles.length > 0);
     },
     portalNewsfeedConfig: (state) => state.portal.newsfeedConfig,
@@ -387,20 +415,35 @@ const portalData: PortalModule<PortalDataState> = {
     setPortal({ commit }: PortalDataActionContext, payload): void {
       commit('PORTALDATA', payload);
     },
-    setPortalName({ commit }: PortalDataActionContext, name: LocalizedString): void {
+    setPortalName(
+      { commit }: PortalDataActionContext,
+      name: LocalizedString,
+    ): void {
       commit('PORTALNAME', { ...name });
     },
-    setPortalLogo({ commit }: PortalDataActionContext, data: PortalImageDataBlob): void {
+    setPortalLogo(
+      { commit }: PortalDataActionContext,
+      data: PortalImageDataBlob,
+    ): void {
       commit('PORTALLOGO', data);
     },
-    setPortalBackground({ commit }: PortalDataActionContext, data: PortalImageDataBlob): void {
+    setPortalBackground(
+      { commit }: PortalDataActionContext,
+      data: PortalImageDataBlob,
+    ): void {
       commit('PORTALBACKGROUND', data);
     },
-    setLayout({ commit, dispatch }: PortalDataActionContext, layout: { layout: PortalLayout, baseLayout: PortalBaseLayout }): void {
+    setLayout(
+      { commit, dispatch }: PortalDataActionContext,
+      layout: { layout: PortalLayout; baseLayout: PortalBaseLayout },
+    ): void {
       commit('SETLAYOUT', layout);
       dispatch('changeLayoutUpdateFolder');
     },
-    changeLayout({ commit, dispatch, getters }: PortalDataActionContext, payload: { fromId: string, toId: string, position: null | number }): void {
+    changeLayout(
+      { commit, dispatch, getters }: PortalDataActionContext,
+      payload: { fromId: string; toId: string; position: null | number },
+    ): void {
       function move(layout, fromRoute: Position, toRoute: Position): boolean {
         if (fromRoute.entryIdx === null || toRoute.entryIdx === null) {
           return false;
@@ -438,17 +481,30 @@ const portalData: PortalModule<PortalDataState> = {
       const fromId = payload.fromId;
       const toId = payload.toId;
       if (fromId === toId) {
-        dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
+        dispatch(
+          'activity/setMessage',
+          _('Action not possible. Please try another direction.'),
+          { root: true },
+        );
         return;
       }
       if (!fromId || !toId) {
-        dispatch('activity/setMessage', _('Action not possible. Please try another direction.'), { root: true });
+        dispatch(
+          'activity/setMessage',
+          _('Action not possible. Please try another direction.'),
+          { root: true },
+        );
         return;
       }
 
       const layout = JSON.parse(JSON.stringify(getters.portalLayout));
       const fromPosition = getPosition(layout, fromId, null, null);
-      const toPosition = getPosition(layout, toId, payload.position, fromPosition);
+      const toPosition = getPosition(
+        layout,
+        toId,
+        payload.position,
+        fromPosition,
+      );
       if (
         fromPosition.categoryIdx === toPosition.categoryIdx &&
         fromPosition.folderIdx === toPosition.folderIdx &&
@@ -456,9 +512,12 @@ const portalData: PortalModule<PortalDataState> = {
       ) {
         return;
       }
-      if (fromPosition.entryType === 'category' && toPosition.entryType === 'category') {
+      if (
+        fromPosition.entryType === 'category' &&
+        toPosition.entryType === 'category'
+      ) {
         const toContext = getContext(layout, toPosition);
-        const to = toContext[(toPosition.entryIdx as number)];
+        const to = toContext[toPosition.entryIdx as number];
         if (to.dn === '$$user$$' || to.dn === '$$menu$$') {
           return;
         }
@@ -474,7 +533,12 @@ const portalData: PortalModule<PortalDataState> = {
       const dispatchFunction = (message: string) => {
         dispatch('activity/setMessage', message, { root: true });
       };
-      setScreenReaderAccouncement(fromPosition, toPosition, getters.portalFinalLayout, dispatchFunction);
+      setScreenReaderAccouncement(
+        fromPosition,
+        toPosition,
+        getters.portalFinalLayout,
+        dispatchFunction,
+      );
 
       commit('CHANGELAYOUT', {
         fromChange,
@@ -485,7 +549,10 @@ const portalData: PortalModule<PortalDataState> = {
 
       dispatch('changeLayoutUpdateFolder');
     },
-    changeLayoutDirection({ dispatch, getters }: PortalDataActionContext, payload: { fromId: string, direction: 'left' | 'right' | 'up' | 'down' }): void {
+    changeLayoutDirection(
+      { dispatch, getters }: PortalDataActionContext,
+      payload: { fromId: string; direction: 'left' | 'right' | 'up' | 'down' },
+    ): void {
       const fromId = payload.fromId;
       const direction = payload.direction;
 
@@ -562,10 +629,17 @@ const portalData: PortalModule<PortalDataState> = {
         position,
       });
     },
-    async saveLayout({ getters, rootGetters, dispatch }: PortalDataActionContext): Promise<void> {
+    async saveLayout({
+      getters,
+      rootGetters,
+      dispatch,
+    }: PortalDataActionContext): Promise<void> {
       let folderPosition: Position | null = null;
       if (rootGetters['modal/inFolderModal']) {
-        folderPosition = getPosition(getters.portalLayout, rootGetters['modal/getModalProps']('firstLevelModal').layoutId);
+        folderPosition = getPosition(
+          getters.portalLayout,
+          rootGetters['modal/getModalProps']('firstLevelModal').layoutId,
+        );
       }
       dispatch('dragndrop/dropped', null, { root: true });
       dispatch('activateLoadingState', null, { root: true });
@@ -579,12 +653,14 @@ const portalData: PortalModule<PortalDataState> = {
       folders.forEach((folder) => {
         const entries = baseLayout.folders[folder.dn];
         if (!isEqual(folder.entries, entries)) {
-          puts.push(put(
-            folder.dn,
-            { entries },
-            { dispatch },
-            _('Entries could not be re-sorted'),
-          ));
+          puts.push(
+            put(
+              folder.dn,
+              { entries },
+              { dispatch },
+              _('Entries could not be re-sorted'),
+            ),
+          );
         }
       });
 
@@ -600,56 +676,80 @@ const portalData: PortalModule<PortalDataState> = {
           }[category.dn];
           const entries = baseLayout.categories[category.dn];
           if (!isEqual(category.entries, entries)) {
-            puts.push(put(
-              portalDn,
-              { [field]: entries },
-              { dispatch },
-              _('Entries could not be re-sorted'),
-            ));
+            puts.push(
+              put(
+                portalDn,
+                { [field]: entries },
+                { dispatch },
+                _('Entries could not be re-sorted'),
+              ),
+            );
           }
         } else {
           const entries = baseLayout.categories[category.dn];
           if (!isEqual(category.entries, entries)) {
-            puts.push(put(
-              category.dn,
-              { entries },
-              { dispatch },
-              _('Entries could not be re-sorted'),
-            ));
+            puts.push(
+              put(
+                category.dn,
+                { entries },
+                { dispatch },
+                _('Entries could not be re-sorted'),
+              ),
+            );
           }
         }
       });
 
       // portal content
       const content = getters.portalContent;
-      const saved = content.map(([categoryDn]) => categoryDn).filter((categoryDn) => !['$$menu$$', '$$user$$'].includes(categoryDn));
-      const current = baseLayout.layout.filter((categoryDn) => !['$$menu$$', '$$user$$'].includes(categoryDn));
+      const saved = content
+        .map(([categoryDn]) => categoryDn)
+        .filter((categoryDn) => !['$$menu$$', '$$user$$'].includes(categoryDn));
+      const current = baseLayout.layout.filter(
+        (categoryDn) => !['$$menu$$', '$$user$$'].includes(categoryDn),
+      );
       if (!isEqual(saved, current)) {
-        puts.push(put(
-          portalDn,
-          { categories: current },
-          { dispatch },
-          _('Categories could not be re-sorted'),
-        ));
+        puts.push(
+          put(
+            portalDn,
+            { categories: current },
+            { dispatch },
+            _('Categories could not be re-sorted'),
+          ),
+        );
       }
       const results = await Promise.all(puts);
       dispatch('deactivateLoadingState', null, { root: true });
       if (results.length && results.every((result) => !!result)) {
-        dispatch('notifications/addSuccessNotification', {
-          title: _('Entries successfully re-sorted'),
-        }, { root: true });
+        dispatch(
+          'notifications/addSuccessNotification',
+          {
+            title: _('Entries successfully re-sorted'),
+          },
+          { root: true },
+        );
       }
 
       if (folderPosition !== null && folderPosition.entryIdx !== null) {
-        const folder = getters.portalFinalLayout[folderPosition.categoryIdx as number].tiles[folderPosition.entryIdx as number];
+        const folder =
+          getters.portalFinalLayout[folderPosition.categoryIdx as number].tiles[
+            folderPosition.entryIdx as number
+          ];
         dispatch('changeLayoutUpdateFolder', folder.layoutId);
-        dispatch('activity/setRegion', `${folder.id}-modal-content`, { root: true });
+        dispatch('activity/setRegion', `${folder.id}-modal-content`, {
+          root: true,
+        });
       }
     },
-    changeLayoutUpdateFolder({ dispatch, getters, rootGetters }: PortalDataActionContext, folderLayoutId = ''): void {
+    changeLayoutUpdateFolder(
+      { dispatch, getters, rootGetters }: PortalDataActionContext,
+      folderLayoutId = '',
+    ): void {
       if (rootGetters['modal/inFolderModal']) {
         const newLayout = getters.portalFinalLayout;
-        const layoutId = folderLayoutId || rootGetters['modal/getModalProps']('firstLevelModal').layoutId;
+        const layoutId =
+          folderLayoutId ||
+          rootGetters['modal/getModalProps']('firstLevelModal').layoutId;
         let folder;
         newLayout.some((category) => category.tiles.some((entry) => {
           if (entry.layoutId === layoutId) {
@@ -657,19 +757,27 @@ const portalData: PortalModule<PortalDataState> = {
             return true;
           }
           return false;
-        }));
+        }),
+        );
         if (folder) {
-          dispatch('modal/changeModalProps', {
-            props: {
-              tiles: folder.tiles,
-              id: `${folder.id}-modal`,
-              layoutId: folder.layoutId,
+          dispatch(
+            'modal/changeModalProps',
+            {
+              props: {
+                tiles: folder.tiles,
+                id: `${folder.id}-modal`,
+                layoutId: folder.layoutId,
+              },
             },
-          }, { root: true });
+            { root: true },
+          );
         }
       }
     },
-    async waitForChange({ dispatch, getters }: PortalDataActionContext, payload: WaitForChangePayload): Promise<boolean | void> {
+    async waitForChange(
+      { dispatch, getters }: PortalDataActionContext,
+      payload: WaitForChangePayload,
+    ): Promise<boolean | void> {
       if (payload.retries <= 0) {
         return false;
       }
@@ -684,7 +792,10 @@ const portalData: PortalModule<PortalDataState> = {
       payload.retries -= 1;
       return dispatch('waitForChange', payload);
     },
-    async setEditMode({ dispatch, commit }: { commit: Commit, dispatch: Dispatch }, editMode: boolean): Promise<void> {
+    async setEditMode(
+      { dispatch, commit }: { commit: Commit; dispatch: Dispatch },
+      editMode: boolean,
+    ): Promise<void> {
       commit('EDITMODE', editMode);
       dispatch('dragndrop/dropped', null, { root: true });
       await dispatch('loadPortal', { adminMode: editMode }, { root: true });
@@ -694,14 +805,23 @@ const portalData: PortalModule<PortalDataState> = {
         dispatch('activity/setMessage', _('Left edit mode'), { root: true });
       }
     },
-    setPortalErrorDisplay({ commit }: { commit: Commit }, payload: number): void {
+    setPortalErrorDisplay(
+      { commit }: { commit: Commit },
+      payload: number,
+    ): void {
       commit('PORTAL_DISPLAY_ERROR', payload);
     },
-    setLeftSidebarItems({ commit }: { commit: Commit }, payload: NavigationData): void {
+    setLeftSidebarItems(
+      { commit }: { commit: Commit },
+      payload: NavigationData,
+    ): void {
       // Directly pass the server format to the component
       commit('PORTAL_LEFT_SIDEBAR', payload);
     },
-    async loadNavigation({ commit, rootGetters }: PortalDataActionContext): Promise<void> {
+    async loadNavigation({
+      commit,
+      rootGetters,
+    }: PortalDataActionContext): Promise<void> {
       try {
         const currentLocale = rootGetters['locale/getLocale'];
         const leftSidebarUrl = buildLeftSidebarUrl(currentLocale);
