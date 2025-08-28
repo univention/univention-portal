@@ -48,7 +48,10 @@ function makeEntry(
       description: entry.description,
       keywords: entry.keywords,
       links: entry.links,
-      linkTarget: entry.linkTarget === 'useportaldefault' ? defaultLinkTarget : entry.linkTarget,
+      linkTarget:
+        entry.linkTarget === 'useportaldefault'
+          ? defaultLinkTarget
+          : entry.linkTarget,
       target: entry.target,
       originalLinkTarget: entry.linkTarget,
       pathToLogo: entry.icon_url || './media/questionmark.svg',
