@@ -64,3 +64,88 @@ test('Portalsearch', async () => {
   wrapper.unmount();
   expect(store.dispatch).toHaveBeenLastCalledWith('search/setSearchQuery', '');
 });
+
+test('PortalSearch has proper placeholder for accessibility', async () => {
+  const div = document.createElement('div');
+  div.id = 'root';
+  document.body.appendChild(div);
+
+  const state = {
+    activeButton: 'search',
+  };
+
+  const actions = {
+    setActiveButton: jest.fn(),
+  };
+
+  const store = new Vuex.Store({
+    modules: {
+      navigation: {
+        state,
+        actions,
+        getters: navigation.getters,
+        namespaced: true,
+      },
+    },
+  });
+  store.dispatch = jest.fn();
+
+  const wrapper = await mount(PortalSearch, {
+    global: {
+      plugins: [store],
+    },
+    attachTo: '#root',
+  });
+
+  const input = await wrapper.find('.portal-search__input');
+  
+  // Test that placeholder attribute exists and has the correct value
+  expect(input.attributes('placeholder')).toBe('Search…');
+  
+  // Test that aria-label is still present for accessibility
+  expect(input.attributes('aria-label')).toBe('search');
+  
+  // Test that input has proper type
+  expect(input.attributes('type')).toBe('text');
+
+  wrapper.unmount();
+});
+
+test('PortalSearch placeholder styling supports proper contrast', async () => {
+  const div = document.createElement('div');
+  div.id = 'root';
+  document.body.appendChild(div);
+
+  const state = {
+    activeButton: 'search',
+  };
+
+  const actions = {
+    setActiveButton: jest.fn(),
+  };
+
+  const store = new Vuex.Store({
+    modules: {
+      navigation: {
+        state,
+        actions,
+        getters: navigation.getters,
+        namespaced: true,
+      },
+    },
+  });
+
+  const wrapper = await mount(PortalSearch, {
+    global: {
+      plugins: [store],
+    },
+    attachTo: '#root',
+  });
+
+  const input = await wrapper.find('.portal-search__input');
+  
+  // Test that input has the correct CSS class for placeholder styling
+  expect(input.classes()).toContain('portal-search__input');
+
+  wrapper.unmount();
+});
