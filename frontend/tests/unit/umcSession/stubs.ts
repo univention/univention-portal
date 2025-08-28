@@ -10,9 +10,10 @@ import { createStore } from 'vuex';
 import { UmcGetSessionInfoResponse, UmcSessionInfo } from '@/store/modules/umcSession/utils';
 import { UmcSessionRefreshResponse } from '@/components/globals/UmcSessionRefreshIframe.utils';
 import umcSession, { UmcSessionState } from '@/store/modules/umcSession';
+import user, { UserState } from '@/store/modules/user';
 import { RootState } from '@/store/root.models';
 
-export function createStubStore(initialState?: UmcSessionState) {
+export function createStubStore(initialState?: UmcSessionState, initialUserState?: UserState) {
   const store = createStore<RootState>({
     modules: {
       umcSession: {
@@ -20,6 +21,13 @@ export function createStubStore(initialState?: UmcSessionState) {
         state: {
           ...umcSession.state,
           ...initialState,
+        },
+      },
+      user: {
+        ...user,
+        state: {
+          ...user.state,
+          ...initialUserState,
         },
       },
     },
@@ -81,6 +89,31 @@ export function stubUmcSessionRefreshData(status?: number) {
     },
   };
 }
+
+export function stubSamlNoPassiveErrorData() {
+  return {
+    status: 400,
+    message: 'The identity provider reported a status error: Unsuccessful operation: <samlp:Status xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Responder"><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:NoPassive" /></samlp:StatusCode></samlp:Status>\nurn:oasis:names:tc:SAML:2.0:status:NoPassive from urn:oasis:names:tc:SAML:2.0:status:NoPassive',
+  };
+}
+
+export const stubUserStateSaml = {
+  user: {
+    username: 'testuser',
+    displayName: 'Test User',
+    mayEditPortal: false,
+    authMode: 'saml',
+  },
+};
+
+export const stubUserStateOidc = {
+  user: {
+    username: 'testuser',
+    displayName: 'Test User',
+    mayEditPortal: false,
+    authMode: 'oidc',
+  },
+};
 
 export function stubUmcSessionRefreshIframeWithResponse(responseData: UmcSessionRefreshResponse) {
   const stubResponse = `<html><body><textarea>${JSON.stringify(responseData)}</textarea></body></html>`;

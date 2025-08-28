@@ -10,12 +10,20 @@ import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIfram
 import * as UmcSessionRefreshIframeUtils from '@/components/globals/UmcSessionRefreshIframe.utils';
 import { UmcSessionRefreshResponse } from '@/components/globals/UmcSessionRefreshIframe.utils';
 import { RootState } from '@/store/root.models';
+import * as loginHelper from '@/jsHelper/login';
 
 import * as stubs from './stubs';
 
 beforeEach(() => {
   jest.resetAllMocks();
   jest.restoreAllMocks();
+
+  // Mock window.location to prevent navigation errors in tests
+  delete (window as any).location;
+  window.location = {
+    href: '',
+    pathname: '/test-path',
+  } as any;
 });
 
 describe('Template', () => {
@@ -129,6 +137,51 @@ describe('Method handleRefreshResult', () => {
     expect(mockedThis.$store.dispatch).toHaveBeenCalledWith('umcSession/disableSessionRefresh');
   });
 
+  test('calls login helper on SAML NoPassive error', () => {
+    const loginSpy = jest.spyOn(loginHelper, 'login').mockImplementation(jest.fn());
+    const result: UmcSessionRefreshResponse = {
+      status: 400,
+      message: 'NoPassive error',
+      isSamlNoPassiveError: true,
+    };
+    jest.spyOn(UmcSessionRefreshIframeUtils, 'getResultFromIframe').mockImplementation(() => result);
+
+    const mockedUser = stubs.stubUserStateSaml.user;
+    const mockedThis = {
+      $store: {
+        dispatch: jest.fn(),
+      },
+      user: mockedUser,
+    };
+
+    UmcSessionRefreshIframe.methods?.handleRefreshResult.call(mockedThis);
+
+    expect(mockedThis.$store.dispatch).toHaveBeenCalledWith('umcSession/disableSessionRefresh');
+    expect(loginSpy).toHaveBeenCalledWith(mockedUser);
+  });
+
+  test('does not call login helper on regular error without NoPassive flag', () => {
+    const loginSpy = jest.spyOn(loginHelper, 'login').mockImplementation(jest.fn());
+    const result: UmcSessionRefreshResponse = {
+      status: 400,
+      message: 'Some other error',
+      isSamlNoPassiveError: false,
+    };
+    jest.spyOn(UmcSessionRefreshIframeUtils, 'getResultFromIframe').mockImplementation(() => result);
+
+    const mockedThis = {
+      $store: {
+        dispatch: jest.fn(),
+      },
+      user: stubs.stubUserStateSaml.user,
+    };
+
+    UmcSessionRefreshIframe.methods?.handleRefreshResult.call(mockedThis);
+
+    expect(mockedThis.$store.dispatch).toHaveBeenCalledWith('umcSession/disableSessionRefresh');
+    expect(loginSpy).not.toHaveBeenCalled();
+  });
+
 });
 
 describe('getResultFromIframe', () => {
@@ -190,6 +243,31 @@ describe('validateResponse', () => {
     expect(UmcSessionRefreshIframeUtils.validateResponse(extraAttrs)).toStrictEqual(expectedResult);
   });
 
+  test('detects SAML NoPassive error correctly', () => {
+    const samlNoPassiveResponse = stubs.stubSamlNoPassiveErrorData();
+    const result = UmcSessionRefreshIframeUtils.validateResponse(samlNoPassiveResponse);
+
+    expect(result).toEqual({
+      status: 400,
+      message: expect.stringContaining('NoPassive'),
+      isSamlNoPassiveError: true,
+    });
+  });
+
+  test('does not flag non-NoPassive errors', () => {
+    const regularErrorResponse = {
+      status: 400,
+      message: 'Some other error message',
+    };
+    const result = UmcSessionRefreshIframeUtils.validateResponse(regularErrorResponse);
+
+    expect(result).toEqual({
+      status: 400,
+      message: 'Some other error message',
+      isSamlNoPassiveError: false,
+    });
+  });
+
   test.each([
     { status: 'OK', result: { username: 'stub_username' } },
     { status: true, result: { username: 'stub_username' } },
@@ -221,6 +299,47 @@ describe('UmcSessionRefreshIframe', () => {
     await simulateRefresh(store, wrapper);
 
     expect(handleRefreshResultMock).toHaveBeenCalledTimes(2);
+  });
+
+  test('accesses user state from store correctly', () => {
+    const store = stubs.createStubStore(undefined, stubs.stubUserStateSaml);
+    const wrapper = mount(UmcSessionRefreshIframe, {
+      global: {
+        plugins: [
+          store,
+        ],
+      },
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((wrapper.vm as any).user).toEqual(stubs.stubUserStateSaml.user);
+  });
+
+  test('integration test: handles SAML NoPassive error and triggers login', async () => {
+    const loginSpy = jest.spyOn(loginHelper, 'login').mockImplementation(jest.fn());
+    const store = stubs.createStubStore({ refreshNeeded: true }, stubs.stubUserStateSaml);
+    const storeDispatchSpy = jest.spyOn(store, 'dispatch');
+
+    const wrapper = mount(UmcSessionRefreshIframe, {
+      global: {
+        plugins: [
+          store,
+        ],
+      },
+    });
+
+    // Mock the iframe result to return SAML NoPassive error
+    const samlErrorResponse = stubs.stubSamlNoPassiveErrorData();
+    jest.spyOn(UmcSessionRefreshIframeUtils, 'getResultFromIframe')
+      .mockImplementation(() => UmcSessionRefreshIframeUtils.validateResponse(samlErrorResponse));
+
+    // Simulate the iframe loading twice (first load is ignored, second triggers handleRefreshResult)
+    await wrapper.trigger('load');
+    await wrapper.trigger('load');
+
+    // Verify login was called with the correct user
+    expect(loginSpy).toHaveBeenCalledWith(stubs.stubUserStateSaml.user);
+    expect(storeDispatchSpy).toHaveBeenCalledWith('umcSession/disableSessionRefresh');
   });
 
   async function simulateRefresh(store: Store<RootState>, wrapper: VueWrapper) {
