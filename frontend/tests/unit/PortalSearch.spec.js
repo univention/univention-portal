@@ -142,7 +142,6 @@ test('PortalSearch placeholder styling supports proper contrast', async () => {
   });
 
   const input = await wrapper.find('.portal-search__input');
-
   // Test that input has the correct CSS class for placeholder styling
   expect(input.classes()).toContain('portal-search__input');
 
