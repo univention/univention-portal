@@ -17,6 +17,7 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
+import { login } from '@/jsHelper/login';
 import { getResultFromIframe } from './UmcSessionRefreshIframe.utils';
 
 export default defineComponent({
@@ -29,6 +30,7 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       refreshNeeded: 'umcSession/refreshNeeded',
+      user: 'user/userState',
     }),
   },
   beforeUpdate() {
@@ -50,6 +52,11 @@ export default defineComponent({
         this.$store.dispatch('umcSession/restartSessionRefresh');
       } else {
         this.$store.dispatch('umcSession/disableSessionRefresh');
+
+        // If this is a SAML NoPassive error, user is logged out - redirect to login
+        if (result?.isSamlNoPassiveError) {
+          login(this.user);
+        }
       }
     },
   },

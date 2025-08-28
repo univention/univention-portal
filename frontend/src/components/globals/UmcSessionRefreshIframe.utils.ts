@@ -5,6 +5,8 @@
 
 export interface UmcSessionRefreshResponse {
   status: number;
+  message?: string;
+  isSamlNoPassiveError?: boolean;
 }
 
 export function getResultFromIframe(element: HTMLIFrameElement): UmcSessionRefreshResponse | undefined {
@@ -24,9 +26,17 @@ export function getResultFromIframe(element: HTMLIFrameElement): UmcSessionRefre
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateResponse(response: any) : UmcSessionRefreshResponse | undefined {
   if (typeof response?.status === 'number') {
-    return {
+    const result: UmcSessionRefreshResponse = {
       status: response.status,
     };
+
+    if (typeof response?.message === 'string') {
+      result.message = response.message;
+      // Check if this is a SAML NoPassive error indicating user is logged out
+      result.isSamlNoPassiveError = response.message.includes('NoPassive');
+    }
+
+    return result;
   }
   return undefined;
 }
