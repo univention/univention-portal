@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.79.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.2...v0.79.3) (2025-08-29)
+
+
+### Bug Fixes
+
+* **portal-frontend:** use category title as left sidebar title ([33ae7f1](https://git.knut.univention.de/univention/dev/projects/portal/commit/33ae7f17d67d128dd52142e5dbd0278f915a042a)), closes [univention/dev/projects/portal#1408](https://git.knut.univention.de/univention/dev/projects/portal/issues/1408)
+
 ## [0.79.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.1...v0.79.2) (2025-08-27)
 
 
