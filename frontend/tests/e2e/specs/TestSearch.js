@@ -31,17 +31,15 @@ describe('Test Seach Component', () => {
     clickOnSearchButton();
 
     // test for tilename
-    cy.contains('Handbuch');
+    cy.contains('Handbuch').should('exist');
     cy.get(searchInput).type('Blog');
     cy.contains('Handbuch').should('not.exist');
-    cy.contains('Blog');
-
-    // TODO: Assert that folder containing Blog is there
+    cy.contains('Blog').should('exist');
   });
 
   it('displays all the tiles in folder, when folder name is search query', () => {
     clickOnSearchButton();
-    cy.contains('System- und Domäneneinstellungen');
+    cy.contains('System- und Domäneneinstellungen').should('exist');
     cy.get(searchInput).type('Apps');
     cy.get('.portal-folder').should('exist');
     cy.contains('System- und Domäneneinstellungen').should('not.exist');
@@ -100,24 +98,19 @@ describe('Test Seach Component', () => {
 
   it('Search input has proper placeholder text for accessibility', () => {
     clickOnSearchButton();
-    
-    // Test that search input has placeholder attribute
+
     cy.get(searchInput)
       .should('have.attr', 'placeholder', 'Search…');
-      
-    // Test that search input still has aria-label for screen readers
+
     cy.get(searchInput)
       .should('have.attr', 'aria-label', 'search');
-      
-    // Test that placeholder is visible before typing
+
     cy.get(searchInput)
       .should('be.empty');
-      
-    // Test that placeholder disappears when typing
+
     cy.get(searchInput).type('test');
     cy.get(searchInput).should('have.value', 'test');
-    
-    // Test that aria-label persists during typing
+
     cy.get(searchInput)
       .should('have.attr', 'aria-label', 'search');
   });
@@ -127,70 +120,70 @@ describe('Test Seach Component', () => {
     cy.get('[data-test="searchbutton"]')
       .focus()
       .should('be.focused');
-    
+
     // Press Enter to open search
     cy.get('[data-test="searchbutton"]').type('{enter}');
-    
+
     // Verify search input is now focused
     cy.get(searchInput)
       .should('be.focused');
-      
+
     // Press Tab to move to close button
-    cy.get(searchInput).tab();
-    
+    cy.get(searchInput).type('{tab}');
+
     // Verify close button has focus (using its ID)
     cy.get('#portal-search-close-button')
       .should('be.focused');
-      
+
     // Press Tab to move to bell button
-    cy.get('#portal-search-close-button').tab();
-    
+    cy.get('#portal-search-close-button').type('{tab}');
+
     // Verify bell button has focus
     cy.get('#header-button-bell')
       .should('be.focused');
-      
+
     // Verify we can continue tabbing to next element (not looping back)
-    cy.get('#header-button-bell').tab();
+    cy.get('#header-button-bell').type('{tab}');
     cy.get(searchInput).should('not.be.focused');
   });
 
   it('Search input reverse tab navigation works correctly', () => {
     clickOnSearchButton();
-    
+
     // Start with search input focused
     cy.get(searchInput).should('be.focused');
-    
+
     // Press Shift+Tab to move to search button
-    cy.get(searchInput).tab({ shift: true });
-    
+    cy.get(searchInput).type('{shift+tab}');
+
     // Verify search button has focus
     cy.get('[data-test="searchbutton"]')
       .should('be.focused');
-      
+
     // Go forward again to close button
     cy.get('[data-test="searchbutton"]').type('{enter}');
-    cy.get(searchInput).tab();
-    
+    cy.get(searchInput).type('{tab}');
+
     // From close button, Shift+Tab should go to search input
-    cy.get('#portal-search-close-button').tab({ shift: true });
+    cy.get('#portal-search-close-button').type('{shift+tab}');
     cy.get(searchInput).should('be.focused');
   });
 
   it('Close button has proper focus styling and accessibility', () => {
     clickOnSearchButton();
-    
+
     // Tab to close button
-    cy.get(searchInput).tab();
-    
+    cy.get(searchInput).type('{tab}');
+
     // Verify close button is focusable and has proper attributes
     cy.get('#portal-search-close-button')
       .should('be.focused')
       .should('have.attr', 'tabindex', '0')
       .should('have.attr', 'aria-label');
-      
+
     // Test that close button works with keyboard
     cy.get('#portal-search-close-button').type('{enter}');
-    
+
     // Verify search input is hidden after pressing Enter on close button
     cy.get(searchInput).should('not.exist');
   });
@@ -198,16 +191,16 @@ describe('Test Seach Component', () => {
   it('WCAG 2.2 compliance for search input labeling', () => {
     clickOnSearchButton();
     cy.injectAxe();
-    
+
     // Test WCAG 2.2 Success Criterion 3.3.2 Labels or Instructions
     cy.checkA11y(searchInput, {
       rules: {
-        'label': { enabled: true },
+        label: { enabled: true },
         'aria-valid-attr-value': { enabled: true },
-        'aria-valid-attr': { enabled: true }
-      }
+        'aria-valid-attr': { enabled: true },
+      },
     });
-    
+
     // Verify both visible (placeholder) and programmatic (aria-label) labeling
     cy.get(searchInput)
       .should('have.attr', 'placeholder', 'Search…')
