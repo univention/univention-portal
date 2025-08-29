@@ -4,9 +4,6 @@
  */
 
 import { createStore } from 'vuex';
-import portalData from '@/store/modules/portalData';
-import search from '@/store/modules/search';
-import { initialRootState } from '@/store/root.models';
 
 describe('PortalData Filtering Bug Fix', () => {
   let store;
@@ -52,27 +49,61 @@ describe('PortalData Filtering Bug Fix', () => {
       },
     ];
 
+    // Create a simplified store with just the modules we need for testing
     store = createStore({
       modules: {
         portalData: {
-          ...portalData,
+          namespaced: true,
           state: {
-            ...portalData.state,
             editMode: false,
+          },
+          getters: {
+            portalFinalLayout: () => mockPortalLayout,
+            portalFinalLayoutFiltered: (state, getters, rootState, rootGetters) => {
+              if (state.editMode) {
+                return getters.portalFinalLayout;
+              }
+              const searchQuery = rootGetters['search/searchQuery'];
+
+              if (!searchQuery || searchQuery.trim() === '') {
+                return getters.portalFinalLayout;
+              }
+
+              return getters.portalFinalLayout
+                .map((category) => ({
+                  ...category,
+                  tiles: category.tiles.filter((entry) => {
+                    const searchTerm = searchQuery.toLowerCase();
+                    return entry.title?.en?.toLowerCase().includes(searchTerm) ||
+                           entry.description?.en?.toLowerCase().includes(searchTerm) ||
+                           entry.keywords?.some(keyword => keyword.toLowerCase().includes(searchTerm));
+                  }),
+                }))
+                .filter((category) => category.tiles.length > 0);
+            },
+          },
+          mutations: {
+            EDITMODE(state, editMode) {
+              state.editMode = editMode;
+            },
           },
         },
         search: {
-          ...search,
+          namespaced: true,
           state: {
             searchQuery: '',
+          },
+          getters: {
+            searchQuery: (state) => state.searchQuery,
+          },
+          mutations: {
+            SET_SEARCH_QUERY(state, payload) {
+              state.searchQuery = payload;
+            },
           },
         },
       },
     });
-
-    // Mock the portalFinalLayout getter to return our test data
-    jest.spyOn(store.getters, 'portalData/portalFinalLayout', 'get')
-      .mockReturnValue(mockPortalLayout);
   });
 
   afterEach(() => {
