@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.79.4](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.3...v0.79.4) (2025-08-29)
+
+
+### Bug Fixes
+
+* **portal-frontend:** Fix on failed SAML NoPassive responses ([5af3e35](https://git.knut.univention.de/univention/dev/projects/portal/commit/5af3e35695531e0dbbb0ba71311670e2ade0e013)), closes [univention/dev/internal/team-nubus#1401](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1401)
+
 ## [0.79.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.2...v0.79.3) (2025-08-29)
 
 
