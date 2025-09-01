@@ -2,11 +2,16 @@
   SPDX-FileCopyrightText: 2021-2025 Univention GmbH
   SPDX-License-Identifier: AGPL-3.0-only
 * */
+import Vuex from 'vuex';
 import { mount } from '@vue/test-utils';
 import MultiSelect from '@/components/widgets/MultiSelect.vue';
-import Vuex from 'vuex';
 
-const fullModelValue = ['cn=Backup Join,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net', 'cn=Computers,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net', 'cn=DC Backup Hosts,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net', 'cn=DC Slave Hosts,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net'];
+const fullModelValue = [
+  'cn=Backup Join,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net',
+  'cn=Computers,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net',
+  'cn=DC Backup Hosts,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net',
+  'cn=DC Slave Hosts,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net',
+];
 
 const multiSelectProps = {
   label: 'multi select',
@@ -28,21 +33,29 @@ afterEach(() => {
 
 describe('MultiInput.vue', () => {
   test('if Button with label "Add entry" exists', async () => {
-    const addMoreButton = await wrapper.find('[data-test="multi-select-add-more-button"]');
+    const addMoreButton = await wrapper.find(
+      '[data-test="multi-select-add-more-button"]',
+    );
 
     expect(addMoreButton.text()).toContain('Add more');
     expect(addMoreButton.text()).toContain('Add Groups');
     expect(addMoreButton.find('[aria-hidden="true"]').exists()).toBeTruthy();
-    expect(addMoreButton.find('[class="sr-only sr-only-mobile"]').exists()).toBeTruthy();
+    expect(
+      addMoreButton.find('[class="sr-only sr-only-mobile"]').exists(),
+    ).toBeTruthy();
   });
 
   test('if Button with label "Remove" exists', async () => {
-    const removeButton = await wrapper.find('[data-test="multi-select-remove-button"]');
+    const removeButton = await wrapper.find(
+      '[data-test="multi-select-remove-button"]',
+    );
 
     expect(removeButton.text()).toContain('Remove');
     expect(removeButton.text()).toContain('Remove selection');
     expect(removeButton.find('[aria-hidden="true"]').exists()).toBeTruthy();
-    expect(removeButton.find('[class="sr-only sr-only-mobile"]').exists()).toBeTruthy();
+    expect(
+      removeButton.find('[class="sr-only sr-only-mobile"]').exists(),
+    ).toBeTruthy();
   });
 
   test('if elementsSelected returns true when this.selection.length greater than 0', async () => {
@@ -65,7 +78,9 @@ describe('MultiInput.vue', () => {
     await firstCheckbox.trigger('change');
 
     expect(toggleSelectionSpy).toHaveBeenCalled();
-    expect(wrapper.vm.selection).toEqual(['cn=Backup Join,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net']);
+    expect(wrapper.vm.selection).toEqual([
+      'cn=Backup Join,cn=groups,dc=dev,dc=upx,dc=mydemoenv,dc=net',
+    ]);
   });
 
   test('if dnToLabel returning string correctly', async () => {
@@ -77,12 +92,14 @@ describe('MultiInput.vue', () => {
     await wrapper.vm.$nextTick();
 
     // retrieves the desired label
-    const label = await wrapper.find('[data-test="multi-select-checkbox-span"]');
+    const label = await wrapper.find(
+      '[data-test="multi-select-checkbox-span"]',
+    );
     expect(label.text()).toBe('Backup Join');
     expect(dnToLabelSelectionSpy).toHaveBeenCalledWith(newModelvalue[0]);
   });
 
-  test.skip('if add is working as expected', async () => {
+  test('if add is working as expected', async () => {
     wrapper.unmount();
     const store = new Vuex.Store({
       modules: {
@@ -105,7 +122,9 @@ describe('MultiInput.vue', () => {
     store.dispatch = jest.fn().mockImplementation(() => Promise.resolve());
 
     wrapper.setProps({ modelValue: fullModelValue });
-    const addButton = await wrapper.find('[data-test="multi-select-add-more-button"]');
+    const addButton = await wrapper.find(
+      '[data-test="multi-select-add-more-button"]',
+    );
 
     await addButton.trigger('click');
 
@@ -150,13 +169,20 @@ describe('MultiInput.vue', () => {
 
     store.dispatch = jest.fn();
 
-    const firstCheckbox = wrapper.find('[data-test="multi-select-checkbox-span"]');
-    const removeButton = await wrapper.find('[data-test="multi-select-remove-button"]');
+    const firstCheckbox = wrapper.find(
+      '[data-test="multi-select-checkbox-span"]',
+    );
+    const removeButton = await wrapper.find(
+      '[data-test="multi-select-remove-button"]',
+    );
     await firstCheckbox.trigger('click');
     await removeButton.trigger('click');
 
     await wrapper.vm.$nextTick();
     expect(wrapper.emitted()).toHaveProperty('update:modelValue');
-    expect(store.dispatch).toHaveBeenCalledWith('activity/setMessage', 'Removed selection');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      'activity/setMessage',
+      'Removed selection',
+    );
   });
 });
