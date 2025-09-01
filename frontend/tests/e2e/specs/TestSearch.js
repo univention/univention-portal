@@ -15,18 +15,24 @@ beforeEach(() => {
   cy.get('main.cookie-banner + footer button.button--primary').click();
 });
 
-const searchInput = '[data-test="searchInput"]';
+const searchInput = "[data-test='searchInput']";
 
 const clickOnSearchButton = () => {
-  cy.get('[data-test="searchbutton"]').should('not.have.class', 'header-button--is-active');
+  cy.get("[data-test='searchbutton']").should(
+    'not.have.class',
+    'header-button--is-active',
+  );
   cy.get(searchInput).should('not.exist'); // input exists after searchButton is clicked
-  cy.get('[data-test="searchbutton"]').click();
-  cy.get('[data-test="searchbutton"]').should('have.class', 'header-button--is-active');
+  cy.get("[data-test='searchbutton']").click();
+  cy.get("[data-test='searchbutton']").should(
+    'have.class',
+    'header-button--is-active',
+  );
   cy.get(searchInput).should('exist');
 };
 
-describe('Test Seach Component', () => {
-  it('Tile title in results should match with the String "Blog"', () => {
+describe('Test Search Component', () => {
+  it("Tile title in results should match with the String 'Blog'", () => {
     // make inputfield visible
     clickOnSearchButton();
 
@@ -43,7 +49,8 @@ describe('Test Seach Component', () => {
     cy.get(searchInput).type('Apps');
     cy.get('.portal-folder').should('exist');
     cy.contains('System- und Domäneneinstellungen').should('not.exist');
-    cy.get('.portal-folder__thumbnails').find('.portal-folder__thumbnail')
+    cy.get('.portal-folder__thumbnails')
+      .find('.portal-folder__thumbnail')
       .should('have.length', 4);
   });
 
@@ -51,7 +58,8 @@ describe('Test Seach Component', () => {
     clickOnSearchButton();
     cy.get(searchInput).type('Blog');
     cy.get('.portal-folder').should('exist');
-    cy.get('.portal-folder__thumbnails').find('.portal-folder__thumbnail')
+    cy.get('.portal-folder__thumbnails')
+      .find('.portal-folder__thumbnail')
       .should('have.length', 1);
   });
 
@@ -60,10 +68,13 @@ describe('Test Seach Component', () => {
     clickOnSearchButton();
 
     // make sure the first tile is not our expected search result
-    cy.get('.portal-tile').first()
+    cy.get('.portal-tile')
+      .first()
       .contains('System- und Domäneneinstellungen')
       .should('not.exist');
-    cy.get(searchInput).type('Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems');
+    cy.get(searchInput).type(
+      'Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems',
+    );
     // ensure that the first result is not by coincidence the search result
     cy.get('.portal-tile').should('have.length', 1);
     cy.get('.portal-tile').first()
@@ -82,7 +93,9 @@ describe('Test Seach Component', () => {
     // make inputfield visible
     clickOnSearchButton();
     cy.injectAxe();
-    cy.checkA11y(searchInput,
+
+    cy.checkA11y(
+      searchInput,
       {
         runOnly: {
           type: 'tag',
@@ -99,76 +112,52 @@ describe('Test Seach Component', () => {
   it('Search input has proper placeholder text for accessibility', () => {
     clickOnSearchButton();
 
-    cy.get(searchInput)
-      .should('have.attr', 'placeholder', 'Search…');
+    cy.get(searchInput).should('have.attr', 'placeholder', 'Search…');
 
-    cy.get(searchInput)
-      .should('have.attr', 'aria-label', 'suche');
+    cy.get(searchInput).should('have.attr', 'aria-label', 'suche');
 
-    cy.get(searchInput)
-      .should('be.empty');
+    cy.get(searchInput).should('be.empty');
 
     cy.get(searchInput).type('test');
     cy.get(searchInput).should('have.value', 'test');
 
-    cy.get(searchInput)
-      .should('have.attr', 'aria-label', 'suche');
+    cy.get(searchInput).should('have.attr', 'aria-label', 'suche');
   });
 
   it('Search input tab navigation works correctly', () => {
-    // Focus on search button
-    cy.get('#header-button-search')
-      .focus()
-      .should('be.focused');
+    // Open search using the working method
+    clickOnSearchButton();
 
-    // Press Enter to open search
-    cy.get('[data-test="searchbutton"]').click();
+    // Verify search input is focused after opening
+    cy.get(searchInput).should('be.focused');
 
-    // Verify search input is now focused
-    cy.get(searchInput)
-      .should('be.focused');
+    // Use TAB key to navigate to close button
+    cy.press(Cypress.Keyboard.Keys.TAB);
+    cy.get('#portal-search-close-button').should('be.focused');
 
-    // Test that close button can receive focus (simulating tab navigation)
-    cy.get('#portal-search-close-button')
-      .focus()
-      .should('be.focused');
-
-    // Test that bell button can receive focus (next in tab order)
-    cy.get('#header-button-bell')
-      .focus() 
-      .should('be.focused');
-
-    // Verify search input can lose focus (tab order works)
-    cy.get('#header-button-bell').focus();
+    // Verify that TAB navigation works by moving focus away from search input
+    // The search input should no longer be focused after tabbing to close button
     cy.get(searchInput).should('not.be.focused');
   });
 
   it('Search input reverse tab navigation works correctly', () => {
     clickOnSearchButton();
 
-    // Start with search input focused
+    // Verify search input is focused after opening
     cy.get(searchInput).should('be.focused');
 
-    // Test reverse tab navigation - search button should be focusable
-    cy.get('#header-button-search')
-      .focus()
-      .should('be.focused');
+    // Use SHIFT+TAB for reverse navigation - this moves focus to close button
+    cy.press(Cypress.Keyboard.Keys.TAB, { shift: true });
 
-    // Reopen search if it was closed and test close button focus
-    cy.get(searchInput).then(($input) => {
-      if ($input.length === 0) {
-        cy.get('[data-test="searchbutton"]').click();
-      }
-    });
-    
-    cy.get('#portal-search-close-button')
-      .focus()
-      .should('be.focused');
+    // Verify focus moved to the close button (reverse navigation)
+    cy.get('#portal-search-close-button').should('be.focused');
 
-    // Test that we can focus back to search input (reverse navigation)
-    cy.get(searchInput)
-      .focus()
-      .should('be.focused');
+    // Verify search input is no longer focused but still exists
+    cy.get(searchInput).should('not.be.focused');
+
+    // Use SHIFT+TAB again to go back to button bell (complete reverse navigation test)
+    cy.press(Cypress.Keyboard.Keys.TAB, { shift: true });
+    cy.get('#header-button-bell').should('be.focused');
   });
 
   it('Close button has proper focus styling and accessibility', () => {
@@ -181,8 +170,8 @@ describe('Test Seach Component', () => {
       .should('have.attr', 'tabindex', '0')
       .should('have.attr', 'aria-label');
 
-    // Test that close button works with keyboard (click instead of enter due to Cypress 6.x limitations)
-    cy.get('#portal-search-close-button').click();
+    // Test that close button works with keyboard
+    cy.get('#portal-search-close-button').type('{enter}');
 
     // Verify search input is hidden after clicking close button
     cy.get(searchInput).should('not.exist');
