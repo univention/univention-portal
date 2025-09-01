@@ -25,8 +25,8 @@
             data-test="searchInput"
             type="text"
             class="portal-search__input"
-            :aria-label="SEARCH"
-            :placeholder="SEARCH_PLACEHOLDER"
+            :aria-label="FILTER"
+            :placeholder="FILTER_PLACEHOLDER"
             @input="searchTiles"
             @keyup.esc="closeSearchInput()"
           >
@@ -38,7 +38,7 @@
             icon="x"
             size-variant="small"
             :active-at="['portal']"
-            :aria-label-prop="CLOSE_SEARCH"
+            :aria-label-prop="CLOSE_FILTER"
             :tabindex="0"
             @click="closeSearchInput"
           />
@@ -73,14 +73,14 @@ export default defineComponent({
     ...mapGetters({
       activeButton: 'navigation/getActiveButton',
     }),
-    SEARCH(): string {
-      return _('search');
+    FILTER(): string {
+      return _('filter');
     },
-    SEARCH_PLACEHOLDER(): string {
-      return _('Search…');
+    FILTER_PLACEHOLDER(): string {
+      return _('Filter tiles...');
     },
-    CLOSE_SEARCH(): string {
-      return _('close search');
+    CLOSE_FILTER(): string {
+      return _('Close filter');
     },
   },
   beforeUnmount() {

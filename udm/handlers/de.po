@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: univention-portal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2025-08-11 08:08+0200\n"
+"POT-Creation-Date: 2025-09-03 09:48+0000\n"
 "PO-Revision-Date: 2020-05-01 00:20+0200\n"
 "Last-Translator: Univention GmbH <packages@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -100,9 +100,9 @@ msgstr ""
 "Beschreibung des Eintrags. Mindestens ein Wert; insbesondere en_US ist "
 "empfohlen"
 
-#: udm/handlers/all.py:50 udm/handlers/category.py:47 udm/handlers/entry.py:45
-#: udm/handlers/entry.py:120 udm/handlers/folder.py:47
-#: udm/handlers/folder.py:66 udm/handlers/portal.py:46
+#: udm/handlers/portal.py:46 udm/handlers/folder.py:47
+#: udm/handlers/folder.py:66 udm/handlers/all.py:50 udm/handlers/entry.py:45
+#: udm/handlers/entry.py:120 udm/handlers/category.py:47
 msgid "Display name"
 msgstr "Anzeigename"
 
@@ -146,19 +146,19 @@ msgstr "Einträge im Quick Menü"
 msgid "Entries in the user menu"
 msgstr "Einträge im Benutzermenü"
 
-#: udm/handlers/category.py:54 udm/handlers/folder.py:54
+#: udm/handlers/folder.py:54 udm/handlers/category.py:54
 msgid "Entry"
 msgstr "Eintrag"
 
-#: udm/handlers/entry.py:114 udm/handlers/folder.py:62
+#: udm/handlers/folder.py:62 udm/handlers/entry.py:114
 msgid "Entry options"
 msgstr "Optionen für Eintrag"
 
-#: udm/handlers/all.py:57 udm/handlers/announcement.py:103
+#: udm/handlers/portal.py:125 udm/handlers/folder.py:62
+#: udm/handlers/folder.py:63 udm/handlers/all.py:57 udm/handlers/entry.py:114
+#: udm/handlers/entry.py:115 udm/handlers/announcement.py:103
 #: udm/handlers/announcement.py:104 udm/handlers/category.py:62
-#: udm/handlers/category.py:66 udm/handlers/entry.py:114
-#: udm/handlers/entry.py:115 udm/handlers/folder.py:62
-#: udm/handlers/folder.py:63 udm/handlers/portal.py:125
+#: udm/handlers/category.py:66
 msgid "General"
 msgstr "Allgemein"
 
@@ -233,14 +233,14 @@ msgstr ""
 msgid "Info"
 msgstr "Info"
 
-#: udm/handlers/all.py:42 udm/handlers/announcement.py:34
-#: udm/handlers/category.py:38 udm/handlers/entry.py:36
-#: udm/handlers/folder.py:38 udm/handlers/portal.py:37
+#: udm/handlers/portal.py:37 udm/handlers/folder.py:38 udm/handlers/all.py:42
+#: udm/handlers/entry.py:36 udm/handlers/announcement.py:34
+#: udm/handlers/category.py:38
 msgid "Internal name"
 msgstr "Interner Name"
 
-#: udm/handlers/entry.py:59 udm/handlers/entry.py:126
-#: udm/syntax/univention-portal.py:114
+#: udm/syntax/univention-portal.py:114 udm/handlers/entry.py:59
+#: udm/handlers/entry.py:126
 msgid "Keywords"
 msgstr "Schlüsselwörter"
 
@@ -252,7 +252,7 @@ msgstr "Schlüsselwörter des Eintrags, die für die Suche genutzt werden."
 msgid "Language code (e.g. en_US)"
 msgstr "Sprachcode (z.B. de_DE)"
 
-#: udm/handlers/entry.py:129 udm/syntax/univention-portal.py:107
+#: udm/syntax/univention-portal.py:107 udm/handlers/entry.py:129
 msgid "Link"
 msgstr "Link"
 
@@ -286,7 +286,8 @@ msgstr ""
 msgid ""
 "List of portal entries that are returned from the Central Navigation API"
 msgstr ""
-"Liste der Portaleinträge, die von der Central Navigation API zurückgegeben werden"
+"Liste der Portaleinträge, die von der Central Navigation API zurückgegeben "
+"werden"
 
 #: udm/handlers/portal.py:89
 msgid "List of portal entries that are shown in the corner menu"
@@ -329,7 +330,7 @@ msgstr "Menü"
 msgid "Message"
 msgstr "Nachricht"
 
-#: udm/handlers/category.py:63 udm/handlers/portal.py:126
+#: udm/handlers/portal.py:126 udm/handlers/category.py:63
 msgid "Name"
 msgstr "Name"
 
@@ -469,7 +470,7 @@ msgstr ""
 msgid "Redirect anonymous visitors to the login"
 msgstr "Anonyme Besucher zum Login umleiten"
 
-#: udm/handlers/announcement.py:43 udm/handlers/entry.py:72
+#: udm/handlers/entry.py:72 udm/handlers/announcement.py:43
 msgid "Restrict visibility to groups"
 msgstr "Sichtbarkeit auf Gruppen beschränken"
 

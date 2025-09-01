@@ -111,6 +111,23 @@ describe('Test Tabs', () => {
   });
   /* eslint-disable jest/expect-expect */
   it('A11y Test', () => {
+    // Set up tabs first
+    cy.intercept('GET', 'portal.json', { fixture: 'portal_test_tabs.json' });
+    cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
+    cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+    cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+    cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
+    cy.visit('/');
+
+    // Create at least one tab
+    cy.get('.portal-category .portal-tile').first()
+      .click();
+    cy.get('#iframe-2').should('be.visible');
+
+    // Wait for tabs to be visible
+    cy.get('[data-test="header-tabs"]').should('be.visible');
+
+    // Now run accessibility check
     cy.injectAxe();
     cy.checkA11y('[data-test="header-tabs"]',
       {

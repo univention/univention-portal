@@ -239,6 +239,11 @@ msgstr "schließen"
 msgid "Close Tooltip"
 msgstr "Tooltip schließen"
 
+#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:32
+#, fuzzy
+msgid "Close filter"
+msgstr "Filter schließen"
+
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:90
 msgid "Continue"
 msgstr "Weiter"
@@ -413,6 +418,10 @@ msgstr "Senden des Verifizierungs-Token fehlgeschlagen"
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/ServiceSpecificPasswords.vue:65
 msgid "Failed to set a password"
 msgstr "Passwort setzen ist fehlgeschlagen"
+
+#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:29
+msgid "Filter tiles..."
+msgstr "Kacheln filtern..."
 
 #: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:81
 msgid "Folder"
