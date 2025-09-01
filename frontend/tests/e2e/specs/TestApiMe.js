@@ -30,7 +30,7 @@
 describe('Test api/me endpoint', () => {
   it('Does not call api/me when feature toggle is disabled', () => {
     cy.intercept('GET', 'portal.json', { fixture: 'portal.json' }).as('portal');
-    cy.intercept('GET', 'api/v1/me', { fixture: 'api-me.json' }).as('apiMe');
+    cy.intercept('GET', '**/api/me.json', { fixture: 'api-me.json' }).as('apiMe');
     cy.visit('/');
     cy.wait('@portal');
     cy.get('@apiMe.all').should('have.length', 0);
@@ -40,7 +40,7 @@ describe('Test api/me endpoint', () => {
     cy.intercept('GET', 'portal.json', {
       fixture: 'portal-api-me-enabled.json',
     }).as('portal');
-    cy.intercept('GET', 'api/v1/me', { fixture: 'api-me.json' }).as('apiMe');
+    cy.intercept('GET', '**/api/me.json', { fixture: 'api-me.json' }).as('apiMe');
     cy.visit('/');
     cy.wait('@portal');
     cy.wait('@apiMe');
@@ -50,7 +50,7 @@ describe('Test api/me endpoint', () => {
     cy.intercept('GET', 'portal.json', {
       fixture: 'portal-api-me-enabled.json',
     }).as('portal');
-    cy.intercept('GET', 'api/v1/me', { fixture: 'api-me.json' }).as('apiMe');
+    cy.intercept('GET', '**/api/me.json', { fixture: 'api-me.json' }).as('apiMe');
     cy.visit('/');
     cy.wait('@portal');
     cy.wait('@apiMe');
@@ -63,7 +63,7 @@ describe('Test api/me endpoint', () => {
     cy.intercept('GET', 'portal.json', {
       fixture: 'portal-api-me-enabled.json',
     });
-    cy.intercept('GET', 'api/v1/me', { statusCode: 500 });
+    cy.intercept('GET', '**/api/me.json', { statusCode: 500 });
     cy.visit('/');
   });
 });

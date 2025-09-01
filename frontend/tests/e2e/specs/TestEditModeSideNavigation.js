@@ -3,7 +3,6 @@
   SPDX-License-Identifier: AGPL-3.0-only
 */
 
-import 'cypress-file-upload';
 import 'cypress-axe';
 // import terminalLog from './terminallog';
 
@@ -37,11 +36,11 @@ describe('Test Editmode Side navigation', () => {
     // programmatically upload the logo
     const fileName = 'images/logo.svg';
 
-    cy.fixture(fileName).then((fileContent) => {
-      cy.get('[data-test=imageUploadFileInput--Portal-Logo]').attachFile(
-        { fileContent, fileName, mimeType: 'image/svg+xml' },
-      );
-    });
+    cy.get('[data-test=imageUploadFileInput--Portal-Logo]').selectFile({
+      contents: 'tests/e2e/fixtures/' + fileName,
+      fileName: fileName,
+      mimeType: 'image/svg+xml',
+    }, { force: true });
 
     // Assert: Image in .image-upload__canvas should exist
     cy.get('[data-test=imageUploadCanvas--Portal-Logo] img').should('exist');

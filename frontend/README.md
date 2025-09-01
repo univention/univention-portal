@@ -268,37 +268,35 @@ The frontend specific translation assets are in the following places:
 - The generated JSON Message Objects will be located in `./public/i18n/`.
 
 
-## Unit tests
+## Testing
+
+### Unit tests
 Runs unit tests with Jest
-```
-yarn test:unit
+```bash
+yarn test:unit                    # Run once
+yarn test:unit:watch              # Watch mode with interactive updates
+yarn test:unit:updatesnapshots    # Update all snapshots (use with care)
+yarn test:coverage                # Run with coverage report
 ```
 
-### Update tests interactively
-All unit tests run on every change for immediate feedback und regeneration with a keystroke.
+#### Update tests interactively
+All unit tests run on every change for immediate feedback and regeneration with a keystroke.
 (Preferred way to update snapshots)
-```
-yarn test:unit:watch
-```
 
-### Snapshot testing
+#### Snapshot testing
 This is done for simple components, just to ensure that they keep their design while we're changing other stuff.
 Most IDEs support this in some degree (e.g. IntelliJ just puts a link to regenerate every failed snapshot test).
 
-### Update all snapshots
-Use this command with care
-```
-yarn test:unit:updatesnapshots
+### End-to-end tests
+Runs e2e tests with Cypress v15.0.0
+
+```bash
+yarn test:e2e          # Opens Cypress GUI
+yarn test:e2e:headless # Runs headless (CI mode)
+yarn test:e2e:run      # Same as headless
 ```
 
-## End-to-end tests
-Runs e2e tests with Cypress.
-
-```
-yarn test:e2e
-yarn test:e2e:run
-yarn test:e2e:headless
-```
+**Note:** Make sure the development server is running (`yarn serve`) before running E2E tests.
 
 ## Links and references
 - Feather-Sprite Icons: [Overview](https://feathericons.com/)
