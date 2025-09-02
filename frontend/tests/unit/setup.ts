@@ -10,5 +10,6 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 config.global.plugins.push(VueDOMPurifyHTML);
 
 process.on('unhandledRejection', (reason) => {
-  console.error('unhandledRejection', reason);
+  // Make the test fail immediately and clearly instead of logging after teardown
+  throw reason instanceof Error ? reason : new Error(String(reason));
 });
