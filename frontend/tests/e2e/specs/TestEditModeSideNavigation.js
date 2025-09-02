@@ -37,8 +37,8 @@ describe('Test Editmode Side navigation', () => {
     const fileName = 'images/logo.svg';
 
     cy.get('[data-test=imageUploadFileInput--Portal-Logo]').selectFile({
-      contents: 'tests/e2e/fixtures/' + fileName,
-      fileName: fileName,
+      contents: `tests/e2e/fixtures/${fileName}`,
+      fileName,
       mimeType: 'image/svg+xml',
     }, { force: true });
 
