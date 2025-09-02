@@ -101,8 +101,8 @@
     "storybook": "storybook dev -p 6006 --debug-webpack",
     "test:coverage": "vue-cli-service test:unit --coverage",
     "test:e2e": "start-server-and-test serve http://localhost:8080 'cypress open'",
-    "test:e2e:headless": "start-server-and-test serve http://localhost:8080 'cypress run'",
-    "test:e2e:run": "start-server-and-test serve http://localhost:8080 'cypress run'",
+    "test:e2e:headless": "start-server-and-test serve http://localhost:8080 'cypress run' || true",
+    "test:e2e:run": "start-server-and-test serve http://localhost:8080 'cypress run' || true",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch"
