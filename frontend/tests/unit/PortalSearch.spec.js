@@ -98,13 +98,13 @@ test('PortalSearch has proper placeholder for accessibility', async () => {
   });
 
   const input = await wrapper.find('.portal-search__input');
-  
+
   // Test that placeholder attribute exists and has the correct value
   expect(input.attributes('placeholder')).toBe('Search…');
-  
+
   // Test that aria-label is still present for accessibility
   expect(input.attributes('aria-label')).toBe('search');
-  
+
   // Test that input has proper type
   expect(input.attributes('type')).toBe('text');
 
@@ -143,7 +143,7 @@ test('PortalSearch placeholder styling supports proper contrast', async () => {
   });
 
   const input = await wrapper.find('.portal-search__input');
-  
+
   // Test that input has the correct CSS class for placeholder styling
   expect(input.classes()).toContain('portal-search__input');
 
