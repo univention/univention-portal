@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.79.6](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.5...v0.79.6) (2025-09-03)
+
+
+### Bug Fixes
+
+* **deps:** Update jnorwood/helm-docs Docker tag to v1.14.2 ([c075c3f](https://git.knut.univention.de/univention/dev/projects/portal/commit/c075c3fc4fd758fa7d1f5e8c5dffb45891246562)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.79.5](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.4...v0.79.5) (2025-09-02)
 
 
