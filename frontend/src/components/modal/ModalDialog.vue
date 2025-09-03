@@ -4,6 +4,7 @@
 -->
 <template>
   <section
+    ref="modalDialog"
     :class="[
       'dialog',
       {'dialog--unfocusable': !isFocusable}
@@ -13,7 +14,9 @@
     aria-modal="true"
     :aria-labelledby="labelledbyId"
     :aria-describedby="describedbyId"
+    tabindex="-1"
     @keydown.esc="cancel()"
+    @keydown.tab="trapFocus"
   >
     <header
       class="dialog__header"
@@ -76,6 +79,11 @@ export default defineComponent({
     },
   },
   emits: ['cancel'],
+  data() {
+    return {
+      previouslyFocusedElement: null as HTMLElement | null,
+    };
+  },
   computed: {
     ...mapGetters({
       getModalState: 'modal/getModalState',
@@ -96,10 +104,93 @@ export default defineComponent({
       return !this.getModalState('secondLevelModal');
     },
   },
+  mounted() {
+    this.setupFocusManagement();
+  },
+  beforeUnmount() {
+    this.restoreFocus();
+  },
   methods: {
     cancel(): void {
       if (this.cancelAllowed) {
         this.$emit('cancel');
+      }
+    },
+    setupFocusManagement(): void {
+      // Store the previously focused element
+      this.previouslyFocusedElement = document.activeElement as HTMLElement;
+
+      // Move focus to the modal
+      this.$nextTick(() => {
+        if (this.isFocusable) {
+          const modalElement = this.$refs.modalDialog as HTMLElement;
+          if (modalElement) {
+            // Try to focus the first focusable element, fallback to modal itself
+            const firstFocusable = this.getFirstFocusableElement(modalElement);
+            if (firstFocusable) {
+              firstFocusable.focus();
+            } else {
+              modalElement.focus();
+            }
+          }
+        }
+      });
+    },
+    restoreFocus(): void {
+      // Return focus to the previously focused element
+      if (this.previouslyFocusedElement && typeof this.previouslyFocusedElement.focus === 'function') {
+        this.previouslyFocusedElement.focus();
+      }
+    },
+    getFirstFocusableElement(container: HTMLElement): HTMLElement | null {
+      const focusableSelectors = [
+        'button:not([disabled])',
+        'input:not([disabled])',
+        'textarea:not([disabled])',
+        'select:not([disabled])',
+        'a[href]',
+        '[tabindex]:not([tabindex="-1"])',
+      ];
+
+      const focusableElement = container.querySelector(focusableSelectors.join(', ')) as HTMLElement;
+      return focusableElement || null;
+    },
+    getLastFocusableElement(container: HTMLElement): HTMLElement | null {
+      const focusableSelectors = [
+        'button:not([disabled])',
+        'input:not([disabled])',
+        'textarea:not([disabled])',
+        'select:not([disabled])',
+        'a[href]',
+        '[tabindex]:not([tabindex="-1"])',
+      ];
+
+      const focusableElements = Array.from(container.querySelectorAll(focusableSelectors.join(', '))) as HTMLElement[];
+      return focusableElements.length > 0 ? focusableElements[focusableElements.length - 1] : null;
+    },
+    trapFocus(event: KeyboardEvent): void {
+      if (!this.isFocusable) return;
+
+      const modalElement = this.$refs.modalDialog as HTMLElement;
+      if (!modalElement) return;
+
+      const firstFocusable = this.getFirstFocusableElement(modalElement);
+      const lastFocusable = this.getLastFocusableElement(modalElement);
+
+      if (!firstFocusable || !lastFocusable) {
+        // If no focusable elements, prevent tabbing
+        event.preventDefault();
+        return;
+      }
+
+      // If shift+tab on first element, go to last
+      if (event.shiftKey && document.activeElement === firstFocusable) {
+        event.preventDefault();
+        lastFocusable.focus();
+      } else if (!event.shiftKey && document.activeElement === lastFocusable) {
+        // If tab on last element, go to first
+        event.preventDefault();
+        firstFocusable.focus();
       }
     },
   },
