@@ -7,7 +7,7 @@
   <template v-if="icsSilentLoginUrl">
     <iframe
       :src="icsSilentLoginUrl"
-      title="ICS silent login iframe"
+      title="ICS silent login"
       style="position: absolute; width: 0; height: 0; border: 0"
       @load="onSilentLoad"
     />
