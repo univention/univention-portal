@@ -47,17 +47,10 @@ class NavigationHandler(PortalResource):
         entries = portal.portal_cache.get_entries()
 
         central_navigation_dns = portal.portal_cache.get_central_navigation()
+        visible_entry_dns = []
         if central_navigation_dns:
             visible_entry_dns = portal._filter_entry_dns(
                 central_navigation_dns,
-                entries,
-                user,
-                False,
-            )
-
-        else:
-            visible_entry_dns = portal._filter_entry_dns(
-                entries.keys(),
                 entries,
                 user,
                 False,
