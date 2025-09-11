@@ -275,6 +275,15 @@ null
 			<td>Global default for the URL via which the UDM Rest API can be reached. See "udm.connection.url".</td>
 		</tr>
 		<tr>
+			<td>initResources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td>Deployment resources for the init containers</td>
+		</tr>
+		<tr>
 			<td>ldap.auth.bindDn</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -882,13 +891,49 @@ null
 			<td>Deployment resources for the consumer container</td>
 		</tr>
 		<tr>
-			<td>resourcesWaitForDependency</td>
+			<td>serviceAccount.annotations</td>
 			<td>object</td>
 			<td><pre lang="json">
 {}
 </pre>
 </td>
-			<td>Deployment resources for the dependency waiters</td>
+			<td>Annotations to add to the service account</td>
+		</tr>
+		<tr>
+			<td>serviceAccount.automountServiceAccountToken</td>
+			<td>bool</td>
+			<td><pre lang="json">
+false
+</pre>
+</td>
+			<td>Allows auto mount of ServiceAccountToken on the serviceAccount created Can be set to false if pods using this serviceAccount do not need to use K8s API </td>
+		</tr>
+		<tr>
+			<td>serviceAccount.create</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Specifies whether a service account should be created</td>
+		</tr>
+		<tr>
+			<td>serviceAccount.labels</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td>Additional custom labels for the ServiceAccount.</td>
+		</tr>
+		<tr>
+			<td>serviceAccount.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>The name of the service account to use. If not set and create is true, a name is generated using the fullname template</td>
 		</tr>
 		<tr>
 			<td>terminationGracePeriodSeconds</td>

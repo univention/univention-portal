@@ -239,8 +239,8 @@ resources: {}
 #   memory: "4Gi"
 #   cpu: "4"
 
-# -- Deployment resources for the dependency waiters
-resourcesWaitForDependency: {}
+# -- Deployment resources for the init containers
+initResources: {}
 
 
 autoscaling:
@@ -301,3 +301,20 @@ udm:
         # -- The key to retrieve the password from. Setting this value allows to use
         # a key with a different name.
         password: null
+
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+  # -- Allows auto mount of
+  # ServiceAccountToken on the serviceAccount created
+  # Can be set to false if pods using this serviceAccount do not need to use K8s API
+  #
+  automountServiceAccountToken: false
+  # -- Additional custom labels for the ServiceAccount.
+  labels: {}

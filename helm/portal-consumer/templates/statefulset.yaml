@@ -50,6 +50,9 @@ spec:
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
+      {{- if .Values.serviceAccount.create }}
+      serviceAccountName: {{ include "common.names.fullname" . }}
+      {{- end }}
       initContainers:
         - name: wait-for-ldap
           {{- if .Values.containerSecurityContext.enabled }}
@@ -98,7 +101,7 @@ spec:
             {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
           resources:
-            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+            {{- toYaml .Values.initResources | nindent 12 }}
         - name: wait-for-udm
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
@@ -146,7 +149,7 @@ spec:
             {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
           resources:
-            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+            {{- toYaml .Values.initResources | nindent 12 }}
         - name: wait-for-object-storage
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
@@ -179,7 +182,7 @@ spec:
             {{- include "common.tplvalues.render" (dict "value" .Values.waitForDependency.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
           resources:
-            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+            {{- toYaml .Values.initResources | nindent 12 }}
         - name: wait-for-provisioning-api
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
@@ -201,7 +204,7 @@ spec:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
           resources:
-            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+            {{- toYaml .Values.initResources | nindent 12 }}
         - name: "univention-compatibility"
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
@@ -263,7 +266,7 @@ spec:
               readOnly: true
             {{- end }}
           resources:
-            {{- toYaml .Values.resourcesWaitForDependency | nindent 12 }}
+            {{- toYaml .Values.initResources | nindent 12 }}
       containers:
         - name: "portal-consumer"
           {{- if .Values.containerSecurityContext.enabled }}
@@ -272,6 +275,8 @@ spec:
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+          livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.probes.liveness "context" .) | nindent 12 }}
+          readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.probes.readiness "context" .) | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}

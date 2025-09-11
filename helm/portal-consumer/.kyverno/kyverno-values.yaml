@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2024 Univention GmbH
+# SPDX-FileCopyrightText: 2024-2025 Univention GmbH
 ---
 
 portalConsumer:
@@ -13,15 +13,5 @@ provisioningApi:
   auth:
     username: "kyverno"
     password: "kyverno"
-
-imagePullSecrets:
-  - "kyverno-test"
-replicaCount: 42
-
-global:
-  imageRegistry: "my_private_registry.domain.tld"
-  imagePullSecrets:
-    - "kyverno-test"
-  imagePullPolicy: "kyverno"
 
 ...
