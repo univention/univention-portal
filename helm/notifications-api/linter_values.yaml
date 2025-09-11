@@ -14,16 +14,6 @@ notificationsApi:
   logLevel: "DEBUG"
   apiPrefix: "/univention/portal/notifications-api"
 
-ingress:
-  enabled: true
-  host: "portal.example.develop.souvap-univention.de"
-  ingressClassName: "nginx"
-  tls:
-    secretName: "portal-tls"
-
-image:
-  tag: "branch-feature-example"
-
 probes:
   liveness:
     enabled: false
