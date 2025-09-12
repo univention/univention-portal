@@ -24,6 +24,7 @@
       "entries": [
         "cn=login-ucs,cn=entry,cn=portals,cn=univention,dc=univention,dc=test",
         "cn=login-saml,cn=entry,cn=portals,cn=univention,dc=univention,dc=test",
+        "cn=login-oidc,cn=entry,cn=portals,cn=univention,dc=univention,dc=test",
         "cn=etherpad-lite,cn=entry,cn=portals,cn=univention,dc=univention,dc=test"
       ],
       "in_portal": true
@@ -96,15 +97,43 @@
       },
       "target": null
     },
+    "cn=login-oidc,cn=entry,cn=portals,cn=univention,dc=univention,dc=test": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": true,
+      "backgroundColor": null,
+      "description": {
+        "de_DE": "Am Portal über OIDC anmelden",
+        "en_US": "Log in to the portal via OIDC",
+        "fr_FR": "Connectez-vous au portail via OIDC"
+      },
+      "dn": "cn=login-oidc,cn=entry,cn=portals,cn=univention,dc=univention,dc=test",
+      "in_portal": true,
+      "keywords": [],
+      "linkTarget": "samewindow",
+      "links": [
+        {
+          "locale": "en_US",
+          "value": "/univention/oidc/?location=/univention/portal/"
+        }
+      ],
+      "logo_name": "./icons/entries/login-oidc.svg",
+      "name": {
+        "de_DE": "Anmelden (Single Sign-on)",
+        "en_US": "Login (Single sign-on)",
+        "fr_FR": "Connexion (authentification unique)"
+      },
+      "target": null
+    },
     "cn=login-saml,cn=entry,cn=portals,cn=univention,dc=univention,dc=test": {
       "activated": false,
       "allowedGroups": [],
       "anonymous": true,
       "backgroundColor": null,
       "description": {
-        "de_DE": "Am Portal anmelden",
-        "en_US": "Log in to the portal",
-        "fr_FR": "Connectez-vous au portail"
+        "de_DE": "Am Portal über SAML anmelden",
+        "en_US": "Log in to the portal via SAML",
+        "fr_FR": "Connectez-vous au portail via SAML"
       },
       "dn": "cn=login-saml,cn=entry,cn=portals,cn=univention,dc=univention,dc=test",
       "in_portal": true,
@@ -118,9 +147,9 @@
       ],
       "logo_name": "./icons/entries/login-saml.svg",
       "name": {
-        "de_DE": "Anmelden (Single Sign-on)",
-        "en_US": "Login (Single sign-on)",
-        "fr_FR": "Connexion (authentification unique)"
+        "de_DE": "Anmelden (SAML Single Sign-on)",
+        "en_US": "Login (SAML Single sign-on)",
+        "fr_FR": "Connexion (SAML authentification unique)"
       },
       "target": null
     },

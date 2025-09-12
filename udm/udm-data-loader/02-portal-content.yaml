@@ -192,6 +192,21 @@ properties:
   linkTarget: samewindow
   name: login-ucs
 ---
+# Update SAML login entry descriptions to be more specific and deactivate it by default
+action: "modify_if_exists"
+module: "portals/entry"
+position: "cn=login-saml,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}"
+properties:
+  activated: false
+  description:
+    de_DE: Am Portal über SAML anmelden
+    en_US: Log in to the portal via SAML
+    fr_FR: Connectez-vous au portail via SAML
+  displayName:
+    de_DE: Anmelden (SAML Single Sign-on)
+    en_US: Login (SAML Single sign-on)
+    fr_FR: Connexion (SAML authentification unique)
+---
 action: create
 module: portals/entry
 position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
@@ -203,9 +218,9 @@ properties:
     en_US: Log in to the portal
     fr_FR: Connectez-vous au portail
   displayName:
-    de_DE: Anmelden (Single Sign-on)
-    en_US: Login (Single sign-on)
-    fr_FR: Connexion (authentification unique)
+    de_DE: Anmelden (SAML Single Sign-on)
+    en_US: Login (SAML Single sign-on)
+    fr_FR: Connexion (SAML authentification unique)
   # TODO: Load icon from file
   icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1sb2ctaW4iPjxwYXRoIGQ9Ik0xNSAzaDRhMiAyIDAgMCAxIDIgMnYxNGEyIDIgMCAwIDEtMiAyaC00Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iMTAgMTcgMTUgMTIgMTAgNyI+PC9wb2x5bGluZT48bGluZSB4MT0iMTUiIHkxPSIxMiIgeDI9IjMiIHkyPSIxMiI+PC9saW5lPjwvc3ZnPgo=
   link:
@@ -213,6 +228,28 @@ properties:
     - /univention/saml/?location=/univention/portal/
   linkTarget: samewindow
   name: login-saml
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+properties:
+  activated: true
+  anonymous: true
+  description:
+    de_DE: Am Portal über OIDC anmelden
+    en_US: Log in to the portal via OIDC
+    fr_FR: Connectez-vous au portail via OIDC
+  displayName:
+    de_DE: Anmelden (Single Sign-on)
+    en_US: Login (Single sign-on)
+    fr_FR: Connexion (authentification unique)
+  # TODO: Load icon from file
+  icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1sb2ctaW4iPjxwYXRoIGQ9Ik0xNSAzaDRhMiAyIDAgMCAxIDIgMnYxNGEyIDIgMCAwIDEtMiAyaC00Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iMTAgMTcgMTUgMTIgMTAgNyI+PC9wb2x5bGluZT48bGluZSB4MT0iMTUiIHkxPSIxMiIgeDI9IjMiIHkyPSIxMiI+PC9saW5lPjwvc3ZnPgo=
+  link:
+  - - en_US
+    - /univention/oidc/?location=/univention/portal/
+  linkTarget: samewindow
+  name: login-oidc
 ---
 action: create
 module: portals/category
@@ -225,6 +262,7 @@ properties:
   entries:
   - cn=login-ucs,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   - cn=login-saml,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=login-oidc,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: domain-service
 ---
 action: create

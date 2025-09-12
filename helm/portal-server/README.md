@@ -733,10 +733,10 @@ null
 			<td>portalServer.authMode</td>
 			<td>string</td>
 			<td><pre lang="json">
-""
+"oidc"
 </pre>
 </td>
-			<td>Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".</td>
+			<td>Define the authentication mode for the portal. Use "ucs", "saml", or "oidc". Chart default is "oidc". In a Nubus deployment the default is "oidc".</td>
 		</tr>
 		<tr>
 			<td>portalServer.centralNavigation.auth.existingSecret.keyMapping.shared_secret</td>

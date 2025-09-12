@@ -30,7 +30,7 @@ The `portal-server` requires the following resources from the UCS host:
 
 The UMC webserver handles these endpoints:
 
-`^/univention/((auth|saml|get|set|command|upload|logout)/?.*)$`
+`^/univention/((auth|saml|oidc|get|set|command|upload|logout)/?.*)$`
 
 They are accessed by both the `portal-server` and the `portal-frontend`.
 The endpoint handlers use the UMCSessionId, provided in the Cookie header,

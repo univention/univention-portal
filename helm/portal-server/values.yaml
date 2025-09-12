@@ -448,8 +448,8 @@ portalServer:
   # -- Define LDAP Admin Group.
   # Example: `"cn=Domain Admins,cn=groups,dc=example,dc=com"`
   adminGroup: null
-  # -- Define the authentication mode for the portal. Use "ucs" or "saml". Chart default is "ucs". In a Nubus deployment the default is "saml".
-  authMode: ""
+  # -- Define the authentication mode for the portal. Use "ucs", "saml", or "oidc". Chart default is "oidc". In a Nubus deployment the default is "oidc".
+  authMode: "oidc"
   # -- Defines if members of the Admin group can use the edit mode in the portal.
   editable: "true"
   # -- TODO: Clarify usage of this parameter

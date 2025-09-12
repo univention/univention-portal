@@ -15,7 +15,7 @@
 # See docs/decisions/0007-basic-auth-with-umc.md for more information.
 #
 
-<LocationMatch "^/univention/internal/umc/((auth|saml|get|set|command|upload|logout)/?.*)$">
+<LocationMatch "^/univention/internal/umc/((auth|saml|oidc|get|set|command|upload|logout)/?.*)$">
     ProxyAddHeaders Off
 
     # Add a basic auth with a secret shared known only to the portal-server.
@@ -33,5 +33,5 @@
 </LocationMatch>
 
 # now pass the request to the UMC, like in /etc/apache2/sites-enabled/univention.conf
-ProxyPassMatch "^/univention/internal/umc/((auth|saml|get|set|command|upload|logout)/?.*)$" http://127.0.0.1:8090/$1 retry=0 timeout=311
-ProxyPassReverse "^/univention/internal/umc/((auth|saml|get|set|command|upload|logout)/?.*)$" http://127.0.0.1:8090/
+ProxyPassMatch "^/univention/internal/umc/((auth|saml|oidc|get|set|command|upload|logout)/?.*)$" http://127.0.0.1:8090/$1 retry=0 timeout=311
+ProxyPassReverse "^/univention/internal/umc/((auth|saml|oidc|get|set|command|upload|logout)/?.*)$" http://127.0.0.1:8090/
