@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.79.8](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.7...v0.79.8) (2025-09-13)
+
+
+### Bug Fixes
+
+* **deps:** Update gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base Docker tag to v5.2.3-build.20250911 ([53e120a](https://git.knut.univention.de/univention/dev/projects/portal/commit/53e120a1bebfddc52acbc80544bfce7dd9a833f5)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+* **portal-server:** Don't add portal tiles to the left sidebar if they are visible ([0d7bf8c](https://git.knut.univention.de/univention/dev/projects/portal/commit/0d7bf8ca38050e0795074af4d00b0dde7973242d)), closes [univention/dev/internal/team-nubus#1416](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1416)
+
 ## [0.79.7](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.6...v0.79.7) (2025-09-12)
 
 
