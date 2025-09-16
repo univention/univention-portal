@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.79.9](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.8...v0.79.9) (2025-09-16)
+
+
+### Bug Fixes
+
+* **deps:** Update gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner Docker tag to v0.24.7 ([bea040e](https://git.knut.univention.de/univention/dev/projects/portal/commit/bea040e6a6abf1695d6efc0649ade23b17843fc7)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.79.8](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.7...v0.79.8) (2025-09-13)
 
 
