@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.80.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.9...v0.80.0) (2025-09-17)
+
+
+### Features
+
+* Migrate from SAML to OIDC as default authentication mode ([fc02402](https://git.knut.univention.de/univention/dev/projects/portal/commit/fc02402b59a4fceccfc291fa190a7a42c50919df)), closes [univention/dev/internal/team-nubus#1435](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1435)
+
 ## [0.79.9](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.8...v0.79.9) (2025-09-16)
 
 
