@@ -20,11 +20,13 @@
           </div>
           <button
             id="loginButton"
+            ref="firstButton"
             class="portal-sidenavigation__logout-link"
             tabindex="0"
             @click="logout"
             @keydown.enter="logout"
             @keydown.esc="closeNavigation"
+            @keydown.arrow-up="handleUpKey($event)"
           >
             {{ LOGOUT }}
           </button>
@@ -33,10 +35,13 @@
       <button
         v-else
         id="loginButton"
+        ref="firstButton"
+        tabindex="0"
         class="button--primary portal-sidenavigation__link portal-sidenavigation__login"
         @click="login"
         @keydown.enter="login"
         @keydown.esc="closeNavigation"
+        @keydown.arrow-up="handleUpKey($event)"
       >
         {{ LOGIN }}
       </button>
@@ -46,7 +51,7 @@
     />
     <component
       :is="useNativeHtmlList ? 'ul' : 'div'"
-      :role="useNativeHtmlList ? 'list' : undefined"
+      :rolex="useNativeHtmlList ? 'list' : undefined"
       class="portal-sidenavigation__menu"
       aria-orientation="vertical"
       data-test="sideNavigation"
@@ -76,8 +81,9 @@
           @keydown.enter.exact="menuClickAction($event, index, item)"
           @keydown.space.exact="menuClickAction($event, index, item)"
           @keydown.right.exact.prevent="hasSubmenu(item) ? toggleMenu(index) : null"
+          @keydown.down.capture="handleDownKey($event, index)"
           @keydown.esc="closeNavigation"
-          @clickAction="closeNavigation"
+          @click-action="closeNavigation"
         />
         <template v-if="hasSubmenu(item)">
           <region
@@ -99,7 +105,7 @@
               @keydown.space.exact.prevent="toggleMenu()"
               @keydown.left.exact="toggleMenu()"
               @keydown.esc="closeNavigation"
-              @clickAction="closeNavigation"
+              @click-action="closeNavigation"
             />
             <ul
               class="portal-sidenavigation__submenu-wrapper"
@@ -122,7 +128,7 @@
                   :is-subitem="true"
                   class="portal-sidenavigation__menu-subItem"
                   @keydown.esc="closeNavigation"
-                  @clickAction="closeNavigation"
+                  @click-action="closeNavigation"
                 />
               </li>
             </ul>
@@ -137,6 +143,7 @@
     <button
       v-if="userState.mayEditPortal"
       ref="editModeButton"
+      tabindex="0"
       class="button--primary portal-sidenavigation__link"
       data-test="openEditmodeButton"
       @click="startEditMode"
@@ -290,6 +297,24 @@ export default defineComponent({
         }
       }
     },
+    handleDownKey(e: KeyboardEvent, index: number) {
+      if (!this.menuLinks) return;
+      const isLast = index === this.menuLinks.length - 1;
+      if (isLast) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.moveToEditModeButton();
+      }
+    },
+    handleUpKey(e: KeyboardEvent) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.moveToEditModeButton();
+    },
+    moveToEditModeButton() {
+      console.log(this.$refs.editModeButton);
+      (this.$refs.editModeButton as HTMLButtonElement | null)?.focus();
+    },
   },
 });
 </script>
@@ -383,7 +408,6 @@ $userRow = 6rem
   &__fade-left-right
     animation-name: fadeInLeft
 
-// keyframes
 @keyframes fadeInLeft {
   0% {
     opacity: 0;
