@@ -244,6 +244,10 @@ msgstr "schließen"
 msgid "Close Tooltip"
 msgstr "Tooltip schließen"
 
+#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:32
+msgid "Close filter"
+msgstr "Filter schließen"
+
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:90
 msgid "Continue"
 msgstr "Weiter"
