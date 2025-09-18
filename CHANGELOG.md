@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.80.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.0...v0.80.1) (2025-09-18)
+
+
+### Bug Fixes
+
+* use ucs as auth-mode by default ([8a8e6cf](https://git.knut.univention.de/univention/dev/projects/portal/commit/8a8e6cf962e74058ff4ff36c6f094bda2c392926)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.80.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.79.9...v0.80.0) (2025-09-17)
 
 
