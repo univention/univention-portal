@@ -240,7 +240,6 @@ msgid "Close Tooltip"
 msgstr "Tooltip schließen"
 
 #: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:32
-#, fuzzy
 msgid "Close filter"
 msgstr "Filter schließen"
 

@@ -110,6 +110,109 @@ export default defineComponent({
       this.$store.dispatch('navigation/setActiveButton', '');
       this.$store.dispatch('search/setSearchQuery', '');
     },
+    handleBellButtonTab(): void {
+      // Add a temporary event listener to the bell button to handle its next tab
+      const bellButton = document.getElementById('header-button-bell');
+      if (bellButton) {
+        const handleBellTab = (event: KeyboardEvent) => {
+          if (event.key === 'Tab' && !event.shiftKey) {
+            // Remove this listener immediately
+            bellButton.removeEventListener('keydown', handleBellTab);
+
+            // Manually focus the menu button instead of letting it go back to search
+            event.preventDefault();
+            const menuButton = document.getElementById('header-button-menu');
+            if (menuButton) {
+              // Also set up the menu button to continue the chain properly
+              this.handleMenuButtonTab();
+              menuButton.focus();
+            } else {
+              // Fallback to quick draft or other elements
+              const quickDraftLink = document.querySelector('a[id^="portal-quick-draft-"]');
+              if (quickDraftLink) {
+                (quickDraftLink as HTMLElement).focus();
+              }
+            }
+          }
+        };
+
+        // Add the temporary listener
+        bellButton.addEventListener('keydown', handleBellTab, { once: true });
+      }
+    },
+    handleMenuButtonTab(): void {
+      // Add a temporary event listener to the menu button to handle its next tab
+      const menuButton = document.getElementById('header-button-menu');
+      if (menuButton) {
+        const handleMenuTab = (event: KeyboardEvent) => {
+          if (event.key === 'Tab' && !event.shiftKey) {
+            // Remove this listener immediately
+            menuButton.removeEventListener('keydown', handleMenuTab);
+
+            // Manually focus the Administration section first, then set up newsfeed
+            event.preventDefault();
+
+            // First try to find quick draft or administration links
+            const quickDraftLink = document.querySelector('a[id^="portal-quick-draft-"]');
+            if (quickDraftLink) {
+              // Set up handler to continue to newsfeed after administration section
+              this.handleAdministrationToNewsfeed();
+              (quickDraftLink as HTMLElement).focus();
+            } else {
+              // Fallback to portal tiles
+              const portalTile = document.querySelector('.portal-tile');
+              if (portalTile) {
+                // Set up handler to continue to newsfeed after portal tiles
+                this.handleAdministrationToNewsfeed();
+                (portalTile as HTMLElement).focus();
+              } else {
+                // Final fallback - go directly to newsfeed if no administration content
+                const newsfeedLinks = document.querySelectorAll('a[id^="newsfeed-view-"]');
+                if (newsfeedLinks.length > 0) {
+                  newsfeedLinks.forEach((link) => {
+                    (link as HTMLElement).tabIndex = 0;
+                  });
+                  (newsfeedLinks[0] as HTMLElement).focus();
+                }
+              }
+            }
+          }
+        };
+
+        // Add the temporary listener
+        menuButton.addEventListener('keydown', handleMenuTab, { once: true });
+      }
+    },
+    handleAdministrationToNewsfeed(): void {
+      // Find the last administration/portal element to set up transition to newsfeed
+      const allAdminElements = document.querySelectorAll('a[id^="portal-quick-draft-"], .portal-tile');
+
+      if (allAdminElements.length > 0) {
+        const lastAdminElement = allAdminElements[allAdminElements.length - 1] as HTMLElement;
+
+        const handleAdminToNewsfeed = (event: KeyboardEvent) => {
+          if (event.key === 'Tab' && !event.shiftKey) {
+            // Remove this listener immediately
+            lastAdminElement.removeEventListener('keydown', handleAdminToNewsfeed);
+
+            // Now transition to newsfeed
+            event.preventDefault();
+            const newsfeedLinks = document.querySelectorAll('a[id^="newsfeed-view-"]');
+            if (newsfeedLinks.length > 0) {
+              // Make all newsfeed links tabbable
+              newsfeedLinks.forEach((link) => {
+                (link as HTMLElement).tabIndex = 0;
+              });
+              // Focus the first newsfeed item
+              (newsfeedLinks[0] as HTMLElement).focus();
+            }
+          }
+        };
+
+        // Add the temporary listener to the last administration element
+        lastAdminElement.addEventListener('keydown', handleAdminToNewsfeed, { once: true });
+      }
+    },
   },
 });
 </script>
