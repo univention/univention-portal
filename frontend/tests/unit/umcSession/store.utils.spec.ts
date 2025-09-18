@@ -6,6 +6,7 @@
 import axios from 'axios';
 
 import { umcGetSessionInfo } from '@/store/modules/umcSession/utils';
+import * as loginHelper from '@/jsHelper/login';
 import * as stubs from './stubs';
 
 const mockedPost = jest.spyOn(axios, 'post');
@@ -36,6 +37,26 @@ describe('umcGetSessionInfo', () => {
     mockedPost.mockRejectedValue(stubs.stubAxiosErrorSessionTimedOut);
     const result = await umcGetSessionInfo();
     expect(result).toBeUndefined();
+  });
+
+  test('calls login helper on 401 Unauthorized response when user provided', async () => {
+    const loginSpy = jest.spyOn(loginHelper, 'login').mockImplementation(jest.fn());
+    mockedPost.mockRejectedValue(stubs.stubAxiosErrorSessionTimedOut);
+
+    const result = await umcGetSessionInfo(stubs.stubUserStateSaml.user);
+
+    expect(result).toBeUndefined();
+    expect(loginSpy).toHaveBeenCalledWith(stubs.stubUserStateSaml.user);
+  });
+
+  test('does not call login helper on 401 when no user provided', async () => {
+    const loginSpy = jest.spyOn(loginHelper, 'login').mockImplementation(jest.fn());
+    mockedPost.mockRejectedValue(stubs.stubAxiosErrorSessionTimedOut);
+
+    const result = await umcGetSessionInfo();
+
+    expect(result).toBeUndefined();
+    expect(loginSpy).not.toHaveBeenCalled();
   });
 
   test('throws other errors', async () => {

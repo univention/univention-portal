@@ -16,7 +16,7 @@ export type UmcSessionActionContext = PortalActionContext<UmcSessionState>;
 export const refreshBeforeExpiry = 5;
 
 export const actions = {
-  async startSessionRefresh({ commit, state }: UmcSessionActionContext): Promise<void> {
+  async startSessionRefresh({ commit, state, rootGetters }: UmcSessionActionContext): Promise<void> {
     let result : UmcSessionInfo | undefined;
     let refreshInSeconds = 0;
 
@@ -26,7 +26,8 @@ export const actions = {
     }
 
     try {
-      result = await umcGetSessionInfo();
+      const user = rootGetters['user/userState'];
+      result = await umcGetSessionInfo(user);
     } catch (error) {
       console.warn('Fetching UMC session information failed, disabling passive session refresh.');
       return;

@@ -6,6 +6,8 @@
 import axios, { AxiosError } from 'axios';
 
 import { umc } from '@/jsHelper/umc';
+import { login } from '@/jsHelper/login';
+import { User } from '@/store/modules/user/user.models';
 
 const getSessionInfoPath = 'get/session-info';
 
@@ -22,12 +24,15 @@ export interface UmcGetSessionInfoResponse {
   result?: UmcSessionInfo;
 }
 
-export async function umcGetSessionInfo() : Promise<UmcSessionInfo | undefined> {
+export async function umcGetSessionInfo(user?: User) : Promise<UmcSessionInfo | undefined> {
   try {
     const result = await umc<UmcGetSessionInfoResponse>(getSessionInfoPath);
     return result.data.result;
   } catch (error) {
     if (axios.isAxiosError<UmcGetSessionInfoResponse>(error) && isSessionExpired(error)) {
+      if (user) {
+        login(user);
+      }
       return undefined;
     }
     throw error;

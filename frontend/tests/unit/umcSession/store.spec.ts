@@ -21,7 +21,7 @@ afterAll(() => {
   jest.restoreAllMocks();
 });
 
-type StubActionContext = Pick<UmcSessionActionContext, 'commit' | 'dispatch' | 'state'>
+type StubActionContext = Pick<UmcSessionActionContext, 'commit' | 'dispatch' | 'state' | 'rootGetters'>
 
 describe('action startSessionRefresh', () => {
 
@@ -29,6 +29,9 @@ describe('action startSessionRefresh', () => {
     state: { refreshNeeded: false },
     commit: jest.fn(),
     dispatch: jest.fn(),
+    rootGetters: {
+      'user/userState': stubs.stubUserStateSaml.user,
+    },
   };
 
   test('triggers UMC session refresh due to session expiry', async () => {
