@@ -20,11 +20,14 @@
           </div>
           <button
             id="loginButton"
+            ref="firstButton"
             class="portal-sidenavigation__logout-link"
             tabindex="0"
+            data-test="logButton"
             @click="logout"
             @keydown.enter="logout"
             @keydown.esc="closeNavigation"
+            @keydown.arrow-up="handleUpKey($event)"
           >
             {{ LOGOUT }}
           </button>
@@ -33,22 +36,23 @@
       <button
         v-else
         id="loginButton"
+        ref="firstButton"
+        tabindex="0"
+        data-test="logButton"
         class="button--primary portal-sidenavigation__link portal-sidenavigation__login"
         @click="login"
         @keydown.enter="login"
         @keydown.esc="closeNavigation"
+        @keydown.arrow-up="handleUpKey($event)"
       >
         {{ LOGIN }}
       </button>
     </div>
-    <div
-      class="divider"
-    />
+    <div class="divider" />
     <component
       :is="useNativeHtmlList ? 'ul' : 'div'"
-      :role="useNativeHtmlList ? 'list' : 'toolbar'"
+      :role="useNativeHtmlList ? undefined : 'list'"
       class="portal-sidenavigation__menu"
-      aria-orientation="vertical"
       data-test="sideNavigation"
     >
       <component
@@ -63,6 +67,7 @@
           v-if="menuVisible"
           :id="item.id"
           :ref="'menuItem' + index"
+          data-test="menuItem"
           :title="item.title"
           :sub-menu="item.subMenu"
           :links="item.links || []"
@@ -71,47 +76,47 @@
           :path-to-logo="item.pathToLogo"
           :internal-function="item.internalFunction"
           :background-color="item.backgroundColor"
-          :aria-haspopup="hasSubmenu(item)"
+          :aria-expanded="isAriaExpanded(item)"
+          :aria-controls="ariaControls(item)"
           @click="menuClickAction($event, index, item)"
           @keydown.enter.exact="menuClickAction($event, index, item)"
           @keydown.space.exact="menuClickAction($event, index, item)"
-          @keydown.right.exact.prevent="hasSubmenu(item) ? toggleMenu(index) : null"
+          @keydown.right.exact.prevent="
+            hasSubmenu(item) ? toggleMenu(index) : null
+          "
+          @keydown.down.capture="handleDownKey($event, index)"
           @keydown.esc="closeNavigation"
-          @clickAction="closeNavigation"
+          @click-action="closeNavigation"
         />
         <template v-if="hasSubmenu(item)">
           <region
-            v-if="subMenuVisible && (menuParent === index)"
+            v-if="subMenuVisible && menuParent === index"
             id="portal-sidenavigation-sub"
             class="portal-sidenavigation__submenu"
-            role="navigation"
-            aria-role="navigation"
             direction="topdown"
-            :aria-expanded="subMenuVisible"
           >
             <menu-item
               :id="`sub-item-${item.id}`"
               :title="item.title"
               :is-parent-in-sub-item="true"
               :links="[]"
+              :aria-expanded="subMenuVisible"
               class="portal-sidenavigation__menu-subItem portal-sidenavigation__menu-subItem--parent"
               @click="toggleMenu()"
               @keydown.enter.exact="toggleMenu()"
               @keydown.space.exact.prevent="toggleMenu()"
               @keydown.left.exact="toggleMenu()"
               @keydown.esc="closeNavigation"
-              @clickAction="closeNavigation"
+              @click-action="closeNavigation"
             />
-            <ul
-              class="portal-sidenavigation__submenu-wrapper"
-            >
+            <ul class="portal-sidenavigation__submenu-wrapper">
               <li
                 v-for="(subItem, subindex) in item.subMenu"
                 :key="subindex"
                 :class="subMenuClass"
               >
                 <menu-item
-                  v-if="subMenuVisible && (menuParent === index)"
+                  v-if="subMenuVisible && menuParent === index"
                   :id="subItem.id"
                   :ref="`subItem${subindex}`"
                   :title="subItem.title"
@@ -123,7 +128,7 @@
                   :is-subitem="true"
                   class="portal-sidenavigation__menu-subItem"
                   @keydown.esc="closeNavigation"
-                  @clickAction="closeNavigation"
+                  @click-action="closeNavigation"
                 />
               </li>
             </ul>
@@ -138,6 +143,7 @@
     <button
       v-if="userState.mayEditPortal"
       ref="editModeButton"
+      tabindex="0"
       class="button--primary portal-sidenavigation__link"
       data-test="openEditmodeButton"
       @click="startEditMode"
@@ -161,14 +167,14 @@ import TileClick from '@/mixins/TileClick.vue';
 import { login, logout } from '@/jsHelper/login';
 
 interface SideNavigationData {
-  menuVisible: boolean,
-  subMenuVisible: boolean,
-  subMenuClass: string,
-  menuParent: number,
-  init: boolean,
-  fade: boolean,
-  fadeRightLeft: string,
-  fadeLeftRight: string,
+  menuVisible: boolean;
+  subMenuVisible: boolean;
+  subMenuClass: string;
+  menuParent: number;
+  init: boolean;
+  fade: boolean;
+  fadeRightLeft: string;
+  fadeLeftRight: string;
 }
 
 export default defineComponent({
@@ -178,9 +184,7 @@ export default defineComponent({
     MenuItem,
     Region,
   },
-  mixins: [
-    TileClick,
-  ],
+  mixins: [TileClick],
   data(): SideNavigationData {
     return {
       menuVisible: true,
@@ -244,7 +248,8 @@ export default defineComponent({
       this.fade = !this.fade;
       this.init = false;
 
-      const region = index === -1 ? 'portal-sidenavigation' : 'portal-sidenavigation-sub';
+      const region =
+        index === -1 ? 'portal-sidenavigation' : 'portal-sidenavigation-sub';
       this.$store.dispatch('activity/setRegion', region);
 
       if (this.subMenuVisible) {
@@ -258,7 +263,9 @@ export default defineComponent({
       (this.$refs.editModeButton as HTMLElement).blur();
       this.$store.dispatch('navigation/setActiveButton', '');
       this.$store.dispatch('tabs/setActiveTab', 0);
-      window.requestAnimationFrame(() => { window.scrollTo(0, 0); });
+      window.requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+      });
     },
     setFadeClass(): string {
       let ret = '';
@@ -274,12 +281,20 @@ export default defineComponent({
     hasSubmenu(item): boolean {
       return item.subMenu && item.subMenu.length > 0;
     },
-    menuClickAction($event, index: number, item: Record<string, unknown>): void {
+    menuClickAction(
+      $event,
+      index: number,
+      item: Record<string, unknown>,
+    ): void {
       if (this.hasSubmenu(item)) {
         $event.preventDefault();
         this.toggleMenu(index);
       } else {
-        const menuItems = (this.$refs[`menuItem${index}`] ? this.$refs[`menuItem${index}`] : this.$refs[`subItem${index}`]) as Array<typeof MenuItem>;
+        const menuItems = (
+          this.$refs[`menuItem${index}`]
+            ? this.$refs[`menuItem${index}`]
+            : this.$refs[`subItem${index}`]
+        ) as Array<typeof MenuItem>;
         const menuItem = menuItems.pop();
         menuItem?.tileClick($event);
         if (item.linkTarget === 'embedded') {
@@ -290,6 +305,49 @@ export default defineComponent({
           });
         }
       }
+    },
+    handleDownKey(e: KeyboardEvent, index: number) {
+      if (!this.menuLinks) return;
+      const isLast = index === this.menuLinks.length - 1;
+      if (isLast) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (this.userState.mayEditPortal) {
+          this.moveToEditModeButton();
+        } else {
+          this.moveToLoginButton();
+        }
+      }
+    },
+    handleUpKey(e: KeyboardEvent) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (this.userState.mayEditPortal) {
+        this.moveToEditModeButton();
+      } else {
+        this.moveToMenuItem(this.menuLinks.length - 1);
+      }
+    },
+    moveToEditModeButton() {
+      (this.$refs.editModeButton as HTMLButtonElement | null)?.focus();
+    },
+    moveToMenuItem(refIndex: number) {
+      const menuItemRefs = this.$refs[`menuItem${refIndex}`] as Array<typeof MenuItem>;
+      const menuItem = menuItemRefs?.[0];
+
+      if (menuItem && menuItem.$el) {
+        (menuItem.$el as HTMLElement).focus();
+      }
+    },
+    moveToLoginButton() {
+      (this.$refs.firstButton as HTMLButtonElement | null)?.focus();
+    },
+    isAriaExpanded(item: any) {
+      if (!this.hasSubmenu(item)) return null;
+      return this.subMenuVisible;
+    },
+    ariaControls(item: any) {
+      return this.hasSubmenu(item) && this.subMenuVisible ? `sub-item-${this.menuParent}` : null;
     },
   },
 });
@@ -384,7 +442,6 @@ $userRow = 6rem
   &__fade-left-right
     animation-name: fadeInLeft
 
-// keyframes
 @keyframes fadeInLeft {
   0% {
     opacity: 0;

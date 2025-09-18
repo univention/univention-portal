@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2025-09-30 08:07+0000\n"
+"POT-Creation-Date: 2025-09-30 15:53+0000\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -28,7 +28,7 @@ msgstr "%(label)s %(idx)s entfernt"
 msgid "%(num)s result(s)"
 msgstr "%(num)s Ergebnis(se)"
 
-#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:53
+#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:59
 msgid "%(num)s search results"
 msgstr "%(num)s Suchergebnisse"
 
@@ -53,8 +53,8 @@ msgstr "Kontolöschung"
 msgid "Account verification"
 msgstr "Kontoverifizierung"
 
-#: frontend/src/store/modules/portalData/index.ts:485
-#: frontend/src/store/modules/portalData/index.ts:493
+#: frontend/src/store/modules/portalData/index.ts:486
+#: frontend/src/store/modules/portalData/index.ts:494
 msgid "Action not possible. Please try another direction."
 msgstr ""
 "Diese Aktion ist nicht möglich. Versuchen Sie bitte eine andere Richtung."
@@ -161,7 +161,7 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: frontend/src/store/modules/portalData/index.ts:716
+#: frontend/src/store/modules/portalData/index.ts:717
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
@@ -234,6 +234,10 @@ msgstr "Tab wählen"
 #: frontend/src/tmp/ts/frontend/src/views/selfservice/Profile.vue:93
 msgid "Close"
 msgstr "schließen"
+
+#: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:89
+msgid "Close Submenu"
+msgstr "Untermenü schließen"
 
 #: frontend/src/tmp/ts/frontend/src/components/PortalToolTip.vue:63
 msgid "Close Tooltip"

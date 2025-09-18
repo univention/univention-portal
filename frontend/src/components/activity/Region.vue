@@ -33,7 +33,7 @@ export default defineComponent({
     },
     ariaRole: {
       type: String,
-      default: '',
+      default: undefined,
     },
     direction: {
       type: String,
@@ -55,9 +55,6 @@ export default defineComponent({
       }
       if (this.role === 'navigation') {
         return 'nav';
-      }
-      if (this.role === 'main') {
-        return 'main';
       }
       if (this.role === 'main') {
         return 'main';
