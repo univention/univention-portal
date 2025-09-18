@@ -3,7 +3,6 @@
   SPDX-License-Identifier: AGPL-3.0-only
 -->
 <template>
-  <!-- TODO Semantic headlines -->
   <div
     ref="searchInput"
     class="portal-search"
@@ -29,7 +28,6 @@
             :placeholder="SEARCH_PLACEHOLDER"
             @input="searchTiles"
             @keyup.esc="closeSearchInput()"
-            @keydown.tab="onTabFromInput"
           >
           <icon-button
             id="portal-search-close-button"
@@ -41,8 +39,7 @@
             :active-at="['portal']"
             :aria-label-prop="CLOSE_SEARCH"
             :tabindex="0"
-            @click="closeSearchInput()"
-            @keydown.tab="onTabFromCloseButton"
+            @click="closeSearchInput"
           />
         </div>
       </flyout-wrapper>
@@ -50,7 +47,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import _ from '@/jsHelper/translate';
@@ -95,154 +92,21 @@ export default defineComponent({
   },
   methods: {
     searchTiles(): void {
-      this.$store.dispatch('search/setSearchQuery', this.portalSearch.toLowerCase());
+      this.$store.dispatch(
+        'search/setSearchQuery',
+        this.portalSearch.toLowerCase(),
+      );
       this.$nextTick(() => {
         const num = document.querySelectorAll('.portal-tile').length.toString();
-        this.$store.dispatch('activity/setMessage', _('%(num)s search results', { num }));
+        this.$store.dispatch(
+          'activity/setMessage',
+          _('%(num)s search results', { num }),
+        );
       });
     },
     closeSearchInput(): void {
       this.$store.dispatch('activity/setRegion', 'portal-header');
       this.$store.dispatch('navigation/setActiveButton', '');
-    },
-    onTabFromInput(event: KeyboardEvent): void {
-      if (!event.shiftKey) {
-        // For forward tab, manually focus the close button
-        const closeButton = document.getElementById('portal-search-close-button');
-        if (closeButton) {
-          event.preventDefault();
-          closeButton.focus();
-        }
-      } else {
-        // For backward tab, focus on the search button
-        const searchButton = document.getElementById('header-button-search');
-        if (searchButton) {
-          event.preventDefault();
-          searchButton.focus();
-        }
-      }
-    },
-    onTabFromCloseButton(event: KeyboardEvent): void {
-      if (event.shiftKey) {
-        // For backward tab, focus on the search input
-        const searchInput = document.getElementById('portal-search-input');
-        if (searchInput) {
-          event.preventDefault();
-          searchInput.focus();
-        }
-      } else {
-        // For forward tab, focus the bell button
-        // Set a flag to handle the bell button's next tab properly
-        event.preventDefault();
-        this.handleBellButtonTab();
-        const bellButton = document.getElementById('header-button-bell');
-        if (bellButton) {
-          bellButton.focus();
-        }
-      }
-    },
-    handleBellButtonTab(): void {
-      // Add a temporary event listener to the bell button to handle its next tab
-      const bellButton = document.getElementById('header-button-bell');
-      if (bellButton) {
-        const handleBellTab = (event: KeyboardEvent) => {
-          if (event.key === 'Tab' && !event.shiftKey) {
-            // Remove this listener immediately
-            bellButton.removeEventListener('keydown', handleBellTab);
-
-            // Manually focus the menu button instead of letting it go back to search
-            event.preventDefault();
-            const menuButton = document.getElementById('header-button-menu');
-            if (menuButton) {
-              // Also set up the menu button to continue the chain properly
-              this.handleMenuButtonTab();
-              menuButton.focus();
-            } else {
-              // Fallback to quick draft or other elements
-              const quickDraftLink = document.querySelector('a[id^="portal-quick-draft-"]');
-              if (quickDraftLink) {
-                (quickDraftLink as HTMLElement).focus();
-              }
-            }
-          }
-        };
-
-        // Add the temporary listener
-        bellButton.addEventListener('keydown', handleBellTab, { once: true });
-      }
-    },
-    handleMenuButtonTab(): void {
-      // Add a temporary event listener to the menu button to handle its next tab
-      const menuButton = document.getElementById('header-button-menu');
-      if (menuButton) {
-        const handleMenuTab = (event: KeyboardEvent) => {
-          if (event.key === 'Tab' && !event.shiftKey) {
-            // Remove this listener immediately
-            menuButton.removeEventListener('keydown', handleMenuTab);
-
-            // Manually focus the Administration section first, then set up newsfeed
-            event.preventDefault();
-
-            // First try to find quick draft or administration links
-            const quickDraftLink = document.querySelector('a[id^="portal-quick-draft-"]');
-            if (quickDraftLink) {
-              // Set up handler to continue to newsfeed after administration section
-              this.handleAdministrationToNewsfeed();
-              (quickDraftLink as HTMLElement).focus();
-            } else {
-              // Fallback to portal tiles
-              const portalTile = document.querySelector('.portal-tile');
-              if (portalTile) {
-                // Set up handler to continue to newsfeed after portal tiles
-                this.handleAdministrationToNewsfeed();
-                (portalTile as HTMLElement).focus();
-              } else {
-                // Final fallback - go directly to newsfeed if no administration content
-                const newsfeedLinks = document.querySelectorAll('a[id^="newsfeed-view-"]');
-                if (newsfeedLinks.length > 0) {
-                  newsfeedLinks.forEach((link) => {
-                    (link as HTMLElement).tabIndex = 0;
-                  });
-                  (newsfeedLinks[0] as HTMLElement).focus();
-                }
-              }
-            }
-          }
-        };
-
-        // Add the temporary listener
-        menuButton.addEventListener('keydown', handleMenuTab, { once: true });
-      }
-    },
-    handleAdministrationToNewsfeed(): void {
-      // Find the last administration/portal element to set up transition to newsfeed
-      const allAdminElements = document.querySelectorAll('a[id^="portal-quick-draft-"], .portal-tile');
-
-      if (allAdminElements.length > 0) {
-        const lastAdminElement = allAdminElements[allAdminElements.length - 1] as HTMLElement;
-
-        const handleAdminToNewsfeed = (event: KeyboardEvent) => {
-          if (event.key === 'Tab' && !event.shiftKey) {
-            // Remove this listener immediately
-            lastAdminElement.removeEventListener('keydown', handleAdminToNewsfeed);
-
-            // Now transition to newsfeed
-            event.preventDefault();
-            const newsfeedLinks = document.querySelectorAll('a[id^="newsfeed-view-"]');
-            if (newsfeedLinks.length > 0) {
-              // Make all newsfeed links tabbable
-              newsfeedLinks.forEach((link) => {
-                (link as HTMLElement).tabIndex = 0;
-              });
-              // Focus the first newsfeed item
-              (newsfeedLinks[0] as HTMLElement).focus();
-            }
-          }
-        };
-
-        // Add the temporary listener to the last administration element
-        lastAdminElement.addEventListener('keydown', handleAdminToNewsfeed, { once: true });
-      }
     },
   },
 });

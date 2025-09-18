@@ -9,9 +9,7 @@
     @click="toggleActiveButton"
     @keyup.esc.stop="emptyActiveButton"
   >
-    <div
-      role="presentation"
-    >
+    <div role="presentation">
       <tabindex-element
         :id="'header-button-' + icon"
         :ref="setRef"
@@ -19,7 +17,7 @@
         :active-at="['portal', `header-${icon}`]"
         :aria-expanded="isActiveButton"
         :aria-label="ariaLabel"
-        class="button--icon button--icon--circle button--icon--header-style button--flat "
+        class="button--icon button--icon--circle button--icon--header-style button--flat"
       >
         <header-menu-icon v-if="icon === 'menu'" />
         <portal-icon
@@ -71,6 +69,9 @@ export default defineComponent({
     },
   },
   computed: {
+    currentActiveButton(): string {
+      return this.$store.state.navigation.activeButton;
+    },
     isActiveButton(): boolean {
       return this.$store.state.navigation.activeButton === this.icon;
     },

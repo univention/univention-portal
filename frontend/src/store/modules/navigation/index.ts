@@ -42,7 +42,9 @@ const navigation: PortalModule<NavigationState> = {
       }
       if (!folderIsOpen) {
         if (id) {
-          dispatch('activity/setLevel', `header-${id}`, { root: true });
+          if (id !== 'search') {
+            dispatch('activity/setRegion', `header-${id}`, { root: true });
+          }
         } else {
           dispatch('activity/setLevel', 'portal', { root: true });
         }

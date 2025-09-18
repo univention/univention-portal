@@ -21,7 +21,6 @@ const search: PortalModule<SearchState> = {
 
   mutations: {
     SET_SEARCH_QUERY(state: SearchState, payload: SearchQuery): void {
-      console.log('🔍 SET_SEARCH_QUERY:', payload);
       state.searchQuery = payload;
     },
   },

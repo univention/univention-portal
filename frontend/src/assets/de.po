@@ -132,8 +132,7 @@ msgstr "Zur Auswahl hinzugefügt"
 msgid "An error occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/LeftSideNavigation.vue:47
-#, fuzzy
+#: frontend/src/tmp/ts/frontend/src/components/navigation/LeftSideNavigation.vue:52
 msgid "Applications"
 msgstr "Anwendungen"
 

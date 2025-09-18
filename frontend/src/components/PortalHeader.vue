@@ -92,6 +92,7 @@
         :aria-label-prop="SEARCH"
         icon="search"
       />
+      <portal-search />
       <header-button
         data-test="bellbutton"
         :aria-label-prop="NOTIFICATIONS"
@@ -108,9 +109,9 @@
       />
     </div>
 
-    <template v-if="activeButton === 'search'">
+    <!-- <template v-if="activeButton === 'search'">
       <portal-search />
-    </template>
+    </template> -->
   </region>
   <choose-tabs v-if="activeButton === 'copy'" />
   <div
