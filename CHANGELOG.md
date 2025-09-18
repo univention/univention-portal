@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.80.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.1...v0.80.2) (2025-09-18)
+
+
+### Bug Fixes
+
+* ensure oidc tile is added on upgrade scenarios ([30e2c65](https://git.knut.univention.de/univention/dev/projects/portal/commit/30e2c657f86d97b87c1efc0bf137342d29cc5d25)), closes [univention/dev/internal/team-nubus#1435](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1435)
+
 ## [0.80.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.0...v0.80.1) (2025-09-18)
 
 
