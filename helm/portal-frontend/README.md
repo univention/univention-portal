@@ -444,6 +444,10 @@ true
   {
     "path": "/univention/(portal)/(icons)(/.*)$",
     "pathType": "ImplementationSpecific"
+  },
+  {
+    "path": "/univention/(portal|selfservice)/(sse-worker.js)$",
+    "pathType": "ImplementationSpecific"
   }
 ]
 </pre>

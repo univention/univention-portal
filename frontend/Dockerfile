@@ -89,5 +89,6 @@ RUN yarn build
 FROM gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/nginx/nginx:0.4.1 AS final
 
 COPY --from=build /app/dist /var/www/html
+COPY ./worker/sse-worker.js /var/www/html
 
 ###############################################################################
