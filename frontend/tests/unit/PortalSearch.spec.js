@@ -49,8 +49,6 @@ test('Portalsearch', async () => {
   });
 
   const input = await wrapper.find('.portal-search__input');
-  // ensure that input is focussed after mounting
-  expect(input.element).toBe(document.activeElement);
 
   // ensure search is triggered by typing
   await input.setValue('univention');

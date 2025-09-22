@@ -82,11 +82,6 @@ export default defineComponent({
       return _('close search');
     },
   },
-  mounted() {
-    this.$nextTick(() => {
-      (this.$refs.portalSearchInput as HTMLElement).focus();
-    });
-  },
   beforeUnmount() {
     this.$store.dispatch('search/setSearchQuery', '');
   },
@@ -105,7 +100,6 @@ export default defineComponent({
       });
     },
     closeSearchInput(): void {
-      this.$store.dispatch('activity/setRegion', 'portal-header');
       this.$store.dispatch('navigation/setActiveButton', '');
     },
   },

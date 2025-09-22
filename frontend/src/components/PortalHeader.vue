@@ -108,10 +108,6 @@
         icon="menu"
       />
     </div>
-
-    <!-- <template v-if="activeButton === 'search'">
-      <portal-search />
-    </template> -->
   </region>
   <choose-tabs v-if="activeButton === 'copy'" />
   <div

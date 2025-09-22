@@ -135,7 +135,7 @@ describe('Test Seach Component', () => {
 
     // Test that bell button can receive focus (next in tab order)
     cy.get('#header-button-bell')
-      .focus() 
+      .focus()
       .should('be.focused');
 
     // Verify search input can lose focus (tab order works)
@@ -160,7 +160,7 @@ describe('Test Seach Component', () => {
         cy.get('[data-test="searchbutton"]').click();
       }
     });
-    
+
     cy.get('#portal-search-close-button')
       .focus()
       .should('be.focused');

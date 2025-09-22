@@ -2,7 +2,7 @@
   SPDX-FileCopyrightText: 2021-2025 Univention GmbH
   SPDX-License-Identifier: AGPL-3.0-only
 */
-
+import 'cypress-real-events/support';
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -23,3 +23,6 @@ import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+afterEach(() => {
+  cy.screenshot();
+});
