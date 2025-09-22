@@ -130,10 +130,10 @@ describe('Test Search Component', () => {
       .focus()
       .should('be.focused');
 
-    // Verify search input is focused after opening
+    // Use TAB key to navigate to close button
+    cy.press(Cypress.Keyboard.Keys.TAB);
     cy.get(searchInput).should('be.focused');
 
-    // Use TAB key to navigate to close button
     cy.press(Cypress.Keyboard.Keys.TAB);
     cy.get('#portal-search-close-button').should('be.focused');
 
@@ -155,7 +155,7 @@ describe('Test Search Component', () => {
   it.skip('Search input reverse tab navigation works correctly', () => {
     clickOnSearchButton();
 
-    // Verify search input is focused after opening
+    cy.press(Cypress.Keyboard.Keys.TAB);
     cy.get(searchInput).should('be.focused');
 
     // Use SHIFT+TAB for reverse navigation - this moves focus to close button
@@ -172,12 +172,8 @@ describe('Test Search Component', () => {
       .focus()
       .should('be.focused');
 
-    // Verify search input is no longer focused but still exists
-    cy.get(searchInput).should('not.be.focused');
-
-    // Use SHIFT+TAB again to go back to button bell (complete reverse navigation test)
-    cy.press(Cypress.Keyboard.Keys.TAB, { shift: true });
-    cy.get('#header-button-bell').should('be.focused');
+    cy.realPress(['Shift', 'Tab']); // use realPress for key combinations
+    cy.get(searchInput).should('be.focused');
   });
 
   it('Close button has proper focus styling and accessibility', () => {

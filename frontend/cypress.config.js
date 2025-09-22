@@ -13,6 +13,8 @@ export default defineConfig({
     fixturesFolder: 'tests/e2e/fixtures',
     screenshotsFolder: 'tests/e2e/screenshots',
     videosFolder: 'tests/e2e/videos',
+    video: true,
+    screenshotOnRunFailure: true,
     setupNodeEvents(on, config) {
       on('task', {
         log(message) {
