@@ -15,6 +15,7 @@
         v-if="activeButton === 'search'"
         :is-visible="activeButton === 'search'"
         class="portal-search__wrapper"
+        tabindex="-1"
       >
         <div class="portal-search__input-wrapper">
           <input
@@ -85,6 +86,11 @@ export default defineComponent({
   beforeUnmount() {
     this.$store.dispatch('search/setSearchQuery', '');
   },
+  mounted() {
+    this.$nextTick(() => {
+      (this.$refs.portalSearchInput as HTMLElement).focus();
+    });
+  },
   methods: {
     searchTiles(): void {
       this.$store.dispatch(
@@ -100,7 +106,9 @@ export default defineComponent({
       });
     },
     closeSearchInput(): void {
+      this.portalSearch = '';
       this.$store.dispatch('navigation/setActiveButton', '');
+      this.$store.dispatch('search/setSearchQuery', '');
     },
   },
 });

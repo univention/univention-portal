@@ -25,7 +25,7 @@ describe('PortalData Filtering Bug Fix', () => {
             keywords: ['umc', 'management'],
           },
           {
-            id: 'tile-2', 
+            id: 'tile-2',
             dn: 'tile2',
             title: { en: 'Blog Entry' },
             description: { en: 'Company blog' },
@@ -76,7 +76,7 @@ describe('PortalData Filtering Bug Fix', () => {
                     const searchTerm = searchQuery.toLowerCase();
                     return entry.title?.en?.toLowerCase().includes(searchTerm) ||
                            entry.description?.en?.toLowerCase().includes(searchTerm) ||
-                           entry.keywords?.some(keyword => keyword.toLowerCase().includes(searchTerm));
+                           entry.keywords?.some((keyword) => keyword.toLowerCase().includes(searchTerm));
                   }),
                 }))
                 .filter((category) => category.tiles.length > 0);
@@ -182,13 +182,13 @@ describe('PortalData Filtering Bug Fix', () => {
 
     // Apply filter
     store.commit('search/SET_SEARCH_QUERY', 'blog');
-    
+
     const filtered = store.getters['portalData/portalFinalLayoutFiltered'];
 
     // Check that original layout is unchanged
     const currentLayout = store.getters['portalData/portalFinalLayout'];
     expect(currentLayout).toEqual(originalLayout);
-    
+
     // Check that filtered result is different
     expect(filtered).not.toEqual(originalLayout);
     expect(filtered[0].tiles).toHaveLength(1);
@@ -218,7 +218,7 @@ describe('PortalData Filtering Bug Fix', () => {
   test('returns original layout in edit mode regardless of search query', () => {
     // Enable edit mode
     store.commit('portalData/EDITMODE', true);
-    
+
     // Set search query
     store.commit('search/SET_SEARCH_QUERY', 'blog');
 
@@ -238,7 +238,7 @@ describe('PortalData Filtering Bug Fix', () => {
     // Clear search
     store.commit('search/SET_SEARCH_QUERY', '');
     filtered = store.getters['portalData/portalFinalLayoutFiltered'];
-    
+
     // Should restore full layout
     expect(filtered).toEqual(mockPortalLayout);
     expect(filtered).toHaveLength(2);

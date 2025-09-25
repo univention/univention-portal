@@ -389,7 +389,6 @@ const portalData: PortalModule<PortalDataState> = {
         return getters.portalFinalLayout;
       }
       const searchQuery = rootGetters['search/searchQuery'];
-      console.log('Filtering with search query:', searchQuery);
 
       // If no search query, return the original layout
       if (!searchQuery || searchQuery.trim() === '') {

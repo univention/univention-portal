@@ -92,7 +92,9 @@
         :aria-label-prop="SEARCH"
         icon="search"
       />
-      <portal-search />
+      <template v-if="activeButton === 'search'">
+        <portal-search />
+      </template>
       <header-button
         data-test="bellbutton"
         :aria-label-prop="NOTIFICATIONS"

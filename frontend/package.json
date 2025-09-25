@@ -4,6 +4,7 @@
     "axios": "~1.7.7",
     "core-js": "^3.6.5",
     "cypress-axe": "^0.13.0",
+    "cypress-real-events": "^1.15.0",
     "event-source-polyfill": "^1.0.31",
     "keycloak-js": "^20.0.5",
     "lodash.clonedeep": "^4.5.0",

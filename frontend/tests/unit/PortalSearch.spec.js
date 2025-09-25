@@ -3,11 +3,11 @@
   SPDX-License-Identifier: AGPL-3.0-only
 * */
 
+import Vuex from 'vuex';
 import { mount } from '@vue/test-utils';
 
 import PortalSearch from '@/components/search/PortalSearch.vue';
 import navigation from '@/store/modules/navigation';
-import Vuex from 'vuex';
 
 test('Portalsearch', async () => {
   // to check focus, we need to attach to an actual document, normally we don't do this
@@ -56,7 +56,8 @@ test('Portalsearch', async () => {
 
   // ensure that after hitting escape the activebutton is set to ''
   await input.trigger('keyup.esc');
-  expect(store.dispatch).toHaveBeenLastCalledWith('navigation/setActiveButton', '');
+  expect(store.dispatch).toHaveBeenCalledWith('navigation/setActiveButton', '');
+  expect(store.dispatch).toHaveBeenLastCalledWith('search/setSearchQuery', '');
 
   // ensure searchquery is empty on unmount
   wrapper.unmount();
@@ -96,13 +97,13 @@ test('PortalSearch has proper placeholder for accessibility', async () => {
   });
 
   const input = await wrapper.find('.portal-search__input');
-  
+
   // Test that placeholder attribute exists and has the correct value
   expect(input.attributes('placeholder')).toBe('Search…');
-  
+
   // Test that aria-label is still present for accessibility
   expect(input.attributes('aria-label')).toBe('search');
-  
+
   // Test that input has proper type
   expect(input.attributes('type')).toBe('text');
 
@@ -141,7 +142,7 @@ test('PortalSearch placeholder styling supports proper contrast', async () => {
   });
 
   const input = await wrapper.find('.portal-search__input');
-  
+
   // Test that input has the correct CSS class for placeholder styling
   expect(input.classes()).toContain('portal-search__input');
 

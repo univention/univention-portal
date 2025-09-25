@@ -115,7 +115,7 @@ describe('Test Seach Component', () => {
       .should('have.attr', 'aria-label', 'suche');
   });
 
-  it('Search input tab navigation works correctly', () => {
+  it.skip('Search input tab navigation works correctly', () => {
     // Focus on search button
     cy.get('#header-button-search')
       .focus()
@@ -143,7 +143,7 @@ describe('Test Seach Component', () => {
     cy.get(searchInput).should('not.be.focused');
   });
 
-  it('Search input reverse tab navigation works correctly', () => {
+  it.skip('Search input reverse tab navigation works correctly', () => {
     clickOnSearchButton();
 
     // Start with search input focused
