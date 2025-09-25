@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.80.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.2...v0.80.3) (2025-09-25)
+
+
+### Bug Fixes
+
+* **notifications-api:** Automated kyverno tests ([dd942d2](https://git.knut.univention.de/univention/dev/projects/portal/commit/dd942d29f25790b15ab181a1150621db9c97f3c1)), closes [univention/dev/internal/team-nubus#1426](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1426)
+* **portal-consumer:** Automated kyverno tests ([c654c4e](https://git.knut.univention.de/univention/dev/projects/portal/commit/c654c4e168091550a3f38fe860c89a1fad810f4a)), closes [univention/dev/internal/team-nubus#1426](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1426)
+* **portal-frontend:** Automated kyverno tests ([fa4fc23](https://git.knut.univention.de/univention/dev/projects/portal/commit/fa4fc23dc14d0ed69ea6c0245e02ab4ba7abfaf8)), closes [univention/dev/internal/team-nubus#1426](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1426)
+* **portal-server:** Automated kyverno tests ([51257bc](https://git.knut.univention.de/univention/dev/projects/portal/commit/51257bcfc3ba924f5621b2a1782def78918a86d7)), closes [univention/dev/internal/team-nubus#1426](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1426)
+
 ## [0.80.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.1...v0.80.2) (2025-09-18)
 
 
