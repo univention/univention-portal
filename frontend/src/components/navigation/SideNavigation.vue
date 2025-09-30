@@ -53,7 +53,7 @@
     />
     <component
       :is="useNativeHtmlList ? 'ul' : 'div'"
-      :rolex="useNativeHtmlList ? 'list' : undefined"
+      :role="useNativeHtmlList ? 'list' : undefined"
       class="portal-sidenavigation__menu"
       aria-orientation="vertical"
       data-test="sideNavigation"
@@ -79,7 +79,8 @@
           :path-to-logo="item.pathToLogo"
           :internal-function="item.internalFunction"
           :background-color="item.backgroundColor"
-          :aria-haspopup="hasSubmenu(item) ? 'menu' : undefined"
+          :aria-expanded="subMenuVisible"
+          :aria-controls="`sub-item-${item.id}`"
           @click="menuClickAction($event, index, item)"
           @keydown.enter.exact="menuClickAction($event, index, item)"
           @keydown.space.exact="menuClickAction($event, index, item)"

@@ -23,7 +23,7 @@
       class="menu-item__arrow menu-item__arrow--left"
     />
     {{ $localized(title) }}
-    <span class="sr-only sr-only-mobile">{{ LINK_TYPE(linkTarget) }}</span>
+    <span class="sr-only sr-only-mobile"> {{ GO_BACK() }}</span>
     <template
       v-if="subMenu.length > 0"
     >
@@ -91,7 +91,7 @@ export default defineComponent({
       disabledMenuItems: 'menu/disabledMenuItems',
     }),
     disabled(): boolean {
-      return this.disabledMenuItems.includes(this.id);
+      return this.disabledMenuItems?.includes(this.id);
     },
     ariaDisabled(): boolean {
       return this.ariaRole === 'button' && this.disabled;
@@ -131,6 +131,9 @@ export default defineComponent({
         download: _('Download'),
       };
       return linkTypes[target];
+    },
+    GO_BACK(): string {
+      return this.isParentInSubItem ? _('Close Submenu') : this.LINK_TYPE(this.linkTarget);
     },
   },
 });

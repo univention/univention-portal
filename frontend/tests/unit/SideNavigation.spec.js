@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2025 Univention GmbH
 
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 
 import SideNavigation from '@/components/navigation/SideNavigation.vue';
 import Vuex from 'vuex';
@@ -316,7 +316,7 @@ test('hasSubmenu method returns true for items with submenus', () => {
     id: 'parent-menu-item',
     title: { en_US: 'Parent Menu Item' },
     href: '/parent',
-    subMenu: [{ id: 'child-1', title: { en_US: 'Child 1' }, href: '/child1' }]
+    subMenu: [{ id: 'child-1', title: { en_US: 'Child 1' }, href: '/child1' }],
   };
   expect(wrapper.vm.hasSubmenu(menuItem)).toBe(true);
 });
@@ -402,9 +402,9 @@ test('Submenu should have role="menu" and correct aria-expanded when visible', a
   expect(wrapper.find('#portal-sidenavigation-sub').exists()).toBe(false);
 
   // Set submenu to be visible
-  await wrapper.setData({ 
-    subMenuVisible: true, 
-    menuParent: 0 
+  await wrapper.setData({
+    subMenuVisible: true,
+    menuParent: 0,
   });
 
   // Now submenu should be visible with correct attributes
@@ -492,18 +492,18 @@ test('Submenu aria-expanded should be false when submenu is hidden', async () =>
   });
 
   // First show the submenu
-  await wrapper.setData({ 
-    subMenuVisible: true, 
-    menuParent: 0 
+  await wrapper.setData({
+    subMenuVisible: true,
+    menuParent: 0,
   });
 
-  let submenu = wrapper.find('#portal-sidenavigation-sub');
+  const submenu = wrapper.find('#portal-sidenavigation-sub');
   expect(submenu.attributes('aria-expanded')).toBe('true');
 
   // Then hide it
-  await wrapper.setData({ 
-    subMenuVisible: false, 
-    menuParent: -1 
+  await wrapper.setData({
+    subMenuVisible: false,
+    menuParent: -1,
   });
 
   // Submenu should no longer be visible (v-if condition)
@@ -527,7 +527,7 @@ test('Integration: Submenu toggle functionality works correctly', async () => {
                   href: '/sub1',
                 },
                 {
-                  id: 'sub-item-2', 
+                  id: 'sub-item-2',
                   title: { en_US: 'Sub Item 2' },
                   href: '/sub2',
                 },
@@ -600,10 +600,10 @@ test('Integration: Submenu toggle functionality works correctly', async () => {
 
   // Initially: submenu hidden, parent has aria-haspopup
   expect(wrapper.find('#portal-sidenavigation-sub').exists()).toBe(false);
-  
+
   // Simulate clicking on menu item with submenu (toggleMenu method)
   await wrapper.vm.toggleMenu(0);
-  
+
   // After toggle: submenu visible with correct ARIA attributes
   const submenu = wrapper.find('#portal-sidenavigation-sub');
   expect(submenu.exists()).toBe(true);
@@ -614,8 +614,92 @@ test('Integration: Submenu toggle functionality works correctly', async () => {
 
   // Toggle again to close
   await wrapper.vm.toggleMenu();
-  
+
   // After second toggle: submenu hidden again
   expect(wrapper.find('#portal-sidenavigation-sub').exists()).toBe(false);
   expect(wrapper.vm.subMenuVisible).toBe(false);
+});
+
+test('Submenu button should have correct sr only label', async () => {
+  const store = new Vuex.Store({
+    modules: {
+      menu: {
+        state: {
+          menu: [
+            {
+              id: 'toggleable-menu',
+              title: { en_US: 'Toggleable Menu' },
+              href: '/toggle',
+              subMenu: [
+                {
+                  id: 'sub-item-1',
+                  title: { en_US: 'Sub Item 1' },
+                  href: '/sub1',
+                  linkTarget: 'newwindow',
+                },
+                {
+                  id: 'sub-item-2',
+                  title: { en_US: 'Sub Item 2' },
+                  href: '/sub2',
+                },
+              ],
+            },
+          ],
+        },
+        getters: {
+          getMenu: (state) => state.menu,
+        },
+        namespaced: true,
+      },
+      user: {
+        state: {
+          userState: { displayName: 'Test User' },
+          isLoggedIn: true,
+        },
+        getters: {
+          userState: (state) => state.userState,
+          isLoggedIn: (state) => state.isLoggedIn,
+        },
+        namespaced: true,
+      },
+      featureToggles: {
+        state: { featureToggles: { native_html_list: false } },
+        getters: {
+          featureToggles: (featureTogglesState) => featureTogglesState.featureToggles,
+        },
+        namespaced: true,
+      },
+      metaData: {
+        state: {
+          metaData: {
+            fqdn: 'test.example.com',
+            locale: 'en_US',
+          },
+        },
+        getters: {
+          getMeta: (state) => state.metaData,
+        },
+        namespaced: true,
+      },
+    },
+  });
+  store.dispatch = jest.fn();
+
+  const wrapper = mount(SideNavigation, {
+    global: {
+      plugins: [store],
+      mocks: {
+        $localized: (obj) => obj.en_US || obj.de_DE || '',
+      },
+    },
+  });
+
+  // Simulate clicking on menu item with submenu (toggleMenu method)
+  await wrapper.vm.toggleMenu(0);
+
+  wrapper.find('#portal-sidenavigation-sub');
+
+  const submenuItemSrOnlyLabels = wrapper.findAll('.sr-only');
+  expect(submenuItemSrOnlyLabels.at(0).text()).toBe('Close Submenu');
+  expect(submenuItemSrOnlyLabels.at(1).text()).toBe('New Tab');
 });
