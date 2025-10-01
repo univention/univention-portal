@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.81.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.3...v0.81.0) (2025-10-01)
+
+
+### Features
+
+* **portal-frontend:** add button and change flow ob tab order ([fe38ea6](https://git.knut.univention.de/univention/dev/projects/portal/commit/fe38ea6196c1cefa2808822563bf655899720852)), closes [univention/dev/projects/portal#743](https://git.knut.univention.de/univention/dev/projects/portal/issues/743)
+* **portal-frontend:** add placeholder text for search input to improve a11y ([63c8d63](https://git.knut.univention.de/univention/dev/projects/portal/commit/63c8d63291bd80d0cdcc6409cb763b696e62dde3)), closes [univention/dev/projects/portal#744](https://git.knut.univention.de/univention/dev/projects/portal/issues/744)
+* **portal-frontend:** fix tab flow ([aec87da](https://git.knut.univention.de/univention/dev/projects/portal/commit/aec87da844c099f1dd7e09dce42e57d7ea259993)), closes [univention/dev/projects/portal#743](https://git.knut.univention.de/univention/dev/projects/portal/issues/743)
+* **portal-frontend:** improve search input a11y ([dd4cd5e](https://git.knut.univention.de/univention/dev/projects/portal/commit/dd4cd5e596a24a018e4c3265886f82a335931616)), closes [univention/dev/projects/portal#743](https://git.knut.univention.de/univention/dev/projects/portal/issues/743)
+* **portal-frontend:** simplify tab order by moving searchinput between icons ([e84c075](https://git.knut.univention.de/univention/dev/projects/portal/commit/e84c075b5ee7d896d4ff4af3d0d81267476c2459)), closes [univention/dev/projects/portal#743](https://git.knut.univention.de/univention/dev/projects/portal/issues/743)
+
+
+### Bug Fixes
+
+* **portal-frontend:** fix bug in filtering ([bc0959f](https://git.knut.univention.de/univention/dev/projects/portal/commit/bc0959f8cac656a520ca993919f4800c0e24683f)), closes [univention/dev/projects/portal#743](https://git.knut.univention.de/univention/dev/projects/portal/issues/743)
+* **portal-frontend:** Fix cypress test pipeline and adjust tests for search input ([b5a4a49](https://git.knut.univention.de/univention/dev/projects/portal/commit/b5a4a4937d3d00650bdbe754d94e0126a8734742)), closes [univention/dev/projects/portal#743](https://git.knut.univention.de/univention/dev/projects/portal/issues/743)
+* **portal-frontend:** fix search and tests and prepare for later ([3b13bf2](https://git.knut.univention.de/univention/dev/projects/portal/commit/3b13bf25382cc8f160e8b8a7780d0d065366a9b1)), closes [univention/dev/projects/portal#743](https://git.knut.univention.de/univention/dev/projects/portal/issues/743)
+
 ## [0.80.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.2...v0.80.3) (2025-09-25)
 
 
