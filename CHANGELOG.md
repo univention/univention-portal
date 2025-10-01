@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.81.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.81.0...v0.81.1) (2025-10-01)
+
+
+### Bug Fixes
+
+* **portal-consumer:** Omit "enabled" from probes ([44b988f](https://git.knut.univention.de/univention/dev/projects/portal/commit/44b988f7ae363619930a110092e2ef23f4b4f220)), closes [univention/dev/internal/team-nubus#1426](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1426)
+
 ## [0.81.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.80.3...v0.81.0) (2025-10-01)
 
 
