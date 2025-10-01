@@ -700,6 +700,33 @@ true
 			<td></td>
 		</tr>
 		<tr>
+			<td>probes.liveness.exec.command[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"sh"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>probes.liveness.exec.command[1]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"-c"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>probes.liveness.exec.command[2]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"exit 0\n"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td>probes.liveness.failureThreshold</td>
 			<td>int</td>
 			<td><pre lang="json">
@@ -749,6 +776,33 @@ true
 			<td>bool</td>
 			<td><pre lang="json">
 true
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>probes.readiness.exec.command[0]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"sh"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>probes.readiness.exec.command[1]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"-c"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>probes.readiness.exec.command[2]</td>
+			<td>string</td>
+			<td><pre lang="json">
+"exit 0\n"
 </pre>
 </td>
 			<td></td>

@@ -220,6 +220,12 @@ probes:
     periodSeconds: 30
     failureThreshold: 3
     successThreshold: 1
+    exec:
+      command:
+      - sh
+      - -c
+      - |
+        exit 0
 
   readiness:
     enabled: true
@@ -228,6 +234,12 @@ probes:
     periodSeconds: 15
     failureThreshold: 30
     successThreshold: 1
+    exec:
+      command:
+      - sh
+      - -c
+      - |
+        exit 0
 
 
 # -- Deployment resources for the consumer container

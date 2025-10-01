@@ -3,6 +3,8 @@
 
 {{ $podSecurityContext := omit .Values.podSecurityContext "enabled" }}
 {{ $containerSecurityContext := omit .Values.containerSecurityContext "enabled" }}
+{{ $livenessProbe := omit .Values.probes.liveness "enabled" }}
+{{ $readinessProbe := omit .Values.probes.readiness "enabled" }}
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -275,8 +277,8 @@ spec:
           {{- end }}
           image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
-          livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.probes.liveness "context" .) | nindent 12 }}
-          readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.probes.readiness "context" .) | nindent 12 }}
+          livenessProbe: {{- include "common.tplvalues.render" (dict "value" $livenessProbe "context" .) | nindent 12 }}
+          readinessProbe: {{- include "common.tplvalues.render" (dict "value" $readinessProbe "context" .) | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
