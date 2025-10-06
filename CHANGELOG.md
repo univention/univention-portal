@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.82.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.81.1...v0.82.0) (2025-10-06)
+
+
+### Features
+
+* enable portal logout refresh by default ([566ba67](https://git.knut.univention.de/univention/dev/projects/portal/commit/566ba671d6914de8216553adc454e9d9ef9ea55f)), closes [univention/dev/internal/team-nubus#1439](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1439)
+
 ## [0.81.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.81.0...v0.81.1) (2025-10-01)
 
 
