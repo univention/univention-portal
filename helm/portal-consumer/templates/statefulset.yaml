@@ -200,8 +200,8 @@ spec:
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
@@ -233,8 +233,8 @@ spec:
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") }}
           command:
             - sh
             - -c
@@ -270,7 +270,7 @@ spec:
           resources:
             {{- toYaml .Values.initResources | nindent 12 }}
       containers:
-        - name: "portal-consumer"
+        - name: "main"
           {{- if .Values.containerSecurityContext.enabled }}
           securityContext:
             {{- $containerSecurityContext | toYaml | nindent 12 }}
@@ -298,8 +298,8 @@ spec:
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") | quote }}
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") }}
             {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}

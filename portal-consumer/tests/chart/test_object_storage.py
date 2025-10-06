@@ -8,5 +8,3 @@ class TestObjectStorageClient(ObjectStorage):
 
     secret_name = "release-name-portal-consumer-object-storage"
     workload_kind = "StatefulSet"
-
-    path_main_container = "spec.template.spec.containers[?@.name=='portal-consumer']"

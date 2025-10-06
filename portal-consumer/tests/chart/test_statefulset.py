@@ -278,5 +278,5 @@ class TestProvisioningApiExistingSecAsEnvVariable(AuthExistingSecAsEnvVariable):
     chart_name = "portal-consumer"
     auth_root = "provisioningApi"
     init_containers = ["wait-for-provisioning-api", "univention-compatibility"]
-    containers = ["portal-consumer"]
+    containers = ["main"]
     env_vars = ["PROVISIONING_API_PASSWORD"]

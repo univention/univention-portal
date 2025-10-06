@@ -45,4 +45,4 @@ data:
   CA_CERT_FILE: "{{ .Values.portalConsumer.caCertFile }}"
   TLS_MODE: "{{ .Values.portalConsumer.tlsMode }}"
   PROVISIONING_API_BASE_URL: "{{- tpl (required "The Provisioning API connection has to be configured, provisioningApi.connection.url." .Values.provisioningApi.connection.url) . -}}"
-  PROVISIONING_API_USERNAME: "{{- tpl (required "A Provisioning API username has to be supplied, see parameter provisioningApi.auth.username" .Values.provisioningApi.auth.username) . -}}"
+  PROVISIONING_API_USERNAME: "{{- tpl (required "A Provisioning API username is required, see parameter provisioningApi.auth.username" .Values.provisioningApi.auth.username) . -}}"

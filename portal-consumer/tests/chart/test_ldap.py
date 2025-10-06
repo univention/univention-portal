@@ -10,8 +10,6 @@ class TestLdapClient(SecretViaVolume, Auth):
     secret_name = "release-name-portal-consumer-ldap"
     workload_kind = "StatefulSet"
 
-    path_container = "spec.template.spec.containers[?@.name=='portal-consumer']"
-
 
 class TestLdapConnection(ConnectionHostAndPort):
 
