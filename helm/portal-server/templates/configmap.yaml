@@ -32,7 +32,7 @@ data:
         "The UDM Rest API connection has to be configured, udm.connection.url."
         (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) }}
   PORTAL_UDM_API_URL: {{ tpl $udmConnectionUrl . | quote }}
-  {{- $udmAuthUsername := required "A UDM username has to be supplied, see parameter udm.auth." .Values.udm.auth.username }}
+  {{- $udmAuthUsername := required "A UDM username is required, see parameter udm.auth." .Values.udm.auth.username }}
   PORTAL_UDM_API_USERNAME: {{ tpl $udmAuthUsername . | quote }}
   PORTAL_UDM_API_PASSWORD_FILE: "/var/secrets/udm_api_password"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
