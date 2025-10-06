@@ -18,8 +18,6 @@ class TestCentralNavigation(CentralNavigationOwner):
     config_map_name = "release-name-portal-server"
     secret_name = "release-name-portal-server-central-navigation"
 
-    path_main_container = "spec.template.spec.containers[?@.name=='portal-server']"
-
     derived_shared_secret = "3673639502cc2be94504d5ca75cf786837418ceb"
 
     # Local tests support
