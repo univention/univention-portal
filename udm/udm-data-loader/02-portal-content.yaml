@@ -261,7 +261,6 @@ properties:
     fr_FR: Applications
   entries:
   - cn=login-ucs,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
-  - cn=login-saml,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   - cn=login-oidc,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   name: domain-service
 ---
@@ -271,8 +270,15 @@ position: cn=domain-service,cn=category,cn=portals,cn=univention,{{ ldapBaseDn }
 properties:
   entries:
   - cn=login-ucs,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
-  - cn=login-saml,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
   - cn=login-oidc,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+---
+# Remove SAML login tile from portal category on upgrade
+action: ensure_list_does_not_contain
+module: portals/category
+position: cn=domain-service,cn=category,cn=portals,cn=univention,{{ ldapBaseDn }}
+properties:
+  entries:
+  - cn=login-saml,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 ---
 action: create
 module: portals/category
