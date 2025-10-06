@@ -5,8 +5,7 @@
 
 name: "dev-local"
 
-x-portal-environment:
-  &portal-environment
+x-portal-environment: &portal-environment
   OBJECT_STORAGE_ENDPOINT: "http://minio:9000"
   OBJECT_STORAGE_BUCKET: "stub_bucket"
   OBJECT_STORAGE_ACCESS_KEY_ID: "stub_user"
@@ -24,8 +23,7 @@ x-portal-environment:
 
 # Cannot be in the services section currently.
 # See https://github.com/docker/compose/issues/8809
-x-portal-consumer-base:
-  &portal-consumer-base
+x-portal-consumer-base: &portal-consumer-base
   platform: "linux/amd64"
   build:
     context: ../
@@ -206,40 +204,40 @@ services:
 
   test-chart-portal-frontend:
     image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.24.7@sha256:01bc896aa836a58de3e3b6eba96de31ab03b7dc122e71c4cf4a18ecd602e9bc8
-    command: bash -c "pytest frontend/tests/chart"
+    command: pytest tests/helm/chart
     profiles:
       - test
     working_dir: /app
     volumes:
       - "../helm/portal-frontend/:/app/helm/portal-frontend"
-      - "../frontend/tests/chart:/app/frontend/tests/chart"
+      - "../frontend/tests/chart:/app/tests/helm/chart"
 
   test-chart-portal-server:
-    image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.24.7@sha256:01bc896aa836a58de3e3b6eba96de31ab03b7dc122e71c4cf4a18ecd602e9bc8
-    command: pytest portal-server/tests/chart
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.24.7@sha256:01bc896aa836a58de3e3b6eba96de31ab03b7dc122e71c4cf4a18ecd602e9bc8
+    command: pytest tests/helm/chart
     profiles:
       - test
     volumes:
       - "../helm/portal-server/:/app/helm/portal-server"
-      - "../portal-server/tests/chart:/app/portal-server/tests/chart"
+      - "../portal-server/tests/chart:/app/tests/helm/chart"
 
   test-chart-portal-consumer:
-    image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.24.7@sha256:01bc896aa836a58de3e3b6eba96de31ab03b7dc122e71c4cf4a18ecd602e9bc8
-    command: pytest portal-consumer/tests/chart
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.24.7@sha256:01bc896aa836a58de3e3b6eba96de31ab03b7dc122e71c4cf4a18ecd602e9bc8
+    command: pytest tests/helm/chart
     profiles:
       - test
     volumes:
       - "../helm/portal-consumer/:/app/helm/portal-consumer"
-      - "../portal-consumer/tests/chart:/app/portal-consumer/tests/chart"
+      - "../portal-consumer/tests/chart:/app/tests/helm/chart"
 
   test-chart-notifications-api:
-    image:   gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.24.7@sha256:01bc896aa836a58de3e3b6eba96de31ab03b7dc122e71c4cf4a18ecd602e9bc8
-    command: pytest notifications-api/tests/chart
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.24.7@sha256:01bc896aa836a58de3e3b6eba96de31ab03b7dc122e71c4cf4a18ecd602e9bc8
+    command: pytest tests/helm/chart
     profiles:
       - test
     volumes:
       - "../helm/notifications-api/:/app/helm/notifications-api"
-      - "../notifications-api/tests/chart:/app/notifications-api/tests/chart"
+      - "../notifications-api/tests/chart:/app/tests/helm/chart"
 
   # Environment to build the Debian package. The context directory contains more
   # details.
@@ -258,7 +256,7 @@ services:
   pre-commit:
     profiles:
       - test
-    image: gitregistry.knut.univention.de/univention/customers/dataport/upx/container-pre-commit/upx-pre-commit:latest
+    image: gitregistry.knut.univention.de/univention/dev/tooling/pre-commit/upx-pre-commit:latest
     volumes:
       - type: bind
         source: ..

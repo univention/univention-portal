@@ -27,3 +27,9 @@ postgresql:
     port: "postgresql-port"
   auth:
     password: "stub-password"
+
+ingress:
+  host: "stub-host"
+  tls:
+    enabled: true
+    secretName: "stub-tls-secret"
