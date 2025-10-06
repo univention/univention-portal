@@ -76,15 +76,15 @@ spec:
               mountPath: /scripts
             - name: secret-ldap
               mountPath: /var/secrets/ldap_password
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-ldap
               mountPath: "/etc/machine.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-udm
               mountPath: /var/secrets/udm_api_password
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "/var/secrets/ca_cert"
@@ -124,15 +124,15 @@ spec:
               mountPath: /scripts
             - name: secret-ldap
               mountPath: "/var/secrets/ldap_password"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-ldap
               mountPath: "/etc/machine.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-udm
               mountPath: /var/secrets/udm_api_password
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "/var/secrets/ca_cert"
@@ -168,12 +168,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id" "context" .) | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key" "context" .) | quote }}
             {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
@@ -201,7 +201,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password" "context" .) }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
@@ -224,17 +224,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id" "context" .) | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key" "context" .) | quote }}
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password" "context" .) }}
           command:
             - sh
             - -c
@@ -244,15 +244,15 @@ spec:
               mountPath: /target/etc/univention
             - name: secret-ldap
               mountPath: "/var/secrets/ldap_password"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-ldap
               mountPath: "/etc/machine.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-udm
               mountPath: /var/secrets/udm_api_password
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "/var/secrets/ca_cert"
@@ -289,17 +289,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id" "context" .) | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key" "context" .) | quote }}
             - name: PROVISIONING_API_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password") }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password" "context" .) }}
             {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
@@ -317,15 +317,15 @@ spec:
               mountPath: /usr/share/univention-group-membership-cache/caches
             - name: secret-ldap
               mountPath: /var/secrets/ldap_password"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-ldap
               mountPath: "/etc/machine.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) | quote }}
               readOnly: true
             - name: secret-udm
               mountPath: /var/secrets/udm_api_password
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) | quote }}
             {{- if .Values.ldap.tls.enabled }}
             - name: {{ printf "%s-tls-volume" (include "common.names.fullname" .) }}
               mountPath: "/var/secrets/ca_cert"
@@ -371,11 +371,11 @@ spec:
             defaultMode: 0400
             secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.tls.existingSecret "defaultNameSuffix" "tls" "context" .) | quote }}
             items:
-              - key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.tls.existingSecret "key" "ca.crt") | quote }}
+              - key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.tls.existingSecret "key" "ca.crt" "context" .) | quote }}
                 path: ca.crt
-              - key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.tls.existingSecret "key" "tls.crt") | quote }}
+              - key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.tls.existingSecret "key" "tls.crt" "context" .) | quote }}
                 path: tls.crt
-              - key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.tls.existingSecret "key" "tls.key") | quote }}
+              - key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.tls.existingSecret "key" "tls.key" "context" .) | quote }}
                 path: tls.key
         {{- end }}
         {{- if .Values.extraVolumes }}

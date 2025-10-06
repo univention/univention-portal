@@ -90,12 +90,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id" "context" .) | quote }}
             - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) | quote }}
-                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key") | quote }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key" "context" .) | quote }}
           {{- with .Values.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
           {{- end }}
@@ -125,13 +125,13 @@ spec:
             {{- if .Values.portalServer.centralNavigation.enabled }}
             - name: secret-central-navigation
               mountPath: "/var/secrets/authenticator.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "key" "shared_secret") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "key" "shared_secret" "context" .) | quote }}
             {{- end }}
             - name: tmp-volume
               mountPath: /tmp
             - name: secret-udm
               mountPath: /var/secrets/udm_api_password
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password") | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) | quote }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
