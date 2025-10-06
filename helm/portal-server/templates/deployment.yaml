@@ -125,13 +125,13 @@ spec:
             {{- if .Values.portalServer.centralNavigation.enabled }}
             - name: secret-central-navigation
               mountPath: "/var/secrets/authenticator.secret"
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "key" "shared_secret" "context" .) | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "key" "shared_secret" "context" .) }}
             {{- end }}
             - name: tmp-volume
               mountPath: /tmp
             - name: secret-udm
               mountPath: /var/secrets/udm_api_password
-              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) | quote }}
+              subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
@@ -143,11 +143,11 @@ spec:
         {{- if .Values.portalServer.centralNavigation.enabled }}
         - name: secret-central-navigation
           secret:
-            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "defaultNameSuffix" "central-navigation" "context" .) | quote }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.portalServer.centralNavigation.auth.existingSecret "defaultNameSuffix" "central-navigation" "context" .) }}
         {{- end }}
         - name: secret-udm
           secret:
-            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) | quote }}
+            secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) }}
         - name: tmp-volume
           emptyDir: {}
         {{- if .Values.extraVolumes }}
