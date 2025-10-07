@@ -15,11 +15,11 @@ describe('Test Left Sidebar Feature Toggle', () => {
       cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
       cy.intercept('GET', 'de.json', { fixture: 'de.json' });
       cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
-      cy.intercept('GET', 'navigation.json', { fixture: 'navigation.json' });
+      cy.intercept('GET', 'navigation.json*', { fixture: 'navigation.json' });
       cy.visit('/');
+      cy.injectAxe();
       cy.get('main.cookie-banner + footer button.button--primary').click();
       cy.wait(1000);
-      cy.injectAxe();
     });
 
     it('displays left sidebar navigation button in header', () => {

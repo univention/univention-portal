@@ -111,6 +111,12 @@ describe('Test Tabs', () => {
   });
   /* eslint-disable jest/expect-expect */
   it('A11y Test', () => {
+    cy.intercept('GET', 'portal.json', { fixture: 'portal_test_tabs.json' });
+    cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
+    cy.intercept('GET', 'de.json', { fixture: 'de.json' });
+    cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
+    cy.setCookie('univentionCookieSettingsAccepted', 'doesthisneedavalue');
+    cy.visit('/');
     cy.injectAxe();
     cy.checkA11y('[data-test="header-tabs"]',
       {
