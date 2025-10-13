@@ -19,7 +19,7 @@ const searchInput = '[data-test="searchInput"]';
 
 const clickOnSearchButton = () => {
   cy.get('[data-test="searchbutton"]').should('not.have.class', 'header-button--is-active');
-  cy.get(searchInput).should('not.exist'); // input exists after searchButton is clicked
+  cy.get(searchInput).should('not.exist');
   cy.get('[data-test="searchbutton"]').click();
   cy.get('[data-test="searchbutton"]').should('have.class', 'header-button--is-active');
   cy.get(searchInput).should('exist');
@@ -115,7 +115,7 @@ describe('Test Seach Component', () => {
       .should('have.attr', 'aria-label', 'suche');
   });
 
-  it.skip('Search input tab navigation works correctly', () => {
+  it('Search input tab navigation works correctly', () => {
     // Focus on search button
     cy.get('#header-button-search')
       .focus()
@@ -143,7 +143,7 @@ describe('Test Seach Component', () => {
     cy.get(searchInput).should('not.be.focused');
   });
 
-  it.skip('Search input reverse tab navigation works correctly', () => {
+  it('Search input reverse tab navigation works correctly', () => {
     clickOnSearchButton();
 
     // Start with search input focused
