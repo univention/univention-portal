@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.83.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.82.1...v0.83.0) (2025-10-13)
+
+
+### Features
+
+* remove SAML login portal entry ([b75c108](https://git.knut.univention.de/univention/dev/projects/portal/commit/b75c108edf43723859acf23c2206615a89083b76)), closes [univention/dev/internal/team-nubus#1442](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1442)
+
 ## [0.82.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.82.0...v0.82.1) (2025-10-13)
 
 
