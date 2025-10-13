@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.82.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.82.0...v0.82.1) (2025-10-13)
+
+
+### Bug Fixes
+
+* **portal-frontend:** update iframe titles for clarity ([b094044](https://git.knut.univention.de/univention/dev/projects/portal/commit/b094044d3fbeb2b9f3629ddd98e014fee1e00af3)), closes [univention/dev/projects/portal#746](https://git.knut.univention.de/univention/dev/projects/portal/issues/746)
+
 ## [0.82.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.81.1...v0.82.0) (2025-10-06)
 
 
