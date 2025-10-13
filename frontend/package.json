@@ -81,7 +81,7 @@
     "typescript": "~4.5.5",
     "vue-eslint-parser": "^7.6.0",
     "vue-loader": "^17.0.0",
-    "wait-on": "^5.3.0",
+    "wait-on": "^9.0.1",
     "yarn": "^1.22.10"
   },
   "name": "upx-portal",
@@ -102,9 +102,9 @@
     "serve:wait": "yarn serve & wait-on http://localhost:8080",
     "storybook": "storybook dev -p 6006 --debug-webpack",
     "test:coverage": "vue-cli-service test:unit --coverage",
-    "test:e2e": "start-server-and-test serve http://localhost:8080 'cypress open'",
-    "test:e2e:headless": "start-server-and-test serve http://localhost:8080 'cypress run'",
-    "test:e2e:run": "start-server-and-test serve http://localhost:8080 'cypress run'",
+    "test:e2e": "wait-on http://localhost:8080 && cypress open",
+    "test:e2e:headless": "wait-on http://localhost:8080 && cypress run",
+    "test:e2e:run": "wait-on http://localhost:8080 && cypress run",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:updatesnapshots": "yarn test:unit --updateSnapshot",
     "test:unit:watch": "yarn test:unit --watch"
