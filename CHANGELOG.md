@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.83.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.83.0...v0.83.1) (2025-10-14)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency univention/dev/nubus-for-k8s/common-ci to v1.44.9 ([f8e6224](https://git.knut.univention.de/univention/dev/projects/portal/commit/f8e62249de8d07c3157cf1746d642fdbec1c924a)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.83.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.82.1...v0.83.0) (2025-10-13)
 
 
