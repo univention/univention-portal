@@ -9,7 +9,7 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.42.1"
+    ref: "v1.44.9"
     file:
       - "defaults/stages.yaml"
       - "jobs/container-build-external.yaml"
