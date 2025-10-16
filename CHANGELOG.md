@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.83.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.83.1...v0.83.2) (2025-10-16)
+
+
+### Bug Fixes
+
+* **portal-frontend:** upgrade cypress and adjust tests and configs ([c8d71e4](https://git.knut.univention.de/univention/dev/projects/portal/commit/c8d71e4bb2304ac8dbb9e45067ae11a1b74e5d0f)), closes [univention/dev/projects/portal#1455](https://git.knut.univention.de/univention/dev/projects/portal/issues/1455)
+
 ## [0.83.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.83.0...v0.83.1) (2025-10-14)
 
 
