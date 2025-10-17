@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.84.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.84.0...v0.84.1) (2025-10-17)
+
+
+### Bug Fixes
+
+* make all helm tests pass with helm test version 0.27.0 ([3293c01](https://git.knut.univention.de/univention/dev/projects/portal/commit/3293c01256ddf9ecfbcdbf8e678bbee2d97d9d71)), closes [univention/dev/internal/team-nubus#1441](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1441)
+* **notification-api:** make all helm tests pass / simplify how to call them ([286f63b](https://git.knut.univention.de/univention/dev/projects/portal/commit/286f63b701f28b7edfdcf8c9fa5a3bf65920c6df)), closes [univention/dev/internal/team-nubus#1441](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1441)
+
 ## [0.84.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.83.2...v0.84.0) (2025-10-17)
 
 
