@@ -8,6 +8,7 @@
 import { User } from '@/store/modules/user/user.models';
 
 function login(user: User): void {
+  console.log(user);
   if (user.authMode === 'saml') {
     window.location.href = `/univention/saml/?location=${window.location.pathname}`;
   } else if (user.authMode === 'oidc') {
