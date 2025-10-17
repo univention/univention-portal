@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.84.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.83.2...v0.84.0) (2025-10-17)
+
+
+### Features
+
+* **portal-frontend:** improves accessibility and arrow key navigation in side navigation. Adds tests as well. ([6abf09c](https://git.knut.univention.de/univention/dev/projects/portal/commit/6abf09c8f1faced3f061249adc2a497fe23ac1b5)), closes [univention/dev/projects/portal#745](https://git.knut.univention.de/univention/dev/projects/portal/issues/745)
+
 ## [0.83.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.83.1...v0.83.2) (2025-10-16)
 
 
