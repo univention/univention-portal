@@ -26,6 +26,9 @@
         'portal-tile__box--with-scaling-hover': !inModal,
       }]"
       data-test="portal-folder"
+      role="dialog"
+      :aria-modal="inModal ? 'true' : undefined"
+      :aria-labelledby="inModal ? `${id}-content` : undefined"
       :aria-label="ariaLabelFolder"
       @click="openFolder"
       @keypress.enter="openFolder"
@@ -41,9 +44,7 @@
       >
         <component
           :is="useNativeHtmlList ? 'ul' : 'div'"
-          :role="useNativeHtmlList ? undefined : 'region'"
           :tabindex="useNativeHtmlList ? undefined : -1"
-          :aria-labelledby="`${id}-content`"
           :class="{
             'portal-folder__thumbnails': !(editMode && useNativeHtmlList),
             'portal-folder__thumbnails--display-contents': editMode && useNativeHtmlList,
@@ -244,12 +245,6 @@ export default defineComponent({
         return this.tiles;
       }
       return filteredTiles;
-    },
-    ariaRole(): string {
-      if (this.inModal && this.editMode) {
-        return 'application';
-      }
-      return this.inModal ? 'region' : 'none';
     },
     useNativeHtmlList(): boolean {
       return this.featureToggles.native_html_list ?? false;
