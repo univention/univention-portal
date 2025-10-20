@@ -15,12 +15,12 @@ metadata:
     {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .annotations $.Values.ingress.annotations $.Values.additionalAnnotations ) "context" $ ) }}
     {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
     {{- end }}
-    {{- if .Values.ingress.certManager.enabled }}
-    cert-manager.io/{{ .Values.ingress.certManager.issuerRef.kind | kebabcase }}: "{{ coalesce .Values.global.certManagerIssuer .Values.ingress.certManager.issuerRef.name }}"
+    {{- if $.Values.ingress.certManager.enabled }}
+    cert-manager.io/{{ $.Values.ingress.certManager.issuerRef.kind | kebabcase }}: "{{ coalesce $.Values.global.certManagerIssuer $.Values.ingress.certManager.issuerRef.name }}"
     {{- end }}
 spec:
-  {{- if or .Values.ingress.ingressClassName .Values.global.ingressClass }}
-  ingressClassName: {{ coalesce .Values.ingress.ingressClassName .Values.global.ingressClass | quote }}
+  {{- if or $.Values.ingress.ingressClassName $.Values.global.ingressClass }}
+  ingressClassName: {{ coalesce $.Values.ingress.ingressClassName $.Values.global.ingressClass | quote }}
   {{- end }}
   {{- if or .tls.enabled $.Values.ingress.tls.enabled }}
   tls:

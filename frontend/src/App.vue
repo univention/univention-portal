@@ -86,7 +86,9 @@ export default defineComponent({
       worker.port.start();
       worker.port.onmessage = (event) => {
         if (event.data === 'logout') {
-          window.location.reload();
+          // Make sure to reset location, otherwise it could happen that some modal
+          // dialogs will stay open after reload
+          window.location.replace('/univention/portal');
         }
       };
     }

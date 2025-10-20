@@ -307,7 +307,7 @@ null
 			<td>image.tag</td>
 			<td>string</td>
 			<td><pre lang="json">
-"0.26.3@sha256:0a00838e983255115f8c3d610f75fd0faed73b7a94c6e1c78ac3deb00fae6629"
+"latest"
 </pre>
 </td>
 			<td></td>

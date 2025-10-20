@@ -73,7 +73,7 @@ FROM base AS dev-server
 #
 # Currently it is not possible to inject this from the Tilt configuration.
 # See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
-CMD ["yarn", "serve", "--port", "80"]
+CMD ["yarn", "serve", "--port", "80", "--mode", "production"]
 
 
 ###############################################################################
