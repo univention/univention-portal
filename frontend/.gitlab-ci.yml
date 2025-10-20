@@ -1,6 +1,6 @@
 ---
 
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2025 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 workflow:
@@ -9,12 +9,14 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.44.9"
+    ref: "v1.45.0"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
       - "jobs/container-build-external.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
+      - "jobs/container-generate-sbom.yaml"
+      - "jobs/generate-filesystem-sbom.yaml"
 
 build-debian-package-builder:
   stage: "prepare"
@@ -63,6 +65,14 @@ container-build:
     matrix: *build-matrix
   variables:
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+
+container-generate-sbom:
+  parallel:
+    matrix: *publish-matrix
+
+generate-filesystem-sbom:
+  variables:
+    FOLDER: "frontend"
 
 container-malware-scan:
   parallel:
