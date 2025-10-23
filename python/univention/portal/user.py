@@ -10,9 +10,10 @@ from univention.portal import config
 
 
 class User:
-    def __init__(self, username, display_name, groups, headers):
+    def __init__(self, username, display_name, user_dn, groups, headers):
         self.username = username
         self.display_name = display_name
+        self.user_dn = user_dn
         self.groups = [group.lower() for group in groups]
         self.headers = headers
 

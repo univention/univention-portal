@@ -2,9 +2,9 @@
 # SPDX-FileCopyrightText: 2025 Univention GmbH
 
 import json
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urljoin
 
-from tornado.httpclient import AsyncHTTPClient
+from tornado.httpclient import AsyncHTTPClient, HTTPClientError
 
 
 class AsyncUdmClient:
@@ -15,16 +15,15 @@ class AsyncUdmClient:
         self._username = username
         self._password = password
 
-    async def get_user(self, username: str):
-        if not username:
-            raise ValueError("The username cannot be empty.")
-        query_string = urlencode({"filter": f"(username={username})"})
-        udm_query = f"users/user/?{query_string}"
-        data = await self._fetch_from_udm(udm_query)
-        if data["results"] != 1:
+    async def get_user(self, user_dn: str):
+        if not user_dn:
+            raise ValueError("The user dn cannot be empty.")
+        udm_query = f"users/user/{user_dn}"
+        try:
+            data = await self._fetch_from_udm(udm_query)
+        except HTTPClientError:
             raise UnexpectedResult("Fetching the user's data failed")
-        user_data = data["_embedded"]["udm:object"][0]
-        return user_data
+        return data
 
     async def _fetch_from_udm(self, udm_query: str):
         url = self._build_full_url(udm_query)

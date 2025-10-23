@@ -55,7 +55,7 @@ class Authenticator(metaclass=Plugin):
         pass
 
     async def get_user(self, request):  # pragma: no cover
-        return User(username=None, display_name=None, groups=[], headers={})
+        return User(username=None, display_name=None, user_dn=None, groups=[], headers={})
 
     def refresh(self, reason=None):  # pragma: no cover
         pass
@@ -87,9 +87,9 @@ class UMCAuthenticator(Authenticator):
 
     async def get_user(self, request):
         cookies = {key: morsel.value for key, morsel in request.cookies.items()}
-        username, display_name = await self._get_username(cookies)
+        username, display_name, user_dn = await self._get_username(cookies)
         groups = self.group_cache.get().get(username, [])
-        return User(username, display_name=display_name, groups=groups, headers=dict(request.request.headers))
+        return User(username, display_name=display_name, user_dn=user_dn, groups=groups, headers=dict(request.request.headers))
 
     async def _get_username(self, cookies):
         headers = {}
@@ -102,16 +102,16 @@ class UMCAuthenticator(Authenticator):
                 break
         else:
             get_logger("user").debug("no user given")
-            return None, None
+            return None, None, None
         get_logger("user").debug("searching user for cookies=%r" % cookies)
 
-        username = await self._ask_umc(cookies, headers)
+        username, user_dn = await self._ask_umc(cookies, headers)
         if username is None:
             get_logger("user").debug("no user found")
-            return None, None
+            return None, None, None
         else:
             get_logger("user").debug("found %s" % (username,))
-            return username.lower(), username
+            return username.lower(), username, user_dn
 
     async def _ask_umc(self, cookies, headers):
         try:
@@ -122,6 +122,7 @@ class UMCAuthenticator(Authenticator):
             response = await http_client.fetch(req)
             data = json.loads(response.body.decode('UTF-8'))
             username = data["result"]["username"]
+            user_dn = data["result"]["user_dn"]
         except HTTPError as exc:
             get_logger("user").error("request failed: %s" % exc)
         except EnvironmentError as exc:
@@ -131,7 +132,7 @@ class UMCAuthenticator(Authenticator):
         except KeyError:
             get_logger("user").warning("session unknown!")
         else:
-            return username
+            return username, user_dn
 
 
 class UMCAndSecretAuthenticator(UMCAuthenticator):
@@ -167,4 +168,4 @@ class UMCAndSecretAuthenticator(UMCAuthenticator):
             return user
 
         groups = self.group_cache.get().get(username, [])
-        return User(username, display_name, groups, headers=dict(request.request.headers))
+        return User(username, display_name, user.user_dn, groups, headers=dict(request.request.headers))

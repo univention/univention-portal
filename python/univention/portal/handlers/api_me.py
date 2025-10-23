@@ -36,7 +36,7 @@ class ApiMeHandler(PortalResource):
 
         if user.is_logged_in():
             logger.debug("User is logged in, fetching user details from UDM Rest API.")
-            udm_user_data = await self.udm_client.get_user(user.username)
+            udm_user_data = await self.udm_client.get_user(user.user_dn)
             answer.update(_map_from_udm_model(udm_user_data))
         else:
             logger.debug("Anonymous user, returning an empty object.")
