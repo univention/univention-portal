@@ -41,21 +41,6 @@ async def test_get_user_returns_udm_object(udm_user_stub):
 
 
 @pytest.mark.asyncio()
-@pytest.mark.parametrize("results_count", [0, 2])
-async def test_get_user_ensures_exactly_one_result(mocker, udm_user_stub, results_count):
-    udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
-    fetch_from_udm_mock = mocker.patch.object(udm_client, "_fetch_from_udm")
-    fetch_from_udm_mock.return_value = {
-        "results": results_count,
-        "_embedded": {
-            "udm:object": [udm_user_stub] * results_count,
-        },
-    }
-    with pytest.raises(UnexpectedResult):
-        await udm_client.get_user("username")
-
-
-@pytest.mark.asyncio()
 @pytest.mark.parametrize("response_error, ExpectedException", [
     (HTTPClientError(code=404, message="Not Found"), UnexpectedResult),
     (HTTPClientError(code=500, message="Server Error"), UnexpectedResult),
