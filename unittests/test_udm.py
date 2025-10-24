@@ -5,6 +5,7 @@ import json
 from unittest import mock
 
 import pytest
+from tornado.httpclient import HTTPClientError
 
 from univention.portal.udm import AsyncUdmClient, UnexpectedResult
 
@@ -21,12 +22,7 @@ def AsyncHTTPClient_stub(udm_user_stub):
     stub = mock.Mock()
     stub().fetch = mock.AsyncMock()
     response = mock.Mock()
-    response.body = json.dumps({
-        "results": 1,
-        "_embedded": {
-            "udm:object": [udm_user_stub],
-        },
-    })
+    response.body = json.dumps(udm_user_stub)
     stub().fetch.return_value = response
     return stub
 
@@ -38,9 +34,9 @@ def mock_http_client(AsyncHTTPClient_stub, mocker):
 
 
 @pytest.mark.asyncio()
-async def test_get_user_returns_embedded_object(udm_user_stub):
+async def test_get_user_returns_udm_object(udm_user_stub):
     udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
-    data = await udm_client.get_user("username")
+    data = await udm_client.get_user("user_dn")
     assert data == udm_user_stub
 
 
@@ -60,10 +56,22 @@ async def test_get_user_ensures_exactly_one_result(mocker, udm_user_stub, result
 
 
 @pytest.mark.asyncio()
+@pytest.mark.parametrize("response_error, ExpectedException", [
+    (HTTPClientError(code=404, message="Not Found"), UnexpectedResult),
+    (HTTPClientError(code=500, message="Server Error"), UnexpectedResult),
+])
+async def test_get_user_ensures_valid_response(
+    mock_http_client, response_error, ExpectedException,
+):
+    mock_http_client().fetch = mock.AsyncMock(side_effect=response_error)
+    udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
+    with pytest.raises(ExpectedException):
+        await udm_client.get_user("user_dn")
+
+
+@pytest.mark.asyncio()
 @pytest.mark.parametrize("response_body, ExpectedException", [
     ("invalid", json.JSONDecodeError),
-    ("{}", KeyError),
-    ('{"results":1}', KeyError),
     ("<html><div>stub result</div></html>", json.JSONDecodeError),
 ])
 async def test_get_user_raises_on_unexpected_response(
@@ -72,20 +80,20 @@ async def test_get_user_raises_on_unexpected_response(
     (await mock_http_client().fetch()).body = response_body
     udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
     with pytest.raises(ExpectedException):
-        await udm_client.get_user("username")
+        await udm_client.get_user("user_dn")
 
 
 @pytest.mark.asyncio()
-@pytest.mark.parametrize("username, ExpectedException", [
+@pytest.mark.parametrize("user_dn, ExpectedException", [
     ("", ValueError),
     (None, ValueError),
 ])
-async def test_get_user_validates_username(
-    mock_http_client, username, ExpectedException,
+async def test_get_user_validates_user_dn(
+    mock_http_client, user_dn, ExpectedException,
 ):
     udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
     with pytest.raises(ExpectedException):
-        await udm_client.get_user(username)
+        await udm_client.get_user(user_dn)
 
 
 @pytest.mark.asyncio()

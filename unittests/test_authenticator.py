@@ -26,6 +26,7 @@ class TestUMCAuthenticator:
     _umc_session_url = "umc_session_url"
     _umc_cookie_name = "UMCSessionId"
     _username = "TestUser"
+    _user_dn = "uid=TestUser,cn=users,dc=univention-organization,dc=intranet"
     _groups = ["TestGroup"]
 
     @pytest.fixture()
@@ -58,7 +59,7 @@ class TestUMCAuthenticator:
         cookie_mock.value = cookie
         request_mock.cookies = {self._umc_cookie_name: cookie_mock}
         request_mock.request.headers = {}
-        mocked_authenticator._get_username = mock.AsyncMock(return_value=(self._username.lower(), self._username))
+        mocked_authenticator._get_username = mock.AsyncMock(return_value=(self._username.lower(), self._username, self._user_dn))
 
         user = await mocked_authenticator.get_user(request_mock)
         mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
@@ -76,7 +77,7 @@ class TestUMCAuthenticator:
         cookie_mock.value = cookie
         request_mock.cookies = {self._umc_cookie_name: cookie_mock}
         request_mock.request.headers = {}
-        mocked_authenticator._get_username = mock.AsyncMock(return_value=(None, None))
+        mocked_authenticator._get_username = mock.AsyncMock(return_value=(None, None, None))
 
         user = await mocked_authenticator.get_user(request_mock)
         mocked_authenticator._get_username.assert_called_once_with({self._umc_cookie_name: cookie})
@@ -88,16 +89,16 @@ class TestUMCAuthenticator:
 
     @pytest.mark.asyncio()
     async def test_get_username(self, mocked_authenticator, mocker):
-        mocked_authenticator._ask_umc = mock.AsyncMock(return_value=self._username)
-        assert await mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}) == (self._username.lower(), self._username)
-        assert await mocked_authenticator._get_username({}) == (None, None)
+        mocked_authenticator._ask_umc = mock.AsyncMock(return_value=(self._username, self._user_dn))
+        assert await mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}) == (self._username.lower(), self._username, self._user_dn)
+        assert await mocked_authenticator._get_username({}) == (None, None, None)
 
-        mocked_authenticator._ask_umc.return_value = None
-        assert await mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}) == (None, None)
+        mocked_authenticator._ask_umc.return_value = (None, None)
+        assert await mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}) == (None, None, None)
 
-        mocked_authenticator._ask_umc.return_value = self._username
+        mocked_authenticator._ask_umc.return_value = (self._username, self._user_dn)
         umc_cookie_name = f"{self._umc_cookie_name}-1234"
-        assert await mocked_authenticator._get_username({umc_cookie_name: "test_session"}) == (self._username.lower(), self._username)
+        assert await mocked_authenticator._get_username({umc_cookie_name: "test_session"}) == (self._username.lower(), self._username, self._user_dn)
 
     @pytest.mark.asyncio()
     async def test_ask_umc_request_success(self, mocked_authenticator, mocker):
@@ -109,7 +110,7 @@ class TestUMCAuthenticator:
             test_cookie = [c.strip().split('=') for c in test_cookie]
             test_cookie = {k.strip(): v.strip() for k, v in test_cookie}.get(self._umc_cookie_name, "")
             if test_cookie:
-                response_mock.body = json.dumps({"result": {"username": self._username}}).encode()
+                response_mock.body = json.dumps({"result": {"username": self._username, "user_dn": self._user_dn}}).encode()
             else:
                 response_mock.body = b'{}'
             print("Received response with status 200")
@@ -119,7 +120,7 @@ class TestUMCAuthenticator:
         test_session = {self._umc_cookie_name: "test_session"}
 
         # Execute with valid session expecting username to be returned
-        assert await mocked_authenticator._ask_umc(test_session, {}) == self._username
+        assert await mocked_authenticator._ask_umc(test_session, {}) == (self._username, self._user_dn)
         assert mocked_authenticator.httpclient_fetch.call_count == 1
 
         # Execute with unknown session expecting username to be None due to KeyError

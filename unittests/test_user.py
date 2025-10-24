@@ -11,5 +11,5 @@ from univention.portal.user import User
     (None, False),
 ])
 def test_is_logged_in(username, expected_logged_in):
-    user = User(username=username, display_name=None, groups=[], headers=None)
+    user = User(username=username, display_name=None, user_dn=None, groups=[], headers=None)
     assert user.is_logged_in() == expected_logged_in

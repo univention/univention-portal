@@ -124,6 +124,7 @@ def stub_user(faker):
     user = User(
         username=faker.user_name(),
         display_name=faker.name(),
+        user_dn=f'uid={faker.user_name()},cn=users,dc=organization,dc=intranet',
         groups=[],
         headers={},
     )
@@ -136,6 +137,7 @@ def stub_user_anonymous():
     user = User(
         username=None,
         display_name=None,
+        user_dn=None,
         groups=[],
         headers={},
     )

@@ -49,6 +49,7 @@ def mocked_user(mocker):
     user = mocker.Mock()
     user.username = "hindenkampp"
     user.display_name = "Hans Hindenkampp"
+    user.user_dn = "uid=hindenkampp,cn=users,dc=some-testenv,dc=intranet"
     user.groups = []
     user.headers = {}
     return user
@@ -59,6 +60,7 @@ def mocked_anonymous_user(mocker):
     user = mocker.Mock()
     user.username = None
     user.display_name = None
+    user.user_dn = None
     user.groups = []
     user.headers = {}
     return user
@@ -443,6 +445,7 @@ def test_announcement_groups(portal_data, standard_portal):
     test_user = user.User(
         username="hindenkampp",
         display_name="Hans Hindenkampp",
+        user_dn="uid=hindenkampp,cn=users,dc=some-testenv,dc=intranet",
         groups=["public_society"],
         headers={})
 
