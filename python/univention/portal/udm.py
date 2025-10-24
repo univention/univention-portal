@@ -21,8 +21,8 @@ class AsyncUdmClient:
         udm_query = f"users/user/{user_dn}"
         try:
             data = await self._fetch_from_udm(udm_query)
-        except HTTPClientError:
-            raise UnexpectedResult("Fetching the user's data failed")
+        except HTTPClientError as exc:
+            raise UnexpectedResult(f"Fetching the user's data failed: {exc}")
         return data
 
     async def _fetch_from_udm(self, udm_query: str):
