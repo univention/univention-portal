@@ -56,7 +56,7 @@ RUN pip3 install --no-cache-dir --upgrade pip==25.* \
     && mkdir -p /usr/share/univention-portal \
     && mkdir -p /usr/lib/univention-portal/config
 
-RUN pip3 install --no-cache-dir --editable .
+RUN pip3 install --no-cache-dir --no-build-isolation --editable .
 
 COPY ./docker/portal-server/stub_portals.json /usr/share/univention-portal/portals.json
 COPY ./docker/portal-server/docker-entrypoint.sh /entrypoint.d/50-entrypoint.sh
@@ -74,7 +74,7 @@ CMD ["bash"]
 #
 # Currently it is not possible to inject this from the Tilt configuration.
 # See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
-FROM local-dev-env as dev-server
+FROM local-dev-env AS dev-server
 
 ENV PORTAL_SERVER_DEVELOPMENT_MODE="true"
 ENV LOG_LEVEL="DEBUG"
@@ -85,7 +85,7 @@ CMD ["./univention-portal-server"]
 #
 # Currently it is not possible to inject this from the Tilt configuration.
 # See https://github.com/tilt-dev/tilt-extensions/issues/391#issuecomment-1687045699
-FROM local-dev-env as test
+FROM local-dev-env AS test
 
 CMD ["pytest", "unittests"]
 
