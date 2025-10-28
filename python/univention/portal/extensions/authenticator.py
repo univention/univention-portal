@@ -106,14 +106,16 @@ class UMCAuthenticator(Authenticator):
         get_logger("user").debug("searching user for cookies=%r" % cookies)
 
         username, user_dn = await self._ask_umc(cookies, headers)
-        if username is None:
+        if username is None and user_dn is None:
             get_logger("user").debug("no user found")
             return None, None, None
         else:
-            get_logger("user").debug("found %s" % (username,))
+            get_logger("user").debug("found %s, %s" % (username, user_dn))
             return username.lower(), username, user_dn
 
     async def _ask_umc(self, cookies, headers):
+        username = None
+        user_dn = None
         try:
             headers['Cookie'] = '; '.join('='.join(c) for c in cookies.items())
             req = HTTPRequest(self.umc_session_url, method="GET", headers=headers)
@@ -131,8 +133,7 @@ class UMCAuthenticator(Authenticator):
             get_logger("user").error("malformed answer!")
         except KeyError:
             get_logger("user").warning("session unknown!")
-        else:
-            return username, user_dn
+        return username, user_dn
 
 
 class UMCAndSecretAuthenticator(UMCAuthenticator):

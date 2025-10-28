@@ -124,7 +124,7 @@ class TestUMCAuthenticator:
         assert mocked_authenticator.httpclient_fetch.call_count == 1
 
         # Execute with unknown session expecting username to be None due to KeyError
-        assert await mocked_authenticator._ask_umc({self._umc_cookie_name: ""}, {}) is None
+        assert await mocked_authenticator._ask_umc({self._umc_cookie_name: ""}, {}) == (None, None)
         assert mocked_authenticator.httpclient_fetch.call_count == 2
 
     @pytest.mark.asyncio()
@@ -141,10 +141,10 @@ class TestUMCAuthenticator:
         mocked_authenticator.httpclient_fetch.side_effect = _side_effect
         test_session = {self._umc_cookie_name: "test_session"}
         # Execute while expecting a catched internal ValueError
-        assert await mocked_authenticator._ask_umc(test_session, {}) is None
+        assert await mocked_authenticator._ask_umc(test_session, {}) == (None, None)
         assert mocked_authenticator.httpclient_fetch.call_count == 1
         # Execute while expecting catched internal RequestException
         mocked_authenticator.httpclient_fetch.side_effect = [tornado.httpclient.HTTPError(404), IOError]
-        assert await mocked_authenticator._ask_umc(test_session, {}) is None
-        assert await mocked_authenticator._ask_umc(test_session, {}) is None
+        assert await mocked_authenticator._ask_umc(test_session, {}) == (None, None)
+        assert await mocked_authenticator._ask_umc(test_session, {}) == (None, None)
         assert mocked_authenticator.httpclient_fetch.call_count == 3
