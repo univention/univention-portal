@@ -60,6 +60,24 @@ export default defineComponent({
       return this.isActive ? `modal-wrapper--isVisible-${this.modalLevel}` : null;
     },
   },
+  watch: {
+    isActive(newValue: boolean) {
+      const appElement = document.getElementById('app');
+      if (appElement) {
+        if (newValue) {
+          appElement.setAttribute('inert', '');
+        } else {
+          appElement.removeAttribute('inert');
+        }
+      }
+    },
+  },
+  beforeUnmount() {
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.removeAttribute('inert');
+    }
+  },
 });
 </script>
 
