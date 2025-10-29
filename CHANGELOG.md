@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.84.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.84.1...v0.84.2) (2025-10-29)
+
+
+### Bug Fixes
+
+* **deps:** Update gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/nginx/nginx Docker tag to v0.7.24 ([ff9c812](https://git.knut.univention.de/univention/dev/projects/portal/commit/ff9c812e7df6e252dc814161086fb54b37f954d6)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.84.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.84.0...v0.84.1) (2025-10-17)
 
 
