@@ -9,7 +9,7 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.45.0"
+    ref: "v1.47.0"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
@@ -72,6 +72,11 @@ container-generate-sbom:
 
 generate-filesystem-sbom:
   variables:
+    FOLDER: "frontend"
+
+merge-fs-and-image-sboms:
+  variables:
+    IMAGE_NAME: "portal-frontend"
     FOLDER: "frontend"
 
 container-malware-scan:
