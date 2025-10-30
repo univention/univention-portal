@@ -57,6 +57,7 @@
             v-for="(tile, index) in filteredTiles"
             :key="tile.id"
             :class="`portal-folder__thumbnail ${isMoreThanFiveOrTen(index)}`"
+            :inert="!inModal"
           >
             <portal-tile
               :id="`${inModal ? 'modal-' : 'folder-'}${tile.id}`"
@@ -473,6 +474,7 @@ export default defineComponent({
           right: 0
           line-height: 300%
           background-color: var(--bgc-content-container)
+          pointer-events: none
         @media $mqSmartphone
           display: none
 
@@ -490,4 +492,5 @@ export default defineComponent({
           right: 0
           line-height: 300%
           background-color: var(--bgc-content-container)
+          pointer-events: none
 </style>
