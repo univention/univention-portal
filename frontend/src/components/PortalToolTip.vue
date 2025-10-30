@@ -130,6 +130,10 @@ export default defineComponent({
       type: Object as PropType<Record<string, string>>,
       required: true,
     },
+    teleportTo: {
+      type: String,
+      default: '',
+    },
   },
   data(): Data {
     return {

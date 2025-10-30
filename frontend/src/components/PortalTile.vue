@@ -289,6 +289,7 @@ export default defineComponent({
         backgroundColor: this.backgroundColor,
         description: this.$localized(this.description),
         ariaId: this.createID(),
+        teleportTo: this.isTouchDevice ? 'body' : '',
         position: {
           top: portalTileRect.top,
           right: portalTileRect.right,

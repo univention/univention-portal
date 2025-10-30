@@ -59,12 +59,15 @@ export default defineComponent({
     setID(): string | null {
       return this.isActive ? `modal-wrapper--isVisible-${this.modalLevel}` : null;
     },
+    isTouchDevice(): boolean {
+      return 'ontouchstart' in document.documentElement;
+    },
   },
   watch: {
     isActive(newValue: boolean) {
       const appElement = document.getElementById('app');
       if (appElement) {
-        if (newValue) {
+        if (newValue && this.isTouchDevice) {
           appElement.setAttribute('inert', '');
         } else {
           appElement.removeAttribute('inert');
