@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.85.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.84.2...v0.85.0) (2025-10-30)
+
+
+### Features
+
+* get user dn from session-info endpoint ([39f30b3](https://git.knut.univention.de/univention/dev/projects/portal/commit/39f30b3e3d42c3bdd604cd1900cb9289df1c56bf)), closes [univention/dev/internal/team-nubus#1419](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1419)
+
+
+### Bug Fixes
+
+* correct return values when umc request fails for any reason ([fec570d](https://git.knut.univention.de/univention/dev/projects/portal/commit/fec570dd3709d0d21075903e641e50d975c76a98)), closes [univention/dev/internal/team-nubus#1419](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1419)
+* improve logging in case of error during udm call ([0840e7b](https://git.knut.univention.de/univention/dev/projects/portal/commit/0840e7b1dff83afa5653cc1f996b0e711f566d0d)), closes [univention/dev/internal/team-nubus#1419](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1419)
+
 ## [0.84.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.84.1...v0.84.2) (2025-10-29)
 
 
