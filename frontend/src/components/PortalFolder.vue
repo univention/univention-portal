@@ -15,6 +15,40 @@
     @dragover.prevent
     @drop="dropped"
   >
+    <div class="portal-tile__icon-bar">
+      <icon-button
+        v-if="editMode && !inModal && showEditButtonWhileDragging"
+        icon="edit-2"
+        class="button--icon--circle button--icon--edit-mode button--shadow"
+        :aria-label-prop="EDIT_FOLDER"
+        @click="editFolder"
+      />
+      <icon-button
+        v-if="editMode && !inModal && showMoveButtonWhileDragging"
+        :id="`${layoutId}-move-button`"
+        ref="mover"
+        icon="move"
+        class="button--icon--circle button--icon--edit-mode button--shadow"
+        :aria-label-prop="MOVE_FOLDER"
+        @click="dragKeyboardClick"
+        @keydown.esc="dragend"
+        @keydown.left="dragKeyboardDirection($event, 'left')"
+        @keydown.right="dragKeyboardDirection($event, 'right')"
+        @keydown.up="dragKeyboardDirection($event, 'up')"
+        @keydown.down="dragKeyboardDirection($event, 'down')"
+        @keydown.tab="handleTabWhileMoving"
+      />
+      <icon-button
+        v-if="inModal && isTouchDevice"
+        :id="`${layoutId}-close-button`"
+        icon="x"
+        class="button--icon--circle button--icon--edit-mode button--shadow"
+        :tabindex="inModal ? 0 : -1"
+        :aria-label-prop="CLOSE_FOLDER"
+        @click="closeFolder"
+        @touchstart.prevent="closeFolder"
+      />
+    </div>
     <tabindex-element
       :id="id"
       :tag="isOpened"
@@ -117,36 +151,13 @@
     >
       {{ $localized(title) }}
     </span>
-    <div class="portal-tile__icon-bar">
-      <icon-button
-        v-if="editMode && !inModal && showEditButtonWhileDragging"
-        icon="edit-2"
-        class="button--icon--circle button--icon--edit-mode button--shadow"
-        :aria-label-prop="EDIT_FOLDER"
-        @click="editFolder"
-      />
-      <icon-button
-        v-if="editMode && !inModal && showMoveButtonWhileDragging"
-        :id="`${layoutId}-move-button`"
-        ref="mover"
-        icon="move"
-        class="button--icon--circle button--icon--edit-mode button--shadow"
-        :aria-label-prop="MOVE_FOLDER"
-        @click="dragKeyboardClick"
-        @keydown.esc="dragend"
-        @keydown.left="dragKeyboardDirection($event, 'left')"
-        @keydown.right="dragKeyboardDirection($event, 'right')"
-        @keydown.up="dragKeyboardDirection($event, 'up')"
-        @keydown.down="dragKeyboardDirection($event, 'down')"
-        @keydown.tab="handleTabWhileMoving"
-      />
-    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import { mapGetters } from 'vuex';
 import Region from '@/components/activity/Region.vue';
 import TabindexElement from '@/components/activity/TabindexElement.vue';
 import PortalTile from '@/components/PortalTile.vue';
@@ -157,7 +168,6 @@ import TileAdd from '@/components/admin/TileAdd.vue';
 import { LocalizedString, Tile, TileOrFolder } from '@/store/modules/portalData/portalData.models';
 import _ from '@/jsHelper/translate';
 import { doesTitleMatch, doesKeywordsMatch, doesDescriptionMatch } from '@/jsHelper/portalCategories';
-import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: 'PortalFolder',
@@ -208,6 +218,9 @@ export default defineComponent({
       searchQuery: 'search/searchQuery',
       featureToggles: 'featureToggles/featureToggles',
     }),
+    isTouchDevice(): boolean {
+      return 'ontouchstart' in document.documentElement;
+    },
     activeAt(): string[] {
       if (this.editMode) {
         return ['portal'];
@@ -235,6 +248,9 @@ export default defineComponent({
     },
     MOVE_FOLDER(): string {
       return _('Move Folder: %(folder)s', { folder: this.$localized(this.title) });
+    },
+    CLOSE_FOLDER(): string {
+      return _('Close Folder: %(folder)s', { folder: this.$localized(this.title) });
     },
     filteredTiles(): Tile[] {
       const filteredTiles = this.tiles.filter((tile) => (
@@ -493,4 +509,8 @@ export default defineComponent({
           line-height: 300%
           background-color: var(--bgc-content-container)
           pointer-events: none
+
+   > .portal-tile__icon-bar
+    top: calc(-12 * var(--layout-spacing-unit-small))
+
 </style>
