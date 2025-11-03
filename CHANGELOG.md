@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.85.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.0...v0.85.1) (2025-11-03)
+
+
+### Bug Fixes
+
+* **frontend:** Make sure to close all modal dialogs when user is not logged in ([cb22117](https://git.knut.univention.de/univention/dev/projects/portal/commit/cb2211703ec08acc770915e998bd7f4289786561)), closes [univention/dev/internal/team-nubus#1443](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1443)
+
 ## [0.85.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.84.2...v0.85.0) (2025-10-30)
 
 
