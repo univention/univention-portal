@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.86.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.2...v0.86.0) (2025-11-04)
+
+
+### Features
+
+* **portal-frontend:** add and refactor test ([862995e](https://git.knut.univention.de/univention/dev/projects/portal/commit/862995ee34d60ec20e3c1f41e6d092c33b8e7a00)), closes [univention/dev/projects/portal#747](https://git.knut.univention.de/univention/dev/projects/portal/issues/747)
+* **portal-frontend:** enhance accessibility by adding inert attributes and pointer-events styles ([4f796e1](https://git.knut.univention.de/univention/dev/projects/portal/commit/4f796e12ebe0a14eeb615d8b1a0c1c24edf37444)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** improve accessibility on modals ([738016b](https://git.knut.univention.de/univention/dev/projects/portal/commit/738016b2ba2a06ebffa71fb172ca693900bab37a)), closes [univention/dev/projects/portal#747](https://git.knut.univention.de/univention/dev/projects/portal/issues/747)
+
 ## [0.85.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.1...v0.85.2) (2025-11-04)
 
 
