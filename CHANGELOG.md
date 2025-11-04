@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.85.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.1...v0.85.2) (2025-11-04)
+
+
+### Bug Fixes
+
+* **deps:** Update gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base Docker tag to v5.2.3-build.20251030 ([be48eb1](https://git.knut.univention.de/univention/dev/projects/portal/commit/be48eb1ad3bada20e02d3398b3eedff131fcf61e)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.85.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.0...v0.85.1) (2025-11-03)
 
 
