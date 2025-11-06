@@ -73,7 +73,7 @@ def portal_file(get_file_path):
 
 @pytest.fixture()
 def reloader(portal_file, mock_portal_config):
-    mock_portal_config({"assets_root": "/stub_assets_root"})
+    mock_portal_config({"assets_root_path": "/stub_assets_root"})
     return StubReloader(portal_file=portal_file)
 
 

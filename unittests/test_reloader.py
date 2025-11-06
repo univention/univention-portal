@@ -28,7 +28,7 @@ def portal_reloader_udm(mocker, mock_portal_config):
     mocker.patch.object(reloader.PortalReloaderUDM, "_get_mtime", return_value=2.2)
     mocker.patch("json.dumps")
     mocker.patch("tempfile.NamedTemporaryFile")
-    mock_portal_config({"assets_root": stub_assets_root})
+    mock_portal_config({"assets_root_path": stub_assets_root})
     return reloader.PortalReloaderUDM(stub_portal_dn, "cache_file_stub")
 
 
@@ -62,14 +62,14 @@ class TestMtimeBasedLazyFileReloader:
 
     @pytest.fixture()
     def mocked_reloader(self, dynamic_class, patch_object_module, mock_portal_config):
-        mock_portal_config({"assets_root": "/stub_assets_root"})
+        mock_portal_config({"assets_root_path": "/stub_assets_root"})
         Reloader = dynamic_class("MtimeBasedLazyFileReloader")
         self.patch_reloader_modules(Reloader, patch_object_module)
         reloader = Reloader(self._cache_file)
         return reloader
 
     def test_init_error(self, dynamic_class, patch_object_module, mock_portal_config):
-        mock_portal_config({"assets_root": "/stub_assets_root"})
+        mock_portal_config({"assets_root_path": "/stub_assets_root"})
         Reloader = dynamic_class("MtimeBasedLazyFileReloader")
         mocked_os = patch_object_module(Reloader, "os")
         mocked_os.stat.side_effect = IOError
@@ -111,7 +111,7 @@ class TestMtimeBasedLazyFileReloader:
     (b"bytes_content", "wb"),
 ])
 def test_write_to_tmp_file_sets_correct_mode(mocker, content, expected_mode, mock_portal_config):
-    mock_portal_config({"assets_root": stub_assets_root})
+    mock_portal_config({"assets_root_path": stub_assets_root})
     tempfile_mock = mocker.patch("tempfile.NamedTemporaryFile")
     mtime_based_reloader = reloader.MtimeBasedLazyFileReloader("/stub_path/stub_file")
 
@@ -125,7 +125,7 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
     @pytest.fixture()
     def mocked_portal_reloader(
             self, dynamic_class, patch_object_module, mocker, mock_portal_config):
-        mock_portal_config({"assets_root": "/stub_directory"})
+        mock_portal_config({"assets_root_path": "/stub_directory"})
         Reloader = dynamic_class("PortalReloaderUDM")
         self.patch_reloader_modules(Reloader, patch_object_module)
         reloader = Reloader(self._portal_dn, self._cache_file)
@@ -203,7 +203,7 @@ class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):
 
     @pytest.fixture()
     def mocked_portal_reloader(self, dynamic_class, patch_object_module, mock_portal_config):
-        mock_portal_config({"assets_root": "/stub_assets_root"})
+        mock_portal_config({"assets_root_path": "/stub_assets_root"})
         Reloader = dynamic_class("GroupsReloaderLDAP")
         self.patch_reloader_modules(Reloader, patch_object_module)
         reloader = Reloader(self._ldap_uri, self._bind_dn, self._password_file, self._ldap_base, self._cache_file)
