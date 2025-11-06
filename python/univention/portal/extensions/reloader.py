@@ -57,7 +57,7 @@ class MtimeBasedLazyFileReloader(Reloader):
         logger.debug("init, %s, cache_file %s", self.__class__.__name__, cache_file)
         self._cache_file = cache_file
         self._mtime = self._get_mtime()
-        self._assets_root = config.fetch("assets_root")
+        self._assets_root = config.fetch("assets_root_path")
 
     def _get_mtime(self):
         try:
