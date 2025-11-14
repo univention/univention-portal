@@ -217,10 +217,8 @@ export default defineComponent({
       lastDir: 'dragndrop/getLastDir',
       searchQuery: 'search/searchQuery',
       featureToggles: 'featureToggles/featureToggles',
+      isTouchDevice: 'device/isTouchDevice',
     }),
-    isTouchDevice(): boolean {
-      return 'ontouchstart' in document.documentElement;
-    },
     activeAt(): string[] {
       if (this.editMode) {
         return ['portal'];

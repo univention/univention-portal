@@ -7,6 +7,7 @@ import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { getAdminState } from '@/jsHelper/admin';
 import activity from './modules/activity';
+import device from './modules/device';
 import dragndrop from './modules/dragndrop';
 import featureToggles from './modules/featureToggles';
 import locale from './modules/locale';
@@ -197,6 +198,7 @@ export const store = createStore<RootState>({
   getters,
   modules: {
     activity,
+    device,
     featureToggles,
     dragndrop,
     locale,

@@ -200,6 +200,7 @@ export default defineComponent({
       tooltipIsHovered: 'tooltip/tooltipIsHovered',
       tooltipID: 'tooltip/getTooltipID',
       lastDir: 'dragndrop/getLastDir',
+      isTouchDevice: 'device/isTouchDevice',
     }),
     wrapperTag(): string {
       if (this.linkTarget === 'internalrouter') {
@@ -209,9 +210,6 @@ export default defineComponent({
     },
     isDisabled(): boolean {
       return (this.minified || this.editMode);
-    },
-    isTouchDevice(): boolean {
-      return 'ontouchstart' in document.documentElement;
     },
     ariaLabelPortalTile(): null | string {
       return (this.minified || this.editMode) ? null : `${this.$localized(this.title)} ${this.LINK_TYPE(this.linkTarget).label}`;

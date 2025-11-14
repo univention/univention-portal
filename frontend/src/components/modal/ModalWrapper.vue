@@ -29,6 +29,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: 'ModalWrapper',
@@ -53,14 +54,14 @@ export default defineComponent({
   },
   emits: ['backgroundClick'],
   computed: {
+    ...mapGetters({
+      isTouchDevice: 'device/isTouchDevice',
+    }),
     isSecondModalActive(): boolean {
       return this.modalLevel === 2 && this.isActive;
     },
     setID(): string | null {
       return this.isActive ? `modal-wrapper--isVisible-${this.modalLevel}` : null;
-    },
-    isTouchDevice(): boolean {
-      return 'ontouchstart' in document.documentElement;
     },
   },
   watch: {
