@@ -216,7 +216,7 @@ objectStorage:
       name: null
       keyMapping:
         access_key_id: null
-        secret_key: null
+        secret_access_key: null
 
 # Database persistence settings.
 persistence:

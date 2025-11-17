@@ -419,7 +419,7 @@ null
 			<td></td>
 		</tr>
 		<tr>
-			<td>objectStorage.auth.existingSecret.keyMapping.secret_key</td>
+			<td>objectStorage.auth.existingSecret.keyMapping.secret_access_key</td>
 			<td>string</td>
 			<td><pre lang="json">
 null
