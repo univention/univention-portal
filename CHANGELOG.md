@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.86.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.0...v0.86.1) (2025-11-19)
+
+
+### Bug Fixes
+
+* **helm:** Use AWS-standard secret_access_key field name ([6f4e3c2](https://git.knut.univention.de/univention/dev/projects/portal/commit/6f4e3c2199c0f1255587a431a16eda6376a5732f)), closes [univention/dev/internal/team-nubus#1523](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1523)
+
 ## [0.86.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.2...v0.86.0) (2025-11-04)
 
 
