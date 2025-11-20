@@ -6,16 +6,19 @@
   <div
     class="portal-folder"
     :draggable="editMode && !inModal"
-    :class="[
-      { 'portal-folder__in-modal': inModal },
-    ]"
+    :class="[{ 'portal-folder__in-modal': inModal }]"
     @dragstart="dragstart"
     @dragenter="dragenter"
     @dragend="dragend"
     @dragover.prevent
     @drop="dropped"
   >
-    <div class="portal-tile__icon-bar">
+    <div
+      :class="[
+        'portal-tile__icon-bar',
+        { 'portal-tile__icon-bar--in-modal': inModal },
+      ]"
+    >
       <icon-button
         v-if="editMode && !inModal && showEditButtonWhileDragging"
         icon="edit-2"
@@ -41,6 +44,7 @@
       <icon-button
         v-if="inModal && isTouchDevice"
         :id="`${layoutId}-close-button`"
+        ref="close-button-touch-device"
         icon="x"
         class="button--icon--circle button--icon--edit-mode button--shadow"
         :tabindex="inModal ? 0 : -1"
@@ -54,11 +58,13 @@
       :tag="isOpened"
       :active-at="activeAt"
       class="portal-tile__box"
-      :class="[{
-        'portal-tile__box--accessible-zoom': inModal && updateZoomQuery(),
-        'portal-tile__box--dragging': isBeingDragged,
-        'portal-tile__box--with-scaling-hover': !inModal,
-      }]"
+      :class="[
+        {
+          'portal-tile__box--accessible-zoom': inModal && updateZoomQuery(),
+          'portal-tile__box--dragging': isBeingDragged,
+          'portal-tile__box--with-scaling-hover': !inModal,
+        },
+      ]"
       data-test="portal-folder"
       role="dialog"
       :aria-modal="inModal ? 'true' : undefined"
@@ -73,16 +79,21 @@
         data-test="editmode-wrapper"
         :class="{
           'portal-folder__thumbnails': useNativeHtmlList && editMode,
-          'portal-folder__thumbnails--in-modal': inModal && useNativeHtmlList && editMode
+          'portal-folder__thumbnails--in-modal':
+            inModal && useNativeHtmlList && editMode,
         }"
       >
         <component
           :is="useNativeHtmlList ? 'ul' : 'div'"
+          :role="useNativeHtmlList ? undefined : 'region'"
           :tabindex="useNativeHtmlList ? undefined : -1"
+          :aria-labelledby="`${id}-content`"
           :class="{
             'portal-folder__thumbnails': !(editMode && useNativeHtmlList),
-            'portal-folder__thumbnails--display-contents': editMode && useNativeHtmlList,
-            'portal-folder__thumbnails--in-modal': inModal && !(useNativeHtmlList && editMode)
+            'portal-folder__thumbnails--display-contents':
+              editMode && useNativeHtmlList,
+            'portal-folder__thumbnails--in-modal':
+              inModal && !(useNativeHtmlList && editMode),
           }"
           data-test="portalFolder"
         >
@@ -165,9 +176,17 @@ import Draggable from '@/mixins/Draggable.vue';
 import IconButton from '@/components/globals/IconButton.vue';
 import TemplateWrapper from '@/components/globals/TemplateWrapper.vue';
 import TileAdd from '@/components/admin/TileAdd.vue';
-import { LocalizedString, Tile, TileOrFolder } from '@/store/modules/portalData/portalData.models';
+import {
+  LocalizedString,
+  Tile,
+  TileOrFolder,
+} from '@/store/modules/portalData/portalData.models';
 import _ from '@/jsHelper/translate';
-import { doesTitleMatch, doesKeywordsMatch, doesDescriptionMatch } from '@/jsHelper/portalCategories';
+import {
+  doesTitleMatch,
+  doesKeywordsMatch,
+  doesDescriptionMatch,
+} from '@/jsHelper/portalCategories';
 
 export default defineComponent({
   name: 'PortalFolder',
@@ -179,9 +198,7 @@ export default defineComponent({
     Region,
     TemplateWrapper,
   },
-  mixins: [
-    Draggable,
-  ],
+  mixins: [Draggable],
   props: {
     id: {
       type: String,
@@ -236,30 +253,46 @@ export default defineComponent({
         itemString = _('Items');
       }
 
-      return !this.inModal ? `${this.$localized(this.title)} ${_('Folder')}: ${numberOfItems} ${itemString}` : null;
+      return !this.inModal
+        ? `${this.$localized(this.title)} ${_(
+          'Folder',
+        )}: ${numberOfItems} ${itemString}`
+        : null;
     },
     isOpened(): string {
       return this.inModal ? 'div' : 'button';
     },
     EDIT_FOLDER(): string {
-      return _('Edit Folder: %(folder)s', { folder: this.$localized(this.title) });
+      return _('Edit Folder: %(folder)s', {
+        folder: this.$localized(this.title),
+      });
     },
     MOVE_FOLDER(): string {
-      return _('Move Folder: %(folder)s', { folder: this.$localized(this.title) });
+      return _('Move Folder: %(folder)s', {
+        folder: this.$localized(this.title),
+      });
     },
     CLOSE_FOLDER(): string {
-      return _('Close Folder: %(folder)s', { folder: this.$localized(this.title) });
+      return _('Close Folder: %(folder)s', {
+        folder: this.$localized(this.title),
+      });
     },
     filteredTiles(): Tile[] {
-      const filteredTiles = this.tiles.filter((tile) => (
-        doesTitleMatch(tile as TileOrFolder, this.searchQuery) ||
-        doesDescriptionMatch(tile as TileOrFolder, this.searchQuery) ||
-        doesKeywordsMatch(tile as TileOrFolder, this.searchQuery)
-      ));
+      const filteredTiles = this.tiles.filter(
+        (tile) => doesTitleMatch(tile as TileOrFolder, this.searchQuery) ||
+          doesDescriptionMatch(tile as TileOrFolder, this.searchQuery) ||
+          doesKeywordsMatch(tile as TileOrFolder, this.searchQuery),
+      );
       if (filteredTiles.length === 0) {
         return this.tiles;
       }
       return filteredTiles;
+    },
+    ariaRole(): string {
+      if (this.inModal && this.editMode) {
+        return 'application';
+      }
+      return this.inModal ? 'region' : 'none';
     },
     useNativeHtmlList(): boolean {
       return this.featureToggles.native_html_list ?? false;
@@ -273,6 +306,15 @@ export default defineComponent({
     if (this.$refs.mover) {
       // @ts-ignore
       this.handleDragFocus(this.$refs.mover.$el, this.lastDir);
+    }
+
+    if (this.inModal && this.isTouchDevice) {
+      this.$nextTick(() => {
+        const closeButton = this.$refs['close-button-touch-device'] as { $el?: HTMLElement } | undefined;
+        if (closeButton?.$el) {
+          closeButton.$el.focus();
+        }
+      });
     }
   },
   beforeUnmount() {
@@ -294,9 +336,20 @@ export default defineComponent({
       }
       this.$store.dispatch('modal/setAndShowModal', {
         name: 'PortalFolder',
-        props: { ...(this.$props as object), id: `${this.id}-modal`, inModal: true },
+        props: {
+          ...(this.$props as object),
+          id: `${this.id}-modal`,
+          inModal: true,
+        },
       });
       this.$store.dispatch('activity/setRegion', `${this.id}-modal-content`);
+      this.$nextTick(() => {
+        const closeButton = this.$refs['close-button-touch-device'];
+        if (closeButton) {
+          // @ts-ignore
+          closeButton.$el?.focus();
+        }
+      });
       ev.stopPropagation();
     },
     editFolder() {
@@ -508,7 +561,6 @@ export default defineComponent({
           background-color: var(--bgc-content-container)
           pointer-events: none
 
-   > .portal-tile__icon-bar
+   > .portal-tile__icon-bar--in-modal
     top: calc(-12 * var(--layout-spacing-unit-small))
-
 </style>
