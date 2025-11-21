@@ -17,7 +17,8 @@
           'modal-wrapper': !isActive,
           'modal-wrapper--isVisible': isActive,
           'modal-wrapper--isVisibleFullscreen': isActive && full,
-          'modal-wrapper--isSecondLayer': isSecondModalActive
+          'modal-wrapper--isSecondLayer': isSecondModalActive,
+          'modal-wrapper--isVisible-touchscreen':isActive && isTouchDevice,
         }"
         @click.self="$emit('backgroundClick', $event);"
       >
@@ -126,6 +127,8 @@ export default defineComponent({
 
     &--isVisibleFullscreen
       z-index: $zindex-4
+    &--isVisible-touchscreen
+      z-index: $zindex-3
 
 .modalWrapperFade-enter-active,
 .modalWrapperFade-leave-active
