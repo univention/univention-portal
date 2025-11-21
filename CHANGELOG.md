@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.86.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.1...v0.86.2) (2025-11-21)
+
+
+### Bug Fixes
+
+* bump wait-for-dependency ([8ba1ed7](https://git.knut.univention.de/univention/dev/projects/portal/commit/8ba1ed73dcd7cbe680422fdb0b555598477c1b3d)), closes [univention/dev/internal/team-nubus#1476](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1476)
+* **consumer:** Bump provisionming to version 0.64.0 to fix handling of large groups ([185886d](https://git.knut.univention.de/univention/dev/projects/portal/commit/185886d7bb3aa467d3022d486d637b7d52d40ca5)), closes [univention/dev/projects/open-xchange/connector#143](https://git.knut.univention.de/univention/dev/projects/open-xchange/connector/issues/143)
+
 ## [0.86.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.0...v0.86.1) (2025-11-19)
 
 
