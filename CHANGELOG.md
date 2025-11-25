@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.87.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.2...v0.87.0) (2025-11-25)
+
+
+### Features
+
+* **portal-frontend:** add close button for touch screens ([af29cd3](https://git.knut.univention.de/univention/dev/projects/portal/commit/af29cd30a3141bf2bff697957842b666d6e33ec0)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** add inert for touch devices ([244093a](https://git.knut.univention.de/univention/dev/projects/portal/commit/244093aee08a08b414a109dd01d4e27b8636e409)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** add translation and remove duplcated code by adding value to store ([1224c51](https://git.knut.univention.de/univention/dev/projects/portal/commit/1224c513e465a633804b3cd964b297e87f8ed377)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** adjust zIndex for Touchscreens ([c45320e](https://git.knut.univention.de/univention/dev/projects/portal/commit/c45320ea9eba6cda7f3d0e40bc8af4f273355995)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** fix layout for editmode and force focus on close button when it exists ([77b3c47](https://git.knut.univention.de/univention/dev/projects/portal/commit/77b3c47d4744398763e7ecb9c625e212d968b062)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** make tooltip accessible for touch devices ([cf46104](https://git.knut.univention.de/univention/dev/projects/portal/commit/cf461043c9d8e6797779a29e1ac59279de92382a)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+
 ## [0.86.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.1...v0.86.2) (2025-11-21)
 
 
