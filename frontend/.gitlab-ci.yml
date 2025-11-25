@@ -9,13 +9,12 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.50.0"
+    ref: "v1.52.1"
     file:
       - "defaults/stages.yaml"
       - "templates/kaniko.yaml"
       - "jobs/container-build-external.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
-      - "jobs/container-generate-sbom.yaml"
       - "jobs/generate-filesystem-sbom.yaml"
 
 build-debian-package-builder:
@@ -65,18 +64,11 @@ container-build:
     matrix: *build-matrix
   variables:
     KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
-
-container-generate-sbom:
-  parallel:
-    matrix: *publish-matrix
+  before_script:
+    - cp "${CI_PROJECT_DIR}/sbom-fs-frontend.cdx.json" "${CI_PROJECT_DIR}/frontend"
 
 generate-filesystem-sbom:
   variables:
-    FOLDER: "frontend"
-
-merge-fs-and-image-sboms:
-  variables:
-    IMAGE_NAME: "portal-frontend"
     FOLDER: "frontend"
 
 container-malware-scan:

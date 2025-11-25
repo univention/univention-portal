@@ -92,3 +92,7 @@ COPY --from=build /app/dist /var/www/html
 COPY ./worker/sse-worker.js /var/www/html
 
 ###############################################################################
+
+FROM final AS sbom
+
+COPY ./sbom-fs-frontend.cdx.json /
