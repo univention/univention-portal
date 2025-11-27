@@ -4,11 +4,10 @@
 * */
 
 import { mount } from '@vue/test-utils';
+import Vuex from 'vuex';
 
 import PortalToolTip from '@/components/PortalToolTip.vue';
 import IconButton from '@/components/globals/IconButton.vue';
-
-import Vuex from 'vuex';
 import activity from '@/store/modules/activity';
 
 const tooltipProps = {
@@ -108,5 +107,61 @@ describe('PortalToolTip.vue', () => {
     await wrapper.vm.$nextTick();
     expect(store.dispatch).toHaveBeenCalledWith('tooltip/setHoverOnTooltip', false);
     expect(store.dispatch).toHaveBeenCalledWith('tooltip/unsetTooltip');
+  });
+
+  test('tooltip renders in normal position when not wrapped in teleport', async () => {
+    // This tests the default behavior without teleport
+    const toolTip = wrapper.find('[data-test="portal-tooltip"]');
+    expect(toolTip.exists()).toBe(true);
+    expect(toolTip.classes()).toContain('portal-tooltip');
+  });
+
+  test('tooltip is rendered as direct child of body when teleportTo is set to "body"', async () => {
+    // Mount with Teleport wrapper to simulate parent component behavior
+    const TeleportWrapper = {
+      template: `
+        <Teleport :to="teleportTo" :disabled="!teleportTo">
+          <PortalToolTip v-bind="$attrs" />
+        </Teleport>
+      `,
+      components: { PortalToolTip },
+      props: ['teleportTo'],
+    };
+
+    const wrapperWithTeleport = await mount(TeleportWrapper, {
+      propsData: {
+        ...tooltipProps,
+        teleportTo: 'body',
+      },
+      children: [IconButton],
+      global: {
+        plugins: [store],
+      },
+      attachTo: document.body,
+    });
+
+    await wrapperWithTeleport.vm.$nextTick();
+
+    // Find the tooltip in the DOM
+    const tooltip = document.querySelector('[data-test="portal-tooltip"]');
+    expect(tooltip).not.toBeNull();
+
+    // Verify the tooltip or its transition wrapper is teleported to body
+    // The transition element is the direct child of body, and tooltip is inside it
+    let currentElement = tooltip;
+    let foundBodyAsParent = false;
+
+    // Walk up the DOM tree to find if body is an ancestor
+    while (currentElement && currentElement !== document.documentElement) {
+      if (currentElement.parentElement === document.body) {
+        foundBodyAsParent = true;
+        break;
+      }
+      currentElement = currentElement.parentElement;
+    }
+
+    expect(foundBodyAsParent).toBe(true);
+
+    wrapperWithTeleport.unmount();
   });
 });

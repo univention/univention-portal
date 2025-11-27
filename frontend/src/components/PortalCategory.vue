@@ -167,10 +167,8 @@ export default defineComponent({
   computed: {
     ...mapGetters({
       featureToggles: 'featureToggles/featureToggles',
+      isTouchDevice: 'device/isTouchDevice',
     }),
-    isTouchDevice(): boolean {
-      return 'ontouchstart' in document.documentElement;
-    },
     MOVE_CATEGORY(): string {
       return _('Move category: %(category)s', { category: this.$localized(this.title) });
     },

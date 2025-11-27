@@ -9,12 +9,12 @@ import time
 from importlib.metadata import version
 
 from univention.portal.cli import silence_click, update as portal_update
-from univention.provisioning.consumer import (
+from univention.provisioning.consumer.api import (
     MessageHandler,
     ProvisioningConsumerClient,
     ProvisioningConsumerClientSettings,
 )
-from univention.provisioning.models import ProvisioningMessage
+from univention.provisioning.models.message import ProvisioningMessage
 
 from .group_membership_cache import GroupMembershipCache
 

@@ -4,27 +4,30 @@
 -->
 
 <template>
-  <button
+  <tabindex-element
     id="left-sidebar-navigation-button"
+    tag="button"
+    :active-at="['portal']"
     class="left-sidebar-navigation"
     type="button"
-    tabindex="0"
     aria-label="Open sidebar navigation"
     @click="toggleSidebar"
   >
     <waffle-icon dot-color="inherit" />
-  </button>
+  </tabindex-element>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import TabindexElement from '@/components/activity/TabindexElement.vue';
 import WaffleIcon from '../header/WaffleIcon.vue';
 
 export default defineComponent({
   name: 'LeftSidebarNavigationButton',
   components: {
     WaffleIcon,
+    TabindexElement,
   },
   computed: {
     ...mapGetters({

@@ -35,20 +35,38 @@ const mockProps = {
   originalLinkTarget: 'samewindow',
   tiles: [],
   id: 'test-folder-id',
-  inModal: true, // Set to true to make content visible
+  inModal: true,
 };
 
-test('PortalFolder renders li when native_html_list is true', async () => {
-  const featureToggles = {
-    native_html_list: true,
-  };
+const mockTile = {
+  id: 'test-tile-1',
+  layoutId: 'test-layout-id',
+  dn: 'cn=test-tile,cn=entry,cn=portals,cn=univention,dc=test,dc=de',
+  title: { en_US: 'Test Tile' },
+  description: { en_US: 'Test Description' },
+  keywords: { en_US: 'test keywords' },
+  links: [
+    { locale: 'en_US', value: 'http://example.com' },
+    { locale: 'de_DE', value: 'http://beispiel.de' },
+  ],
+  activated: true,
+  anonymous: false,
+  backgroundColor: '#ffffff',
+  allowedGroups: [],
+  linkTarget: 'samewindow',
+  target: '_self',
+  originalLinkTarget: 'samewindow',
+  pathToLogo: '/path/to/logo.png',
+};
 
+// Helper function to create a Vuex store with configurable options
+function createMockStore({ featureToggles = {}, editMode = false } = {}) {
   const store = new Vuex.Store({
     modules: {
       featureToggles: {
         state: { featureToggles },
         getters: {
-          featureToggles: (featureTogglesState) => featureTogglesState.featureToggles,
+          featureToggles: (state) => state.featureToggles,
         },
         namespaced: true,
       },
@@ -77,9 +95,9 @@ test('PortalFolder renders li when native_html_list is true', async () => {
         namespaced: true,
       },
       portalData: {
-        state: { editMode: false },
+        state: { editMode },
         getters: {
-          editMode: (portalState) => portalState.editMode,
+          editMode: (state) => state.editMode,
         },
         namespaced: true,
       },
@@ -115,32 +133,15 @@ test('PortalFolder renders li when native_html_list is true', async () => {
     },
   });
   store.dispatch = jest.fn();
+  return store;
+}
 
-  const wrapper = mount(PortalFolder, {
+// Helper function to create mount options
+function createMountOptions({ store, props = {}, stubTemplate = '<div><slot /></div>' } = {}) {
+  return {
     props: {
       ...mockProps,
-      tiles: [
-        {
-          id: 'test-tile-1',
-          layoutId: 'test-layout-id',
-          dn: 'cn=test-tile,cn=entry,cn=portals,cn=univention,dc=test,dc=de',
-          title: { en_US: 'Test Tile' },
-          description: { en_US: 'Test Description' },
-          keywords: { en_US: 'test keywords' },
-          links: [
-            { locale: 'en_US', value: 'http://example.com' },
-            { locale: 'de_DE', value: 'http://beispiel.de' },
-          ],
-          activated: true,
-          anonymous: false,
-          backgroundColor: '#ffffff',
-          allowedGroups: [],
-          linkTarget: 'samewindow',
-          target: '_self',
-          originalLinkTarget: 'samewindow',
-          pathToLogo: '/path/to/logo.png',
-        },
-      ],
+      ...props,
     },
     global: {
       plugins: [store],
@@ -149,393 +150,102 @@ test('PortalFolder renders li when native_html_list is true', async () => {
       },
       stubs: {
         'tabindex-element': {
-          template: '<div><slot /></div>', // Render slot content instead of stubbing
+          template: stubTemplate,
         },
       },
     },
-  });
+  };
+}
 
-  // Test that when native_html_list is true, the folder items are li elements
+test('PortalFolder renders li when native_html_list is true', async () => {
+  const store = createMockStore({ featureToggles: { native_html_list: true } });
+  const wrapper = mount(PortalFolder, createMountOptions({
+    store,
+    props: { tiles: [mockTile] },
+  }));
+
   const folderItems = wrapper.findAll('[data-test="portalFolder"]');
   expect(folderItems.length).toBeGreaterThan(0);
   expect(folderItems[0].element.tagName.toLowerCase()).toBe('ul');
 });
 
 test('PortalFolder renders div when native_html_list is false', async () => {
-  const featureToggles = {
-    native_html_list: false,
-  };
+  const store = createMockStore({ featureToggles: { native_html_list: false } });
+  const wrapper = mount(PortalFolder, createMountOptions({
+    store,
+    props: { tiles: [mockTile] },
+  }));
 
-  const store = new Vuex.Store({
-    modules: {
-      featureToggles: {
-        state: { featureToggles },
-        getters: {
-          featureToggles: (featureTogglesState) => featureTogglesState.featureToggles,
-        },
-        namespaced: true,
-      },
-      dragndrop: {
-        state: {
-          inDragnDropMode: false,
-          inKeyboardDragnDropMode: false,
-          id: null,
-          lastDir: null,
-        },
-        getters: {
-          inDragnDropMode: (state) => state.inDragnDropMode,
-          inKeyboardDragnDropMode: (state) => state.inKeyboardDragnDropMode,
-          getId: (state) => state.id || { layoutId: null },
-          getLastDir: (state) => state.lastDir,
-        },
-        namespaced: true,
-      },
-      search: {
-        state: {
-          searchQuery: '',
-        },
-        getters: {
-          searchQuery: (state) => state.searchQuery,
-        },
-        namespaced: true,
-      },
-      portalData: {
-        state: { editMode: false },
-        getters: {
-          editMode: (portalState) => portalState.editMode,
-        },
-        namespaced: true,
-      },
-      metaData: {
-        state: {
-          meta: {
-            fqdn: 'test.example.com',
-          },
-        },
-        getters: {
-          getMeta: (state) => state.meta,
-        },
-        namespaced: true,
-      },
-      locale: {
-        state: {
-          locale: 'en_US',
-        },
-        getters: {
-          getLocale: (state) => state.locale,
-        },
-        namespaced: true,
-      },
-      tooltip: {
-        state: {
-          tooltipID: null,
-        },
-        getters: {
-          getTooltipID: (state) => state.tooltipID,
-        },
-        namespaced: true,
-      },
-    },
-  });
-  store.dispatch = jest.fn();
-
-  const wrapper = mount(PortalFolder, {
-    props: {
-      ...mockProps,
-      tiles: [
-        {
-          id: 'test-tile-1',
-          layoutId: 'test-layout-id',
-          dn: 'cn=test-tile,cn=entry,cn=portals,cn=univention,dc=test,dc=de',
-          title: { en_US: 'Test Tile' },
-          description: { en_US: 'Test Description' },
-          keywords: { en_US: 'test keywords' },
-          links: [
-            { locale: 'en_US', value: 'http://example.com' },
-            { locale: 'de_DE', value: 'http://beispiel.de' },
-          ],
-          activated: true,
-          anonymous: false,
-          backgroundColor: '#ffffff',
-          allowedGroups: [],
-          linkTarget: 'samewindow',
-          target: '_self',
-          originalLinkTarget: 'samewindow',
-          pathToLogo: '/path/to/logo.png',
-        },
-      ],
-    },
-    global: {
-      plugins: [store],
-      mocks: {
-        $localized: (obj) => obj.en_US || obj.de_DE || '',
-      },
-      stubs: {
-        'tabindex-element': {
-          template: '<div><slot /></div>', // Render slot content instead of stubbing
-        },
-      },
-    },
-  });
-
-  // Test that when native_html_list is false, the folder items are div elements
   const folderItems = wrapper.findAll('[data-test="portalFolder"]');
   expect(folderItems.length).toBeGreaterThan(0);
   expect(folderItems[0].element.tagName.toLowerCase()).toBe('div');
 });
 
 test('PortalFolder renders editmode-wrapper when editMode is true and native_html_list is true', async () => {
-  const featureToggles = {
-    native_html_list: true,
-  };
-
-  const store = new Vuex.Store({
-    modules: {
-      featureToggles: {
-        state: { featureToggles },
-        getters: {
-          featureToggles: (featureTogglesState) => featureTogglesState.featureToggles,
-        },
-        namespaced: true,
-      },
-      dragndrop: {
-        state: {
-          inDragnDropMode: false,
-          inKeyboardDragnDropMode: false,
-          id: null,
-          lastDir: null,
-        },
-        getters: {
-          inDragnDropMode: (state) => state.inDragnDropMode,
-          inKeyboardDragnDropMode: (state) => state.inKeyboardDragnDropMode,
-          getId: (state) => state.id || { layoutId: null },
-          getLastDir: (state) => state.lastDir,
-        },
-        namespaced: true,
-      },
-      search: {
-        state: {
-          searchQuery: '',
-        },
-        getters: {
-          searchQuery: (state) => state.searchQuery,
-        },
-        namespaced: true,
-      },
-      portalData: {
-        state: { editMode: true },
-        getters: {
-          editMode: (portalState) => portalState.editMode,
-        },
-        namespaced: true,
-      },
-      metaData: {
-        state: {
-          meta: {
-            fqdn: 'test.example.com',
-          },
-        },
-        getters: {
-          getMeta: (state) => state.meta,
-        },
-        namespaced: true,
-      },
-      locale: {
-        state: {
-          locale: 'en_US',
-        },
-        getters: {
-          getLocale: (state) => state.locale,
-        },
-        namespaced: true,
-      },
-      tooltip: {
-        state: {
-          tooltipID: null,
-        },
-        getters: {
-          getTooltipID: (state) => state.tooltipID,
-        },
-        namespaced: true,
-      },
-    },
+  const store = createMockStore({
+    featureToggles: { native_html_list: true },
+    editMode: true,
   });
-  store.dispatch = jest.fn();
+  const wrapper = mount(PortalFolder, createMountOptions({
+    store,
+    props: { tiles: [mockTile] },
+  }));
 
-  const wrapper = mount(PortalFolder, {
-    props: {
-      ...mockProps,
-      tiles: [
-        {
-          id: 'test-tile-1',
-          layoutId: 'test-layout-id',
-          dn: 'cn=test-tile,cn=entry,cn=portals,cn=univention,dc=test,dc=de',
-          title: { en_US: 'Test Tile' },
-          description: { en_US: 'Test Description' },
-          keywords: { en_US: 'test keywords' },
-          links: [
-            { locale: 'en_US', value: 'http://example.com' },
-            { locale: 'de_DE', value: 'http://beispiel.de' },
-          ],
-          activated: true,
-          anonymous: false,
-          backgroundColor: '#ffffff',
-          allowedGroups: [],
-          linkTarget: 'samewindow',
-          target: '_self',
-          originalLinkTarget: 'samewindow',
-          pathToLogo: '/path/to/logo.png',
-        },
-      ],
-    },
-    global: {
-      plugins: [store],
-      mocks: {
-        $localized: (obj) => obj.en_US || obj.de_DE || '',
-      },
-      stubs: {
-        'tabindex-element': {
-          template: '<div><slot /></div>', // Render slot content instead of stubbing
-        },
-      },
-    },
-  });
-
-  // Test that when editMode is true and native_html_list is true, the editmode-wrapper (div with portal-folder__thumbnails class) exists
   const editmodeWrapper = wrapper.find('[data-test="editmode-wrapper"]');
   expect(editmodeWrapper.exists()).toBe(true);
   expect(editmodeWrapper.element.tagName.toLowerCase()).toBe('div');
   expect(editmodeWrapper.classes()).toContain('portal-folder__thumbnails');
 
-  // The inner folder container should still be a ul
   const folderContainer = wrapper.find('[data-test="portalFolder"]');
   expect(folderContainer.exists()).toBe(true);
   expect(folderContainer.element.tagName.toLowerCase()).toBe('ul');
 });
 
 test('PortalFolder does not render editmode-wrapper when editMode is true and native_html_list is false', async () => {
-  const featureToggles = {
-    native_html_list: false,
-  };
-
-  const store = new Vuex.Store({
-    modules: {
-      featureToggles: {
-        state: { featureToggles },
-        getters: {
-          featureToggles: (featureTogglesState) => featureTogglesState.featureToggles,
-        },
-        namespaced: true,
-      },
-      dragndrop: {
-        state: {
-          inDragnDropMode: false,
-          inKeyboardDragnDropMode: false,
-          id: null,
-          lastDir: null,
-        },
-        getters: {
-          inDragnDropMode: (state) => state.inDragnDropMode,
-          inKeyboardDragnDropMode: (state) => state.inKeyboardDragnDropMode,
-          getId: (state) => state.id || { layoutId: null },
-          getLastDir: (state) => state.lastDir,
-        },
-        namespaced: true,
-      },
-      search: {
-        state: {
-          searchQuery: '',
-        },
-        getters: {
-          searchQuery: (state) => state.searchQuery,
-        },
-        namespaced: true,
-      },
-      portalData: {
-        state: { editMode: true },
-        getters: {
-          editMode: (portalState) => portalState.editMode,
-        },
-        namespaced: true,
-      },
-      metaData: {
-        state: {
-          meta: {
-            fqdn: 'test.example.com',
-          },
-        },
-        getters: {
-          getMeta: (state) => state.meta,
-        },
-        namespaced: true,
-      },
-      locale: {
-        state: {
-          locale: 'en_US',
-        },
-        getters: {
-          getLocale: (state) => state.locale,
-        },
-        namespaced: true,
-      },
-      tooltip: {
-        state: {
-          tooltipID: null,
-        },
-        getters: {
-          getTooltipID: (state) => state.tooltipID,
-        },
-        namespaced: true,
-      },
-    },
+  const store = createMockStore({
+    featureToggles: { native_html_list: false },
+    editMode: true,
   });
-  store.dispatch = jest.fn();
+  const wrapper = mount(PortalFolder, createMountOptions({
+    store,
+    props: { tiles: [mockTile] },
+  }));
 
-  const wrapper = mount(PortalFolder, {
-    props: {
-      ...mockProps,
-      tiles: [
-        {
-          id: 'test-tile-1',
-          layoutId: 'test-layout-id',
-          dn: 'cn=test-tile,cn=entry,cn=portals,cn=univention,dc=test,dc=de',
-          title: { en_US: 'Test Tile' },
-          description: { en_US: 'Test Description' },
-          keywords: { en_US: 'test keywords' },
-          links: [
-            { locale: 'en_US', value: 'http://example.com' },
-            { locale: 'de_DE', value: 'http://beispiel.de' },
-          ],
-          activated: true,
-          anonymous: false,
-          backgroundColor: '#ffffff',
-          allowedGroups: [],
-          linkTarget: 'samewindow',
-          target: '_self',
-          originalLinkTarget: 'samewindow',
-          pathToLogo: '/path/to/logo.png',
-        },
-      ],
-    },
-    global: {
-      plugins: [store],
-      mocks: {
-        $localized: (obj) => obj.en_US || obj.de_DE || '',
-      },
-      stubs: {
-        'tabindex-element': {
-          template: '<div><slot /></div>', // Render slot content instead of stubbing
-        },
-      },
-    },
-  });
-
-  // Test that when editMode is true and native_html_list is false, the editmode-wrapper should not exist
-  // (because it uses TemplateWrapper instead of div)
   const editmodeWrapper = wrapper.find('[data-test="editmode-wrapper"]');
   expect(editmodeWrapper.exists()).toBe(false);
-  // The folder container should be a div (not ul since native_html_list is false)
+
   const folderContainer = wrapper.find('[data-test="portalFolder"]');
   expect(folderContainer.exists()).toBe(true);
   expect(folderContainer.element.tagName.toLowerCase()).toBe('div');
+});
+
+test('PortalFolder has correct ARIA attributes when inModal is true', async () => {
+  const store = createMockStore();
+  const wrapper = mount(PortalFolder, createMountOptions({
+    store,
+    props: { inModal: true },
+    stubTemplate: '<div v-bind="$attrs" data-test="portal-folder"><slot /></div>',
+  }));
+
+  const folderBox = wrapper.find('[data-test="portal-folder"]');
+  expect(folderBox.exists()).toBe(true);
+  expect(folderBox.attributes('role')).toBe('dialog');
+  expect(folderBox.attributes('aria-modal')).toBe('true');
+  expect(folderBox.attributes('aria-labelledby')).toBe('test-folder-id-content');
+});
+
+test('PortalFolder has correct ARIA attributes when inModal is false', async () => {
+  const store = createMockStore();
+  const wrapper = mount(PortalFolder, createMountOptions({
+    store,
+    props: { inModal: false },
+    stubTemplate: '<div v-bind="$attrs" data-test="portal-folder"><slot /></div>',
+  }));
+
+  const folderBox = wrapper.find('[data-test="portal-folder"]');
+  expect(folderBox.exists()).toBe(true);
+  expect(folderBox.attributes('role')).toBe('dialog');
+  expect(folderBox.attributes('aria-modal')).toBeUndefined();
+  expect(folderBox.attributes('aria-labelledby')).toBeUndefined();
+  expect(folderBox.attributes('aria-label')).toBeTruthy();
 });

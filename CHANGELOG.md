@@ -1,5 +1,55 @@
 # Changelog
 
+## [0.88.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.87.0...v0.88.0) (2025-11-27)
+
+
+### Features
+
+* **frontend:** include sbom in container ([6e4af01](https://git.knut.univention.de/univention/dev/projects/portal/commit/6e4af01c4fdd959d207db9848a29eb53fd963e1f)), closes [univention/dev/tooling/vulnerability-management#1](https://git.knut.univention.de/univention/dev/tooling/vulnerability-management/issues/1)
+
+## [0.87.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.2...v0.87.0) (2025-11-25)
+
+
+### Features
+
+* **portal-frontend:** add close button for touch screens ([af29cd3](https://git.knut.univention.de/univention/dev/projects/portal/commit/af29cd30a3141bf2bff697957842b666d6e33ec0)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** add inert for touch devices ([244093a](https://git.knut.univention.de/univention/dev/projects/portal/commit/244093aee08a08b414a109dd01d4e27b8636e409)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** add translation and remove duplcated code by adding value to store ([1224c51](https://git.knut.univention.de/univention/dev/projects/portal/commit/1224c513e465a633804b3cd964b297e87f8ed377)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** adjust zIndex for Touchscreens ([c45320e](https://git.knut.univention.de/univention/dev/projects/portal/commit/c45320ea9eba6cda7f3d0e40bc8af4f273355995)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** fix layout for editmode and force focus on close button when it exists ([77b3c47](https://git.knut.univention.de/univention/dev/projects/portal/commit/77b3c47d4744398763e7ecb9c625e212d968b062)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** make tooltip accessible for touch devices ([cf46104](https://git.knut.univention.de/univention/dev/projects/portal/commit/cf461043c9d8e6797779a29e1ac59279de92382a)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+
+## [0.86.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.1...v0.86.2) (2025-11-21)
+
+
+### Bug Fixes
+
+* bump wait-for-dependency ([8ba1ed7](https://git.knut.univention.de/univention/dev/projects/portal/commit/8ba1ed73dcd7cbe680422fdb0b555598477c1b3d)), closes [univention/dev/internal/team-nubus#1476](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1476)
+* **consumer:** Bump provisionming to version 0.64.0 to fix handling of large groups ([185886d](https://git.knut.univention.de/univention/dev/projects/portal/commit/185886d7bb3aa467d3022d486d637b7d52d40ca5)), closes [univention/dev/projects/open-xchange/connector#143](https://git.knut.univention.de/univention/dev/projects/open-xchange/connector/issues/143)
+
+## [0.86.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.0...v0.86.1) (2025-11-19)
+
+
+### Bug Fixes
+
+* **helm:** Use AWS-standard secret_access_key field name ([6f4e3c2](https://git.knut.univention.de/univention/dev/projects/portal/commit/6f4e3c2199c0f1255587a431a16eda6376a5732f)), closes [univention/dev/internal/team-nubus#1523](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1523)
+
+## [0.86.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.2...v0.86.0) (2025-11-04)
+
+
+### Features
+
+* **portal-frontend:** add and refactor test ([862995e](https://git.knut.univention.de/univention/dev/projects/portal/commit/862995ee34d60ec20e3c1f41e6d092c33b8e7a00)), closes [univention/dev/projects/portal#747](https://git.knut.univention.de/univention/dev/projects/portal/issues/747)
+* **portal-frontend:** enhance accessibility by adding inert attributes and pointer-events styles ([4f796e1](https://git.knut.univention.de/univention/dev/projects/portal/commit/4f796e12ebe0a14eeb615d8b1a0c1c24edf37444)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+* **portal-frontend:** improve accessibility on modals ([738016b](https://git.knut.univention.de/univention/dev/projects/portal/commit/738016b2ba2a06ebffa71fb172ca693900bab37a)), closes [univention/dev/projects/portal#747](https://git.knut.univention.de/univention/dev/projects/portal/issues/747)
+
+## [0.85.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.1...v0.85.2) (2025-11-04)
+
+
+### Bug Fixes
+
+* **deps:** Update gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base Docker tag to v5.2.3-build.20251030 ([be48eb1](https://git.knut.univention.de/univention/dev/projects/portal/commit/be48eb1ad3bada20e02d3398b3eedff131fcf61e)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.85.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.85.0...v0.85.1) (2025-11-03)
 
 

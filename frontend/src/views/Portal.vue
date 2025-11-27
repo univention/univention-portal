@@ -76,17 +76,19 @@
     </div>
 
     <notifications :is-in-notification-bar="false" />
-
-    <portal-tool-tip
-      v-if="tooltip"
-      v-bind="tooltip"
-    />
+    <Teleport
+      :to="tooltip?.teleportTo"
+      :disabled="!tooltip?.teleportTo"
+    >
+      <portal-tool-tip
+        v-if="tooltip"
+        v-bind="tooltip"
+      />
+    </Teleport>
     <portal-sidebar />
     <portal-corner-links />
     <portal-modal />
-    <portal-modal
-      :modal-level="2"
-    />
+    <portal-modal :modal-level="2" />
     <router-view />
     <loading-overlay />
     <umc-session-refresh-iframe />
@@ -137,7 +139,7 @@ export default defineComponent({
     ScreenReaderAnnouncer,
     UmcSessionRefreshIframe,
   },
-  data(): {playTileAnimation: boolean} {
+  data(): { playTileAnimation: boolean } {
     return {
       playTileAnimation: true,
     };
@@ -160,7 +162,11 @@ export default defineComponent({
       return _('No search results');
     },
     noSearchResults(): boolean {
-      return this.portalLoaded && this.portalFinalLayoutFiltered.length === 0 && !this.inFolderModal;
+      return (
+        this.portalLoaded &&
+        this.portalFinalLayoutFiltered.length === 0 &&
+        !this.inFolderModal
+      );
     },
     portalRole(): string {
       return this.editMode ? 'application' : '';

@@ -17,7 +17,8 @@
           'modal-wrapper': !isActive,
           'modal-wrapper--isVisible': isActive,
           'modal-wrapper--isVisibleFullscreen': isActive && full,
-          'modal-wrapper--isSecondLayer': isSecondModalActive
+          'modal-wrapper--isSecondLayer': isSecondModalActive,
+          'modal-wrapper--isVisible-touchscreen':isActive && isTouchDevice,
         }"
         @click.self="$emit('backgroundClick', $event);"
       >
@@ -29,6 +30,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   name: 'ModalWrapper',
@@ -53,12 +55,33 @@ export default defineComponent({
   },
   emits: ['backgroundClick'],
   computed: {
+    ...mapGetters({
+      isTouchDevice: 'device/isTouchDevice',
+    }),
     isSecondModalActive(): boolean {
       return this.modalLevel === 2 && this.isActive;
     },
     setID(): string | null {
       return this.isActive ? `modal-wrapper--isVisible-${this.modalLevel}` : null;
     },
+  },
+  watch: {
+    isActive(newValue: boolean) {
+      const appElement = document.getElementById('app');
+      if (appElement) {
+        if (newValue && this.isTouchDevice) {
+          appElement.setAttribute('inert', '');
+        } else {
+          appElement.removeAttribute('inert');
+        }
+      }
+    },
+  },
+  beforeUnmount() {
+    const appElement = document.getElementById('app');
+    if (appElement) {
+      appElement.removeAttribute('inert');
+    }
   },
 });
 </script>
@@ -104,6 +127,8 @@ export default defineComponent({
 
     &--isVisibleFullscreen
       z-index: $zindex-4
+    &--isVisible-touchscreen
+      z-index: $zindex-3
 
 .modalWrapperFade-enter-active,
 .modalWrapperFade-leave-active

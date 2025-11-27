@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phoenixportal\n"
 "Report-Msgid-Bugs-To: packages@univention.de\n"
-"POT-Creation-Date: 2025-09-30 15:53+0000\n"
+"POT-Creation-Date: 2025-11-14 12:18+0000\n"
 "PO-Revision-Date: 2021-02-18 00:49+0100\n"
 "Last-Translator: Dirk Wiesenthal <wiesenthal@univention.de>\n"
 "Language-Team: German <packages@univention.de>\n"
@@ -28,7 +28,7 @@ msgstr "%(label)s %(idx)s entfernt"
 msgid "%(num)s result(s)"
 msgstr "%(num)s Ergebnis(se)"
 
-#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:59
+#: frontend/src/tmp/ts/frontend/src/components/search/PortalSearch.vue:53
 msgid "%(num)s search results"
 msgstr "%(num)s Suchergebnisse"
 
@@ -53,8 +53,8 @@ msgstr "Kontolöschung"
 msgid "Account verification"
 msgstr "Kontoverifizierung"
 
-#: frontend/src/store/modules/portalData/index.ts:486
-#: frontend/src/store/modules/portalData/index.ts:494
+#: frontend/src/store/modules/portalData/index.ts:485
+#: frontend/src/store/modules/portalData/index.ts:493
 msgid "Action not possible. Please try another direction."
 msgstr ""
 "Diese Aktion ist nicht möglich. Versuchen Sie bitte eine andere Richtung."
@@ -161,7 +161,7 @@ msgstr "Kann nur von diesen Gruppen gesehen werden"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: frontend/src/store/modules/portalData/index.ts:717
+#: frontend/src/store/modules/portalData/index.ts:716
 msgid "Categories could not be re-sorted"
 msgstr "Kategorien konnten nicht umsortiert werden"
 
@@ -207,7 +207,7 @@ msgstr "Kategorie erfolgreich gelöscht"
 msgid "Category successfully unlinked"
 msgstr "Kategorie erfolgreich entfernt"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:65
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:63
 msgid "Change language"
 msgstr "Sprache ändern"
 
@@ -235,11 +235,15 @@ msgstr "Tab wählen"
 msgid "Close"
 msgstr "schließen"
 
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:96
+msgid "Close Folder: %(folder)s"
+msgstr "Ordner %(folder)s schließen"
+
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:89
 msgid "Close Submenu"
 msgstr "Untermenü schließen"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalToolTip.vue:63
+#: frontend/src/tmp/ts/frontend/src/components/PortalToolTip.vue:67
 msgid "Close Tooltip"
 msgstr "Tooltip schließen"
 
@@ -311,12 +315,12 @@ msgstr ""
 "oder nur die Verbindung des Objektes hierhin entfernen, sodass Sie es noch "
 "anderswo nutzen können."
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:255
+#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:256
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:84
 msgid "Download"
 msgstr "Download"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:87
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:90
 msgid "Edit Folder: %(folder)s"
 msgstr "Ordner %(folder)s bearbeiten"
 
@@ -328,15 +332,15 @@ msgstr "Übersetzungen bearbeiten"
 msgid "Edit category: %(category)s"
 msgstr "Kategorie %(category)s bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:214
+#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:215
 msgid "Edit entry"
 msgstr "Eintrag bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:154
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:160
 msgid "Edit folder"
 msgstr "Ordner bearbeiten"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:62
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:60
 msgid "Edit portal"
 msgstr "Portal bearbeiten"
 
@@ -418,7 +422,7 @@ msgstr "Senden des Verifizierungs-Token fehlgeschlagen"
 msgid "Failed to set a password"
 msgstr "Passwort setzen ist fehlgeschlagen"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:81
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:84
 msgid "Folder"
 msgstr "Ordner"
 
@@ -465,7 +469,7 @@ msgstr "Haben Sie Ihr Passwort vergessen? Setzen Sie ein neues:"
 msgid "Generate WLAN password"
 msgstr "WLAN-Passwort erzeugen"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:59
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:57
 msgid "Go Back"
 msgstr "Gehe zurück"
 
@@ -539,12 +543,12 @@ msgstr ""
 "mindestens 2 Zeichen lang sein, und mit einer Ziffer oder einem Buchstaben "
 "beginnen und enden."
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:76
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:79
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:61
 msgid "Item"
 msgstr "Eintrag"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:78
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:81
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:63
 msgid "Items"
 msgstr "Einträge"
@@ -575,11 +579,11 @@ msgstr "Links"
 msgid "Logged in as \"%(username)s\""
 msgstr "Angemeldet als \"%(username)s\""
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:56
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:54
 msgid "Login"
 msgstr "Anmelden"
 
-#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:53
+#: frontend/src/tmp/ts/frontend/src/components/navigation/SideNavigation.vue:51
 msgid "Logout"
 msgstr "Abmelden"
 
@@ -587,7 +591,7 @@ msgstr "Abmelden"
 msgid "Menu"
 msgstr "Menü"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:90
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:93
 msgid "Move Folder: %(folder)s"
 msgstr "Ordner %(folder)s verschieben"
 
@@ -612,7 +616,7 @@ msgstr "Kachel %(entry)s verschieben"
 msgid "Name"
 msgstr "Name"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:247
+#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:248
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:82
 msgid "New Tab"
 msgstr "Neuer Tab"
@@ -639,7 +643,7 @@ msgstr "Neuer Tab"
 msgid "Next"
 msgstr "Weiter"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:74
+#: frontend/src/tmp/ts/frontend/src/components/PortalFolder.vue:77
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:59
 msgid "No items"
 msgstr "Keine Einträge"
@@ -795,7 +799,7 @@ msgstr "Auswahl entfernt"
 msgid "Request new token"
 msgstr "Neuen Token anfordern"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:243
+#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:244
 #: frontend/src/tmp/ts/frontend/src/components/admin/Entry.vue:81
 #: frontend/src/tmp/ts/frontend/src/components/navigation/EditModeSideNavigation.vue:46
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:81
@@ -988,11 +992,11 @@ msgstr "Token"
 msgid "Token sent"
 msgstr "Token versendet"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:224
+#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:225
 msgid "Tooltip displayed"
 msgstr "Tooltip angezeigt"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:221
+#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:222
 msgid "Tooltip hidden"
 msgstr "Tooltip versteckt"
 
@@ -1145,7 +1149,7 @@ msgstr ""
 msgid "close search"
 msgstr "Suche schließen"
 
-#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:251
+#: frontend/src/tmp/ts/frontend/src/components/PortalTile.vue:252
 #: frontend/src/tmp/ts/frontend/src/components/navigation/MenuItem.vue:83
 msgid "iFrame"
 msgstr "iFrame"

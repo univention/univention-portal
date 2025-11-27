@@ -2,13 +2,12 @@
   * SPDX-FileCopyrightText: 2021-2025 Univention GmbH
   * SPDX-License-Identifier: AGPL-3.0-only
   */
-// vue
-// modules
-import { getAdminState } from '@/jsHelper/admin';
+import { useStore as baseUseStore, createStore, Store } from 'vuex';
 import axios from 'axios';
 import { InjectionKey } from 'vue';
-import { useStore as baseUseStore, createStore, Store } from 'vuex';
+import { getAdminState } from '@/jsHelper/admin';
 import activity from './modules/activity';
+import device from './modules/device';
 import dragndrop from './modules/dragndrop';
 import featureToggles from './modules/featureToggles';
 import locale from './modules/locale';
@@ -87,7 +86,7 @@ export const actions = {
 
       // Only call api/me if feature toggle is enabled
       let apiMe;
-      if (portal.feature_toggles?.api_me) {
+      if (portal?.feature_toggles?.api_me) {
         try {
           const apiMeResponse = await axios.get(`${portalUrl}${portalApiMePath}`);
           apiMe = apiMeResponse.data;
@@ -124,7 +123,7 @@ export const actions = {
         dispatch('portalData/setPortalErrorDisplay', 502);
         dispatch('deactivateLoadingState');
       } else {
-        if (portal.feature_toggles) {
+        if (portal?.feature_toggles) {
           commit('featureToggles/setFeatureToggles', portal.feature_toggles);
         } else {
           console.warn('Key "feature_toggles" missing in portal data.');
@@ -199,6 +198,7 @@ export const store = createStore<RootState>({
   getters,
   modules: {
     activity,
+    device,
     featureToggles,
     dragndrop,
     locale,

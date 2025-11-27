@@ -4,6 +4,7 @@
 -->
 <template>
   <component
+    v-bind="$attrs"
     :is="tag"
     :id="id"
     :tabindex="tabIndex"
