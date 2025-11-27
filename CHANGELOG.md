@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.88.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.87.0...v0.88.0) (2025-11-27)
+
+
+### Features
+
+* **frontend:** include sbom in container ([6e4af01](https://git.knut.univention.de/univention/dev/projects/portal/commit/6e4af01c4fdd959d207db9848a29eb53fd963e1f)), closes [univention/dev/tooling/vulnerability-management#1](https://git.knut.univention.de/univention/dev/tooling/vulnerability-management/issues/1)
+
 ## [0.87.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.86.2...v0.87.0) (2025-11-25)
 
 
