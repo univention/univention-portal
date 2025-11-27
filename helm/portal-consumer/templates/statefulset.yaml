@@ -316,7 +316,7 @@ spec:
             - name: group-membership-cache
               mountPath: /usr/share/univention-group-membership-cache/caches
             - name: secret-ldap
-              mountPath: /var/secrets/ldap_password"
+              mountPath: /var/secrets/ldap_password
               subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) }}
               readOnly: true
             - name: secret-ldap
