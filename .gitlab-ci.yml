@@ -102,6 +102,7 @@ trigger-portal-server:
         - "unittests/**/*"
         - "univention-portal"
         - "univention-portal-server"
+        - "requirements.txt"
 
 # TODO: Pending removal. This can be removed once the ucs-machine (VMs) are not
 # used anymore. Usage in the dev environment and in the SouvAP deployment.
