@@ -173,7 +173,7 @@ true
 []
 </pre>
 </td>
-			<td>Array with extra environment variables to add to containers.</td>
+			<td>Array with extra environment variables to add to containers</td>
 		</tr>
 		<tr>
 			<td>extraSecrets</td>

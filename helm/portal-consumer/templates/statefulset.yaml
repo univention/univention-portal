@@ -5,6 +5,7 @@
 {{ $containerSecurityContext := omit .Values.containerSecurityContext "enabled" }}
 {{ $livenessProbe := omit .Values.probes.liveness "enabled" }}
 {{ $readinessProbe := omit .Values.probes.readiness "enabled" }}
+{{ $extraEnvVars := concat (.Values.extraEnvVars | default list) (.Values.waitForDependency.extraEnvVars | default list) }}
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -64,10 +65,10 @@ spec:
           command: ["/bin/bash", "/scripts/wait-for-ldap.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+          {{- with $extraEnvVars }}
           env:
-            {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
-            {{- end }}
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
@@ -112,10 +113,10 @@ spec:
           command: ["/bin/bash", "/scripts/wait-for-udm.sh"]
           image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+          {{- with $extraEnvVars }}
           env:
-            {{- with .Values.waitForDependency.extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
-            {{- end }}
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
@@ -174,7 +175,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key" "context" .) }}
-            {{- with .Values.waitForDependency.extraEnvVars }}
+            {{- with $extraEnvVars }}
             {{- . | toYaml | nindent 12 }}
             {{- end }}
           volumeMounts:
@@ -202,6 +203,9 @@ spec:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password" "context" .) }}
+          {{- with $extraEnvVars }}
+          {{- . | toYaml | nindent 12 }}
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ include "common.names.fullname" . }}
@@ -235,6 +239,9 @@ spec:
                 secretKeyRef:
                   name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "defaultNameSuffix" "provisioning-api" "context" .) }}
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.provisioningApi.auth.existingSecret "key" "password" "context" .) }}
+          {{- with $extraEnvVars }}
+          {{- . | toYaml | nindent 12 }}
+          {{- end }}
           command:
             - sh
             - -c

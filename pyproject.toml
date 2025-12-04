@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2025 Univention GmbH
+
 [tool.ruff]
 # ruff 0.0.246
 external = ["W601", "F812", "E403", "E704"]

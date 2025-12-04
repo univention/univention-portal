@@ -70,6 +70,10 @@ spec:
             - |
               set -euxo pipefail
               cp -a /usr/share/univention-portal/* /target/usr/share/univention-portal/
+          {{- with .Values.extraEnvVars }}
+          env:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: usr-share-univention-portal-volume
               mountPath: /target/usr/share/univention-portal

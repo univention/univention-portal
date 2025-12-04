@@ -203,7 +203,7 @@ services:
         target: /app/univention-portal-server
 
   test-chart-portal-frontend:
-    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.28.0
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.29.0
     command: pytest tests/helm/chart
     profiles:
       - test
@@ -213,7 +213,7 @@ services:
       - "../frontend/tests/chart:/app/tests/helm/chart"
 
   test-chart-portal-server:
-    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.28.0
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.29.0
     command: pytest tests/helm/chart
     profiles:
       - test
@@ -222,7 +222,7 @@ services:
       - "../portal-server/tests/chart:/app/tests/helm/chart"
 
   test-chart-portal-consumer:
-    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.28.0
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.29.0
     command: pytest tests/helm/chart
     profiles:
       - test
@@ -231,7 +231,7 @@ services:
       - "../portal-consumer/tests/chart:/app/tests/helm/chart"
 
   test-chart-notifications-api:
-    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.28.0
+    image: gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.29.0
     command: pytest tests/helm/chart
     profiles:
       - test
