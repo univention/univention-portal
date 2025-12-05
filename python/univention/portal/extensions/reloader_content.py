@@ -26,7 +26,6 @@ logger = logging.getLogger(__name__)
 
 
 class PortalContentFetcherUDMREST(PortalContentFetcherBase):
-
     def __init__(self, portal_dn, assets_base_url=None):
         self._portal_dn = portal_dn
         self._assets_base_url = self._validate_assets_base_url(assets_base_url)
@@ -96,8 +95,8 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
     def _create_udm_client(self):
         logger.debug("Connecting to UDM at URL: %s", log_url_safe(config.fetch("udm_api_url")))
         udm = udm_client.UDM.http(
-            config.fetch('udm_api_url'),
-            config.fetch('udm_api_username'),
+            config.fetch("udm_api_url"),
+            config.fetch("udm_api_username"),
             Path(config.fetch("udm_api_password_file")).read_text().strip(),
         )
         return udm
@@ -120,8 +119,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
             portal["logo"] = self._collect_asset(portal["logo"], portal_name, dirname="logos")
 
         if portal["background"]:
-            portal["background"] = self._collect_asset(
-                portal["background"], portal_name, dirname="backgrounds")
+            portal["background"] = self._collect_asset(portal["background"], portal_name, dirname="backgrounds")
 
         return portal
 
@@ -177,7 +175,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
                 "anonymous": entry.properties["anonymous"],
                 "allowedGroups": entry.properties["allowedGroups"],
                 "guardianPermissionView": entry.properties.get("guardianPermissionView", ""),
-                "links": [{'locale': _[0], 'value': _[1]} for _ in entry.properties["link"]],
+                "links": [{"locale": _[0], "value": _[1]} for _ in entry.properties["link"]],
                 "linkTarget": entry.properties["linkTarget"],
                 "target": entry.properties["target"],
                 "backgroundColor": entry.properties["backgroundColor"],
@@ -212,7 +210,8 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
 
     def _collect_asset(self, content, name, dirname):
         name = name.replace(
-            "/", "-",
+            "/",
+            "-",
         )  # name must not contain / and must be a path which can be accessed via the web!
         binary_content = a2b_base64(content)
         extension = what(None, binary_content) or "svg"
@@ -227,7 +226,6 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
 
 
 class GroupsContentFetcher:
-
     assets = ()
 
     def fetch(self):

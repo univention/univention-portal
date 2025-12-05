@@ -21,7 +21,6 @@ logger = logging.getLogger(__name__)
 
 
 class PortalContentFetcherUDM(PortalContentFetcherBase):
-
     def __init__(self, portal_dn, assets_base_url=None):
         self._portal_dn = portal_dn
         self._assets_base_url = self._validate_assets_base_url(assets_base_url)
@@ -155,7 +154,7 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
                 "in_portal": in_portal,
                 "name": entry.props.displayName,
                 "description": entry.props.description,
-                'keywords': entry.props.keywords,
+                "keywords": entry.props.keywords,
                 "icon_url": icon_url,
                 "activated": entry.props.activated,
                 "anonymous": entry.props.anonymous,
@@ -200,7 +199,8 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
 
     def _collect_asset(self, content, name, dirname):
         name = name.replace(
-            "/", "-",
+            "/",
+            "-",
         )  # name must not contain / and must be a path which can be accessed via the web!
         extension = what(None, content) or "svg"
         path = f"./icons/{quote(dirname)}/{quote(name)}.{quote(extension)}"

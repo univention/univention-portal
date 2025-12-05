@@ -67,9 +67,7 @@ def test_portal_content_fetcher_propagates_connectionerror(mocker):
     content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
     udm_return = mocker.Mock()
     udm_return.get.side_effect = udm_client.ConnectionError
-    mocker.patch.object(
-        PortalContentFetcherUDMREST, "_create_udm_client",
-        return_value=udm_return)
+    mocker.patch.object(PortalContentFetcherUDMREST, "_create_udm_client", return_value=udm_return)
 
     with pytest.raises(udm_client.ConnectionError):
         content_fetcher.fetch()
@@ -80,10 +78,13 @@ def test_collect_asset_returns_relative_asset_url_by_default(portal_content_fetc
     assert asset_url == "./icons/stub_dirname/stub_name.svg"
 
 
-@pytest.mark.parametrize("base_url", [
-    "https://external.store.example/stub_bucket",
-    "https://external.store.example/stub_bucket/",
-])
+@pytest.mark.parametrize(
+    "base_url",
+    [
+        "https://external.store.example/stub_bucket",
+        "https://external.store.example/stub_bucket/",
+    ],
+)
 def test_collect_asset_returns_external_url_udm_rest(base_url):
     content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn, assets_base_url=base_url)
     asset_url = content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
@@ -93,10 +94,13 @@ def test_collect_asset_returns_external_url_udm_rest(base_url):
 # TODO: This behavior does not seem to be useful. The implementation should
 # probably just raise an exception if `assets_base_url` has a value other than
 # None or the empty string.
-@pytest.mark.parametrize("base_url", [
-    "https://external.store.example/stub_bucket",
-    "https://external.store.example/stub_bucket/",
-])
+@pytest.mark.parametrize(
+    "base_url",
+    [
+        "https://external.store.example/stub_bucket",
+        "https://external.store.example/stub_bucket/",
+    ],
+)
 def test_collect_asset_returns_external_url(base_url):
     content_fetcher = PortalContentFetcherUDM(stub_portal_dn, assets_base_url=base_url)
     asset_url = content_fetcher._collect_asset(b"<svg />", "stub_name", "stub_dirname")
@@ -104,7 +108,10 @@ def test_collect_asset_returns_external_url(base_url):
 
 
 def test_portal_content_fetcher_adds_referred_entries_from_link_list(
-    portal_content_fetcher, stub_udm, portal_link_list, mocker,
+    portal_content_fetcher,
+    stub_udm,
+    portal_link_list,
+    mocker,
 ):
     stub_entry = _create_stub_entry(stub_udm)
     stub_portal_module = stub_udm.get("portals/portal")
@@ -123,7 +130,10 @@ def test_portal_content_fetcher_adds_referred_entries_from_link_list(
 
 
 def test_portal_content_fetcher_adds_referred_folders_from_link_list(
-    portal_content_fetcher, stub_udm, portal_link_list, mocker,
+    portal_content_fetcher,
+    stub_udm,
+    portal_link_list,
+    mocker,
 ):
     stub_folder = _create_stub_folder(stub_udm)
     stub_portal_module = stub_udm.get("portals/portal")
@@ -144,7 +154,9 @@ def test_portal_content_fetcher_adds_referred_folders_from_link_list(
 
 
 def test_portal_content_fetcher_adds_referred_entries_from_category(
-    portal_content_fetcher, stub_udm, mocker,
+    portal_content_fetcher,
+    stub_udm,
+    mocker,
 ):
     stub_entry = _create_stub_entry(stub_udm)
     stub_category_module = stub_udm.get("portals/category")
@@ -157,7 +169,9 @@ def test_portal_content_fetcher_adds_referred_entries_from_category(
 
 
 def test_portal_content_fetcher_adds_referred_folders_from_category(
-    portal_content_fetcher, stub_udm, mocker,
+    portal_content_fetcher,
+    stub_udm,
+    mocker,
 ):
     stub_folder = _create_stub_folder(stub_udm)
     stub_category_module = stub_udm.get("portals/category")
@@ -170,7 +184,9 @@ def test_portal_content_fetcher_adds_referred_folders_from_category(
 
 
 def test_portal_content_fetcher_adds_referred_entries_from_folder(
-    portal_content_fetcher, stub_udm, mocker,
+    portal_content_fetcher,
+    stub_udm,
+    mocker,
 ):
     stub_entry = _create_stub_entry(stub_udm)
     stub_folder_module = stub_udm.get("portals/folder")
@@ -183,20 +199,14 @@ def test_portal_content_fetcher_adds_referred_entries_from_folder(
 
 
 def _create_stub_entry(stub_udm):
-    stub_entry = stub_udm_client.StubUDMObject(
-        "cn=entry,cn=testcase,dc=test",
-        stub_udm,
-        copy.deepcopy(stub_udm_client.entry_properties))
+    stub_entry = stub_udm_client.StubUDMObject("cn=entry,cn=testcase,dc=test", stub_udm, copy.deepcopy(stub_udm_client.entry_properties))
     stub_entry_module = stub_udm.get("portals/entry")
     stub_entry_module.stub_add_object(stub_entry)
     return stub_entry
 
 
 def _create_stub_folder(stub_udm):
-    stub_folder = stub_udm_client.StubUDMObject(
-        "cn=folder,cn=testcase,dc=test",
-        stub_udm,
-        copy.deepcopy(stub_udm_client.folder_properties))
+    stub_folder = stub_udm_client.StubUDMObject("cn=folder,cn=testcase,dc=test", stub_udm, copy.deepcopy(stub_udm_client.folder_properties))
     stub_entry_module = stub_udm.get("portals/folder")
     stub_entry_module.stub_add_object(stub_folder)
     return stub_folder
@@ -291,7 +301,8 @@ def test_portal_content_fetcher_returns_content(portal_content_fetcher, mocker):
 def test_portal_content_fetcher_fetch_returns_json(mocker):
     stub_content = {"stub_result": "stub_value"}
     mocker.patch.object(
-        PortalContentFetcherUDMREST, "_fetch",
+        PortalContentFetcherUDMREST,
+        "_fetch",
         return_value=stub_content,
     )
     content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
@@ -301,31 +312,30 @@ def test_portal_content_fetcher_fetch_returns_json(mocker):
 
 def test_group_content_fetcher_returns_content(mocker):
     stub_users = {
-        'administrator': [
-            'cn=computers,cn=groups,dc=univention,dc=intranet',
-            'cn=dc backup hosts,cn=groups,dc=univention,dc=intranet',
-            'cn=dc slave hosts,cn=groups,dc=univention,dc=intranet',
-            'cn=domain admins,cn=groups,dc=univention,dc=intranet',
-            'cn=domain users,cn=groups,dc=univention,dc=intranet',
-            'cn=windows hosts,cn=groups,dc=univention,dc=intranet'],
-        'join-backup': [
-            'cn=backup join,cn=groups,dc=univention,dc=intranet',
-            'cn=computers,cn=groups,dc=univention,dc=intranet',
-            'cn=dc backup hosts,cn=groups,dc=univention,dc=intranet',
-            'cn=dc slave hosts,cn=groups,dc=univention,dc=intranet',
-            'cn=slave join,cn=groups,dc=univention,dc=intranet',
-            'cn=windows hosts,cn=groups,dc=univention,dc=intranet'],
-        'join-slave': [
-            'cn=computers,cn=groups,dc=univention,dc=intranet',
-            'cn=dc slave hosts,cn=groups,dc=univention,dc=intranet',
-            'cn=slave join,cn=groups,dc=univention,dc=intranet'],
-        'testuser': [
-            'cn=domain users,cn=groups,dc=univention,dc=intranet'],
-        'ucs-sso': [
-            'cn=domain users,cn=groups,dc=univention,dc=intranet'],
-        'user': [
-            'cn=domain admins,cn=groups,dc=univention,dc=intranet',
-            'cn=domain users,cn=groups,dc=univention,dc=intranet'],
+        "administrator": [
+            "cn=computers,cn=groups,dc=univention,dc=intranet",
+            "cn=dc backup hosts,cn=groups,dc=univention,dc=intranet",
+            "cn=dc slave hosts,cn=groups,dc=univention,dc=intranet",
+            "cn=domain admins,cn=groups,dc=univention,dc=intranet",
+            "cn=domain users,cn=groups,dc=univention,dc=intranet",
+            "cn=windows hosts,cn=groups,dc=univention,dc=intranet",
+        ],
+        "join-backup": [
+            "cn=backup join,cn=groups,dc=univention,dc=intranet",
+            "cn=computers,cn=groups,dc=univention,dc=intranet",
+            "cn=dc backup hosts,cn=groups,dc=univention,dc=intranet",
+            "cn=dc slave hosts,cn=groups,dc=univention,dc=intranet",
+            "cn=slave join,cn=groups,dc=univention,dc=intranet",
+            "cn=windows hosts,cn=groups,dc=univention,dc=intranet",
+        ],
+        "join-slave": [
+            "cn=computers,cn=groups,dc=univention,dc=intranet",
+            "cn=dc slave hosts,cn=groups,dc=univention,dc=intranet",
+            "cn=slave join,cn=groups,dc=univention,dc=intranet",
+        ],
+        "testuser": ["cn=domain users,cn=groups,dc=univention,dc=intranet"],
+        "ucs-sso": ["cn=domain users,cn=groups,dc=univention,dc=intranet"],
+        "user": ["cn=domain admins,cn=groups,dc=univention,dc=intranet", "cn=domain users,cn=groups,dc=univention,dc=intranet"],
     }
 
     mocker.patch.object(GroupsContentFetcher, "_get_users_from_ldap", return_value=stub_users)

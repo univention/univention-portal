@@ -81,7 +81,6 @@ stub_flavor_registry = {
 
 
 class StubUDMClient:
-
     def __init__(self, data=None, flavor="PortalContentFetcherUDMREST"):
         self._flavor = stub_flavor_registry[flavor]
         if data:
@@ -126,7 +125,6 @@ class StubUDMClient:
 
 
 class StubUDMModule:
-
     def __init__(self, name, parent: StubUDMClient, objects):
         self._stub_objects = {o.dn: o for o in objects}
         self._name = name
@@ -143,7 +141,6 @@ class StubUDMModule:
 
 
 class StubUDMObject:
-
     def __init__(self, dn, parent: StubUDMClient, properties):
         self.dn = dn
         self._parent = parent
@@ -177,7 +174,7 @@ class PropsAdapter:
         # TODO: Workaround for the "link" attribute in PortalEntry returning
         # different structures in UDM and UDM Rest.
         if attr == "link":
-            return [{'locale': _[0], 'value': _[1]} for _ in self._original["link"]]
+            return [{"locale": _[0], "value": _[1]} for _ in self._original["link"]]
         if isinstance(value, bytes):
             return B64BytesAdapter(value)
         else:
