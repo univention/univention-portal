@@ -108,6 +108,11 @@ property_descriptions = {
         syntax=univention.admin.syntax.string,
         dontsearch=True,
     ),
+    'guardianPermissionView': univention.admin.property(
+        short_description=_('Guardian permission for visibility'),
+        long_description=_('If set, the portal entry will only be visible to users who have this Guardian permission.'),
+        syntax=univention.admin.syntax.string,
+    ),
 }
 
 layout = [
@@ -134,6 +139,7 @@ layout = [
         Group(_('Advanced'), layout=[
             ["activated", "anonymous"],
             ["allowedGroups"],
+            ["guardianPermissionView"],
         ]),
     ]),
 ]
@@ -160,6 +166,7 @@ mapping.register('anonymous', 'univentionNewPortalEntryOnlyAnonymous', None, uni
 mapping.register('allowedGroups', 'univentionNewPortalEntryAllowedUserGroup')
 mapping.register('icon', 'univentionNewPortalEntryIcon', None, univention.admin.mapping.ListToString)
 mapping.register('backgroundColor', 'univentionNewPortalEntryBackgroundColor', None, univention.admin.mapping.ListToString)
+mapping.register('guardianPermissionView', 'univentionNewPortalEntryGuardianPermissionView', None, univention.admin.mapping.ListToString)
 
 
 _link_lists = ('cornerLinks', 'menuLinks', 'quickLinks', 'userLinks')

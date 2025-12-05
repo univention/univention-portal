@@ -242,6 +242,13 @@ attributetype ( univentionNewPortalEntryAttributeType:11 NAME 'univentionNewPort
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
+attributetype ( univentionNewPortalEntryAttributeType:12 NAME 'univentionNewPortalEntryGuardianPermissionView'
+	DESC 'Portal entry Guardian permission for visibility'
+	SINGLE-VALUE
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
 objectclass ( univentionNewPortalEntryObjectClass:1 NAME 'univentionNewPortalEntry'
 	DESC 'Portal Entry data'
 	SUP top
@@ -258,6 +265,7 @@ objectclass ( univentionNewPortalEntryObjectClass:1 NAME 'univentionNewPortalEnt
 			$ univentionNewPortalEntryBackgroundColor
 			$ univentionNewPortalEntryKeywords
 			$ univentionNewPortalEntryTarget
+			$ univentionNewPortalEntryGuardianPermissionView
 		)
 	)
 

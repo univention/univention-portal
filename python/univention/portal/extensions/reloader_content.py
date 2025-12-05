@@ -176,6 +176,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
                 "activated": entry.properties["activated"],
                 "anonymous": entry.properties["anonymous"],
                 "allowedGroups": entry.properties["allowedGroups"],
+                "guardianPermissionView": entry.properties.get("guardianPermissionView", ""),
                 "links": [{'locale': _[0], 'value': _[1]} for _ in entry.properties["link"]],
                 "linkTarget": entry.properties["linkTarget"],
                 "target": entry.properties["target"],

@@ -160,6 +160,7 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
                 "activated": entry.props.activated,
                 "anonymous": entry.props.anonymous,
                 "allowedGroups": entry.props.allowedGroups,
+                "guardianPermissionView": getattr(entry.props, "guardianPermissionView", ""),
                 "links": entry.props.link,
                 "linkTarget": entry.props.linkTarget,
                 "target": entry.props.target,

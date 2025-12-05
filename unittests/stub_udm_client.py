@@ -49,6 +49,7 @@ entry_properties = {
     "activated": "stub_activated",
     "anonymous": "stub_anonymous",
     "allowedGroups": "stub_allowedGroups",
+    "guardianPermissionView": "stub_guardianPermissionView",
     "link": [["stub_locale", "stub_link"]],
     "linkTarget": "stub_linkTarget",
     "target": "stub_target",
