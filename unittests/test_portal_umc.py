@@ -4,7 +4,7 @@
 import pytest
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_visible_content(umc_categories_data, umc_modules_data):
     """
     A stub of the data structure which is returned by

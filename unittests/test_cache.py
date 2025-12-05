@@ -42,7 +42,7 @@ class TestPortalCacheMixin:
 
 
 class TestPortalFileCache:
-    @pytest.fixture()
+    @pytest.fixture
     def cache_file_path(self, get_file_path):
         return get_file_path("portal_cache.json")
 

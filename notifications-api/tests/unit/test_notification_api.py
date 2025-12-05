@@ -3,7 +3,7 @@
 
 import asyncio
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from http import HTTPStatus
 from uuid import uuid4
 
@@ -14,7 +14,7 @@ sourceUid = str(uuid4())
 targetUid = str(uuid4())
 
 
-@pytest.fixture()
+@pytest.fixture
 def request_data():
     return {
         "sourceUid": sourceUid,
@@ -137,7 +137,7 @@ def test_delete_notification_missing(stub_uuid, empty_db, client):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_stream_notifications(mocker):
     from app import messaging
     from app.api.v1.api import stream_notifications
@@ -155,11 +155,11 @@ async def test_stream_notifications(mocker):
     assert_is_valid_json(event['data'])
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_get_expired_notifications(empty_db, request_data, client):
     # create a notification that expires in 1 second
     notification_json = dict(**request_data)
-    notification_json['expireTime'] = (datetime.now(timezone.utc) + timedelta(seconds=1)).isoformat()
+    notification_json['expireTime'] = (datetime.now(UTC) + timedelta(seconds=1)).isoformat()
     response = client.post('/v1/notifications/', json=notification_json)
     assert response.status_code == HTTPStatus.CREATED
     response_json = response.json()
@@ -180,11 +180,11 @@ async def test_get_expired_notifications(empty_db, request_data, client):
     assert len(response.json()) == 0
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_get_expired_notification(empty_db, request_data, client):
     # create a notification that expires in 100 ms
     notification_json = dict(**request_data)
-    notification_json['expireTime'] = (datetime.now(timezone.utc) + timedelta(seconds=0.1)).isoformat()
+    notification_json['expireTime'] = (datetime.now(UTC) + timedelta(seconds=0.1)).isoformat()
     response = client.post('/v1/notifications/', json=notification_json)
     assert response.status_code == HTTPStatus.CREATED
     response_json = response.json()

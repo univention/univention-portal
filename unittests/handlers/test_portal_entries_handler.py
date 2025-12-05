@@ -49,26 +49,26 @@ class StubPortalCacheObjectStorage(StubPortalCache, PortalFileCacheObjectStorage
     """Specialized stub class which will pass the `isinstance` check in the handler."""
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_portal_cache_object_storage(faker):
     return StubPortalCacheObjectStorage(faker)
 
 
 class TestPortalEntriesHandlerNoHttpCache:
 
-    @pytest.fixture()
+    @pytest.fixture
     def app(self, portal):
         routes = build_routes({"default": portal}, mock.Mock())
         return tornado.web.Application(routes)
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_get_portals_json_standard(self, http_client, base_url, portal, mocker):
         refresh_mock = mocker.patch.object(portal, "refresh")
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         assert response.code == 200
         refresh_mock.assert_not_called()
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_calls_refresh_on_object_storage_cache(
         self, http_client, base_url, portal, mocker, stub_portal_cache_object_storage,
     ):
@@ -78,7 +78,7 @@ class TestPortalEntriesHandlerNoHttpCache:
         assert response.code == 200
         refresh_mock.assert_called_once()
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_get_portals_returns_empty_feature_configuration(
         self, http_client, base_url, mock_portal_config,
     ):
@@ -90,7 +90,7 @@ class TestPortalEntriesHandlerNoHttpCache:
         data = json.loads(response.body)
         assert data["feature_toggles"] == {}
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_get_portals_returns_feature_configuration(
             self, http_client, base_url, mock_portal_config):
         mock_portal_config({
@@ -103,7 +103,7 @@ class TestPortalEntriesHandlerNoHttpCache:
         data = json.loads(response.body)
         assert data["feature_toggles"] == {"notifications_api": False}
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_get_portals_returns_empty_newsfeed_configuration(
         self, http_client, base_url, mock_portal_config,
     ):
@@ -115,7 +115,7 @@ class TestPortalEntriesHandlerNoHttpCache:
         data = json.loads(response.body)
         assert data["newsfeed_config"] == {}
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_get_portals_returns_newsfeed_configuration(
             self, http_client, base_url, mock_portal_config):
         mock_portal_config({
@@ -129,7 +129,7 @@ class TestPortalEntriesHandlerNoHttpCache:
         data = json.loads(response.body)
         assert data["newsfeed_config"] == {"stub": "value"}
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_get_portals_returns_links(
             self, portal_link_list, http_client, base_url, stub_portal_cache):
         entry_dn = f"cn={portal_link_list.portal_attr},dc=test"
@@ -141,18 +141,18 @@ class TestPortalEntriesHandlerNoHttpCache:
 
 class TestPortalEntriesHandlerObjectStorageCache:
 
-    @pytest.fixture()
+    @pytest.fixture
     def portal(self):
         portal = mock.Mock(spec=["refresh", "score"])
         portal.score.return_value = 0.5
         return portal
 
-    @pytest.fixture()
+    @pytest.fixture
     def app(self, portal):
         routes = build_routes({"default": portal}, mock.Mock())
         return tornado.web.Application(routes)
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_calls_refresh_on_object_storage_cache_before_usage(
         self, http_client, base_url, portal, mocker, stub_portal_cache_object_storage,
     ):
@@ -171,11 +171,11 @@ class TestPortalEntriesHandlerObjectStorageCache:
 
 class TestPortalEntriesHandlerNoPortal:
 
-    @pytest.fixture()
+    @pytest.fixture
     def app(self) -> tornado.web.Application:
         return tornado.web.Application(build_routes({}, mock.Mock()))
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     async def test_no_portals(self, http_client, base_url):
         response = await http_client.fetch(f"{base_url}/_/portal.json", raise_error=False)
         assert response.code == 404
@@ -186,12 +186,12 @@ class TestPortalEntriesHandlerNoPortal:
 # allows to generate the configuration for this.
 class TestPortalEntriesHandlerWithUmcPortal:
 
-    @pytest.fixture()
+    @pytest.fixture
     def app(self, portal_umc):
         routes = build_routes({"default": portal_umc}, mock.Mock())
         return tornado.web.Application(routes)
 
-    @pytest.mark.gen_test()
+    @pytest.mark.gen_test
     def test_get_portal_json(
         self, http_client, base_url, umc_categories_data, umc_modules_data, mocker,
     ):

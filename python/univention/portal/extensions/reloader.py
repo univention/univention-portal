@@ -198,9 +198,7 @@ def check_groups_reason(reason):
         return True
     if reason is None:
         return False
-    if reason.startswith("ldap:group"):
-        return True
-    return False
+    return bool(reason.startswith("ldap:group"))
 
 
 def check_portal_reason(reason):

@@ -8,6 +8,7 @@
 # SPDX-FileCopyrightText: 2020-2025 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 #
+from __future__ import annotations
 
 import importlib
 import os.path

@@ -60,34 +60,34 @@ MESSAGE_PORTAL.topic = "portals/portal"
 CONSUMER_PATH = "./portal_consumer"
 
 
-@pytest.fixture()
+@pytest.fixture
 def async_client():
     return patch("univention.provisioning.consumer.ProvisioningConsumerClient",
                  new_callable=MagicMock()).start()
 
 
-@pytest.fixture()
+@pytest.fixture
 def message_handler():
     return patch("univention.provisioning.consumer.MessageHandler").start().return_value
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_cli_update_call():
     return patch("univention.portal.cli.update").start()
 
 
-@pytest.fixture()
+@pytest.fixture
 def group_cache():
     return patch("group_membership_cache.GroupMembershipCache").start().return_value
 
 
-@pytest.fixture()
+@pytest.fixture
 def consumer(group_cache):
     consumer_file = load_consumer("consumer.py")
     return consumer_file.PortalConsumer()
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 class TestPortalConsumer:
     async def test_portal_call_update_with_groups_change(
             self,

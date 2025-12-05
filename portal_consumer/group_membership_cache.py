@@ -8,7 +8,7 @@
 
 import logging
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from univention.ldap_cache.cache import get_cache
 from univention.ldap_cache.frontend import _extract_id_from_dn
@@ -29,7 +29,7 @@ class GroupMembershipCache:
                 db.cleanup()
 
     @staticmethod
-    def _map_udm_into_ldap(obj: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+    def _map_udm_into_ldap(obj: Dict[str, Any] | None) -> Dict[str, Any] | None:
         """Partial mapping of a UDM object into an LDAP object for the univention-group-membership-member cache."""
         if not obj:
             return None

@@ -9,8 +9,7 @@ and prunes it.
 """
 import asyncio
 import logging
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import UTC, datetime
 
 from app.crud.notification_service import NotificationService
 from app.db import get_session
@@ -18,7 +17,7 @@ from app.db import get_session
 
 log = logging.getLogger(__name__)
 
-_background_task: Optional[asyncio.Task] = None
+_background_task: asyncio.Task | None = None
 
 
 def startup_expiry_pruning():
@@ -44,7 +43,7 @@ async def expiry_pruner():
                 return
             log.debug("Next notification to expire is at %s", expire_time)
 
-            sleep_seconds = (expire_time - datetime.now(timezone.utc)).total_seconds()
+            sleep_seconds = (expire_time - datetime.now(UTC)).total_seconds()
             await asyncio.sleep(sleep_seconds)
 
             # prune expired notifications from the database

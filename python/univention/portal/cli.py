@@ -8,7 +8,7 @@ import os
 from inspect import getfullargspec
 from tempfile import NamedTemporaryFile
 from textwrap import dedent
-from typing import Dict, List, Union
+from typing import Dict, List
 
 import click
 
@@ -315,7 +315,7 @@ def add(name: str, update: bool = True):
     info(f"You may want to 'push {name}' now")
 
 
-def ask_value(name: str, klass_default: Union[str, None] = None, value_default: Union[str, None] = None) -> Dict:
+def ask_value(name: str, klass_default: str | None = None, value_default: str | None = None) -> Dict:
     possible_classes = [klass.__name__ for klass in get_all_dynamic_classes()]
     choice = click.prompt(
         f"Choose the value of {name}",
@@ -375,12 +375,12 @@ def ask_value(name: str, klass_default: Union[str, None] = None, value_default: 
         return ret
 
 
-def capfirst(value: str) -> Union[str, None]:
+def capfirst(value: str) -> str | None:
     if value:
         return value[0].upper() + value[1:]
 
 
-def camelcase(value: str) -> Union[str, None]:
+def camelcase(value: str) -> str | None:
     if value:
         return "".join(capfirst(part) for part in value.split("_"))
 
@@ -454,7 +454,7 @@ def pull(name: str):
         success(f"{obj.dn} updated")
 
 
-def get_obj(name: str) -> Union[str, None]:
+def get_obj(name: str) -> str | None:
     from univention.udm import UDM, ConnectionError, NoObject
 
     try:
@@ -471,7 +471,7 @@ def get_obj(name: str) -> Union[str, None]:
         return None
 
 
-def add_localhost(obj) -> Union[bool, None]:
+def add_localhost(obj) -> bool | None:
     localhost = config_fetch("fqdn")
     server_key = f"server:{localhost}"
     if server_key not in obj.props.meta:
@@ -479,7 +479,7 @@ def add_localhost(obj) -> Union[bool, None]:
         return True
 
 
-def rm_localhost(obj) -> Union[bool, None]:
+def rm_localhost(obj) -> bool | None:
     localhost = config_fetch("fqdn")
     server_key = f"server:{localhost}"
     if server_key in obj.props.meta:
@@ -517,7 +517,7 @@ def list_extensions():
             else:
                 doc = extension.__doc__
             print("  " + "\n  ".join(dedent(doc).splitlines()))
-            print("")
+            print()
 
 
 class SomeObj(object):
@@ -538,7 +538,7 @@ class SomeObj(object):
         return f"{self.klass_name}({self.all_args()})"
 
 
-def make_obj(obj_def: Dict) -> Union[str, SomeObj]:
+def make_obj(obj_def: Dict) -> str | SomeObj:
     arg_type = obj_def["type"]
     if arg_type == "static":
         return obj_def["value"]

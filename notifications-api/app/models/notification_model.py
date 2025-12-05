@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
-from typing import Optional
 from uuid import UUID
 
 from pydantic import HttpUrl, validator
@@ -19,8 +18,8 @@ class NotificationSeverity(str, Enum):
 
 class NotificationLink(SQLModel):
     url: HttpUrl
-    text: Optional[str]
-    target: Optional[str]
+    text: str | None
+    target: str | None
 
     class Config:
         fields = {
@@ -47,8 +46,8 @@ class NotificationBase(SQLModel):
     title: str
     details: str
     severity: NotificationSeverity
-    expireTime: Optional[datetime]
-    link: Optional[NotificationLink] = Field(default=None, sa_column=Column(JSON), nullable=True)
+    expireTime: datetime | None
+    link: NotificationLink | None = Field(default=None, sa_column=Column(JSON), nullable=True)
 
     class Config:
         fields = {
@@ -101,7 +100,7 @@ class NotificationBase(SQLModel):
         }
 
     @validator('link')
-    def validate_link(cls, link: Optional[NotificationLink]):
+    def validate_link(cls, link: NotificationLink | None):
         if link:
             return link.dict()
         else:
@@ -110,7 +109,7 @@ class NotificationBase(SQLModel):
     def has_expired(self):
         """Returns `True` when the notification has an expiry time and that time is in the past."""
         return self.expireTime \
-            and (self.expireTime < datetime.now(timezone.utc))
+            and (self.expireTime < datetime.now(UTC))
 
 
 class NotificationRead(NotificationBase):
@@ -138,7 +137,7 @@ class NotificationRead(NotificationBase):
 
 
 class Notification(NotificationRead, table=True):
-    sseSendTime: Optional[datetime]
+    sseSendTime: datetime | None
 
     def _force_to_utc(self):
         """
@@ -151,13 +150,13 @@ class Notification(NotificationRead, table=True):
         """
         for key in ['expireTime', 'sseSendTime']:
             if value := getattr(self, key):
-                setattr(self, key, value.replace(tzinfo=timezone.utc))
+                setattr(self, key, value.replace(tzinfo=UTC))
 
 
 class NotificationCreate(NotificationBase):
 
     @validator('expireTime')
-    def expire_time_must_be_timezone_aware(cls, expireTime: Optional[datetime]):
+    def expire_time_must_be_timezone_aware(cls, expireTime: datetime | None):
         if (expireTime is None) or _datetime_is_tz_aware(expireTime):
             return expireTime
         else:

@@ -38,7 +38,7 @@ def mock_s3_client(mocker):
         mock.Mock(return_value=boto3.client("s3")))
 
 
-@pytest.fixture()
+@pytest.fixture
 def object_storage_reloader():
     """An instance of ObjectStorageReloader."""
     instance = reloader_object_storage.ObjectStorageReloader(
@@ -56,7 +56,7 @@ def object_storage_reloader():
     return instance
 
 
-@pytest.fixture()
+@pytest.fixture
 def object_storage_portal_reloader(mocker, mock_portal_config):
     """An instance of ObjectStoragePortalReloader."""
     mock_portal_config(

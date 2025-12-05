@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-from datetime import datetime, timezone
-from typing import List, Optional
+from datetime import UTC, datetime
+from typing import List
 from uuid import uuid4
 
 from sqlalchemy.sql.expression import and_, null, or_
@@ -11,7 +11,7 @@ from sqlmodel import Session, select
 from app.models.notification_model import Notification, NotificationCreate
 
 
-class NotificationService():
+class NotificationService:
 
     _db: Session
 
@@ -46,7 +46,7 @@ class NotificationService():
             statement = select(Notification).where(
                 or_(
                     Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now(timezone.utc),
+                    Notification.expireTime >= datetime.now(UTC),
                 ),
             ).limit(query['limit'])
         else:
@@ -59,7 +59,7 @@ class NotificationService():
 
     def prune_expired_notifications(self) -> None:
         statement = select(Notification).where(
-            Notification.expireTime < datetime.now(timezone.utc),
+            Notification.expireTime < datetime.now(UTC),
         )
 
         expired = self._db.exec(statement).fetchall()
@@ -68,7 +68,7 @@ class NotificationService():
 
         self._db.commit()
 
-    def get_next_notification_expiry(self) -> Optional[datetime]:
+    def get_next_notification_expiry(self) -> datetime | None:
         statement = select(Notification) \
             .where(Notification.expireTime != null()) \
             .order_by(Notification.expireTime)
@@ -85,7 +85,7 @@ class NotificationService():
                 Notification.id == id_,
                 or_(
                     Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now(timezone.utc),
+                    Notification.expireTime >= datetime.now(UTC),
                 ),
             ),
         )
@@ -107,13 +107,13 @@ class NotificationService():
                 Notification.sseSendTime == None,  # noqa: E711
                 or_(
                     Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now(timezone.utc),
+                    Notification.expireTime >= datetime.now(UTC),
                 ),
             ),
         )
         new_notifications = self._db.exec(statement).fetchall()
         for notification in new_notifications:
-            notification.sseSendTime = datetime.now(timezone.utc)
+            notification.sseSendTime = datetime.now(UTC)
             self._db.add(notification)
         self._db.commit()
         for notification in new_notifications:

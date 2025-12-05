@@ -26,7 +26,7 @@ def faker_session_locale():
     return ["en_US", "de_DE", "fr_FR"]
 
 
-@pytest.fixture()
+@pytest.fixture
 def dynamic_class():
     from univention import portal
 
@@ -36,7 +36,7 @@ def dynamic_class():
 # Helper function fixtures
 
 
-@pytest.fixture()
+@pytest.fixture
 def patch_object_module(mocker):
     """Helper to patch module level library imports of an object or class"""
 
@@ -46,7 +46,7 @@ def patch_object_module(mocker):
     return _
 
 
-@pytest.fixture()
+@pytest.fixture
 def get_file_path(request):
     """Helper to get the absolute path of test files in the unittests directory"""
     unittest_path = request.fspath.dirname
@@ -58,7 +58,7 @@ def get_file_path(request):
     return _
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_portal_config(mocker):
     """
     Returns a callable which can be used to inject configuration values.
@@ -77,7 +77,7 @@ def mock_portal_config(mocker):
     return _mock_portal_config
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_portal_config(get_file_path):
     from univention.portal import config
 
@@ -86,7 +86,7 @@ def mocked_portal_config(get_file_path):
     return config
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_portal_cache(faker):
     """
     A `CacheAbc` implementation to be used as a stub for testing.
@@ -97,7 +97,7 @@ def stub_portal_cache(faker):
     return StubPortalCache(faker)
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_authenticator(stub_user):
     """
     An `Authenticator` implementation to be used as a stub for testing.
@@ -108,7 +108,7 @@ def stub_authenticator(stub_user):
     return StubAuthenticator(user=stub_user)
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_scorer():
     """
     A stub for the `Scorer`.
@@ -118,7 +118,7 @@ def stub_scorer():
     return Scorer()
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_user(faker):
     """An authenticated `User` instance."""
     user = User(
@@ -131,7 +131,7 @@ def stub_user(faker):
     return user
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_user_anonymous():
     """An anonymous `User` instance."""
     user = User(
@@ -144,7 +144,7 @@ def stub_user_anonymous():
     return user
 
 
-@pytest.fixture()
+@pytest.fixture
 def portal(stub_scorer, stub_portal_cache, stub_authenticator):
     """
     A `Portal` instance with dependencies replaced by stubs.
@@ -160,7 +160,7 @@ def portal(stub_scorer, stub_portal_cache, stub_authenticator):
     return portal
 
 
-@pytest.fixture()
+@pytest.fixture
 def portal_umc(stub_scorer, stub_authenticator, umc_categories_data, umc_modules_data, mocker):
     """
     An `UMCPortal` instance with stubs and mocked UMC access.
@@ -223,7 +223,7 @@ def portal_link_list(request):
     return link_list
 
 
-@pytest.fixture()
+@pytest.fixture
 def umc_categories_data():
     """
     Stub categories data as returned by the UMC.
@@ -239,7 +239,7 @@ def umc_categories_data():
     }]
 
 
-@pytest.fixture()
+@pytest.fixture
 def umc_modules_data():
     """
     Stub modules data as returned by the UMC.

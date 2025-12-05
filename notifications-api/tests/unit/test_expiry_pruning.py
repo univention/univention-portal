@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
 import asyncio
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
 import pytest
@@ -18,7 +18,7 @@ expire_fast = timedelta(seconds=3)
 expire_slow = timedelta(days=3)
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_db(empty_db):
     db = empty_db
     db.add(Notification(
@@ -37,7 +37,7 @@ def test_db(empty_db):
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        expireTime=datetime.now(timezone.utc) + expire_fast,
+        expireTime=datetime.now(UTC) + expire_fast,
     ))
     db.add(Notification(
         id=str(uuid4()),
@@ -46,13 +46,13 @@ def test_db(empty_db):
         severity="info",
         sourceUid=str(uuid4()),
         targetUid=str(uuid4()),
-        expireTime=datetime.now(timezone.utc) + expire_slow,
+        expireTime=datetime.now(UTC) + expire_slow,
     ))
     db.commit()
     return db
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_prune_notifications_after_expiry(test_db):
     # the test_db contains one notification to expire very soon
     expiry_pruning.startup_expiry_pruning()
@@ -87,7 +87,7 @@ async def test_prune_notifications_after_expiry(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_pruner_waits_for_expiretime(test_db):
     # the initial database contains sooner- and later-expiring notifications
     service = NotificationService(test_db)
@@ -102,13 +102,13 @@ async def test_pruner_waits_for_expiretime(test_db):
 
     # wait for the short-lived notification to expire
     earliest: Notification = min(filter(lambda n: n.expireTime, notifications), key=lambda n: n.expireTime)
-    sleep_seconds = (earliest.expireTime - datetime.now(timezone.utc)).total_seconds()
+    sleep_seconds = (earliest.expireTime - datetime.now(UTC)).total_seconds()
     await asyncio.sleep(sleep_seconds * 1.01)
 
     # no remaining notifications should have an expireTime in the past
     service._db.expire_all()
     remaining = service.get_notifications(query)
-    assert all((n.expireTime is None) or (n.expireTime > datetime.now(timezone.utc)) for n in remaining)
+    assert all((n.expireTime is None) or (n.expireTime > datetime.now(UTC)) for n in remaining)
     # the longer-lasting and non-expiring notifications should still be there
     assert any(n.title == "long-lived notification" for n in remaining) \
         and any(n.title == "non-expiring notification" for n in remaining)
@@ -121,7 +121,7 @@ async def test_pruner_waits_for_expiretime(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_pruner_no_expiry(test_db):
     # prepare the database, so that it only contains non-expiring notifications
     service = NotificationService(test_db)
@@ -147,7 +147,7 @@ async def test_pruner_no_expiry(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_pruner_soon_expiring(test_db):
     # prepare the database, so that it only contains soon- and non-expiring notifications
     service = NotificationService(test_db)
@@ -175,7 +175,7 @@ async def test_pruner_soon_expiring(test_db):
     test_db.close()
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_pruner_reload_cancels_old_task(test_db):
     # the database must contain a long-running notification
     service = NotificationService(test_db)

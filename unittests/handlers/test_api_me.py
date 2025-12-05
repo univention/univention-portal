@@ -10,7 +10,7 @@ import tornado
 from univention.portal.main import build_routes
 
 
-@pytest.fixture()
+@pytest.fixture
 def udm_client_stub():
     """
     Stub for the `AsyncUdmClient` which returns stub user data.
@@ -31,19 +31,19 @@ def udm_client_stub():
     return result
 
 
-@pytest.fixture()
+@pytest.fixture
 def app(portal, udm_client_stub):
     routes = build_routes({"default": portal}, udm_client_stub)
     return tornado.web.Application(routes)
 
 
-@pytest.fixture()
+@pytest.fixture
 def api_base_url(base_url):
     """The base URL for the API endpoints."""
     return f"{base_url}/portal-slug/api/v1"
 
 
-@pytest.mark.gen_test()
+@pytest.mark.gen_test
 async def test_unauthenticated_user_returns_empty_dict(
     stub_authenticator, stub_user_anonymous, http_client, api_base_url,
 ):
@@ -53,7 +53,7 @@ async def test_unauthenticated_user_returns_empty_dict(
     assert data == {}
 
 
-@pytest.mark.gen_test()
+@pytest.mark.gen_test
 async def test_authenticated_user_returns_user_data_from_udm(
     http_client, api_base_url, stub_user, udm_client_stub,
 ):

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
 from app.models.notification_model import NotificationBase, NotificationSeverity
@@ -17,11 +17,11 @@ def test_notification_has_expired():
     )
 
     # test with `expireTime` in the past
-    notification.expireTime = datetime.now(timezone.utc) - timedelta(minutes=1)
+    notification.expireTime = datetime.now(UTC) - timedelta(minutes=1)
     assert notification.has_expired()
 
     # test with `expireTime` in the future
-    notification.expireTime = datetime.now(timezone.utc) + timedelta(minutes=1)
+    notification.expireTime = datetime.now(UTC) + timedelta(minutes=1)
     assert not notification.has_expired()
 
     # test with `expireTime` unset

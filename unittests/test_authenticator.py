@@ -29,7 +29,7 @@ class TestUMCAuthenticator:
     _user_dn = "uid=TestUser,cn=users,dc=univention-organization,dc=intranet"
     _groups = ["TestGroup"]
 
-    @pytest.fixture()
+    @pytest.fixture
     def mocked_authenticator(self, dynamic_class, patch_object_module, mocker):
         Authenticator = dynamic_class("UMCAuthenticator")
         mocked_group_cache = mocker.Mock()
@@ -49,7 +49,7 @@ class TestUMCAuthenticator:
         mocked_authenticator.refresh("reason")
         mocked_authenticator.group_cache.refresh.assert_called_once_with(reason="reason")
 
-    @pytest.mark.asyncio()
+    @pytest.mark.asyncio
     async def test_get_existing_user(self, mocked_authenticator, mocker):
         from univention.portal import user as user_module
 
@@ -67,7 +67,7 @@ class TestUMCAuthenticator:
         assert user.username == self._username.lower()
         assert user.groups == [x.lower() for x in self._groups]
 
-    @pytest.mark.asyncio()
+    @pytest.mark.asyncio
     async def test_get_non_existing_user(self, mocked_authenticator, mocker):
         from univention.portal import user as user_module
 
@@ -87,7 +87,7 @@ class TestUMCAuthenticator:
         assert user.username is None
         assert user.groups == []
 
-    @pytest.mark.asyncio()
+    @pytest.mark.asyncio
     async def test_get_username(self, mocked_authenticator, mocker):
         mocked_authenticator._ask_umc = mock.AsyncMock(return_value=(self._username, self._user_dn))
         assert await mocked_authenticator._get_username({self._umc_cookie_name: "test_session"}) == (self._username.lower(), self._username, self._user_dn)
@@ -100,7 +100,7 @@ class TestUMCAuthenticator:
         umc_cookie_name = f"{self._umc_cookie_name}-1234"
         assert await mocked_authenticator._get_username({umc_cookie_name: "test_session"}) == (self._username.lower(), self._username, self._user_dn)
 
-    @pytest.mark.asyncio()
+    @pytest.mark.asyncio
     async def test_ask_umc_request_success(self, mocked_authenticator, mocker):
         async def _side_effect(req):
             """Side effect to simulate successful request with different response data"""
@@ -127,7 +127,7 @@ class TestUMCAuthenticator:
         assert await mocked_authenticator._ask_umc({self._umc_cookie_name: ""}, {}) == (None, None)
         assert mocked_authenticator.httpclient_fetch.call_count == 2
 
-    @pytest.mark.asyncio()
+    @pytest.mark.asyncio
     async def test_ask_umc_request_error(self, mocked_authenticator, mocker):
         async def _side_effect(req):
             """Side effect to simulate request with a http error"""

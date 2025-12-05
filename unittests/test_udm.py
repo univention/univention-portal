@@ -10,14 +10,14 @@ from tornado.httpclient import HTTPClientError
 from univention.portal.udm import AsyncUdmClient, UnexpectedResult
 
 
-@pytest.fixture()
+@pytest.fixture
 def udm_user_stub():
     return {
         "id": "stub-id",
     }
 
 
-@pytest.fixture()
+@pytest.fixture
 def AsyncHTTPClient_stub(udm_user_stub):
     stub = mock.Mock()
     stub().fetch = mock.AsyncMock()
@@ -33,14 +33,14 @@ def mock_http_client(AsyncHTTPClient_stub, mocker):
     return AsyncHTTPClient_stub
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_get_user_returns_udm_object(udm_user_stub):
     udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
     data = await udm_client.get_user("user_dn")
     assert data == udm_user_stub
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize("response_error, ExpectedException", [
     (HTTPClientError(code=404, message="Not Found"), UnexpectedResult),
     (HTTPClientError(code=500, message="Server Error"), UnexpectedResult),
@@ -54,7 +54,7 @@ async def test_get_user_ensures_valid_response(
         await udm_client.get_user("user_dn")
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize("response_body, ExpectedException", [
     ("invalid", json.JSONDecodeError),
     ("<html><div>stub result</div></html>", json.JSONDecodeError),
@@ -68,7 +68,7 @@ async def test_get_user_raises_on_unexpected_response(
         await udm_client.get_user("user_dn")
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize("user_dn, ExpectedException", [
     ("", ValueError),
     (None, ValueError),
@@ -81,7 +81,7 @@ async def test_get_user_validates_user_dn(
         await udm_client.get_user(user_dn)
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_fetch_from_udm_requsets_user_data(mock_http_client):
     udm_client = AsyncUdmClient("stub_url/", "stub_user", "stub_password")
     await udm_client._fetch_from_udm("stub_udm_query")
@@ -93,7 +93,7 @@ async def test_fetch_from_udm_requsets_user_data(mock_http_client):
     )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize("udm_api_url, expected_url", [
     ("", "/stub_udm_query"),
     ("/", "/stub_udm_query"),

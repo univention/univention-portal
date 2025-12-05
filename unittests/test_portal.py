@@ -44,7 +44,7 @@ class StubReloader(MtimeBasedLazyFileReloader):
         return (content, assets)
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_user(mocker):
     user = mocker.Mock()
     user.username = "hindenkampp"
@@ -55,7 +55,7 @@ def mocked_user(mocker):
     return user
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_anonymous_user(mocker):
     user = mocker.Mock()
     user.username = None
@@ -66,25 +66,25 @@ def mocked_anonymous_user(mocker):
     return user
 
 
-@pytest.fixture()
+@pytest.fixture
 def portal_file(get_file_path):
     return get_file_path("portal_cache.json")
 
 
-@pytest.fixture()
+@pytest.fixture
 def reloader(portal_file, mock_portal_config):
     mock_portal_config({"assets_root": "/stub_assets_root"})
     return StubReloader(portal_file=portal_file)
 
 
-@pytest.fixture()
+@pytest.fixture
 def portal_data(reloader):
     original_data = reloader.get_portal_cache_json()
     yield reloader
     reloader.update_portal_cache(original_data)
 
 
-@pytest.fixture()
+@pytest.fixture
 def standard_portal(dynamic_class, portal_file, reloader):
     scorer = dynamic_class("Scorer")()
     portal_cache = dynamic_class("PortalFileCache")(portal_file, reloader)
@@ -92,7 +92,7 @@ def standard_portal(dynamic_class, portal_file, reloader):
     return Portal(scorer, portal_cache, authenticator)
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_user(portal, mocker):
     get_user_mock = mocker.patch.object(portal.authenticator, "get_user")
     request = "request"
@@ -100,7 +100,7 @@ async def test_user(portal, mocker):
     get_user_mock.assert_called_once_with(request)
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_login(portal, mocker):
     login_user_mock = mocker.patch.object(portal.authenticator, "login_user")
     login_request_mock = mocker.patch.object(portal.authenticator, "login_request")

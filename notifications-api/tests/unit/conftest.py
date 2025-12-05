@@ -40,7 +40,7 @@ def patch_get_session(monkeypatch):
     monkeypatch.setattr(expiry_pruning, 'get_session', override_get_db)
 
 
-@pytest.fixture()
+@pytest.fixture
 def client():
     """Return a prepared instance of FastAPI's TestClient."""
     test_client = TestClient(app.main.app)
@@ -53,7 +53,7 @@ def test_db_base():
     NotificationBase.metadata.create_all(bind=engine)
 
 
-@pytest.fixture()
+@pytest.fixture
 def empty_db(test_db_base):
     """Return an empty database session."""
     db = next(override_get_db())
@@ -63,7 +63,7 @@ def empty_db(test_db_base):
     return db
 
 
-@pytest.fixture()
+@pytest.fixture
 def filled_db(empty_db):
     """
     Return a filled database session with two notifications in the
@@ -82,7 +82,7 @@ def filled_db(empty_db):
     return db
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_uuid():
     """An unused uuid value as a string."""
     return str(uuid4())

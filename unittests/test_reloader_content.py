@@ -45,7 +45,7 @@ def portal_content_fetcher_cls(request, mocker):
     return PortalContentFetcherClass
 
 
-@pytest.fixture()
+@pytest.fixture
 def portal_content_fetcher(portal_content_fetcher_cls):
     """
     Returns an instance of the portal content fetcher.
@@ -57,7 +57,7 @@ def portal_content_fetcher(portal_content_fetcher_cls):
     return content_fetcher
 
 
-@pytest.fixture()
+@pytest.fixture
 def stub_udm(portal_content_fetcher_cls):
     """Provides the stub udm client for a portal content fetcher."""
     return portal_content_fetcher_cls._create_udm_client()

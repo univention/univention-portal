@@ -22,7 +22,7 @@ stub_assets_root = "/stub_root"
 stub_portal_dn = "cn=domain,cn=portal,cn=test"
 
 
-@pytest.fixture()
+@pytest.fixture
 def portal_reloader_udm(mocker, mock_portal_config):
     """Provides an instance of PortalReloaderUDM with mocked dependencies."""
     mocker.patch.object(reloader.PortalReloaderUDM, "_get_mtime", return_value=2.2)
@@ -60,7 +60,7 @@ class TestMtimeBasedLazyFileReloader:
         self._os = mocked_os
         self._shutil = mocked_shutil
 
-    @pytest.fixture()
+    @pytest.fixture
     def mocked_reloader(self, dynamic_class, patch_object_module, mock_portal_config):
         mock_portal_config({"assets_root": "/stub_assets_root"})
         Reloader = dynamic_class("MtimeBasedLazyFileReloader")
@@ -122,7 +122,7 @@ def test_write_to_tmp_file_sets_correct_mode(mocker, content, expected_mode, moc
 class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
     _portal_dn = "cn=domain,cn=portal,cn=univention"
 
-    @pytest.fixture()
+    @pytest.fixture
     def mocked_portal_reloader(
             self, dynamic_class, patch_object_module, mocker, mock_portal_config):
         mock_portal_config({"assets_root": "/stub_directory"})
@@ -201,7 +201,7 @@ class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):
     _bind_dn = "cn=ucs,cn=computers"
     _password_file = "path/to/password/file.secret"
 
-    @pytest.fixture()
+    @pytest.fixture
     def mocked_portal_reloader(self, dynamic_class, patch_object_module, mock_portal_config):
         mock_portal_config({"assets_root": "/stub_assets_root"})
         Reloader = dynamic_class("GroupsReloaderLDAP")
