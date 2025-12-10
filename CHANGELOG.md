@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.88.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.88.1...v0.88.2) (2025-12-03)
+
+
+### Bug Fixes
+
+* **deps:** bump certifi ([2697cba](https://git.knut.univention.de/univention/dev/projects/portal/commit/2697cbaecc51a8f2471844ea1105c9b749193145)), closes [univention/dev/internal/team-nubus#1540](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1540)
+* **notifications-api:** bump h11 ([bbb9921](https://git.knut.univention.de/univention/dev/projects/portal/commit/bbb9921dc85bdd71f61785379179cd7f64db8256)), closes [univention/dev/internal/team-nubus#1540](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1540)
+
+## [0.88.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.88.0...v0.88.1) (2025-12-03)
+
+
+### Bug Fixes
+
+* bump image to errata 298 ([f350dbf](https://git.knut.univention.de/univention/dev/projects/portal/commit/f350dbf0b45d9d3c2a668013f58d3145eba06714)), closes [univention/dev/internal/team-nubus#1543](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1543)
+
 ## [0.88.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.87.0...v0.88.0) (2025-11-27)
 
 
