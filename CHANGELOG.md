@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.88.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.88.2...v0.88.3) (2025-12-11)
+
+
+### Bug Fixes
+
+* **helm:** Add component-specific extraEnvVars support ([d6f6b17](https://git.knut.univention.de/univention/dev/projects/portal/commit/d6f6b17857ec686e1849cffcf8cd405c9a5cd918)), closes [univention/dev/internal/team-nubus#977](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/977)
+
 ## [0.88.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.88.1...v0.88.2) (2025-12-03)
 
 
