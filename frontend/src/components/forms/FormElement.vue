@@ -13,7 +13,6 @@
   >
     <form-label
       :label="widget.label"
-      :aria-label="widget.ariaLabel || widget.label"
       :required="widget.required"
       :for-attr="forAttrOfLabel"
       :invalid-message="invalidMessage"
