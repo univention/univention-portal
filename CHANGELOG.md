@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.89.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.88.3...v0.89.0) (2025-12-17)
+
+
+### Features
+
+* add guardian permission view to LDAP schema and entry handler ([995fd96](https://git.knut.univention.de/univention/dev/projects/portal/commit/995fd9602390e36ea903c0bb12432c62d5170d75)), closes [univention/dev/internal/team-nubus#1251](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1251)
+* fail fast if guardianPermissionView is missing ([85a034e](https://git.knut.univention.de/univention/dev/projects/portal/commit/85a034e0947a804923c762e851f0a7ec82b7b388)), closes [univention/dev/internal/team-nubus#1251](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1251)
+
 ## [0.88.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.88.2...v0.88.3) (2025-12-11)
 
 
