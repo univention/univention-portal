@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.90.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.89.0...v0.90.0) (2025-12-18)
+
+
+### Features
+
+* **portal-frontend:** remove aria label from label tags and improve focus contrast ([6c5b506](https://git.knut.univention.de/univention/dev/projects/portal/commit/6c5b506e30362d697957a6c62132eec3d0c6715b)), closes [univention/dev/projects/portal#1485](https://git.knut.univention.de/univention/dev/projects/portal/issues/1485)
+
 ## [0.89.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.88.3...v0.89.0) (2025-12-17)
 
 
