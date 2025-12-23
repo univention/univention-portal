@@ -27,7 +27,7 @@ Mako==1.2.4
 MarkupSafe==2.1.2
 matplotlib-inline==0.1.6
 packaging==23.1
-parso==0.8.3
+parso==0.8.5
 pexpect==4.8.0
 pickleshare==0.7.5
 pluggy==1.0.0
