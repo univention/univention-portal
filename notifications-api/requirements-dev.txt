@@ -32,7 +32,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 pluggy==1.0.0
 prompt-toolkit==3.0.38
-psycopg2==2.9.6
+psycopg2==2.9.11
 ptyprocess==0.7.0
 pure-eval==0.2.2
 pydantic==1.10.7
