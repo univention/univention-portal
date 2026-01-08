@@ -1,6 +1,35 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>univention/dev/nubus-for-k8s/common-renovate#v0.3.0"
-  ]
+    "local>univention/dev/nubus-for-k8s/common-renovate#v1.2.1"
+  ],
+  "prConcurrentLimit": 20,
+  "assigneesFromCodeOwners": false,
+  "prHourlyLimit": 0,
+  "packageRules": [
+        {
+            "matchManagers": ["npm"],
+            "enabled": false
+        },
+        {
+            "matchFileNames": ["docker/portal-consumer/requirements.txt"],
+            "groupName": "portal-consumer python dependencies"
+        },
+        {
+            "matchFileNames": ["requirements.txt"],
+            "groupName": "portal-server Python dependencies"
+        },
+        {
+            "matchFileNames": ["requirements-test.txt"],
+            "groupName": "portal-server Python dependencies (test)"
+        },
+        // Not much point right now to renovate the notifications-api dependencies.
+        // All dependencies either have an >= constraint or no constraint at all
+        // There is also no propr package manager and lock file in use.
+        // Renovate does not create PRs for any of the dependencies for the notifications-api.
+        {
+            "matchFileNames": ["notifications-api/pyproject.toml", "notifications-api/requirements.txt", "notifications-api/requirements-dev.txt"],
+            "enabled": false
+        }
+    ]
 }
