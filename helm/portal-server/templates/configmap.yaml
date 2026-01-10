@@ -37,3 +37,7 @@ data:
   PORTAL_UDM_API_PASSWORD_FILE: "/var/secrets/udm_api_password"
   OBJECT_STORAGE_ENDPOINT: {{ tpl ( required "The parameter \"objectStorage.endpoint\" is required." .Values.objectStorage.endpoint ) . | quote }}
   OBJECT_STORAGE_BUCKET: {{ tpl .Values.objectStorage.bucketName . | quote }}
+  {{- $guardianEnabled := (.Values.portalServer.featureToggles).guardian_authorization | default false }}
+  {{- $guardianBaseConfig := omit (.Values.portalServer.guardian | default dict) "auth" }}
+  {{- $guardianConfigJson := dict "enabled" $guardianEnabled | merge $guardianBaseConfig | toJson }}
+  PORTAL_SERVER_GUARDIAN_CONFIG: {{ tpl $guardianConfigJson . | quote }}

@@ -73,11 +73,16 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "umc_session_url": $umc_session_url,
   "umc_check_icons": $umc_check_icons,
   "feature_toggles": $feature_toggles,
-  "newsfeed_config": $newsfeed_config
+  "newsfeed_config": $newsfeed_config,
+  "guardian": $guardian_config
 }
 EOF
 
 echo "Generating ${JSON_PATH}"
+
+# Build Guardian config JSON by merging the config with the password from env var
+GUARDIAN_BASE_CONFIG="${PORTAL_SERVER_GUARDIAN_CONFIG:-{\}}"
+GUARDIAN_CONFIG=$(echo "${GUARDIAN_BASE_CONFIG}" | jq --arg password "${PORTAL_SERVER_GUARDIAN_KEYCLOAK_PASSWORD:-}" '.keycloak.password = $password')
 
 jq -n \
   --arg admin_group "${PORTAL_SERVER_ADMIN_GROUP}" \
@@ -106,6 +111,7 @@ jq -n \
   --arg selfservice_portal_dn "cn=self-service,cn=portal,cn=portals,cn=univention,${LDAP_BASE_DN:-dn=univention-organization,dn=intranet}" \
   --argjson feature_toggles "${PORTAL_SERVER_FEATURE_TOGGLES:-{\}}" \
   --argjson newsfeed_config "${PORTAL_SERVER_NEWSFEED_CONFIG:-{\}}" \
+  --argjson guardian_config "${GUARDIAN_CONFIG}" \
   "${JQ_TEMPLATE}" > "${JSON_PATH}"
 
 if [[ "${PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED:-}" == "true" ]]; then

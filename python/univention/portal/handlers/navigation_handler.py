@@ -41,7 +41,7 @@ class NavigationHandler(PortalResource):
         ):
             portal.refresh()
 
-        visible_content = portal.get_visible_content(user, False)
+        visible_content = await portal.get_visible_content(user, False)
         categories_content = portal.get_categories(visible_content)
         meta = portal.get_meta(visible_content, categories_content)
         entries = portal.portal_cache.get_entries()
@@ -49,11 +49,14 @@ class NavigationHandler(PortalResource):
         central_navigation_dns = portal.portal_cache.get_central_navigation()
         visible_entry_dns = []
         if central_navigation_dns:
+            # Get Guardian permissions for filtering central navigation entries
+            guardian_permissions = await portal._get_guardian_permissions(user)
             visible_entry_dns = portal._filter_entry_dns(
                 central_navigation_dns,
                 entries,
                 user,
                 False,
+                guardian_permissions=guardian_permissions,
             )
 
         def get_category(category_dn):

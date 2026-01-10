@@ -90,6 +90,14 @@ spec:
           image: "{{ coalesce .Values.image.registry .Values.global.imageRegistry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
+            {{- $guardianEnabled := (.Values.portalServer.featureToggles).guardian_authorization | default false }}
+            {{- if $guardianEnabled }}
+            - name: PORTAL_SERVER_GUARDIAN_KEYCLOAK_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.portalServer.guardian.auth.existingSecret "defaultNameSuffix" "guardian-keycloak" "context" .) }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.portalServer.guardian.auth.existingSecret "key" "password" "context" .) }}
+            {{- end }}
             - name: OBJECT_STORAGE_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:

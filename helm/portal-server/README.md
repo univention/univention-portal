@@ -799,6 +799,7 @@ true
 {
   "api_me": true,
   "centered_layout": false,
+  "guardian_authorization": true,
   "left_sidebar": false,
   "native_html_list": false,
   "newsfeed": false,
@@ -818,6 +819,123 @@ true
 </pre>
 </td>
 			<td>Enrich user object data with additional attributes. May slow portal loading times.</td>
+		</tr>
+		<tr>
+			<td>portalServer.featureToggles.guardian_authorization</td>
+			<td>bool</td>
+			<td><pre lang="json">
+true
+</pre>
+</td>
+			<td>Enable Guardian based authorization for portal entries.</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "auth": {
+    "existingSecret": {
+      "keyMapping": {
+        "password": null
+      },
+      "name": null
+    },
+    "password": null
+  },
+  "fqdn": null,
+  "keycloak": {
+    "fqdn": null,
+    "realm": "nubus",
+    "scheme": "http",
+    "username": "Administrator"
+  },
+  "scheme": "http"
+}
+</pre>
+</td>
+			<td>Guardian authorization configuration. When enabled, the portal server will use the Guardian to check user permissions for portal entry visibility. Enable via featureToggles.guardian_authorization: true</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.auth.existingSecret.keyMapping.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The key to retrieve the password from.</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.auth.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The name of an existing Secret to use for retrieving the Keycloak password for Guardian authentication.  "portalServer.guardian.auth.password" will be ignored if this value is set.</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The password for authenticating with Keycloak.</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.fqdn</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The FQDN of the Guardian service. Example: "guardian.example.com"</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.keycloak.fqdn</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The FQDN of the Keycloak service used by Guardian. Example: "id.example.com"</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.keycloak.realm</td>
+			<td>string</td>
+			<td><pre lang="json">
+"nubus"
+</pre>
+</td>
+			<td>The Keycloak realm to use for Guardian authentication.</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.keycloak.scheme</td>
+			<td>string</td>
+			<td><pre lang="json">
+"http"
+</pre>
+</td>
+			<td>URL scheme for Keycloak endpoints ("http" or "https").</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.keycloak.username</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Administrator"
+</pre>
+</td>
+			<td>The Keycloak username to use for Guardian authentication.</td>
+		</tr>
+		<tr>
+			<td>portalServer.guardian.scheme</td>
+			<td>string</td>
+			<td><pre lang="json">
+"http"
+</pre>
+</td>
+			<td>URL scheme for Guardian endpoints ("http" or "https").</td>
 		</tr>
 		<tr>
 			<td>portalServer.logLevel</td>

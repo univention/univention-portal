@@ -470,6 +470,10 @@ portalServer:
     # -- Enrich user object data with additional attributes. May slow portal loading
     # times.
     api_me: true
+    # FIXME: Up to this point, these toggles have been for the portal-frontned
+    # only. Should I just make this one onto portalServer.guardian.enabled?
+    # -- Enable Guardian based authorization for portal entries.
+    guardian_authorization: true
   # -- TODO: Clarify usage of this parameter
   logLevel: "INFO"
   port: 80
@@ -519,3 +523,37 @@ portalServer:
     # -- Silent login URL to use for cases where a login via ICS is required. This
     # must be an URL (e.g. "https://ics.internal.example/")
     icsSilentLoginUrl: null
+
+  # -- Guardian authorization configuration.
+  # When enabled, the portal server will use the Guardian
+  # to check user permissions for portal entry visibility.
+  # Enable via featureToggles.guardian_authorization: true
+  guardian:
+    # -- The FQDN of the Guardian service.
+    # Example: "guardian.example.com"
+    fqdn: null
+    # -- URL scheme for Guardian endpoints ("http" or "https").
+    scheme: "http"
+    keycloak:
+      # -- URL scheme for Keycloak endpoints ("http" or "https").
+      scheme: "http"
+      # -- The FQDN of the Keycloak service used by Guardian.
+      # Example: "id.example.com"
+      fqdn: null
+      # -- The Keycloak realm to use for Guardian authentication.
+      realm: "nubus"
+      # FIXME: Create a service account for portal-server in Keycloak
+      # -- The Keycloak username to use for Guardian authentication.
+      username: "Administrator"
+    auth:
+      # -- The password for authenticating with Keycloak.
+      password: null
+      existingSecret:
+        # -- The name of an existing Secret to use for retrieving the Keycloak
+        # password for Guardian authentication.
+        #
+        # "portalServer.guardian.auth.password" will be ignored if this value is set.
+        name: null
+        keyMapping:
+          # -- The key to retrieve the password from.
+          password: null

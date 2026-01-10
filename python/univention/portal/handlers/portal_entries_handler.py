@@ -34,7 +34,7 @@ class PortalEntriesHandler(PortalResource):
 
         answer = {}
         answer["cache_id"] = portal.get_cache_id()
-        visible_content = portal.get_visible_content(user, admin_mode)
+        visible_content = await portal.get_visible_content(user, admin_mode)
 
         answer["corner_links"] = portal.get_corner_links(visible_content)
         answer["menu_links"] = portal.get_menu_links(visible_content)
