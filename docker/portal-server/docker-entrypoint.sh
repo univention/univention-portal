@@ -73,7 +73,11 @@ IFS='' read -r -d '' JQ_TEMPLATE <<"EOF" || true
   "umc_session_url": $umc_session_url,
   "umc_check_icons": $umc_check_icons,
   "feature_toggles": $feature_toggles,
-  "newsfeed_config": $newsfeed_config
+  "newsfeed_config": $newsfeed_config,
+  "nats_server": $nats_server,
+  "nats_kv_bucket": $nats_kv_bucket,
+  "nats_user": $nats_user,
+  "nats_password": $nats_password
 }
 EOF
 
@@ -106,6 +110,10 @@ jq -n \
   --arg selfservice_portal_dn "cn=self-service,cn=portal,cn=portals,cn=univention,${LDAP_BASE_DN:-dn=univention-organization,dn=intranet}" \
   --argjson feature_toggles "${PORTAL_SERVER_FEATURE_TOGGLES:-{\}}" \
   --argjson newsfeed_config "${PORTAL_SERVER_NEWSFEED_CONFIG:-{\}}" \
+  --arg nats_server "${NATS_SERVER:-}" \
+  --arg nats_kv_bucket "${NATS_KV_BUCKET:-}" \
+  --arg nats_user "${NATS_USER:-}" \
+  --arg nats_password "${NATS_PASSWORD:-}" \
   "${JQ_TEMPLATE}" > "${JSON_PATH}"
 
 if [[ "${PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED:-}" == "true" ]]; then

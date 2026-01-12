@@ -392,6 +392,60 @@ null
 			<td></td>
 		</tr>
 		<tr>
+			<td>nats</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "auth": {
+    "password": "",
+    "user": ""
+  },
+  "bucketName": "portal",
+  "connection": {
+    "url": ""
+  }
+}
+</pre>
+</td>
+			<td>NATS client access configuration. This value is in a transition towards the unified configuration structure for clients and secrets. TODO: Move password to a proper secret with existingSecret support.</td>
+		</tr>
+		<tr>
+			<td>nats.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Password for NATS authentication. Leave empty if no auth required.</td>
+		</tr>
+		<tr>
+			<td>nats.auth.user</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Username for NATS authentication. Leave empty if no auth required.</td>
+		</tr>
+		<tr>
+			<td>nats.bucketName</td>
+			<td>string</td>
+			<td><pre lang="json">
+"portal"
+</pre>
+</td>
+			<td>NATS KV bucket name for storing portal assets.</td>
+		</tr>
+		<tr>
+			<td>nats.connection.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>NATS server URL, e.g. "nats://nats:4222".</td>
+		</tr>
+		<tr>
 			<td>nodeSelector</td>
 			<td>object</td>
 			<td><pre lang="json">

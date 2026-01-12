@@ -46,3 +46,8 @@ data:
   TLS_MODE: "{{ .Values.portalConsumer.tlsMode }}"
   PROVISIONING_API_BASE_URL: "{{- tpl (required "The Provisioning API connection has to be configured, provisioningApi.connection.url." .Values.provisioningApi.connection.url) . -}}"
   PROVISIONING_API_USERNAME: "{{- tpl (required "A Provisioning API username has to be supplied, see parameter provisioningApi.auth.username" .Values.provisioningApi.auth.username) . -}}"
+  NATS_SERVER: {{ .Values.nats.connection.url | quote }}
+  NATS_KV_BUCKET: {{ .Values.nats.bucketName | quote }}
+  NATS_USER: {{ .Values.nats.auth.user | quote }}
+  # TODO: Move NATS_PASSWORD to a proper secret
+  NATS_PASSWORD: {{ .Values.nats.auth.password | quote }}

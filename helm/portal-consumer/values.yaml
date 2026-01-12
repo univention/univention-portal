@@ -211,6 +211,21 @@ objectStorage:
         access_key_id: null
         secret_key: null
 
+# -- NATS client access configuration. This value is in a transition towards the
+# unified configuration structure for clients and secrets.
+# TODO: Move password to a proper secret with existingSecret support.
+nats:
+  connection:
+    # -- NATS server URL, e.g. "nats://nats:4222".
+    url: ""
+  # -- NATS KV bucket name for storing portal assets.
+  bucketName: "portal"
+  auth:
+    # -- Username for NATS authentication. Leave empty if no auth required.
+    user: ""
+    # -- Password for NATS authentication. Leave empty if no auth required.
+    password: ""
+
 ## Container deployment probes
 probes:
   liveness:
