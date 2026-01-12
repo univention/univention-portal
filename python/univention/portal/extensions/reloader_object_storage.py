@@ -19,6 +19,7 @@ from botocore.exceptions import EndpointConnectionError
 from univention.portal import config
 from univention.portal.extensions import reloader
 from univention.portal.log import get_logger
+from univention.portal.nats_client import NatsKVClient
 from univention.portal.util import get_object_storage_client
 
 
@@ -59,6 +60,14 @@ class ObjectStorageReloader(reloader.Reloader):
             object_storage_endpoint,
             access_key_id,
             secret_access_key,
+        )
+
+        # HACK: Also write to NATS KV
+        self._nats_client = NatsKVClient(
+            nats_server=config.fetch("nats_server"),
+            bucket=config.fetch("nats_kv_bucket"),
+            user=config.fetch("nats_user") or "",
+            password=config.fetch("nats_password") or "",
         )
 
     def refresh(self, reason=None, content=None):
@@ -122,6 +131,12 @@ class ObjectStorageReloader(reloader.Reloader):
                 result["ResponseMetadata"]["HTTPStatusCode"],
             )
             return False
+
+        # HACK: Also write to NATS KV
+        if isinstance(content, str):
+            content = content.encode("utf-8")
+        self._nats_client.put(asset_absolute_path, content)
+
         return True
 
     def _ensure_object_storage_endpoint_is_supported(self, url):
