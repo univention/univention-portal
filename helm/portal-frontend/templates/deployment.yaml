@@ -134,9 +134,35 @@ spec:
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
               mountPath: "/var/www/html/custom/portal_background_image.svg"
               subPath: "portal_background_image.svg"
+            - name: portal-assets-volume
+              mountPath: /var/www/html/univention/portal-assets
+              readOnly: true
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
+        - name: "asset-loader"
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
+          image: "{{ coalesce .Values.assetLoader.image.registry .Values.global.imageRegistry }}/{{ .Values.assetLoader.image.repository }}:{{ .Values.assetLoader.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.assetLoader.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+          env:
+            - name: NATS_SERVER
+              value: {{ required "The parameter \"nats.connection.url\" is required." .Values.nats.connection.url | quote }}
+            - name: NATS_KV_BUCKET
+              value: {{ required "The parameter \"nats.bucketName\" is required." .Values.nats.bucketName | quote }}
+            - name: NATS_USER
+              value: {{ required "The parameter \"nats.auth.user\" is required." .Values.nats.auth.user | quote }}
+            - name: NATS_PASSWORD
+              value: {{ required "The parameter \"nats.auth.password\" is required." .Values.nats.auth.password | quote }}
+            - name: OUTPUT_DIR
+              value: "/portal-assets"
+          {{- if .Values.resources }}
+          resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: portal-assets-volume
+              mountPath: /portal-assets
       volumes:
         - name: "var-run-volume"
           emptyDir: {}
@@ -149,6 +175,8 @@ spec:
         - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
           configMap:
             name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+        - name: "portal-assets-volume"
+          emptyDir: {}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes  "context" .) | nindent 8 }}
         {{- end }}

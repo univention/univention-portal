@@ -12,6 +12,13 @@ portalFrontend:
   environment: "staging"
   logLevel: "DEBUG"
 
+nats:
+  connection:
+    url: "stub-url"
+  bucketName: "portal"
+  auth:
+    user: "stub-username"
+    password: "stub-password"
 
 ## Kubernetes ingress
 ingress:

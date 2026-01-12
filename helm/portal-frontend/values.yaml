@@ -91,6 +91,14 @@ image:
   tag: "0.26.3@sha256:0a00838e983255115f8c3d610f75fd0faed73b7a94c6e1c78ac3deb00fae6629"
   pullPolicy: ""
 
+# -- Asset loader sidecar configuration for loading portal assets from NATS KV.
+assetLoader:
+  image:
+    registry: ""
+    repository: "nubus-dev/images/portal-asset-loader"
+    tag: "latest"
+    pullPolicy: ""
+
 # -- Credentials to fetch images from private registry.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 #
@@ -465,4 +473,18 @@ portalFrontend:
   nginx:
     # -- Disable IPv6 support.
     disableIPv6: false
+
+# -- NATS configuration for the asset loader.
+# TODO: Move password to a proper secret with existingSecret support.
+nats:
+  connection:
+    # -- NATS server URL, e.g. "nats://nats:4222".
+    url: ""
+  # -- NATS KV bucket name for storing portal assets.
+  bucketName: "portal"
+  auth:
+    # -- Username for NATS authentication. Leave empty if no auth required.
+    user: ""
+    # -- Password for NATS authentication. Leave empty if no auth required.
+    password: ""
 ...

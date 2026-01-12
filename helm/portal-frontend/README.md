@@ -102,6 +102,22 @@ helm uninstall portal-frontend
 			<td>Affinity for pod assignment. Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity Note: podAffinityPreset, podAntiAffinityPreset, and nodeAffinityPreset will be ignored when it's set.</td>
 		</tr>
 		<tr>
+			<td>assetLoader</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "image": {
+    "pullPolicy": "",
+    "registry": "",
+    "repository": "nubus-dev/images/portal-asset-loader",
+    "tag": "latest"
+  }
+}
+</pre>
+</td>
+			<td>Asset loader sidecar configuration for loading portal assets from NATS KV.</td>
+		</tr>
+		<tr>
 			<td>containerSecurityContext.allowPrivilegeEscalation</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -701,6 +717,60 @@ true
 </pre>
 </td>
 			<td>String to partially override release name.</td>
+		</tr>
+		<tr>
+			<td>nats</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "auth": {
+    "password": "",
+    "user": ""
+  },
+  "bucketName": "portal",
+  "connection": {
+    "url": ""
+  }
+}
+</pre>
+</td>
+			<td>NATS configuration for the asset loader. TODO: Move password to a proper secret with existingSecret support.</td>
+		</tr>
+		<tr>
+			<td>nats.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Password for NATS authentication. Leave empty if no auth required.</td>
+		</tr>
+		<tr>
+			<td>nats.auth.user</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>Username for NATS authentication. Leave empty if no auth required.</td>
+		</tr>
+		<tr>
+			<td>nats.bucketName</td>
+			<td>string</td>
+			<td><pre lang="json">
+"portal"
+</pre>
+</td>
+			<td>NATS KV bucket name for storing portal assets.</td>
+		</tr>
+		<tr>
+			<td>nats.connection.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>NATS server URL, e.g. "nats://nats:4222".</td>
 		</tr>
 		<tr>
 			<td>nodeSelector</td>
