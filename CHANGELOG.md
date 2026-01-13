@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.90.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.90.0...v0.90.1) (2026-01-13)
+
+
+### Bug Fixes
+
+* Bump image to errata 299 ([8ddc3da](https://git.knut.univention.de/univention/dev/projects/portal/commit/8ddc3da5d7ced0a5491c6089622db483238ffdb1)), closes [univention/dev/internal/team-nubus#1518](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1518)
+
 ## [0.90.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.89.0...v0.90.0) (2025-12-18)
 
 
