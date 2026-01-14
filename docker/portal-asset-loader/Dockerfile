@@ -14,7 +14,11 @@ ADD --checksum=sha256:b26fcc8dfa1c39b5a5613445af3be3eefda45d9a39359bee271eafe349
 
 RUN tar -xz --strip-components=1 -C /usr/local/bin/ -f /tmp/uv.tar.gz && \
     uv venv /app/.venv && \
-    uv pip install --python /app/.venv/bin/python nats-py==2.12.0
+    uv pip install --python /app/.venv/bin/python \
+        nats-py==2.12.0 \
+        psycopg==3.2.4 \
+        ldap3>=2.9 \
+        udm-rest-api-client
 
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
@@ -30,12 +34,15 @@ RUN rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/* && \
     useradd -r -d /app -g ${USER} -N ${USER} -u 1000
 
 COPY --from=build --chown=${USER}:${USER} /app/.venv /app/.venv
-COPY --chown=${USER}:${USER} loader.py .
+COPY --chown=${USER}:${USER} loader.py loader_ldap.py ./
 
 RUN \
     python3.11 -V && \
-    python3.11 -c 'import loader'
+    python3.11 -c 'import loader' && \
+    python3.11 -c 'import loader_ldap'
 
 USER ${USER}
 
-ENTRYPOINT ["python", "loader.py"]
+# Default to NATS loader; override with command in Helm for PostgreSQL or LDAP
+ENTRYPOINT ["python"]
+CMD ["loader_ldap.py"]
