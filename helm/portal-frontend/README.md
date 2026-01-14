@@ -496,10 +496,6 @@ true
     "pathType": "ImplementationSpecific"
   },
   {
-    "path": "/univention/(portal)/(icons)(/.*)$",
-    "pathType": "ImplementationSpecific"
-  },
-  {
     "path": "/univention/(portal|selfservice)/(sse-worker.js)$",
     "pathType": "ImplementationSpecific"
   }
@@ -647,6 +643,69 @@ true
 		</tr>
 		<tr>
 			<td>ingress.items[1].tls.secretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].annotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].host</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"portal-assets"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].paths[0].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/portal/icons"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].paths[0].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Prefix"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].tls.secretName</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -1241,28 +1300,6 @@ false
 </pre>
 </td>
 			<td>Disable IPv6 support.</td>
-		</tr>
-		<tr>
-			<td>postgres</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "connection": {
-    "dsn": ""
-  }
-}
-</pre>
-</td>
-			<td>PostgreSQL configuration for the asset loader (when assetLoader.backend is "postgres"). TODO: Move password to a proper secret with existingSecret support.</td>
-		</tr>
-		<tr>
-			<td>postgres.connection.dsn</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>PostgreSQL connection string (DSN), e.g. "postgresql://user:pass@host:5432/dbname".</td>
 		</tr>
 		<tr>
 			<td>readinessProbe.failureThreshold</td>

@@ -146,14 +146,7 @@ spec:
           {{- end }}
           image: "{{ coalesce .Values.assetLoader.image.registry .Values.global.imageRegistry }}/{{ .Values.assetLoader.image.repository }}:{{ .Values.assetLoader.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.assetLoader.image.pullPolicy .Values.global.imagePullPolicy | quote }}
-          {{- if eq .Values.assetLoader.backend "postgres" }}
-          args: ["loader_pg.py"]
-          env:
-            - name: POSTGRES_DSN
-              value: {{ required "The parameter \"postgres.connection.dsn\" is required when using postgres backend." .Values.postgres.connection.dsn | quote }}
-            - name: OUTPUT_DIR
-              value: "/portal-assets"
-          {{- else if eq .Values.assetLoader.backend "ldap" }}
+          {{- if eq .Values.assetLoader.backend "ldap" }}
           args: ["loader_ldap.py"]
           env:
             - name: LDAP_URI

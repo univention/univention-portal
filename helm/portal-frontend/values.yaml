@@ -167,8 +167,6 @@ ingress:
           pathType: ImplementationSpecific
         - path: /univention/(portal|selfservice)/(css|fonts|i18n|media|js|oidc|custom)(/.*)$
           pathType: ImplementationSpecific
-        - path: /univention/(portal)/(icons)(/.*)$
-          pathType: ImplementationSpecific
         - path: /univention/(portal|selfservice)/(sse-worker.js)$
           pathType: ImplementationSpecific
 
@@ -206,6 +204,17 @@ ingress:
       ingressClassName: ""
       annotations:
         nginx.ingress.kubernetes.io/permanent-redirect: "/univention/portal/"
+      tls:
+        # enabled: true
+        # Set to override the global secretName
+        secretName: ""
+    - name: portal-assets
+      host: ""
+      paths:
+        - pathType: Prefix
+          path: /univention/portal/icons
+      ingressClassName: ""
+      annotations: {}
       tls:
         # enabled: true
         # Set to override the global secretName
@@ -497,13 +506,6 @@ nats:
     user: ""
     # -- Password for NATS authentication. Leave empty if no auth required.
     password: ""
-
-# -- PostgreSQL configuration for the asset loader (when assetLoader.backend is "postgres").
-# TODO: Move password to a proper secret with existingSecret support.
-postgres:
-  connection:
-    # -- PostgreSQL connection string (DSN), e.g. "postgresql://user:pass@host:5432/dbname".
-    dsn: ""
 
 # -- LDAP configuration for the asset loader (when assetLoader.backend is "ldap").
 # TODO: Move passwords to a proper secret with existingSecret support.

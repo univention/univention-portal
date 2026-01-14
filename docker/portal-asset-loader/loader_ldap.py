@@ -79,7 +79,10 @@ def load_config() -> Config:
 def get_entry_csn(config: Config) -> str | None:
     """
     Poll LDAP for portal subtree entryCSN.
-    Returns the entryCSN value or None on error.
+    Returns the maximum entryCSN value from all entries in the subtree, or None on error.
+
+    Note: We must query the entire subtree because entryCSN only changes for the
+    specific entry that was modified, not for parent containers.
     """
     try:
         server = ldap3.Server(config.ldap_uri)
@@ -90,16 +93,27 @@ def get_entry_csn(config: Config) -> str | None:
             auto_bind=True,
         )
 
-        # Search for entryCSN in the portal subtree
+        # Search for all entryCSN values in the portal subtree
         conn.search(
             search_base=config.ldap_base_dn,
             search_filter="(objectClass=*)",
-            search_scope=ldap3.BASE,
+            search_scope=ldap3.SUBTREE,
             attributes=["entryCSN"],
         )
 
-        if conn.entries:
-            return str(conn.entries[0].entryCSN.value)
+        if not conn.entries:
+            return None
+
+        # Extract all entryCSN values and find the maximum
+        # entryCSN format: timestamp#counter#sid#mod (e.g., 20260114151327.857093Z#000000#001#000000)
+        # Lexicographic sorting works because timestamp is first
+        csn_values = []
+        for entry in conn.entries:
+            if hasattr(entry, 'entryCSN') and entry.entryCSN.value:
+                csn_values.append(str(entry.entryCSN.value))
+
+        if csn_values:
+            return max(csn_values)
         return None
     except Exception as e:
         logger.error("Failed to query LDAP entryCSN: %s", e)
