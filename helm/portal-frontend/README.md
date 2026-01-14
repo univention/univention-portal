@@ -106,16 +106,54 @@ helm uninstall portal-frontend
 			<td>object</td>
 			<td><pre lang="json">
 {
+  "backend": "ldap",
   "image": {
     "pullPolicy": "",
     "registry": "",
     "repository": "nubus-dev/images/portal-asset-loader",
     "tag": "latest"
+  },
+  "resources": {
+    "limits": {
+      "cpu": "100m",
+      "memory": "128Mi"
+    },
+    "requests": {
+      "cpu": "50m",
+      "memory": "64Mi"
+    }
   }
 }
 </pre>
 </td>
-			<td>Asset loader sidecar configuration for loading portal assets from NATS KV.</td>
+			<td>Asset loader sidecar configuration for loading portal assets.</td>
+		</tr>
+		<tr>
+			<td>assetLoader.backend</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ldap"
+</pre>
+</td>
+			<td>Backend to use for asset loading: "ldap" (nats and postgres also available but not recommended)</td>
+		</tr>
+		<tr>
+			<td>assetLoader.resources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "limits": {
+    "cpu": "100m",
+    "memory": "128Mi"
+  },
+  "requests": {
+    "cpu": "50m",
+    "memory": "64Mi"
+  }
+}
+</pre>
+</td>
+			<td>Resource limits for the asset-loader sidecar container.</td>
 		</tr>
 		<tr>
 			<td>containerSecurityContext.allowPrivilegeEscalation</td>
@@ -647,6 +685,123 @@ true
 			<td>The name of the kubernetes secret which contains a TLS private key and certificate. Hint: This secret is not created by this chart and must be provided.</td>
 		</tr>
 		<tr>
+			<td>ldap</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "connection": {
+    "baseDn": "dc=univention-organization,dc=intranet",
+    "bindDn": "cn=admin,dc=univention-organization,dc=intranet",
+    "bindPassword": "",
+    "uri": "ldap://ldap-server:389"
+  },
+  "pollInterval": 60,
+  "portalDn": "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet",
+  "udm": {
+    "password": "",
+    "url": "http://udm-rest-api:9979/udm/",
+    "user": "Administrator"
+  }
+}
+</pre>
+</td>
+			<td>LDAP configuration for the asset loader (when assetLoader.backend is "ldap"). TODO: Move passwords to a proper secret with existingSecret support.</td>
+		</tr>
+		<tr>
+			<td>ldap.connection.baseDn</td>
+			<td>string</td>
+			<td><pre lang="json">
+"dc=univention-organization,dc=intranet"
+</pre>
+</td>
+			<td>LDAP base DN - the root of your LDAP tree.</td>
+		</tr>
+		<tr>
+			<td>ldap.connection.bindDn</td>
+			<td>string</td>
+			<td><pre lang="json">
+"cn=admin,dc=univention-organization,dc=intranet"
+</pre>
+</td>
+			<td>LDAP bind DN for authentication. Typically the admin user.</td>
+		</tr>
+		<tr>
+			<td>ldap.connection.bindPassword</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>LDAP bind password for authentication.</td>
+		</tr>
+		<tr>
+			<td>ldap.connection.uri</td>
+			<td>string</td>
+			<td><pre lang="json">
+"ldap://ldap-server:389"
+</pre>
+</td>
+			<td>LDAP server URI. Common values: "ldap://ldap-server:389" or "ldaps://ldap-server:636"</td>
+		</tr>
+		<tr>
+			<td>ldap.pollInterval</td>
+			<td>int</td>
+			<td><pre lang="json">
+60
+</pre>
+</td>
+			<td>Polling interval in seconds for checking LDAP changes via entryCSN.</td>
+		</tr>
+		<tr>
+			<td>ldap.portalDn</td>
+			<td>string</td>
+			<td><pre lang="json">
+"cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+</pre>
+</td>
+			<td>Portal DN to fetch assets for. This is the specific portal object in LDAP. Common value: "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet"</td>
+		</tr>
+		<tr>
+			<td>ldap.udm</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "password": "",
+  "url": "http://udm-rest-api:9979/udm/",
+  "user": "Administrator"
+}
+</pre>
+</td>
+			<td>UDM REST API configuration for fetching portal assets.</td>
+		</tr>
+		<tr>
+			<td>ldap.udm.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>UDM REST API password.</td>
+		</tr>
+		<tr>
+			<td>ldap.udm.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+"http://udm-rest-api:9979/udm/"
+</pre>
+</td>
+			<td>UDM REST API URL.</td>
+		</tr>
+		<tr>
+			<td>ldap.udm.user</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Administrator"
+</pre>
+</td>
+			<td>UDM REST API username.</td>
+		</tr>
+		<tr>
 			<td>lifecycleHooks</td>
 			<td>object</td>
 			<td><pre lang="json">
@@ -734,7 +889,7 @@ true
 }
 </pre>
 </td>
-			<td>NATS configuration for the asset loader. TODO: Move password to a proper secret with existingSecret support.</td>
+			<td>NATS configuration for the asset loader (when assetLoader.backend is "nats"). TODO: Move password to a proper secret with existingSecret support.</td>
 		</tr>
 		<tr>
 			<td>nats.auth.password</td>
@@ -1086,6 +1241,28 @@ false
 </pre>
 </td>
 			<td>Disable IPv6 support.</td>
+		</tr>
+		<tr>
+			<td>postgres</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "connection": {
+    "dsn": ""
+  }
+}
+</pre>
+</td>
+			<td>PostgreSQL configuration for the asset loader (when assetLoader.backend is "postgres"). TODO: Move password to a proper secret with existingSecret support.</td>
+		</tr>
+		<tr>
+			<td>postgres.connection.dsn</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td>PostgreSQL connection string (DSN), e.g. "postgresql://user:pass@host:5432/dbname".</td>
 		</tr>
 		<tr>
 			<td>readinessProbe.failureThreshold</td>

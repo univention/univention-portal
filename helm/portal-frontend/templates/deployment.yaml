@@ -135,7 +135,7 @@ spec:
               mountPath: "/var/www/html/custom/portal_background_image.svg"
               subPath: "portal_background_image.svg"
             - name: portal-assets-volume
-              mountPath: /var/www/html/univention/portal-assets
+              mountPath: /var/www/html/univention/portal
               readOnly: true
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
@@ -146,19 +146,62 @@ spec:
           {{- end }}
           image: "{{ coalesce .Values.assetLoader.image.registry .Values.global.imageRegistry }}/{{ .Values.assetLoader.image.repository }}:{{ .Values.assetLoader.image.tag }}"
           imagePullPolicy: {{ coalesce .Values.assetLoader.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+          {{- if eq .Values.assetLoader.backend "postgres" }}
+          args: ["loader_pg.py"]
           env:
-            - name: NATS_SERVER
-              value: {{ required "The parameter \"nats.connection.url\" is required." .Values.nats.connection.url | quote }}
-            - name: NATS_KV_BUCKET
-              value: {{ required "The parameter \"nats.bucketName\" is required." .Values.nats.bucketName | quote }}
-            - name: NATS_USER
-              value: {{ required "The parameter \"nats.auth.user\" is required." .Values.nats.auth.user | quote }}
-            - name: NATS_PASSWORD
-              value: {{ required "The parameter \"nats.auth.password\" is required." .Values.nats.auth.password | quote }}
+            - name: POSTGRES_DSN
+              value: {{ required "The parameter \"postgres.connection.dsn\" is required when using postgres backend." .Values.postgres.connection.dsn | quote }}
             - name: OUTPUT_DIR
               value: "/portal-assets"
-          {{- if .Values.resources }}
-          resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 12 }}
+          {{- else if eq .Values.assetLoader.backend "ldap" }}
+          args: ["loader_ldap.py"]
+          env:
+            - name: LDAP_URI
+              value: {{ required "The parameter \"ldap.connection.uri\" is required when using ldap backend." .Values.ldap.connection.uri | quote }}
+            - name: LDAP_BIND_DN
+              value: {{ required "The parameter \"ldap.connection.bindDn\" is required when using ldap backend." .Values.ldap.connection.bindDn | quote }}
+            - name: LDAP_BIND_PW
+              value: {{ required "The parameter \"ldap.connection.bindPassword\" is required when using ldap backend." .Values.ldap.connection.bindPassword | quote }}
+            - name: LDAP_BASE_DN
+              value: {{ required "The parameter \"ldap.connection.baseDn\" is required when using ldap backend." .Values.ldap.connection.baseDn | quote }}
+            - name: UDM_API_URL
+              value: {{ required "The parameter \"ldap.udm.url\" is required when using ldap backend." .Values.ldap.udm.url | quote }}
+            - name: UDM_API_USER
+              value: {{ required "The parameter \"ldap.udm.user\" is required when using ldap backend." .Values.ldap.udm.user | quote }}
+            - name: UDM_API_PASSWORD
+              value: {{ required "The parameter \"ldap.udm.password\" is required when using ldap backend." .Values.ldap.udm.password | quote }}
+            - name: PORTAL_DN
+              value: {{ required "The parameter \"ldap.portalDn\" is required when using ldap backend." .Values.ldap.portalDn | quote }}
+            - name: POLL_INTERVAL
+              value: {{ .Values.ldap.pollInterval | quote }}
+            - name: OUTPUT_DIR
+              value: "/portal-assets"
+          {{- else }}
+          args: ["loader.py"]
+          env:
+            - name: NATS_SERVER
+              value: {{ required "The parameter \"nats.connection.url\" is required when using nats backend." .Values.nats.connection.url | quote }}
+            - name: NATS_KV_BUCKET
+              value: {{ required "The parameter \"nats.bucketName\" is required when using nats backend." .Values.nats.bucketName | quote }}
+            - name: NATS_USER
+              value: {{ required "The parameter \"nats.auth.user\" is required when using nats backend." .Values.nats.auth.user | quote }}
+            - name: NATS_PASSWORD
+              value: {{ required "The parameter \"nats.auth.password\" is required when using nats backend." .Values.nats.auth.password | quote }}
+            - name: OUTPUT_DIR
+              value: "/portal-assets"
+          {{- end }}
+          {{- if .Values.assetLoader.resources }}
+          resources: {{- include "common.tplvalues.render" (dict "value" .Values.assetLoader.resources "context" .) | nindent 12 }}
+          {{- end }}
+          {{- if eq .Values.assetLoader.backend "ldap" }}
+          readinessProbe:
+            exec:
+              command:
+                - test
+                - -f
+                - /portal-assets/.ready
+            initialDelaySeconds: 5
+            periodSeconds: 10
           {{- end }}
           volumeMounts:
             - name: portal-assets-volume

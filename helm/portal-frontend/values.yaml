@@ -91,13 +91,23 @@ image:
   tag: "0.26.3@sha256:0a00838e983255115f8c3d610f75fd0faed73b7a94c6e1c78ac3deb00fae6629"
   pullPolicy: ""
 
-# -- Asset loader sidecar configuration for loading portal assets from NATS KV.
+# -- Asset loader sidecar configuration for loading portal assets.
 assetLoader:
+  # -- Backend to use for asset loading: "ldap" (nats and postgres also available but not recommended)
+  backend: "ldap"
   image:
     registry: ""
     repository: "nubus-dev/images/portal-asset-loader"
     tag: "latest"
     pullPolicy: ""
+  # -- Resource limits for the asset-loader sidecar container.
+  resources:
+    limits:
+      memory: "128Mi"
+      cpu: "100m"
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
 
 # -- Credentials to fetch images from private registry.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -474,7 +484,7 @@ portalFrontend:
     # -- Disable IPv6 support.
     disableIPv6: false
 
-# -- NATS configuration for the asset loader.
+# -- NATS configuration for the asset loader (when assetLoader.backend is "nats").
 # TODO: Move password to a proper secret with existingSecret support.
 nats:
   connection:
@@ -487,4 +497,37 @@ nats:
     user: ""
     # -- Password for NATS authentication. Leave empty if no auth required.
     password: ""
+
+# -- PostgreSQL configuration for the asset loader (when assetLoader.backend is "postgres").
+# TODO: Move password to a proper secret with existingSecret support.
+postgres:
+  connection:
+    # -- PostgreSQL connection string (DSN), e.g. "postgresql://user:pass@host:5432/dbname".
+    dsn: ""
+
+# -- LDAP configuration for the asset loader (when assetLoader.backend is "ldap").
+# TODO: Move passwords to a proper secret with existingSecret support.
+ldap:
+  connection:
+    # -- LDAP server URI. Common values: "ldap://ldap-server:389" or "ldaps://ldap-server:636"
+    uri: "ldap://ldap-server:389"
+    # -- LDAP bind DN for authentication. Typically the admin user.
+    bindDn: "cn=admin,dc=univention-organization,dc=intranet"
+    # -- LDAP bind password for authentication.
+    bindPassword: ""
+    # -- LDAP base DN - the root of your LDAP tree.
+    baseDn: "dc=univention-organization,dc=intranet"
+  # -- UDM REST API configuration for fetching portal assets.
+  udm:
+    # -- UDM REST API URL.
+    url: "http://udm-rest-api:9979/udm/"
+    # -- UDM REST API username.
+    user: "Administrator"
+    # -- UDM REST API password.
+    password: ""
+  # -- Portal DN to fetch assets for. This is the specific portal object in LDAP.
+  # Common value: "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+  portalDn: "cn=domain,cn=portal,cn=portals,cn=univention,dc=univention-organization,dc=intranet"
+  # -- Polling interval in seconds for checking LDAP changes via entryCSN.
+  pollInterval: 60
 ...
