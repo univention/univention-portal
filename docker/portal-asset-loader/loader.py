@@ -111,7 +111,7 @@ async def watch(kv, output_dir: Path):
 
     try:
         while True:
-            entry = await watcher.updates()
+            entry = await watcher.updates(timeout=None)
             await handle_entry(entry, output_dir)
     finally:
         await watcher.stop()
