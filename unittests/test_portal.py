@@ -111,8 +111,9 @@ async def test_login(portal, mocker):
     login_request_mock.assert_called_once_with(request)
 
 
-def test_visible_content(mocked_user, standard_portal):
-    content = standard_portal.get_visible_content(mocked_user, False)
+@pytest.mark.asyncio
+async def test_visible_content(mocked_user, standard_portal):
+    content = await standard_portal.get_visible_content(mocked_user, False)
     expected_content = {
         "category_dns": ["cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
         "entry_dns": ["cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
@@ -124,26 +125,29 @@ def test_visible_content(mocked_user, standard_portal):
 
 class TestLinkLists:
 
-    def test_does_not_contain_other_entry_for_authenticated_user(
+    @pytest.mark.asyncio
+    async def test_does_not_contain_other_entry_for_authenticated_user(
         self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
         )
-        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
+        links = await _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == []
 
-    def test_contains_visible_entry_for_authenticated_user(
+    @pytest.mark.asyncio
+    async def test_contains_visible_entry_for_authenticated_user(
         self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
             in_link_lists=[portal_link_list.portal_attr],
         )
-        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
+        links = await _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == ["cn=test-entry,dc=test"]
 
-    def test_hides_anonymous_entry_for_authenticated_user(
+    @pytest.mark.asyncio
+    async def test_hides_anonymous_entry_for_authenticated_user(
         self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
@@ -151,20 +155,22 @@ class TestLinkLists:
             in_link_lists=[portal_link_list.portal_attr],
             anonymous=True,
         )
-        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
+        links = await _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == []
 
-    def test_contains_visible_entry_for_anonymous_user(
+    @pytest.mark.asyncio
+    async def test_contains_visible_entry_for_anonymous_user(
         self, portal_link_list, portal, stub_portal_cache, stub_user_anonymous,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
             in_link_lists=[portal_link_list.portal_attr],
         )
-        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user_anonymous)
+        links = await _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user_anonymous)
         assert links == ["cn=test-entry,dc=test"]
 
-    def test_contains_anonymous_entry_for_anonymous_user(
+    @pytest.mark.asyncio
+    async def test_contains_anonymous_entry_for_anonymous_user(
         self, portal_link_list, portal, stub_portal_cache, stub_user_anonymous,
     ):
         stub_portal_cache.stub_add_entry(
@@ -172,29 +178,31 @@ class TestLinkLists:
             in_link_lists=[portal_link_list.portal_attr],
             anonymous=True,
         )
-        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user_anonymous)
+        links = await _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user_anonymous)
         assert links == ["cn=test-entry,dc=test"]
 
-    def test_does_not_contain_other_entry_for_anonymous_user(
+    @pytest.mark.asyncio
+    async def test_does_not_contain_other_entry_for_anonymous_user(
         self, portal_link_list, portal, stub_portal_cache, stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
             anonymous=True,
         )
-        links = _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
+        links = await _get_links_from_portal(portal, portal_link_list.portal_attr, stub_user)
         assert links == []
 
 
-def _get_links_from_portal(portal, link_list, user):
-    content = portal.get_visible_content(user, False)
+async def _get_links_from_portal(portal, link_list, user):
+    content = await portal.get_visible_content(user, False)
     getter = getattr(portal, f"get_{link_list}")
     links = getter(content)
     return links
 
 
-def test_portal_entries(mocked_user, standard_portal):
-    content = standard_portal.get_visible_content(mocked_user, False)
+@pytest.mark.asyncio
+async def test_portal_entries(mocked_user, standard_portal):
+    content = await standard_portal.get_visible_content(mocked_user, False)
     content = standard_portal.get_entries(content)
     expected_content = [
         {
@@ -258,15 +266,17 @@ def test_portal_entries(mocked_user, standard_portal):
     assert content == expected_content
 
 
-def test_folders(mocked_user, standard_portal):
-    content = standard_portal.get_visible_content(mocked_user, False)
+@pytest.mark.asyncio
+async def test_folders(mocked_user, standard_portal):
+    content = await standard_portal.get_visible_content(mocked_user, False)
     content = standard_portal.get_folders(content)
     expected_content = []
     assert content == expected_content
 
 
-def test_categories(mocked_user, standard_portal):
-    content = standard_portal.get_visible_content(mocked_user, False)
+@pytest.mark.asyncio
+async def test_categories(mocked_user, standard_portal):
+    content = await standard_portal.get_visible_content(mocked_user, False)
     content = standard_portal.get_categories(content)
     expected_content = [
         {
@@ -278,8 +288,9 @@ def test_categories(mocked_user, standard_portal):
     assert content == expected_content
 
 
-def test_meta(mocked_user, standard_portal):
-    content = standard_portal.get_visible_content(mocked_user, False)
+@pytest.mark.asyncio
+async def test_meta(mocked_user, standard_portal):
+    content = await standard_portal.get_visible_content(mocked_user, False)
     categories = standard_portal.get_categories(content)
     content = standard_portal.get_meta(content, categories)
     expected_content = {
@@ -338,7 +349,8 @@ def test_umc_portal_request_umc_get_uses_configured_url(
         json=mock.ANY, headers=mock.ANY)
 
 
-def test_announcement(mocked_user, portal_data, standard_portal):
+@pytest.mark.asyncio
+async def test_announcement(mocked_user, portal_data, standard_portal):
     input_announcement = {
         "allowedGroups": [],
         "dn": "cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
@@ -364,7 +376,7 @@ def test_announcement(mocked_user, portal_data, standard_portal):
     modifiable_data["announcements"] = input_announcements
 
     portal_data.update_portal_cache(modifiable_data)
-    content = standard_portal.get_visible_content(mocked_user, False)
+    content = await standard_portal.get_visible_content(mocked_user, False)
     result_announcements = standard_portal.get_announcements(content)
 
     assert input_announcement["dn"] in content["announcement_dns"]
@@ -373,7 +385,8 @@ def test_announcement(mocked_user, portal_data, standard_portal):
     assert len(result_announcements) == 1
 
 
-def test_announcements(mocked_user, portal_data, standard_portal):
+@pytest.mark.asyncio
+async def test_announcements(mocked_user, portal_data, standard_portal):
     past_announcement = {
         "allowedGroups": [],
         "dn": "cn=Testannouncment1,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet",
@@ -431,7 +444,7 @@ def test_announcements(mocked_user, portal_data, standard_portal):
     modifiable_data['announcements'] = input_announcements
 
     portal_data.update_portal_cache(modifiable_data)
-    content = standard_portal.get_visible_content(mocked_user, False)
+    content = await standard_portal.get_visible_content(mocked_user, False)
     result_announcements = standard_portal.get_announcements(content)
 
     assert present_announcement["dn"] in content["announcement_dns"]
@@ -440,7 +453,8 @@ def test_announcements(mocked_user, portal_data, standard_portal):
     assert len(result_announcements) == 1
 
 
-def test_announcement_groups(portal_data, standard_portal):
+@pytest.mark.asyncio
+async def test_announcement_groups(portal_data, standard_portal):
 
     test_user = user.User(
         username="hindenkampp",
@@ -506,7 +520,7 @@ def test_announcement_groups(portal_data, standard_portal):
     modifiable_data['announcements'] = input_announcements
 
     portal_data.update_portal_cache(modifiable_data)
-    content = standard_portal.get_visible_content(test_user, False)
+    content = await standard_portal.get_visible_content(test_user, False)
     result_announcements = standard_portal.get_announcements(content)
 
     assert visible_announcement_1["dn"] in content['announcement_dns']
