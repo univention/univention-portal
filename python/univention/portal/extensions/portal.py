@@ -233,7 +233,8 @@ class Portal(metaclass=Plugin):
         try:
             get_logger("portal").info("User is logged in, fetching user details from UDM Rest API.")
             udm_client = self._get_udm_client()
-            udm_user_data = await udm_client.get_user(user.user_dn)
+            udm_user_data = await udm_client.get_user(
+                user.user_dn, include_guardian_inherited_roles=True)
 
             actor = self._build_guardian_actor(udm_user_data)
 
@@ -280,12 +281,19 @@ class Portal(metaclass=Plugin):
             "attributes": user_properties,
         }
 
-        guardian_roles = user_properties.get("guardianRoles")
-        if guardian_roles:
-            get_logger("portal").debug("Found %d Guardian roles for user.", len(guardian_roles))
+        # Get roles assigned directly to the user and the inherited from groups
+        guardian_roles = user_properties.get("guardianRoles") or []
+        inherited_roles = user_properties.get("guardianInheritedRoles") or []
+
+        all_roles = list(guardian_roles) + list(inherited_roles)
+
+        if all_roles:
+            get_logger("portal").debug(
+                "Found %d Guardian roles for user (%d direct, %d inherited).",
+                len(all_roles), len(guardian_roles), len(inherited_roles))
             # Roles should be strings in the format "app:namespace:role"
             # The GuardianAuthorizationClient will convert them to dicts via expand_role_string()
-            actor["roles"] = list(guardian_roles)
+            actor["roles"] = all_roles
 
         return actor
 
