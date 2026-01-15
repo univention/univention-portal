@@ -53,7 +53,7 @@ class PortalEntriesHandler(PortalResource):
             # this is not how the portal-server is supposed to be working
             # but we need it like that...
             umc_portal = portal._get_umc_portal()
-            umc_content = umc_portal.get_visible_content(user, admin_mode)
+            umc_content = await umc_portal.get_visible_content(user, admin_mode)
             answer["entries"].extend(umc_portal.get_entries(umc_content))
             answer["folders"].extend(umc_portal.get_folders(umc_content))
             answer["categories"].extend(umc_portal.get_categories(umc_content))
