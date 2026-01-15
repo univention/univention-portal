@@ -93,7 +93,7 @@ image:
 
 # -- Asset loader sidecar configuration for loading portal assets.
 assetLoader:
-  # -- Backend to use for asset loading: "ldap" (nats and postgres also available but not recommended)
+  # -- Backend to use for asset loading: "ldap" or "nats"
   backend: "ldap"
   image:
     registry: ""

@@ -134,9 +134,16 @@ spec:
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
               mountPath: "/var/www/html/custom/portal_background_image.svg"
               subPath: "portal_background_image.svg"
+            {{- if eq .Values.assetLoader.backend "ldap" }}
             - name: portal-assets-volume
               mountPath: /var/www/html/univention/portal
               readOnly: true
+            {{- else }}
+            - name: portal-assets-volume
+              mountPath: /var/www/html/univention/portal
+              subPath: "portal-assets"
+              readOnly: true
+            {{- end }}
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}

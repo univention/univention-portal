@@ -20,6 +20,12 @@ nats:
     user: "stub-username"
     password: "stub-password"
 
+ldap:
+  connection:
+    bindPassword: "stub-password"
+  udm:
+    password: "udm-stub-password"
+
 ## Kubernetes ingress
 ingress:
   enabled: true

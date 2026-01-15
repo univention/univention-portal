@@ -135,7 +135,7 @@ helm uninstall portal-frontend
 "ldap"
 </pre>
 </td>
-			<td>Backend to use for asset loading: "ldap" (nats and postgres also available but not recommended)</td>
+			<td>Backend to use for asset loading: "ldap" or "nats"</td>
 		</tr>
 		<tr>
 			<td>assetLoader.resources</td>
