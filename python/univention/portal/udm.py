@@ -15,10 +15,12 @@ class AsyncUdmClient:
         self._username = username
         self._password = password
 
-    async def get_user(self, user_dn: str):
+    async def get_user(self, user_dn: str, include_guardian_inherited_roles: bool = False):
         if not user_dn:
             raise ValueError("The user dn cannot be empty.")
         udm_query = f"users/user/{user_dn}"
+        if include_guardian_inherited_roles:
+            udm_query += "?properties=guardianInheritedRoles&properties=*"
         try:
             data = await self._fetch_from_udm(udm_query)
         except HTTPClientError as exc:
