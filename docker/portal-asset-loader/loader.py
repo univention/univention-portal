@@ -46,21 +46,18 @@ def load_config() -> Config:
     )
 
 
-async def write_asset(output_dir: Path, key: str, value: bytes):
+def write_asset(output_dir: Path, key: str, value: bytes):
     """Write an asset to the output directory atomically."""
     file_path = output_dir / key
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    fd, tmp_path = tempfile.mkstemp(dir=file_path.parent)
-    try:
-        os.write(fd, value)
-        os.close(fd)
-        os.rename(tmp_path, file_path)
-        logger.debug("Wrote %s (%d bytes)", key, len(value))
-    except Exception:
-        os.close(fd)
-        os.unlink(tmp_path)
-        raise
+    with tempfile.NamedTemporaryFile(dir=file_path.parent, delete=False) as f:
+        f.write(value)
+        tmp_path = Path(f.name)
+
+    tmp_path.chmod(0o644)
+    tmp_path.rename(file_path)
+    logger.debug("Wrote %s (%d bytes)", key, len(value))
 
 
 async def delete_asset(output_dir: Path, key: str):
@@ -83,7 +80,7 @@ async def handle_entry(entry, output_dir: Path):
         await delete_asset(output_dir, entry.key)
     elif entry.value:
         logger.info("PUT %s (revision %d)", entry.key, entry.revision)
-        await write_asset(output_dir, entry.key, entry.value)
+        write_asset(output_dir, entry.key, entry.value)
 
 
 async def initial_sync(kv, output_dir: Path):
