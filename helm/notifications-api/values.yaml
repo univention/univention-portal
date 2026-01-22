@@ -130,20 +130,18 @@ ingress:
       kind: "ClusterIssuer"
 
   # -- Define the Ingress paths.
+  # The FastAPI app includes the prefix in its routes via the api router prefix.
   paths:
-  - path: /(univention/portal/notifications-api/)(.*)$
-    pathType: ImplementationSpecific
+    - path: /univention/portal/notifications-api/
+      pathType: Prefix
+    - path: /univention/portal/notifications-api
+      pathType: Exact
 
   # -- The Ingress controller class name.
   ingressClassName: ""
 
   # -- Define custom ingress annotations.
-  # annotations:
-  #   nginx.ingress.kubernetes.io/rewrite-target: /
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: "/$2$3"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/affinity: "none"
+  annotations: {}
 
   # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
   #

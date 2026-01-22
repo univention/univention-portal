@@ -323,14 +323,10 @@ null
 			<td>ingress.annotations</td>
 			<td>object</td>
 			<td><pre lang="json">
-{
-  "nginx.ingress.kubernetes.io/affinity": "none",
-  "nginx.ingress.kubernetes.io/rewrite-target": "/$2$3",
-  "nginx.ingress.kubernetes.io/use-regex": "true"
-}
+{}
 </pre>
 </td>
-			<td>Define custom ingress annotations. annotations:   nginx.ingress.kubernetes.io/rewrite-target: /</td>
+			<td>Define custom ingress annotations.</td>
 		</tr>
 		<tr>
 			<td>ingress.certManager.enabled</td>
@@ -392,17 +388,33 @@ true
 			<td><pre lang="json">
 [
   {
-    "path": "/()(univention/portal/|univention/selfservice/)(portal.json|navigation.json)$",
-    "pathType": "ImplementationSpecific"
+    "path": "/univention/portal/portal.json",
+    "pathType": "Exact"
   },
   {
-    "path": "/()(univention/portal/|univention/selfservice/)(api/v1/me)$",
-    "pathType": "ImplementationSpecific"
+    "path": "/univention/portal/navigation.json",
+    "pathType": "Exact"
+  },
+  {
+    "path": "/univention/portal/api/v1/me",
+    "pathType": "Exact"
+  },
+  {
+    "path": "/univention/selfservice/portal.json",
+    "pathType": "Exact"
+  },
+  {
+    "path": "/univention/selfservice/navigation.json",
+    "pathType": "Exact"
+  },
+  {
+    "path": "/univention/selfservice/api/v1/me",
+    "pathType": "Exact"
   }
 ]
 </pre>
 </td>
-			<td>Define the Ingress paths.</td>
+			<td>Define the Ingress paths. The portal-server Tornado application handles paths with the prefix included, using routes like r"/(.+)/portal.json" which match the full path.</td>
 		</tr>
 		<tr>
 			<td>ingress.tls</td>

@@ -12,4 +12,7 @@ API_VERSION = settings.api_version
 api = import_module(f".{API_VERSION}", package="app.api")
 router = APIRouter()
 
-router.include_router(api.router, prefix=f"/{API_VERSION}")
+# Build the full prefix including root_path (e.g., "/univention/portal/notifications-api")
+# and the API version (e.g., "/v1")
+prefix = f"{settings.root_path.rstrip('/')}/{API_VERSION}"
+router.include_router(api.router, prefix=prefix)

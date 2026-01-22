@@ -54,6 +54,30 @@ data:
             root /var/www/html;
             index index.html index.htm;
             server_name _;
+
+            # Redirect root and /univention paths to /univention/portal/
+            location = / {
+                return 301 /univention/portal/;
+            }
+            location = /univention {
+                return 301 /univention/portal/;
+            }
+            location = /univention/ {
+                return 301 /univention/portal/;
+            }
+
+            # Handle /favicon.ico by serving from /favicon/favicon.ico
+            location = /favicon.ico {
+                rewrite ^/favicon.ico$ /favicon/favicon.ico last;
+            }
+
+            # Handle /univention/portal/ and /univention/selfservice/ prefixes
+            # by stripping the prefix and serving files from root
+            location ~ ^/univention/(portal|selfservice)/(.*)$ {
+                try_files /$2 /$2/ =404;
+            }
+
+            # Default location for direct access
             location / {
                 try_files $uri $uri/ =404;
             }
