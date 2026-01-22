@@ -799,7 +799,7 @@ true
 {
   "api_me": true,
   "centered_layout": false,
-  "guardian_authorization": true,
+  "guardian_authorization": false,
   "left_sidebar": false,
   "native_html_list": false,
   "newsfeed": false,
@@ -824,7 +824,7 @@ true
 			<td>portalServer.featureToggles.guardian_authorization</td>
 			<td>bool</td>
 			<td><pre lang="json">
-true
+false
 </pre>
 </td>
 			<td>Enable Guardian based authorization for portal entries.</td>

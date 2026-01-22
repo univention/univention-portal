@@ -470,10 +470,8 @@ portalServer:
     # -- Enrich user object data with additional attributes. May slow portal loading
     # times.
     api_me: true
-    # FIXME: Up to this point, these toggles have been for the portal-frontned
-    # only. Should I just make this one onto portalServer.guardian.enabled?
     # -- Enable Guardian based authorization for portal entries.
-    guardian_authorization: true
+    guardian_authorization: false
   # -- TODO: Clarify usage of this parameter
   logLevel: "INFO"
   port: 80
