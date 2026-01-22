@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.91.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.90.1...v0.91.0) (2026-01-22)
+
+
+### Features
+
+* **portal-server:** Guardian implementation and chart integration ([d0b26b7](https://git.knut.univention.de/univention/dev/projects/portal/commit/d0b26b79dfc7580cde42902a556293c9b4ca4567)), closes [univention/dev/internal/team-nubus#1254](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1254)
+
+
+### Bug Fixes
+
+* **portal-server:** Request user guardianInheritedRoles from UDM if Guardian is enabled ([2dc3c52](https://git.knut.univention.de/univention/dev/projects/portal/commit/2dc3c5234d1505f1c5fa088b7296042d210894f8)), closes [univention/dev/internal/team-nubus#1254](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1254)
+
 ## [0.90.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.90.0...v0.90.1) (2026-01-13)
 
 
