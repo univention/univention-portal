@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.91.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.0...v0.91.1) (2026-01-22)
+
+
+### Bug Fixes
+
+* **portal-server:** Default to disabling the Guardian integration ([9d87027](https://git.knut.univention.de/univention/dev/projects/portal/commit/9d870275d61bfdbe42c2c598a9abad76ba1efe09)), closes [univention/dev/internal/team-nubus#1254](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1254)
+
 ## [0.91.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.90.1...v0.91.0) (2026-01-22)
 
 
