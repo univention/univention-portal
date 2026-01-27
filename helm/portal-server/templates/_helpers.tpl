@@ -40,7 +40,7 @@ saml
 
 {{- define "portal-server.umcGetUrl" -}}
 {{- if .Values.global.nubusDeployment -}}
-{{- printf "http://%s-umc-server/get" .Release.Name -}}
+{{- printf "http://%s-umc-server/univention/get" .Release.Name -}}
 {{- else -}}
 {{- required "The parameter \"portalServer.umcGetUrl\" is required." .Values.portalServer.umcGetUrl -}}
 {{- end -}}
@@ -48,7 +48,7 @@ saml
 
 {{- define "portal-server.umcSessionUrl" -}}
 {{- if .Values.global.nubusDeployment -}}
-{{- printf "http://%s-umc-server/get/session-info" .Release.Name -}}
+{{- printf "http://%s-umc-server/univention/get/session-info" .Release.Name -}}
 {{- else -}}
 {{- required "The parameter \"portalServer.umcSessionUrl\" is required." .Values.portalServer.umcSessionUrl -}}
 {{- end -}}

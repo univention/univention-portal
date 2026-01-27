@@ -557,8 +557,8 @@ true
   "portalDefaultDn": null,
   "tlsMode": "off",
   "ucsInternalPath": "portal-data",
-  "umcGetUrl": "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}",
-  "umcSessionUrl": "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
+  "umcGetUrl": "{{- printf \"http://%s-umc-server/univention/get\" .Release.Name -}}",
+  "umcSessionUrl": "{{- printf \"http://%s-umc-server/univention/get/session-info\" .Release.Name -}}"
 }
 </pre>
 </td>
@@ -676,7 +676,7 @@ null
 			<td>portalConsumer.umcGetUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
+"{{- printf \"http://%s-umc-server/univention/get\" .Release.Name -}}"
 </pre>
 </td>
 			<td>Define UMC get endpoint. Example: `"https://portal.example.com/univention/internal/umc/get"`</td>
@@ -685,7 +685,7 @@ null
 			<td>portalConsumer.umcSessionUrl</td>
 			<td>string</td>
 			<td><pre lang="json">
-"{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
+"{{- printf \"http://%s-umc-server/univention/get/session-info\" .Release.Name -}}"
 </pre>
 </td>
 			<td>Define UMC session-info" endpoint. Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`</td>

@@ -131,10 +131,10 @@ portalConsumer:
   ucsInternalPath: "portal-data"
   # -- Define UMC get endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get"`
-  umcGetUrl: "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
+  umcGetUrl: "{{- printf \"http://%s-umc-server/univention/get\" .Release.Name -}}"
   # -- Define UMC session-info" endpoint.
   # Example: `"https://portal.example.com/univention/internal/umc/get/session-info"`
-  umcSessionUrl: "{{- printf \"http://%s-umc-server/get/session-info\" .Release.Name -}}"
+  umcSessionUrl: "{{- printf \"http://%s-umc-server/univention/get/session-info\" .Release.Name -}}"
 
   image:
     registry: ""
