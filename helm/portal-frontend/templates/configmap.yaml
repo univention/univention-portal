@@ -66,18 +66,25 @@ data:
                 return 301 /univention/portal/;
             }
 
-            # Handle /favicon.ico by serving from /favicon/favicon.ico
-            location = /favicon.ico {
-                rewrite ^/favicon.ico$ /favicon/favicon.ico last;
+            # Redirect paths without trailing slash to include trailing slash
+            location = /univention/portal {
+                return 301 /univention/portal/;
+            }
+            location = /univention/selfservice {
+                return 301 /univention/selfservice/;
             }
 
-            # Handle /univention/portal/ and /univention/selfservice/ prefixes
-            # by stripping the prefix and serving files from root
-            location ~ ^/univention/(portal|selfservice)/(.*)$ {
-                try_files /$2 /$2/ =404;
+            # Serve portal frontend under URL prefix
+            location /univention/portal/ {
+                try_files $uri $uri/ /univention/portal/index.html;
             }
 
-            # Default location for direct access
+            # Serve selfservice frontend under URL prefix
+            location /univention/selfservice/ {
+                try_files $uri $uri/ /univention/selfservice/index.html;
+            }
+
+            # Default fallback (also serves /favicon.ico from root)
             location / {
                 try_files $uri $uri/ =404;
             }

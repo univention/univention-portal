@@ -88,8 +88,11 @@ RUN yarn build
 
 FROM gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/nginx/nginx:0.7.24@sha256:22f3ade597cafba9105cde87e4caf851fb36a2e6f24965db3608f229afa069fd AS final
 
-COPY --from=build /app/dist /var/www/html
-COPY ./worker/sse-worker.js /var/www/html
+COPY --from=build /app/dist /var/www/html/univention/portal
+COPY --from=build /app/dist /var/www/html/univention/selfservice
+COPY ./worker/sse-worker.js /var/www/html/univention/portal
+COPY ./worker/sse-worker.js /var/www/html/univention/selfservice
+COPY --from=build /app/dist/favicon/favicon.ico /var/www/html/favicon.ico
 
 ###############################################################################
 

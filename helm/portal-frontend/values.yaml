@@ -191,7 +191,9 @@ ingress:
       host: ""
 
       # -- Define the Ingress paths for portal frontend.
-      # The nginx server inside the container handles prefix stripping.
+      # The nginx server inside the container handles prefix stripping and redirects.
+      # Paths for /, /univention, /univention/ are redirected to /univention/portal/
+      # by the internal nginx configuration.
       paths:
         - path: /univention/portal/
           pathType: Prefix
@@ -203,58 +205,24 @@ ingress:
           pathType: Exact
         - path: /favicon.ico
           pathType: Exact
-
-      # -- The Ingress controller class name.
-      ingressClassName: ""
-
-      # -- Define custom ingress annotations.
-      annotations: {}
-
-      # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
-      #
-      # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
-      tls:
-        # enabled: true
-        # Set to override the global secretName
-        secretName: ""
-    - name: redirects
-      # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable.
-      host: ""
-
-      # -- Define the Ingress paths for redirects to /univention/portal/.
-      # These paths use ImplementationSpecific with regex to ensure proper matching
-      # priority in nginx-ingress when other ingresses also use regex patterns.
-      paths:
-        - path: /$
-          pathType: ImplementationSpecific
-        - path: /univention$
-          pathType: ImplementationSpecific
-        - path: /univention/$
-          pathType: ImplementationSpecific
-
-      # -- The Ingress controller class name.
-      ingressClassName: ""
-
-      # -- Define custom ingress annotations.
-      # Note: permanent-redirect is a redirect annotation, not a path-rewrite.
-      annotations:
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/permanent-redirect: "/univention/portal/"
-
-      # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
-      #
-      # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
-      tls:
-        # enabled: true
-        # Set to override the global secretName
-        secretName: ""
-    - name: portal-assets
-      host: ""
-      paths:
+        - path: /
+          pathType: Prefix
+        - path: /univention
+          pathType: Exact
+        - path: /univention/
+          pathType: Exact
         - pathType: Prefix
           path: /univention/portal/icons
+
+      # -- The Ingress controller class name.
       ingressClassName: ""
+
+      # -- Define custom ingress annotations.
       annotations: {}
+
+      # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
+      #
+      # Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls
       tls:
         # enabled: true
         # Set to override the global secretName

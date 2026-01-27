@@ -13,7 +13,7 @@ import tornado.web
 
 from univention.portal import config
 from univention.portal.factory import make_portal
-from univention.portal.handlers import LoginHandler, LogoutHandler, NavigationHandler, PortalEntriesHandler
+from univention.portal.handlers import LoginHandler, LogoutHandler, NavigationHandler, PortalEntriesHandler, TrailingSlashRedirectHandler
 from univention.portal.handlers.api_me import ApiMeHandler
 from univention.portal.log import get_logger, setup_logger
 from univention.portal.udm import AsyncUdmClient
@@ -36,12 +36,11 @@ def run_server():
         "/usr/share/univention-portal/portals.json",
     )
     udm_client = AsyncUdmClient(
-        udm_api_url=config.fetch('udm_api_url'),
-        username=config.fetch('udm_api_username'),
+        udm_api_url=config.fetch("udm_api_url"),
+        username=config.fetch("udm_api_username"),
         password=Path(config.fetch("udm_api_password_file")).read_text().strip(),
     )
-    app = make_tornado_application(
-        portal_definitions, development_mode=development_mode, udm_client=udm_client)
+    app = make_tornado_application(portal_definitions, development_mode=development_mode, udm_client=udm_client)
     start_app(app)
     tornado.ioloop.IOLoop.current().start()
 
@@ -72,10 +71,11 @@ def start_app(app):
 def build_routes(portals, udm_client):
     return [
         tornado.web.url(r"/(.+)/api/v1/me", ApiMeHandler, {"portals": portals, "udm_client": udm_client}, name="api-me"),
-        tornado.web.url(r"/(.+)/login/?", LoginHandler, {"portals": portals}, name='login'),
-        tornado.web.url(r"/(.+)/portal.json", PortalEntriesHandler, {"portals": portals}, name='portal'),
-        tornado.web.url(r"/(.+)/navigation.json", NavigationHandler, {"portals": portals}, name='navigation'),
-        tornado.web.url(r"/(.+)/logout/?", LogoutHandler, {"portals": portals}, name='logout'),
-        tornado.web.url(r"/(.+)/", tornado.web.RequestHandler, name='index'),
-        tornado.web.url(r"/", tornado.web.RequestHandler, name='root'),
+        tornado.web.url(r"/(.+)/login/?", LoginHandler, {"portals": portals}, name="login"),
+        tornado.web.url(r"/(.+)/portal.json", PortalEntriesHandler, {"portals": portals}, name="portal"),
+        tornado.web.url(r"/(.+)/navigation.json", NavigationHandler, {"portals": portals}, name="navigation"),
+        tornado.web.url(r"/(.+)/logout/?", LogoutHandler, {"portals": portals}, name="logout"),
+        tornado.web.url(r"/(.+)/", tornado.web.RequestHandler, name="index"),
+        tornado.web.url(r"/(.+[^/])", TrailingSlashRedirectHandler, name="trailing-slash-redirect"),
+        tornado.web.url(r"/", tornado.web.RequestHandler, name="root"),
     ]

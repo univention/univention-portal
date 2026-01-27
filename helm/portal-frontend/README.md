@@ -550,11 +550,27 @@ true
   {
     "path": "/favicon.ico",
     "pathType": "Exact"
+  },
+  {
+    "path": "/",
+    "pathType": "Prefix"
+  },
+  {
+    "path": "/univention",
+    "pathType": "Exact"
+  },
+  {
+    "path": "/univention/",
+    "pathType": "Exact"
+  },
+  {
+    "path": "/univention/portal/icons",
+    "pathType": "Prefix"
   }
 ]
 </pre>
 </td>
-			<td>Define the Ingress paths for portal frontend. The nginx server inside the container handles prefix stripping.</td>
+			<td>Define the Ingress paths for portal frontend. The nginx server inside the container handles prefix stripping and redirects. Paths for /, /univention, /univention/ are redirected to /univention/portal/ by the internal nginx configuration.</td>
 		</tr>
 		<tr>
 			<td>ingress.items[0].tls</td>
@@ -566,141 +582,6 @@ true
 </pre>
 </td>
 			<td>Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls</td>
-		</tr>
-		<tr>
-			<td>ingress.items[1].annotations</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "nginx.ingress.kubernetes.io/permanent-redirect": "/univention/portal/",
-  "nginx.ingress.kubernetes.io/use-regex": "true"
-}
-</pre>
-</td>
-			<td>Define custom ingress annotations. Note: permanent-redirect is a redirect annotation, not a path-rewrite.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[1].host</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Define the Fully Qualified Domain Name (FQDN) where application should be reachable.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[1].ingressClassName</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>The Ingress controller class name.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[1].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"redirects"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[1].paths</td>
-			<td>list</td>
-			<td><pre lang="json">
-[
-  {
-    "path": "/$",
-    "pathType": "ImplementationSpecific"
-  },
-  {
-    "path": "/univention$",
-    "pathType": "ImplementationSpecific"
-  },
-  {
-    "path": "/univention/$",
-    "pathType": "ImplementationSpecific"
-  }
-]
-</pre>
-</td>
-			<td>Define the Ingress paths for redirects to /univention/portal/. These paths use ImplementationSpecific with regex to ensure proper matching priority in nginx-ingress when other ingresses also use regex patterns.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[1].tls</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "secretName": ""
-}
-</pre>
-</td>
-			<td>Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls</td>
-		</tr>
-		<tr>
-			<td>ingress.items[2].annotations</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[2].host</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[2].ingressClassName</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[2].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"portal-assets"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[2].paths[0].path</td>
-			<td>string</td>
-			<td><pre lang="json">
-"/univention/portal/icons"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[2].paths[0].pathType</td>
-			<td>string</td>
-			<td><pre lang="json">
-"Prefix"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[2].tls.secretName</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td></td>
 		</tr>
 		<tr>
 			<td>ingress.tls</td>
