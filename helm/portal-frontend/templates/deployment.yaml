@@ -126,17 +126,25 @@ spec:
               subPath: "web-app-manifest-512x512.png"
             {{- end }}
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
-              mountPath: "/var/www/html/css/custom.css"
+              mountPath: "/var/www/html/univention/portal/css/custom.css"
               subPath: "custom.css"
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
-              mountPath: "/var/www/html/icons/logo.svg"
+              mountPath: "/var/www/html/univention/selfservice/css/custom.css"
+              subPath: "custom.css"
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/univention/portal/icons/logo.svg"
               subPath: "logo.svg"
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
-              mountPath: "/var/www/html/custom/portal_background_image.svg"
+              mountPath: "/var/www/html/univention/selfservice/icons/logo.svg"
+              subPath: "logo.svg"
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/univention/portal/custom/portal_background_image.svg"
+              subPath: "portal_background_image.svg"
+            - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+              mountPath: "/var/www/html/univention/selfservice/custom/portal_background_image.svg"
               subPath: "portal_background_image.svg"
             - name: portal-assets-volume
-              mountPath: /var/www/html/univention/portal/icons
-              subPath: icons
+              mountPath: /var/www/portal-assets
               readOnly: true
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
@@ -193,3 +201,4 @@ spec:
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes  "context" .) | nindent 8 }}
         {{- end }}
+

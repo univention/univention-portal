@@ -206,7 +206,7 @@ ingress:
         - path: /favicon.ico
           pathType: Exact
         - path: /
-          pathType: Prefix
+          pathType: Exact
         - path: /univention
           pathType: Exact
         - path: /univention/

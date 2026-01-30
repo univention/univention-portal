@@ -553,7 +553,7 @@ true
   },
   {
     "path": "/",
-    "pathType": "Prefix"
+    "pathType": "Exact"
   },
   {
     "path": "/univention",
