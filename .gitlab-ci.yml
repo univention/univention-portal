@@ -5,7 +5,7 @@
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.44.9"
+    ref: "v1.55.2"
     file:
       - "defaults/stages.yaml"
       - "defaults/nubus-workflow.yaml"
@@ -24,7 +24,6 @@ lint-pre-commit:
       cp docker/.env.consumer.example docker/.env.consumer
       cp docker/.env.umc-gateway.example docker/.env.umc-gateway
       cp docker/.env.umc-server.example docker/.env.umc-server
-      helm repo add bitnami https://charts.bitnami.com/bitnami
 
 trigger-notifications-api:
   stage: "trigger"
