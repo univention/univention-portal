@@ -5,7 +5,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2020-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2020-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 #
 
@@ -123,7 +123,6 @@ def stub_user(faker):
     """An authenticated `User` instance."""
     user = User(
         username=faker.user_name(),
-        display_name=faker.name(),
         user_dn=f'uid={faker.user_name()},cn=users,dc=organization,dc=intranet',
         groups=[],
         headers={},
@@ -136,7 +135,6 @@ def stub_user_anonymous():
     """An anonymous `User` instance."""
     user = User(
         username=None,
-        display_name=None,
         user_dn=None,
         groups=[],
         headers={},

@@ -2,7 +2,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2018-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2018-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 
@@ -10,9 +10,8 @@ from univention.portal import config
 
 
 class User:
-    def __init__(self, username, display_name, user_dn, groups, headers):
+    def __init__(self, username, user_dn, groups, headers):
         self.username = username
-        self.display_name = display_name
         self.user_dn = user_dn
         self.groups = [group.lower() for group in groups]
         self.headers = headers

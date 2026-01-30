@@ -5,7 +5,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2020-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2020-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 #
 
@@ -48,7 +48,6 @@ class StubReloader(MtimeBasedLazyFileReloader):
 def mocked_user(mocker):
     user = mocker.Mock()
     user.username = "hindenkampp"
-    user.display_name = "Hans Hindenkampp"
     user.user_dn = "uid=hindenkampp,cn=users,dc=some-testenv,dc=intranet"
     user.groups = []
     user.headers = {}
@@ -59,7 +58,6 @@ def mocked_user(mocker):
 def mocked_anonymous_user(mocker):
     user = mocker.Mock()
     user.username = None
-    user.display_name = None
     user.user_dn = None
     user.groups = []
     user.headers = {}
@@ -458,7 +456,6 @@ async def test_announcement_groups(portal_data, standard_portal):
 
     test_user = user.User(
         username="hindenkampp",
-        display_name="Hans Hindenkampp",
         user_dn="uid=hindenkampp,cn=users,dc=some-testenv,dc=intranet",
         groups=["public_society"],
         headers={})

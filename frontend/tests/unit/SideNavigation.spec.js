@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-// SPDX-FileCopyrightText: 2025 Univention GmbH
+// SPDX-FileCopyrightText: 2026 Univention GmbH
 
 import { shallowMount, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
@@ -384,4 +384,102 @@ test('Menuitem without children should not have aria-expanded', async () => {
   const menuItem = wrapper.findAll('[data-test="menuItem"]').at(1);
   expect(menuItem.attributes('aria-haspopup')).toBe(undefined);
   expect(menuItem.attributes('aria-expanded')).toBe(undefined);
+});
+
+describe('User Display Name', () => {
+  test('displays user displayName from userState when logged in', () => {
+    const wrapper = createWrapper(mount, {
+      userState: {
+        username: 'anna',
+        displayName: 'Anna Alster',
+        mayEditPortal: false,
+      },
+      isLoggedIn: true,
+    });
+
+    const usernameElement = wrapper.find('.portal-sidenavigation--username');
+    expect(usernameElement.exists()).toBe(true);
+    expect(usernameElement.text()).toBe('Anna Alster');
+  });
+
+  test('displays username when no available display name', () => {
+    const wrapper = createWrapper(mount, {
+      userState: {
+        username: 'testuser',
+        displayName: undefined,
+        mayEditPortal: false,
+      },
+      isLoggedIn: true,
+    });
+
+    const usernameElement = wrapper.find('.portal-sidenavigation--username');
+    expect(usernameElement.exists()).toBe(true);
+    expect(usernameElement.text()).toBe('testuser');
+  });
+
+  test('does not display username when not logged in', () => {
+    const wrapper = createWrapper(mount, {
+      userState: {
+        username: '',
+        displayName: '',
+        mayEditPortal: false,
+      },
+      isLoggedIn: false,
+    });
+
+    const usernameElement = wrapper.find('.portal-sidenavigation--username');
+    expect(usernameElement.exists()).toBe(false);
+  });
+
+  test('displays full name with special characters correctly', () => {
+    const wrapper = createWrapper(mount, {
+      userState: {
+        username: 'jmüller',
+        displayName: 'Jürgen Müller-Schmidt',
+        mayEditPortal: false,
+      },
+      isLoggedIn: true,
+    });
+
+    const usernameElement = wrapper.find('.portal-sidenavigation--username');
+    expect(usernameElement.exists()).toBe(true);
+    expect(usernameElement.text()).toBe('Jürgen Müller-Schmidt');
+  });
+
+  test('displays user row with displayName and logout button when logged in', () => {
+    const wrapper = createWrapper(mount, {
+      userState: {
+        username: 'anna',
+        displayName: 'Anna Alster',
+        mayEditPortal: false,
+      },
+      isLoggedIn: true,
+    });
+
+    const userRow = wrapper.find('.portal-sidenavigation__user-row');
+    expect(userRow.exists()).toBe(true);
+
+    const usernameElement = wrapper.find('.portal-sidenavigation--username');
+    expect(usernameElement.text()).toBe('Anna Alster');
+
+    const logoutButton = wrapper.find('.portal-sidenavigation__logout-link');
+    expect(logoutButton.exists()).toBe(true);
+  });
+
+  test('displays login button instead of displayName when not logged in', () => {
+    const wrapper = createWrapper(mount, {
+      userState: {
+        username: '',
+        displayName: '',
+        mayEditPortal: false,
+      },
+      isLoggedIn: false,
+    });
+
+    const userRow = wrapper.find('.portal-sidenavigation__user-row');
+    expect(userRow.exists()).toBe(false);
+
+    const loginButton = wrapper.find('.portal-sidenavigation__login');
+    expect(loginButton.exists()).toBe(true);
+  });
 });

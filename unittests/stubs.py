@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2025 Univention GmbH
+# SPDX-FileCopyrightText: 2026 Univention GmbH
 
 import copy
 from collections.abc import Sequence
@@ -111,7 +111,7 @@ class StubAuthenticator(Authenticator):
     """The authenticator will return this user."""
 
     def __init__(self, *, user=None):
-        self.stub_user = user or User(username=None, display_name=None, groups=[], headers={})
+        self.stub_user = user or User(username=None, groups=[], headers={})
 
     async def get_user(self, request):  # pragma: no cover
         return self.stub_user
