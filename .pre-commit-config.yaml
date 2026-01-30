@@ -108,12 +108,19 @@ repos:
       - id: docker-compose-check
 
   # "Dockerfile linter"
-  - repo: https://gitlab.com/univention/pre-commit-hooks/docker-pre-commit
-    rev: v2.0.0
+  - repo: "https://github.com/hadolint/hadolint"
+    rev: "v2.14.0"
     hooks:
-      - id: hadolint-system
+      - id: "hadolint"
+        name: "Lint Dockerfiles"
+        types:
+          - "dockerfile"
         args:
           - "--ignore=DL3008"
+          - "--no-color"
+          - "--strict-labels"
+        # TODO: Unsupported ADD parameters https://github.com/hadolint/hadolint/issues/609
+        exclude: "^docker/portal-asset-loader/Dockerfile$"
 
   # "Helm chart linter"
   - repo: https://github.com/gruntwork-io/pre-commit
