@@ -1,6 +1,6 @@
 /*
-  * SPDX-FileCopyrightText: 2021-2025 Univention GmbH
-  * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-FileCopyrightText: 2021-2026 Univention GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 import { ActionContext } from 'vuex';
 import { RootState } from '../../root.models';
@@ -10,92 +10,102 @@ export type LocalizedString = Record<Locale, string>;
 
 export type LinkTarget = 'newwindow' | 'samewindow' | 'embedded' | 'function';
 
-export type LinkTargetOrDefault = 'newwindow' | 'samewindow' | 'embedded' | 'function' | 'useportaldefault';
+export type LinkTargetOrDefault =
+  | 'newwindow'
+  | 'samewindow'
+  | 'embedded'
+  | 'function'
+  | 'useportaldefault';
 
 export interface PortalImageDataBlob {
-  data: string,
+  data: string;
 }
 
 export interface Link {
-  locale: string,
-  value: string,
+  locale: string;
+  value: string;
 }
 
 export interface Tile {
-  id: string,
-  layoutId: string,
-  dn: string,
-  title: LocalizedString,
-  isFolder: boolean,
+  id: string;
+  layoutId: string;
+  dn: string;
+  title: LocalizedString;
+  isFolder: boolean;
 }
 
 export interface BaseTile extends Tile {
-  allowedGroups: string[],
-  activated: boolean,
-  anonymous: boolean,
-  selectedGroups: string[],
-  backgroundColor: string | null,
-  description: LocalizedString,
-  keywords: LocalizedString,
-  linkTarget: LinkTarget,
-  target: string | null,
-  originalLinkTarget: LinkTargetOrDefault,
-  links: Link[],
-  pathToLogo: string,
-  key: any, // TODO: no idea how to type this object :(
+  allowedGroups: string[];
+  activated: boolean;
+  anonymous: boolean;
+  selectedGroups: string[];
+  backgroundColor: string | null;
+  description: LocalizedString;
+  keywords: LocalizedString;
+  linkTarget: LinkTarget;
+  target: string | null;
+  originalLinkTarget: LinkTargetOrDefault;
+  links: Link[];
+  pathToLogo: string;
+  key: any; // TODO: no idea how to type this object :(
 }
 
 export interface FolderTile extends Tile {
-  tiles: BaseTile[]
+  tiles: BaseTile[];
 }
 
 export type TileOrFolder = BaseTile | FolderTile;
 
 export interface Category {
-  id: string,
-  layoutId: string,
-  title: LocalizedString,
-  dn: string,
-  virtual: boolean,
-  tiles: TileOrFolder[],
+  id: string;
+  layoutId: string;
+  title: LocalizedString;
+  dn: string;
+  virtual: boolean;
+  tiles: TileOrFolder[];
 }
 
 export type PortalContent = [string, string[]][];
 
 export interface PortalEntry {
-  id: string,
-  dn: string,
-  activated: boolean,
-  allowedGroups: string[],
-  anonymous: boolean,
-  backgroundColor: string | null,
-  description: LocalizedString,
-  keywords: LocalizedString,
-  linkTarget: LinkTargetOrDefault,
-  target: string | null,
-  links: Link[],
+  id: string;
+  dn: string;
+  activated: boolean;
+  allowedGroups: string[];
+  anonymous: boolean;
+  backgroundColor: string | null;
+  description: LocalizedString;
+  keywords: LocalizedString;
+  linkTarget: LinkTargetOrDefault;
+  target: string | null;
+  links: Link[];
   // eslint-disable-next-line camelcase
-  icon_url: string | null,
-  name: LocalizedString,
+  icon_url: string | null;
+  name: LocalizedString;
 }
 
 export interface PortalFolder {
-  id: string,
-  dn: string,
-  entries: string[],
-  name: LocalizedString,
+  id: string;
+  dn: string;
+  entries: string[];
+  name: LocalizedString;
 }
 
 export interface PortalCategory {
-  id: string,
-  dn: string,
-  entries: string[],
-  virtual: boolean,
+  id: string;
+  dn: string;
+  entries: string[];
+  virtual: boolean;
   // eslint-disable-next-line camelcase
-  display_name: LocalizedString,
+  display_name: LocalizedString;
 }
 
-export type PortalAnnouncementSeverity = null | 'info' | 'warn' | 'success' | 'danger'
+export type PortalAnnouncementSeverity =
+  | null
+  | 'info'
+  | 'warn'
+  | 'success'
+  | 'danger';
 
 export type PortalAnnouncement = {
   name: string;
@@ -108,41 +118,41 @@ export type PortalAnnouncement = {
   title: LocalizedString;
   visibleFrom: string | null;
   visibleUntil: string | null;
-}
+};
 
 export interface Portal {
   name: LocalizedString;
   background: PortalImageDataBlob | null;
-  defaultLinkTarget: LinkTarget,
-  dn: string,
-  categories: string[],
-  logo: PortalImageDataBlob | null,
-  showUmc: boolean,
-  ensureLogin: boolean,
-  content: PortalContent,
+  defaultLinkTarget: LinkTarget;
+  dn: string;
+  categories: string[];
+  logo: PortalImageDataBlob | null;
+  showUmc: boolean;
+  ensureLogin: boolean;
+  content: PortalContent;
 }
 
 export interface PortalBaseLayout {
-  layout: string[],
-  categories: { [index: string]: string[] },
-  folders: { [index: string]: string[] },
+  layout: string[];
+  categories: { [index: string]: string[] };
+  folders: { [index: string]: string[] };
 }
 
 export interface PortalLayoutEntry {
-  id: string,
-  dn: string,
-  tiles?: PortalLayoutEntry[],
+  id: string;
+  dn: string;
+  tiles?: PortalLayoutEntry[];
 }
 export interface PortalLayoutCategory extends PortalLayoutEntry {
-  tiles: PortalLayoutEntry[],
+  tiles: PortalLayoutEntry[];
 }
 export type PortalLayout = PortalLayoutCategory[];
 
 export interface PortalNewsfeedConfig {
-  feedUrl: LocalizedString,
-  homeUrl: LocalizedString,
-  feedType: string,
-  icsSilentLoginUrl: string | null,
+  feedUrl: LocalizedString;
+  homeUrl: LocalizedString;
+  feedType: string;
+  icsSilentLoginUrl: string | null;
 }
 
 export interface NavigationEntry {
@@ -168,19 +178,19 @@ export interface NavigationData {
 }
 
 export interface PortalData {
-  entries: PortalEntry[],
-  folders: PortalFolder[],
-  categories: PortalCategory[],
-  cornerLinks: string[],
-  menuLinks: string[],
-  quickLinks: string[],
-  userLinks: string[],
-  announcements: PortalAnnouncement[],
-  portal: Portal,
-  baseLayout: PortalBaseLayout,
-  layout: PortalLayout,
-  newsfeedConfig?: PortalNewsfeedConfig,
-  leftSidebarItems: NavigationData,
+  entries: PortalEntry[];
+  folders: PortalFolder[];
+  categories: PortalCategory[];
+  cornerLinks: string[];
+  menuLinks: string[];
+  quickLinks: string[];
+  userLinks: string[];
+  announcements: PortalAnnouncement[];
+  portal: Portal;
+  baseLayout: PortalBaseLayout;
+  layout: PortalLayout;
+  newsfeedConfig?: PortalNewsfeedConfig;
+  leftSidebarItems: NavigationData;
 }
 export interface PortalDataState {
   portal: PortalData;
@@ -195,6 +205,6 @@ export type Position = {
   entryIdx: null | number;
   entryType: null | 'category' | 'tile';
   contextType: null | 'root' | 'category' | 'folder';
-}
+};
 
 export type PortalDataActionContext = ActionContext<PortalDataState, RootState>;

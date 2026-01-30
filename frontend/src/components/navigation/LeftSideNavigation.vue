@@ -1,6 +1,6 @@
 <!--
  SPDX-License-Identifier: AGPL-3.0-only
- SPDX-FileCopyrightText: 2025 Univention GmbH
+ SPDX-FileCopyrightText: 2025-2026 Univention GmbH
 -->
 
 <template>
@@ -24,38 +24,45 @@
       </div>
     </div>
     <div
-      class="portal-left-sidenavigation__title"
-      data-test="sidebar-title"
+      v-for="category in menuCategoriesWithEntries"
+      :key="category.identifier"
+      class="portal-left-sidenavigation__category"
+      data-test="sidebar-category"
     >
-      {{ APPLICATIONS }}
-    </div>
-    <ul
-      v-if="menuItems.length > 0"
-      class="portal-left-sidenavigation__menu"
-    >
-      <li
-        v-for="item in menuItems"
-        :key="item.identifier"
-        class="portal-left-sidenavigation__menu-item"
+      <div
+        class="portal-left-sidenavigation__category-name"
+        data-test="sidebar-category-name"
       >
-        <a
-          :href="getItemLink(item)"
-          :target="getItemTarget(item)"
-          class="portal-left-sidenavigation__link"
-          @keydown="handleArrowKeys"
+        {{ category.display_name }}
+      </div>
+      <ul
+        v-if="category.entries.length > 0"
+        class="portal-left-sidenavigation__category-entries"
+      >
+        <li
+          v-for="entry in category.entries"
+          :key="entry.identifier"
+          class="portal-left-sidenavigation__category-entry"
         >
-          <img
-            v-if="item.icon_url"
-            :src="item.icon_url"
-            :alt="getItemName(item)"
-            class="portal-left-sidenavigation__icon"
+          <a
+            :href="getItemLink(entry)"
+            :target="getItemTarget(entry)"
+            class="portal-left-sidenavigation__link"
+            @keydown="handleArrowKeys"
           >
-          <span class="portal-left-sidenavigation__text">
-            {{ getItemName(item) }}
-          </span>
-        </a>
-      </li>
-    </ul>
+            <img
+              v-if="entry.icon_url"
+              :src="entry.icon_url"
+              :alt="getItemName(entry)"
+              class="portal-left-sidenavigation__icon"
+            >
+            <span class="portal-left-sidenavigation__text">
+              {{ getItemName(entry) }}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </region>
 </template>
 
@@ -99,26 +106,12 @@ export default defineComponent({
       leftSidebarItems: 'portalData/leftSidebarItems',
       currentLocale: 'locale/getLocale',
     }),
-    menuItems(): NavigationEntry[] {
+    menuCategoriesWithEntries(): NavigationCategory[] {
       const items = this.leftSidebarItems as NavigationData;
-      if (items && items.categories && Array.isArray(items.categories)) {
-        return items.categories.flatMap((category: NavigationCategory) => category.entries || []);
+      if (!items || !items.categories || !Array.isArray(items.categories)) {
+        return [];
       }
-
-      return [];
-    },
-    APPLICATIONS(): string {
-      const items = this.leftSidebarItems as NavigationData;
-
-      // Find the first category with a display_name
-      if (items?.categories && Array.isArray(items.categories)) {
-        const categoryWithName = items.categories.find((category) => category.display_name);
-        if (categoryWithName) {
-          return categoryWithName.display_name;
-        }
-      }
-
-      return '';
+      return items.categories;
     },
   },
   created() {
@@ -213,6 +206,7 @@ $userRow = 6rem
     justify-content: space-between
     height: var(--portal-header-height)
     color: var(--font-color-contrast-high)
+    margin: 0 0 1rem 0
 
   &__close-button
     background-color: none;
@@ -235,17 +229,16 @@ $userRow = 6rem
       outline:2px solid var(--color-focus);
       outline-offset: var(--left-sidenavigation-outline-offset, -0.5rem)
 
-  &__title
+  &__category-name
     font-size: 0.8rem
     font-weight: 600
     padding: calc(1.5 * var(--layout-spacing-unit)) 0.5rem 0
     color: var(--color-text)
-    margin: 1rem 0
 
   &__link
     padding-right: calc(1.5 * var(--layout-spacing-unit))
 
-  &__menu
+  &__category-entries
     flex: 1 1 auto
     overflow-y: auto
     overflow-x: hidden

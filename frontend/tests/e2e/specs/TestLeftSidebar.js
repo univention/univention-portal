@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2025-2026 Univention GmbH
  */
 
 /* eslint-disable jest/expect-expect */
@@ -11,7 +11,9 @@ describe('Test Left Sidebar Feature Toggle', () => {
   describe('When left_sidebar is enabled', () => {
     beforeEach(() => {
       cy.setCookie('UMCLang', 'de_DE');
-      cy.intercept('GET', 'portal.json', { fixture: 'portal_left_sidebar.json' });
+      cy.intercept('GET', 'portal.json', {
+        fixture: 'portal_left_sidebar.json',
+      });
       cy.intercept('GET', 'meta.json', { fixture: 'meta.json' });
       cy.intercept('GET', 'de.json', { fixture: 'de.json' });
       cy.intercept('GET', 'languages.json', { fixture: 'languages.json' });
@@ -27,7 +29,10 @@ describe('Test Left Sidebar Feature Toggle', () => {
     });
 
     it('applies correct CSS class when left sidebar is supported', () => {
-      cy.get('#portal-header').should('have.class', 'portal-header--waffle-icon-height');
+      cy.get('#portal-header').should(
+        'have.class',
+        'portal-header--waffle-icon-height',
+      );
     });
 
     it('can click left sidebar button', () => {
@@ -48,13 +53,16 @@ describe('Test Left Sidebar Feature Toggle', () => {
 
       // Verify elements inside the sidebar are focusable
       cy.get('#portal-left-sidenavigation').within(() => {
-        cy.get('button, a, [tabindex="0"]').first()
+        cy.get('button, a, [tabindex="0"]')
+          .first()
           .focus()
           .should('be.focused');
       });
 
       // Verify elements outside the sidebar are not focusable when sidebar is open
-      cy.get('#portal-header button:not([data-test="left-sidebar-button"])').should('have.attr', 'tabindex', '-1');
+      cy.get(
+        '#portal-header button:not([data-test="left-sidebar-button"])',
+      ).should('have.attr', 'tabindex', '-1');
 
       cy.get('#portal-left-sidenavigation').within(() => {
         cy.get('button, a, [tabindex="0"]').first()
@@ -84,12 +92,15 @@ describe('Test Left Sidebar Feature Toggle', () => {
     it('left sidebar button appears before portal title', () => {
       cy.get('#portal-header').within(() => {
         cy.get('[data-test="left-sidebar-button"]').should('be.visible');
-        cy.get('.portal-title, [data-test="portal-title"]').should('be.visible');
+        cy.get('.portal-title, [data-test="portal-title"]').should(
+          'be.visible',
+        );
       });
     });
 
     it('passes accessibility tests with left sidebar enabled', () => {
-      cy.checkA11y('#portal-header',
+      cy.checkA11y(
+        '#portal-header',
         {
           runOnly: {
             type: 'tag',
@@ -120,8 +131,12 @@ describe('Test Left Sidebar Feature Toggle', () => {
     it('displays the category display_name as title in the sidebar', () => {
       cy.get('[data-test="left-sidebar-button"]').click();
       cy.get('#portal-left-sidenavigation').should('be.visible');
-      cy.get('[data-test="sidebar-title"]').first()
+      cy.get('[data-test="sidebar-category-name"]')
+        .first()
         .should('have.text', 'Administration');
+      cy.get('[data-test="sidebar-category-name"]')
+        .eq(1)
+        .should('have.text', 'Administration (Test)');
     });
   });
 
@@ -141,7 +156,10 @@ describe('Test Left Sidebar Feature Toggle', () => {
     });
 
     it('does not apply waffle icon height CSS class', () => {
-      cy.get('#portal-header').should('not.have.class', 'portal-header--waffle-icon-height');
+      cy.get('#portal-header').should(
+        'not.have.class',
+        'portal-header--waffle-icon-height',
+      );
     });
 
     it('header layout works correctly without left sidebar', () => {
@@ -170,7 +188,10 @@ describe('Test Left Sidebar Feature Toggle', () => {
       cy.visit('/');
 
       cy.get('[data-test="left-sidebar-button"]').should('not.exist');
-      cy.get('#portal-header').should('not.have.class', 'portal-header--waffle-icon-height');
+      cy.get('#portal-header').should(
+        'not.have.class',
+        'portal-header--waffle-icon-height',
+      );
     });
   });
 });
