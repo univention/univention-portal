@@ -69,6 +69,7 @@ trigger-frontend:
         - "frontend/**/*"
         - "tests/**/*"
         - "helm/portal-frontend/**/*"
+        - "docker/portal-asset-loader/*"
 
 trigger-portal-server:
   stage: "trigger"

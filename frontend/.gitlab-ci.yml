@@ -55,9 +55,13 @@ build-frontend-test-runner-ui:
 
 .build-matrix: &build-matrix
   - IMAGE_NAME: "portal-frontend"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+  - IMAGE_NAME: "portal-asset-loader"
+    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/docker/portal-asset-loader"
 
 .publish-matrix: &publish-matrix
   - IMAGE_NAME: "portal-frontend"
+  - IMAGE_NAME: "portal-asset-loader"
 
 container-build:
   parallel:
