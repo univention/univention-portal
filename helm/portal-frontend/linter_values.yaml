@@ -12,6 +12,12 @@ portalFrontend:
   environment: "staging"
   logLevel: "DEBUG"
 
+udm:
+  connection:
+    url: "udm-stub-url"
+  auth:
+    username: "udm-stub-username"
+    password: "udm-stub-password"
 
 ## Kubernetes ingress
 ingress:

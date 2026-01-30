@@ -102,6 +102,93 @@ helm uninstall portal-frontend
 			<td>Affinity for pod assignment. Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity Note: podAffinityPreset, podAntiAffinityPreset, and nodeAffinityPreset will be ignored when it's set.</td>
 		</tr>
 		<tr>
+			<td>assetLoader</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "config": {
+    "pollInterval": 10
+  },
+  "image": {
+    "pullPolicy": "",
+    "registry": "",
+    "repository": "nubus-dev/images/portal-asset-loader",
+    "tag": "latest"
+  },
+  "livenessProbe": {
+    "failureThreshold": 3,
+    "httpGet": {
+      "path": "/healthz",
+      "port": 8080
+    },
+    "initialDelaySeconds": 10,
+    "periodSeconds": 30
+  },
+  "readinessProbe": {
+    "httpGet": {
+      "path": "/healthz",
+      "port": 8080
+    },
+    "initialDelaySeconds": 5,
+    "periodSeconds": 10
+  },
+  "resources": {
+    "limits": {
+      "cpu": "100m",
+      "memory": "128Mi"
+    },
+    "requests": {
+      "cpu": "50m",
+      "memory": "64Mi"
+    }
+  }
+}
+</pre>
+</td>
+			<td>Asset loader sidecar configuration for loading portal assets.</td>
+		</tr>
+		<tr>
+			<td>assetLoader.config.pollInterval</td>
+			<td>int</td>
+			<td><pre lang="json">
+10
+</pre>
+</td>
+			<td>UDM Polling interval for portal config changes</td>
+		</tr>
+		<tr>
+			<td>assetLoader.image</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "pullPolicy": "",
+  "registry": "",
+  "repository": "nubus-dev/images/portal-asset-loader",
+  "tag": "latest"
+}
+</pre>
+</td>
+			<td>Backend to use for asset loading: "ldap" or "nats"</td>
+		</tr>
+		<tr>
+			<td>assetLoader.resources</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "limits": {
+    "cpu": "100m",
+    "memory": "128Mi"
+  },
+  "requests": {
+    "cpu": "50m",
+    "memory": "64Mi"
+  }
+}
+</pre>
+</td>
+			<td>Resource limits for the asset-loader sidecar container.</td>
+		</tr>
+		<tr>
 			<td>containerSecurityContext.allowPrivilegeEscalation</td>
 			<td>bool</td>
 			<td><pre lang="json">
@@ -277,6 +364,15 @@ null
 			<td>Container registry address.</td>
 		</tr>
 		<tr>
+			<td>global.udm.connection.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>Global default for the URL via which the UDM Rest API can be reached. See "udm.connection.url".</td>
+		</tr>
+		<tr>
 			<td>image.pullPolicy</td>
 			<td>string</td>
 			<td><pre lang="json">
@@ -442,10 +538,6 @@ true
     "pathType": "ImplementationSpecific"
   },
   {
-    "path": "/univention/(portal)/(icons)(/.*)$",
-    "pathType": "ImplementationSpecific"
-  },
-  {
     "path": "/univention/(portal|selfservice)/(sse-worker.js)$",
     "pathType": "ImplementationSpecific"
   }
@@ -593,6 +685,69 @@ true
 		</tr>
 		<tr>
 			<td>ingress.items[1].tls.secretName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].annotations</td>
+			<td>object</td>
+			<td><pre lang="json">
+{}
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].host</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].ingressClassName</td>
+			<td>string</td>
+			<td><pre lang="json">
+""
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].name</td>
+			<td>string</td>
+			<td><pre lang="json">
+"portal-assets"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].paths[0].path</td>
+			<td>string</td>
+			<td><pre lang="json">
+"/univention/portal/icons"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].paths[0].pathType</td>
+			<td>string</td>
+			<td><pre lang="json">
+"Prefix"
+</pre>
+</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ingress.items[2].tls.secretName</td>
 			<td>string</td>
 			<td><pre lang="json">
 ""
@@ -1259,6 +1414,74 @@ true
 </pre>
 </td>
 			<td>Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in. Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/  topologySpreadConstraints:   - maxSkew: 1     topologyKey: failure-domain.beta.kubernetes.io/zone     whenUnsatisfiable: DoNotSchedule</td>
+		</tr>
+		<tr>
+			<td>udm</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "auth": {
+    "existingSecret": {
+      "keyMapping": {
+        "password": null
+      },
+      "name": null
+    },
+    "password": null,
+    "username": "cn=admin"
+  },
+  "connection": {
+    "url": null
+  }
+}
+</pre>
+</td>
+			<td>Configuration of the UDM Rest API access</td>
+		</tr>
+		<tr>
+			<td>udm.auth.existingSecret.keyMapping.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The key to retrieve the password from. Setting this value allows to use a key with a different name.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.existingSecret.name</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The name of an existing Secret to use for retrieving the password to use with the UDM Rest API.  "udm.auth.password" will be ignored if this value is set.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.password</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The password used to authenticate with the UDM Rest API. Either this value or an existing Secret has to be specified.</td>
+		</tr>
+		<tr>
+			<td>udm.auth.username</td>
+			<td>string</td>
+			<td><pre lang="json">
+"cn=admin"
+</pre>
+</td>
+			<td>The username to authenticate with the UDM Rest API.</td>
+		</tr>
+		<tr>
+			<td>udm.connection.url</td>
+			<td>string</td>
+			<td><pre lang="json">
+null
+</pre>
+</td>
+			<td>The URL of the UDM Rest API.  Will use "global.udm.connection.url" as a default if this value is not specified.  Example: "http://udm-rest-api:9979/udm"</td>
 		</tr>
 		<tr>
 			<td>updateStrategy.type</td>

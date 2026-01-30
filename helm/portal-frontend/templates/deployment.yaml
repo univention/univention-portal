@@ -134,9 +134,41 @@ spec:
             - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
               mountPath: "/var/www/html/custom/portal_background_image.svg"
               subPath: "portal_background_image.svg"
+            - name: portal-assets-volume
+              mountPath: /var/www/html/univention/portal
+              readOnly: true
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
             {{- end }}
+        - name: "asset-loader"
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
+          image: "{{ coalesce .Values.assetLoader.image.registry .Values.global.imageRegistry }}/{{ .Values.assetLoader.image.repository }}:{{ .Values.assetLoader.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.assetLoader.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+          env:
+            - name: UDM_API_URL
+              value: {{ tpl (required "The UDM Rest API connection has to be configured, udm.connection.url." (coalesce .Values.udm.connection.url .Values.global.udm.connection.url)) . }}
+            - name: UDM_API_USERNAME
+              value: {{ required "The parameter \"udm.auth.username\" is required when using ldap backend." .Values.udm.auth.username | quote }}
+            - name: UDM_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) }}
+            - name: POLL_INTERVAL
+              value: {{ required "The parameter \"assetLoader.config.pollInterval\" is required" .Values.assetLoader.config.pollInterval | quote }}
+            - name: OUTPUT_DIR
+              value: "/portal-assets"
+          {{- if .Values.assetLoader.resources }}
+          resources: {{- include "common.tplvalues.render" (dict "value" .Values.assetLoader.resources "context" .) | nindent 12 }}
+          {{- end }}
+          livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.assetLoader.livenessProbe "context" .) | nindent 12 }}
+          readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.assetLoader.readinessProbe "context" .) | nindent 12 }}
+          startupProbe: {{- include "common.tplvalues.render" (dict "value" .Values.assetLoader.startupProbe "context" .) | nindent 12 }}
+          volumeMounts:
+            - name: portal-assets-volume
+              mountPath: /portal-assets
       volumes:
         - name: "var-run-volume"
           emptyDir: {}
@@ -149,6 +181,8 @@ spec:
         - name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
           configMap:
             name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
+        - name: "portal-assets-volume"
+          emptyDir: {}
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes  "context" .) | nindent 8 }}
         {{- end }}
