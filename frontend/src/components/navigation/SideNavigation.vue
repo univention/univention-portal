@@ -1,5 +1,5 @@
 <!--
-  SPDX-FileCopyrightText: 2021-2025 Univention GmbH
+  SPDX-FileCopyrightText: 2021-2026 Univention GmbH
   SPDX-License-Identifier: AGPL-3.0-only
 -->
 <template>
@@ -16,7 +16,7 @@
       >
         <div class="portal-sidenavigation__user-text-content">
           <div class="portal-sidenavigation--username">
-            {{ userState.displayName }}
+            {{ userState.displayName || userState.username }}
           </div>
           <button
             id="loginButton"
@@ -354,7 +354,6 @@ export default defineComponent({
 </script>
 
 <style lang="stylus">
-$userRow = 6rem
 .portal-sidenavigation
   height: 100%
   display: flex
@@ -373,7 +372,6 @@ $userRow = 6rem
 
   &__user-row
     display: flex
-    height: $userRow
 
   &__user-text-content
     margin: auto 0
@@ -383,11 +381,13 @@ $userRow = 6rem
     flex-direction: column
     justify-content: space-between
     padding: calc(1rem + var(--layout-spacing-unit))
+    padding-bottom: calc(2*var(--layout-spacing-unit))
     box-sizing: border-box
 
   &--username
     font-weight: bold
     font-size: var(--font-size-html)
+    margin-bottom: calc(2 * var(--layout-spacing-unit))
 
   &__logout-link
     scale: 85%

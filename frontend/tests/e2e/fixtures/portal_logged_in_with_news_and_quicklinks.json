@@ -376,7 +376,6 @@
     "cn=univentionforum,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de",
     "cn=univentionwebsite,cn=entry,cn=portals,cn=univention,dc=intranet,dc=portal,dc=de"
   ],
-  "user_displayname": "Administrator",
   "user_links": [],
   "username": "administrator"
 }

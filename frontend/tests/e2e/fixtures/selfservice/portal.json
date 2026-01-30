@@ -733,7 +733,6 @@
     },
     "showUmc": true
   },
-  "user_displayname": null,
   "user_links": [
     "cn=self-service-my-profile,cn=entry,cn=portals,cn=univention,dc=dev,dc=upx,dc=mydemoenv,dc=net",
     "cn=self-service-protect-account,cn=entry,cn=portals,cn=univention,dc=dev,dc=upx,dc=mydemoenv,dc=net"

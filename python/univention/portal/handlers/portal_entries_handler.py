@@ -3,7 +3,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2019-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2019-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 import tornado.web
 
@@ -48,7 +48,6 @@ class PortalEntriesHandler(PortalResource):
                 "portal": portal_meta,
                 "filtered": True,
                 "username": user.username,
-                "user_displayname": user.display_name,
                 "auth_mode": portal.auth_mode(self),
                 "may_edit_portal": portal.may_be_edited(user),
                 "announcements": [],
@@ -86,7 +85,6 @@ class PortalEntriesHandler(PortalResource):
             answer["portal"]["content"].extend(umc_meta["content"])
         answer["filtered"] = not admin_mode
         answer["username"] = user.username
-        answer["user_displayname"] = user.display_name
         answer["auth_mode"] = portal.auth_mode(self)
         answer["may_edit_portal"] = portal.may_be_edited(user)
         answer["announcements"] = portal.get_announcements(visible_content)

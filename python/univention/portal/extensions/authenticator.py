@@ -5,7 +5,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2019-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2019-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 import base64
 import binascii
@@ -55,7 +55,7 @@ class Authenticator(metaclass=Plugin):
         pass
 
     async def get_user(self, request):  # pragma: no cover
-        return User(username=None, display_name=None, user_dn=None, groups=[], headers={})
+        return User(username=None, user_dn=None, groups=[], headers={})
 
     def refresh(self, reason=None):  # pragma: no cover
         pass
@@ -87,9 +87,9 @@ class UMCAuthenticator(Authenticator):
 
     async def get_user(self, request):
         cookies = {key: morsel.value for key, morsel in request.cookies.items()}
-        username, display_name, user_dn = await self._get_username(cookies)
+        username, user_dn = await self._get_username(cookies)
         groups = self.group_cache.get().get(username, [])
-        return User(username, display_name=display_name, user_dn=user_dn, groups=groups, headers=dict(request.request.headers))
+        return User(username, user_dn=user_dn, groups=groups, headers=dict(request.request.headers))
 
     async def _get_username(self, cookies):
         headers = {}
@@ -102,16 +102,17 @@ class UMCAuthenticator(Authenticator):
                 break
         else:
             get_logger("user").debug("no user given")
-            return None, None, None
+            return None, None
+
         get_logger("user").debug("searching user for cookies=%r" % cookies)
 
         username, user_dn = await self._ask_umc(cookies, headers)
         if username is None and user_dn is None:
             get_logger("user").debug("no user found")
-            return None, None, None
+            return None, None
         else:
             get_logger("user").debug("found %s, %s" % (username, user_dn))
-            return username.lower(), username, user_dn
+            return username.lower(), user_dn
 
     async def _ask_umc(self, cookies, headers):
         username = None
@@ -151,11 +152,12 @@ class UMCAndSecretAuthenticator(UMCAuthenticator):
         try:
             if not authorization.lower().startswith('basic '):
                 raise ValueError()
-            display_name, password = base64.b64decode(authorization.split(' ', 1)[1].encode('ISO8859-1')).decode('UTF-8').split(':', 1)
+            username, password = base64.b64decode(authorization.split(' ', 1)[1].encode('ISO8859-1')).decode('UTF-8').split(':', 1)
         except (ValueError, IndexError, binascii.Error):
             raise HTTPError(400)
 
-        username = display_name.lower()
+        username = username.lower()
+
         get_logger("user").debug("received basic auth request with username=%r", username)
         try:
             with open(config.fetch("portal-secret-file")) as fd:  # noqa: ASYNC230
@@ -169,4 +171,4 @@ class UMCAndSecretAuthenticator(UMCAuthenticator):
             return user
 
         groups = self.group_cache.get().get(username, [])
-        return User(username, display_name, user.user_dn, groups, headers=dict(request.request.headers))
+        return User(username, user.user_dn, groups, headers=dict(request.request.headers))

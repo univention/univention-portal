@@ -1,9 +1,11 @@
 /**
  * SPDX-License-Identifier: AGPL-3.0-only
- * SPDX-FileCopyrightText: 2025 Univention GmbH
+ * SPDX-FileCopyrightText: 2026 Univention GmbH
  */
 
 import axios from 'axios';
+
+import UmcSessionRefreshIframe from '@/components/globals/UmcSessionRefreshIframe.vue';
 
 import { getAdminState } from '@/jsHelper/admin';
 import { getCookie } from '@/jsHelper/tools';
@@ -52,16 +54,15 @@ export async function portalJsonRequest(adminMode: boolean) {
 }
 
 export function extractUserData(portal, apiMe): UserWrapper {
-  const userData = {
+  return {
     user: {
       username: portal.username,
-      displayName: portal.user_displayname,
       mayEditPortal: portal.may_edit_portal,
       authMode: portal.auth_mode,
       ...(apiMe?.user?.firstname && { firstname: apiMe.user.firstname }),
       ...(apiMe?.user?.lastname && { lastname: apiMe.user.lastname }),
       ...(apiMe?.user?.jpegPhoto && { jpegPhoto: apiMe.user.jpegPhoto }),
+      ...(apiMe?.user?.displayName && { displayName: apiMe.user.displayName }),
     },
   };
-  return userData;
 }
