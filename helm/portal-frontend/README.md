@@ -141,6 +141,16 @@ helm uninstall portal-frontend
       "cpu": "50m",
       "memory": "64Mi"
     }
+  },
+  "startupProbe": {
+    "failureThreshold": 10,
+    "initialDelaySeconds": 5,
+    "periodSeconds": 10,
+    "successThreshold": 1,
+    "tcpSocket": {
+      "port": 8080
+    },
+    "timeoutSeconds": 5
   }
 }
 </pre>

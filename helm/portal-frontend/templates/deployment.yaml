@@ -160,6 +160,9 @@ spec:
               value: {{ required "The parameter \"assetLoader.config.pollInterval\" is required" .Values.assetLoader.config.pollInterval | quote }}
             - name: OUTPUT_DIR
               value: "/portal-assets"
+            {{- with .Values.extraEnvVars }}
+            {{- . | toYaml | nindent 12 }}
+            {{- end }}
           {{- if .Values.assetLoader.resources }}
           resources: {{- include "common.tplvalues.render" (dict "value" .Values.assetLoader.resources "context" .) | nindent 12 }}
           {{- end }}
@@ -169,6 +172,9 @@ spec:
           volumeMounts:
             - name: portal-assets-volume
               mountPath: /portal-assets
+            {{- if .Values.extraVolumeMounts }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
+            {{- end }}
       volumes:
         - name: "var-run-volume"
           emptyDir: {}

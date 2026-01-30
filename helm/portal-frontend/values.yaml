@@ -131,6 +131,14 @@ assetLoader:
     initialDelaySeconds: 10
     periodSeconds: 30
     failureThreshold: 3
+  startupProbe:
+    tcpSocket:
+      port: 8080
+    initialDelaySeconds: 5
+    failureThreshold: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 5
 
 # -- Credentials to fetch images from private registry.
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
