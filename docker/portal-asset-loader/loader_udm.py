@@ -12,8 +12,10 @@
 import logging
 import os
 import tempfile
+import threading
 import time
 from binascii import a2b_base64
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import NamedTuple
 from urllib.parse import quote
@@ -22,6 +24,33 @@ import requests
 
 
 logger = logging.getLogger(__name__)
+
+
+class HealthCheckServer(HTTPServer):
+    ready: bool = False
+
+
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    server: HealthCheckServer
+
+    def do_GET(self):
+        if self.path != "/healthz":
+            self.send_response(404)
+        elif self.server.ready:
+            self.send_response(200)
+        else:
+            self.send_response(503)
+        self.end_headers()
+
+    def log_message(self, *args):
+        pass
+
+
+def start_health_check_server(port: int) -> HealthCheckServer:
+    server = HealthCheckServer(("", port), HealthCheckHandler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    logger.info("Health server listening on port %d", port)
+    return server
 
 
 def setup_logging(level: str):
@@ -50,6 +79,7 @@ class Config(NamedTuple):
     output_dir: Path
     poll_interval: int
     log_level: str
+    health_check_port: int
 
 
 def load_config() -> Config:
@@ -60,6 +90,7 @@ def load_config() -> Config:
         output_dir=Path(os.environ["OUTPUT_DIR"]),
         poll_interval=int(os.environ.get("POLL_INTERVAL", "10")),
         log_level=os.environ.get("LOG_LEVEL", "INFO"),
+        health_check_port=int(os.environ.get("HEALTH_PORT", "8080")),
     )
 
 
@@ -156,6 +187,7 @@ def main():
     config = load_config()
     setup_logging(config.log_level)
     config.output_dir.mkdir(parents=True, exist_ok=True)
+    health_server = start_health_check_server(config.health_check_port)
 
     logger.info("Starting UDM REST API asset loader")
     logger.info("UDM API URL: %s", config.udm_api_url)
@@ -173,9 +205,7 @@ def main():
         logger.exception("FATAL: Initial asset sync failed")
         raise
 
-    # Mark as ready
-    ready_file = config.output_dir / ".ready"
-    ready_file.touch()
+    health_server.ready = True
     logger.info("Ready for polling")
 
     # Polling loop
@@ -185,13 +215,13 @@ def main():
         try:
             portal_etag = sync_portals(session, config, portal_etag)
             entry_etag = sync_entries(session, config, entry_etag)
-            ready_file.touch()
+            health_server.ready = True
         except KeyboardInterrupt:
             logger.info("Received interrupt, shutting down")
             break
         except Exception:
             logger.exception("Error during polling, will retry on next interval")
-            ready_file.unlink(missing_ok=True)
+            health_server.ready = False
 
 
 if __name__ == "__main__":
