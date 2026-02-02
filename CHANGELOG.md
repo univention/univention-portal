@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.91.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.1...v0.91.2) (2026-02-02)
+
+
+### Bug Fixes
+
+* **umc:** Update internal UMC URLs to use /univention prefix ([ffd5915](https://git.knut.univention.de/univention/dev/projects/portal/commit/ffd59157f77e44813e3fbf931616572db22aa2ae)), closes [univention/dev/internal/team-nubus#1551](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1551)
+
 ## [0.91.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.0...v0.91.1) (2026-01-22)
 
 
