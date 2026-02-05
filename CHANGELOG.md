@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.91.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.2...v0.91.3) (2026-02-05)
+
+
+### Bug Fixes
+
+* **portal-frontend:** Show all category names on left side navigation ([d1e8551](https://git.knut.univention.de/univention/dev/projects/portal/commit/d1e85515d691f1f22737e988aa63f7f30e4748a3)), closes [univention/dev/internal/team-nubus#1577](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1577)
+
 ## [0.91.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.1...v0.91.2) (2026-02-02)
 
 
