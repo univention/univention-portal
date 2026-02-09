@@ -206,9 +206,9 @@ def main():
         raise
 
     health_server.ready = True
-    logger.info("Ready for polling")
 
     # Polling loop
+    logger.info("Polling for changes every %d seconds", config.poll_interval)
     while True:
         time.sleep(config.poll_interval)
 
