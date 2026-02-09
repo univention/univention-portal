@@ -21,13 +21,11 @@ from univention.portal.extensions.reloader_udm import PortalContentFetcherUDM
 
 
 stub_json_path = "portal-data/portal"
-stub_assets_root_path = "portal-assets"
 stub_assets_base_url = "https://external.store.example/stub_bucket/"
 stub_object_storage_endpoint = "http://stub_endpoint"
 stub_bucket = "ums"
 stub_access_key_id = "some_user"
 stub_secret_access_key = "some_pass"
-stub_asset_path = f"${stub_assets_root_path}/stub_file.svg"
 stub_portal_dn = "cn=domain,cn=portal,cn=test"
 
 
@@ -43,14 +41,12 @@ def object_storage_reloader():
     """An instance of ObjectStorageReloader."""
     instance = reloader_object_storage.ObjectStorageReloader(
         stub_json_path,
-        stub_assets_root_path,
         stub_object_storage_endpoint,
         stub_bucket,
         stub_access_key_id,
         stub_secret_access_key,
     )
     content_fetcher_mock = mock.Mock()
-    content_fetcher_mock.assets = []
     instance._object_storage_client = mock.Mock()
     instance._create_content_fetcher = mock.Mock(return_value=content_fetcher_mock)
     return instance
@@ -61,7 +57,6 @@ def object_storage_portal_reloader(mocker, mock_portal_config):
     """An instance of ObjectStoragePortalReloader."""
     mock_portal_config(
         {
-            "assets_root_path": stub_assets_root_path,
             "portal_cache_path": stub_json_path,
             "ucs_internal_path": "portal-data",
             "use-udm-rest-api": True,
@@ -69,7 +64,6 @@ def object_storage_portal_reloader(mocker, mock_portal_config):
     )
     instance = reloader_object_storage.ObjectStoragePortalReloader(
         stub_json_path,
-        stub_assets_root_path,
         stub_portal_dn,
         stub_object_storage_endpoint,
         stub_bucket,
@@ -87,7 +81,6 @@ def object_storage_portal_reloader(mocker, mock_portal_config):
 def test_object_storage_reloader_accepts_endpoints(object_storage_endpoint):
     object_storage_reloader = reloader_object_storage.ObjectStorageReloader(
         stub_json_path,
-        stub_assets_root_path,
         object_storage_endpoint,
         stub_bucket,
         stub_access_key_id,
@@ -110,7 +103,6 @@ def test_object_storage_reloader_raises_value_error_on_unsupported_urls(
     with pytest.raises(ValueError):
         reloader_object_storage.ObjectStorageReloader(
             stub_json_path,
-            stub_assets_root_path,
             object_storage_endpoint,
             stub_bucket,
             stub_access_key_id,
@@ -128,7 +120,7 @@ def test_cache_calls_object_storage_reloader(object_storage_reloader, mocker):
 
 
 def test_object_storage_reloader_puts_content_to_url(object_storage_reloader):
-    stub_content = (b"stub_content", [])
+    stub_content = b"stub_content"
     response = {
         "ResponseMetadata": {
             "HTTPStatusCode": 200,
@@ -184,7 +176,6 @@ def test_object_storage_portal_reloader_passes_assets_base_url(mock_portal_confi
     assets_base_url = "https://external.store.example/stub_bucket/"
     reloader_instance = reloader_object_storage.ObjectStoragePortalReloader(
         stub_json_path,
-        stub_assets_root_path,
         stub_portal_dn,
         stub_object_storage_endpoint,
         stub_bucket,
@@ -199,7 +190,6 @@ def test_object_storage_portal_reloader_passes_assets_base_url(mock_portal_confi
 def test_object_storage_groups_reloader_uses_groups_content_fetcher():
     groups_reloader = reloader_object_storage.ObjectStorageGroupsReloader(
         stub_json_path,
-        stub_assets_root_path,
         stub_object_storage_endpoint,
         stub_bucket,
         stub_access_key_id,
