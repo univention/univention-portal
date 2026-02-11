@@ -135,7 +135,8 @@ spec:
               mountPath: "/var/www/html/custom/portal_background_image.svg"
               subPath: "portal_background_image.svg"
             - name: portal-assets-volume
-              mountPath: /var/www/html/univention/portal
+              mountPath: /var/www/html/univention/portal/icons
+              subPath: icons
               readOnly: true
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 12 }}
