@@ -1,6 +1,6 @@
 ---
 
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 # The global properties are used to configure multiple charts at once.
@@ -205,7 +205,9 @@ ingress:
           pathType: Exact
         - path: /favicon.ico
           pathType: Exact
-        - path: /
+        # NOTE: Using /$ instead of / as a workaround for nginx-ingress bug
+        # https://github.com/kubernetes/ingress-nginx/issues/10631
+        - path: /$
           pathType: Exact
         - path: /univention
           pathType: Exact
@@ -527,3 +529,4 @@ udm:
         # a key with a different name.
         password: null
 ...
+

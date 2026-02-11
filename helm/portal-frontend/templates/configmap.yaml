@@ -74,6 +74,12 @@ data:
                 return 301 /univention/selfservice/;
             }
 
+            # Serve dynamic portal icons
+            location /univention/portal/icons/ {
+                alias /var/www/portal-assets/icons/;
+                try_files $uri =404;
+            }
+
             # Serve portal frontend under URL prefix
             location /univention/portal/ {
                 try_files $uri $uri/ /univention/portal/index.html;
@@ -84,7 +90,12 @@ data:
                 try_files $uri $uri/ /univention/selfservice/index.html;
             }
 
-            # Default fallback (also serves /favicon.ico from root)
+            # Serve favicon.ico from /favicon directory
+            location = /favicon.ico {
+                alias /var/www/html/favicon/favicon.ico;
+            }
+
+            # Default fallback
             location / {
                 try_files $uri $uri/ =404;
             }

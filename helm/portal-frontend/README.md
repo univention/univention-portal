@@ -552,7 +552,7 @@ true
     "pathType": "Exact"
   },
   {
-    "path": "/",
+    "path": "/$",
     "pathType": "Exact"
   },
   {

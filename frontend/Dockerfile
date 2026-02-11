@@ -92,7 +92,7 @@ COPY --from=build /app/dist /var/www/html/univention/portal
 COPY --from=build /app/dist /var/www/html/univention/selfservice
 COPY ./worker/sse-worker.js /var/www/html/univention/portal
 COPY ./worker/sse-worker.js /var/www/html/univention/selfservice
-COPY --from=build /app/dist/favicon/favicon.ico /var/www/html/favicon.ico
+COPY --from=build /app/dist/favicon /var/www/html/favicon
 
 ###############################################################################
 
