@@ -127,7 +127,7 @@ def list_objects(
 ) -> tuple[list[dict] | None, str | None]:
     headers = {"If-None-Match": etag} if etag else {}
     params = [("opened", "true")] + [("properties", p) for p in properties]
-    resp = session.get(url, headers=headers, params=params)
+    resp = session.get(url, headers=headers, params=params, timeout=10)
 
     if resp.status_code == 304:
         return None, etag
