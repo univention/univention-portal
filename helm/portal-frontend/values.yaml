@@ -535,7 +535,7 @@ udm:
     url: null
   auth:
     # -- The username to authenticate with the UDM Rest API.
-    username: "cn=admin"
+    username: "svc-portal-server"
     # -- The password used to authenticate with the UDM Rest API.
     # Either this value or an existing Secret has to be specified.
     password: null

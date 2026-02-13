@@ -1438,7 +1438,7 @@ true
       "name": null
     },
     "password": null,
-    "username": "cn=admin"
+    "username": "svc-portal-server"
   },
   "connection": {
     "url": null
@@ -1479,7 +1479,7 @@ null
 			<td>udm.auth.username</td>
 			<td>string</td>
 			<td><pre lang="json">
-"cn=admin"
+"svc-portal-server"
 </pre>
 </td>
 			<td>The username to authenticate with the UDM Rest API.</td>
