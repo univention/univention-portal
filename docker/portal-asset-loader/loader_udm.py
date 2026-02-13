@@ -145,7 +145,7 @@ def sync_portals(
     etag: str | None = None,
 ) -> str | None:
     url = f"{config.udm_api_url}/portals/portal/"
-    objects, new_etag = list_objects(session, url, [], etag)
+    objects, new_etag = list_objects(session, url, ["name", "background"], etag)
 
     if objects is None:
         logger.debug("Portals unchanged")
