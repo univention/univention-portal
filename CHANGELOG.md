@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.92.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.3...v0.92.0) (2026-02-13)
+
+
+### Features
+
+* **portal-asset-loader:** Integrate the asset-loader into the portal-frontend helm chart ([e464181](https://git.knut.univention.de/univention/dev/projects/portal/commit/e46418137d11dff0f6d0be53bed020d171bb3441)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* **portal-asset-loader:** New implementation to serve dynamic portal assets ([67c4b92](https://git.knut.univention.de/univention/dev/projects/portal/commit/67c4b92529514f22369247056f358cd7a81453e5)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+
+
+### Bug Fixes
+
+* **portal-asset-loader:** Fine-grained volume mount to avoid overwriting other directories below /univention/portal ([bc75bfc](https://git.knut.univention.de/univention/dev/projects/portal/commit/bc75bfc4c1813c9455fe9f18e05d28062acadc80)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* **portal-asset-loader:** Fix helm unittests and template files ([63620cc](https://git.knut.univention.de/univention/dev/projects/portal/commit/63620ccada4ded27dac5edc021fe72792bf4766f)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* **portal-asset-loader:** HTTP healthz endpoint replacing the sentinel file ([bf43529](https://git.knut.univention.de/univention/dev/projects/portal/commit/bf43529233a7f01f64feb3bf61b6c091bc5a40e7)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* **portal-asset-loader:** Improve log message ([50d7556](https://git.knut.univention.de/univention/dev/projects/portal/commit/50d75568bc88b77ace8c12a4443763171a7b415b)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* **portal-asset-loader:** Use a readonly user account for UDM ([dc25435](https://git.knut.univention.de/univention/dev/projects/portal/commit/dc25435f7aff0013d36f06ba7431dd0bd1cc1836)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* **portal-consumer:** Stop writing portal assets to S3 ([20493f4](https://git.knut.univention.de/univention/dev/projects/portal/commit/20493f4ee3e20ed22d6453717c928110f7d2f69c)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+
 ## [0.91.3](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.2...v0.91.3) (2026-02-05)
 
 
