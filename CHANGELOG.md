@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.93.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.92.0...v0.93.0) (2026-02-15)
+
+
+### Features
+
+* Add redirect handler for URLs missing trailing slash ([2c6427c](https://git.knut.univention.de/univention/dev/projects/portal/commit/2c6427c4c3df9129e65e73e3eb41baed3e5d70da)), closes [univention/dev/internal/team-nubus#1550](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1550)
+* **portal-frontend:** Rework volume mounts for custom.css and similar assets to no longer require path rewrites ([23372ed](https://git.knut.univention.de/univention/dev/projects/portal/commit/23372ed05712228f2999630ab6b3e4b120f734ad)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* remove nginx specific ingress annotations ([ca77368](https://git.knut.univention.de/univention/dev/projects/portal/commit/ca7736887a92978792eaa1280cc3515a25b84096)), closes [univention/dev/internal/team-nubus#1550](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1550)
+
+
+### Bug Fixes
+
+* **portal-asset-loader:** Add http request timeout ([0fde612](https://git.knut.univention.de/univention/dev/projects/portal/commit/0fde612c9d66b094b89ec8c887f26b35d9dcf27e)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+* **portal-frontend:** Adapt asset-loader for prefix-on-disk layout ([ac9a2c6](https://git.knut.univention.de/univention/dev/projects/portal/commit/ac9a2c607a95735f01d8ff3cca90c94863490a53)), closes [univention/dev/internal/team-nubus#1550](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1550)
+* **portal-frontend:** Disable nginx version number on 301 redirects and other responses ([68a7fb7](https://git.knut.univention.de/univention/dev/projects/portal/commit/68a7fb764218d6bb81ba884ecfce0b1813654f4c)), closes [univention/dev/internal/team-nubus#1550](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1550)
+* **portal-frontend:** Only fetch the name and background from the portals/portal endpoint ([8f19188](https://git.knut.univention.de/univention/dev/projects/portal/commit/8f19188f5f9aad445fd0dcbb244d16ed8d4c161d)), closes [univention/dev/internal/team-nubus#1589](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1589)
+
 ## [0.92.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.91.3...v0.92.0) (2026-02-13)
 
 
