@@ -91,9 +91,12 @@ data:
                 try_files $uri $uri/ /univention/selfservice/index.html;
             }
 
-            # Serve favicon.ico from /favicon directory
+            # Serve favicon files
             location = /favicon.ico {
                 alias /var/www/html/favicon/favicon.ico;
+            }
+            location /favicon/ {
+                try_files $uri =404;
             }
 
             # Default fallback

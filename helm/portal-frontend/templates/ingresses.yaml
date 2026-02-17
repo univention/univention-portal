@@ -50,6 +50,9 @@ spec:
           - path: /favicon.ico
             pathType: Exact
             backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          - path: /favicon/
+            pathType: Prefix
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
           # Root redirect — the nginx inside the container 301-redirects to /univention/portal/.
           # Both / and /$ are included for ingress controller compatibility:
           # - /$ is needed for ingress-nginx (bug https://github.com/kubernetes/ingress-nginx/issues/10631)
