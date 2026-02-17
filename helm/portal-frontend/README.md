@@ -299,7 +299,7 @@ true
 []
 </pre>
 </td>
-			<td>Extra ingress configuration</td>
+			<td>Extra ingress configuration Ingress paths for the portal frontend are defined in the ingress template Use extraIngresses to add additional custom ingress resources.</td>
 		</tr>
 		<tr>
 			<td>extraSecrets</td>
@@ -489,99 +489,6 @@ true
 </pre>
 </td>
 			<td>The Ingress controller class name. (This will be the default for all Ingresses)</td>
-		</tr>
-		<tr>
-			<td>ingress.items[0].annotations</td>
-			<td>object</td>
-			<td><pre lang="json">
-{}
-</pre>
-</td>
-			<td>Define custom ingress annotations.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[0].host</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>Define the Fully Qualified Domain Name (FQDN) where application should be reachable.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[0].ingressClassName</td>
-			<td>string</td>
-			<td><pre lang="json">
-""
-</pre>
-</td>
-			<td>The Ingress controller class name.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[0].name</td>
-			<td>string</td>
-			<td><pre lang="json">
-"static"
-</pre>
-</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>ingress.items[0].paths</td>
-			<td>list</td>
-			<td><pre lang="json">
-[
-  {
-    "path": "/univention/portal/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/portal",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/univention/selfservice/",
-    "pathType": "Prefix"
-  },
-  {
-    "path": "/univention/selfservice",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/favicon.ico",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/$",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/univention",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/univention/",
-    "pathType": "Exact"
-  },
-  {
-    "path": "/univention/portal/icons",
-    "pathType": "Prefix"
-  }
-]
-</pre>
-</td>
-			<td>Define the Ingress paths for portal frontend. The nginx server inside the container handles prefix stripping and redirects. Paths for /, /univention, /univention/ are redirected to /univention/portal/ by the internal nginx configuration.</td>
-		</tr>
-		<tr>
-			<td>ingress.items[0].tls</td>
-			<td>object</td>
-			<td><pre lang="json">
-{
-  "secretName": ""
-}
-</pre>
-</td>
-			<td>Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.  Ref.: https://kubernetes.io/docs/concepts/services-networking/ingress/#tls</td>
 		</tr>
 		<tr>
 			<td>ingress.tls</td>

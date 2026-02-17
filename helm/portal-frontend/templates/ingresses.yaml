@@ -1,17 +1,89 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2024 Univention GmbH
 {{- if .Values.ingress.enabled }}
-{{- range $index, $ingressConfig := concat .Values.ingress.items .Values.extraIngresses }}
-{{- $_ := set $ingressConfig "host" (default $.Values.ingress.host $ingressConfig.host) }}
+{{- $host := required "The hostname has to be set via ingress.host." .Values.ingress.host }}
+{{- $serviceName := include "common.names.fullname" . }}
+---
+apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
+kind: Ingress
+metadata:
+  name: {{ printf "%s-static" $serviceName }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
+  annotations:
+    {{- if or .Values.ingress.annotations .Values.additionalAnnotations }}
+    {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .Values.ingress.annotations .Values.additionalAnnotations ) "context" . ) }}
+    {{- include "common.tplvalues.render" ( dict "value" $annotations "context" .) | nindent 4 }}
+    {{- end }}
+    {{- if .Values.ingress.certManager.enabled }}
+    cert-manager.io/{{ .Values.ingress.certManager.issuerRef.kind | kebabcase }}: "{{ coalesce .Values.global.certManagerIssuer .Values.ingress.certManager.issuerRef.name }}"
+    {{- end }}
+spec:
+  {{- if or .Values.ingress.ingressClassName .Values.global.ingressClass }}
+  ingressClassName: {{ coalesce .Values.ingress.ingressClassName .Values.global.ingressClass | quote }}
+  {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ tpl $host . | quote }}
+      secretName: {{ include "portal-frontend.ingress.tls.secretName" . | quote }}
+  {{- end }}
+  rules:
+    - host: {{ tpl $host . | quote }}
+      http:
+        paths:
+          # Portal frontend
+          - path: /univention/portal/
+            pathType: Prefix
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          - path: /univention/portal
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          # Selfservice frontend
+          - path: /univention/selfservice/
+            pathType: Prefix
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          - path: /univention/selfservice
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          # Favicon
+          - path: /favicon.ico
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          # Root redirect — the nginx inside the container 301-redirects to /univention/portal/.
+          # Both / and /$ are included for ingress controller compatibility:
+          # - /$ is needed for ingress-nginx (bug https://github.com/kubernetes/ingress-nginx/issues/10631)
+          # - / works on standard-compliant controllers
+          - path: /
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          - path: /$
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          # /univention redirects
+          - path: /univention
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          - path: /univention/
+            pathType: Exact
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+          # Portal icons
+          - path: /univention/portal/icons
+            pathType: Prefix
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
+
+{{- /* Extra ingresses from values — user-extensible */}}
+{{- range .Values.extraIngresses }}
+{{- $extraHost := default $.Values.ingress.host .host }}
 ---
 apiVersion: {{ include "common.capabilities.ingress.apiVersion" $ }}
 kind: Ingress
 metadata:
-  name: {{ printf "%s-%s" (include "common.names.fullname" $) (required "Ingress must have a name. Missing key \"name\" on extraIngress definition." .name) }}
-  namespace: {{ include "common.names.namespace" $ }}
+  name: {{ printf "%s-%s" $serviceName (required "Extra ingress must have a name." .name) }}
+  namespace: {{ include "common.names.namespace" $ | quote }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" $.Values.additionalLabels "context" $ ) | nindent 4 }}
   annotations:
-    {{- if or .annotations $.Values.additionalAnnotations }}
+    {{- if or .annotations $.Values.ingress.annotations $.Values.additionalAnnotations }}
     {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .annotations $.Values.ingress.annotations $.Values.additionalAnnotations ) "context" $ ) }}
     {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
     {{- end }}
@@ -19,17 +91,19 @@ metadata:
     cert-manager.io/{{ $.Values.ingress.certManager.issuerRef.kind | kebabcase }}: "{{ coalesce $.Values.global.certManagerIssuer $.Values.ingress.certManager.issuerRef.name }}"
     {{- end }}
 spec:
-  {{- if or $.Values.ingress.ingressClassName $.Values.global.ingressClass }}
-  ingressClassName: {{ coalesce $.Values.ingress.ingressClassName $.Values.global.ingressClass | quote }}
+  {{- $extraIngressClassName := coalesce .ingressClassName $.Values.ingress.ingressClassName $.Values.global.ingressClass }}
+  {{- if $extraIngressClassName }}
+  ingressClassName: {{ $extraIngressClassName | quote }}
   {{- end }}
-  {{- if or .tls.enabled $.Values.ingress.tls.enabled }}
+  {{- $extraTlsEnabled := .tls | default dict }}
+  {{- if or (index $extraTlsEnabled "enabled") $.Values.ingress.tls.enabled }}
   tls:
     - hosts:
-        - {{ tpl .host $ | quote }}
-      secretName: {{ coalesce (tpl .tls.secretName $) (include "portal-frontend.ingress.tls.secretName" $) | quote }}
+        - {{ tpl $extraHost $ | quote }}
+      secretName: {{ coalesce (default "" (index $extraTlsEnabled "secretName")) (include "portal-frontend.ingress.tls.secretName" $) | quote }}
   {{- end }}
   rules:
-    - host: {{ required "The hostname for the ingress has to be set." (tpl .host $) | quote }}
+    - host: {{ tpl $extraHost $ | quote }}
       {{- if .paths }}
       http:
         paths:
@@ -39,7 +113,7 @@ spec:
             {{- if .backend }}
             backend: {{- include "common.tplvalues.render" ( dict "value" .backend "context" $) | nindent 14 }}
             {{- else }}
-            backend: {{- include "common.ingress.backend" (dict "serviceName" (include "common.names.fullname" $) "servicePort" "http" "context" $) | nindent 14 }}
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" $) | nindent 14 }}
             {{- end }}
           {{- end }}
       {{- end }}
