@@ -293,15 +293,6 @@ true
 			<td>Array with extra environment variables to add to containers.  extraEnvVars:   - name: FOO     value: "bar"</td>
 		</tr>
 		<tr>
-			<td>extraIngresses</td>
-			<td>list</td>
-			<td><pre lang="json">
-[]
-</pre>
-</td>
-			<td>Extra ingress configuration Ingress paths for the portal frontend are defined in the ingress template Use extraIngresses to add additional custom ingress resources.</td>
-		</tr>
-		<tr>
 			<td>extraSecrets</td>
 			<td>list</td>
 			<td><pre lang="json">
@@ -434,7 +425,7 @@ null
 {}
 </pre>
 </td>
-			<td>Define custom ingress annotations for all Ingresses.</td>
+			<td>Define custom ingress annotations for the Ingress.</td>
 		</tr>
 		<tr>
 			<td>ingress.certManager.enabled</td>
@@ -479,7 +470,7 @@ true
 ""
 </pre>
 </td>
-			<td>Define the Fully Qualified Domain Name (FQDN) where application should be reachable. (This will be the default for all Ingresses)</td>
+			<td>Define the Fully Qualified Domain Name (FQDN) where application should be reachable. (This will be the default for the Ingress)</td>
 		</tr>
 		<tr>
 			<td>ingress.ingressClassName</td>
@@ -488,7 +479,7 @@ true
 ""
 </pre>
 </td>
-			<td>The Ingress controller class name. (This will be the default for all Ingresses)</td>
+			<td>The Ingress controller class name. (This will be the default for the Ingress)</td>
 		</tr>
 		<tr>
 			<td>ingress.tls</td>

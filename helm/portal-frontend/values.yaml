@@ -154,10 +154,10 @@ ingress:
   # -- Enable creation of Ingress.
   enabled: true
 
-  # -- Define custom ingress annotations for all Ingresses.
+  # -- Define custom ingress annotations for the Ingress.
   annotations: {}
 
-  # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable. (This will be the default for all Ingresses)
+  # -- Define the Fully Qualified Domain Name (FQDN) where application should be reachable. (This will be the default for the Ingress)
   host: ""
 
   # Request certificates via cert-manager.io annotation
@@ -172,7 +172,7 @@ ingress:
       # -- Type of Issuer, f.e. "Issuer" or "ClusterIssuer".
       kind: "ClusterIssuer"
 
-  # -- The Ingress controller class name. (This will be the default for all Ingresses)
+  # -- The Ingress controller class name. (This will be the default for the Ingress)
   ingressClassName: ""
 
   # -- Secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
@@ -185,22 +185,6 @@ ingress:
     # -- The name of the kubernetes secret which contains a TLS private key and certificate.
     # Hint: This secret is not created by this chart and must be provided.
     secretName: ""
-
-# -- Extra ingress configuration
-# Ingress paths for the portal frontend are defined in the ingress template
-# Use extraIngresses to add additional custom ingress resources.
-extraIngresses: []
-# example:
-  # - name: custom
-  #   host: ""
-  #   paths:
-  #     - pathType: Exact
-  #       path: /custom
-  #   ingressClassName: ""
-  #   annotations: {}
-  #   tls:
-  #     enabled: true
-  #     secretName: ""
 
 # -- Lifecycle to automate configuration before or after startup.
 lifecycleHooks: {}

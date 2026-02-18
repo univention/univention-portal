@@ -75,52 +75,5 @@ spec:
             pathType: Prefix
             backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
 
-{{- /* Extra ingresses from values — user-extensible */}}
-{{- range .Values.extraIngresses }}
-{{- $extraHost := default $.Values.ingress.host .host }}
----
-apiVersion: {{ include "common.capabilities.ingress.apiVersion" $ }}
-kind: Ingress
-metadata:
-  name: {{ printf "%s-%s" $serviceName (required "Extra ingress must have a name." .name) }}
-  namespace: {{ include "common.names.namespace" $ | quote }}
-  labels: {{- include "common.labels.standard" ( dict "customLabels" $.Values.additionalLabels "context" $ ) | nindent 4 }}
-  annotations:
-    {{- if or .annotations $.Values.ingress.annotations $.Values.additionalAnnotations }}
-    {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .annotations $.Values.ingress.annotations $.Values.additionalAnnotations ) "context" $ ) }}
-    {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
-    {{- end }}
-    {{- if $.Values.ingress.certManager.enabled }}
-    cert-manager.io/{{ $.Values.ingress.certManager.issuerRef.kind | kebabcase }}: "{{ coalesce $.Values.global.certManagerIssuer $.Values.ingress.certManager.issuerRef.name }}"
-    {{- end }}
-spec:
-  {{- $extraIngressClassName := coalesce .ingressClassName $.Values.ingress.ingressClassName $.Values.global.ingressClass }}
-  {{- if $extraIngressClassName }}
-  ingressClassName: {{ $extraIngressClassName | quote }}
-  {{- end }}
-  {{- $extraTlsEnabled := .tls | default dict }}
-  {{- if or (index $extraTlsEnabled "enabled") $.Values.ingress.tls.enabled }}
-  tls:
-    - hosts:
-        - {{ tpl $extraHost $ | quote }}
-      secretName: {{ coalesce (default "" (index $extraTlsEnabled "secretName")) (include "portal-frontend.ingress.tls.secretName" $) | quote }}
-  {{- end }}
-  rules:
-    - host: {{ tpl $extraHost $ | quote }}
-      {{- if .paths }}
-      http:
-        paths:
-          {{- range .paths }}
-          - pathType: {{ .pathType }}
-            path: {{ tpl .path $ }}
-            {{- if .backend }}
-            backend: {{- include "common.tplvalues.render" ( dict "value" .backend "context" $) | nindent 14 }}
-            {{- else }}
-            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" $) | nindent 14 }}
-            {{- end }}
-          {{- end }}
-      {{- end }}
-
 ...
-{{- end }}
 {{- end }}
