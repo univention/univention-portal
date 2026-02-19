@@ -55,6 +55,7 @@ data:
             root /var/www/html;
             index index.html index.htm;
             server_name _;
+            absolute_redirect off;
 
             # Redirect root and /univention paths to /univention/portal/
             location = / {
