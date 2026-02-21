@@ -51,6 +51,7 @@ EXPOSE 8080
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["uvicorn", "app.main:app", \
     "--log-config", "logging.yaml", \
+    "--proxy-headers", "--forwarded-allow-ips", "*", \
     "--reload", "--host", "0.0.0.0", "--port", "8080"]
 
 
@@ -69,4 +70,5 @@ EXPOSE 8080
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["uvicorn", "app.main:app", \
     "--log-config", "logging.yaml", \
+    "--proxy-headers", "--forwarded-allow-ips", "*", \
     "--host", "0.0.0.0", "--port", "8080"]

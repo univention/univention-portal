@@ -83,7 +83,6 @@ tags_metadata = [
 configure_logging()
 
 app = FastAPI(
-    root_path=settings.root_path,
     title=settings.project_name,
     version=settings.api_version,
     debug=settings.debug,
