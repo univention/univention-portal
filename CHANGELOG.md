@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.94.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.93.0...v0.94.0) (2026-02-23)
+
+
+### Features
+
+* **portal-frontend:** Serve /favicon/ path from portal-frontend instead of umbrella chart ([722cbad](https://git.knut.univention.de/univention/dev/projects/portal/commit/722cbad894e2f0a7a4aab451f091dacae45ee1db)), closes [univention/dev/internal/team-nubus#1603](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1603)
+
+
+### Bug Fixes
+
+* **portal-frontend-helm:** Remove support for extraIngresses ([927c047](https://git.knut.univention.de/univention/dev/projects/portal/commit/927c047b23f51630dc73b18bcef2af4e312e7e45)), closes [univention/dev/internal/team-nubus#1603](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1603)
+* **portal-frontend:** Move ingress paths into template for ingress controller-agnostic root redirect ([ab0f7a3](https://git.knut.univention.de/univention/dev/projects/portal/commit/ab0f7a3c8e790087b2bb8ee381ea0723b938044b)), closes [univention/dev/internal/team-nubus#1603](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1603)
+
 ## [0.93.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.92.0...v0.93.0) (2026-02-15)
 
 
