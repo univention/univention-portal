@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.94.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.0...v0.94.1) (2026-02-23)
+
+
+### Bug Fixes
+
+* **notifications-api:** Activate proxy forwarded headers for fastapi/uvicorn to send the correct protocol and port for redirects ([d263c93](https://git.knut.univention.de/univention/dev/projects/portal/commit/d263c93c2e703ae2a01a1ae3e75caaeb9a419f12)), closes [univention/dev/internal/team-nubus#1609](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1609)
+* **portal-frontend:** Configure relative redirects in Nginx to avoid absolute redirects with different protocols or ports ([de2bbfa](https://git.knut.univention.de/univention/dev/projects/portal/commit/de2bbfaa31988f761007ce8a8eed60e5aca82966)), closes [univention/dev/internal/team-nubus#1609](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1609)
+
 ## [0.94.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.93.0...v0.94.0) (2026-02-23)
 
 
