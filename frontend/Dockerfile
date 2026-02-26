@@ -86,7 +86,7 @@ RUN yarn build
 ###############################################################################
 # Starts production nginx server
 
-FROM gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/nginx/nginx:0.7.24@sha256:22f3ade597cafba9105cde87e4caf851fb36a2e6f24965db3608f229afa069fd AS final
+FROM gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/nginx/nginx:0.7.40@sha256:7c64b60e063676bb0d1d62e5eebbb9fd9ee9d08fd7b8ac08ead802765aa05da4 AS final
 
 COPY --from=build /app/dist /var/www/html/univention/portal
 COPY --from=build /app/dist /var/www/html/univention/selfservice
