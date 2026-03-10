@@ -67,8 +67,9 @@ export default defineComponent({
     document.body.classList.remove('body--has-selfservice');
 
     // Redirect to login if the selfservice modals are canceled and the selfservice/site component unmounts.
+    // Do not redirect when navigating between selfservice routes (e.g. passwordforgotten -> newpassword).
     const shouldRedirectToLogin = await this.$store.dispatch('shouldRedirectToLogin');
-    if (shouldRedirectToLogin) {
+    if (shouldRedirectToLogin && !this.$route.name?.toString().startsWith('selfservice')) {
       login(this.userState);
     }
   },
