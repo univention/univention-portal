@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.94.7](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.6...v0.94.7) (2026-03-11)
+
+
+### Bug Fixes
+
+* **notifications-api:** Bump dependencies ([d3b9ddb](https://git.knut.univention.de/univention/dev/projects/portal/commit/d3b9ddb3bc7ec02993a9d34d02717e03fee77b6e)), closes [univention/dev/internal/team-nubus#1477](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1477)
+* **portal-consumer:** Bump dependencies ([b4645f2](https://git.knut.univention.de/univention/dev/projects/portal/commit/b4645f20187c94ccbd6f2d1a86e0460bf6229da8)), closes [univention/dev/internal/team-nubus#1477](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1477)
+* **portal-frontend:** Bump dependencies ([b829206](https://git.knut.univention.de/univention/dev/projects/portal/commit/b829206a71e9b3da252c103c0882063a78dcec73)), closes [univention/dev/internal/team-nubus#1477](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1477)
+* **portal-server:** Dependency updates ([c06a5ca](https://git.knut.univention.de/univention/dev/projects/portal/commit/c06a5ca717469993ab55a214ec9309bf9e08a110)), closes [univention/dev/internal/team-nubus#1477](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1477)
+
 ## [0.94.6](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.5...v0.94.6) (2026-03-10)
 
 
