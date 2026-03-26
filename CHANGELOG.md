@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.8](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.7...v0.94.8) (2026-03-26)
+
+
+### Bug Fixes
+
+* **deps:** Update Base Image ([93ce8e5](https://git.knut.univention.de/univention/dev/projects/portal/commit/93ce8e5c0c306cfe9b2dbe3e9d7a5f1b80080626)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.94.7](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.6...v0.94.7) (2026-03-11)
 
 
