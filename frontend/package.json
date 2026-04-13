@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@vue/vue3-jest": "27",
-    "axios": "~1.13.5",
+    "axios": "^1.15.0",
     "core-js": "^3.6.5",
     "cypress-axe": "^1.7.0",
     "cypress-real-events": "^1.15.0",
