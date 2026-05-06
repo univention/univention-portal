@@ -38,7 +38,7 @@ describe('oidc', () => {
 
     // just set our fake Keycloak state
     const stubStore = createStubStore();
-    stubStore.commit('oidc/setAuthState', new Keycloak());
+    stubStore.commit('oidc/setAuthState', new Keycloak({ url: '', realm: '', clientId: '' }));
 
     // now start the timer
     await stubStore.dispatch('oidc/startRefreshTimer');

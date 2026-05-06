@@ -72,15 +72,14 @@ export default defineComponent({
   methods: {
     portalHelpMenu() {
       const menu: PortalCornerLinks = this.cornerLinks
-        // eslint-disable-next-line camelcase
-        ?.flatMap((dn) => this.portalEntries?.filter((e) => e.dn === dn).map(({ name, description, links, icon_url, linkTarget }) => ({
+        ?.flatMap((dn) => this.portalEntries?.filter((e) => e.dn === dn).map(({ name, description, links, icon_url: iconUrl, linkTarget }) => ({
           name: this.$localized(name),
           description: this.$localized(description),
           link: this.$localized(links.reduce((acc, link) => {
             acc[link.locale] = link.value;
             return acc;
           }, {})),
-          iconUrl: icon_url,
+          iconUrl,
           linkTarget: linkTarget === 'newwindow' ? '_blank' : '_self',
         })));
       return menu;

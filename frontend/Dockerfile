@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2026 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=5.2.5-build.20260417@sha256:01d93ca22e4312a1d3d47322bc93448e5cf0b55206ec5b3e019493f632debe36
+ARG UCS_BASE_IMAGE_TAG=5.2.5-build.20260430@sha256:03506bb1c0b315bcecc00cb77e7fe7df6f414e581a1a73a9f66f93e731237ae8
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base
 
 ###############################################################################
@@ -11,9 +11,9 @@ FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS local-dev-env
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-ARG NODE_VERSION="20.17.0"
-ARG YARN_VERSION="1.22.19"
-ARG NODE_SHA256="21e656f6f4e34080ddc5d75fbfe58ce8482fe6e70a76aeae14afdcdc1e23079d"
+ARG NODE_VERSION="24.15.0"
+ARG YARN_VERSION="1.22.22"
+ARG NODE_SHA256="44836872d9aec49f1e6b52a9a922872db9a2b02d235a616a5681b6a85fec8d89"
 
 # The following dependencies are only needed when on an aarch64 platform,
 # because then the package "deasync" does not include ready made binaries

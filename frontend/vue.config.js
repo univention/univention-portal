@@ -61,9 +61,11 @@ const vueConfig = {
     sourceMap: true,
     loaderOptions: {
       stylus: {
-        import: [
-          path.resolve(__dirname, 'src/assets/styles/_variables.styl'),
-        ],
+        stylusOptions: {
+          import: [
+            path.resolve(__dirname, 'src/assets/styles/_variables.styl'),
+          ],
+        },
       },
     },
   },

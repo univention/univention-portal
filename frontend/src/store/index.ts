@@ -84,19 +84,6 @@ export const actions = {
     ]) => {
       const [meta, availableLocales, leftSidebar, portal] = [metaResponse.data, languageResponse.data, portalLeftSidebarResponse.data, portalResponse.data];
 
-      // Only call api/me if feature toggle is enabled
-      let apiMe;
-      if (portal?.feature_toggles?.api_me) {
-        try {
-          const apiMeResponse = await axios.get(`${portalUrl}${portalApiMePath}`);
-          apiMe = apiMeResponse.data;
-        } catch (error) {
-          console.warn('Failed to fetch user data from api/me:', (error as Error).message);
-        }
-      }
-
-      const userData = extractUserData(portal, apiMe);
-
       if (languageResponse.isAxiosError) {
         console.warn(`Failed to fetch ${portalUrl}${languageJsonPath}`);
       } else {
@@ -129,6 +116,18 @@ export const actions = {
           console.warn('Key "feature_toggles" missing in portal data.');
         }
         dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
+
+        // Only call api/me if feature toggle is enabled
+        let apiMe;
+        if (portal.feature_toggles?.api_me) {
+          try {
+            const apiMeResponse = await axios.get(`${portalUrl}${portalApiMePath}`);
+            apiMe = apiMeResponse.data;
+          } catch (error) {
+            console.warn('Failed to fetch user data from api/me:', (error as Error).message);
+          }
+        }
+        const userData = extractUserData(portal, apiMe);
         dispatch('user/setUser', userData);
         if (portal.username) {
           dispatch('userIsLoggedIn');

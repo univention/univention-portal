@@ -29,6 +29,9 @@
       "globals/*": [
         "src/components/globals/*"
       ],
+      "keycloak-js": [
+        "./node_modules/keycloak-js/lib/keycloak"
+      ],
       "mixins/*": [
         "src/mixins/*"
       ],
