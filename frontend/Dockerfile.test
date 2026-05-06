@@ -6,7 +6,7 @@
 
 ARG DOCKER_PROXY=""
 
-FROM ${DOCKER_PROXY}cypress/browsers:node-20.17.0-chrome-129.0.6668.70-1-ff-130.0.1-edge-129.0.2792.52-1@sha256:5233c463749ef725afc4b15ad99caae27603282c501646b7267b0e071d128974 AS test
+FROM ${DOCKER_PROXY}cypress/browsers:node-24.15.0-chrome-147.0.7727.137-1-ff-150.0.1-edge-147.0.3912.86-1@sha256:014fcde81d227125c9ffb66fc06721229795542237c349e710f6dafe5413ee86 AS test
 
 WORKDIR /app
 COPY ./package.json .
