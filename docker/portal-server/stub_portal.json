@@ -9,7 +9,6 @@
       },
       "dn": "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=univention,dc=test",
       "entries": [
-        "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=univention,dc=test",
         "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=univention,dc=test"
       ],
       "in_portal": true
