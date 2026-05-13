@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.94.10](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.9...v0.94.10) (2026-05-13)
+
+
+### Bug Fixes
+
+* **portal-frontend:** Dependency updates ([50d3dd3](https://git.knut.univention.de/univention/dev/projects/portal/commit/50d3dd3dbd60646f48d5202ecd0a2e78626f4beb)), closes [univention/dev/internal/team-nubus#1639](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1639)
+* **portal-server:** Bump dependencies ([62d9f9c](https://git.knut.univention.de/univention/dev/projects/portal/commit/62d9f9ce08e1077c58bc5b1ee35db59276167963)), closes [univention/dev/internal/team-nubus#1639](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1639)
+* Update base-image ([0ca86b4](https://git.knut.univention.de/univention/dev/projects/portal/commit/0ca86b4e9206de1d8be86ccffc8abf0557658502)), closes [univention/dev/internal/team-nubus#1639](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1639)
+
 ## [0.94.9](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.8...v0.94.9) (2026-05-12)
 
 
