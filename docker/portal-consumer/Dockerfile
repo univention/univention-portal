@@ -18,7 +18,6 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     jq \
     python3 \
     python3-pip \
-    python3-boto3 \
     gcc \
     libsasl2-dev \
     python3-dev \
