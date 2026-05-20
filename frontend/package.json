@@ -88,7 +88,7 @@
   "private": true,
   "resolutions": {
     "@types/lodash": "4.14.186",
-    "serialize-javascript": "^7.0.4"
+    "serialize-javascript": "^7.0.5"
   },
   "scripts": {
     "build": "vue-cli-service build",
