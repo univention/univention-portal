@@ -1,20 +1,22 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2026 Univention GmbH
 """
-Simulates the portal's tile-visibility filtering step against a real UDM
-deployment and a local Cerbos. No portal involvement.
+Simulates portal tile visibility under the OR-union integration model:
+
+    visible = legacy_portal_allowed  ∪  cerbos_allowed
+
+per user. Each system is queried independently; a tile is shown if either
+system approves. Cerbos can only add allows, never restrict.
 
 Pipeline per user:
   1. Fetch UDM user (full properties).
-  2. Build a Cerbos principal (id=DN, roles=guardianRoles+inherited, attr=props).
-  3. Fetch all portals/entry objects (full properties).
-  4. Build Cerbos resources (one per entry; id=DN, kind=portal:entry, attr=props).
-  5. POST a single CheckResources to Cerbos.
-  6. Print the tiles where Cerbos returned ALLOW for action 'view'.
-
-The point of the PoC is to validate the contract shape and that the policy
-discriminates between users correctly; the portal's actual filter logic is
-NOT replicated here.
+  2. Compute the legacy portal's set: a simplified port of
+     `Portal._filter_entry_dns` with Guardian disabled (the most common
+     deployment state today). Tiles with `guardianPermissionView` set are
+     hidden by the legacy path; group-based gating handles the rest.
+  3. Build a Cerbos principal and resource list; POST one CheckResources.
+     Cerbos returns ALLOW for tiles whose specific rule matches.
+  4. Union the two sets and print both halves plus the union.
 """
 
 from __future__ import annotations
@@ -84,6 +86,38 @@ def udm_fetch_portal_entries(client: httpx.Client) -> list[UDMObject]:
         UDMObject(dn=o["dn"], properties=o.get("properties", {}))
         for o in r.json().get("_embedded", {}).get("udm:object", [])
     ]
+
+
+# ----------------------------------------------------------------------
+# Legacy portal logic (simplified port of Portal._filter_entry_dns)
+# ----------------------------------------------------------------------
+
+
+def legacy_portal_filter(user: UDMObject, entries: list[UDMObject]) -> set[str]:
+    """
+    Mimics the portal's existing _filter_entry_dns with Guardian disabled:
+    tiles carrying guardianPermissionView are hidden; the rest are gated
+    by allowedGroups (empty -> visible to all logged-in users).
+    """
+    user_groups = set(user.properties.get("groups") or [])
+    visible: set[str] = set()
+    for e in entries:
+        p = e.properties
+        if not p.get("in_portal", True):
+            continue
+        if not p.get("activated", True):
+            continue
+        # anonymous-only tiles are hidden from logged-in users
+        if p.get("anonymous"):
+            continue
+        # Guardian disabled: any tile with the field is hidden by legacy.
+        if p.get("guardianPermissionView"):
+            continue
+        allowed_groups = p.get("allowedGroups") or []
+        if allowed_groups and not (set(allowed_groups) & user_groups):
+            continue
+        visible.add(e.dn)
+    return visible
 
 
 # ----------------------------------------------------------------------
@@ -187,43 +221,72 @@ def main() -> int:
         )
 
     resources = [build_resource(e) for e in entries]
+    by_dn = {e.dn: e for e in entries}
 
-    visibility: dict[str, dict[str, bool]] = {}
+    # Per-user: legacy set, cerbos set, union
+    legacy_sets: dict[str, set[str]] = {}
+    cerbos_sets: dict[str, set[str]] = {}
     for uname, user in users.items():
+        legacy_sets[uname] = legacy_portal_filter(user, entries)
         principal = build_principal(user)
         try:
-            visibility[uname] = cerbos_check(cerbos, principal, resources)
+            decisions = cerbos_check(cerbos, principal, resources)
         except httpx.HTTPError as exc:
             console.print(f"[red]Cerbos request failed for {uname}: {exc}[/red]")
             return 1
+        cerbos_sets[uname] = {dn for dn, ok in decisions.items() if ok}
 
-    # Print per-user visible tile list
-    console.print("\n[bold]Visible tiles per user[/bold]")
+    # Per-user summary
+    console.print("\n[bold]Per-user visibility (legacy | cerbos | union)[/bold]")
     for uname in users:
-        v = visibility[uname]
-        visible = sorted(
-            e.properties.get("name", e.dn) for e in entries if v.get(e.dn, False)
-        )
+        legacy = legacy_sets[uname]
+        cerbos_set = cerbos_sets[uname]
+        union = legacy | cerbos_set
         console.print(
-            f"\n  [bold cyan]{uname}[/bold cyan] sees {len(visible)} tiles:"
+            f"\n  [bold cyan]{uname}[/bold cyan]: "
+            f"legacy={len(legacy)}  cerbos={len(cerbos_set)}  "
+            f"[bold]union={len(union)}[/bold]"
         )
-        for name in visible:
-            console.print(f"    - {name}")
+        for dn in sorted(union, key=lambda d: by_dn[d].properties.get("name", "")):
+            name = by_dn[dn].properties.get("name", "?")
+            in_l = dn in legacy
+            in_c = dn in cerbos_set
+            src = (
+                "[green]L+C[/green]" if in_l and in_c
+                else "[blue]L  [/blue]" if in_l
+                else "[magenta]  C[/magenta]"
+            )
+            console.print(f"    {src}  {name}")
 
-    # Print a matrix for tiles that have a gate
-    gated = [e for e in entries if e.properties.get("guardianPermissionView")]
-    table = Table(title="Gated tiles - decision matrix", show_lines=False)
+    # Matrix view across users, restricted to tiles where at least one
+    # decision is interesting (Cerbos or legacy says yes for some user, or
+    # the tile has a guardianPermissionView marker worth highlighting).
+    interesting = sorted(
+        {
+            dn
+            for s in list(legacy_sets.values()) + list(cerbos_sets.values())
+            for dn in s
+        }
+        | {e.dn for e in entries if e.properties.get("guardianPermissionView")},
+        key=lambda d: by_dn[d].properties.get("name", ""),
+    )
+    table = Table(title="Decision matrix (L=legacy, C=cerbos)", show_lines=False)
     table.add_column("tile")
-    table.add_column("guardianPermissionView")
     for uname in users:
         table.add_column(uname, justify="center")
-    for e in sorted(gated, key=lambda e: e.properties.get("name", "")):
-        name = e.properties.get("name", "?")
-        gpv = e.properties.get("guardianPermissionView", "")
-        row = [name, gpv]
+    for dn in interesting:
+        name = by_dn[dn].properties.get("name", "?")
+        row = [name]
         for uname in users:
-            ok = visibility[uname].get(e.dn, False)
-            row.append("[green]ALLOW[/green]" if ok else "[red]DENY[/red]")
+            in_l = dn in legacy_sets[uname]
+            in_c = dn in cerbos_sets[uname]
+            cell = (
+                "[green]L+C[/green]" if in_l and in_c
+                else "[blue]L[/blue]" if in_l
+                else "[magenta]C[/magenta]" if in_c
+                else "[dim]-[/dim]"
+            )
+            row.append(cell)
         table.add_row(*row)
     console.print("\n")
     console.print(table)

@@ -3,42 +3,35 @@
 #
 # PoC policy for portal:entry visibility.
 #
-# Contract: the portal sends one CheckResources request per page load with
-#   - principal: the full UDM user (id=DN, roles=guardianRoles+inherited,
-#     attr=all UDM properties)
-#   - resources: every candidate portal entry as kind=portal:entry,
-#     id=DN, attr=all UDM entry properties (notably the existing
-#     `guardianPermissionView` field, repurposed as a gate identifier).
+# Integration model: OR-union with the legacy portal filter. The portal
+# computes its own visible-tiles set; Cerbos computes its own set; the two
+# are unioned. A tile is shown if either system approves.
 #
-# Default ALLOW: tiles Cerbos has no opinion about pass through to the
-# portal's existing _filter_entry_dns logic. As more rules are added, more
-# of the portal's Python filter logic can be deleted in favor of policy.
+# Consequences for this policy:
+#   - No pass-through rule. Cerbos default-denies tiles it doesn't
+#     recognize -- they're covered by the portal's legacy logic.
+#   - Cerbos can only ADD allows; it cannot restrict the portal.
+#   - Rules describe specific tiles and the conditions under which Cerbos
+#     wants them visible.
+#
+# Contract per CheckResources call:
+#   - principal: id=DN, roles=guardianRoles+inherited, attr=all UDM props
+#   - resources: every candidate entry as kind=portal:entry, id=DN,
+#     attr=all UDM entry properties
+#   - action: "view"
 ---
 apiVersion: api.cerbos.dev/v1
 resourcePolicy:
   version: default
   resource: portal:entry
   rules:
-    # Pass-through: tile carries no Cerbos-managed gate.
-    - actions: [view]
-      effect: EFFECT_ALLOW
-      roles: ["*"]
-      condition:
-        match:
-          expr: |
-            !has(R.attr.guardianPermissionView)
-            || R.attr.guardianPermissionView == null
-            || R.attr.guardianPermissionView == ""
-
     # OX Mail tile: visible iff the user is an OX user.
     - actions: [view]
       effect: EFFECT_ALLOW
       roles: ["*"]
       condition:
         match:
-          expr: |
-            R.attr.guardianPermissionView == "univention-portal:portal:view-ox-tile"
-            && P.attr.isOxUser == true
+          expr: R.attr.name == "ox_mail" && P.attr.isOxUser == true
 
     # Nextcloud tile: visible iff the user has Nextcloud enabled.
     - actions: [view]
@@ -46,37 +39,29 @@ resourcePolicy:
       roles: ["*"]
       condition:
         match:
-          expr: |
-            R.attr.guardianPermissionView == "univention-portal:portal:view-nextcloud-tile"
-            && P.attr.nextcloudEnabled == true
+          expr: R.attr.name == "nextcloud" && P.attr.nextcloudEnabled == true
 
     # Teacher-targeted tiles: visible iff the user holds the portal teacher
-    # role. Covers moodle, itslearning, sofatutor, veyon, teacher-documentation.
+    # role.
     - actions: [view]
       effect: EFFECT_ALLOW
       roles: ["*"]
       condition:
         match:
           expr: |
-            R.attr.guardianPermissionView in [
-              "univention-portal:portal:access-moodle",
-              "univention-portal:portal:access-itslearning",
-              "univention-portal:portal:access-sofatutor",
-              "univention-portal:portal:access-veyon",
-              "univention-portal:portal:access-documentation",
-            ]
+            R.attr.name in ["moodle", "itslearning", "sofatutor", "veyon", "teacher-documentation"]
             && "univention-portal:portal:teacher" in P.roles
 
-    # Demo "service-NN" tiles tile11..tile33 (no real underlying app): make
-    # them visible to anyone with the authenticated-user role. Demonstrates
-    # set-membership matching, not a serious gate.
+    # Demo "service-NN" tiles tile11..tile33: visible to anyone with the
+    # authenticated-user role. Demonstrates name-prefix matching, not a
+    # serious gate.
     - actions: [view]
       effect: EFFECT_ALLOW
       roles: ["*"]
       condition:
         match:
           expr: |
-            R.attr.guardianPermissionView.startsWith("univention-portal:portal:access-service-")
+            R.attr.name.startsWith("tile")
             && "univention-portal:portal:authenticated-user" in P.roles
 
     # Super-admins see everything (escape hatch).
