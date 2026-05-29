@@ -1,0 +1,65 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+#
+# Translation of the portal's legacy Python filter
+# (Portal._filter_entry_dns in python/univention/portal/extensions/portal.py)
+# into Cerbos.
+#
+# Reproduces the existing portal logic in the Guardian-disabled deployment
+# state -- the most common state today. Coexists with
+# `policies/portal_entry.yaml` (version: default) by using a distinct
+# policy version. The portal can call Cerbos with version="legacy" to
+# replicate today's filter, with version="default" to use the new rules,
+# and union the two ALLOW sets. Once the legacy version's output matches
+# the Python filter exactly, the Python filter can be retired and this
+# file becomes the sole legacy authority -- or can be folded into the
+# default policy.
+#
+# Logic reproduced:
+#   - in_portal must be true (default: true if unset)
+#   - activated must be true (default: true if unset)
+#   - anonymous-only tiles are hidden from logged-in users
+#   - tiles carrying guardianPermissionView are hidden (Guardian disabled)
+#   - allowedGroups (if non-empty) must intersect P.attr.groups
+#
+# NOT reproduced:
+#   - admin_mode (the portal still owns that bypass; Cerbos should not).
+#   - The "Guardian enabled" branch (would need the legacy permission list
+#     supplied as a principal attribute, e.g. P.attr.guardianPermissions).
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: legacy
+  resource: portal:entry
+  rules:
+    - actions: [view]
+      effect: EFFECT_ALLOW
+      roles: ["*"]
+      condition:
+        match:
+          all:
+            of:
+              # in_portal: hidden only if explicitly false
+              - expr: |
+                  !has(R.attr.in_portal) || R.attr.in_portal != false
+
+              # activated: hidden only if explicitly false
+              - expr: |
+                  !has(R.attr.activated) || R.attr.activated != false
+
+              # anonymous tiles are hidden from logged-in users
+              - expr: |
+                  !has(R.attr.anonymous) || R.attr.anonymous != true
+
+              # Guardian-disabled: tiles carrying guardianPermissionView
+              # are hidden by the legacy filter.
+              - expr: |
+                  !has(R.attr.guardianPermissionView)
+                  || R.attr.guardianPermissionView == null
+                  || R.attr.guardianPermissionView == ""
+
+              # allowedGroups: if non-empty, user must be in at least one
+              - expr: |
+                  !has(R.attr.allowedGroups)
+                  || size(R.attr.allowedGroups) == 0
+                  || R.attr.allowedGroups.exists(g, g in P.attr.groups)
