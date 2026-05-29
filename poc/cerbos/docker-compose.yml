@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+
+services:
+  cerbos:
+    image: ghcr.io/cerbos/cerbos:0.46.0
+    container_name: cerbos-poc
+    command: ["server", "--config=/config/cerbos.yaml"]
+    ports:
+      - "3592:3592"  # HTTP
+      - "3593:3593"  # gRPC
+    volumes:
+      - ./policies:/policies:ro
+      - ./cerbos.yaml:/config/cerbos.yaml:ro
