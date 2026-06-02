@@ -19,8 +19,6 @@ Pipeline per user:
   4. Union the two sets and print both halves plus the union.
 """
 
-from __future__ import annotations
-
 import os
 import sys
 from dataclasses import dataclass
