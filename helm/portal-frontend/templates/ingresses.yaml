@@ -61,7 +61,7 @@ spec:
             pathType: Exact
             backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
           - path: /$
-            pathType: Exact
+            pathType: ImplementationSpecific
             backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" "http" "context" .) | nindent 14 }}
           # /univention redirects
           - path: /univention
