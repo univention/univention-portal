@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.12](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.11...v0.94.12) (2026-06-03)
+
+
+### Bug Fixes
+
+* **portal-frontend:** use ImplementationSpecific pathType for the /$ ingress path ([f8ee948](https://git.knut.univention.de/univention/dev/projects/portal/commit/f8ee948a427830eb8b15aa02fd93315b95291894)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.94.11](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.10...v0.94.11) (2026-05-18)
 
 
