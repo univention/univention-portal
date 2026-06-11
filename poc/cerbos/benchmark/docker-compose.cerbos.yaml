@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+#
+# Benchmark stack A: Cerbos with the production univention-guardian
+# config (gRPC-only on :3593) and the PoC policies.
+#
+#   docker compose -f docker-compose.cerbos.yaml up -d
+
+services:
+  cerbos:
+    image: ghcr.io/cerbos/cerbos:0.46.0
+    container_name: cerbos-bench
+    command: ["server", "--config=/config/cerbos-bench.yaml"]
+    ports:
+      - "3593:3593"
+    volumes:
+      - ../policies:/policies:ro
+      - ./cerbos-bench.yaml:/config/cerbos-bench.yaml:ro

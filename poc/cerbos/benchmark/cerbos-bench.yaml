@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+#
+# Production Cerbos config as shipped by univention-guardian
+# (guardian repo: univention-guardian/conffiles/usr/share/
+#  univention-guardian-server/config/config.yaml), UCR header stripped.
+# gRPC-only, audit disabled (no audit section), telemetry off.
+
+# https://docs.cerbos.dev/cerbos/latest/configuration/index.html
+
+server:
+  grpcListenAddr: ":3593"
+  playgroundEnabled: false
+  apiExplorerEnabled: false
+  requestLimits:
+    maxActionsPerResource: 100
+    maxResourcesPerRequest: 50
+
+storage:
+  driver: "disk"
+  disk:
+    directory: "/policies"
+    watchForChanges: true
+
+schema:
+  enforcement: reject
+
+telemetry:
+  disabled: true

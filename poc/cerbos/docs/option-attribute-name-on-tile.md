@@ -69,6 +69,15 @@ carries the field:
         && P.attr[R.attr.requiredUserAttribute] == true
 ```
 
+```python
+resource.attr.requiredUserAttribute = "nextcloudEnabled"
+
+key = resource.attr.requiredUserAttribute
+
+assert principal.attr[key] == True
+assert principal.attr["nextcloudEnabled"] == True
+```
+
 Adding a tile for a new app: zero policy edits. The admin sets
 `requiredUserAttribute: "<flag-name>"` on the tile.
 

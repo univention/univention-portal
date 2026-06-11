@@ -1,0 +1,1238 @@
+[
+  {
+    "dn": "cn=self-service-password-change,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Users,cn=groups,dc=swp-ldap,dc=internal"
+      ],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:03",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Ihr Passwort ändern",
+        "en_US": "Change your password"
+      },
+      "displayName": {
+        "de_DE": "Ihr Passwort ändern",
+        "en_US": "Change your password"
+      },
+      "entryCSN": "20260526081303.508493Z#000000#001#000000",
+      "entryUUID": "7660ea30-ed26-1040-834d-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#/selfservice/passwordchange"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:03",
+      "name": "self-service-password-change",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "9e31d992-7ae3-43ea-99b7-402b1dcdc57d"
+    }
+  },
+  {
+    "dn": "cn=univentionforum,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:05",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Univention Forum (Hilfe)",
+        "en_US": "Univention Forum (Help)",
+        "fr_FR": "Forum Univention (Aide)"
+      },
+      "displayName": {
+        "de_DE": "Univention Forum (Hilfe)",
+        "en_US": "Univention Forum (Help)",
+        "fr_FR": "Forum Univention (Aide)"
+      },
+      "entryCSN": "20260526081305.325782Z#000000#001#000000",
+      "entryUUID": "777635f6-ed26-1040-8350-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://help.univention.com"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:05",
+      "name": "univentionforum",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "c14e8e89-1a83-48ff-bf61-e2552c16cd85"
+    }
+  },
+  {
+    "dn": "cn=univentionfeedback,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:05",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Feedback",
+        "en_US": "Feedback",
+        "fr_FR": "Impressions"
+      },
+      "displayName": {
+        "de_DE": "Feedback",
+        "en_US": "Feedback",
+        "fr_FR": "Impressions"
+      },
+      "entryCSN": "20260526081305.574092Z#000000#001#000000",
+      "entryUUID": "779c1988-ed26-1040-8353-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://www.univention.com/feedback/?umc=portal"
+        ],
+        [
+          "de_DE",
+          "https://www.univention.de/produkt-feedback/?umc=portal"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:05",
+      "name": "univentionfeedback",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "8cbb7e7e-163c-47f5-8f7f-fa5f1e999135"
+    }
+  },
+  {
+    "dn": "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:05",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "News, Tipps und Best Practices",
+        "en_US": "News, tips and best practices",
+        "fr_FR": "Nouvelles, conseils et bonne pratique"
+      },
+      "displayName": {
+        "de_DE": "Univention Blog",
+        "en_US": "Univention Blog",
+        "fr_FR": "Univention Blog"
+      },
+      "entryCSN": "20260526081305.808525Z#000000#001#000000",
+      "entryUUID": "77bfdeea-ed26-1040-8356-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://www.univention.com/news/blog-en"
+        ],
+        [
+          "de_DE",
+          "https://www.univention.de/news/blog-de"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:05",
+      "name": "univentionblog",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "f4638fdd-aaa8-492b-9c9c-400dfbd55148"
+    }
+  },
+  {
+    "dn": "cn=univentionwebsite,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:06",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Univention Webseite",
+        "en_US": "Univention Website",
+        "fr_FR": "Site Internet Univention"
+      },
+      "displayName": {
+        "de_DE": "Univention Webseite",
+        "en_US": "Univention Website",
+        "fr_FR": "Site Internet Univention"
+      },
+      "entryCSN": "20260526081306.053193Z#000000#001#000000",
+      "entryUUID": "77e53474-ed26-1040-8359-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://www.univention.com"
+        ],
+        [
+          "de_DE",
+          "https://www.univention.de"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:06",
+      "name": "univentionwebsite",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "380e9be4-f20b-4baa-8d76-3c06f8032d24"
+    }
+  },
+  {
+    "dn": "cn=keycloak,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Admins,cn=groups,dc=swp-ldap,dc=internal"
+      ],
+      "anonymous": false,
+      "backgroundColor": "None",
+      "createTimestamp": "2026-05-26T08:13:06",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Keycloak",
+        "en_US": "Keycloak",
+        "fr_FR": "Keycloak"
+      },
+      "displayName": {
+        "de_DE": "Keycloak",
+        "en_US": "Keycloak",
+        "fr_FR": "Keycloak"
+      },
+      "entryCSN": "20260526081306.318163Z#000000#001#000000",
+      "entryUUID": "780da2ba-ed26-1040-835c-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://id.guardian-hackathon.univention.dev/admin/"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:06",
+      "name": "keycloak",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "8ce00cd7-0a02-4e31-84e8-af59ce5e8cda"
+    }
+  },
+  {
+    "dn": "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": true,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:06",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Univention Management Console zur Ver­wal­tung der UCS-Domäne und des lokalen Systems",
+        "en_US": "Univention Management Console for admin­is­tra­ting the UCS domain and the local system",
+        "fr_FR": "Console de gestion Univention pour admin­is­trer le domaine UCS et le système local"
+      },
+      "displayName": {
+        "de_DE": "System- und Domäneneinstellungen",
+        "en_US": "System and domain settings",
+        "fr_FR": "Réglages du système et du domaine"
+      },
+      "entryCSN": "20260526081306.816483Z#000000#001#000000",
+      "entryUUID": "7859ac82-ed26-1040-8362-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "/univention/management/"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:06",
+      "name": "umc-domain",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "9d7f2355-bffe-4855-8b3e-f69404c37e42"
+    }
+  },
+  {
+    "dn": "cn=login-ucs,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": false,
+      "allowedGroups": [],
+      "anonymous": true,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:07",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Am Portal anmelden",
+        "en_US": "Log in to the portal",
+        "fr_FR": "Connectez-vous au portail"
+      },
+      "displayName": {
+        "de_DE": "Anmelden",
+        "en_US": "Login",
+        "fr_FR": "Connexion"
+      },
+      "entryCSN": "20260526081307.062077Z#000000#001#000000",
+      "entryUUID": "787f25e8-ed26-1040-8365-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "/univention/login/?location=/univention/portal/"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:07",
+      "name": "login-ucs",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "98762146-2d26-4d9a-8a3b-a32ba2943cc7"
+    }
+  },
+  {
+    "dn": "cn=login-saml,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": false,
+      "allowedGroups": [],
+      "anonymous": true,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:07",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Am Portal über SAML anmelden",
+        "en_US": "Log in to the portal via SAML",
+        "fr_FR": "Connectez-vous au portail via SAML"
+      },
+      "displayName": {
+        "de_DE": "Anmelden (SAML Single Sign-on)",
+        "en_US": "Login (SAML Single sign-on)",
+        "fr_FR": "Connexion (SAML authentification unique)"
+      },
+      "entryCSN": "20260526082159.542776Z#000000#001#000000",
+      "entryUUID": "78a8572e-ed26-1040-8368-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "/univention/saml/?location=/univention/portal/"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:21:59",
+      "name": "login-saml",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "74d00f58-b44f-46bb-bcf5-d13c0e8ded81"
+    }
+  },
+  {
+    "dn": "cn=login-oidc,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": true,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:07",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Am Portal über OIDC anmelden",
+        "en_US": "Log in to the portal via OIDC",
+        "fr_FR": "Connectez-vous au portail via OIDC"
+      },
+      "displayName": {
+        "de_DE": "Anmelden (Single Sign-on)",
+        "en_US": "Login (Single sign-on)",
+        "fr_FR": "Connexion (authentification unique)"
+      },
+      "entryCSN": "20260526081307.547734Z#000000#001#000000",
+      "entryUUID": "78c940e2-ed26-1040-836b-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "/univention/oidc/?location=/univention/portal/"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:07",
+      "name": "login-oidc",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "1c68761b-c174-4b25-a1ec-f9d5295bfa00"
+    }
+  },
+  {
+    "dn": "cn=root-cert,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:08",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Wurzelzertifikat",
+        "en_US": "Root certificate",
+        "fr_FR": "Certificat racine"
+      },
+      "displayName": {
+        "de_DE": "Wurzelzertifikat",
+        "en_US": "Root certificate",
+        "fr_FR": "Certificat racine"
+      },
+      "entryCSN": "20260526081308.386789Z#000000#001#000000",
+      "entryUUID": "79494878-ed26-1040-8374-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "/ucs-root-ca.crt"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:08",
+      "name": "root-cert",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "de78bee6-531c-48ce-913e-3714ca03ddb6"
+    }
+  },
+  {
+    "dn": "cn=certificate-revocation,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:08",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Zertifikat-Sperrliste",
+        "en_US": "Certificate revocation list",
+        "fr_FR": "Liste de révocation de certificats"
+      },
+      "displayName": {
+        "de_DE": "Zertifikat-Sperrliste",
+        "en_US": "Certificate revocation list",
+        "fr_FR": "Liste de révocation de certificats"
+      },
+      "entryCSN": "20260526081308.651886Z#000000#001#000000",
+      "entryUUID": "7971bbdc-ed26-1040-8377-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "/ucsCA.crl"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:08",
+      "name": "certificate-revocation",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "627b7f90-9aec-4360-b6a4-c68d96c39fe1"
+    }
+  },
+  {
+    "dn": "cn=self-service-my-profile,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:34",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Profil verwalten",
+        "en_US": "Manage profile"
+      },
+      "displayName": {
+        "de_DE": "Mein Profil",
+        "en_US": "My Profile"
+      },
+      "entryCSN": "20260526081334.785295Z#000000#001#000000",
+      "entryUUID": "89056030-ed26-1040-83fd-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#/selfservice/profile"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:34",
+      "name": "self-service-my-profile",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "b5c87640-1a81-4321-aa57-65a341861bf4"
+    }
+  },
+  {
+    "dn": "cn=self-service-protect-account,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:35",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Kontozugang schützen",
+        "en_US": "Protect your account"
+      },
+      "displayName": {
+        "de_DE": "Kontozugang schützen",
+        "en_US": "Protect your account"
+      },
+      "entryCSN": "20260526081335.243787Z#000000#001#000000",
+      "entryUUID": "894b55fe-ed26-1040-8403-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#/selfservice/protectaccount"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:35",
+      "name": "self-service-protect-account",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "8351919f-f63d-42ff-ac45-544461e4986e"
+    }
+  },
+  {
+    "dn": "cn=self-service-password-forgotten,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": true,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:13:35",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Passwort vergessen",
+        "en_US": "Password forgotten"
+      },
+      "displayName": {
+        "de_DE": "Passwort vergessen",
+        "en_US": "Password forgotten"
+      },
+      "entryCSN": "20260526081335.509734Z#000000#001#000000",
+      "entryUUID": "8973ea96-ed26-1040-8406-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#/selfservice/passwordforgotten"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:35",
+      "name": "self-service-password-forgotten",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "45c89523-380e-49a4-8e62-f40f03608357"
+    }
+  },
+  {
+    "dn": "cn=twofaSelfservice,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": false,
+      "allowedGroups": [
+        "cn=Domain Admin,cn=groups,dc=swp-ldap,dc=internal",
+        "cn=Domain Users,cn=groups,dc=swp-ldap,dc=internal"
+      ],
+      "anonymous": false,
+      "backgroundColor": "#F6AA42",
+      "createTimestamp": "2026-05-26T08:13:41",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "2FA Settings Verwalten",
+        "en_US": "Manage 2FA Settings"
+      },
+      "displayName": {
+        "de_DE": "2FA Selfservice",
+        "en_US": "2FA Selfservice"
+      },
+      "entryCSN": "20260526081341.323954Z#000000#001#000000",
+      "entryUUID": "8ceb1884-ed26-1040-8424-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://portal.guardian-hackathon.univention.dev/univention/2fa/self-service"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:41",
+      "name": "twofaSelfservice",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "a6fbe873-a231-4b71-9081-3dc0e6ef9a0c"
+    }
+  },
+  {
+    "dn": "cn=twofaAdmin,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Admins,cn=groups,dc=swp-ldap,dc=internal"
+      ],
+      "anonymous": false,
+      "backgroundColor": "#F6AA42",
+      "createTimestamp": "2026-05-26T08:13:41",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "2FA Settings Verwalten",
+        "en_US": "Manage 2FA Settings"
+      },
+      "displayName": {
+        "de_DE": "2FA Admin Helpdesk",
+        "en_US": "2FA Admin Helpdesk"
+      },
+      "entryCSN": "20260526081341.755347Z#000000#001#000000",
+      "entryUUID": "8d2cebe2-ed26-1040-8428-25eae1d51972",
+      "guardianPermissionView": null,
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://portal.guardian-hackathon.univention.dev/univention/2fa/admin"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "cn=admin,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:13:41",
+      "name": "twofaAdmin",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "092b84b7-bc5b-4c76-8461-32e3513b2b17"
+    }
+  },
+  {
+    "dn": "cn=tile11,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:24",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 11",
+        "en_US": "Test tile Tile 11"
+      },
+      "displayName": {
+        "de_DE": "Tile 11",
+        "en_US": "Tile 11"
+      },
+      "entryCSN": "20260526081724.739888Z#000000#001#000000",
+      "entryUUID": "1215a966-ed27-1040-8433-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-11",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:24",
+      "name": "tile11",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "f1eea6f6-1df8-4a16-8209-976be91b94f2"
+    }
+  },
+  {
+    "dn": "cn=tile12,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:24",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 12",
+        "en_US": "Test tile Tile 12"
+      },
+      "displayName": {
+        "de_DE": "Tile 12",
+        "en_US": "Tile 12"
+      },
+      "entryCSN": "20260526081724.956396Z#000000#001#000000",
+      "entryUUID": "1236b2c8-ed27-1040-8436-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-12",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:24",
+      "name": "tile12",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "353c2d11-1dbf-44c4-a006-d12dd2adaeb0"
+    }
+  },
+  {
+    "dn": "cn=tile13,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:25",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 13",
+        "en_US": "Test tile Tile 13"
+      },
+      "displayName": {
+        "de_DE": "Tile 13",
+        "en_US": "Tile 13"
+      },
+      "entryCSN": "20260526081725.170384Z#000000#001#000000",
+      "entryUUID": "125759b0-ed27-1040-8439-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-13",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:25",
+      "name": "tile13",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "4bf341d4-66e6-4410-bbca-99a4239692e4"
+    }
+  },
+  {
+    "dn": "cn=tile21,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:25",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 21",
+        "en_US": "Test tile Tile 21"
+      },
+      "displayName": {
+        "de_DE": "Tile 21",
+        "en_US": "Tile 21"
+      },
+      "entryCSN": "20260526081725.405443Z#000000#001#000000",
+      "entryUUID": "127b37e0-ed27-1040-843c-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-21",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:25",
+      "name": "tile21",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "bbe00f6c-46cd-4132-95cd-a8b571406fcd"
+    }
+  },
+  {
+    "dn": "cn=tile22,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:25",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 22",
+        "en_US": "Test tile Tile 22"
+      },
+      "displayName": {
+        "de_DE": "Tile 22",
+        "en_US": "Tile 22"
+      },
+      "entryCSN": "20260526081725.610198Z#000000#001#000000",
+      "entryUUID": "129a75ec-ed27-1040-843f-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-22",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:25",
+      "name": "tile22",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "1f9ef349-965e-4d4b-80de-281ad6dba186"
+    }
+  },
+  {
+    "dn": "cn=tile23,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:25",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 23",
+        "en_US": "Test tile Tile 23"
+      },
+      "displayName": {
+        "de_DE": "Tile 23",
+        "en_US": "Tile 23"
+      },
+      "entryCSN": "20260526081725.818155Z#000000#001#000000",
+      "entryUUID": "12ba3116-ed27-1040-8442-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-23",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:25",
+      "name": "tile23",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "383361f9-b048-4293-9e2b-6801dc11066b"
+    }
+  },
+  {
+    "dn": "cn=tile31,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:26",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 31",
+        "en_US": "Test tile Tile 31"
+      },
+      "displayName": {
+        "de_DE": "Tile 31",
+        "en_US": "Tile 31"
+      },
+      "entryCSN": "20260526081726.068112Z#000000#001#000000",
+      "entryUUID": "12e05526-ed27-1040-8445-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-31",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:26",
+      "name": "tile31",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "89c02c39-60bb-4767-9b7a-70a22371f164"
+    }
+  },
+  {
+    "dn": "cn=tile32,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:26",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 32",
+        "en_US": "Test tile Tile 32"
+      },
+      "displayName": {
+        "de_DE": "Tile 32",
+        "en_US": "Tile 32"
+      },
+      "entryCSN": "20260526081726.258610Z#000000#001#000000",
+      "entryUUID": "12fd667a-ed27-1040-8448-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-32",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:26",
+      "name": "tile32",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "dbcae0af-cff7-4b75-bf19-70b9344f87d9"
+    }
+  },
+  {
+    "dn": "cn=tile33,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:17:26",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Test-Kachel Tile 33",
+        "en_US": "Test tile Tile 33"
+      },
+      "displayName": {
+        "de_DE": "Tile 33",
+        "en_US": "Tile 33"
+      },
+      "entryCSN": "20260526081726.448782Z#000000#001#000000",
+      "entryUUID": "131a6b12-ed27-1040-844b-25eae1d51972",
+      "guardianPermissionView": "univention-portal:portal:access-service-33",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "#"
+        ]
+      ],
+      "linkTarget": "samewindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:17:26",
+      "name": "tile33",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "ccf6a64b-0713-4a64-a390-ce7dda5c1864"
+    }
+  },
+  {
+    "dn": "cn=ox_mail,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [
+        "cn=Domain Users,cn=groups,dc=swp-ldap,dc=internal"
+      ],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:28:46",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "E-Mails senden und empfangen",
+        "en_US": "Send and receive emails"
+      },
+      "displayName": {
+        "de_DE": "Open-Xchange",
+        "en_US": "Open-Xchange"
+      },
+      "entryCSN": "20260526090706.637171Z#000000#001#000000",
+      "entryUUID": "a88631e4-ed28-1040-8dc6-bb87354a5072",
+      "guardianPermissionView": "univention-portal:portal:view-ox-tile",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://ox.example.test/appsuite/#app=io.ox/mail"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T09:07:06",
+      "name": "ox_mail",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "9b8c584b-abbe-462e-8bc4-e12d70ed37c3"
+    }
+  },
+  {
+    "dn": "cn=nextcloud,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": false,
+      "allowedGroups": [
+        "cn=Domain Admin,cn=groups,dc=swp-ldap,dc=internal",
+        "cn=Domain Users,cn=groups,dc=swp-ldap,dc=internal"
+      ],
+      "anonymous": false,
+      "backgroundColor": "#ffffff",
+      "createTimestamp": "2026-05-26T08:28:59",
+      "creatorsName": "cn=admin,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Dateien verwalten, bearbeiten und teilen",
+        "en_US": "Manage, edit and share files"
+      },
+      "displayName": {
+        "de_DE": "Nextcloud",
+        "en_US": "Nextcloud"
+      },
+      "entryCSN": "20260602114756.614368Z#000000#001#000000",
+      "entryUUID": "aff3ccf2-ed28-1040-8de3-bb87354a5072",
+      "guardianPermissionView": "univention-portal:portal:view-nextcloud-tile",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://nextcloud.example.test/apps/files"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "uid=administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-06-02T11:47:56",
+      "name": "nextcloud",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "f5b79e4d-2bbd-4601-9e90-0ae7a8bed6f1"
+    }
+  },
+  {
+    "dn": "cn=moodle,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:30:55",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Moodle Lernplattform",
+        "en_US": "Moodle Learning Platform"
+      },
+      "displayName": {
+        "de_DE": "Moodle",
+        "en_US": "Moodle"
+      },
+      "entryCSN": "20260526083055.172703Z#000000#001#000000",
+      "entryUUID": "f523e53c-ed28-1040-8deb-bb87354a5072",
+      "guardianPermissionView": "univention-portal:portal:access-moodle",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://moodle.example.com"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:30:55",
+      "name": "moodle",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "3c52d019-f252-4117-82de-0c64b24a6a1d"
+    }
+  },
+  {
+    "dn": "cn=itslearning,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:30:55",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "itslearning Lernmanagementsystem-Connector",
+        "en_US": "itslearning Learning Management System Connector"
+      },
+      "displayName": {
+        "de_DE": "itslearning LMS Connector",
+        "en_US": "itslearning LMS Connector"
+      },
+      "entryCSN": "20260526083055.374967Z#000000#001#000000",
+      "entryUUID": "f542c236-ed28-1040-8dee-bb87354a5072",
+      "guardianPermissionView": "univention-portal:portal:access-itslearning",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://itslearning.example.com"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:30:55",
+      "name": "itslearning",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "5f3ba1de-f7fd-4be7-8330-afb78cb84195"
+    }
+  },
+  {
+    "dn": "cn=sofatutor,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:30:55",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "sofatutor Online-Lernen",
+        "en_US": "sofatutor Online Learning"
+      },
+      "displayName": {
+        "de_DE": "sofatutor",
+        "en_US": "sofatutor"
+      },
+      "entryCSN": "20260526083055.604463Z#000000#001#000000",
+      "entryUUID": "f565c6d2-ed28-1040-8df1-bb87354a5072",
+      "guardianPermissionView": "univention-portal:portal:access-sofatutor",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://sofatutor.example.com"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:30:55",
+      "name": "sofatutor",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "9d86b368-1386-44c5-9501-316943a29226"
+    }
+  },
+  {
+    "dn": "cn=veyon,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:30:55",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "Veyon Klassenraumverwaltungs-Proxy",
+        "en_US": "Veyon Classroom Management Proxy"
+      },
+      "displayName": {
+        "de_DE": "Veyon Proxy",
+        "en_US": "Veyon Proxy"
+      },
+      "entryCSN": "20260526083055.799469Z#000000#001#000000",
+      "entryUUID": "f5838866-ed28-1040-8df4-bb87354a5072",
+      "guardianPermissionView": "univention-portal:portal:access-veyon",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://veyon.example.com"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:30:55",
+      "name": "veyon",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "da67c1ef-9dd6-479a-86f0-3b45af6a0ee1"
+    }
+  },
+  {
+    "dn": "cn=teacher-documentation,cn=entry,cn=portals,cn=univention,dc=swp-ldap,dc=internal",
+    "properties": {
+      "activated": true,
+      "allowedGroups": [],
+      "anonymous": false,
+      "backgroundColor": null,
+      "createTimestamp": "2026-05-26T08:30:56",
+      "creatorsName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "description": {
+        "de_DE": "UCS@school Dokumentation für Lehrkräfte",
+        "en_US": "UCS@school Documentation for Teachers"
+      },
+      "displayName": {
+        "de_DE": "Dokumentation für Lehrkräfte",
+        "en_US": "Documentation for Teacher"
+      },
+      "entryCSN": "20260526083056.035874Z#000000#001#000000",
+      "entryUUID": "f5a79af8-ed28-1040-8df7-bb87354a5072",
+      "guardianPermissionView": "univention-portal:portal:access-documentation",
+      "keywords": {},
+      "link": [
+        [
+          "en_US",
+          "https://docs.software-univention.de/ucsschool-teachers/latest/de/index.html"
+        ]
+      ],
+      "linkTarget": "newwindow",
+      "modifiersName": "uid=Administrator,cn=users,dc=swp-ldap,dc=internal",
+      "modifyTimestamp": "2026-05-26T08:30:56",
+      "name": "teacher-documentation",
+      "objectFlag": [],
+      "target": null,
+      "univentionObjectIdentifier": "a821a582-de68-4e01-8aa2-fbed6977474c"
+    }
+  }
+]

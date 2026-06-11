@@ -1,0 +1,57 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+#
+# Benchmark stack B: Guardian Authorization API + OPA, with the bundles
+# downloaded from the guardian-hackathon deployment (see bundles/).
+#
+#   docker compose -f docker-compose.guardian.yaml up -d
+#
+# - OPA: upstream static image pinned to 1.11.0 — the exact version the
+#   deployed guardian OPA image (3.0.9) runs (verified via
+#   `kubectl exec ... -- opa version`). Bundles load from disk; no
+#   Management API, no polling. `--v0-compatible` matches the guardian
+#   OPA entrypoint (the Rego is v0 syntax).
+# - authorization-api: the deployed image, 1 gunicorn/uvicorn worker
+#   (image default). Auth disabled, no Keycloak, no UDM (the benchmark
+#   only calls the non-lookup /permissions endpoint; the UDM_* values
+#   are required at adapter registration but never used).
+
+services:
+  opa:
+    image: openpolicyagent/opa:1.11.0-static
+    container_name: opa-bench
+    command:
+      - run
+      - --disable-telemetry
+      - --server
+      - --v0-compatible
+      - --addr
+      - 0.0.0.0:8181
+      - /bundles/GuardianPolicyBundle.tar.gz
+      - /bundles/GuardianDataBundle.tar.gz
+    volumes:
+      - ./bundles:/bundles:ro
+    ports:
+      - "8181:8181"  # handy for an opa-direct side run; not used by bench.py
+
+  authorization-api:
+    image: artifacts.software-univention.de/nubus/images/guardian-authorization-api-authorization-api:3.0.9
+    container_name: authz-api-bench
+    depends_on:
+      - opa
+    environment:
+      # gunicorn worker count (image default: 1). For the saturation
+      # scenario: GUARDIAN_WORKERS=8 docker compose -f ... up -d
+      WEB_CONCURRENCY: ${GUARDIAN_WORKERS:-1}
+      GUARDIAN__AUTHZ__ADAPTER__SETTINGS_PORT: env
+      GUARDIAN__AUTHZ__ADAPTER__POLICY_PORT: opa
+      GUARDIAN__AUTHZ__ADAPTER__PERSISTENCE_PORT: udm_data
+      GUARDIAN__AUTHZ__ADAPTER__AUTHENTICATION_PORT: fast_api_always_authorized
+      GUARDIAN__AUTHZ__LOGGING__LEVEL: WARNING
+      GUARDIAN__AUTHZ__LOGGING__STRUCTURED: "0"
+      OPA_ADAPTER__URL: http://opa:8181/
+      UDM_DATA_ADAPTER__URL: http://never-called.invalid/udm/
+      UDM_DATA_ADAPTER__USERNAME: unused
+      UDM_DATA_ADAPTER__PASSWORD: unused
+    ports:
+      - "8000:8000"
