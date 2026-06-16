@@ -35,30 +35,30 @@ Run date: 2026-06-11.
 | | p50 | p90 | p99 | mean | sequential req/s |
 |---|---|---|---|---|---|
 | **OPA-Guardian** (HTTP, actor-only + portal-side matching) | **3.7 ms** | 5.1 ms | 6.7 ms | 3.9 ms | ~257 |
-| **Cerbos 0.46.0** (gRPC, 33 tiles as resources; version shipped by univention-guardian) | **12.1 ms** | 21.6 ms | 25.2 ms | 14.2 ms | ~71 |
-| **Cerbos 0.53.0** (same job, current upstream) | **4.4 ms** | 5.3 ms | 7.2 ms | 4.6 ms | ~219 |
+| **Cerbos 0.46.0** (gRPC, 33 tiles as resources; older image, not deployed) | **12.1 ms** | 21.6 ms | 25.2 ms | 14.2 ms | ~71 |
+| **Cerbos 0.53.0** (same job, the version Nubus ships) | **4.4 ms** | 5.3 ms | 7.2 ms | 4.6 ms | ~219 |
 | **OPA-Guardian targets** (what-if: Cerbos-style, 33 tiles as targets) | **11.3 ms** | 16.9 ms | 22.3 ms | 12.0 ms | ~84 |
 
-**Against the shipped Cerbos 0.46.0, the OPA-Guardian job is ~3×
-faster at the real portal size of 33 tiles** — despite Guardian being
-a Python FastAPI hop in front of OPA over HTTP/JSON, and Cerbos being
-a single Go server spoken to over gRPC. The reason is the integration
-shape, not engine quality: Guardian's request carries only the actor
-and its evaluation cost is constant in tile count, while Cerbos
-receives and evaluates all 33 tiles per request (~0.3 ms per tile on
-0.46, see attribution below).
+Latency is low across all four (4 to 12 ms) but sits in the critical
+path, on top of the 30 to 50 ms UDM user fetch. The differences are
+real and they favour Cerbos at equal work.
 
-**Against Cerbos 0.53.0 the gap disappears** (4.4 vs 3.7 ms, plus ~10×
-saturation throughput vs 0.46): upstream fixed the dominant CPU
-hotspot — per-evaluation CEL program re-planning — in 0.51.0. See the
-version-sensitivity section. univention-guardian ships 0.46.0.
+**At equal work** (full user plus all 33 tile objects in one request,
+the PDP or OPA gating each tile) **OPA-Guardian costs ~11.3 ms vs
+Cerbos 0.53's 4.4 ms.** Cerbos is ~2.5 to 3x faster doing the same job,
+and ~2.6x more CPU-efficient (see "Saturation and CPU per job"), even
+though it is reached over gRPC while Guardian is a FastAPI hop over
+HTTP. This is integration shape, not engine quality.
 
-The guardian-targets row proves the shape-not-engine point directly:
-the same Guardian stack asked the **Cerbos-shaped question** (full
-user + all 33 tile objects in one request, per-tile conditions
-evaluated in OPA) lands at Cerbos 0.46's wall-clock latency — while
-using **~6× less CPU per job** (see the what-if section) — yet is
-~2.5× slower than Cerbos 0.53 at the same question.
+Today's actor-only Guardian integration is faster still (3.7 ms) only
+because it does less: a constant actor-only query plus portal-side
+string matching. No per-tile rules, no CEL, far less expressive.
+
+**Cerbos 0.46 (12.1 ms) is an older image, not deployed** (the initial
+run used it by mistake). It is kept for contrast: the 0.51 CEL
+program-caching fix took the same per-tile job from 12.1 ms to 4.4 ms
+and ~16x its throughput (version-sensitivity section). Nubus ships
+0.53.
 
 ## Full runs
 
@@ -260,15 +260,9 @@ day apart).
 | **0.53.0** (3 runs: 4.43/4.39/4.38) | **4.4** | 5.3 | 7.2 | 4.6 ± 0.6 | ~219 |
 
 **2.7× faster, bimodality gone** (stddev ±0.6 vs ±4.4), and the
-saturation ceiling moved by an order of magnitude:
-
-| c | 0.46 p50 / rps | 0.53 p50 / rps |
-|---|---|---|
-| 4 | 49.3 ms / 81 | 4.5 ms / **847** |
-| 8 | 98.6 ms / 80 | 7.9 ms / **977**¹ |
-
-¹ at c=8 the Python harness burns 1.37 cores — the client, not Cerbos,
-is approaching its limit; the real server ceiling is higher.
+saturation ceiling moved by an order of magnitude (full sweep, the
+multi-process ceiling and CPU-per-job are in "Saturation and CPU per
+job (Cerbos 0.53)" below).
 
 The policy-variant probe confirms *what* got fixed: on 0.53 the
 original 5-rule policy (4.43 ms), one-condition (4.66 ms) and
@@ -291,15 +285,71 @@ Consequences for the comparison:
 - The guardian-targets what-if (11.3 ms) is now ~2.5× *slower* than
   Cerbos 0.53 answering the same per-tile question.
 - The 0.46-based CPU-per-job figures (~120 ms, "~20× more than
-  Guardian") do not apply to 0.53. CPU per job was not re-measured
-  (no `docker stats` snapshot for these runs), but the ~12×
-  throughput jump on the same hardware bounds it at roughly an order
-  of magnitude lower.
-- **univention-guardian currently ships 0.46.0** — if Cerbos is
-  chosen, upgrading the shipped version is the single cheapest
-  performance win available.
+  Guardian") do not apply to 0.53. Re-measured: **~7.5 ms CPU per job**,
+  ~16× lower, and for the same per-tile job ~2.6× more CPU-efficient
+  than OPA-Guardian (see "Saturation and CPU per job").
+- **Nubus ships 0.53**, so the deployed numbers are the fast ones.
+  0.46 appears here only because the initial run used an outdated
+  image; it is not what runs in production.
 
 Raw data: `results.jsonl`, labels `v0.53-*`.
+
+## Saturation and CPU per job (Cerbos 0.53)
+
+Concurrency sweep, single client process, 30 s per level, 3 users
+round-robin (2026-06-16).
+
+| c | p50 | p99 | req/s | client cores |
+|---|---|---|---|---|
+| 1 | 2.05 | 4.5 | 451 | n/a |
+| 2 | 2.76 | 5.3 | 676 | 0.55 |
+| 4 | 4.02 | 7.6 | 921 | 1.04 |
+| 8 | 7.10 | 11.9 | 1114 | 1.36 |
+| 16 | 14.07 | 41.3 | 1027 | 1.35 |
+
+One Python client saturates its own GIL near c=8 (1.36 cores) and
+cannot drive Cerbos further: throughput peaks at ~1,100 req/s and c=16
+is slower, not faster. Several independent client processes (each c=8,
+no shared GIL) push higher until the host saturates (16 threads, client
+and server colocated):
+
+| client procs × c=8 | conns | total req/s | per-proc p50 |
+|---|---|---|---|
+| 1 | 8 | 1114 | 7.1 |
+| 2 | 16 | 1298 | 11.8 |
+| 3 | 24 | 1310–1384 | 16.6–17.6 |
+| 4 | 32 | 1165 | 26.8 |
+
+Throughput plateaus at ~1,300–1,400 req/s and then declines as latency
+climbs: the host is saturated.
+
+**CPU per job.** During a sustained single-process c=8 run (971 req/s,
+120 s), `docker stats` showed `cerbos-bench` at 714–740 % CPU
+(~7.3 cores) and 58 MiB RAM, with the client at 1.37 cores.
+
+> CPU per request ≈ 7.3 cores ÷ 971 req/s ≈ **7.5 ms of CPU per request.**
+
+| | 0.46 | 0.53 |
+|---|---|---|
+| CPU per job | ~120 ms | **~7.5 ms** |
+| saturation (single host) | ~80 req/s | **~1,300–1,400 req/s** |
+| RAM under load | not recorded | ~58 MiB |
+
+~16× less CPU per job and ~16× the throughput, both from the 0.51
+program-caching fix.
+
+**Versus OPA-Guardian at equal work.** The guardian-targets what-if
+(same per-tile job on OPA) cost ~20 ms of CPU per job (sequential
+probe, what-if section). So for identical work Cerbos 0.53 is both
+faster (4.4 vs 11.3 ms wall) and ~2.6× more CPU-efficient (~7.5 vs
+~20 ms CPU per job). The actor-only Guardian path, which does less, was
+~5 ms CPU per job.
+
+Caveat: client and Cerbos share the 16-thread host, so the absolute
+saturation ceiling understates a dedicated-server deployment.
+CPU-per-job is unaffected (it is server CPU divided by its own
+throughput). Raw data: `results.jsonl`, labels `v0.53-sat`, `v0.53-mp*`,
+`v0.53-cpuprobe`.
 
 ## Rule-count scaling (Cerbos 0.53.0)
 
@@ -332,8 +382,8 @@ conditioned rule at +2.1 ms across 33 resources (0.064 ms/eval) — ~100×
 the 0.53 per-eval cost, the direct signature of the per-evaluation CEL
 re-planning that 0.51.0 fixed. Extrapolated, ~28 worst-case rules on
 0.46 would have been tens of ms per request; 100 rules well over
-100 ms. The toy-scale caveat was a real risk on the shipped version and
-is neutralised by the upgrade.
+100 ms. The toy-scale caveat would have been a real risk on 0.46, but
+the shipped 0.53 neutralises it.
 
 Two honesty notes:
 - The synthetic conditions are a single `==` that short-circuits, the
@@ -372,14 +422,14 @@ Two honesty notes:
    what Cerbos buys is CEL expressiveness (e.g. `startsWith`,
    arbitrary expressions) versus Guardian's fixed builtin-condition
    vocabulary, plus the policy-authoring model around it.
-6. **Points 1–5 describe Cerbos 0.46.0** — the version
-   univention-guardian ships. On 0.53.0 (version-sensitivity section)
-   the Cerbos job drops to 4.4 ms / ~850+ rps: latency-parity with the
-   actor-only Guardian integration and ~2.5× faster than
-   guardian-targets at the same per-tile question. The performance
-   argument between the two engines largely dissolves on a current
-   Cerbos; what remains is the integration-shape and expressiveness
-   trade.
+6. **Points 1 to 5 describe Cerbos 0.46.0, an older image (not
+   deployed).** Nubus ships 0.53.0, where (version-sensitivity section)
+   the Cerbos job is 4.4 ms at ~1,300 req/s and ~7.5 ms CPU per request:
+   latency-parity with the actor-only Guardian integration, and faster
+   plus more CPU-efficient than guardian-targets at the same per-tile
+   question. The performance argument between the two engines largely
+   dissolves on the shipped Cerbos; what remains is the integration-shape
+   and expressiveness trade.
 
 ## Environment
 
