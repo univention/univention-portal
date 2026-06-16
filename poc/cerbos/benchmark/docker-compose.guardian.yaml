@@ -11,6 +11,10 @@
 #   `kubectl exec ... -- opa version`). Bundles load from disk; no
 #   Management API, no polling. `--v0-compatible` matches the guardian
 #   OPA entrypoint (the Rego is v0 syntax).
+# - The data bundle line in the opa command switches the scenario
+#   (production mapping vs the Cerbos-style target-aware mapping built
+#   by make_targets_bundle.py) — see the comment there. Switching
+#   requires `docker compose ... up -d` again (recreates opa).
 # - authorization-api: the deployed image, 1 gunicorn/uvicorn worker
 #   (image default). Auth disabled, no Keycloak, no UDM (the benchmark
 #   only calls the non-lookup /permissions endpoint; the UDM_* values
@@ -28,7 +32,10 @@ services:
       - --addr
       - 0.0.0.0:8181
       - /bundles/GuardianPolicyBundle.tar.gz
-      - /bundles/GuardianDataBundle.tar.gz
+      # Data bundle selects the scenario — swap the line, `up -d` again:
+      #   GuardianDataBundle.tar.gz     -> bench.py guardian
+      #   CerbosStyleDataBundle.tar.gz  -> bench.py guardian-targets
+      - /bundles/CerbosStyleDataBundle.tar.gz
     volumes:
       - ./bundles:/bundles:ro
     ports:

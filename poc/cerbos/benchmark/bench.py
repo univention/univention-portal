@@ -15,6 +15,13 @@ and deployed in production:
             against the returned permission set is part of the timed
             window, because the portal really does it per render.
 
+  guardian-targets
+            WHAT-IF (not the production integration): the same Guardian
+            endpoint, but called Cerbos-style — actor plus all tiles as
+            full targets in one request; OPA evaluates per-tile target
+            conditions. Needs the Cerbos-style data bundle, see the
+            driver docstring.
+
 Timed window per request (identical structure for both drivers):
   pick user (round-robin) -> build/serialize request -> send ->
   receive -> parse -> visible-DN set.
@@ -142,6 +149,58 @@ class GuardianDriver:
 
 
 # ----------------------------------------------------------------------
+# Guardian targets driver (HTTP, hypothetical Cerbos-style integration)
+# ----------------------------------------------------------------------
+
+
+class GuardianTargetsDriver(GuardianDriver):
+    """
+    What-if scenario: Guardian called Cerbos-style. One request with
+    actor PLUS all tiles as full targets; OPA does the per-tile gating
+    via target conditions, no portal-side string matching.
+
+    Requires OPA to run with CerbosStyleDataBundle.tar.gz instead of
+    the production data bundle — swap the data-bundle line in
+    docker-compose.guardian.yaml and `up -d` again. (Sanity symptom of
+    the wrong bundle: decision sets all empty.)
+    """
+
+    name = "guardian-targets"
+    VIEW = {"app_name": "univention-portal", "namespace_name": "portal", "name": "view"}
+
+    def __init__(self, target: str, users: dict, entries: list):
+        super().__init__(target, users, entries)
+        targets = [
+            {
+                "old_target": {
+                    "id": e["dn"],
+                    "roles": [],
+                    "attributes": e["properties"],
+                },
+                "new_target": None,
+            }
+            for e in entries
+        ]
+        for body in self.bodies.values():
+            body["targets"] = targets
+            body["include_general_permissions"] = False
+
+    def request(self, uname: str) -> set[str]:
+        body = json.dumps(self.bodies[uname])
+        r = self.client.post(
+            "/guardian/authorization/permissions",
+            content=body,
+            headers={"Content-Type": "application/json"},
+        )
+        r.raise_for_status()
+        return {
+            tp["target_id"]
+            for tp in r.json()["target_permissions"]
+            if self.VIEW in tp["permissions"]
+        }
+
+
+# ----------------------------------------------------------------------
 # Cerbos driver (gRPC, production config is gRPC-only)
 # ----------------------------------------------------------------------
 
@@ -215,7 +274,7 @@ class CerbosDriver:
         self.client.close()
 
 
-DRIVERS = {d.name: d for d in (GuardianDriver, CerbosDriver)}
+DRIVERS = {d.name: d for d in (GuardianDriver, GuardianTargetsDriver, CerbosDriver)}
 
 
 # ----------------------------------------------------------------------

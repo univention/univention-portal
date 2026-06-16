@@ -8,7 +8,9 @@
 
 services:
   cerbos:
-    image: ghcr.io/cerbos/cerbos:0.46.0
+    # 0.46.0 was the original benchmark version (matches what
+    # univention-guardian ships); 0.53.0 for the version-comparison runs.
+    image: ghcr.io/cerbos/cerbos:0.53.0
     container_name: cerbos-bench
     command: ["server", "--config=/config/cerbos-bench.yaml"]
     ports:

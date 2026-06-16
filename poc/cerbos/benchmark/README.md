@@ -39,15 +39,31 @@ uv run bench.py cerbos --label run1
 docker stats --no-stream cerbos-bench  # note CPU/mem
 docker compose -f docker-compose.cerbos.yaml down
 
-# --- Guardian
+# --- Guardian (production integration: actor-only general permissions)
 docker compose -f docker-compose.guardian.yaml up -d
 uv run bench.py guardian --sanity
 uv run bench.py guardian --label run1
 docker stats --no-stream authz-api-bench opa-bench
 docker compose -f docker-compose.guardian.yaml down
 
-# ... repeat both twice more (run2, run3)
+# --- Guardian targets (WHAT-IF: Cerbos-style, actor + all 33 tiles as
+#     targets in one request, per-tile gating inside OPA). Same images,
+#     but OPA must load bundles/CerbosStyleDataBundle.tar.gz (built by
+#     make_targets_bundle.py) instead of the production data bundle:
+#     swap the data-bundle line in docker-compose.guardian.yaml (see
+#     comment there), then:
+docker compose -f docker-compose.guardian.yaml up -d
+uv run bench.py guardian-targets --sanity
+uv run bench.py guardian-targets --label run1
+docker stats --no-stream authz-api-bench opa-bench
+docker compose -f docker-compose.guardian.yaml down
+
+# ... repeat all twice more (run2, run3)
 ```
+
+Don't mix up bundle and scenario: `guardian` against the Cerbos-style
+bundle (or `guardian-targets` against the production bundle) silently
+returns empty/near-empty decision sets — the sanity step catches it.
 
 Results accumulate in `results.jsonl` (one JSON object per run:
 p50/p90/p99/max/mean/stddev in ms, req/s, metadata).
@@ -77,6 +93,12 @@ exact OPA version the deployed guardian image runs.
   `guardian:builtin:super-admin` typically gets all marked tiles).
 - `cerbos`: tiles matching the PoC rules in `../policies/` (ox_mail for
   OX users, nextcloud for nextcloudEnabled, teacher tiles, tile*,
-  super-admin sees all).
+  super-admin sees all). Concretely: Administrator 33, student1 10
+  (ox_mail + tileNN), teacher1 5 (teacher tiles).
+- `guardian-targets`: must be **identical to the cerbos sets** — the
+  mapping in CerbosStyleDataBundle.tar.gz replicates the Cerbos rules
+  (verified). Any difference means the wrong data bundle is loaded.
 
-The two sets differ by design (OR-union model) — see the plan doc.
+`guardian` and `cerbos` sets differ by design (OR-union model) — see
+the plan doc. The `guardian-targets` scenario is a what-if: the portal
+does not call Guardian this way today; label it as such in results.

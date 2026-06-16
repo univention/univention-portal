@@ -3,7 +3,7 @@
 """
 Simulates portal tile visibility under the OR-union integration model:
 
-    visible = legacy_portal_allowed  ∪  cerbos_allowed
+    visible = legacy_portal_allowed  &  cerbos_allowed
 
 per user. Each system is queried independently; a tile is shown if either
 system approves. Cerbos can only add allows, never restrict.
@@ -27,6 +27,7 @@ from typing import Any
 import httpx
 from rich.console import Console
 from rich.table import Table
+
 
 # ----------------------------------------------------------------------
 # Configuration
@@ -139,7 +140,7 @@ def _sanitize_for_cerbos(value: Any) -> Any:
 def build_principal(user: UDMObject) -> dict[str, Any]:
     props = user.properties
     roles = list(props.get("guardianRoles") or []) + list(
-        props.get("guardianInheritedRoles") or []
+        props.get("guardianInheritedRoles") or [],
     )
     if not roles:
         # Cerbos requires at least one role on the principal.
@@ -215,7 +216,7 @@ def main() -> int:
         console.print(
             f"  {uname}: isOxUser={u.properties.get('isOxUser')!r:5s} "
             f"nextcloudEnabled={u.properties.get('nextcloudEnabled')!r:5s} "
-            f"roles={(u.properties.get('guardianRoles') or []) + (u.properties.get('guardianInheritedRoles') or [])!r}"
+            f"roles={(u.properties.get('guardianRoles') or []) + (u.properties.get('guardianInheritedRoles') or [])!r}",
         )
 
     resources = [build_resource(e) for e in entries]
@@ -243,7 +244,7 @@ def main() -> int:
         console.print(
             f"\n  [bold cyan]{uname}[/bold cyan]: "
             f"legacy={len(legacy)}  cerbos={len(cerbos_set)}  "
-            f"[bold]union={len(union)}[/bold]"
+            f"[bold]union={len(union)}[/bold]",
         )
         for dn in sorted(union, key=lambda d: by_dn[d].properties.get("name", "")):
             name = by_dn[dn].properties.get("name", "?")
