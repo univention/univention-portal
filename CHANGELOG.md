@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.94.13](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.12...v0.94.13) (2026-07-02)
+
+
+### Bug Fixes
+
+* **deps:** Bump brace-expansion to 1.1.13 / 2.0.3 (CVE-2026-33750) ([0ac035e](https://git.knut.univention.de/univention/dev/projects/portal/commit/0ac035e84d47d9aa9dd01b054d843987b75f1b2e)), closes [univention/dev/internal/team-nubus#1649](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1649)
+* **deps:** Security updates ([bfd7557](https://git.knut.univention.de/univention/dev/projects/portal/commit/bfd7557acbbf7bf5eabdde6425aafa4e3a78776a)), closes [univention/dev/internal/team-nubus#1649](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1649)
+* **deps:** Update yarn.lock for serialize-javascript bump ([0d4b6d9](https://git.knut.univention.de/univention/dev/projects/portal/commit/0d4b6d967d61fdc11c9962b46db6bbe057d97cff)), closes [univention/dev/internal/team-nubus#1649](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1649)
+* **portal-consumer:** replace apt python3-boto3 with pip boto3 (urllib3 2.x compat) ([a5544aa](https://git.knut.univention.de/univention/dev/projects/portal/commit/a5544aa42fc380a18622ffd059e49b68e5cc1767)), closes [univention/dev/internal/team-nubus#1649](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1649)
+
 ## [0.94.12](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.11...v0.94.12) (2026-06-03)
 
 
