@@ -22,6 +22,7 @@ spec:
       annotations:
         checksum/configmap: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
         checksum/branding-configmap: {{ include (print .Template.BasePath "/branding-configmap.yaml") . | sha256sum }}
+        checksum/configmap-scripts: {{ include (print .Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
         {{- if .Values.podAnnotations }}
         {{- include "common.tplvalues.render" (dict "value" .Values.podAnnotations "context" .) | nindent 8 }}
         {{- end }}
@@ -58,6 +59,30 @@ spec:
       {{- if .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
+      initContainers:
+        - name: "wait-for-udm-rest-api"
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
+          command: ["/bin/bash", "/scripts/wait-for-udm-rest-api.sh"]
+          image: "{{ coalesce .Values.waitForDependency.image.registry .Values.global.imageRegistry }}/{{ .Values.waitForDependency.image.repository }}:{{ .Values.waitForDependency.image.tag }}"
+          imagePullPolicy: {{ coalesce .Values.waitForDependency.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+          env:
+            - name: UDM_API_URL
+              value: {{ include "portalFrontend.udm.connection.url" . | quote }}
+            - name: UDM_API_USERNAME
+              value: {{ include "portalFrontend.udm.auth.username" . | quote }}
+            - name: UDM_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) }}
+                  key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) }}
+          {{- if .Values.resources }}
+          resources: {{- include "common.tplvalues.render" (dict "value" .Values.resources "context" .) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
       containers:
         - name: "portal-frontend"
           {{- if .Values.containerSecurityContext.enabled }}
@@ -157,9 +182,9 @@ spec:
           imagePullPolicy: {{ coalesce .Values.assetLoader.image.pullPolicy .Values.global.imagePullPolicy | quote }}
           env:
             - name: UDM_API_URL
-              value: {{ tpl (required "The UDM Rest API connection has to be configured, udm.connection.url." (coalesce .Values.udm.connection.url .Values.global.udm.connection.url)) . }}
+              value: {{ include "portalFrontend.udm.connection.url" . | quote }}
             - name: UDM_API_USERNAME
-              value: {{ required "The parameter \"udm.auth.username\" is required when using ldap backend." .Values.udm.auth.username | quote }}
+              value: {{ include "portalFrontend.udm.auth.username" . | quote }}
             - name: UDM_API_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -198,6 +223,10 @@ spec:
             name: {{ printf "%s-branding" (include "common.names.fullname" .) | quote }}
         - name: "portal-assets-volume"
           emptyDir: {}
+        - name: "scripts"
+          configMap:
+            name: {{ printf "%s-scripts" (include "common.names.fullname" .) | quote }}
+            defaultMode: 0755
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes  "context" .) | nindent 8 }}
         {{- end }}

@@ -40,3 +40,11 @@ These template definitions are only used in this chart and do not relate to temp
 {{ .Files.Get "branding/portal_background_image.svg" | b64enc }}
 {{- end -}}
 {{- end -}}
+
+{{- define "portalFrontend.udm.connection.url" -}}
+{{- required "One of the values 'udm.connection.url' and 'global.udm.connection.url' has to be provided." (coalesce .Values.udm.connection.url .Values.global.udm.connection.url) . -}}
+{{- end -}}
+
+{{- define "portalFrontend.udm.auth.username" -}}
+{{- required "The parameter 'udm.auth.username' is required when using ldap backend." .Values.udm.auth.username -}}
+{{- end -}}

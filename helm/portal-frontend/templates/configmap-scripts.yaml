@@ -1,0 +1,27 @@
+{{/*
+SPDX-FileCopyrightText: 2026 Univention GmbH
+SPDX-License-Identifier: AGPL-3.0-only
+*/}}
+---
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: {{ printf "%s-scripts" (include "common.names.fullname" .) | quote }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
+data:
+  wait-for-udm-rest-api.sh: |
+    #!/bin/bash
+    set -euo pipefail
+
+    while ! (set +x; curl -o /dev/null -s --fail --header "Accept: application/json" --user "${UDM_API_USERNAME}:${UDM_API_PASSWORD}" "${UDM_API_URL}/ldap/base/"); do
+      echo "Checking if the UDM REST API can be reached..."
+      sleep 2
+    done
+
+    echo "Success, the UDM REST API is available"
+...

@@ -411,6 +411,14 @@ updateStrategy:
   # are destroyed first.
   type: "RollingUpdate"
 
+# -- Configuration for the "wait-for-udm" init container that delays asset-loader startup until the UDM Rest API is reachable.
+waitForDependency:
+  image:
+    registry: ""
+    pullPolicy: ""
+    repository: "nubus/images/wait-for-dependency"
+    tag: "0.36.11@sha256:25898a6cb731c03f8a5be06d8e8e8d953809ebd16b44ee2a08949949eb628be8"
+
 # -- Application configuration of the Portal Frontend
 portalFrontend:
   # -- TODO: Clarify usage of this parameter
