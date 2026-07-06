@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.14](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.13...v0.94.14) (2026-07-06)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency univention/dev/nubus-for-k8s/common-ci to v1.65.0 ([f686c97](https://git.knut.univention.de/univention/dev/projects/portal/commit/f686c9706afcc5f313b7729aca153c7918e6ea6b)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.94.13](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.12...v0.94.13) (2026-07-02)
 
 
