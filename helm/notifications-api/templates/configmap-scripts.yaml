@@ -1,0 +1,27 @@
+{{/*
+SPDX-FileCopyrightText: 2026 Univention GmbH
+SPDX-License-Identifier: AGPL-3.0-only
+*/}}
+---
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: {{ printf "%s-scripts" (include "common.names.fullname" .) | quote }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
+data:
+  wait-for-postgresql.sh: |
+    #!/bin/bash
+    set -euo pipefail
+
+    until pg_isready -h "${PGHOST}" -p "${PGPORT}" -U "${PGUSER}"; do
+      echo "Waiting for PostgreSQL to become available..."
+      sleep 2
+    done
+
+    echo "Success, PostgreSQL is available"
+...
