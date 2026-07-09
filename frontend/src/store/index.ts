@@ -6,6 +6,8 @@ import { useStore as baseUseStore, createStore, Store } from 'vuex';
 import axios from 'axios';
 import { InjectionKey } from 'vue';
 import { getAdminState } from '@/jsHelper/admin';
+import { login } from '@/jsHelper/login';
+import { router } from '@/router';
 import activity from './modules/activity';
 import device from './modules/device';
 import dragndrop from './modules/dragndrop';
@@ -115,6 +117,13 @@ export const actions = {
         } else {
           console.warn('Key "feature_toggles" missing in portal data.');
         }
+
+        const onSelfserviceRoute = router.currentRoute.value.name?.toString().startsWith('selfservice');
+        if (portal?.portal?.ensureLogin && !portal.username && !onSelfserviceRoute) {
+          login(extractUserData(portal, undefined).user);
+          return;
+        }
+
         dispatch('portalData/setPortal', { portal, adminMode: payload.adminMode || getAdminState() });
 
         // Only call api/me if feature toggle is enabled

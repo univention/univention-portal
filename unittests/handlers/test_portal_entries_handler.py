@@ -181,6 +181,59 @@ class TestPortalEntriesHandlerNoPortal:
         assert response.code == 404
 
 
+class TestPortalEntriesHandlerEnsureLogin:
+
+    @pytest.fixture
+    def app(self, portal):
+        routes = build_routes({"default": portal}, mock.Mock())
+        return tornado.web.Application(routes)
+
+    @pytest.mark.gen_test
+    def test_hides_content_from_anonymous_when_ensure_login(
+        self, http_client, base_url, portal, stub_portal_cache, stub_user_anonymous,
+    ):
+        portal.authenticator.stub_user = stub_user_anonymous
+        stub_portal_cache.stub_content["portal"]["ensureLogin"] = True
+        entry_dn = "cn=visible,dc=test"
+        stub_portal_cache.stub_add_entry(entry_dn, in_link_lists=["menu_links"])
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data["entries"] == []
+        assert data["folders"] == []
+        assert data["categories"] == []
+        assert data["corner_links"] == []
+        assert data["menu_links"] == []
+        assert data["quick_links"] == []
+        assert data["user_links"] == []
+        assert data["announcements"] == []
+        assert data["portal"]["content"] == []
+        assert data["portal"]["categories"] == []
+        assert data["portal"]["ensureLogin"] is True
+
+    @pytest.mark.gen_test
+    def test_serves_content_to_anonymous_without_ensure_login(
+        self, http_client, base_url, portal, stub_portal_cache, stub_user_anonymous,
+    ):
+        portal.authenticator.stub_user = stub_user_anonymous
+        stub_portal_cache.stub_content["portal"]["ensureLogin"] = False
+        entry_dn = "cn=visible,dc=test"
+        stub_portal_cache.stub_add_entry(entry_dn)
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert entry_dn in [entry["dn"] for entry in data["entries"]]
+
+    @pytest.mark.gen_test
+    def test_serves_content_to_authenticated_when_ensure_login(
+        self, http_client, base_url, stub_portal_cache,
+    ):
+        stub_portal_cache.stub_content["portal"]["ensureLogin"] = True
+        entry_dn = "cn=visible,dc=test"
+        stub_portal_cache.stub_add_entry(entry_dn)
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert entry_dn in [entry["dn"] for entry in data["entries"]]
+
+
 # NOTE: Ensure coverage of the UMCPortal class being used as a configured
 # portal via "portals.json". Compare the CLI script "univention-portal" which
 # allows to generate the configuration for this.

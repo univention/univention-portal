@@ -32,6 +32,31 @@ class PortalEntriesHandler(PortalResource):
             else:
                 get_logger("admin").info("Admin mode rejected")
 
+        portal_meta = portal.portal_cache.get_portal() if portal.portal_cache else None
+        if portal_meta and not admin_mode and user.is_anonymous() and portal_meta.get("ensureLogin"):
+            portal_meta["categories"] = []
+            portal_meta["content"] = []
+            self.write({
+                "cache_id": portal.get_cache_id(),
+                "corner_links": [],
+                "menu_links": [],
+                "quick_links": [],
+                "user_links": [],
+                "entries": [],
+                "folders": [],
+                "categories": [],
+                "portal": portal_meta,
+                "filtered": True,
+                "username": user.username,
+                "user_displayname": user.display_name,
+                "auth_mode": portal.auth_mode(self),
+                "may_edit_portal": portal.may_be_edited(user),
+                "announcements": [],
+                "feature_toggles": portal.get_feature_toggles(),
+                "newsfeed_config": portal.get_newsfeed_config(),
+            })
+            return
+
         answer = {}
         answer["cache_id"] = portal.get_cache_id()
         visible_content = await portal.get_visible_content(user, admin_mode)
