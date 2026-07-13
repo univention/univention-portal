@@ -9,17 +9,17 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.65.0"
+    ref: "v1.66.2"
     file:
       - "defaults/stages.yaml"
-      - "templates/kaniko.yaml"
-      - "jobs/container-build-external.yaml"
+      - "templates/buildkit.yaml"
+      - "jobs/container-build-external-buildkit.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
       - "jobs/generate-filesystem-sbom.yaml"
 
 build-debian-package-builder:
   stage: "prepare"
-  extends: ".kaniko"
+  extends: ".buildkit"
   needs: []
   variables:
     IMAGE_NAME: "deb-builder"
@@ -39,25 +39,25 @@ i18n:
 
 build-frontend-test-runner:
   stage: "build"
-  extends: ".kaniko"
+  extends: ".buildkit"
   variables:
     IMAGE_NAME: "portal-frontend-test-runner"
-    KANIKO_ARGS: "--target=base"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+    BUILD_TARGET: "base"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
 
 build-frontend-test-runner-ui:
   stage: "build"
-  extends: ".kaniko"
+  extends: ".buildkit"
   variables:
     IMAGE_NAME: "portal-frontend-test-runner-ui"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
-    DOCKERFILE_PATH: "Dockerfile.test"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+    DOCKERFILE_PATH: "frontend/Dockerfile.test"
 
 .build-matrix: &build-matrix
   - IMAGE_NAME: "portal-frontend"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
   - IMAGE_NAME: "portal-asset-loader"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/docker/portal-asset-loader"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR/docker/portal-asset-loader"
 
 .publish-matrix: &publish-matrix
   - IMAGE_NAME: "portal-frontend"
@@ -67,7 +67,7 @@ container-build:
   parallel:
     matrix: *build-matrix
   variables:
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR/frontend"
   before_script:
     - cp "${CI_PROJECT_DIR}/sbom-fs-frontend.cdx.json" "${CI_PROJECT_DIR}/frontend"
 

@@ -9,11 +9,11 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.65.0"
+    ref: "v1.66.2"
     file:
       - "defaults/stages.yaml"
-      - "templates/kaniko.yaml"
-      - "jobs/container-build-external.yaml"
+      - "templates/buildkit.yaml"
+      - "jobs/container-build-external-buildkit.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
 
 generate-joinscript-data:
@@ -56,17 +56,17 @@ container-build:
   parallel:
     matrix: *build-matrix
   variables:
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR"
     DOCKERFILE_PATH: "docker/${IMAGE_NAME}/Dockerfile"
 
 build-portal-server-test-runner:
   stage: "build"
-  extends: ".kaniko"
+  extends: ".buildkit"
   variables:
     IMAGE_NAME: "portal-server-test-runner"
     DOCKERFILE_PATH: "docker/portal-server/Dockerfile"
-    KANIKO_ARGS: "--target=test"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    BUILD_TARGET: "test"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR"
 
 container-malware-scan:
   parallel:
@@ -74,7 +74,7 @@ container-malware-scan:
 
 container-build-portal-consumer:
   stage: "build"
-  extends: ".kaniko"
+  extends: ".buildkit"
   needs:
     # depends on portal-server
     - job: "container-build"
@@ -82,8 +82,8 @@ container-build-portal-consumer:
   variables:
     IMAGE_NAME: "portal-consumer"
     DOCKERFILE_PATH: "docker/portal-consumer/Dockerfile"
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR"
-    KANIKO_ARGS: "--build-arg PORTAL_BASE_IMAGE_TAG=${RELEASE_VERSION}"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR"
+    BUILD_ARGS: "--opt build-arg:PORTAL_BASE_IMAGE_TAG=${RELEASE_VERSION}"
 
 test-portal-server:
   stage: "test"

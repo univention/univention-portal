@@ -9,15 +9,15 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.65.0"
+    ref: "v1.66.2"
     file:
       - "defaults/stages.yaml"
-      - "jobs/container-build-external.yaml"
+      - "jobs/container-build-external-buildkit.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
 
 .build-matrix: &build-matrix
   - IMAGE_NAME: "notifications-api-test-runner"
-    KANIKO_ARGS: "--target=test"
+    BUILD_TARGET: "test"
   - IMAGE_NAME: "notifications-api"
 
 .publish-matrix: &publish-matrix
@@ -27,7 +27,7 @@ container-build:
   parallel:
     matrix: *build-matrix
   variables:
-    KANIKO_BUILD_CONTEXT: "$CI_PROJECT_DIR/notifications-api"
+    BUILD_CONTEXT: "$CI_PROJECT_DIR/notifications-api"
 
 container-malware-scan:
   parallel:
