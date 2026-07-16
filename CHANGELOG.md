@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.16](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.15...v0.94.16) (2026-07-16)
+
+
+### Bug Fixes
+
+* **frontend,backend:** Do not show tiles with no groups to anonymous users ([531ff61](https://git.knut.univention.de/univention/dev/projects/portal/commit/531ff610f0111e581fd2c8e9baf4a3d3fb14b632)), closes [univention/dev/ucs#3559](https://git.knut.univention.de/univention/dev/ucs/issues/3559)
+
 ## [0.94.15](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.14...v0.94.15) (2026-07-06)
 
 
