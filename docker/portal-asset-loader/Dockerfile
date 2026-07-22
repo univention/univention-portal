@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2025-2026 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=5.2.6-build.20260706@sha256:d6ef961a4a8f0b603540b06661c058d1e25da0c65273db5fd98fc202a4649fd1
+ARG UCS_BASE_IMAGE_TAG=5.3.0-build.20260702@sha256:8787ee424a1322ba25fa285f1840fe4bba62d7ec1f44a14a39b6e2024ad3e735
 ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base-python
 
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build
@@ -33,8 +33,8 @@ COPY --from=build --chown=${USER}:${USER} /app/.venv /app/.venv
 COPY --chown=${USER}:${USER} loader_udm.py .
 
 RUN \
-    python3.11 -V && \
-    python3.11 -c 'import loader_udm'
+    python -V && \
+    python -c 'import loader_udm'
 
 USER ${USER}
 
