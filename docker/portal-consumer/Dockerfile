@@ -22,7 +22,6 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     libsasl2-dev \
     python3-dev \
     libldap2-dev \
-    univention-config-registry \
     python3-univention-directory-manager-rest-client \
     univention-group-membership-cache
 
@@ -38,7 +37,9 @@ RUN mkdir -p /var/log/univention/ \
     && mkdir -p /var/cache/univention-portal \
     && touch /var/cache/univention-portal/groups.json \
     && touch /var/cache/univention-portal/portal.json \
-    && touch /var/cache/univention-portal/selfservice.json
+    && touch /var/cache/univention-portal/selfservice.json \
+    && mkdir -p /etc/univention \
+    && touch /etc/univention/base-forced.conf
 
 COPY --from=portal-server-image /usr/local/lib/python3.11/dist-packages/univention /usr/local/lib/python3.11/dist-packages/univention
 COPY --from=portal-server-image /app/univention-portal /usr/sbin/univention-portal
