@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.94.17](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.16...v0.94.17) (2026-07-29)
+
+
+### Bug Fixes
+
+* **deps:** bump python dependency packages to ucs-base-image-5.3.0 compatible versions ([3a4f71e](https://git.knut.univention.de/univention/dev/projects/portal/commit/3a4f71e3f651c76e41e8daf452e7b9cb52ed37c5)), closes [univention/dev/internal/team-nubus#1670](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1670)
+* **deps:** update base image ([5a2cdb3](https://git.knut.univention.de/univention/dev/projects/portal/commit/5a2cdb3c7d7aee823bd952a338601923d1800422)), closes [univention/dev/internal/team-nubus#1670](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1670)
+* **portal-consumer:** drop unused univention-config-registry-dependency and recreate /etc/univention/base-forced.conf placeholder ([017d567](https://git.knut.univention.de/univention/dev/projects/portal/commit/017d567ff8f182c51f2cb4aad5982e9e7da28f36)), closes [univention/dev/internal/team-nubus#1670](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1670)
+
 ## [0.94.16](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.15...v0.94.16) (2026-07-16)
 
 
