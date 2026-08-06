@@ -78,6 +78,8 @@ class Config(NamedTuple):
     udm_api_password: str
     output_dir: Path
     poll_interval: int
+    request_timeout: int
+    initial_sync_max_backoff: int
     log_level: str
     health_check_port: int
 
@@ -89,6 +91,8 @@ def load_config() -> Config:
         udm_api_password=os.environ["UDM_API_PASSWORD"],
         output_dir=Path(os.environ["OUTPUT_DIR"]),
         poll_interval=int(os.environ.get("POLL_INTERVAL", "10")),
+        request_timeout=int(os.environ.get("REQUEST_TIMEOUT", "120")),
+        initial_sync_max_backoff=int(os.environ.get("INITIAL_SYNC_MAX_BACKOFF", "60")),
         log_level=os.environ.get("LOG_LEVEL", "INFO"),
         health_check_port=int(os.environ.get("HEALTH_PORT", "8080")),
     )
@@ -123,11 +127,12 @@ def list_objects(
     session: requests.Session,
     url: str,
     properties: list[str],
+    timeout: int,
     etag: str | None = None,
 ) -> tuple[list[dict] | None, str | None]:
     headers = {"If-None-Match": etag} if etag else {}
     params = [("opened", "true")] + [("properties", p) for p in properties]
-    resp = session.get(url, headers=headers, params=params, timeout=10)
+    resp = session.get(url, headers=headers, params=params, timeout=timeout)
 
     if resp.status_code == 304:
         return None, etag
@@ -145,7 +150,7 @@ def sync_portals(
     etag: str | None = None,
 ) -> str | None:
     url = f"{config.udm_api_url}/portals/portal/"
-    objects, new_etag = list_objects(session, url, ["name", "background"], etag)
+    objects, new_etag = list_objects(session, url, ["name", "background"], config.request_timeout, etag)
 
     if objects is None:
         logger.debug("Portals unchanged")
@@ -168,7 +173,7 @@ def sync_entries(
     etag: str | None = None,
 ) -> str | None:
     url = f"{config.udm_api_url}/portals/entry/"
-    objects, new_etag = list_objects(session, url, ["name", "icon"], etag)
+    objects, new_etag = list_objects(session, url, ["name", "icon"], config.request_timeout, etag)
 
     if objects is None:
         logger.debug("Entries unchanged")
@@ -183,6 +188,24 @@ def sync_entries(
     return new_etag
 
 
+# Retry instead of crashing, so a slow or cold UDM does not crash-loop the pod.
+def initial_sync(
+    session: requests.Session,
+    config: Config,
+) -> tuple[str | None, str | None]:
+    backoff = 1
+    while True:
+        try:
+            portal_etag = sync_portals(session, config)
+            entry_etag = sync_entries(session, config)
+            logger.info("Initial sync complete")
+            return portal_etag, entry_etag
+        except Exception:
+            logger.exception("Initial asset sync failed, retrying in %d seconds", backoff)
+            time.sleep(backoff)
+            backoff = min(backoff * 2, config.initial_sync_max_backoff)
+
+
 def main():
     config = load_config()
     setup_logging(config.log_level)
@@ -193,18 +216,11 @@ def main():
     logger.info("UDM API URL: %s", config.udm_api_url)
     logger.info("Output directory: %s", config.output_dir)
     logger.info("Poll interval: %d seconds", config.poll_interval)
+    logger.info("Request timeout: %d seconds", config.request_timeout)
 
     session = create_session(config)
 
-    # Initial sync - fail fast on errors
-    try:
-        portal_etag = sync_portals(session, config)
-        entry_etag = sync_entries(session, config)
-        logger.info("Initial sync complete")
-    except Exception:
-        logger.exception("FATAL: Initial asset sync failed")
-        raise
-
+    portal_etag, entry_etag = initial_sync(session, config)
     health_server.ready = True
 
     # Polling loop
