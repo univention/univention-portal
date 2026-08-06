@@ -107,7 +107,8 @@ helm uninstall portal-frontend
 			<td><pre lang="json">
 {
   "config": {
-    "pollInterval": 10
+    "pollInterval": 10,
+    "requestTimeout": 120
   },
   "image": {
     "pullPolicy": "",
@@ -143,13 +144,14 @@ helm uninstall portal-frontend
     }
   },
   "startupProbe": {
-    "failureThreshold": 10,
+    "failureThreshold": 60,
+    "httpGet": {
+      "path": "/healthz",
+      "port": 8080
+    },
     "initialDelaySeconds": 5,
     "periodSeconds": 10,
     "successThreshold": 1,
-    "tcpSocket": {
-      "port": 8080
-    },
     "timeoutSeconds": 5
   }
 }
@@ -165,6 +167,15 @@ helm uninstall portal-frontend
 </pre>
 </td>
 			<td>UDM Polling interval for portal config changes</td>
+		</tr>
+		<tr>
+			<td>assetLoader.config.requestTimeout</td>
+			<td>int</td>
+			<td><pre lang="json">
+120
+</pre>
+</td>
+			<td>Request timeout in seconds for each UDM REST API call</td>
 		</tr>
 		<tr>
 			<td>assetLoader.image</td>

@@ -167,6 +167,8 @@ spec:
                   key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) }}
             - name: POLL_INTERVAL
               value: {{ required "The parameter \"assetLoader.config.pollInterval\" is required" .Values.assetLoader.config.pollInterval | quote }}
+            - name: REQUEST_TIMEOUT
+              value: {{ required "The parameter \"assetLoader.config.requestTimeout\" is required" .Values.assetLoader.config.requestTimeout | quote }}
             - name: OUTPUT_DIR
               value: "/portal-assets"
             {{- with .Values.extraEnvVars }}
