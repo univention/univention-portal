@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.94.18](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.17...v0.94.18) (2026-08-07)
+
+
+### Bug Fixes
+
+* **portal-asset-loader:** Make the UDM request timeout configurable and retry the initial sync with backoff instead of exiting ([1bf5a1c](https://git.knut.univention.de/univention/dev/projects/portal/commit/1bf5a1cd4b717dee0687bfd445fdc4e8da768e61)), closes [univention/dev/projects/portal#754](https://git.knut.univention.de/univention/dev/projects/portal/issues/754)
+* **portal-frontend:** Wire asset-loader timeout and gate startup probe ([b75133f](https://git.knut.univention.de/univention/dev/projects/portal/commit/b75133fea80e23eb1be89dc3550bc710305e0385)), closes [univention/dev/projects/portal#754](https://git.knut.univention.de/univention/dev/projects/portal/issues/754)
+
 ## [0.94.17](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.16...v0.94.17) (2026-07-29)
 
 
