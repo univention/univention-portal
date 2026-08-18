@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.19](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.18...v0.94.19) (2026-08-18)
+
+
+### Bug Fixes
+
+* **deps:** Update Node.js to v24 ([b357486](https://git.knut.univention.de/univention/dev/projects/portal/commit/b357486da974fd31cb7841b4b4999ea2300dc122)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.94.18](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.17...v0.94.18) (2026-08-07)
 
 
