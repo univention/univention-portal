@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.22](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.21...v0.94.22) (2026-08-27)
+
+
+### Bug Fixes
+
+* Security dependency updates ([aba9679](https://git.knut.univention.de/univention/dev/projects/portal/commit/aba967900c13450139d8c59647ee1a4352b768fe)), closes [univention/dev/internal/team-nubus#1673](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1673)
+
 ## [0.94.21](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.20...v0.94.21) (2026-08-26)
 
 
