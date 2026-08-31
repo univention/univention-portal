@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.94.23](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.22...v0.94.23) (2026-08-31)
+
+
+### Bug Fixes
+
+* **deps:** Update nubus-common Docker tag to v0.28.19 ([2c12912](https://git.knut.univention.de/univention/dev/projects/portal/commit/2c1291248f8c4a8930456485bfbf213743d00679)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+* **deps:** Update portal-consumer python dependencies ([978ccbd](https://git.knut.univention.de/univention/dev/projects/portal/commit/978ccbd527761b474942efd23f8b9982077265c6)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+* **deps:** Update portal-server Python dependencies ([ddf79cc](https://git.knut.univention.de/univention/dev/projects/portal/commit/ddf79cc1968c1484e492b69eac0810c84566901f)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.94.22](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.21...v0.94.22) (2026-08-27)
 
 
