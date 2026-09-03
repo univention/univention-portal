@@ -42,7 +42,7 @@ helm uninstall portal-server
 
 | Repository | Name | Version |
 |------------|------|---------|
-| oci://artifacts.software-univention.de/nubus/charts | nubus-common | 0.28.19 |
+| oci://artifacts.software-univention.de/nubus/charts | nubus-common | 0.29.19 |
 
 ## Values
 
