@@ -9,16 +9,16 @@
 # implemented.
 
 boto3==1.43.83
-certifi==2026.4.22
-chardet==7.4.3
-click==8.3.3
-idna==3.13
+certifi==2026.7.22
+chardet==7.6.0
+click==8.5.0
+idna==3.19
 pyasn1==0.6.4
 pyasn1-modules==0.4.2
 python-dateutil==2.9.0.post0
 python-debian==1.1.1
 python-ldap==3.4.7
-requests==2.33.1
+requests==2.34.2
 tornado==6.5.8
 urllib3==2.7.0
 guardian-authorization-client==0.1.0
