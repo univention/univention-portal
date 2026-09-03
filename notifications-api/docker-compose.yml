@@ -34,7 +34,7 @@ services:
       - 8096:8080
 
   db:
-    image: postgres:12.13-alpine
+    image: postgres:12.13-alpine@sha256:70c633227898bdb6d7b897ead58a3a2e357bbe6f5dd2d0c230263fa0e84d2eca
     environment:
       POSTGRES_PASSWORD: "devpassword"
       POSTGRES_USER: "dev"
