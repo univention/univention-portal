@@ -21,5 +21,5 @@ python-ldap==3.4.7
 requests==2.33.1
 tornado==6.5.8
 urllib3==2.7.0
-guardian-authorization-client==0.1.0
+guardian-authorization-client==3.0.9
 --extra-index-url https://git.knut.univention.de/api/v4/projects/830/packages/pypi/simple
