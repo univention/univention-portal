@@ -1,8 +1,8 @@
 --extra-index-url https://git.knut.univention.de/api/v4/projects/882/packages/pypi/simple
 boto3==1.43.83
-nubus-provisioning-consumer==0.64.1
-click==8.1.8
-python-dateutil==2.8.2
+nubus-provisioning-consumer==0.70.23
+click==8.5.0
+python-dateutil==2.9.0.post0
 requests>=2.31.0
 tornado>=6.5.4
 urllib3>=2.7.0
