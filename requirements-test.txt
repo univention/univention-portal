@@ -1,15 +1,15 @@
 # Testing and development dependencies for the portal-server's unit tests.
 
-Faker==37.1.0
+Faker==40.38.0
 pdbpp==0.11.6
-pytest==8.3.5
-pytest-cov==6.1.1
+pytest==9.1.1
+pytest-cov==7.1.0
 pytest-mock==3.14.0
 requests-mock==1.12.1
 python-dateutil==2.9.0.post0
 pytest-tornado==0.8.1
 mock==5.2.0
-pytest-asyncio==0.26.0
+pytest-asyncio==1.4.0
 
 # Additional dev dependencies from pyproject.toml
 pytest-profiling==1.8.1
