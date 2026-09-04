@@ -1,6 +1,8 @@
 # notifications-api
 
-A Helm chart for the Univention Portal Notifications API
+> **:exclamation: This Helm Chart is deprecated!**
+
+DEPRECATED: A Helm chart for the Univention Portal Notifications API
 
 - **Version**: 0.1.0
 - **Type**: application

@@ -25,29 +25,6 @@ lint-pre-commit:
       cp docker/.env.umc-gateway.example docker/.env.umc-gateway
       cp docker/.env.umc-server.example docker/.env.umc-server
 
-trigger-notifications-api:
-  stage: "trigger"
-  needs:
-    - job: "pre-semantic-release"
-      artifacts: true
-  variables:
-    RELEASE_VERSION: "${RELEASE_VERSION}"
-    PUBLIC_RELEASE: "${PUBLIC_RELEASE}"
-    SR_NO_RELEVANT_CHANGE: "${SR_NO_RELEVANT_CHANGE}"
-  trigger:
-    strategy: "depend"
-    include:
-      - local: "notifications-api/.gitlab-ci.yml"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: "never"
-    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
-      when: "always"
-    - changes:
-        - "notifications-api/**/*"
-        - "tests/**/*"
-        - "helm/notifications-api/**/*"
-
 trigger-frontend:
   stage: "trigger"
   needs:
@@ -133,7 +110,6 @@ check-debian-updates:
     matrix:
       - IMAGE_NAME: "portal-server"
       - IMAGE_NAME: "portal-frontend"
-      - IMAGE_NAME: "notifications-api"
       - IMAGE_NAME: "portal-consumer"
   before_script:
     - |
