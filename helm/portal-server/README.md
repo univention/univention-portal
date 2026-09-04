@@ -815,7 +815,7 @@ true
   "left_sidebar": false,
   "native_html_list": false,
   "newsfeed": false,
-  "notifications_api": true,
+  "notifications_api": false,
   "umc_session_refresh": true,
   "welcome_message": false
 }

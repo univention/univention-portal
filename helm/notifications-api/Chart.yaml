@@ -6,7 +6,8 @@
 apiVersion: "v2"
 type: "application"
 name: "notifications-api"
-description: "A Helm chart for the Univention Portal Notifications API"
+description: "DEPRECATED: A Helm chart for the Univention Portal Notifications API"
+deprecated: true
 home: "https://www.univention.de/"
 
 # Chart version

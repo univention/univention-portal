@@ -1,5 +1,9 @@
 # Notifications API of the Univention Portal
 
+> **DEPRECATED**: The Notifications API is deprecated and no longer released or
+> supported. The related feature toggle `notifications_api` is disabled by
+> default. See univention/dev/projects/portal#755 for details.
+
 Notifications API is a service to route information, relevant for a portal user,
 from an application like OX or NextCloud or an administrative user to the portal frontend
 for live display.
