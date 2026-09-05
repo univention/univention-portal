@@ -1,10 +1,10 @@
 # Testing and development dependencies for the portal-server's unit tests.
 
-Faker==37.1.0
-pdbpp==0.11.6
-pytest==8.3.5
-pytest-cov==6.1.1
-pytest-mock==3.14.0
+Faker==37.12.0
+pdbpp==0.12.1
+pytest==8.4.2
+pytest-cov==6.3.0
+pytest-mock==3.15.1
 requests-mock==1.12.1
 python-dateutil==2.9.0.post0
 pytest-tornado==0.8.1
@@ -13,8 +13,8 @@ pytest-asyncio==0.26.0
 
 # Additional dev dependencies from pyproject.toml
 pytest-profiling==1.8.1
-pytest-timeout==2.3.1
+pytest-timeout==2.4.0
 ldap3>=2.9.1,<3.0.0
 
-boto3==1.38.1
-botocore==1.38.1
+boto3==1.43.89
+botocore==1.43.89
