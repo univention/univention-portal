@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.94.25](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.24...v0.94.25) (2026-09-07)
+
+
+### Bug Fixes
+
+* **portal-frontend:** display user's full name when available ([05c8013](https://git.knut.univention.de/univention/dev/projects/portal/commit/05c80136470efa95b9d59c8a1f189f0e98486199)), closes [univention/dev/internal/team-nubus#1600](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1600)
+
 ## [0.94.24](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.23...v0.94.24) (2026-09-03)
 
 
