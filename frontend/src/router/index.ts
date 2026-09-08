@@ -6,6 +6,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Portal from '@/views/Portal.vue';
 import NotFound from '@/views/NotFound.vue';
+import SpacePage from '@/views/SpacePage.vue';
 import PasswordChange from '@/views/selfservice/PasswordChange.vue';
 import Profile from '@/views/selfservice/Profile.vue';
 import ProtectAccount from '@/views/selfservice/ProtectAccount.vue';
@@ -65,6 +66,12 @@ const routes = [
         name: 'selfserviceServiceSpecificPasswords',
       },
     ],
+  },
+  {
+    path: '/space/:projectId',
+    component: SpacePage,
+    name: 'space',
+    props: true,
   },
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];
