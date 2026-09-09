@@ -64,13 +64,16 @@ def _call_contains_xheaders(call):
     return "xheaders" in args[0]
 
 
-@pytest.mark.parametrize("env_value, expected", [
-    ("true", True),
-    ("True", False),
-    ("TRUE", False),
-    ("", False),
-    ("false", False),
-])
+@pytest.mark.parametrize(
+    "env_value, expected",
+    [
+        ("true", True),
+        ("True", False),
+        ("TRUE", False),
+        ("", False),
+        ("false", False),
+    ],
+)
 def test_run_server_activates_development_mode(mocker, env_value, expected):
     mocker.patch.dict("os.environ", {"PORTAL_SERVER_DEVELOPMENT_MODE": env_value})
     mocker.patch("univention.portal.main._load_portal_definitions")
@@ -80,8 +83,7 @@ def test_run_server_activates_development_mode(mocker, env_value, expected):
 
     run_server()
 
-    make_tornado_application_mock.assert_called_with(
-        mock.ANY, development_mode=expected, udm_client=mock.ANY)
+    make_tornado_application_mock.assert_called_with(mock.ANY, development_mode=expected, udm_client=mock.ANY)
 
 
 def test_run_server_creates_udm_client(mocker):

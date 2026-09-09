@@ -5,5 +5,4 @@ from univention.testing.helm.client.ldap import ConnectionHostAndPort
 
 
 class TestLdapConnection(ConnectionHostAndPort):
-
     config_map_name = "release-name-portal-consumer"

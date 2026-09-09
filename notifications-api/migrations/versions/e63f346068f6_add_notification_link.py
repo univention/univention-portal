@@ -1,15 +1,16 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2026 Univention GmbH
 
-"""add notification link
+"""
+add notification link
 
 Revision ID: e63f346068f6
 Revises: 9a6b4364a7f7
 Create Date: 2023-01-12 14:31:13.128332
 
 """
+
 import sqlalchemy as sa
-import sqlmodel
 from alembic import op
 
 

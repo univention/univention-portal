@@ -130,4 +130,12 @@ repos:
     hooks:
       - id: kyverno-test
 
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.16.6"
+    hooks:
+      - id: ruff
+        args: ["--fix", "--show-fixes"]
+      - id: ruff-format
+        verbose: true
+
 ...

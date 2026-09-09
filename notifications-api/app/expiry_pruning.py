@@ -7,6 +7,7 @@ Provides a service that prunes expired messages from the database.
 It provides a background task which looks for the soonest-expiring notification
 and prunes it.
 """
+
 import asyncio
 import logging
 from datetime import UTC, datetime

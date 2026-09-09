@@ -22,6 +22,8 @@ short_description = _('Portal: Announcement')
 object_name = _('Portal announcement')
 object_name_plural = _('Portal announcements')
 long_description = _('One folder in https://fqhn/univention/portal which holds one or more portals/announcement objects. Belongs to one or more portals/portal objects')
+
+# fmt: off
 options = {
     'default': univention.admin.option(
         short_description=short_description,
@@ -29,6 +31,7 @@ options = {
         objectClasses=['top', 'univentionNewPortalAnnouncement'],
     ),
 }
+
 property_descriptions = {
     'name': univention.admin.property(
         short_description=_('Internal name'),
@@ -118,6 +121,7 @@ layout = [
         ]),
     ]),
 ]
+# fmt: on
 
 
 def mapTranslationValue(vals, encoding=()):

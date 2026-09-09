@@ -25,7 +25,10 @@ operations = ['add', 'edit', 'remove', 'search']
 short_description = _('Portal: Folder')
 object_name = _('Portal folder')
 object_name_plural = _('Portal folders')
-long_description = _('One folder in https://fqdn/univention/portal which holds one or more portals/entry objects. Belongs to one or more portals/category objects, which belong to one or more portals/portal objects')
+long_description = _(
+    'One folder in https://fqdn/univention/portal which holds one or more portals/entry objects. Belongs to one or more portals/category objects, which belong to one or more portals/portal objects'
+)
+# fmt: off
 options = {
     'default': univention.admin.option(
         short_description=short_description,
@@ -71,6 +74,7 @@ layout = [
         ]),
     ]),
 ]
+# fmt: on
 
 
 def mapTranslationValue(vals, encoding=()):

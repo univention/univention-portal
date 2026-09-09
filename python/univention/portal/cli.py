@@ -227,7 +227,8 @@ def _add_umc(name: str, json_content: Dict):
                     "path": {"value": "/univention/umc", "type": "static"},
                     "fallback_score": {"value": 0.5, "type": "static"},
                 },
-                "type": "class"},
+                "type": "class",
+            },
         },
         "type": "class",
     }
@@ -283,7 +284,8 @@ def _add_selfservice(name: str, json_content: Dict):
                     "path": {"value": "/univention/selfservice", "type": "static"},
                     "fallback_score": {"value": 0.5, "type": "static"},
                 },
-                "type": "class"},
+                "type": "class",
+            },
         },
         "type": "class",
     }
@@ -325,7 +327,8 @@ def ask_value(name: str, klass_default: str | None = None, value_default: str | 
     if choice == "value":
         while True:
             value = click.prompt(
-                'Choose a native value (e.g, None, True, 10, "name")', default=value_default,
+                'Choose a native value (e.g, None, True, 10, "name")',
+                default=value_default,
             )
             print(value_default)
             print(value)
@@ -349,12 +352,14 @@ def ask_value(name: str, klass_default: str | None = None, value_default: str | 
         else:
             info(
                 "A {} takes {} arguments ({})".format(
-                    klass_name, len(spec.args) - 1, ", ".join(repr(arg) for arg in spec.args[1:]),
+                    klass_name,
+                    len(spec.args) - 1,
+                    ", ".join(repr(arg) for arg in spec.args[1:]),
                 ),
             )
             if spec.defaults:
                 defaults = dict(
-                    zip(spec.args[len(spec.args) - len(spec.defaults):], spec.defaults),
+                    zip(spec.args[len(spec.args) - len(spec.defaults) :], spec.defaults),
                 )
             else:
                 defaults = {}
@@ -366,7 +371,9 @@ def ask_value(name: str, klass_default: str | None = None, value_default: str | 
                 elif camelcase(arg) in possible_classes:
                     klass_default = camelcase(arg) + "()"
                 kwargs[arg] = ask_value(
-                    arg, klass_default=klass_default, value_default=value_default,
+                    arg,
+                    klass_default=klass_default,
+                    value_default=value_default,
                 )
         info(click.style(f"Okay, {klass_name} initialized", fg="green"))
         ret = {"type": "class", "class": klass.__name__}

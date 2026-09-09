@@ -12,7 +12,6 @@ from app.models.notification_model import Notification, NotificationCreate
 
 
 class NotificationService:
-
     _db: Session
 
     def __init__(self, db: Session):
@@ -43,12 +42,16 @@ class NotificationService:
         query: dict,
     ) -> List[Notification]:
         if query.get('exclude_expired', True):
-            statement = select(Notification).where(
-                or_(
-                    Notification.expireTime == null(),
-                    Notification.expireTime >= datetime.now(UTC),
-                ),
-            ).limit(query['limit'])
+            statement = (
+                select(Notification)
+                .where(
+                    or_(
+                        Notification.expireTime == null(),
+                        Notification.expireTime >= datetime.now(UTC),
+                    ),
+                )
+                .limit(query['limit'])
+            )
         else:
             statement = select(Notification).limit(query['limit'])
 
@@ -69,9 +72,7 @@ class NotificationService:
         self._db.commit()
 
     def get_next_notification_expiry(self) -> datetime | None:
-        statement = select(Notification) \
-            .where(Notification.expireTime != null()) \
-            .order_by(Notification.expireTime)
+        statement = select(Notification).where(Notification.expireTime != null()).order_by(Notification.expireTime)
 
         if notification := self._db.exec(statement).first():
             notification._force_to_utc()

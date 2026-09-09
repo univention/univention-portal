@@ -18,7 +18,8 @@ from app.models.notification_model import Notification, NotificationBase
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False},
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False},
 )
 
 
@@ -70,14 +71,16 @@ def filled_db(empty_db):
     database.
     """
     db = empty_db
-    db.add(Notification(
-        id=str(uuid4()),
-        details="Test value of attribute details",
-        title="Test value of attribute title",
-        severity="info",
-        sourceUid=str(uuid4()),
-        targetUid=str(uuid4()),
-    ))
+    db.add(
+        Notification(
+            id=str(uuid4()),
+            details="Test value of attribute details",
+            title="Test value of attribute title",
+            severity="info",
+            sourceUid=str(uuid4()),
+            targetUid=str(uuid4()),
+        )
+    )
     db.commit()
     return db
 

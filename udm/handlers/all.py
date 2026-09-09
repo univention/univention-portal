@@ -37,6 +37,8 @@ childmodules = [
     'portals/announcement',
 ]
 virtual = True
+
+# fmt: off
 property_descriptions = {
     'name': univention.admin.property(
         short_description=_('Internal name'),
@@ -55,6 +57,8 @@ property_descriptions = {
     ),
 }
 layout = [Tab(_('General'), _('Basic settings'), layout=["name"])]
+# fmt: on
+
 mapping = univention.admin.mapping.mapping()
 
 

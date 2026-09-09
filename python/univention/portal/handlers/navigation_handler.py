@@ -73,11 +73,7 @@ class NavigationHandler(PortalResource):
             category = {
                 "identifier": str2dn(category_dn)[0][0][1],
                 "display_name": self._choose_language(category_data["display_name"]),
-                "entries": [
-                    self._get_entry(entries[entry_dn], entry_dn)
-                    for entry_dn in category_data["entries"]
-                    if entry_dn in visible_entry_dns
-                ],
+                "entries": [self._get_entry(entries[entry_dn], entry_dn) for entry_dn in category_data["entries"] if entry_dn in visible_entry_dns],
             }
 
             if not category["entries"]:

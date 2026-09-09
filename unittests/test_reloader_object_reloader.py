@@ -31,9 +31,7 @@ stub_portal_dn = "cn=domain,cn=portal,cn=test"
 
 @pytest.fixture(autouse=True)
 def mock_s3_client(mocker):
-    mocker.patch(
-        "univention.portal.extensions.reloader_object_storage.get_object_storage_client",
-        mock.Mock(return_value=boto3.client("s3")))
+    mocker.patch("univention.portal.extensions.reloader_object_storage.get_object_storage_client", mock.Mock(return_value=boto3.client("s3")))
 
 
 @pytest.fixture
@@ -157,15 +155,13 @@ def test_object_storage_portal_reloader_checks_reason(
     check_reason_mock.assert_called_once_with("stub_reason")
 
 
-def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm_rest(
-        object_storage_portal_reloader, mock_portal_config):
+def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm_rest(object_storage_portal_reloader, mock_portal_config):
     mock_portal_config({"use-udm-rest-api": True})
     content_fetcher = object_storage_portal_reloader._create_content_fetcher()
     assert isinstance(content_fetcher, PortalContentFetcherUDMREST)
 
 
-def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm(
-        object_storage_portal_reloader, mocker, mock_portal_config):
+def test_object_storage_portal_reloader_refresh_uses_content_fetcher_udm(object_storage_portal_reloader, mocker, mock_portal_config):
     mock_portal_config({"use-udm-rest-api": False})
     content_fetcher = object_storage_portal_reloader._create_content_fetcher()
     assert isinstance(content_fetcher, PortalContentFetcherUDM)

@@ -41,12 +41,17 @@ async def test_get_user_returns_udm_object(udm_user_stub):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("response_error, ExpectedException", [
-    (HTTPClientError(code=404, message="Not Found"), UnexpectedResult),
-    (HTTPClientError(code=500, message="Server Error"), UnexpectedResult),
-])
+@pytest.mark.parametrize(
+    "response_error, ExpectedException",
+    [
+        (HTTPClientError(code=404, message="Not Found"), UnexpectedResult),
+        (HTTPClientError(code=500, message="Server Error"), UnexpectedResult),
+    ],
+)
 async def test_get_user_ensures_valid_response(
-    mock_http_client, response_error, ExpectedException,
+    mock_http_client,
+    response_error,
+    ExpectedException,
 ):
     mock_http_client().fetch = mock.AsyncMock(side_effect=response_error)
     udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
@@ -55,12 +60,17 @@ async def test_get_user_ensures_valid_response(
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("response_body, ExpectedException", [
-    ("invalid", json.JSONDecodeError),
-    ("<html><div>stub result</div></html>", json.JSONDecodeError),
-])
+@pytest.mark.parametrize(
+    "response_body, ExpectedException",
+    [
+        ("invalid", json.JSONDecodeError),
+        ("<html><div>stub result</div></html>", json.JSONDecodeError),
+    ],
+)
 async def test_get_user_raises_on_unexpected_response(
-    mock_http_client, response_body, ExpectedException,
+    mock_http_client,
+    response_body,
+    ExpectedException,
 ):
     (await mock_http_client().fetch()).body = response_body
     udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
@@ -69,12 +79,17 @@ async def test_get_user_raises_on_unexpected_response(
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("user_dn, ExpectedException", [
-    ("", ValueError),
-    (None, ValueError),
-])
+@pytest.mark.parametrize(
+    "user_dn, ExpectedException",
+    [
+        ("", ValueError),
+        (None, ValueError),
+    ],
+)
 async def test_get_user_validates_user_dn(
-    mock_http_client, user_dn, ExpectedException,
+    mock_http_client,
+    user_dn,
+    ExpectedException,
 ):
     udm_client = AsyncUdmClient("stub_url", "stub_user", "stub_password")
     with pytest.raises(ExpectedException):
@@ -94,14 +109,17 @@ async def test_fetch_from_udm_requsets_user_data(mock_http_client):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("udm_api_url, expected_url", [
-    ("", "/stub_udm_query"),
-    ("/", "/stub_udm_query"),
-    ("stub_url", "stub_url/stub_udm_query"),
-    ("stub_url/", "stub_url/stub_udm_query"),
-    ("/stub_url", "/stub_url/stub_udm_query"),
-    ("/stub_url/", "/stub_url/stub_udm_query"),
-])
+@pytest.mark.parametrize(
+    "udm_api_url, expected_url",
+    [
+        ("", "/stub_udm_query"),
+        ("/", "/stub_udm_query"),
+        ("stub_url", "stub_url/stub_udm_query"),
+        ("stub_url/", "stub_url/stub_udm_query"),
+        ("/stub_url", "/stub_url/stub_udm_query"),
+        ("/stub_url/", "/stub_url/stub_udm_query"),
+    ],
+)
 async def test_async_udm_client_ensures_trailing_slash(mock_http_client, udm_api_url, expected_url):
     udm_client = AsyncUdmClient(udm_api_url, "stub_user", "stub_password")
     url = udm_client._build_full_url("stub_udm_query")

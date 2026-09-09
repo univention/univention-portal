@@ -36,3 +36,7 @@ l10n-build:
 	mkdir -p ./frontend/public/i18n
 	echo "{}" > ./frontend/public/i18n/en.json
 	cp ./debian/univention-portal/usr/share/univention-portal/i18n/de.json ./frontend/public/i18n/de.json
+
+.PHONY: format-python
+format-python:
+	pre-commit run ruff-format --all-files

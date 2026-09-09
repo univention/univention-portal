@@ -25,7 +25,6 @@ def test_imports(dynamic_class):
 
 
 class StubReloader(MtimeBasedLazyFileReloader):
-
     def __init__(self, portal_file):
         super().__init__(portal_file)
         self.content = {}
@@ -114,7 +113,11 @@ async def test_visible_content(mocked_user, standard_portal):
     content = await standard_portal.get_visible_content(mocked_user, False)
     expected_content = {
         "category_dns": ["cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
-        "entry_dns": ["cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
+        "entry_dns": [
+            "cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+            "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+            "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+        ],
         "folder_dns": [],
         "announcement_dns": ["cn=Testannouncment,cn=announcement,cn=portals,cn=univention,dc=some-testenv,dc=intranet"],
     }
@@ -122,10 +125,13 @@ async def test_visible_content(mocked_user, standard_portal):
 
 
 class TestLinkLists:
-
     @pytest.mark.asyncio
     async def test_does_not_contain_other_entry_for_authenticated_user(
-        self, portal_link_list, portal, stub_portal_cache, stub_user,
+        self,
+        portal_link_list,
+        portal,
+        stub_portal_cache,
+        stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
@@ -135,7 +141,11 @@ class TestLinkLists:
 
     @pytest.mark.asyncio
     async def test_contains_visible_entry_for_authenticated_user(
-        self, portal_link_list, portal, stub_portal_cache, stub_user,
+        self,
+        portal_link_list,
+        portal,
+        stub_portal_cache,
+        stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
@@ -146,7 +156,11 @@ class TestLinkLists:
 
     @pytest.mark.asyncio
     async def test_hides_anonymous_entry_for_authenticated_user(
-        self, portal_link_list, portal, stub_portal_cache, stub_user,
+        self,
+        portal_link_list,
+        portal,
+        stub_portal_cache,
+        stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
@@ -158,7 +172,11 @@ class TestLinkLists:
 
     @pytest.mark.asyncio
     async def test_contains_visible_entry_for_anonymous_user(
-        self, portal_link_list, portal, stub_portal_cache, stub_user_anonymous,
+        self,
+        portal_link_list,
+        portal,
+        stub_portal_cache,
+        stub_user_anonymous,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
@@ -169,7 +187,11 @@ class TestLinkLists:
 
     @pytest.mark.asyncio
     async def test_contains_anonymous_entry_for_anonymous_user(
-        self, portal_link_list, portal, stub_portal_cache, stub_user_anonymous,
+        self,
+        portal_link_list,
+        portal,
+        stub_portal_cache,
+        stub_user_anonymous,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
@@ -181,7 +203,11 @@ class TestLinkLists:
 
     @pytest.mark.asyncio
     async def test_does_not_contain_other_entry_for_anonymous_user(
-        self, portal_link_list, portal, stub_portal_cache, stub_user,
+        self,
+        portal_link_list,
+        portal,
+        stub_portal_cache,
+        stub_user,
     ):
         stub_portal_cache.stub_add_entry(
             dn="cn=test-entry,dc=test",
@@ -280,7 +306,11 @@ async def test_categories(mocked_user, standard_portal):
         {
             "display_name": {"de_DE": "Verwaltung", "en_US": "Administration"},
             "dn": "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
-            "entries": ["cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
+            "entries": [
+                "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+                "cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+                "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+            ],
         },
     ]
     assert content == expected_content
@@ -298,7 +328,11 @@ async def test_meta(mocked_user, standard_portal):
         "content": [
             [
                 "cn=domain-admin,cn=category,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
-                ["cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de", "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de"],
+                [
+                    "cn=umc-domain,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+                    "cn=server-overview,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+                    "cn=univentionblog,cn=entry,cn=portals,cn=univention,dc=intranet,dc=example,dc=de",
+                ],
             ],
         ],
         "defaultLinkTarget": "embedded",
@@ -328,12 +362,17 @@ def test_score(portal, mocker):
     portal.scorer.score.assert_called_once_with(request)
 
 
-@pytest.mark.parametrize("umc_get_url", [
-    "http://ucshost.test/univention/get",
-    "http://ucshost.test/univention/get/",
-])
+@pytest.mark.parametrize(
+    "umc_get_url",
+    [
+        "http://ucshost.test/univention/get",
+        "http://ucshost.test/univention/get/",
+    ],
+)
 def test_umc_portal_request_umc_get_uses_configured_url(
-    umc_get_url, mocker, mock_portal_config,
+    umc_get_url,
+    mocker,
+    mock_portal_config,
 ):
     from univention.portal.extensions.portal import UMCPortal
 
@@ -342,9 +381,7 @@ def test_umc_portal_request_umc_get_uses_configured_url(
     portal = UMCPortal(mock.Mock(), mock.Mock())
     portal._request_umc_get('stub_path', mock.Mock())
 
-    requests_post.assert_called_with(
-        "http://ucshost.test/univention/get/stub_path",
-        json=mock.ANY, headers=mock.ANY)
+    requests_post.assert_called_with("http://ucshost.test/univention/get/stub_path", json=mock.ANY, headers=mock.ANY)
 
 
 @pytest.mark.asyncio
@@ -454,11 +491,7 @@ async def test_announcements(mocked_user, portal_data, standard_portal):
 @pytest.mark.asyncio
 async def test_announcement_groups(portal_data, standard_portal):
 
-    test_user = user.User(
-        username="hindenkampp",
-        user_dn="uid=hindenkampp,cn=users,dc=some-testenv,dc=intranet",
-        groups=["public_society"],
-        headers={})
+    test_user = user.User(username="hindenkampp", user_dn="uid=hindenkampp,cn=users,dc=some-testenv,dc=intranet", groups=["public_society"], headers={})
 
     visible_announcement_1 = {
         "allowedGroups": [],
@@ -538,11 +571,13 @@ def test_get_feature_toggles_is_empty_by_default(standard_portal, mock_portal_co
 
 
 def test_get_feature_toggles_returns_configured_values(standard_portal, mock_portal_config):
-    mock_portal_config({
-        "feature_toggles": {
-            "notifications_api": True,
-        },
-    })
+    mock_portal_config(
+        {
+            "feature_toggles": {
+                "notifications_api": True,
+            },
+        }
+    )
     features = standard_portal.get_feature_toggles()
     assert features == {"notifications_api": True}
 
@@ -565,8 +600,10 @@ def test_get_newsfeed_config_returns_configured_values(standard_portal, mock_por
         },
         "icsSilentLoginUrl": "https://ics.internal.test",
     }
-    mock_portal_config({
-        "newsfeed_config": stub_newsfeed_config,
-    })
+    mock_portal_config(
+        {
+            "newsfeed_config": stub_newsfeed_config,
+        }
+    )
     newsfeed_config = standard_portal.get_newsfeed_config()
     assert newsfeed_config == stub_newsfeed_config

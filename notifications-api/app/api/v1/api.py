@@ -24,9 +24,7 @@ log = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.post(
-    "/notifications/", status_code=201, response_model=NotificationRead,
-    tags=["sender"])
+@router.post("/notifications/", status_code=201, response_model=NotificationRead, tags=["sender"])
 async def create_notification(
     background_tasks: BackgroundTasks,
     data: NotificationCreate = Body(
@@ -71,7 +69,8 @@ async def create_notification(
                     "expireTime": "2022-03-18T10:00Z",
                 },
             },
-        }),
+        }
+    ),
 ) -> NotificationRead:
     """
     Create one notification.
@@ -186,7 +185,8 @@ class EventSourceResponse(EventSourceResponseBase):
 
 
 @router.get(
-    "/notifications/stream", tags=["receiver"],
+    "/notifications/stream",
+    tags=["receiver"],
     response_class=EventSourceResponse,
     responses={
         200: {
@@ -232,7 +232,8 @@ class EventSourceResponse(EventSourceResponseBase):
                 },
             },
         },
-    })
+    },
+)
 async def stream_notifications(request: Request):
     """
     Stream notification events as `event-stream`.

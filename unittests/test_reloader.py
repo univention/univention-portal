@@ -32,12 +32,15 @@ def portal_reloader_udm(mocker, mock_portal_config):
     return reloader.PortalReloaderUDM(stub_portal_dn, "cache_file_stub")
 
 
-@pytest.mark.parametrize("class_name", [
-    "Reloader",
-    "MtimeBasedLazyFileReloader",
-    "PortalReloaderUDM",
-    "GroupsReloaderLDAP",
-])
+@pytest.mark.parametrize(
+    "class_name",
+    [
+        "Reloader",
+        "MtimeBasedLazyFileReloader",
+        "PortalReloaderUDM",
+        "GroupsReloaderLDAP",
+    ],
+)
 def test_imports(class_name, dynamic_class):
     assert dynamic_class(class_name)
 
@@ -106,10 +109,13 @@ class TestMtimeBasedLazyFileReloader:
         self._shutil.move.assert_called_once_with("fd", self._cache_file)
 
 
-@pytest.mark.parametrize("content,expected_mode", [
-    ("str_content", "w"),
-    (b"bytes_content", "wb"),
-])
+@pytest.mark.parametrize(
+    "content,expected_mode",
+    [
+        ("str_content", "w"),
+        (b"bytes_content", "wb"),
+    ],
+)
 def test_write_to_tmp_file_sets_correct_mode(mocker, content, expected_mode, mock_portal_config):
     mock_portal_config({"assets_root": stub_assets_root})
     tempfile_mock = mocker.patch("tempfile.NamedTemporaryFile")
@@ -123,8 +129,7 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
     _portal_dn = "cn=domain,cn=portal,cn=univention"
 
     @pytest.fixture
-    def mocked_portal_reloader(
-            self, dynamic_class, patch_object_module, mocker, mock_portal_config):
+    def mocked_portal_reloader(self, dynamic_class, patch_object_module, mocker, mock_portal_config):
         mock_portal_config({"assets_root": "/stub_directory"})
         Reloader = dynamic_class("PortalReloaderUDM")
         self.patch_reloader_modules(Reloader, patch_object_module)
@@ -144,20 +149,16 @@ class TestPortalReloaderUDM(TestMtimeBasedLazyFileReloader):
         assert mocked_portal_reloader._portal_dn == self._portal_dn
 
 
-def test_portal_reloader_refresh_uses_content_fetcher_udm_rest(
-        portal_reloader_udm, mocker, mock_portal_config):
+def test_portal_reloader_refresh_uses_content_fetcher_udm_rest(portal_reloader_udm, mocker, mock_portal_config):
     mock_portal_config({"use-udm-rest-api": True})
-    mocked_fetch = mocker.patch(
-        'univention.portal.extensions.reloader_content.PortalContentFetcherUDMREST.fetch')
+    mocked_fetch = mocker.patch('univention.portal.extensions.reloader_content.PortalContentFetcherUDMREST.fetch')
     portal_reloader_udm._refresh()
     mocked_fetch.assert_called_once()
 
 
-def test_portal_reloader_refresh_uses_content_fetcher_udm(
-        portal_reloader_udm, mocker, mock_portal_config):
+def test_portal_reloader_refresh_uses_content_fetcher_udm(portal_reloader_udm, mocker, mock_portal_config):
     mock_portal_config({"use-udm-rest-api": False})
-    mocked_fetch = mocker.patch(
-        'univention.portal.extensions.reloader_udm.PortalContentFetcherUDM.fetch')
+    mocked_fetch = mocker.patch('univention.portal.extensions.reloader_udm.PortalContentFetcherUDM.fetch')
     portal_reloader_udm._refresh()
     mocked_fetch.assert_called_once()
 
@@ -172,9 +173,12 @@ def test_portal_reloader_writes_content_to_file(portal_reloader_udm, mocker):
 
 
 def test_portal_reloader_writes_assets_first(portal_reloader_udm, mocker):
-    stub_content = (b"stub_content", [
-        ("stub_path/stub_directory/stub_asset.stub_ext", b"stub_asset_content"),
-    ])
+    stub_content = (
+        b"stub_content",
+        [
+            ("stub_path/stub_directory/stub_asset.stub_ext", b"stub_asset_content"),
+        ],
+    )
     portal_reloader_udm._refresh = mock.Mock(return_value=stub_content)
     write_mock = mocker.patch.object(portal_reloader_udm, "_write")
 
@@ -184,12 +188,14 @@ def test_portal_reloader_writes_assets_first(portal_reloader_udm, mocker):
 
 
 @pytest.mark.parametrize(
-    "reason,expected", [
+    "reason,expected",
+    [
         ("stub_reason", False),
         (None, False),
         ("stub:reason", False),
         ("ldap:entry", True),
-    ])
+    ],
+)
 def test_check_reason_returns_expected_value(reason, expected, portal_reloader_udm):
     result = portal_reloader_udm._check_reason(reason)
     assert result == expected
@@ -233,27 +239,33 @@ class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):
         users_groups_mock.assert_called_once()
 
 
-@pytest.mark.parametrize("reason,expected", [
-    ("force", True),
-    ("stub_reason", False),
-    (None, False),
-    ("stub:reason", False),
-    ("ldap:entry", True),
-    ("ldap:group", False),
-])
+@pytest.mark.parametrize(
+    "reason,expected",
+    [
+        ("force", True),
+        ("stub_reason", False),
+        (None, False),
+        ("stub:reason", False),
+        ("ldap:entry", True),
+        ("ldap:group", False),
+    ],
+)
 def test_check_portal_reason_returns_expected_value(reason, expected):
     result = reloader.check_portal_reason(reason)
     assert result == expected
 
 
-@pytest.mark.parametrize("reason,expected", [
-    ("force", True),
-    ("stub_reason", False),
-    (None, False),
-    ("stub:reason", False),
-    ("ldap:entry", False),
-    ("ldap:group", True),
-])
+@pytest.mark.parametrize(
+    "reason,expected",
+    [
+        ("force", True),
+        ("stub_reason", False),
+        (None, False),
+        ("stub:reason", False),
+        ("ldap:entry", False),
+        ("ldap:group", True),
+    ],
+)
 def testcheck_groups_reason_returns_expected_value(reason, expected):
     result = reloader.check_groups_reason(reason)
     assert result == expected

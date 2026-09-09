@@ -55,7 +55,6 @@ class TestRegistrationEmbedsUsername(SettingsTestProvisioningApiSecret, AuthUser
 
 
 class TestConnection(Connection):
-
     config_map_name = "release-name-portal-consumer"
 
     path_provisioning_api_url = "data.PROVISIONING_API_BASE_URL"

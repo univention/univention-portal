@@ -40,7 +40,6 @@ LdapDn = str
 
 
 class StubPortalCache(PortalCacheMixin, StubCache):
-
     def __init__(self, faker):
         self._faker = faker
         entries = []

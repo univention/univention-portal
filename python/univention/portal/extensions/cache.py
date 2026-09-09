@@ -72,7 +72,7 @@ class Cache(CacheAbc, metaclass=PluginWithAbcBase):
         try:
             stat = os.stat(self._cache_file)
             return str(stat.st_mtime)
-        except (EnvironmentError):
+        except EnvironmentError:
             return ""
 
     def _load(self):

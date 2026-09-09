@@ -56,7 +56,6 @@ def stub_portal_cache_object_storage(faker):
 
 
 class TestPortalEntriesHandlerNoHttpCache:
-
     @pytest.fixture
     def app(self, portal):
         routes = build_routes({"default": portal}, mock.Mock())
@@ -71,7 +70,12 @@ class TestPortalEntriesHandlerNoHttpCache:
 
     @pytest.mark.gen_test
     def test_calls_refresh_on_object_storage_cache(
-        self, http_client, base_url, portal, mocker, stub_portal_cache_object_storage,
+        self,
+        http_client,
+        base_url,
+        portal,
+        mocker,
+        stub_portal_cache_object_storage,
     ):
         portal.portal_cache = stub_portal_cache_object_storage
         refresh_mock = mocker.patch.object(portal, "refresh")
@@ -81,58 +85,69 @@ class TestPortalEntriesHandlerNoHttpCache:
 
     @pytest.mark.gen_test
     def test_get_portals_returns_empty_feature_configuration(
-        self, http_client, base_url, mock_portal_config,
+        self,
+        http_client,
+        base_url,
+        mock_portal_config,
     ):
-        mock_portal_config({
-            "editable": False,
-            "feature_toggles": {},
-        })
+        mock_portal_config(
+            {
+                "editable": False,
+                "feature_toggles": {},
+            }
+        )
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data["feature_toggles"] == {}
 
     @pytest.mark.gen_test
-    def test_get_portals_returns_feature_configuration(
-            self, http_client, base_url, mock_portal_config):
-        mock_portal_config({
-            "editable": False,
-            "feature_toggles": {
-                "notifications_api": False,
-            },
-        })
+    def test_get_portals_returns_feature_configuration(self, http_client, base_url, mock_portal_config):
+        mock_portal_config(
+            {
+                "editable": False,
+                "feature_toggles": {
+                    "notifications_api": False,
+                },
+            }
+        )
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data["feature_toggles"] == {"notifications_api": False}
 
     @pytest.mark.gen_test
     def test_get_portals_returns_empty_newsfeed_configuration(
-        self, http_client, base_url, mock_portal_config,
+        self,
+        http_client,
+        base_url,
+        mock_portal_config,
     ):
-        mock_portal_config({
-            "editable": False,
-            "newsfeed_config": {},
-        })
+        mock_portal_config(
+            {
+                "editable": False,
+                "newsfeed_config": {},
+            }
+        )
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data["newsfeed_config"] == {}
 
     @pytest.mark.gen_test
-    def test_get_portals_returns_newsfeed_configuration(
-            self, http_client, base_url, mock_portal_config):
-        mock_portal_config({
-            "editable": False,
-            "newsfeed_config": {
-                "stub": "value",
-            },
-        })
+    def test_get_portals_returns_newsfeed_configuration(self, http_client, base_url, mock_portal_config):
+        mock_portal_config(
+            {
+                "editable": False,
+                "newsfeed_config": {
+                    "stub": "value",
+                },
+            }
+        )
         mock_portal_config({"test": "value"})
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body)
         assert data["newsfeed_config"] == {"stub": "value"}
 
     @pytest.mark.gen_test
-    def test_get_portals_returns_links(
-            self, portal_link_list, http_client, base_url, stub_portal_cache):
+    def test_get_portals_returns_links(self, portal_link_list, http_client, base_url, stub_portal_cache):
         entry_dn = f"cn={portal_link_list.portal_attr},dc=test"
         stub_portal_cache.stub_add_entry(entry_dn, in_link_lists=[portal_link_list.portal_attr])
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
@@ -141,7 +156,6 @@ class TestPortalEntriesHandlerNoHttpCache:
 
 
 class TestPortalEntriesHandlerObjectStorageCache:
-
     @pytest.fixture
     def portal(self):
         portal = mock.Mock(spec=["refresh", "score"])
@@ -155,7 +169,12 @@ class TestPortalEntriesHandlerObjectStorageCache:
 
     @pytest.mark.gen_test
     def test_calls_refresh_on_object_storage_cache_before_usage(
-        self, http_client, base_url, portal, mocker, stub_portal_cache_object_storage,
+        self,
+        http_client,
+        base_url,
+        portal,
+        mocker,
+        stub_portal_cache_object_storage,
     ):
         # TODO: We depend on the calls being made in the correct order if the
         # object storage cache backend is used.
@@ -171,7 +190,6 @@ class TestPortalEntriesHandlerObjectStorageCache:
 
 
 class TestPortalEntriesHandlerNoPortal:
-
     @pytest.fixture
     def app(self) -> tornado.web.Application:
         return tornado.web.Application(build_routes({}, mock.Mock()))
@@ -183,7 +201,6 @@ class TestPortalEntriesHandlerNoPortal:
 
 
 class TestPortalEntriesHandlerEnsureLogin:
-
     @pytest.fixture
     def app(self, portal):
         routes = build_routes({"default": portal}, mock.Mock())
@@ -191,7 +208,12 @@ class TestPortalEntriesHandlerEnsureLogin:
 
     @pytest.mark.gen_test
     def test_hides_content_from_anonymous_when_ensure_login(
-        self, http_client, base_url, portal, stub_portal_cache, stub_user_anonymous,
+        self,
+        http_client,
+        base_url,
+        portal,
+        stub_portal_cache,
+        stub_user_anonymous,
     ):
         portal.authenticator.stub_user = stub_user_anonymous
         stub_portal_cache.stub_content["portal"]["ensureLogin"] = True
@@ -213,7 +235,12 @@ class TestPortalEntriesHandlerEnsureLogin:
 
     @pytest.mark.gen_test
     def test_serves_content_to_anonymous_without_ensure_login(
-        self, http_client, base_url, portal, stub_portal_cache, stub_user_anonymous,
+        self,
+        http_client,
+        base_url,
+        portal,
+        stub_portal_cache,
+        stub_user_anonymous,
     ):
         portal.authenticator.stub_user = stub_user_anonymous
         stub_portal_cache.stub_content["portal"]["ensureLogin"] = False
@@ -225,7 +252,10 @@ class TestPortalEntriesHandlerEnsureLogin:
 
     @pytest.mark.gen_test
     def test_serves_content_to_authenticated_when_ensure_login(
-        self, http_client, base_url, stub_portal_cache,
+        self,
+        http_client,
+        base_url,
+        stub_portal_cache,
     ):
         stub_portal_cache.stub_content["portal"]["ensureLogin"] = True
         entry_dn = "cn=visible,dc=test"
@@ -239,7 +269,6 @@ class TestPortalEntriesHandlerEnsureLogin:
 # portal via "portals.json". Compare the CLI script "univention-portal" which
 # allows to generate the configuration for this.
 class TestPortalEntriesHandlerWithUmcPortal:
-
     @pytest.fixture
     def app(self, portal_umc):
         routes = build_routes({"default": portal_umc}, mock.Mock())
@@ -247,7 +276,12 @@ class TestPortalEntriesHandlerWithUmcPortal:
 
     @pytest.mark.gen_test
     def test_get_portal_json(
-        self, http_client, base_url, umc_categories_data, umc_modules_data, mocker,
+        self,
+        http_client,
+        base_url,
+        umc_categories_data,
+        umc_modules_data,
+        mocker,
     ):
         response = yield http_client.fetch(f"{base_url}/_/portal.json")
         data = json.loads(response.body.decode())

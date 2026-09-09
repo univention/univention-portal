@@ -45,7 +45,10 @@ def api_base_url(base_url):
 
 @pytest.mark.gen_test
 async def test_unauthenticated_user_returns_empty_dict(
-    stub_authenticator, stub_user_anonymous, http_client, api_base_url,
+    stub_authenticator,
+    stub_user_anonymous,
+    http_client,
+    api_base_url,
 ):
     stub_authenticator.stub_user = stub_user_anonymous
     response = await http_client.fetch(f"{api_base_url}/me")
@@ -55,7 +58,10 @@ async def test_unauthenticated_user_returns_empty_dict(
 
 @pytest.mark.gen_test
 async def test_authenticated_user_returns_user_data_from_udm(
-    http_client, api_base_url, stub_user, udm_client_stub,
+    http_client,
+    api_base_url,
+    stub_user,
+    udm_client_stub,
 ):
     response = await http_client.fetch(f"{api_base_url}/me")
     data = json.loads(response.body)

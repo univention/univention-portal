@@ -62,8 +62,7 @@ CONSUMER_PATH = "./portal_consumer"
 
 @pytest.fixture
 def async_client():
-    return patch("univention.provisioning.consumer.ProvisioningConsumerClient",
-                 new_callable=MagicMock()).start()
+    return patch("univention.provisioning.consumer.ProvisioningConsumerClient", new_callable=MagicMock()).start()
 
 
 @pytest.fixture
@@ -90,12 +89,12 @@ def consumer(group_cache):
 @pytest.mark.asyncio
 class TestPortalConsumer:
     async def test_portal_call_update_with_groups_change(
-            self,
-            async_client: ProvisioningConsumerClient,
-            message_handler: MessageHandler,
-            mock_cli_update_call,
-            consumer,
-            group_cache,
+        self,
+        async_client: ProvisioningConsumerClient,
+        message_handler: MessageHandler,
+        mock_cli_update_call,
+        consumer,
+        group_cache,
     ):
         async def run():
             await consumer.handle_message(MESSAGE_GROUP)
@@ -110,12 +109,12 @@ class TestPortalConsumer:
         group_cache.update_cache.assert_called_once_with(MESSAGE_GROUP.body)
 
     async def test_portal_call_update_with_portal_change(
-            self,
-            async_client: ProvisioningConsumerClient,
-            message_handler: MessageHandler,
-            mock_cli_update_call,
-            mock_subprocess_call,
-            consumer,
+        self,
+        async_client: ProvisioningConsumerClient,
+        message_handler: MessageHandler,
+        mock_cli_update_call,
+        mock_subprocess_call,
+        consumer,
     ):
         async def run():
             await consumer.handle_message(MESSAGE_PORTAL)

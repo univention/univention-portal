@@ -228,13 +228,15 @@ def umc_categories_data():
 
     See `UMCPortal._request_umc_get` regarding the related implmentation.
     """
-    return [{
-        "color": "#00acb6",
-        "icon": "category-domain.svg",
-        "id": "domain",
-        "name": "Domain",
-        "priority": 60.0,
-    }]
+    return [
+        {
+            "color": "#00acb6",
+            "icon": "category-domain.svg",
+            "id": "domain",
+            "name": "Domain",
+            "priority": 60.0,
+        }
+    ]
 
 
 @pytest.fixture
@@ -244,15 +246,17 @@ def umc_modules_data():
 
     See `UMCPortal._request_umc_get` regarding the related implmentation.
     """
-    return [{
-        "categories": ["domain"],
-        "description": "Managing the Univention Portal",
-        "flavor": "portals/all",
-        "icon": "portal",
-        "id": "udm",
-        "keywords": ["", "Portal"],
-        "name": "Portal",
-        "priority": -1.0,
-        "url": None,
-        "version": None,
-    }]
+    return [
+        {
+            "categories": ["domain"],
+            "description": "Managing the Univention Portal",
+            "flavor": "portals/all",
+            "icon": "portal",
+            "id": "udm",
+            "keywords": ["", "Portal"],
+            "name": "Portal",
+            "priority": -1.0,
+            "url": None,
+            "version": None,
+        }
+    ]

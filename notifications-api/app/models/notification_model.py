@@ -24,9 +24,7 @@ class NotificationLink(SQLModel):
     class Config:
         fields = {
             "url": {
-                "description": (
-                    "The accepted URLs are limited to HTTP and HTTPS, they must be absolute URLs."
-                ),
+                "description": ("The accepted URLs are limited to HTTP and HTTPS, they must be absolute URLs."),
             },
             "target": {
                 "example": "_blank",
@@ -60,17 +58,11 @@ class NotificationBase(SQLModel):
                 "example": UUID("13af2f92-9661-4386-b521-daaff8a1bbec"),
             },
             "title": {
-                "description": (
-                    "The notification title shall be visible to the user in a highlighted way. "
-                    "The title should be kept short."
-                ),
+                "description": ("The notification title shall be visible to the user in a highlighted way. The title should be kept short."),
                 "example": "New Message",
             },
             "details": {
-                "description": (
-                    "The notification details shall be visible to the user below the title. "
-                    "The details can be longer than the title."
-                ),
+                "description": ("The notification details shall be visible to the user below the title. The details can be longer than the title."),
                 "example": "You have been mentioned in the channel #api-example.",
             },
             "severity": {
@@ -83,9 +75,7 @@ class NotificationBase(SQLModel):
             },
             "expireTime": {
                 "description": (
-                    "A point in time at which the notification is not relevant anymore. "
-                    "After this point in time the notification shall not be presented to the "
-                    "user anymore."
+                    "A point in time at which the notification is not relevant anymore. After this point in time the notification shall not be presented to the user anymore."
                 ),
                 "example": "2023-03-18T10:00Z",
             },
@@ -96,7 +86,6 @@ class NotificationBase(SQLModel):
                     "to reach the resource which the notification is about."
                 ),
             },
-
         }
 
     @validator('link')
@@ -108,8 +97,7 @@ class NotificationBase(SQLModel):
 
     def has_expired(self):
         """Returns `True` when the notification has an expiry time and that time is in the past."""
-        return self.expireTime \
-            and (self.expireTime < datetime.now(UTC))
+        return self.expireTime and (self.expireTime < datetime.now(UTC))
 
 
 class NotificationRead(NotificationBase):
@@ -120,17 +108,11 @@ class NotificationRead(NotificationBase):
         fields = {
             "id": {
                 "title": "Notification ID",
-                "description": (
-                    "The ID of the notification is automatically generated and "
-                    "stable over the lifetime of this notification."
-                ),
+                "description": ("The ID of the notification is automatically generated and stable over the lifetime of this notification."),
                 "example": "940ebfa5-a416-403a-a233-c5ccae4fec88",
             },
             "popup": {
-                "description": (
-                    "A flag to indicate if the notification shall pop up in the "
-                    "*Receiver* UI."
-                ),
+                "description": ("A flag to indicate if the notification shall pop up in the *Receiver* UI."),
                 "example": True,
             },
         }
@@ -154,7 +136,6 @@ class Notification(NotificationRead, table=True):
 
 
 class NotificationCreate(NotificationBase):
-
     @validator('expireTime')
     def expire_time_must_be_timezone_aware(cls, expireTime: datetime | None):
         if (expireTime is None) or _datetime_is_tz_aware(expireTime):

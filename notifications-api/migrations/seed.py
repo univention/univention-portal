@@ -18,14 +18,16 @@ def seed_notification_table(n):
     session = next(get_session())
     print(f"Seeding {Notification}.")
     for _ in range(n):
-        session.add(Notification(
-            id=uuid.uuid4().hex,
-            sourceUid=uuid.uuid4().hex,
-            targetUid=uuid.uuid4().hex,
-            title=fake.sentence(),
-            details=fake.sentence(),
-            severity=NotificationSeverity.INFO,
-        ))
+        session.add(
+            Notification(
+                id=uuid.uuid4().hex,
+                sourceUid=uuid.uuid4().hex,
+                targetUid=uuid.uuid4().hex,
+                title=fake.sentence(),
+                details=fake.sentence(),
+                severity=NotificationSeverity.INFO,
+            )
+        )
     session.commit()
     print(f"Seeded {Notification}.")
 

@@ -2,17 +2,19 @@
 # SPDX-FileCopyrightText: 2023-2026 Univention GmbH
 
 
-"""empty message
+"""
+empty message
 
 Revision ID: 3d4de5e11556
 Revises: e63f346068f6
 Create Date: 2023-03-17 08:15:33.190688
 
 """
-from alembic import op
+
 import sqlalchemy as sa
-import sqlmodel
+from alembic import op
 from sqlalchemy.dialects import postgresql
+
 
 # revision identifiers, used by Alembic.
 revision = '3d4de5e11556'

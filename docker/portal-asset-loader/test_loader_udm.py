@@ -45,9 +45,11 @@ def test_initial_sync_retries_until_success():
     config = make_config()
     session = mock.Mock()
 
-    with mock.patch.object(loader_udm, "sync_portals") as sync_portals, \
-            mock.patch.object(loader_udm, "sync_entries", return_value="entry-etag"), \
-            mock.patch.object(loader_udm.time, "sleep") as sleep:
+    with (
+        mock.patch.object(loader_udm, "sync_portals") as sync_portals,
+        mock.patch.object(loader_udm, "sync_entries", return_value="entry-etag"),
+        mock.patch.object(loader_udm.time, "sleep") as sleep,
+    ):
         sync_portals.side_effect = [
             requests.exceptions.ReadTimeout(),
             requests.exceptions.ReadTimeout(),

@@ -12,7 +12,6 @@ from univention.portal.log import get_logger
 
 
 class PortalResource(tornado.web.RequestHandler):
-
     def initialize(self, portals):
         self.portals = portals
 

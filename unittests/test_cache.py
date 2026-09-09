@@ -19,7 +19,6 @@ def test_imports(dynamic_class):
 
 
 class TestPortalCacheMixin:
-
     def test_returns_corner_links(self, stub_portal_cache):
         stub_portal_cache.stub_content["corner_links"] = ["cn=corner_links,dc=test"]
         corner_links = stub_portal_cache.get_corner_links()

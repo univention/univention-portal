@@ -6,7 +6,6 @@ from univention.testing.helm.utils import apply_mapping
 
 
 class TestImageConfiguration(ImageConfiguration):
-
     def adjust_values(self, values: dict):
         mapping = {
             "assetLoader.image": "image",

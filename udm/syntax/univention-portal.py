@@ -16,7 +16,7 @@ _ = translation.translate
 class NewPortalCategories(UDM_Objects):
     """Syntax to select a portal from |LDAP| using :py:class:`univention.admin.handlers.portals.category`."""
 
-    udm_modules = ('portals/category', )
+    udm_modules = ('portals/category',)
     label = '%(name)s'
     empty_value = False
     simple = True
@@ -34,7 +34,7 @@ class NewPortalCategoryEntries(UDM_Objects):
 class NewPortalEntries(UDM_Objects):
     """Syntax to select a portal entries from |LDAP| using :py:class:`univention.admin.handlers.portals.entry`."""
 
-    udm_modules = ('portals/entry', )
+    udm_modules = ('portals/entry',)
     label = '%(name)s'
     empty_value = False
     simple = True
@@ -43,7 +43,7 @@ class NewPortalEntries(UDM_Objects):
 class NewPortalFolders(UDM_Objects):
     """Syntax to select a portal entries from |LDAP| using :py:class:`univention.admin.handlers.portals.entry`."""
 
-    udm_modules = ('portals/folder', )
+    udm_modules = ('portals/folder',)
     label = '%(name)s'
     empty_value = False
     simple = True
@@ -52,7 +52,7 @@ class NewPortalFolders(UDM_Objects):
 class NewPortalAnnouncements(UDM_Objects):
     """Syntax to select a portal announcement from |LDAP| using :py:class:`univention.admin.handlers.announcement.entry`."""
 
-    udm_modules = ('portals/announcement', )
+    udm_modules = ('portals/announcement',)
     label = '%(name)s'
     empty_value = False
     simple = True

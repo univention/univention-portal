@@ -19,7 +19,7 @@ class ShortNameFormatter(logging.Formatter):
     def format(self, record):
         record.short_name = record.name
         if record.short_name.startswith("%s." % self.shorten):
-            record.short_name = record.short_name[len(self.shorten) + 1:]
+            record.short_name = record.short_name[len(self.shorten) + 1 :]
         return super().format(record)
 
 

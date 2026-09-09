@@ -25,6 +25,8 @@ short_description = _('Portal: Portal')
 object_name = _('Portal')
 object_name_plural = _('Portals')
 long_description = _('Object that feeds everything in https://fqdn/univention/portal')
+
+# fmt: off
 options = {
     'default': univention.admin.option(
         short_description=short_description,
@@ -158,6 +160,7 @@ layout = [
         ]),
     ]),
 ]
+# fmt: on
 
 
 def mapTranslationValue(vals, encoding=()):

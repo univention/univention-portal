@@ -55,7 +55,10 @@ class PortalConsumer:
         dn = body.new.get("dn") or body.old.get("dn")
         logger.info(
             "UDM %r object %r changed (sequence_number: %d, num_delivered: %d).",
-            topic, dn, message.sequence_number, message.num_delivered,
+            topic,
+            dn,
+            message.sequence_number,
+            message.num_delivered,
         )
         logger.debug("Message body: %r", body)
 

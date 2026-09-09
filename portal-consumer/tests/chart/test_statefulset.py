@@ -172,6 +172,7 @@ class AuthExistingSecAsEnvVariable(Base):
         def match_func(env):
             assert env["valueFrom"]["secretKeyRef"]["name"] == name
             assert env["valueFrom"]["secretKeyRef"]["key"] == password
+
         return match_func
 
     def test_auth_existing_secret_custom_name(
@@ -215,6 +216,7 @@ class AuthExistingSecAsEnvVariable(Base):
                 f"release-name-{self.chart_name}",
             ), f"Secret name: {env['valueFrom']['secretKeyRef']['name']} does not start with release-name-{self.chart_name}"
             assert env["valueFrom"]["secretKeyRef"]["key"] == "password"
+
         self._env_var_match(match_func, self.init_containers, deployment, test_init_containers=True)
         self._env_var_match(match_func, self.containers, deployment, test_init_containers=False)
 

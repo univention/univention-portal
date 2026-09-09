@@ -26,6 +26,8 @@ short_description = _('Portal: Category')
 object_name = _('Portal category')
 object_name_plural = _('Portal categories')
 long_description = _('Object under which portals/entry objects can be displayed. Belongs to one or more portals/portal objects')
+
+# fmt: off
 options = {
     'default': univention.admin.option(
         short_description=short_description,
@@ -69,6 +71,7 @@ layout = [
         ]),
     ]),
 ]
+# fmt: on
 
 
 def mapTranslationValue(vals, encoding=()):

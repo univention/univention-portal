@@ -26,6 +26,7 @@ from univention.portal.util import is_current_time_between as is_announcement_vi
 
 try:
     from guardian_authorization_client import GuardianAuthorizationClient
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GuardianAuthorizationClient = None
@@ -125,8 +126,7 @@ class Portal(metaclass=Plugin):
             )
         else:
             get_logger("portal").warning(
-                "Guardian integration enabled but missing configuration. "
-                "Required: guardian.fqdn, guardian.keycloak.fqdn, guardian.keycloak.username, guardian.keycloak.password",
+                "Guardian integration enabled but missing configuration. Required: guardian.fqdn, guardian.keycloak.fqdn, guardian.keycloak.username, guardian.keycloak.password",
             )
         return self._guardian_client
 
@@ -179,30 +179,22 @@ class Portal(metaclass=Plugin):
         visible_folder_dns = [
             folder_dn
             for folder_dn in folders.keys()
-            if admin_mode or len(
-                [
-                    entry_dn
-                    for entry_dn in self._get_all_entries_of_folder(folder_dn, folders, entries)
-                    if entry_dn in visible_entry_dns
-                ],
-            ) > 0
+            if admin_mode
+            or len(
+                [entry_dn for entry_dn in self._get_all_entries_of_folder(folder_dn, folders, entries) if entry_dn in visible_entry_dns],
+            )
+            > 0
         ]
         visible_category_dns = [
             category_dn
             for category_dn in categories.keys()
-            if admin_mode or len(
-                [
-                    entry_dn
-                    for entry_dn in categories[category_dn]["entries"]
-                    if entry_dn in visible_entry_dns or entry_dn in visible_folder_dns
-                ],
-            ) > 0
+            if admin_mode
+            or len(
+                [entry_dn for entry_dn in categories[category_dn]["entries"] if entry_dn in visible_entry_dns or entry_dn in visible_folder_dns],
+            )
+            > 0
         ]
-        visible_announcement_dns = [
-            announcement_dn
-            for announcement_dn, announcement in announcements.items()
-            if self._announcement_visible(user, announcement)
-        ]
+        visible_announcement_dns = [announcement_dn for announcement_dn, announcement in announcements.items() if self._announcement_visible(user, announcement)]
         return {
             "entry_dns": visible_entry_dns,
             "folder_dns": visible_folder_dns,
@@ -233,14 +225,11 @@ class Portal(metaclass=Plugin):
         try:
             get_logger("portal").info("User is logged in, fetching user details from UDM Rest API.")
             udm_client = self._get_udm_client()
-            udm_user_data = await udm_client.get_user(
-                user.user_dn, include_guardian_inherited_roles=True)
+            udm_user_data = await udm_client.get_user(user.user_dn, include_guardian_inherited_roles=True)
 
             actor = self._build_guardian_actor(udm_user_data)
 
-            get_logger("portal").debug(
-                "Fetching Guardian permissions for actor: %s with roles: %s, attributes: %s",
-                actor["id"], actor["roles"], actor.get("attributes", {}))
+            get_logger("portal").debug("Fetching Guardian permissions for actor: %s with roles: %s, attributes: %s", actor["id"], actor["roles"], actor.get("attributes", {}))
             # For general permissions, we don't need targets (pass None, not empty targets)
             guardian_response = guardian_client.get_permissions(
                 actor,
@@ -257,8 +246,7 @@ class Portal(metaclass=Plugin):
 
         except Exception as exc:
             get_logger("portal").error(
-                "Failed to fetch Guardian permissions: %s. "
-                "Falling back to group-based filtering.",
+                "Failed to fetch Guardian permissions: %s. Falling back to group-based filtering.",
                 exc,
                 exc_info=True,
             )
@@ -288,9 +276,7 @@ class Portal(metaclass=Plugin):
         all_roles = list(guardian_roles) + list(inherited_roles)
 
         if all_roles:
-            get_logger("portal").debug(
-                "Found %d Guardian roles for user (%d direct, %d inherited).",
-                len(all_roles), len(guardian_roles), len(inherited_roles))
+            get_logger("portal").debug("Found %d Guardian roles for user (%d direct, %d inherited).", len(all_roles), len(guardian_roles), len(inherited_roles))
             # Roles should be strings in the format "app:namespace:role"
             # The GuardianAuthorizationClient will convert them to dicts via expand_role_string()
             actor["roles"] = all_roles
@@ -314,9 +300,7 @@ class Portal(metaclass=Plugin):
         return self._filter_visible_links(links, content)
 
     def _filter_visible_links(self, links, content):
-        return [
-            dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]
-        ]
+        return [dn for dn in links if dn in content["entry_dns"] or dn in content["folder_dns"]]
 
     def get_entries(self, content):
         entries = self.portal_cache.get_entries()
@@ -326,22 +310,14 @@ class Portal(metaclass=Plugin):
         folders = self.portal_cache.get_folders()
         folders = [folders[folder_dn] for folder_dn in content["folder_dns"]]
         for folder in folders:
-            folder["entries"] = [
-                entry_dn
-                for entry_dn in folder["entries"]
-                if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]
-            ]
+            folder["entries"] = [entry_dn for entry_dn in folder["entries"] if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]]
         return folders
 
     def get_categories(self, content):
         categories = self.portal_cache.get_categories()
         categories = [categories[category_dn] for category_dn in content["category_dns"]]
         for category in categories:
-            category["entries"] = [
-                entry_dn
-                for entry_dn in category["entries"]
-                if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]
-            ]
+            category["entries"] = [entry_dn for entry_dn in category["entries"] if entry_dn in content["entry_dns"] or entry_dn in content["folder_dns"]]
         return categories
 
     def auth_mode(self, request):
@@ -352,15 +328,8 @@ class Portal(metaclass=Plugin):
 
     def get_meta(self, content, categories):
         portal = self.portal_cache.get_portal()
-        portal["categories"] = [
-            category_dn
-            for category_dn in portal["categories"]
-            if category_dn in content["category_dns"]
-        ]
-        portal["content"] = [
-            [category_dn, next(category for category in categories if category["dn"] == category_dn)["entries"]]
-            for category_dn in portal["categories"]
-        ]
+        portal["categories"] = [category_dn for category_dn in portal["categories"] if category_dn in content["category_dns"]]
+        portal["content"] = [[category_dn, next(category for category in categories if category["dn"] == category_dn)["entries"]] for category_dn in portal["categories"]]
         return portal
 
     def _announcement_visible(self, user, announcement: dict) -> bool:
@@ -435,13 +404,16 @@ class Portal(metaclass=Plugin):
                     if has_permission:
                         get_logger("portal").debug(
                             "Entry %s visible: user has permission %s",
-                            entry_dn, required_permission,
+                            entry_dn,
+                            required_permission,
                         )
                         filtered_dns.append(entry_dn)
                     else:
                         get_logger("portal").debug(
                             "Entry %s hidden: user lacks permission %s (has: %s)",
-                            entry_dn, required_permission, guardian_permissions,
+                            entry_dn,
+                            required_permission,
+                            guardian_permissions,
                         )
                     continue
 
@@ -565,10 +537,12 @@ class UMCPortal(Portal):
             "target": None,
             "icon_url": icon_url,
             "backgroundColor": color,
-            "links": [{
-                "locale": locale,
-                "value": "/univention/management/?header=try-hide&overview=false&menu=false#module={}:{}".format(module["id"], module.get("flavor", "")),
-            }],
+            "links": [
+                {
+                    "locale": locale,
+                    "value": "/univention/management/?header=try-hide&overview=false&menu=false#module={}:{}".format(module["id"], module.get("flavor", "")),
+                }
+            ],
             # TODO: missing: in_portal, anonymous, activated, allowedGroups
         }
         return entry
@@ -606,14 +580,16 @@ class UMCPortal(Portal):
                 continue
             entries = [[-module["priority"], module["name"], self._entry_id(module)] for module in content["umc_modules"] if category["id"] in module["categories"]]
             entries = sorted(entries)
-            folders.append({
-                "name": {
-                    "en_US": category["name"],
-                    "de_DE": category["name"],
-                },
-                "dn": category["id"],
-                "entries": [entry[2] for entry in entries],
-            })
+            folders.append(
+                {
+                    "name": {
+                        "en_US": category["name"],
+                        "de_DE": category["name"],
+                    },
+                    "dn": category["id"],
+                    "entries": [entry[2] for entry in entries],
+                }
+            )
         return folders
 
     def get_categories(self, content):
@@ -625,28 +601,34 @@ class UMCPortal(Portal):
         fav_cat = [cat for cat in categories if cat["id"] == "_favorites_"]
         if fav_cat:
             fav_cat = fav_cat[0]
-            ret.append({
-                "display_name": {
-                    "en_US": fav_cat["name"],
-                },
-                "dn": "umc:category:favorites",
-                "entries": [self._entry_id(mod) for mod in modules if "_favorites_" in mod.get("categories", [])],
-            })
+            ret.append(
+                {
+                    "display_name": {
+                        "en_US": fav_cat["name"],
+                    },
+                    "dn": "umc:category:favorites",
+                    "entries": [self._entry_id(mod) for mod in modules if "_favorites_" in mod.get("categories", [])],
+                }
+            )
         else:
-            ret.append({
+            ret.append(
+                {
+                    "display_name": {
+                        "en_US": "Favorites",
+                    },
+                    "dn": "umc:category:favorites",
+                    "entries": [],
+                }
+            )
+        ret.append(
+            {
                 "display_name": {
-                    "en_US": "Favorites",
+                    "en_US": "Univention Management Console",
                 },
-                "dn": "umc:category:favorites",
-                "entries": [],
-            })
-        ret.append({
-            "display_name": {
-                "en_US": "Univention Management Console",
-            },
-            "dn": "umc:category:umc",
-            "entries": [cat["id"] for cat in categories if cat["id"] not in ["_favorites_", "apps"]],
-        })
+                "dn": "umc:category:umc",
+                "entries": [cat["id"] for cat in categories if cat["id"] not in ["_favorites_", "apps"]],
+            }
+        )
         return ret
 
     def get_meta(self, content, categories):

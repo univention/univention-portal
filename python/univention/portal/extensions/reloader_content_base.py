@@ -5,7 +5,6 @@ import json
 
 
 class PortalContentFetcherBase:
-
     def fetch(self):
         result = self._fetch()
         return json.dumps(result, sort_keys=True, indent=4)
