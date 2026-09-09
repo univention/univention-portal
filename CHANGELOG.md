@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.95.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.25...v0.95.0) (2026-09-09)
+
+
+### Features
+
+* deprecate notifications-api and disable its feature toggle by default ([14f3b46](https://git.knut.univention.de/univention/dev/projects/portal/commit/14f3b46834a32e7fa227ec5f737a521daf9f24ec)), closes [univention/dev/internal/team-nubus#1675](https://git.knut.univention.de/univention/dev/internal/team-nubus/issues/1675) [univention/dev/projects/portal#755](https://git.knut.univention.de/univention/dev/projects/portal/issues/755)
+
 ## [0.94.25](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.94.24...v0.94.25) (2026-09-07)
 
 
