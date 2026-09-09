@@ -4,7 +4,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2019-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2019-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ filter = '(|(univentionObjectType=portals/portal)(univentionObjectType=portals/c
 def handler(dn: str, new: Dict[str, List[bytes]], old: Dict[str, List[bytes]]) -> None:
     listener.setuid(0)
     try:
-        attrs = new if new else old
+        attrs = new or old
         object_type = attrs.get('univentionObjectType', [])
         if object_type:
             module = object_type[0].decode('utf-8').split('/')[-1]

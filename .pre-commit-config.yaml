@@ -1,6 +1,6 @@
 ---
 
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 # See https://pre-commit.com for more information
@@ -42,10 +42,7 @@ repos:
   - repo: https://git.knut.univention.de/univention/dist/pre-commit-ucr
     rev: "0.1.7"
     hooks:
-      - id: ucr-flake8
       - id: ucr-ruff
-      - id: ucr-autopep8
-        stages: [manual]
       - id: ucr-ruff-fix
         stages: [manual]
 
@@ -67,31 +64,6 @@ repos:
     rev: v1.1.0
     hooks:
       - id: debian-control
-
-  # "flake8"
-  - repo: https://github.com/PyCQA/flake8
-    rev: 7.3.0
-    hooks:
-      - id: flake8
-
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    # TODO: Updating Ruff does include making the linter work by either
-    # correcting the code or adjusting the configuration.
-    # rev: "v0.1.9"
-    rev: "v0.14.8"
-    hooks:
-      - id: ruff
-        args: ["--fix"]
-
-  - repo: https://github.com/hhatto/autopep8
-    rev: v2.3.2
-    hooks:
-      - id: autopep8
-        args: ["-d"]
-      - id: autopep8
-        alias: "autopep8-fix"
-        stages: [manual]
-        args: ["-i"]
 
   - repo: https://gitlab.com/univention/pre-commit-hooks/pre-commit-shell
     rev: v1.0.6+uv1

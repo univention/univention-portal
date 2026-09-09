@@ -1,17 +1,16 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2026 Univention GmbH
 
-# flake8: noqa
-
-"""add notification popup
+"""
+add notification popup
 
 Revision ID: 9a6b4364a7f7
 Revises: 7e3f5108c506
 Create Date: 2023-01-08 20:38:55.325515
 
 """
+
 import sqlalchemy as sa
-import sqlmodel
 from alembic import op
 
 

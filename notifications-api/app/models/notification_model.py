@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2023-2024 Univention GmbH
+# SPDX-FileCopyrightText: 2023-2026 Univention GmbH
 
 from datetime import UTC, datetime
-from enum import Enum
+from enum import StrEnum
 from uuid import UUID
 
 from pydantic import HttpUrl, validator
 from sqlmodel import JSON, Column, Field, SQLModel
 
 
-class NotificationSeverity(str, Enum):
+class NotificationSeverity(StrEnum):
     INFO = "info"
     SUCCESS = "success"
     WARNING = "warning"

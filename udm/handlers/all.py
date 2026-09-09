@@ -2,7 +2,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2020-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2020-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 
@@ -62,7 +62,7 @@ class object(univention.admin.handlers.simpleLdap):
     module = module
 
 
-def lookup(co, lo, filter_s, base='', superordinate=None, scope='sub', unique=False, required=False, timeout=-1, sizelimit=0):
+def lookup(co, lo, filter_s, base='', superordinate=None, scope='sub', unique=False, required=False, timeout=-1, sizelimit=0):  # noqa: PLR0917
     res = []
     for child in childmodules:
         portal_module = univention.admin.modules.get(child)

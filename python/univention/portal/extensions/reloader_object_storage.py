@@ -5,7 +5,7 @@
 # Like what you see? Join us!
 # https://www.univention.com/about-us/careers/vacancies/
 #
-# SPDX-FileCopyrightText: 2020-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2020-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 #
 
@@ -120,7 +120,7 @@ class ObjectStorageReloader(reloader.Reloader):
 
 
 class ObjectStoragePortalReloader(ObjectStorageReloader):
-    def __init__(
+    def __init__(  # noqa: PLR0917
         self,
         json_path,
         portal_dn,

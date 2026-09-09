@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# SPDX-FileCopyrightText: 2025 Univention GmbH
+# SPDX-FileCopyrightText: 2025-2026 Univention GmbH
 
 [tool.ruff]
 line-length = 180
@@ -13,8 +13,6 @@ extend-exclude = [
 ]
 
 [tool.ruff.lint]
-external = ["W601", "F812", "E403", "E704"]
-
 select = ["ALL"]
 ignore = [
  "E501",  # ignore line length
@@ -43,6 +41,7 @@ ignore = [
  "SLF001",  # allow private member access
  "Q000",  # allow single quotes
  "Q001",  # allow single quote multiline strings
+ "COM812",  # conflicts with the Ruff formatter
  "RET502",  # allow implicit return None
  "RET503",  # allow missing explicit return None
  "B905",  # allow zip() without an explicit strict= parameter
@@ -153,22 +152,23 @@ task-tags = ["TODO", "FIXME"]
 [tool.ruff.lint.flake8-builtins]
 builtins-ignorelist = ["copyright", "license", "object", "exit", "quit", "credits"]
 
-[tool.ruff.lint.mccabe]
-max-complexity = 134
+[tool.ruff.lint.flake8-copyright]
+notice-rgx = '(?i)SPDX-FileCopyrightText:\s+\d{4}(?:-\d{4})?\s+Univention GmbH'
+
+[tool.ruff.format]
+quote-style = "preserve"
 
 [tool.ruff.lint.flake8-quotes]
 docstring-quotes = "double"
 multiline-quotes = "double"
 inline-quotes = "single"
 
-[tool.ruff.lint.flake8-unused-arguments]
-ignore-variadic-names = true
+
+[tool.ruff.lint.mccabe]
+max-complexity = 13
 
 [tool.ruff.lint.flake8-pytest-style]
 parametrize-names-type = "csv"
-
-[tool.ruff.lint.flake8-annotations]
-ignore-fully-untyped = true
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
