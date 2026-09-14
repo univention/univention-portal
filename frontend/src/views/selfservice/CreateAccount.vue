@@ -38,7 +38,7 @@ import { umcCommandWithStandby } from '@/jsHelper/umc';
 import Site from '@/views/selfservice/Site.vue';
 import MyForm from '@/components/forms/Form.vue';
 import ErrorDialog from '@/views/selfservice/ErrorDialog.vue';
-import { allValid, initialValue, validateAll, WidgetDefinition } from '@/jsHelper/forms';
+import { allValid, initialValue, validateAll, validateNewPassword, WidgetDefinition } from '@/jsHelper/forms';
 import activity from '@/jsHelper/activity';
 import { mapGetters } from 'vuex';
 import { sanitizeBackendWidget, setBackendInvalidMessage, sanitizeFrontendValues } from '@/views/selfservice/helper';
@@ -95,6 +95,7 @@ export default defineComponent({
         const passwordWidget = sanitized[passwordIdx];
         passwordWidget.type = 'NewPasswordBox';
         passwordWidget.required = true;
+        passwordWidget.validators = [validateNewPassword];
         const values = {};
         sanitized.forEach((widget) => {
           values[widget.name] = initialValue(widget, values[widget.name]);

@@ -132,6 +132,10 @@ export function sanitizeFrontendValues(values: Record<string, unknown>, widgets:
     if (widget.type === 'DateBox' && value === '') {
       sanitized[widget.name] = null;
     }
+    if (widget.type === 'NewPasswordBox') {
+      const newPasswordValue = value as { newPassword?: string } | undefined;
+      sanitized[widget.name] = newPasswordValue?.newPassword ?? '';
+    }
   });
   return sanitized;
 }

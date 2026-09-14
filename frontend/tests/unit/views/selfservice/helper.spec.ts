@@ -10,6 +10,7 @@ const widgets: WidgetDefinition[] = [
   { type: 'ImageUploader', name: 'image', label: 'Image' },
   { type: 'MultiInput', name: 'multi', label: 'Multi' },
   { type: 'DateBox', name: 'date', label: 'Date' },
+  { type: 'NewPasswordBox', name: 'password', label: 'Password' },
 ];
 
 describe('sanitizeFrontendValues', () => {
@@ -29,5 +30,17 @@ describe('sanitizeFrontendValues', () => {
     const values = { image: '', multi: ['value1'], date: '' };
     const result = sanitizeFrontendValues(values, widgets);
     expect(result.date).toBeNull();
+  });
+
+  test('should unwrap the newPassword string for NewPasswordBox type widgets', () => {
+    const values = { image: '', multi: ['value1'], date: '2022-01-01', password: { newPassword: 'secret123', retypePassword: 'secret123' } };
+    const result = sanitizeFrontendValues(values, widgets);
+    expect(result.password).toBe('secret123');
+  });
+
+  test('should default to an empty string when NewPasswordBox value is missing newPassword', () => {
+    const values = { image: '', multi: ['value1'], date: '2022-01-01', password: {} };
+    const result = sanitizeFrontendValues(values, widgets);
+    expect(result.password).toBe('');
   });
 });
