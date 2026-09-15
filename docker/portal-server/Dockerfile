@@ -99,7 +99,12 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
       # Currently this is used in the portal server to parse the DNs via "str2dn".
       libldap2-dev \
       python3-univention-directory-manager-rest-client \
-    && useradd -m -d /app app
+      # The GroupsContentFetcher imports "univention.ldap_cache". Without it the
+      # groups cache cannot be built on UCS.
+      univention-group-membership-cache \
+    && useradd -m -d /app app \
+    # "univention.ldap_cache" expects a "listener" user to exist.
+    && useradd -m listener
 WORKDIR /app/
 
 RUN mkdir -p /var/log/univention/ \
