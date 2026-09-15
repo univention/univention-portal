@@ -21,6 +21,7 @@ import notifications from './modules/notifications';
 import oidc from './modules/oidc';
 import portalData from './modules/portalData';
 import search from './modules/search';
+import space from './modules/space';
 import tabs from './modules/tabs';
 import tooltip from './modules/tooltip';
 import umcSession from './modules/umcSession';
@@ -218,6 +219,7 @@ export const store = createStore<RootState>({
     oidc,
     portalData,
     search,
+    space,
     tabs,
     tooltip,
     umcSession,
