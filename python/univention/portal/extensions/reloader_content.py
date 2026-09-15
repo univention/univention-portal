@@ -54,10 +54,10 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
         portal_categories = [category for dn, category in categories.items() if category["in_portal"]]
         announcements = self._extract_announcements(udm)
 
-        corner_links = portal_data.properties["cornerLinks"]
-        menu_links = portal_data.properties["menuLinks"]
-        quick_links = portal_data.properties["quickLinks"]
-        user_links = portal_data.properties["userLinks"]
+        corner_links = portal_data.properties.get("cornerLinks", [])
+        menu_links = portal_data.properties.get("menuLinks", [])
+        quick_links = portal_data.properties.get("quickLinks", [])
+        user_links = portal_data.properties.get("userLinks", [])
         central_navigation = portal_data.properties.get("centralNavigation", [])
 
         entry_references = set()
@@ -174,7 +174,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
                 "activated": entry.properties["activated"],
                 "anonymous": entry.properties["anonymous"],
                 "allowedGroups": entry.properties["allowedGroups"],
-                "guardianPermissionView": entry.properties["guardianPermissionView"],
+                "guardianPermissionView": entry.properties.get("guardianPermissionView"),
                 "links": [{"locale": _[0], "value": _[1]} for _ in entry.properties["link"]],
                 "linkTarget": entry.properties["linkTarget"],
                 "target": entry.properties["target"],

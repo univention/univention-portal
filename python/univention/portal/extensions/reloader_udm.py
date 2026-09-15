@@ -46,11 +46,11 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
         portal_categories = [category for dn, category in categories.items() if category["in_portal"]]
         announcements = self._extract_announcements(udm)
 
-        corner_links = portal_data.props.cornerLinks
-        menu_links = portal_data.props.menuLinks
-        quick_links = portal_data.props.quickLinks
-        user_links = portal_data.props.userLinks
-        central_navigation = portal_data.props.centralNavigation
+        corner_links = getattr(portal_data.props, "cornerLinks", None) or []
+        menu_links = getattr(portal_data.props, "menuLinks", None) or []
+        quick_links = getattr(portal_data.props, "quickLinks", None) or []
+        user_links = getattr(portal_data.props, "userLinks", None) or []
+        central_navigation = getattr(portal_data.props, "centralNavigation", None) or []
 
         entry_references = set()
         entry_references.update(
@@ -159,7 +159,7 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
                 "activated": entry.props.activated,
                 "anonymous": entry.props.anonymous,
                 "allowedGroups": entry.props.allowedGroups,
-                "guardianPermissionView": entry.props.guardianPermissionView,
+                "guardianPermissionView": getattr(entry.props, "guardianPermissionView", None),
                 "links": entry.props.link,
                 "linkTarget": entry.props.linkTarget,
                 "target": entry.props.target,
