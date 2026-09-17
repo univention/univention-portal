@@ -1,4 +1,38 @@
-univention-portal (6.2.0) unstable; urgency=medium
+univention-portal (6.7.0) UNRELEASED; urgency=medium
+
+  * Issue univention/dev/ucs#3416: The Debian package is now built from the
+    portal repository instead of the UCS tree. The package deploys the
+    portal-server and portal-frontend containers via docker compose.
+  * Issue univention/dev/ucs#3416: The portal LDAP schema gained
+    cornerLinks, quickLinks, centralNavigation and guardianPermissionView.
+
+ -- Jaime Conde Segovia <conde-segovia@univention.de>  Thu, 17 Sep 2026 10:00:00 +0200
+
+univention-portal (6.6.0) UNRELEASED; urgency=medium
+
+  * Bug #59324: UCS 5.2-6 version bump
+
+ -- Marius Meschter <marius.meschter@univention.de>  Thu, 04 Jun 2026 11:13:14 +0200
+
+univention-portal (6.5.0) UNRELEASED; urgency=medium
+
+  * Bug #59082: UCS 5.2-5 version bump
+
+ -- Marius Meschter <marius.meschter@univention.de>  Mon, 02 Mar 2026 10:21:13 +0100
+
+univention-portal (6.4.0) unstable; urgency=medium
+
+  * Bug #58848: UCS 5.2-4 version bump
+
+ -- Ivan Barbecho Delgado <ivan.delgado@univention.de>  Fri, 28 Nov 2025 09:30:01 +0100
+
+univention-portal (6.3.0) UNRELEASED; urgency=medium
+
+  * Bug #58568: UCS 5.2-3 version bump
+
+ -- Ivan Barbecho Delgado <ivan.delgado@univention.de>  Tue, 02 Sep 2025 16:18:20 +0200
+
+univention-portal (6.2.0) UNRELEASED; urgency=medium
 
   [ Ivan Barbecho Delgado ]
   * Bug #58344: UCS 5.2-2 version bump
@@ -9,12 +43,13 @@ univention-portal (6.2.0) unstable; urgency=medium
     univention-portal is now maintained in a dedicated repository.
 
   [ Julia Bremer ]
-  * Issue univention/components/keycloak-app#206: Change settings from keycloak/server/sso/fqdn to ucs/server/sso/uri
+  * Issue univention/components/keycloak-app#206: Change settings from
+    keycloak/server/sso/fqdn to ucs/server/sso/uri
 
   [ Dirk Wiesenthal ]
   * Issue univention/ucs#2495: Update copyright
 
- -- Ivan Barbecho Delgado <ivan.delgado@univention.de>  Wed, 16 Jul 2025 16:49:48 +0200
+ -- Ivan Barbecho Delgado <ivan.delgado@univention.de>  Wed, 28 May 2025 16:49:48 +0200
 
 univention-portal (6.1.2) unstable; urgency=medium
 
@@ -28,6 +63,18 @@ univention-portal (6.1.1) unstable; urgency=medium
   * Bug #58015 UCS 5.2-1 version bump
 
  -- Christian Castens <castens@univention.de>  Mon, 03 Mar 2025 10:45:33 +0100
+
+univention-portal (6.0.15) unstable; urgency=medium
+
+  * Issue univention/components/keycloak-app#206: Change settings from keycloak/server/sso/fqdn to ucs/server/sso/uri
+
+ -- Julia Bremer <bremer@univention.de>  Mon, 09 Dec 2024 09:58:33 +0100
+
+univention-portal (6.0.14) unstable; urgency=medium
+
+  * Issue univention/dev/ucs#2495: Update copyright
+
+ -- Dirk Wiesenthal <wiesenthal@univention.de>  Wed, 27 Nov 2024 17:23:49 +0100
 
 univention-portal (6.0.13) unstable; urgency=medium
 

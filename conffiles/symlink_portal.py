@@ -2,10 +2,7 @@
 #
 # Univention Portal
 #
-# Like what you see? Join us!
-# https://www.univention.com/about-us/careers/vacancies/
-#
-# SPDX-FileCopyrightText: 2021-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2021-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
 import os

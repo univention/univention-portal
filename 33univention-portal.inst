@@ -1,18 +1,16 @@
 #!/bin/bash
-# -*- coding: utf-8 -*-
 #
 # Univention Portal
 #  join script
 #
-# Like what you see? Join us!
-# https://www.univention.com/about-us/careers/vacancies/
-#
-# SPDX-FileCopyrightText: 2016-2025 Univention GmbH
+# SPDX-FileCopyrightText: 2016-2026 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 ## joinscript api: bindpwdfile
 
+# The portal schema gained cornerLinks, quickLinks, centralNavigation and
+# guardianPermissionView. Bump so the joinscript re-runs and re-registers it.
 # shellcheck disable=SC2034
-VERSION=39
+VERSION=40
 
 . /usr/share/univention-join/joinscripthelper.lib
 . /usr/share/univention-lib/umc.sh
@@ -30,41 +28,41 @@ if ! nc -z "$ldap_master" "${ldap_master_port:-7389}"; then
 fi
 
 ucs_registerLDAPExtension "$@" \
-	--ucsversionstart 4.4-1 \
+	--ucsversionstart 5.0-7 \
 	--ucsversionend 5.99-0 \
 	--schema /usr/lib/univention-portal/schema/univention-portal.schema \
 	--acl /usr/lib/univention-portal/acl/62univention-portal.acl \
 	--udm_syntax /usr/lib/univention-portal/syntax/univention-portal.py || die
 
 ucs_registerLDAPExtension "$@" \
-	--ucsversionstart 5.0-0 \
+	--ucsversionstart 5.0-7 \
 	--ucsversionend 5.99-0 \
 	--udm_module /usr/lib/univention-portal/udm/portal.py \
 	--messagecatalog /usr/lib/univention-portal/udm/de.mo \
 	--umcregistration /usr/lib/univention-portal/umc/univention-portal.xml || die
 
 ucs_registerLDAPExtension "$@" \
-	--ucsversionstart 5.0-0 \
+	--ucsversionstart 5.0-7 \
 	--ucsversionend 5.99-0 \
 	--udm_module /usr/lib/univention-portal/udm/category.py || die
 
 ucs_registerLDAPExtension "$@" \
-	--ucsversionstart 5.0-0 \
+	--ucsversionstart 5.0-7 \
 	--ucsversionend 5.99-0 \
 	--udm_module /usr/lib/univention-portal/udm/entry.py || die
 
 ucs_registerLDAPExtension "$@" \
-	--ucsversionstart 5.0-0 \
+	--ucsversionstart 5.0-7 \
 	--ucsversionend 5.99-0 \
 	--udm_module /usr/lib/univention-portal/udm/folder.py || die
 
 ucs_registerLDAPExtension "$@" \
-	--ucsversionstart 5.0-0 \
+	--ucsversionstart 5.0-7 \
 	--ucsversionend 5.99-0 \
 	--udm_module /usr/lib/univention-portal/udm/announcement.py || die
 
 ucs_registerLDAPExtension "$@" \
-	--ucsversionstart 5.0-0 \
+	--ucsversionstart 5.0-7 \
 	--ucsversionend 5.99-0 \
 	--udm_module /usr/lib/univention-portal/udm/all.py || die
 
@@ -100,10 +98,6 @@ univention-directory-manager container/cn create "$@" --ignore_exists \
 univention-directory-manager container/cn create "$@" --ignore_exists \
 	--position "cn=portals,cn=univention,$ldap_base" \
 	--set name=announcement || die
-
-if [ "$JS_LAST_EXECUTED_VERSION" -lt 8 ]; then
-	/usr/lib/univention-portal/migrate-to-new-portal "$@"
-fi
 
 role="$(ucr get server/role)"
 
@@ -313,6 +307,8 @@ if [ "$role" = "domaincontroller_master" ]; then
 			--set showUmc=TRUE || die
 	fi
 fi
+
+default_portal="cn=domain,cn=portal,cn=portals,cn=univention,$ldap_base"
 
 # Reset old UCR variables otherwise the UCR handler is not executed
 if [ "$JS_LAST_EXECUTED_VERSION" = 0 ]; then
