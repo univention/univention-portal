@@ -21,9 +21,12 @@ Depends:
  univention-group-membership-cache,
  univention-management-console-server,
  ${misc:Depends},
-Provides: univention-portal (= ${binary:Version})
-Conflicts: univention-portal
-Replaces: univention-portal
+Provides:
+ univention-portal (= ${binary:Version}),
+Conflicts:
+ univention-portal,
+Replaces:
+ univention-portal,
 Description: Nubus Portal - Central portal web page for a UCS domain
  The Nubus Portal is a web interface which allows a central view
  to a UCS domain with all installed Apps and services. It runs the
