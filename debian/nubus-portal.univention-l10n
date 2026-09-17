@@ -1,6 +1,16 @@
 [
 	{
 		"input_files": [
+			"frontend/src/tmp/.*\\.vue",
+			"frontend/src/.*\\.js",
+			"frontend/src/.*\\.ts"
+		],
+		"po_subdir": "frontend/src/assets",
+		"target_type": "json",
+		"destination": "usr/share/univention-portal/i18n/{lang}.json"
+	},
+	{
+		"input_files": [
 			"udm/.*/.*\\.py"
 		],
 		"po_subdir": "udm/handlers/",
