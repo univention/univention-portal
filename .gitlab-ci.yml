@@ -3,6 +3,9 @@
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 # SPDX-License-Identifier: AGPL-3.0-only
 
+variables:
+  UCS_VERSION: "5.2-6"
+
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
     ref: "v1.66.2"
@@ -14,6 +17,16 @@ include:
       - "jobs/semantic-release-env.yaml"
       - "jobs/check-debian-updates.yaml"
       - "templates/sonarqube.yaml"
+
+  # TODO: Change back after merging ci-components
+  - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/debian-aptly@jconde-debian-folder"
+    inputs:
+      pkg-dir: "."
+  # TODO: Change back after merging ci-components
+  - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/debian-errata-build@jconde-debian-folder"
+    inputs:
+      debian-package: "univention-portal"
+      pkg-dir: "."
 
 lint-pre-commit:
   before_script:
@@ -83,27 +96,6 @@ trigger-portal-server:
         - "univention-portal"
         - "univention-portal-server"
         - "requirements.txt"
-
-# TODO: Pending removal. This can be removed once the ucs-machine (VMs) are not
-# used anymore. Usage in the dev environment and in the SouvAP deployment.
-trigger-debian-package:
-  stage: "trigger"
-  needs:
-    - job: "pre-semantic-release"
-      artifacts: true
-  trigger:
-    strategy: "depend"
-    include:
-      - local: ".gitlab-ci.debian.yml"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-      when: "never"
-    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
-      when: "always"
-    - changes: *portal-server-changes
-    - changes: *portal-frontend-changes
-    - changes:
-        - "debian/**/*"
 
 check-debian-updates:
   parallel:

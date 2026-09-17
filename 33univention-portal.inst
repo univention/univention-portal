@@ -7,8 +7,6 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 ## joinscript api: bindpwdfile
 
-# The portal schema gained cornerLinks, quickLinks, centralNavigation and
-# guardianPermissionView. Bump so the joinscript re-runs and re-registers it.
 # shellcheck disable=SC2034
 VERSION=40
 
