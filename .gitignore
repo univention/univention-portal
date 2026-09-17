@@ -55,3 +55,4 @@ helm/**/.kyverno/manifest.yaml
 
 # Unit test temporary files
 helm/portal-consumer/linter_values_unit_tests.yaml
+/debian/docker-compose.yaml

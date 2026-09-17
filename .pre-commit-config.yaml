@@ -78,6 +78,7 @@ repos:
     rev: 7702a8801a158b8595569dd29e2dd655d8a08310
     hooks:
       - id: docker-compose-check
+        exclude: "^ucs/docker-compose.yaml$"
 
   # "Dockerfile linter"
   - repo: "https://github.com/hadolint/hadolint"

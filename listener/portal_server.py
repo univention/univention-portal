@@ -6,9 +6,8 @@ from __future__ import annotations
 
 import subprocess
 
-import univention.debug as ud
-
 import listener
+import univention.debug as ud
 
 
 description = 'Tell portal server to refresh when something important changed'
