@@ -26,7 +26,7 @@ include:
   # TODO: Change back after merging ci-components
   - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/debian-errata-build@jconde-debian-folder"
     inputs:
-      debian-package: "univention-portal"
+      debian-package: "nubus-portal"
       pkg-dir: "."
 
 build-deb:

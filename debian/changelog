@@ -1,10 +1,14 @@
-univention-portal (6.7.0) UNRELEASED; urgency=medium
+nubus-portal (6.7.0) UNRELEASED; urgency=medium
 
   * Issue univention/dev/ucs#3416: The Debian package is now built from the
     portal repository instead of the UCS tree. The package deploys the
     portal-server and portal-frontend containers via docker compose.
   * Issue univention/dev/ucs#3416: The portal LDAP schema gained
     cornerLinks, quickLinks, centralNavigation and guardianPermissionView.
+  * Issue univention/dev/ucs#3416: The binary package is now called
+    nubus-portal. It conflicts with univention-portal and provides it, so
+    apt swaps between the two. The empty python3-univention-portal
+    transitional package is no longer built.
 
  -- Jaime Conde Segovia <conde-segovia@univention.de>  Thu, 17 Sep 2026 10:00:00 +0200
 

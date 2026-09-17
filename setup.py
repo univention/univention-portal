@@ -30,7 +30,7 @@ setup(
     package_dir={
         '': 'python',
     },
-    name=dch.package,
+    name='univention-portal',
     version=dch.version.full_version,
     maintainer=realname,
     maintainer_email=email_address,

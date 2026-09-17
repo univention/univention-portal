@@ -1,4 +1,4 @@
-Source: univention-portal
+Source: nubus-portal
 Section: univention
 Priority: optional
 Maintainer: Univention GmbH <packages@univention.de>
@@ -9,12 +9,11 @@ Build-Depends:
  univention-l10n-dev (>= 7.0.1),
 Standards-Version: 3.9.5
 
-Package: univention-portal
+Package: nubus-portal
 Architecture: all
 Depends:
  docker-compose,
  netcat-openbsd,
- python3-univention-portal (= ${source:Version}),
  univention-config,
  univention-directory-listener,
  univention-directory-manager-tools,
@@ -22,29 +21,17 @@ Depends:
  univention-group-membership-cache,
  univention-management-console-server,
  ${misc:Depends},
-Description: Univention Portal - Central portal web page for a UCS domain
- Univention Portal is a web interface which allows a central view
- to a UCS domain with all installed Apps and services. Univention
- Portal is configurable, i.e., any and multiple servers can be
- configured to be show a portal. Portal entries can be configured
- to be accessible only on specific hosts. Univention Portal is also
- customisable with a logo and background image.
+Provides: univention-portal (= ${binary:Version})
+Conflicts: univention-portal
+Replaces: univention-portal
+Description: Nubus Portal - Central portal web page for a UCS domain
+ The Nubus Portal is a web interface which allows a central view
+ to a UCS domain with all installed Apps and services. It runs the
+ portal frontend and server as containers via docker compose and
+ replaces the univention-portal package, which runs the same portal
+ directly on the host.
  .
  This package is part of Univention Corporate Server (UCS),
  an integrated, directory driven solution for managing
- corporate environments. For more information about UCS,
- refer to: https://www.univention.de/
-
-Package: python3-univention-portal
-Architecture: all
-Depends:
- ${misc:Depends},
-Description: Transitional package for the Univention Portal library
- The portal server runs in a container and carries its own copy of the
- library, so this package is empty. It stays to keep upgrades of
- univention-portal working.
- .
- It is part of Univention Corporate Server (UCS), an
- integrated, directory driven solution for managing
  corporate environments. For more information about UCS,
  refer to: https://www.univention.de/
