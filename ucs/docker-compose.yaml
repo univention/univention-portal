@@ -35,3 +35,7 @@ services:
       - /etc/univention/ssl/ucsCA/CAcert.pem:/etc/univention/ssl/ucsCA/CAcert.pem:ro
     ports:
       - "8080:80"
+
+networks:
+  default:
+    name: univention-portal

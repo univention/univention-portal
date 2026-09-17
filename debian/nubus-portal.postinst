@@ -8,9 +8,6 @@
 
 #DEBHELPER#
 
-# TODO:
-ucr set umc/http/allowed-session-overtake/ranges?172.18.0.0/16
-
 # Feature toggles the portal frontend knows about. Listing them all keeps them
 # discoverable with "ucr search portal/feature-toggles".
 ucr set \
@@ -54,6 +51,26 @@ fi
 touch /usr/share/univention-portal/css/custom.css
 
 systemctl restart univention-portal-server
+
+# UMC binds a session to the IP it was issued to. The portal server validates
+# sessions from inside the container, so the container network has to be
+# allowed to present a session that belongs to the browser. UMC reads this
+# variable once at startup, so it has to be restarted when the value changes.
+# Without the restart every portal session is destroyed on first use and the
+# browser is sent back to the login screen.
+portal_subnet="$(docker network inspect univention-portal \
+	--format '{{range $i, $c := .IPAM.Config}}{{if $i}},{{end}}{{$c.Subnet}}{{end}}' 2>/dev/null || true)"
+if [ -n "$portal_subnet" ]; then
+	overtake_ranges="$(ucr get umc/http/allowed-session-overtake/ranges || true)"
+	case ",$overtake_ranges," in
+		*",$portal_subnet,"*) ;;
+		*)
+			ucr set umc/http/allowed-session-overtake/ranges="${overtake_ranges:+$overtake_ranges,}$portal_subnet"
+			systemctl try-restart univention-management-console-server.service
+			;;
+	esac
+fi
+
 # dpkg runs this script with -e, so these calls are fatal. Give the container
 # time to come up rather than failing the moment it is not ready yet.
 export UNIVENTION_PORTAL_WAIT=60
