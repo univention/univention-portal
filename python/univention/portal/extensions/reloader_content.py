@@ -216,6 +216,7 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
         binary_content = a2b_base64(content)
         extension = what(None, binary_content) or "svg"
         path = f"./icons/{dirname}/{name}.{extension}"
+        self.assets.append((path, binary_content))
         asset_url = self._asset_url(path)
         return asset_url
 

@@ -184,7 +184,7 @@ def test_portal_reloader_writes_assets_first(portal_reloader_udm, mocker):
 
     portal_reloader_udm.refresh(reason="force")
     expected_path = os.path.join(stub_assets_root, "stub_path/stub_directory/stub_asset.stub_ext")
-    assert write_mock.call_args_list[0] == mock.call(expected_path, b"stub_asset_content")
+    assert write_mock.call_args_list[0] == mock.call(expected_path, b"stub_asset_content", reloader.WEB_READABLE)
 
 
 @pytest.mark.parametrize(

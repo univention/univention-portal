@@ -21,6 +21,8 @@ from univention.portal.log import get_logger
 
 logger = get_logger("cache")
 
+WEB_READABLE = 0o644
+
 
 class Reloader(metaclass=Plugin):
     """
@@ -90,7 +92,7 @@ class MtimeBasedLazyFileReloader(Reloader):
             for path, asset_content in assets:
                 path = os.path.normpath(path)
                 full_path = os.path.join(self._assets_root, path)
-                self._write(full_path, asset_content)
+                self._write(full_path, asset_content, WEB_READABLE)
             return self._write(self._cache_file, content)
 
         return self._file_was_updated()
@@ -98,7 +100,7 @@ class MtimeBasedLazyFileReloader(Reloader):
     def _refresh(self):  # pragma: no cover
         pass
 
-    def _write(self, path, content):
+    def _write(self, path, content, mode=None):
         logger.debug("Writing file %s", path)
 
         fd = None
@@ -114,6 +116,8 @@ class MtimeBasedLazyFileReloader(Reloader):
                 except EnvironmentError:
                     pass
                 shutil.move(fd.name, path)
+                if mode is not None:
+                    os.chmod(path, mode)
                 self._mtime = self._get_mtime()
                 return True
 

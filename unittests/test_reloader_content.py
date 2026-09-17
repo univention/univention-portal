@@ -78,6 +78,12 @@ def test_collect_asset_returns_relative_asset_url_by_default(portal_content_fetc
     assert asset_url == "./icons/stub_dirname/stub_name.svg"
 
 
+def test_collect_asset_keeps_the_decoded_content_udm_rest():
+    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
+    content_fetcher._collect_asset(b"PHN2ZyAvPg==", "stub_name", "stub_dirname")
+    assert content_fetcher.assets == [("./icons/stub_dirname/stub_name.svg", b"<svg />")]
+
+
 @pytest.mark.parametrize(
     "base_url",
     [
