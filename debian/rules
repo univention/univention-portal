@@ -17,6 +17,10 @@ IMAGE_TAG ?= $(RELEASE_VERSION)
 %:
 	dh $@ --with ucr,univention-join,univention-l10n
 
+override_dh_installdeb:
+	test -f debian/nubus-portal/usr/lib/univention-install/33nubus-portal.inst
+	dh_installdeb
+
 override_dh_auto_build:
 	sed -e 's!__IMAGE_REGISTRY__!$(IMAGE_REGISTRY)!g' \
 	    -e 's!__IMAGE_TAG__!$(IMAGE_TAG)!g' \
