@@ -68,6 +68,11 @@ trigger-frontend:
         - "tests/**/*"
         - "helm/portal-frontend/**/*"
         - "docker/portal-asset-loader/*"
+        # TODO: Drop once the deb stops pinning the image tags. The deb pins
+        # both images to RELEASE_VERSION, so anything that rebuilds the deb
+        # must rebuild the images, or the deb pins a tag that was never pushed.
+        - "debian/**/*"
+        - "ucs/**/*"
 
 trigger-portal-server:
   stage: "trigger"
@@ -103,6 +108,11 @@ trigger-portal-server:
         - "univention-portal"
         - "univention-portal-server"
         - "requirements.txt"
+        # TODO: Drop once the deb stops pinning the image tags. The deb pins
+        # both images to RELEASE_VERSION, so anything that rebuilds the deb
+        # must rebuild the images, or the deb pins a tag that was never pushed.
+        - "debian/**/*"
+        - "ucs/**/*"
 
 check-debian-updates:
   parallel:
