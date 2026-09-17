@@ -16,7 +16,7 @@ include:
       - "jobs/lint-commit-messages.yaml"
       - "jobs/semantic-release-env.yaml"
       - "jobs/check-debian-updates.yaml"
-      - "templates/sonarqube.yaml"
+      # - "templates/sonarqube.yaml"
 
   # TODO: Change back after merging ci-components
   - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/debian-aptly@jconde-debian-folder"
@@ -116,7 +116,7 @@ check-debian-updates:
         echo "ERROR: running as ${USERNAME} but root is requiered"
       fi
 
-sonarqube:
-  extends: .sonarqube
-  needs: []
+# sonarqube:
+#   extends: .sonarqube
+#   needs: []
 ...
