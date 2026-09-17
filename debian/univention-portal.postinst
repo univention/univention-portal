@@ -8,6 +8,30 @@
 
 #DEBHELPER#
 
+# TODO:
+ucr set umc/http/allowed-session-overtake/ranges?172.18.0.0/16
+
+# Feature toggles the portal frontend knows about. Listing them all keeps them
+# discoverable with "ucr search portal/feature-toggles".
+ucr set \
+	portal/feature-toggles/api_me?true \
+	portal/feature-toggles/centered_layout?false \
+	portal/feature-toggles/left_sidebar?false \
+	portal/feature-toggles/native_html_list?false \
+	portal/feature-toggles/newsfeed?false \
+	portal/feature-toggles/notifications_api?false \
+	portal/feature-toggles/umc_session_refresh?false \
+	portal/feature-toggles/welcome_message?false
+
+# The portal is proxied to the containers. A document root under /var/www
+# shadows the apache proxy rules, so drop the links this package used to create.
+for portal_path in $(ucr get portal/paths | tr ',' ' '); do
+	link="/var/www/${portal_path#/}"
+	if [ -L "$link" ] && [ "$(readlink -f "$link")" = "/usr/share/univention-portal" ]; then
+		rm -f "$link"
+	fi
+done
+
 a2ensite univention-portal.conf
 
 # shellcheck source=/dev/null
@@ -20,9 +44,8 @@ if [ "$1" = "configure" ]; then
 	chmod 700 /var/cache/univention-portal
 	systemctl daemon-reload
 	systemctl reload apache2
-	systemctl enable univention-portal-server.service
+	systemctl enable --now univention-portal-server.service
 	systemctl restart univention-directory-listener
-	[ -e /var/www/univention/portal/portal.json ] && rm /var/www/univention/portal/portal.json
 fi
 
 # we do not ship a custom.css, nor do we alter it
@@ -30,9 +53,12 @@ fi
 # try to keep the DOM stable. but this is only best effort
 touch /usr/share/univention-portal/css/custom.css
 
+systemctl restart univention-portal-server
+# dpkg runs this script with -e, so these calls are fatal. Give the container
+# time to come up rather than failing the moment it is not ready yet.
+export UNIVENTION_PORTAL_WAIT=60
 univention-portal add-umc-default
 univention-portal update
-systemctl restart univention-portal-server
 
 #configuration for portal when apache2/force_https is setting true
 ucr set apache2/force_https/exclude/request_uri/univention-portal?/univention/get

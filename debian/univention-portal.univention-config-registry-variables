@@ -48,3 +48,59 @@ Description[en]=If activated, a persistent connection between the users browser 
 Type=bool
 Default=false
 Categories=portal
+
+[portal/feature-toggles/api_me]
+Description[de]=Wenn aktiviert, lädt das Portal die Benutzerdaten über den Endpunkt api/v1/me statt über die Portaldaten.
+Description[en]=If activated, the portal loads the user data from the api/v1/me endpoint instead of from the portal data.
+Type=bool
+Default=true
+Categories=portal
+
+[portal/feature-toggles/centered_layout]
+Description[de]=Wenn aktiviert, wird der Portalinhalt zentriert dargestellt.
+Description[en]=If activated, the portal content is centered.
+Type=bool
+Default=false
+Categories=portal
+
+[portal/feature-toggles/left_sidebar]
+Description[de]=Wenn aktiviert, erscheint die Seitenleiste links statt rechts.
+Description[en]=If activated, the sidebar appears on the left instead of the right.
+Type=bool
+Default=false
+Categories=portal
+
+[portal/feature-toggles/native_html_list]
+Description[de]=Wenn aktiviert, verwendet das Portal echte HTML-Listen. Dies ändert die CSS-Selektoren und kann eigene Themes beschädigen.
+Description[en]=If activated, the portal uses native HTML lists. This changes the CSS selectors and may break custom themes.
+Type=bool
+Default=false
+Categories=portal
+
+[portal/feature-toggles/newsfeed]
+Description[de]=Wenn aktiviert, zeigt das Portal einen Newsfeed an.
+Description[en]=If activated, the portal shows a newsfeed.
+Type=bool
+Default=false
+Categories=portal
+
+[portal/feature-toggles/notifications_api]
+Description[de]=Wenn aktiviert, zeigt das Portal Benachrichtigungen über die Notifications-API an.
+Description[en]=If activated, the portal shows notifications via the notifications API.
+Type=bool
+Default=false
+Categories=portal
+
+[portal/feature-toggles/umc_session_refresh]
+Description[de]=Wenn aktiviert, hält das Portal die Sitzung der Univention Management Console offen.
+Description[en]=If activated, the portal keeps the Univention Management Console session alive.
+Type=bool
+Default=false
+Categories=portal
+
+[portal/feature-toggles/welcome_message]
+Description[de]=Wenn aktiviert, zeigt das Portal eine Willkommensnachricht an.
+Description[en]=If activated, the portal shows a welcome message.
+Type=bool
+Default=false
+Categories=portal

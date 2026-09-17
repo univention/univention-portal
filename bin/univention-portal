@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# Univention Portal
+#
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+# SPDX-License-Identifier: AGPL-3.0-only
+#
+# Runs the portal CLI, which ships inside the portal server image.
+# UNIVENTION_PORTAL_WAIT is how many seconds to wait for the container.
+
+set -e
+
+CONTAINER="univention-portal-server"
+CONFIG="/usr/lib/univention-portal/config/config.json"
+WAIT="${UNIVENTION_PORTAL_WAIT:-0}"
+
+container_is_ready () {
+	docker exec "$CONTAINER" test -f "$CONFIG" 2>/dev/null
+}
+
+waited=0
+while ! container_is_ready
+do
+	if [ "$waited" -ge "$WAIT" ]
+	then
+		echo "univention-portal: $CONTAINER is not ready, giving up after ${WAIT}s: $*" >&2
+		exit 1
+	fi
+	sleep 1
+	waited=$((waited + 1))
+done
+
+exec docker exec "$CONTAINER" /app/univention-portal "$@"

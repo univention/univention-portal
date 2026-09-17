@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+  portal-server:
+    container_name: univention-portal-server
+    # TODO: Merge Florian's MR: univention/dev/ucs!263
+    # TODO: move to nubus/images once univention/dev/projects/portal!623 is
+    #       released. Released images up to 0.95.1 crash with
+    #       KeyError: 'assets_root'.
+    image: artifacts.software-univention.de/nubus-dev/images/portal-server:0.95.2-pre-fbest-fix-assets-root-path
+    # command: /usr/bin/python3 /usr/sbin/univention-portal-server
+    # entrypoint: /bin/bash -c sleep infinity
+    security_opt:
+      - seccomp:/etc/docker/seccomp-systemd.json
+    restart: unless-stopped  # on-failure
+    env_file: /etc/univention-portal/server.env
+    volumes:
+      # TODO: Make portals.json file configurable to use ObjectStorageCache or FileCache
+      - /usr/share/univention-portal:/usr/share/univention-portal
+      # TODO: There is a listener module in UCS, we just need to mount the files
+      - /var/cache/univention-portal:/var/cache/univention-portal
+      # GroupsContentFetcher reads this through univention.ldap_cache, which
+      # opens the gdbm files for writing even on a pure read. It cannot be :ro.
+      - /usr/share/univention-group-membership-cache/caches:/usr/share/univention-group-membership-cache/caches
+      # PORTAL_SERVER_UMC_CHECK_ICONS makes the server stat every UMC module
+      # icon. Without these the check fails and every UMC tile loses its icon.
+      - /usr/share/univention-management-console-frontend/js/dijit/themes/umc/icons:/usr/share/univention-management-console-frontend/js/dijit/themes/umc/icons:ro
+      - /etc/univention/ssl/ucsCA/CAcert.pem:/etc/univention/ssl/ucsCA/CAcert.pem:ro
+      - /etc/machine.secret:/etc/machine.secret:ro
+    ports:
+      - "8095:80"
+  portal-frontend:
+    container_name: univention-portal-frontend
+    image: artifacts.software-univention.de/nubus/images/portal-frontend:0.95.1
+    # command: yarn serve --port 80 mode production
+    security_opt:
+      - seccomp:/etc/docker/seccomp-systemd.json
+    restart: unless-stopped  # on-failure
+    env_file: /etc/univention-portal/server.env
+    volumes:
+      - /etc/univention/ssl/ucsCA/CAcert.pem:/etc/univention/ssl/ucsCA/CAcert.pem:ro
+    ports:
+      - "8080:80"

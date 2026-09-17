@@ -7,5 +7,11 @@ WantedBy=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/usr/sbin/univention-portal-server
+EnvironmentFile=/etc/univention-portal/server.env
+ExecStart=docker-compose -f /usr/share/univention-portal/docker-compose.yaml -p univention-portal up --no-build
+# The listener drops events while the container is down. "-" because a stale
+# cache must not keep the portal from serving.
+ExecStartPost=-/usr/sbin/univention-portal update --reason force
+ExecStop=docker-compose -p univention-portal down --remove-orphans
+Environment=UNIVENTION_PORTAL_WAIT=60
 Restart=on-failure
