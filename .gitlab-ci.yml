@@ -28,6 +28,12 @@ include:
       debian-package: "univention-portal"
       pkg-dir: "."
 
+build-deb:
+  needs:
+    - job: "prepare-aptly"
+    - job: "pre-semantic-release"
+      artifacts: true
+
 lint-pre-commit:
   before_script:
     - |

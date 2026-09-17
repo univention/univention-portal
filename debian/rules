@@ -8,5 +8,16 @@
 
 export DH_VERBOSE=1
 
+RELEASE_VERSION ?= latest
+PUBLIC_RELEASE ?= false
+IMAGE_PROJECT = $(if $(filter true,$(PUBLIC_RELEASE)),nubus,nubus-dev)
+IMAGE_REGISTRY ?= artifacts.software-univention.de/$(IMAGE_PROJECT)/images
+IMAGE_TAG ?= $(RELEASE_VERSION)
+
 %:
 	dh $@ --with ucr,univention-join,univention-l10n
+
+override_dh_auto_build:
+	sed -e 's!__IMAGE_REGISTRY__!$(IMAGE_REGISTRY)!g' \
+	    -e 's!__IMAGE_TAG__!$(IMAGE_TAG)!g' \
+	    ucs/docker-compose.yaml > debian/docker-compose.yaml
