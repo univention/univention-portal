@@ -4,11 +4,6 @@ Priority: optional
 Maintainer: Univention GmbH <packages@univention.de>
 Build-Depends:
  debhelper-compat (=13),
- dh-python,
- npm,
- python3-all,
- python3-debian,
- python3-setuptools,
  univention-config-dev (>= 15.0.3),
  univention-join-dev,
  univention-l10n-dev (>= 7.0.1),
@@ -17,14 +12,13 @@ Standards-Version: 3.9.5
 Package: univention-portal
 Architecture: all
 Depends:
+ docker-compose,
  netcat-openbsd,
- python3-click,
- python3-ldap,
- python3-tornado,
  python3-univention-portal (= ${source:Version}),
  univention-config,
  univention-directory-listener,
  univention-directory-manager-tools,
+ univention-docker,
  univention-group-membership-cache,
  univention-management-console-server,
  ${misc:Depends},
@@ -44,12 +38,11 @@ Description: Univention Portal - Central portal web page for a UCS domain
 Package: python3-univention-portal
 Architecture: all
 Depends:
- python3-filetype,
- python3-ldap,
- python3-requests,
- python3-tornado,
- python3-univention-directory-manager (>= 15.0.20-9),
-Description: Library for Univention Portal
+ ${misc:Depends},
+Description: Transitional package for the Univention Portal library
+ The portal server runs in a container and carries its own copy of the
+ library, so this package is empty. It stays to keep upgrades of
+ univention-portal working.
  .
  It is part of Univention Corporate Server (UCS), an
  integrated, directory driven solution for managing
