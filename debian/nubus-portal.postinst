@@ -39,6 +39,9 @@ eval "$(ucr shell)"
 
 if [ "$1" = "configure" ]; then
 	chmod 700 /var/cache/univention-portal
+	if [ ! -f /usr/share/univention-portal/portals.json ]; then
+		cp /usr/share/univention-portal/defaults/portals.json /usr/share/univention-portal/portals.json
+	fi
 	systemctl daemon-reload
 	systemctl reload apache2
 	systemctl enable --now univention-portal-server.service
@@ -74,6 +77,7 @@ fi
 # dpkg runs this script with -e, so these calls are fatal. Give the container
 # time to come up rather than failing the moment it is not ready yet.
 export UNIVENTION_PORTAL_WAIT=60
+univention-portal add-default
 univention-portal add-umc-default
 univention-portal update
 
