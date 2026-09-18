@@ -22,7 +22,7 @@ include:
   - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/debian-aptly@jconde-debian-folder"
     inputs:
       pkg-dir: "."
-      deb-image: "gitregistry.knut.univention.de/univention/dev/tooling/ci-components/deb-builder-5.2:jconde-debian-folder-0f124ded"
+      deb-image: "gitregistry.knut.univention.de/univention/dev/tooling/ci-components/deb-builder-5.2:jconde-debian-folder-d2c5a51f"
   # TODO: Change back after merging ci-components
   - component: "$CI_SERVER_FQDN/univention/dev/tooling/ci-components/debian-errata-build@jconde-debian-folder"
     inputs:
