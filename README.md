@@ -2,6 +2,8 @@
 
 This repository contains the Nubus Portal (former "Univention Portal").
 
+![Nubus Portal Screenshot](docs/screenshots/Screenshot_Portal_EN.png)
+
 The Nubus Portal is a landing page for End Users which shows a
 personalized list of applications End Users can access and
 gives access to Nubus UIs like End User Self Service or the
