@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display: flex; flex-direction: column; gap: 16px">
+
+  <sc-if value="{{ showTeams }}" hint-placeholder-val="{{ true }}">
+    <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+      <div onClick="{{ toggleGFinance }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+        <span style="width: 4px; height: 30px; border-radius: 2px; background: #5227e0; flex: none"></span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 180px">
+          <span style="font-size: 15px; font-weight: 700">Dep. Finance &amp; Controlling</span>
+            <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 11.5px; color: #6f6b92; font-weight: 600">Team · <a href="#" onClick="{{ membersFinance }}" style="font-size: 11.5px; font-weight: 700">12 members</a></span>
+        </span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px"><span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">6 unread</span><span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">1 due today</span><span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">1 meeting</span><span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">1 new</span></span>
+        <sc-if value="{{ gFinance }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+        <sc-if value="{{ notGFinance }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+      </div>
+      <sc-if value="{{ gFinance }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ toggleSFinanceScheduled }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#d92d5e" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Scheduled</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 meeting · 14:00</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sFinanceScheduled }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSFinanceScheduled }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sFinanceScheduled }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">MEETING</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Jour fixe IT operations</span>
+              <span style="font-size: 12.5px; color: #4b4770">14:00 – 14:45 · room “team-it” · 9 participants</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange · Jitsi</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSFinanceTasks }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#b8860f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5h14M3 10h14M3 14.5h9"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Tasks due today</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 item · due 17:00</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sFinanceTasks }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSFinanceTasks }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sFinanceTasks }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">TASK</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Send licence count feedback to procurement</span>
+              <span style="font-size: 12.5px; color: #4b4770">Due today 17:00 · created from an email</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Tasks · Open-Xchange</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open task</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSFinanceComms }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Communication</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">6 unread · 5 mail, 1 comment</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sFinanceComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSFinanceComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sFinanceComms }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">MAIL</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Invoice 2026-0842 approved · 4 more unread</span>
+              <span style="font-size: 12.5px; color: #4b4770">Accounting · “The invoice has been released for payment.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 08:21</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">COMMENT</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Anna Krüger commented on “Budget_2026.xlsx”</span>
+              <span style="font-size: 12.5px; color: #4b4770">“Please check row 42, the total does not add up.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 08:55</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open comment</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSFinanceContent }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h5l1.6 2H17v8H3V6Z"></path><path d="M10 11v4M8 13h4"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">New content</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 file shared</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sFinanceContent }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSFinanceContent }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sFinanceContent }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">FILE</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Budget_2026.xlsx</span>
+              <span style="font-size: 12.5px; color: #4b4770">Anna Krüger shared it with you · editing allowed</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 20 minutes ago</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Preview</a><a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap">Edit in Collabora</a></span>
+          </div>
+        </sc-if>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 20px 13px 34px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 700">Shared spaces</span>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">#finance-controlling</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Controlling handbook</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Team calendar</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Finance weekly room</a>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showProjects }}" hint-placeholder-val="{{ true }}">
+    <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+      <div onClick="{{ toggleGWorkspace }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+        <span style="width: 4px; height: 30px; border-radius: 2px; background: #d92d5e; flex: none"></span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 180px">
+          <span style="font-size: 15px; font-weight: 700">Project Digital Workspace</span>
+            <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 11.5px; color: #6f6b92; font-weight: 600">Project · <a href="#" onClick="{{ membersWorkspace }}" style="font-size: 11.5px; font-weight: 700">8 members</a><span>· you are lead</span></span>
+        </span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px"><span style="background: #fdeaf0; color: #b02249; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">meeting in 15 min</span><span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">3 unread</span><span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">1 due today</span><span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">2 meetings</span><span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">1 new</span></span>
+        <sc-if value="{{ gWorkspace }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+        <sc-if value="{{ notGWorkspace }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+      </div>
+      <sc-if value="{{ gWorkspace }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ toggleSWorkspaceScheduled }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#d92d5e" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Scheduled</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">2 meetings · next in 15 min</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sWorkspaceScheduled }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSWorkspaceScheduled }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sWorkspaceScheduled }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff; opacity: 0.55;">
+            <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">09:00</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Daily standup</span>
+              <span style="font-size: 12.5px; color: #4b4770">09:00 – 09:15 · room “team-portal”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange · ended</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #fdf6f8;">
+            <span style="background: #fdeaf0; color: #b02249; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">IN 15 MIN</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Sprint Review Nubus Portal</span>
+              <span style="font-size: 12.5px; color: #4b4770">11:00 – 11:30 · room “portal-review” · 6 participants</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange · Jitsi</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a><a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap">Join</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSWorkspaceTasks }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#b8860f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5h14M3 10h14M3 14.5h9"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Tasks due today</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 item · high priority</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sWorkspaceTasks }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSWorkspaceTasks }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sWorkspaceTasks }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">TASK</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Approve school network migration plan</span>
+              <span style="font-size: 12.5px; color: #4b4770">Work package #2481 · project “Digital Workspace” · due today</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in OpenProject</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSWorkspaceComms }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Communication</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">3 unread · 2 mail, 1 chat</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sWorkspaceComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSWorkspaceComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sWorkspaceComms }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">CHAT</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">#project-nubus · 3 new messages</span>
+              <span style="font-size: 12.5px; color: #4b4770">Jonas Weber · “Could you restart the test instance once more before the review?”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · 09:38</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">MAIL</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">New comment on your work package #2481 · 1 more unread</span>
+              <span style="font-size: 12.5px; color: #4b4770">OpenProject notification · “Please confirm the freeze date.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · yesterday 16:40</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSWorkspaceContent }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h5l1.6 2H17v8H3V6Z"></path><path d="M10 11v4M8 13h4"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">New content</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 note shared</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sWorkspaceContent }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSWorkspaceContent }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sWorkspaceContent }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">NOTE</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Review agenda and open questions</span>
+              <span style="font-size: 12.5px; color: #4b4770">Petra Lindner shared a note with you</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Notes · 08:30</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open note</a></span>
+          </div>
+        </sc-if>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 20px 13px 34px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 700">Shared spaces</span>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Digital Workspace board</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Workspace wiki</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Project folder</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">portal-review room</a>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showProjects }}" hint-placeholder-val="{{ true }}">
+    <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+      <div onClick="{{ toggleGConsolidation }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+        <span style="width: 4px; height: 30px; border-radius: 2px; background: #b8860f; flex: none"></span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 180px">
+          <span style="font-size: 15px; font-weight: 700">Project Accounting Consolidation</span>
+            <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 11.5px; color: #6f6b92; font-weight: 600">Project · <a href="#" onClick="{{ membersConsolidation }}" style="font-size: 11.5px; font-weight: 700">5 members</a></span>
+        </span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px"><span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">1 unread</span><span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">3 new</span></span>
+        <sc-if value="{{ gConsolidation }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+        <sc-if value="{{ notGConsolidation }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+      </div>
+      <sc-if value="{{ gConsolidation }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ toggleSConsolidationComms }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Communication</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 room unread</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sConsolidationComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSConsolidationComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sConsolidationComms }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">CHAT</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">#consolidation · 5 new messages</span>
+              <span style="font-size: 12.5px; color: #4b4770">Anna Krüger · “Hardware delivery for the first site is confirmed.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · 08:12</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSConsolidationContent }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h5l1.6 2H17v8H3V6Z"></path><path d="M10 11v4M8 13h4"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">New content</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">3 new · project, page, room</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sConsolidationContent }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSConsolidationContent }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sConsolidationContent }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">PROJECT</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">New project “Accounting Consolidation”</span>
+              <span style="font-size: 12.5px; color: #4b4770">Martin Ohm added you as a member</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject · yesterday 16:20</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open project</a></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">PAGE</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Accounting Consolidation: closing checklist</span>
+              <span style="font-size: 12.5px; color: #4b4770">Martin Ohm shared the page with the pilot group</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Knowledge · XWiki · yesterday 16:40</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in XWiki</a></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">ROOM</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">New room “#consolidation”</span>
+              <span style="font-size: 12.5px; color: #4b4770">Invitation from Martin Ohm</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · yesterday 16:24</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Join room</a></span>
+          </div>
+        </sc-if>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 20px 13px 34px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 700">Shared spaces</span>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Consolidation board</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Closing wiki</a>
+          <a href="#" style="font-size: 12.5px; font-weight: 700">Project folder</a>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showBoth }}" hint-placeholder-val="{{ true }}">
+    <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+      <div onClick="{{ toggleGPersonal }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+        <span style="width: 4px; height: 30px; border-radius: 2px; background: #dcdae8; flex: none"></span>
+        <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 180px">
+          <span style="font-size: 15px; font-weight: 700">Personal / unassigned</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Not linked to a team or project</span>
+        </span>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px"><span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">4 unread</span><span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap;">1 meeting</span></span>
+        <sc-if value="{{ gPersonal }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+        <sc-if value="{{ notGPersonal }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+      </div>
+      <sc-if value="{{ gPersonal }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ toggleSPersonalScheduled }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#d92d5e" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Scheduled</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 meeting · 16:30</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sPersonalScheduled }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSPersonalScheduled }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sPersonalScheduled }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">MEETING</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">1:1 with Martin Ohm</span>
+              <span style="font-size: 12.5px; color: #4b4770">16:30 – 17:00 · Office 2.14 · no video link</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a></span>
+          </div>
+        </sc-if>
+        <div onClick="{{ toggleSPersonalComms }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 9px; padding: 12px 20px 12px 34px; border-top: 1px solid #f0f0f5; cursor: pointer; background: #fbfbfe" style-hover="background: #f6f4ff">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+          <span style="font-size: 13.5px; font-weight: 700">Communication</span>
+          <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">4 unread · 3 mail, 1 direct message</span>
+          <span style="flex: 1"></span>
+          <sc-if value="{{ sPersonalComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+          <sc-if value="{{ notSPersonalComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+        </div>
+        <sc-if value="{{ sPersonalComms }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">CHAT</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Martin Ohm · 2 new messages</span>
+              <span style="font-size: 12.5px; color: #4b4770">“Do you have five minutes before the 1:1? It is about the rollout.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · direct message · 09:21</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a></span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 13px 20px 13px 48px; border-top: 1px solid #f7f7fb; background: #ffffff;">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; margin-top: 2px; flex: none;">MAIL</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+              <span style="font-size: 14px; font-weight: 700">Data protection training due 30 September · 2 more unread</span>
+              <span style="font-size: 12.5px; color: #4b4770">HR Department · “Please complete the module in Knowledge.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 07:58</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a></span>
+          </div>
+        </sc-if>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showTeams }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 2px 4px">
+      <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">1 team plus your personal items · 11 of the 25 items in “My day”</span>
+      <span style="flex: 1"></span>
+      <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap">Manage teams</a>
+    </div>
+  </sc-if>
+  <sc-if value="{{ showProjects }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 2px 4px">
+      <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">2 projects plus your personal items · 19 of the 25 items in “My day”</span>
+      <span style="flex: 1"></span>
+      <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap">Manage projects</a>
+    </div>
+  </sc-if>
+
+</div>
+<sc-if value="{{ membersOpen }}" hint-placeholder-val="{{ true }}">
+  <div onClick="{{ closeMembers }}" style="position: fixed; inset: 0; z-index: 24; background: rgba(31, 27, 77, 0.42); display: flex; align-items: center; justify-content: center; padding: 32px">
+    <div onClick="{{ stopClose }}" style="width: 520px; max-height: 82vh; overflow: auto; background: #ffffff; border-radius: 12px; box-shadow: 0 24px 60px rgba(31, 27, 77, 0.28); display: flex; flex-direction: column">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 20px 24px; border-bottom: 1px solid #f0f0f5">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><circle cx="7" cy="7" r="2.6"></circle><circle cx="14" cy="6" r="2"></circle><path d="M2.5 16c0-2.5 2-4.2 4.5-4.2s4.5 1.7 4.5 4.2"></path><path d="M13.5 11.8c2.3 0 4 1.6 4 4.2"></path></svg>
+        <span style="font-size: 17px; font-weight: 800; letter-spacing: -0.01em">{{ membersTitle }}</span>
+        <span style="font-size: 13px; color: #6f6b92; font-weight: 600">{{ membersMeta }}</span>
+        <span style="flex: 1"></span>
+        <span onClick="{{ closeMembers }}" style="width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6f6b92" style-hover="background: #f4f4f7">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+        </span>
+      </div>
+
+      <sc-if value="{{ mFinance }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #ece7fd; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">PL</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Petra Lindner</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Head of department · owner</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #e4f6ec; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">JP</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Jana Petersen</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Controlling · you</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #f4f4f7; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">AK</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Anna Krüger</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Controlling</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #f4f4f7; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">KS</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Kerstin Sander</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Procurement</span>
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">and 8 more members</span>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ mWorkspace }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #e4f6ec; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">JP</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Jana Petersen</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Project lead · owner · you</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #f4f4f7; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">MO</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Martin Ohm</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">IT operations</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #f4f4f7; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">JW</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Jonas Weber</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Development</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #f4f4f7; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">AK</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Anna Krüger</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Controlling</span>
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">and 4 more members</span>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ mConsolidation }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #ece7fd; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">MO</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Martin Ohm</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Project lead · owner</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #e4f6ec; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">JP</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Jana Petersen</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Controlling · you</span>
+          </span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #f4f4f7; color: #5227e0; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none">AK</span>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 160px">
+            <span style="font-size: 14px; font-weight: 700">Anna Krüger</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Controlling</span>
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; padding: 12px 24px; border-top: 1px solid #f0f0f5">
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">and 2 more members</span>
+        </div>
+      </sc-if>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 16px 24px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+        <sc-if value="{{ membersOwned }}" hint-placeholder-val="{{ true }}">
+          <span style="font-size: 12px; color: #6f6b92; font-weight: 600">You own this group, so you can change its membership</span>
+          <span style="flex: 1"></span>
+          <a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 9px 15px; font-size: 13px; font-weight: 700; white-space: nowrap">Edit members in Nubus IAM</a>
+        </sc-if>
+        <sc-if value="{{ membersNotOwned }}" hint-placeholder-val="{{ true }}">
+          <span style="font-size: 12px; color: #6f6b92; font-weight: 600">{{ membersOwner }} owns this group and manages its membership</span>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;kind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;teams&quot;,&quot;projects&quot;],&quot;default&quot;:&quot;projects&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = {
+    groups: {"finance":false,"workspace":true,"consolidation":false,"personal":false},
+    sections: {"workspace.scheduled":true},
+    members: null,
+  };
+  renderVals() {
+    const g = this.state.groups, s = this.state.sections;
+    const kind = this.props.kind ?? 'projects';
+    const out = { showTeams: kind === 'teams', showProjects: kind === 'projects', showBoth: true };
+    const m = this.state.members;
+    const open = (key) => (e) => { if (e && e.preventDefault) e.preventDefault(); if (e && e.stopPropagation) e.stopPropagation(); this.setState({ members: key }); };
+    out.membersOpen = !!m;
+    out.mFinance = m === 'finance';
+    out.mWorkspace = m === 'workspace';
+    out.mConsolidation = m === 'consolidation';
+    out.membersFinance = open('finance');
+    out.membersWorkspace = open('workspace');
+    out.membersConsolidation = open('consolidation');
+    out.closeMembers = (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ members: null }); };
+    out.stopClose = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+    out.membersTitle = m === 'finance' ? 'Dep. Finance & Controlling' : m === 'workspace' ? 'Project Digital Workspace' : m === 'consolidation' ? 'Project Accounting Consolidation' : '';
+    out.membersMeta = m === 'finance' ? 'Team · 12 members' : m === 'workspace' ? 'Project · 8 members' : m === 'consolidation' ? 'Project · 5 members' : '';
+    out.membersOwned = m === 'workspace';
+    out.membersNotOwned = !!m && m !== 'workspace';
+    out.membersOwner = m === 'finance' ? 'Petra Lindner' : m === 'consolidation' ? 'Martin Ohm' : '';
+    out.gFinance = !!g['finance']; out.notGFinance = !g['finance'];
+    out.toggleGFinance = () => this.setState(st => ({ groups: { ...st.groups, 'finance': !st.groups['finance'] } }));
+    out.sFinanceScheduled = !!s['finance.scheduled']; out.notSFinanceScheduled = !s['finance.scheduled'];
+    out.toggleSFinanceScheduled = () => this.setState(st => ({ sections: { ...st.sections, 'finance.scheduled': !st.sections['finance.scheduled'] } }));
+    out.sFinanceTasks = !!s['finance.tasks']; out.notSFinanceTasks = !s['finance.tasks'];
+    out.toggleSFinanceTasks = () => this.setState(st => ({ sections: { ...st.sections, 'finance.tasks': !st.sections['finance.tasks'] } }));
+    out.sFinanceComms = !!s['finance.comms']; out.notSFinanceComms = !s['finance.comms'];
+    out.toggleSFinanceComms = () => this.setState(st => ({ sections: { ...st.sections, 'finance.comms': !st.sections['finance.comms'] } }));
+    out.sFinanceContent = !!s['finance.content']; out.notSFinanceContent = !s['finance.content'];
+    out.toggleSFinanceContent = () => this.setState(st => ({ sections: { ...st.sections, 'finance.content': !st.sections['finance.content'] } }));
+    out.gWorkspace = !!g['workspace']; out.notGWorkspace = !g['workspace'];
+    out.toggleGWorkspace = () => this.setState(st => ({ groups: { ...st.groups, 'workspace': !st.groups['workspace'] } }));
+    out.sWorkspaceScheduled = !!s['workspace.scheduled']; out.notSWorkspaceScheduled = !s['workspace.scheduled'];
+    out.toggleSWorkspaceScheduled = () => this.setState(st => ({ sections: { ...st.sections, 'workspace.scheduled': !st.sections['workspace.scheduled'] } }));
+    out.sWorkspaceTasks = !!s['workspace.tasks']; out.notSWorkspaceTasks = !s['workspace.tasks'];
+    out.toggleSWorkspaceTasks = () => this.setState(st => ({ sections: { ...st.sections, 'workspace.tasks': !st.sections['workspace.tasks'] } }));
+    out.sWorkspaceComms = !!s['workspace.comms']; out.notSWorkspaceComms = !s['workspace.comms'];
+    out.toggleSWorkspaceComms = () => this.setState(st => ({ sections: { ...st.sections, 'workspace.comms': !st.sections['workspace.comms'] } }));
+    out.sWorkspaceContent = !!s['workspace.content']; out.notSWorkspaceContent = !s['workspace.content'];
+    out.toggleSWorkspaceContent = () => this.setState(st => ({ sections: { ...st.sections, 'workspace.content': !st.sections['workspace.content'] } }));
+    out.gConsolidation = !!g['consolidation']; out.notGConsolidation = !g['consolidation'];
+    out.toggleGConsolidation = () => this.setState(st => ({ groups: { ...st.groups, 'consolidation': !st.groups['consolidation'] } }));
+    out.sConsolidationComms = !!s['consolidation.comms']; out.notSConsolidationComms = !s['consolidation.comms'];
+    out.toggleSConsolidationComms = () => this.setState(st => ({ sections: { ...st.sections, 'consolidation.comms': !st.sections['consolidation.comms'] } }));
+    out.sConsolidationContent = !!s['consolidation.content']; out.notSConsolidationContent = !s['consolidation.content'];
+    out.toggleSConsolidationContent = () => this.setState(st => ({ sections: { ...st.sections, 'consolidation.content': !st.sections['consolidation.content'] } }));
+    out.gPersonal = !!g['personal']; out.notGPersonal = !g['personal'];
+    out.toggleGPersonal = () => this.setState(st => ({ groups: { ...st.groups, 'personal': !st.groups['personal'] } }));
+    out.sPersonalScheduled = !!s['personal.scheduled']; out.notSPersonalScheduled = !s['personal.scheduled'];
+    out.toggleSPersonalScheduled = () => this.setState(st => ({ sections: { ...st.sections, 'personal.scheduled': !st.sections['personal.scheduled'] } }));
+    out.sPersonalComms = !!s['personal.comms']; out.notSPersonalComms = !s['personal.comms'];
+    out.toggleSPersonalComms = () => this.setState(st => ({ sections: { ...st.sections, 'personal.comms': !st.sections['personal.comms'] } }));
+    return out;
+  }
+}
+</script>
+</body>
+</html>

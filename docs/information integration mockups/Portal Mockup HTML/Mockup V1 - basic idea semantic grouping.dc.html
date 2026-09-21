@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  html, body { margin: 0; padding: 0; background: #f4f4f7; }
+  body { font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #5227e0; text-decoration: none; }
+  a:hover { color: #3d18b8; text-decoration: underline; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="min-height: 100vh; background: #f4f4f7; color: #1f1b4d; padding-bottom: 72px">
+
+  <div style="display: flex; align-items: center; gap: 24px; background: #ffffff; border-bottom: 1px solid #e6e6ee; padding: 0 28px; height: 60px; position: sticky; top: 0; z-index: 5">
+    <div style="display: flex; align-items: baseline; gap: 1px; font-size: 19px; letter-spacing: -0.01em">
+      <span style="font-weight: 500; color: #1f1b4d">Nubus</span>
+      <span style="font-weight: 800; color: #1f1b4d">Portal</span>
+    </div>
+    <div style="flex: 1; max-width: 420px; display: flex; align-items: center; gap: 10px; background: #f4f4f7; border: 1px solid #e6e6ee; border-radius: 8px; padding: 8px 12px">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#8b88a8" stroke-width="1.6"><circle cx="7" cy="7" r="4.6"></circle><path d="M10.5 10.5 14 14"></path></svg>
+      <span style="font-size: 14px; color: #8b88a8">Search across all applications</span>
+    </div>
+    <div style="flex: 1"></div>
+    <div style="position: relative; display: flex; align-items: center">
+      <div onClick="{{ toggleFavs }}" style="display: flex; align-items: center; gap: 7px; padding: 7px 11px; border-radius: 8px; font-size: 13.5px; font-weight: 700; color: #1f1b4d; cursor: pointer" style-hover="background: #f4f4f7">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="#5227e0"><path d="m10 2.5 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L2.2 8.2l5.4-.8L10 2.5Z"></path></svg>
+        Favorites
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#1f1b4d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+      </div>
+      <sc-if value="{{ favsOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; top: 46px; right: 0; z-index: 6; width: 320px; background: #ffffff; border: 1px solid #e6e6ee; border-radius: 10px; box-shadow: 0 12px 28px rgba(31, 27, 77, 0.14); display: flex; flex-direction: column">
+          <div style="display: flex; align-items: center; gap: 9px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5">
+            <span style="font-size: 13px; font-weight: 700; color: #6f6b92">Pinned across applications</span>
+            <span style="flex: 1"></span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700">Edit</a>
+          </div>
+          <div style="display: flex; flex-direction: column">
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3.5" width="14" height="13" rx="1.5"></rect><path d="M3 8h14M8.5 8v8.5"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Budget_2026.xlsx</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud</span>
+          </span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">#project-nubus</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element</span>
+          </span>
+          <span style="min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="6" height="6" rx="1.5"></rect><rect x="11" y="4" width="6" height="6" rx="1.5"></rect><rect x="3" y="12" width="14" height="4.5" rx="1.5"></rect></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Portal 2026</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject</span>
+          </span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><circle cx="10" cy="8" r="5"></circle><path d="M8 14h4M8.6 16.5h2.8"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Onboarding checklist</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Knowledge · XWiki</span>
+          </span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="6" width="10" height="8" rx="1.8"></rect><path d="M15 10l3-2.2v6.4L15 12v-2Z"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Team standup room</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Video Conference · Jitsi</span>
+          </span>
+        </a>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <div style="position: relative; display: flex; align-items: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1b4d" stroke-width="1.7" stroke-linecap="round"><path d="M18 15.5V10a6 6 0 1 0-12 0v5.5L4.5 18h15L18 15.5Z"></path><path d="M9.5 18a2.5 2.5 0 0 0 5 0"></path></svg>
+      <span style="position: absolute; top: -5px; right: -7px; min-width: 17px; height: 17px; padding: 0 4px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">5</span>
+    </div>
+    <div style="width: 34px; height: 34px; border-radius: 50%; background: #ece7fd; color: #5227e0; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center">JM</div>
+  </div>
+
+  <div style="max-width: 1280px; margin: 0 auto; padding: 44px 40px 0">
+    <div style="display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 56px; align-items: start">
+
+      <div style="display: flex; flex-direction: column; gap: 34px">
+        <div style="font-size: 40px; line-height: 1.12; font-weight: 800; letter-spacing: -0.02em">
+          Good morning,<br>Jana.
+        </div>
+
+        <div style="position: relative; align-self: flex-start">
+          <div onClick="{{ toggleCreate }}" style="display: flex; align-items: center; gap: 10px; background: #5227e0; color: #ffffff; border-radius: 8px; padding: 13px 20px; font-size: 14.5px; font-weight: 700; cursor: pointer" style-hover="background: #3d18b8">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"><path d="M7.5 2v11M2 7.5h11"></path></svg>
+            Create new in Files
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+          </div>
+          <sc-if value="{{ createOpen }}" hint-placeholder-val="{{ true }}">
+            <div style="position: absolute; top: 52px; left: 0; z-index: 4; min-width: 268px; background: #ffffff; border: 1px solid #e6e6ee; border-radius: 10px; box-shadow: 0 12px 28px rgba(31, 27, 77, 0.14); padding: 8px; display: flex; flex-direction: column; gap: 2px">
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M5 2.5h6l4 4v11H5v-15Z"></path><path d="M11 2.5v4h4"></path></svg>
+                Document
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3.5" width="14" height="13" rx="1.5"></rect><path d="M3 8h14M8.5 8v8.5"></path></svg>
+                Spreadsheet
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="14" height="9.5" rx="1.5"></rect><path d="M10 13.5V17M7 17h6"></path></svg>
+                Presentation
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 5.5h5l1.5 2H17v8H3v-10Z"></path></svg>
+                Folder
+              </a>
+              <span style="height: 1px; background: #f0f0f5; margin: 6px 4px"></span>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15V4.5M6 8l4-3.5L14 8"></path><path d="M3.5 15.5v1.5h13v-1.5"></path></svg>
+                Upload file
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+                Meeting
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="6" height="6" rx="1.5"></rect><rect x="11" y="4" width="6" height="6" rx="1.5"></rect><rect x="3" y="12" width="14" height="4.5" rx="1.5"></rect></svg>
+                Project
+              </a>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 700">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="#5227e0"><circle cx="2" cy="2" r="1.4"></circle><circle cx="7.5" cy="2" r="1.4"></circle><circle cx="13" cy="2" r="1.4"></circle><circle cx="2" cy="7.5" r="1.4"></circle><circle cx="7.5" cy="7.5" r="1.4"></circle><circle cx="13" cy="7.5" r="1.4"></circle><circle cx="2" cy="13" r="1.4"></circle><circle cx="7.5" cy="13" r="1.4"></circle><circle cx="13" cy="13" r="1.4"></circle></svg>
+            Applications
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, 82px); gap: 18px 22px">
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#5227e0" stroke-width="2" stroke-linejoin="round"><path d="M4 8h9l2.5 3H26v11H4V8Z" fill="#5227e0" fill-opacity="0.12"></path></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Files</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#5227e0" stroke-width="2" stroke-linejoin="round"><rect x="4" y="7" width="22" height="16" rx="2" fill="#5227e0" fill-opacity="0.12"></rect><path d="M5 9l10 7 10-7"></path></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Email</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="6" width="10" height="8" rx="1.5"></rect><rect x="16" y="6" width="10" height="8" rx="1.5" fill-opacity="0.35"></rect><rect x="4" y="16" width="10" height="8" rx="1.5" fill-opacity="0.35"></rect><rect x="16" y="16" width="10" height="8" rx="1.5"></rect></svg>
+                <span style="position: absolute; top: -6px; right: -6px; padding: 0 6px; height: 18px; box-sizing: border-box; border-radius: 9px; background: #d92d5e; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">15′</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Calendar</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><circle cx="11" cy="11" r="4"></circle><circle cx="20.5" cy="12" r="3" fill-opacity="0.35"></circle><path d="M4 24c0-3.6 3.1-6 7-6s7 2.4 7 6H4Z"></path><path d="M19 18c3.4 0 6 2 6 6h-6.5c0-2.2-.6-4.2-1.6-5.7.7-.2 1.4-.3 2.1-.3Z" fill-opacity="0.35"></path></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Contacts</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><circle cx="6" cy="8" r="2.2"></circle><rect x="11" y="6.2" width="15" height="3.6" rx="1.8" fill-opacity="0.35"></rect><circle cx="6" cy="15" r="2.2"></circle><rect x="11" y="13.2" width="15" height="3.6" rx="1.8" fill-opacity="0.35"></rect><circle cx="6" cy="22" r="2.2"></circle><rect x="11" y="20.2" width="15" height="3.6" rx="1.8" fill-opacity="0.35"></rect></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #b8860f; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Tasks</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="6" width="8" height="8" rx="2"></rect><rect x="14" y="9" width="12" height="5" rx="2.5" fill-opacity="0.35"></rect><rect x="4" y="17" width="14" height="6" rx="3" fill-opacity="0.35"></rect><rect x="20" y="17" width="6" height="6" rx="3"></rect></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #b8860f; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Projects</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><circle cx="15" cy="12" r="6.5" fill-opacity="0.35"></circle><rect x="12" y="19" width="6" height="2.6" rx="1.3"></rect><rect x="12.8" y="22.6" width="4.4" height="2.4" rx="1.2"></rect></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Knowledge</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="9" width="15" height="12" rx="2.5" fill-opacity="0.35"></rect><path d="M21 15l5-3.5v11L21 19v-4Z"></path></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Video<br>Conference</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><path d="M4 9.5A2.5 2.5 0 0 1 6.5 7h11A2.5 2.5 0 0 1 20 9.5V15a2.5 2.5 0 0 1-2.5 2.5H10L6 21v-3.5A2.5 2.5 0 0 1 4 15V9.5Z" fill-opacity="0.35"></path><path d="M22 11h1.5A2.5 2.5 0 0 1 26 13.5V19a2.5 2.5 0 0 1-2.5 2.5H22l-3 3v-3h-2.5"></path></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Chat</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="7" width="22" height="6" rx="2" fill-opacity="0.35"></rect><rect x="4" y="16" width="22" height="6" rx="2"></rect></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Notes</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><path d="M15 4l9 3.5V15c0 5.4-3.7 9.2-9 11-5.3-1.8-9-5.6-9-11V7.5L15 4Z" fill-opacity="0.35"></path><circle cx="15" cy="13" r="2.6"></circle><path d="M10.5 21c.6-2.4 2.3-3.6 4.5-3.6s3.9 1.2 4.5 3.6h-9Z"></path></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">User<br>Management</span>
+            </a>
+
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; padding: 18px 20px">
+          <div style="font-size: 14px; font-weight: 700">My day</div>
+          <div style="display: grid; grid-template-columns: 1fr auto; gap: 9px 16px; font-size: 13.5px; color: #4b4770">
+            <span>Meetings today</span><span style="font-weight: 700; color: #1f1b4d">3</span>
+            <span>Tasks due today</span><span style="font-weight: 700; color: #1f1b4d">2</span>
+            <span>Unread communication</span><span style="font-weight: 700; color: #1f1b4d">3</span>
+            <span>Newly shared</span><span style="font-weight: 700; color: #1f1b4d">1 file</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 8.5 12 5v10L3 11.5v-3Z"></path><path d="M12 8h4a2 2 0 0 1 0 4h-4"></path><path d="M6 12v4"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">News</span>
+            <span style="flex: 1"></span>
+            <a href="#" style="border: 1px solid #cfc6f7; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; font-weight: 700; background: #ffffff">View all</a>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+            <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; overflow: hidden; display: flex; flex-direction: column">
+              <image-slot id="news-2fa" shape="rect" src="news-2fa.png" style="width: 100%; height: 132px" placeholder="Drop a preview image"></image-slot>
+              <div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 8px">
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 700">Documentation · XWiki · today</div>
+              <div style="font-size: 16px; font-weight: 700; letter-spacing: -0.01em">Setting up two-factor sign-in</div>
+              <div style="font-size: 13.5px; color: #4b4770; text-wrap: pretty">New guide from the IT editorial team, effective 15 September at all sites.</div>
+              <a href="#" style="font-size: 13.5px; font-weight: 700; margin-top: 2px">Read article</a>
+              </div>
+            </div>
+            <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; overflow: hidden; display: flex; flex-direction: column">
+              <image-slot id="news-maintenance" shape="rect" src="news-maintenance.png" style="width: 100%; height: 132px" placeholder="Drop a preview image"></image-slot>
+              <div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 8px">
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 700">Operations · Blog · yesterday</div>
+              <div style="font-size: 16px; font-weight: 700; letter-spacing: -0.01em">Maintenance window on Friday</div>
+              <div style="font-size: 13.5px; color: #4b4770; text-wrap: pretty">Files and Office will be briefly unavailable from 18:00 to 20:00.</div>
+              <a href="#" style="font-size: 13.5px; font-weight: 700; margin-top: 2px">Read article</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 30px">
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#d92d5e" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="7"></circle><path d="M10 6v4.3l3 1.8"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">Now and today</span>
+            <span style="font-size: 13px; color: #6f6b92">2 items need your attention</span>
+            <span style="flex: 1"></span>
+            <a href="#" style="border: 1px solid #cfc6f7; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; font-weight: 700; background: #ffffff">View all</a>
+          </div>
+
+          <div style="border: 1px solid #e6e6ee; border-left: 3px solid #d92d5e; border-radius: 8px; background: #ffffff; padding: 18px 20px; display: flex; gap: 20px; align-items: flex-start">
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1">
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span style="background: #fdeaf0; color: #b02249; border-radius: 5px; padding: 3px 8px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.01em">IN 15 MINUTES</span>
+                <span style="font-size: 12px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+              </div>
+              <div style="font-size: 17px; font-weight: 700; letter-spacing: -0.01em">Sprint Review Nubus Portal</div>
+              <div style="font-size: 13.5px; color: #4b4770">11:00 – 11:30 · Jitsi · 6 participants · room “portal-review”</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px">
+              <a href="#" style="font-size: 13.5px; font-weight: 700">Open meeting</a>
+              <a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 10px 16px; font-size: 13.5px; font-weight: 700" style-hover="background: #3d18b8">Join conference</a>
+            </div>
+          </div>
+
+          <div style="border: 1px solid #e6e6ee; border-left: 3px solid #b8860f; border-radius: 8px; background: #ffffff; padding: 18px 20px; display: flex; gap: 20px; align-items: flex-start">
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1">
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 11.5px; font-weight: 700">DUE TODAY</span>
+                <span style="font-size: 12px; color: #6f6b92; font-weight: 600">Projects · OpenProject</span>
+              </div>
+              <div style="font-size: 17px; font-weight: 700; letter-spacing: -0.01em">Approve school network migration plan</div>
+              <div style="font-size: 13.5px; color: #4b4770">Work package #2481 · project “Portal 2026” · assigned to you · high priority</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px">
+              <a href="#" style="font-size: 13.5px; font-weight: 700">Open in OpenProject</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">Communication</span>
+            <span style="font-size: 13px; color: #6f6b92">3 unread</span>
+            <span style="flex: 1"></span>
+            <a href="#" style="border: 1px solid #cfc6f7; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; font-weight: 700; background: #ffffff">View all</a>
+          </div>
+
+          <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+
+            <div style="display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px; border-bottom: 1px solid #f0f0f5">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 7px; flex: none"></span>
+              <div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+                <div style="font-size: 15px; font-weight: 700">School network quote: question about licence count</div>
+                <div style="font-size: 13.5px; color: #4b4770">Kerstin Sander · “thanks for the quote, before we order …”</div>
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 09:12</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px; padding-top: 4px">
+                <a href="#" style="font-size: 13.5px; font-weight: 700">Open in Mail</a>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px; border-bottom: 1px solid #f0f0f5">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 7px; flex: none"></span>
+              <div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+                <div style="font-size: 15px; font-weight: 700">Jonas Weber in #project-nubus</div>
+                <div style="font-size: 13.5px; color: #4b4770">“Could you restart the test instance once more before the review?”</div>
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 600">Chat · Element · 09:38</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px; padding-top: 4px">
+                <a href="#" style="font-size: 13.5px; font-weight: 700">Reply in chat</a>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 7px; flex: none"></span>
+              <div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+                <div style="font-size: 15px; font-weight: 700">Anna Krüger commented on “Budget_2026.xlsx”</div>
+                <div style="font-size: 13.5px; color: #4b4770">“Please check row 42, the total does not add up.”</div>
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 08:55</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px; padding-top: 4px">
+                <a href="#" style="font-size: 13.5px; font-weight: 700">Open comment</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h5l1.6 2H17v8H3V6Z"></path><path d="M10 11v4M8 13h4"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">Newly shared and newly created</span>
+            <span style="flex: 1"></span>
+            <a href="#" style="border: 1px solid #cfc6f7; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; font-weight: 700; background: #ffffff">View all</a>
+          </div>
+
+          <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+            <div style="display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px; border-bottom: 1px solid #f0f0f5">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 7px; flex: none"></span>
+              <div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+                <div style="font-size: 15px; font-weight: 700">Budget_2026.xlsx</div>
+                <div style="font-size: 13.5px; color: #4b4770">Anna Krüger shared it with you · editing allowed</div>
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 20 minutes ago</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px; padding-top: 4px">
+                <a href="#" style="font-size: 13.5px; font-weight: 700">Preview</a>
+                <a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 9px 15px; font-size: 13px; font-weight: 700">Edit in Collabora</a>
+              </div>
+            </div>
+            <div style="display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px; border-bottom: 1px solid #f0f0f5">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #dcdae8; margin-top: 7px; flex: none"></span>
+              <div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+                <div style="font-size: 15px; font-weight: 700">New project “Rollout site North”</div>
+                <div style="font-size: 13.5px; color: #4b4770">Martin Ohm added you as a member</div>
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 600">Projects · OpenProject · yesterday 16:20</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px; padding-top: 4px">
+                <a href="#" style="font-size: 13.5px; font-weight: 700">Open project</a>
+              </div>
+            </div>
+            <div style="display: flex; gap: 16px; align-items: flex-start; padding: 16px 20px">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #dcdae8; margin-top: 7px; flex: none"></span>
+              <div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+                <div style="font-size: 15px; font-weight: 700">New room “#rollout-north”</div>
+                <div style="font-size: 13.5px; color: #4b4770">Invitation from Martin Ohm</div>
+                <div style="font-size: 12px; color: #6f6b92; font-weight: 600">Chat · Element · yesterday 16:24</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px; padding-top: 4px">
+                <a href="#" style="font-size: 13.5px; font-weight: 700">Join room</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="position: fixed; right: 0; bottom: 0; background: #1f1b4d; color: #ffffff; border-top-left-radius: 10px; padding: 14px 26px; display: flex; align-items: center; gap: 18px; font-size: 13.5px; font-weight: 700">
+    <span>Documentation</span>
+    <span style="color: #6f6b92">|</span>
+    <span>Support</span>
+    <span style="color: #6f6b92">|</span>
+    <span>Feedback</span>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { createOpen: false, favsOpen: false };
+  renderVals() {
+    return {
+      createOpen: this.state.createOpen,
+      favsOpen: this.state.favsOpen,
+      toggleCreate: () => this.setState(s => ({ createOpen: !s.createOpen, favsOpen: false })),
+      toggleFavs: () => this.setState(s => ({ favsOpen: !s.favsOpen, createOpen: false })),
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+  <div onClick="{{ toggle }}" style="display: flex; align-items: center; gap: 11px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+    <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h5l1.6 2H17v8H3V6Z"></path><path d="M10 11v4M8 13h4"></path></svg>
+    <span style="font-size: 15px; font-weight: 700">New content</span>
+    <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">3 shared · 2 new</span>
+    <span style="flex: 1"></span>
+    <sc-if value="{{ open }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+    <sc-if value="{{ notOpen }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+  </div>
+  <sc-if value="{{ open }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+      <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">FILE</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">Budget_2026.xlsx</span>
+        <span style="font-size: 12.5px; color: #4b4770">Anna Krüger shared it with you · editing allowed</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 20 minutes ago</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Preview</a><a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap">Edit in Collabora</a></span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+      <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">PAGE</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">Accounting Consolidation: closing checklist</span>
+        <span style="font-size: 12.5px; color: #4b4770">Martin Ohm shared the page with the pilot group</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Knowledge · XWiki · yesterday 16:40</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in XWiki</a></span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+      <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">NOTE</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">Review agenda and open questions</span>
+        <span style="font-size: 12.5px; color: #4b4770">Petra Lindner shared a note with you</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Notes · 08:30</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open note</a></span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+      <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">PROJECT</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">New project “Accounting Consolidation”</span>
+        <span style="font-size: 12.5px; color: #4b4770">Martin Ohm added you as a member</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject · yesterday 16:20</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open project</a></span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+      <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">ROOM</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">New room “#consolidation”</span>
+        <span style="font-size: 12.5px; color: #4b4770">Invitation from Martin Ohm</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · yesterday 16:24</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Join room</a></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+      <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Shared with you in the last 24 hours</span>
+      <span style="flex: 1"></span>
+      <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Show everything shared with me</a>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { open: false };
+  renderVals() {
+    return {
+      open: this.state.open,
+      notOpen: !this.state.open,
+      toggle: () => this.setState(s => ({ open: !s.open })),
+    };
+  }
+}
+</script>
+</body>
+</html>

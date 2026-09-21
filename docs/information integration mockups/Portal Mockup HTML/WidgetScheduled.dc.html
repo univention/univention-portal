@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+  <div onClick="{{ toggle }}" style="display: flex; align-items: center; gap: 11px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+    <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#d92d5e" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+    <span style="font-size: 15px; font-weight: 700">Scheduled</span>
+    <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">4 meetings · next at 11:00</span>
+    <span style="flex: 1"></span>
+    <sc-if value="{{ open }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+    <sc-if value="{{ notOpen }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+  </div>
+  <sc-if value="{{ open }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5; opacity: 0.55;">
+      <span style="background: #f4f4f7; color: #6f6b92; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">09:00</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">Daily standup</span>
+        <span style="font-size: 12.5px; color: #4b4770">Jitsi · room “team-portal”</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange · ended</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"></span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5; background: #fdf6f8;">
+      <span style="background: #fdeaf0; color: #b02249; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">IN 15 MIN</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">Sprint Review Nubus Portal</span>
+        <span style="font-size: 12.5px; color: #4b4770">11:00 – 11:30 · Jitsi · room “portal-review” · 6 participants</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a><a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap">Join</a></span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+      <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">14:00</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">Jour fixe IT operations</span>
+        <span style="font-size: 12.5px; color: #4b4770">Jitsi · room “team-it” · 9 participants</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a></span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+      <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">16:30</span>
+      <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+        <span style="font-size: 14.5px; font-weight: 700">1:1 with Martin Ohm</span>
+        <span style="font-size: 12.5px; color: #4b4770">Office 2.14 · no video link</span>
+        <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+      </span>
+      <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+      <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">3 upcoming, 1 ended</span>
+      <span style="flex: 1"></span>
+      <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open calendar in Open-Xchange</a>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { open: true };
+  renderVals() {
+    return {
+      open: this.state.open,
+      notOpen: !this.state.open,
+      toggle: () => this.setState(s => ({ open: !s.open })),
+    };
+  }
+}
+</script>
+</body>
+</html>

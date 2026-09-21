@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  html, body { margin: 0; padding: 0; background: #f4f4f7; }
+  body { font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #5227e0; text-decoration: none; }
+  a:hover { color: #3d18b8; text-decoration: underline; }
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="min-height: 100vh; background: #f4f4f7; color: #1f1b4d; padding-bottom: 72px">
+
+  <div style="display: flex; align-items: center; gap: 24px; background: #ffffff; border-bottom: 1px solid #e6e6ee; padding: 0 28px; height: 60px; position: sticky; top: 0; z-index: 5">
+    <div style="display: flex; align-items: baseline; gap: 1px; font-size: 19px; letter-spacing: -0.01em">
+      <span style="font-weight: 500; color: #1f1b4d">Nubus</span>
+      <span style="font-weight: 800; color: #1f1b4d">Portal</span>
+    </div>
+    <div style="flex: 1; max-width: 420px; display: flex; align-items: center; gap: 10px; background: #f4f4f7; border: 1px solid #e6e6ee; border-radius: 8px; padding: 8px 12px">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#8b88a8" stroke-width="1.6"><circle cx="7" cy="7" r="4.6"></circle><path d="M10.5 10.5 14 14"></path></svg>
+      <span style="font-size: 14px; color: #8b88a8">Search across all applications</span>
+    </div>
+    <div style="flex: 1"></div>
+    <div style="position: relative; display: flex; align-items: center">
+      <div onClick="{{ toggleFavs }}" style="display: flex; align-items: center; gap: 7px; padding: 7px 11px; border-radius: 8px; font-size: 13.5px; font-weight: 700; color: #1f1b4d; cursor: pointer" style-hover="background: #f4f4f7">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="#5227e0"><path d="m10 2.5 2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L2.2 8.2l5.4-.8L10 2.5Z"></path></svg>
+        Favorites
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#1f1b4d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+      </div>
+      <sc-if value="{{ favsOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; top: 46px; right: 0; z-index: 6; width: 320px; background: #ffffff; border: 1px solid #e6e6ee; border-radius: 10px; box-shadow: 0 12px 28px rgba(31, 27, 77, 0.14); display: flex; flex-direction: column">
+          <div style="display: flex; align-items: center; gap: 9px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5">
+            <span style="font-size: 13px; font-weight: 700; color: #6f6b92">Pinned across applications</span>
+            <span style="flex: 1"></span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700">Edit</a>
+          </div>
+          <div style="display: flex; flex-direction: column">
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3.5" width="14" height="13" rx="1.5"></rect><path d="M3 8h14M8.5 8v8.5"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Budget_2026.xlsx</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud</span>
+          </span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">#project-nubus</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element</span>
+          </span>
+          <span style="min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">1</span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="6" height="6" rx="1.5"></rect><rect x="11" y="4" width="6" height="6" rx="1.5"></rect><rect x="3" y="12" width="14" height="4.5" rx="1.5"></rect></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Portal 2026</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject</span>
+          </span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f5; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><circle cx="10" cy="8" r="5"></circle><path d="M8 14h4M8.6 16.5h2.8"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Onboarding checklist</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Knowledge · XWiki</span>
+          </span>
+        </a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: #1f1b4d" style-hover="background: #faf9ff; text-decoration: none">
+          <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="6" width="10" height="8" rx="1.8"></rect><path d="M15 10l3-2.2v6.4L15 12v-2Z"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+            <span style="font-size: 14px; font-weight: 700">Team standup room</span>
+            <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Video Conference · Jitsi</span>
+          </span>
+        </a>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+    <div style="position: relative; display: flex; align-items: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f1b4d" stroke-width="1.7" stroke-linecap="round"><path d="M18 15.5V10a6 6 0 1 0-12 0v5.5L4.5 18h15L18 15.5Z"></path><path d="M9.5 18a2.5 2.5 0 0 0 5 0"></path></svg>
+      <span style="position: absolute; top: -5px; right: -7px; min-width: 17px; height: 17px; padding: 0 4px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">5</span>
+    </div>
+    <div style="width: 34px; height: 34px; border-radius: 50%; background: #ece7fd; color: #5227e0; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center">JM</div>
+  </div>
+
+  <div style="max-width: 1280px; margin: 0 auto; padding: 44px 40px 0">
+    <div style="display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: 48px; align-items: start">
+
+      <div style="display: flex; flex-direction: column; gap: 34px">
+        <div style="font-size: 40px; line-height: 1.12; font-weight: 800; letter-spacing: -0.02em">
+          Good morning,<br>Jana.
+        </div>
+
+        <div style="position: relative; align-self: flex-start">
+          <div onClick="{{ toggleCreate }}" style="display: flex; align-items: center; gap: 10px; background: #5227e0; color: #ffffff; border-radius: 8px; padding: 13px 20px; font-size: 14.5px; font-weight: 700; cursor: pointer" style-hover="background: #3d18b8">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"><path d="M7.5 2v11M2 7.5h11"></path></svg>
+            Create new in Files
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+          </div>
+          <sc-if value="{{ createOpen }}" hint-placeholder-val="{{ true }}">
+            <div style="position: absolute; top: 52px; left: 0; z-index: 4; min-width: 268px; background: #ffffff; border: 1px solid #e6e6ee; border-radius: 10px; box-shadow: 0 12px 28px rgba(31, 27, 77, 0.14); padding: 8px; display: flex; flex-direction: column; gap: 2px">
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M5 2.5h6l4 4v11H5v-15Z"></path><path d="M11 2.5v4h4"></path></svg>
+                Document
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="3.5" width="14" height="13" rx="1.5"></rect><path d="M3 8h14M8.5 8v8.5"></path></svg>
+                Spreadsheet
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="14" height="9.5" rx="1.5"></rect><path d="M10 13.5V17M7 17h6"></path></svg>
+                Presentation
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 5.5h5l1.5 2H17v8H3v-10Z"></path></svg>
+                Folder
+              </a>
+              <span style="height: 1px; background: #f0f0f5; margin: 6px 4px"></span>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15V4.5M6 8l4-3.5L14 8"></path><path d="M3.5 15.5v1.5h13v-1.5"></path></svg>
+                Upload file
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+                Meeting
+              </a>
+              <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 7px; color: #1f1b4d; font-size: 14px; font-weight: 600" style-hover="background: #f4f4f7; text-decoration: none">
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="6" height="6" rx="1.5"></rect><rect x="11" y="4" width="6" height="6" rx="1.5"></rect><rect x="3" y="12" width="14" height="4.5" rx="1.5"></rect></svg>
+                Project
+              </a>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; align-items: center; gap: 9px">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="#5227e0"><circle cx="2" cy="2" r="1.4"></circle><circle cx="7.5" cy="2" r="1.4"></circle><circle cx="13" cy="2" r="1.4"></circle><circle cx="2" cy="7.5" r="1.4"></circle><circle cx="7.5" cy="7.5" r="1.4"></circle><circle cx="13" cy="7.5" r="1.4"></circle><circle cx="2" cy="13" r="1.4"></circle><circle cx="7.5" cy="13" r="1.4"></circle><circle cx="13" cy="13" r="1.4"></circle></svg>
+            <span style="font-size: 15px; font-weight: 700">Applications</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">11 apps · 8 need attention</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 18px 18px; padding-right: 10px">
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#5227e0" stroke-width="2" stroke-linejoin="round"><path d="M4 8h9l2.5 3H26v11H4V8Z" fill="#5227e0" fill-opacity="0.12"></path></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer" onClick="{{ openSharedFiles }}">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Files</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#5227e0" stroke-width="2" stroke-linejoin="round"><rect x="4" y="7" width="22" height="16" rx="2" fill="#5227e0" fill-opacity="0.12"></rect><path d="M5 9l10 7 10-7"></path></svg>
+                <span onClick="{{ openMailComms }}" style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer">10</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Email</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="6" width="10" height="8" rx="1.5"></rect><rect x="16" y="6" width="10" height="8" rx="1.5" fill-opacity="0.35"></rect><rect x="4" y="16" width="10" height="8" rx="1.5" fill-opacity="0.35"></rect><rect x="16" y="16" width="10" height="8" rx="1.5"></rect></svg>
+                <span onClick="{{ openMeetings }}" style="position: absolute; top: -6px; right: -6px; padding: 0 6px; height: 18px; box-sizing: border-box; border-radius: 9px; background: #d92d5e; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer">4</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Calendar</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><circle cx="11" cy="11" r="4"></circle><circle cx="20.5" cy="12" r="3" fill-opacity="0.35"></circle><path d="M4 24c0-3.6 3.1-6 7-6s7 2.4 7 6H4Z"></path><path d="M19 18c3.4 0 6 2 6 6h-6.5c0-2.2-.6-4.2-1.6-5.7.7-.2 1.4-.3 2.1-.3Z" fill-opacity="0.35"></path></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Contacts</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><circle cx="6" cy="8" r="2.2"></circle><rect x="11" y="6.2" width="15" height="3.6" rx="1.8" fill-opacity="0.35"></rect><circle cx="6" cy="15" r="2.2"></circle><rect x="11" y="13.2" width="15" height="3.6" rx="1.8" fill-opacity="0.35"></rect><circle cx="6" cy="22" r="2.2"></circle><rect x="11" y="20.2" width="15" height="3.6" rx="1.8" fill-opacity="0.35"></rect></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #b8860f; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer" onClick="{{ openOxTasks }}">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Tasks</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="6" width="8" height="8" rx="2"></rect><rect x="14" y="9" width="12" height="5" rx="2.5" fill-opacity="0.35"></rect><rect x="4" y="17" width="14" height="6" rx="3" fill-opacity="0.35"></rect><rect x="20" y="17" width="6" height="6" rx="3"></rect></svg>
+                <span style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #b8860f; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer" onClick="{{ openProjectTasks }}">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Projects</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><circle cx="15" cy="12" r="6.5" fill-opacity="0.35"></circle><rect x="12" y="19" width="6" height="2.6" rx="1.3"></rect><rect x="12.8" y="22.6" width="4.4" height="2.4" rx="1.2"></rect></svg>
+                <span onClick="{{ openSharedPages }}" style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Knowledge</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="9" width="15" height="12" rx="2.5" fill-opacity="0.35"></rect><path d="M21 15l5-3.5v11L21 19v-4Z"></path></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Video<br>Conference</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><path d="M4 9.5A2.5 2.5 0 0 1 6.5 7h11A2.5 2.5 0 0 1 20 9.5V15a2.5 2.5 0 0 1-2.5 2.5H10L6 21v-3.5A2.5 2.5 0 0 1 4 15V9.5Z" fill-opacity="0.35"></path><path d="M22 11h1.5A2.5 2.5 0 0 1 26 13.5V19a2.5 2.5 0 0 1-2.5 2.5H22l-3 3v-3h-2.5"></path></svg>
+                <span onClick="{{ openChatComms }}" style="cursor: pointer; position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">3</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Chat</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><rect x="4" y="7" width="22" height="6" rx="2" fill-opacity="0.35"></rect><rect x="4" y="16" width="22" height="6" rx="2"></rect></svg>
+                <span onClick="{{ openSharedNotes }}" style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; box-sizing: border-box; border-radius: 9px; background: #5227e0; color: #ffffff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer">1</span>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">Notes</span>
+            </a>
+
+            <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+              <span style="position: relative; width: 100%; max-width: 82px; height: 76px; border: 1px solid #e6e6ee; border-radius: 10px; background: #ffffff; display: flex; align-items: center; justify-content: center">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="#5227e0"><path d="M15 4l9 3.5V15c0 5.4-3.7 9.2-9 11-5.3-1.8-9-5.6-9-11V7.5L15 4Z" fill-opacity="0.35"></path><circle cx="15" cy="13" r="2.6"></circle><path d="M10.5 21c.6-2.4 2.3-3.6 4.5-3.6s3.9 1.2 4.5 3.6h-9Z"></path></svg>
+              </span>
+              <span style="font-size: 12.5px; font-weight: 600; color: #1f1b4d; text-align: center">User<br>Management</span>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px">
+
+        <div style="display: flex; align-items: center; gap: 9px">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+          <span style="font-size: 15px; font-weight: 700">My day</span>
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Tuesday, 1 September · 25 items</span>
+        </div>
+
+        <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+          <div onClick="{{ toggleMeetingsSec }}" style="display: flex; align-items: center; gap: 11px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#d92d5e" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">Scheduled</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">4 meetings · next at 11:00</span>
+            <span style="flex: 1"></span>
+            <sc-if value="{{ secMeetings }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+            <sc-if value="{{ notSecMeetings }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+          </div>
+          <sc-if value="{{ secMeetings }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5; opacity: 0.55;">
+              <span style="background: #f4f4f7; color: #6f6b92; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">09:00</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Daily standup</span>
+                <span style="font-size: 12.5px; color: #4b4770">Jitsi · room “team-portal”</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange · ended</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5; background: #fdf6f8;">
+              <span style="background: #fdeaf0; color: #b02249; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">IN 15 MIN</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Sprint Review Nubus Portal</span>
+                <span style="font-size: 12.5px; color: #4b4770">11:00 – 11:30 · Jitsi · room “portal-review” · 6 participants</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a><a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap">Join</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">14:00</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Jour fixe IT operations</span>
+                <span style="font-size: 12.5px; color: #4b4770">Jitsi · room “team-it” · 9 participants</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">16:30</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">1:1 with Martin Ohm</span>
+                <span style="font-size: 12.5px; color: #4b4770">Office 2.14 · no video link</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Calendar · Open-Xchange</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open meeting</a></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">3 upcoming, 1 ended</span>
+              <span style="flex: 1"></span>
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open calendar in Open-Xchange</a>
+            </div>
+          </sc-if>
+        </div>
+        <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+          <div onClick="{{ toggleTasksSec }}" style="display: flex; align-items: center; gap: 11px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#b8860f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5h14M3 10h14M3 14.5h9"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">Tasks due today</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">2 items · OpenProject, Open-Xchange</span>
+            <span style="flex: 1"></span>
+            <sc-if value="{{ secTasks }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+            <sc-if value="{{ notSecTasks }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+          </div>
+          <sc-if value="{{ secTasks }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">DUE TODAY</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Approve school network migration plan</span>
+                <span style="font-size: 12.5px; color: #4b4770">Work package #2481 · project “Portal 2026” · high priority</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject · assigned to you</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in OpenProject</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">17:00</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Send licence count feedback to procurement</span>
+                <span style="font-size: 12.5px; color: #4b4770">Created from the email by Kerstin Sander</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Tasks · Open-Xchange · due today</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open task</a></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Only items due today are listed</span>
+              <span style="flex: 1"></span>
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Show all open items</a>
+            </div>
+          </sc-if>
+        </div>
+        <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+          <div onClick="{{ toggleCommsSec }}" style="display: flex; align-items: center; gap: 11px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">Communication</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">14 unread · 10 mail, 3 chat, 1 comment</span>
+            <span style="flex: 1"></span>
+            <sc-if value="{{ secComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+            <sc-if value="{{ notSecComms }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+          </div>
+          <sc-if value="{{ secComms }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">School network quote: question about licence count</span>
+                <span style="font-size: 12.5px; color: #4b4770">Kerstin Sander · “thanks for the quote, before we order …”</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 09:12 · 9 more unread</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">#project-nubus · 3 new messages</span>
+                <span style="font-size: 12.5px; color: #4b4770">Jonas Weber · “Could you restart the test instance once more before the review?”</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · 09:38</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Martin Ohm · 2 new messages</span>
+                <span style="font-size: 12.5px; color: #4b4770">“Do you have five minutes before the 1:1? It is about the rollout.”</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · direct message · 09:21</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Anna Krüger commented on “Budget_2026.xlsx”</span>
+                <span style="font-size: 12.5px; color: #4b4770">“Please check row 42, the total does not add up.”</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 08:55</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open comment</a></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Grouped by conversation, unread only</span>
+              <span style="flex: 1"></span>
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Show all 14 unread</a>
+            </div>
+          </sc-if>
+        </div>
+        <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+          <div onClick="{{ toggleSharedSec }}" style="display: flex; align-items: center; gap: 11px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h5l1.6 2H17v8H3V6Z"></path><path d="M10 11v4M8 13h4"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">New content</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">3 shared · 2 new</span>
+            <span style="flex: 1"></span>
+            <sc-if value="{{ secShared }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+            <sc-if value="{{ notSecShared }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+          </div>
+          <sc-if value="{{ secShared }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">FILE</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Budget_2026.xlsx</span>
+                <span style="font-size: 12.5px; color: #4b4770">Anna Krüger shared it with you · editing allowed</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 20 minutes ago</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Preview</a><a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap">Edit in Collabora</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">PAGE</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Rollout site North: site checklist</span>
+                <span style="font-size: 12.5px; color: #4b4770">Martin Ohm shared the page with the pilot group</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Knowledge · XWiki · yesterday 16:40</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in XWiki</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">NOTE</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">Review agenda and open questions</span>
+                <span style="font-size: 12.5px; color: #4b4770">Petra Lindner shared a note with you</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Notes · 08:30</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open note</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">PROJECT</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">New project “Rollout site North”</span>
+                <span style="font-size: 12.5px; color: #4b4770">Martin Ohm added you as a member</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject · yesterday 16:20</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open project</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5;">
+              <span style="background: #f4f4f7; color: #4b4770; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap; flex: none">ROOM</span>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 14.5px; font-weight: 700">New room “#rollout-north”</span>
+                <span style="font-size: 12.5px; color: #4b4770">Invitation from Martin Ohm</span>
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · yesterday 16:24</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Join room</a></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Shared with you in the last 24 hours</span>
+              <span style="flex: 1"></span>
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Show everything shared with me</a>
+            </div>
+          </sc-if>
+        </div>
+
+        <div style="border: 1px solid #e6e6ee; border-radius: 8px; background: #ffffff; display: flex; flex-direction: column">
+          <div onClick="{{ toggleNewsSec }}" style="display: flex; align-items: center; gap: 11px; padding: 15px 20px; cursor: pointer" style-hover="background: #faf9ff">
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 8.5 12 5v10L3 11.5v-3Z"></path><path d="M12 8h4a2 2 0 0 1 0 4h-4"></path><path d="M6 12v4"></path></svg>
+            <span style="font-size: 15px; font-weight: 700">News</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">2 new posts · XWiki, Blog</span>
+            <span style="flex: 1"></span>
+            <sc-if value="{{ secNews }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#5227e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 6 4l3.5 3.5"></path></svg></sc-if>
+            <sc-if value="{{ notSecNews }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="#6f6b92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></sc-if>
+          </div>
+          <sc-if value="{{ secNews }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5">
+              <image-slot id="news-2fa" shape="rounded" radius="8" src="news-2fa.png" style="width: 132px; height: 84px; flex: none" placeholder="Drop a preview image"></image-slot>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 700">Documentation · XWiki · today</span>
+                <span style="font-size: 14.5px; font-weight: 700">Setting up two-factor sign-in</span>
+                <span style="font-size: 12.5px; color: #4b4770; text-wrap: pretty">New guide from the IT editorial team, effective 15 September at all sites.</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Read article</a></span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; padding: 14px 20px; border-top: 1px solid #f0f0f5">
+              <image-slot id="news-maintenance" shape="rounded" radius="8" src="news-maintenance.png" style="width: 132px; height: 84px; flex: none" placeholder="Drop a preview image"></image-slot>
+              <span style="display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 200px">
+                <span style="font-size: 11.5px; color: #6f6b92; font-weight: 700">Operations · Blog · yesterday</span>
+                <span style="font-size: 14.5px; font-weight: 700">Maintenance window on Friday</span>
+                <span style="font-size: 12.5px; color: #4b4770; text-wrap: pretty">Files and Office will be briefly unavailable from 18:00 to 20:00.</span>
+              </span>
+              <span style="display: flex; align-items: center; gap: 12px"><a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Read article</a></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-top: 1px solid #f0f0f5; background: #fbfbfe">
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Posts from the last seven days</span>
+              <span style="flex: 1"></span>
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">View all</a>
+            </div>
+          </sc-if>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ meetingsOpen }}" hint-placeholder-val="{{ true }}">
+    <div onClick="{{ closeMeetings }}" style="position: fixed; inset: 0; z-index: 20; background: rgba(31, 27, 77, 0.42); display: flex; align-items: center; justify-content: center; padding: 32px">
+      <div onClick="{{ stopClose }}" style="width: 560px; max-height: 82vh; overflow: auto; background: #ffffff; border-radius: 12px; box-shadow: 0 24px 60px rgba(31, 27, 77, 0.28); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid #f0f0f5">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+          <span style="font-size: 17px; font-weight: 800; letter-spacing: -0.01em">Meetings today</span>
+          <span style="font-size: 13px; color: #6f6b92; font-weight: 600">Tuesday, 1 September · Open-Xchange</span>
+          <span style="flex: 1"></span>
+          <span onClick="{{ closeMeetings }}" style="width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6f6b92" style-hover="background: #f4f4f7">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+          </span>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5; opacity: 0.55">
+          <span style="width: 96px; font-size: 13.5px; font-weight: 700; color: #6f6b92">09:00 – 09:15</span>
+          <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+            <span style="font-size: 15px; font-weight: 700">Daily standup</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Jitsi · room “team-portal” · ended</span>
+          </span>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5; background: #fdf6f8">
+          <span style="width: 96px; display: flex; flex-direction: column; gap: 5px">
+            <span style="font-size: 13.5px; font-weight: 700">11:00 – 11:30</span>
+            <span style="background: #fdeaf0; color: #b02249; border-radius: 5px; padding: 2px 7px; font-size: 10.5px; font-weight: 700; align-self: flex-start">IN 15 MIN</span>
+          </span>
+          <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+            <span style="font-size: 15px; font-weight: 700">Sprint Review Nubus Portal</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Jitsi · room “portal-review” · 6 participants</span>
+            <span style="font-size: 12.5px; color: #4b4770">Agenda and notes in Knowledge · XWiki</span>
+          </span>
+          <a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 9px 15px; font-size: 13px; font-weight: 700; white-space: nowrap">Join</a>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+          <span style="width: 96px; font-size: 13.5px; font-weight: 700">14:00 – 14:45</span>
+          <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+            <span style="font-size: 15px; font-weight: 700">Jour fixe IT operations</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Jitsi · room “team-it” · 9 participants</span>
+          </span>
+          <a href="#" style="font-size: 13px; font-weight: 700; white-space: nowrap; padding: 9px 4px">Open meeting</a>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+          <span style="width: 96px; font-size: 13.5px; font-weight: 700">16:30 – 17:00</span>
+          <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+            <span style="font-size: 15px; font-weight: 700">1:1 with Martin Ohm</span>
+            <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Office 2.14 · no video link</span>
+          </span>
+          <a href="#" style="font-size: 13px; font-weight: 700; white-space: nowrap; padding: 9px 4px">Open meeting</a>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px; padding: 16px 24px">
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">3 upcoming, 1 ended</span>
+          <span style="flex: 1"></span>
+          <a href="#" style="font-size: 13.5px; font-weight: 700">Open calendar in Open-Xchange</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ commsOpen }}" hint-placeholder-val="{{ true }}">
+    <div onClick="{{ closeComms }}" style="position: fixed; inset: 0; z-index: 20; background: rgba(31, 27, 77, 0.42); display: flex; align-items: center; justify-content: center; padding: 32px">
+      <div onClick="{{ stopClose }}" style="width: 560px; max-height: 82vh; overflow: auto; background: #ffffff; border-radius: 12px; box-shadow: 0 24px 60px rgba(31, 27, 77, 0.28); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid #f0f0f5">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h9A2.5 2.5 0 0 1 17 6.5v5a2.5 2.5 0 0 1-2.5 2.5H8l-5 3.5V6.5Z"></path></svg>
+          <span style="font-size: 17px; font-weight: 800; letter-spacing: -0.01em">{{ commsTitle }}</span>
+          <span style="font-size: 13px; color: #6f6b92; font-weight: 600">{{ commsMeta }}</span>
+          <span style="flex: 1"></span>
+          <span onClick="{{ closeComms }}" style="width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6f6b92" style-hover="background: #f4f4f7">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+          </span>
+        </div>
+
+        <sc-if value="{{ showMails }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">School network quote: question about licence count</span>
+              <span style="font-size: 12.5px; color: #4b4770">Kerstin Sander · “thanks for the quote, before we order …”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 09:12</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Re: Migration plan, site North</span>
+              <span style="font-size: 12.5px; color: #4b4770">Martin Ohm · “I added the rollout dates to the work package.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 08:47</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Invoice 2026-0842 approved</span>
+              <span style="font-size: 12.5px; color: #4b4770">Accounting · “The invoice has been released for payment.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 08:21</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Data protection training due 30 September</span>
+              <span style="font-size: 12.5px; color: #4b4770">HR Department · “Please complete the module in Knowledge.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · 07:58</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Change request: mailbox quota for school offices</span>
+              <span style="font-size: 12.5px; color: #4b4770">Service Desk · “Ticket #4471 needs your approval.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · yesterday 18:32</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Agenda for tomorrow’s steering committee</span>
+              <span style="font-size: 12.5px; color: #4b4770">Petra Lindner · “Attached the slides from operations.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · yesterday 17:05</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">New comment on your work package #2481</span>
+              <span style="font-size: 12.5px; color: #4b4770">OpenProject notification · “Please confirm the freeze date.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · yesterday 16:40</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Certificate renewal for portal.example.org</span>
+              <span style="font-size: 12.5px; color: #4b4770">Operations · “The certificate expires in 14 days.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · yesterday 15:12</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Room booking confirmed: Office 2.14</span>
+              <span style="font-size: 12.5px; color: #4b4770">Facility Management · “Tuesday, 16:30 to 17:00.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · yesterday 11:26</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Welcome to the pilot group</span>
+              <span style="font-size: 12.5px; color: #4b4770">Jana Petersen · “You now have access to the new portal features.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Email · Open-Xchange · Monday 09:03</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in Mail</a>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showChats }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">#project-nubus · 3 new messages</span>
+              <span style="font-size: 12.5px; color: #4b4770">Jonas Weber · “Could you restart the test instance once more before the review?”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · 09:38</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Martin Ohm · 2 new messages</span>
+              <span style="font-size: 12.5px; color: #4b4770">“Do you have five minutes before the 1:1? It is about the rollout.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · direct message · 09:21</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 14px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 6px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">#rollout-north · 5 new messages</span>
+              <span style="font-size: 12.5px; color: #4b4770">Anna Krüger · “Hardware delivery for the first site is confirmed.”</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Chat · Element · 08:12</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Reply in chat</a>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showComments }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #5227e0; margin-top: 7px; flex: none"></span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 15px; font-weight: 700">Anna Krüger commented on “Budget_2026.xlsx”</span>
+              <span style="font-size: 13px; color: #4b4770">“Please check row 42, the total does not add up.”</span>
+              <span style="font-size: 12px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 08:55</span>
+            </span>
+            <a href="#" style="font-size: 13px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open comment</a>
+          </div>
+        </sc-if>
+
+        <div style="display: flex; align-items: center; gap: 16px; padding: 16px 24px">
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Only unread items are listed</span>
+          <span style="flex: 1"></span>
+          <a href="#" style="font-size: 13.5px; font-weight: 700">Open inbox</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tasksOpen }}" hint-placeholder-val="{{ true }}">
+    <div onClick="{{ closeTasks }}" style="position: fixed; inset: 0; z-index: 20; background: rgba(31, 27, 77, 0.42); display: flex; align-items: center; justify-content: center; padding: 32px">
+      <div onClick="{{ stopClose }}" style="width: 560px; max-height: 82vh; overflow: auto; background: #ffffff; border-radius: 12px; box-shadow: 0 24px 60px rgba(31, 27, 77, 0.28); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid #f0f0f5">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 5.5h14M3 10h14M3 14.5h9"></path></svg>
+          <span style="font-size: 17px; font-weight: 800; letter-spacing: -0.01em">{{ tasksTitle }}</span>
+          <span style="font-size: 13px; color: #6f6b92; font-weight: 600">{{ tasksMeta }}</span>
+          <span style="flex: 1"></span>
+          <span onClick="{{ closeTasks }}" style="width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6f6b92" style-hover="background: #f4f4f7">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+          </span>
+        </div>
+        <sc-if value="{{ showProjectTasks }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap">DUE TODAY</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Approve school network migration plan</span>
+              <span style="font-size: 12.5px; color: #4b4770">Work package #2481 · project “Portal 2026” · high priority</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Projects · OpenProject · assigned to you</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in OpenProject</a>
+          </div>
+        </sc-if>
+        <sc-if value="{{ showOxTasks }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="background: #fbf2dd; color: #8a6408; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap">17:00</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Send licence count feedback to procurement</span>
+              <span style="font-size: 12.5px; color: #4b4770">Created from the email by Kerstin Sander</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Tasks · Open-Xchange · due today</span>
+            </span>
+            <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open task</a>
+          </div>
+        </sc-if>
+        <div style="display: flex; align-items: center; gap: 16px; padding: 16px 24px">
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Only items due today are listed</span>
+          <span style="flex: 1"></span>
+          <a href="#" style="font-size: 13.5px; font-weight: 700">Show all open items</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sharedOpen }}" hint-placeholder-val="{{ true }}">
+    <div onClick="{{ closeShared }}" style="position: fixed; inset: 0; z-index: 20; background: rgba(31, 27, 77, 0.42); display: flex; align-items: center; justify-content: center; padding: 32px">
+      <div onClick="{{ stopClose }}" style="width: 560px; max-height: 82vh; overflow: auto; background: #ffffff; border-radius: 12px; box-shadow: 0 24px 60px rgba(31, 27, 77, 0.28); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-bottom: 1px solid #f0f0f5">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#5227e0" stroke-width="1.8" stroke-linejoin="round"><path d="M3 6h5l1.6 2H17v8H3V6Z"></path><path d="M10 11v4M8 13h4"></path></svg>
+          <span style="font-size: 17px; font-weight: 800; letter-spacing: -0.01em">{{ sharedTitle }}</span>
+          <span style="font-size: 13px; color: #6f6b92; font-weight: 600">{{ sharedMeta }}</span>
+          <span style="flex: 1"></span>
+          <span onClick="{{ closeShared }}" style="width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6f6b92" style-hover="background: #f4f4f7">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+          </span>
+        </div>
+        <sc-if value="{{ showSharedFiles }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap">FILE</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Budget_2026.xlsx</span>
+              <span style="font-size: 12.5px; color: #4b4770">Anna Krüger shared it with you · editing allowed</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Files · Nextcloud · 20 minutes ago</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px">
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Preview</a>
+              <a href="#" style="background: #5227e0; color: #ffffff; border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; white-space: nowrap">Edit in Collabora</a>
+            </span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ showSharedPages }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap">PAGE</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Rollout site North: site checklist</span>
+              <span style="font-size: 12.5px; color: #4b4770">Martin Ohm shared the page with the pilot group</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Knowledge · XWiki · yesterday 16:40</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px">
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open in XWiki</a>
+            </span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ showSharedNotes }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: flex-start; gap: 14px; padding: 16px 24px; border-bottom: 1px solid #f0f0f5">
+            <span style="background: #ece7fd; color: #5227e0; border-radius: 5px; padding: 3px 8px; font-size: 10.5px; font-weight: 700; margin-top: 2px; white-space: nowrap">NOTE</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; flex: 1">
+              <span style="font-size: 14.5px; font-weight: 700">Review agenda and open questions</span>
+              <span style="font-size: 12.5px; color: #4b4770">Petra Lindner shared a note with you</span>
+              <span style="font-size: 11.5px; color: #6f6b92; font-weight: 600">Notes · 08:30</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 12px">
+              <a href="#" style="font-size: 12.5px; font-weight: 700; white-space: nowrap; padding: 6px 4px">Open note</a>
+            </span>
+          </div>
+        </sc-if>
+        <div style="display: flex; align-items: center; gap: 16px; padding: 16px 24px">
+          <span style="font-size: 12.5px; color: #6f6b92; font-weight: 600">Shared with you in the last 24 hours</span>
+          <span style="flex: 1"></span>
+          <a href="#" style="font-size: 13.5px; font-weight: 700">Show everything shared with me</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="position: fixed; right: 0; bottom: 0; background: #1f1b4d; color: #ffffff; border-top-left-radius: 10px; padding: 14px 26px; display: flex; align-items: center; gap: 18px; font-size: 13.5px; font-weight: 700">
+    <span>Documentation</span>
+    <span style="color: #6f6b92">|</span>
+    <span>Support</span>
+    <span style="color: #6f6b92">|</span>
+    <span>Feedback</span>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { createOpen: false, favsOpen: false, meetingsOpen: false, commsMode: null, tasksMode: null, sharedMode: null, sec: { meetings: true, tasks: false, comms: false, shared: false, news: true } };
+  renderVals() {
+    return {
+      createOpen: this.state.createOpen,
+      favsOpen: this.state.favsOpen,
+      meetingsOpen: this.state.meetingsOpen,
+      openMeetings: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ meetingsOpen: true, favsOpen: false, createOpen: false }); },
+      closeMeetings: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ meetingsOpen: false }); },
+      stopClose: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      secMeetings: this.state.sec.meetings,
+      secTasks: this.state.sec.tasks,
+      secComms: this.state.sec.comms,
+      secShared: this.state.sec.shared,
+      notSecMeetings: !this.state.sec.meetings,
+      notSecTasks: !this.state.sec.tasks,
+      notSecComms: !this.state.sec.comms,
+      notSecShared: !this.state.sec.shared,
+      secNews: this.state.sec.news,
+      notSecNews: !this.state.sec.news,
+      toggleNewsSec: () => this.setState(s => ({ sec: { ...s.sec, news: !s.sec.news } })),
+      toggleMeetingsSec: () => this.setState(s => ({ sec: { ...s.sec, meetings: !s.sec.meetings } })),
+      toggleTasksSec: () => this.setState(s => ({ sec: { ...s.sec, tasks: !s.sec.tasks } })),
+      toggleCommsSec: () => this.setState(s => ({ sec: { ...s.sec, comms: !s.sec.comms } })),
+      toggleSharedSec: () => this.setState(s => ({ sec: { ...s.sec, shared: !s.sec.shared } })),
+      commsOpen: !!this.state.commsMode,
+      commsTitle: this.state.commsMode === 'chat' ? 'Unread chat messages'
+        : this.state.commsMode === 'mail' ? 'Unread email' : 'Unread communication',
+      commsMeta: this.state.commsMode === 'chat' ? '3 rooms · Element'
+        : this.state.commsMode === 'mail' ? '10 messages · Open-Xchange' : '14 items · Open-Xchange, Element, Nextcloud',
+      showMails: this.state.commsMode === 'mail' || this.state.commsMode === 'all',
+      showChats: this.state.commsMode === 'chat' || this.state.commsMode === 'all',
+      showComments: this.state.commsMode === 'all',
+      openChatComms: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ commsMode: 'chat', meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      openMailComms: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ commsMode: 'mail', meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      openAllComms: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ commsMode: 'all', meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      closeComms: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ commsMode: null }); },
+      tasksOpen: !!this.state.tasksMode,
+      tasksTitle: this.state.tasksMode === 'projects' ? 'Work packages due today' : 'Tasks due today',
+      tasksMeta: this.state.tasksMode === 'tasks' ? '1 task · Open-Xchange'
+        : this.state.tasksMode === 'projects' ? '1 work package · OpenProject' : '2 items · Open-Xchange, OpenProject',
+      showOxTasks: this.state.tasksMode === 'tasks' || this.state.tasksMode === 'all',
+      showProjectTasks: this.state.tasksMode === 'projects' || this.state.tasksMode === 'all',
+      openOxTasks: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ tasksMode: 'tasks', commsMode: null, meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      openProjectTasks: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ tasksMode: 'projects', commsMode: null, meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      openAllTasks: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ tasksMode: 'all', commsMode: null, meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      closeTasks: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ tasksMode: null }); },
+      sharedOpen: !!this.state.sharedMode,
+      sharedTitle: this.state.sharedMode === 'files' ? 'Newly shared files'
+        : this.state.sharedMode === 'knowledge' ? 'Newly shared pages'
+        : this.state.sharedMode === 'notes' ? 'Newly shared notes' : 'Newly shared with you',
+      sharedMeta: this.state.sharedMode === 'files' ? '1 file · Nextcloud'
+        : this.state.sharedMode === 'knowledge' ? '1 page · XWiki'
+        : this.state.sharedMode === 'notes' ? '1 note · Notes' : '3 items · Nextcloud, XWiki, Notes',
+      showSharedFiles: this.state.sharedMode === 'files' || this.state.sharedMode === 'all',
+      showSharedPages: this.state.sharedMode === 'knowledge' || this.state.sharedMode === 'all',
+      showSharedNotes: this.state.sharedMode === 'notes' || this.state.sharedMode === 'all',
+      openSharedFiles: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sharedMode: 'files', tasksMode: null, commsMode: null, meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      openSharedPages: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sharedMode: 'knowledge', tasksMode: null, commsMode: null, meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      openSharedNotes: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sharedMode: 'notes', tasksMode: null, commsMode: null, meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      openSharedAll: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sharedMode: 'all', tasksMode: null, commsMode: null, meetingsOpen: false, favsOpen: false, createOpen: false }); },
+      closeShared: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sharedMode: null }); },
+      toggleCreate: () => this.setState(s => ({ createOpen: !s.createOpen, favsOpen: false })),
+      toggleFavs: () => this.setState(s => ({ favsOpen: !s.favsOpen, createOpen: false })),
+    };
+  }
+}
+</script>
+</body>
+</html>

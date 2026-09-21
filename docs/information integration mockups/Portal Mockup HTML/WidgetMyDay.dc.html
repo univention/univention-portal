@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display: flex; flex-direction: column; gap: 14px">
+
+  <div style="display: flex; flex-wrap: wrap; gap: 8px; background: #ffffff; border: 1px solid #e6e6ee; border-radius: 10px; padding: 6px">
+    <div onClick="{{ showDay }}" style="display: flex; align-items: center; gap: 9px; padding: 10px 14px; border-radius: 8px; cursor: pointer; flex: 1; min-width: 104px; background: {{ dayBg }}; border: 1px solid {{ dayBorder }}; box-shadow: {{ dayShadow }}">
+      <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="{{ dayIcon }}" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="14" height="12" rx="1.8"></rect><path d="M3 8.5h14M7 3v3.5M13 3v3.5"></path></svg>
+      <span style="font-size: 14.5px; font-weight: 700; color: {{ dayColor }}; white-space: nowrap">My day</span>
+    </div>
+    <div onClick="{{ showTeams }}" style="display: flex; align-items: center; gap: 9px; padding: 10px 14px; border-radius: 8px; cursor: pointer; flex: 1; min-width: 104px; background: {{ teamsBg }}; border: 1px solid {{ teamsBorder }}; box-shadow: {{ teamsShadow }}">
+      <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="{{ teamsIcon }}" stroke-width="1.8" stroke-linejoin="round"><circle cx="7" cy="7" r="2.6"></circle><circle cx="14" cy="6" r="2"></circle><path d="M2.5 16c0-2.5 2-4.2 4.5-4.2s4.5 1.7 4.5 4.2"></path><path d="M13.5 11.8c2.3 0 4 1.6 4 4.2"></path></svg>
+      <span style="font-size: 14.5px; font-weight: 700; color: {{ teamsColor }}; white-space: nowrap">Teams</span>
+    </div>
+    <div onClick="{{ showProjects }}" style="display: flex; align-items: center; gap: 9px; padding: 10px 14px; border-radius: 8px; cursor: pointer; flex: 1; min-width: 104px; background: {{ projBg }}; border: 1px solid {{ projBorder }}; box-shadow: {{ projShadow }}">
+      <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="{{ projIcon }}" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="6" height="6" rx="1.5"></rect><rect x="11" y="4" width="6" height="6" rx="1.5"></rect><rect x="3" y="12" width="14" height="4.5" rx="1.5"></rect></svg>
+      <span style="font-size: 14.5px; font-weight: 700; color: {{ projColor }}; white-space: nowrap">Projects</span>
+    </div>
+  </div>
+
+  <div style="border: 1px solid #cfc6f7; border-radius: 10px; background: #faf9ff; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px">
+      <sc-if value="{{ dayView }}" hint-placeholder-val="{{ true }}">
+        <span style="font-size: 12.5px; font-weight: 700; color: #5227e0">Showing all items, grouped by type</span>
+      </sc-if>
+      <sc-if value="{{ teamsView }}" hint-placeholder-val="{{ true }}">
+        <span style="font-size: 12.5px; font-weight: 700; color: #5227e0">Showing your teams, each grouped by the same types</span>
+      </sc-if>
+      <sc-if value="{{ projectsView }}" hint-placeholder-val="{{ true }}">
+        <span style="font-size: 12.5px; font-weight: 700; color: #5227e0">Showing your projects, each grouped by the same types</span>
+      </sc-if>
+      <span style="flex: 1"></span>
+      <span style="font-size: 12px; color: #6f6b92; font-weight: 600">Tuesday, 1 September</span>
+    </div>
+
+    <sc-if value="{{ dayView }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <dc-import name="WidgetScheduled" hint-size="100%,300px"></dc-import>
+        <dc-import name="WidgetTasks" hint-size="100%,60px"></dc-import>
+        <dc-import name="WidgetCommunication" hint-size="100%,60px"></dc-import>
+        <dc-import name="WidgetNewContent" hint-size="100%,60px"></dc-import>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ teamsView }}" hint-placeholder-val="{{ true }}">
+      <dc-import name="WidgetProjects" kind="teams" hint-size="100%,320px"></dc-import>
+    </sc-if>
+
+    <sc-if value="{{ projectsView }}" hint-placeholder-val="{{ true }}">
+      <dc-import name="WidgetProjects" kind="projects" hint-size="100%,320px"></dc-import>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view: 'day' };
+  componentDidMount() {
+    const stored = localStorage.getItem('nubus-portal-view');
+    if (stored === 'day' || stored === 'teams' || stored === 'projects') this.setState({ view: stored });
+  }
+  setView(view) {
+    this.setState({ view });
+    localStorage.setItem('nubus-portal-view', view);
+  }
+  renderVals() {
+    const v = this.state.view;
+    const tab = (name) => ({
+      bg: v === name ? '#ece7fd' : 'transparent',
+      border: v === name ? '#5227e0' : 'transparent',
+      shadow: v === name ? 'inset 0 -3px 0 #5227e0' : 'none',
+      color: v === name ? '#1f1b4d' : '#4b4770',
+      icon: v === name ? '#5227e0' : '#8b88a8',
+    });
+    const day = tab('day'), teams = tab('teams'), proj = tab('projects');
+    return {
+      dayView: v === 'day',
+      teamsView: v === 'teams',
+      projectsView: v === 'projects',
+      showDay: () => this.setView('day'),
+      showTeams: () => this.setView('teams'),
+      showProjects: () => this.setView('projects'),
+      dayBg: day.bg, dayBorder: day.border, dayColor: day.color, dayIcon: day.icon, dayShadow: day.shadow,
+      teamsBg: teams.bg, teamsBorder: teams.border, teamsColor: teams.color, teamsIcon: teams.icon, teamsShadow: teams.shadow,
+      projBg: proj.bg, projBorder: proj.border, projColor: proj.color, projIcon: proj.icon, projShadow: proj.shadow,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

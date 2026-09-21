@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/univention-design-system-web-components-3098b259-629d-48df-8720-092100ca291d/_ds_bundle.css">
+<link rel="stylesheet" href="_ds/univention-design-system-web-components-3098b259-629d-48df-8720-092100ca291d/styles.css">
+<script>
+if (!window.__uds_loading) {
+  window.__uds_loading = true;
+  var r = document.createElement("script");
+  r.src = "_ds/univention-design-system-web-components-3098b259-629d-48df-8720-092100ca291d/_vendor/react.js";
+  r.onload = function () {
+    var b = document.createElement("script");
+    b.src = "_ds/univention-design-system-web-components-3098b259-629d-48df-8720-092100ca291d/_ds_bundle.js";
+    document.head.appendChild(b);
+  };
+  document.head.appendChild(r);
+}
+</script>
+</helmet>
+<u-page variant="scrollable">
+  <u-container>
+    <u-vstack gap="lg">
+
+      <u-hstack gap="md" justify="between" align="center" wrap="true">
+        <u-page-header>Portal</u-page-header>
+        <u-hstack gap="sm" align="center">
+          <u-badge variant="success" size="md">5</u-badge>
+          <u-button variant="ghost">Benachrichtigungen</u-button>
+          <u-theme-toggle></u-theme-toggle>
+        </u-hstack>
+      </u-hstack>
+
+      <u-card>
+        <h2 slot="title">Aufmerksamkeit erforderlich — heute</h2>
+        <u-vstack gap="md">
+
+          <u-hstack gap="md" justify="between" align="start" wrap="true">
+            <u-vstack gap="xs">
+              <u-hstack gap="sm" align="center">
+                <u-badge variant="success" size="md">in 15 Minuten</u-badge>
+                <u-badge variant="ghost">Kalender · Open-Xchange</u-badge>
+              </u-hstack>
+              <u-vstack gap="none">Sprint Review Nubus Portal</u-vstack>
+              <u-vstack gap="none">11:00 – 11:30 Uhr · Jitsi · 6 Teilnehmende · Raum „portal-review“</u-vstack>
+            </u-vstack>
+            <u-hstack gap="sm" align="center">
+              <u-link href="#" variant="primary">Termin öffnen</u-link>
+              <u-button variant="primary">Konferenz beitreten</u-button>
+            </u-hstack>
+          </u-hstack>
+
+          <u-hstack gap="md" justify="between" align="start" wrap="true">
+            <u-vstack gap="xs">
+              <u-hstack gap="sm" align="center">
+                <u-badge variant="success" size="md">heute fällig</u-badge>
+                <u-badge variant="ghost">Aufgaben · OpenProject</u-badge>
+              </u-hstack>
+              <u-vstack gap="none">Migrationsplan Schulnetz freigeben</u-vstack>
+              <u-vstack gap="none">Arbeitspaket #2481 · Projekt „Portal 2026“ · zugewiesen an Sie · Priorität hoch</u-vstack>
+            </u-vstack>
+            <u-hstack gap="sm" align="center">
+              <u-link href="#" variant="primary">In OpenProject öffnen</u-link>
+              <u-button>Auf morgen verschieben</u-button>
+            </u-hstack>
+          </u-hstack>
+
+          <u-hstack gap="md" justify="between" align="start" wrap="true">
+            <u-vstack gap="xs">
+              <u-hstack gap="sm" align="center">
+                <u-badge variant="success" size="md">heute fällig</u-badge>
+                <u-badge variant="ghost">Aufgaben · Open-Xchange</u-badge>
+              </u-hstack>
+              <u-vstack gap="none">Rückmeldung zur Lizenzzählung an Einkauf senden</u-vstack>
+              <u-vstack gap="none">Fällig 17:00 Uhr · erstellt aus einer E-Mail</u-vstack>
+            </u-vstack>
+            <u-link href="#" variant="primary">Aufgabe öffnen</u-link>
+          </u-hstack>
+
+        </u-vstack>
+      </u-card>
+
+      <u-card>
+        <h2 slot="title">Anwendungen</h2>
+        <u-hstack gap="md" wrap="true" align="stretch">
+
+          <u-card>
+            <h3 slot="title">Mail</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Open-Xchange</u-vstack>
+              <u-badge variant="success" size="md">1 ungelesen</u-badge>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Kalender</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Open-Xchange</u-vstack>
+              <u-badge variant="success" size="md">in 15 Min</u-badge>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Aufgaben</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Open-Xchange</u-vstack>
+              <u-badge variant="success" size="md">1 fällig</u-badge>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Chat</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Element</u-vstack>
+              <u-badge variant="success" size="md">1 ungelesen</u-badge>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Dateien</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Nextcloud · Collabora</u-vstack>
+              <u-badge variant="success" size="md">1 geteilt</u-badge>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Projekte</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">OpenProject</u-vstack>
+              <u-badge variant="success" size="md">1 fällig</u-badge>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Dokumentation</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">XWiki</u-vstack>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Videokonferenz</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Jitsi</u-vstack>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Notizen</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Notizen</u-vstack>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Adressbuch</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Open-Xchange</u-vstack>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h3 slot="title">Nutzerverwaltung</h3>
+            <u-vstack gap="xs">
+              <u-vstack gap="none">Nubus IAM</u-vstack>
+            </u-vstack>
+          </u-card>
+
+        </u-hstack>
+      </u-card>
+
+      <u-hstack gap="lg" align="stretch" wrap="true">
+        <u-vstack gap="lg" grow="true">
+
+          <u-card>
+            <h2 slot="title">Kommunikation — 3 ungelesen</h2>
+            <u-vstack gap="md">
+
+              <u-hstack gap="md" justify="between" align="start" wrap="true">
+                <u-vstack gap="xs">
+                  <u-hstack gap="sm" align="center">
+                    <u-badge variant="success" size="md">ungelesen</u-badge>
+                    <u-badge variant="ghost">E-Mail · Open-Xchange</u-badge>
+                  </u-hstack>
+                  <u-vstack gap="none">Angebot Schulnetz: Rückfrage zur Lizenzanzahl</u-vstack>
+                  <u-vstack gap="none">Kerstin Sander · 09:12 Uhr · „vielen Dank für das Angebot — bevor wir bestellen, …“</u-vstack>
+                </u-vstack>
+                <u-hstack gap="sm" align="center">
+                  <u-link href="#" variant="primary">In Mail öffnen</u-link>
+                  <u-button>Antworten</u-button>
+                </u-hstack>
+              </u-hstack>
+
+              <u-hstack gap="md" justify="between" align="start" wrap="true">
+                <u-vstack gap="xs">
+                  <u-hstack gap="sm" align="center">
+                    <u-badge variant="success" size="md">1 ungelesen</u-badge>
+                    <u-badge variant="ghost">Chat · Element</u-badge>
+                  </u-hstack>
+                  <u-vstack gap="none">#projekt-nubus — Jonas Weber</u-vstack>
+                  <u-vstack gap="none">09:38 Uhr · „Kannst du die Testinstanz vor dem Review noch einmal neu starten?“</u-vstack>
+                </u-vstack>
+                <u-hstack gap="sm" align="center">
+                  <u-link href="#" variant="primary">Im Chat öffnen</u-link>
+                  <u-button>Antworten</u-button>
+                </u-hstack>
+              </u-hstack>
+
+              <u-hstack gap="md" justify="between" align="start" wrap="true">
+                <u-vstack gap="xs">
+                  <u-hstack gap="sm" align="center">
+                    <u-badge variant="success" size="md">Kommentar</u-badge>
+                    <u-badge variant="ghost">Dateien · Nextcloud</u-badge>
+                  </u-hstack>
+                  <u-vstack gap="none">Anna Krüger zu „Budgetplanung_2026.xlsx“</u-vstack>
+                  <u-vstack gap="none">08:55 Uhr · „Zeile 42 bitte prüfen, die Summe weicht ab.“</u-vstack>
+                </u-vstack>
+                <u-link href="#" variant="primary">Kommentar öffnen</u-link>
+              </u-hstack>
+
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h2 slot="title">Neu geteilt und neu erstellt</h2>
+            <u-vstack gap="md">
+
+              <u-hstack gap="md" justify="between" align="start" wrap="true">
+                <u-vstack gap="xs">
+                  <u-hstack gap="sm" align="center">
+                    <u-badge variant="success" size="md">neu geteilt</u-badge>
+                    <u-badge variant="ghost">Dateien · Nextcloud</u-badge>
+                  </u-hstack>
+                  <u-vstack gap="none">Budgetplanung_2026.xlsx</u-vstack>
+                  <u-vstack gap="none">Anna Krüger hat mit Ihnen geteilt · vor 20 Minuten · Bearbeiten erlaubt</u-vstack>
+                </u-vstack>
+                <u-hstack gap="sm" align="center">
+                  <u-link href="#" variant="primary">In Nextcloud öffnen</u-link>
+                  <u-button variant="primary">In Collabora bearbeiten</u-button>
+                </u-hstack>
+              </u-hstack>
+
+              <u-hstack gap="md" justify="between" align="start" wrap="true">
+                <u-vstack gap="xs">
+                  <u-hstack gap="sm" align="center">
+                    <u-badge variant="ghost">Projekte · OpenProject</u-badge>
+                  </u-hstack>
+                  <u-vstack gap="none">Neues Projekt „Rollout Standort Nord“</u-vstack>
+                  <u-vstack gap="none">angelegt von Martin Ohm · gestern 16:20 Uhr · Sie sind Mitglied</u-vstack>
+                </u-vstack>
+                <u-link href="#" variant="primary">Projekt öffnen</u-link>
+              </u-hstack>
+
+              <u-hstack gap="md" justify="between" align="start" wrap="true">
+                <u-vstack gap="xs">
+                  <u-hstack gap="sm" align="center">
+                    <u-badge variant="ghost">Chat · Element</u-badge>
+                  </u-hstack>
+                  <u-vstack gap="none">Neuer Raum „#rollout-nord“</u-vstack>
+                  <u-vstack gap="none">Sie wurden von Martin Ohm eingeladen · gestern 16:24 Uhr</u-vstack>
+                </u-vstack>
+                <u-link href="#" variant="primary">Raum betreten</u-link>
+              </u-hstack>
+
+            </u-vstack>
+          </u-card>
+
+
+        </u-vstack>
+
+        <u-vstack gap="lg" basis="sm">
+
+          <u-card>
+            <h2 slot="title">Newsfeed</h2>
+            <u-vstack gap="md">
+              <u-vstack gap="xs">
+                <u-badge variant="ghost">Dokumentation · XWiki</u-badge>
+                <u-vstack gap="none">Neue Anleitung: Zwei-Faktor-Anmeldung einrichten</u-vstack>
+                <u-vstack gap="none">Redaktion IT · heute 08:10 Uhr</u-vstack>
+                <u-link href="#" variant="primary">Artikel lesen</u-link>
+              </u-vstack>
+              <u-vstack gap="xs">
+                <u-badge variant="ghost">Blog · Univention</u-badge>
+                <u-vstack gap="none">Wartungsfenster am Freitag, 18:00 bis 20:00 Uhr</u-vstack>
+                <u-vstack gap="none">Betrieb · gestern 14:02 Uhr</u-vstack>
+                <u-link href="#" variant="primary">Artikel lesen</u-link>
+              </u-vstack>
+              <u-vstack gap="xs">
+                <u-badge variant="ghost">Blog · Univention</u-badge>
+                <u-vstack gap="none">Portal 1.1: Neuigkeiten aus allen Anwendungen an einer Stelle</u-vstack>
+                <u-vstack gap="none">Produkt · 28.08.2026</u-vstack>
+                <u-link href="#" variant="primary">Artikel lesen</u-link>
+              </u-vstack>
+            </u-vstack>
+          </u-card>
+
+          <u-card>
+            <h2 slot="title">Mein Tag</h2>
+            <u-description-list>
+              <u-description-item label="Termine heute">3 · nächster 11:00 Uhr</u-description-item>
+              <u-description-item label="Heute fällige Aufgaben">2</u-description-item>
+              <u-description-item label="Ungelesene Kommunikation">3</u-description-item>
+              <u-description-item label="Neu geteilt">1 Datei</u-description-item>
+            </u-description-list>
+          </u-card>
+
+        </u-vstack>
+      </u-hstack>
+
+    </u-vstack>
+  </u-container>
+</u-page>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;univention-light&quot;,&quot;univention-dark&quot;],&quot;default&quot;:&quot;univention-light&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() { this.applyTheme(); }
+  componentDidUpdate() { this.applyTheme(); }
+  applyTheme() {
+    document.documentElement.setAttribute('data-theme', this.props.theme ?? 'univention-light');
+  }
+  renderVals() { return {}; }
+}
+
+</script>
+</body>
+</html>
