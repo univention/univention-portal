@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.95.2](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.95.1...v0.95.2) (2026-09-22)
+
+
+### Bug Fixes
+
+* **portal-frontend:** validate and serialize password in self-registration ([5af949d](https://git.knut.univention.de/univention/dev/projects/portal/commit/5af949daf430bb9cd4381dc445acd9b6d3c93ff0)), closes [univention/dev/projects/portal#756](https://git.knut.univention.de/univention/dev/projects/portal/issues/756)
+
 ## [0.95.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.95.0...v0.95.1) (2026-09-11)
 
 
