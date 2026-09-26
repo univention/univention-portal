@@ -18,7 +18,7 @@ include:
 
 generate-joinscript-data:
   stage: "prepare"
-  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/stack-data/joinscript-tools:latest"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/stack-data/joinscript-tools:latest@sha256:5a26d06528fa6b875c9c9af8db8571d206029fedbba7d1698682cf0e629b6a6b"
   needs: []
   script:
     - |
