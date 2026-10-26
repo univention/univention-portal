@@ -149,6 +149,8 @@ container-sign-external:
 
 container-release-attestation:
   needs:
+    - container-build
+    - container-build-portal-consumer
     - push-image-external
   parallel:
     matrix: *publish-matrix
