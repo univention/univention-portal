@@ -9,12 +9,13 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.68.2"
+    ref: "v1.69.2"
     file:
       - "defaults/stages.yaml"
       - "templates/buildkit.yaml"
       - "jobs/container-build-external-buildkit.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
+  - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.69.2"
 
 generate-joinscript-data:
   stage: "prepare"
@@ -149,6 +150,10 @@ container-sign-external:
 container-release-attestation:
   needs:
     - push-image-external
+  parallel:
+    matrix: *publish-matrix
+
+sbom-upload:
   parallel:
     matrix: *publish-matrix
 
