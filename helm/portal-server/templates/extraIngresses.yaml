@@ -34,7 +34,7 @@ spec:
       http:
         paths:
           {{- range .paths }}
-          - pathType: {{ .pathType }}
+          - pathType: {{ include "nubus-common.compatibility.ingressPathType" (dict "pathType" .pathType "context" $) }}
             path: {{ tpl .path $ }}
             {{- if .backend }}
             backend: {{- include "common.tplvalues.render" ( dict "value" .backend "context" $) | nindent 14 }}
