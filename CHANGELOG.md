@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.95.6](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.95.5...v0.95.6) (2026-10-26)
+
+
+### Bug Fixes
+
+* **portal-frontend:** show an error if saving the profile fails ([156554a](https://git.knut.univention.de/univention/dev/projects/portal/commit/156554ac2b33cbd6d8177511a24082eda92be7fd)), closes [univention/dev/ucs#3760](https://git.knut.univention.de/univention/dev/ucs/issues/3760)
+
 ## [0.95.5](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.95.4...v0.95.5) (2026-10-26)
 
 
