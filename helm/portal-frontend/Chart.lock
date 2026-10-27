@@ -1,6 +1,6 @@
 dependencies:
 - name: nubus-common
-  repository: oci://artifacts.software-univention.de/nubus/charts
-  version: 0.28.19
-digest: sha256:95615e3c595c082b1be23eb529fec72945c0cb079f6d3ece11e683c32a041f08
-generated: "2026-08-28T03:00:16.849775897Z"
+  repository: oci://artifacts.software-univention.de/nubus-dev/charts
+  version: 0.30.0-pre-steuwer-openshift-poc
+digest: sha256:3c023c34cf8d889cd8c18ca4cffe0963d04e584edb6dab32aa51da9fdb21ca33
+generated: "2026-10-27T10:00:47.847169568Z"
