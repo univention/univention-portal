@@ -11,6 +11,8 @@
 
 import logging
 import os
+import signal
+import sys
 import tempfile
 import threading
 import time
@@ -20,7 +22,7 @@ from pathlib import Path
 from typing import NamedTuple
 from urllib.parse import quote
 
-import requests
+import httpx2
 
 
 logger = logging.getLogger(__name__)
@@ -98,11 +100,12 @@ def load_config() -> Config:
     )
 
 
-def create_session(config: Config) -> requests.Session:
-    session = requests.Session()
-    session.auth = (config.udm_api_username, config.udm_api_password)
-    session.headers.update({"Accept": "application/json"})
-    return session
+def create_session(config: Config) -> httpx2.Client:
+    return httpx2.Client(
+        auth=(config.udm_api_username, config.udm_api_password),
+        headers={"Accept": "application/json"},
+        follow_redirects=True,
+    )
 
 
 def write_asset(output_dir: Path, path_prefix: str, name: str, base64_data: str):
@@ -124,7 +127,7 @@ def write_asset(output_dir: Path, path_prefix: str, name: str, base64_data: str)
 
 
 def list_objects(
-    session: requests.Session,
+    session: httpx2.Client,
     url: str,
     properties: list[str],
     timeout: int,
@@ -145,7 +148,7 @@ def list_objects(
 
 
 def sync_portals(
-    session: requests.Session,
+    session: httpx2.Client,
     config: Config,
     etag: str | None = None,
 ) -> str | None:
@@ -168,7 +171,7 @@ def sync_portals(
 
 
 def sync_entries(
-    session: requests.Session,
+    session: httpx2.Client,
     config: Config,
     etag: str | None = None,
 ) -> str | None:
@@ -190,7 +193,7 @@ def sync_entries(
 
 # Retry instead of crashing, so a slow or cold UDM does not crash-loop the pod.
 def initial_sync(
-    session: requests.Session,
+    session: httpx2.Client,
     config: Config,
 ) -> tuple[str | None, str | None]:
     backoff = 1
@@ -207,6 +210,8 @@ def initial_sync(
 
 
 def main():
+    # As PID 1 the process has no default SIGTERM handler, so Kubernetes would wait for SIGKILL.
+    signal.signal(signal.SIGTERM, lambda signum, frame: sys.exit(0))
     config = load_config()
     setup_logging(config.log_level)
     config.output_dir.mkdir(parents=True, exist_ok=True)
