@@ -86,7 +86,7 @@ RUN yarn build
 ###############################################################################
 # Starts production nginx server
 
-FROM gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/nginx/nginx:0.7.53@sha256:2aa375eba6c98fcf9383ab06c8c4cdd10c8bc53682a0c58026208b3b48119f42 AS final
+FROM gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-distroless-nginx-530:0.25.0-pre-mmeschter-distroless-nginx@sha256:7fdda30d248ef37a1ab8f5eb6c183df54bd87f0f7aaad5f704afe5552cdaede1 AS final
 
 COPY --from=build /app/dist /var/www/html/univention/portal
 COPY --from=build /app/dist /var/www/html/univention/selfservice
