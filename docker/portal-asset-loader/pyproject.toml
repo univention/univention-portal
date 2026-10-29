@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+
+[project]
+name = "portal-asset-loader"
+version = "0.0.0"
+requires-python = ">=3.13,<3.14"
+dependencies = ["httpx2==2.16.0"]
+
+[dependency-groups]
+dev = ["pytest==9.2.0"]

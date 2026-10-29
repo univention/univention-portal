@@ -4,8 +4,8 @@
 from pathlib import Path
 from unittest import mock
 
+import httpx2
 import loader_udm
-import requests
 
 
 UDM_API_URL = "https://example.com/univention/udm"
@@ -51,8 +51,8 @@ def test_initial_sync_retries_until_success():
         mock.patch.object(loader_udm.time, "sleep") as sleep,
     ):
         sync_portals.side_effect = [
-            requests.exceptions.ReadTimeout(),
-            requests.exceptions.ReadTimeout(),
+            httpx2.ReadTimeout("timed out"),
+            httpx2.ReadTimeout("timed out"),
             "portal-etag",
         ]
 

@@ -1,41 +1,34 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2025-2026 Univention GmbH
 
-ARG UCS_BASE_IMAGE_TAG=5.3.0-build.20261026@sha256:6eae72e522f58da1b0dce75f38eddc7ed725ec5fc235929abca8079256475eb5
-ARG UCS_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-base-python
+FROM gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-distroless-python:5.3.0-build.20261026@sha256:f65cefc852c76dfd42ad0c1ad0f6885357e62899f51aa421b6f89eef550b97cf AS build
 
-FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS build
-
-WORKDIR /app
-
-# A glibc-based uv binary is currently necessary for dns resolution of private pypi repos: https://github.com/astral-sh/uv/issues/8450
-ADD --checksum=sha256:b26fcc8dfa1c39b5a5613445af3be3eefda45d9a39359bee271eafe34913583e \
-  https://github.com/astral-sh/uv/releases/download/0.9.7/uv-x86_64-unknown-linux-gnu.tar.gz /tmp/uv.tar.gz
-
-RUN tar -xz --strip-components=1 -C /usr/local/bin/ -f /tmp/uv.tar.gz && \
-    uv venv /app/.venv && \
-    uv pip install --python /app/.venv/bin/python requests
-
-
-FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
+# UID 1000 cannot write to /app. The final stage runs as 1000 again.
+# hadolint ignore=DL3002
+USER 0
 
 WORKDIR /app
 
-ENV PYTHONUNBUFFERED=1 \
-    PATH=/app/.venv/bin:$PATH
+COPY --from=ghcr.io/astral-sh/uv:0.13.6@sha256:af22a52f5eafef3d78e551599d405c02df61919d18028f0cea8eda93bc9986d0 /uv /usr/local/bin/uv
 
-ARG USER=loader
-RUN rm -fr /var/lib/apt/lists/* /var/cache/apt/archives/* && \
-    groupadd -r ${USER} -g 1000 && \
-    useradd -r -d /app -g ${USER} -N ${USER} -u 1000
+# The final stage has only the system CPython, not a Python downloaded by uv.
+ENV UV_PYTHON_DOWNLOADS=never \
+    UV_NO_CACHE=1
 
-COPY --from=build --chown=${USER}:${USER} /app/.venv /app/.venv
-COPY --chown=${USER}:${USER} loader_udm.py .
+COPY pyproject.toml uv.lock ./
 
-RUN \
-    python -V && \
-    python -c 'import loader_udm'
+RUN ["uv", "sync", "--locked", "--no-dev"]
 
-USER ${USER}
+
+FROM gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-distroless-python:5.3.0-build.20261026@sha256:f65cefc852c76dfd42ad0c1ad0f6885357e62899f51aa421b6f89eef550b97cf AS final
+
+ENV PATH=/app/.venv/bin:$PATH
+
+WORKDIR /app
+
+COPY --from=build --chown=1000:1000 /app/.venv /app/.venv
+COPY --chown=1000:1000 loader_udm.py .
+
+RUN ["python", "-c", "import loader_udm"]
 
 ENTRYPOINT ["python", "loader_udm.py"]
