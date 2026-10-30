@@ -10,6 +10,8 @@ const openEditmode = () => {
   // Open Editmode
   cy.get('[data-test="navigationbutton"]').click();
   cy.get('[data-test="openEditmodeButton"]').click();
+  // startEditMode resets the active sidebar once the portal has reloaded
+  cy.get('[data-test="openEditmodeButton"]').should('not.exist');
   cy.get('[data-test="settingsbutton"]').click();
   cy.get('.edit-mode-side-navigation__form').should('be.visible');
 };
@@ -23,7 +25,7 @@ beforeEach(() => {
   cy.intercept('GET', 'navigation.json', { fixture: 'navigation.json' });
   cy.visit('/');
   cy.get('main.cookie-banner + footer button.button--primary').click();
-  cy.wait(500);
+  cy.get('main.cookie-banner').should('not.exist');
 
   cy.injectAxe();
   openEditmode();
