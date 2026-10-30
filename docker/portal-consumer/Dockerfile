@@ -11,18 +11,25 @@ ARG PORTAL_BASE_IMAGE=gitregistry.knut.univention.de/univention/dev/projects/por
 # hadolint ignore=DL3006
 FROM ${PORTAL_BASE_IMAGE} as portal-server-image
 
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as build
+
+RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
+    python3 \
+    python3-pip
+
+COPY ./docker/portal-consumer/requirements.txt /
+RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
+
 FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} as final
 
 # TODO: Duplicated from the portal-server
 RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     jq \
     python3 \
-    python3-pip \
     python3-univention-directory-manager-rest-client \
     univention-group-membership-cache
 
-COPY ./docker/portal-consumer/requirements.txt /
-RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
+COPY --from=build /usr/local/lib/python3.11 /usr/local/lib/python3.11
 
 # TODO: Duplicated from the portal-server
 RUN mkdir -p /var/log/univention/ \
