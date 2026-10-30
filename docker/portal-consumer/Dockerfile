@@ -18,10 +18,6 @@ RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
     jq \
     python3 \
     python3-pip \
-    gcc \
-    libsasl2-dev \
-    python3-dev \
-    libldap2-dev \
     python3-univention-directory-manager-rest-client \
     univention-group-membership-cache
 
