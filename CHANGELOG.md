@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.95.8](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.95.7...v0.95.8) (2026-10-30)
+
+
+### Bug Fixes
+
+* **deps:** Update portal-server Python dependencies ([5ba9337](https://git.knut.univention.de/univention/dev/projects/portal/commit/5ba9337a7c094ac5106d51c89f1a774996def399)), closes [#0](https://git.knut.univention.de/univention/dev/projects/portal/issues/0)
+
 ## [0.95.7](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.95.6...v0.95.7) (2026-10-26)
 
 
