@@ -90,14 +90,14 @@ FROM local-dev-env AS test
 CMD ["pytest", "unittests"]
 
 
-FROM build-base AS final
+FROM ${UCS_BASE_IMAGE}:${UCS_BASE_IMAGE_TAG} AS final
 
 RUN apt-get --assume-yes --verbose-versions --no-install-recommends install \
       jq \
       python3 \
-      # libldap2-dev is required to make python-ldap work.
-      # Currently this is used in the portal server to parse the DNs via "str2dn".
-      libldap2-dev \
+      # Runtime libraries of the python-ldap C extension built in the build stage.
+      libldap-2.5-0 \
+      libsasl2-2 \
       python3-univention-directory-manager-rest-client \
     && useradd -m -d /app app
 WORKDIR /app/
