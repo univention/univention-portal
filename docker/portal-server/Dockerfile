@@ -124,5 +124,3 @@ COPY ./docker/portal-server/docker-entrypoint.sh /entrypoint.d/50-entrypoint.sh
 EXPOSE 80
 
 CMD ["/usr/bin/python3", "/usr/sbin/univention-portal-server"]
-
-# [EOF]

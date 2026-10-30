@@ -126,5 +126,3 @@ if [[ "${PORTAL_SERVER_CENTRAL_NAVIGATION_ENABLED:-}" == "true" ]]; then
 fi
 
 exec "$@"
-
-# [EOF]
