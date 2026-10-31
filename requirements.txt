@@ -8,7 +8,7 @@
 # UCS system. We do keep this at least until the App Center integration has been
 # implemented.
 
-boto3==1.43.122
+boto3==1.43.123
 certifi==2026.10.23
 chardet==7.7.0
 click==8.5.0
