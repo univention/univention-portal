@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2023-2024 Univention GmbH
 
-FROM quay.io/keycloak/keycloak:19.0.2
+FROM quay.io/keycloak/keycloak:19.0.2@sha256:e5f375089926aae34abab1b95937fb0721121d5b2016e89c89a4817f59c07e91
 
 USER root
 
