@@ -8,16 +8,20 @@
             "matchManagers": ["npm"],
             "enabled": false
         },
+        // Majors stay ungrouped so that one breaking change doesn't block the others.
         {
             "matchFileNames": ["docker/portal-consumer/requirements.txt"],
+            "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
             "groupName": "portal-consumer python dependencies"
         },
         {
             "matchFileNames": ["requirements.txt"],
+            "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
             "groupName": "portal-server Python dependencies"
         },
         {
             "matchFileNames": ["requirements-test.txt"],
+            "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
             "groupName": "portal-server Python dependencies (test)"
         },
         // Not much point right now to renovate the notifications-api dependencies.
