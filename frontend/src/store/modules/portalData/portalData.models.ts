@@ -182,6 +182,7 @@ export interface PortalData {
   folders: PortalFolder[];
   categories: PortalCategory[];
   cornerLinks: string[];
+  editionNotice: boolean;
   menuLinks: string[];
   quickLinks: string[];
   userLinks: string[];

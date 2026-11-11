@@ -184,6 +184,7 @@ const portalData: PortalModule<PortalDataState> = {
       folders: [],
       categories: [],
       cornerLinks: [],
+      editionNotice: false,
       menuLinks: [],
       quickLinks: [],
       userLinks: [],
@@ -214,6 +215,8 @@ const portalData: PortalModule<PortalDataState> = {
       });
       state.portal.announcements = portal.announcements;
       state.portal.cornerLinks = portal.corner_links;
+      // Not configurable: shown unless the server confirms a valid subscription.
+      state.portal.editionNotice = portal.edition_notice !== false;
       state.portal.menuLinks = portal.menu_links;
       state.portal.quickLinks = portal.quick_links;
       state.portal.userLinks = portal.user_links;
@@ -361,6 +364,7 @@ const portalData: PortalModule<PortalDataState> = {
     portalCategoriesOnPortal: (state) => state.portal.portal.categories,
     portalDefaultLinkTarget: (state) => state.portal.portal.defaultLinkTarget,
     cornerLinks: (state) => state.portal.cornerLinks,
+    editionNotice: (state) => state.portal.editionNotice,
     userLinks: (state) => state.portal.userLinks,
     menuLinks: (state) => state.portal.menuLinks,
     quickLinks: (state) => state.portal.quickLinks,

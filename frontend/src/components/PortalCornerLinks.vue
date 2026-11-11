@@ -4,7 +4,7 @@
 -->
 
 <template>
-  <template v-if="cornerLinks && cornerLinks.length > 0">
+  <template v-if="hasCornerLinks || editionNotice">
     <div class="portal-corner">
       <div class="portal-corner__inner">
         <ul class="portal-corner__menu">
@@ -38,6 +38,35 @@
               class="portal-corner__text"
             >{{ entry.name }}</span>
           </li>
+          <!--
+            Fixed Core Edition notice. Always the last corner link and
+            intentionally independent of the operator defined corner links
+            and the feature toggles. Only hidden if the portal server confirms
+            a valid enterprise subscription.
+          -->
+          <li
+            v-if="editionNotice"
+            class="portal-corner__item"
+          >
+            <tabindex-element
+              id="portal-corner-link-edition"
+              tag="a"
+              :active-at="['portal']"
+              data-test="portal-corner-link-edition"
+              :href="editionNoticeLink"
+              target="_blank"
+              rel="noopener"
+              class="portal-corner__link"
+            >
+              <img
+                :src="editionNoticeIcon"
+                alt=""
+                class="portal-corner__icon"
+                data-test="portal-corner-link-edition-icon"
+              >
+              <span :title="editionNoticeTooltip">{{ editionNoticeText }}</span>
+            </tabindex-element>
+          </li>
         </ul>
       </div>
     </div>
@@ -49,6 +78,21 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 
 import TabindexElement from '@/components/activity/TabindexElement.vue';
+import _ from '@/jsHelper/translate';
+import { Locale } from '@/store/modules/locale/locale.models';
+
+// The text is a product name and is intentionally not translated.
+const EDITION_NOTICE_TEXT = 'Nubus Core Edition by Univention';
+// The Univention "U" logo, shipped with the frontend so that it cannot be replaced by portal content.
+const EDITION_NOTICE_ICON = './media/univention-u.svg';
+// There is a German and an English landing page; all other locales use the English one.
+const EDITION_NOTICE_LINK_EN = 'https://www.univention.com/core-edition-portal-corner-link/';
+const EDITION_NOTICE_LINKS: Record<Locale, string> = {
+  en: EDITION_NOTICE_LINK_EN,
+  en_US: EDITION_NOTICE_LINK_EN,
+  de_DE: 'https://www.univention.de/core-edition-portal-corner-link/',
+  fr_FR: EDITION_NOTICE_LINK_EN,
+};
 
 type PortalCornerLinks = Array<{
   name: string;
@@ -67,7 +111,23 @@ export default defineComponent({
     ...mapGetters({
       cornerLinks: 'portalData/cornerLinks',
       portalEntries: 'portalData/portalEntries',
+      editionNotice: 'portalData/editionNotice',
     }),
+    hasCornerLinks(): boolean {
+      return Array.isArray(this.cornerLinks) && this.cornerLinks.length > 0;
+    },
+    editionNoticeText(): string {
+      return EDITION_NOTICE_TEXT;
+    },
+    editionNoticeIcon(): string {
+      return EDITION_NOTICE_ICON;
+    },
+    editionNoticeTooltip(): string {
+      return _('Nubus Core Edition by Univention - in use without warranties or support. Learn more!');
+    },
+    editionNoticeLink(): string {
+      return this.$localized(EDITION_NOTICE_LINKS);
+    },
   },
   methods: {
     portalHelpMenu() {
