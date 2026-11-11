@@ -28,7 +28,7 @@ def test_spec_references_the_chart_secret(helm, chart_path):
     result = helm.helm_template(chart_path, {})
 
     spec = registration(result)
-    assert spec["password"] == {"kubernetes_secret": {"name": SECRET_NAME, "key": "password"}}
+    assert spec["password"] == {"kubernetesSecret": {"name": SECRET_NAME, "key": "password"}}
     assert spec["name"] == "portal-consumer"
     assert {"realm": "udm", "topic": "portals/portal"} in spec["realms_topics"]
     assert spec["request_prefill"] is False
@@ -54,14 +54,14 @@ def test_existing_secret_changes_only_the_reference(helm, chart_path, existing_s
 
     result = helm.helm_template(chart_path, values)
 
-    assert registration(result)["password"] == {"kubernetes_secret": expected}
+    assert registration(result)["password"] == {"kubernetesSecret": expected}
     assert workload_password_ref(result) == expected
 
 
 def test_reference_matches_the_workload_without_existing_secret(helm, chart_path):
     result = helm.helm_template(chart_path, {})
 
-    assert registration(result)["password"]["kubernetes_secret"] == workload_password_ref(result)
+    assert registration(result)["password"]["kubernetesSecret"] == workload_password_ref(result)
 
 
 def test_existing_secret_with_the_spec_secret_name_fails(helm, chart_path):
