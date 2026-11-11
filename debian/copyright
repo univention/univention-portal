@@ -32,6 +32,10 @@ Files: univention-blog.png univention-management-console.svg frontend/tests/e2e/
 Copyright: 2024 Univention GmbH
 License: LicenseRef-Univention-Proprietary
 
+Files: frontend/public/favicon/*.png frontend/public/favicon/*.ico frontend/public/favicon/*.svg
+Copyright: 2025 Univention GmbH
+License: LicenseRef-Univention-Proprietary
+
 Files: frontend/public/media/univention-u.svg
 Copyright: 2026 Univention GmbH
 License: LicenseRef-Univention-Proprietary
