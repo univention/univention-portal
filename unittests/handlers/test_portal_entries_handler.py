@@ -147,6 +147,41 @@ class TestPortalEntriesHandlerNoHttpCache:
         assert data["newsfeed_config"] == {"stub": "value"}
 
     @pytest.mark.gen_test
+    @pytest.mark.parametrize(
+        "content,expected",
+        [
+            pytest.param({"edition_notice": False}, False, id="enterprise"),
+            pytest.param({"edition_notice": True}, True, id="no-enterprise"),
+            pytest.param({}, True, id="missing-in-portal-data"),
+        ],
+    )
+    def test_get_portals_returns_edition_notice(self, http_client, base_url, stub_portal_cache, content, expected):
+        stub_portal_cache.stub_content.pop("edition_notice", None)
+        stub_portal_cache.stub_content.update(content)
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data["edition_notice"] is expected
+
+    @pytest.mark.gen_test
+    def test_edition_notice_independent_of_feature_toggles(self, http_client, base_url, mock_portal_config):
+        mock_portal_config(
+            {
+                "editable": False,
+                "feature_toggles": {
+                    "centered_layout": False,
+                    "left_sidebar": False,
+                    "native_html_list": False,
+                    "newsfeed": False,
+                    "notifications_api": False,
+                    "welcome_message": False,
+                },
+            }
+        )
+        response = yield http_client.fetch(f"{base_url}/_/portal.json")
+        data = json.loads(response.body)
+        assert data["edition_notice"] is True
+
+    @pytest.mark.gen_test
     def test_get_portals_returns_links(self, portal_link_list, http_client, base_url, stub_portal_cache):
         entry_dn = f"cn={portal_link_list.portal_attr},dc=test"
         stub_portal_cache.stub_add_entry(entry_dn, in_link_lists=[portal_link_list.portal_attr])
@@ -232,6 +267,7 @@ class TestPortalEntriesHandlerEnsureLogin:
         assert data["portal"]["content"] == []
         assert data["portal"]["categories"] == []
         assert data["portal"]["ensureLogin"] is True
+        assert data["edition_notice"] is True
 
     @pytest.mark.gen_test
     def test_serves_content_to_anonymous_without_ensure_login(

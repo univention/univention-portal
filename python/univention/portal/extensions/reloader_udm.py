@@ -81,7 +81,12 @@ class PortalContentFetcherUDM(PortalContentFetcherBase):
             "user_links": user_links,
             "central_navigation": central_navigation,
             "announcements": announcements,
+            "edition_notice": self._fetch_edition_notice(udm),
         }
+
+    def _is_enterprise(self, udm):
+        udm_license = importlib.import_module("univention.admin.license")
+        return udm_license.license.is_enterprise(udm.connection)
 
     def _create_udm_client(self):
         udm_lib = importlib.import_module("univention.udm")

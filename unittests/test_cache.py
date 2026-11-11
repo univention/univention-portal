@@ -34,6 +34,19 @@ class TestPortalCacheMixin:
         quick_links = stub_portal_cache.get_quick_links()
         assert quick_links == ["cn=quick_links,dc=test"]
 
+    @pytest.mark.parametrize(
+        "content,expected",
+        [
+            pytest.param({"edition_notice": False}, False, id="enterprise"),
+            pytest.param({"edition_notice": True}, True, id="no-enterprise"),
+            pytest.param({}, True, id="missing-in-portal-data"),
+        ],
+    )
+    def test_returns_edition_notice(self, stub_portal_cache, content, expected):
+        stub_portal_cache.stub_content.pop("edition_notice", None)
+        stub_portal_cache.stub_content.update(content)
+        assert stub_portal_cache.get_edition_notice() is expected
+
     def test_returns_user_links(self, stub_portal_cache):
         stub_portal_cache.stub_content["user_links"] = ["cn=user_links,dc=test"]
         user_links = stub_portal_cache.get_user_links()

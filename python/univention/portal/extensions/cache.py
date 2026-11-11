@@ -129,6 +129,11 @@ class PortalCacheMixin:
     def get_user_links(self):
         return deepcopy(self.get()["user_links"])
 
+    def get_edition_notice(self):
+        # Show the notice if the portal data was generated without the
+        # license status, e.g. by an older content fetcher.
+        return self.get().get("edition_notice", True) is not False
+
     def get_announcements(self):
         announcements = {}
         if "announcements" in self.get().keys():

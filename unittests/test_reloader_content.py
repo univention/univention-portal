@@ -10,6 +10,7 @@
 #
 
 import copy
+import importlib
 import json
 
 import pytest
@@ -294,8 +295,60 @@ def test_portal_content_fetcher_returns_content(portal_content_fetcher, mocker):
         "quick_links": ["cn=entry-for-link-list,dc=test"],
         "user_links": ["cn=entry-for-link-list,dc=test"],
         "central_navigation": [],
+        "edition_notice": True,
     }
     assert content == expected_content
+
+
+@pytest.fixture
+def stub_udm_license(portal_content_fetcher_cls, mocker):
+    """
+    Lets `univention.admin.license.license.is_enterprise` of the local UDM
+    library follow the license status of the stub UDM REST client.
+    """
+    stub_udm = portal_content_fetcher_cls._create_udm_client()
+    udm_license = mocker.Mock()
+    udm_license.license.is_enterprise.side_effect = lambda lo: stub_udm.license_status.get("is_enterprise")
+    real_import_module = importlib.import_module
+
+    def import_module(name, *args, **kwargs):
+        if name == "univention.admin.license":
+            return udm_license
+        return real_import_module(name, *args, **kwargs)
+
+    mocker.patch("importlib.import_module", side_effect=import_module)
+    return udm_license
+
+
+@pytest.mark.parametrize(
+    "license_status,expected",
+    [
+        pytest.param({"is_enterprise": True}, False, id="enterprise"),
+        pytest.param({"is_enterprise": False}, True, id="no-enterprise"),
+        pytest.param({}, True, id="missing-flag"),
+        pytest.param({"is_enterprise": "true"}, True, id="non-boolean"),
+    ],
+)
+def test_portal_content_fetcher_edition_notice(portal_content_fetcher, stub_udm, stub_udm_license, license_status, expected):
+    stub_udm.license_status = license_status
+    content = portal_content_fetcher._fetch()
+    assert content["edition_notice"] is expected
+
+
+def test_portal_content_fetcher_edition_notice_shown_on_error(portal_content_fetcher, mocker):
+    mocker.patch.object(portal_content_fetcher, "_is_enterprise", side_effect=udm_client.Forbidden(403, "forbidden", None))
+    content = portal_content_fetcher._fetch()
+    assert content["edition_notice"] is True
+
+
+def test_portal_content_fetcher_udm_rest_requests_license_status(mocker):
+    stub_udm = stub_udm_client.StubUDMClient(flavor="PortalContentFetcherUDMREST")
+    content_fetcher = PortalContentFetcherUDMREST(stub_portal_dn)
+    mocker.patch.object(PortalContentFetcherUDMREST, "_create_udm_client", return_value=stub_udm)
+    stub_udm.license_status = {"is_enterprise": True}
+    content = content_fetcher._fetch()
+    assert content["edition_notice"] is False
+    assert stub_udm.client.requests == [("GET", "http://stub-udm-rest-api/udm/license/status")]
 
 
 def test_portal_content_fetcher_fetch_returns_json(mocker):

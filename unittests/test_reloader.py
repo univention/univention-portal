@@ -248,6 +248,8 @@ class TestGroupsReloaderLDAP(TestMtimeBasedLazyFileReloader):
         ("stub:reason", False),
         ("ldap:entry", True),
         ("ldap:group", False),
+        ("ldap:license:recheck", True),
+        ("ldap:license:cn=admin,cn=license,cn=univention,dc=test", True),
     ],
 )
 def test_check_portal_reason_returns_expected_value(reason, expected):

@@ -158,6 +158,18 @@ class Portal(metaclass=Plugin):
     def get_feature_toggles(self):
         return config.fetch_with_default("feature_toggles", default={})
 
+    def get_edition_notice(self):
+        """
+        Return if the Core Edition notice has to be shown.
+
+        This is intentionally not configurable and independent of the
+        visible content, the user and the feature toggles. It is only
+        `False` if the portal data confirms a valid enterprise license.
+        """
+        if self.portal_cache is None:
+            return True
+        return self.portal_cache.get_edition_notice()
+
     def get_newsfeed_config(self):
         return config.fetch_with_default("newsfeed_config", default={})
 

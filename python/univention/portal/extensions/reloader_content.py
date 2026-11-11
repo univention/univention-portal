@@ -89,8 +89,14 @@ class PortalContentFetcherUDMREST(PortalContentFetcherBase):
             "user_links": user_links,
             "central_navigation": central_navigation,
             "announcements": announcements,
+            "edition_notice": self._fetch_edition_notice(udm),
         }
         return result
+
+    def _is_enterprise(self, udm):
+        uri = udm.uri.rstrip("/") + "/license/status"
+        status = udm.client.request("GET", uri, expect_json=True)
+        return status.get("is_enterprise")
 
     def _create_udm_client(self):
         logger.debug("Connecting to UDM at URL: %s", log_url_safe(config.fetch("udm_api_url")))

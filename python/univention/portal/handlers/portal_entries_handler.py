@@ -54,6 +54,7 @@ class PortalEntriesHandler(PortalResource):
                     "announcements": [],
                     "feature_toggles": portal.get_feature_toggles(),
                     "newsfeed_config": portal.get_newsfeed_config(),
+                    "edition_notice": portal.get_edition_notice(),
                 }
             )
             return
@@ -88,5 +89,6 @@ class PortalEntriesHandler(PortalResource):
         answer["announcements"] = portal.get_announcements(visible_content)
         answer["feature_toggles"] = portal.get_feature_toggles()
         answer["newsfeed_config"] = portal.get_newsfeed_config()
+        answer["edition_notice"] = portal.get_edition_notice()
 
         self.write(answer)

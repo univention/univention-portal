@@ -211,4 +211,4 @@ def check_portal_reason(reason):
         return False
     if reason_args[0] != "ldap":
         return False
-    return reason_args[1] in ["portal", "category", "entry", "folder", "announcement"]
+    return reason_args[1] in ["portal", "category", "entry", "folder", "announcement", "license"]

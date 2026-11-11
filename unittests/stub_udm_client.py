@@ -81,8 +81,13 @@ stub_flavor_registry = {
 
 
 class StubUDMClient:
+    uri = "http://stub-udm-rest-api/udm/"
+
     def __init__(self, data=None, flavor="PortalContentFetcherUDMREST"):
         self._flavor = stub_flavor_registry[flavor]
+        self.license_status = {"is_enterprise": False}
+        self.client = StubRESTSession(self)
+        self.connection = object()
         if data:
             self._data = data
         else:
@@ -122,6 +127,20 @@ class StubUDMClient:
 
     def get(self, name):
         return self._data[name]
+
+
+class StubRESTSession:
+    """Emulates `udm.client` of the UDM REST API client for plain requests."""
+
+    def __init__(self, parent: StubUDMClient):
+        self._parent = parent
+        self.requests = []
+
+    def request(self, method, uri, expect_json=False):
+        self.requests.append((method, uri))
+        if uri == StubUDMClient.uri + "license/status":
+            return self._parent.license_status
+        raise AssertionError(f"Unexpected request {method} {uri}")
 
 
 class StubUDMModule:
