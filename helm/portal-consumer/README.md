@@ -383,6 +383,36 @@ null
 			<td></td>
 		</tr>
 		<tr>
+			<td>licenseRecheck</td>
+			<td>object</td>
+			<td><pre lang="json">
+{
+  "extraEnvVars": [],
+  "schedule": "15 0 * * *"
+}
+</pre>
+</td>
+			<td>Settings to configure the license status recheck job. It refreshes the portal data periodically, because an expiring license does not cause a change in LDAP. The job cannot be disabled.</td>
+		</tr>
+		<tr>
+			<td>licenseRecheck.extraEnvVars</td>
+			<td>list</td>
+			<td><pre lang="json">
+[]
+</pre>
+</td>
+			<td>Array with extra environment variables to add to the job containers.  extraEnvVars:   - name: FOO     value: "bar"</td>
+		</tr>
+		<tr>
+			<td>licenseRecheck.schedule</td>
+			<td>string</td>
+			<td><pre lang="json">
+"15 0 * * *"
+</pre>
+</td>
+			<td>Cron schedule for the license status recheck job. License end dates are days, so the default runs once a day shortly after midnight.</td>
+		</tr>
+		<tr>
 			<td>nameOverride</td>
 			<td>string</td>
 			<td><pre lang="json">

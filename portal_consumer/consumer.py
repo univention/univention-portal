@@ -32,6 +32,7 @@ class PortalConsumer:
         "portals/entry",
         "portals/folder",
         "portals/portal",
+        "settings/license",
     }
 
     def __init__(self):

@@ -173,6 +173,20 @@ extraVolumeMounts: []
 # -- Array with extra environment variables to add to containers
 extraEnvVars: []
 
+# -- Settings to configure the license status recheck job. It refreshes the
+# portal data periodically, because an expiring license does not cause a
+# change in LDAP. The job cannot be disabled.
+licenseRecheck:
+  # -- Cron schedule for the license status recheck job. License end dates
+  # are days, so the default runs once a day shortly after midnight.
+  schedule: "15 0 * * *"
+  # -- Array with extra environment variables to add to the job containers.
+  #
+  # extraEnvVars:
+  #   - name: FOO
+  #     value: "bar"
+  extraEnvVars: []
+
 waitForDependency:
   image:
     registry: ""

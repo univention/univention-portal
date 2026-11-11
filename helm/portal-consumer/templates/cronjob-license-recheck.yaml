@@ -1,0 +1,179 @@
+{{/*
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Univention GmbH
+*/}}
+
+{{- /*
+Refreshes the portal data periodically, because an expiring license does not
+cause a change in LDAP and thus no provisioning message. The portal data
+contains the license status that decides about the Core Edition notice.
+
+The job is intentionally not optional: the notice must not be suppressible by
+configuration. Only the schedule can be adjusted.
+*/}}
+{{- $extraEnvVars := concat (.Values.extraEnvVars | default list) (.Values.licenseRecheck.extraEnvVars | default list) }}
+---
+apiVersion: "batch/v1"
+kind: "CronJob"
+metadata:
+  name: {{ printf "%s-license-recheck" (include "common.names.fullname" .) }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels:
+    {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 4 }}
+  {{- if .Values.additionalAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.additionalAnnotations "context" . ) | nindent 4 }}
+  {{- end }}
+spec:
+  schedule: {{ .Values.licenseRecheck.schedule | required ".Values.licenseRecheck.schedule is required" | quote }}
+  concurrencyPolicy: "Forbid"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            {{- include "common.labels.standard" ( dict "customLabels" .Values.additionalLabels "context" . ) | nindent 12 }}
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        spec:
+          restartPolicy: "Never"
+          {{- if or .Values.imagePullSecrets .Values.global.imagePullSecrets }}
+          imagePullSecrets:
+            {{- range .Values.global.imagePullSecrets }}
+            - name: {{ . | quote }}
+            {{- end }}
+            {{- range .Values.imagePullSecrets }}
+            - name: {{ . | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.podSecurityContext.enabled }}
+          securityContext:
+            {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
+          {{- if .Values.serviceAccount.create }}
+          serviceAccountName: {{ include "common.names.fullname" . }}
+          {{- end }}
+          initContainers:
+            - name: "univention-compatibility"
+              {{- if .Values.containerSecurityContext.enabled }}
+              securityContext:
+                {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 16 }}
+              {{- end }}
+              image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
+              imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+              envFrom:
+                - configMapRef:
+                    name: {{ include "common.names.fullname" . }}
+              {{- with $extraEnvVars }}
+              env:
+                {{- . | toYaml | nindent 16 }}
+              {{- end }}
+              command:
+                - sh
+                - -c
+                - './50-ldap-setup.envsh; cp -a /etc/univention/* /target/etc/univention/'
+              volumeMounts:
+                - name: etc-univention-volume
+                  mountPath: /target/etc/univention
+                - name: secret-ldap
+                  mountPath: "/etc/machine.secret"
+                  subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) }}
+                  readOnly: true
+              resources:
+                {{- toYaml .Values.initResources | nindent 16 }}
+          containers:
+            - name: "main"
+              {{- if .Values.containerSecurityContext.enabled }}
+              securityContext:
+                {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 16 }}
+              {{- end }}
+              image: "{{ coalesce .Values.portalConsumer.image.registry .Values.global.imageRegistry }}/{{ .Values.portalConsumer.image.repository }}:{{ .Values.portalConsumer.image.tag }}"
+              imagePullPolicy: {{ coalesce .Values.portalConsumer.image.pullPolicy .Values.global.imagePullPolicy | quote }}
+              # "args" keeps the image entrypoint, which renders the portal configuration.
+              args:
+                - "/usr/sbin/univention-portal"
+                - "--log-stream"
+                - "update"
+                - "--reason"
+                - "ldap:license:recheck"
+              envFrom:
+                - configMapRef:
+                    name: {{ include "common.names.fullname" . }}
+              env:
+                - name: REQUESTS_CA_BUNDLE
+                  value: "/etc/ssl/certs/ca-certificates.crt"
+                - name: OBJECT_STORAGE_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) }}
+                      key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "access_key_id" "context" .) }}
+                - name: OBJECT_STORAGE_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "defaultNameSuffix" "object-storage" "context" .) }}
+                      key: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.objectStorage.auth.existingSecret "key" "secret_access_key" "context" .) }}
+                {{- with $extraEnvVars }}
+                {{- . | toYaml | nindent 16 }}
+                {{- end }}
+              volumeMounts:
+                # The portal CLI always writes a log file, the root filesystem is read-only.
+                - name: var-log-univention-volume
+                  mountPath: /var/log/univention
+                - name: usr-lib-univention-portal-config-volume
+                  mountPath: /usr/lib/univention-portal/config
+                - name: etc-univention-volume
+                  mountPath: /etc/univention
+                  readOnly: true
+                - name: ucr
+                  mountPath: /etc/univention/base-forced.conf
+                  subPath: base-forced.conf
+                  readOnly: true
+                - name: secret-ldap
+                  mountPath: "/etc/machine.secret"
+                  subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.ldap.auth.existingSecret "key" "password" "context" .) }}
+                  readOnly: true
+                - name: secret-udm
+                  mountPath: /var/secrets/udm_api_password
+                  subPath: {{ include "nubus-common.secrets.key" (dict "existingSecret" .Values.udm.auth.existingSecret "key" "password" "context" .) }}
+                {{- if .Values.extraVolumeMounts }}
+                {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" .) | nindent 16 }}
+                {{- end }}
+              resources:
+                {{- toYaml .Values.resources | nindent 16 }}
+          volumes:
+            - name: "var-log-univention-volume"
+              emptyDir: {}
+            - name: "usr-lib-univention-portal-config-volume"
+              emptyDir: {}
+            - name: "etc-univention-volume"
+              emptyDir: {}
+            - name: "ucr"
+              configMap:
+                name: {{ printf "%s-ucr" (include "common.names.fullname" .) }}
+            - name: secret-ldap
+              secret:
+                defaultMode: 0400
+                secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.ldap.auth.existingSecret "defaultNameSuffix" "ldap" "context" .) }}
+            - name: secret-udm
+              secret:
+                defaultMode: 0400
+                secretName: {{ include "nubus-common.secrets.name" (dict "existingSecret" .Values.udm.auth.existingSecret "defaultNameSuffix" "udm" "context" .) }}
+            {{- if .Values.extraVolumes }}
+            {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" .) | nindent 12 }}
+            {{- end }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}

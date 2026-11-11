@@ -126,3 +126,22 @@ class TestPortalConsumer:
         async_client.assert_called_once_with()
         message_handler.run.assert_called_once_with()
         mock_cli_update_call.assert_called_once_with([], reason=f"ldap:portal:{DN}")
+
+    async def test_portal_call_update_with_license_change(
+        self,
+        async_client: ProvisioningConsumerClient,
+        message_handler: MessageHandler,
+        mock_cli_update_call,
+        consumer,
+    ):
+        message = deepcopy(MESSAGE_GROUP)
+        message.topic = "settings/license"
+
+        async def run():
+            await consumer.handle_message(message)
+
+        message_handler.run = AsyncMock(side_effect=run)
+
+        await consumer.listen_for_changes()
+
+        mock_cli_update_call.assert_called_once_with([], reason=f"ldap:license:{DN}")
