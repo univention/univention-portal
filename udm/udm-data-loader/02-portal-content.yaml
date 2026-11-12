@@ -30,6 +30,35 @@ action: create
 module: portals/entry
 position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
 properties:
+  activated: false
+  anonymous: false
+  description:
+    de_DE: Passkey registrieren
+    en_US: Register passkey
+  displayName:
+    de_DE: Passkey registrieren
+    en_US: Register Passkey
+  # TODO: load from file
+  icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLWtleSI+PHBhdGggZD0iTTIxIDJsLTIgMm0tNy42MSA3LjYxYTUuNSA1LjUgMCAxIDEtNy43NzggNy43NzggNS41IDUuNSAwIDAgMSA3Ljc3Ny03Ljc3N3ptMCAwTDE1LjUgNy41bTAgMGwzIDNMMjIgN2wtMy0zbS0zLjUgMy41TDE5IDQiPjwvcGF0aD48L3N2Zz4K
+  link:
+  - - en_US
+    - /univention/oidc/?kc_action=webauthn-register-passwordless&location=/univention/portal/
+  linkTarget: samewindow
+  name: register_passkey
+# {% if passkeyRegistrationActivated is defined and passkeyRegistrationActivated is not none %}
+---
+# Apply the configured activation state, otherwise keep the state set in the portal
+action: modify_if_exists
+module: portals/entry
+position: cn=register_passkey,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+properties:
+  activated: {{ passkeyRegistrationActivated }}
+# {% endif %}
+---
+action: create
+module: portals/entry
+position: cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+properties:
   description:
     de_DE: Univention Forum (Hilfe)
     en_US: Univention Forum (Help)
@@ -359,3 +388,12 @@ properties:
   showUmc: true
   userLinks:
   - cn=self-service-password-change,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+  - cn=register_passkey,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
+---
+# Add the passkey registration entry to the user menu on upgrade
+action: ensure_list_contains
+module: portals/portal
+position: cn=domain,cn=portal,cn=portals,cn=univention,{{ ldapBaseDn }}
+properties:
+  userLinks:
+  - cn=register_passkey,cn=entry,cn=portals,cn=univention,{{ ldapBaseDn }}
