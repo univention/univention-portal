@@ -10,7 +10,7 @@ from univention.testing.helm.client.provisioning_api import Connection
 
 
 class SettingsTestProvisioningApiSecret:
-    secret_name = "release-name-portal-consumer-provisioning-api"
+    secret_name = "release-name-portal-consumer-provisioning-api-password"
     prefix_mapping = {"provisioningApi.auth": "auth"}
 
     # for tests around AuthPasswordUsageViaEnv
@@ -24,33 +24,6 @@ class SettingsTestProvisioningApiSecret:
 
 class TestChartCreatesProvisioningApiSecretAsOwner(SettingsTestProvisioningApiSecret, AuthSecretGenerationOwner):
     derived_password = "910b4f47319c3e0221029f8778998ed9e2fa8c37"
-
-    # The Secret also holds the subscription spec, so it is rendered with an existing secret too, without "password".
-    def test_auth_existing_secret_does_not_generate_a_secret(self, chart):
-        values = self.load_and_map(
-            """
-            auth:
-              existingSecret:
-                name: "stub-secret-name"
-            """
-        )
-        secret = chart.helm_template(values).get_resource(kind="Secret", name=self.secret_name)
-        assert "password" not in secret["stringData"]
-
-    def test_auth_existing_secret_has_precedence_no_secret_generated(self, chart):
-        values = self.load_and_map(
-            """
-            auth:
-              password: "stub-password"
-              existingSecret:
-                name: "stub-secret-name"
-                keyMapping:
-                  password: "stub_password_key"
-            """
-        )
-        secret = chart.helm_template(values).get_resource(kind="Secret", name=self.secret_name)
-        assert "password" not in secret["stringData"]
-        assert "stub-password" not in secret["stringData"]["registration"]
 
 
 class TestInitContainerUsesProvisioningApiByEnv_WaitForProvisioningApi(SettingsTestProvisioningApiSecret, AuthPasswordUsageViaEnv):
@@ -72,6 +45,7 @@ class TestConsumerUsesUsernameViaConfigMap(SettingsTestProvisioningApiSecret, Au
 
 
 class TestRegistrationEmbedsUsername(SettingsTestProvisioningApiSecret, AuthUsername):
+    secret_name = "release-name-portal-consumer-provisioning-api"
     path_username = "stringData.registration"
 
     def get_username(self, result):

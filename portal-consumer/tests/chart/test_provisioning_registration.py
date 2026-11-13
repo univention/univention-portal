@@ -8,6 +8,7 @@ import pytest
 
 
 SECRET_NAME = "release-name-portal-consumer-provisioning-api"
+PASSWORD_SECRET_NAME = "release-name-portal-consumer-provisioning-api-password"
 WORKLOAD_NAME = "release-name-portal-consumer"
 TEMPLATE = "templates/secret-provisioning-api.yaml"
 
@@ -24,22 +25,36 @@ def workload_password_ref(result) -> dict:
     return dict(password["valueFrom"]["secretKeyRef"])
 
 
-def test_spec_references_the_chart_secret(helm, chart_path):
+def test_spec_references_the_password_secret(helm, chart_path):
     result = helm.helm_template(chart_path, {})
 
     spec = registration(result)
-    assert spec["password"] == {"kubernetesSecret": {"name": SECRET_NAME, "key": "password"}}
+    assert spec["password"] == {"kubernetesSecret": {"name": PASSWORD_SECRET_NAME, "key": "password"}}
     assert spec["name"] == "portal-consumer"
     assert {"realm": "udm", "topic": "portals/portal"} in spec["realms_topics"]
     assert spec["request_prefill"] is False
 
 
-def test_spec_carries_no_password(helm, chart_path):
-    result = helm.helm_template(chart_path, {"provisioningApi": {"auth": {"password": "stub-password"}}}, TEMPLATE)
+def test_password_lives_in_its_own_secret(helm, chart_path):
+    values = {"provisioningApi": {"auth": {"password": "stub-password"}}}
 
-    secret = result.get_resource(kind="Secret", name=SECRET_NAME)
-    assert secret["stringData"]["password"] == "stub-password"
-    assert "stub-password" not in secret["stringData"]["registration"]
+    result = helm.helm_template(chart_path, values)
+
+    spec_secret = result.get_resource(kind="Secret", name=SECRET_NAME)
+    password_secret = result.get_resource(kind="Secret", name=PASSWORD_SECRET_NAME)
+    assert "password" not in spec_secret["stringData"]
+    assert "stub-password" not in spec_secret["stringData"]["registration"]
+    assert dict(password_secret["stringData"]) == {"password": "stub-password"}
+
+
+def test_existing_secret_renders_no_password_secret(helm, chart_path):
+    values = {"provisioningApi": {"auth": {"password": None, "existingSecret": {"name": "external"}}}}
+
+    result = helm.helm_template(chart_path, values)
+
+    names = [r["metadata"]["name"] for r in result if r and r.get("kind") == "Secret"]
+    assert SECRET_NAME in names
+    assert PASSWORD_SECRET_NAME not in names
 
 
 @pytest.mark.parametrize(
