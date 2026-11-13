@@ -109,7 +109,6 @@ portalConsumer:
   authMode: ""
   # -- CA root certificate, base64-encoded. Optional; will be written to "caCertFile" if set.
   caCert: ""
-  certPem: ""
   # -- The path to the "caCertFile" docker secret or a plain file.
   caCertFile: "/var/secrets/ca_cert"
   # -- Whenever to start encryption and validate certificates.

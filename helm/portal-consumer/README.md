@@ -542,7 +542,6 @@ true
   "authMode": "",
   "caCert": "",
   "caCertFile": "/var/secrets/ca_cert",
-  "certPem": "",
   "domainName": "univention.intranet",
   "editable": "true",
   "environment": "production",
