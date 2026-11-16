@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.98.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.97.0...v0.98.0) (2026-11-16)
+
+
+### Features
+
+* **portal-extension:** add the portal entry "Register Passkey" ([b729fa0](https://git.knut.univention.de/univention/dev/projects/portal/commit/b729fa0ba3999ff3733a8e72527ff1a29f60ab47)), closes [univention/dev/ucs#3794](https://git.knut.univention.de/univention/dev/ucs/issues/3794)
+
 ## [0.97.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.96.1...v0.97.0) (2026-11-16)
 
 
