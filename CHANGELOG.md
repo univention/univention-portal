@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.97.0](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.96.1...v0.97.0) (2026-11-16)
+
+
+### Features
+
+* **helm:** Resolve the central navigation secret only when the chart renders it ([823a61c](https://git.knut.univention.de/univention/dev/projects/portal/commit/823a61c4a871102c93ec3fec8e588c5069905cb3)), closes [univention/dev/nubus-for-k8s/nubus-helm#38](https://git.knut.univention.de/univention/dev/nubus-for-k8s/nubus-helm/issues/38)
+
+
+### Bug Fixes
+
+* **portal-consumer:** remove the unused common secret ([a1c6d19](https://git.knut.univention.de/univention/dev/projects/portal/commit/a1c6d199d57b29e354a68f96cf9abe1c0bf0cf7e)), closes [univention/dev/nubus-for-k8s/nubus-helm#38](https://git.knut.univention.de/univention/dev/nubus-for-k8s/nubus-helm/issues/38)
+
 ## [0.96.1](https://git.knut.univention.de/univention/dev/projects/portal/compare/v0.96.0...v0.96.1) (2026-11-14)
 
 
