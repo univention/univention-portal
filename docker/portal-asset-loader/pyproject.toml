@@ -5,7 +5,7 @@
 name = "portal-asset-loader"
 version = "0.0.0"
 requires-python = ">=3.13,<3.14"
-dependencies = ["httpx2==2.16.0"]
+dependencies = ["httpx2==2.16.2"]
 
 [dependency-groups]
 dev = ["pytest==9.2.0"]
