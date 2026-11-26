@@ -9,14 +9,14 @@ workflow:
 
 include:
   - project: "univention/dev/nubus-for-k8s/common-ci"
-    ref: "v1.72.1"
+    ref: "v1.73.0"
     file:
       - "defaults/stages.yaml"
       - "templates/buildkit.yaml"
       - "jobs/container-build-external-buildkit.yaml"
       - "jobs/package-and-publish-helm-charts-external.yaml"
       - "jobs/generate-filesystem-sbom.yaml"
-  - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.72.1"
+  - component: "$CI_SERVER_FQDN/univention/dev/nubus-for-k8s/common-ci/vul-man@v1.73.0"
 
 build-debian-package-builder:
   stage: "prepare"
@@ -124,7 +124,7 @@ test-portal-frontend-ui:
 test-chart-portal-frontend:
   stage: test
   needs: []
-  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.29.25@sha256:ad501511d7b3ede40c1f42fc57f48838f57ba104a432934fc4925fe0d4c53088"
+  image: "gitregistry.knut.univention.de/univention/dev/nubus-for-k8s/common-helm/testrunner:0.30.1@sha256:c11f2d5210be69da131df071a442bfef55ff5892734b33718523579a74193602"
   script:
     - helm dep build helm/portal-frontend
     - pytest frontend/tests/chart
