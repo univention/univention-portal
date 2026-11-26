@@ -109,6 +109,27 @@ describe('PortalToolTip.vue', () => {
     expect(store.dispatch).toHaveBeenCalledWith('tooltip/unsetTooltip');
   });
 
+  test('Escape closes the tooltip and does not reach other handlers', async () => {
+    store.dispatch.mockClear();
+    const bubbled = jest.fn();
+    document.body.addEventListener('keydown', bubbled);
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    document.body.removeEventListener('keydown', bubbled);
+    expect(store.dispatch).toHaveBeenCalledWith('tooltip/setHoverOnTooltip', false);
+    expect(store.dispatch).toHaveBeenCalledWith('tooltip/unsetTooltip');
+    expect(bubbled).not.toHaveBeenCalled();
+  });
+
+  test('Escape is ignored once the tooltip is unmounted', async () => {
+    const removeListener = jest.spyOn(document, 'removeEventListener');
+    wrapper.unmount();
+    expect(removeListener).toHaveBeenCalledWith('keydown', expect.any(Function), true);
+    removeListener.mockRestore();
+    store.dispatch.mockClear();
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(store.dispatch).not.toHaveBeenCalled();
+  });
+
   test('tooltip renders in normal position when not wrapped in teleport', async () => {
     // This tests the default behavior without teleport
     const toolTip = wrapper.find('[data-test="portal-tooltip"]');

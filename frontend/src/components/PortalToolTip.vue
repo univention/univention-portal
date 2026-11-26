@@ -185,14 +185,22 @@ export default defineComponent({
   },
   created(): void {
     window.addEventListener('scroll', this.handleScroll);
+    document.addEventListener('keydown', this.handleKeydown, true);
     if (!this.isMobile) {
       this.calculatePosition();
     }
   },
   unmounted(): void {
     window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('keydown', this.handleKeydown, true);
   },
   methods: {
+    handleKeydown(event: KeyboardEvent): void {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        this.closeToolTip();
+      }
+    },
     keepTooltip(): void {
       this.$store.dispatch('tooltip/setHoverOnTooltip', true);
     },
@@ -264,7 +272,7 @@ export default defineComponent({
       }
     },
     handleScroll(): void {
-      this.$store.dispatch('tooltip/unsetTooltip');
+      this.closeToolTip();
     },
     isZoom200(): boolean {
       const browserZoomLevel = Math.round((window.devicePixelRatio * 100) / 2);
@@ -340,10 +348,18 @@ export default defineComponent({
     border: 0
 
   &__close-icon
-    display: none
+    display: flex
+    position: absolute
+    top: calc(-1 * var(--layout-spacing-unit))
+    right: calc(-1 * var(--layout-spacing-unit))
     @media $mqSmartphone
-      display: flex
+      position: static
       margin-left: auto
+
+  &__description
+    padding-right: calc(4 * var(--layout-spacing-unit))
+    @media $mqSmartphone
+      padding-right: 0
 
   &__arrow
     display: block

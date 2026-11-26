@@ -24,7 +24,7 @@
       class="portal-tile"
       data-test="tileLink"
       @mouseenter="showTooltip()"
-      @mouseleave="hideTooltip"
+      @mouseleave="leaveTile"
       @mousedown="hideTooltip"
       @focus="showTooltip()"
       @focusin="setAriaDescribedBy"
@@ -262,6 +262,14 @@ export default defineComponent({
     }
   },
   methods: {
+    leaveTile(): void {
+      this.mouseIsOverTile = false;
+      setTimeout(() => {
+        if (!this.mouseIsOverTile) {
+          this.hideTooltip();
+        }
+      }, 150);
+    },
     hideTooltip(): void {
       this.mouseIsOverTile = false;
       if (this.tooltipID && !this.tooltipIsHovered) {
