@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # SPDX-FileCopyrightText: 2025-2026 Univention GmbH
 
-FROM gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-distroless-python:5.3.0-build.20261119@sha256:eff017317b60195fd2881f16644461bb3b90bddbecb2c9772d20e06bd2128828 AS build
+FROM gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-distroless-python:5.3.0-build.20261126@sha256:945bf65926722353a98b8fe28ed66e2d4519fdc9c6b661ab98c5c662126334a1 AS build
 
 # UID 1000 cannot write to /app. The final stage runs as 1000 again.
 # hadolint ignore=DL3002
@@ -20,7 +20,7 @@ COPY pyproject.toml uv.lock ./
 RUN ["uv", "sync", "--locked", "--no-dev"]
 
 
-FROM gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-distroless-python:5.3.0-build.20261119@sha256:eff017317b60195fd2881f16644461bb3b90bddbecb2c9772d20e06bd2128828 AS final
+FROM gitregistry.knut.univention.de/univention/dev/projects/ucs-base-image/ucs-distroless-python:5.3.0-build.20261126@sha256:945bf65926722353a98b8fe28ed66e2d4519fdc9c6b661ab98c5c662126334a1 AS final
 
 ENV PATH=/app/.venv/bin:$PATH
 
