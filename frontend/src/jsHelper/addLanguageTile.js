@@ -32,7 +32,6 @@ export default function addLanguageTile(portalLanguageData) {
   const menuElement = {
     id: `menu-${randomId()}`,
     title: menuTitle,
-    linkTarget: 'samewindow',
     subMenu: subMenuItems,
   };
   return menuElement;

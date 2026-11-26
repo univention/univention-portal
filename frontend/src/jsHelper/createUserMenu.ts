@@ -44,7 +44,6 @@ export default function createUserMenu(portalData) {
   const menuElement = {
     id: `menu-${randomId()}`,
     title: menuTitle,
-    linkTarget: 'samewindow',
     subMenu: subMenuItems,
   };
   if (subMenuItems.length) {
